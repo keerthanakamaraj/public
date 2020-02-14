@@ -1,6 +1,6 @@
 {
-  "name": "bi",
-  "version": "0.0.0",
+  "name": "rlo-ui",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "build": "ng build",
@@ -27,6 +27,7 @@
     "@ng-select/ng-select": "^3.0.3",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "acorn": "^6.1.1",
     "ag-grid-angular": "^21.1.0",
     "ag-grid-community": "^21.1.0",
     "angular-2-local-storage": "^3.0.2",
@@ -43,7 +44,6 @@
     "ng2-pdf-viewer": "^5.3.2",
     "ng4-loading-spinner": "^1.2.3",
     "ngx-image-viewer": "^1.0.13",
-    "oracledb": "^3.1.1",
     "print-js": "^1.0.61",
     "rxjs": "^6.5.2",
     "sha.js": "^2.4.11",
