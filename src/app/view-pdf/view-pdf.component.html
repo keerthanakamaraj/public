@@ -1,0 +1,51 @@
+<div *ngIf="isLoaded" class="controls">
+
+  <div class='control-buttons print-pdf'>
+    <a title="Print PDF" href="javascript:void(0)" (click)="printPdf()">
+      <span class="round-button" ><i class="fa fa-print"></i></span>
+    </a>
+  </div>
+
+  <div class='control-buttons'>
+    <a title="Previous Page" href="javascript:void(0)" (click)="prevPage();">
+      <span class="prev round-button" [ngClass]="{'disabled-button' : page == 1 }"></span>
+    </a>
+  </div>
+
+  <span style="font-size: 1.2rem;font-weight: bold;">{{ page }} / {{ totalPages }}</span>
+
+  <div class='control-buttons'>
+    <a title="Next Page" href="javascript:void(0)" (click)="nextPage();">
+      <span class="round-button next" [ngClass]="{'disabled-button' : page == totalPages }"></span>
+    </a>
+  </div>
+
+  <form class="form-inline" style="display: inline;margin-left: 2rem;">
+    <div class="form-group">
+      <input [(ngModel)]="gotoPageNo" (keyup.enter)="gotoPage(gotoPageNo)" placeholder="goto.." type="number"
+        class="goto-input"
+        [ngClass]="[(gotoPageNo == undefined) || (gotoPageNo < 1) || (gotoPageNo > totalPages) ? 'disabled-input-border' : 'enabled-input-border']"
+        name="pageNo">
+    </div>
+    <div class='form-group control-buttons'>
+      <a title="Goto Page" href="javascript:void(0)" (click)="gotoPage(gotoPageNo)">
+        <div class="round-button goto-page"
+          [ngClass]="{'disabled-button' : (gotoPageNo == undefined) || (gotoPageNo < 1) || (gotoPageNo > totalPages) }">
+          <span><i class="fa fa-angle-double-right"></i></span>
+        </div>
+      </a>
+    </div>
+  </form>
+</div>
+
+<div class="pdf-viewer-container">
+
+  <div *ngIf="error.hasErrors" class="alert alert-danger" style="text-align: center;">
+    {{error.message}}
+  </div>
+
+  <pdf-viewer [original-size]="false" [fit-to-page]="true" [show-all]="false" [page]="page"
+    (after-load-complete)="afterLoadComplete($event)" [src]="pdfSrc" (error)="onError($event)">
+  </pdf-viewer>
+
+</div>

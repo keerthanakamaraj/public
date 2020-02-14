@@ -1,0 +1,64 @@
+<form>
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'EmployeeC3Y.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FieldId_1.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EmployeeC3Y.FieldId_1' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" placeholder="Employee Name" [mandatory]="true" (blur)="genericOnBlur('FieldId_1', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FieldId_10.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EmployeeC3Y.FieldId_10' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #FieldId_10 category="2" fieldID="FieldId_10" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/OrgUnit/{OrgId}" domainObjectCode="OrgUnit" [mandatory]="true" (blur)="genericOnBlur('FieldId_10', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FieldId_3.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EmployeeC3Y.FieldId_3' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #FieldId_3 fieldID="FieldId_3" [formCode]="formCode" placeholder="Address" [mandatory]="true" (blur)="genericOnBlur('FieldId_3', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FieldId_4.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EmployeeC3Y.FieldId_4' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #FieldId_4 fieldID="FieldId_4" [formCode]="formCode" placeholder="Gender" [mandatory]="true" (blur)="genericOnBlur('FieldId_4', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FieldId_5.isHidden()">
+<app-button #FieldId_5 fieldName="{{ 'EmployeeC3Y.FieldId_5' | translate}}" fieldID="FieldId_5" [formCode]="formCode" (buttonClick)="FieldId_5_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FieldId_11.isHidden()">
+<app-button #FieldId_11 fieldName="{{ 'EmployeeC3Y.FieldId_11' | translate}}" fieldID="FieldId_11" [formCode]="formCode" (buttonClick)="FieldId_11_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FieldId_6.isHidden()">
+<app-button #FieldId_6 fieldName="{{ 'EmployeeC3Y.FieldId_6' | translate}}" fieldID="FieldId_6" [formCode]="formCode"></app-button>
+</div>
+</div>
+<app-hidden #empId fieldID="empId"></app-hidden>
+</div>
+</div>
+</div>
+</form>

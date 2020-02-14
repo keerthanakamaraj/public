@@ -1,0 +1,16 @@
+<div *ngFor="let alert of alertsInfo; let i = index" [@slideInOut]="alert.displayAlert" class="alerts-body">
+
+  <div [ngStyle]="{'background':alert.textColor}" class="alerts-container">
+
+    <div class="alerts-text">
+      <p style="    max-width: 509px;">
+        <i [ngClass]="alert.alertIconClass" class="fa"></i> {{alert.alertMsg}}
+      </p>
+    </div>
+    <div *ngIf="alert.showCloseButton" class="close-button">
+      <button title="Close" (click)="closeAlert()"><i style="font-weight: bold;" class="fa fa-close"></i></button>
+    </div>
+    <br style="clear:both;">
+  </div>
+
+</div>

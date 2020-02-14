@@ -1,0 +1,16 @@
+.logout-container{
+    text-align: center;
+    padding: 7rem 0;
+}
+.logout-content{
+    background-color: rgba(255, 255, 255, .8);
+    padding-bottom: 1 rem;
+    width: 26rem;
+    height: 17rem;
+    display: inline-block;
+    border-radius: 0.5rem;
+}
+
+.request img {
+    width: 27%;
+}

@@ -1,0 +1,29 @@
+.checkbox, .radio{
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+.checkbox label, .radio label{
+    padding-left: 0;
+}
+/* .errorMessage{
+    margin-left: -22px;
+    margin-bottom: 14px;
+} */
+.error{
+    border: 0.1429rem solid #1784bf;
+}
+
+.errorMessage{
+    width: 120px;
+    margin-left: -63px;
+    margin-bottom: 18px;
+}
+
+.check-readonly{
+    cursor: not-allowed;
+}
+
+.check-readonly span{
+    background-color: #f8f8f8;
+}

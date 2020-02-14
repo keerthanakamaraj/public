@@ -1,0 +1,28 @@
+<div class="clearfix content">
+  <div class="clearfix bi-reponsive">
+    <div class="clearfix reports repots-close">
+      <div class="clearfix request  report-filter" *ngIf="status == 'S'">
+        <img src="assets/images/icons/approve.svg" alt="Reject" title="Rlose">
+        <p class="sentral">{{'RESULT.application' | translate}}{{title | translate}}{{'RESULT.success' | translate}}
+        </p>
+        <p class="month">
+          Reference Number : {{message | translate}} <br>
+        </p>
+        <p class="month" *ngIf="message1!=undefined">
+          Order ID : {{message1 | translate}} <br>
+        </p>
+      </div>
+      <div class="clearfix request  report-filter" *ngIf="status == 'F'">
+        <img src="assets/images/icons/reject.svg" alt="Reject" title="Rlose">
+        <p class="sentral">{{'RESULT.application' | translate}}{{title | translate}}{{'RESULT.fail' | translate}}</p>
+        <p class="month" *ngFor="let info of additionalInfoKeys">
+          Reference Number : {{message | translate}}<br>
+        </p>
+        <p class="month" *ngIf="message1!=undefined">
+          Order ID : {{message1 | translate}} <br>
+        </p>
+      </div>
+	  <div style="text-align: center;"><button type="button" (click)="goBack()" class="btn btn-link">Initiate New Proposal</button></div>
+    </div>
+  </div>
+</div>

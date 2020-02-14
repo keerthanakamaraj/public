@@ -1,0 +1,14 @@
+<div class="errortooltip cb-position">
+    <div class="checkbox">
+
+        <label>
+            <span class="check" [ngClass]="{'check-readonly':readOnly}">
+                <input [attr.id]="fieldID" (focus)="onFocus()" type="checkbox" (change)="onChange($event)"
+                    [ngClass]="{'error' : error}" [(ngModel)]="value" (blur)="onBlur()" [name]="fieldID"
+                    [disabled]="readOnly" class="{{customClass}}" />
+                <span></span>
+            </span>
+        </label>
+        <span class="errorMessage" *ngIf="error">{{errorCode | translate}}</span>
+    </div>
+</div>

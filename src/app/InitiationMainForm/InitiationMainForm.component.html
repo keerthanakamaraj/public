@@ -1,0 +1,406 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'InitiationMainForm.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #SEARCH_CUST_GROUP id="SEARCH_CUST_GROUP">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #SEARCH_CUST_HEAD parentCompCode="InitiationMainForm" fieldID="SEARCH_CUST_HEAD" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+</div>
+<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_MOBILE_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.SRC_MOBILE_NO' | translate}}</label>
+</div>
+<app-text-box #SRC_MOBILE_NO inputType="number" fieldID="SRC_MOBILE_NO" [formCode]="formCode" (blur)="genericOnBlur('SRC_MOBILE_NO', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_TAX_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.SRC_TAX_ID' | translate}}</label>
+</div>
+<app-text-box #SRC_TAX_ID fieldID="SRC_TAX_ID" [formCode]="formCode" (blur)="genericOnBlur('SRC_TAX_ID', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_CIF_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.SRC_CIF_NO' | translate}}</label>
+</div>
+<app-text-box #SRC_CIF_NO fieldID="SRC_CIF_NO" [formCode]="formCode" (blur)="genericOnBlur('SRC_CIF_NO', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SEARCH_CUST_BTN.isHidden()">
+<app-button #SEARCH_CUST_BTN fieldName="{{ 'InitiationMainForm.SEARCH_CUST_BTN' | translate}}" fieldID="SEARCH_CUST_BTN" [formCode]="formCode" (buttonClick)="SEARCH_CUST_BTN_click($event)"></app-button>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #BAD_GROUP id="BAD_GROUP">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #BAD_LABEL parentCompCode="InitiationMainForm" fieldID="BAD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+</div>
+<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_PHYSICAL_FRM_NO' | translate}}</label>
+</div>
+<app-text-box #BAD_PHYSICAL_FRM_NO fieldID="BAD_PHYSICAL_FRM_NO" [formCode]="formCode" (blur)="genericOnBlur('BAD_PHYSICAL_FRM_NO', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_DATE_OF_RCPT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_DATE_OF_RCPT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #BAD_DATE_OF_RCPT fieldID="BAD_DATE_OF_RCPT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_DATE_OF_RCPT', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_EXST_CUST.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_EXST_CUST' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_EXST_CUST category="2" fieldID="BAD_EXST_CUST" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_EXST_CUST', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_SRC_CHANNEL.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_SRC_CHANNEL' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_SRC_CHANNEL category="2" fieldID="BAD_SRC_CHANNEL" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_SRC_CHANNEL', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_DSA_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_DSA_ID' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_DSA_ID category="2" fieldID="BAD_DSA_ID" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_DSA_ID', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_BRANCH.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_BRANCH' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_BRANCH category="2" fieldID="BAD_BRANCH" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_BRANCH', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_PROD_CAT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_PROD_CAT category="2" fieldID="BAD_PROD_CAT" [formCode]="formCode" domainObjectUrl="/LoanDetails/{LoanDetailSeq}" domainObjectCode="LoanDetails" [mandatory]="true" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"></app-combo-box>
+</div>
+<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_PRODUCT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_PRODUCT category="2" fieldID="BAD_PRODUCT" [formCode]="formCode" domainObjectUrl="/MstProductDetails/{ProductCd}" domainObjectCode="MstProductDetails" [mandatory]="true" (blur)="genericOnBlur('BAD_PRODUCT', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_SUB_PROD' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_SUB_PROD category="2" fieldID="BAD_SUB_PROD" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_SUB_PROD', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_SCHEME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #BAD_SCHEME category="2" fieldID="BAD_SCHEME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('BAD_SCHEME', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PROMOTION.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.BAD_PROMOTION' | translate}}</label>
+</div>
+<app-combo-box #BAD_PROMOTION category="2" fieldID="BAD_PROMOTION" [formCode]="formCode" (blur)="genericOnBlur('BAD_PROMOTION', $event)"></app-combo-box>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #CD_GROUP id="CD_GROUP">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #CD_HEAD_LABEL parentCompCode="InitiationMainForm" fieldID="CD_HEAD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+</div>
+<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TITLE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_TITLE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CD_TITLE category="2" fieldID="CD_TITLE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_TITLE', $event)"></app-combo-box>
+</div>
+<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FIRST_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_FIRST_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_FIRST_NAME fieldID="CD_FIRST_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_FIRST_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MIDDLE_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_MIDDLE_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_MIDDLE_NAME fieldID="CD_MIDDLE_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_MIDDLE_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LAST_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_LAST_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_FULL_NAME' | translate}}</label>
+</div>
+<app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode" (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_GENDER.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_GENDER' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CD_GENDER category="2" fieldID="CD_GENDER" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_GENDER', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_DOB' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TAX_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_TAX_ID' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_TAX_ID fieldID="CD_TAX_ID" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_TAX_ID', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_MOBILE' | translate}}</label>
+</div>
+<app-text-box #CD_MOBILE inputType="number" fieldID="CD_MOBILE" [formCode]="formCode" (blur)="genericOnBlur('CD_MOBILE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DEBIT_SCORE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_DEBIT_SCORE' | translate}}</label>
+</div>
+<app-text-box #CD_DEBIT_SCORE inputType="number" fieldID="CD_DEBIT_SCORE" [formCode]="formCode" (blur)="genericOnBlur('CD_DEBIT_SCORE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SGMT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_CUST_SGMT' | translate}}</label>
+</div>
+<app-combo-box #CD_CUST_SGMT category="2" fieldID="CD_CUST_SGMT" [formCode]="formCode" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_STAFF' | translate}}</label>
+</div>
+<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.CD_STAFF_ID' | translate}}</label>
+</div>
+<app-text-box #CD_STAFF_ID fieldID="CD_STAFF_ID" [formCode]="formCode" (blur)="genericOnBlur('CD_STAFF_ID', $event)"></app-text-box>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #LD_GROUP id="LD_GROUP">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #LD_HEAD parentCompCode="InitiationMainForm" fieldID="LD_HEAD" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+</div>
+<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_LOAN_AMOUNT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" domainObjectUrl="/LoanDetails/{LoanDetailSeq}" [mandatory]="true" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)" (focus)="LD_LOAN_AMOUNT_focus($event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_INTEREST_RATE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_INTEREST_RATE' | translate}}</label>
+</div>
+<app-combo-box #LD_INTEREST_RATE category="2" fieldID="LD_INTEREST_RATE" [formCode]="formCode" domainObjectUrl="/LoanDetails/{LoanDetailSeq}" domainObjectCode="LoanDetails" (blur)="genericOnBlur('LD_INTEREST_RATE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TENURE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_TENURE' | translate}}</label>
+</div>
+<app-text-box #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TENURE_PERIOD.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_TENURE_PERIOD' | translate}}</label>
+</div>
+<app-combo-box #LD_TENURE_PERIOD category="2" fieldID="LD_TENURE_PERIOD" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_APP_PRPSE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_APP_PRPSE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #LD_APP_PRPSE category="2" fieldID="LD_APP_PRPSE" [formCode]="formCode" domainObjectUrl="/LoanDetails/{LoanDetailSeq}" domainObjectCode="LoanDetails" [mandatory]="true" (blur)="genericOnBlur('LD_APP_PRPSE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_GROSS_INCOME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_GROSS_INCOME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-amount #LD_GROSS_INCOME fieldID="LD_GROSS_INCOME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('LD_GROSS_INCOME', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EXST_LBLT_AMT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_EXST_LBLT_AMT' | translate}}</label>
+</div>
+<app-amount #LD_EXST_LBLT_AMT fieldID="LD_EXST_LBLT_AMT" [formCode]="formCode" (blur)="genericOnBlur('LD_EXST_LBLT_AMT', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_OTH_DEDUCTIONS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_OTH_DEDUCTIONS' | translate}}</label>
+</div>
+<app-text-box #LD_OTH_DEDUCTIONS fieldID="LD_OTH_DEDUCTIONS" [formCode]="formCode" (blur)="genericOnBlur('LD_OTH_DEDUCTIONS', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_NET_INCOME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_NET_INCOME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-amount #LD_NET_INCOME fieldID="LD_NET_INCOME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('LD_NET_INCOME', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CHK_ELGBTY_BTN.isHidden()">
+<app-button #LD_CHK_ELGBTY_BTN fieldName="{{ 'InitiationMainForm.LD_CHK_ELGBTY_BTN' | translate}}" fieldID="LD_CHK_ELGBTY_BTN" [formCode]="formCode"></app-button>
+</div>
+<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_SYS_AMT_RCMD.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_SYS_AMT_RCMD' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-amount #LD_SYS_AMT_RCMD fieldID="LD_SYS_AMT_RCMD" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('LD_SYS_AMT_RCMD', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_USR_RCMD_AMT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_USR_RCMD_AMT' | translate}}</label>
+</div>
+<app-amount #LD_USR_RCMD_AMT fieldID="LD_USR_RCMD_AMT" [formCode]="formCode" (blur)="genericOnBlur('LD_USR_RCMD_AMT', $event)"></app-amount>
+</div>
+<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LTV_DBR.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_LTV_DBR' | translate}}</label>
+</div>
+<app-text-box #LD_LTV_DBR fieldID="LD_LTV_DBR" [formCode]="formCode" (blur)="genericOnBlur('LD_LTV_DBR', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EMI_AMT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.LD_EMI_AMT' | translate}}</label>
+</div>
+<app-amount #LD_EMI_AMT fieldID="LD_EMI_AMT" [formCode]="formCode" (blur)="genericOnBlur('LD_EMI_AMT', $event)"></app-amount>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #RD_GROUP id="RD_GROUP">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #RD_HEAD_LBL parentCompCode="InitiationMainForm" fieldID="RD_HEAD_LBL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+</div>
+<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.RD_REFERRER_NAME' | translate}}</label>
+</div>
+<app-text-box #RD_REFERRER_NAME fieldID="RD_REFERRER_NAME" [formCode]="formCode" (blur)="genericOnBlur('RD_REFERRER_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'InitiationMainForm.RD_REFERRER_NO' | translate}}</label>
+</div>
+<app-text-box #RD_REFERRER_NO fieldID="RD_REFERRER_NO" [formCode]="formCode" (blur)="genericOnBlur('RD_REFERRER_NO', $event)"></app-text-box>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="SUBMIT_MAIN_BTN.isHidden()">
+<app-button #SUBMIT_MAIN_BTN fieldName="{{ 'InitiationMainForm.SUBMIT_MAIN_BTN' | translate}}" fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CANCEL_MAIN_BTN.isHidden()">
+<app-button #CANCEL_MAIN_BTN fieldName="{{ 'InitiationMainForm.CANCEL_MAIN_BTN' | translate}}" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"></app-button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>

@@ -1,0 +1,7 @@
+.logo-list.open .notification-box{
+    display: block !important;
+    overflow-y: scroll;
+    display: block !important;
+    max-height: 210px;
+  }
+ 

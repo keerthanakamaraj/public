@@ -1,0 +1,47 @@
+<ng-container *ngIf="!loading;else show_loading">
+
+    <div *ngIf="type == 1">
+        <button [disabled]="readOnly" (click)="onClick($event)" (dblclick)="onDoubleClick($event)" title="{{fieldName}}"
+            type="button" class="{{customClass}}" [id]="fieldID">
+            {{ fieldName }}
+        </button>
+    </div>
+
+    <div *ngIf="type == 2" style="text-align: center">
+        <button [disabled]="readOnly" title="{{ fieldName }}" (click)="onClick($event)"
+            (dblclick)="onDoubleClick($event)" type="button" [id]="fieldID" class="{{customClass}}">
+            <img [src]="imagePath" alt="{{ fieldName }}">
+        </button>
+    </div>
+
+    <div *ngIf="type == 3" style="text-align: center">
+        <button [disabled]="readOnly" type="button" title="{{fieldName}}" (click)="onClick($event)"
+            (dblclick)="onDoubleClick($event)" class="{{customClass}}" [ngClass]="{'type1-disabled':readOnly}"
+            [id]="fieldID">
+            <i class="{{iconClass}}"></i>
+            {{ fieldName }}
+        </button>
+    </div>
+
+    <div *ngIf="type == 4" style="text-align: center">
+        <button [disabled]="readOnly" (click)="onClick($event)" (dblclick)="onDoubleClick($event)" title="{{fieldName}}"
+        type="button" class="{{customClass}}" [id]="fieldID">
+            <i class="{{iconClass}}"></i>
+        </button>
+    </div>
+
+</ng-container>
+
+<ng-template #show_loading>
+    <div *ngIf="type == 1 || type == 3">
+        <button class="{{loadingCustomClass}}" disabled>
+            <i class="{{loadingIconClass}}"></i><span>{{loadingText}}</span>
+        </button>
+    </div>
+
+    <div *ngIf="type == 2 || type == 4" style="text-align: center">
+        <button title="{{loadingText}}" class="{{loadingCustomClass}}" disabled>
+            <i class="{{loadingIconClass}}"></i>
+        </button>
+    </div>
+</ng-template>

@@ -1,0 +1,47 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'SaveLoanDetailsForm.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="ARN.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'SaveLoanDetailsForm.ARN' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #ARN fieldID="ARN" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('ARN', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="IcifNumber.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'SaveLoanDetailsForm.IcifNumber' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #IcifNumber fieldID="IcifNumber" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('IcifNumber', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Product.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'SaveLoanDetailsForm.Product' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #Product fieldID="Product" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('Product', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="SaveLoan.isHidden()">
+<app-button #SaveLoan fieldName="{{ 'SaveLoanDetailsForm.SaveLoan' | translate}}" fieldID="SaveLoan" [formCode]="formCode" (buttonClick)="SaveLoan_click($event)"></app-button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> OTTO - Payment Hub</title>
+  <link rel="shortcut icon" href="assets/images/OTTOFav.jpg" type="image/vnd.microsoft.icon" />
+
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/easy-responsive-tabs.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/responsive.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/ag-grid-FP.css" rel="stylesheet" type="text/css">
+  <link href="assets/css/vertical-tab.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body class="homepage">
+  <app-root></app-root>
+
+  <script src="assets/js/library/jquery.min.js"></script>
+  <script src="assets/js/library/bootstrap.min.js"></script>
+  <script src="assets/js/library/easy-responsive-tabs.js"></script>
+  <script src="assets/js/library/jquery.ba-throttle-debounce.min.js"></script>
+  <script src="assets/js/2FAVerification.js"></script>
+
+  <!-- Changes Start by Gogulanadhan M-->
+  <div id="2FA" style="display: none">
+    <object name="applet" id="applet" type="application/x-java-applet" width="1" height="1" aria-valuemax="">
+      <param name="java_version" value="1.8*">
+      <param name="codebase" value="../eBanking/assets/">
+      <param name="code" value="SignerApplet.class">
+      <param name="archive" value="JARS/Signer.jar,JARS/bcmail.jar,JARS/bcprov.jar">
+      <param name="applet_ready_callback" value="resultCallBack">
+      <param name="message" id="usernameParam" value="getUsername">
+    </object>
+  </div>
+  <!-- Changes Finished  - Gogulanadhan M -->
+  <script>
+    var global = global || window;
+    var Buffer = Buffer || [];
+    var process = process || {
+      env: { DEBUG: undefined },
+      version: []
+    };
+  </script>
+</body>
+
+</html>

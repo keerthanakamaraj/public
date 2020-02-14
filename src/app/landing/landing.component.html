@@ -1,0 +1,24 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div [ngClass]="{'lmenu-active' : dataService.displayMenu}">
+  <div style="position: fixed;width: 100%;z-index: 10;">
+    <app-main-header></app-main-header>
+  </div>
+  <div class="clearfix site-content sm-content">
+    <div class="overlay-menu"></div>
+
+    <div [ngClass]="{'full-width' : true}" style=" display: flex;">
+
+      <div style="margin-top: 51px;" *ngIf="dataService.showMenu" class="bg-gradient-olive">
+        <app-menu></app-menu>
+      </div>
+      <div class="container-fluid" style=" margin-top: 60px;  width: 100%;">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+    <app-side-bar style="display: none;"></app-side-bar>
+
+  </div>
+
+  <!-- <app-footer></app-footer> -->
+</div>

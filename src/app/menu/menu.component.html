@@ -1,0 +1,47 @@
+<!-- Sidebar -->
+<ul style="padding-top: 0px;background: #47586f;" class="navbar-nav sidebar sidebar-dark " id="accordionSidebar"
+  [ngClass]="{'toggled': isSideBarToggled}">
+  <li class="nav-item" [ngClass]="{'active': services.http.ActiveTab=='LANDING'}">
+    <a class="nav-link" (click)="openPage('LANDING')">
+      <i class="	fas fa-chart-pie"></i>
+      <span>Dashboard</span></a>
+  </li>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+  <ng-template *ngIf="Menu.length!=0" [ngTemplateOutlet]="nodeTemplateRef" [ngTemplateOutletContext]="{ node: Menu }">
+  </ng-template>
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle" (click)="onclickSlider()"></button>
+  </div>
+</ul>
+<!-- End of Sidebar -->
+
+<ng-template #nodeTemplateRef let-node="node">
+
+  <ng-container *ngFor='let child of node ;  let i = index'>
+
+    <ng-container *ngIf="child.SubMenus==undefined ">
+      <li class="nav-item" [ngClass]="{'active': services.http.ActiveTab==child.Id }">
+        <a class="nav-link" (click)="openPage(child.Id)">
+          <i class="fas fa-users"></i>
+          <span>{{child.Desc}}</span></a>
+      </li>
+    </ng-container>
+    <ng-container *ngIf="child.SubMenus!=undefined ">
+      <li class="nav-item parent-item" [ngClass]="{' open': OpenTabArray.indexOf(child.Id)>=0}">
+        <a class="nav-link" (click)="openTab(child.Id)">
+          <i class="fas fa-users"></i>
+          <span>{{child.Desc}}</span></a>
+        <ul class="submenu-items">
+          <ng-template [ngTemplateOutlet]="nodeTemplateRef" [ngTemplateOutletContext]="{ node: child.SubMenus }">
+          </ng-template>
+        </ul>
+      </li>
+    </ng-container>
+
+  </ng-container>
+</ng-template>

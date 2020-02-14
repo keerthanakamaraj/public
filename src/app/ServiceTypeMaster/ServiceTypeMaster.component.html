@@ -1,0 +1,48 @@
+<form>
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'ServiceTypeMaster.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+<app-button #FieldId_14 fieldName="{{ 'ServiceTypeMaster.FieldId_14' | translate}}" fieldID="FieldId_14" [formCode]="formCode" style="margin-right: 1rem; width: 16.67%" [hidden]="FieldId_14.isHidden()" ></app-button>
+<app-button #save fieldName="{{ 'ServiceTypeMaster.save' | translate}}" fieldID="save" [formCode]="formCode" style="margin-right: 1rem; width: 16.67%" [hidden]="save.isHidden()"  (buttonClick)="save_click($event)"></app-button>
+<app-button #FieldId_10 fieldName="{{ 'ServiceTypeMaster.FieldId_10' | translate}}" fieldID="FieldId_10" [formCode]="formCode" style="margin-right: 1rem; width: 16.67%" [hidden]="FieldId_10.isHidden()" ></app-button>
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Code.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ServiceTypeMaster.Code' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #Code fieldID="Code" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/ServiceTypeCode/{Value}" domainObjectCode="ServiceTypeCode" [mandatory]="true" (blur)="genericOnBlur('Code', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="desc.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ServiceTypeMaster.desc' | translate}}</label>
+</div>
+<app-text-box #desc fieldID="desc" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('desc', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_30.isHidden()">
+<app-FreshCurrency #FieldId_30 [formCode]="formCode"></app-FreshCurrency>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>

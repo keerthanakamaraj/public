@@ -1,0 +1,32 @@
+<!--<button type="button" (click)="fileInput.click()">select file</button>{{fileName}}<br />
+<input type="file" name="txtTabAddr_cfs" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileEvent($event)" id="{{fieldID}}" style="visibility: hidden;position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0" />
+<button type="button" id="button1" class="btn btn-success btn-s" (click)="uploader.uploadAll()">
+  Upload File
+</button>-->
+<div  style="width:100%">
+<div class="clearfix file-upload" [ngClass]="{'error' : error, 'input-readonly':readOnly}" [ngStyle]="{'text-align' : valueAlign}" >
+  <input [attr.id]="fieldID" type="file" [name]="fieldID" (focus)="onFocus()"
+  #fileInput ng2FileSelect [uploader]="uploader" (change)="fileEvent($event)" 
+  id="{{fieldID}}" class="file-input {{customClass}}" />
+  <!--<input type="text" class="form-control custom-input-file" [ngModel]="fileName" style="width:100%;"/>-->
+  
+  <ul class="list-inline" *ngIf="!readOnly">
+    <li *ngIf="!fileUploaded"><img (click)="fileInput.click()" src="assets/images/icons/folder-browse.svg"></li>
+    <li *ngIf="!fileUploaded"><img (click)="uploader.uploadAll()" src="assets/images/icons/upload-file.svg"></li>
+    <li *ngIf="fileUploaded"><a (click)="showFile()"><img src="assets/images/icons/file-view.svg"></a></li>
+    <li *ngIf="fileUploaded"><img (click)="onDelete()" src="assets/images/icons/delete.svg"></li>
+  </ul>
+  <ul class="list-inline" *ngIf="showIcon && readOnly">
+    <li><a (click)="showFile()"><img src="assets/images/icons/file-view.svg"></a></li>
+  </ul>
+
+  <div class="file-name">
+    <span style="color: #a9a9a9" [hidden]="additionalInfo">{{placeholder}}</span>
+    <span [hidden]="additionalInfo==undefined || additionalInfo==''" title="{{additionalInfo}}">{{additionalInfo}}</span>  
+  </div>
+  
+</div>
+<span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+</div>
+
+<!-- <a #downloadAnchor style="display:none;" [href]="downloadURL">Click here</a> -->

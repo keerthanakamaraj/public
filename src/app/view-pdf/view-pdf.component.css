@@ -1,0 +1,175 @@
+.pdf-viewer-container{
+    margin-top: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 92rem;
+    height: 33rem;
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    border: 0.15rem solid #f1f1f1;
+}
+
+div.controls{
+    text-align: center;
+    padding: 0;
+}
+
+div.control-buttons {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  a {
+    display: inline-block;
+    border-radius: 50%;
+  }
+  
+  a:hover .round-button{
+    border: 0.2em solid #0080c9;
+  }
+  
+  a:hover .prev:after, a:hover .next:after {
+    border-top: 0.2em solid #0080c9;
+    border-right: 0.2em solid #0080c9;
+  }
+
+  a:hover .round-button.disabled-button{
+    border: 0.2em solid #ccc;
+  }
+  
+  a:hover .prev.disabled-button:after, a:hover .next.disabled-button:after {
+    border-top: 0.2em solid #ccc;
+    border-right: 0.2em solid #ccc;
+  }
+
+  .round-button.disabled-button{
+    border: 0.2em solid #ccc;
+    cursor: not-allowed;
+  }
+
+  .round-button{
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 0.2rem solid #333;
+    border-radius: 50%;
+  }
+  
+  .prev {
+    margin-right: 1.5em;
+  }
+  
+  .prev:after {
+    content: '';
+    display: inline-block;
+    margin-top: 0.43rem;
+    margin-left: 0.3rem;
+    width: 0.8em;
+    height: 0.8rem;
+    border-top: 0.2em solid #333;
+    border-right: 0.2em solid #333;
+    -webkit-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+
+  .prev.disabled-button:after {
+    content: '';
+    display: inline-block;
+    margin-top: 0.43rem;
+    margin-left: 0.3rem;
+    width: 0.8em;
+    height: 0.8rem;
+    border-top: 0.2em solid #ccc;
+    border-right: 0.2em solid #ccc;
+    -webkit-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  
+
+  .next {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+  }
+  
+  .next:after {
+    content: '';
+    display: inline-block;
+    margin-top: 0.43rem;
+    margin-right: 0.3rem;
+    width: 0.8em;
+    height: 0.8rem;
+    border-top: 0.2em solid #333;
+    border-right: 0.2em solid #333;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .next.disabled-button:after {
+    content: '';
+    display: inline-block;
+    margin-top: 0.43rem;
+    margin-right: 0.3rem;
+    width: 0.8em;
+    height: 0.8rem;
+    border-top: 0.2em solid #ccc;
+    border-right: 0.2em solid #ccc;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+.goto-input{
+    padding-left: 0.6rem;
+    padding-right: 0.5rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-radius: 0.3rem;
+    width: 5rem;
+}
+
+.disabled-input-border{
+  border: 0.11rem solid #ccc;
+}
+
+.enabled-input-border{
+  border: 0.11rem solid #333;
+}
+
+.goto-page{
+    margin-left: 0.5em;
+    margin-right: 1.5em;
+}
+
+.goto-page i{
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+    margin-left: 0.15rem;
+}
+
+.round-button.disabled-button i{
+  color: #ccc;
+}
+
+a:hover .round-button i{
+    color: #0080c9;
+}
+
+a:hover .round-button.disabled-button i{
+  color: #ccc;
+}
+
+.print-pdf{
+  position: absolute;
+  left: 2rem;
+}
+
+.print-pdf i{
+  font-size: 1.2rem;
+  margin-top: 0.2rem;
+  color: black;
+}

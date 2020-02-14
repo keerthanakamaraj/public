@@ -1,0 +1,7 @@
+<div class="errortooltip" style="width:100%">
+    <textarea [attr.id]="fieldID" [placeholder]="placeholder" [rows]="rows" [cols]="cols" (change)="onChange($event)"
+        [ngClass]="{'error' : error, 'input-readonly':readOnly}" [(ngModel)]="value" (blur)="onBlur()"
+        (focus)="onFocus()" class="form-control {{customClass}}" [name]="fieldID" [disabled]="readOnly" [maxlength]="maxLength"
+        [ngStyle]="{'text-align' : valueAlign}"></textarea>
+    <span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+</div>

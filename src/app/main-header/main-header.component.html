@@ -1,0 +1,269 @@
+<!-- Topbar -->
+<nav style="    border: 0px;padding: .5rem 1rem .5rem 0rem;"
+	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+	<a class="sidebar-brand d-flex align-items-center justify-content-center mainMenuHeader"
+		style="cursor: auto; background: #47586f;    padding: 9px 11px 8px 11px; min-width: 104px;">
+
+		<div class="sidebar-brand-icon" style="cursor: pointer;padding: 3px;">
+			<img src="assets/images/OTTOLogo.png" height="28" width="50" alt="OF" />
+		</div>
+		<div id="MenuHeaderName" style=" display: flex;align-items: center;">
+			<div class="sidebar-brand-text headerClass">
+				IDM DEV
+			</div>
+			<div style="cursor: pointer;">
+				<i class="fas fa-toggle-on toggleIcon" *ngIf="dataService.showMenu"
+					(click)="dataService.showMenu=false"></i>
+				<i class="fas fa-toggle-off toggleIcon" *ngIf="!dataService.showMenu"
+					(click)="dataService.showMenu=true"></i>
+			</div>
+		</div>
+	</a>
+	<!-- Sidebar Toggle (Topbar) -->
+	<!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"
+		(click)="userLanding.isSideBarToggled ? userLanding.isSideBarToggled = false : userLanding.isSideBarToggled = true">
+		<i class="fa fa-bars"></i>
+	</button> -->
+
+	<!-- Topbar Search -->
+	<div class="navBarSelecter">
+		{{services.http.navBarMessage}}
+	</div>
+	<!-- <div class="d-none d-sm-inline-block rounded form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search slide-in-right"
+		*ngIf="navbarSearchOpen">
+		<div class="input-group">
+			<div class="input-group-prepend">
+				<button class="btn bg-transparent focus-shadow-none" type="button" (click)="navbarSearchOpen=false">
+					<i class="fas fa-times fa-sm"></i>
+				</button>
+			</div>
+			<input type="text" class="form-control bg-transparent border-0 small focus-shadow-none"
+				placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+			<div class="input-group-append">
+				<button class="btn bg-transparent focus-shadow-none" type="button">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div>
+		</div>
+	</div> -->
+	<!-- Topbar Navbar -->
+
+	<ul class="navbar-nav ml-auto">
+
+		<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+		<li class="nav-item dropdown no-arrow d-sm-none d-md-block">
+			<div id="wrap">
+				<form action="" autocomplete="on">
+					<input id="search" name="search" list="searchList" type="text" autocomplete="off"
+						placeholder="Search">
+					<input id="search_submit" value="Rechercher" type="submit">
+				</form>
+			</div>
+			<datalist id="searchList">
+				<option> Dashboard </option>
+				<option> Invoices 360 </option>
+				<option> Customers 360 </option>
+				<option> Merchants 360 </option>
+				<option> Payment Notifications </option>
+				<option> Direct Debits </option>
+				<option> Merchant Payouts </option>
+				<option> API Monitoring </option>
+				<option> Alert Template </option>
+				<option> Merchant </option>
+			</datalist>
+		</li>
+
+
+		<li class="nav-item mx-1 d-md-block d-sm-none">
+			<a class="nav-link fas fa-business-time" (click)="routToMyTray()" title="My Tray">
+			</a>
+		</li>
+
+		<li class="nav-item mx-1 d-md-block d-sm-none">
+			<a id="ToggleFullScreen" (click)="toggleFullScreen()" class="nav-link fas fa-expand" title="FullScreen">
+			</a>
+		</li>
+
+		<li class="nav-item dropdown no-arrow mx-1">
+			<a class="nav-link dropdown-toggle" id="alertsDropdown" role="button" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-bell fa-fw"></i>
+				<!-- Counter - Alerts -->
+				<span class="badge badge-danger badge-counter">3</span>
+			</a>
+			<!-- Dropdown - Alerts -->
+			<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+				aria-labelledby="alertsDropdown">
+				<h6 class="dropdown-header">
+					Alerts Center
+				</h6>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="mr-3">
+						<div class="icon-circle bg-primary">
+							<i class="fas fa-file-alt text-white"></i>
+						</div>
+					</div>
+					<div>
+						<div class="small text-gray-500">December 12, 2019</div>
+						<span class="font-weight-bold">A new monthly report is ready to download!</span>
+					</div>
+				</a>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="mr-3">
+						<div class="icon-circle bg-success">
+							<i class="fas fa-donate text-white"></i>
+						</div>
+					</div>
+					<div>
+						<div class="small text-gray-500">December 7, 2019</div>
+						$290.29 has been deposited into your account!
+					</div>
+				</a>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="mr-3">
+						<div class="icon-circle bg-warning">
+							<i class="fas fa-exclamation-triangle text-white"></i>
+						</div>
+					</div>
+					<div>
+						<div class="small text-gray-500">December 2, 2019</div>
+						Spending Alert: We've noticed unusually high spending for your account.
+					</div>
+				</a>
+				<a class="dropdown-item text-center small text-gray-500">Show All Alerts</a>
+			</div>
+		</li>
+
+		<!-- Nav Item - Messages -->
+		<li class="nav-item dropdown no-arrow mx-1">
+			<a class="nav-link dropdown-toggle" id="messagesDropdown" role="button" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-envelope fa-fw"></i>
+				<!-- Counter - Messages -->
+				<span class="badge badge-Success badge-counter">7</span>
+			</a>
+			<!-- Dropdown - Messages -->
+			<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+				aria-labelledby="messagesDropdown">
+				<h6 class="dropdown-header">
+					Message Center
+				</h6>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="dropdown-list-image mr-3">
+						<img class="rounded-circle" src="assets/images/user_image_sample.jpg" height="36" width="36"
+							alt="">
+						<div class="status-indicator bg-success"></div>
+					</div>
+					<div class="font-weight-bold">
+						<div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
+							having.
+						</div>
+						<div class="small text-gray-500">Emily Fowler · 58m</div>
+					</div>
+				</a>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="dropdown-list-image mr-3">
+						<img class="rounded-circle" src="assets/images/user_image_sample.jpg" height="36" width="36"
+							alt="">
+						<div class="status-indicator"></div>
+					</div>
+					<div>
+						<div class="text-truncate">I have the photos that you ordered last month, how would you like
+							them sent to
+							you?</div>
+						<div class="small text-gray-500">Jae Chun · 1d</div>
+					</div>
+				</a>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="dropdown-list-image mr-3">
+						<img class="rounded-circle" src="assets/images/user_image_sample.jpg" height="36" width="36"
+							alt="">
+						<div class="status-indicator bg-warning"></div>
+					</div>
+					<div>
+						<div class="text-truncate">Last month's report looks great, I am very happy with the progress so
+							far, keep
+							up the good work!</div>
+						<div class="small text-gray-500">Morgan Alvarez · 2d</div>
+					</div>
+				</a>
+				<a class="dropdown-item d-flex align-items-center">
+					<div class="dropdown-list-image mr-3">
+						<img class="rounded-circle" src="assets/images/user_image_sample.jpg" height="36" width="36"
+							alt="">
+						<div class="status-indicator bg-success"></div>
+					</div>
+					<div>
+						<div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that
+							people say this
+							to all dogs, even if they aren't good...</div>
+						<div class="small text-gray-500">Chicken the Dog · 2w</div>
+					</div>
+				</a>
+				<a class="dropdown-item text-center small text-gray-500">Read More Messages</a>
+			</div>
+		</li>
+
+		<div class="topbar-divider d-none d-sm-block"></div>
+
+		<!-- Nav Item - User Information -->
+		<li class="nav-item dropdown no-arrow">
+			<a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false">
+				<!-- [ngbPopover]="UserDetailsPopup" [popoverTitle]="popTitle" [autoClose]="'outside'" [popoverClass]="'m-0 p-0 no-arrow shadow animated--grow-in'"> -->
+				<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{sessionStorage.getItem('name')}}</span>
+				<img class="img-profile rounded-circle" src="assets/images/user_image_sample.jpg" height="36"
+					width="36">
+			</a>
+			<!-- Dropdown - User Information -->
+			<!-- <ng-template #popTitle></ng-template>
+		  <ng-template #UserDetailsPopup> -->
+			<div class="dropdown-menu dropdown-menu-right p-0 shadow animated--grow-in" aria-labelledby="UserDropdown">
+				<div class="card shadow h-auto rounded-lg" style="min-width: 300px;">
+					<div class="card-header p-0" style="height: 75px">
+						<img class="card-header-image" src="assets/images/user-foreground-city.png" />
+					</div>
+					<div class="card-body p-0">
+						<div class="col-12 d-flex flex-row justify-content-center align-items-center pt-3">
+							<a class="btn btn-circle btn-outline-dark border-0 "><i class="fas fa-cog"></i></a>
+							<div class="border border-light p-1 rounded-circle user-profile">
+								<img class="img-profile rounded-circle" src="assets/images/user_image_sample.jpg"
+									height="72" width="72">
+							</div>
+							<a (click)="logOut()" class="btn btn-circle btn-outline-danger border-0 "><i
+									class="fas fa-power-off"></i></a>
+						</div>
+						<div class="col-12 text-center pb-2">
+							<p class="text-dark font-weight-bold text-md mb-0">{{sessionStorage.getItem('name')}}</p>
+							<span class="text-sm font-weight-bold">Last Login :<span class="text-info font-weight-bold">
+									12
+									December 2019 23:01:43</span> </span>
+						</div>
+						<div class="col-12 text-center py-1 border-bottom">
+							<!-- <a class="btn btn-circle btn-outline-dark border-0 "><i class="fas fa-bolt"></i></a>
+								<a class="btn btn-circle btn-outline-dark border-0 "><i class="fas fa-tags"></i></a>
+								<a class="btn btn-circle btn-outline-dark border-0 "><i class="fas fa-comment-alt"></i></a>
+								<a class="btn btn-circle btn-outline-dark border-0 "><i class="fas fa-bell"></i></a> -->
+						</div>
+						<div class="col-12 py-1" style="height: 150px;width: 300px;overflow-y: auto">
+							<div class="m-b-10">
+								<span class="text-sm font-weight-bold">Email :
+									<span class="text-info font-weight-bold">
+										{{sessionStorage.getItem('email')}}</span> </span>
+							</div>
+							<div class="m-b-10">
+								<span class="text-sm font-weight-bold">Phone :<span class="text-info font-weight-bold">
+										077 4416 5385
+									</span> </span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+
+	</ul>
+
+</nav>
+<!-- End of Topbar -->

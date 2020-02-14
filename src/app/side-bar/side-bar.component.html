@@ -1,0 +1,48 @@
+<div  [@slideInOut]="services.http.displaySide" class="sidebar">
+    <!--  -->
+    <div (click)="services.http.displaySide = services.http.displaySide?false:true;" class="clearfix push-sidebar">
+        <div class="clearfix close-chart wavbut">
+            <div class="wave">
+                <div></div>
+                <div></div>
+                <div></div>
+                <!--   -->
+                <img [@rotatedState]="services.http.displaySide" src="assets/images/arrow-sqleft.svg" alt="img-icon" class="img-left"
+                    title="SideBar">
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix custom-sidebar cus-scroll">
+        <div class="clearfix sidebar-widget">
+            <div class="clearfix top-content cus-scroll">
+                <div style="margin-bottom: 1rem;">
+                    <h4 style="display: inline;">{{'SIDEBAR.Favorites' | translate}}</h4>
+                    <a [routerLink]="['favorites']" title="Customize Favorites" class="edit-favorites"><i class="fa fa-edit"></i></a>
+                </div>
+                <ul>
+                    <li *ngFor='let service of favoritesList'>
+                        <a href="javascript:void(0)" (click)="showComponent(service.serviceCode)">{{service.serviceDesc}}</a>
+                    </li>
+
+                    <p style="text-align: center" [hidden]="favoritesList.length!=0"><span><a style="color: #0F81CE" [routerLink]="['favorites']">{{ 'SIDEBAR.setFav' | translate}}</a></span> </p>
+                </ul>
+
+            </div>
+            <div class="clearfix bottom-content cus-scroll">
+                <h4>{{'SIDEBAR.Announcements' | translate}}</h4>
+
+                <div *ngFor='let announcement of announcementsList' class="clearfix announce-list">
+                    <img src="assets/images/icons/announcements.svg" alt="Announcements1" title="Announcements" class="a-img">
+                    <div class="clearfix data">
+                        <h5 *ngIf="announcement.EXTERNAL_LINK=='1'"><a [href]="announcement.ANNOUNCE_URL" title={{announcement.ANNOUNCE_URL_TITLE}} >{{announcement.ANNOUNCE_TITLE}}</a></h5>
+                        <h5 *ngIf="announcement.EXTERNAL_LINK=='0'">{{announcement.ANNOUNCE_TITLE}}</h5>
+                        <p>{{announcement.REMARKS}}</p>
+                        <a *ngIf="announcement.FILE_UPLOAD_INV" href="{{services.http.baseURL}}servlet/FileDownloadProcessor?CFS_INV_NUM={{announcement.FILE_UPLOAD_INV}}" class="download">
+                            <img src="assets/images/icons/uploadb.svg" alt="Download" title="Download">{{'SIDEBAR.Download' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

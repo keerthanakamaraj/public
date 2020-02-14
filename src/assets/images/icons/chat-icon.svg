@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="31 29 50 50" enable-background="new 31 29 50 50" xml:space="preserve">
+<filter  width="320%" height="320%" id="chatbot_launch_icon-a" filterUnits="objectBoundingBox" y="-104%" x="-110%">
+	<feOffset  result="shadowOffsetOuter1" in="SourceAlpha" dy="2"></feOffset>
+	<feGaussianBlur  stdDeviation="16" result="shadowBlurOuter1" in="shadowOffsetOuter1"></feGaussianBlur>
+	<feColorMatrix  values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" result="shadowMatrixOuter1" in="shadowBlurOuter1">
+		</feColorMatrix>
+	<feOffset  result="shadowOffsetOuter2" in="SourceAlpha" dy="1"></feOffset>
+	<feGaussianBlur  stdDeviation="3" result="shadowBlurOuter2" in="shadowOffsetOuter2"></feGaussianBlur>
+	<feColorMatrix  values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.09 0" result="shadowMatrixOuter2" in="shadowBlurOuter2">
+		</feColorMatrix>
+	<feMerge>
+		<feMergeNode  in="shadowMatrixOuter1"></feMergeNode>
+		<feMergeNode  in="shadowMatrixOuter2"></feMergeNode>
+	</feMerge>
+</filter>
+<g transform="translate(31 29)">
+	<g display="none" filter="url(#chatbot_launch_icon-a)">
+		<circle id="chatbot_launch_icon-b_2_" display="inline" cx="25" cy="25" r="25"/>
+	</g>
+	<g>
+		<circle id="chatbot_launch_icon-b_1_" fill="#e1c151" cx="25" cy="25" r="25"/>
+	</g>
+	<path fill="#FFFFFF" d="M35.768,31.405L35.761,38l-6.563-2.836H17.994c-2.206,0-3.994-1.795-3.994-4.002V17.001
+		C14,14.791,15.782,13,17.994,13h13.788c2.205,0,3.993,1.795,3.993,4.001v14.161C35.774,31.244,35.772,31.324,35.768,31.405z
+		 M17.146,28.696c-0.188,0.239-0.181,0.666-0.012,0.985c0.169,0.318,3.6,2.358,7.868,2.358c4.269,0,7.438-1.998,7.705-2.358
+		c0.266-0.361,0.355-0.621,0-0.951c-0.357-0.33-0.496-0.195-0.959,0.014c-0.462,0.209-3.491,2.011-6.812,1.98
+		c-3.321-0.031-6.109-1.582-6.678-2.105C17.689,28.097,17.333,28.457,17.146,28.696z"/>
+</g>
+</svg>

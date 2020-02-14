@@ -1,0 +1,6 @@
+.disabled >a{
+    cursor: not-allowed !important; 
+}
+.pagination{
+    margin: 10px 0px 0px 0px;
+}

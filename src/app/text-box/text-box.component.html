@@ -1,0 +1,17 @@
+<div style="width:100%">
+
+    <input *ngIf="inputType=='number'" [attr.id]="fieldID" type="number"
+        [placeholder]="placeholder" (input)="validateValue($event.target.value, $event)"
+        [ngClass]="{'error' : error, 'input-readonly':readOnly}" [(ngModel)]="value" (focus)="onFocus()"
+        (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}" [disabled]="readOnly" (change)="onChange()"
+        [ngStyle]="{'text-align' : valueAlign}" />
+
+
+    <input *ngIf="inputType=='text'" [attr.id]="fieldID" type="text" [placeholder]="placeholder" (change)="onChange()"
+        [maxlength]="maxLength" [ngClass]="{'error' : error, 'input-readonly':readOnly}" [(ngModel)]="value"
+        (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}" [disabled]="readOnly"
+        [ngStyle]="{'text-align' : valueAlign}"/>
+
+
+    <span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+</div>

@@ -1,0 +1,397 @@
+/* variable */
+/* margin */
+/* position */
+/* left right */
+/* font */
+/*** text color starts ***/
+/*** text color ends ***/
+/* display */
+/* media */
+/*Fonts*/
+/* line 7, ../sass/form-elements.scss */
+form h4 {
+  text-transform: uppercase;
+  color: #b20812;
+  font-weight: 600;
+  font-size: 1.23rem;
+  margin-bottom: 1.8rem;
+  margin-top: 1.8rem;
+}
+
+/* line 16, ../sass/form-elements.scss */
+label {
+  font-size: 0.95rem;
+}
+
+/* line 19, ../sass/form-elements.scss */
+.form-control {
+  height: 2.5rem;
+  padding: 0 0 1.071rem;
+  font-size: 1.1rem;
+}
+
+/* line 24, ../sass/form-elements.scss */
+.form-group {
+  margin-bottom: 1.9rem;
+  padding: 0 0 1.071rem;
+  font-size: 1.1rem;
+}
+
+/* line 37, ../sass/_mixin.scss */
+input::-webkit-input-placeholder {
+  color: #b20812;
+}
+/* line 40, ../sass/_mixin.scss */
+input:-moz-placeholder {
+  color: #b20812;
+}
+/* line 43, ../sass/_mixin.scss */
+input::-moz-placeholder {
+  color: #b20812;
+}
+/* line 46, ../sass/_mixin.scss */
+input:-ms-input-placeholder {
+  color: #b20812;
+}
+
+/* line 34, ../sass/form-elements.scss */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* line 39, ../sass/form-elements.scss */
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 1.429rem;
+  background: url(../images/icons/select-arrow.svg) no-repeat right center;
+  background-size: 0.85rem;
+}
+
+/* line 47, ../sass/form-elements.scss */
+.btn {
+  min-width: 7.143rem;
+  border-radius: 0.35rem;
+  border: 0.1rem solid #b20812;
+  background: transparent;
+  color: #b20812;
+}
+/* line 53, ../sass/form-elements.scss */
+.btn.focus, .btn:focus, .btn:hover {
+  background: #b20812;
+  color: #fff;
+}
+
+/* line 60, ../sass/form-elements.scss */
+.btn.btn-red {
+  background: #b20812;
+  color: #fff;
+}
+/* line 63, ../sass/form-elements.scss */
+.btn.btn-red.focus, .btn.btn-red:focus, .btn.btn-red:hover {
+  background: transparent;
+  color: #b20812;
+}
+
+/* line 70, ../sass/form-elements.scss */
+.btn-green {
+  background: #4daa3d;
+  color: #fff;
+  border-color: #4daa3d;
+}
+/* line 74, ../sass/form-elements.scss */
+.btn-green.focus, .btn-green:focus, .btn-green:hover {
+  background: transparent;
+  color: #4daa3d;
+}
+
+/* line 81, ../sass/form-elements.scss */
+.btn-default {
+  background: transparent;
+  color: initial;
+  border-color: #ababaa;
+}
+/* line 85, ../sass/form-elements.scss */
+.btn-default.focus, .btn-default:focus, .btn-default:hover {
+  background: #f3f3f3;
+  color: initial;
+}
+
+/* line 93, ../sass/form-elements.scss */
+.checkbox label,
+.radio label {
+  min-height: 1.429rem;
+  padding-left: 1.429rem;
+}
+
+/* line 100, ../sass/form-elements.scss */
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+  margin: 0;
+}
+
+/* line 103, ../sass/form-elements.scss */
+textarea.form-control {
+  border: 0.07143rem solid #eaeaea;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+}
+
+/* line 110, ../sass/form-elements.scss */
+.frm-srch input {
+  padding-right: 1.7rem;
+}
+/* line 113, ../sass/form-elements.scss */
+.frm-srch .srch-ic {
+  position: absolute;
+  top: 1.7rem;
+  right: 0;
+}
+/* line 117, ../sass/form-elements.scss */
+.frm-srch .srch-ic img {
+  width: 1.3rem;
+}
+
+/*  cusotm radio check box style */
+/* line 127, ../sass/form-elements.scss */
+.check {
+  width: 1.8rem;
+  height: 1.8rem;
+  float: left;
+  position: relative;
+}
+/* line 132, ../sass/form-elements.scss */
+.check input {
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-top: 0rem;
+  opacity: 0;
+  position: relative;
+  z-index: 99;
+}
+/* line 142, ../sass/form-elements.scss */
+.check span {
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-left: 0;
+  display: inline-block;
+  background: url(../images/icons/ticknact.jpg) no-repeat;
+  position: absolute;
+  left: 0;
+}
+/* line 151, ../sass/form-elements.scss */
+.check input[type=checkbox]:checked + span {
+  background: url(../images/icons/tickact.jpg) no-repeat;
+}
+/* line 154, ../sass/form-elements.scss */
+.check input[type=radio] + span {
+  background: url(../images/icons/notactive.jpg) no-repeat;
+}
+/* line 157, ../sass/form-elements.scss */
+.check input[type=radio]:checked + span {
+  background: url(../images/icons/active.jpg) no-repeat;
+}
+
+/* line 166, ../sass/form-elements.scss */
+.radiob {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+/* line 169, ../sass/form-elements.scss */
+.radiob input {
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-left: -1.7rem;
+  margin-top: 0rem;
+  opacity: 0;
+}
+/* line 176, ../sass/form-elements.scss */
+.radiob input[type=checkbox]:checked + span {
+  background: url(../images/icons/tickact.jpg) no-repeat;
+}
+/* line 179, ../sass/form-elements.scss */
+.radiob span {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: inline-block;
+  background: url(../images/icons/ticknact.jpg) no-repeat;
+}
+
+/* line 188, ../sass/form-elements.scss */
+.formrow {
+  margin-left: -4rem;
+  margin-right: -4rem;
+}
+/* line 191, ../sass/form-elements.scss */
+.formrow > div {
+  padding-right: 4rem;
+  padding-left: 4rem;
+}
+@media (max-width: 991px) {
+  /* line 191, ../sass/form-elements.scss */
+  .formrow > div {
+    padding-right: 1.071rem;
+    padding-left: 1.071rem;
+  }
+}
+@media (max-width: 991px) {
+  /* line 188, ../sass/form-elements.scss */
+  .formrow {
+    margin-left: -1.071rem;
+    margin-right: -1.071rem;
+  }
+}
+
+/* line 212, ../sass/form-elements.scss */
+.headstepform {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  width: 92%;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+/* line 220, ../sass/form-elements.scss */
+.headstepform:after {
+  content: ' ';
+  position: absolute;
+  background: #ced3d8;
+  height: 0.1rem;
+  width: 100%;
+  top: 1.1rem;
+}
+/* line 228, ../sass/form-elements.scss */
+.headstepform li {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 2.4rem;
+  position: relative;
+  z-index: 96;
+  background: #ced3d8;
+  color: #333;
+  font-size: 1.2rem;
+}
+/* line 239, ../sass/form-elements.scss */
+.headstepform li.tsucs {
+  background: #4eaa3d;
+  color: #fff;
+  cursor: pointer;
+}
+/* line 244, ../sass/form-elements.scss */
+.headstepform li.tcurn {
+  cursor: pointer;
+}
+/* line 247, ../sass/form-elements.scss */
+.headstepform li.tcurn {
+  background: #e1c152;
+  color: #333;
+}
+.content{
+  min-height:30vh;
+}
+/* line 253, ../sass/form-elements.scss */
+.headstepform li p {
+  position: absolute;
+  white-space: nowrap;
+  width: 14rem;
+  margin-left: -5.7rem;
+  font-size: 0.9rem;
+  color: #000;
+}
+@media (max-width: 991px) {
+  /* line 253, ../sass/form-elements.scss */
+  .headstepform li p {
+    width: 7rem;
+    margin-left: -3rem;
+    font-size: 0.7rem;
+    color: #000;
+  }
+}
+@media (max-width: 767px) {
+  /* line 253, ../sass/form-elements.scss */
+  .headstepform li p {
+    display: none;
+  }
+}
+/* line 272, ../sass/form-elements.scss */
+.headstepform li.tcurn p {
+  font-weight: 600;
+}
+
+/* line 277, ../sass/form-elements.scss */
+.radio-form {
+  float: left;
+  margin-top: 1rem;
+  width: 14%;
+  position: relative;
+}
+
+/* line 283, ../sass/form-elements.scss */
+.input-form {
+  float: left;
+  width: 86%;
+}
+
+/* line 289, ../sass/form-elements.scss */
+.steps {
+  display: none;
+}
+/* line 291, ../sass/form-elements.scss */
+.steps.stepcurrent {
+  display: block;
+}
+
+img.cmtclosee{
+    width: 1rem;
+        float: right;
+    margin-bottom: 1rem;
+    margin-top: -0.2rem;
+    position: relative;
+    z-index: 9;
+    cursor: pointer;
+}
+.headsec{
+    background: #b31d12;
+    padding: 0.7rem 2rem;
+    color: #fff;
+    font-size: 1.2rem;
+}
+.headsec a{
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.086rem;
+    text-transform: uppercase;
+    position: absolute;
+    left: 3rem;
+}
+.headsec a img{
+    width: 1.6rem;
+    margin-right: 0.8rem;
+}
+#forms .nopad{
+    padding-left: 0;
+    padding-right: 0;
+}
+.table{
+    margin-top: 31px;
+    border-top: 1px solid;
+}
+.more{
+      width: 1.3rem;
+    cursor: pointer;
+}
+.content2{
+  min-height:81vh;
+}
+
+
+.w15 {
+    width: 20%;
+}
+
+

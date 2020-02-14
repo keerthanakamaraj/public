@@ -1,0 +1,46 @@
+<div class="row">
+ 
+    
+    <div class="col-xs-12 col-md-5">
+     
+    </div>
+    <div class="col-xs-12 col-md-7">
+      <nav aria-label="Page navigation">
+        <ul class="pagination pull-right mt0">
+            <li [ngClass]="{'disabled': activePage==1}" (click)="previousPage()">
+                <a  style="cursor: pointer;" aria-label="Previous">
+                  <span aria-hidden="true">&#171;</span>
+                </a>
+              </li>
+              <!-- <div style="display: inline;" *ngFor="let num of numbers; let i=index">
+                  <li [ngClass]="{'active': number==activePage}" *ngIf="number+1<=maxSize" (click)="onBtPage(number)" >
+                      <a style="cursor: pointer;" title="{{number=1}}">{{number}}</a>
+                    </li>
+              </div> -->
+
+              <li [ngClass]="{'active': number==activePage}" *ngIf="number<=maxSize" (click)="onBtPage(number)" >
+                <a style="cursor: pointer;" title="{{number}}">{{number}}</a>
+              </li>
+              <li [ngClass]="{'active': number+1==activePage}" *ngIf="number+1<=maxSize" (click)="onBtPage(number+1)" >
+                <a  style="cursor: pointer;" title="{{number+1}}">{{number+1}}</a>
+              </li>
+              <li [ngClass]="{'active': number+2==activePage}" *ngIf="number+2<=maxSize" (click)="onBtPage(number+2)" >
+                <a  style="cursor: pointer;" title="{{number+2}}">{{number+2}}</a>
+              </li>
+              <li [ngClass]="{'active': number+3==activePage}" *ngIf="number+3<=maxSize" (click)="onBtPage(number+3)" >
+                <a  style="cursor: pointer;" title="{{number+3}}">{{number+3}}</a>
+              </li>
+              <li [ngClass]="{'active': number+4==activePage}" *ngIf="number+4<=maxSize" (click)="onBtPage(number+4)" >
+                <a  title="{{number+4}}">{{number+4}}</a>
+              </li>
+              
+
+              <li (click)="nextPage()" [ngClass]="{'disabled': activePage==maxSize}">
+                <a  style="cursor: pointer;" aria-label="Next">
+                  <span aria-hidden="true">&#187;</span>
+                </a>
+              </li>
+        </ul>
+      </nav>
+    </div>
+  </div>

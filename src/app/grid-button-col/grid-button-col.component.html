@@ -1,0 +1,8 @@
+<ng-container *ngIf="Type=='1' ">
+    <button type="button" class="{{CustomClass}}" (click)="onClick($event)">
+        {{ gridComponentCode +'.'+ buttonColId+"_ButtonName" | translate }}
+    </button>
+</ng-container>
+<ng-container *ngIf="Type=='2' ">
+    <i (click)="onClick($event)" class={{IconClass}} style=" font-size: 14px;cursor: pointer;"></i>
+</ng-container>

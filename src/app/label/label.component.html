@@ -1,0 +1,15 @@
+<div *ngIf="type==1" class="clr-brown fieldLegend {{legendAlign}}">
+    <label class="{{customClass}}" [ngStyle]="{'font-size': fontSize, color : fontColor, 
+    'font-family': fontFamily, 'font-style' : fontStyle, 
+    'font-weight': fontWeight, 'text-decoration' : underlineReq?'underline':null}" [attr.id]="fieldID">
+        {{ parentCompCode + '.' + fieldID | translate}}
+    </label>
+</div>
+
+<div *ngIf="type==2" class="clr-brown fieldLegend {{legendAlign}}">
+    <label class="{{customClass}}" [ngStyle]="{'font-size': fontSize, color : fontColor, 
+    'font-family': fontFamily, 'font-style' : fontStyle, 
+    'font-weight': fontWeight, 'text-decoration' : underlineReq?'underline':null}" [attr.id]="fieldID">
+        {{value}}
+    </label>
+</div>

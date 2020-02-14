@@ -1,0 +1,18 @@
+<app-alerts #appAlerts></app-alerts>
+<router-outlet></router-outlet>
+
+<input type="hidden" name="CertificateSerialNumber" id="CertificateSerialNumber" />
+<input type="hidden" name="CertificateVersion" id="CertificateVersion" />
+<input type="hidden" name="CertificateType" id="CertificateType" />
+<input type="hidden" name="CertificateIssueDate" id="CertificateIssueDate" />
+<input type="hidden" name="CertificateExpiryDate" id="CertificateExpiryDate" />
+<input type="hidden" name="CertificateAlgorithm" id="CertificateAlgorithm" />
+<input type="hidden" name="tfaEncodedValue" id="tfaEncodedValue" required />
+<input type="hidden" name="tfaValue" id="tfaValue" [(ngModel)]="services.http.tfaMessage" />
+<input type="hidden" name="tfaCompleted" id="tfaCompleted" />
+<input type="hidden" name="tfaStatus" id="tfaStatus" />
+<input type="hidden" name="tfaMessage" id="tfaMessage" />
+
+<ng4-loading-spinner [threshold]="0" [timeout]="100000"> </ng4-loading-spinner>
+
+<a style="display:none;" id="fileDownloadAnchor"></a>

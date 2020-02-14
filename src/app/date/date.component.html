@@ -1,0 +1,13 @@
+<!--<div class="cal-icons">
+    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="value" ngbDatepicker #d="ngbDatepicker" (focus)="d.toggle()" navigation="select">
+    <span class="fa fa-calendar" aria-hidden="true" (click)="d.toggle()"></span>
+    (dateChanged)="onDataChanged($event)"
+</div>-->
+<div style="width:100%">
+    <my-date-picker #field style="display: flex;" [name]="fieldID"  (inputFieldChanged)="onChange($event)" (keydown)="isDate($event)"
+        class="{{alignmentClass}} {{customClass}}" [placeholder]="placeholder" [ngClass]="{'error' : error, 'input-readonly':readOnly}"
+        [options]="myDatePickerOptions" [disabled]="readOnly" [(ngModel)]="value"
+        (inputFocusBlur)="onInputFocusBlur($event)">
+    </my-date-picker>
+    <span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+</div>

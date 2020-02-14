@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="28px" viewBox="0 0 21 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Reports</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="02_Dashboard#0" transform="translate(-23.000000, -567.000000)" fill="#333333">
+            <g id="Reports" transform="translate(23.000000, 567.000000)">
+                <polygon id="Path" points="4.39145751 17.6752521 3.55306033 16.7752399 3 17.4371279 4.4561867 19 7 15.5885069 6.38617349 15"></polygon>
+                <polygon id="Path" points="4.39145751 22.6752521 3.55306033 21.7752399 3 22.4371279 4.4561867 24 7 20.5885069 6.38617349 20"></polygon>
+                <rect id="Rectangle" x="9" y="16" width="9" height="1"></rect>
+                <rect id="Rectangle" x="9" y="18" width="9" height="1"></rect>
+                <rect id="Rectangle" x="9" y="21" width="9" height="1"></rect>
+                <rect id="Rectangle" x="9" y="22" width="9" height="1"></rect>
+                <path d="M21,24.7918125 L21,0 L0,0 L0,28 L17.7918125,28 L21,24.7918125 Z M17.8845625,27.041 L17.8845625,24.8845625 L20.041,24.8845625 L17.8845625,27.041 Z M0.6125,0.6125 L20.3875,0.6125 L20.3875,24.2720625 L17.2720625,24.2720625 L17.2720625,27.3875 L0.6125,27.3875 L0.6125,0.6125 Z" id="Shape" fill-rule="nonzero"></path>
+                <path d="M6,12 C8.20900743,12 10,10.2089095 10,7.99978136 L6,7.99978136 L6,4 C3.79099257,4 2,5.79109046 2,8.00021864 C2,10.2093468 3.79099257,12 6,12 Z M5.38784434,4.66772342 L5.38784434,8.00021864 L5.38784434,8.61240776 L6,8.61240776 L9.33231307,8.61240776 C9.04328815,10.189232 7.65894185,11.3882482 6,11.3882482 C4.13205072,11.3882482 2.61215566,9.86827002 2.61215566,8.00021864 C2.61259292,6.34118612 3.81110625,4.95676414 5.38784434,4.66772342 Z" id="Shape" fill-rule="nonzero"></path>
+                <path d="M6,4 L6,8 L10,8 C10,5.79099257 8.20900743,4 6,4 Z M6.61215566,4.66768693 C7.99038041,4.92041976 9.07958024,6.00961959 9.33231307,7.38784434 L6.61215566,7.38784434 L6.61215566,4.66768693 Z" id="Shape" fill-rule="nonzero"></path>
+                <rect id="Rectangle" x="12" y="10" width="1" height="1"></rect>
+                <rect id="Rectangle" x="13" y="7" width="1" height="4"></rect>
+                <rect id="Rectangle" x="15" y="4" width="1" height="7"></rect>
+                <rect id="Rectangle" x="17" y="9" width="1" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

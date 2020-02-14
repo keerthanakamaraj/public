@@ -1,0 +1,32 @@
+{
+    "EACNOPENREQ": {
+        "FormTitle": "Form Title",
+        "tab2": "tab2",
+        "tab1": "tab1"
+    },
+    "TSKNIB": {
+        "FormTitle": "Track SKNIB Outgoing Transaction1",
+        "skngrid": "null",
+        "txtCustCode": "Customer Code1",
+        "txtCustName": "Customer Name1"
+    },
+    "TSKNIB_QUERY": {
+        "CLGCUSTCDTTRF_PYMNT_CURR": "Currency1",
+        "CLGCUSTCDTTRF_RSNDESC": "Reason1",
+        "CLGCUSTCDTTRF_PYMNT_DATE": "Initiated On1",
+        "CLGCUSTCDTTRF_TOT_AMT": "Amount1",
+        "SRV_REF_NUM": "Service Reference Number1",
+        "CLGCUSTCDTTRF_STATUS": "Status1",
+        "SLT": "#"
+    },
+    "ErrorCodes" : {
+        "MANDATORY": "Value Cannot be empty1",
+        "DUPLICATE" : "Duplicate Value1",
+        "GRID_MANDATORY" : "Add atleast one row1"
+    },
+	
+	"FORMTEST2" :{
+		"FieldId_2" : "Test button"
+	}
+
+}

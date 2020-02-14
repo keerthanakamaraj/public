@@ -1,0 +1,11 @@
+.mydp{
+    height: 2rem;
+}
+
+.mydp .selection{
+    border-bottom: 1px solid #CCC;
+}
+
+.errorMessage{
+    left : 30%;
+}

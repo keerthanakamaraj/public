@@ -1,0 +1,21 @@
+<div style="width:100%">
+    <div class="input-group-amount">
+        <span class="input-group-addon" *ngIf="displayCurrCode==true"
+            style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+            {{currencyCode}}
+        </span>
+
+        <input [ngStyle]="{
+        'border-top-left-radius':displayCurrCode==true ? '0px':'null',
+        'border-bottom-left-radius':displayCurrCode==true ? '0px':'null',
+        'text-align' : valueAlign
+    }" (input)="validateValue($event.target.value, $event)" [attr.id]="fieldID" type="text" (change)="onChange()"
+            (keydown)="allowNumbersOnly($event)" [placeholder]="placeholder" [ngClass]="{'error' : error}"
+            [(ngModel)]="additionalInfo" (blur)="onBlur()" (focus)="onFocus()" [name]="fieldID" class="form-control {{customClass}}"
+            [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />
+    </div>
+
+    <span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+
+    <input type="hidden" [name]="fieldID" [(ngModel)]="value" />
+</div>

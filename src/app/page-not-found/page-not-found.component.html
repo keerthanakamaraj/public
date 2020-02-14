@@ -1,0 +1,77 @@
+<div class="clearfix banner-slider">
+  <div class="item" style="background-image: url(assets/images/banner/banner1.jpg);"></div>
+  <div class="item item1" style="background-image: url(assets/images/banner/banner2.jpg);"></div>
+  <div class="item" style="background-image: url(assets/images/banner/banner3.jpg);"></div>
+</div>
+
+<header class="header">
+
+  <div class="container">
+    <!-- <div *ngIf="showLogoutSuccess" class="alert alert-success alert-dismissible">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          Successfully logged out!!.
+      </div> -->
+    <div class="clearfix top-header">
+
+      <!-- <div class="row">
+        <div class="col-sm-12 text-right hd-icons">
+          <ul class="list-inline"> 
+             <li>
+                    <input type="search" id="search-bar" placeholder="Search">
+             </li>               
+            <li id="trigger">
+              <a href="javascript:void(0)"><img src="assets/images/icons/Search.svg" alt="global" title="global"></a>
+            </li>
+            <li class="menu">
+              <a href="javascript:void(0)"><img src="assets/images/icons/menu.svg" alt="menu" title="menu"></a>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <!-- Menu starts -->
+  <!-- <div class="sidebar-menu">
+    <span class="close-btn"><img src="assets/images/icons/close.svg"></span>
+    <ul class="mtree transit">
+      <li><a href="javascript:void(0)">About BI </a></li>
+      <li><a href="javascript:void(0)">Monetary </a></li>
+      <li><a href="javascript:void(0)">Financial System Stability </a></li>
+      <li><a href="javascript:void(0)">Payment System</a></li>
+      <li><a href="javascript:void(0)">Media Room</a></li>
+      <li><a href="javascript:void(0)">Regulation</a></li>
+      <li><a href="javascript:void(0)">Publication</a></li>
+      <li><a href="javascript:void(0)">Statistics</a></li>
+    </ul>
+  </div> -->
+  <!-- Menu ends -->
+</header>
+
+<div class="clearfix content">
+  <div class="row">
+    <!-- <div class="col-sm-12 col-md-12">
+          <h4>Logged Out</h4>
+      </div> -->
+  </div>
+  <div class="clearfix bi-reponsive">
+    <div class="clearfix logout-container">
+      <div class="clearfix logout-content request  report-filter">
+        <br>
+        <div>
+          <div class="er-404">
+            <!-- <img src="assets/images/icons/error-404.svg" alt="Error 404" title="Error 404"> -->
+            <img src="assets/images/icons/reject.svg" alt="Reject" title="Rlose">
+            <p style="color: black" class="sentral">Page not found</p>
+            <p style="color: black"><span> <a routerLink="/home/alpha" *ngIf="http.loggedIn">Click here to goto
+                  home</a></span></p>
+            <p style="color: black"><span><a routerLink="/login/elogin" *ngIf="!http.loggedIn">Click here to goto
+                  Login</a></span></p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

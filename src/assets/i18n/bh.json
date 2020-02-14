@@ -1,0 +1,340 @@
+{
+    "ErrorCodes": {
+        "MANDATORY": "Nilai Tidak boleh kosong",
+        "DUPLICATE": "Duplikasi Nilai",
+        "GRID_MANDATORY": "Tambah Paling Sedikit Satu Baris",
+        "VIEW_RECORD" : "View the row to Approve or Reject",
+        "SELECT_RECORD" : "Select a row to Approve or Reject",
+        "SELECT_RECORD_TO_VIEW" : "Select a row to view",
+        "DOUBLE_CLICK_TO_VIEW" : "Double click a row to view",
+        "LOGOUT_SUCCESS" : "You have been successfully logged out",
+        "loginAgain" : "Click here to login again",
+		"NO_DOWNLOADS" : "Tidak Tersedia untuk di-Download",
+        "NO_NTNFS" : "Tidak Ada Notifikasi Baru",
+        "MATCH_PASSWORD" : "Does not match with New Password",
+        "OLD_PASSWORD" : "New password cannot be same as old password",
+        "PWD_MIN_CHAR" : "Password must contain atleast {{minChar}} Characters",
+        "PWD_MIN_ALPHA" : "Password must contain atleast {{minAlpha}} alphabets",
+        "PWD_MIN_NUM" : "Password must contain atleast {{minNumeric}} digits",
+        "PWD_MIN_SPECIAL" : "Password must contain atleast {{minSpecial}} special characters",
+        "AUTH_SUCCESS" : "Authorization Successful",
+        "AUTH_FAIL" : "Authorization Failed",
+        "REJECTED": "Rejected",
+        "REJECT_FAIL" : "Failed to Reject",
+        "SENDBACK_SUCCESS" : "Sent back for Repair Successfully",
+        "SENDBACK_FAILURE" : "Send back for Repair Failed",        
+        "FLI000": "FLI000 - Permohonan",
+        "FLI001": "FLI001 - Konfigurasi program tidak ada",
+        "FLI002": "FLI002 - Waktu Pemakian Habis",
+        "FLI003": "FLI003 - Password harus diubah sebelum akses aplikasi",
+        "FLI004": "FLI004 - Otentikasi wajib sebelum akses aplikasi",
+        "FLI005": "FLI005 - Halaman tidak digunakan untuk waktu yang lama",
+        "FLI006": "FLI006 - Konteks otentikasi login tidak berlaku",
+        "FLI007": "FLI007 - Konteks otentikasi Password tidak berlaku",
+        "FLI008": "FLI008 - Tindakan tidak sah",
+        "FLI009": "FLI009 - Akses sesi tidak sah",
+        "FLI010": "FLI010 - Akses Metode Tidak Sah",
+        "FLI011": "FLI011 - Kesalahan server dari dalam",
+        "FLI012": "FLI012 - Hak Konfigurasi Tidak Tersedia",
+        "FLI013": "FLI013 - Tidak Diizinkan Akses Program",
+        "entry.initinvalid": "entry.initroleunavailable - Hak inisiasi tidak tersedia",
+        "entry.slacfginvalid": "entry.slacfginvalid - Konfigurasi Layanan SLA Tidak Tersedia",
+        "entry.gridcfginvalid": "entry.gridcfginvalid - Service Grid configuration unavailable",
+        "entry.balchkcfginvalid": "entry.balchkcfginvalid - Service Balance Check configuration unavailable",
+        "entry.filecfginvalid": "entry.filecfginvalid - File service configuration unavailable",
+        "entry.schlimitsinvalid": "entry.schlimitsinvalid - Konfigurasi Penjadwalan Tidak Tersedia",
+        "entry.reqlimitsinvalid": "entry.reqlimitsinvalid - Konfigurasi batas Permohonan tidak tersedia",
+        "entry.lifecycleinvalid": "entry.lifecycleinvalid - Konfigurasi Siklus Hidup Tidak Tersedia ",
+        "entry.notesinvalid": "entry.notesinvalid - Notes configuration unavailable",
+        "entry.commandmissing": "entry.commandmissing - Service context missing",
+        "entry.commandinvalid": "entry.commandinvalid - Service context invalid",
+        "entry.commandmisfired": "entry.commandmisfired - Service context misfired",
+        "entry.invalidrepair": "entry.invalidrepair - Permohonan Perbaikan Tidak Valid",
+        "entry.editbeanmissing": "entry.editbeanmissing - edit page requested without bean instance in session ",
+        "entry.beancopyerror": "entry.beancopyerror - Error copying properties",
+        "service.parametermissing": "service.parametermissing - layanan dipanggil tanpa pengidentifikasi layanan",
+        "service.verificationfailure": "service.verificationfailure - verifikasi layanan gagal",
+        "service.pgmconfigmissing": "service.pgmconfigmissing - konfigurasi program hilang",
+        "service.pgmconfigmismatch": "service.pgmconfigmismatch - konfigurasi program layanan tidak sesuai",
+        "service.unauthorized": "service.unauthorized - Tidak Diizinkan Akses Layanan",
+        "service.roleunauthorized": "service.roleunauthorized - Tidak Diizinkan Akses layanan untuk Peran Ini",
+        "service.unavailable": "Layanan tidak dikonfigurasikan untuk akses",
+        "beneficiary.unavailable": "Beneficiaries are not registered for the service",
+        "service.beforebusinesshour": "Layanan tidak tersedia sebelum jam kerja",
+        "service.afterbusinesshour": "Layanan tidak tersedia setelah jam kerja",
+        "service.businessholiday": "Layanan tidak tersedia untuk hari kerja saat ini",
+        "ULI001": "ULI001 - Entitas tidak tersedia",
+        "ULI002": "ULI002 - ID pengguna tidak tersedia",
+        "ULI003": "ULI003 - Service bouquet tidak dialokasikan",
+        "ULI004": "ULI004 - Konfigurasi sistem tidak tersedia",
+        "ULI005": "ULI005 - Otentikasi dua faktor bersifat wajib tetapi tidak dikonfigurasi",
+        "ULI006": "ULI006 - Otentikasi dua faktor bersifat wajib tetapi konfigurasi pengguna tidak tersedia",
+        "ULI007": "ULI007 - Pembatasan Nasabah diamanatkan tetapi tidak ditentukan",
+        "ULI008a": "ULI008a - Pembatasan IP Nasabah - IP tidak diizinkan",
+        "ULI008b": "ULI008b -Pembatasan IP Nasabah - IP tidak diizinkan",
+        "ULI009": "ULI009 - Pembatasan IP pengguna yang diawasi tidak ditentukan",
+        "ULI010a": "ULI010a - Pembatasan IP pengguna - IP tidak sah",
+        "ULI010b": "ULI010b - Pembatasan IP pengguna - IP tidak sah",
+        "ULI999": "ULI999 - Waktu login habis. Silakan coba lagi !!!",
+        "ULI777": "Login tidak diizinkan",
+        "ULV001": "ULV001 - Entitas tidak tersedia",
+        "ULV002": "ULV002 - ID pengguna tidak tersedia",
+        "ULV003": "ULV003 - Konfigurasi peran tidak tersedia",
+        "ULV004": "ULV004 - ID Pengguna Kadaluwarsa",
+        "ULV005": "ULV005 - ID Pengguna tidak terdaftar",
+        "ULV006": "ULV006 - ID Pengguna terkunci",
+        "ULV007": "ULV007 - ID Pengguna diblokir",
+        "ULV008": "ULV008 - Nasabah tidak tersedia",
+        "ULV009": "ULV009 - Konfigurasi instalasi tidak tersedia",
+        "ULV010": "ULV010 - Konfigurasi parameter kontrol sistem tidak tersedia",
+        "ULV011": "ULV011 - ID Pengguna Kadaluwarsa karena tidak aktif setelah pembuatan",
+        "ULV012": "ULV012 - ID pengguna terkunci karena tidak aktif setelah pembuatan",
+        "ULV013": "ULV013 - Password Kadaluwarsa karena tidak aktif lama",
+        "ULV014": "ULV014 - ID pengguna terkunci karena tidak aktif setelah login terakhir",
+        "ULV015": "ULV015 - ID Pengguna terkunci karena percobaan password batas maksimum tidak valid",
+        "ULV016": "ULV016 - Ketidakcocokan kredensial",
+        "ULV017": "ULV017 - Peringatan Administrator",
+        "ULV018": "ULV018 - Anda akan melebihi percobaan maksimum yang diizinkan. Akun Anda akan dikunci setelahnya",
+        "ULV019": "ULV019 - Otentikasi Dua Faktor Tidak Valid",
+        "ULV020": "ULV020 - Pendaftaran pengguna tertunda untuk aktivasi",
+        "ULV021": "ULV021 - Kegagalan pembuatan sesi pengguna",
+        "ULV022": "ULV022 - Konfigurasi service bouquet tidak tersedia",
+        "ULV023": "ULV023 - Konfigurasi model layanan tidak tersedia",
+        "ULV024": "ULV024 - Konfigurasi domain rekening tidak tersedia",
+        "ULV025": "ULV025 - Service bouquet ditutup",
+        "ULV026": "ULV026 - Service bouquet tidak berlaku untuk pengguna",
+        "ULV997": "ULV997 - Tidak dapat membuat ID sesi baru",
+        "ULV999": "ULV999 - Pengecualian dalam pemrosesan login",
+        "passwordchangesuccess": "Password Anda Berhasil Diubah",
+        "PCK001": "Penggunaan Password yang diberikan dibatasi",
+        "PCK002": "Password tidak boleh sama dengan Password sebelumnya",
+        "BPC001": "BPC001 - Parameter instalasi tidak valid",
+        "BPC002": "BPC002 - Password sebelumnya tidak diizinkan sesuai kebijakan Password",
+        "999": "Eror yang tidak spesifik",
+        "PKI001": "Parameter tidak mengandung informasi yang diperlukan",
+        "PKI002": "Memori yang dialokasikan tidak cukup",
+        "PKI003": "Tidak dapat mengalokasikan memori",
+        "PKI004": "Eror terjadi dalam operasi file",
+        "PKI005": "Kunci publik yang diteruskan tidak valid",
+        "PKI006": "Kunci yang diperlukan tidak dapat ditemukan",
+        "PKI007": "Penyedia Khusus tidak didukung",
+        "PKI008": "algoritma dalam objek yang dilindungi ini tidak didukung",
+        "PKI009": "Tidak dapat menguraikan objek ASN.1",
+        "PKI010": "Sertifikat tidak valid",
+        "PKI011": "Tidak ditemukan jalur yang valid untuk memvalidasi sertifikat",
+        "PKI012": "Sertifikat pengguna / CA telah Kadaluwarsa",
+        "PKI013": "Kebijakan sertifikat tidak memenuhi tingkat jaminan yang diperlukan",
+        "PKI014": "Sertifikat berisi ekstensi yang tidak dikenal dengan ditandai kritis",
+        "PKI015": "Sertifikat dicabut dengan alasan yang tidak ditentukan",
+        "PKI016": "Sertifikat dicabut dengan alasan key compromise",
+        "PKI017": "Sertifikat dicabut dengan alasan cA Compromise",
+        "PKI018": "Sertifikat dicabut dengan alasan afiliasi berubah",
+        "PKI019": "Sertifikat dicabut dengan alasan diganti",
+        "PKI020": "Sertifikat dicabut dengan alasan penghentian operasi",
+        "PKI021": "Sertifikat dicabut dengan alasan Penahanan sertifikat",
+        "PKI022": "Sertifikat dicabut dengan alasan Remove From CRL",
+        "PKI023": "Sertifikat dicabut dengan alasan Privilege Ditarik",
+        "PKI024": "Sertifikat dicabut dengan alasan aA Compromise",
+        "PKI025": "Sertifikat Pengguna / CA telah dicabut",
+        "PKI026": "Tidak dapat menemukan CRL yang diperlukan",
+        "PKI027": "Tanda tangan pada CRL tidak dapat diverifikasi",
+        "PKI028": "CRL berisi ekstensi yang tidak dikenal yang ditandai kritis",
+        "PKI029": "Wrong sequence of cryptographic function is called",
+        "PKI030": "Gagal memverifikasi tanda tangan",
+        "PKI031": "Gagal mengenkripsi data",
+        "PKI032": "Gagal mendekripsi data",
+        "PKI033": "Layanan gagal atau sumber daya tidak tersedia",
+        "PKI034": "Sertifikat PKI tidak ditandai untuk Pengguna",
+        "PKI035": "Sertifikat PKI Root CA tidak ditandai untuk Pengguna",
+        "PKI036": "Sertifikat CRL tidak ditandai untuk Pengguna",
+        "PKI037": "Otentikasi Dua Faktor Tidak Valid - Konten yang Ditandatangani tidak diverifikasi dengan kunci publik penandatangan",
+        "PAP001": "PAP001 - Invalid Private API",
+        "PAP002": "PAP002 - Invalid Private API Category",
+        "PAP003": "PAP003 - Unspecified Exception",
+        "PAP004": "PAP004 - Unspecified Exception in Class Execution",
+        "PAP005": "PAP005 - Invalid Lookup Configuration",
+        "PAP006": "PAP006 - Invalid Regular Expression",
+        "PAP007": "PAP007 - Invalid Field Code",
+        "PAP008": "PAP008 - Invalid Value",
+        "PAP009": "PAP009 - Error in Workflow",
+        "PAP010": "PAP010 - Error in Persistance",
+        "PAP011": "PAP011 - Invalid Remote Private API",
+        "PAP012": "PAP012 - Unspecified Exception",
+        "PAP013": "PAP013 - Error in Procedure",
+        "PAP015": "PAP015 - Invalid Remote API",
+        "PAP016": "PAP016 - Invalid Private API Gateway",
+        "ALLOWBACKDATE": {
+            "111": "Tanggal Dokumen Tidak Valid"
+        },
+        "ALLOWFUTUREDATE": {
+            "111": "Tanggal Kedaluwarsa Tidak Valid"
+        },
+        "BACKDATE": {
+            "555": "Invalid Date",
+            "666": "Date Should be greater than current Business Date",
+            "777": "Date should be less than Current Business Date",
+            "888": "Date should be greater than or equal to Current Business Date",
+            "999": "Tanggal Harus kurang dari atau sama dengan tanggal bisnis saat ini"
+        },
+        "ChkCustSrvEnbld": {
+            "777": "Service Request Pending for Approval",
+            "888": "Service Request already Initiated and Pending for Authorization",
+            "999": "Service Already Enabled for the Customer"
+        },
+        "FUTUREDATE": {
+            "111": "Tanggal Kedaluwarsa Tidak Valid",
+            "555": "Invalid Date",
+            "666": "Date Should be greater than current Business Date",
+            "777": "Date should be less than Current Business Date",
+            "888": "Date should be greater than or equal to Current Business Date",
+            "999": "Tanggal Harus kurang dari atau sama dengan tanggal bisnis saat ini"
+        },
+        "RTGS_DOMAIN": {
+            "111": "Nomor Rtgs Tidak Valid",
+            "999": "Nomor Rtgs Tidak Valid"
+        },
+        "SHIPDATE": {
+            "111": "Tanggal Pengiriman Tidak Valid"
+        },
+        "SHIPMENTDATE": {
+            "111": "Tanggal Pengiriman Tidak Valid"
+        },
+        "SecretCode": {
+            "111": "Nomor Ref tidak valid"
+        },
+        "VALREFNUM": {
+            "111": "Nomor Ref tidak valid"
+        },
+        "ValBenCdDup": {
+            "999": "Unexpected error",
+            "DUP001": "Duplikasi Kode Beneficiary"
+        },
+        "ValBenDup": {
+            "999": "Unexpected error",
+            "DUP002": "Duplikasi Rekening dan BIC "
+        },
+        "ValPymtDate": {
+            "997": "No data found",
+            "998": "Unexpected Error",
+            "999": "Unexpected Error",
+            "A03": "Invalid Payment Date",
+            "S01": "No sessions available",
+            "S02": "Libur Cabang"
+        }
+    },
+    "FluidForm" : {
+        "ReadOnlyGrid" : {
+            "loading" : "Loading...",
+            "NoData" : "No rows to Display"
+        }
+    },
+    "remarks" : {
+        "Remarks" : "Keterangan",
+        "Approve" : "Disetujui",
+        "Reject" : "Ditolak",
+        "SendBack" : "Kirim Kembali"
+    },
+    "AUTHFORM" : {
+        "frDate" : "Dari Tanggal",
+        "toDate" : "Sampai Tanggal"
+    },
+    "AUTHWB_GRID" : {
+        "SLT" : "Pilih",
+        "SRV_REF_NUM" : "Referensi #",
+        "SERVICE_NAME" : "Nama Layanan",
+        "REQUST_DATE" : "Initiated Pada",
+        "INIT_BY" : "Initiated Oleh",
+        "STAGE_DESCRIPTION" : "Tahap Saat Ini",
+        "REC_TYPE" : "RECTYPE",
+        "SERVICE_CODE" : "Stage ID"
+    },
+    "LOGIN" : {
+        "userName" : "Username",
+        "language" : "Pilih Bahasa",
+        "password" : "Password",
+        "logout" : "logout",
+        "myProfile" : "My Profile",
+        "changePassword" : "Change Password",
+        "downloads" : "Download",
+        "Notifications" : "Notifikasi",
+        "Unread" : "Belum Dibaca",
+        "All" : "All",
+        "LastLogin" : "Last Login"
+    },
+    "MENU" : {
+        "ACCOUNTS" : "Accounts",
+        "AUTH" : "Authorization",
+        "CASH" : "Cash",
+        "CUSTODIAN" : "Custodian",
+        "CUSTOMER" : "Profile",
+        "HELPDESK" : "Helpdesk",
+        "HISTORY" : "Service History",
+        "OLC" : "Letter of Credit",
+        "SERVICES" : "Services",
+        "TRAN" : "Transactions"
+    },
+    "MYPROFILE" : {
+        "profile" : "My Profile",
+        "Userid" : "User ID",
+        "UserName" : "User Name",
+        "ServiceBouquet" : "Service Bouquet",
+        "ServiceModel" : "Service Model",
+        "CustomerName" : "Customer Name",
+        "CustomerCode" : "Customer Code"
+    },
+    "REPAIRQ" : {
+        "FormTitle" : "Perbaikan Antrian"
+    },
+    "REPAIRQ_GRID" : {
+        "select" : "Pilih",
+        "Reference" : "Referensi #",
+        "ServiceName" : "Nama Layanan",
+        "InitOn" : "Initiated Pada",
+        "Remarks" : "Keterangan"
+    },
+    "RESULT" : {
+        "application" : "Aplikasi Anda untuk ",
+        "success" : " Telah Berhasil Dikirim",
+        "fail" : " Telah Gagal",
+        "Reference #" : "Referensi #",
+        "ServiceReferenceNumber" : "Referensi #"
+    },
+    "HISTORY_FILTER" : {
+        "CODE" : "Nama Layanan",
+        "fromDate" : "Dari Tanggal",
+        "toDate" : "Sampai Tanggal"
+    },
+    "HISTORY_GRID" : {
+        "Select" : "Pilih",
+        "reference" : "Referensi #",
+        "serviceCode" : "Nama Layanan",
+        "InitOn" : "Initiated Pada",
+        "InitBy" : "Initiated Oleh",
+        "stage" : "Tahap Saat Ini",
+        "stageDesc" : "Deskripsi Tahap"
+    },
+    "SIDEBAR" : {
+        "Favorites" : "Favorit",
+        "setFav" : "Klik Disini untuk Mengatur Favorit",
+        "Announcements" : "Pengumuman",
+        "Download" : "Download"
+    },
+    "VIEW_STAGES" : {
+        "FormTitle" : "Lihat Tahapan"
+    },
+    "FAVORITES" : {
+        "FormTitle" : "Customize Favorites",
+        "Add" : "",
+        "Remove" : "",
+        "Services" : "",
+        "Favorites" : "",
+        "Confirm" : "Konfirmasi",
+        "Reset" : "Reset"
+    },
+	
+	"FORMTEST2" :{
+		"FieldId_2" : "Test button"
+	}
+	
+	
+}

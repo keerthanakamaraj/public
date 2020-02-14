@@ -1,0 +1,96 @@
+<div class="row" *ngIf="displayTitle">
+<div class="col-sm-5 col-md-5">
+<h4>{{ 'FreshCurrency.GridTitle' | translate }}</h4>
+</div>
+</div>
+<table class="table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}" (click)="clearGridError()">
+<thead>
+<tr class="tr-blue tr-td-l">
+<th [hidden]="isColumnHidden('FieldId_5')" width="25%">{{ 'FreshCurrency.FieldId_5' | translate }}</th>
+<th [hidden]="isColumnHidden('FieldId_4')" width="25%">{{ 'FreshCurrency.FieldId_4' | translate }}</th>
+<th [hidden]="isColumnHidden('FieldId_3')" width="25%">{{ 'FreshCurrency.FieldId_3' | translate }}</th>
+<th [hidden]="isColumnHidden('FieldId_6')" width="25%">{{ 'FreshCurrency.FieldId_6' | translate }}</th>
+<th [hidden]="isColumnHidden('FieldId_7')" width="25%">{{ 'FreshCurrency.FieldId_7' | translate }}</th>
+<th [hidden]="isColumnHidden('FieldId_8')" width="25%">{{ 'FreshCurrency.FieldId_8' | translate }}</th>
+</tr></thead>
+<tbody>
+<tr *ngIf="getRowsCount()==0">
+<td colspan=12 style="text-align: center;">
+<span>No data has been added</span>
+</td>
+</tr>
+<ng-container *ngFor="let row of value.rowData;let rowNo = index;let even = even; let odd = odd;">
+<tr (click)="clearRowError(rowNo)"  class="tr-td-l"
+[ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
+<td [hidden]="isColumnHidden('FieldId_5')">
+<app-combo-box #FieldId_5 category="2" fieldID="FieldId_5_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FieldId_5']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FieldId_5', $event, rowNo)"></app-combo-box>
+<div
+*ngIf="isCellReadOnly[rowNo]['FieldId_5']">
+<p class="label-text" [title]="this['FieldId_5'].toArray()[rowNo].getFieldInfo()">
+{{this['FieldId_5'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('FieldId_4')">
+<app-text-box #FieldId_4 fieldID="FieldId_4_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FieldId_4']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FieldId_4', $event, rowNo)"></app-text-box>
+<div
+*ngIf="isCellReadOnly[rowNo]['FieldId_4']">
+<p class="label-text" [title]="this['FieldId_4'].toArray()[rowNo].getFieldInfo()">
+{{this['FieldId_4'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('FieldId_3')">
+<app-text-box #FieldId_3 fieldID="FieldId_3_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FieldId_3']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FieldId_3', $event, rowNo)"></app-text-box>
+<div
+*ngIf="isCellReadOnly[rowNo]['FieldId_3']">
+<p class="label-text" [title]="this['FieldId_3'].toArray()[rowNo].getFieldInfo()">
+{{this['FieldId_3'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('FieldId_6')">
+<app-combo-box #FieldId_6 category="2" fieldID="FieldId_6_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FieldId_6']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FieldId_6', $event, rowNo)"></app-combo-box>
+<div
+*ngIf="isCellReadOnly[rowNo]['FieldId_6']">
+<p class="label-text" [title]="this['FieldId_6'].toArray()[rowNo].getFieldInfo()">
+{{this['FieldId_6'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('FieldId_7')">
+<app-amount #FieldId_7 fieldID="FieldId_7_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FieldId_7']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FieldId_7', $event, rowNo)"></app-amount>
+<div
+*ngIf="isCellReadOnly[rowNo]['FieldId_7']">
+<p class="label-text" [title]="this['FieldId_7'].toArray()[rowNo].getFieldInfo()">
+{{this['FieldId_7'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('FieldId_8')">
+<app-amount #FieldId_8 fieldID="FieldId_8_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FieldId_8']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FieldId_8', $event, rowNo)"></app-amount>
+<div
+*ngIf="isCellReadOnly[rowNo]['FieldId_8']">
+<p class="label-text" [title]="this['FieldId_8'].toArray()[rowNo].getFieldInfo()">
+{{this['FieldId_8'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+</tr>
+<tr *ngIf="rowError[rowNo].hasError">
+<td colspan=12 style="text-align: center;">
+<span class="errorMessagespan">{{rowError[rowNo].errorCode | translate}}</span>
+</td>
+</tr>
+</ng-container>
+<tr class="tr-blue tr-td-l">
+<td  class=" clr-dr-blue">{{value.footerData.FieldId_5}}</td>
+<td  class=" clr-dr-blue">{{value.footerData.FieldId_4}}</td>
+<td  class=" clr-dr-blue">{{value.footerData.FieldId_3}}</td>
+<td  class=" clr-dr-blue">{{value.footerData.FieldId_6}}</td>
+<td  class=" clr-dr-blue">{{value.footerData.FieldId_7}}</td>
+<td  class=" clr-dr-blue">{{value.footerData.FieldId_8}}</td>
+</tr>
+</tbody>
+</table>
+<span class="errorMessagespan">{{errorCode| translate}}</span>

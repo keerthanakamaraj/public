@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="112px" height="112px" viewBox="0 0 112 112" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>Chatbot_launch_icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="25" cy="25" r="25"></circle>
+        <filter x="-98.0%" y="-94.0%" width="296.0%" height="296.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="16" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.09 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="New-Option" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="01_DGFT---Login" transform="translate(-1301.000000, -595.000000)">
+            <g id="Chatbot_launch_icon" transform="translate(1332.000000, 624.000000)">
+                <g id="Group-33">
+                    <g id="Oval-6">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#E1C152" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                </g>
+                <path d="M36,31 L35.9927335,38 L29.1911693,35 L18.0095579,35 C15.7951402,35 14,33.1996477 14,30.9904421 L14,17.0095579 C14,14.7951402 15.8003523,13 18.0095579,13 L31.9904421,13 C34.2048598,13 36,14.8003523 36,17.0095579 L36,30.9904421 C36,30.9936302 35.9999963,30.9968174 35.9999888,31.0000038 Z M17.1404895,28.3747071 C16.9516356,28.6343861 16.9586373,29.0967615 17.1287388,29.4421977 C17.2988403,29.7876339 20.7431562,31.9999998 25.0287535,32 C29.3143509,32.0000002 32.496674,29.8335721 32.7642589,29.4421977 C33.0318438,29.0508233 33.1220945,28.7688091 32.7642583,28.4111361 C32.406422,28.0534631 32.2661872,28.1999851 31.8022163,28.4261442 C31.3382454,28.6523034 28.2966697,30.6063138 24.9626716,30.5731319 C21.6286734,30.5399499 18.8294328,28.8585161 18.2579441,28.2913435 C17.6864554,27.724171 17.3293435,28.1150282 17.1404895,28.3747071 Z" id="Icon" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>
