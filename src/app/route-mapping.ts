@@ -35,36 +35,8 @@ export var componentRoutes: Routes = [
 	loadChildren: 'src/app/ServiceTypeMaster/ServiceTypeMaster.module#ServiceTypeMasterModule'
 	},
 	{
-	path: 'EmployeeC3Y',
-	loadChildren: 'src/app/EmployeeC3Y/EmployeeC3Y.module#EmployeeC3YModule'
-	},
-	{
-	path: 'TestLoanGridForm',
-	loadChildren: 'src/app/TestLoanGridForm/TestLoanGridForm.module#TestLoanGridFormModule'
-	},
-	{
-	path: 'TestAddLoanForm',
-	loadChildren: 'src/app/TestAddLoanForm/TestAddLoanForm.module#TestAddLoanFormModule'
-	},
-	{
-	path: 'TEST_LOAN_GRID_FORM',
-	loadChildren: 'src/app/TEST_LOAN_GRID_FORM/TEST_LOAN_GRID_FORM.module#TEST_LOAN_GRID_FORMModule'
-	},
-	{
-	path: 'SaveLoanDetailsForm',
-	loadChildren: 'src/app/SaveLoanDetailsForm/SaveLoanDetailsForm.module#SaveLoanDetailsFormModule'
-	},
-	{
-	path: 'TestLoanModal',
-	loadChildren: 'src/app/TestLoanModal/TestLoanModal.module#TestLoanModalModule'
-	},
-	{
 	path: 'InitiationMainForm',
 	loadChildren: 'src/app/InitiationMainForm/InitiationMainForm.module#InitiationMainFormModule'
-	},
-	{
-	path: 'TestOccForm',
-	loadChildren: 'src/app/TestOccForm/TestOccForm.module#TestOccFormModule'
 	},
 	{
 	path: 'SearchForm',

@@ -1188,64 +1188,6 @@
 		"FieldId_5": "Note/Coin Type",
 		"FieldId_3": "Denomination"
 	},
-	"EmployeeC3Y": {
-		"FieldId_1": "Employee Name",
-		"FormTitle": "Employee",
-		"FieldId_6": "Reset",
-		"FieldId_4": "Gender",
-		"FieldId_11": "Edit",
-		"FieldId_5": "Save",
-		"FieldId_10": "Unit",
-		"FieldId_3": "Addresss"
-	},
-	"TestLoanDetailGrid": {
-		"LOAN_NO": "Loan Number",
-		"toolbar_TestLoanDetailGrid": "null",
-		"ICIF": "ICIF",
-		"GridTitle": "Loan Detail Grid",
-		"LOAN_ID": "ID",
-		"ARN": "ARN"
-	},
-	"TestLoanGridForm": {
-		"FieldId_1": "null",
-		"FormTitle": "Loan Grid form"
-	},
-	"TestAddLoanForm": {
-		"FormTitle": "Add Loan Form",
-		"Cancel": "Cancel",
-		"ICIF": "ICIF",
-		"LoanAmt": "Loan Amount",
-		"Save": "Save",
-		"LoanNo": "Loan Number",
-		"ARN": "ARN"
-	},
-	"TEST_LOAN_GRID": {
-		"ApplicationRefernceNo": "Application Refernce No",
-		"ICIFNumber": "ICIF Number",
-		"LoanDetailSeq": "Loan Id",
-		"GridTitle": "Test Loan Grid",
-		"LoanNo": "Loan No",
-		"toolbar_TEST_LOAN_GRID": "null"
-	},
-	"TEST_LOAN_GRID_FORM": {
-		"FormTitle": "Loan Details Form",
-		"TestInputGrid_1": "null"
-	},
-	"test-loan-main": {
-		"product": "PRODUCT",
-		"FormTitle": "Test Loan Main Form",
-		"Save": "Save",
-		"icifNumber": "ICIF_NUMBER",
-		"ARN": "ARN"
-	},
-	"TEST_LOAN_GRID_2": {
-		"LOAN_NO": "Loan No",
-		"GridTitle": "Test loan grid 2",
-		"toolbar_TEST_LOAN_GRID_2": "null",
-		"ICIF_NO": "ICIF Number",
-		"APP_REF_NO": "Application Refernce No",
-		"LOAN_ID": "Loan Id"
-	},
 	"SaveLoanDetailsForm": {
 		"SaveLoan": "SAVE",
 		"FormTitle": "SaveLoanDetails",
