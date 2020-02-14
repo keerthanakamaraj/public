@@ -232,8 +232,10 @@ export class ReadonlyGridComponent {
       rowCount: null,
       getRows: (params) => {
         var gridReqMap = new Map();
-        gridReqMap.set("Offset", params.startRow + 1);
-        gridReqMap.set("Count", this.cacheBlockSize);
+        if (this.gridConsts.paginationReq) {
+          gridReqMap.set("Offset", params.startRow + 1);
+          gridReqMap.set("Count", this.cacheBlockSize);
+        }
 
         var FilterCriteria = [];
         var OrderCriteria = [];
@@ -303,34 +305,40 @@ export class ReadonlyGridComponent {
     }
   }
 
-  combineMaps(gridReqMap ,inputMap){
-    let FilterCriteria=[];
-    let OrderCriteria=[];
-    if(inputMap.get("QueryParam.criteriaDetails")){
-        FilterCriteria=  inputMap.get("QueryParam.criteriaDetails").FilterCriteria || [];
-        OrderCriteria= inputMap.get("QueryParam.criteriaDetails").OrderCriteria || [];
-        inputMap.delete("QueryParam.criteriaDetails");
-    }else{
-        FilterCriteria=  inputMap.get("QueryParam.criteriaDetails.FilterCriteria") || [];
-        OrderCriteria= inputMap.get("QueryParam.criteriaDetails.OrderCriteria") || []; 
+  combineMaps(gridReqMap, inputMap) {
+    let FilterCriteria = [];
+    let OrderCriteria = [];
+    if (inputMap.get("QueryParam.criteriaDetails")) {
+      FilterCriteria = inputMap.get("QueryParam.criteriaDetails").FilterCriteria || [];
+      OrderCriteria = inputMap.get("QueryParam.criteriaDetails").OrderCriteria || [];
+      inputMap.delete("QueryParam.criteriaDetails");
+    } else {
+      FilterCriteria = inputMap.get("QueryParam.criteriaDetails.FilterCriteria") || [];
+      OrderCriteria = inputMap.get("QueryParam.criteriaDetails.OrderCriteria") || [];
     }
-    inputMap.set("QueryParam.criteriaDetails.FilterCriteria", FilterCriteria ); 
-    inputMap.set("QueryParam.criteriaDetails.OrderCriteria", OrderCriteria ); 
-    gridReqMap.forEach((value, key)=>{
-        if(key=='FilterCriteria' ){
-            FilterCriteria=[...value , ...FilterCriteria ];
-            let temp={};
-            FilterCriteria= FilterCriteria.filter((e)=>{if(temp[e.columnName]){ return  false;}else{temp[e.columnName]={} ;return  true;} });
-            inputMap.set("QueryParam.criteriaDetails."+key, FilterCriteria); 
-        }else if(key=='OrderCriteria'){
-            OrderCriteria=[...value , ...OrderCriteria ];
-            let temp={};
-            OrderCriteria= OrderCriteria.filter((e)=>{if(temp[e.columnName]){ return  false;}else{temp[e.columnName]={} ;return  true;} });
-            inputMap.set("QueryParam.criteriaDetails."+key, OrderCriteria); 
-        } else{
-            inputMap.set("QueryParam.criteriaDetails."+key, value);     
-        }
+    inputMap.set("QueryParam.criteriaDetails.FilterCriteria", FilterCriteria);
+    inputMap.set("QueryParam.criteriaDetails.OrderCriteria", OrderCriteria);
+    gridReqMap.forEach((value, key) => {
+      if (key == 'FilterCriteria') {
+        FilterCriteria = [...value, ...FilterCriteria];
+        let temp = {};
+        FilterCriteria = FilterCriteria.filter((e) => { if (temp[e.columnName]) { return false; } else { temp[e.columnName] = {}; return true; } });
+        inputMap.set("QueryParam.criteriaDetails." + key, FilterCriteria);
+      } else if (key == 'OrderCriteria') {
+        OrderCriteria = [...value, ...OrderCriteria];
+        let temp = {};
+        OrderCriteria = OrderCriteria.filter((e) => { if (temp[e.columnName]) { return false; } else { temp[e.columnName] = {}; return true; } });
+        inputMap.set("QueryParam.criteriaDetails." + key, OrderCriteria);
+      } else {
+        inputMap.set("QueryParam.criteriaDetails." + key, value);
+      }
     });
-}
+    if(inputMap.get("QueryParam.criteriaDetails.FilterCriteria").length==0){
+      inputMap.delete("QueryParam.criteriaDetails.FilterCriteria");
+    }
+    if(inputMap.get("QueryParam.criteriaDetails.OrderCriteria").length==0){
+      inputMap.delete("QueryParam.criteriaDetails.OrderCriteria");
+    }
+  }
 
 }
