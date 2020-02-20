@@ -124,6 +124,7 @@ export class ProvidehttpService implements CanActivate {
     });
     // let httpOpts = { headers, withCredentials: true };
     let httpOpts = { headers };
+
     var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
 
     url = url.replace(url.substring(url.indexOf('{'), url.indexOf('}') + 1), fieldValue);
@@ -506,7 +507,11 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       var value = json['PathParam'][key];
       url = url.replace('{' + key + '}', value ? value : '');
     }
-
+    if(url.includes('ApplicationDetails'))
+    {
+    this.restURL = 'http://10.11.12.19:18280/olive/';
+    }
+  
     url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + url;
     if (json['QueryParam']) {
       url += '?';

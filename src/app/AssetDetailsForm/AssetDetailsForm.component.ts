@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { AssetDetailsGridComponent } from '../AssetDetailsGrid/AssetDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -26,15 +27,17 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
 @ViewChild('AT_ASSET_TYPE', {static: false}) AT_ASSET_TYPE: ComboBoxComponent;
 @ViewChild('AT_ASSET_SUBTYPE', {static: false}) AT_ASSET_SUBTYPE: ComboBoxComponent;
 @ViewChild('AT_ASSET_LOCATION', {static: false}) AT_ASSET_LOCATION: TextBoxComponent;
-@ViewChild('AT_ASSET_STATUS', {static: false}) AT_ASSET_STATUS: TextBoxComponent;
+@ViewChild('AT_ASSET_STATUS', {static: false}) AT_ASSET_STATUS: ComboBoxComponent;
 @ViewChild('AT_ASSET_VALUE', {static: false}) AT_ASSET_VALUE: TextBoxComponent;
 @ViewChild('AT_FAIR_MRKT_VALUE', {static: false}) AT_FAIR_MRKT_VALUE: TextBoxComponent;
-@ViewChild('AT_CURRENCY', {static: false}) AT_CURRENCY: TextBoxComponent;
+@ViewChild('AT_CURRENCY', {static: false}) AT_CURRENCY: ComboBoxComponent;
 @ViewChild('AT_EQUIVALENT_AMOUNT', {static: false}) AT_EQUIVALENT_AMOUNT: TextBoxComponent;
-@ViewChild('AT_OWNED_BY', {static: false}) AT_OWNED_BY: TextBoxComponent;
 @ViewChild('AT_NAME', {static: false}) AT_NAME: TextBoxComponent;
 @ViewChild('AT_INCLUDE_IN_DBR', {static: false}) AT_INCLUDE_IN_DBR: ComboBoxComponent;
+@ViewChild('AT_OWNED_BY', {static: false}) AT_OWNED_BY: ComboBoxComponent;
 @ViewChild('AT_SAVE', {static: false}) AT_SAVE: ButtonComponent;
+@ViewChild('AssetDetailsGrid', {static: false}) AssetDetailsGrid: AssetDetailsGridComponent;
+@ViewChild('ASSET_FORM_ID', {static: false}) ASSET_FORM_ID: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -47,9 +50,9 @@ this.revalidateBasicField('AT_ASSET_VALUE'),
 this.revalidateBasicField('AT_FAIR_MRKT_VALUE'),
 this.revalidateBasicField('AT_CURRENCY'),
 this.revalidateBasicField('AT_EQUIVALENT_AMOUNT'),
-this.revalidateBasicField('AT_OWNED_BY'),
 this.revalidateBasicField('AT_NAME'),
 this.revalidateBasicField('AT_INCLUDE_IN_DBR'),
+this.revalidateBasicField('AT_OWNED_BY'),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -69,6 +72,9 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+let inputMap = new Map();
+await this.AssetDetailsGrid.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -138,6 +144,122 @@ this.value = new AssetDetailsFormModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
+}
+async AT_SAVE_click(event){
+let inputMap = new Map();
+if(this.ASSET_FORM_ID.getFieldValue() != undefined){
+inputMap.clear();
+inputMap.set('PathParam.AssetSeq', this.ASSET_FORM_ID.getFieldValue());
+inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
+this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Success', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'AssetDetails.AssetValue'){
+this.AT_ASSET_VALUE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetSeq'){
+this.ASSET_FORM_ID.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Fail', -1);
+}
+);
+}
+inputMap.clear();
+inputMap.set('Body.AssetDetails.AssetType', this.AT_ASSET_TYPE.getFieldValue());
+inputMap.set('Body.AssetDetails.AssetSubtype', this.AT_ASSET_SUBTYPE.getFieldValue());
+inputMap.set('Body.AssetDetails.AssetLocation', this.AT_ASSET_LOCATION.getFieldValue());
+inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
+inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
+inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
+inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
+inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
+inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
+inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
+inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
+this.services.http.fetchApi('/AssetDetails', 'POST', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Success', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'AssetDetails.IncludeInDBR'){
+this.AT_INCLUDE_IN_DBR.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.OwnerName'){
+this.AT_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.AssetValue'){
+this.AT_ASSET_VALUE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.OwnedBy'){
+this.AT_OWNED_BY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.EquivalentAmt'){
+this.AT_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.Currency'){
+this.AT_CURRENCY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.FairMarketValue'){
+this.AT_FAIR_MRKT_VALUE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.AssetStatus'){
+this.AT_ASSET_STATUS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.AssetLocation'){
+this.AT_ASSET_LOCATION.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.AssetSubtype'){
+this.AT_ASSET_SUBTYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AssetDetails.AssetType'){
+this.AT_ASSET_TYPE.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Fail', -1);
+}
+);
+}
+async AssetDetailsGrid_modifyAssetDetails(event){
+let inputMap = new Map();
+this.showSpinner();
+inputMap.clear();
+inputMap.set('PathParam.AssetSeq', event.AssetKey);
+this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']);
+this.AT_ASSET_SUBTYPE.setValue(res['AssetDetails']['AssetSubtype']);
+this.AT_ASSET_LOCATION.setValue(res['AssetDetails']['AssetLocation']);
+this.AT_ASSET_STATUS.setValue(res['AssetDetails']['AssetStatus']);
+this.AT_ASSET_VALUE.setValue(res['AssetDetails']['AssetValue']);
+this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
+this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
+this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
+this.AT_NAME.setValue(res['AssetDetails']['OwnerName']);
+this.AT_INCLUDE_IN_DBR.setValue(res['AssetDetails']['IncludeInDBR']);
+this.AT_OWNED_BY.setValue(res['AssetDetails']['OwnedBy']);
+this.ASSET_FORM_ID.setValue(res['AssetDetails']['AssetSeq']);
+this.hideSpinner();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Fail', -1);
+this.hideSpinner();
+}
+);
 }
 fieldDependencies = {
 }

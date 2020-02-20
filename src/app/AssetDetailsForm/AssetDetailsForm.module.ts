@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { AssetDetailsFormRoutingModule } from './AssetDetailsForm-routing.module';
 import { AssetDetailsFormComponent } from './AssetDetailsForm.component';
+import { AssetDetailsGridModule } from '../AssetDetailsGrid/AssetDetailsGrid.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+AssetDetailsGridModule,
 ],
 declarations: [
 AssetDetailsFormComponent,

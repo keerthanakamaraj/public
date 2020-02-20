@@ -106,7 +106,7 @@ ngAfterViewInit(){
 setTimeout(() => {
 this.subsBFldsValueUpdates();
 this.onFormLoad();
-//this.checkForHTabOverFlow();
+this.checkForHTabOverFlow();
 });
 }
 clearError(){
@@ -132,20 +132,28 @@ this.onFormLoad();
 async AD_Save_click(event){
 let inputMap = new Map();
 inputMap.clear();
-inputMap.set('Body.ApplicationDetails.SourcingChannel', this.AD_SOURCING_CHANNEL.getFieldValue());
-inputMap.set('Body.ApplicationDetails.DSACode', this.AD_DSA_ID.getFieldValue());
-inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
+inputMap.set('Body.ApplicationDetails.SourcingChannel', 'iutyw');
+inputMap.set('Body.ApplicationDetails.DSACode','736');
+inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.AD_PHYSICAL_FORM_NO.getFieldValue());
+inputMap.set('Body.ApplicationDetails.ExistingCustomer', 'y');
+inputMap.set('Body.ApplicationDetails.ApplicationBranch', 'twe');
 await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap).toPromise()
 .then(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Success', 2000);
+this.services.alert.showAlert(1, 'Success', 5000);
 },
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 if(err['ErrorElementPath'] == 'ApplicationDetails.ApplicationBranch'){
 this.AD_BRANCH.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer'){
+this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ApplicationDetails.ApplicationInfo.PhysicalFormNo'){
+this.AD_PHYSICAL_FORM_NO.setError(err['ErrorDescription']);
 }
 else if(err['ErrorElementPath'] == 'ApplicationDetails.DSACode'){
 this.AD_DSA_ID.setError(err['ErrorDescription']);
@@ -154,7 +162,7 @@ else if(err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel'){
 this.AD_SOURCING_CHANNEL.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail', 2000);
+this.services.alert.showAlert(2, 'Fail', -1);
 }
 );
 }
