@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { LiabilityDtlsGridComponent } from '../LiabilityDtlsGrid/LiabilityDtlsGrid.component';
 
 const customCss: string = '';
 
@@ -35,6 +36,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
 @ViewChild('LD_EQUIVALENT_AMOUNT', {static: false}) LD_EQUIVALENT_AMOUNT: AmountComponent;
 @ViewChild('LD_LOAN_EMI_FREQUENCY', {static: false}) LD_LOAN_EMI_FREQUENCY: ComboBoxComponent;
 @ViewChild('LD_SAVE', {static: false}) LD_SAVE: ButtonComponent;
+@ViewChild('LIABILITY_GRID', {static: false}) LIABILITY_GRID: LiabilityDtlsGridComponent;
+@ViewChild('hiddenLiabilitySeq', {static: false}) hiddenLiabilitySeq: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -71,6 +74,9 @@ async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.LD_OS_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EQUIVALENT_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+let inputMap = new Map();
+await this.LIABILITY_GRID.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -143,6 +149,71 @@ this.onFormLoad();
 }
 async LD_SAVE_click(event){
 let inputMap = new Map();
+if(this.hiddenLiabilitySeq.getFieldValue() != undefined || this.hiddenLiabilitySeq.getFieldValue() != ''){
+inputMap.clear();
+inputMap.set('PathParam.LiabilitySeq', this.hiddenLiabilitySeq.getFieldValue());
+inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
+inputMap.set('Body.LiabilityDetails.LoanStatus', this.LD_LOAN_STATUS.getFieldValue());
+inputMap.set('Body.LiabilityDetails.TypeofLoan', this.LD_TYPE_OF_LOAN.getFieldValue());
+inputMap.set('Body.LiabilityDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
+inputMap.set('Body.LiabilityDetails.LoanClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
+inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
+inputMap.set('Body.LiabilityDetails.IncludeInDBR', this.LD_INCLUDE_IN_DBR.getFieldValue());
+inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
+inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
+inputMap.set('Body.LiabilityDetails.EquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
+inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Form Successfully Updated', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'LiabilityDetails.LoanEmiFrequency'){
+this.LD_LOAN_EMI_FREQUENCY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.EquivalentAmt'){
+this.LD_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.Currency'){
+this.LD_CURRENCY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.OutstandingAmount'){
+this.LD_OS_AMOUNT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.IncludeInDBR'){
+this.LD_INCLUDE_IN_DBR.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.LoanEMI'){
+this.LD_LOAN_EMI.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.LoanClosureDate'){
+this.LD_LOAN_CLOSURE_DATE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.LoanAmount'){
+this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.TypeofLoan'){
+this.LD_TYPE_OF_LOAN.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.LoanStatus'){
+this.LD_LOAN_STATUS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilityDetails.FinancerName'){
+this.LD_FINANCIER_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LiabilitySeq'){
+this.hiddenLiabilitySeq.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Update Failed', -1);
+}
+);
+}
+else{
 inputMap.clear();
 inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
 inputMap.set('Body.LiabilityDetails.LoanStatus', this.LD_LOAN_STATUS.getFieldValue());
@@ -159,6 +230,7 @@ this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, "Liability Details Saved Successfully", 5000);
+this.onReset();
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -197,7 +269,38 @@ else if(err['ErrorElementPath'] == 'LiabilityDetails.FinancerName'){
 this.LD_FINANCIER_NAME.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, "Failed to save liability details", 200);
+this.services.alert.showAlert(2, "Failed to save liability details", -1);
+}
+);
+}
+}
+async LIABILITY_GRID_onModify(event){
+let inputMap = new Map();
+this.showSpinner();
+inputMap.clear();
+inputMap.set('PathParam.LiabilitySeq', event.SeqKey);
+this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.LD_FINANCIER_NAME.setValue(res['LiabilityDetails']['FinancerName']);
+this.LD_LOAN_STATUS.setValue(res['LiabilityDetails']['LoanStatus']);
+this.LD_TYPE_OF_LOAN.setValue(res['LiabilityDetails']['TypeofLoan']);
+this.LD_LOAN_AMOUNT.setValue(res['LiabilityDetails']['LoanAmount']);
+this.LD_LOAN_CLOSURE_DATE.setValue(res['LiabilityDetails']['LoanClosureDate']);
+this.LD_LOAN_EMI.setValue(res['LiabilityDetails']['LoanEMI']);
+this.LD_INCLUDE_IN_DBR.setValue(res['LiabilityDetails']['IncludeInDBR']);
+this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
+this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
+this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['EquivalentAmt']);
+this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['LoanEmiFrequency']);
+this.hideSpinner();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Fail to load', -1);
+this.hideSpinner();
 }
 );
 }
