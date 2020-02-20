@@ -1,0 +1,41 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'QDE.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
+<app-CustomerDtls #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-CustomerDtls>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_2.isHidden()">
+<app-AddressDetails #FieldId_2 fieldID="FieldId_2" [formCode]="formCode"></app-AddressDetails>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_4.isHidden()">
+<app-OccupationDtlsForm #FieldId_4 fieldID="FieldId_4" [formCode]="formCode"></app-OccupationDtlsForm>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_5.isHidden()">
+<app-ApplicationDtls #FieldId_5 fieldID="FieldId_5" [formCode]="formCode"></app-ApplicationDtls>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">
+<app-LoanDetailsForm #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-LoanDetailsForm>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
+<app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
+<app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL" [formCode]="formCode"></app-button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>

@@ -21,13 +21,21 @@
 </div>
 <app-combo-box #AD_ADDRESS_TYPE category="2" fieldID="AD_ADDRESS_TYPE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_ADDRESS_TYPE', $event)"></app-combo-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RESIDENCE_DURATION.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_PERIOD_CURR_RESI_YRS.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_RESIDENCE_DURATION' | translate}}<span class="error-d">*</span>
+{{ 'AddressDetails.AD_PERIOD_CURR_RESI_YRS' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #AD_RESIDENCE_DURATION category="2" fieldID="AD_RESIDENCE_DURATION" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_RESIDENCE_DURATION', $event)"></app-combo-box>
+<app-text-box #AD_PERIOD_CURR_RESI_YRS fieldID="AD_PERIOD_CURR_RESI_YRS" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('AD_PERIOD_CURR_RESI_YRS', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_PER_CURR_RES_MTHS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_PER_CURR_RES_MTHS' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #AD_PER_CURR_RES_MTHS fieldID="AD_PER_CURR_RES_MTHS" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_PER_CURR_RES_MTHS', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RESIDENCE_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -44,14 +52,14 @@
 {{ 'AddressDetails.AD_ADDRESS_LINE1' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-text-box #AD_ADDRESS_LINE1 fieldID="AD_ADDRESS_LINE1" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_ADDRESS_LINE1', $event)"></app-text-box>
+<app-text-box #AD_ADDRESS_LINE1 fieldID="AD_ADDRESS_LINE1" [formCode]="formCode" placeholder="10 th floor, intellect silvermetropolis building, western express highway" [mandatory]="true" (blur)="genericOnBlur('AD_ADDRESS_LINE1', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE2.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
 {{ 'AddressDetails.AD_ADDRESS_LINE2' | translate}}</label>
 </div>
-<app-text-box #AD_ADDRESS_LINE2 fieldID="AD_ADDRESS_LINE2" [formCode]="formCode" (blur)="genericOnBlur('AD_ADDRESS_LINE2', $event)"></app-text-box>
+<app-text-box #AD_ADDRESS_LINE2 fieldID="AD_ADDRESS_LINE2" [formCode]="formCode" placeholder="Jaycoach , near nesco" (blur)="genericOnBlur('AD_ADDRESS_LINE2', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE3.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -88,7 +96,7 @@
 {{ 'AddressDetails.AD_CITY' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #AD_CITY category="3" fieldID="AD_CITY" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
+<app-combo-box #AD_CITY category="2" fieldID="AD_CITY" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_STATE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -96,8 +104,9 @@
 {{ 'AddressDetails.AD_STATE' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #AD_STATE category="3" fieldID="AD_STATE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_STATE', $event)"></app-combo-box>
+<app-combo-box #AD_STATE category="2" fieldID="AD_STATE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_STATE', $event)"></app-combo-box>
 </div>
+<div style="min-height: 0px;height: nullpx;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDMARK.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -155,10 +164,17 @@
 </div>
 <app-text-box #AD_ALTERNATE_MOB_NO inputType="number" fieldID="AD_ALTERNATE_MOB_NO" [formCode]="formCode" (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></app-text-box>
 </div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AD_SAVE_ADDRESS.isHidden()">
 <app-button #AD_SAVE_ADDRESS fieldName="{{ 'AddressDetails.AD_SAVE_ADDRESS' | translate}}" fieldID="AD_SAVE_ADDRESS" [formCode]="formCode" (buttonClick)="AD_SAVE_ADDRESS_click($event)"></app-button>
 </div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
+<app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>
 </div>
+</div>
+<app-hidden #AD_HIDE_ID fieldID="AD_HIDE_ID"></app-hidden>
 </div>
 </div>
 </div>
