@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { AddressDetailsGridComponent } from '../AddressDetailsGrid/AddressDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -24,7 +25,8 @@ templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
 @ViewChild('AD_ADDRESS_TYPE', {static: false}) AD_ADDRESS_TYPE: ComboBoxComponent;
-@ViewChild('AD_RESIDENCE_DURATION', {static: false}) AD_RESIDENCE_DURATION: ComboBoxComponent;
+@ViewChild('AD_PERIOD_CURR_RESI_YRS', {static: false}) AD_PERIOD_CURR_RESI_YRS: TextBoxComponent;
+@ViewChild('AD_PER_CURR_RES_MTHS', {static: false}) AD_PER_CURR_RES_MTHS: TextBoxComponent;
 @ViewChild('AD_RESIDENCE_TYPE', {static: false}) AD_RESIDENCE_TYPE: ComboBoxComponent;
 @ViewChild('AD_ADDRESS_LINE1', {static: false}) AD_ADDRESS_LINE1: TextBoxComponent;
 @ViewChild('AD_ADDRESS_LINE2', {static: false}) AD_ADDRESS_LINE2: TextBoxComponent;
@@ -43,12 +45,15 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 @ViewChild('AD_EMAIL2_CHECKBOX', {static: false}) AD_EMAIL2_CHECKBOX: CheckBoxComponent;
 @ViewChild('AD_ALTERNATE_MOB_NO', {static: false}) AD_ALTERNATE_MOB_NO: TextBoxComponent;
 @ViewChild('AD_SAVE_ADDRESS', {static: false}) AD_SAVE_ADDRESS: ButtonComponent;
+@ViewChild('AddressGrid', {static: false}) AddressGrid: AddressDetailsGridComponent;
+@ViewChild('AD_HIDE_ID', {static: false}) AD_HIDE_ID: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
 this.revalidateBasicField('AD_ADDRESS_TYPE'),
-this.revalidateBasicField('AD_RESIDENCE_DURATION'),
+this.revalidateBasicField('AD_PERIOD_CURR_RESI_YRS'),
+this.revalidateBasicField('AD_PER_CURR_RES_MTHS'),
 this.revalidateBasicField('AD_RESIDENCE_TYPE'),
 this.revalidateBasicField('AD_ADDRESS_LINE1'),
 this.revalidateBasicField('AD_ADDRESS_LINE2'),
@@ -85,6 +90,9 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+let inputMap = new Map();
+await this.AddressGrid.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -157,9 +165,103 @@ this.onFormLoad();
 }
 async AD_SAVE_ADDRESS_click(event){
 let inputMap = new Map();
+if(this.AD_HIDE_ID.getFieldValue() != undefined){
+inputMap.clear();
+inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
+inputMap.set('Body.AddressDetails.AddressType', this.AD_ADDRESS_TYPE.getFieldValue());
+inputMap.set('Body.AddressDetails.PeriodCurrentResidenceYrs', this.AD_PERIOD_CURR_RESI_YRS.getFieldValue());
+inputMap.set('Body.AddressDetails.PeriodCurrentResidenceMths', this.AD_PER_CURR_RES_MTHS.getFieldValue());
+inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
+inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
+inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
+inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
+inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
+inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
+inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
+inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
+inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
+inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
+inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
+inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
+inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
+inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
+this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Address Details Updated Successfulyl', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'AddressDetails.AltMobileNo'){
+this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.EmailId2'){
+this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.EmailId1'){
+this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.MailingAddress'){
+this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.LandlineNumber'){
+this.AD_LANDLINE_NUMBER.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.Landmark'){
+this.AD_LANDMARK.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.State'){
+this.AD_STATE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.City'){
+this.AD_CITY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.Region'){
+this.AD_REGION.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.PinCode'){
+this.AD_PINCODE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.AddressLine4'){
+this.AD_ADDRESS_LINE4.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.AddressLine3'){
+this.AD_ADDRESS_LINE3.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.AddressLine2'){
+this.AD_ADDRESS_LINE2.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.AddressLine1'){
+this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.ResidenceType'){
+this.AD_RESIDENCE_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.PeriodCurrentResidenceMths'){
+this.AD_PER_CURR_RES_MTHS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.PeriodCurrentResidenceYrs'){
+this.AD_PERIOD_CURR_RESI_YRS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.AddressType'){
+this.AD_ADDRESS_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetailsSeq'){
+this.AD_HIDE_ID.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Update Failed', -1);
+}
+);
+}
+else{
 inputMap.clear();
 inputMap.set('Body.AddressDetails.AddressType', this.AD_ADDRESS_TYPE.getFieldValue());
-inputMap.set('Body.AddressDetails.UDF7', this.AD_RESIDENCE_DURATION.getFieldValue());
+inputMap.set('Body.AddressDetails.PeriodCurrentResidenceYrs', this.AD_PERIOD_CURR_RESI_YRS.getFieldValue());
+inputMap.set('Body.AddressDetails.PeriodCurrentResidenceMths', this.AD_PER_CURR_RES_MTHS.getFieldValue());
 inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
 inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
 inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
@@ -228,14 +330,55 @@ this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
 else if(err['ErrorElementPath'] == 'AddressDetails.ResidenceType'){
 this.AD_RESIDENCE_TYPE.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'AddressDetails.UDF7'){
-this.AD_RESIDENCE_DURATION.setError(err['ErrorDescription']);
+else if(err['ErrorElementPath'] == 'AddressDetails.PeriodCurrentResidenceMths'){
+this.AD_PER_CURR_RES_MTHS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'AddressDetails.PeriodCurrentResidenceYrs'){
+this.AD_PERIOD_CURR_RESI_YRS.setError(err['ErrorDescription']);
 }
 else if(err['ErrorElementPath'] == 'AddressDetails.AddressType'){
 this.AD_ADDRESS_TYPE.setError(err['ErrorDescription']);
 }
 }
 this.services.alert.showAlert(3, 'Failed to save address details', 5000);
+}
+);
+}
+}
+async AddressGrid_emitAddressDetails(event){
+let inputMap = new Map();
+this.showSpinner();
+inputMap.clear();
+inputMap.set('PathParam.AddressDetailsSeq', event.addSeq);
+this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.AD_ADDRESS_TYPE.setValue(res['AddressDetails']['ResidenceType']);
+this.AD_PERIOD_CURR_RESI_YRS.setValue(res['AddressDetails']['PeriodCurrentResidenceYrs']);
+this.AD_PER_CURR_RES_MTHS.setValue(res['AddressDetails']['PeriodCurrentResidenceMths']);
+this.AD_RESIDENCE_TYPE.setValue(res['AddressDetails']['ResidenceType']);
+this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
+this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
+this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
+this.AD_ADDRESS_LINE4.setValue(res['AddressDetails']['AddressLine4']);
+this.AD_PINCODE.setValue(res['AddressDetails']['PinCode']);
+this.AD_REGION.setValue(res['AddressDetails']['Region']);
+this.AD_CITY.setValue(res['AddressDetails']['City']);
+this.AD_STATE.setValue(res['AddressDetails']['State']);
+this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
+this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
+this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
+this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
+this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
+this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
+this.hideSpinner();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Fail to load', -1);
+this.hideSpinner();
 }
 );
 }
