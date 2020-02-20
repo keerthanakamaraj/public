@@ -23,52 +23,41 @@ export var componentRoutes: Routes = [
         component: FavoritesComponent
     },
     {
-        path: 'DRAFT',
-        loadChildren: 'src/app/draft-form/draft-form.module#DraftFormModule'
-    },
-    {
         path: 'LANDING',
         loadChildren: 'src/app/fluid-page/fluid-page.module#FluidPageModule'
+    }
+    , {
+        path: 'ServiceTypeMaster',
+        loadChildren: 'src/app/ServiceTypeMaster/ServiceTypeMaster.module#ServiceTypeMasterModule'
     },
-	{
-	path: 'ServiceTypeMaster',
-	loadChildren: 'src/app/ServiceTypeMaster/ServiceTypeMaster.module#ServiceTypeMasterModule'
-	},
-	{
-	path: 'InitiationMainForm',
-	loadChildren: 'src/app/InitiationMainForm/InitiationMainForm.module#InitiationMainFormModule'
-	},
-	{
-	path: 'SearchForm',
-	loadChildren: 'src/app/SearchForm/SearchForm.module#SearchFormModule'
-	}
-	,{
-	path: 'ApplicationDtls',
-	loadChildren: 'src/app/ApplicationDtls/ApplicationDtls.module#ApplicationDtlsModule'
-	},
-	{
-	path: 'AddressDetails',
-	loadChildren: 'src/app/AddressDetails/AddressDetails.module#AddressDetailsModule'
-	},
-	{
-	path: 'OccupationDtlsForm',
-	loadChildren: 'src/app/OccupationDtlsForm/OccupationDtlsForm.module#OccupationDtlsFormModule'
-	}
-,{
-path: 'LiabilityDtlsForm',
-loadChildren: 'src/app/LiabilityDtlsForm/LiabilityDtlsForm.module#LiabilityDtlsFormModule'
-},
-{
-path: 'LiabilityDtlsForm',
-loadChildren: 'src/app/LiabilityDtlsForm/LiabilityDtlsForm.module#LiabilityDtlsFormModule'
-},
-{
-path: 'AssetDetailsForm',
-loadChildren: 'src/app/AssetDetailsForm/AssetDetailsForm.module#AssetDetailsFormModule'
-},
-{
-path: 'IncomeSummaryForm',
-loadChildren: 'src/app/IncomeSummaryForm/IncomeSummaryForm.module#IncomeSummaryFormModule'
-},
+    {
+        path: 'ServiceTypeMaster',
+        loadChildren: 'src/app/ServiceTypeMaster/ServiceTypeMaster.module#ServiceTypeMasterModule'
+    },
+    {
+        path: 'SearchForm',
+        loadChildren: 'src/app/SearchForm/SearchForm.module#SearchFormModule'
+    },
+    {
+        path: 'InitiationMainForm',
+        loadChildren: 'src/app/InitiationMainForm/InitiationMainForm.module#InitiationMainFormModule'
+    },
+    {
+        path: 'AddressDetails',
+        loadChildren: 'src/app/AddressDetails/AddressDetails.module#AddressDetailsModule'
+    },
+    {
+        path: 'LiabilityDetails',
+        loadChildren: 'src/app/LiabilityDtlsForm/LiabilityDtlsForm.module#LiabilityDtlsFormModule'
+    },
+    {
+        path: 'DeductionDeatils',
+        loadChildren: 'src/app/OtherDeductionForm/OtherDeductionForm.module#OtherDeductionFormModule'
+    }
+    //   {
+    //     path: 'QDE',
+    //     loadChildren: 'src/app/QDE/QDE.module#QDEModule'
+    // }
+
 ];
 export class AppRoutingModule {}
