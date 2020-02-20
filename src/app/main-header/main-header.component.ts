@@ -55,8 +55,16 @@ export class MainHeaderComponent implements OnInit {
   public sessionStorage = sessionStorage;
   ngAfterViewInit() {
   }
-
+   formatMoney(number , languageCode , minFraction) {
+    return number.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
+  }
+  
+  
   ngOnInit() {
+    console.log(this.formatMoney(1000000000.235 , 'en' , 2));
+    var d = new Date("2015-12-03");
+    console.log(d.toLocaleDateString("en-US"));
+
     this.userName = sessionStorage.getItem('userName');
     this.userID = sessionStorage.getItem('userId');
     this.LastLogin = sessionStorage.getItem('lastloginDate');
@@ -68,31 +76,5 @@ export class MainHeaderComponent implements OnInit {
     this.services.dataStore.formGenericData = "";
     this.router.navigate(['/login/elogin']);
   }
-  routToMyTray() {
-    this.router.navigate(['/home/MyWorkflow']);
-  }
-  toggleFullScreen() {
-    if (!document.fullscreenElement && // alternative standard method
-      !document.mozFullScreenElement && !document.webkitFullscreenElement) { // current working methods
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) {
-        document.documentElement.webkitRequestFullscreen((<any>Element).ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-    $("#ToggleFullScreen").toggleClass("fa-expand");
-    $("#ToggleFullScreen").toggleClass("fa-compress");
-
-  }
-
+ 
 }
