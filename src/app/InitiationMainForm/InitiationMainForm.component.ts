@@ -194,7 +194,7 @@ ngAfterViewInit(){
 setTimeout(() => {
 this.subsBFldsValueUpdates();
 this.onFormLoad();
-this.checkForHTabOverFlow();
+//this.checkForHTabOverFlow();
 });
 }
 clearError(){
@@ -229,7 +229,10 @@ var onModalClose = async (reason)=>{
 (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
 if(this.services.dataStore.getData('selectedData')){
 let tempVar:any = this.services.dataStore.getData('selectedData');
-this.SRC_MOBILE_NO.setValue(tempVar['mobileNum']);
+this.CD_DOB.setValue(tempVar['dob']);
+this.CD_TAX_ID.setValue(tempVar['taxId']);
+this.CD_FULL_NAME.setValue(tempVar['custName']);
+this.CD_MOBILE.setValue(tempVar['mobileNum']);
 }
 this.services.dataStore.setData('selectedData', undefined);
 }
