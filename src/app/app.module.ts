@@ -20,12 +20,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EloginComponent } from './elogin/elogin.component';
 import { FooterComponent } from './footer/footer.component';
 import { EloginAuthComponent } from './elogin-auth/elogin-auth.component';
-import { LogoutComponent } from './logout/logout.component';
+//import { LogoutComponent } from './logout/logout.component';
 import { PopupModule } from './popup/popup.module';
 
 // import { RemarksComponent } from './remarks/remarks.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { PwdChangeComponent } from './pwd-change/pwd-change.component';
 
 
 import { GridWithFormComponent } from './grid-with-form/grid-with-form.component';
@@ -39,29 +37,29 @@ const appRoutes: Routes = [
     redirectTo: 'login/elogin',
     pathMatch: 'full'
   },
-  {
-    path: 'login',
-    component: LoginPageComponent,
-    children: [
-      {
-        path: 'elogin',
-        component: EloginComponent,
-      },
-      {
-        path: 'eloginauth',
-        component: EloginAuthComponent
-      }
-    ]
-  },
-  {
-    path: 'EPWDCHGN',
-    //canActivate: [ProvidehttpService],
-    component: PwdChangeComponent
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent
-  },
+  // {
+  //   path: 'login',
+  //   component: LoginPageComponent,
+  //   children: [
+  //     {
+  //       path: 'elogin',
+  //       component: EloginComponent,
+  //     },
+  //     {
+  //       path: 'eloginauth',
+  //       component: EloginAuthComponent
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: 'EPWDCHGN',
+  //   //canActivate: [ProvidehttpService],
+  //   component: PwdChangeComponent
+  // },
+  // {
+  //   path: 'logout',
+  //   component: LogoutComponent
+  // },
   {
     path: 'home',
     loadChildren: 'src/app/home/home.module#HomeModule',
@@ -79,9 +77,9 @@ const appRoutes: Routes = [
     FooterComponent,
     EloginAuthComponent,
     PageNotFoundComponent,
-    LogoutComponent,
-    LoginPageComponent,
-    PwdChangeComponent,
+    // LogoutComponent,
+    // LoginPageComponent,
+    // PwdChangeComponent,
     GridWithFormComponent,
     AlertsComponent
   ],

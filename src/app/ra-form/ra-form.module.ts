@@ -10,9 +10,9 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 
 import { ChartComponent } from '../chart/chart.component';
-import { LoadDraftComponent } from '../load-draft/load-draft.component';
+//import { LoadDraftComponent } from '../load-draft/load-draft.component';
 import { GridPaginationComponent } from '../grid-pagination/grid-pagination.component';
-import { DraftFormComponent } from '../draft-form/draft-form.component';
+//import { DraftFormComponent } from '../draft-form/draft-form.component';
 
 import { FileuploadComponent } from '../fileupload/fileupload.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -57,7 +57,6 @@ import { LabelComponent } from '../label/label.component';
     AmountComponent,
     FormComponent,
     HiddenComponent,
-    LoadDraftComponent,
     FieldComponent,
     LabelComponent
   ],
@@ -72,7 +71,6 @@ import { LabelComponent } from '../label/label.component';
     AmountComponent,
     FormComponent,
     HiddenComponent,
-    LoadDraftComponent,
     FieldComponent,
     LabelComponent
   ]
