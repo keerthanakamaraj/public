@@ -33,21 +33,22 @@ import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { PopupContentComponent } from './popup-content/popup-content.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { MyTrayPageComponent } from './my-tray-page/my-tray-page.component';
-//import { LandingComponent } from './landing/landing.component';
+import { LandingComponent } from './landing/landing.component';
 import { HomeRoutingModule } from './home/home-routing.module';
-//import { MainHeaderComponent } from './main-header/main-header.component';
+import { MainHeaderComponent } from './main-header/main-header.component';
+import { HomeModule } from './home/home.module';
 
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'login/elogin',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
-  // {
-  //   path: 'login',
-  //   component: LandingComponent,
-  //    },
+  {
+    path: 'login',
+    component: LandingComponent,
+     },
   // {
   //   path: 'EPWDCHGN',
   //   //canActivate: [ProvidehttpService],
@@ -63,6 +64,10 @@ const appRoutes: Routes = [
     loadChildren: 'src/app/home/home.module#HomeModule',
   },
   {
+		path: 'Initiation',
+		loadChildren: 'src/app/Initiation/Initiation.module#InitiationModule'
+	},
+  {
     path: '**',
     component: PageNotFoundComponent,
   }
@@ -75,8 +80,8 @@ const appRoutes: Routes = [
     FooterComponent,
     EloginAuthComponent,
     PageNotFoundComponent,
-    // LandingComponent,
-    // MainHeaderComponent,
+     LandingComponent,
+     MainHeaderComponent,
     // LogoutComponent,
     // LoginPageComponent,
     // PwdChangeComponent,

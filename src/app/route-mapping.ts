@@ -29,7 +29,7 @@ export var componentRoutes: Routes = [
     {
         path: 'LANDING',
         loadChildren: 'src/app/my-tray-page/my-tray-page.module#MYTRAYPAGEModule'
-    },
+	},
 	{
 	path: 'ServiceTypeMaster',
 	loadChildren: 'src/app/ServiceTypeMaster/ServiceTypeMaster.module#ServiceTypeMasterModule'

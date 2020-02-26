@@ -87,7 +87,7 @@ export class MainHeaderComponent implements OnInit {
 
   redirect(id) {
     if (id === 'Initiation') {
-      this.router.navigate(['/home/' + id]);
+      this.router.navigate(['/' + id]);
     } else if (id === 'modWithEnhancement' || id === 'modWithReduction'
       || id === 'modTermAndConditionWithFL' || id === 'modTermAndConditionWithoutFL'
       || id === 'renewalIOM' || id === 'renewalWithEnhancement' || id === 'renewalWithReduction' || id === 'renewalWithChanges'
