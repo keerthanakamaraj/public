@@ -20,48 +20,43 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EloginComponent } from './elogin/elogin.component';
 import { FooterComponent } from './footer/footer.component';
 import { EloginAuthComponent } from './elogin-auth/elogin-auth.component';
-import { LogoutComponent } from './logout/logout.component';
+//import { LogoutComponent } from './logout/logout.component';
 import { PopupModule } from './popup/popup.module';
 
 // import { RemarksComponent } from './remarks/remarks.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { PwdChangeComponent } from './pwd-change/pwd-change.component';
+// import { LoginPageComponent } from './login-page/login-page.component';
+// import { PwdChangeComponent } from './pwd-change/pwd-change.component';
 
 
 import { GridWithFormComponent } from './grid-with-form/grid-with-form.component';
 import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { PopupContentComponent } from './popup-content/popup-content.component';
 import { AlertsComponent } from './alerts/alerts.component';
+import { MyTrayPageComponent } from './my-tray-page/my-tray-page.component';
+import { LandingComponent } from './landing/landing.component';
+import { HomeRoutingModule } from './home/home-routing.module';
+import { MainHeaderComponent } from './main-header/main-header.component';
+
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'login/elogin',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
     path: 'login',
-    component: LoginPageComponent,
-    children: [
-      {
-        path: 'elogin',
-        component: EloginComponent,
-      },
-      {
-        path: 'eloginauth',
-        component: EloginAuthComponent
-      }
-    ]
-  },
-  {
-    path: 'EPWDCHGN',
-    //canActivate: [ProvidehttpService],
-    component: PwdChangeComponent
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent
-  },
+    component: LandingComponent,
+     },
+  // {
+  //   path: 'EPWDCHGN',
+  //   //canActivate: [ProvidehttpService],
+  //   component: PwdChangeComponent
+  // },
+  // {
+  //   path: 'logout',
+  //   component: LogoutComponent
+  // },
   {
     path: 'home',
     loadChildren: 'src/app/home/home.module#HomeModule',
@@ -79,11 +74,14 @@ const appRoutes: Routes = [
     FooterComponent,
     EloginAuthComponent,
     PageNotFoundComponent,
-    LogoutComponent,
-    LoginPageComponent,
-    PwdChangeComponent,
+    LandingComponent,
+    MainHeaderComponent,
+    // LogoutComponent,
+    // LoginPageComponent,
+    // PwdChangeComponent,
     GridWithFormComponent,
-    AlertsComponent
+    AlertsComponent,
+    MyTrayPageComponent
   ],
   exports: [
     FooterComponent

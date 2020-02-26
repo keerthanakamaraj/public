@@ -22,22 +22,19 @@ export var componentRoutes: Routes = [
         path: 'favorites',
         component: FavoritesComponent
     },
-    {
-        path: 'DRAFT',
-        loadChildren: 'src/app/draft-form/draft-form.module#DraftFormModule'
-    },
+    // {
+    //     path: 'DRAFT',
+    //     loadChildren: 'src/app/draft-form/draft-form.module#DraftFormModule'
+    // },
     {
         path: 'LANDING',
-        loadChildren: 'src/app/fluid-page/fluid-page.module#FluidPageModule'
+        loadChildren: 'src/app/my-tray-page/my-tray-page.module#MYTRAYPAGEModule'
     },
 	{
 	path: 'ServiceTypeMaster',
 	loadChildren: 'src/app/ServiceTypeMaster/ServiceTypeMaster.module#ServiceTypeMasterModule'
 	},
-	{
-	path: 'InitiationMainForm',
-	loadChildren: 'src/app/InitiationMainForm/InitiationMainForm.module#InitiationMainFormModule'
-	},
+	
 	{
 		path: 'Initiation',
 		loadChildren: 'src/app/Initiation/Initiation.module#InitiationModule'
