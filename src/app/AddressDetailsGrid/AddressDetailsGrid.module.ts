@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
+import { RAFormModule } from '../ra-form/ra-form.module';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
-import { FormsModule } from '@angular/forms';
-import { RAFormModule } from '../ra-form/ra-form.module';
-import { AddressDetailsRoutingModule } from './AddressDetails-routing.module';
-import { AddressDetailsComponent } from './AddressDetails.component';
-import { AddressDetailsGridModule } from '../AddressDetailsGrid/AddressDetailsGrid.module';
+import { ReadonlyGridModule } from '../readonly-grid/readonly-grid.module';
+import { GridPaginationModule } from '../grid-pagination/grid-pagination.module';
+import { AddressDetailsGridComponent } from './AddressDetailsGrid.component';
 @NgModule({
 imports: [
 CommonModule,
-AddressDetailsRoutingModule,
+ReadonlyGridModule,
+GridPaginationModule,
 RAFormModule,
-FormsModule,
 HttpClientModule,
 TranslateModule.forChild({
 loader: {
@@ -22,13 +21,12 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-AddressDetailsGridModule,
 ],
 declarations: [
-AddressDetailsComponent,
+AddressDetailsGridComponent,
 ],
 exports:[
-AddressDetailsComponent,
+AddressDetailsGridComponent,
 ],
 })
-export class AddressDetailsModule { }
+export class AddressDetailsGridModule { }
