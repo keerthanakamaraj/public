@@ -78,5 +78,9 @@ loadChildren: 'src/app/IncomeSummaryForm/IncomeSummaryForm.module#IncomeSummaryF
 	path: 'CustomerDtls',
 	loadChildren: 'src/app/CustomerDtls/CustomerDtls.module#CustomerDtlsModule'
 },
+{
+	path: 'QDE',
+	loadChildren: 'src/app/QDE/QDE.module#QDEModule'
+},
 ];
 export class AppRoutingModule {}
