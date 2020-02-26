@@ -1,8 +1,8 @@
 export class OccupationDtlsFormModel {
 OD_OCCUPATION: string;
 OD_EMPLT_TYPE: string;
-OD_SELF_EMPLD_TYPE: string;
 OD_SELF_EMPLD_PROF: string;
+OD_SELF_EMPLD_TYPE: string;
 OD_EMPLOYEE_ID: string;
 OD_DEPARTMENT: string;
 OD_DESIGNATION: string;
@@ -27,8 +27,8 @@ setValue(res){
 if(res){
 if(res['OD_OCCUPATION']){this.OD_OCCUPATION = res['OD_OCCUPATION'];}
 if(res['OD_EMPLT_TYPE']){this.OD_EMPLT_TYPE = res['OD_EMPLT_TYPE'];}
-if(res['OD_SELF_EMPLD_TYPE']){this.OD_SELF_EMPLD_TYPE = res['OD_SELF_EMPLD_TYPE'];}
 if(res['OD_SELF_EMPLD_PROF']){this.OD_SELF_EMPLD_PROF = res['OD_SELF_EMPLD_PROF'];}
+if(res['OD_SELF_EMPLD_TYPE']){this.OD_SELF_EMPLD_TYPE = res['OD_SELF_EMPLD_TYPE'];}
 if(res['OD_EMPLOYEE_ID']){this.OD_EMPLOYEE_ID = res['OD_EMPLOYEE_ID'];}
 if(res['OD_DEPARTMENT']){this.OD_DEPARTMENT = res['OD_DEPARTMENT'];}
 if(res['OD_DESIGNATION']){this.OD_DESIGNATION = res['OD_DESIGNATION'];}

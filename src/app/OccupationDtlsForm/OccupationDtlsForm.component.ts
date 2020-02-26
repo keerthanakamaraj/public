@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { OccuptionDtlsGridComponent } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.component';
 
 const customCss: string = '';
 
@@ -25,8 +26,8 @@ templateUrl: './OccupationDtlsForm.component.html'
 export class OccupationDtlsFormComponent extends FormComponent implements OnInit, AfterViewInit {
 @ViewChild('OD_OCCUPATION', {static: false}) OD_OCCUPATION: ComboBoxComponent;
 @ViewChild('OD_EMPLT_TYPE', {static: false}) OD_EMPLT_TYPE: ComboBoxComponent;
+@ViewChild('OD_SELF_EMPLD_PROF', {static: false}) OD_SELF_EMPLD_PROF: TextBoxComponent;
 @ViewChild('OD_SELF_EMPLD_TYPE', {static: false}) OD_SELF_EMPLD_TYPE: ComboBoxComponent;
-@ViewChild('OD_SELF_EMPLD_PROF', {static: false}) OD_SELF_EMPLD_PROF: ComboBoxComponent;
 @ViewChild('OD_EMPLOYEE_ID', {static: false}) OD_EMPLOYEE_ID: TextBoxComponent;
 @ViewChild('OD_DEPARTMENT', {static: false}) OD_DEPARTMENT: TextBoxComponent;
 @ViewChild('OD_DESIGNATION', {static: false}) OD_DESIGNATION: ComboBoxComponent;
@@ -48,14 +49,27 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_CURRENCY', {static: false}) OD_CURRENCY: ComboBoxComponent;
 @ViewChild('OD_LOC_CURR_EQ', {static: false}) OD_LOC_CURR_EQ: TextBoxComponent;
 @ViewChild('OD_SAVE_BTN', {static: false}) OD_SAVE_BTN: ButtonComponent;
+@ViewChild('OCC_DTLS_GRID', {static: false}) OCC_DTLS_GRID: OccuptionDtlsGridComponent;
+@ViewChild('HidOccupation', {static: false}) HidOccupation: HiddenComponent;
+@ViewChild('HidAppId', {static: false}) HidAppId: HiddenComponent;
+@ViewChild('HidIncomeDocType', {static: false}) HidIncomeDocType: HiddenComponent;
+@ViewChild('HidDesignation', {static: false}) HidDesignation: HiddenComponent;
+@ViewChild('HidIndustry', {static: false}) HidIndustry: HiddenComponent;
+@ViewChild('HidSelfEmpType', {static: false}) HidSelfEmpType: HiddenComponent;
+@ViewChild('HidNatureOfBusiness', {static: false}) HidNatureOfBusiness: HiddenComponent;
+@ViewChild('HidEmpStatus', {static: false}) HidEmpStatus: HiddenComponent;
+@ViewChild('HidEmpType', {static: false}) HidEmpType: HiddenComponent;
+@ViewChild('HidIncomeFrequency', {static: false}) HidIncomeFrequency: HiddenComponent;
+@ViewChild('HidIncomeType', {static: false}) HidIncomeType: HiddenComponent;
+@ViewChild('HidCurrency', {static: false}) HidCurrency: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
 this.revalidateBasicField('OD_OCCUPATION'),
 this.revalidateBasicField('OD_EMPLT_TYPE'),
-this.revalidateBasicField('OD_SELF_EMPLD_TYPE'),
 this.revalidateBasicField('OD_SELF_EMPLD_PROF'),
+this.revalidateBasicField('OD_SELF_EMPLD_TYPE'),
 this.revalidateBasicField('OD_EMPLOYEE_ID'),
 this.revalidateBasicField('OD_DEPARTMENT'),
 this.revalidateBasicField('OD_DESIGNATION'),
@@ -95,6 +109,21 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.HidOccupation.setValue('OCCUPATION');
+this.HidAppId.setValue('RLO');
+this.HidIncomeDocType.setValue('INCOME_DOC_TYPE');
+this.HidDesignation.setValue('DESIGNATION');
+this.HidIndustry.setValue('INDUSTRY');
+this.HidSelfEmpType.setValue('SELF_EMPLOYED_TYPE');
+this.HidNatureOfBusiness.setValue('NATURE_OF_BUSINESS');
+this.HidEmpStatus.setValue('EMPLOYMENT_STATUS');
+this.HidEmpType.setValue('EMPLOYMENT_TYPE');
+this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
+this.HidIncomeType.setValue('INCOME_TYPE');
+this.HidCurrency.setValue('CURRENCY');
+let inputMap = new Map();
+await this.OCC_DTLS_GRID.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -269,11 +298,150 @@ else if(err['ErrorElementPath'] == 'OccupationDetails.Occupation'){
 this.OD_OCCUPATION.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Error occurred while saving form!', 5000);
+this.services.alert.showAlert(2, 'Error occurred while saving form!', -1);
+}
+);
+}
+async OCC_DTLS_GRID_occDtlsEdit(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.OccupationSeq', event.OccupationSeq);
+this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']);
+this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']);
+this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['Self Employed Type']);
+this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']);
+this.OD_EMPLOYEE_ID.setValue(res['OccupationDetails']['EmployeeID']);
+this.OD_DEPARTMENT.setValue(res['OccupationDetails']['Department']);
+this.OD_DESIGNATION.setValue(res['OccupationDetails']['Designation']);
+this.OD_DATE_OF_JOINING.setValue(res['OccupationDetails']['DateofJoining']);
+this.OD_DT_OF_INCPTN.setValue(res['OccupationDetails']['DateofInception']);
+this.OD_INDUSTRY.setValue(res['OccupationDetails']['Industry']);
+this.OD_NTR_OF_BUSS.setValue(res['OccupationDetails']['NatureofBusiness']);
+this.OD_COMPANY_CODE.setValue(res['OccupationDetails']['CompanyLicenseNo']);
+this.OD_COMP_CAT.setValue(res['OccupationDetails']['Grade']);
+this.OD_COMP_NAME.setValue(res['OccupationDetails']['CompanyName']);
+this.OD_LENGTH_OF_EXST.setValue(res['OccupationDetails']['LengthOfExistance']);
+this.OD_INC_DOC_TYPE.setValue(res['OccupationDetails']['IncomeDocumentType']);
+this.OD_NET_INCOME.setValue(res['OccupationDetails']['NetIncome']);
+this.OD_INCOME_FREQ.setValue(res['OccupationDetails']['IncomeFrequecy']);
+this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']);
+this.OD_INCOME_TYPE.setValue(res['OccupationDetails']['IncomeType']);
+this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
+this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
+this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
+this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Failed to load data', -1);
 }
 );
 }
 fieldDependencies = {
+OD_OCCUPATION: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_OCCUPATION", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "HidOccupation", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_EMPLT_TYPE: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_EMPLT_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidEmpType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_SELF_EMPLD_TYPE: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_SELF_EMPLD_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidSelfEmpType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_DESIGNATION: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_DESIGNATION", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "HidDesignation", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_INDUSTRY: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_INDUSTRY", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "HidIndustry", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_NTR_OF_BUSS: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_NTR_OF_BUSS", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidNatureOfBusiness", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_INC_DOC_TYPE: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_INC_DOC_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidIncomeDocType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_INCOME_FREQ: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_INCOME_FREQ", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidIncomeFrequency", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_EMP_STATUS: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_EMP_STATUS", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidEmpStatus", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_INCOME_TYPE: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_INCOME_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidIncomeType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+OD_CURRENCY: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "OD_CURRENCY", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidCurrency", paramType:"QueryParam"},
+],
+outDep: [
+]},
 }
 
 }

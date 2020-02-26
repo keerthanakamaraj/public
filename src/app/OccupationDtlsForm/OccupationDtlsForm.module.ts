@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { OccupationDtlsFormRoutingModule } from './OccupationDtlsForm-routing.module';
 import { OccupationDtlsFormComponent } from './OccupationDtlsForm.component';
+import { OccuptionDtlsGridModule } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+OccuptionDtlsGridModule,
 ],
 declarations: [
 OccupationDtlsFormComponent,
