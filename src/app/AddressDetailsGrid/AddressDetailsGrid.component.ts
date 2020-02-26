@@ -204,11 +204,12 @@ var loopVar4 = res['AddressDetails'];
 if (loopVar4) {
 for (var i = 0; i < loopVar4.length; i++) {
 var tempObj = {};
-tempObj['AD_ADD_ID'] = loopVar4[i].Body.AddressDetailsSeq;
-tempObj['AD_Address_Type'] = loopVar4[i].Body.AddressType;
-tempObj['AD_Address'] = loopVar4[i].Body.AddressLine1;
-tempObj['AD_Residence_Duration'] = loopVar4[i].Body.PeriodCurrentResidenceYrs;
-loopDataVar4.push(tempObj);}
+tempObj['AD_ADD_ID'] = loopVar4[i].AddressDetailsSeq;
+tempObj['AD_Address_Type'] = loopVar4[i].AddressType;
+tempObj['AD_Address'] = loopVar4[i].AddressLine1;
+tempObj['AD_Residence_Duration'] = loopVar4[i].PeriodCurrentResidenceYrs;
+loopDataVar4.push(tempObj);
+}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
 },

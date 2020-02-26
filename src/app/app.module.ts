@@ -57,6 +57,7 @@ const appRoutes: Routes = [
   //   path: 'logout',
   //   component: LogoutComponent
   // },
+ 
   {
     path: 'home',
     loadChildren: 'src/app/home/home.module#HomeModule',
