@@ -39,6 +39,10 @@ export var componentRoutes: Routes = [
 	loadChildren: 'src/app/InitiationMainForm/InitiationMainForm.module#InitiationMainFormModule'
 	},
 	{
+		path: 'Initiation',
+		loadChildren: 'src/app/Initiation/Initiation.module#InitiationModule'
+	},
+	{
 	path: 'SearchForm',
 	loadChildren: 'src/app/SearchForm/SearchForm.module#SearchFormModule'
 	}
