@@ -4,21 +4,22 @@
     <app-main-header></app-main-header>
   </div>
   <div class="clearfix site-content sm-content">
-    <div class="overlay-menu"></div>
+    <!-- <div class="overlay-menu"></div>
 
     <div [ngClass]="{'full-width' : true}" style=" display: flex;">
 
       <div style="margin-top: 51px;" *ngIf="dataService.showMenu" class="bg-gradient-olive">
         <app-menu></app-menu>
       </div>
-      <div class="container-fluid" style=" margin-top: 60px;  width: 100%;">
-        <router-outlet></router-outlet>
-      </div>
+    
     </div>
 
     <app-side-bar style="display: none;"></app-side-bar>
 
-  </div>
+  </div> -->
 
   <!-- <app-footer></app-footer> -->
+  <div class="container-fluid" style=" margin-top: 60px;  width: 100%;">
+     <router-outlet></router-outlet>
+  </div>
 </div>

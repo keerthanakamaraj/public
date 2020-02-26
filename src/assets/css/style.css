@@ -775,12 +775,12 @@ picture {
     font-size: 1rem
 }
 
-.btn:focus,
+/* .btn:focus,
 .btn:hover {
     background: #0061b4;
     border: .08rem solid #0061b4;
     color: #fff
-}
+} */
 
 .btn-blue {
     background: #0061b4;

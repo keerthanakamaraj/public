@@ -26,6 +26,8 @@ export class MainHeaderComponent implements OnInit {
 
   languages = [];
   selectedlang: string;
+  menuList = [];
+  termAndConditionMenuList = [];
 
   @Output() componentPath = new EventEmitter<String>();
 
@@ -50,6 +52,20 @@ export class MainHeaderComponent implements OnInit {
 
   constructor(private router: Router, public services: ServiceStock, public dataService: ProvidehttpService) {
     this.selectedlang = this.services.http.currentLanguage;
+
+    this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'NTB' }] },
+    { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
+                                     { id: 'modWithReduction', text: 'WITH_REDUCTION' },
+                                     { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
+    { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
+                                { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
+                                { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
+                                { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
+                                { id: 'starCondition', text: 'STAR'}] },
+    { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
+  ];
+  this.termAndConditionMenuList = [{id : 'modTermAndConditionWithFL', text : 'WITH_FL'},
+    {id : 'modTermAndConditionWithoutFL', text : 'WITHOUT_FL'}];
   }
   public navbarSearchOpen = false;
   public sessionStorage = sessionStorage;
@@ -68,31 +84,21 @@ export class MainHeaderComponent implements OnInit {
     this.services.dataStore.formGenericData = "";
     this.router.navigate(['/login/elogin']);
   }
-  routToMyTray() {
-    this.router.navigate(['/home/MyWorkflow']);
-  }
-  toggleFullScreen() {
-    if (!document.fullscreenElement && // alternative standard method
-      !document.mozFullScreenElement && !document.webkitFullscreenElement) { // current working methods
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullscreen) {
-        document.documentElement.webkitRequestFullscreen((<any>Element).ALLOW_KEYBOARD_INPUT);
-      }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-    $("#ToggleFullScreen").toggleClass("fa-expand");
-    $("#ToggleFullScreen").toggleClass("fa-compress");
 
+  redirect(id) {
+    if (id === 'Initiation') {
+      this.router.navigate(['/home/' + id]);
+    } else if (id === 'modWithEnhancement' || id === 'modWithReduction'
+      || id === 'modTermAndConditionWithFL' || id === 'modTermAndConditionWithoutFL'
+      || id === 'renewalIOM' || id === 'renewalWithEnhancement' || id === 'renewalWithReduction' || id === 'renewalWithChanges'
+      || id === 'renewalWithoutChanges' || id === 'renewalSTAR') {
+        this.router.navigate(['/modificationRenewalComponent'],
+      { queryParams: {modRenType: id} } );
+    } else if (id === 'dnReissue' || id === 'dnTranche') {
+      this.router.navigate(['/searchDN'], { queryParams: {dnType: id} } );
+    } else if (id === 'starCondition') {
+      this.router.navigate(['/starProcessComponent'], { queryParams: {modRenType: id, taskName : 'fileMaker'} } );
+    }
   }
 
 }

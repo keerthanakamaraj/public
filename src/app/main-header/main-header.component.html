@@ -1,35 +1,127 @@
-<!-- Topbar -->
-<nav style="    border: 0px;padding: .5rem 1rem .5rem 0rem;"
-	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-	<a class="sidebar-brand d-flex align-items-center justify-content-center mainMenuHeader"
-		style="cursor: auto; background: #47586f;    padding: 9px 11px 8px 11px; min-width: 104px;">
 
-		<div class="sidebar-brand-icon" style="cursor: pointer;padding: 3px;">
-			<img src="assets/images/OTTOLogo.png" height="28" width="50" alt="OF" />
-		</div>
-		<div id="MenuHeaderName" style=" display: flex;align-items: center;">
-			<div class="sidebar-brand-text headerClass">
-				IDM DEV
-			</div>
-			<div style="cursor: pointer;">
-				<i class="fas fa-toggle-on toggleIcon" *ngIf="dataService.showMenu"
-					(click)="dataService.showMenu=false"></i>
-				<i class="fas fa-toggle-off toggleIcon" *ngIf="!dataService.showMenu"
-					(click)="dataService.showMenu=true"></i>
-			</div>
-		</div>
-	</a>
-	<!-- Sidebar Toggle (Topbar) -->
-	<!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"
-		(click)="userLanding.isSideBarToggled ? userLanding.isSideBarToggled = false : userLanding.isSideBarToggled = true">
-		<i class="fa fa-bars"></i>
-	</button> -->
 
-	<!-- Topbar Search -->
-	<div class="navBarSelecter">
-		{{services.http.navBarMessage}}
+<nav class="navbar navbar-default" role="navigation">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="javascript:void(0)">
+			<!-- <div class="sidebar-brand-icon" (click)="openPage('LANDING')" style="cursor: pointer;padding: 3px;"> -->
+				<img src="assets/images/logo_transparent.png" height="28" width="50" alt="OF" />
+		
+			<!-- <div id="MenuHeaderName" style=" display: flex;align-items: center;">
+					RLO
+				</div> -->
+				
+			
+		</a>
 	</div>
+
+	<!--/.navbar-header-->
+	<div class="collapse navbar-collapse">
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a class="dropdown-toggle" style="color:#ffffff;">Menus&nbsp;
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu multi-column columns-3" style="color:rgba(128,195,237,1.00);width:213px;">
+					<div class="row" style="width:100%; padding-left:20px; padding-top:10px;">
+						<div class="col-sm-3" *ngFor="let menu of menuList">
+							<ul class="multi-column-dropdown" style=" padding:6px;">
+								<li class="lititle">
+									<i class="fa fa-road"></i>&nbsp;{{menu.Menu}}</li>
+								<li class="divider"></li>
+								<ul>
+									<li *ngFor="let list of menu.MenuList">
+										<div class="menuList" *ngIf = "list.id != 'modTermAndCondition'">
+											<a (click)="redirect(list.id)" style="cursor:pointer;">{{list.text}}</a> 
+										</div>
+										<div class="menuList" *ngIf = "list.id == 'modTermAndCondition'">
+											<li class="dropdown">
+												<a class="dropdown-toggle">{{list.text}}&nbsp;
+													<b class="caret"></b>
+												</a>
+												<ul>
+													<li *ngFor="let list of termAndConditionMenuList">
+														<div class="menuList">
+															<a (click)="redirect(list.id)" style="cursor:pointer;">{{list.text}}</a>
+														</div>
+													</li>
+												</ul>
+											</li>
+										</div>
+									</li>
+								</ul>
+							</ul>
+						</div>
+					</div>
+				</ul>
+			</li>
+			<li class="nohover" style="padding:0px; margin:0px; margin-left:15PX;">
+				<a href="javascript:void(0)" class="" style="padding:0px; margin:0px;" data-toggle="dropdown">
+					<button class="btn " style="margin-top:7px;color:black;" [ngClass]="{'fill-data-btn' : btnck==true }">
+						<i class="fa fa-inbox bigfont"></i>&nbsp;&nbsp; My Tray&nbsp;&nbsp;
+						<span class="badge countbtn1 bigfont"></span>
+						<!-- <span class="badge countbtn1 bigfont" *ngIf="!mytrayc && !yColorsFlag">{{myTrayCountsRecords}}</span> -->
+					</button>
+				</a>
+			</li>
+			<li class="nohover" style="padding:0px; margin:0px; margin-left:15PX;">
+				<a href="javascript:void(0)" class="" style="padding:0px; margin:0px;" data-toggle="dropdown">
+					<button class="btn " style="margin-top:7px;color:black;"  [ngClass]="{'fill-data-btn' : btnckd==true }">
+						<i class="fa fa-inbox bigfont"></i>&nbsp;&nbsp; History&nbsp;&nbsp;
+						 <span class="badge countbtn1 bigfont"></span>
+						<!-- <span class="badge countbtn1 bigfont" *ngIf="mytrayc && !yColorsFlag"></span> -->
+					</button>
+				</a>
+			</li>
+			<li class="nohover" style="padding:0px; margin:0px; margin-left:15PX;">
+					<a href="javascript:void(0)" class="" style="padding:0px; margin:0px;" data-toggle="dropdown">
+						<button class="btn " style="margin-top:7px;color:black;" [ngClass]="{'fill-data-btn' : YCOLORSbtn==true }">
+							<i class="fa fa-inbox bigfont"></i>&nbsp;&nbsp; YESCOLORS Tray
+							<span class="badge countbtn1 bigfont"></span>
+							<!-- <span class="badge countbtn1 bigfont" *ngIf="mytrayc && yColorsFlag"></span> -->
+						</button>
+					</a>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="nohover">
+				<a href="javascript:void(0)" title="FCC Report" (click)="openLoanModal()">
+				<i class="far fa-file-excel"></i></a>
+			</li>
+			<!-- <li class="nohover">
+					<a href="javascript:void(0)" class="disableanchor" data-toggle="tooltip" data-placement="bottom" 
+						title="Query Module" data-original-title="Query Module"><i class="fa fa-comments"></i></a>
+					<div>
+						<button ></button>
+					</div>
+			</li> -->
+			<li class="nohover">
+				<a href="javascript:void(0)">Date :
+					<span id="todaysdate"> {{today | date:'dd-MMM-yyyy'}}</span>
+				</a>
+			</li>
+			<li class="nohover">
+				<a href="javascript:void(0)">
+					<i class="fa fa-user"></i> {{USERID}}-{{USERNAME}}, {{ARX_ROLES}}</a>
+			</li>
+			<li class="nohover">
+				<a href="" (click)="logout()">
+					<i class="fa fa-power-off bigfont2"></i>
+				</a>
+			</li>
+		</ul>
+		<!-- <div class="col-md-4 text-right" style="padding-top:7px;">Date :
+			<span id="todaysdate"> {{today | date:'dd-MMM-yyyy'}}</span>
+		  </div>  -->
+	</div>
+	<!--/.navbar-collapse-->
+=======
 	<!-- <div class="d-none d-sm-inline-block rounded form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search slide-in-right"
 		*ngIf="navbarSearchOpen">
 		<div class="input-group">
@@ -265,5 +357,5 @@
 
 	</ul>
 
+>>>>>>> 03c90e37ae9f9684d552a17f99f52d7c53149add
 </nav>
-<!-- End of Topbar -->
