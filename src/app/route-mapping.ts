@@ -74,5 +74,9 @@ loadChildren: 'src/app/AssetDetailsForm/AssetDetailsForm.module#AssetDetailsForm
 path: 'IncomeSummaryForm',
 loadChildren: 'src/app/IncomeSummaryForm/IncomeSummaryForm.module#IncomeSummaryFormModule'
 },
+{
+	path: 'CustomerDtls',
+	loadChildren: 'src/app/CustomerDtls/CustomerDtls.module#CustomerDtlsModule'
+},
 ];
 export class AppRoutingModule {}

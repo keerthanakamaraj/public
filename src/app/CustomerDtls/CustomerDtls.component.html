@@ -1,0 +1,210 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #CD_HEADING parentCompCode="CustomerDtls" fieldID="CD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TITLE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_TITLE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CD_TITLE category="2" fieldID="CD_TITLE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_TITLE', $event)"></app-combo-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FIRST_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_FIRST_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_FIRST_NAME fieldID="CD_FIRST_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_FIRST_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MIDDLE_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_MIDDLE_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_MIDDLE_NAME fieldID="CD_MIDDLE_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_MIDDLE_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LAST_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_LAST_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_FULL_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_GENDER.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_GENDER' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CD_GENDER category="2" fieldID="CD_GENDER" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_GENDER', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_DOB' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TAX_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_TAX_ID' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_TAX_ID fieldID="CD_TAX_ID" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_TAX_ID', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_MOBILE_NO' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_MOBILE_NO inputType="number" fieldID="CD_MOBILE_NO" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DEBIT_SCORE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_DEBIT_SCORE' | translate}}</label>
+</div>
+<app-text-box #CD_DEBIT_SCORE inputType="number" fieldID="CD_DEBIT_SCORE" [formCode]="formCode" (blur)="genericOnBlur('CD_DEBIT_SCORE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SEGMENT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_CUST_SEGMENT' | translate}}</label>
+</div>
+<app-combo-box #CD_CUST_SEGMENT category="2" fieldID="CD_CUST_SEGMENT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SEGMENT', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_STAFF' | translate}}</label>
+</div>
+<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_STAFF_ID' | translate}}</label>
+</div>
+<app-text-box #CD_STAFF_ID fieldID="CD_STAFF_ID" [formCode]="formCode" (blur)="genericOnBlur('CD_STAFF_ID', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_PMRY_EMBSR_NAME' | translate}}</label>
+</div>
+<app-text-box #CD_PMRY_EMBSR_NAME fieldID="CD_PMRY_EMBSR_NAME" [formCode]="formCode" (blur)="genericOnBlur('CD_PMRY_EMBSR_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_NATIONALITY.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_NATIONALITY' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_NATIONALITY', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CITIZENSHIP.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_CITIZENSHIP' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_CITIZENSHIP fieldID="CD_CITIZENSHIP" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MARITAL_STATUS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_MARITAL_STATUS' | translate}}</label>
+</div>
+<app-combo-box #CD_MARITAL_STATUS category="2" fieldID="CD_MARITAL_STATUS" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_MARITAL_STATUS', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_NATIONAL_ID.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_NATIONAL_ID' | translate}}</label>
+</div>
+<app-text-box #CD_NATIONAL_ID fieldID="CD_NATIONAL_ID" [formCode]="formCode" (blur)="genericOnBlur('CD_NATIONAL_ID', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_PASSPORT_NO' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CD_PASSPORT_NO inputType="number" fieldID="CD_PASSPORT_NO" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_PASSPORT_NO', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_EXPIRY.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_PASSPORT_EXPIRY' | translate}}</label>
+</div>
+<app-date #CD_PASSPORT_EXPIRY fieldID="CD_PASSPORT_EXPIRY" [formCode]="formCode" (blur)="genericOnBlur('CD_PASSPORT_EXPIRY', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DRIVING_LICENSE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_DRIVING_LICENSE' | translate}}</label>
+</div>
+<app-text-box #CD_DRIVING_LICENSE fieldID="CD_DRIVING_LICENSE" [formCode]="formCode" (blur)="genericOnBlur('CD_DRIVING_LICENSE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DRVNG_LCNSE_EXP_DT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_DRVNG_LCNSE_EXP_DT' | translate}}</label>
+</div>
+<app-date #CD_DRVNG_LCNSE_EXP_DT fieldID="CD_DRVNG_LCNSE_EXP_DT" [formCode]="formCode" (blur)="genericOnBlur('CD_DRVNG_LCNSE_EXP_DT', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PREF_COM_CH.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_PREF_COM_CH' | translate}}</label>
+</div>
+<app-combo-box #CD_PREF_COM_CH category="2" fieldID="CD_PREF_COM_CH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_PREF_COM_CH', $event)"></app-combo-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
+<app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode"></app-button>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_29.isHidden()">
+<app-CustomerDtlsGrid #FieldId_29 fieldID="FieldId_29" [formCode]="formCode"></app-CustomerDtlsGrid>
+</div>
+</div>
+<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+<app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
+<app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
+<app-hidden #hidGender fieldID="hidGender"></app-hidden>
+<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
+<app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
+<app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
+<app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
+</div>
+</div>
+</div>
+</form>
