@@ -41,7 +41,8 @@ import { HomeRoutingModule } from './home/home-routing.module';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'login/elogin',
+    //redirectTo: 'login/elogin',
+    redirectTo: 'home/LANDING', // TODO: Revert Changes after Login
     pathMatch: 'full'
   },
   // {
