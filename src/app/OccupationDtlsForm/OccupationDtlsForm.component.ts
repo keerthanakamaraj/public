@@ -62,6 +62,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('HidIncomeFrequency', {static: false}) HidIncomeFrequency: HiddenComponent;
 @ViewChild('HidIncomeType', {static: false}) HidIncomeType: HiddenComponent;
 @ViewChild('HidCurrency', {static: false}) HidCurrency: HiddenComponent;
+@ViewChild('HidOccupationSeq', {static: false}) HidOccupationSeq: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -196,34 +197,37 @@ this.onFormLoad();
 }
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
+if(typeof(this.HidOccupationSeq.getFieldValue()) !==  'undefined' ){
 inputMap.clear();
+inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
 inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
-inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
-inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_TYPE.getFieldValue());
+inputMap.set('Body.OccupationDetails.Employment Type', this.OD_EMPLT_TYPE.getFieldValue());
 inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
 inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
 inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
 inputMap.set('Body.OccupationDetails.Designation', this.OD_DESIGNATION.getFieldValue());
-inputMap.set('Body.OccupationDetails.DateOfJoining', this.OD_DATE_OF_JOINING.getFieldValue());
+inputMap.set('Body.OccupationDetails.DateofJoining', this.OD_DATE_OF_JOINING.getFieldValue());
 inputMap.set('Body.OccupationDetails.DateofInception', this.OD_DT_OF_INCPTN.getFieldValue());
 inputMap.set('Body.OccupationDetails.Industry', this.OD_INDUSTRY.getFieldValue());
-inputMap.set('Body.OccupationDetails.NatureOfBusiness', this.OD_NTR_OF_BUSS.getFieldValue());
-inputMap.set('Body.OccupationDetails.CompanyCode', this.OD_COMPANY_CODE.getFieldValue());
+inputMap.set('Body.OccupationDetails.NatureofBusiness', this.OD_NTR_OF_BUSS.getFieldValue());
+inputMap.set('Body.OccupationDetails.CompanyLicenseNo', this.OD_COMPANY_CODE.getFieldValue());
+inputMap.set('Body.OccupationDetails.Grade', this.OD_COMP_CAT.getFieldValue());
 inputMap.set('Body.OccupationDetails.CompanyName', this.OD_COMP_NAME.getFieldValue());
-inputMap.set('Body.OccupationDetails.LengthOfExistence', this.OD_LENGTH_OF_EXST.getFieldValue());
+inputMap.set('Body.OccupationDetails.LengthOfExistance', this.OD_LENGTH_OF_EXST.getFieldValue());
 inputMap.set('Body.OccupationDetails.IncomeDocumentType', this.OD_INC_DOC_TYPE.getFieldValue());
 inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
-inputMap.set('Body.OccupationDetails.IncomeFrequency', this.OD_INCOME_FREQ.getFieldValue());
+inputMap.set('Body.OccupationDetails.IncomeFrequecy', this.OD_INCOME_FREQ.getFieldValue());
 inputMap.set('Body.OccupationDetails.EmploymentStatus', this.OD_EMP_STATUS.getFieldValue());
 inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldValue());
 inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
 inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
 inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
 inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
-this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
+this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+this.services.alert.showAlert(1, 'Updated Successfully', 5000);
+this.onReset();
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -246,7 +250,7 @@ this.OD_INCOME_TYPE.setError(err['ErrorDescription']);
 else if(err['ErrorElementPath'] == 'OccupationDetails.EmploymentStatus'){
 this.OD_EMP_STATUS.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'OccupationDetails.IncomeFrequency'){
+else if(err['ErrorElementPath'] == 'OccupationDetails.IncomeFrequecy'){
 this.OD_INCOME_FREQ.setError(err['ErrorDescription']);
 }
 else if(err['ErrorElementPath'] == 'OccupationDetails.NetIncome'){
@@ -255,16 +259,131 @@ this.OD_NET_INCOME.setError(err['ErrorDescription']);
 else if(err['ErrorElementPath'] == 'OccupationDetails.IncomeDocumentType'){
 this.OD_INC_DOC_TYPE.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'OccupationDetails.LengthOfExistence'){
+else if(err['ErrorElementPath'] == 'OccupationDetails.LengthOfExistance'){
 this.OD_LENGTH_OF_EXST.setError(err['ErrorDescription']);
 }
 else if(err['ErrorElementPath'] == 'OccupationDetails.CompanyName'){
 this.OD_COMP_NAME.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'OccupationDetails.CompanyCode'){
+else if(err['ErrorElementPath'] == 'OccupationDetails.Grade'){
+this.OD_COMP_CAT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.CompanyLicenseNo'){
 this.OD_COMPANY_CODE.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'OccupationDetails.NatureOfBusiness'){
+else if(err['ErrorElementPath'] == 'OccupationDetails.NatureofBusiness'){
+this.OD_NTR_OF_BUSS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Industry'){
+this.OD_INDUSTRY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.DateofInception'){
+this.OD_DT_OF_INCPTN.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.DateofJoining'){
+this.OD_DATE_OF_JOINING.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Designation'){
+this.OD_DESIGNATION.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Department'){
+this.OD_DEPARTMENT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.EmployeeID'){
+this.OD_EMPLOYEE_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.SelfEmploymentProfession'){
+this.OD_SELF_EMPLD_PROF.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Employment Type'){
+this.OD_EMPLT_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Occupation'){
+this.OD_OCCUPATION.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationSeq'){
+this.HidOccupationSeq.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Update failed', -1);
+}
+);
+}
+else{
+inputMap.clear();
+inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
+inputMap.set('Body.OccupationDetails.Employment Type', this.OD_EMPLT_TYPE.getFieldValue());
+inputMap.set('Body.OccupationDetails.Self Employed Type', this.OD_SELF_EMPLD_TYPE.getFieldValue());
+inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
+inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
+inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
+inputMap.set('Body.OccupationDetails.Designation', this.OD_DESIGNATION.getFieldValue());
+inputMap.set('Body.OccupationDetails.DateOfJoining', this.OD_DATE_OF_JOINING.getFieldValue());
+inputMap.set('Body.OccupationDetails.DateofInception', this.OD_DT_OF_INCPTN.getFieldValue());
+inputMap.set('Body.OccupationDetails.Industry', this.OD_INDUSTRY.getFieldValue());
+inputMap.set('Body.OccupationDetails.NatureofBusiness', this.OD_NTR_OF_BUSS.getFieldValue());
+inputMap.set('Body.OccupationDetails.CompanyLicenseNo', this.OD_COMPANY_CODE.getFieldValue());
+inputMap.set('Body.OccupationDetails.Grade', this.OD_COMP_CAT.getFieldValue());
+inputMap.set('Body.OccupationDetails.CompanyName', this.OD_COMP_NAME.getFieldValue());
+inputMap.set('Body.OccupationDetails.LengthOfExistance', this.OD_LENGTH_OF_EXST.getFieldValue());
+inputMap.set('Body.OccupationDetails.IncomeDocumentType', this.OD_INC_DOC_TYPE.getFieldValue());
+inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
+inputMap.set('Body.OccupationDetails.IncomeFrequecy', this.OD_INCOME_FREQ.getFieldValue());
+inputMap.set('Body.OccupationDetails.EmploymentStatus', this.OD_EMP_STATUS.getFieldValue());
+inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldValue());
+inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
+inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
+inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
+inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'OccupationDetails.LocalCurrencyEquivalent'){
+this.OD_LOC_CURR_EQ.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Currency'){
+this.OD_CURRENCY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber'){
+this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.WorkPermitNumber'){
+this.OD_WRK_PERMIT_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.IncomeType'){
+this.OD_INCOME_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.EmploymentStatus'){
+this.OD_EMP_STATUS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.IncomeFrequecy'){
+this.OD_INCOME_FREQ.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.NetIncome'){
+this.OD_NET_INCOME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.IncomeDocumentType'){
+this.OD_INC_DOC_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.LengthOfExistance'){
+this.OD_LENGTH_OF_EXST.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.CompanyName'){
+this.OD_COMP_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.Grade'){
+this.OD_COMP_CAT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.CompanyLicenseNo'){
+this.OD_COMPANY_CODE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'OccupationDetails.NatureofBusiness'){
 this.OD_NTR_OF_BUSS.setError(err['ErrorDescription']);
 }
 else if(err['ErrorElementPath'] == 'OccupationDetails.Industry'){
@@ -288,10 +407,10 @@ this.OD_EMPLOYEE_ID.setError(err['ErrorDescription']);
 else if(err['ErrorElementPath'] == 'OccupationDetails.SelfEmploymentProfession'){
 this.OD_SELF_EMPLD_PROF.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'OccupationDetails.SelfEmploymentProfession'){
+else if(err['ErrorElementPath'] == 'OccupationDetails.Self Employed Type'){
 this.OD_SELF_EMPLD_TYPE.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'OccupationDetails.EmploymentType'){
+else if(err['ErrorElementPath'] == 'OccupationDetails.Employment Type'){
 this.OD_EMPLT_TYPE.setError(err['ErrorDescription']);
 }
 else if(err['ErrorElementPath'] == 'OccupationDetails.Occupation'){
@@ -302,6 +421,7 @@ this.services.alert.showAlert(2, 'Error occurred while saving form!', -1);
 }
 );
 }
+}
 async OCC_DTLS_GRID_occDtlsEdit(event){
 let inputMap = new Map();
 inputMap.clear();
@@ -311,7 +431,7 @@ async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']);
 this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']);
-this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['Self Employed Type']);
+this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
 this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']);
 this.OD_EMPLOYEE_ID.setValue(res['OccupationDetails']['EmployeeID']);
 this.OD_DEPARTMENT.setValue(res['OccupationDetails']['Department']);
@@ -333,6 +453,7 @@ this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
 this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
 this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
 this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
+this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
 },
 async (httpError)=>{
 var err = httpError['error']
