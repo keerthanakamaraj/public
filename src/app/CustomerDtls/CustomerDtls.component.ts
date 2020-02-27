@@ -48,14 +48,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('CD_DRVNG_LCNSE_EXP_DT', {static: false}) CD_DRVNG_LCNSE_EXP_DT: DateComponent;
 @ViewChild('CD_PREF_COM_CH', {static: false}) CD_PREF_COM_CH: ComboBoxComponent;
 @ViewChild('CD_SAVE_BTN', {static: false}) CD_SAVE_BTN: ButtonComponent;
-@ViewChild('FieldId_29', {static: false}) FieldId_29: CustomerDtlsGridComponent;
+@ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustomerDtlsGridComponent;
+@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
-@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
 @ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
+@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
 @ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
+@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
@@ -106,12 +107,15 @@ this.setInputs(this.services.dataStore.getData(this.services.routing.currModal))
 this.CD_FULL_NAME.setReadOnly(true);
 this.hidAppId.setValue('RLO');
 this.hidCusSgmt.setValue('CUST_SEGMENT');
-this.hidStaff.setValue('Y/N');
 this.hidGender.setValue('GENDER');
-this.hidNationality.setValue('NATIONALITY');
 this.hidMaritalStatus.setValue('MARITAL_STATUS');
+this.hidNationality.setValue('NATIONALITY');
 this.hidPrefCommCh.setValue('PREF_COMM_CH');
+this.hidStaff.setValue('Y/N');
 this.hidTitle.setValue('TITLE');
+let inputMap = new Map();
+await this.CUST_DTLS_GRID.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -181,6 +185,264 @@ this.value = new CustomerDtlsModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
+}
+async CD_SAVE_BTN_click(event){
+let inputMap = new Map();
+if(this.HidCustomerId.getFieldValue() != undefined){
+inputMap.clear();
+inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
+inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.FullName', this.CD_FULL_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
+inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
+inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
+inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
+inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
+inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName1', this.CD_PMRY_EMBSR_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
+inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
+inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONAL_ID.getFieldValue());
+inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
+inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Success', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
+this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt'){
+this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicense'){
+this.CD_DRIVING_LICENSE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.PassportExpiryDt'){
+this.CD_PASSPORT_EXPIRY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.PassportNumber'){
+this.CD_PASSPORT_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Nationality'){
+this.CD_NATIONAL_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MaritalStatus'){
+this.CD_MARITAL_STATUS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CitizenID'){
+this.CD_CITIZENSHIP.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Nationality'){
+this.CD_NATIONALITY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.PrimaryEmbosserName1'){
+this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.StaffID'){
+this.CD_STAFF_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.IsStaff'){
+this.CD_STAFF.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment'){
+this.CD_CUST_SEGMENT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DebitScore'){
+this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MobileNo'){
+this.CD_MOBILE_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.TaxID'){
+this.CD_TAX_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DOB'){
+this.CD_DOB.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Gender'){
+this.CD_GENDER.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.FullName'){
+this.CD_FULL_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.LastName'){
+this.CD_LAST_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MiddleName'){
+this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.FirstName'){
+this.CD_FIRST_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Title'){
+this.CD_TITLE.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Fail', -1);
+}
+);
+}
+else{
+inputMap.clear();
+inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
+inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.FullName', this.CD_FULL_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
+inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
+inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
+inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
+inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
+inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName2', this.CD_PMRY_EMBSR_NAME.getFieldValue());
+inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
+inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
+inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
+inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
+inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
+inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
+this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Record Saved Successfully', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
+this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt'){
+this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicense'){
+this.CD_DRIVING_LICENSE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.PassportExpiryDt'){
+this.CD_PASSPORT_EXPIRY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.PassportNumber'){
+this.CD_PASSPORT_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CitizenID'){
+this.CD_NATIONAL_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MaritalStatus'){
+this.CD_MARITAL_STATUS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CitizenID'){
+this.CD_CITIZENSHIP.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Nationality'){
+this.CD_NATIONALITY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.PrimaryEmbosserName2'){
+this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.StaffID'){
+this.CD_STAFF_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.IsStaff'){
+this.CD_STAFF.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment'){
+this.CD_CUST_SEGMENT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DebitScore'){
+this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MobileNo'){
+this.CD_MOBILE_NO.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.TaxID'){
+this.CD_TAX_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DOB'){
+this.CD_DOB.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Gender'){
+this.CD_GENDER.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.FullName'){
+this.CD_FULL_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.LastName'){
+this.CD_LAST_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MiddleName'){
+this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.FirstName'){
+this.CD_FIRST_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Title'){
+this.CD_TITLE.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Something went wrong', -1);
+}
+);
+}
+}
+async CUST_DTLS_GRID_custDtlsEdit(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.BorrowerSeq', event.BorrowerSeq);
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);
+this.CD_FIRST_NAME.setValue(res['BorrowerDetails']['FirstName']);
+this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
+this.CD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
+this.CD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
+this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
+this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
+this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
+this.CD_MOBILE_NO.setValue(res['BorrowerDetails']['MobileNo']);
+this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
+this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
+this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
+this.CD_STAFF_ID.setValue(res['BorrowerDetails']['StaffID']);
+this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
+this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
+this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['ExistingCustomer']);
+this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
+this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
+this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
+this.CD_PASSPORT_EXPIRY.setValue(res['BorrowerDetails']['PassportExpiryDt']);
+this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
+this.CD_DRVNG_LCNSE_EXP_DT.setValue(res['BorrowerDetails']['DrivingLicenseExpiryDt']);
+this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
+this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+}
+);
 }
 fieldDependencies = {
 CD_TITLE: {

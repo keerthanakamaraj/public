@@ -190,19 +190,20 @@
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
-<app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode"></app-button>
+<app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
 </div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_29.isHidden()">
-<app-CustomerDtlsGrid #FieldId_29 fieldID="FieldId_29" [formCode]="formCode"></app-CustomerDtlsGrid>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
+<app-CustomerDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode" (custDtlsEdit)="CUST_DTLS_GRID_custDtlsEdit($event)"></app-CustomerDtlsGrid>
 </div>
 </div>
+<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
-<app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
 <app-hidden #hidGender fieldID="hidGender"></app-hidden>
-<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
 <app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
+<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
 <app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
+<app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
 <app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
 </div>
 </div>
