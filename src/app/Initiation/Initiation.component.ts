@@ -52,7 +52,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
 @ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
 @ViewChild('LD_LOAN_AMOUNT', {static: false}) LD_LOAN_AMOUNT: AmountComponent;
-@ViewChild('LD_INTEREST_RATE', {static: false}) LD_INTEREST_RATE: ComboBoxComponent;
+@ViewChild('LD_INTEREST_RATE', {static: false}) LD_INTEREST_RATE: TextBoxComponent;
 @ViewChild('LD_TENURE', {static: false}) LD_TENURE: TextBoxComponent;
 @ViewChild('LD_TENURE_PERIOD', {static: false}) LD_TENURE_PERIOD: ComboBoxComponent;
 @ViewChild('LD_APP_PRPSE', {static: false}) LD_APP_PRPSE: ComboBoxComponent;
@@ -69,16 +69,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('RD_REFERRER_NO', {static: false}) RD_REFERRER_NO: TextBoxComponent;
 @ViewChild('SUBMIT_MAIN_BTN', {static: false}) SUBMIT_MAIN_BTN: ButtonComponent;
 @ViewChild('CANCEL_MAIN_BTN', {static: false}) CANCEL_MAIN_BTN: ButtonComponent;
-@ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
-@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
-@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
-@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
-@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
-@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
-@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
 @ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
+@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
+@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
+@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
+@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
+@ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
+@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
+@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
+@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -147,6 +147,7 @@ this.setInputs(this.services.dataStore.getData(this.services.routing.currModal))
 this.BAD_EXST_CUST.setReadOnly(true);
 this.CD_FULL_NAME.setReadOnly(true);
 this.LD_LOAN_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+this.LD_INTEREST_RATE.setReadOnly(true);
 this.LD_GROSS_INCOME.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EXST_LBLT_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_NET_INCOME.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
@@ -157,16 +158,16 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EMI_AMT.setReadOnly(true);
-this.hidAccBranch.setValue('ACC_BRANCH');
-this.hidAppId.setValue('RLO');
-this.hidCustSeg.setValue('CUST_SEGMENT');
-this.hidDSAId.setValue('DSA_ID');
-this.hidGender.setValue('GENDER');
-this.hidProdCat.setValue('PRODUCT_CATEGORY');
-this.hidSourceingChannel.setValue('Branch');
-this.hidTitle.setValue('TITLE');
-this.hidYesNo.setValue('Y/N');
 this.hiddenProductId.setValue('CreditCard');
+this.hidAppId.setValue('RLO');
+this.hidSourceingChannel.setValue('Branch');
+this.hidYesNo.setValue('Y/N');
+this.hidDSAId.setValue('DSA_ID');
+this.hidAccBranch.setValue('ACC_BRANCH');
+this.hidProdCat.setValue('PRODUCT_CATEGORY');
+this.hidTitle.setValue('TITLE');
+this.hidGender.setValue('GENDER');
+this.hidCustSeg.setValue('CUST_SEGMENT');
 this.setDependencies();
 }
 setInputs(param : any){
@@ -259,30 +260,6 @@ this.services.dataStore.setData('selectedData', undefined);
 modalRef.result.then(onModalClose, onModalClose);
 modalRef.componentInstance.rotueToComponent(inputMap);
 this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-}
-async LD_LOAN_AMOUNT_focus(event){
-let inputMap = new Map();
-inputMap.clear();
-await this.services.http.fetchApi('/LoanDetails', 'GET', inputMap).toPromise()
-.then(
-async (httpResponse: HttpResponse<any>) => {
-var res = httpResponse.body;
-var loopDataVar4 = [];
-var loopVar4 = res['LoanDetails'];
-if (loopVar4) {
-for (var i = 0; i < loopVar4.length; i++) {
-var tempObj = {};
-tempObj['LD_APP_PRPSE'] = loopVar4[i].ApplicationPurpose;
-loopDataVar4.push(tempObj);}
-}
-//this.InitiationMainForm.setValue(loopDataVar4);
-},
-async (httpError)=>{
-var err = httpError['error']
-if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-}
-}
-);
 }
 async SUBMIT_MAIN_BTN_click(event){
 let inputMap = new Map();
