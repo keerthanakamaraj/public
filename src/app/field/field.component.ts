@@ -16,6 +16,7 @@ export class FieldComponent{
   @Input('valueAlign') valueAlign: string = 'left';
   @Input('domainObjectCode') domainObjectCode: string;
   @Input('domainObjectUrl') domainObjectUrl: string;
+  @Input('doServerUrl') doServerUrl: string;
   @Input('customClass') customClass: string = "";
   
 
@@ -172,8 +173,15 @@ export class FieldComponent{
     return 0;
   }
 
-  domainObjectValidation() {
-    // return this.services.http.validateField(this.formCode, this.domainObjectCode, this.value, this.dependencyMap);
-    return this.services.http.domainObjectValidation(this.domainObjectUrl, this.value, this.dependencyMap);
+  async domainObjectValidation() {
+    if(this.doCustomScript!=undefined){
+      await this.doCustomScript(event);
+    }
+    return this.services.http.domainObjectValidation(this.domainObjectUrl, this.getFieldValue(), this.dependencyMap, this.doServerUrl);
   }
+
+  setDOCustomScript(fn: (event)=>void){
+    this.doCustomScript = fn;
+  }
+  doCustomScript: (event) => void = undefined;
 }

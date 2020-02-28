@@ -8,6 +8,7 @@ import { Data } from './DataService';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Http } from '@angular/http';
+import { environment } from 'src/environments/environment';
 
 export var errorMap;
 
@@ -17,8 +18,8 @@ export var errorMap;
 
 export class ProvidehttpService implements CanActivate {
 
-  baseURL: string;
-  restURL: string;
+  baseURL: string = environment.baseURL;
+  restURL: string = environment.baseURL;
   showMenu=false;
   displaySide = false;
   ActiveTab='LANDING';
@@ -48,19 +49,17 @@ export class ProvidehttpService implements CanActivate {
   
 
   constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService, private router: Router, private data: Data, private http: Http) {
-    if (isDevMode()) {
-      // this.baseURL = 'http://localhost:28080/RARuntimeWeb/';//local
-  //    this.baseURL = 'http://10.10.16.203:8390/OliveFabricWeb/';//HDFC
-      //this.baseURL = 'http://localhost:28680/olive/';//OTTO
-      //this.baseURL = window.location.origin + '/RARuntimeWeb/';
-      this.baseURL = 'http://10.11.12.19:18180/olive/';//RLO
-    } else {
-      //let href = window.location.href.lastIndexOf('/');
-       //this.baseURL = 'http://localhost:28680/olive/';//OTTO
-      //this.baseURL = window.location.origin + '/olive/';
-      this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
-    }
-    this.restURL = this.baseURL; 
+  //   if (isDevMode()) {
+  //     // this.baseURL = 'http://localhost:28080/RARuntimeWeb/';//local
+  // //    this.baseURL = 'http://10.10.16.203:8390/OliveFabricWeb/';//HDFC
+  //     this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
+  //     //this.baseURL = window.location.origin + '/RARuntimeWeb/';
+  //   } else {
+  //     //let href = window.location.href.lastIndexOf('/');
+  //     // this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
+  //     this.baseURL = window.location.origin + '/olive/';
+  //   }
+    // this.restURL = this.baseURL; 
     this.getJSON().subscribe(data => {
       errorMap = data['ErrorCodes'];
     }
@@ -117,15 +116,16 @@ export class ProvidehttpService implements CanActivate {
     return this.httpClient.post<String>(this.restURL + "Auth/SSGW/ELOGOUT/SUBMIT", value, httpOptions);
   }
 
-  domainObjectValidation(doURL, fieldValue, dependentValues) {
+  domainObjectValidation(doURL, fieldValue, dependentValues, doServerUrl) {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'my-auth-token',
     });
     // let httpOpts = { headers, withCredentials: true };
     let httpOpts = { headers };
+    // var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
 
-    var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
+    var url = this.baseURL + ((doServerUrl==undefined)?"/olive/publisher":doServerUrl) + doURL
 
     url = url.replace(url.substring(url.indexOf('{'), url.indexOf('}') + 1), fieldValue);
 
@@ -147,7 +147,7 @@ export class ProvidehttpService implements CanActivate {
     return this.httpClient.get(url, httpOpts);
   }  
 
-loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number) {
+loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl) {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'my-auth-token',
@@ -155,8 +155,9 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     // let httpOpts = { headers, withCredentials: true };
     let httpOpts = { headers };
 
-    this.restURL = 'http://10.11.12.19:18280/olive/';
-    var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
+    // var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
+
+    var url = this.baseURL + ((doServerUrl==undefined)?"/olive/publisher":doServerUrl) + doURL
 
     url = url.replace(url.substring(url.indexOf('{') - 1, url.indexOf('}') + 1), "");
 
@@ -195,19 +196,19 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     return this.httpClient.get(url, httpOpts);
   }
 
-  loginService(URL) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'my-auth-token',
-    });
+  // loginService(URL) {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'my-auth-token',
+  //   });
 
-    let httpOptions = {
-      headers: headers,
-      withCredentials: true
-    };
+  //   let httpOptions = {
+  //     headers: headers,
+  //     withCredentials: true
+  //   };
 
-    return this.httpClient.get(this.restURL+'/publisher' + URL, httpOptions);
-  }
+  //   return this.httpClient.get(this.restURL+'/publisher' + URL, httpOptions);
+  // }
 
   getContextPathValue(contextPath: string, jsonObj: {}) {
     if (contextPath == undefined || contextPath == "" || jsonObj == undefined) {
@@ -221,28 +222,28 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     return value;
   }
 
-  async validateField(formCode, domainObjectCode, data: string, dependentValues = {}): Promise<JSON> {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'my-auth-token',
-    });
-    let httpOpts = { headers, withCredentials: true };
-    data = data.toString().replace(/\//g, "-");
-    var URL = this.restURL + "form/SSGW/" + formCode + "/" + domainObjectCode + "/DATA/" + data;
+  // async validateField(formCode, domainObjectCode, data: string, dependentValues = {}): Promise<JSON> {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'my-auth-token',
+  //   });
+  //   let httpOpts = { headers, withCredentials: true };
+  //   data = data.toString().replace(/\//g, "-");
+  //   var URL = this.restURL + "form/SSGW/" + formCode + "/" + domainObjectCode + "/DATA/" + data;
 
-    for (var key of Object.keys(dependentValues)) {
-      var value = dependentValues[key];
-      if (value) {
-        value = value.toString().replace(/\//g, "-");
-        URL = URL + "/" + key + "/" + value;
-      }
-    }
+  //   for (var key of Object.keys(dependentValues)) {
+  //     var value = dependentValues[key];
+  //     if (value) {
+  //       value = value.toString().replace(/\//g, "-");
+  //       URL = URL + "/" + key + "/" + value;
+  //     }
+  //   }
 
-    let response = await this.httpClient.get(URL, httpOpts).toPromise();
-    let res = JSON.parse(JSON.stringify(response));
-    //this.checkForSession(res);
-    return res;
-  }
+  //   let response = await this.httpClient.get(URL, httpOpts).toPromise();
+  //   let res = JSON.parse(JSON.stringify(response));
+  //   //this.checkForSession(res);
+  //   return res;
+  // }
 
 
   async onSubmit(formCode, apiGatewayCode, serviceCode, formData, csrf): Promise<JSON> {
@@ -285,63 +286,63 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/MENU', httpOpts);
   }
 
-  getLandingForms() {
-    const httpOpts = {
-      headers: new HttpHeaders({
-        //'ServiceCode':'MENU'
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/LANDINGFORMS', httpOpts);
-  }
+  // getLandingForms() {
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //       //'ServiceCode':'MENU'
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/LANDINGFORMS', httpOpts);
+  // }
 
-  getAnnouncements() {//Replace exiting method
+  // getAnnouncements() {//Replace exiting method
 
-    const httpOpts = {
-      headers: new HttpHeaders({
-        //'ServiceCode':'MENU'
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/ANNOUNCEAFTER/urlaction/FETCH/UserId/' + sessionStorage.getItem("USER_ID") + '/Custcode/' + sessionStorage.getItem("CUSTOMER_CODE") + '/Srvbqe/' + sessionStorage.getItem("USER_SERVICE_BOUQUET"), httpOpts);
-  }
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //       //'ServiceCode':'MENU'
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/ANNOUNCEAFTER/urlaction/FETCH/UserId/' + sessionStorage.getItem("USER_ID") + '/Custcode/' + sessionStorage.getItem("CUSTOMER_CODE") + '/Srvbqe/' + sessionStorage.getItem("USER_SERVICE_BOUQUET"), httpOpts);
+  // }
 
-  getServiceList() {
-    const httpOpts = {
-      headers: new HttpHeaders({
-        //'Content-Type':  'application/json',
-        //          'ServiceCode':'ALERTS'
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/SEARCH', httpOpts);
-  }
+  // getServiceList() {
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //       //'Content-Type':  'application/json',
+  //       //          'ServiceCode':'ALERTS'
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/SEARCH', httpOpts);
+  // }
 
   displayMenu = false;
 
-  getNgGridData(apiGatewayCode, formCode, serviceCode, inputMap, json) {
+  // getNgGridData(apiGatewayCode, formCode, serviceCode, inputMap, json) {
 
-    const httpOpts = {
-      headers: new HttpHeaders({
-        //'Content-Type':  'application/json',
-        //          'ServiceCode':'ALERTS'
-      }),
-      withCredentials: true
-    };
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //       //'Content-Type':  'application/json',
+  //       //          'ServiceCode':'ALERTS'
+  //     }),
+  //     withCredentials: true
+  //   };
 
-    var URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/FETCH';
-    var iterator1 = Array.from(inputMap.keys());
-    for (var key of iterator1) {
-      var value = inputMap.get(key);
-      if (value) {
-        //value = value.replace(/\//g, "-");
-        //URL = URL + "/" + key + "/" + value;
-        json[<string>key] = value;
-      }
-    }
+  //   var URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/FETCH';
+  //   var iterator1 = Array.from(inputMap.keys());
+  //   for (var key of iterator1) {
+  //     var value = inputMap.get(key);
+  //     if (value) {
+  //       //value = value.replace(/\//g, "-");
+  //       //URL = URL + "/" + key + "/" + value;
+  //       json[<string>key] = value;
+  //     }
+  //   }
 
-    return this.httpClient.post<String>(URL, json, httpOpts);
-  }
+  //   return this.httpClient.post<String>(URL, json, httpOpts);
+  // }
 
   // getGridData(URL) {
   //   const httpng = {
@@ -354,41 +355,41 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
   //   return this.httpClient.get("http://10.10.8.24:20341/PrivateApiGateway/rest?InitBy=CBAADMINM" + URL + " ", httpng);
   // }
 
-  getNotifications(userID, startRow, endRow, isRead) {//replace existing one
-    const httpOpts = {
-      headers: new HttpHeaders({
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/ALRTNTFN/USRID/' + userID + '/STRW/' + startRow + '/ENRW/' + endRow + '/UNREAD/' + isRead, httpOpts);
-  }
+  // getNotifications(userID, startRow, endRow, isRead) {//replace existing one
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/ALRTNTFN/USRID/' + userID + '/STRW/' + startRow + '/ENRW/' + endRow + '/UNREAD/' + isRead, httpOpts);
+  // }
 
-  getDownloads() {
-    const httpOpts = {
-      headers: new HttpHeaders({
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/DWNLDS/urlaction/FETCH', httpOpts);
-  }
+  // getDownloads() {
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/DWNLDS/urlaction/FETCH', httpOpts);
+  // }
 
-  getFavorites() {
-    const httpOpts = {
-      headers: new HttpHeaders({
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/GETFAVORITES', httpOpts);
-  }
+  // getFavorites() {
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'internal/SSGW/EHOME/GETFAVORITES', httpOpts);
+  // }
 
-  setFavorites(favorites) {
-    const httpOpts = {
-      headers: new HttpHeaders({
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.post(this.restURL + 'internal/SSGW/EHOME/SETFAVORITES', favorites, httpOpts);
-  }
+  // setFavorites(favorites) {
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.post(this.restURL + 'internal/SSGW/EHOME/SETFAVORITES', favorites, httpOpts);
+  // }
 
   mapToJson(inputMap) {
     let json = {}
@@ -420,24 +421,24 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     return json;
   }
 
-  fetchData(formCode, apiGatewayCode, serviceCode, inputMap) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'my-auth-token',
-    });
-    let httpOpts = { headers, withCredentials: true };
-    var URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/FETCH';
-    var iterator1 = Array.from(inputMap.keys());
-    for (var key of iterator1) {
-      var value = inputMap.get(key);
-      if (value) {
-        value = value.toString().replace(/\//g, "-");
-        URL = URL + "/" + key + "/" + value;
-      }
-    }
+  // fetchData(formCode, apiGatewayCode, serviceCode, inputMap) {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'my-auth-token',
+  //   });
+  //   let httpOpts = { headers, withCredentials: true };
+  //   var URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/FETCH';
+  //   var iterator1 = Array.from(inputMap.keys());
+  //   for (var key of iterator1) {
+  //     var value = inputMap.get(key);
+  //     if (value) {
+  //       value = value.toString().replace(/\//g, "-");
+  //       URL = URL + "/" + key + "/" + value;
+  //     }
+  //   }
 
-    return this.httpClient.get(URL, httpOpts);
-  }
+  //   return this.httpClient.get(URL, httpOpts);
+  // }
 
   UnAuthorizationfetchApi(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', inputMap: Map<string, any>) {
     var json = this.mapToJson(inputMap);
@@ -456,7 +457,8 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       var value = json['PathParam'][key];
       url = url.replace('{' + key + '}', value ? value : '');
     }
-    url = this.restURL.substring(0, this.restURL.length - 1) + url;
+    // url = this.restURL.substring(0, this.restURL.length - 1) + url;    
+    url = this.baseURL + '/olive' + url;
     if (json['QueryParam']) {
       url += '?';
       for (let key in json['QueryParam']) {
@@ -482,7 +484,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     }
   }
 
-  fetchApi(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', inputMap: Map<string, any>) {
+  fetchApi(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', inputMap: Map<string, any>, serverUrl: string = undefined) {
     var json = this.mapToJson(inputMap);
 
     let headers = {
@@ -509,8 +511,10 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       url = url.replace('{' + key + '}', value ? value : '');
     }
 
-    this.restURL = 'http://10.11.12.19:18180/olive/';
-    url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + url;
+    // url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + url;
+
+    url = this.baseURL + ((serverUrl==undefined)?"/olive/publisher":serverUrl) + url;
+
     if (json['QueryParam']) {
       url += '?';
       for (let key in json['QueryParam']) {
@@ -536,17 +540,17 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     }
   }
 
-  fetchPostData(formCode, apiGatewayCode, serviceCode, json) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'my-auth-token',
-    });
-    let httpOpts = { headers, withCredentials: true };
+  // fetchPostData(formCode, apiGatewayCode, serviceCode, json) {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'my-auth-token',
+  //   });
+  //   let httpOpts = { headers, withCredentials: true };
 
-    var URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/FETCH';
+  //   var URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/FETCH';
 
-    return this.httpClient.post<String>(URL, JSON.stringify(json), httpOpts);
-  }
+  //   return this.httpClient.post<String>(URL, JSON.stringify(json), httpOpts);
+  // }
 
   checkForSession(response) {
   //   //var stringArray = ["SS00", "SS001", "SS002", "SS003", "SS004", "SS005", "SS006", "SS007", "SS008", "SS009", "SS0010", "SS0011"];
@@ -595,14 +599,14 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     return res;
   }
 
-  setNtfReadUnread(userID, entityCode, inventoryNum, isRead) {
-    const httpOpts = {
-      headers: new HttpHeaders({
-      }),
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/MARKALERTREAD/EntityCode/' + entityCode + '/InventoryNum/' + inventoryNum + '/IsRead/' + isRead + '/UserID/' + userID, httpOpts);
-  }
+  // setNtfReadUnread(userID, entityCode, inventoryNum, isRead) {
+  //   const httpOpts = {
+  //     headers: new HttpHeaders({
+  //     }),
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'form/SSGW/EHOME/MARKALERTREAD/EntityCode/' + entityCode + '/InventoryNum/' + inventoryNum + '/IsRead/' + isRead + '/UserID/' + userID, httpOpts);
+  // }
 
   saveAsDraft(formCode, apiGatewayCode, serviceCode, formData, RefNo, remarks) {
     let headers = new HttpHeaders({
@@ -680,18 +684,18 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     return this.http.get(url).pipe(map((res: any) => res.json()));
   }
 
-  public getLanguages(formCode) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'my-auth-token',
-    });
+  // public getLanguages(formCode) {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'my-auth-token',
+  //   });
 
-    let httpOptions = {
-      headers: headers,
-      withCredentials: true
-    };
-    return this.httpClient.get(this.restURL + 'internal/SSGW/' + formCode + '/GETLANGUAGES', httpOptions);
-  }
+  //   let httpOptions = {
+  //     headers: headers,
+  //     withCredentials: true
+  //   };
+  //   return this.httpClient.get(this.restURL + 'internal/SSGW/' + formCode + '/GETLANGUAGES', httpOptions);
+  // }
 
   public translate(formCode, languageCode) {
     let headers = new HttpHeaders({
@@ -711,7 +715,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     if (fileName) {
       downloadAnchor["download"] = fileName;
     }
-    downloadAnchor["href"] = this.baseURL + 'servlet/FileDownloadProcessor?CFS_INV_NUM=' + cfsNumber;
+    downloadAnchor["href"] = this.baseURL + '/servlet/FileDownloadProcessor?CFS_INV_NUM=' + cfsNumber;
     downloadAnchor.click();
   }
 }

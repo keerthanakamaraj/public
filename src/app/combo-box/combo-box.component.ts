@@ -16,7 +16,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 })
 export class ComboBoxComponent extends FieldComponent implements OnInit {
   // @Input('domainObjectCode') domainObjectCode: string;
-  @Input('category') category: string; 
+  @Input('category') category: string;
   // @Input('formCode') formCode : string;
 
   // @Input('formCode') private comboBoxConfig: {
@@ -66,14 +66,18 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
       this.searchText$.pipe(
         debounceTime(500),
         // distinctUntilChanged(),
-        switchMap(searchText => {
+        switchMap(async searchText => {
           this.dropDownOptions.loading = true;
           this.dropDownOptions.Options = [];
           this.dropDownOptions.pageNo = 0;
           this.dropDownOptions.term = searchText;
           this.paginating = false;
+
+          if(this.doCustomScript){
+            await this.doCustomScript(event);
+          }
           
-          return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20);
+          return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl);
         }
         )).subscribe(
           data => {
@@ -103,7 +107,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     this.loadOptions();
   }
 
-  loadOptions() {
+  async loadOptions() {
     this.dropDownOptions.loading = true;
     let count = 0;
     if (this.category != '1') {
@@ -113,8 +117,12 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
       //In static combo-box, There will be always one element in option to show the placeholder
     }
 
+    if(this.doCustomScript){
+      await this.doCustomScript(event);
+    }
+
     // this.services.http.loadlookup(this.formCode, this.domainObjectCode, this.dropDownOptions.pageNo, this.dropDownOptions.term, this.dependencyMap, count).subscribe(
-    this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, count).subscribe(
+    this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, count, this.doServerUrl).subscribe(
       data => {
         if (data) {
           let result = data['Data'];
@@ -205,7 +213,12 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
 
   async getDescription(value){
     var description: any = (this.category=="3")?[]:"";
-    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20).toPromise().then(
+
+    if(this.doCustomScript){
+      await this.doCustomScript(event);
+    }
+
+    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl).toPromise().then(
       data => {
         // this.http.checkForSession(data);
         if (data) {
