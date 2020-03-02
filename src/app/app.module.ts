@@ -48,7 +48,7 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LandingComponent,
-  },
+     },
   // {
   //   path: 'EPWDCHGN',
   //   //canActivate: [ProvidehttpService],
