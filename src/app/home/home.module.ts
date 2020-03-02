@@ -11,8 +11,8 @@ import { AngularDualListBoxModule } from 'angular-dual-listbox';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { MyProfileComponent } from '../my-profile/my-profile.component';
-//import { LandingComponent } from '../landing/landing.component';
-//import { MainHeaderComponent } from '../main-header/main-header.component';
+import { LandingComponent } from '../landing/landing.component';
+import { MainHeaderComponent } from '../main-header/main-header.component';
 import { MenuComponent } from '../menu/menu.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { FavoritesComponent } from '../favorites/favorites.component';
@@ -36,9 +36,9 @@ import { HttpLoaderFactory } from '../app.module';
     }),
   ],
   declarations: [
-   // LandingComponent,
+    LandingComponent,
     MyProfileComponent,
-   // MainHeaderComponent,
+    MainHeaderComponent,
     MenuComponent,
     SideBarComponent,
     FavoritesComponent

@@ -2,9 +2,6 @@
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'OccupationDtlsForm.FormTitle' | translate }}
-</h4>
 </div>
 <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
 </div>
@@ -216,6 +213,7 @@
 <app-hidden #HidIncomeFrequency fieldID="HidIncomeFrequency"></app-hidden>
 <app-hidden #HidIncomeType fieldID="HidIncomeType"></app-hidden>
 <app-hidden #HidCurrency fieldID="HidCurrency"></app-hidden>
+<app-hidden #HidOccupationSeq fieldID="HidOccupationSeq"></app-hidden>
 </div>
 </div>
 </div>

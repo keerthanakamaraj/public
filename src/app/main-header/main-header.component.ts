@@ -45,6 +45,8 @@ export class MainHeaderComponent implements OnInit {
   isShowUnread: boolean = true;
   notificationUnreadLenth;
 
+  today = new Date();
+
   @ViewChild('loginDiv', { static: false }) loginDiv: ElementRef;//userInfo
   @ViewChild('userInfo', { static: false }) userInfo: ElementRef;
   @ViewChild('notificationDiv', { static: false }) notificationDiv: ElementRef;
@@ -53,16 +55,18 @@ export class MainHeaderComponent implements OnInit {
   constructor(private router: Router, public services: ServiceStock, public dataService: ProvidehttpService) {
     this.selectedlang = this.services.http.currentLanguage;
 
-    this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'NTB' }] },
-    { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
-                                     { id: 'modWithReduction', text: 'WITH_REDUCTION' },
-                                     { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
-    { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
-                                { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
-                                { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
-                                { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
-                                { id: 'starCondition', text: 'STAR'}] },
-    { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
+    // TODO: Get Menu List from entitlements
+    this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
+        { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
+    // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
+    //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
+    //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
+    // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
+    //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
+    //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
+    //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
+    //                             { id: 'starCondition', text: 'STAR'}] },
+    // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
   ];
   this.termAndConditionMenuList = [{id : 'modTermAndConditionWithFL', text : 'WITH_FL'},
     {id : 'modTermAndConditionWithoutFL', text : 'WITHOUT_FL'}];
@@ -86,19 +90,20 @@ export class MainHeaderComponent implements OnInit {
   }
 
   redirect(id) {
-    if (id === 'Initiation') {
-      this.router.navigate(['/' + id]);
-    } else if (id === 'modWithEnhancement' || id === 'modWithReduction'
-      || id === 'modTermAndConditionWithFL' || id === 'modTermAndConditionWithoutFL'
-      || id === 'renewalIOM' || id === 'renewalWithEnhancement' || id === 'renewalWithReduction' || id === 'renewalWithChanges'
-      || id === 'renewalWithoutChanges' || id === 'renewalSTAR') {
-        this.router.navigate(['/modificationRenewalComponent'],
-      { queryParams: {modRenType: id} } );
-    } else if (id === 'dnReissue' || id === 'dnTranche') {
-      this.router.navigate(['/searchDN'], { queryParams: {dnType: id} } );
-    } else if (id === 'starCondition') {
-      this.router.navigate(['/starProcessComponent'], { queryParams: {modRenType: id, taskName : 'fileMaker'} } );
-    }
+    // if (id === 'Initiation') {
+    //   this.router.navigate(['/home/' + id]);
+    // } else if (id === 'modWithEnhancement' || id === 'modWithReduction'
+    //   || id === 'modTermAndConditionWithFL' || id === 'modTermAndConditionWithoutFL'
+    //   || id === 'renewalIOM' || id === 'renewalWithEnhancement' || id === 'renewalWithReduction' || id === 'renewalWithChanges'
+    //   || id === 'renewalWithoutChanges' || id === 'renewalSTAR') {
+    //     this.router.navigate(['/modificationRenewalComponent'],
+    //   { queryParams: {modRenType: id} } );
+    // } else if (id === 'dnReissue' || id === 'dnTranche') {
+    //   this.router.navigate(['/searchDN'], { queryParams: {dnType: id} } );
+    // } else if (id === 'starCondition') {
+    //   this.router.navigate(['/starProcessComponent'], { queryParams: {modRenType: id, taskName : 'fileMaker'} } );
+    // }
+    this.router.navigate(['/home/' + id]);
   }
 
 }

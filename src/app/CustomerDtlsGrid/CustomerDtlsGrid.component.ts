@@ -24,6 +24,7 @@ export class CustomerDtlsGridComponent implements AfterViewInit {
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
+@Output() custDtlsEdit: EventEmitter<any> = new EventEmitter<any>();
 @Input('formCode') formCode: string;
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
@@ -109,6 +110,7 @@ cellRendererParams: {
 gridCode: 'CustomerDtlsGrid',
 columnId: 'CD_EDIT_BUTTON',
 Type: '1',
+onClick: this.CD_EDIT_BUTTON_click.bind(this)
 },
 },
 {
@@ -123,6 +125,7 @@ cellRendererParams: {
 gridCode: 'CustomerDtlsGrid',
 columnId: 'CD_DELETE',
 Type: '1',
+onClick: this.CD_DELETE_click.bind(this)
 },
 },
 ];
@@ -187,6 +190,7 @@ if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
+case "CustomerId":obj[i].columnName =  "BorrowerSeq";break;
 case "CD_CUSTOMER_TYPE":obj[i].columnName =  "CustomerSegment";break;
 case "CD_CUSTOMER_NAME":obj[i].columnName =  "FirstName";break;
 case "CD_CIF_NUMBER":obj[i].columnName =  "CIF";break;
@@ -199,6 +203,7 @@ if(gridReqMap.get("OrderCriteria")){
 var obj = gridReqMap.get("OrderCriteria");
 for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
+case "CustomerId":obj[i].columnName =  "BorrowerSeq";break;
 case "CD_CUSTOMER_TYPE":obj[i].columnName =  "CustomerSegment";break;
 case "CD_CUSTOMER_NAME":obj[i].columnName =  "FirstName";break;
 case "CD_CIF_NUMBER":obj[i].columnName =  "CIF";break;
@@ -216,6 +221,7 @@ var loopVar4 = res['BorrowerDetails'];
 if (loopVar4) {
 for (var i = 0; i < loopVar4.length; i++) {
 var tempObj = {};
+tempObj['CustomerId'] = loopVar4[i].BorrowerSeq;
 tempObj['CD_CUSTOMER_TYPE'] = loopVar4[i].CustomerSegment;
 tempObj['CD_CUSTOMER_NAME'] = loopVar4[i].FirstName;
 tempObj['CD_CIF_NUMBER'] = loopVar4[i].CIF;
@@ -231,6 +237,32 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 }
 );
 
+}
+async CD_EDIT_BUTTON_click(event){
+let inputMap = new Map();
+const selectedData0 = this.readonlyGrid.getSelectedData();
+if(selectedData0){
+this.custDtlsEdit.emit({
+'BorrowerSeq': selectedData0['CustomerId'],
+});
+}
+}
+async CD_DELETE_click(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.BorrowerSeq', event.CustomerId);
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);
+this.readonlyGrid.refreshGrid();},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Something went wrong', -1);
+}
+);
 }
 
 }
