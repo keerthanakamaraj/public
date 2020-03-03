@@ -23,9 +23,12 @@ transition('false => true', animate('300ms ease-in'))
 export class SearchCustomerGridComponent implements AfterViewInit {
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
+
 @Input('formCode') formCode: string;
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
+@Input('fieldID') fieldID: string;
+
 componentCode: string = 'SearchCustomerGrid';
 openedFilterForm:string = '';
 hidden:boolean = false;
@@ -200,6 +203,7 @@ return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 }
 ngOnInit(): void {
 this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
+this.readonlyGrid.setRowClickHandler(this.rowClicked.bind(this));
 var styleElement = document.createElement('style');
 styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
@@ -227,18 +231,9 @@ return this.hidden;
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
 let inputMap = new Map();
 inputMap.clear();
-let taxId:any = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'TaxId');
-let criteriaJson:any = {"Offset":1,"Count" :10, FilterCriteria:[]};
-if('taxId'){
-criteriaJson.FilterCriteria.push({
-	"columnName": "TAX_ID",
-	"columnType": "String",
-	"conditions": {
-		"searchType": "equals",
-		"searchText": 'taxId'
-	}
-})}
-inputMap.set('QueryParam.criteriaDetails', JSON.stringify(criteriaJson));
+inputMap.set('QueryParam.TaxId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'TaxId'));
+inputMap.set('QueryParam.MobileNumber', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'MobileNo'));
+inputMap.set('QueryParam.ExistingCIF', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'CifNo'));
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
@@ -277,23 +272,23 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/dedupe', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar10 = [];
-var loopVar10 = res['Dedupe'];
-if (loopVar10) {
-for (var i = 0; i < loopVar10.length; i++) {
+var loopDataVar7 = [];
+var loopVar7 = res['Dedupe'];
+if (loopVar7) {
+for (var i = 0; i < loopVar7.length; i++) {
 var tempObj = {};
-tempObj['TaxID'] = loopVar10[i].TaxId;
-tempObj['CustName'] = loopVar10[i].FullName;
-tempObj['AccNo'] = loopVar10[i].AccountNumber;
-tempObj['AccVintage'] = loopVar10[i].AccountVintage;
-tempObj['AccType'] = loopVar10[i].AccountType;
-tempObj['Status'] = loopVar10[i].ApplicationStatus;
-tempObj['Mobile'] = loopVar10[i].MobileNumber;
-tempObj['Cif'] = loopVar10[i].ExistingCIF;
-tempObj['Dob'] = loopVar10[i].DateOfBirth;
-loopDataVar10.push(tempObj);}
+tempObj['TaxID'] = loopVar7[i].TaxId;
+tempObj['CustName'] = loopVar7[i].FullName;
+tempObj['AccNo'] = loopVar7[i].AccountNumber;
+tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+tempObj['AccType'] = loopVar7[i].AccountType;
+tempObj['Status'] = loopVar7[i].ApplicationStatus;
+tempObj['Mobile'] = loopVar7[i].MobileNumber;
+tempObj['Cif'] = loopVar7[i].ExistingCIF;
+tempObj['Dob'] = loopVar7[i].DateOfBirth;
+loopDataVar7.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -301,6 +296,27 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 }
 }
 );
+
+}
+async rowClicked(event) {
+let inputMap = new Map();
+const selectedData0 = this.readonlyGrid.getSelectedData();
+if(selectedData0){
+let tempVar:any = {};
+tempVar['mobileNum'] = selectedData0['Mobile'];
+tempVar['taxId'] = selectedData0['TaxID'];
+tempVar['custName'] = selectedData0['CustName'];
+tempVar['accNo'] = selectedData0['AccNo'];
+tempVar['accVintage'] = selectedData0['AccVintage'];
+tempVar['accType'] = selectedData0['AccType'];
+tempVar['status'] = selectedData0['Status'];
+tempVar['dob'] = selectedData0['Dob'];
+tempVar['cif'] = selectedData0['Cif'];
+this.services.dataStore.setData('selectedData', tempVar);
+for (var i = this.services.routing.currModal; i > 0; i--) {
+await this.services.dataStore.getModalReference(i).componentInstance.closeModal();
+}
+}
 
 }
 
