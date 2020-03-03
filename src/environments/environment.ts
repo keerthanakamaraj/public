@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // baseURL: 'http://10.11.12.26:8180/olive/'
-  baseURL: "http://10.11.12.19:18280" //Mumbai
+  baseURL: "http://10.11.12.19:18180" //Mumbai
 };
 
 /*

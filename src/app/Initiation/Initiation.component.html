@@ -13,10 +13,9 @@
 <div class="col-12  col-sm-12 col-md-12 group-default">
 <div #SEARCH_CUST_GROUP id="SEARCH_CUST_GROUP">
 <div class="form-group pb10 ">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #SEARCH_CUST_HEAD parentCompCode="Initiation" fieldID="SEARCH_CUST_HEAD" [formCode]="formCode" fontFamily="sans-serif" fontColor="#ffffff" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="btn btn-primary"></app-label>
 </div>
-<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_MOBILE_NO.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -49,10 +48,9 @@
 <div class="col-12  col-sm-12 col-md-12 group-default">
 <div #BAD_GROUP id="BAD_GROUP">
 <div class="form-group pb10 ">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #BAD_LABEL parentCompCode="Initiation" fieldID="BAD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#ffffff" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="btn btn-primary"></app-label>
 </div>
-<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -82,7 +80,7 @@
 {{ 'Initiation.BAD_SRC_CHANNEL' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #BAD_SRC_CHANNEL category="2" fieldID="BAD_SRC_CHANNEL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_SRC_CHANNEL', $event)"></app-combo-box>
+<app-combo-box #BAD_SRC_CHANNEL category="2" fieldID="BAD_SRC_CHANNEL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_SRC_CHANNEL', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_DSA_ID.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -90,7 +88,7 @@
 {{ 'Initiation.BAD_DSA_ID' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #BAD_DSA_ID category="2" fieldID="BAD_DSA_ID" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_DSA_ID', $event)"></app-combo-box>
+<app-combo-box #BAD_DSA_ID category="2" fieldID="BAD_DSA_ID" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_DSA_ID', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_BRANCH.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -98,7 +96,7 @@
 {{ 'Initiation.BAD_BRANCH' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #BAD_BRANCH category="2" fieldID="BAD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_BRANCH', $event)"></app-combo-box>
+<app-combo-box #BAD_BRANCH category="2" fieldID="BAD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_BRANCH', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -106,9 +104,9 @@
 {{ 'Initiation.BAD_PROD_CAT' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #BAD_PROD_CAT category="2" fieldID="BAD_PROD_CAT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"></app-combo-box>
+<app-combo-box #BAD_PROD_CAT category="2" fieldID="BAD_PROD_CAT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"></app-combo-box>
 </div>
-<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -147,19 +145,18 @@
 <div class="col-12  col-sm-12 col-md-12 group-default">
 <div #CD_GROUP id="CD_GROUP">
 <div class="form-group pb10 ">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #CD_HEAD_LABEL parentCompCode="Initiation" fieldID="CD_HEAD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#ffffff" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="btn btn-primary"></app-label>
 </div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TITLE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
 {{ 'Initiation.CD_TITLE' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #CD_TITLE category="2" fieldID="CD_TITLE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_TITLE', $event)"></app-combo-box>
+<app-combo-box #CD_TITLE category="2" fieldID="CD_TITLE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_TITLE', $event)"></app-combo-box>
 </div>
-<div style="min-height: 0px;height: 30px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FIRST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -197,7 +194,7 @@
 {{ 'Initiation.CD_GENDER' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #CD_GENDER category="2" fieldID="CD_GENDER" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_GENDER', $event)"></app-combo-box>
+<app-combo-box #CD_GENDER category="2" fieldID="CD_GENDER" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_GENDER', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -234,14 +231,14 @@
 <label class="clr-brown">
 {{ 'Initiation.CD_CUST_SGMT' | translate}}</label>
 </div>
-<app-combo-box #CD_CUST_SGMT category="2" fieldID="CD_CUST_SGMT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"></app-combo-box>
+<app-combo-box #CD_CUST_SGMT category="2" fieldID="CD_CUST_SGMT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
 {{ 'Initiation.CD_STAFF' | translate}}</label>
 </div>
-<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
+<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -257,10 +254,9 @@
 <div class="col-12  col-sm-12 col-md-12 group-default">
 <div #LD_GROUP id="LD_GROUP">
 <div class="form-group pb10 ">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #LD_HEAD parentCompCode="Initiation" fieldID="LD_HEAD" [formCode]="formCode" fontFamily="sans-serif" fontColor="#ffffff" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="btn btn-primary"></app-label>
 </div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -332,7 +328,7 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CHK_ELGBTY_BTN.isHidden()">
 <app-button #LD_CHK_ELGBTY_BTN fieldName="{{ 'Initiation.LD_CHK_ELGBTY_BTN' | translate}}" fieldID="LD_CHK_ELGBTY_BTN" [formCode]="formCode" customClass="btn btn-primary"></app-button>
 </div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_SYS_AMT_RCMD.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -348,7 +344,7 @@
 </div>
 <app-amount #LD_USR_RCMD_AMT fieldID="LD_USR_RCMD_AMT" [formCode]="formCode" (blur)="genericOnBlur('LD_USR_RCMD_AMT', $event)"></app-amount>
 </div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LTV_DBR.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -370,10 +366,9 @@
 <div class="col-12  col-sm-12 col-md-12 group-default">
 <div #RD_GROUP id="RD_GROUP">
 <div class="form-group pb10 ">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #RD_HEAD_LBL parentCompCode="Initiation" fieldID="RD_HEAD_LBL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#ffffff" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="btn btn-primary"></app-label>
 </div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -399,16 +394,16 @@
 <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode" customClass="btn cancel"></app-button>
 </div>
 </div>
-<app-hidden #hiddenProductId fieldID="hiddenProductId"></app-hidden>
-<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-<app-hidden #hidSourceingChannel fieldID="hidSourceingChannel"></app-hidden>
-<app-hidden #hidYesNo fieldID="hidYesNo"></app-hidden>
-<app-hidden #hidDSAId fieldID="hidDSAId"></app-hidden>
 <app-hidden #hidAccBranch fieldID="hidAccBranch"></app-hidden>
-<app-hidden #hidProdCat fieldID="hidProdCat"></app-hidden>
-<app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
-<app-hidden #hidGender fieldID="hidGender"></app-hidden>
+<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCustSeg fieldID="hidCustSeg"></app-hidden>
+<app-hidden #hidDSAId fieldID="hidDSAId"></app-hidden>
+<app-hidden #hidGender fieldID="hidGender"></app-hidden>
+<app-hidden #hidProdCat fieldID="hidProdCat"></app-hidden>
+<app-hidden #hidSourceingChannel fieldID="hidSourceingChannel"></app-hidden>
+<app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
+<app-hidden #hidYesNo fieldID="hidYesNo"></app-hidden>
+<app-hidden #hiddenProductId fieldID="hiddenProductId"></app-hidden>
 </div>
 </div>
 </div>

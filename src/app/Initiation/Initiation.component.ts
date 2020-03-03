@@ -69,16 +69,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('RD_REFERRER_NO', {static: false}) RD_REFERRER_NO: TextBoxComponent;
 @ViewChild('SUBMIT_MAIN_BTN', {static: false}) SUBMIT_MAIN_BTN: ButtonComponent;
 @ViewChild('CANCEL_MAIN_BTN', {static: false}) CANCEL_MAIN_BTN: ButtonComponent;
-@ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
-@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
-@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
-@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
 @ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
-@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
-@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
-@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
+@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
+@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
+@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
+@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
+@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
+@ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -158,16 +158,16 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EMI_AMT.setReadOnly(true);
-this.hiddenProductId.setValue('CreditCard');
-this.hidAppId.setValue('RLO');
-this.hidSourceingChannel.setValue('Branch');
-this.hidYesNo.setValue('Y/N');
-this.hidDSAId.setValue('DSA_ID');
 this.hidAccBranch.setValue('ACC_BRANCH');
-this.hidProdCat.setValue('PRODUCT_CATEGORY');
-this.hidTitle.setValue('TITLE');
-this.hidGender.setValue('GENDER');
+this.hidAppId.setValue('RLO');
 this.hidCustSeg.setValue('CUST_SEGMENT');
+this.hidDSAId.setValue('DSA_ID');
+this.hidGender.setValue('GENDER');
+this.hidProdCat.setValue('PRODUCT_CATEGORY');
+this.hidSourceingChannel.setValue('Branch');
+this.hidTitle.setValue('TITLE');
+this.hidYesNo.setValue('Y/N');
+this.hiddenProductId.setValue('CreditCard');
 this.setDependencies();
 }
 setInputs(param : any){
@@ -287,7 +287,7 @@ inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValu
 inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
 inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
 inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
-this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap).subscribe(
+this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
