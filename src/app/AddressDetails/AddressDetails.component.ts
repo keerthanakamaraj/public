@@ -98,9 +98,6 @@ this.hidAddType.setValue('ADDRESS_TYPE');
 this.hidAppId.setValue('RLO');
 this.hidMailingAddress.setValue('Y/N');
 this.hidResType.setValue('RESIDENCE_TYPE');
-let inputMap = new Map();
-await this.AddressGrid.gridDataLoad({
-});
 this.setDependencies();
 }
 setInputs(param : any){

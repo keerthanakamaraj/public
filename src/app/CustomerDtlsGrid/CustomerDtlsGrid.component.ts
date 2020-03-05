@@ -213,7 +213,7 @@ default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar4 = [];
@@ -251,7 +251,7 @@ async CD_DELETE_click(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.BorrowerSeq', event.CustomerId);
-this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);

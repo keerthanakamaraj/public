@@ -2,9 +2,6 @@
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'AddressDetails.FormTitle' | translate }}
-</h4>
 </div>
 <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
 </div>
@@ -13,6 +10,9 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #AD_HEADING parentCompCode="AddressDetails" fieldID="AD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+</div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">

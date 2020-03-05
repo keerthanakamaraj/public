@@ -171,6 +171,18 @@ return this.hidden;
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
 let inputMap = new Map();
 inputMap.clear();
+let borrowerSeq:any = event.passBorrowerSeqToGrid;
+let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
+if(borrowerSeq){
+criteriaJson.FilterCriteria.push({
+	"columnName": "BorrowerSeq",
+	"columnType": "String",
+	"conditions": {
+		"searchType": "equals",
+		"searchText": borrowerSeq
+	}
+});}
+inputMap.set('QueryParam.criteriaDetails', criteriaJson);
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
@@ -199,19 +211,18 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/AddressDetails', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar4 = [];
-var loopVar4 = res['AddressDetails'];
-if (loopVar4) {
-for (var i = 0; i < loopVar4.length; i++) {
+var loopDataVar10 = [];
+var loopVar10 = res['AddressDetails'];
+if (loopVar10) {
+for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
-tempObj['AD_ADD_ID'] = loopVar4[i].AddressDetailsSeq;
-tempObj['AD_Address_Type'] = loopVar4[i].AddressType;
-tempObj['AD_Address'] = loopVar4[i].AddressLine1;
-tempObj['AD_Residence_Duration'] = loopVar4[i].PeriodCurrentResidenceYrs;
-loopDataVar4.push(tempObj);
+tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
+tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
+tempObj['AD_Address'] = loopVar10[i].AddressLine1;
+tempObj['AD_Residence_Duration'] = loopVar10[i].PeriodCurrentResidenceYrs;
+loopDataVar10.push(tempObj);}
 }
-}
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
 },
 async (httpError)=>{
 var err = httpError['error']

@@ -16,6 +16,8 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CustomerDtlsGridComponent } from '../CustomerDtlsGrid/CustomerDtlsGrid.component';
+import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
+import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 
 const customCss: string = '';
 
@@ -24,6 +26,9 @@ selector: 'app-CustomerDtls',
 templateUrl: './CustomerDtls.component.html'
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
+@ViewChild('CD_CUST_TYPE', {static: false}) CD_CUST_TYPE: ComboBoxComponent;
+@ViewChild('CD_CIF', {static: false}) CD_CIF: TextBoxComponent;
+@ViewChild('CD_CUST_ID', {static: false}) CD_CUST_ID: TextBoxComponent;
 @ViewChild('CD_TITLE', {static: false}) CD_TITLE: ComboBoxComponent;
 @ViewChild('CD_FIRST_NAME', {static: false}) CD_FIRST_NAME: TextBoxComponent;
 @ViewChild('CD_MIDDLE_NAME', {static: false}) CD_MIDDLE_NAME: TextBoxComponent;
@@ -37,9 +42,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('CD_CUST_SEGMENT', {static: false}) CD_CUST_SEGMENT: ComboBoxComponent;
 @ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
 @ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
+@ViewChild('CD_LOAN_OWN', {static: false}) CD_LOAN_OWN: TextBoxComponent;
+@ViewChild('CD_PRIME_USAGE', {static: false}) CD_PRIME_USAGE: TextBoxComponent;
 @ViewChild('CD_PMRY_EMBSR_NAME', {static: false}) CD_PMRY_EMBSR_NAME: TextBoxComponent;
 @ViewChild('CD_NATIONALITY', {static: false}) CD_NATIONALITY: ComboBoxComponent;
 @ViewChild('CD_CITIZENSHIP', {static: false}) CD_CITIZENSHIP: TextBoxComponent;
+@ViewChild('CD_VISA_VALID', {static: false}) CD_VISA_VALID: DateComponent;
 @ViewChild('CD_MARITAL_STATUS', {static: false}) CD_MARITAL_STATUS: ComboBoxComponent;
 @ViewChild('CD_NATIONAL_ID', {static: false}) CD_NATIONAL_ID: TextBoxComponent;
 @ViewChild('CD_PASSPORT_NO', {static: false}) CD_PASSPORT_NO: TextBoxComponent;
@@ -47,8 +55,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('CD_DRIVING_LICENSE', {static: false}) CD_DRIVING_LICENSE: TextBoxComponent;
 @ViewChild('CD_DRVNG_LCNSE_EXP_DT', {static: false}) CD_DRVNG_LCNSE_EXP_DT: DateComponent;
 @ViewChild('CD_PREF_COM_CH', {static: false}) CD_PREF_COM_CH: ComboBoxComponent;
+@ViewChild('CD_PREF_LANG', {static: false}) CD_PREF_LANG: ComboBoxComponent;
 @ViewChild('CD_SAVE_BTN', {static: false}) CD_SAVE_BTN: ButtonComponent;
+@Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
 @ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustomerDtlsGridComponent;
+@ViewChild('FieldId_29', {static: false}) FieldId_29: AddressDetailsComponent;
+@ViewChild('FieldId_30', {static: false}) FieldId_30: OccupationDtlsFormComponent;
 @ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
@@ -62,6 +74,9 @@ async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
+this.revalidateBasicField('CD_CUST_TYPE'),
+this.revalidateBasicField('CD_CIF'),
+this.revalidateBasicField('CD_CUST_ID'),
 this.revalidateBasicField('CD_TITLE'),
 this.revalidateBasicField('CD_FIRST_NAME'),
 this.revalidateBasicField('CD_MIDDLE_NAME'),
@@ -75,9 +90,12 @@ this.revalidateBasicField('CD_DEBIT_SCORE'),
 this.revalidateBasicField('CD_CUST_SEGMENT'),
 this.revalidateBasicField('CD_STAFF'),
 this.revalidateBasicField('CD_STAFF_ID'),
+this.revalidateBasicField('CD_LOAN_OWN'),
+this.revalidateBasicField('CD_PRIME_USAGE'),
 this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
 this.revalidateBasicField('CD_NATIONALITY'),
 this.revalidateBasicField('CD_CITIZENSHIP'),
+this.revalidateBasicField('CD_VISA_VALID'),
 this.revalidateBasicField('CD_MARITAL_STATUS'),
 this.revalidateBasicField('CD_NATIONAL_ID'),
 this.revalidateBasicField('CD_PASSPORT_NO'),
@@ -85,6 +103,9 @@ this.revalidateBasicField('CD_PASSPORT_EXPIRY'),
 this.revalidateBasicField('CD_DRIVING_LICENSE'),
 this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT'),
 this.revalidateBasicField('CD_PREF_COM_CH'),
+this.revalidateBasicField('CD_PREF_LANG'),
+this.FieldId_29.revalidate(),
+this.FieldId_30.revalidate(),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -101,6 +122,8 @@ this.componentCode = 'CustomerDtls';
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
+this.FieldId_29.setReadOnly(readOnly);
+this.FieldId_30.setReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -132,13 +155,19 @@ getFieldInfo() {
 this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
 this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
 this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
+this.additionalInfo['FieldId_29_desc'] = this.FieldId_29.getFieldInfo();
+this.additionalInfo['FieldId_30_desc'] = this.FieldId_30.getFieldInfo();
 return this.additionalInfo;
 }
 getFieldValue(){
+this.value.FieldId_29 = this.FieldId_29.getFieldValue();
+this.value.FieldId_30 = this.FieldId_30.getFieldValue();
 return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
+this.FieldId_29.setValue(inputValue['FieldId_29'], inputDesc['FieldId_29_desc']);
+this.FieldId_30.setValue(inputValue['FieldId_30'], inputDesc['FieldId_30_desc']);
 this.value = new CustomerDtlsModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -162,6 +191,10 @@ styleElement.parentNode.removeChild(styleElement);
 ngAfterViewInit(){
 setTimeout(() => {
 this.subsBFldsValueUpdates();
+this.value.FieldId_29 = this.FieldId_29.getFieldValue();
+this.FieldId_29.valueChangeUpdates().subscribe((value) => {this.value.FieldId_29 = value;});
+this.value.FieldId_30 = this.FieldId_30.getFieldValue();
+this.FieldId_30.valueChangeUpdates().subscribe((value) => {this.value.FieldId_30 = value;});
 this.onFormLoad();
 this.checkForHTabOverFlow();
 });
@@ -170,11 +203,15 @@ clearError(){
 super.clearBasicFieldsError();
 super.clearHTabErrors();
 super.clearVTabErrors();
+this.FieldId_29.clearError();
+this.FieldId_30.clearError();
 this.errors = 0;
 this.errorMessage = [];
 }
 onReset(){
 super.resetBasicFields();
+this.FieldId_29.onReset();
+this.FieldId_30.onReset();
 this.clearHTabErrors();
 this.clearVTabErrors();
 this.errors = 0;
@@ -213,7 +250,7 @@ inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.ge
 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Success', 5000);
@@ -321,7 +358,7 @@ inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.ge
 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Record Saved Successfully', 5000);
@@ -409,7 +446,7 @@ async CUST_DTLS_GRID_custDtlsEdit(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.BorrowerSeq', event.BorrowerSeq);
-this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);
@@ -443,6 +480,15 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 }
 }
 );
+this.passBorrowerSeq.emit({
+'BorrowerSeq': event.BorrowerSeq,
+});
+await this.FieldId_29.AddressGrid.gridDataLoad({
+'passBorrowerSeqToGrid': event.BorrowerSeq,
+});
+await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
+'refNumToGrid': event.BorrowerSeq,
+});
 }
 fieldDependencies = {
 CD_TITLE: {

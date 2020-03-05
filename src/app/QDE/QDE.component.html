@@ -13,14 +13,11 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_8.isHidden()">
+<app-Header #FieldId_8 fieldID="FieldId_8" [formCode]="formCode"></app-Header>
+</div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
 <app-CustomerDtls #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-CustomerDtls>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_2.isHidden()">
-<app-AddressDetails #FieldId_2 fieldID="FieldId_2" [formCode]="formCode"></app-AddressDetails>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_4.isHidden()">
-<app-OccupationDtlsForm #FieldId_4 fieldID="FieldId_4" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_5.isHidden()">
 <app-ApplicationDtls #FieldId_5 fieldID="FieldId_5" [formCode]="formCode"></app-ApplicationDtls>

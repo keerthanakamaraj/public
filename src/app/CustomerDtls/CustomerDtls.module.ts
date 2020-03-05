@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { CustomerDtlsRoutingModule } from './CustomerDtls-routing.module';
 import { CustomerDtlsComponent } from './CustomerDtls.component';
+import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
+import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 import { CustomerDtlsGridModule } from '../CustomerDtlsGrid/CustomerDtlsGrid.module';
 @NgModule({
 imports: [
@@ -22,6 +24,8 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+AddressDetailsModule,
+OccupationDtlsFormModule,
 CustomerDtlsGridModule,
 ],
 declarations: [

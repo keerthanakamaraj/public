@@ -9,8 +9,7 @@ import { QDERoutingModule } from './QDE-routing.module';
 import { QDEComponent } from './QDE.component';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module';
-import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
-import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
+import { HeaderModule } from '../Header/Header.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 @NgModule({
 imports: [
@@ -28,8 +27,7 @@ deps: [HttpClient]
 }),
 ApplicationDtlsModule,
 LoanDetailsFormModule,
-AddressDetailsModule,
-OccupationDtlsFormModule,
+HeaderModule,
 CustomerDtlsModule,
 ],
 declarations: [
