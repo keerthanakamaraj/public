@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
+import { RAFormModule } from '../ra-form/ra-form.module';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
-import { FormsModule } from '@angular/forms';
-import { RAFormModule } from '../ra-form/ra-form.module';
-import { InitiationRoutingModule } from './Initiation-routing.module';
-import { InitiationComponent } from './Initiation.component';
-import { CustDtlsGridModule } from '../CustDtlsGrid/CustDtlsGrid.module';
+import { ReadonlyGridModule } from '../readonly-grid/readonly-grid.module';
+import { GridPaginationModule } from '../grid-pagination/grid-pagination.module';
+import { CustDtlsGridComponent } from './CustDtlsGrid.component';
 @NgModule({
 imports: [
 CommonModule,
-InitiationRoutingModule,
+ReadonlyGridModule,
+GridPaginationModule,
 RAFormModule,
-FormsModule,
 HttpClientModule,
 TranslateModule.forChild({
 loader: {
@@ -22,13 +21,12 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-CustDtlsGridModule,
 ],
 declarations: [
-InitiationComponent,
+CustDtlsGridComponent,
 ],
 exports:[
-InitiationComponent,
+CustDtlsGridComponent,
 ],
 })
-export class InitiationModule { }
+export class CustDtlsGridModule { }

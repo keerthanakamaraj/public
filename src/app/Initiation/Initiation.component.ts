@@ -15,8 +15,9 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { CustDtlsGridComponent } from '../CustDtlsGrid/CustDtlsGrid.component';
 
-const customCss: string = '.btn {  margin-top: 20px; }';
+const customCss: string = '';
 
 @Component({
 selector: 'app-Initiation',
@@ -38,6 +39,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('BAD_SUB_PROD', {static: false}) BAD_SUB_PROD: ComboBoxComponent;
 @ViewChild('BAD_SCHEME', {static: false}) BAD_SCHEME: ComboBoxComponent;
 @ViewChild('BAD_PROMOTION', {static: false}) BAD_PROMOTION: ComboBoxComponent;
+@ViewChild('CD_CUST_TYPE', {static: false}) CD_CUST_TYPE: ComboBoxComponent;
+@ViewChild('CD_CIF', {static: false}) CD_CIF: TextBoxComponent;
 @ViewChild('CD_TITLE', {static: false}) CD_TITLE: ComboBoxComponent;
 @ViewChild('CD_FIRST_NAME', {static: false}) CD_FIRST_NAME: TextBoxComponent;
 @ViewChild('CD_MIDDLE_NAME', {static: false}) CD_MIDDLE_NAME: TextBoxComponent;
@@ -51,6 +54,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('CD_CUST_SGMT', {static: false}) CD_CUST_SGMT: ComboBoxComponent;
 @ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
 @ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
+@ViewChild('CD_ADD', {static: false}) CD_ADD: ButtonComponent;
+@ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustDtlsGridComponent;
 @ViewChild('LD_LOAN_AMOUNT', {static: false}) LD_LOAN_AMOUNT: AmountComponent;
 @ViewChild('LD_INTEREST_RATE', {static: false}) LD_INTEREST_RATE: TextBoxComponent;
 @ViewChild('LD_TENURE', {static: false}) LD_TENURE: TextBoxComponent;
@@ -69,6 +74,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('RD_REFERRER_NO', {static: false}) RD_REFERRER_NO: TextBoxComponent;
 @ViewChild('SUBMIT_MAIN_BTN', {static: false}) SUBMIT_MAIN_BTN: ButtonComponent;
 @ViewChild('CANCEL_MAIN_BTN', {static: false}) CANCEL_MAIN_BTN: ButtonComponent;
+@ViewChild('IndexHideField', {static: false}) IndexHideField: HiddenComponent;
 @ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
@@ -79,6 +85,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
 @ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
 @ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
+@ViewChild('hideCustomerType', {static: false}) hideCustomerType: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -97,6 +104,8 @@ this.revalidateBasicField('BAD_PRODUCT'),
 this.revalidateBasicField('BAD_SUB_PROD'),
 this.revalidateBasicField('BAD_SCHEME'),
 this.revalidateBasicField('BAD_PROMOTION'),
+this.revalidateBasicField('CD_CUST_TYPE'),
+this.revalidateBasicField('CD_CIF'),
 this.revalidateBasicField('CD_TITLE'),
 this.revalidateBasicField('CD_FIRST_NAME'),
 this.revalidateBasicField('CD_MIDDLE_NAME'),
@@ -145,6 +154,7 @@ super.setBasicFieldsReadOnly(readOnly);
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.BAD_EXST_CUST.setReadOnly(true);
+// this.CD_CUST_TYPE.setValue(CIF);
 this.CD_FULL_NAME.setReadOnly(true);
 this.LD_LOAN_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_INTEREST_RATE.setReadOnly(true);
@@ -158,6 +168,7 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EMI_AMT.setReadOnly(true);
+this.IndexHideField.setValue(-1);
 this.hidAccBranch.setValue('ACC_BRANCH');
 this.hidAppId.setValue('RLO');
 this.hidCustSeg.setValue('CUST_SEGMENT');
@@ -168,6 +179,7 @@ this.hidSourceingChannel.setValue('Branch');
 this.hidTitle.setValue('TITLE');
 this.hidYesNo.setValue('Y/N');
 this.hiddenProductId.setValue('CreditCard');
+this.hideCustomerType.setValue('CUSTOMER_TYPE');
 this.setDependencies();
 }
 setInputs(param : any){
@@ -191,6 +203,7 @@ return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
+this.CUST_DTLS_GRID.setValue(inputValue['CUST_DTLS_GRID']);
 this.value = new InitiationModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -260,6 +273,106 @@ this.services.dataStore.setData('selectedData', undefined);
 modalRef.result.then(onModalClose, onModalClose);
 modalRef.componentInstance.rotueToComponent(inputMap);
 this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+}
+async CD_ADD_click(event){
+let inputMap = new Map();
+if(this.IndexHideField.getFieldValue() == -1){
+let CustArray:any = {};
+CustArray['FullName'] = this.CD_FULL_NAME.getFieldValue();
+CustArray['CustType'] = this.CD_CUST_TYPE.getFieldValue();
+CustArray['DOB'] = this.CD_DOB.getFieldValue();
+CustArray['FirstName'] = this.CD_FIRST_NAME.getFieldValue();
+CustArray['MiddleName'] = this.CD_MIDDLE_NAME.getFieldValue();
+CustArray['LastName'] = this.CD_LAST_NAME.getFieldValue();
+CustArray['Title'] = this.CD_TITLE.getFieldValue();
+CustArray['Gender'] = this.CD_GENDER.getFieldValue();
+CustArray['TaxId'] = this.CD_TAX_ID.getFieldValue();
+CustArray['Mobile'] = this.CD_MOBILE.getFieldValue();
+CustArray['DebitScore'] = this.CD_DEBIT_SCORE.getFieldValue();
+CustArray['CustSgmt'] = this.CD_CUST_SGMT.getFieldValue();
+CustArray['Staff'] = this.CD_STAFF.getFieldValue();
+CustArray['StaffId'] = this.CD_STAFF_ID.getFieldValue();
+CustArray['Cif'] = this.CD_CIF.getFieldValue();
+CustArray['RowIndex'] = this.CustomerDataArray.length;
+this.CustomerDataArray.push(CustArray);this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
+}
+else{
+let j:any = this.IndexHideField.getFieldValue();
+this.CustomerDataArray[j].FullName = this.CD_FULL_NAME.getFieldValue();
+this.CustomerDataArray[j].Cif = this.CD_CIF.getFieldValue();
+this.CustomerDataArray[j].Title = this.CD_TITLE.getFieldValue();
+this.CustomerDataArray[j].FirstName = this.CD_FIRST_NAME.getFieldValue();
+this.CustomerDataArray[j].MiddleName = this.CD_MIDDLE_NAME.getFieldValue();
+this.CustomerDataArray[j].LastName = this.CD_LAST_NAME.getFieldValue();
+this.CustomerDataArray[j].Gender = this.CD_GENDER.getFieldValue();
+this.CustomerDataArray[j].DOB = this.CD_DOB.getFieldValue();
+this.CustomerDataArray[j].Mobile = this.CD_MOBILE.getFieldValue();
+this.CustomerDataArray[j].TaxId = this.CD_TAX_ID.getFieldValue();
+this.CustomerDataArray[j].DebitScore = this.CD_DEBIT_SCORE.getFieldValue();
+this.CustomerDataArray[j].CustSgmt = this.CD_CUST_SGMT.getFieldValue();
+this.CustomerDataArray[j].Staff = this.CD_STAFF.getFieldValue();
+this.CustomerDataArray[j].StaffId = this.CD_STAFF_ID.getFieldValue();
+this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
+}
+this.CD_CIF.onReset();
+this.CD_CUST_TYPE.onReset();
+this.CD_TITLE.onReset();
+this.CD_FIRST_NAME.onReset();
+this.CD_MIDDLE_NAME.onReset();
+this.CD_LAST_NAME.onReset();
+this.CD_FULL_NAME.onReset();
+this.CD_GENDER.onReset();
+this.CD_DOB.onReset();
+this.CD_TAX_ID.onReset();
+this.CD_MOBILE.onReset();
+this.CD_DEBIT_SCORE.onReset();
+this.CD_CUST_SGMT.onReset();
+this.CD_STAFF.onReset();
+this.CD_STAFF_ID.onReset();
+this.IndexHideField.setValue(-1);
+}
+async CUST_DTLS_GRID_DeleteCustDetails(event){
+let inputMap = new Map();
+let i:any = event.DeleteIndex;
+this.CustomerDataArray.splice(i, 1);
+for(let k=i;k<this.CustomerDataArray;k++){
+	this.CustomerDataArray[k].RowIndex--;
+}this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
+}
+async CUST_DTLS_GRID_ModifyCustDetails(event){
+let inputMap = new Map();
+let i:any = event.Index;
+this.CD_FULL_NAME.setValue(this.CustomerDataArray[i].FullName);
+this.CD_CUST_TYPE.setValue(this.CustomerDataArray[i].CustType);
+this.CD_TITLE.setValue(this.CustomerDataArray[i].Title);
+this.CD_FIRST_NAME.setValue(this.CustomerDataArray[i].FirstName);
+this.CD_MIDDLE_NAME.setValue(this.CustomerDataArray[i].MiddleName);
+this.CD_LAST_NAME.setValue(this.CustomerDataArray[i].LastName);
+this.CD_GENDER.setValue(this.CustomerDataArray[i].Gender);
+this.CD_DOB.setValue(this.CustomerDataArray[i].DOB);
+this.CD_TAX_ID.setValue(this.CustomerDataArray[i].TaxId);
+this.CD_MOBILE.setValue(this.CustomerDataArray[i].Mobile);
+this.CD_DEBIT_SCORE.setValue(this.CustomerDataArray[i].DebitScore);
+this.CD_CUST_SGMT.setValue(this.CustomerDataArray[i].CustSgmt);
+this.CD_STAFF.setValue(this.CustomerDataArray[i].Staff);
+this.CD_STAFF_ID.setValue(this.CustomerDataArray[i].StaffId);
+this.CD_CIF.setValue(this.CustomerDataArray[i].Cif);
+this.IndexHideField.setValue(i);
+}
+async LD_CHK_ELGBTY_BTN_click(event){
+let inputMap = new Map();
+var navPath = ('/home/QDE').split('/');
+navPath = navPath.slice(1);
+inputMap.clear();
+inputMap.set('appId', '101');
+this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
+if (this.services.routing.currModal > 0) {
+var routerOutlets = {};
+routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length-1], 'popup'];
+this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange: true });
+} else {
+this.services.router.navigate(navPath);
+}
 }
 async SUBMIT_MAIN_BTN_click(event){
 let inputMap = new Map();
@@ -437,6 +550,15 @@ inDep: [
 ],
 outDep: [
 ]},
+CD_CUST_TYPE: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideCustomerType", paramType:"QueryParam"},
+],
+outDep: [
+]},
 CD_TITLE: {
 inDep: [
 
@@ -474,5 +596,6 @@ inDep: [
 outDep: [
 ]},
 }
+CustomerDataArray = [];
 
 }
