@@ -57,7 +57,7 @@ export class MainHeaderComponent implements OnInit {
 
     // TODO: Get Menu List from entitlements
     this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
-        { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
+        { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' },{ id: 'DDE', text: 'DDE' }]},
     // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
     //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
     //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
