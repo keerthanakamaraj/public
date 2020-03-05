@@ -1,0 +1,66 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="HD_PROD_CAT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Header.HD_PROD_CAT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #HD_PROD_CAT fieldID="HD_PROD_CAT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('HD_PROD_CAT', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="HD_PROD.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Header.HD_PROD' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #HD_PROD fieldID="HD_PROD" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('HD_PROD', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="HD_SUB_PROD.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Header.HD_SUB_PROD' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #HD_SUB_PROD fieldID="HD_SUB_PROD" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('HD_SUB_PROD', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="HD_SCHEME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Header.HD_SCHEME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #HD_SCHEME fieldID="HD_SCHEME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('HD_SCHEME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="HD_PROMOTION.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Header.HD_PROMOTION' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #HD_PROMOTION fieldID="HD_PROMOTION" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('HD_PROMOTION', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_PRIME_USAGE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Header.HD_PRIME_USAGE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #HD_PRIME_USAGE fieldID="HD_PRIME_USAGE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('HD_PRIME_USAGE', $event)"></app-text-box>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
