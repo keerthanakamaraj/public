@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { ProvidehttpService } from '../providehttp.service';
+import { KeycloakService } from 'keycloak-angular';
+
 declare let $: any;
 declare let document: any;
 window["$"] = $;
@@ -52,12 +54,12 @@ export class MainHeaderComponent implements OnInit {
   @ViewChild('notificationDiv', { static: false }) notificationDiv: ElementRef;
   @ViewChild('downloadsDiv', { static: false }) downloadsDiv: ElementRef;
 
-  constructor(private router: Router, public services: ServiceStock, public dataService: ProvidehttpService) {
+  constructor(private router: Router, public services: ServiceStock, public dataService: ProvidehttpService, private keycloakService: KeycloakService) {
     this.selectedlang = this.services.http.currentLanguage;
 
     // TODO: Get Menu List from entitlements
     this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
-        { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' },{ id: 'DDE', text: 'DDE' }]},
+        { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
     // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
     //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
     //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
@@ -83,10 +85,17 @@ export class MainHeaderComponent implements OnInit {
 
   }
 
-  logOut() {
-    this.services.http.sessionValid = false;
+  logout() {
+    //old code below
+    /*this.services.http.sessionValid = false;
     this.services.dataStore.formGenericData = "";
-    this.router.navigate(['/login/elogin']);
+    this.router.navigate(['/login/elogin']);*/
+
+    let keycloakInstance = this.keycloakService.getKeycloakInstance();
+    keycloakInstance.clearToken();
+    keycloakInstance.logout();
+    
+    this.router.navigate(['/']);
   }
 
   redirect(id) {

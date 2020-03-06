@@ -8,7 +8,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start-server": "node nodeJsWatch.js",
-    "start-angular": "ng serve --port 4201",
+    "start-angular": "ng serve --port 1841",
     "start": "concurrently  \"npm run start-angular\" \"npm run start-server\""
   },
   "private": true,
@@ -37,6 +37,8 @@
     "concurrently": "^4.1.2",
     "core-js": "^3.1.4",
     "easy-responsive-tabs": "0.0.2",
+    "keycloak-angular": "^7.1.0",
+    "keycloak-js": "^8.0.1",
     "mydatepicker": "^2.6.6",
     "ng-bootstrap-to-bootstrap-3": "^0.7.0",
     "ng2-datepicker": "^3.1.1",

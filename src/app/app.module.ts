@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, DoBootstrap, ApplicationRef } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -17,9 +17,9 @@ import { RefreshSidebarService } from './refreshSidebar.service';
 import { HttpResponseInceptor } from './http.interceptor';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-import { EloginComponent } from './elogin/elogin.component';
+// import { EloginComponent } from './elogin/elogin.component';
 import { FooterComponent } from './footer/footer.component';
-import { EloginAuthComponent } from './elogin-auth/elogin-auth.component';
+// import { EloginAuthComponent } from './elogin-auth/elogin-auth.component';
 //import { LogoutComponent } from './logout/logout.component';
 import { PopupModule } from './popup/popup.module';
 
@@ -37,12 +37,14 @@ import { MyTrayPageComponent } from './my-tray-page/my-tray-page.component';
 import { HomeRoutingModule } from './home/home-routing.module';
 //import { MainHeaderComponent } from './main-header/main-header.component';
 
+import { KeycloakService } from 'keycloak-angular';
 
 const appRoutes: Routes = [
   {
     path: '',
+    redirectTo: '/',
     //redirectTo: 'login/elogin',
-    redirectTo: 'home/LANDING', // TODO: Revert Changes after Login
+    //redirectTo: 'home/LANDING', // TODO: Revert Changes after Login
     pathMatch: 'full'
   },
   // {
@@ -67,14 +69,16 @@ const appRoutes: Routes = [
     path: '**',
     component: PageNotFoundComponent,
   }
-]
+];
+
+const keycloakService = new KeycloakService();
 
 @NgModule({
   declarations: [
     AppComponent,
-    EloginComponent,
+    // EloginComponent,
     FooterComponent,
-    EloginAuthComponent,
+    // EloginAuthComponent,
     PageNotFoundComponent,
     // LandingComponent,
     // MainHeaderComponent,
@@ -111,14 +115,42 @@ const appRoutes: Routes = [
     RoutingService,
     RefreshSidebarService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
+    {
+      provide: KeycloakService,
+      useValue: keycloakService
+    }
   ],
-  bootstrap: [AppComponent],
+  //bootstrap: [AppComponent],
   entryComponents: [
+    AppComponent,
     PopupModalComponent,
     PopupContentComponent
   ],
 })
-export class AppModule {
+export class AppModule implements DoBootstrap{
+  ngDoBootstrap(appRef: ApplicationRef): void {
+    let config = {
+      //url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'angular-test-app'
+      url: 'https://iam.intellectseecapps.com/auth', realm: 'ecpvdev', clientId: 'fabric'
+    }
+
+    let initOptions = {
+      redirectUri: 'http://localhost:1841/#/home/LANDING'
+    };
+
+    keycloakService
+      .init({ config, enableBearerInterceptor: true })
+      .then((auth) => {
+        console.log('[ngDoBootstrap] bootstrap app');
+        if (!auth) {
+          keycloakService.login({ redirectUri: initOptions.redirectUri });
+        } else {
+          //console.log('Token: ', keycloakService.getKeycloakInstance().token);
+          appRef.bootstrap(AppComponent);
+        }
+      })
+      .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));
+  }
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
