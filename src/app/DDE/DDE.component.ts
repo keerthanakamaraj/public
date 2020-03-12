@@ -22,6 +22,7 @@ import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsFo
 import { OtherDeductionFormComponent } from '../OtherDeductionForm/OtherDeductionForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
+import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
 
 const customCss: string = '';
 
@@ -37,6 +38,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 @ViewChild('FieldId_6', {static: false}) FieldId_6: OtherDeductionFormComponent;
 @ViewChild('FieldId_7', {static: false}) FieldId_7: ApplicationDtlsComponent;
 @ViewChild('FieldId_8', {static: false}) FieldId_8: AssetDetailsFormComponent;
+@ViewChild('FieldId_9', {static: false}) FieldId_9: IncomeSummaryFormComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -48,6 +50,7 @@ this.FieldId_5.revalidate(),
 this.FieldId_6.revalidate(),
 this.FieldId_7.revalidate(),
 this.FieldId_8.revalidate(),
+this.FieldId_9.revalidate(),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -71,6 +74,7 @@ this.FieldId_5.setReadOnly(readOnly);
 this.FieldId_6.setReadOnly(readOnly);
 this.FieldId_7.setReadOnly(readOnly);
 this.FieldId_8.setReadOnly(readOnly);
+this.FieldId_9.setReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -97,6 +101,7 @@ this.additionalInfo['FieldId_5_desc'] = this.FieldId_5.getFieldInfo();
 this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
 this.additionalInfo['FieldId_7_desc'] = this.FieldId_7.getFieldInfo();
 this.additionalInfo['FieldId_8_desc'] = this.FieldId_8.getFieldInfo();
+this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
 return this.additionalInfo;
 }
 getFieldValue(){
@@ -107,6 +112,7 @@ this.value.FieldId_5 = this.FieldId_5.getFieldValue();
 this.value.FieldId_6 = this.FieldId_6.getFieldValue();
 this.value.FieldId_7 = this.FieldId_7.getFieldValue();
 this.value.FieldId_8 = this.FieldId_8.getFieldValue();
+this.value.FieldId_9 = this.FieldId_9.getFieldValue();
 return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
@@ -118,6 +124,7 @@ this.FieldId_5.setValue(inputValue['FieldId_5'], inputDesc['FieldId_5_desc']);
 this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
 this.FieldId_7.setValue(inputValue['FieldId_7'], inputDesc['FieldId_7_desc']);
 this.FieldId_8.setValue(inputValue['FieldId_8'], inputDesc['FieldId_8_desc']);
+this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
 this.value = new DDEModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -155,6 +162,8 @@ this.value.FieldId_7 = this.FieldId_7.getFieldValue();
 this.FieldId_7.valueChangeUpdates().subscribe((value) => {this.value.FieldId_7 = value;});
 this.value.FieldId_8 = this.FieldId_8.getFieldValue();
 this.FieldId_8.valueChangeUpdates().subscribe((value) => {this.value.FieldId_8 = value;});
+this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+this.FieldId_9.valueChangeUpdates().subscribe((value) => {this.value.FieldId_9 = value;});
 this.onFormLoad();
 this.checkForHTabOverFlow();
 });
@@ -170,6 +179,7 @@ this.FieldId_5.clearError();
 this.FieldId_6.clearError();
 this.FieldId_7.clearError();
 this.FieldId_8.clearError();
+this.FieldId_9.clearError();
 this.errors = 0;
 this.errorMessage = [];
 }
@@ -182,6 +192,7 @@ this.FieldId_5.onReset();
 this.FieldId_6.onReset();
 this.FieldId_7.onReset();
 this.FieldId_8.onReset();
+this.FieldId_9.onReset();
 this.clearHTabErrors();
 this.clearVTabErrors();
 this.errors = 0;

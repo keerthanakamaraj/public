@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { FamilyDetailsFormRoutingModule } from './FamilyDetailsForm-routing.module';
 import { FamilyDetailsFormComponent } from './FamilyDetailsForm.component';
+import { FamilyDetailsGridModule } from '../FamilyDetailsGrid/FamilyDetailsGrid.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+FamilyDetailsGridModule,
 ],
 declarations: [
 FamilyDetailsFormComponent,

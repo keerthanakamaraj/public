@@ -11,6 +11,7 @@ import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module
 import { HeaderModule } from '../Header/Header.module';
 import { FamilyDetailsFormModule } from '../FamilyDetailsForm/FamilyDetailsForm.module';
 import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.module';
+import { IncomeSummaryFormModule } from '../IncomeSummaryForm/IncomeSummaryForm.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { OtherDeductionFormModule } from '../OtherDeductionForm/OtherDeductionForm.module';
 import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.module';
@@ -32,6 +33,7 @@ ApplicationDtlsModule,
 HeaderModule,
 FamilyDetailsFormModule,
 LiabilityDtlsFormModule,
+IncomeSummaryFormModule,
 CustomerDtlsModule,
 OtherDeductionFormModule,
 AssetDetailsFormModule,

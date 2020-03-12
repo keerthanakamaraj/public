@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -35,6 +36,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
 @ViewChild('FD_NATIONAL_ID', {static: false}) FD_NATIONAL_ID: TextBoxComponent;
 @ViewChild('FD_TAX_ID', {static: false}) FD_TAX_ID: TextBoxComponent;
 @ViewChild('FD_SAVE_BTN', {static: false}) FD_SAVE_BTN: ButtonComponent;
+@ViewChild('FieldId_18', {static: false}) FieldId_18: FamilyDetailsGridComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -93,6 +95,7 @@ return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
+this.FieldId_18.setValue(inputValue['FieldId_18']);
 this.value = new FamilyDetailsFormModel();
 this.value.setValue(inputValue);
 this.setDependencies();

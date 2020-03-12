@@ -32,12 +32,17 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
 @ViewChild('LD_LOAN_EMI', {static: false}) LD_LOAN_EMI: TextBoxComponent;
 @ViewChild('LD_INCLUDE_IN_DBR', {static: false}) LD_INCLUDE_IN_DBR: ComboBoxComponent;
 @ViewChild('LD_OS_AMOUNT', {static: false}) LD_OS_AMOUNT: AmountComponent;
-@ViewChild('LD_CURRENCY', {static: false}) LD_CURRENCY: ComboBoxComponent;
+@ViewChild('LD_CURRENCY', {static: false}) LD_CURRENCY: TextBoxComponent;
 @ViewChild('LD_EQUIVALENT_AMOUNT', {static: false}) LD_EQUIVALENT_AMOUNT: AmountComponent;
 @ViewChild('LD_LOAN_EMI_FREQUENCY', {static: false}) LD_LOAN_EMI_FREQUENCY: ComboBoxComponent;
 @ViewChild('LD_SAVE', {static: false}) LD_SAVE: ButtonComponent;
 @ViewChild('LIABILITY_GRID', {static: false}) LIABILITY_GRID: LiabilityDtlsGridComponent;
+@ViewChild('hideEmiFrequency', {static: false}) hideEmiFrequency: HiddenComponent;
+@ViewChild('hideTypeOfLoan', {static: false}) hideTypeOfLoan: HiddenComponent;
 @ViewChild('hiddenLiabilitySeq', {static: false}) hiddenLiabilitySeq: HiddenComponent;
+@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
+@ViewChild('hidLoanStatus', {static: false}) hidLoanStatus: HiddenComponent;
+@ViewChild('hideInculdeInDBR', {static: false}) hideInculdeInDBR: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -74,6 +79,11 @@ async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.LD_OS_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EQUIVALENT_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+this.hideEmiFrequency.setValue('LOAN_EMI_FREQUENCY');
+this.hideTypeOfLoan.setValue('PRODUCT_CATEGORY');
+this.hidAppId.setValue('RLO');
+this.hidLoanStatus.setValue('LOAN_STATUS');
+this.hideInculdeInDBR.setValue('Y/N');
 let inputMap = new Map();
 await this.LIABILITY_GRID.gridDataLoad({
 });
@@ -293,6 +303,7 @@ this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
 this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
 this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['EquivalentAmt']);
 this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['LoanEmiFrequency']);
+this.hiddenLiabilitySeq.setValue(res['LiabilityDetails']['LiabilitySeq']);
 this.hideSpinner();
 },
 async (httpError)=>{
@@ -305,6 +316,42 @@ this.hideSpinner();
 );
 }
 fieldDependencies = {
+LD_LOAN_STATUS: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "LD_LOAN_STATUS", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidLoanStatus", paramType:"QueryParam"},
+],
+outDep: [
+]},
+LD_TYPE_OF_LOAN: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "LD_TYPE_OF_LOAN", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideTypeOfLoan", paramType:"QueryParam"},
+],
+outDep: [
+]},
+LD_INCLUDE_IN_DBR: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "LD_INCLUDE_IN_DBR", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideInculdeInDBR", paramType:"QueryParam"},
+],
+outDep: [
+]},
+LD_LOAN_EMI_FREQUENCY: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "LD_LOAN_EMI_FREQUENCY", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideEmiFrequency", paramType:"QueryParam"},
+],
+outDep: [
+]},
 }
 
 }
