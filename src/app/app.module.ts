@@ -38,6 +38,8 @@ import { HomeRoutingModule } from './home/home-routing.module';
 //import { MainHeaderComponent } from './main-header/main-header.component';
 
 import { KeycloakService } from 'keycloak-angular';
+import { environment } from 'src/environments/environment';
+import { TestExtUIComponent } from './test-ext-ui/test-ext-ui.component';
 
 const appRoutes: Routes = [
   {
@@ -127,15 +129,15 @@ const keycloakService = new KeycloakService();
     PopupContentComponent
   ],
 })
-export class AppModule implements DoBootstrap{
+export class AppModule implements DoBootstrap {
   ngDoBootstrap(appRef: ApplicationRef): void {
     let config = {
       //url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'angular-test-app'
-      url: 'https://iam.intellectseecapps.com/auth', realm: 'ecpvdev', clientId: 'fabric'
+      url: environment.authURL, realm: environment.realm, clientId: environment.clientId
     }
 
     let initOptions = {
-      redirectUri: 'http://localhost:1841/#/home/LANDING'
+      redirectUri: environment.redirectURL
     };
 
     keycloakService
@@ -145,6 +147,8 @@ export class AppModule implements DoBootstrap{
         if (!auth) {
           keycloakService.login({ redirectUri: initOptions.redirectUri });
         } else {
+          sessionStorage.setItem('userId', keycloakService.getUsername());
+          console.log('Username: ', keycloakService.getUsername());
           //console.log('Token: ', keycloakService.getKeycloakInstance().token);
           appRef.bootstrap(AppComponent);
         }
