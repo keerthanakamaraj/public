@@ -39,7 +39,6 @@ import { HomeRoutingModule } from './home/home-routing.module';
 
 import { KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
-import { TestExtUIComponent } from './test-ext-ui/test-ext-ui.component';
 
 const appRoutes: Routes = [
   {
