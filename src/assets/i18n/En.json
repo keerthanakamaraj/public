@@ -1310,7 +1310,11 @@
 		"LD_HEAD": "Loan Details",
 		"LD_CHK_ELGBTY_BTN": "Check Eligibility",
 		"LD_INTEREST_RATE": "Interest Rate",
-		"LD_LTV_DBR": "LTV/DBR"
+		"LD_LTV_DBR": "LTV/DBR",
+		"CD_LOAN_OWNERSHIP" : "Loan Ownership(in %)",
+		"CD_EXISTING_CUST" : "Existing Customer",
+		"CD_CUSTOMER_ID" : "Customer ID",
+		"CD_THIRD_NAME" : "Third Name"
 	},
 	"TestOccForm": {
 		"OD_HEADING": "Occupation Details",
@@ -1483,6 +1487,7 @@
 		"LD_MODIFY_ButtonName": "Modify"
 	},
 	"Initiation": {
+		"CD_RESET" : "Reset",
 		"CD_CUST_SGMT": "Customer Segment",
 		"LD_APP_PRPSE": "Applicaton Purpose",
 		"SRC_TAX_ID": "Tax Id",
@@ -1537,7 +1542,11 @@
 		"LD_CHK_ELGBTY_BTN": "Check Eligibility",
 		"CD_CIF": "CIF",
 		"LD_INTEREST_RATE": "Interest Rate",
-		"LD_LTV_DBR": "LTV/DBR"
+		"LD_LTV_DBR": "LTV/DBR",
+		"CD_EXISTING_CUST" : "Existing Customer",
+		"CD_CUSTOMER_ID" : "Customer ID",
+		"CD_THIRD_NAME" : "Third Name",
+		"CD_LOAN_OWNERSHIP" : "Loan Ownership(in %)"
 	},
 	"AddressDetailsGrid": {
 		"AD_Residence_Duration": "Residence Duration",

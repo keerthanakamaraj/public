@@ -58,6 +58,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
 @ViewChild('CD_LOAN_OWNERSHIP', {static: false}) CD_LOAN_OWNERSHIP: AmountComponent;
 @ViewChild('CD_ADD', {static: false}) CD_ADD: ButtonComponent;
+@ViewChild('CD_RESET', {static: false}) CD_RESET: ButtonComponent;
 @ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustDtlsGridComponent;
 @ViewChild('LD_LOAN_AMOUNT', {static: false}) LD_LOAN_AMOUNT: AmountComponent;
 @ViewChild('LD_INTEREST_RATE', {static: false}) LD_INTEREST_RATE: TextBoxComponent;
@@ -89,6 +90,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
+@ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -186,6 +188,7 @@ this.hidProdCat.setValue('PRODUCT_CATEGORY');
 this.hidTitle.setValue('TITLE');
 this.hidGender.setValue('GENDER');
 this.hidCustSeg.setValue('CUST_SEGMENT');
+this.hideExsCust.setValue('Y/N');
 this.setDependencies();
 }
 setInputs(param : any){
@@ -319,6 +322,9 @@ CustArray['Staff'] = this.CD_STAFF.getFieldValue();
 CustArray['StaffId'] = this.CD_STAFF_ID.getFieldValue();
 CustArray['hideCustomerId'] = this.CD_CUST_TYPE.getFieldValue();
 CustArray['Cif'] = this.CD_CIF.getFieldValue();
+CustArray['CustomerId'] = this.CD_CUSTOMER_ID.getFieldValue();
+CustArray['ExistingCust'] = this.CD_EXISTING_CUST.getFieldValue();
+CustArray['LoanOwnership'] = this.CD_LOAN_OWNERSHIP.getFieldValue();
 CustArray['CustType_Desc'] = this.CD_CUST_TYPE.getFieldInfo();
 CustArray['RowIndex'] = this.CustomerDataArray.length;
 this.CustomerDataArray.push(CustArray);this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
@@ -361,6 +367,29 @@ this.CD_STAFF.onReset();
 this.CD_STAFF_ID.onReset();
 this.IndexHideField.setValue(-1);
 }
+async CD_RESET_click(event){
+let inputMap = new Map();
+this.CD_CUST_TYPE.onReset();
+this.CD_EXISTING_CUST.onReset();
+this.CD_CIF.onReset();
+this.CD_CUSTOMER_ID.onReset();
+this.CD_TITLE.onReset();
+this.CD_FIRST_NAME.onReset();
+this.CD_MIDDLE_NAME.onReset();
+this.CD_THIRD_NAME.onReset();
+this.CD_LAST_NAME.onReset();
+this.CD_FULL_NAME.onReset();
+this.CD_GENDER.onReset();
+this.CD_DOB.onReset();
+this.CD_TAX_ID.onReset();
+this.CD_MOBILE.onReset();
+this.CD_DEBIT_SCORE.onReset();
+this.CD_CUST_SGMT.onReset();
+this.CD_STAFF.onReset();
+this.CD_STAFF_ID.onReset();
+this.CD_LOAN_OWNERSHIP.onReset();
+this.IndexHideField.setValue(-1);
+}
 async CUST_DTLS_GRID_DeleteCustDetails(event){
 let inputMap = new Map();
 let i:any = event.DeleteIndex;
@@ -373,7 +402,7 @@ async CUST_DTLS_GRID_ModifyCustDetails(event){
 let inputMap = new Map();
 let i:any = event.Index;
 this.CD_FULL_NAME.setValue(this.CustomerDataArray[i].FullName);
-this.CD_CUST_TYPE.setValue(this.CustomerDataArray[i].hideCustomerId , this.CustomerDataArray[i].CustType_desc);
+this.CD_CUST_TYPE.setValue(this.CustomerDataArray[i].hideCustomerId);
 this.CD_TITLE.setValue(this.CustomerDataArray[i].Title);
 this.CD_FIRST_NAME.setValue(this.CustomerDataArray[i].FirstName);
 this.CD_MIDDLE_NAME.setValue(this.CustomerDataArray[i].MiddleName);
@@ -387,6 +416,9 @@ this.CD_CUST_SGMT.setValue(this.CustomerDataArray[i].CustSgmt);
 this.CD_STAFF.setValue(this.CustomerDataArray[i].Staff);
 this.CD_STAFF_ID.setValue(this.CustomerDataArray[i].StaffId);
 this.CD_CIF.setValue(this.CustomerDataArray[i].Cif);
+this.CD_CUSTOMER_ID.setValue(this.CustomerDataArray[i].CustomerId);
+this.CD_LOAN_OWNERSHIP.setValue(this.CustomerDataArray[i].LoanOwnership);
+this.CD_EXISTING_CUST.setValue(this.CustomerDataArray[i].ExsitingCust);
 this.IndexHideField.setValue(i);
 }
 async LD_CHK_ELGBTY_BTN_click(event){
@@ -551,9 +583,7 @@ outDep: [
 BAD_BRANCH: {
 inDep: [
 
-{paramKey: "VALUE1", depFieldID: "BAD_BRANCH", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidAccBranch", paramType:"QueryParam"},
+{paramKey: "BranchCd", depFieldID: "BAD_BRANCH", paramType:"PathParam"},
 ],
 outDep: [
 ]},
@@ -604,6 +634,15 @@ inDep: [
 {paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType:"PathParam"},
 {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
 {paramKey: "KEY1", depFieldID: "hideCustomerType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_EXISTING_CUST: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideExsCust", paramType:"QueryParam"},
 ],
 outDep: [
 ]},
