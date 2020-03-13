@@ -1,0 +1,47 @@
+/**
+* roboto.scss
+* Font styles that maps the .ttf files with various typographic variations.
+* Only regular, bold, italic and bold italic variations are bundled. 
+* The complete set of fonts can be downloaded from the url :
+* https://fonts.google.com/specimen/Roboto?selection.family=Roboto 
+*/
+
+/**
+* Base font styles for Roboto - regular.
+*/
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  src: url("assets/fonts/roboto/Roboto-Regular.ttf");
+}
+
+/**
+* Base font styles for Roboto - bold variations.
+*/
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  src: url("assets/fonts/roboto/Roboto-Bold.ttf");
+}
+
+/**
+* Base font styles for Roboto - italic variations.
+*/
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: normal;
+  src: url("assets/fonts/roboto/Roboto-Italic.ttf");
+}
+
+/**
+* Base font styles for Roboto - bold italic variations.
+*/
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: bold;
+  src: url("assets/fonts/roboto/Roboto-BoldItalic.ttf");
+}

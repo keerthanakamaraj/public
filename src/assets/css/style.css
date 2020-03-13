@@ -336,7 +336,8 @@ ul.mtree.nix li {
 }
 
 html {
-    font-family: "Open Sans", sans-serif;
+    /* font-family: "Open Sans", sans-serif; */
+    font-family: sans-serif;
     font-size: 14px;
     font-size: 1vw;
     line-height: 1.4
@@ -802,19 +803,20 @@ picture {
 }
 
 .form-control {
-    height: 2.429rem;
-    padding: 0;
-    font-size: 1rem;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
     color: #555;
-    background-color: transparent;
-    border: 0 solid #ccc;
-    border-bottom: .07143rem solid #eaeaea;
-    border-radius: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    box-shadow: inset 0 0 0 rgba(0, 0, 0, .075);
-    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 .form-control.error,
@@ -5272,7 +5274,7 @@ h3 {
 }
 
 .bi-reponsive .form-control {
-    height: 2rem;
+    height: 34px;
     padding: 0 .5rem;
     font-size: 13px;
     color: #333;

@@ -1,126 +1,74 @@
 <nav class="navbar navbar-default" role="navigation">
-	
-		<a class="navbar-brand" href="javascript:void(0)">
-			<!-- <div class="sidebar-brand-icon" (click)="openPage('LANDING')" style="cursor: pointer;padding: 3px;"> -->
-				<img src="assets/images/logo_transparent.png" height="28" width="50" alt="OF" />
-		
-			<!-- <div id="MenuHeaderName" style=" display: flex;align-items: center;">
-					RLO
-				</div> -->
-				
-			
-		</a>
+    <div class="container-fluid">
 
-	<!--/.navbar-header-->
-	<div class="collapse navbar-collapse">
-		<ul class="nav navbar-nav">
-			<li class="dropdown">
-				<a class="dropdown-toggle" style="color:#ffffff;">Menus&nbsp;
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu multi-column columns-3" style="color:rgba(128,195,237,1.00);width:213px;">
-					<div class="row" style="width:100%; padding-left:20px; padding-top:10px;">
-						<div class="col-sm-3" *ngFor="let menu of menuList">
-							<ul class="multi-column-dropdown" style=" padding:6px;">
-								<li class="lititle">
-									<i class="fa fa-road"></i>&nbsp;{{menu.Menu}}</li>
-								<li class="divider"></li>
-								<ul>
-									<li *ngFor="let list of menu.MenuList">
-										<div class="menuList" *ngIf = "list.id != 'modTermAndCondition'">
-											<a (click)="redirect(list.id)" style="cursor:pointer;">{{list.text}}</a> 
-										</div>
-										<div class="menuList" *ngIf = "list.id == 'modTermAndCondition'">
-											<li class="dropdown">
-												<a class="dropdown-toggle">{{list.text}}&nbsp;
-													<b class="caret"></b>
-												</a>
-												<ul>
-													<li *ngFor="let list of termAndConditionMenuList">
-														<div class="menuList">
-															<a (click)="redirect(list.id)" style="cursor:pointer;">{{list.text}}</a>
-														</div>
-													</li>
-												</ul>
-											</li>
-										</div>
-									</li>
-								</ul>
-							</ul>
-						</div>
-					</div>
-				</ul>
-			</li>
-			<li class="nohover" style="padding:0px; margin:0px; margin-left:15PX;">
-				<a href="javascript:void(0)" class="" style="padding:0px; margin:0px;" data-toggle="dropdown">
-					<button class="btn " style="margin-top:7px;color:black;" [ngClass]="{'fill-data-btn' : btnck==true }">
-						<i class="fa fa-inbox bigfont"></i>&nbsp;&nbsp; My Tray&nbsp;&nbsp;
-						<span class="badge countbtn1 bigfont"></span>
-						<!-- <span class="badge countbtn1 bigfont" *ngIf="!mytrayc && !yColorsFlag">{{myTrayCountsRecords}}</span> -->
-					</button>
-				</a>
-			</li>
-			<li class="nohover" style="padding:0px; margin:0px; margin-left:15PX;">
-				<a href="javascript:void(0)" class="" style="padding:0px; margin:0px;" data-toggle="dropdown">
-					<button class="btn " style="margin-top:7px;color:black;"  [ngClass]="{'fill-data-btn' : btnckd==true }">
-						<i class="fa fa-inbox bigfont"></i>&nbsp;&nbsp; History&nbsp;&nbsp;
-						 <span class="badge countbtn1 bigfont"></span>
-						<!-- <span class="badge countbtn1 bigfont" *ngIf="mytrayc && !yColorsFlag"></span> -->
-					</button>
-				</a>
-			</li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-			<!-- <li class="nohover">
-				<a href="javascript:void(0)" title="FCC Report" (click)="openLoanModal()">
-				<i class="far fa-file-excel"></i></a>
-			</li> -->
-			<!-- <li class="nohover">
-					<a href="javascript:void(0)" class="disableanchor" data-toggle="tooltip" data-placement="bottom" 
-						title="Query Module" data-original-title="Query Module"><i class="fa fa-comments"></i></a>
-					<div>
-						<button ></button>
-					</div>
-			</li> -->
-			<li class="nohover">
-				<a href="javascript:void(0)">Date :
-					<span id="todaysdate"> {{today | date:'dd-MMM-yyyy'}}</span>
-				</a>
-			</li>
-			<li class="nohover">
-				<a href="javascript:void(0)">
-					<i class="fa fa-user"></i> {{USERID}}-{{USERNAME}}, {{ARX_ROLES}}</a>
-			</li>
-			<li class="nohover">
-				<a href="" (click)="logout()">
-					<i class="fa fa-power-off bigfont2"></i>
-				</a>
-			</li>
-		</ul>
-		<!-- <div class="col-md-4 text-right" style="padding-top:7px;">Date :
-			<span id="todaysdate"> {{today | date:'dd-MMM-yyyy'}}</span>
-		  </div>  -->
-	</div>
-	<!--/.navbar-collapse-->
+        <!-- START - LOGO  -->
+        <div class="navbar-header">
+            <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
+			<!-- <span class="navbar-logo"></span> -->
+			<img src="assets/images/logo_transparent.png" height="28" width="50" alt="RLO" />
+        </div>
+        <!-- END - LOGO  -->
 
-	<!-- <div class="d-none d-sm-inline-block rounded form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search slide-in-right"
-		*ngIf="navbarSearchOpen">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<button class="btn bg-transparent focus-shadow-none" type="button" (click)="navbarSearchOpen=false">
-					<i class="fas fa-times fa-sm"></i>
-				</button>
-			</div>
-			<input type="text" class="form-control bg-transparent border-0 small focus-shadow-none"
-				placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-			<div class="input-group-append">
-				<button class="btn bg-transparent focus-shadow-none" type="button">
-					<i class="fas fa-search fa-sm"></i>
-				</button>
-			</div>
-		</div>
-	</div> -->
-	<!-- Topbar Navbar -->
+        <!--/.navbar-header-->
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        Workflow
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" *ngFor="let menu of menuList">
+                        <li *ngFor="let listElems of menu.MenuList"><a href="javascript:void(0)"
+                                (click)="redirect(listElems.id)">{{listElems.text}}</a></li>
+                    </ul>
+                </li>            
 
+            </ul>
 
+            <!-- START - NAVBAR RIGHT -->
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <!-- START - Logged in user details. -->
+                <li class="vertical-center">
+                    <div class="navbar-img-user">
+                        <span></span>
+                    </div>
+                    <div class="navbar-account">
+                        <span id="loggedInUser">{{userID}} - {{userName}}, {{USER_ROLES}}</span>
+                        <span id="todaysdate">{{today | date:'dd-MMM-yyyy' }}</span>
+                    </div>
+                </li>
+                <!-- END - Logged in user details. -->
+
+                <li>
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnck==true }" (click)="getTray()"><img
+                            class="navbar-img-link" src="assets/icons/folder-open-line.svg" alt="My Tray" /></a>
+                    <span class="badge" *ngIf="!isMytrayAvilable">{{myTrayCountsRecords}}</span>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }"
+                        (click)="getHistory()"><img class="navbar-img-link" src="assets/icons/history-line.svg"
+                            alt="History" /></a>
+                            <span class="badge" *ngIf="isMytrayAvilable">{{myTrayCountsRecords}}</span>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                        <img class="navbar-img-link" src="assets/icons/cog-line.svg" alt="Settings" />
+                        <span class="caret"></span>
+                    </a>
+                    <!-- <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0)" (click)="showTenantConfig=true;">{{getLabel('TENANT_CONFIGURATION')}}</a></li>
+                        <li><a href="javascript:void(0)" (click)="showAboutProduct=true;">{{getLabel('ABOUT')}}</a></li>
+                        <li><a href="#" (click)="logout()">{{getLabel('LOGOUT')}}</a></li>
+                    </ul> -->
+                </li>
+            </ul>
+
+            <!-- END - NAVBAR RIGHT -->
+        </div>
+        <!--/.navbar-collapse-->
+
+    </div>
 </nav>

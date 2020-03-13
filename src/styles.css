@@ -6,7 +6,7 @@
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 
 .ng-select.ng-select-single .ng-select-container {
-    height: 25px;
+    height: 34px;
     font-size: inherit;
 }
 
@@ -209,13 +209,17 @@
 .valueLeft .mydp .selection{
     padding-right: 2rem;
     text-align: left;
-    height: 1.853rem !important;
+    height: 34px !important;
     background: transparent;
     opacity: 1;
     padding-top: 1px;
 }
 .mydp .selectiondisabled {
     background-color: #f8f8f8 !important;
+}
+
+.mydp .selbtngroup {
+    height: 34px !important;
 }
 
 .valueCenter .mydp .selection{
@@ -410,52 +414,38 @@ my-date-picker {
           stroke-dashoffset: 0%;
       }
   }
-  @font-face {
+
+  /* @font-face {
 	font-family: '33535gillsansmt';
 	src: url('./assets/fonts/33535gillsansmt.eot');
     src: local('33535gillsansmt'), url('./assets/fonts/33535gillsansmt.woff'), url('./assets/fonts/33535gillsansmt.ttf') format('truetype');
-}
+} */
 /* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_1416">Text with this font applied</p> */
-.fontsforweb_fontid_1416 {
+/* .fontsforweb_fontid_1416 {
 	font-family: '33535gillsansmt' !important;
-	
-}
+} */
 
-  .clr-brown{
+.clr-brown{
     display: block;
     padding-bottom: 3px;
-    font-family: '33535gillsansmt' !important;
+    /* font-family: '33535gillsansmt' !important; */
     font-size:  14px !important;
     font-weight : 400;
     line-height: 1.42857143;
-  }
+}
    
-   .btn-primary{
-       background: rgba(29,79,131,1) !important;
-       border-color: rgba(29,79,131,1) !important;
-       width: auto !important;
-       font-size: 12px !important;
-       margin-top: 25px;
-   }
-   .header{
-    box-shadow: none;
-    min-width: 2rem;
-    border-radius: .3rem;
-    border: .08rem solid #e1e1e1;
-    padding: .35rem 1rem !important;
-    display: inline-block;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    touch-action: manipulation;
-    background: rgba(29,79,131,1) !important;
-    border-color: rgba(29,79,131,1) !important;
-    width: auto !important;
-    font-size: 12px !important;
-   
-    /* color: #ffffff; */
-   }
+.section-header{
+    background-color: transparent;
+    border: 0;
+    color: #000 !important;
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 700;
+    cursor: default;
+}
+
+/*
    .submit{
        background: rgba(29,79,131,1);
        color: #ffffff
@@ -466,7 +456,7 @@ my-date-picker {
        color: #ffffff
    }
 
-   .inlineButton{
+.inlineButton{
     box-shadow: none;
     min-width: 2rem;
     border-radius: .3rem;
@@ -485,4 +475,107 @@ my-date-picker {
     margin-top: 25px;
     color : white;
 }
-   
+*/
+
+/* Buttons */
+
+.inlineButton, .btn-secondary, .btn-primary, .btn-warning-outline {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 3px;
+    min-width: 3em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    line-height: 1.5;
+    letter-spacing: 1.5px;
+    font-size: 12px;
+    font-weight: 500;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    width: auto !important;
+}
+
+/* btn-secondary */
+.btn-secondary {
+    border: 1px solid #0079b8;
+    color: #0079b8;
+    background-color: #fff;
+}
+
+.inlineButton {
+    border: 1px solid #0079b8;
+    color: #0079b8;
+    background-color: #fff;
+    margin-top: 30px;
+}
+
+.inlineButton:hover:not(:disabled), .btn-secondary:hover:not(:disabled) {
+	background-color: #e1f1f6;
+    color: #004d8a;
+}
+
+/* btn-primary */
+.btn-primary {
+    border: 1px solid #0079b8;
+    background-color: #0079b8;
+	color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #004d8a;
+    color: #e1f1f6;
+}
+
+.btn-warning-outline {
+    border: 1px solid #e12200 !important;
+    color: #e12200;
+	background-color: #fff;
+}
+
+/*btn-warning-outline*/
+.btn-warning-outline:hover:not(:disabled) {
+    background-color: #f5dbd9;
+    color: #e12200;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fafafa;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: #b7b7b7;
+}
+
+#BUTTON_SECTION {
+    margin-top: 30px;
+}
+
+#BUTTON_SECTION .res-pr-hide {
+    padding: 0;
+}
+
+/* Row Level Edit and Delete */
+.ag-cell .btn-edit, .ag-cell .btn-delete{
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+}
+
+.ag-cell .btn-edit {
+    color: #004d8a;
+}
+
+.ag-cell .btn-delete {
+    color: #e12200;
+}

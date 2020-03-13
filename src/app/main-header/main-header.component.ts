@@ -29,6 +29,7 @@ export class MainHeaderComponent implements OnInit {
   languages = [];
   selectedlang: string;
   menuList = [];
+  // menu = {};
   termAndConditionMenuList = [];
 
   @Output() componentPath = new EventEmitter<String>();
@@ -58,18 +59,34 @@ export class MainHeaderComponent implements OnInit {
     this.selectedlang = this.services.http.currentLanguage;
 
     // TODO: Get Menu List from entitlements
-    this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
-        { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
-    // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
-    //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
-    //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
-    // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
-    //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
-    //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
-    //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
-    //                             { id: 'starCondition', text: 'STAR'}] },
-    // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
+  //   this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
+  //       { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
+  //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
+  //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
+  //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
+  //   // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
+  //   //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
+  //   //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
+  //   //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
+  //   //                             { id: 'starCondition', text: 'STAR'}] },
+  //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
+  // ];
+
+  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
+  //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
+  //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
+  //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
+  //   // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
+  //   //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
+  //   //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
+  //   //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
+  //   //                             { id: 'starCondition', text: 'STAR'}] },
+  //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
   ];
+
+  //this.menu = { MenuList: [{ id: 'Initiation', text: 'Initiate' }]};
+
+
   this.termAndConditionMenuList = [{id : 'modTermAndConditionWithFL', text : 'WITH_FL'},
     {id : 'modTermAndConditionWithoutFL', text : 'WITHOUT_FL'}];
   }

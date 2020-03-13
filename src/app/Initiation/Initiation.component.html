@@ -283,10 +283,10 @@
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_ADD.isHidden()">
-<app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="CD_ADD_click($event)"></app-button>
+<app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD" [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="CD_ADD_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_RESET.isHidden()">
-<app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET" [formCode]="formCode" (buttonClick)="CD_RESET_click($event)"></app-button>
+<app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="CD_RESET_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
 <app-CustDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode" (DeleteCustDetails)="CUST_DTLS_GRID_DeleteCustDetails($event)" (ModifyCustDetails)="CUST_DTLS_GRID_ModifyCustDetails($event)"></app-CustDtlsGrid>
