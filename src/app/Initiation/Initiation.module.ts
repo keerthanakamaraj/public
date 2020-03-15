@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { InitiationRoutingModule } from './Initiation-routing.module';
 import { InitiationComponent } from './Initiation.component';
 import { CustDtlsGridModule } from '../CustDtlsGrid/CustDtlsGrid.module';
+import { InitiationHandlerModule } from '../Initiation/initiation-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 CustDtlsGridModule,
+InitiationHandlerModule,
 ],
 declarations: [
 InitiationComponent,

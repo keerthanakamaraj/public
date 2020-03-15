@@ -147,8 +147,7 @@ export class AppModule implements DoBootstrap {
           keycloakService.login({ redirectUri: initOptions.redirectUri });
         } else {
           sessionStorage.setItem('userId', keycloakService.getUsername());
-          console.log('Username: ', keycloakService.getUsername());
-          //console.log('Token: ', keycloakService.getKeycloakInstance().token);
+          //console.log('Username: ', keycloakService.getUsername());
           appRef.bootstrap(AppComponent);
         }
       })

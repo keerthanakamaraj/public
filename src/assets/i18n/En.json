@@ -1682,15 +1682,15 @@
 		"FieldId_3": "null"
 	},
 	"CustDtlsGrid": {
-		"Cif": "CIF NO",
-		"CD_Modify": "Modify",
-		"toolbar_CustDtlsGrid": "null",
-		"CustType_Desc": "Customer Type",
-		"DOB": "Date of Birth",
-		"GridTitle": "Customer Details Grid",
-		"FullName": "Customer Name",
-		"CD_Modify_ButtonName": "Modify",
-		"CD_Delete": "Delete",
-		"CD_Delete_ButtonName": "Delete"
+		"CIF" : "CIF NO",
+		"CD_Modify" : "Modify",
+		"toolbar_CustDtlsGrid" : "null",
+		"DOB" : "Date of Birth",
+		"GridTitle" : "Customer Details Grid",
+		"FULL_NAME" : "Customer Name",
+		"CD_Modify_ButtonName" : "Modify",
+		"CUST_TYPE_LBL" : "Customer Type",
+		"CD_Delete" : "Delete",
+		"CD_Delete_ButtonName" : "Delete"
 	}
 }

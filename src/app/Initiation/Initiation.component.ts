@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CustDtlsGridComponent } from '../CustDtlsGrid/CustDtlsGrid.component';
+import { InitiationHandlerComponent } from '../Initiation/initiation-handler.component';
 
 const customCss: string = '';
 
@@ -78,6 +79,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('RD_REFERRER_NO', {static: false}) RD_REFERRER_NO: TextBoxComponent;
 @ViewChild('SUBMIT_MAIN_BTN', {static: false}) SUBMIT_MAIN_BTN: ButtonComponent;
 @ViewChild('CANCEL_MAIN_BTN', {static: false}) CANCEL_MAIN_BTN: ButtonComponent;
+@ViewChild('Handler', {static: false}) Handler: InitiationHandlerComponent;
 @ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
 @ViewChild('hideCustomerType', {static: false}) hideCustomerType: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
@@ -161,7 +163,6 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-//this.CD_CUST_TYPE.setValue(CIF);
 this.CD_FULL_NAME.setReadOnly(true);
 this.CD_LOAN_OWNERSHIP.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_LOAN_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
@@ -176,19 +177,21 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EMI_AMT.setReadOnly(true);
-this.hiddenProductId.setValue('CreditCard');
 this.hideCustomerType.setValue('CUSTOMER_TYPE');
 this.hidAppId.setValue('RLO');
 this.hidSourceingChannel.setValue('Branch');
 this.IndexHideField.setValue(-1);
-this.hidYesNo.setValue('Y/N');
+this.hidYesNo.setValue('YES_NO');
 this.hidDSAId.setValue('DSA_ID');
 this.hidAccBranch.setValue('ACC_BRANCH');
 this.hidProdCat.setValue('PRODUCT_CATEGORY');
 this.hidTitle.setValue('TITLE');
 this.hidGender.setValue('GENDER');
 this.hidCustSeg.setValue('CUST_SEGMENT');
-this.hideExsCust.setValue('Y/N');
+this.hideExsCust.setValue('YES_NO');
+let inputMap = new Map();
+await this.Handler.onFormLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -285,141 +288,45 @@ this.services.dataStore.setModalReference(this.services.routing.currModal, modal
 }
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
-await this.OnBlurMethod({
+await this.Handler.updateFullName({
 });
 }
 async CD_MIDDLE_NAME_blur(event){
 let inputMap = new Map();
-await this.OnBlurMethod({
+await this.Handler.updateFullName({
 });
 }
 async CD_THIRD_NAME_blur(event){
 let inputMap = new Map();
-await this.OnBlurMethod({
+await this.Handler.updateFullName({
 });
 }
 async CD_LAST_NAME_blur(event){
 let inputMap = new Map();
-await this.OnBlurMethod({
+await this.Handler.updateFullName({
 });
 }
 async CD_ADD_click(event){
 let inputMap = new Map();
-if(this.IndexHideField.getFieldValue() == -1){
-let CustArray:any = {};
-CustArray['FullName'] = this.CD_FULL_NAME.getFieldValue();
-CustArray['DOB'] = this.CD_DOB.getFieldValue();
-CustArray['FirstName'] = this.CD_FIRST_NAME.getFieldValue();
-CustArray['MiddleName'] = this.CD_MIDDLE_NAME.getFieldValue();
-CustArray['LastName'] = this.CD_LAST_NAME.getFieldValue();
-CustArray['Title'] = this.CD_TITLE.getFieldValue();
-CustArray['Gender'] = this.CD_GENDER.getFieldValue();
-CustArray['TaxId'] = this.CD_TAX_ID.getFieldValue();
-CustArray['Mobile'] = this.CD_MOBILE.getFieldValue();
-CustArray['DebitScore'] = this.CD_DEBIT_SCORE.getFieldValue();
-CustArray['CustSgmt'] = this.CD_CUST_SGMT.getFieldValue();
-CustArray['Staff'] = this.CD_STAFF.getFieldValue();
-CustArray['StaffId'] = this.CD_STAFF_ID.getFieldValue();
-CustArray['hideCustomerId'] = this.CD_CUST_TYPE.getFieldValue();
-CustArray['Cif'] = this.CD_CIF.getFieldValue();
-CustArray['CustomerId'] = this.CD_CUSTOMER_ID.getFieldValue();
-CustArray['ExistingCust'] = this.CD_EXISTING_CUST.getFieldValue();
-CustArray['LoanOwnership'] = this.CD_LOAN_OWNERSHIP.getFieldValue();
-CustArray['CustType_Desc'] = this.CD_CUST_TYPE.getFieldInfo();
-CustArray['RowIndex'] = this.CustomerDataArray.length;
-this.CustomerDataArray.push(CustArray);this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
-}
-else{
-let j:any = this.IndexHideField.getFieldValue();
-this.CustomerDataArray[j].FullName = this.CD_FULL_NAME.getFieldValue();
-this.CustomerDataArray[j].Cif = this.CD_CIF.getFieldValue();
-this.CustomerDataArray[j].Title = this.CD_TITLE.getFieldValue();
-this.CustomerDataArray[j].FirstName = this.CD_FIRST_NAME.getFieldValue();
-this.CustomerDataArray[j].MiddleName = this.CD_MIDDLE_NAME.getFieldValue();
-this.CustomerDataArray[j].LastName = this.CD_LAST_NAME.getFieldValue();
-this.CustomerDataArray[j].Gender = this.CD_GENDER.getFieldValue();
-this.CustomerDataArray[j].DOB = this.CD_DOB.getFieldValue();
-this.CustomerDataArray[j].Mobile = this.CD_MOBILE.getFieldValue();
-this.CustomerDataArray[j].TaxId = this.CD_TAX_ID.getFieldValue();
-this.CustomerDataArray[j].DebitScore = this.CD_DEBIT_SCORE.getFieldValue();
-this.CustomerDataArray[j].CustSgmt = this.CD_CUST_SGMT.getFieldValue();
-this.CustomerDataArray[j].Staff = this.CD_STAFF.getFieldValue();
-this.CustomerDataArray[j].StaffId = this.CD_STAFF_ID.getFieldValue();
-this.CustomerDataArray[j].CustType_desc = this.CD_CUST_TYPE.getFieldInfo();
-this.CustomerDataArray[j].hideCustomerId = this.CD_CUST_TYPE.getFieldValue();
-this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
-}
-this.CD_CUST_TYPE.value = undefined;
-this.CD_CUST_TYPE.additionalInfo = undefined;
-this.CD_CIF.onReset();
-this.CD_TITLE.onReset();
-this.CD_FIRST_NAME.onReset();
-this.CD_MIDDLE_NAME.onReset();
-this.CD_LAST_NAME.onReset();
-this.CD_FULL_NAME.onReset();
-this.CD_GENDER.onReset();
-this.CD_DOB.onReset();
-this.CD_TAX_ID.onReset();
-this.CD_MOBILE.onReset();
-this.CD_DEBIT_SCORE.onReset();
-this.CD_CUST_SGMT.onReset();
-this.CD_STAFF.onReset();
-this.CD_STAFF_ID.onReset();
-this.IndexHideField.setValue(-1);
+await this.Handler.onAddCustomer({
+});
 }
 async CD_RESET_click(event){
 let inputMap = new Map();
-this.CD_CUST_TYPE.onReset();
-this.CD_EXISTING_CUST.onReset();
-this.CD_CIF.onReset();
-this.CD_CUSTOMER_ID.onReset();
-this.CD_TITLE.onReset();
-this.CD_FIRST_NAME.onReset();
-this.CD_MIDDLE_NAME.onReset();
-this.CD_THIRD_NAME.onReset();
-this.CD_LAST_NAME.onReset();
-this.CD_FULL_NAME.onReset();
-this.CD_GENDER.onReset();
-this.CD_DOB.onReset();
-this.CD_TAX_ID.onReset();
-this.CD_MOBILE.onReset();
-this.CD_DEBIT_SCORE.onReset();
-this.CD_CUST_SGMT.onReset();
-this.CD_STAFF.onReset();
-this.CD_STAFF_ID.onReset();
-this.CD_LOAN_OWNERSHIP.onReset();
-this.IndexHideField.setValue(-1);
+await this.Handler.onResetCustomer({
+});
 }
 async CUST_DTLS_GRID_DeleteCustDetails(event){
 let inputMap = new Map();
-let i:any = event.DeleteIndex;
-this.CustomerDataArray.splice(i, 1);
-for(let k=i;k<this.CustomerDataArray;k++){
-	this.CustomerDataArray[k].RowIndex--;
-}this.CUST_DTLS_GRID.setValue(Object.assign([], this.CustomerDataArray));
+await this.Handler.onDeleteCustomer({
+'id': event.clickId,
+});
 }
 async CUST_DTLS_GRID_ModifyCustDetails(event){
 let inputMap = new Map();
-let i:any = event.Index;
-this.CD_FULL_NAME.setValue(this.CustomerDataArray[i].FullName);
-this.CD_CUST_TYPE.setValue(this.CustomerDataArray[i].hideCustomerId);
-this.CD_TITLE.setValue(this.CustomerDataArray[i].Title);
-this.CD_FIRST_NAME.setValue(this.CustomerDataArray[i].FirstName);
-this.CD_MIDDLE_NAME.setValue(this.CustomerDataArray[i].MiddleName);
-this.CD_LAST_NAME.setValue(this.CustomerDataArray[i].LastName);
-this.CD_GENDER.setValue(this.CustomerDataArray[i].Gender);
-this.CD_DOB.setValue(this.CustomerDataArray[i].DOB);
-this.CD_TAX_ID.setValue(this.CustomerDataArray[i].TaxId);
-this.CD_MOBILE.setValue(this.CustomerDataArray[i].Mobile);
-this.CD_DEBIT_SCORE.setValue(this.CustomerDataArray[i].DebitScore);
-this.CD_CUST_SGMT.setValue(this.CustomerDataArray[i].CustSgmt);
-this.CD_STAFF.setValue(this.CustomerDataArray[i].Staff);
-this.CD_STAFF_ID.setValue(this.CustomerDataArray[i].StaffId);
-this.CD_CIF.setValue(this.CustomerDataArray[i].Cif);
-this.CD_CUSTOMER_ID.setValue(this.CustomerDataArray[i].CustomerId);
-this.CD_LOAN_OWNERSHIP.setValue(this.CustomerDataArray[i].LoanOwnership);
-this.CD_EXISTING_CUST.setValue(this.CustomerDataArray[i].ExsitingCust);
-this.IndexHideField.setValue(i);
+await this.Handler.onEditCustomer({
+'id': event.clickId,
+});
 }
 async LD_CHK_ELGBTY_BTN_click(event){
 let inputMap = new Map();
@@ -544,23 +451,6 @@ this.services.alert.showAlert(3, 'Unable to save form!', 5000);
 }
 );
 }
-async OnBlurMethod(event){
-let inputMap = new Map();
-let Appendvariable:any = '';
-if(this.CD_FIRST_NAME.getFieldValue() !=  undefined){
-Appendvariable = this.CD_FIRST_NAME.getFieldValue();
-}
-if(this.CD_MIDDLE_NAME.getFieldValue() != undefined){
-Appendvariable = Appendvariable + ' '+ this.CD_MIDDLE_NAME.getFieldValue();
-}
-if(this.CD_THIRD_NAME.getFieldValue()  !=  undefined){
-Appendvariable = Appendvariable + ' '+this.CD_THIRD_NAME.getFieldValue();
-}
-if(this.CD_THIRD_NAME.getFieldValue()  !=  undefined){
-Appendvariable = Appendvariable + ' '+this.CD_LAST_NAME.getFieldValue();
-}
-this.CD_FULL_NAME.setValue(Appendvariable);
-}
 fieldDependencies = {
 BAD_SRC_CHANNEL: {
 inDep: [
@@ -683,6 +573,5 @@ inDep: [
 outDep: [
 ]},
 }
-CustomerDataArray = [];
 
 }

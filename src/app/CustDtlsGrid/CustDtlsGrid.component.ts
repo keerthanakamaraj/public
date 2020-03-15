@@ -40,64 +40,32 @@ gridCode: "CustDtlsGrid",
 paginationReq:true
 };
 columnDefs:any[] = [{
-field:"CustType_Desc",
+field:"CUST_TYPE_LBL",
 width:16,
-sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
-applyButton: true,
-clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
-},
+filter: false,
 },
 {
-field:"FullName",
+field:"FULL_NAME",
 width:18,
-sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
-applyButton: true,
-clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
-},
+filter: false,
 },
 {
-field:"Cif",
+field:"CIF",
 width:17,
-sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
-applyButton: true,
-clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
-},
+filter: false,
 },
 {
 field:"DOB",
 width:17,
-sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
-applyButton: true,
-clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
-},
+filter: false,
 },
 {
 width:16,
@@ -185,13 +153,13 @@ return this.hidden;
 async CD_Modify_click(event){
 let inputMap = new Map();
 this.ModifyCustDetails.emit({
-'Index': event.RowIndex,
+'clickId': event.tempId,
 });
 }
 async CD_Delete_click(event){
 let inputMap = new Map();
 this.DeleteCustDetails.emit({
-'DeleteIndex': event.RowIndex,
+'clickId': event.tempId,
 });
 }
 

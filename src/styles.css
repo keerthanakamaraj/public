@@ -579,3 +579,9 @@ my-date-picker {
 .ag-cell .btn-delete {
     color: #e12200;
 }
+
+/* Error Class Addition */
+
+.ng-select.error, my-date-picker.error {
+    border-color: #b20812;
+}
