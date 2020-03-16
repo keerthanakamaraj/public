@@ -181,7 +181,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     if (searchTerm) {
       let filter = [];
       let filterOption = {};
-      filterOption['columnName'] = 'text';
+      filterOption['columnName'] = 'id';
       filterOption['columnType'] = 'string';
       filterOption['conditions'] = { searchText: searchTerm, searchType : 'Contains' };
       filter.push(filterOption);
