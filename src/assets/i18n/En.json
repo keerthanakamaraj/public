@@ -1692,5 +1692,16 @@
 		"CUST_TYPE_LBL" : "Customer Type",
 		"CD_Delete" : "Delete",
 		"CD_Delete_ButtonName" : "Delete"
-	}
+	},
+	"MyTrayGrid" : {
+		"MT_PROPOSAL_ID" : "Proposal ID",
+		"MT_CAM_TYPE" : "CAM Type",
+		"MT_INITIATED_ON" : "Initiated On",
+		"MT_CAD_LOCATION" : "CAD Location",
+		"MT_PENDING_WITH" : "Pending With",
+		"MT_CUSTOMER" : "Customer",
+		"MT_INITIATED_BY" : "Initiated By",
+		"MT_STAGE" : "Stage",
+		"toolbar_MyTrayGrid" : "null"
+		}
 }

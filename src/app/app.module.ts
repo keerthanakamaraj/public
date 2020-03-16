@@ -32,13 +32,17 @@ import { GridWithFormComponent } from './grid-with-form/grid-with-form.component
 import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { PopupContentComponent } from './popup-content/popup-content.component';
 import { AlertsComponent } from './alerts/alerts.component';
-import { MyTrayPageComponent } from './my-tray-page/my-tray-page.component';
+//import { MyTrayPageComponent } from './my-tray-page/my-tray-page.component';
 //import { LandingComponent } from './landing/landing.component';
 import { HomeRoutingModule } from './home/home-routing.module';
 //import { MainHeaderComponent } from './main-header/main-header.component';
 
 import { KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
+import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
+// import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
+// import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
+// import { ReadonlyGridComponent } from './readonly-grid/readonly-grid.component';
 
 const appRoutes: Routes = [
   {
@@ -87,11 +91,16 @@ const keycloakService = new KeycloakService();
     // LoginPageComponent,
     // PwdChangeComponent,
     GridWithFormComponent,
-    AlertsComponent,
-    MyTrayPageComponent
+    AlertsComponent
+    //MyTrayPageComponent
+    // MyTrayGridComponent,
+    
+
+   
   ],
   exports: [
     FooterComponent
+    
 ],
   imports: [
     BrowserAnimationsModule,
@@ -101,6 +110,7 @@ const keycloakService = new KeycloakService();
     FormsModule,
     BrowserModule,
     NgbModalModule,
+    MyTrayGridModule,
     Ng4LoadingSpinnerModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
