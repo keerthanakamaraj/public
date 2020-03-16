@@ -156,8 +156,23 @@ export class AppModule implements DoBootstrap {
         if (!auth) {
           keycloakService.login({ redirectUri: initOptions.redirectUri });
         } else {
-          sessionStorage.setItem('userId', keycloakService.getUsername());
+          
           //console.log('Username: ', keycloakService.getUsername());
+          // keycloakService.getToken().then( (token) => {
+          //   console.log("token " + token);
+          // });
+          keycloakService.loadUserProfile().then( (profile) => {
+            console.log("User Profile ", profile);
+            sessionStorage.setItem('userId', profile.username);
+
+            let fullName = ( profile.firstName ? profile.firstName : "" ) + " " + ( profile.lastName ? profile.lastName : "" );
+            sessionStorage.setItem('fullName', fullName );
+
+            if(profile["attributes"] && profile["attributes"].tenantId){
+              sessionStorage.setItem('tenants', profile["attributes"].tenantId.join(",") );
+            }
+
+          })
           appRef.bootstrap(AppComponent);
         }
       })

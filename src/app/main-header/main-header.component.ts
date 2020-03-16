@@ -35,7 +35,7 @@ export class MainHeaderComponent implements OnInit {
   @Output() componentPath = new EventEmitter<String>();
 
   serviceList = [];
-  userName: string;
+  fullName: string;
   userID: string;
   LastLogin: string;
   notificationLength = 0;
@@ -96,7 +96,7 @@ export class MainHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userName = sessionStorage.getItem('userName');
+    this.fullName = sessionStorage.getItem('fullName');
     this.userID = sessionStorage.getItem('userId');
     this.LastLogin = sessionStorage.getItem('lastloginDate');
 
