@@ -34,13 +34,13 @@ componentCode: string = 'AssetDetailsGrid';
 openedFilterForm:string = '';
 hidden:boolean = false;
 gridConsts: any = {
-paginationPageSize: 10,
+paginationPageSize: 5,
 gridCode: "AssetDetailsGrid",
 paginationReq:true
 };
 columnDefs:any[] = [{
 field:"AT_Asset_Type",
-width:20,
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -55,7 +55,7 @@ caseSensitive:true,
 },
 {
 field:"AT_Asset_Subtype",
-width:20,
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -70,7 +70,7 @@ caseSensitive:true,
 },
 {
 field:"AT_Asset_Location",
-width:20,
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -85,7 +85,7 @@ caseSensitive:true,
 },
 {
 field:"AT_Asset_Status",
-width:20,
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -100,7 +100,7 @@ caseSensitive:true,
 },
 {
 field:"AT_Asset_Value",
-width:20,
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -114,7 +114,7 @@ caseSensitive:true,
 },
 },
 {
-width:10,
+width:13,
 field:"AT_EDIT",
 sortable: false,
 filter: false,
@@ -125,11 +125,12 @@ cellRendererParams: {
 gridCode: 'AssetDetailsGrid',
 columnId: 'AT_EDIT',
 Type: '1',
+CustomClass: 'btn-edit',
 onClick: this.AT_EDIT_click.bind(this)
 },
 },
 {
-width:10,
+width:13,
 field:"AT_DELETE",
 sortable: false,
 filter: false,
@@ -140,6 +141,7 @@ cellRendererParams: {
 gridCode: 'AssetDetailsGrid',
 columnId: 'AT_DELETE',
 Type: '1',
+CustomClass: 'btn-delete',
 onClick: this.AT_DELETE_click.bind(this)
 },
 },

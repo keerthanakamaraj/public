@@ -250,7 +250,7 @@ inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.ge
 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Success', 5000);
@@ -358,7 +358,7 @@ inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.ge
 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Record Saved Successfully', 5000);
@@ -446,7 +446,7 @@ async CUST_DTLS_GRID_custDtlsEdit(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.BorrowerSeq', event.BorrowerSeq);
-this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);

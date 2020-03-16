@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { DDERoutingModule } from './DDE-routing.module';
 import { DDEComponent } from './DDE.component';
-import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import { HeaderModule } from '../Header/Header.module';
 import { FamilyDetailsFormModule } from '../FamilyDetailsForm/FamilyDetailsForm.module';
 import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.module';
@@ -29,7 +28,6 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-ApplicationDtlsModule,
 HeaderModule,
 FamilyDetailsFormModule,
 LiabilityDtlsFormModule,

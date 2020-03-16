@@ -2,9 +2,6 @@
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'FamilyDetailsForm.FormTitle' | translate }}
-</h4>
 </div>
 <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
 </div>
@@ -14,7 +11,7 @@
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-<app-label #FD_HEADING parentCompCode="FamilyDetailsForm" fieldID="FD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+<app-label #FD_HEADING parentCompCode="FamilyDetailsForm" fieldID="FD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_TITLE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -103,8 +100,8 @@
 <app-text-box #FD_TAX_ID fieldID="FD_TAX_ID" [formCode]="formCode" (blur)="genericOnBlur('FD_TAX_ID', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FD_SAVE_BTN.isHidden()">
-<app-button #FD_SAVE_BTN fieldName="{{ 'FamilyDetailsForm.FD_SAVE_BTN' | translate}}" fieldID="FD_SAVE_BTN" [formCode]="formCode"></app-button>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="FD_SAVE_BTN.isHidden()">
+<app-button #FD_SAVE_BTN fieldName="{{ 'FamilyDetailsForm.FD_SAVE_BTN' | translate}}" fieldID="FD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_18.isHidden()">
 <app-FamilyDetailsGrid #FieldId_18 fieldID="FieldId_18" [formCode]="formCode"></app-FamilyDetailsGrid>

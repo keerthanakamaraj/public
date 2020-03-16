@@ -179,7 +179,7 @@
 <app-button #AD_SAVE_ADDRESS fieldName="{{ 'AddressDetails.AD_SAVE_ADDRESS' | translate}}" fieldID="AD_SAVE_ADDRESS" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="AD_SAVE_ADDRESS_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_CLEAR_BTN.isHidden()">
-<app-button #AD_CLEAR_BTN fieldName="{{ 'AddressDetails.AD_CLEAR_BTN' | translate}}" fieldID="AD_CLEAR_BTN" [formCode]="formCode" customClass="btn btn-reset"></app-button>
+<app-button #AD_CLEAR_BTN fieldName="{{ 'AddressDetails.AD_CLEAR_BTN' | translate}}" fieldID="AD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
 <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>

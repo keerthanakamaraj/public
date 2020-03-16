@@ -2,9 +2,6 @@
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'OtherDeductionForm.FormTitle' | translate }}
-</h4>
 </div>
 <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
 </div>
@@ -13,6 +10,12 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #DD_HEADING parentCompCode="OtherDeductionForm" fieldID="DD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OD_OBILGATION_HEAD.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -54,8 +57,8 @@
 </div>
 <app-amount #OD_Equivalent_Amt fieldID="OD_Equivalent_Amt" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_Equivalent_Amt', $event)"></app-amount>
 </div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="OD_SAVE.isHidden()">
-<app-button #OD_SAVE fieldName="{{ 'OtherDeductionForm.OD_SAVE' | translate}}" fieldID="OD_SAVE" [formCode]="formCode" (buttonClick)="OD_SAVE_click($event)"></app-button>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE.isHidden()">
+<app-button #OD_SAVE fieldName="{{ 'OtherDeductionForm.OD_SAVE' | translate}}" fieldID="OD_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="OD_SAVE_click($event)"></app-button>
 </div>
 </div>
 </div>

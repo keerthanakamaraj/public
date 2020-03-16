@@ -110,6 +110,7 @@ cellRendererParams: {
 gridCode: 'CustomerDtlsGrid',
 columnId: 'CD_EDIT_BUTTON',
 Type: '1',
+CustomClass: 'btn-edit',
 onClick: this.CD_EDIT_BUTTON_click.bind(this)
 },
 },
@@ -125,6 +126,7 @@ cellRendererParams: {
 gridCode: 'CustomerDtlsGrid',
 columnId: 'CD_DELETE',
 Type: '1',
+CustomClass: 'btn-delete',
 onClick: this.CD_DELETE_click.bind(this)
 },
 },
@@ -225,7 +227,7 @@ default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar10 = [];
@@ -263,7 +265,7 @@ async CD_DELETE_click(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.BorrowerSeq', event.CustomerId);
-this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);

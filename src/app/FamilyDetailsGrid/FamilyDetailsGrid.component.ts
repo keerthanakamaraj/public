@@ -79,6 +79,7 @@ cellRendererParams: {
 gridCode: 'FamilyDetailsGrid',
 columnId: 'FD_MODIFY',
 Type: '1',
+CustomClass: 'btn-edit',
 },
 },
 {
@@ -93,6 +94,7 @@ cellRendererParams: {
 gridCode: 'FamilyDetailsGrid',
 columnId: 'FD_DELETE',
 Type: '1',
+CustomClass: 'btn-delete',
 },
 },
 ];

@@ -13,6 +13,11 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-label #AD_HEADING parentCompCode="AssetDetailsForm" fieldID="AD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -96,20 +101,20 @@
 <app-combo-box #AT_INCLUDE_IN_DBR category="2" fieldID="AT_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_INCLUDE_IN_DBR', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
-<app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode" (buttonClick)="AT_SAVE_click($event)"></app-button>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
+<app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="AT_SAVE_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AssetDetailsGrid.isHidden()">
 <app-AssetDetailsGrid #AssetDetailsGrid fieldID="AssetDetailsGrid" [formCode]="formCode" (modifyAssetDetails)="AssetDetailsGrid_modifyAssetDetails($event)"></app-AssetDetailsGrid>
 </div>
 </div>
-<app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
-<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-<app-hidden #hideAssetSubType fieldID="hideAssetSubType"></app-hidden>
-<app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
-<app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
 <app-hidden #hideName fieldID="hideName"></app-hidden>
 <app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden>
+<app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
+<app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
+<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+<app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
+<app-hidden #hideAssetSubType fieldID="hideAssetSubType"></app-hidden>
 </div>
 </div>
 </div>

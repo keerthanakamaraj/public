@@ -34,13 +34,13 @@ componentCode: string = 'LiabilityDtlsGrid';
 openedFilterForm:string = '';
 hidden:boolean = false;
 gridConsts: any = {
-paginationPageSize: 10,
+paginationPageSize: 5,
 gridCode: "LiabilityDtlsGrid",
 paginationReq:true
 };
 columnDefs:any[] = [{
 field:"LD_FIN_NAME/OBLIG_HEAD",
-width:25,
+width:20,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -55,7 +55,7 @@ caseSensitive:true,
 },
 {
 field:"LD_TYPE_OF_LOAN/OBLIGATION",
-width:25,
+width:20,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -70,7 +70,7 @@ caseSensitive:true,
 },
 {
 field:"LD_LOAN/OBLIGATION_AMOUNT",
-width:25,
+width:20,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -84,7 +84,7 @@ caseSensitive:true,
 },
 },
 {
-width:24,
+width:20,
 field:"LD_MODIFY",
 sortable: false,
 filter: false,
@@ -95,11 +95,12 @@ cellRendererParams: {
 gridCode: 'LiabilityDtlsGrid',
 columnId: 'LD_MODIFY',
 Type: '1',
+CustomClass: 'btn-edit',
 onClick: this.LD_MODIFY_click.bind(this)
 },
 },
 {
-width:25,
+width:20,
 field:"LD_DELETE",
 sortable: false,
 filter: false,
@@ -110,6 +111,7 @@ cellRendererParams: {
 gridCode: 'LiabilityDtlsGrid',
 columnId: 'LD_DELETE',
 Type: '1',
+CustomClass: 'btn-delete',
 onClick: this.LD_DELETE_click.bind(this)
 },
 },

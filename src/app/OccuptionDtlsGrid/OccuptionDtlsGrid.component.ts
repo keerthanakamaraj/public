@@ -84,7 +84,7 @@ caseSensitive:true,
 },
 },
 {
-width:15,
+width:20,
 field:"OD_EDIT_BTN",
 sortable: false,
 filter: false,
@@ -100,7 +100,7 @@ onClick: this.OD_EDIT_BTN_click.bind(this)
 },
 },
 {
-width:15,
+width:20,
 field:"OD_DELETE",
 sortable: false,
 filter: false,

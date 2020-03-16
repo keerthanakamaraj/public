@@ -20,7 +20,6 @@ import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { FamilyDetailsFormComponent } from '../FamilyDetailsForm/FamilyDetailsForm.component';
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
 import { OtherDeductionFormComponent } from '../OtherDeductionForm/OtherDeductionForm.component';
-import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
 import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
 
@@ -36,7 +35,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 @ViewChild('FieldId_4', {static: false}) FieldId_4: FamilyDetailsFormComponent;
 @ViewChild('FieldId_5', {static: false}) FieldId_5: LiabilityDtlsFormComponent;
 @ViewChild('FieldId_6', {static: false}) FieldId_6: OtherDeductionFormComponent;
-@ViewChild('FieldId_7', {static: false}) FieldId_7: ApplicationDtlsComponent;
 @ViewChild('FieldId_8', {static: false}) FieldId_8: AssetDetailsFormComponent;
 @ViewChild('FieldId_9', {static: false}) FieldId_9: IncomeSummaryFormComponent;
 async revalidate(): Promise<number> {
@@ -48,7 +46,6 @@ this.FieldId_3.revalidate(),
 this.FieldId_4.revalidate(),
 this.FieldId_5.revalidate(),
 this.FieldId_6.revalidate(),
-this.FieldId_7.revalidate(),
 this.FieldId_8.revalidate(),
 this.FieldId_9.revalidate(),
 ]).then((errorCounts) => {
@@ -72,7 +69,6 @@ this.FieldId_3.setReadOnly(readOnly);
 this.FieldId_4.setReadOnly(readOnly);
 this.FieldId_5.setReadOnly(readOnly);
 this.FieldId_6.setReadOnly(readOnly);
-this.FieldId_7.setReadOnly(readOnly);
 this.FieldId_8.setReadOnly(readOnly);
 this.FieldId_9.setReadOnly(readOnly);
 }
@@ -87,7 +83,7 @@ this.mode = params['mode'];
 }
 }
 async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = 'detail data entry';
+this.submitData['formName'] = 'Details Data Entry';
 await super.submit(path, apiCode, serviceCode);
 }
 getFieldInfo() {
@@ -99,7 +95,6 @@ this.additionalInfo['FieldId_3_desc'] = this.FieldId_3.getFieldInfo();
 this.additionalInfo['FieldId_4_desc'] = this.FieldId_4.getFieldInfo();
 this.additionalInfo['FieldId_5_desc'] = this.FieldId_5.getFieldInfo();
 this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
-this.additionalInfo['FieldId_7_desc'] = this.FieldId_7.getFieldInfo();
 this.additionalInfo['FieldId_8_desc'] = this.FieldId_8.getFieldInfo();
 this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
 return this.additionalInfo;
@@ -110,7 +105,6 @@ this.value.FieldId_3 = this.FieldId_3.getFieldValue();
 this.value.FieldId_4 = this.FieldId_4.getFieldValue();
 this.value.FieldId_5 = this.FieldId_5.getFieldValue();
 this.value.FieldId_6 = this.FieldId_6.getFieldValue();
-this.value.FieldId_7 = this.FieldId_7.getFieldValue();
 this.value.FieldId_8 = this.FieldId_8.getFieldValue();
 this.value.FieldId_9 = this.FieldId_9.getFieldValue();
 return this.value;
@@ -122,7 +116,6 @@ this.FieldId_3.setValue(inputValue['FieldId_3'], inputDesc['FieldId_3_desc']);
 this.FieldId_4.setValue(inputValue['FieldId_4'], inputDesc['FieldId_4_desc']);
 this.FieldId_5.setValue(inputValue['FieldId_5'], inputDesc['FieldId_5_desc']);
 this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
-this.FieldId_7.setValue(inputValue['FieldId_7'], inputDesc['FieldId_7_desc']);
 this.FieldId_8.setValue(inputValue['FieldId_8'], inputDesc['FieldId_8_desc']);
 this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
 this.value = new DDEModel();
@@ -158,8 +151,6 @@ this.value.FieldId_5 = this.FieldId_5.getFieldValue();
 this.FieldId_5.valueChangeUpdates().subscribe((value) => {this.value.FieldId_5 = value;});
 this.value.FieldId_6 = this.FieldId_6.getFieldValue();
 this.FieldId_6.valueChangeUpdates().subscribe((value) => {this.value.FieldId_6 = value;});
-this.value.FieldId_7 = this.FieldId_7.getFieldValue();
-this.FieldId_7.valueChangeUpdates().subscribe((value) => {this.value.FieldId_7 = value;});
 this.value.FieldId_8 = this.FieldId_8.getFieldValue();
 this.FieldId_8.valueChangeUpdates().subscribe((value) => {this.value.FieldId_8 = value;});
 this.value.FieldId_9 = this.FieldId_9.getFieldValue();
@@ -177,7 +168,6 @@ this.FieldId_3.clearError();
 this.FieldId_4.clearError();
 this.FieldId_5.clearError();
 this.FieldId_6.clearError();
-this.FieldId_7.clearError();
 this.FieldId_8.clearError();
 this.FieldId_9.clearError();
 this.errors = 0;
@@ -190,7 +180,6 @@ this.FieldId_3.onReset();
 this.FieldId_4.onReset();
 this.FieldId_5.onReset();
 this.FieldId_6.onReset();
-this.FieldId_7.onReset();
 this.FieldId_8.onReset();
 this.FieldId_9.onReset();
 this.clearHTabErrors();

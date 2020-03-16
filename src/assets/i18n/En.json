@@ -848,26 +848,35 @@
 		"FormTitle": "Contact Details",
 		"ChildForm": "null"
 	},
-	"OccupationDetails": {
-		"Industryclassification": "Industry Classification",
-		"FormTitle": "Occupation Details",
-		"CompanyID": "Company ID",
-		"Position": "Position",
-		"periodCurrEmployment": "Period At Current Employment",
-		"phonenumber": "Phone No",
-		"companyCategory": "Company Category",
-		"DateOfConfirmation": "Date of Confirmation",
-		"EmpCode": "Employee Code",
-		"departmentOfDiv": "Department or Division",
-		"FieldId_1": "Save",
-		"DateOfJoining": "Date of Joining",
-		"Industrycode": "Industry code",
-		"Selfempprofession": "Self Employment Profession",
-		"TypeofOccupation": "Occupation Type",
-		"Typeofsalaryemployment": "Salary Employment Type",
-		"Typeofselfemployment": "Self-Employment Type",
-		"TotYearOfService": "Total years of service"
-	},
+	"OccupationDtlsForm" : {
+		"OD_RES_PRT_NO" : "Residence Permit Number",
+		"OD_SELF_EMPLD_PROF" : "Self Employment Profession",
+		"OD_DEPARTMENT" : "Department",
+		"OD_COMP_NAME" : "Company Name",
+		"OD_INC_DOC_TYPE" : "Income Document Type",
+		"OD_NET_INCOME" : "Net Income",
+		"OD_SAVE_BTN" : "Save",
+		"OD_CURRENCY" : "Currency",
+		"OD_EMPLOYEE_ID" : "Employee Id",
+		"OD_OCCUPATION" : "Occupation",
+		"OD_EMPLT_TYPE" : "Employment Type",
+		"OD_LENGTH_OF_EXST" : "Length Of Existence",
+		"OD_COMP_CAT" : "Company Category",
+		"OD_EMP_STATUS" : "Employment Status",
+		"OD_WRK_PERMIT_NO" : "Work Permit Number",
+		"OD_HEADING" : "Occupation Details",
+		"OD_DESIGNATION" : "Designation",
+		"OD_INCOME_FREQ" : "Income Frequency",
+		"OD_DATE_OF_JOINING" : "Date of Joining",
+		"OD_SELF_EMPLD_TYPE" : "Self Employed Type",
+		"OD_COMPANY_CODE" : "Company Code",
+		"OD_INCOME_TYPE" : "Income Type",
+		"OCC_DTLS_GRID" : "null",
+		"OD_DT_OF_INCPTN" : "Date Of Inception",
+		"OD_NTR_OF_BUSS" : "Nature Of Business",
+		"OD_LOC_CURR_EQ" : "Local Currency Equivalent",
+		"OD_INDUSTRY" : "Industry"
+		},
 	"EntRelAssGrid": {
 		"select": "Select",
 		"referenceNumber": "Reference No",
@@ -1424,38 +1433,39 @@
 		"AD_STATE": "State",
 		"AD_EMAIL_ID1": "Email ID 1"
 	},
-	"LiabilityDtlsForm": {
-		"LD_FINANCIER_NAME": "Financier Name",
-		"LD_SAVE": "Save",
-		"FormTitle": "Liability Details Form",
-		"LD_EQUIVALENT_AMOUNT": "Equivalent Amount",
-		"LD_CURRENCY": "Currency",
-		"LD_LOAN_EMI": "Loan EMI",
-		"LD_TYPE_OF_LOAN": "Type of Loan",
-		"LD_OS_AMOUNT": "O/S Amount",
-		"LD_LOAN_STATUS": "Loan Status",
-		"LD_LOAN_CLOSURE_DATE": "Loan Closure Date",
-		"LD_INCLUDE_IN_DBR": "Include in DBR",
-		"LD_LOAN_EMI_FREQUENCY": "Loan Emi Frequecy ",
-		"LD_LOAN_AMOUNT": "Loan Amount*",
-		"LIABILITY_GRID": "null"
-	},
-	"AssetDetailsForm": {
-		"FormTitle": "Asset Details Form",
-		"AT_SAVE": "Save",
-		"AT_ASSET_VALUE": "Asset Value",
-		"AT_OWNED_BY": "Owned By",
-		"AT_INCLUDE_IN_DBR": "Include in DBR",
-		"AssetDetailsGrid": "null",
-		"AT_EQUIVALENT_AMOUNT": "Equivalent Amount",
-		"AT_ASSET_LOCATION": "Asset Location",
-		"AT_FAIR_MRKT_VALUE": "Fair Market Value",
-		"AT_ASSET_SUBTYPE": "Asset Subtype",
-		"AT_ASSET_STATUS": "Asset Status",
-		"AT_CURRENCY": "Currency",
-		"AT_NAME": "Name",
-		"AT_ASSET_TYPE": "Asset Type"
-	},
+	"LiabilityDtlsForm" : {
+		"LD_FINANCIER_NAME" : "Financier Name",
+		"LD_SAVE" : "Save",
+		"FD_HEADING" : "Liability Details",
+		"LD_EQUIVALENT_AMOUNT" : "Equivalent Amount",
+		"LD_CURRENCY" : "Currency",
+		"LD_LOAN_EMI" : "Loan EMI",
+		"LD_TYPE_OF_LOAN" : "Type of Loan",
+		"LD_OS_AMOUNT" : "O/S Amount",
+		"LD_LOAN_STATUS" : "Loan Status",
+		"LD_LOAN_CLOSURE_DATE" : "Loan Closure Date",
+		"LD_INCLUDE_IN_DBR" : "Include in DBR",
+		"LD_LOAN_EMI_FREQUENCY" : "Loan Emi Frequency",
+		"LD_LOAN_AMOUNT" : "Loan Amount*",
+		"LIABILITY_GRID" : "null"
+		},
+		"AssetDetailsForm" : {
+			"FormTitle" : "",
+			"AT_SAVE" : "Save",
+			"AT_ASSET_VALUE" : "Asset Value",
+			"AT_OWNED_BY" : "Owned By",
+			"AT_INCLUDE_IN_DBR" : "Include in DBR",
+			"AssetDetailsGrid" : "null",
+			"AD_HEADING" : "Assets Details",
+			"AT_EQUIVALENT_AMOUNT" : "Equivalent Amount",
+			"AT_ASSET_LOCATION" : "Asset Location",
+			"AT_FAIR_MRKT_VALUE" : "Fair Market Value",
+			"AT_ASSET_SUBTYPE" : "Asset Subtype",
+			"AT_ASSET_STATUS" : "Asset Status",
+			"AT_CURRENCY" : "Currency",
+			"AT_NAME" : "Name",
+			"AT_ASSET_TYPE" : "Asset Type"
+			},
 	"IncomeSummaryForm": {
 		"IS_DBR": "DBR",
 		"FormTitle": "Income Summary Form",
@@ -1465,27 +1475,26 @@
 		"IS_TOTAL_LIABILITY": "Total Liability",
 		"IS_HEADING": "Income Summary"
 	},
-	"OccuptionDtlsGrid": {
-		"OD_EDIT_BTN": "null",
-		"OD_DELETE": "null",
-		"OD_EDIT_BTN_ButtonName": "Edit",
-		"toolbar_OccuptionDtlsGrid": "null",
-		"OD_OCCUPATION": "Occupation",
-		"OD_DELETE_ButtonName": "Delete",
-		"OD_INDUSTRY": "Industry",
-		"OD_COMPANY_NAME": "Company Name"
-	},
-	"LiabilityDtlsGrid": {
-		"LD_LOAN/OBLIGATION_AMOUNT": "Loan/Obligation Amount",
-		"GridTitle": "LiabilityDtlsGrid",
-		"LD_DELETE": "Delete",
-		"toolbar_LiabilityDtlsGrid": "null",
-		"LD_FIN_NAME/OBLIG_HEAD": "Financier Name/Obligation",
-		"LD_TYPE_OF_LOAN/OBLIGATION": "Type Of Loan/Obligation",
-		"LD_DELETE_ButtonName": "Delete",
-		"LD_MODIFY": "Modify",
-		"LD_MODIFY_ButtonName": "Modify"
-	},
+	"OccuptionDtlsGrid" : {
+		"OD_EDIT_BTN" : "Modify",
+		"OD_DELETE" : "Delete",
+		"OD_EDIT_BTN_ButtonName" : "Edit",
+		"toolbar_OccuptionDtlsGrid" : "null",
+		"OD_OCCUPATION" : "Occupation",
+		"OD_DELETE_ButtonName" : "Delete",
+		"OD_INDUSTRY" : "Industry",
+		"OD_COMPANY_NAME" : "Company Name"
+		},
+		"LiabilityDtlsGrid" : {
+			"LD_LOAN/OBLIGATION_AMOUNT" : "Loan/Obligation Amount",
+			"LD_DELETE" : "Delete",
+			"toolbar_LiabilityDtlsGrid" : "null",
+			"LD_FIN_NAME/OBLIG_HEAD" : "Financier Name/Obligation",
+			"LD_TYPE_OF_LOAN/OBLIGATION" : "Type Of Loan/Obligation",
+			"LD_DELETE_ButtonName" : "Delete",
+			"LD_MODIFY" : "Modify",
+			"LD_MODIFY_ButtonName" : "Modify"
+			},
 	"Initiation": {
 		"CD_RESET" : "Reset",
 		"CD_CUST_SGMT": "Customer Segment",
@@ -1662,25 +1671,34 @@
 		"FD_NATIONAL_ID": "National ID",
 		"FD_LAST_NAME": "Last Name"
 	},
-	"OtherDeductionForm": {
-		"OD_SAVE": "Save",
-		"OD_OBILGATION_HEAD": "Obligation Head",
-		"FormTitle": "OtherDeductionForm",
-		"OD_CURRENCY": "Currency",
-		"OD_OBLIGATION_FREQUENCY": "Obligation Frequency",
-		"OD_Amount": "Amount",
-		"OD_Equivalent_Amt": "Equivalent Amount"
-	},
-	"DDE": {
-		"FieldId_1": "null",
-		"FormTitle": "detail data entry",
-		"FieldId_8": "null",
-		"FieldId_6": "null",
-		"FieldId_7": "null",
-		"FieldId_4": "null",
-		"FieldId_5": "null",
-		"FieldId_3": "null"
-	},
+	"FamilyDetailsGrid" : {
+		"FD_NAME" : "Name",
+		"FD_RELATIONSHIP" : "Relationship",
+		"FD_DELETE" : "Delete",
+		"toolbar_FamilyDetailsGrid" : "null",
+		"FD_MODIFY_ButtonName" : "Modify",
+		"FD_DELETE_ButtonName" : "Delete",
+		"FD_MODIFY" : "Modify"
+		},
+	"OtherDeductionForm" : {
+		"OD_SAVE" : "Save",
+		"DD_HEADING" : "Other Deductions Details",
+		"OD_OBILGATION_HEAD" : "Obligation Head",
+		"OD_CURRENCY" : "Currency",
+		"OD_OBLIGATION_FREQUENCY" : "Obligation Frequency",
+		"OD_Amount" : "Amount",
+		"OD_Equivalent_Amt" : "Equivalent Amount"
+		},
+		"DDE" : {
+			"FieldId_1" : "null",
+			"FormTitle" : "Details Data Entry",
+			"FieldId_8" : "null",
+			"FieldId_9" : "null",
+			"FieldId_6" : "null",
+			"FieldId_4" : "null",
+			"FieldId_5" : "null",
+			"FieldId_3" : "null"
+			},
 	"CustDtlsGrid": {
 		"CIF" : "CIF NO",
 		"CD_Modify" : "Modify",
@@ -1704,4 +1722,5 @@
 		"MT_STAGE" : "Stage",
 		"toolbar_MyTrayGrid" : "null"
 		}
+		
 }
