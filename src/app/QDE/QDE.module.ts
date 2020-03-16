@@ -7,8 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { QDERoutingModule } from './QDE-routing.module';
 import { QDEComponent } from './QDE.component';
-import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
-import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module';
 import { HeaderModule } from '../Header/Header.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 @NgModule({
@@ -25,8 +23,6 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-ApplicationDtlsModule,
-LoanDetailsFormModule,
 HeaderModule,
 CustomerDtlsModule,
 ],

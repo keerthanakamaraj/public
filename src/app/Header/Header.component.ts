@@ -23,22 +23,44 @@ selector: 'app-Header',
 templateUrl: './Header.component.html'
 })
 export class HeaderComponent extends FormComponent implements OnInit, AfterViewInit {
+@ViewChild('HD_CIF', {static: false}) HD_CIF: TextBoxComponent;
+@ViewChild('HD_CUST_ID', {static: false}) HD_CUST_ID: TextBoxComponent;
+@ViewChild('HD_APP_REF_NUM', {static: false}) HD_APP_REF_NUM: TextBoxComponent;
+@ViewChild('HD_APP_SUBMSN_DT', {static: false}) HD_APP_SUBMSN_DT: DateComponent;
+@ViewChild('HD_TTL_TAT_PRPSL', {static: false}) HD_TTL_TAT_PRPSL: TextBoxComponent;
 @ViewChild('HD_PROD_CAT', {static: false}) HD_PROD_CAT: TextBoxComponent;
 @ViewChild('HD_PROD', {static: false}) HD_PROD: TextBoxComponent;
 @ViewChild('HD_SUB_PROD', {static: false}) HD_SUB_PROD: TextBoxComponent;
 @ViewChild('HD_SCHEME', {static: false}) HD_SCHEME: TextBoxComponent;
 @ViewChild('HD_PROMOTION', {static: false}) HD_PROMOTION: TextBoxComponent;
-@ViewChild('HD_PRIME_USAGE', {static: false}) HD_PRIME_USAGE: TextBoxComponent;
+@ViewChild('LD_LOAN_AMT', {static: false}) LD_LOAN_AMT: AmountComponent;
+@ViewChild('LD_INTEREST_RATE', {static: false}) LD_INTEREST_RATE: TextBoxComponent;
+@ViewChild('LD_TENURE', {static: false}) LD_TENURE: TextBoxComponent;
+@ViewChild('LD_TENURE_PERIOD', {static: false}) LD_TENURE_PERIOD: ComboBoxComponent;
+@ViewChild('LD_APP_PRPSE', {static: false}) LD_APP_PRPSE: ComboBoxComponent;
+@ViewChild('LD_SYS_RCMD_AMT', {static: false}) LD_SYS_RCMD_AMT: AmountComponent;
+@ViewChild('LD_USR_RCMD_AMT', {static: false}) LD_USR_RCMD_AMT: AmountComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
+this.revalidateBasicField('HD_CIF'),
+this.revalidateBasicField('HD_CUST_ID'),
+this.revalidateBasicField('HD_APP_REF_NUM'),
+this.revalidateBasicField('HD_APP_SUBMSN_DT'),
+this.revalidateBasicField('HD_TTL_TAT_PRPSL'),
 this.revalidateBasicField('HD_PROD_CAT'),
 this.revalidateBasicField('HD_PROD'),
 this.revalidateBasicField('HD_SUB_PROD'),
 this.revalidateBasicField('HD_SCHEME'),
 this.revalidateBasicField('HD_PROMOTION'),
-this.revalidateBasicField('HD_PRIME_USAGE'),
+this.revalidateBasicField('LD_LOAN_AMT'),
+this.revalidateBasicField('LD_INTEREST_RATE'),
+this.revalidateBasicField('LD_TENURE'),
+this.revalidateBasicField('LD_TENURE_PERIOD'),
+this.revalidateBasicField('LD_APP_PRPSE'),
+this.revalidateBasicField('LD_SYS_RCMD_AMT'),
+this.revalidateBasicField('LD_USR_RCMD_AMT'),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -58,12 +80,52 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.HD_CIF.setReadOnly(true);
+this.HD_CUST_ID.setReadOnly(true);
+this.HD_APP_REF_NUM.setReadOnly(true);
+this.HD_APP_SUBMSN_DT.setReadOnly(true);
+this.HD_TTL_TAT_PRPSL.setReadOnly(true);
 this.HD_PROD_CAT.setReadOnly(true);
 this.HD_PROD.setReadOnly(true);
 this.HD_SUB_PROD.setReadOnly(true);
 this.HD_SCHEME.setReadOnly(true);
 this.HD_PROMOTION.setReadOnly(true);
-this.HD_PRIME_USAGE.setReadOnly(true);
+this.LD_LOAN_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+this.LD_LOAN_AMT.setReadOnly(true);
+this.LD_INTEREST_RATE.setReadOnly(true);
+this.LD_TENURE.setReadOnly(true);
+this.LD_TENURE_PERIOD.setReadOnly(true);
+this.LD_APP_PRPSE.setReadOnly(true);
+this.LD_SYS_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+this.LD_SYS_RCMD_AMT.setReadOnly(true);
+this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+this.LD_USR_RCMD_AMT.setReadOnly(true);
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
+this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.HD_PROD_CAT.setValue(res['ApplicationDetails']['ProductCategory']);
+this.HD_PROD.setValue(res['ApplicationDetails']['Product']);
+this.HD_SUB_PROD.setValue(res['ApplicationDetails']['SubProduct']);
+this.HD_SCHEME.setValue(res['ApplicationDetails']['Scheme']);
+this.HD_PROMOTION.setValue(res['ApplicationDetails']['Promotion']);
+this.LD_LOAN_AMT.setValue(res['LoanDetails']['LoanAmount']);
+this.LD_INTEREST_RATE.setValue(res['LoanDetails']['InterestRate']);
+this.LD_TENURE.setValue(res['LoanDetails']['Tenure']);
+this.LD_TENURE_PERIOD.setValue(res['LoanDetails']['TenurePeriod']);
+this.LD_APP_PRPSE.setValue(res['LoanDetails']['ApplicationPurpose']);
+this.LD_SYS_RCMD_AMT.setValue(res['LoanDetails']['SystemRecommendedAmount']);
+this.LD_USR_RCMD_AMT.setValue(res['LoanDetails']['UserRecommendedAmount']);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Failed to load header details!', -1);
+}
+);
 this.setDependencies();
 }
 setInputs(param : any){

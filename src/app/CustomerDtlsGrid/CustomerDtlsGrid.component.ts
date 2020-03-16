@@ -99,7 +99,7 @@ caseSensitive:true,
 },
 },
 {
-width:15,
+width:10,
 field:"CD_EDIT_BUTTON",
 sortable: false,
 filter: false,
@@ -114,7 +114,7 @@ onClick: this.CD_EDIT_BUTTON_click.bind(this)
 },
 },
 {
-width:15,
+width:10,
 field:"CD_DELETE",
 sortable: false,
 filter: false,
@@ -186,6 +186,18 @@ return this.hidden;
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
 let inputMap = new Map();
 inputMap.clear();
+let custId:any = event.custSeqToGrid;
+let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
+if(custId){
+criteriaJson.FilterCriteria.push({
+	"columnName": "ApplicationId",
+	"columnType": "String",
+	"conditions": {
+		"searchType": "equals",
+		"searchText": custId
+	}
+});}
+inputMap.set('QueryParam.criteriaDetails', criteriaJson);
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
@@ -213,22 +225,22 @@ default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/olive/publisher').subscribe(
+this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar4 = [];
-var loopVar4 = res['BorrowerDetails'];
-if (loopVar4) {
-for (var i = 0; i < loopVar4.length; i++) {
+var loopDataVar10 = [];
+var loopVar10 = res['BorrowerDetails'];
+if (loopVar10) {
+for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
-tempObj['CustomerId'] = loopVar4[i].BorrowerSeq;
-tempObj['CD_CUSTOMER_TYPE'] = loopVar4[i].CustomerSegment;
-tempObj['CD_CUSTOMER_NAME'] = loopVar4[i].FirstName;
-tempObj['CD_CIF_NUMBER'] = loopVar4[i].CIF;
-tempObj['CD_DOB'] = loopVar4[i].DOB;
-loopDataVar4.push(tempObj);}
+tempObj['CustomerId'] = loopVar10[i].BorrowerSeq;
+tempObj['CD_CUSTOMER_TYPE'] = loopVar10[i].CustomerSegment;
+tempObj['CD_CUSTOMER_NAME'] = loopVar10[i].FirstName;
+tempObj['CD_CIF_NUMBER'] = loopVar10[i].CIF;
+tempObj['CD_DOB'] = loopVar10[i].DOB;
+loopDataVar10.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -251,7 +263,7 @@ async CD_DELETE_click(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.BorrowerSeq', event.CustomerId);
-this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
+this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);

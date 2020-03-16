@@ -95,6 +95,7 @@ cellRendererParams: {
 gridCode: 'OccuptionDtlsGrid',
 columnId: 'OD_EDIT_BTN',
 Type: '1',
+CustomClass: 'btn-edit',
 onClick: this.OD_EDIT_BTN_click.bind(this)
 },
 },
@@ -110,6 +111,7 @@ cellRendererParams: {
 gridCode: 'OccuptionDtlsGrid',
 columnId: 'OD_DELETE',
 Type: '1',
+CustomClass: 'btn-delete',
 onClick: this.OD_DELETE_click.bind(this)
 },
 },

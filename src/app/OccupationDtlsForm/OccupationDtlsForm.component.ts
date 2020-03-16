@@ -50,19 +50,19 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_LOC_CURR_EQ', {static: false}) OD_LOC_CURR_EQ: TextBoxComponent;
 @ViewChild('OD_SAVE_BTN', {static: false}) OD_SAVE_BTN: ButtonComponent;
 @ViewChild('OCC_DTLS_GRID', {static: false}) OCC_DTLS_GRID: OccuptionDtlsGridComponent;
+@ViewChild('HidOccupation', {static: false}) HidOccupation: HiddenComponent;
 @ViewChild('HidAppId', {static: false}) HidAppId: HiddenComponent;
-@ViewChild('HidCurrency', {static: false}) HidCurrency: HiddenComponent;
+@ViewChild('HidIncomeDocType', {static: false}) HidIncomeDocType: HiddenComponent;
 @ViewChild('HidDesignation', {static: false}) HidDesignation: HiddenComponent;
+@ViewChild('HidIndustry', {static: false}) HidIndustry: HiddenComponent;
+@ViewChild('HidSelfEmpType', {static: false}) HidSelfEmpType: HiddenComponent;
+@ViewChild('HidNatureOfBusiness', {static: false}) HidNatureOfBusiness: HiddenComponent;
 @ViewChild('HidEmpStatus', {static: false}) HidEmpStatus: HiddenComponent;
 @ViewChild('HidEmpType', {static: false}) HidEmpType: HiddenComponent;
-@ViewChild('HidIncomeDocType', {static: false}) HidIncomeDocType: HiddenComponent;
 @ViewChild('HidIncomeFrequency', {static: false}) HidIncomeFrequency: HiddenComponent;
 @ViewChild('HidIncomeType', {static: false}) HidIncomeType: HiddenComponent;
-@ViewChild('HidIndustry', {static: false}) HidIndustry: HiddenComponent;
-@ViewChild('HidNatureOfBusiness', {static: false}) HidNatureOfBusiness: HiddenComponent;
-@ViewChild('HidOccupation', {static: false}) HidOccupation: HiddenComponent;
+@ViewChild('HidCurrency', {static: false}) HidCurrency: HiddenComponent;
 @ViewChild('HidOccupationSeq', {static: false}) HidOccupationSeq: HiddenComponent;
-@ViewChild('HidSelfEmpType', {static: false}) HidSelfEmpType: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -110,18 +110,18 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.HidOccupation.setValue('OCCUPATION');
 this.HidAppId.setValue('RLO');
-this.HidCurrency.setValue('CURRENCY');
+this.HidIncomeDocType.setValue('INCOME_DOC_TYPE');
 this.HidDesignation.setValue('DESIGNATION');
+this.HidIndustry.setValue('INDUSTRY');
+this.HidSelfEmpType.setValue('SELF_EMPLOYED_TYPE');
+this.HidNatureOfBusiness.setValue('NATURE_OF_BUSINESS');
 this.HidEmpStatus.setValue('EMPLOYMENT_STATUS');
 this.HidEmpType.setValue('EMPLOYMENT_TYPE');
-this.HidIncomeDocType.setValue('INCOME_DOC_TYPE');
 this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
 this.HidIncomeType.setValue('INCOME_TYPE');
-this.HidIndustry.setValue('INDUSTRY');
-this.HidNatureOfBusiness.setValue('NATURE_OF_BUSINESS');
-this.HidOccupation.setValue('OCCUPATION');
-this.HidSelfEmpType.setValue('SELF_EMPLOYED_TYPE');
+this.HidCurrency.setValue('CURRENCY');
 this.setDependencies();
 }
 setInputs(param : any){

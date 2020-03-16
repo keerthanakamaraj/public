@@ -61,15 +61,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustomerDtlsGridComponent;
 @ViewChild('FieldId_29', {static: false}) FieldId_29: AddressDetailsComponent;
 @ViewChild('FieldId_30', {static: false}) FieldId_30: OccupationDtlsFormComponent;
-@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
-@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
-@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
-@ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
 @ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
+@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
+@ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
+@ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
+@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -130,11 +130,11 @@ this.setInputs(this.services.dataStore.getData(this.services.routing.currModal))
 this.CD_FULL_NAME.setReadOnly(true);
 this.hidAppId.setValue('RLO');
 this.hidCusSgmt.setValue('CUST_SEGMENT');
-this.hidGender.setValue('GENDER');
-this.hidMaritalStatus.setValue('MARITAL_STATUS');
-this.hidNationality.setValue('NATIONALITY');
-this.hidPrefCommCh.setValue('PREF_COMM_CH');
 this.hidStaff.setValue('Y/N');
+this.hidGender.setValue('GENDER');
+this.hidNationality.setValue('NATIONALITY');
+this.hidMaritalStatus.setValue('MARITAL_STATUS');
+this.hidPrefCommCh.setValue('PREF_COMM_CH');
 this.hidTitle.setValue('TITLE');
 let inputMap = new Map();
 await this.CUST_DTLS_GRID.gridDataLoad({
@@ -250,7 +250,7 @@ inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.ge
 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
+this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Success', 5000);
@@ -358,7 +358,7 @@ inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.ge
 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
+this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Record Saved Successfully', 5000);
@@ -446,7 +446,7 @@ async CUST_DTLS_GRID_custDtlsEdit(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.BorrowerSeq', event.BorrowerSeq);
-this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
+this.services.http.fetchApi('null', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);
@@ -488,6 +488,12 @@ await this.FieldId_29.AddressGrid.gridDataLoad({
 });
 await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': event.BorrowerSeq,
+});
+}
+async loadCustDtlsGrid(event){
+let inputMap = new Map();
+await this.CUST_DTLS_GRID.gridDataLoad({
+'custSeqToGrid': event.custSeq,
 });
 }
 fieldDependencies = {

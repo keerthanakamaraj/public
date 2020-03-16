@@ -244,8 +244,8 @@
 <app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" (blur)="genericOnBlur('CD_PREF_LANG', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
-<app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
+<app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
 <app-CustomerDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode" (custDtlsEdit)="CUST_DTLS_GRID_custDtlsEdit($event)"></app-CustomerDtlsGrid>
@@ -257,15 +257,15 @@
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
 </div>
-<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
-<app-hidden #hidGender fieldID="hidGender"></app-hidden>
-<app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
-<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
-<app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
 <app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
+<app-hidden #hidGender fieldID="hidGender"></app-hidden>
+<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
+<app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
+<app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
 <app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
+<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 </div>
 </div>
 </div>

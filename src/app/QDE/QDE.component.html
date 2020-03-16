@@ -19,17 +19,11 @@
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
 <app-CustomerDtls #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-CustomerDtls>
 </div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_5.isHidden()">
-<app-ApplicationDtls #FieldId_5 fieldID="FieldId_5" [formCode]="formCode"></app-ApplicationDtls>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
+<app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary"></app-button>
 </div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">
-<app-LoanDetailsForm #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-LoanDetailsForm>
-</div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
-<app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode"></app-button>
-</div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
-<app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL" [formCode]="formCode"></app-button>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
+<app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
 </div>
 </div>
 </div>

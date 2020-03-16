@@ -1,7 +1,8 @@
 export class AddressDetailsModel {
+AD_CUST_TYPE: string;
 AD_ADDRESS_TYPE: string;
-AD_PERIOD_CURR_RESI_YRS: string;
-AD_PER_CURR_RES_MTHS: string;
+AD_RES_DUR: string;
+AD_RES_DUR_UNIT: string;
 AD_RESIDENCE_TYPE: string;
 AD_ADDRESS_LINE1: string;
 AD_ADDRESS_LINE2: string;
@@ -21,9 +22,10 @@ AD_EMAIL2_CHECKBOX: string;
 AD_ALTERNATE_MOB_NO: string;
 setValue(res){
 if(res){
+if(res['AD_CUST_TYPE']){this.AD_CUST_TYPE = res['AD_CUST_TYPE'];}
 if(res['AD_ADDRESS_TYPE']){this.AD_ADDRESS_TYPE = res['AD_ADDRESS_TYPE'];}
-if(res['AD_PERIOD_CURR_RESI_YRS']){this.AD_PERIOD_CURR_RESI_YRS = res['AD_PERIOD_CURR_RESI_YRS'];}
-if(res['AD_PER_CURR_RES_MTHS']){this.AD_PER_CURR_RES_MTHS = res['AD_PER_CURR_RES_MTHS'];}
+if(res['AD_RES_DUR']){this.AD_RES_DUR = res['AD_RES_DUR'];}
+if(res['AD_RES_DUR_UNIT']){this.AD_RES_DUR_UNIT = res['AD_RES_DUR_UNIT'];}
 if(res['AD_RESIDENCE_TYPE']){this.AD_RESIDENCE_TYPE = res['AD_RESIDENCE_TYPE'];}
 if(res['AD_ADDRESS_LINE1']){this.AD_ADDRESS_LINE1 = res['AD_ADDRESS_LINE1'];}
 if(res['AD_ADDRESS_LINE2']){this.AD_ADDRESS_LINE2 = res['AD_ADDRESS_LINE2'];}

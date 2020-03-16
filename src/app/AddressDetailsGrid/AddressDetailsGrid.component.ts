@@ -95,6 +95,7 @@ cellRendererParams: {
 gridCode: 'AddressDetailsGrid',
 columnId: 'AD_EDIT_BTN',
 Type: '1',
+CustomClass: 'btn-edit',
 onClick: this.AD_EDIT_BTN_click.bind(this)
 },
 },
@@ -110,6 +111,7 @@ cellRendererParams: {
 gridCode: 'AddressDetailsGrid',
 columnId: 'AD_DELETE_BTN',
 Type: '1',
+CustomClass: 'btn-delete',
 onClick: this.AD_DELETE_BTN_click.bind(this)
 },
 },
@@ -208,7 +210,7 @@ default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/AddressDetails', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar10 = [];
@@ -216,10 +218,10 @@ var loopVar10 = res['AddressDetails'];
 if (loopVar10) {
 for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
-tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
-tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
-tempObj['AD_Address'] = loopVar10[i].AddressLine1;
-tempObj['AD_Residence_Duration'] = loopVar10[i].PeriodCurrentResidenceYrs;
+tempObj['AD_ADD_ID'] = loopVar10[i].Body.AddressDetailsSeq;
+tempObj['AD_Address_Type'] = loopVar10[i].Body.AddressType;
+tempObj['AD_Address'] = loopVar10[i].Body.AddressLine1;
+tempObj['AD_Residence_Duration'] = loopVar10[i].Body.PeriodCurrentResidenceYrs;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
@@ -245,7 +247,7 @@ async AD_DELETE_BTN_click(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
-this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap).subscribe(
+this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Successfully Deleted', 5000);
