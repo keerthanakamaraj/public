@@ -23,11 +23,6 @@ selector: 'app-Header',
 templateUrl: './Header.component.html'
 })
 export class HeaderComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('HD_CIF', {static: false}) HD_CIF: TextBoxComponent;
-@ViewChild('HD_CUST_ID', {static: false}) HD_CUST_ID: TextBoxComponent;
-@ViewChild('HD_APP_REF_NUM', {static: false}) HD_APP_REF_NUM: TextBoxComponent;
-@ViewChild('HD_APP_SUBMSN_DT', {static: false}) HD_APP_SUBMSN_DT: DateComponent;
-@ViewChild('HD_TTL_TAT_PRPSL', {static: false}) HD_TTL_TAT_PRPSL: TextBoxComponent;
 @ViewChild('HD_PROD_CAT', {static: false}) HD_PROD_CAT: TextBoxComponent;
 @ViewChild('HD_PROD', {static: false}) HD_PROD: TextBoxComponent;
 @ViewChild('HD_SUB_PROD', {static: false}) HD_SUB_PROD: TextBoxComponent;
@@ -44,11 +39,6 @@ async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
-this.revalidateBasicField('HD_CIF'),
-this.revalidateBasicField('HD_CUST_ID'),
-this.revalidateBasicField('HD_APP_REF_NUM'),
-this.revalidateBasicField('HD_APP_SUBMSN_DT'),
-this.revalidateBasicField('HD_TTL_TAT_PRPSL'),
 this.revalidateBasicField('HD_PROD_CAT'),
 this.revalidateBasicField('HD_PROD'),
 this.revalidateBasicField('HD_SUB_PROD'),
@@ -80,11 +70,6 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.HD_CIF.setReadOnly(true);
-this.HD_CUST_ID.setReadOnly(true);
-this.HD_APP_REF_NUM.setReadOnly(true);
-this.HD_APP_SUBMSN_DT.setReadOnly(true);
-this.HD_TTL_TAT_PRPSL.setReadOnly(true);
 this.HD_PROD_CAT.setReadOnly(true);
 this.HD_PROD.setReadOnly(true);
 this.HD_SUB_PROD.setReadOnly(true);
@@ -102,6 +87,7 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_USR_RCMD_AMT.setReadOnly(true);
 let inputMap = new Map();
 inputMap.clear();
+console.log("AppId: ", this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
 inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
 this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {

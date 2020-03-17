@@ -33,10 +33,9 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_PROF.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_SELF_EMPLD_PROF' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_SELF_EMPLD_PROF' | translate}}</label>
 </div>
-<app-text-box #OD_SELF_EMPLD_PROF fieldID="OD_SELF_EMPLD_PROF" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_SELF_EMPLD_PROF', $event)"></app-text-box>
+<app-text-box #OD_SELF_EMPLD_PROF fieldID="OD_SELF_EMPLD_PROF" [formCode]="formCode" (blur)="genericOnBlur('OD_SELF_EMPLD_PROF', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -201,19 +200,19 @@
 <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode" (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"></app-OccuptionDtlsGrid>
 </div>
 </div>
-<app-hidden #HidOccupation fieldID="HidOccupation"></app-hidden>
 <app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
-<app-hidden #HidIncomeDocType fieldID="HidIncomeDocType"></app-hidden>
+<app-hidden #HidCurrency fieldID="HidCurrency"></app-hidden>
 <app-hidden #HidDesignation fieldID="HidDesignation"></app-hidden>
-<app-hidden #HidIndustry fieldID="HidIndustry"></app-hidden>
-<app-hidden #HidSelfEmpType fieldID="HidSelfEmpType"></app-hidden>
-<app-hidden #HidNatureOfBusiness fieldID="HidNatureOfBusiness"></app-hidden>
 <app-hidden #HidEmpStatus fieldID="HidEmpStatus"></app-hidden>
 <app-hidden #HidEmpType fieldID="HidEmpType"></app-hidden>
+<app-hidden #HidIncomeDocType fieldID="HidIncomeDocType"></app-hidden>
 <app-hidden #HidIncomeFrequency fieldID="HidIncomeFrequency"></app-hidden>
 <app-hidden #HidIncomeType fieldID="HidIncomeType"></app-hidden>
-<app-hidden #HidCurrency fieldID="HidCurrency"></app-hidden>
+<app-hidden #HidIndustry fieldID="HidIndustry"></app-hidden>
+<app-hidden #HidNatureOfBusiness fieldID="HidNatureOfBusiness"></app-hidden>
+<app-hidden #HidOccupation fieldID="HidOccupation"></app-hidden>
 <app-hidden #HidOccupationSeq fieldID="HidOccupationSeq"></app-hidden>
+<app-hidden #HidSelfEmpType fieldID="HidSelfEmpType"></app-hidden>
 </div>
 </div>
 </div>

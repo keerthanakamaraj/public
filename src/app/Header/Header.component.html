@@ -10,41 +10,6 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_CIF.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'Header.HD_CIF' | translate}}</label>
-</div>
-<app-text-box #HD_CIF fieldID="HD_CIF" [formCode]="formCode" (blur)="genericOnBlur('HD_CIF', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_CUST_ID.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'Header.HD_CUST_ID' | translate}}</label>
-</div>
-<app-text-box #HD_CUST_ID fieldID="HD_CUST_ID" [formCode]="formCode" (blur)="genericOnBlur('HD_CUST_ID', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_APP_REF_NUM.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'Header.HD_APP_REF_NUM' | translate}}</label>
-</div>
-<app-text-box #HD_APP_REF_NUM fieldID="HD_APP_REF_NUM" [formCode]="formCode" (blur)="genericOnBlur('HD_APP_REF_NUM', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_APP_SUBMSN_DT.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'Header.HD_APP_SUBMSN_DT' | translate}}</label>
-</div>
-<app-date #HD_APP_SUBMSN_DT fieldID="HD_APP_SUBMSN_DT" [formCode]="formCode" (blur)="genericOnBlur('HD_APP_SUBMSN_DT', $event)"></app-date>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_TTL_TAT_PRPSL.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'Header.HD_TTL_TAT_PRPSL' | translate}}</label>
-</div>
-<app-text-box #HD_TTL_TAT_PRPSL fieldID="HD_TTL_TAT_PRPSL" [formCode]="formCode" (blur)="genericOnBlur('HD_TTL_TAT_PRPSL', $event)"></app-text-box>
-</div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="HD_PROD_CAT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">

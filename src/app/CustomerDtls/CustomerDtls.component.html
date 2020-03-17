@@ -27,18 +27,16 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_CIF.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'CustomerDtls.CD_CIF' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'CustomerDtls.CD_CIF' | translate}}</label>
 </div>
-<app-text-box #CD_CIF fieldID="CD_CIF" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_CIF', $event)"></app-text-box>
+<app-text-box #CD_CIF fieldID="CD_CIF" [formCode]="formCode" (blur)="genericOnBlur('CD_CIF', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'CustomerDtls.CD_CUST_ID' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'CustomerDtls.CD_CUST_ID' | translate}}</label>
 </div>
-<app-text-box #CD_CUST_ID fieldID="CD_CUST_ID" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_CUST_ID', $event)"></app-text-box>
+<app-text-box #CD_CUST_ID fieldID="CD_CUST_ID" [formCode]="formCode" (blur)="genericOnBlur('CD_CUST_ID', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_TITLE.isHidden()">
@@ -60,10 +58,9 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_MIDDLE_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'CustomerDtls.CD_MIDDLE_NAME' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'CustomerDtls.CD_MIDDLE_NAME' | translate}}</label>
 </div>
-<app-text-box #CD_MIDDLE_NAME fieldID="CD_MIDDLE_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_MIDDLE_NAME', $event)"></app-text-box>
+<app-text-box #CD_MIDDLE_NAME fieldID="CD_MIDDLE_NAME" [formCode]="formCode" (blur)="genericOnBlur('CD_MIDDLE_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_LAST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -76,10 +73,9 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'CustomerDtls.CD_FULL_NAME' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'CustomerDtls.CD_FULL_NAME' | translate}}</label>
 </div>
-<app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
+<app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode" (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_GENDER.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -111,7 +107,7 @@
 {{ 'CustomerDtls.CD_MOBILE_NO' | translate}}<span class="error-d">*</span>
 </label>
 </div>
-<app-text-box #CD_MOBILE_NO inputType="number" fieldID="CD_MOBILE_NO" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box>
+<app-text-box #CD_MOBILE_NO fieldID="CD_MOBILE_NO" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_DEBIT_SCORE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -130,9 +126,10 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'CustomerDtls.CD_STAFF' | translate}}</label>
+{{ 'CustomerDtls.CD_STAFF' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
+<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -203,10 +200,9 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_PASSPORT_NO.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'CustomerDtls.CD_PASSPORT_NO' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'CustomerDtls.CD_PASSPORT_NO' | translate}}</label>
 </div>
-<app-text-box #CD_PASSPORT_NO fieldID="CD_PASSPORT_NO" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CD_PASSPORT_NO', $event)"></app-text-box>
+<app-text-box #CD_PASSPORT_NO fieldID="CD_PASSPORT_NO" [formCode]="formCode" (blur)="genericOnBlur('CD_PASSPORT_NO', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CD_PASSPORT_EXPIRY.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -257,15 +253,15 @@
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
 </div>
+<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
-<app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
 <app-hidden #hidGender fieldID="hidGender"></app-hidden>
-<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
 <app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
+<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
 <app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
+<app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
 <app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
-<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 </div>
 </div>
 </div>

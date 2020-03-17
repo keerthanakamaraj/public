@@ -1,9 +1,4 @@
 export class HeaderModel {
-HD_CIF: string;
-HD_CUST_ID: string;
-HD_APP_REF_NUM: string;
-HD_APP_SUBMSN_DT: string;
-HD_TTL_TAT_PRPSL: string;
 HD_PROD_CAT: string;
 HD_PROD: string;
 HD_SUB_PROD: string;
@@ -18,11 +13,6 @@ LD_SYS_RCMD_AMT: string;
 LD_USR_RCMD_AMT: string;
 setValue(res){
 if(res){
-if(res['HD_CIF']){this.HD_CIF = res['HD_CIF'];}
-if(res['HD_CUST_ID']){this.HD_CUST_ID = res['HD_CUST_ID'];}
-if(res['HD_APP_REF_NUM']){this.HD_APP_REF_NUM = res['HD_APP_REF_NUM'];}
-if(res['HD_APP_SUBMSN_DT']){this.HD_APP_SUBMSN_DT = res['HD_APP_SUBMSN_DT'];}
-if(res['HD_TTL_TAT_PRPSL']){this.HD_TTL_TAT_PRPSL = res['HD_TTL_TAT_PRPSL'];}
 if(res['HD_PROD_CAT']){this.HD_PROD_CAT = res['HD_PROD_CAT'];}
 if(res['HD_PROD']){this.HD_PROD = res['HD_PROD'];}
 if(res['HD_SUB_PROD']){this.HD_SUB_PROD = res['HD_SUB_PROD'];}

@@ -61,15 +61,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustomerDtlsGridComponent;
 @ViewChild('FieldId_29', {static: false}) FieldId_29: AddressDetailsComponent;
 @ViewChild('FieldId_30', {static: false}) FieldId_30: OccupationDtlsFormComponent;
+@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
-@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
 @ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
+@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
 @ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
+@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
-@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -130,11 +130,11 @@ this.setInputs(this.services.dataStore.getData(this.services.routing.currModal))
 this.CD_FULL_NAME.setReadOnly(true);
 this.hidAppId.setValue('RLO');
 this.hidCusSgmt.setValue('CUST_SEGMENT');
-this.hidStaff.setValue('Y/N');
 this.hidGender.setValue('GENDER');
-this.hidNationality.setValue('NATIONALITY');
 this.hidMaritalStatus.setValue('MARITAL_STATUS');
+this.hidNationality.setValue('NATIONALITY');
 this.hidPrefCommCh.setValue('PREF_COMM_CH');
+this.hidStaff.setValue('Y/N');
 this.hidTitle.setValue('TITLE');
 let inputMap = new Map();
 await this.CUST_DTLS_GRID.gridDataLoad({
