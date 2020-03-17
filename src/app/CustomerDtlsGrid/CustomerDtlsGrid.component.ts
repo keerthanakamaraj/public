@@ -187,8 +187,9 @@ return this.hidden;
 }
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
 let inputMap = new Map();
-inputMap.clear();
 let custId:any = event.custSeqToGrid;
+if(custId){
+inputMap.clear();
 let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
 if(custId){
 criteriaJson.FilterCriteria.push({
@@ -230,19 +231,19 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar10 = [];
-var loopVar10 = res['BorrowerDetails'];
-if (loopVar10) {
-for (var i = 0; i < loopVar10.length; i++) {
+var loopDataVar11 = [];
+var loopVar11 = res['BorrowerDetails'];
+if (loopVar11) {
+for (var i = 0; i < loopVar11.length; i++) {
 var tempObj = {};
-tempObj['CustomerId'] = loopVar10[i].BorrowerSeq;
-tempObj['CD_CUSTOMER_TYPE'] = loopVar10[i].CustomerSegment;
-tempObj['CD_CUSTOMER_NAME'] = loopVar10[i].FirstName;
-tempObj['CD_CIF_NUMBER'] = loopVar10[i].CIF;
-tempObj['CD_DOB'] = loopVar10[i].DOB;
-loopDataVar10.push(tempObj);}
+tempObj['CustomerId'] = loopVar11[i].BorrowerSeq;
+tempObj['CD_CUSTOMER_TYPE'] = loopVar11[i].CustomerSegment;
+tempObj['CD_CUSTOMER_NAME'] = loopVar11[i].FirstName;
+tempObj['CD_CIF_NUMBER'] = loopVar11[i].CIF;
+tempObj['CD_DOB'] = loopVar11[i].DOB;
+loopDataVar11.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar11);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -250,6 +251,7 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 }
 }
 );
+}
 
 }
 async CD_EDIT_BUTTON_click(event){
