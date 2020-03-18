@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
-import { RAFormModule } from '../ra-form/ra-form.module';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
-import { ReadonlyGridModule } from '../readonly-grid/readonly-grid.module';
-import { GridPaginationModule } from '../grid-pagination/grid-pagination.module';
-import { MyTrayGridComponent } from './MyTrayGrid.component';
+import { FormsModule } from '@angular/forms';
+import { RAFormModule } from '../ra-form/ra-form.module';
+import { MyTrayFormRoutingModule } from './MyTrayForm-routing.module';
+import { MyTrayFormComponent } from './MyTrayForm.component';
+import { MyTrayGridModule } from '../MyTrayGrid/MyTrayGrid.module';
 @NgModule({
 imports: [
 CommonModule,
-ReadonlyGridModule,
-GridPaginationModule,
+MyTrayFormRoutingModule,
 RAFormModule,
+FormsModule,
 HttpClientModule,
 TranslateModule.forChild({
 loader: {
@@ -21,12 +22,13 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+MyTrayGridModule,
 ],
 declarations: [
-MyTrayGridComponent,
+MyTrayFormComponent,
 ],
 exports:[
-MyTrayGridComponent,
+MyTrayFormComponent,
 ],
 })
-export class MyTrayGridModule { }
+export class MyTrayFormModule { }

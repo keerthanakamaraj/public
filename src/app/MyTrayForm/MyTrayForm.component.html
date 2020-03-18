@@ -1,0 +1,30 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'MyTrayForm.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MT_SLIDER.isHidden()" [ngClass]="'checkboxRight'">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'MyTrayForm.MT_SLIDER' | translate}}</label>
+</div>
+<app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)"></app-check-box>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
+<app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
