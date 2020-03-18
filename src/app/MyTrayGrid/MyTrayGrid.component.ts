@@ -187,6 +187,7 @@ isColumnHidden(columnId) {
 return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 }
 ngOnInit(): void {
+this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
 var styleElement = document.createElement('style');
 styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
@@ -199,14 +200,80 @@ this.unsubscribe$.complete();
 var styleElement = document.getElementById('MyTrayGrid_customCss');
 styleElement.parentNode.removeChild(styleElement);
 }
-setValue(rowData) {
-this.readonlyGrid.setRowData(rowData);
+gridDataLoad(formInputs) {
+this.readonlyGrid.setFormInputs(formInputs);
+}
+refreshGrid(){
+this.readonlyGrid.refreshGrid();
 }
 setHidden(value: boolean){
 this.hidden = value;
 }
 isHidden(){
 return this.hidden;
+}
+async gridDataAPI(params, gridReqMap: Map<string, any>, event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.userid', 'Vishal');
+if(gridReqMap.get("FilterCriteria")){
+var obj = gridReqMap.get("FilterCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
+case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
+case "MT_CAM_TYPE":obj[i].columnName =  "";break;
+case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_ON":obj[i].columnName =  "";break;
+case "MT_CAD_LOCATION":obj[i].columnName =  "";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+if(gridReqMap.get("OrderCriteria")){
+var obj = gridReqMap.get("OrderCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
+case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
+case "MT_CAM_TYPE":obj[i].columnName =  "";break;
+case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_ON":obj[i].columnName =  "";break;
+case "MT_CAD_LOCATION":obj[i].columnName =  "";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+var loopDataVar5 = [];
+var loopVar5 = res['Tasks'];
+if (loopVar5) {
+for (var i = 0; i < loopVar5.length; i++) {
+var tempObj = {};
+tempObj['MT_PROPOSAL_ID'] = loopVar5[i].PROPOSAL_ID;
+tempObj['MT_CUSTOMER'] = loopVar5[i].CUSTOMER_NAME;
+//tempObj['MT_CAM_TYPE'] = loopVar5[i].;
+tempObj['MT_STAGE'] = loopVar5[i].STAGE_NAME;
+//tempObj['MT_INITIATED_ON'] = loopVar5[i].;
+//tempObj['MT_CAD_LOCATION'] = loopVar5[i].;
+//tempObj['MT_PENDING_WITH'] = loopVar5[i].;
+loopDataVar5.push(tempObj);}
+}
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar5);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
+}
+);
+
 }
 
 }

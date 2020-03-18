@@ -18,7 +18,7 @@
 <label class="clr-brown">
 {{ 'MyTrayForm.MT_SLIDER' | translate}}</label>
 </div>
-<app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)"></app-check-box>
+<app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)" (change)="MT_SLIDER_change($event)"></app-check-box>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
 <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>

@@ -50,6 +50,9 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+let inputMap = new Map();
+await this.MT_GRID.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -73,7 +76,6 @@ return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
-this.MT_GRID.setValue(inputValue['MT_GRID']);
 this.value = new MyTrayFormModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -121,6 +123,9 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
+async MT_SLIDER_change(event){
+let inputMap = new Map();
+console.log('Slider Value: ',this.MT_SLIDER.getFieldValue());}
 fieldDependencies = {
 }
 
