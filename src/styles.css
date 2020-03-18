@@ -585,3 +585,96 @@ my-date-picker {
 .ng-select.error, my-date-picker.error {
     border-color: #b20812;
 }
+
+/* Custom Slider Component Styles */
+app-check-box[fieldID=MT_SLIDER] .check span {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  app-check-box[fieldID=MT_SLIDER] .check span:before {
+    position: absolute;
+    content: "";
+    height: 19px;
+    width: 19px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+
+  app-check-box[fieldID=MT_SLIDER] .checkbox label {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 23px;
+  }
+  
+  app-check-box[fieldID=MT_SLIDER] .checkbox label input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  app-check-box[fieldID=MT_SLIDER] .checkbox label input:focus + span {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  app-check-box[fieldID=MT_SLIDER] .checkbox label input:checked + span:before {
+    -webkit-transform: translateX(17px);
+    -ms-transform: translateX(17px);
+    transform: translateX(17px);
+  }
+
+  app-check-box[fieldID=MT_SLIDER]  .check input[type=checkbox]+span:after{
+    content: none;
+  }
+
+  app-check-box[fieldID=MT_SLIDER] .check{
+    width: unset;
+    height: unset;
+    float: unset;
+    position: unset;
+  }
+
+  app-check-box[fieldID=MT_SLIDER] .check span{
+    width: unset;
+    height: unset;
+    margin-left: unset;
+    display: unset;
+  }
+
+  app-check-box[fieldID=MT_SLIDER] .check input[type=checkbox]:checked+span{
+    background-size: unset;
+    border: unset;
+    background-position: unset;
+  }
+
+  app-check-box[fieldID=MT_SLIDER] .checkbox label input:checked + span {
+    background-color: #2196F3;
+  }
+
+  app-check-box[fieldID=MT_SLIDER] .checkbox label span {
+    border-radius: 34px;
+  }
+  
+  app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
+    border-radius: 50%;
+  }
+  
+  .checkboxRight app-check-box[fieldID=MT_SLIDER] .cb-position{
+    top: 0.6rem;
+  }
+
+  .checkboxLeft app-check-box[fieldID=MT_SLIDER] .cb-position{
+    top: 1.6rem;
+  }
