@@ -1721,6 +1721,9 @@
 		"MT_INITIATED_BY" : "Initiated By",
 		"MT_STAGE" : "Stage",
 		"toolbar_MyTrayGrid" : "null"
-		}
-		
+	},
+	"MyTrayForm" : {
+		"MT_SLIDER" : "Pending with Self",
+		"FormTitle" : "My Tray"
+	}
 }

@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { MYTRAYPAGERoutingModule } from './my-tray-page-routing.module';
 import { MyTrayPageComponent } from './my-tray-page.component';
-import { MyTrayGridModule } from '../MyTrayGrid/MyTrayGrid.module';
+import { MyTrayFormModule } from '../MyTrayForm/MyTrayForm.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     MYTRAYPAGERoutingModule,
-    MyTrayGridModule
+    MyTrayFormModule
   ],
   declarations: [MyTrayPageComponent],
   exports: [MyTrayPageComponent],

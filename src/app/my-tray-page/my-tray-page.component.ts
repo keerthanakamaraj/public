@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MyTrayGridComponent } from '../MyTrayGrid/MyTrayGrid.component';
+import { MyTrayFormComponent } from '../MyTrayForm/MyTrayForm.component';
 
 @Component({
   selector: 'app-my-tray-page',
@@ -7,7 +7,7 @@ import { MyTrayGridComponent } from '../MyTrayGrid/MyTrayGrid.component';
   styleUrls: ['./my-tray-page.component.css']
 })
 export class MyTrayPageComponent implements OnInit {
-  @ViewChild('MY_TRAY_GRID', {static: false}) MY_TRAY_GRID: MyTrayGridComponent;
+  @ViewChild('MY_TRAY_FORM', {static: false}) MY_TRAY_FORM: MyTrayFormComponent;
   // formcode: string;
 
   constructor() { }
