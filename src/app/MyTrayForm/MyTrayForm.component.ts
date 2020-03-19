@@ -125,7 +125,10 @@ this.onFormLoad();
 }
 async MT_SLIDER_change(event){
 let inputMap = new Map();
-console.log('Slider Value: ',this.MT_SLIDER.getFieldValue());}
+await this.MT_GRID.gridDataLoad({
+'sliderVal': this.MT_SLIDER.getFieldValue(),
+});
+}
 fieldDependencies = {
 }
 

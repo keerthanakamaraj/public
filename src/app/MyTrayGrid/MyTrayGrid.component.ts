@@ -35,7 +35,7 @@ hidden:boolean = false;
 gridConsts: any = {
 paginationPageSize: 10,
 gridCode: "MyTrayGrid",
-paginationReq:true
+paginationReq:false
 };
 columnDefs:any[] = [{
 field:"MT_PROPOSAL_ID",
@@ -188,6 +188,7 @@ return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 }
 ngOnInit(): void {
 this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
+this.readonlyGrid.setRowClickHandler(this.rowClicked.bind(this));
 var styleElement = document.createElement('style');
 styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
@@ -214,6 +215,8 @@ return this.hidden;
 }
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
 let inputMap = new Map();
+let sliderVal:any = event.sliderVal;
+if(sliderVal){
 inputMap.clear();
 inputMap.set('PathParam.userid', 'Vishal');
 if(gridReqMap.get("FilterCriteria")){
@@ -222,11 +225,13 @@ for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
 case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
 case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
-case "MT_CAM_TYPE":obj[i].columnName =  "";break;
+case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
 case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
-case "MT_INITIATED_ON":obj[i].columnName =  "";break;
-case "MT_CAD_LOCATION":obj[i].columnName =  "";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "";break;
+case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
+case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
+case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -237,34 +242,38 @@ for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
 case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
 case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
-case "MT_CAM_TYPE":obj[i].columnName =  "";break;
+case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
 case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
-case "MT_INITIATED_ON":obj[i].columnName =  "";break;
-case "MT_CAD_LOCATION":obj[i].columnName =  "";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "";break;
+case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
+case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
+case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
+this.services.http.fetchApi('/tasks/all/{userid}', 'GET', inputMap, '/los-wf').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar5 = [];
-var loopVar5 = res['Tasks'];
-if (loopVar5) {
-for (var i = 0; i < loopVar5.length; i++) {
+var loopDataVar7 = [];
+var loopVar7 = res['Tasks'];
+if (loopVar7) {
+for (var i = 0; i < loopVar7.length; i++) {
 var tempObj = {};
-tempObj['MT_PROPOSAL_ID'] = loopVar5[i].PROPOSAL_ID;
-tempObj['MT_CUSTOMER'] = loopVar5[i].CUSTOMER_NAME;
-//tempObj['MT_CAM_TYPE'] = loopVar5[i].;
-tempObj['MT_STAGE'] = loopVar5[i].STAGE_NAME;
-//tempObj['MT_INITIATED_ON'] = loopVar5[i].;
-//tempObj['MT_CAD_LOCATION'] = loopVar5[i].;
-//tempObj['MT_PENDING_WITH'] = loopVar5[i].;
-loopDataVar5.push(tempObj);}
+tempObj['MT_PROPOSAL_ID'] = loopVar7[i].PROPOSAL_ID;
+tempObj['MT_CUSTOMER'] = loopVar7[i].CUSTOMER_NAME;
+tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
+tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
+tempObj['MT_INITIATED_ON'] = loopVar7[i].CREATED_ON;
+tempObj['MT_CAD_LOCATION'] = loopVar7[i].BRANCH;
+tempObj['MT_PENDING_WITH'] = loopVar7[i].InitiatedBy;
+tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
+tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
+loopDataVar7.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar5);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -273,6 +282,95 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
 }
 );
+}
+else{
+inputMap.clear();
+inputMap.set('PathParam.userid', 'Vishal');
+if(gridReqMap.get("FilterCriteria")){
+var obj = gridReqMap.get("FilterCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
+case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
+case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
+case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
+case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
+case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+if(gridReqMap.get("OrderCriteria")){
+var obj = gridReqMap.get("OrderCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
+case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
+case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
+case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
+case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
+case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+var loopDataVar30 = [];
+var loopVar30 = res['Tasks'];
+if (loopVar30) {
+for (var i = 0; i < loopVar30.length; i++) {
+var tempObj = {};
+tempObj['MT_PROPOSAL_ID'] = loopVar30[i].PROPOSAL_ID;
+tempObj['MT_CUSTOMER'] = loopVar30[i].CUSTOMER_NAME;
+tempObj['MT_CAM_TYPE'] = loopVar30[i].EXISTING_CUST;
+tempObj['MT_STAGE'] = loopVar30[i].STAGE_NAME;
+tempObj['MT_INITIATED_ON'] = loopVar30[i].CREATED_ON;
+tempObj['MT_CAD_LOCATION'] = loopVar30[i].BRANCH;
+tempObj['MT_PENDING_WITH'] = loopVar30[i].InitiatedBy;
+tempObj['hiddenTaskId'] = loopVar30[i].TASK_ID;
+tempObj['hiddenInstanceId'] = loopVar30[i].INSTANCE_ID;
+loopDataVar30.push(tempObj);}
+}
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar30);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
+}
+);
+}
+
+}
+async rowClicked(event) {
+let inputMap = new Map();
+var navPath = ('/home/QDE').split('/');
+navPath = navPath.slice(1);
+inputMap.clear();
+const selectedData2 = this.readonlyGrid.getSelectedData();
+if(selectedData2){
+inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
+inputMap.set('taskId', selectedData2['hiddenTaskId']);
+inputMap.set('instanceId', selectedData2['hiddenInstanceId']);
+}
+this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
+if (this.services.routing.currModal > 0) {
+var routerOutlets = {};
+routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length-1], 'popup'];
+this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange: true });
+} else {
+this.services.router.navigate(navPath);
+}
 
 }
 
