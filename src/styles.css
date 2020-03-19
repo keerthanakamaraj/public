@@ -428,22 +428,67 @@ my-date-picker {
 .clr-brown{
     display: block;
     padding-bottom: 3px;
-    /* font-family: '33535gillsansmt' !important; */
-    font-size:  14px !important;
-    font-weight : 400;
-    line-height: 1.42857143;
+    font-family: "Open Sans" !important;
+    font-size:  12px !important;
+    /* font-weight : 400; */
+    line-height: 1.42857143; 
+     /* font-family: '33535gillsansmt' !important; */
+  /* height: 12px;
+  color: #565656;
+  font-family: "Open Sans";
+  font-size: 12px;
+  line-height: 12px; */
 }
    
 .section-header{
-    background-color: transparent;
+    /* background-color: transparent;
     border: 0;
     color: #000 !important;
     font-size: 16px;
     margin-bottom: 10px;
     text-align: left;
     font-weight: 700;
-    cursor: default;
+    cursor: default; */
+    height: 27px;
+    width: 275px;
+    color: #0079B8 !important;
+    font-family: "Open Sans";
+    line-height: 27px !important;
 }
+.section-header-search{
+    height: 27px;
+    width: 275px;
+    color: #0079B8 !important;
+    font-family: "Open Sans";
+    line-height: 27px !important;
+    text-align: center;
+}
+
+.sub-section-header{
+        height: 22px;
+        color: #000000 !important;
+        font-family: "Open Sans" !important;
+        font-size: 16px !important;
+        line-height: 22px !important;
+}
+
+.form-group{
+    /* box-sizing: border-box;
+    height: 1px;
+    width: 1325px; */
+    border-bottom: 1px solid #DDDDDD !important;
+    padding-top : 19px;
+}
+.FormTitle{
+    color: #0079B8;
+    font-family: "Open Sans";
+    font-size: 12px;
+    line-height: 17px;
+    text-align: right !important;
+    border-bottom: 1px solid #DDDDDD !important;
+}
+
+
 
 /*
    .submit{
@@ -478,9 +523,22 @@ my-date-picker {
 */
 
 /* Buttons */
-
-.inlineButton, .btn-secondary, .btn-primary, .btn-warning-outline {
-    display: inline-block;
+.inlineButton{
+    box-sizing: border-box;
+    height: 36px;
+    width: 170px;
+    border: 1px solid #0079B8;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    color: #0079B8;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 17px;
+    text-align: center;
+}
+ .btn-secondary, .btn-primary, .btn-warning-outline {
+    /* display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
     border-radius: 3px;
@@ -503,22 +561,38 @@ my-date-picker {
     -ms-user-select: none;
     user-select: none;
     background-image: none;
-    width: auto !important;
+    width: auto !important; */
+    box-sizing: border-box;
+    height: 36px !important;
+    width: 99px !important;
+    border: 1px solid #0079B8 !important;
+    border-radius: 4px !important;
+    font-family: "Open Sans";
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+
 }
 
 /* btn-secondary */
 .btn-secondary {
-    border: 1px solid #0079b8;
+    /* border: 1px solid #0079b8; */
     color: #0079b8;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
-.inlineButton {
+.btn-primary{
+  background-color: #0079B8 !important;
+  color: #FFFFFF !important;
+}
+
+/* .inlineButton {
     border: 1px solid #0079b8;
     color: #0079b8;
     background-color: #fff;
     margin-top: 30px;
-}
+} */
 
 .inlineButton:hover:not(:disabled), .btn-secondary:hover:not(:disabled) {
 	background-color: #e1f1f6;
@@ -526,11 +600,11 @@ my-date-picker {
 }
 
 /* btn-primary */
-.btn-primary {
+/* .btn-primary {
     border: 1px solid #0079b8;
     background-color: #0079b8;
 	color: #fff;
-}
+} */
 
 .btn-primary:hover:not(:disabled) {
     background-color: #004d8a;
@@ -538,9 +612,11 @@ my-date-picker {
 }
 
 .btn-warning-outline {
-    border: 1px solid #e12200 !important;
+    /* border: 1px solid #e12200 !important;
     color: #e12200;
-	background-color: #fff;
+    background-color: #fff; */
+    color: #0079b8;
+    background-color: #ffffff;
 }
 
 /*btn-warning-outline*/
@@ -566,14 +642,53 @@ my-date-picker {
 }
 
 /* Row Level Edit and Delete */
-.ag-cell .btn-edit, .ag-cell .btn-delete{
+.ag-cell, .ag-cell .btn-delete{
     background-color: transparent;
     border: none;
     text-decoration: underline;
+   
 }
 
-.ag-cell .btn-edit {
+
+.ag-cell {
     color: #004d8a;
+}
+/* .ag-cell .btn-edit{
+    box-sizing: border-box;
+    height: 22.8px;
+    width: 23.85px;
+    border: 0.25px solid #FDFDFD !important;
+    background-color: #0079B8 !important;
+} */
+
+.fas.fa-edit.fa-lg{
+    box-sizing: border-box;
+    height: 22.8px;
+    width: 23.85px;
+    border: 0.25px solid #FDFDFD !important;
+    color: #0079B8 !important;
+}
+.fa.fa-trash.fa-lg{
+    box-sizing: border-box;
+    height: 22.8px;
+    width: 23.85px;
+    border: 0.25px solid #FDFDFD !important;
+    color:#4F4E4E !important;
+}
+/* .btn-edit{
+    box-sizing: border-box;
+    height: 22.8px;
+    width: 23.85px;
+    border: 0.25px solid #FDFDFD !important;
+    background-color: #0079B8 !important;
+} */
+
+.fas.fa-edit.fa-lg{
+    /* box-sizing: border-box;
+    height: 22.8px;
+    width: 23.85px;
+    border: 0.25px solid #FDFDFD !important;
+    background-color: #0079B8 !important; */
 }
 
 .ag-cell .btn-delete {
@@ -585,6 +700,7 @@ my-date-picker {
 .ng-select.error, my-date-picker.error {
     border-color: #b20812;
 }
+
 
 /* Custom Slider Component Styles */
 app-check-box[fieldID=MT_SLIDER] .check span {
@@ -678,3 +794,85 @@ app-check-box[fieldID=MT_SLIDER] .check span {
   .checkboxLeft app-check-box[fieldID=MT_SLIDER] .cb-position{
     top: 1.6rem;
   }
+
+/* .input-readonly{
+    box-sizing: border-box;
+    height: 36px;
+    width: 301px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+} */
+
+.form-control{
+    box-sizing: border-box !important;
+    height: 36px !important;
+    /* width: 301px !important; */
+    border: 1px solid #CCCCCC !important;
+    border-radius: 4px !important;
+    background-color: #FFFFFF !important;
+}
+.icon-button{
+    margin-top: 27px !important;
+    display: inline-block;
+    padding: 6px 12px; 
+    cursor: pointer;
+    border-radius: 3px;
+    min-width: 3em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    line-height: 1.5;
+    letter-spacing: 1.5px;
+    font-size: 12px;
+    font-weight: 500;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    width: auto !important;
+}
+#SEARCH_CUST_BTN{
+    box-sizing: border-box !important;
+    border: 1px solid #0079B8 !important;
+    border-radius: 4px !important;
+    background-color: rgba(0,121,184,0.09) !important;
+    color:  #0079B8 !important
+}
+#CD_ADD{
+    box-sizing: border-box;
+  /* height: 36px;
+  width: 36px; */
+  border: 1px solid #0079B8;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  color:  #0079B8;
+}
+
+#CD_RESET{
+    box-sizing: border-box;
+    /* height: 36px;
+    width: 36px; */
+    border: 1px solid #4F4E4E;
+    border-radius: 4px;
+    background-color: rgba(255,255,255,0.09);
+    color:#4F4E4E;
+}
+.btn-edit{
+  
+}
+.sub-section-header{
+    padding-top: 10px;
+}
+
+/* .fas.fa-search{
+    height: 19px;
+    width: 19px;
+} */

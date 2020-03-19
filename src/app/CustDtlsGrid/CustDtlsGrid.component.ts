@@ -35,7 +35,7 @@ componentCode: string = 'CustDtlsGrid';
 openedFilterForm:string = '';
 hidden:boolean = false;
 gridConsts: any = {
-paginationPageSize: 10,
+paginationPageSize: 5,
 gridCode: "CustDtlsGrid",
 paginationReq:true
 };
@@ -78,8 +78,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'CustDtlsGrid',
 columnId: 'CD_Modify',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-edit',
+IconClass: 'fas fa-edit fa-lg',
 onClick: this.CD_Modify_click.bind(this)
 },
 },
@@ -94,8 +95,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'CustDtlsGrid',
 columnId: 'CD_Delete',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-delete',
+IconClass: 'fa fa-trash fa-lg',
 onClick: this.CD_Delete_click.bind(this)
 },
 },

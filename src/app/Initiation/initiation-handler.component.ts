@@ -24,6 +24,13 @@ export class InitiationHandlerComponent implements OnInit {
   ngOnInit() {
     // ngOnInit
   }
+ // onChangeOfProduct Category
+ onProdCategoryChange()
+ {}
+ //onClickOfCheckElgibility
+ onCheckEligibilityClick(){
+
+ }
 
   // OnFormLoad
   onFormLoad(arg0: {}) {

@@ -41,8 +41,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('BAD_PROMOTION', {static: false}) BAD_PROMOTION: ComboBoxComponent;
 @ViewChild('CD_CUST_TYPE', {static: false}) CD_CUST_TYPE: ComboBoxComponent;
 @ViewChild('CD_EXISTING_CUST', {static: false}) CD_EXISTING_CUST: ComboBoxComponent;
+@ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
 @ViewChild('CD_CIF', {static: false}) CD_CIF: TextBoxComponent;
 @ViewChild('CD_CUSTOMER_ID', {static: false}) CD_CUSTOMER_ID: TextBoxComponent;
+@ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
 @ViewChild('CD_TITLE', {static: false}) CD_TITLE: ComboBoxComponent;
 @ViewChild('CD_FIRST_NAME', {static: false}) CD_FIRST_NAME: TextBoxComponent;
 @ViewChild('CD_MIDDLE_NAME', {static: false}) CD_MIDDLE_NAME: TextBoxComponent;
@@ -50,13 +52,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('CD_LAST_NAME', {static: false}) CD_LAST_NAME: TextBoxComponent;
 @ViewChild('CD_FULL_NAME', {static: false}) CD_FULL_NAME: TextBoxComponent;
 @ViewChild('CD_GENDER', {static: false}) CD_GENDER: ComboBoxComponent;
-@ViewChild('CD_DOB', {static: false}) CD_DOB: DateComponent;
 @ViewChild('CD_TAX_ID', {static: false}) CD_TAX_ID: TextBoxComponent;
 @ViewChild('CD_MOBILE', {static: false}) CD_MOBILE: TextBoxComponent;
-@ViewChild('CD_DEBIT_SCORE', {static: false}) CD_DEBIT_SCORE: TextBoxComponent;
+@ViewChild('CD_DOB', {static: false}) CD_DOB: DateComponent;
 @ViewChild('CD_CUST_SGMT', {static: false}) CD_CUST_SGMT: ComboBoxComponent;
-@ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
-@ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
+@ViewChild('CD_DEBIT_SCORE', {static: false}) CD_DEBIT_SCORE: TextBoxComponent;
 @ViewChild('CD_LOAN_OWNERSHIP', {static: false}) CD_LOAN_OWNERSHIP: AmountComponent;
 @ViewChild('CD_ADD', {static: false}) CD_ADD: ButtonComponent;
 @ViewChild('CD_RESET', {static: false}) CD_RESET: ButtonComponent;
@@ -80,18 +80,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('SUBMIT_MAIN_BTN', {static: false}) SUBMIT_MAIN_BTN: ButtonComponent;
 @ViewChild('CANCEL_MAIN_BTN', {static: false}) CANCEL_MAIN_BTN: ButtonComponent;
 @ViewChild('Handler', {static: false}) Handler: InitiationHandlerComponent;
+@ViewChild('IndexHideField', {static: false}) IndexHideField: HiddenComponent;
+@ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
+@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
+@ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
+@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
+@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
+@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
+@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
+@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
 @ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
 @ViewChild('hideCustomerType', {static: false}) hideCustomerType: HiddenComponent;
-@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
-@ViewChild('IndexHideField', {static: false}) IndexHideField: HiddenComponent;
-@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
-@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
-@ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
-@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
-@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
-@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
@@ -112,8 +112,10 @@ this.revalidateBasicField('BAD_SCHEME'),
 this.revalidateBasicField('BAD_PROMOTION'),
 this.revalidateBasicField('CD_CUST_TYPE'),
 this.revalidateBasicField('CD_EXISTING_CUST'),
+this.revalidateBasicField('CD_STAFF'),
 this.revalidateBasicField('CD_CIF'),
 this.revalidateBasicField('CD_CUSTOMER_ID'),
+this.revalidateBasicField('CD_STAFF_ID'),
 this.revalidateBasicField('CD_TITLE'),
 this.revalidateBasicField('CD_FIRST_NAME'),
 this.revalidateBasicField('CD_MIDDLE_NAME'),
@@ -121,13 +123,11 @@ this.revalidateBasicField('CD_THIRD_NAME'),
 this.revalidateBasicField('CD_LAST_NAME'),
 this.revalidateBasicField('CD_FULL_NAME'),
 this.revalidateBasicField('CD_GENDER'),
-this.revalidateBasicField('CD_DOB'),
 this.revalidateBasicField('CD_TAX_ID'),
 this.revalidateBasicField('CD_MOBILE'),
-this.revalidateBasicField('CD_DEBIT_SCORE'),
+this.revalidateBasicField('CD_DOB'),
 this.revalidateBasicField('CD_CUST_SGMT'),
-this.revalidateBasicField('CD_STAFF'),
-this.revalidateBasicField('CD_STAFF_ID'),
+this.revalidateBasicField('CD_DEBIT_SCORE'),
 this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
 this.revalidateBasicField('LD_LOAN_AMOUNT'),
 this.revalidateBasicField('LD_INTEREST_RATE'),
@@ -157,6 +157,7 @@ constructor(services: ServiceStock){
 super(services);
 this.value = new InitiationModel();
 this.componentCode = 'Initiation';
+this.displayBorder = false;
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
@@ -177,17 +178,17 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EMI_AMT.setReadOnly(true);
-this.hideCustomerType.setValue('CUSTOMER_TYPE');
-this.hidAppId.setValue('RLO');
-this.hidSourceingChannel.setValue('Branch');
 this.IndexHideField.setValue(-1);
-this.hidYesNo.setValue('YES_NO');
-this.hidDSAId.setValue('DSA_ID');
 this.hidAccBranch.setValue('ACC_BRANCH');
-this.hidProdCat.setValue('PRODUCT_CATEGORY');
-this.hidTitle.setValue('TITLE');
-this.hidGender.setValue('GENDER');
+this.hidAppId.setValue('RLO');
 this.hidCustSeg.setValue('CUST_SEGMENT');
+this.hidDSAId.setValue('DSA_ID');
+this.hidGender.setValue('GENDER');
+this.hidProdCat.setValue('PRODUCT_CATEGORY');
+this.hidSourceingChannel.setValue('Branch');
+this.hidTitle.setValue('TITLE');
+this.hidYesNo.setValue('YES_NO');
+this.hideCustomerType.setValue('CUSTOMER_TYPE');
 this.hideExsCust.setValue('YES_NO');
 let inputMap = new Map();
 await this.Handler.onFormLoad({
@@ -201,7 +202,7 @@ this.mode = params['mode'];
 }
 }
 async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = 'Initiation main form';
+this.submitData['formName'] = 'New Application Initiation';
 await super.submit(path, apiCode, serviceCode);
 }
 getFieldInfo() {
@@ -286,6 +287,11 @@ modalRef.result.then(onModalClose, onModalClose);
 modalRef.componentInstance.rotueToComponent(inputMap);
 this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
 }
+async BAD_PROD_CAT_change(event){
+let inputMap = new Map();
+await this.Handler.onProdCategoryChange({
+});
+}
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
 await this.Handler.updateFullName({
@@ -330,18 +336,8 @@ await this.Handler.onEditCustomer({
 }
 async LD_CHK_ELGBTY_BTN_click(event){
 let inputMap = new Map();
-var navPath = ('/home/QDE').split('/');
-navPath = navPath.slice(1);
-inputMap.clear();
-inputMap.set('appId', '101');
-this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
-if (this.services.routing.currModal > 0) {
-var routerOutlets = {};
-routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length-1], 'popup'];
-this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange: true });
-} else {
-this.services.router.navigate(navPath);
-}
+await this.Handler.onCheckEligibilityClick({
+});
 }
 async SUBMIT_MAIN_BTN_click(event){
 let inputMap = new Map();
@@ -536,6 +532,15 @@ inDep: [
 ],
 outDep: [
 ]},
+CD_STAFF: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidYesNo", paramType:"QueryParam"},
+],
+outDep: [
+]},
 CD_TITLE: {
 inDep: [
 
@@ -560,15 +565,6 @@ inDep: [
 {paramKey: "VALUE1", depFieldID: "CD_CUST_SGMT", paramType:"PathParam"},
 {paramKey: "KEY1", depFieldID: "hidCustSeg", paramType:"QueryParam"},
 {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-CD_STAFF: {
-inDep: [
-
-{paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidYesNo", paramType:"QueryParam"},
 ],
 outDep: [
 ]},

@@ -1,8 +1,2 @@
-<div class="MakeRelative">
-<div class="row reference-div">
-<div class="col-xs-12 col-sm-5">
-<h4 *ngIf="displayTitle">{{'CustDtlsGrid.GridTitle' | translate}}</h4>
-</div>
-</div>
-<app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+<div class="MakeRelative"><app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
 </div>
