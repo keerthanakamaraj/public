@@ -1,0 +1,151 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'ChargeDtlsForm.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_DESC.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_CHARGE_DESC' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_CHARGE_DESC category="2" fieldID="CH_CHARGE_DESC" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_DESC', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_TYPE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_CHARGE_TYPE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_CHARGE_TYPE category="2" fieldID="CH_CHARGE_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_TYPE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PARTY_TYPE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_PARTY_TYPE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_PARTY_TYPE category="2" fieldID="CH_PARTY_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_PARTY_TYPE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PARTY_NAME.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_PARTY_NAME' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_PARTY_NAME category="2" fieldID="CH_PARTY_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_PARTY_NAME', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CURRENCY.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_CURRENCY' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_CURRENCY category="2" fieldID="CH_CURRENCY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_CURRENCY', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_BASIS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_CHARGE_BASIS' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_CHARGE_BASIS category="2" fieldID="CH_CHARGE_BASIS" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_BASIS', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_RATE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_CHARGE_RATE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #CH_CHARGE_RATE inputType="number" fieldID="CH_CHARGE_RATE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_RATE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_AMT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_CHARGE_AMT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-amount #CH_CHARGE_AMT fieldID="CH_CHARGE_AMT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_AMT', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PERIODIC_CHARGE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_PERIODIC_CHARGE' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_PERIODIC_CHARGE category="2" fieldID="CH_PERIODIC_CHARGE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_PERIODIC_CHARGE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PRD_ST_DT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_PRD_ST_DT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-date #CH_PRD_ST_DT fieldID="CH_PRD_ST_DT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_PRD_ST_DT', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PRD_END_DT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_PRD_END_DT' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-date #CH_PRD_END_DT fieldID="CH_PRD_END_DT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_PRD_END_DT', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_FREQ.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_FREQ' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_FREQ category="2" fieldID="CH_FREQ" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_FREQ', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_RT_CH_ON.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_RT_CH_ON' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_RT_CH_ON category="2" fieldID="CH_RT_CH_ON" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_RT_CH_ON', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_COLL.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'ChargeDtlsForm.CH_COLL' | translate}}<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #CH_COLL category="2" fieldID="CH_COLL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_COLL', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CH_SAVE_BTN.isHidden()">
+<app-button #CH_SAVE_BTN fieldName="{{ 'ChargeDtlsForm.CH_SAVE_BTN' | translate}}" fieldID="CH_SAVE_BTN" [formCode]="formCode" (buttonClick)="CH_SAVE_BTN_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CH_CANCEL_BTN.isHidden()">
+<app-button #CH_CANCEL_BTN fieldName="{{ 'ChargeDtlsForm.CH_CANCEL_BTN' | translate}}" fieldID="CH_CANCEL_BTN" [formCode]="formCode"></app-button>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CHARGE_DTLS_GRID.isHidden()">
+<app-ChargeDtlsGrid #CHARGE_DTLS_GRID fieldID="CHARGE_DTLS_GRID" [formCode]="formCode" [displayTitle]="false"></app-ChargeDtlsGrid>
+</div>
+</div>
+<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+<app-hidden #hidChargeBasis fieldID="hidChargeBasis"></app-hidden>
+<app-hidden #hidChargeCollection fieldID="hidChargeCollection"></app-hidden>
+<app-hidden #hidChargeType fieldID="hidChargeType"></app-hidden>
+<app-hidden #hidCurrency fieldID="hidCurrency"></app-hidden>
+<app-hidden #hidFrequency fieldID="hidFrequency"></app-hidden>
+<app-hidden #hidPartyType fieldID="hidPartyType"></app-hidden>
+<app-hidden #hidRateCharge fieldID="hidRateCharge"></app-hidden>
+<app-hidden #hidYesNo fieldID="hidYesNo"></app-hidden>
+</div>
+</div>
+</div>
+</form>
