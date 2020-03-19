@@ -289,8 +289,8 @@ this.services.dataStore.setModalReference(this.services.routing.currModal, modal
 }
 async BAD_PROD_CAT_change(event){
 let inputMap = new Map();
-await this.Handler.onProdCategoryChange({
-});
+await this.Handler.onProdCategoryChange(
+);
 }
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
@@ -336,8 +336,8 @@ await this.Handler.onEditCustomer({
 }
 async LD_CHK_ELGBTY_BTN_click(event){
 let inputMap = new Map();
-await this.Handler.onCheckEligibilityClick({
-});
+await this.Handler.onCheckEligibilityClick(
+);
 }
 async SUBMIT_MAIN_BTN_click(event){
 let inputMap = new Map();
