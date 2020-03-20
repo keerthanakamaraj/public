@@ -9,6 +9,7 @@ import { QDERoutingModule } from './QDE-routing.module';
 import { QDEComponent } from './QDE.component';
 import { HeaderModule } from '../Header/Header.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
+import { QDEHandlerModule } from '../QDE/QDE-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -25,6 +26,7 @@ deps: [HttpClient]
 }),
 HeaderModule,
 CustomerDtlsModule,
+QDEHandlerModule,
 ],
 declarations: [
 QDEComponent,

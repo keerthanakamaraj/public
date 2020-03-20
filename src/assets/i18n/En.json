@@ -1561,28 +1561,35 @@
 		"OD_Amount" : "Amount",
 		"OD_Equivalent_Amt" : "Equivalent Amount"
 		},
-		"DDE" : {
-			"FieldId_1" : "null",
-			"FormTitle" : "Details Data Entry",
-			"FieldId_8" : "null",
-			"FieldId_9" : "null",
-			"FieldId_6" : "null",
-			"FieldId_4" : "null",
-			"FieldId_5" : "null",
-			"FieldId_3" : "null"
-			},
-			"CustDtlsGrid" : {
-				"CIF" : "CIF NO",
-				"CD_Modify" : "Modify",
-				"toolbar_CustDtlsGrid" : "null",
-				"DOB" : "Date of Birth",
-				"FULL_NAME" : "Customer Name",
-				"CD_Modify_ButtonName" : "Modify",
-				"CUST_TYPE_LBL" : "Customer Type",
-				"CD_Delete" : "Delete",
-				"CD_Delete_ButtonName" : "Delete"
-				},
-				"MyTrayGrid" : {
+	"DDE" : {
+		"FieldId_10_COLATTERAL" : "Colatteral",
+		"FieldId_10_GO_NO_GO" : "Go / No-Go",
+		"FormTitle" : "Details Data Entry",
+		"CUST_DTLS" : "null",
+		"FieldId_10_VISIT_REF" : "RM Visit",
+		"FieldId_10_COMMENTS_TAB" : "Comments",
+		"FieldId_1" : "null",
+		"FieldId_10_BORROWER_TAB" : "Borrower",
+		"FieldId_15" : "null",
+		"FieldId_9" : "null",
+		"FieldId_6" : "null",
+		"FieldId_13" : "null",
+		"FieldId_14" : "null",
+		"FAMILY_DTLS" : "null"
+	},
+	"CustDtlsGrid": {
+		"CIF" : "CIF NO",
+		"CD_Modify" : "Modify",
+		"toolbar_CustDtlsGrid" : "null",
+		"DOB" : "Date of Birth",
+		"GridTitle" : "Customer Details Grid",
+		"FULL_NAME" : "Customer Name",
+		"CD_Modify_ButtonName" : "Modify",
+		"CUST_TYPE_LBL" : "Customer Type",
+		"CD_Delete" : "Delete",
+		"CD_Delete_ButtonName" : "Delete"
+	},
+	"MyTrayGrid" : {
 		"MT_PROPOSAL_ID" : "Proposal ID",
 		"MT_CAM_TYPE" : "CAM Type",
 		"MT_INITIATED_ON" : "Initiated On",
@@ -1596,5 +1603,17 @@
 	"MyTrayForm" : {
 		"MT_SLIDER" : "Pending with Self",
 		"FormTitle" : "My Tray"
+	},
+	"NotepadDetailsGrid" : {
+		"ND_SR_NO" : "S No",
+		"toolbar_NotepadDetailsGrid" : "null",
+		"ND_COMMENTS" : "Comments"
+	},
+	"NotepadDetailsForm" : {
+		"ND_SAVE" : "Save",
+		"ND_CLEAR" : "Clear",
+		"ND_COMMENT_CAT" : "Comment Category",
+		"FieldId_7" : "null",
+		"ND_COMMENTS" : "Comments"
 	}
 }

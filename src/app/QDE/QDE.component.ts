@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { HeaderComponent } from '../Header/Header.component';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
+import { QDEHandlerComponent } from '../QDE/QDE-handler.component';
 
 const customCss: string = '';
 
@@ -29,6 +30,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 @ViewChild('FieldId_1', {static: false}) FieldId_1: CustomerDtlsComponent;
 @ViewChild('QDE_SUBMIT', {static: false}) QDE_SUBMIT: ButtonComponent;
 @ViewChild('QDE_CANCEL', {static: false}) QDE_CANCEL: ButtonComponent;
+@ViewChild('Handler', {static: false}) Handler: QDEHandlerComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -59,6 +61,8 @@ this.setInputs(this.services.dataStore.getData(this.services.routing.currModal))
 let inputMap = new Map();
 await this.FieldId_1.loadCustDtlsGrid({
 'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+});
+await this.Handler.onFormLoad({
 });
 this.setDependencies();
 }

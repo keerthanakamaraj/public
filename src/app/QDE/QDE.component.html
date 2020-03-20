@@ -19,11 +19,21 @@
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
 <app-CustomerDtls #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-CustomerDtls>
 </div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #FieldId_10 id="FieldId_10">
+<div class="form-group pb10 action-btn-section">
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
 <app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
 <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-qde-handler #Handler [MainComponent]="this"></app-qde-handler>
 </div>
 </div>
 </div>

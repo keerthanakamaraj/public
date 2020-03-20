@@ -5209,10 +5209,12 @@ h3 {
     padding-left: 1rem
 }
 
-/* .bi-reponsive {
-    width: 100%;
-    margin-top: 1rem
-} */
+.bi-reponsive {
+    /* width: 100%;
+    margin-top: 1rem */
+    border: none !important;
+    padding: 0;
+}
 
 .bi-reponsive .resp-tabs-list {
     margin-top: 0;
@@ -5234,7 +5236,7 @@ h3 {
 }
 
 .bi-reponsive .horizontalTab {
-    border: .08rem solid #e1e1e1;
+    border: 1px 0 0 0 solid #e1e1e1;
     margin-bottom: 1rem;
     /*added*/
     /* margin-left: 1.071rem;
@@ -5246,22 +5248,35 @@ h3 {
     padding: 1.5rem .5rem;
 }
 
+.bi-reponsive ul.resp-tabs-list {
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+    margin-bottom: 0px;
+}
+
 .bi-reponsive .resp-tabs-list li {
     font-size: 15px;
     font-weight: 400;
-    font-family: "Roboto", sans-serif;
+    font-family: "Open Sans", sans-serif;
     /* border-top: .3rem solid transparent; */
-    border-right: .08rem solid #e1e1e1;
+    /* border-right: .08rem solid #e1e1e1; */
     /* border-left: .08rem solid #e1e1e1; */
     /* padding-bottom: 1.3rem;
     padding-top: 1rem; */
+    width: auto;
+    padding: 5px 10px !important;
+    color: #737373;
+    background-color: #fff;
+    line-height: 1.5;
 }
 
 .bi-reponsive .resp-tabs-list .resp-tab-active {
-    border-top: .3rem solid #47586f;
-    border-bottom: 0;
-    color: #fe6b7d;
-    box-shadow: 0 0.3rem 0.1rem -0.1rem #fff;
+    /* border-top: .3rem solid #47586f; */
+    /* border-bottom: 0; */
+    /* color: #fe6b7d; */
+    /* box-shadow: 0 0.3rem 0.1rem -0.1rem #fff; */
+    color: #000;
+    border-bottom: 3px solid #004d8a;
 }
 
 .bi-reponsive .resp-tabs-list li:first-child {
@@ -7510,8 +7525,9 @@ li.rog-toolbar-li.open{
 .display-border{
     border: 1px solid #e1e1e1;
     padding: 0.5rem;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    /* padding-top: 1.5rem;
+    padding-bottom: 1.5rem; */
+    padding: 0.5rem;
 }
 
 .checkboxRight .fieldLegend{
