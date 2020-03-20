@@ -1387,7 +1387,7 @@
 				"CD_THIRD_NAME" : "Third Name",
 				"LD_OTH_DEDUCTIONS" : "Other Deductions",
 				"SC_HEAD" : "Who would you like to create the application for?",
-				"SEARCH_CUST_HEAD" : "Who would you like to create the application for?",
+				"FieldId_71" : "Who would you like to create the application for?",
 				"BAD_SCHEME" : "Scheme",
 				"RD_REFERRER_NAME" : "Referrer Name",
 				"CD_FULL_NAME" : "Full Name",
@@ -1427,7 +1427,8 @@
 				"CD_LOAN_OWNERSHIP" : "Loan Ownership(%)",
 				"CD_CIF" : "CIF Number",
 				"LD_INTEREST_RATE" : "Interest Rate",
-				"LD_LTV_DBR" : "LTV/DBR (%)"
+				"LD_LTV_DBR" : "LTV/DBR (%)",
+				"PROMOTION_LABEL" : "Have a promotion to apply?"
 				},
 				"AddressDetailsGrid": {
 		"AD_Residence_Duration": "Residence Duration",

@@ -80,18 +80,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('SUBMIT_MAIN_BTN', {static: false}) SUBMIT_MAIN_BTN: ButtonComponent;
 @ViewChild('CANCEL_MAIN_BTN', {static: false}) CANCEL_MAIN_BTN: ButtonComponent;
 @ViewChild('Handler', {static: false}) Handler: InitiationHandlerComponent;
-@ViewChild('IndexHideField', {static: false}) IndexHideField: HiddenComponent;
-@ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
-@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
-@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
-@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
-@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
-@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
-@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
 @ViewChild('hiddenProductId', {static: false}) hiddenProductId: HiddenComponent;
 @ViewChild('hideCustomerType', {static: false}) hideCustomerType: HiddenComponent;
+@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
+@ViewChild('hidSourceingChannel', {static: false}) hidSourceingChannel: HiddenComponent;
+@ViewChild('IndexHideField', {static: false}) IndexHideField: HiddenComponent;
+@ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
+@ViewChild('hidDSAId', {static: false}) hidDSAId: HiddenComponent;
+@ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
+@ViewChild('hidProdCat', {static: false}) hidProdCat: HiddenComponent;
+@ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
+@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
@@ -178,17 +178,17 @@ this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US
 this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EMI_AMT.setReadOnly(true);
-this.IndexHideField.setValue(-1);
-this.hidAccBranch.setValue('ACC_BRANCH');
-this.hidAppId.setValue('RLO');
-this.hidCustSeg.setValue('CUST_SEGMENT');
-this.hidDSAId.setValue('DSA_ID');
-this.hidGender.setValue('GENDER');
-this.hidProdCat.setValue('PRODUCT_CATEGORY');
-this.hidSourceingChannel.setValue('Branch');
-this.hidTitle.setValue('TITLE');
-this.hidYesNo.setValue('YES_NO');
 this.hideCustomerType.setValue('CUSTOMER_TYPE');
+this.hidAppId.setValue('RLO');
+this.hidSourceingChannel.setValue('Branch');
+this.IndexHideField.setValue(-1);
+this.hidYesNo.setValue('YES_NO');
+this.hidDSAId.setValue('DSA_ID');
+this.hidAccBranch.setValue('ACC_BRANCH');
+this.hidProdCat.setValue('PRODUCT_CATEGORY');
+this.hidTitle.setValue('TITLE');
+this.hidGender.setValue('GENDER');
+this.hidCustSeg.setValue('CUST_SEGMENT');
 this.hideExsCust.setValue('YES_NO');
 let inputMap = new Map();
 await this.Handler.onFormLoad({
@@ -289,8 +289,8 @@ this.services.dataStore.setModalReference(this.services.routing.currModal, modal
 }
 async BAD_PROD_CAT_change(event){
 let inputMap = new Map();
-await this.Handler.onProdCategoryChange(
-);
+await this.Handler.onProdCategoryChange({
+});
 }
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
@@ -336,8 +336,8 @@ await this.Handler.onEditCustomer({
 }
 async LD_CHK_ELGBTY_BTN_click(event){
 let inputMap = new Map();
-await this.Handler.onCheckEligibilityClick(
-);
+await this.Handler.onCheckEligibilityClick({
+});
 }
 async SUBMIT_MAIN_BTN_click(event){
 let inputMap = new Map();

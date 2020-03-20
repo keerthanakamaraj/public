@@ -1,19 +1,34 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
-
+        <div class="navbar-header">
+            <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
+			<!-- <span class="navbar-logo"></span> -->
+			<img src="assets/icons/Menu.svg" alt="RLO" />
+        </div>
+        <!-- <li>
+            <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnck==true }" (click)="getTray()"><img
+                    class="navbar-img-link" src="assets/icons/folder-open-line.svg" alt="My Tray" /></a>
+            <span class="badge" *ngIf="!isMytrayAvilable">{{myTrayCountsRecords}}</span>
+        </li> -->
         <!-- START - LOGO  -->
         <div class="navbar-header">
             <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
 			<!-- <span class="navbar-logo"></span> -->
-			<img src="assets/images/logo_transparent.png" height="28" width="50" alt="RLO" />
+			<img src="assets/icons/intellect.svg" height="28" width="50" alt="RLO" />
         </div>
+
+        <!-- <li>
+                <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }">
+                    <img class="navbar-img-link" src="assets/icons/logout-svgrepo-com.svg"
+                        alt="Logout" /></a>
+            </li> -->
         <!-- END - LOGO  -->
 
         <!--/.navbar-header-->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">
+                    <a class="dropdown-toggle-workflow" data-toggle="dropdown">
                         Workflow
                         <span class="caret"></span>
                     </a>
@@ -65,6 +80,12 @@
                         <li><a href="#" (click)="logout()">{{getLabel('LOGOUT')}}</a></li>
                     </ul> -->
                 </li>
+                <li>
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }">
+                        <img class="navbar-img-link" src="assets/icons/logout-svgrepo-com.svg"
+                            alt="Logout" /></a>
+                </li>
+               
             </ul>
 
             <!-- END - NAVBAR RIGHT -->
