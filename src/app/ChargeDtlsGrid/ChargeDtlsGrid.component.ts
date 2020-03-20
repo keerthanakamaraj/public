@@ -24,6 +24,7 @@ export class ChargeDtlsGridComponent implements AfterViewInit {
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
+@Output() chargeDtlsEdit: EventEmitter<any> = new EventEmitter<any>();
 @Input('formCode') formCode: string;
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
@@ -184,6 +185,7 @@ cellRendererParams: {
 gridCode: 'ChargeDtlsGrid',
 columnId: 'CH_EDIT',
 Type: '1',
+onClick: this.CH_EDIT_click.bind(this)
 },
 },
 {
@@ -198,6 +200,7 @@ cellRendererParams: {
 gridCode: 'ChargeDtlsGrid',
 columnId: 'CH_DEL',
 Type: '1',
+onClick: this.CH_DEL_click.bind(this)
 },
 },
 ];
@@ -262,6 +265,7 @@ if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
+case "hidChargeSeq":obj[i].columnName =  "ChargeDtlSeq";break;
 case "CH_DESC":obj[i].columnName =  "ChargeDescription";break;
 case "CH_PARTY_NAME":obj[i].columnName =  "PartyName";break;
 case "CH_TYPE":obj[i].columnName =  "ChargeType";break;
@@ -278,6 +282,7 @@ if(gridReqMap.get("OrderCriteria")){
 var obj = gridReqMap.get("OrderCriteria");
 for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
+case "hidChargeSeq":obj[i].columnName =  "ChargeDtlSeq";break;
 case "CH_DESC":obj[i].columnName =  "ChargeDescription";break;
 case "CH_PARTY_NAME":obj[i].columnName =  "PartyName";break;
 case "CH_TYPE":obj[i].columnName =  "ChargeType";break;
@@ -299,6 +304,7 @@ var loopVar4 = res['ChargeDetails'];
 if (loopVar4) {
 for (var i = 0; i < loopVar4.length; i++) {
 var tempObj = {};
+tempObj['hidChargeSeq'] = loopVar4[i].ChargeDtlSeq;
 tempObj['CH_DESC'] = loopVar4[i].ChargeDescription;
 tempObj['CH_PARTY_NAME'] = loopVar4[i].PartyName;
 tempObj['CH_TYPE'] = loopVar4[i].ChargeType;
@@ -319,6 +325,32 @@ this.services.alert.showAlert(2, 'Error occurred while loading grid!', -1);
 }
 );
 
+}
+async CH_EDIT_click(event){
+let inputMap = new Map();
+const selectedData0 = this.readonlyGrid.getSelectedData();
+if(selectedData0){
+this.chargeDtlsEdit.emit({
+'ChargeSeq': selectedData0['hidChargeSeq'],
+});
+}
+}
+async CH_DEL_click(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.ChargeDtlSeq', event.hidChargeSeq);
+this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'DELETE', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Record Deleted Successfully', 5000);
+this.readonlyGrid.refreshGrid();},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Something went wrong', -1);
+}
+);
 }
 
 }

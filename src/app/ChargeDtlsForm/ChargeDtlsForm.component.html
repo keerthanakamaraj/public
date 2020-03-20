@@ -133,18 +133,19 @@
 <app-button #CH_CANCEL_BTN fieldName="{{ 'ChargeDtlsForm.CH_CANCEL_BTN' | translate}}" fieldID="CH_CANCEL_BTN" [formCode]="formCode"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CHARGE_DTLS_GRID.isHidden()">
-<app-ChargeDtlsGrid #CHARGE_DTLS_GRID fieldID="CHARGE_DTLS_GRID" [formCode]="formCode" [displayTitle]="false"></app-ChargeDtlsGrid>
+<app-ChargeDtlsGrid #CHARGE_DTLS_GRID fieldID="CHARGE_DTLS_GRID" [formCode]="formCode" [displayTitle]="false" (chargeDtlsEdit)="CHARGE_DTLS_GRID_chargeDtlsEdit($event)"></app-ChargeDtlsGrid>
 </div>
 </div>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-<app-hidden #hidChargeBasis fieldID="hidChargeBasis"></app-hidden>
-<app-hidden #hidChargeCollection fieldID="hidChargeCollection"></app-hidden>
 <app-hidden #hidChargeType fieldID="hidChargeType"></app-hidden>
 <app-hidden #hidCurrency fieldID="hidCurrency"></app-hidden>
-<app-hidden #hidFrequency fieldID="hidFrequency"></app-hidden>
-<app-hidden #hidPartyType fieldID="hidPartyType"></app-hidden>
-<app-hidden #hidRateCharge fieldID="hidRateCharge"></app-hidden>
 <app-hidden #hidYesNo fieldID="hidYesNo"></app-hidden>
+<app-hidden #hidFrequency fieldID="hidFrequency"></app-hidden>
+<app-hidden #hidRateCharge fieldID="hidRateCharge"></app-hidden>
+<app-hidden #hidChargeCollection fieldID="hidChargeCollection"></app-hidden>
+<app-hidden #hidPartyType fieldID="hidPartyType"></app-hidden>
+<app-hidden #hidChargeSeq fieldID="hidChargeSeq"></app-hidden>
+<app-hidden #hidChargeBasis fieldID="hidChargeBasis"></app-hidden>
 </div>
 </div>
 </div>

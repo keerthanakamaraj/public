@@ -42,14 +42,15 @@ export class ChargeDtlsFormComponent extends FormComponent implements OnInit, Af
 @ViewChild('CH_CANCEL_BTN', {static: false}) CH_CANCEL_BTN: ButtonComponent;
 @ViewChild('CHARGE_DTLS_GRID', {static: false}) CHARGE_DTLS_GRID: ChargeDtlsGridComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hidChargeBasis', {static: false}) hidChargeBasis: HiddenComponent;
-@ViewChild('hidChargeCollection', {static: false}) hidChargeCollection: HiddenComponent;
 @ViewChild('hidChargeType', {static: false}) hidChargeType: HiddenComponent;
 @ViewChild('hidCurrency', {static: false}) hidCurrency: HiddenComponent;
-@ViewChild('hidFrequency', {static: false}) hidFrequency: HiddenComponent;
-@ViewChild('hidPartyType', {static: false}) hidPartyType: HiddenComponent;
-@ViewChild('hidRateCharge', {static: false}) hidRateCharge: HiddenComponent;
 @ViewChild('hidYesNo', {static: false}) hidYesNo: HiddenComponent;
+@ViewChild('hidFrequency', {static: false}) hidFrequency: HiddenComponent;
+@ViewChild('hidRateCharge', {static: false}) hidRateCharge: HiddenComponent;
+@ViewChild('hidChargeCollection', {static: false}) hidChargeCollection: HiddenComponent;
+@ViewChild('hidPartyType', {static: false}) hidPartyType: HiddenComponent;
+@ViewChild('hidChargeSeq', {static: false}) hidChargeSeq: HiddenComponent;
+@ViewChild('hidChargeBasis', {static: false}) hidChargeBasis: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -89,14 +90,14 @@ async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.CH_CHARGE_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.hidAppId.setValue('RLO');
-this.hidChargeBasis.setValue('CHARGE_BASIS');
-this.hidChargeCollection.setValue('CHARGE_COLL');
 this.hidChargeType.setValue('CHARGE_TYPE');
 this.hidCurrency.setValue('CURRENCY');
-this.hidFrequency.setValue('CHARGE_FREQ');
-this.hidPartyType.setValue('PARTY_TYPE');
-this.hidRateCharge.setValue('RATE_CHARGE_ON');
 this.hidYesNo.setValue('YES_NO');
+this.hidFrequency.setValue('CHARGE_FREQ');
+this.hidRateCharge.setValue('RATE_CHARGE_ON');
+this.hidChargeCollection.setValue('CHARGE_COLL');
+this.hidPartyType.setValue('PARTY_TYPE');
+this.hidChargeBasis.setValue('CHARGE_BASIS');
 let inputMap = new Map();
 await this.CHARGE_DTLS_GRID.gridDataLoad({
 });
@@ -172,6 +173,83 @@ this.onFormLoad();
 }
 async CH_SAVE_BTN_click(event){
 let inputMap = new Map();
+if(this.hidChargeSeq.getFieldValue() != undefined){
+inputMap.clear();
+inputMap.set('PathParam.ChargeDtlSeq', this.hidChargeSeq.getFieldValue());
+inputMap.set('Body.ChargeDetails.ChargeDescription', this.CH_CHARGE_DESC.getFieldValue());
+inputMap.set('Body.ChargeDetails.ChargeType', this.CH_CHARGE_TYPE.getFieldValue());
+inputMap.set('Body.ChargeDetails.PartyType', this.CH_PARTY_TYPE.getFieldValue());
+inputMap.set('Body.ChargeDetails.PartyName', this.CH_PARTY_NAME.getFieldValue());
+inputMap.set('Body.ChargeDetails.Currency', this.CH_CURRENCY.getFieldValue());
+inputMap.set('Body.ChargeDetails.ChargeBasis', this.CH_CHARGE_BASIS.getFieldValue());
+inputMap.set('Body.ChargeDetails.ChargeRate', this.CH_CHARGE_RATE.getFieldValue());
+inputMap.set('Body.ChargeDetails.ChargeAmt', this.CH_CHARGE_AMT.getFieldValue());
+inputMap.set('Body.ChargeDetails.PeriodicCharge', this.CH_PERIODIC_CHARGE.getFieldValue());
+inputMap.set('Body.ChargeDetails.PeriodicStDt', this.CH_PRD_ST_DT.getFieldValue());
+inputMap.set('Body.ChargeDetails.PeriodicEnDt', this.CH_PRD_END_DT.getFieldValue());
+inputMap.set('Body.ChargeDetails.Frequency', this.CH_FREQ.getFieldValue());
+inputMap.set('Body.ChargeDetails.RateOnCharge', this.CH_RT_CH_ON.getFieldValue());
+inputMap.set('Body.ChargeDetails.ChargeCollection', this.CH_COLL.getFieldValue());
+this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'PUT', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Record Successfully Updated!', 5000);
+this.onReset();
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'ChargeDetails.ChargeCollection'){
+this.CH_COLL.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.RateOnCharge'){
+this.CH_RT_CH_ON.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.Frequency'){
+this.CH_FREQ.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.PeriodicEnDt'){
+this.CH_PRD_END_DT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.PeriodicStDt'){
+this.CH_PRD_ST_DT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.PeriodicCharge'){
+this.CH_PERIODIC_CHARGE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.ChargeAmt'){
+this.CH_CHARGE_AMT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.ChargeRate'){
+this.CH_CHARGE_RATE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.ChargeBasis'){
+this.CH_CHARGE_BASIS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.Currency'){
+this.CH_CURRENCY.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.PartyName'){
+this.CH_PARTY_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.PartyType'){
+this.CH_PARTY_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.ChargeType'){
+this.CH_CHARGE_TYPE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDetails.ChargeDescription'){
+this.CH_CHARGE_DESC.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ChargeDtlSeq'){
+this.hidChargeSeq.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Failed to update record!', -1);
+}
+);
+}
+else{
 inputMap.clear();
 inputMap.set('Body.ChargeDetails.ChargeDescription', this.CH_CHARGE_DESC.getFieldValue());
 inputMap.set('Body.ChargeDetails.ChargeType', this.CH_CHARGE_TYPE.getFieldValue());
@@ -240,6 +318,38 @@ this.CH_CHARGE_DESC.setError(err['ErrorDescription']);
 }
 }
 this.services.alert.showAlert(2, 'Failed to save data!', -1);
+}
+);
+}
+}
+async CHARGE_DTLS_GRID_chargeDtlsEdit(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.ChargeDtlSeq', event.ChargeSeq);
+this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.CH_CHARGE_DESC.setValue(res['ChargeDetails']['ChargeDescription']);
+this.CH_CHARGE_TYPE.setValue(res['ChargeDetails']['ChargeType']);
+this.CH_PARTY_TYPE.setValue(res['ChargeDetails']['PartyType']);
+this.CH_PARTY_NAME.setValue(res['ChargeDetails']['PartyName']);
+this.CH_CURRENCY.setValue(res['ChargeDetails']['Currency']);
+this.CH_CHARGE_BASIS.setValue(res['ChargeDetails']['ChargeBasis']);
+this.CH_CHARGE_RATE.setValue(res['ChargeDetails']['ChargeRate']);
+this.CH_CHARGE_AMT.setValue(res['ChargeDetails']['ChargeAmt']);
+this.CH_PERIODIC_CHARGE.setValue(res['ChargeDetails']['PeriodicCharge']);
+this.CH_PRD_ST_DT.setValue(res['ChargeDetails']['PeriodicStDt']);
+this.CH_PRD_END_DT.setValue(res['ChargeDetails']['PeriodicEnDt']);
+this.CH_FREQ.setValue(res['ChargeDetails']['Frequency']);
+this.CH_RT_CH_ON.setValue(res['ChargeDetails']['RateOnCharge']);
+this.CH_COLL.setValue(res['ChargeDetails']['ChargeCollection']);
+this.hidChargeSeq.setValue(res['ChargeDetails']['ChargeDtlSeq']);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Something went wrong while getting data by id!', -1);
 }
 );
 }
