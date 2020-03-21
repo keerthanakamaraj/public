@@ -25,10 +25,12 @@ export class InitiationHandlerComponent implements OnInit {
     // ngOnInit
   }
  // onChangeOfProduct Category
- onProdCategoryChange()
- {}
+ onProdCategoryChange({}){
+
+ }
+
  //onClickOfCheckElgibility
- onCheckEligibilityClick(){
+ onCheckEligibilityClick({}){
 
  }
 
