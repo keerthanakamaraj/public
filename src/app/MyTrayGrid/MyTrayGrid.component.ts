@@ -218,7 +218,7 @@ let inputMap = new Map();
 let sliderVal:any = event.sliderVal;
 if(sliderVal){
 inputMap.clear();
-inputMap.set('PathParam.userid', 'Vishal');
+inputMap.set('PathParam.userid', sessionStorage.getItem('userId'));
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
@@ -227,11 +227,13 @@ case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
 case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
 case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
 case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
 case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
 case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
 case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
 case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
+case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -244,11 +246,13 @@ case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
 case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
 case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
 case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
 case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
 case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
 case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
 case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
+case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -266,11 +270,13 @@ tempObj['MT_PROPOSAL_ID'] = loopVar7[i].PROPOSAL_ID;
 tempObj['MT_CUSTOMER'] = loopVar7[i].CUSTOMER_NAME;
 tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
 tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
+tempObj['MT_INITIATED_BY'] = loopVar7[i].CREATED_BY;
 tempObj['MT_INITIATED_ON'] = loopVar7[i].CREATED_ON;
 tempObj['MT_CAD_LOCATION'] = loopVar7[i].BRANCH;
-tempObj['MT_PENDING_WITH'] = loopVar7[i].InitiatedBy;
+tempObj['MT_PENDING_WITH'] = loopVar7[i].ASSIGNED_TO;
 tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
 tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
+tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
 loopDataVar7.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
@@ -285,7 +291,7 @@ this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
 }
 else{
 inputMap.clear();
-inputMap.set('PathParam.userid', 'Vishal');
+inputMap.set('PathParam.userid', sessionStorage.getItem('userId'));
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
@@ -294,11 +300,13 @@ case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
 case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
 case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
 case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
 case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
 case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
 case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
 case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
+case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -311,11 +319,13 @@ case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
 case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
 case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
 case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
+case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
 case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
 case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "InitiatedBy";break;
+case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
 case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
 case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
+case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -324,23 +334,25 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar30 = [];
-var loopVar30 = res['Tasks'];
-if (loopVar30) {
-for (var i = 0; i < loopVar30.length; i++) {
+var loopDataVar32 = [];
+var loopVar32 = res['Tasks'];
+if (loopVar32) {
+for (var i = 0; i < loopVar32.length; i++) {
 var tempObj = {};
-tempObj['MT_PROPOSAL_ID'] = loopVar30[i].PROPOSAL_ID;
-tempObj['MT_CUSTOMER'] = loopVar30[i].CUSTOMER_NAME;
-tempObj['MT_CAM_TYPE'] = loopVar30[i].EXISTING_CUST;
-tempObj['MT_STAGE'] = loopVar30[i].STAGE_NAME;
-tempObj['MT_INITIATED_ON'] = loopVar30[i].CREATED_ON;
-tempObj['MT_CAD_LOCATION'] = loopVar30[i].BRANCH;
-tempObj['MT_PENDING_WITH'] = loopVar30[i].InitiatedBy;
-tempObj['hiddenTaskId'] = loopVar30[i].TASK_ID;
-tempObj['hiddenInstanceId'] = loopVar30[i].INSTANCE_ID;
-loopDataVar30.push(tempObj);}
+tempObj['MT_PROPOSAL_ID'] = loopVar32[i].PROPOSAL_ID;
+tempObj['MT_CUSTOMER'] = loopVar32[i].CUSTOMER_NAME;
+tempObj['MT_CAM_TYPE'] = loopVar32[i].EXISTING_CUST;
+tempObj['MT_STAGE'] = loopVar32[i].STAGE_NAME;
+tempObj['MT_INITIATED_BY'] = loopVar32[i].CREATED_BY;
+tempObj['MT_INITIATED_ON'] = loopVar32[i].CREATED_ON;
+tempObj['MT_CAD_LOCATION'] = loopVar32[i].BRANCH;
+tempObj['MT_PENDING_WITH'] = loopVar32[i].ASSIGNED_TO;
+tempObj['hiddenTaskId'] = loopVar32[i].TASK_ID;
+tempObj['hiddenInstanceId'] = loopVar32[i].INSTANCE_ID;
+tempObj['hiddenStageId'] = loopVar32[i].STAGE_ID;
+loopDataVar32.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar30);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar32);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -354,11 +366,12 @@ this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
 }
 async rowClicked(event) {
 let inputMap = new Map();
-var navPath = ('/home/QDE').split('/');
+var navPath = ('/home').split('/');
 navPath = navPath.slice(1);
 inputMap.clear();
 const selectedData2 = this.readonlyGrid.getSelectedData();
 if(selectedData2){
+navPath.push(selectedData2['hiddenStageId']);
 inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
 inputMap.set('taskId', selectedData2['hiddenTaskId']);
 inputMap.set('instanceId', selectedData2['hiddenInstanceId']);

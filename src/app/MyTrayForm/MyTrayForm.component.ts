@@ -44,6 +44,7 @@ constructor(services: ServiceStock){
 super(services);
 this.value = new MyTrayFormModel();
 this.componentCode = 'MyTrayForm';
+this.displayBorder = false;
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);

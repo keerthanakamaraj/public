@@ -643,13 +643,11 @@ my-date-picker {
 }
 
 /* Row Level Edit and Delete */
-.ag-cell, .ag-cell .btn-delete{
+.ag-cell .btn-edit, .ag-cell .btn-delete{
     background-color: transparent;
     border: none;
     text-decoration: underline;
-   
 }
-
 
 .ag-cell {
     color: #004d8a;

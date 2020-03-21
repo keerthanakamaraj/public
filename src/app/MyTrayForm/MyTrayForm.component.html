@@ -1,12 +1,10 @@
 <form class="MakeRelative">
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
+<div class="col-sm-12 col-md-12">
 <h4 class="FormTitle">
 {{ 'MyTrayForm.FormTitle' | translate }}
 </h4>
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
 </div>
 </div>
 <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
