@@ -147,7 +147,7 @@ export class ProvidehttpService implements CanActivate {
     return this.httpClient.get(url, httpOpts);
   }  
 
-loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl) {
+loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl, searchById: boolean = false) {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'my-auth-token',
@@ -181,9 +181,9 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     if (searchTerm) {
       let filter = [];
       let filterOption = {};
-      filterOption['columnName'] = 'id';
+      filterOption['columnName'] = (searchById?'id':'text');
       filterOption['columnType'] = 'string';
-      filterOption['conditions'] = { searchText: searchTerm, searchType : 'Contains' };
+      filterOption['conditions'] = { searchText: searchTerm, searchType : (searchById?'equals':'Contains')};
       filter.push(filterOption);
       criteriaDetails['FilterCriteria'] = filter;
     }

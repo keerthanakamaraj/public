@@ -2,11 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ViewChil
 import { ProvidehttpService } from '../providehttp.service';
 import { DropDown } from '../DropDownOptions';
 import { FieldComponent } from '../field/field.component';
-import { Subject } from 'rxjs';
+import { Subject, Observable, empty } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { ServiceStock } from '../service-stock.service';
-import { NgSelectComponent } from '@ng-select/ng-select';
-//import { dependentValues, DependentValuesService } from '../DependentValues.service';
+import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentValues, DependentValuesService } from '../DependentValues.service';
 //import { FormService } from '../FormService';
 
 @Component({
@@ -49,52 +48,54 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     var previousVal = this.getDependency(key);
     this.dependencyMap.get(key).value = value;
     if (this.category == '1' && previousVal!=value) {
-      this.loadOptions();
+      setTimeout(async ()=>{
+        if (this.doCustomScript) {
+          await this.doCustomScript();
+        }
+        this.loadOptions();
+      });
     }
   }
 
   ngAfterViewInit() {
-    setTimeout(()=>{
+    setTimeout(async ()=>{
       if (this.category == '1') {
+        if (this.doCustomScript) {
+          await this.doCustomScript();
+        }
         this.loadOptions();
       }
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.category != '1') {
       this.searchText$.pipe(
         debounceTime(500),
         // distinctUntilChanged(),
-        switchMap(async searchText => {
+        switchMap(searchText => {
+          if(searchText==null){
+            this.select.open();
+            return empty();
+          }
           this.dropDownOptions.loading = true;
           this.dropDownOptions.Options = [];
           this.dropDownOptions.pageNo = 0;
           this.dropDownOptions.term = searchText;
           this.paginating = false;
-
-          if(this.doCustomScript){
-            await this.doCustomScript(event);
-          }
-          
           return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl);
         }
         )).subscribe(
           data => {
-            //this.http.checkForSession(data);
-            // if (data && data['Status'] == 'S') {
-
             if (data) {
-              this.dropDownOptions.Options = this.dropDownOptions.Options.concat([{ id: undefined, text: '' }]);
+              this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
               if (data['Data']) {
                 this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
               }
             }
-            this.paginating = false;
             this.dropDownOptions.loading = false;
           },
           err => {
-            this.paginating = false;
             this.dropDownOptions.loading = false;
           }
         );
@@ -115,10 +116,6 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     }else{
       this.dropDownOptions.Options = [{ id: undefined, text: 'Loading...' }];
       //In static combo-box, There will be always one element in option to show the placeholder
-    }
-
-    if(this.doCustomScript){
-      await this.doCustomScript(event);
     }
 
     // this.services.http.loadlookup(this.formCode, this.domainObjectCode, this.dropDownOptions.pageNo, this.dropDownOptions.term, this.dependencyMap, count).subscribe(
@@ -168,14 +165,17 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     this.searchText$.next(term);
   }
 
-  open() {
+  async open() {
     this.dropDownOptions.Options = [];
     this.dropDownOptions.pageNo = 0;
+    if (this.doCustomScript) {
+      await this.doCustomScript();
+    }
     this.loadOptions();
   }
 
   comboBlur() {
-    this.dropDownOptions.term = this.value;
+    this.dropDownOptions.term = undefined;
     super.onBlur();
   }
   onChange(event) {
@@ -212,13 +212,16 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   }
 
   async getDescription(value){
-    var description: any = (this.category=="3")?[]:"";
+    if(value==undefined){
+      return undefined;
+    }
+    var description: any = (this.category=="3")?[]:undefined;
 
     if(this.doCustomScript){
-      await this.doCustomScript(event);
+      await this.doCustomScript();
     }
 
-    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl).toPromise().then(
+    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, 0, (this.category=="3"?undefined:value), 20, this.doServerUrl, true).toPromise().then(
       data => {
         // this.http.checkForSession(data);
         if (data) {
@@ -231,12 +234,15 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
               }
             }
           }else{
-            for (let i = 0; i < result.length; i++) {
-              if (result[i]["id"] == value) {
-                description = result[i]['text'];
-                break;
-              }
+            if (result && result[0] && result[0]["id"] == value) {
+              description = result[0]['text'];
             }
+            // for (let i = 0; i < result.length; i++) {
+            //   if (result[i]["id"] == value) {
+            //     description = result[i]['text'];
+            //     break;
+            //   }
+            // }
           }
         }
       });

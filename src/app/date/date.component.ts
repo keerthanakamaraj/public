@@ -70,17 +70,6 @@ export class DateComponent extends FieldComponent implements OnInit {
     (event.reason == 2) ? this.blur.emit(event.value) : this.onFocus();
   }
 
-  // onReset() {
-  //   this.value = undefined;
-  //   this.field.clearDate();
-  //   this.additionalInfo = undefined;
-  //   this.error = false;
-  //   this.errorCode = undefined;
-  //   this.dependencyMap.clear();
-  //   this.fieldReset();
-
-    
-  // }
   onReset() {
     this.value = undefined;
     this.field.updateDateValue({ year: 0, month: 0, day: 0 });
@@ -146,6 +135,7 @@ export class DateComponent extends FieldComponent implements OnInit {
       var consoleErrorMsg = this.fieldID + ".setValue()" + ": Ivalid Input Value"
       + "\nInput Value: "+ JSON.stringify(value);
       console.error(consoleErrorMsg);
+      this.onReset();
     }
 
     if (date) {

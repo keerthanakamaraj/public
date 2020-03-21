@@ -17,7 +17,7 @@ import { TransitiveCompileNgModuleMetadata } from '@angular/compiler';
 import { LabelComponent } from '../label/label.component';
 import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
-
+import * as toPromise from 'rxjs/add/operator/toPromise';
 
 declare let addResizeListener: any;
 declare let $: any;
@@ -539,6 +539,20 @@ export class FormComponent {
 
   }
 
+  /*
+    make a method:
+    private _revalidateBasicField(field: FieldComponent, isOnBlur): Promise<number>{
+
+    }
+    
+    redirect fields to this methods from revalidateBasicField, based on field id
+
+    field id can be of three types
+    accNum - not in for loop
+    accNum& - Inside for loop and revalidate all fields with id "accNum"
+    accNum&2 - Inside for loop and revalidate the field with id "accNum" and index 2
+  */
+
   async revalidateBasicField(fieldId: string, isOnBlur: boolean = false): Promise<number> {
     var totalErrors = 0;
     this[fieldId].clearError();
@@ -557,7 +571,7 @@ export class FormComponent {
     }
 
     if (value && this[fieldId].domainObjectCode) {
-      await this[fieldId].domainObjectValidation().toPromise().then(
+      await (await this[fieldId].domainObjectValidation()).toPromise().then(
         (res) => {
           if (isOnBlur && this.fieldDependencies[fieldId]) {
             for (let dep of this.fieldDependencies[fieldId].outDep) {
@@ -802,7 +816,7 @@ export class FormComponent {
 
   public vTabGroup = {};
 
-  isVTabValidatedAndClear(...tabIds: string[]): boolean { //Will require lot of calculations if isValidated is not there for parent tabs
+  isVTabValidatedAndClear(...tabIds: string[]): boolean {
     var targetTab = this.vTabGroup[tabIds[0]].tabs;
     for (var i = 1; i < tabIds.length; i++) {
       targetTab = targetTab.descendents[tabIds[i]];
@@ -810,7 +824,7 @@ export class FormComponent {
     return (targetTab.isValidated && targetTab.errorCount == 0);
   }
 
-  vTabHasError(...tabIds: string[]): boolean { //Will require lot of calculations if errorCount is not saved for parent tabs
+  vTabHasError(...tabIds: string[]): boolean {
     var targetTab = this.vTabGroup[tabIds[0]].tabs;
     for (var i = 1; i < tabIds.length; i++) {
       targetTab = targetTab.descendents[tabIds[i]];

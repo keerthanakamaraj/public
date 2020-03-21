@@ -175,13 +175,13 @@ export class FieldComponent{
 
   async domainObjectValidation() {
     if(this.doCustomScript!=undefined){
-      await this.doCustomScript(event);
+      await this.doCustomScript();
     }
     return this.services.http.domainObjectValidation(this.domainObjectUrl, this.getFieldValue(), this.dependencyMap, this.doServerUrl);
   }
 
-  setDOCustomScript(fn: (event)=>void){
+  setDOCustomScript(fn: ()=>void){
     this.doCustomScript = fn;
   }
-  doCustomScript: (event) => void = undefined;
+  doCustomScript: () => void = undefined;
 }

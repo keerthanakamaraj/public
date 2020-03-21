@@ -127,7 +127,7 @@ export class GridComponent implements OnInit {
     }
 
     if (value && thisField.domainObjectCode) {
-      await thisField.domainObjectValidation().toPromise().then(
+      await (await thisField.domainObjectValidation()).toPromise().then(
         (res) => {
           if (this.fieldDependencies[columnId]) {
             for (let dep of this.fieldDependencies[columnId].outDep) {
