@@ -1,0 +1,59 @@
+
+.rlo-panel {
+    margin: 5px 0px 10px;
+}
+
+.acc-header {
+    height: 50px;
+    width: calc(100% - 20px);
+    padding: 10px;
+}
+
+.acc-header-text {
+    position: relative;
+    width: auto;
+    font-family: "Open Sans";
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 27px;
+}
+
+.rlo-panel .body {
+    display: none;
+}
+
+.rlo-panel .acc-header::after {
+    content: "\f067";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 700;
+    float: right;
+    font-size: 20px;
+    margin: -25px 10px;
+    color: #0079B8;
+}
+
+.rlo-panel.active .acc-header {
+    background-color: #0079B8;
+}
+
+.rlo-panel.active .acc-header-text {
+    color: #FFFFFF;
+}
+
+.rlo-panel .acc-header {
+    background-color: #E4F0F9;
+}
+
+.rlo-panel .acc-header-text {
+    color: #0079B8;
+}
+
+.rlo-panel.active .body {
+    display: block;
+}
+
+.rlo-panel.active .acc-header::after {
+    content: "\f068";
+    color: #FFFFFF;
+}
+

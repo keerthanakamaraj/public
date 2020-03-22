@@ -9,6 +9,8 @@ import { InitiationRoutingModule } from './Initiation-routing.module';
 import { InitiationComponent } from './Initiation.component';
 import { CustDtlsGridModule } from '../CustDtlsGrid/CustDtlsGrid.module';
 import { InitiationHandlerModule } from '../Initiation/initiation-handler.module';
+import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+import { RloUiAccordionGroupComponent } from '../rlo-ui-accordion/rlo-ui-accordion-group.component';
 @NgModule({
 imports: [
 CommonModule,
@@ -28,6 +30,8 @@ InitiationHandlerModule,
 ],
 declarations: [
 InitiationComponent,
+RloUiAccordionComponent,
+RloUiAccordionGroupComponent
 ],
 exports:[
 InitiationComponent,
