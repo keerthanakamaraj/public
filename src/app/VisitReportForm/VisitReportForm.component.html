@@ -1,0 +1,118 @@
+<form class="MakeRelative">
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'VisitReportForm.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_ReportType.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_ReportType' | translate}}</label>
+</div>
+<app-combo-box #VRF_ReportType category="2" fieldID="VRF_ReportType" [formCode]="formCode" (blur)="genericOnBlur('VRF_ReportType', $event)"></app-combo-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_DateOfVisit.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_DateOfVisit' | translate}}</label>
+</div>
+<app-date #VRF_DateOfVisit fieldID="VRF_DateOfVisit" [formCode]="formCode" (blur)="genericOnBlur('VRF_DateOfVisit', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_AddressofVisit.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_AddressofVisit' | translate}}</label>
+</div>
+<app-text-area #VRF_AddressofVisit fieldID="VRF_AddressofVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_AddressofVisit', $event)"></app-text-area>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_OfficialName.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_OfficialName' | translate}}</label>
+</div>
+<app-combo-box #VRF_OfficialName category="2" fieldID="VRF_OfficialName" [formCode]="formCode" (blur)="genericOnBlur('VRF_OfficialName', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_NameofPersonMet.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_NameofPersonMet' | translate}}</label>
+</div>
+<app-text-box #VRF_NameofPersonMet fieldID="VRF_NameofPersonMet" [formCode]="formCode" (blur)="genericOnBlur('VRF_NameofPersonMet', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_Designation.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_Designation' | translate}}</label>
+</div>
+<app-text-box #VRF_Designation fieldID="VRF_Designation" [formCode]="formCode" (blur)="genericOnBlur('VRF_Designation', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_OfficialId.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_OfficialId' | translate}}</label>
+</div>
+<app-combo-box #VRF_OfficialId category="2" fieldID="VRF_OfficialId" [formCode]="formCode" (blur)="genericOnBlur('VRF_OfficialId', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_OfficialBusinessGroup.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_OfficialBusinessGroup' | translate}}</label>
+</div>
+<app-combo-box #VRF_OfficialBusinessGroup category="2" fieldID="VRF_OfficialBusinessGroup" [formCode]="formCode" (blur)="genericOnBlur('VRF_OfficialBusinessGroup', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_PlaceOfVisit.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_PlaceOfVisit' | translate}}</label>
+</div>
+<app-text-area #VRF_PlaceOfVisit fieldID="VRF_PlaceOfVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_PlaceOfVisit', $event)"></app-text-area>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_Photograph.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_Photograph' | translate}}</label>
+</div>
+<app-combo-box #VRF_Photograph category="2" fieldID="VRF_Photograph" [formCode]="formCode" (blur)="genericOnBlur('VRF_Photograph', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_AdverseObservation.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_AdverseObservation' | translate}}</label>
+</div>
+<app-combo-box #VRF_AdverseObservation category="2" fieldID="VRF_AdverseObservation" [formCode]="formCode" (blur)="genericOnBlur('VRF_AdverseObservation', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_Observations.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'VisitReportForm.VRF_Observations' | translate}}</label>
+</div>
+<app-text-area #VRF_Observations fieldID="VRF_Observations" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_Observations', $event)"></app-text-area>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VRF_Save.isHidden()">
+<app-button #VRF_Save fieldName="{{ 'VisitReportForm.VRF_Save' | translate}}" fieldID="VRF_Save" [formCode]="formCode" (buttonClick)="VRF_Save_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VRF_Reset.isHidden()">
+<app-button #VRF_Reset fieldName="{{ 'VisitReportForm.VRF_Reset' | translate}}" fieldID="VRF_Reset" [formCode]="formCode"></app-button>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="Visit_Report_Grid.isHidden()">
+<app-VisitReportGrid #Visit_Report_Grid fieldID="Visit_Report_Grid" [formCode]="formCode" (modifyVisitReport)="Visit_Report_Grid_modifyVisitReport($event)"></app-VisitReportGrid>
+</div>
+</div>
+<app-hidden #HidVisitReportSeqId fieldID="HidVisitReportSeqId"></app-hidden>
+</div>
+</div>
+</div>
+</form>
