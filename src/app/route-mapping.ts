@@ -76,10 +76,6 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/CustomerDtls/CustomerDtls.module#CustomerDtlsModule'
 	},
 	{
-		path: 'QuestionnaireDtlForm',
-		loadChildren: 'src/app/QuestionnaireDtlForm/QuestionnaireDtlForm.module#QuestionnaireDtlFormModule'
-	},
-	{
 		path: 'VisitReportForm',
 		loadChildren: 'src/app/VisitReportForm/VisitReportForm.module#VisitReportFormModule'
 	},
