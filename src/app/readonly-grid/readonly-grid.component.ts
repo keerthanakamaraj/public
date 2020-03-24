@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, Input, ElementRef, EventEmitter, Output, AfterViewInit, NgZone } from '@angular/core';
-import { AgGridAngular, AgGridColumn } from 'ag-grid-angular';
+import { Component, ViewChild, ChangeDetectorRef, Input, ElementRef, EventEmitter, Output, NgZone } from '@angular/core';
+import { AgGridAngular } from 'ag-grid-angular';
 import { GridPaginationComponent } from '../grid-pagination/grid-pagination.component';
 import { ServiceStock } from '../service-stock.service';
-import { GridRequest } from '../gridRequest';
-import { LangChangeEvent } from '@ngx-translate/core';
 import { GridButtonColComponent } from '../grid-button-col/grid-button-col.component';
 import { Subject } from 'rxjs';
+import { GridApi } from 'ag-grid-community';
 
 @Component({
   selector: 'app-readonly-grid',
@@ -22,10 +21,6 @@ export class ReadonlyGridComponent {
   @Output() gridSizeChanged: EventEmitter<any> = new EventEmitter<any>();
   @Input('gridConsts') gridConsts: {
     paginationPageSize: number,
-    // serviceCode: string,
-    // gatewayCode: string,
-    // dataSourcePath: string,
-    // columnMapping: any,
     gridCode: string,
     paginationReq: boolean
   };
@@ -37,14 +32,14 @@ export class ReadonlyGridComponent {
   maxConcurrentDatasourceRequests: number = 2;
   infiniteInitialRowCount: number = 1;
   maxBlocksInCache: number = 2;
-  cacheBlockSize: number = 12;
+  cacheBlockSize: number = 60;
   multiSortKey: string = "ctrl";
 
   gridDataPolicy: number = 2;
 
   public columnDefs;
 
-  public gridApi;
+  public gridApi: GridApi;;
   public gridColumnApi;
   public rowData: any[];
   public rowSelection;
@@ -110,7 +105,6 @@ export class ReadonlyGridComponent {
         this.columnDefs[i] = colDefs[i];
         this.columnDefs[i].headerName = translations[this.gridConsts.gridCode][colDefs[i]["field"]];
         this.columnDefs[i].width = this.convertToPixels(colDefs[i].width);
-        // this.columnDefs[i].headerName = "Column" + (i + 1);
       }
       this.cdRef.detectChanges();
     });
@@ -120,14 +114,12 @@ export class ReadonlyGridComponent {
     return (percentageWidth / 100) * (this.gridWidth - 5);
   }
 
-  // loadColums(colDefs) {
-  //   this.overlayLoadingTemplate =
-  //     '<span class=\"ag-overlay-loading-center\">Loading...</span>';
-  //   this.overlayNoRowsTemplate =
-  //     '<span class=\"ag-overlay-loading-center\">No rows to Display</span>';
+  private _rowClickHandler = {
+    timer: undefined,
+    delay: 250,
+    preventSingleClick: false
+  }
 
-  //   this.columnDefs = colDefs;
-  // }
   defaultRowClickHandler(event) {
     if (event.node.isSelected()) {
       event.node.setSelected(false, false);
@@ -136,12 +128,19 @@ export class ReadonlyGridComponent {
     }
 
     if (this.customRowClickHandler) {
-      this.ngZone.run(() => { this.customRowClickHandler(event.data); });
+      this._rowClickHandler.timer = setTimeout(() => {
+        if (!this._rowClickHandler.preventSingleClick) {
+          this.ngZone.run(() => { this.customRowClickHandler(event.data); });
+        }
+        this._rowClickHandler.preventSingleClick = false;
+      }, this._rowClickHandler.delay);
     }
   }
 
   defaultRowDoubleClickHandler(event) {
     if (this.customRowDoubleClickHandler) {
+      clearTimeout(this._rowClickHandler.timer);
+      this._rowClickHandler.preventSingleClick = true;
       this.ngZone.run(() => { this.customRowDoubleClickHandler(event.data); });
     }
   };
@@ -154,31 +153,21 @@ export class ReadonlyGridComponent {
       this.pagination.maxSize = this.gridApi.paginationGetTotalPages();
     }
   }
-  onBtShowNoRows() {
+  showNoRowOverlay() {
     this.gridApi.showNoRowsOverlay();
   }
-  onBtHide() {
+  hideGridLoading() {
     this.gridApi.hideOverlay();
   }
-  onBtShowLoading() {
+  showGridLoading() {
     this.gridApi.showLoadingOverlay();
   }
-  // setContext(formInputJson) {
-  //   if (this.globleparames == undefined) {
-  //     setTimeout(() => {
-  //       this.setContext(formInputJson);
-  //     }, 300);
-  //   } else {
-  //     this.formInputs = formInputJson;
-  //     this.initServerDataSource();
-  //   }
-  // }
 
   setFormInputs(formInputJson) {
     for (let key in formInputJson) {
       this.formInputs[key] = formInputJson[key];
     }
-    this.isServerDSInitialized ? this.refreshGrid() : this.initServerDataSource();
+    this.refreshGrid();
   }
 
 
@@ -190,7 +179,7 @@ export class ReadonlyGridComponent {
 
     if (!this.rowData || this.rowData.length <= 0) {
       this.rowData = [];
-      this.onBtShowNoRows();
+      this.showNoRowOverlay();
     }
 
     if (this.gridConsts.paginationReq) {
@@ -213,22 +202,19 @@ export class ReadonlyGridComponent {
   }
 
   refreshGrid() {
-    this.gridApi.setFilterModel(null);
-    this.gridApi.setSortModel(null);
-    this.agGrid.api.deselectAll();
-    this.gridApi.onFilterChanged();
-    // this.LoadData(this.globleparames);
-    if (this.gridDataPolicy == 2) {
-      this.gridApi.purgeServerSideCache();
+    this.gridApi.deselectAll();
+    if (this.isServerInitialized) {
+      this.gridApi.purgeInfiniteCache();
+    } else {
+      this.initServerDataSource();
     }
   }
   defaultApiInputs = ['Offset', 'Count', 'FilterCriteria', 'OrderCriteria'];
 
-  isServerDSInitialized: boolean = false;
+  private isServerInitialized: boolean = false;
   async initServerDataSource() {
     await this.gridLoadComplete.toPromise();
-    var params = this.globleparames;
-    var dataSource = {
+    let dataSource = {
       rowCount: null,
       getRows: (params) => {
         var gridReqMap = new Map();
@@ -236,7 +222,6 @@ export class ReadonlyGridComponent {
           gridReqMap.set("Offset", params.startRow + 1);
           gridReqMap.set("Count", this.cacheBlockSize);
         }
-
         var FilterCriteria = [];
         var OrderCriteria = [];
         for (var colId in params.filterModel) {
@@ -277,31 +262,27 @@ export class ReadonlyGridComponent {
         if (OrderCriteria.length >= 1) {
           gridReqMap.set("OrderCriteria", OrderCriteria);
         }
-        this.onBtShowLoading();
-
-        // for(let key in this.formInputs){
-        //     gridReqMap.set(key, this.formInputs[key]);
-        // }
-
+        this.showGridLoading();
         this.ngZone.run(() => { this.gridDataAPI(params, gridReqMap, this.formInputs); });
-        this.onBtHide();
       }
-    };
-    params.api.setDatasource(dataSource);
-    this.isServerDSInitialized = true;
+    }
+    this.globleparames.api.setDatasource(dataSource);
+    this.isServerInitialized = true;
   }
 
   apiSuccessCallback(params, gridData) {
-    if (gridData) {
+    this.hideGridLoading();
+    if (gridData && gridData.length && gridData.length > 0) {
       gridData.forEach((data, index) => {
-        data.id = "R" + (index + 1);
-        this.onBtHide();
+        data.id = "R" + (params.startRow + index + 1);
       });
       var lastRow = -1;
       if (gridData.length < this.cacheBlockSize) {
         lastRow = params.startRow + gridData.length;
       }
       params.successCallback(gridData, lastRow);
+    }else if(params.startRow == 0){
+      this.showNoRowOverlay();
     }
   }
 
@@ -333,10 +314,10 @@ export class ReadonlyGridComponent {
         inputMap.set("QueryParam.criteriaDetails." + key, value);
       }
     });
-    if(inputMap.get("QueryParam.criteriaDetails.FilterCriteria").length==0){
+    if (inputMap.get("QueryParam.criteriaDetails.FilterCriteria").length == 0) {
       inputMap.delete("QueryParam.criteriaDetails.FilterCriteria");
     }
-    if(inputMap.get("QueryParam.criteriaDetails.OrderCriteria").length==0){
+    if (inputMap.get("QueryParam.criteriaDetails.OrderCriteria").length == 0) {
       inputMap.delete("QueryParam.criteriaDetails.OrderCriteria");
     }
   }
