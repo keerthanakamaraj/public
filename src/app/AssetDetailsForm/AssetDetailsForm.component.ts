@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AssetDetailsGridComponent } from '../AssetDetailsGrid/AssetDetailsGrid.component';
+import { AssetsHandlerComponent } from '../AssetDetailsForm/assets-handler.component';
 
 const customCss: string = '';
 
@@ -37,13 +38,14 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
 @ViewChild('AT_INCLUDE_IN_DBR', {static: false}) AT_INCLUDE_IN_DBR: ComboBoxComponent;
 @ViewChild('AT_SAVE', {static: false}) AT_SAVE: ButtonComponent;
 @ViewChild('AssetDetailsGrid', {static: false}) AssetDetailsGrid: AssetDetailsGridComponent;
-@ViewChild('hideName', {static: false}) hideName: HiddenComponent;
-@ViewChild('hideOwnedBy', {static: false}) hideOwnedBy: HiddenComponent;
-@ViewChild('hideIncludeInDBR', {static: false}) hideIncludeInDBR: HiddenComponent;
+@ViewChild('Handler', {static: false}) Handler: AssetsHandlerComponent;
 @ViewChild('ASSET_ID', {static: false}) ASSET_ID: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hideAssetType', {static: false}) hideAssetType: HiddenComponent;
 @ViewChild('hideAssetSubType', {static: false}) hideAssetSubType: HiddenComponent;
+@ViewChild('hideAssetType', {static: false}) hideAssetType: HiddenComponent;
+@ViewChild('hideIncludeInDBR', {static: false}) hideIncludeInDBR: HiddenComponent;
+@ViewChild('hideName', {static: false}) hideName: HiddenComponent;
+@ViewChild('hideOwnedBy', {static: false}) hideOwnedBy: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -78,14 +80,16 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.hidAppId.setValue('RLO');
+this.hideAssetSubType.setValue('ASSET_SUBTYPE');
+this.hideAssetType.setValue('ASSET_TYPE');
+this.hideIncludeInDBR.setValue('Y/N');
 this.hideName.setValue('NAME');
 this.hideOwnedBy.setValue('OWNED_BY');
-this.hideIncludeInDBR.setValue('Y/N');
-this.hidAppId.setValue('RLO');
-this.hideAssetType.setValue('ASSET_TYPE');
-this.hideAssetSubType.setValue('ASSET_SUBTYPE');
 let inputMap = new Map();
 await this.AssetDetailsGrid.gridDataLoad({
+});
+await this.Handler.onFormLoad({
 });
 this.setDependencies();
 }
@@ -96,7 +100,7 @@ this.mode = params['mode'];
 }
 }
 async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = '';
+this.submitData['formName'] = 'Asset Details Form';
 await super.submit(path, apiCode, serviceCode);
 }
 getFieldInfo() {

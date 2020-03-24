@@ -60,7 +60,7 @@ this.CUSTOMER_DETAILS.setReadOnly(readOnly);
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 let inputMap = new Map();
-await this.FieldId_1.loadCustDtlsGrid({
+await this.CUSTOMER_DETAILS.loadCustDtlsGrid({
 'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
 });
 await this.Handler.onFormLoad({

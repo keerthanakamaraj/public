@@ -107,14 +107,17 @@
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AssetDetailsGrid.isHidden()">
 <app-AssetDetailsGrid #AssetDetailsGrid fieldID="AssetDetailsGrid" [formCode]="formCode" (modifyAssetDetails)="AssetDetailsGrid_modifyAssetDetails($event)"></app-AssetDetailsGrid>
 </div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-assets-handler #Handler></app-assets-handler>
 </div>
-<app-hidden #hideName fieldID="hideName"></app-hidden>
-<app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden>
-<app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
+</div>
 <app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-<app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
 <app-hidden #hideAssetSubType fieldID="hideAssetSubType"></app-hidden>
+<app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
+<app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
+<app-hidden #hideName fieldID="hideName"></app-hidden>
+<app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden>
 </div>
 </div>
 </div>
