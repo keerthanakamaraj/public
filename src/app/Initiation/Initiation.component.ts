@@ -93,6 +93,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
+isLoanCategory: boolean;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -158,12 +159,15 @@ super(services);
 this.value = new InitiationModel();
 this.componentCode = 'Initiation';
 this.displayBorder = false;
+this.isLoanCategory =  true;
+
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+
 this.CD_FULL_NAME.setReadOnly(true);
 this.CD_LOAN_OWNERSHIP.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_LOAN_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
@@ -289,7 +293,8 @@ this.services.dataStore.setModalReference(this.services.routing.currModal, modal
 }
 async BAD_PROD_CAT_change(event){
 let inputMap = new Map();
-await this.Handler.onProdCategoryChange({}
+await this.Handler.onProdCategoryChange({
+}
 );
 }
 async CD_FIRST_NAME_blur(event){

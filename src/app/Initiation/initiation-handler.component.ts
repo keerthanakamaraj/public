@@ -8,7 +8,8 @@ import { FieldComponent } from '../field/field.component';
   styles: []
 })
 export class InitiationHandlerComponent implements OnInit {
-	@Input() MainComponent: InitiationComponent;
+  @Input() MainComponent: InitiationComponent;
+  //isLoanCategory:boolean = true;
   customers= [];
   private counter = 0;
   private editId: string;
@@ -25,8 +26,14 @@ export class InitiationHandlerComponent implements OnInit {
     // ngOnInit
   }
  // onChangeOfProduct Category
+ 
  onProdCategoryChange({}){
-
+   if(this.MainComponent.BAD_PROD_CAT.getFieldValue() =='CC'){
+    this.MainComponent.isLoanCategory =  false;
+   }
+   else{
+    this.MainComponent.isLoanCategory =  true;
+   }
  }
 
  //onClickOfCheckElgibility
@@ -82,7 +89,7 @@ export class InitiationHandlerComponent implements OnInit {
     this.MainComponent.CD_THIRD_NAME.setValue(customer.thirdName);
     this.MainComponent.CD_LAST_NAME.setValue(customer.lastName);
     this.MainComponent.CD_FULL_NAME.setValue(customer.FULL_NAME);
-    this.MainComponent.CD_GENDER.setValue(customer.gender.value, customer.gender.label );
+    this.MainComponent.CD_GENDER.setValue(customer.gender.value, customer.gender.label);
     this.MainComponent.CD_DOB.setValue(customer.DOB);
     this.MainComponent.CD_TAX_ID.setValue(customer.taxId);
     this.MainComponent.CD_MOBILE.setValue(customer.mobileNumber);

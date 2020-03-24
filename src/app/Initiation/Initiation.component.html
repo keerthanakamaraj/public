@@ -56,7 +56,7 @@
             <div style=" width:100%; background:null;height:1px;"></div>
           </div>
           <rlo-ui-accordion #acc_1 class="col-13 col-sm-13 col-md-13">
-            <rlo-ui-accordion-group title="{{ 'Initiation.BAD_LABEL' | translate}}" >
+            <rlo-ui-accordion-group  title="{{ 'Initiation.BAD_LABEL' | translate}}" >
               <div #BAD_GROUP id="BAD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
@@ -396,7 +396,7 @@
   
               </div>
             </rlo-ui-accordion-group>
-            <rlo-ui-accordion-group title="{{ 'Initiation.LD_HEAD' | translate}}" >
+            <rlo-ui-accordion-group  title="{{ 'Initiation.LD_HEAD' | translate}}" [hidden] = "!isLoanCategory">
               <div #LD_GROUP id="LD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
