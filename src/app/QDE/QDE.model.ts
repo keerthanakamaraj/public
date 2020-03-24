@@ -1,10 +1,10 @@
 export class QDEModel {
-FieldId_8 : any;
-FieldId_1 : any;
+HEADER : any;
+CUSTOMER_DETAILS : any;
 setValue(res){
 if(res){
-if(res['FieldId_8']){this.FieldId_8 = res['FieldId_8'];}
-if(res['FieldId_1']){this.FieldId_1 = res['FieldId_1'];}
+if(res['HEADER']){this.HEADER = res['HEADER'];}
+if(res['CUSTOMER_DETAILS']){this.CUSTOMER_DETAILS = res['CUSTOMER_DETAILS'];}
 }
 }
 }

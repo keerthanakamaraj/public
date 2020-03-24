@@ -131,5 +131,7 @@ export class MainHeaderComponent implements OnInit {
     // }
     this.router.navigate(['/home/' + id]);
   }
-
+  navigateToHome(){
+    this.router.navigate(['/home/LANDING']);
+  }
 }

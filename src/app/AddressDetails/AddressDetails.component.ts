@@ -356,6 +356,10 @@ this.services.alert.showAlert(3, 'Failed to save address details', 5000);
 );
 }
 }
+async AD_CLEAR_BTN_click(event){
+let inputMap = new Map();
+let durationType:any = this.AD_RES_DUR_UNIT.getFieldValue();
+console.log('durationType', durationType);}
 async AddressGrid_emitAddressDetails(event){
 let inputMap = new Map();
 this.showSpinner();

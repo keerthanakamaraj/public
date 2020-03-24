@@ -269,7 +269,7 @@ default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/dedupe', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/dedupe', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar7 = [];

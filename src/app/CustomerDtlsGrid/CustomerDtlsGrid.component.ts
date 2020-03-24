@@ -109,8 +109,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'CustomerDtlsGrid',
 columnId: 'CD_EDIT_BUTTON',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-edit',
+IconClass: 'fas fa-edit fa-lg',
 onClick: this.CD_EDIT_BUTTON_click.bind(this)
 },
 },
@@ -125,8 +126,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'CustomerDtlsGrid',
 columnId: 'CD_DELETE',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-delete',
+IconClass: 'fa fa-trash fa-lg',
 onClick: this.CD_DELETE_click.bind(this)
 },
 },

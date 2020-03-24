@@ -26,8 +26,8 @@ selector: 'app-QDE',
 templateUrl: './QDE.component.html'
 })
 export class QDEComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('FieldId_8', {static: false}) FieldId_8: HeaderComponent;
-@ViewChild('FieldId_1', {static: false}) FieldId_1: CustomerDtlsComponent;
+@ViewChild('HEADER', {static: false}) HEADER: HeaderComponent;
+@ViewChild('CUSTOMER_DETAILS', {static: false}) CUSTOMER_DETAILS: CustomerDtlsComponent;
 @ViewChild('QDE_SUBMIT', {static: false}) QDE_SUBMIT: ButtonComponent;
 @ViewChild('QDE_CANCEL', {static: false}) QDE_CANCEL: ButtonComponent;
 @ViewChild('Handler', {static: false}) Handler: QDEHandlerComponent;
@@ -35,8 +35,8 @@ async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
-this.FieldId_8.revalidate(),
-this.FieldId_1.revalidate(),
+this.HEADER.revalidate(),
+this.CUSTOMER_DETAILS.revalidate(),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -50,11 +50,12 @@ constructor(services: ServiceStock){
 super(services);
 this.value = new QDEModel();
 this.componentCode = 'QDE';
+this.displayBorder = false;
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
-this.FieldId_8.setReadOnly(readOnly);
-this.FieldId_1.setReadOnly(readOnly);
+this.HEADER.setReadOnly(readOnly);
+this.CUSTOMER_DETAILS.setReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -80,19 +81,19 @@ getFieldInfo() {
 this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
 this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
 this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.additionalInfo['FieldId_8_desc'] = this.FieldId_8.getFieldInfo();
-this.additionalInfo['FieldId_1_desc'] = this.FieldId_1.getFieldInfo();
+this.additionalInfo['HEADER_desc'] = this.HEADER.getFieldInfo();
+this.additionalInfo['CUSTOMER_DETAILS_desc'] = this.CUSTOMER_DETAILS.getFieldInfo();
 return this.additionalInfo;
 }
 getFieldValue(){
-this.value.FieldId_8 = this.FieldId_8.getFieldValue();
-this.value.FieldId_1 = this.FieldId_1.getFieldValue();
+this.value.HEADER = this.HEADER.getFieldValue();
+this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
 return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
-this.FieldId_8.setValue(inputValue['FieldId_8'], inputDesc['FieldId_8_desc']);
-this.FieldId_1.setValue(inputValue['FieldId_1'], inputDesc['FieldId_1_desc']);
+this.HEADER.setValue(inputValue['HEADER'], inputDesc['HEADER_desc']);
+this.CUSTOMER_DETAILS.setValue(inputValue['CUSTOMER_DETAILS'], inputDesc['CUSTOMER_DETAILS_desc']);
 this.value = new QDEModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -116,10 +117,10 @@ styleElement.parentNode.removeChild(styleElement);
 ngAfterViewInit(){
 setTimeout(() => {
 this.subsBFldsValueUpdates();
-this.value.FieldId_8 = this.FieldId_8.getFieldValue();
-this.FieldId_8.valueChangeUpdates().subscribe((value) => {this.value.FieldId_8 = value;});
-this.value.FieldId_1 = this.FieldId_1.getFieldValue();
-this.FieldId_1.valueChangeUpdates().subscribe((value) => {this.value.FieldId_1 = value;});
+this.value.HEADER = this.HEADER.getFieldValue();
+this.HEADER.valueChangeUpdates().subscribe((value) => {this.value.HEADER = value;});
+this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
+this.CUSTOMER_DETAILS.valueChangeUpdates().subscribe((value) => {this.value.CUSTOMER_DETAILS = value;});
 this.onFormLoad();
 this.checkForHTabOverFlow();
 });
@@ -128,15 +129,15 @@ clearError(){
 super.clearBasicFieldsError();
 super.clearHTabErrors();
 super.clearVTabErrors();
-this.FieldId_8.clearError();
-this.FieldId_1.clearError();
+this.HEADER.clearError();
+this.CUSTOMER_DETAILS.clearError();
 this.errors = 0;
 this.errorMessage = [];
 }
 onReset(){
 super.resetBasicFields();
-this.FieldId_8.onReset();
-this.FieldId_1.onReset();
+this.HEADER.onReset();
+this.CUSTOMER_DETAILS.onReset();
 this.clearHTabErrors();
 this.clearVTabErrors();
 this.errors = 0;

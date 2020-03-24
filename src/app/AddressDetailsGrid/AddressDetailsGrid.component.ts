@@ -94,8 +94,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'AddressDetailsGrid',
 columnId: 'AD_EDIT_BTN',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-edit',
+IconClass: 'fas fa-edit fa-lg',
 onClick: this.AD_EDIT_BTN_click.bind(this)
 },
 },
@@ -110,8 +111,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'AddressDetailsGrid',
 columnId: 'AD_DELETE_BTN',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-delete',
+IconClass: 'fa fa-trash fa-lg',
 onClick: this.AD_DELETE_BTN_click.bind(this)
 },
 },

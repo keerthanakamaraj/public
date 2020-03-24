@@ -912,7 +912,7 @@ box-sizing: border-box;
     padding-top: 12px;
 }
 
-.form-group-initiation{
+.form-group-initiation,#FieldId_8{
     padding-bottom: 20px !important;
 }
 
@@ -922,8 +922,10 @@ box-sizing: border-box;
     background-color: #F8F8F8 !important;
     padding-inline-start: 500px !important;
     padding-top: 11px !important;
+    margin-left: -13px !important;
+    margin-right: -6px !important;
 }
-#CANCEL_MAIN_BTN{
+.btn-warning-outline{
     margin-inline-start: 50px;
 }
 #BAD_PROMOTION{
@@ -947,11 +949,25 @@ box-sizing: border-box;
     background-color: #E4F0F9 !important;
 } */
 
-.pagination
+ .pull-right
 {
-    padding-right: 608px !important
+    float: none !important;
+    text-align : center !important;
+} 
+.acc-header{
+    width : 99.5% !important;
 }
 
+/* .form-group{
+    border-bottom: 1px solid #DDDDDD !important;
+    padding-top : 19px;
+/* /* }   */
+.PRDUCT_GROUP{
+    margin-left: -14px !important;
+}
+#CD_RESET{
+    margin-left: -86px !important;
+}
 /* .fas.fa-search{
     height: 19px;
     width: 19px;
