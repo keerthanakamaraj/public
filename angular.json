@@ -23,7 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/assets/css/rlo_style.css",
               "src/assets/css/font-awesome.min.css",
               "src/assets/css/font-awesome-5.min.css"
             ],
@@ -74,7 +74,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/assets/css/rlo_style.css"
             ],
             "scripts": [],
             "assets": [
