@@ -167,21 +167,21 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-
-this.CD_FULL_NAME.setReadOnly(true);
+// Moved readonly to RLO Config - to be removed in next commit
+// this.CD_FULL_NAME.setReadOnly(true);
 this.CD_LOAN_OWNERSHIP.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_LOAN_AMOUNT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_INTEREST_RATE.setReadOnly(true);
+// this.LD_INTEREST_RATE.setReadOnly(true);
 this.LD_GROSS_INCOME.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_EXST_LBLT_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.LD_NET_INCOME.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_NET_INCOME.setReadOnly(true);
+// this.LD_NET_INCOME.setReadOnly(true);
 this.LD_SYS_AMT_RCMD.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_SYS_AMT_RCMD.setReadOnly(true);
+// this.LD_SYS_AMT_RCMD.setReadOnly(true);
 this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_LTV_DBR.setReadOnly(true);
+// this.LD_LTV_DBR.setReadOnly(true);
 this.LD_EMI_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_EMI_AMT.setReadOnly(true);
+// this.LD_EMI_AMT.setReadOnly(true);
 this.hideCustomerType.setValue('CUSTOMER_TYPE');
 this.hidAppId.setValue('RLO');
 this.hidSourceingChannel.setValue('Branch');
