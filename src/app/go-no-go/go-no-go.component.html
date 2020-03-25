@@ -1,0 +1,44 @@
+<div>
+    <h3>Go No Go Details</h3>
+</div>
+<table class="table go-no-go-table">
+    <thead class="go-no-go-header go-no-go-font">
+        <tr>
+            <th>Sr No</th>
+            <th>Paramter</th>
+            <th>Level</th>
+            <th>Result</th>
+            <th>Remarks</th>
+            <th>Save</th>
+        </tr>
+    </thead>
+    <tbody class="go-no-go-tb-cell">
+        <ng-container *ngIf="apiResponse != undefined;else noRows">
+            <tr class="go-no-go-grid-row" *ngFor="let question of apiResponse['MstQuestionnaireDtls']; let i = index;">
+                <td>{{ i + 1 }}</td>
+                <td>{{ question.QuestionText }}</td>
+                <td>{{ question.Level }}</td>
+                <td>
+                    <select class="ng-select" name="questionCat" id="questionCat{{i+1}}" [ngModel]="question.AnswerSeq || 'Select'">
+                        <option style="display: none" [ngValue]="">Select</option>
+                        <option *ngFor="let q of question['MstQuestionnaireAns']" [ngValue]="q.AnswerSeq">
+                            {{ q.AnswerText }}
+                        </option>
+                    </select>
+                </td>
+                <td><textarea class="go-no-go-text-area" rows="1">{{ question.Remarks }}</textarea></td>
+                <td><button class="btn btn-small go-no-go-save" (click)="persistData($event)">Save</button></td>
+            </tr>
+        </ng-container>
+    </tbody>
+    <ng-template #noRows>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td align="left">No Rows To Show</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </ng-template>
+</table>
