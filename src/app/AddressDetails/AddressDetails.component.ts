@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AddressDetailsGridComponent } from '../AddressDetailsGrid/AddressDetailsGrid.component';
+import { AddressHandlerComponent } from '../AddressDetails/address-handler.component';
 
 const customCss: string = '';
 
@@ -48,6 +49,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 @ViewChild('AD_SAVE_ADDRESS', {static: false}) AD_SAVE_ADDRESS: ButtonComponent;
 @ViewChild('AD_CLEAR_BTN', {static: false}) AD_CLEAR_BTN: ButtonComponent;
 @ViewChild('AddressGrid', {static: false}) AddressGrid: AddressDetailsGridComponent;
+@ViewChild('Handler', {static: false}) Handler: AddressHandlerComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidAddType', {static: false}) hidAddType: HiddenComponent;
 @ViewChild('hidResType', {static: false}) hidResType: HiddenComponent;
@@ -103,6 +105,9 @@ this.hidAddType.setValue('ADDRESS_TYPE');
 this.hidResType.setValue('RESIDENCE_TYPE');
 this.hidMailingAddress.setValue('Y/N');
 this.hidResDurType.setValue('PERIOD');
+let inputMap = new Map();
+await this.Handler.onFormLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){

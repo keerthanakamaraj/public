@@ -10,51 +10,45 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CUST_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_CUST_TYPE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_CUST_TYPE' | translate}}</label>
 </div>
-<app-combo-box #AD_CUST_TYPE category="2" fieldID="AD_CUST_TYPE" [formCode]="formCode" placeholder="Select" [mandatory]="true" (blur)="genericOnBlur('AD_CUST_TYPE', $event)"></app-combo-box>
+<app-combo-box #AD_CUST_TYPE category="2" fieldID="AD_CUST_TYPE" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('AD_CUST_TYPE', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_ADDRESS_TYPE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_ADDRESS_TYPE' | translate}}</label>
 </div>
-<app-combo-box #AD_ADDRESS_TYPE category="2" fieldID="AD_ADDRESS_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_ADDRESS_TYPE', $event)"></app-combo-box>
+<app-combo-box #AD_ADDRESS_TYPE category="2" fieldID="AD_ADDRESS_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_ADDRESS_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_RES_DUR' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_RES_DUR' | translate}}</label>
 </div>
-<app-text-box #AD_RES_DUR inputType="number" fieldID="AD_RES_DUR" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_RES_DUR', $event)"></app-text-box>
+<app-text-box #AD_RES_DUR inputType="number" fieldID="AD_RES_DUR" [formCode]="formCode" (blur)="genericOnBlur('AD_RES_DUR', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR_UNIT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_RES_DUR_UNIT' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_RES_DUR_UNIT' | translate}}</label>
 </div>
-<app-combo-box #AD_RES_DUR_UNIT category="2" fieldID="AD_RES_DUR_UNIT" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_RES_DUR_UNIT', $event)"></app-combo-box>
+<app-combo-box #AD_RES_DUR_UNIT category="2" fieldID="AD_RES_DUR_UNIT" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RES_DUR_UNIT', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RESIDENCE_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_RESIDENCE_TYPE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_RESIDENCE_TYPE' | translate}}</label>
 </div>
-<app-combo-box #AD_RESIDENCE_TYPE category="2" fieldID="AD_RESIDENCE_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_RESIDENCE_TYPE', $event)"></app-combo-box>
+<app-combo-box #AD_RESIDENCE_TYPE category="2" fieldID="AD_RESIDENCE_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RESIDENCE_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE1.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_ADDRESS_LINE1' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_ADDRESS_LINE1' | translate}}</label>
 </div>
-<app-text-box #AD_ADDRESS_LINE1 fieldID="AD_ADDRESS_LINE1" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_ADDRESS_LINE1', $event)"></app-text-box>
+<app-text-box #AD_ADDRESS_LINE1 fieldID="AD_ADDRESS_LINE1" [formCode]="formCode" (blur)="genericOnBlur('AD_ADDRESS_LINE1', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE2.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -80,10 +74,9 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_PINCODE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_PINCODE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_PINCODE' | translate}}</label>
 </div>
-<app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
+<app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_REGION.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -95,18 +88,16 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CITY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_CITY' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_CITY' | translate}}</label>
 </div>
-<app-combo-box #AD_CITY category="2" fieldID="AD_CITY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstCityDetails/{CityCd}" domainObjectCode="MstCityDetails" [mandatory]="true" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
+<app-combo-box #AD_CITY category="2" fieldID="AD_CITY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstCityDetails/{CityCd}" domainObjectCode="MstCityDetails" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_STATE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_STATE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'AddressDetails.AD_STATE' | translate}}</label>
 </div>
-<app-combo-box #AD_STATE category="2" fieldID="AD_STATE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstStateDetails/{StateCd}" domainObjectCode="MstStateDetails" [mandatory]="true" (blur)="genericOnBlur('AD_STATE', $event)"></app-combo-box>
+<app-combo-box #AD_STATE category="2" fieldID="AD_STATE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstStateDetails/{StateCd}" domainObjectCode="MstStateDetails" (blur)="genericOnBlur('AD_STATE', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: nullpx;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDMARK.isHidden()">
@@ -173,6 +164,9 @@
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
 <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-address-handler #Handler></app-address-handler>
 </div>
 </div>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>

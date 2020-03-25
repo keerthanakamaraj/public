@@ -11,18 +11,16 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_OCCUPATION.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_OCCUPATION' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_OCCUPATION' | translate}}</label>
 </div>
-<app-combo-box #OD_OCCUPATION category="2" fieldID="OD_OCCUPATION" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('OD_OCCUPATION', $event)"></app-combo-box>
+<app-combo-box #OD_OCCUPATION category="2" fieldID="OD_OCCUPATION" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_OCCUPATION', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLT_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_EMPLT_TYPE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_EMPLT_TYPE' | translate}}</label>
 </div>
-<app-combo-box #OD_EMPLT_TYPE category="2" fieldID="OD_EMPLT_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('OD_EMPLT_TYPE', $event)"></app-combo-box>
+<app-combo-box #OD_EMPLT_TYPE category="2" fieldID="OD_EMPLT_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_EMPLT_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_PROF.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -76,10 +74,9 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INDUSTRY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_INDUSTRY' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_INDUSTRY' | translate}}</label>
 </div>
-<app-combo-box #OD_INDUSTRY category="2" fieldID="OD_INDUSTRY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('OD_INDUSTRY', $event)"></app-combo-box>
+<app-combo-box #OD_INDUSTRY category="2" fieldID="OD_INDUSTRY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INDUSTRY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NTR_OF_BUSS.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -120,26 +117,23 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INC_DOC_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_INC_DOC_TYPE' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_INC_DOC_TYPE' | translate}}</label>
 </div>
-<app-combo-box #OD_INC_DOC_TYPE category="2" fieldID="OD_INC_DOC_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)"></app-combo-box>
+<app-combo-box #OD_INC_DOC_TYPE category="2" fieldID="OD_INC_DOC_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
 </div>
-<app-text-box #OD_NET_INCOME inputType="number" fieldID="OD_NET_INCOME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-text-box>
+<app-text-box #OD_NET_INCOME inputType="number" fieldID="OD_NET_INCOME" [formCode]="formCode" (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_FREQ.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_INCOME_FREQ' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_INCOME_FREQ' | translate}}</label>
 </div>
-<app-combo-box #OD_INCOME_FREQ category="2" fieldID="OD_INCOME_FREQ" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('OD_INCOME_FREQ', $event)"></app-combo-box>
+<app-combo-box #OD_INCOME_FREQ category="2" fieldID="OD_INCOME_FREQ" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_FREQ', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMP_STATUS.isHidden()">
@@ -174,18 +168,16 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_CURRENCY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_CURRENCY' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_CURRENCY' | translate}}</label>
 </div>
-<app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('OD_CURRENCY', $event)"></app-combo-box>
+<app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_CURRENCY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LOC_CURR_EQ.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}<span class="error-d">*</span>
-</label>
+{{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}</label>
 </div>
-<app-text-box #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select" [mandatory]="true" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-text-box>
+<app-text-box #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE_BTN.isHidden()">
 <app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>

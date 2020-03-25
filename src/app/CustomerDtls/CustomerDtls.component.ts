@@ -18,6 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CustomerDtlsGridComponent } from '../CustomerDtlsGrid/CustomerDtlsGrid.component';
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
+//import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
 
 const customCss: string = '';
 
@@ -62,6 +63,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('CUST_DTLS_GRID', {static: false}) CUST_DTLS_GRID: CustomerDtlsGridComponent;
 @ViewChild('FieldId_29', {static: false}) FieldId_29: AddressDetailsComponent;
 @ViewChild('FieldId_30', {static: false}) FieldId_30: OccupationDtlsFormComponent;
+//@ViewChild('Handler', {static: false}) Handler: CustomerHandlerComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
 @ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
@@ -140,6 +142,8 @@ this.hidTitle.setValue('TITLE');
 let inputMap = new Map();
 await this.CUST_DTLS_GRID.gridDataLoad({
 });
+// await this.Handler.onFormLoad({
+// });
 this.setDependencies();
 }
 setInputs(param : any){

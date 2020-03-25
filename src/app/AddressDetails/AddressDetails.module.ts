@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { AddressDetailsRoutingModule } from './AddressDetails-routing.module';
 import { AddressDetailsComponent } from './AddressDetails.component';
 import { AddressDetailsGridModule } from '../AddressDetailsGrid/AddressDetailsGrid.module';
+import { AddressHandlerModule } from '../AddressDetails/address-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 AddressDetailsGridModule,
+AddressHandlerModule,
 ],
 declarations: [
 AddressDetailsComponent,
