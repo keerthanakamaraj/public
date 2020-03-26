@@ -18,10 +18,11 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { HeaderComponent } from '../Header/Header.component';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { FamilyDetailsFormComponent } from '../FamilyDetailsForm/FamilyDetailsForm.component';
+import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
 import { OtherDeductionFormComponent } from '../OtherDeductionForm/OtherDeductionForm.component';
-import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
 import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
+import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 
 const customCss: string = '';
 
@@ -31,23 +32,19 @@ templateUrl: './DDE.component.html'
 })
 export class DDEComponent extends FormComponent implements OnInit, AfterViewInit {
 @ViewChild('FieldId_1', {static: false}) FieldId_1: HeaderComponent;
-@ViewChild('FieldId_3', {static: false}) FieldId_3: CustomerDtlsComponent;
-@ViewChild('FieldId_4', {static: false}) FieldId_4: FamilyDetailsFormComponent;
-@ViewChild('FieldId_5', {static: false}) FieldId_5: LiabilityDtlsFormComponent;
+@ViewChild('CUST_DTLS', {static: false}) CUST_DTLS: CustomerDtlsComponent;
+@ViewChild('FAMILY_DTLS', {static: false}) FAMILY_DTLS: FamilyDetailsFormComponent;
+@ViewChild('FieldId_14', {static: false}) FieldId_14: AssetDetailsFormComponent;
+@ViewChild('FieldId_15', {static: false}) FieldId_15: LiabilityDtlsFormComponent;
 @ViewChild('FieldId_6', {static: false}) FieldId_6: OtherDeductionFormComponent;
-@ViewChild('FieldId_8', {static: false}) FieldId_8: AssetDetailsFormComponent;
 @ViewChild('FieldId_9', {static: false}) FieldId_9: IncomeSummaryFormComponent;
+@ViewChild('FieldId_13', {static: false}) FieldId_13: NotepadDetailsFormComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 await Promise.all([
 this.FieldId_1.revalidate(),
-this.FieldId_3.revalidate(),
-this.FieldId_4.revalidate(),
-this.FieldId_5.revalidate(),
-this.FieldId_6.revalidate(),
-this.FieldId_8.revalidate(),
-this.FieldId_9.revalidate(),
+this.FieldId_10_revalidate(),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -61,19 +58,22 @@ constructor(services: ServiceStock){
 super(services);
 this.value = new DDEModel();
 this.componentCode = 'DDE';
+this.initHTabGroup('FieldId_10', ['BORROWER_TAB','VISIT_REF','COLATTERAL','GO_NO_GO','COMMENTS_TAB',], 'BORROWER_TAB', 1);
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
 this.FieldId_1.setReadOnly(readOnly);
-this.FieldId_3.setReadOnly(readOnly);
-this.FieldId_4.setReadOnly(readOnly);
-this.FieldId_5.setReadOnly(readOnly);
+this.CUST_DTLS.setReadOnly(readOnly);
+this.FAMILY_DTLS.setReadOnly(readOnly);
+this.FieldId_14.setReadOnly(readOnly);
+this.FieldId_15.setReadOnly(readOnly);
 this.FieldId_6.setReadOnly(readOnly);
-this.FieldId_8.setReadOnly(readOnly);
 this.FieldId_9.setReadOnly(readOnly);
+this.FieldId_13.setReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.openHTab('FieldId_10', 'BORROWER_TAB');
 this.setDependencies();
 }
 setInputs(param : any){
@@ -91,33 +91,36 @@ this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_des
 this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
 this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
 this.additionalInfo['FieldId_1_desc'] = this.FieldId_1.getFieldInfo();
-this.additionalInfo['FieldId_3_desc'] = this.FieldId_3.getFieldInfo();
-this.additionalInfo['FieldId_4_desc'] = this.FieldId_4.getFieldInfo();
-this.additionalInfo['FieldId_5_desc'] = this.FieldId_5.getFieldInfo();
+this.additionalInfo['CUST_DTLS_desc'] = this.CUST_DTLS.getFieldInfo();
+this.additionalInfo['FAMILY_DTLS_desc'] = this.FAMILY_DTLS.getFieldInfo();
+this.additionalInfo['FieldId_14_desc'] = this.FieldId_14.getFieldInfo();
+this.additionalInfo['FieldId_15_desc'] = this.FieldId_15.getFieldInfo();
 this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
-this.additionalInfo['FieldId_8_desc'] = this.FieldId_8.getFieldInfo();
 this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
+this.additionalInfo['FieldId_13_desc'] = this.FieldId_13.getFieldInfo();
 return this.additionalInfo;
 }
 getFieldValue(){
 this.value.FieldId_1 = this.FieldId_1.getFieldValue();
-this.value.FieldId_3 = this.FieldId_3.getFieldValue();
-this.value.FieldId_4 = this.FieldId_4.getFieldValue();
-this.value.FieldId_5 = this.FieldId_5.getFieldValue();
+this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
+this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
+this.value.FieldId_14 = this.FieldId_14.getFieldValue();
+this.value.FieldId_15 = this.FieldId_15.getFieldValue();
 this.value.FieldId_6 = this.FieldId_6.getFieldValue();
-this.value.FieldId_8 = this.FieldId_8.getFieldValue();
 this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+this.value.FieldId_13 = this.FieldId_13.getFieldValue();
 return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
 this.FieldId_1.setValue(inputValue['FieldId_1'], inputDesc['FieldId_1_desc']);
-this.FieldId_3.setValue(inputValue['FieldId_3'], inputDesc['FieldId_3_desc']);
-this.FieldId_4.setValue(inputValue['FieldId_4'], inputDesc['FieldId_4_desc']);
-this.FieldId_5.setValue(inputValue['FieldId_5'], inputDesc['FieldId_5_desc']);
+this.CUST_DTLS.setValue(inputValue['CUST_DTLS'], inputDesc['CUST_DTLS_desc']);
+this.FAMILY_DTLS.setValue(inputValue['FAMILY_DTLS'], inputDesc['FAMILY_DTLS_desc']);
+this.FieldId_14.setValue(inputValue['FieldId_14'], inputDesc['FieldId_14_desc']);
+this.FieldId_15.setValue(inputValue['FieldId_15'], inputDesc['FieldId_15_desc']);
 this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
-this.FieldId_8.setValue(inputValue['FieldId_8'], inputDesc['FieldId_8_desc']);
 this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
+this.FieldId_13.setValue(inputValue['FieldId_13'], inputDesc['FieldId_13_desc']);
 this.value = new DDEModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -143,18 +146,20 @@ setTimeout(() => {
 this.subsBFldsValueUpdates();
 this.value.FieldId_1 = this.FieldId_1.getFieldValue();
 this.FieldId_1.valueChangeUpdates().subscribe((value) => {this.value.FieldId_1 = value;});
-this.value.FieldId_3 = this.FieldId_3.getFieldValue();
-this.FieldId_3.valueChangeUpdates().subscribe((value) => {this.value.FieldId_3 = value;});
-this.value.FieldId_4 = this.FieldId_4.getFieldValue();
-this.FieldId_4.valueChangeUpdates().subscribe((value) => {this.value.FieldId_4 = value;});
-this.value.FieldId_5 = this.FieldId_5.getFieldValue();
-this.FieldId_5.valueChangeUpdates().subscribe((value) => {this.value.FieldId_5 = value;});
+this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
+this.CUST_DTLS.valueChangeUpdates().subscribe((value) => {this.value.CUST_DTLS = value;});
+this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
+this.FAMILY_DTLS.valueChangeUpdates().subscribe((value) => {this.value.FAMILY_DTLS = value;});
+this.value.FieldId_14 = this.FieldId_14.getFieldValue();
+this.FieldId_14.valueChangeUpdates().subscribe((value) => {this.value.FieldId_14 = value;});
+this.value.FieldId_15 = this.FieldId_15.getFieldValue();
+this.FieldId_15.valueChangeUpdates().subscribe((value) => {this.value.FieldId_15 = value;});
 this.value.FieldId_6 = this.FieldId_6.getFieldValue();
 this.FieldId_6.valueChangeUpdates().subscribe((value) => {this.value.FieldId_6 = value;});
-this.value.FieldId_8 = this.FieldId_8.getFieldValue();
-this.FieldId_8.valueChangeUpdates().subscribe((value) => {this.value.FieldId_8 = value;});
 this.value.FieldId_9 = this.FieldId_9.getFieldValue();
 this.FieldId_9.valueChangeUpdates().subscribe((value) => {this.value.FieldId_9 = value;});
+this.value.FieldId_13 = this.FieldId_13.getFieldValue();
+this.FieldId_13.valueChangeUpdates().subscribe((value) => {this.value.FieldId_13 = value;});
 this.onFormLoad();
 this.checkForHTabOverFlow();
 });
@@ -164,24 +169,26 @@ super.clearBasicFieldsError();
 super.clearHTabErrors();
 super.clearVTabErrors();
 this.FieldId_1.clearError();
-this.FieldId_3.clearError();
-this.FieldId_4.clearError();
-this.FieldId_5.clearError();
+this.CUST_DTLS.clearError();
+this.FAMILY_DTLS.clearError();
+this.FieldId_14.clearError();
+this.FieldId_15.clearError();
 this.FieldId_6.clearError();
-this.FieldId_8.clearError();
 this.FieldId_9.clearError();
+this.FieldId_13.clearError();
 this.errors = 0;
 this.errorMessage = [];
 }
 onReset(){
 super.resetBasicFields();
 this.FieldId_1.onReset();
-this.FieldId_3.onReset();
-this.FieldId_4.onReset();
-this.FieldId_5.onReset();
+this.CUST_DTLS.onReset();
+this.FAMILY_DTLS.onReset();
+this.FieldId_14.onReset();
+this.FieldId_15.onReset();
 this.FieldId_6.onReset();
-this.FieldId_8.onReset();
 this.FieldId_9.onReset();
+this.FieldId_13.onReset();
 this.clearHTabErrors();
 this.clearVTabErrors();
 this.errors = 0;
@@ -192,6 +199,83 @@ this.value = new DDEModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
+}
+async BORROWER_TAB_revalidate(): Promise<number> {
+var totalErrors = 0;
+await Promise.all([
+this.CUST_DTLS.revalidate(),
+this.FAMILY_DTLS.revalidate(),
+this.FieldId_14.revalidate(),
+this.FieldId_15.revalidate(),
+this.FieldId_6.revalidate(),
+this.FieldId_9.revalidate(),
+]).then((errorCounts) => {
+errorCounts.forEach((errorCount)=>{
+totalErrors+=errorCount;
+});
+});
+this.hTabGroups['FieldId_10'].tabs['BORROWER_TAB'].errorCount = totalErrors;
+return totalErrors;
+}
+async VISIT_REF_revalidate(): Promise<number> {
+var totalErrors = 0;
+await Promise.all([
+]).then((errorCounts) => {
+errorCounts.forEach((errorCount)=>{
+totalErrors+=errorCount;
+});
+});
+this.hTabGroups['FieldId_10'].tabs['VISIT_REF'].errorCount = totalErrors;
+return totalErrors;
+}
+async COLATTERAL_revalidate(): Promise<number> {
+var totalErrors = 0;
+await Promise.all([
+]).then((errorCounts) => {
+errorCounts.forEach((errorCount)=>{
+totalErrors+=errorCount;
+});
+});
+this.hTabGroups['FieldId_10'].tabs['COLATTERAL'].errorCount = totalErrors;
+return totalErrors;
+}
+async GO_NO_GO_revalidate(): Promise<number> {
+var totalErrors = 0;
+await Promise.all([
+]).then((errorCounts) => {
+errorCounts.forEach((errorCount)=>{
+totalErrors+=errorCount;
+});
+});
+this.hTabGroups['FieldId_10'].tabs['GO_NO_GO'].errorCount = totalErrors;
+return totalErrors;
+}
+async COMMENTS_TAB_revalidate(): Promise<number> {
+var totalErrors = 0;
+await Promise.all([
+this.FieldId_13.revalidate(),
+]).then((errorCounts) => {
+errorCounts.forEach((errorCount)=>{
+totalErrors+=errorCount;
+});
+});
+this.hTabGroups['FieldId_10'].tabs['COMMENTS_TAB'].errorCount = totalErrors;
+return totalErrors;
+}
+async FieldId_10_revalidate(): Promise<number> {
+var totalErrors = 0;
+await Promise.all([
+this.BORROWER_TAB_revalidate(),
+this.VISIT_REF_revalidate(),
+this.COLATTERAL_revalidate(),
+this.GO_NO_GO_revalidate(),
+this.COMMENTS_TAB_revalidate(),
+]).then((errorCounts) => {
+errorCounts.forEach((errorCount)=>{
+totalErrors+=errorCount;
+});
+});
+return totalErrors;
 }
 fieldDependencies = {
 }

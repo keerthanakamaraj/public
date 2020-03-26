@@ -15,7 +15,6 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { HeaderHandlerComponent } from '../Header/header-handler.component';
 
 const customCss: string = '';
 
@@ -41,7 +40,6 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 @ViewChild('LD_APP_PRPSE', {static: false}) LD_APP_PRPSE: ComboBoxComponent;
 @ViewChild('LD_SYS_RCMD_AMT', {static: false}) LD_SYS_RCMD_AMT: AmountComponent;
 @ViewChild('LD_USR_RCMD_AMT', {static: false}) LD_USR_RCMD_AMT: AmountComponent;
-@ViewChild('Handler', {static: false}) Handler: HeaderHandlerComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -128,8 +126,6 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 this.services.alert.showAlert(2, 'Failed to load header details!', -1);
 }
 );
-await this.Handler.onFormLoad({
-});
 this.setDependencies();
 }
 setInputs(param : any){

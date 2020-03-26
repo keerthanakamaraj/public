@@ -10,6 +10,7 @@ import { DDEComponent } from './DDE.component';
 import { HeaderModule } from '../Header/Header.module';
 import { FamilyDetailsFormModule } from '../FamilyDetailsForm/FamilyDetailsForm.module';
 import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.module';
+import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module';
 import { IncomeSummaryFormModule } from '../IncomeSummaryForm/IncomeSummaryForm.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { OtherDeductionFormModule } from '../OtherDeductionForm/OtherDeductionForm.module';
@@ -31,6 +32,7 @@ deps: [HttpClient]
 HeaderModule,
 FamilyDetailsFormModule,
 LiabilityDtlsFormModule,
+NotepadDetailsFormModule,
 IncomeSummaryFormModule,
 CustomerDtlsModule,
 OtherDeductionFormModule,

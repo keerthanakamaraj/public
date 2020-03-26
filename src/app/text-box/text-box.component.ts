@@ -17,9 +17,6 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
   @Input('minLength') minLength: number;
   @Input('DecimalLength') DecimalLength :number;
 
-  // RLO Additions
-  @Input('regex') regex :string;
-
   constructor(services : ServiceStock) {
     super(services);
   }
@@ -40,26 +37,6 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
       totalErrors+=this.onTextInput(value, event);
     }else{
       totalErrors+=this.onNumberInput(value, event);
-    }
-
-    // Validate Regular Expression
-    totalErrors+=this.validateRegEx(value, event);
-
-    return totalErrors;
-  }
-
-  validateRegEx(value, event){
-    var totalErrors: number = 0;
-    if(this.regex){
-      try {
-        var patt = new RegExp(this.regex);
-        if(!patt.test(value)){
-          this.setError("Invalid value.");
-          totalErrors ++;
-        }
-      } catch (e) {
-        console.error("Error validating Reg Ex ", e);
-      }
     }
     return totalErrors;
   }
@@ -90,7 +67,7 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
   }
 countDecimals(value) {
     if(Math.floor(value) === value) return 0;
-    return value.toString().split(".")[1].length || 0;
+    return value.toString().split(".")[1].length || 0; 
 }
 
   onTextInput(value: string, event?): number{

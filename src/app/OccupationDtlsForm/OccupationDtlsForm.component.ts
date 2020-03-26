@@ -16,7 +16,6 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { OccuptionDtlsGridComponent } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.component';
-import { OccupationHandlerComponent } from '../OccupationDtlsForm/occupation-handler.component';
 
 const customCss: string = '';
 
@@ -52,7 +51,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_SAVE_BTN', {static: false}) OD_SAVE_BTN: ButtonComponent;
 @ViewChild('OD_CLEAR_BTN', {static: false}) OD_CLEAR_BTN: ButtonComponent;
 @ViewChild('OCC_DTLS_GRID', {static: false}) OCC_DTLS_GRID: OccuptionDtlsGridComponent;
-@ViewChild('Handler', {static: false}) Handler: OccupationHandlerComponent;
 @ViewChild('HidOccupation', {static: false}) HidOccupation: HiddenComponent;
 @ViewChild('HidAppId', {static: false}) HidAppId: HiddenComponent;
 @ViewChild('HidIncomeDocType', {static: false}) HidIncomeDocType: HiddenComponent;
@@ -125,9 +123,6 @@ this.HidEmpType.setValue('EMPLOYMENT_TYPE');
 this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
 this.HidIncomeType.setValue('INCOME_TYPE');
 this.HidCurrency.setValue('CURRENCY');
-let inputMap = new Map();
-await this.Handler.onFormLoad({
-});
 this.setDependencies();
 }
 setInputs(param : any){

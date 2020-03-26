@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DDEComponent} from './DDE.component';
+import { DDEComponent } from './DDE.component';
 import { FieldComponent } from '../field/field.component';
 
 @Component({
@@ -9,16 +9,19 @@ import { FieldComponent } from '../field/field.component';
 })
 export class DDEHandlerComponent implements OnInit {
 	@Input() MainComponent: DDEComponent;
-	
-	  ngOnInit() {
+  
+  constructor() { }
+
+  ngOnInit() {
     // ngOnInit
   }
 
   // OnFormLoad
   onFormLoad(arg0: {}) {
     console.log("DDE .. On form load");
-    //this.MainComponent.CD_THIRD_NAME.setHidden(true);
+    // this.MainComponent.CD_THIRD_NAME.setHidden(true);
 	}
+ 
 
- }
+}
 
