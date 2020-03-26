@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { IncomeSummaryFormRoutingModule } from './IncomeSummaryForm-routing.module';
 import { IncomeSummaryFormComponent } from './IncomeSummaryForm.component';
+import { IncomeSummaryHandlerModule } from '../IncomeSummaryForm/incomesummary-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+IncomeSummaryHandlerModule,
 ],
 declarations: [
 IncomeSummaryFormComponent,

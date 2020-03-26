@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DDEComponent} from './DDE.component';
+import { FamilyDetailsFormComponent} from './FamilyDetailsForm.component';
 import { FieldComponent } from '../field/field.component';
 
 @Component({
-  selector: 'app-dde-handler',
+  selector: 'app-family-handler',
   template: `<div style="display:none;"></div>`,
   styles: []
 })
-export class DDEHandlerComponent implements OnInit {
-	@Input() MainComponent: DDEComponent;
+export class FamilyHandlerComponent implements OnInit {
+	@Input() MainComponent: FamilyDetailsFormComponent;
 	
 	  ngOnInit() {
     // ngOnInit
@@ -16,7 +16,7 @@ export class DDEHandlerComponent implements OnInit {
 
   // OnFormLoad
   onFormLoad(arg0: {}) {
-    console.log("DDE .. On form load");
+    console.log("family .. On form load");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
 	}
 

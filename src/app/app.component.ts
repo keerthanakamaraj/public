@@ -4,12 +4,13 @@ import { componentRoutes } from './route-mapping';
 import { PopupContentComponent } from './popup-content/popup-content.component';
 import { ServiceStock } from './service-stock.service';
 import { AlertsComponent } from './alerts/alerts.component';
+import { RlouiService } from './rlo-services/rloui.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-})  
+})
 export class AppComponent implements OnInit {
   @ViewChild('appAlerts', {static: false}) appAlerts: AlertsComponent;
 
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
     this.services.translate.use(language);
   }
 
-  constructor(public services: ServiceStock, private router: Router) {
+  constructor(public services: ServiceStock, private router: Router, private rloui: RlouiService) {
     for (var i = 0; i < componentRoutes.length; i++) {
       let route = componentRoutes[i];
       let path = route.path;
