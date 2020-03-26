@@ -87,5 +87,9 @@ export var componentRoutes: Routes = [
 		path: 'DDE',
 		loadChildren: 'src/app/DDE/DDE.module#DDEModule'
 	},
+	{
+		path: 'GoNoGo',
+		loadChildren: 'src/app/go-no-go/go-no-go.module#GoNoGoModule'
+	},
 ];
 export class AppRoutingModule { }
