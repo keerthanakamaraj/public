@@ -18,31 +18,35 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_FINANCIER_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_FINANCIER_NAME' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_FINANCIER_NAME' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-text-box #LD_FINANCIER_NAME fieldID="LD_FINANCIER_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('LD_FINANCIER_NAME', $event)"></app-text-box>
+<app-text-box #LD_FINANCIER_NAME fieldID="LD_FINANCIER_NAME" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('LD_FINANCIER_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_STATUS.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_STATUS' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_LOAN_STATUS' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-combo-box #LD_LOAN_STATUS category="2" fieldID="LD_LOAN_STATUS" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_STATUS', $event)"></app-combo-box>
+<app-combo-box #LD_LOAN_STATUS category="2" fieldID="LD_LOAN_STATUS" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('LD_LOAN_STATUS', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TYPE_OF_LOAN.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_TYPE_OF_LOAN' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_TYPE_OF_LOAN' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-combo-box #LD_TYPE_OF_LOAN category="2" fieldID="LD_TYPE_OF_LOAN" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TYPE_OF_LOAN', $event)"></app-combo-box>
+<app-combo-box #LD_TYPE_OF_LOAN category="2" fieldID="LD_TYPE_OF_LOAN" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('LD_TYPE_OF_LOAN', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-text-box #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-text-box>
+<app-text-box #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_CLOSURE_DATE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -54,24 +58,27 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_EMI.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-text-box #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-text-box>
+<app-text-box #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_INCLUDE_IN_DBR.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_INCLUDE_IN_DBR' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_INCLUDE_IN_DBR' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-combo-box #LD_INCLUDE_IN_DBR category="2" fieldID="LD_INCLUDE_IN_DBR" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_INCLUDE_IN_DBR', $event)"></app-combo-box>
+<app-combo-box #LD_INCLUDE_IN_DBR category="2" fieldID="LD_INCLUDE_IN_DBR" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('LD_INCLUDE_IN_DBR', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_OS_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount>
+<app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CURRENCY.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -90,9 +97,10 @@
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_EMI_FREQUENCY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_EMI_FREQUENCY' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_LOAN_EMI_FREQUENCY' | translate}}<span class="error-d">*</span>
+</label>
 </div>
-<app-combo-box #LD_LOAN_EMI_FREQUENCY category="2" fieldID="LD_LOAN_EMI_FREQUENCY" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_EMI_FREQUENCY', $event)"></app-combo-box>
+<app-combo-box #LD_LOAN_EMI_FREQUENCY category="2" fieldID="LD_LOAN_EMI_FREQUENCY" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('LD_LOAN_EMI_FREQUENCY', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="LD_SAVE.isHidden()">
@@ -101,9 +109,6 @@
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LIABILITY_GRID.isHidden()">
 <app-LiabilityDtlsGrid #LIABILITY_GRID fieldID="LIABILITY_GRID" [formCode]="formCode" (onModify)="LIABILITY_GRID_onModify($event)"></app-LiabilityDtlsGrid>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-liability-handler #Handler></app-liability-handler>
 </div>
 </div>
 <app-hidden #hideEmiFrequency fieldID="hideEmiFrequency"></app-hidden>

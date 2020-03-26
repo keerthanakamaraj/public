@@ -16,7 +16,6 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { LiabilityDtlsGridComponent } from '../LiabilityDtlsGrid/LiabilityDtlsGrid.component';
-import { LiabilityHandlerComponent } from '../LiabilityDtlsForm/liability-handler.component';
 
 const customCss: string = '';
 
@@ -38,7 +37,6 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
 @ViewChild('LD_LOAN_EMI_FREQUENCY', {static: false}) LD_LOAN_EMI_FREQUENCY: ComboBoxComponent;
 @ViewChild('LD_SAVE', {static: false}) LD_SAVE: ButtonComponent;
 @ViewChild('LIABILITY_GRID', {static: false}) LIABILITY_GRID: LiabilityDtlsGridComponent;
-@ViewChild('Handler', {static: false}) Handler: LiabilityHandlerComponent;
 @ViewChild('hideEmiFrequency', {static: false}) hideEmiFrequency: HiddenComponent;
 @ViewChild('hideTypeOfLoan', {static: false}) hideTypeOfLoan: HiddenComponent;
 @ViewChild('hiddenLiabilitySeq', {static: false}) hiddenLiabilitySeq: HiddenComponent;
@@ -88,8 +86,6 @@ this.hidLoanStatus.setValue('LOAN_STATUS');
 this.hideInculdeInDBR.setValue('Y/N');
 let inputMap = new Map();
 await this.LIABILITY_GRID.gridDataLoad({
-});
-await this.Handler.onFormLoad({
 });
 this.setDependencies();
 }

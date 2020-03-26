@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { HeaderRoutingModule } from './Header-routing.module';
 import { HeaderComponent } from './Header.component';
-import { HeaderHandlerModule } from '../Header/header-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -22,7 +21,6 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-HeaderHandlerModule,
 ],
 declarations: [
 HeaderComponent,

@@ -10,6 +10,7 @@ import { CustomerDtlsComponent } from './CustomerDtls.component';
 import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
 import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 import { CustomerDtlsGridModule } from '../CustomerDtlsGrid/CustomerDtlsGrid.module';
+//import { CustomerHandlerModule } from '../CustomerDtls/customer-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -27,6 +28,7 @@ deps: [HttpClient]
 AddressDetailsModule,
 OccupationDtlsFormModule,
 CustomerDtlsGridModule,
+//CustomerHandlerModule,
 ],
 declarations: [
 CustomerDtlsComponent,

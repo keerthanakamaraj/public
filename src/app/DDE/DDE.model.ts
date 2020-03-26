@@ -1,20 +1,22 @@
 export class DDEModel {
 FieldId_1 : any;
-FieldId_3 : any;
-FieldId_4 : any;
-FieldId_5 : any;
+CUST_DTLS : any;
+FAMILY_DTLS : any;
+FieldId_14 : any;
+FieldId_15 : any;
 FieldId_6 : any;
-FieldId_8 : any;
 FieldId_9 : any;
+FieldId_13 : any;
 setValue(res){
 if(res){
 if(res['FieldId_1']){this.FieldId_1 = res['FieldId_1'];}
-if(res['FieldId_3']){this.FieldId_3 = res['FieldId_3'];}
-if(res['FieldId_4']){this.FieldId_4 = res['FieldId_4'];}
-if(res['FieldId_5']){this.FieldId_5 = res['FieldId_5'];}
+if(res['CUST_DTLS']){this.CUST_DTLS = res['CUST_DTLS'];}
+if(res['FAMILY_DTLS']){this.FAMILY_DTLS = res['FAMILY_DTLS'];}
+if(res['FieldId_14']){this.FieldId_14 = res['FieldId_14'];}
+if(res['FieldId_15']){this.FieldId_15 = res['FieldId_15'];}
 if(res['FieldId_6']){this.FieldId_6 = res['FieldId_6'];}
-if(res['FieldId_8']){this.FieldId_8 = res['FieldId_8'];}
 if(res['FieldId_9']){this.FieldId_9 = res['FieldId_9'];}
+if(res['FieldId_13']){this.FieldId_13 = res['FieldId_13'];}
 }
 }
 }

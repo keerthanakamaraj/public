@@ -8,7 +8,6 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { OccupationDtlsFormRoutingModule } from './OccupationDtlsForm-routing.module';
 import { OccupationDtlsFormComponent } from './OccupationDtlsForm.component';
 import { OccuptionDtlsGridModule } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.module';
-import { OccupationHandlerModule } from '../OccupationDtlsForm/occupation-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -24,7 +23,6 @@ deps: [HttpClient]
 }
 }),
 OccuptionDtlsGridModule,
-OccupationHandlerModule,
 ],
 declarations: [
 OccupationDtlsFormComponent,
