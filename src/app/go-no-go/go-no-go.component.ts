@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
-import { response } from 'src/go-no-go.response';
 
 @Component({
   selector: 'app-go-no-go',
