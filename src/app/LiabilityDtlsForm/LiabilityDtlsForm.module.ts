@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { LiabilityDtlsFormRoutingModule } from './LiabilityDtlsForm-routing.module';
 import { LiabilityDtlsFormComponent } from './LiabilityDtlsForm.component';
 import { LiabilityDtlsGridModule } from '../LiabilityDtlsGrid/LiabilityDtlsGrid.module';
+import { LiabilityHandlerModule } from '../LiabilityDtlsForm/liability-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 LiabilityDtlsGridModule,
+LiabilityHandlerModule,
 ],
 declarations: [
 LiabilityDtlsFormComponent,

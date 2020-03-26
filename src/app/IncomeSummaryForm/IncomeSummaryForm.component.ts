@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { IncomeSummaryHandlerComponent } from '../IncomeSummaryForm/incomesummary-handler.component';
 
 const customCss: string = '';
 
@@ -28,6 +29,7 @@ export class IncomeSummaryFormComponent extends FormComponent implements OnInit,
 @ViewChild('IS_TOTAL_OBLIGATION', {static: false}) IS_TOTAL_OBLIGATION: AmountComponent;
 @ViewChild('IS_DBR', {static: false}) IS_DBR: AmountComponent;
 @ViewChild('IS_TOTAL_LIABILITY', {static: false}) IS_TOTAL_LIABILITY: TextBoxComponent;
+@ViewChild('Handler', {static: false}) Handler: IncomeSummaryHandlerComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -65,6 +67,9 @@ this.IS_TOTAL_OBLIGATION.setReadOnly(true);
 this.IS_DBR.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.IS_DBR.setReadOnly(true);
 this.IS_TOTAL_LIABILITY.setReadOnly(true);
+let inputMap = new Map();
+await this.Handler.onFormLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){

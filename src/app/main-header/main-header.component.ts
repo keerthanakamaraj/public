@@ -72,7 +72,8 @@ export class MainHeaderComponent implements OnInit {
   //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
   // ];
 
-  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
+  //this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
+  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]},
   //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
   //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
   //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
@@ -111,7 +112,7 @@ export class MainHeaderComponent implements OnInit {
     let keycloakInstance = this.keycloakService.getKeycloakInstance();
     keycloakInstance.clearToken();
     keycloakInstance.logout();
-    
+
     this.router.navigate(['/']);
   }
 

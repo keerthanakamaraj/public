@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DDEComponent} from './DDE.component';
+import { CustomerDtlsComponent} from './CustomerDtls.component';
 import { FieldComponent } from '../field/field.component';
 
 @Component({
-  selector: 'app-dde-handler',
+  selector: 'app-customer-handler',
   template: `<div style="display:none;"></div>`,
   styles: []
 })
-export class DDEHandlerComponent implements OnInit {
-	@Input() MainComponent: DDEComponent;
+export class CustomerHandlerComponent implements OnInit {
+	@Input() MainComponent: CustomerDtlsComponent;
 	
 	  ngOnInit() {
     // ngOnInit
@@ -16,7 +16,7 @@ export class DDEHandlerComponent implements OnInit {
 
   // OnFormLoad
   onFormLoad(arg0: {}) {
-    console.log("DDE .. On form load");
+    console.log("customer .. On form load");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
 	}
 

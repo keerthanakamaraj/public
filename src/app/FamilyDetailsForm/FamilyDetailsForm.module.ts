@@ -5,13 +5,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
 import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
-import { FamilyDetailsFormRoutingModule } from './FamilyDetailsForm-routing.module';
 import { FamilyDetailsFormComponent } from './FamilyDetailsForm.component';
 import { FamilyDetailsGridModule } from '../FamilyDetailsGrid/FamilyDetailsGrid.module';
+//import { FamilyDetailsFormRoutingModule } from 'src/app/date/FamilyDetailsForm-routing.module';
 @NgModule({
 imports: [
 CommonModule,
-FamilyDetailsFormRoutingModule,
+//FamilyDetailsFormRoutingModule,
 RAFormModule,
 FormsModule,
 HttpClientModule,
