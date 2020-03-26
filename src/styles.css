@@ -1025,3 +1025,44 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
   content: " *";
   color: red;
 }
+* Go No Go Component CSS Start */
+.go-no-go-header {
+    background-color: #47586f;
+    color: #ffffff;
+}
+
+.go-no-go-font {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.go-no-go-grid-row {
+    border-bottom: 1px solid #d9dcde;
+    height: 30px;
+    padding: 0px;
+}
+
+.go-no-go-save {
+    padding: .1rem 1rem;   
+}
+
+.go-no-go-text-area {
+    background-color: #fff;
+    border-radius: 3px ;
+    border: 1px solid #ccc;
+}
+
+.go-no-go-select {
+    font-size: 11px;
+}
+
+.go-no-go-table tr:nth-child(even) {
+    background-color: #f7f3f7;
+}
+
+.go-no-go-tb-cell {
+    color: #004d8a;
+}
+
+/* Go No Go Component CSS End */
