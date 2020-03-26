@@ -1025,7 +1025,7 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
   content: " *";
   color: red;
 }
-* Go No Go Component CSS Start */
+/* Go No Go Component CSS Start */
 .go-no-go-header {
     background-color: #47586f;
     color: #ffffff;
