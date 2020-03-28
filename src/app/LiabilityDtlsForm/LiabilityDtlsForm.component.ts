@@ -86,12 +86,8 @@ this.hideTypeOfLoan.setValue('PRODUCT_CATEGORY');
 this.hidAppId.setValue('RLO');
 this.hidLoanStatus.setValue('LOAN_STATUS');
 this.hideInculdeInDBR.setValue('Y/N');
-let inputMap = new Map();
-await this.LIABILITY_GRID.gridDataLoad({
-});
-await this.Handler.onFormLoad({
-});
 this.setDependencies();
+await this.Handler.onFormLoad({});
 }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);

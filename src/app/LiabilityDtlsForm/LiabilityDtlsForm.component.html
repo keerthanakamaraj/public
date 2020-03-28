@@ -1,4 +1,16 @@
 <form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
@@ -17,80 +29,91 @@
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_FINANCIER_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_FINANCIER_NAME' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_FINANCIER_NAME.mandatory}">
+{{ 'LiabilityDtlsForm.LD_FINANCIER_NAME' | translate}}
+</label>
 </div>
 <app-text-box #LD_FINANCIER_NAME fieldID="LD_FINANCIER_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('LD_FINANCIER_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_STATUS.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_STATUS' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_STATUS.mandatory}">
+{{ 'LiabilityDtlsForm.LD_LOAN_STATUS' | translate}}
+</label>
 </div>
 <app-combo-box #LD_LOAN_STATUS category="2" fieldID="LD_LOAN_STATUS" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_STATUS', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TYPE_OF_LOAN.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_TYPE_OF_LOAN' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_TYPE_OF_LOAN.mandatory}">
+{{ 'LiabilityDtlsForm.LD_TYPE_OF_LOAN' | translate}}
+</label>
 </div>
 <app-combo-box #LD_TYPE_OF_LOAN category="2" fieldID="LD_TYPE_OF_LOAN" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TYPE_OF_LOAN', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_AMOUNT.mandatory}">
+{{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}
+</label>
 </div>
 <app-text-box #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_CLOSURE_DATE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_CLOSURE_DATE' | translate}}</label>
+{{ 'LiabilityDtlsForm.LD_LOAN_CLOSURE_DATE' | translate}}
+</label>
 </div>
 <app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('LD_LOAN_CLOSURE_DATE', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_EMI.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_EMI.mandatory}">
+{{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}
+</label>
 </div>
 <app-text-box #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_INCLUDE_IN_DBR.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_INCLUDE_IN_DBR' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_INCLUDE_IN_DBR.mandatory}">
+{{ 'LiabilityDtlsForm.LD_INCLUDE_IN_DBR' | translate}}
+</label>
 </div>
 <app-combo-box #LD_INCLUDE_IN_DBR category="2" fieldID="LD_INCLUDE_IN_DBR" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_INCLUDE_IN_DBR', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_OS_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_OS_AMOUNT.mandatory}">
+{{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}
+</label>
 </div>
 <app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CURRENCY.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_CURRENCY' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_CURRENCY.mandatory}">
+{{ 'LiabilityDtlsForm.LD_CURRENCY' | translate}}
+</label>
 </div>
 <app-text-box #LD_CURRENCY fieldID="LD_CURRENCY" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('LD_CURRENCY', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EQUIVALENT_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_EQUIVALENT_AMOUNT' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_EQUIVALENT_AMOUNT.mandatory}">
+{{ 'LiabilityDtlsForm.LD_EQUIVALENT_AMOUNT' | translate}}
+</label>
 </div>
 <app-amount #LD_EQUIVALENT_AMOUNT fieldID="LD_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_EQUIVALENT_AMOUNT', $event)"></app-amount>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_EMI_FREQUENCY.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_EMI_FREQUENCY' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_EMI_FREQUENCY.mandatory}">
+{{ 'LiabilityDtlsForm.LD_LOAN_EMI_FREQUENCY' | translate}}
+</label>
 </div>
 <app-combo-box #LD_LOAN_EMI_FREQUENCY category="2" fieldID="LD_LOAN_EMI_FREQUENCY" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_EMI_FREQUENCY', $event)"></app-combo-box>
 </div>
@@ -103,7 +126,7 @@
 <app-LiabilityDtlsGrid #LIABILITY_GRID fieldID="LIABILITY_GRID" [formCode]="formCode" (onModify)="LIABILITY_GRID_onModify($event)"></app-LiabilityDtlsGrid>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-liability-handler #Handler></app-liability-handler>
+<app-liability-handler #Handler [MainComponent]="this"></app-liability-handler>
 </div>
 </div>
 <app-hidden #hideEmiFrequency fieldID="hideEmiFrequency"></app-hidden>

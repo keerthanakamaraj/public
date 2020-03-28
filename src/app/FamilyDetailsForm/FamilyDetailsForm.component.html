@@ -1,4 +1,16 @@
 <form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
@@ -15,87 +27,91 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_TITLE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_TITLE' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': FD_TITLE.mandatory}">
+{{ 'FamilyDetailsForm.FD_TITLE' | translate}}
 </label>
 </div>
-<app-text-box #FD_TITLE fieldID="FD_TITLE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_TITLE', $event)"></app-text-box>
+<app-text-box #FD_TITLE fieldID="FD_TITLE" [formCode]="formCode" (blur)="genericOnBlur('FD_TITLE', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_FIRST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_FIRST_NAME' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': FD_FIRST_NAME.mandatory}">
+{{ 'FamilyDetailsForm.FD_FIRST_NAME' | translate}}
 </label>
 </div>
-<app-text-box #FD_FIRST_NAME fieldID="FD_FIRST_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_FIRST_NAME', $event)"></app-text-box>
+<app-text-box #FD_FIRST_NAME fieldID="FD_FIRST_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('FD_FIRST_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_MIDDLE_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_MIDDLE_NAME' | translate}}<span class="error-d">*</span>
+{{ 'FamilyDetailsForm.FD_MIDDLE_NAME' | translate}}
 </label>
 </div>
-<app-text-box #FD_MIDDLE_NAME fieldID="FD_MIDDLE_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_MIDDLE_NAME', $event)"></app-text-box>
+<app-text-box #FD_MIDDLE_NAME fieldID="FD_MIDDLE_NAME" [formCode]="formCode" (blur)="genericOnBlur('FD_MIDDLE_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_LAST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_LAST_NAME' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory':FD_LAST_NAME.mandatory}">
+{{ 'FamilyDetailsForm.FD_LAST_NAME' | translate}}
 </label>
 </div>
-<app-text-box #FD_LAST_NAME fieldID="FD_LAST_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_LAST_NAME', $event)"></app-text-box>
+<app-text-box #FD_LAST_NAME fieldID="FD_LAST_NAME" [formCode]="formCode" (blur)="genericOnBlur('FD_LAST_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_FULL_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_FULL_NAME' | translate}}</label>
+{{ 'FamilyDetailsForm.FD_FULL_NAME' | translate}}
+</label>
 </div>
 <app-text-box #FD_FULL_NAME fieldID="FD_FULL_NAME" [formCode]="formCode" (blur)="genericOnBlur('FD_FULL_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_GENDER.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_GENDER' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': FD_GENDER.mandatory}">
+{{ 'FamilyDetailsForm.FD_GENDER' | translate}}
 </label>
 </div>
-<app-combo-box #FD_GENDER category="2" fieldID="FD_GENDER" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_GENDER', $event)"></app-combo-box>
+<app-combo-box #FD_GENDER category="2" fieldID="FD_GENDER" [formCode]="formCode" (blur)="genericOnBlur('FD_GENDER', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_DOB.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_DOB' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': FD_DOB.mandatory}">
+{{ 'FamilyDetailsForm.FD_DOB' | translate}}
 </label>
 </div>
-<app-date #FD_DOB fieldID="FD_DOB" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_DOB', $event)"></app-date>
+<app-date #FD_DOB fieldID="FD_DOB" [formCode]="formCode" (blur)="genericOnBlur('FD_DOB', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_MOBILE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_MOBILE' | translate}}</label>
+{{ 'FamilyDetailsForm.FD_MOBILE' | translate}}
+</label>
 </div>
 <app-text-box #FD_MOBILE inputType="number" fieldID="FD_MOBILE" [formCode]="formCode" (blur)="genericOnBlur('FD_MOBILE', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_RELATIONSHIP.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_RELATIONSHIP' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': FD_RELATIONSHIP.mandatory}">
+{{ 'FamilyDetailsForm.FD_RELATIONSHIP' | translate}}
 </label>
 </div>
-<app-combo-box #FD_RELATIONSHIP category="2" fieldID="FD_RELATIONSHIP" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('FD_RELATIONSHIP', $event)"></app-combo-box>
+<app-combo-box #FD_RELATIONSHIP category="2" fieldID="FD_RELATIONSHIP" [formCode]="formCode" (blur)="genericOnBlur('FD_RELATIONSHIP', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_NATIONAL_ID.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_NATIONAL_ID' | translate}}</label>
+<label class="clr-brown" >
+{{ 'FamilyDetailsForm.FD_NATIONAL_ID' | translate}}
+</label>
 </div>
 <app-text-box #FD_NATIONAL_ID fieldID="FD_NATIONAL_ID" [formCode]="formCode" (blur)="genericOnBlur('FD_NATIONAL_ID', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_TAX_ID.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'FamilyDetailsForm.FD_TAX_ID' | translate}}</label>
+<label class="clr-brown" [ngClass]="{'mandatory': FD_TAX_ID.mandatory}">
+{{ 'FamilyDetailsForm.FD_TAX_ID' | translate}}
+</label>
 </div>
 <app-text-box #FD_TAX_ID fieldID="FD_TAX_ID" [formCode]="formCode" (blur)="genericOnBlur('FD_TAX_ID', $event)"></app-text-box>
 </div>
@@ -105,6 +121,9 @@
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_18.isHidden()">
 <app-FamilyDetailsGrid #FieldId_18 fieldID="FieldId_18" [formCode]="formCode"></app-FamilyDetailsGrid>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-family-handler #Handler [MainComponent]="this"></app-family-handler>
 </div>
 </div>
 </div>
