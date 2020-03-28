@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CustDtlsGridComponent } from '../CustDtlsGrid/CustDtlsGrid.component';
 import { InitiationHandlerComponent } from '../Initiation/initiation-handler.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 
@@ -39,9 +40,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('BAD_SUB_PROD', {static: false}) BAD_SUB_PROD: ComboBoxComponent;
 @ViewChild('BAD_SCHEME', {static: false}) BAD_SCHEME: ComboBoxComponent;
 @ViewChild('BAD_PROMOTION', {static: false}) BAD_PROMOTION: ComboBoxComponent;
-@ViewChild('CD_CUST_TYPE', {static: false}) CD_CUST_TYPE: ComboBoxComponent;
-@ViewChild('CD_EXISTING_CUST', {static: false}) CD_EXISTING_CUST: ComboBoxComponent;
-@ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
+@ViewChild('CD_CUST_TYPE', {static: false}) CD_CUST_TYPE: RLOUIRadioComponent;
+@ViewChild('CD_EXISTING_CUST', {static: false}) CD_EXISTING_CUST: RLOUIRadioComponent;
+@ViewChild('CD_STAFF', {static: false}) CD_STAFF: RLOUIRadioComponent;
 @ViewChild('CD_CIF', {static: false}) CD_CIF: TextBoxComponent;
 @ViewChild('CD_CUSTOMER_ID', {static: false}) CD_CUSTOMER_ID: TextBoxComponent;
 @ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
@@ -345,6 +346,13 @@ await this.Handler.onCheckEligibilityClick({}
 );
 }
 async SUBMIT_MAIN_BTN_click(event){
+
+// console.log("Existing customer Radio Value ", this.CD_EXISTING_CUST.getFieldValue());
+this.CD_EXISTING_CUST.setValue("Y");
+
+return;
+
+
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());

@@ -1339,7 +1339,7 @@
     "CD_DOB": "Date Of Birth",
     "CD_RESET": "Reset",
     "BAD_SUB_PROD": "Sub Product",
-    "CD_STAFF": "Is the Customer a Smart Bank employee?",
+    "CD_STAFF": "Is the Customer an employee?",
     "LD_TENURE": "Tenure",
     "RD_REFERRER_NO": "Referrer Mobile Number",
     "SRC_MOBILE_NO": "Mobile No",
