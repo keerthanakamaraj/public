@@ -176,7 +176,7 @@ this.dependencyMap.clear();
 this.value = new AddressDetailsModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
-this.onFormLoad();
+this.onFormLoad()
 }
 async AD_SAVE_ADDRESS_click(event){
 let inputMap = new Map();

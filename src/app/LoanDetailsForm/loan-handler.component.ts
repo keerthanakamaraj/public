@@ -1,28 +1,28 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ApplicationDtlsComponent } from './ApplicationDtls.component';
+import { LoanDetailsFormComponent} from './LoanDetailsForm.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
 
 @Component({
-  selector: 'app-application-handler',
+  selector: 'app-loan-handler',
   template: `<div style="display:none;"></div>`,
   styles: []
 })
-export class ApplicationHandlerComponent extends RLOUIHandlerComponent implements OnInit {
-  @Input() MainComponent: ApplicationDtlsComponent;
-  formName : string = 'ApplicationDetails';
-  ngOnInit() {
+export class LoanHandlerComponent extends RLOUIHandlerComponent implements OnInit {
+	@Input() MainComponent: LoanDetailsFormComponent;
+  
+  formName : string = 'LoanDetails';
+	  ngOnInit() {
     // ngOnInit
   }
 
   // OnFormLoad
   onFormLoad(arg0: {}) {
-    console.log("Application on Form Load");
+    console.log("Loan .. On form load");
     super.onFormLoad({});
+   
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
 	}
-
-
 
  }
 

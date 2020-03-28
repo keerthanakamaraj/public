@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ChargeDtlsGridComponent } from '../ChargeDtlsGrid/ChargeDtlsGrid.component';
+import { ChargeHandlerComponent } from '../ChargeDtlsForm/charge-handler.component';
 
 const customCss: string = '';
 
@@ -41,6 +42,7 @@ export class ChargeDtlsFormComponent extends FormComponent implements OnInit, Af
 @ViewChild('CH_SAVE_BTN', {static: false}) CH_SAVE_BTN: ButtonComponent;
 @ViewChild('CH_CANCEL_BTN', {static: false}) CH_CANCEL_BTN: ButtonComponent;
 @ViewChild('CHARGE_DTLS_GRID', {static: false}) CHARGE_DTLS_GRID: ChargeDtlsGridComponent;
+@ViewChild('Handler', {static: false}) Handler: ChargeHandlerComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidChargeType', {static: false}) hidChargeType: HiddenComponent;
 @ViewChild('hidCurrency', {static: false}) hidCurrency: HiddenComponent;
@@ -98,10 +100,8 @@ this.hidRateCharge.setValue('RATE_CHARGE_ON');
 this.hidChargeCollection.setValue('CHARGE_COLL');
 this.hidPartyType.setValue('PARTY_TYPE');
 this.hidChargeBasis.setValue('CHARGE_BASIS');
-let inputMap = new Map();
-await this.CHARGE_DTLS_GRID.gridDataLoad({
-});
 this.setDependencies();
+await this.Handler.onFormLoad({});
 }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);

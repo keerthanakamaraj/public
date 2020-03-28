@@ -1,4 +1,16 @@
 <form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
@@ -15,116 +27,116 @@
 <div class="form-group pb10">
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_DESC.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_CHARGE_DESC' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': CH_CHARGE_DESC.mandatory}">
+{{ 'ChargeDtlsForm.CH_CHARGE_DESC' | translate}}
 </label>
 </div>
-<app-combo-box #CH_CHARGE_DESC category="2" fieldID="CH_CHARGE_DESC" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_DESC', $event)"></app-combo-box>
+<app-combo-box #CH_CHARGE_DESC category="2" fieldID="CH_CHARGE_DESC" [formCode]="formCode" (blur)="genericOnBlur('CH_CHARGE_DESC', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_CHARGE_TYPE' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': CH_CHARGE_TYPE.mandatory}">
+{{ 'ChargeDtlsForm.CH_CHARGE_TYPE' | translate}}
 </label>
 </div>
-<app-combo-box #CH_CHARGE_TYPE category="2" fieldID="CH_CHARGE_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_TYPE', $event)"></app-combo-box>
+<app-combo-box #CH_CHARGE_TYPE category="2" fieldID="CH_CHARGE_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_CHARGE_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PARTY_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_PARTY_TYPE' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': CH_PARTY_TYPE.mandatory}">
+{{ 'ChargeDtlsForm.CH_PARTY_TYPE' | translate}}
 </label>
 </div>
-<app-combo-box #CH_PARTY_TYPE category="2" fieldID="CH_PARTY_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_PARTY_TYPE', $event)"></app-combo-box>
+<app-combo-box #CH_PARTY_TYPE category="2" fieldID="CH_PARTY_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_PARTY_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PARTY_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_PARTY_NAME' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': CH_PARTY_NAME.mandatory}">
+{{ 'ChargeDtlsForm.CH_PARTY_NAME' | translate}}
 </label>
 </div>
-<app-combo-box #CH_PARTY_NAME category="2" fieldID="CH_PARTY_NAME" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_PARTY_NAME', $event)"></app-combo-box>
+<app-combo-box #CH_PARTY_NAME category="2" fieldID="CH_PARTY_NAME" [formCode]="formCode" (blur)="genericOnBlur('CH_PARTY_NAME', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CURRENCY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_CURRENCY' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_CURRENCY' | translate}}
 </label>
 </div>
-<app-combo-box #CH_CURRENCY category="2" fieldID="CH_CURRENCY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_CURRENCY', $event)"></app-combo-box>
+<app-combo-box #CH_CURRENCY category="2" fieldID="CH_CURRENCY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_CURRENCY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_BASIS.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_CHARGE_BASIS' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': CH_CHARGE_BASIS.mandatory}">
+{{ 'ChargeDtlsForm.CH_CHARGE_BASIS' | translate}}
 </label>
 </div>
-<app-combo-box #CH_CHARGE_BASIS category="2" fieldID="CH_CHARGE_BASIS" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_BASIS', $event)"></app-combo-box>
+<app-combo-box #CH_CHARGE_BASIS category="2" fieldID="CH_CHARGE_BASIS" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_CHARGE_BASIS', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_RATE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_CHARGE_RATE' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_CHARGE_RATE' | translate}}
 </label>
 </div>
-<app-text-box #CH_CHARGE_RATE inputType="number" fieldID="CH_CHARGE_RATE" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_RATE', $event)"></app-text-box>
+<app-text-box #CH_CHARGE_RATE inputType="number" fieldID="CH_CHARGE_RATE" [formCode]="formCode" (blur)="genericOnBlur('CH_CHARGE_RATE', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_CHARGE_AMT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_CHARGE_AMT' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_CHARGE_AMT' | translate}}
 </label>
 </div>
-<app-amount #CH_CHARGE_AMT fieldID="CH_CHARGE_AMT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_CHARGE_AMT', $event)"></app-amount>
+<app-amount #CH_CHARGE_AMT fieldID="CH_CHARGE_AMT" [formCode]="formCode" (blur)="genericOnBlur('CH_CHARGE_AMT', $event)"></app-amount>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PERIODIC_CHARGE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_PERIODIC_CHARGE' | translate}}<span class="error-d">*</span>
+<label class="clr-brown" [ngClass]="{'mandatory': CH_PERIODIC_CHARGE.mandatory}">
+{{ 'ChargeDtlsForm.CH_PERIODIC_CHARGE' | translate}}
 </label>
 </div>
-<app-combo-box #CH_PERIODIC_CHARGE category="2" fieldID="CH_PERIODIC_CHARGE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_PERIODIC_CHARGE', $event)"></app-combo-box>
+<app-combo-box #CH_PERIODIC_CHARGE category="2" fieldID="CH_PERIODIC_CHARGE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_PERIODIC_CHARGE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PRD_ST_DT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_PRD_ST_DT' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_PRD_ST_DT' | translate}}
 </label>
 </div>
-<app-date #CH_PRD_ST_DT fieldID="CH_PRD_ST_DT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_PRD_ST_DT', $event)"></app-date>
+<app-date #CH_PRD_ST_DT fieldID="CH_PRD_ST_DT" [formCode]="formCode" (blur)="genericOnBlur('CH_PRD_ST_DT', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PRD_END_DT.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_PRD_END_DT' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_PRD_END_DT' | translate}}
 </label>
 </div>
-<app-date #CH_PRD_END_DT fieldID="CH_PRD_END_DT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('CH_PRD_END_DT', $event)"></app-date>
+<app-date #CH_PRD_END_DT fieldID="CH_PRD_END_DT" [formCode]="formCode" (blur)="genericOnBlur('CH_PRD_END_DT', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_FREQ.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_FREQ' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_FREQ' | translate}}
 </label>
 </div>
-<app-combo-box #CH_FREQ category="2" fieldID="CH_FREQ" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_FREQ', $event)"></app-combo-box>
+<app-combo-box #CH_FREQ category="2" fieldID="CH_FREQ" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_FREQ', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_RT_CH_ON.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_RT_CH_ON' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_RT_CH_ON' | translate}}
 </label>
 </div>
-<app-combo-box #CH_RT_CH_ON category="2" fieldID="CH_RT_CH_ON" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_RT_CH_ON', $event)"></app-combo-box>
+<app-combo-box #CH_RT_CH_ON category="2" fieldID="CH_RT_CH_ON" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_RT_CH_ON', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_COLL.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'ChargeDtlsForm.CH_COLL' | translate}}<span class="error-d">*</span>
+{{ 'ChargeDtlsForm.CH_COLL' | translate}}
 </label>
 </div>
-<app-combo-box #CH_COLL category="2" fieldID="CH_COLL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('CH_COLL', $event)"></app-combo-box>
+<app-combo-box #CH_COLL category="2" fieldID="CH_COLL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CH_COLL', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CH_SAVE_BTN.isHidden()">
 <app-button #CH_SAVE_BTN fieldName="{{ 'ChargeDtlsForm.CH_SAVE_BTN' | translate}}" fieldID="CH_SAVE_BTN" [formCode]="formCode" (buttonClick)="CH_SAVE_BTN_click($event)"></app-button>
@@ -134,6 +146,9 @@
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CHARGE_DTLS_GRID.isHidden()">
 <app-ChargeDtlsGrid #CHARGE_DTLS_GRID fieldID="CHARGE_DTLS_GRID" [formCode]="formCode" [displayTitle]="false" (chargeDtlsEdit)="CHARGE_DTLS_GRID_chargeDtlsEdit($event)"></app-ChargeDtlsGrid>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+    <app-charge-handler #Handler [MainComponent]="this"></app-charge-handler>
 </div>
 </div>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
