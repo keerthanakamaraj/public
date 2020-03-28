@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
+import { FamilyHandlerComponent } from '../FamilyDetailsForm/family-handler.component';
 
 const customCss: string = '';
 
@@ -37,6 +38,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
 @ViewChild('FD_TAX_ID', {static: false}) FD_TAX_ID: TextBoxComponent;
 @ViewChild('FD_SAVE_BTN', {static: false}) FD_SAVE_BTN: ButtonComponent;
 @ViewChild('FieldId_18', {static: false}) FieldId_18: FamilyDetailsGridComponent;
+@ViewChild('Handler', {static: false}) Handler: FamilyHandlerComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -70,9 +72,11 @@ setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
+
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.FD_FULL_NAME.setReadOnly(true);
+//this.FD_FULL_NAME.setReadOnly(true);
 this.setDependencies();
+await this.Handler.onFormLoad({});
 }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { ChargeDtlsFormRoutingModule } from './ChargeDtlsForm-routing.module';
 import { ChargeDtlsFormComponent } from './ChargeDtlsForm.component';
 import { ChargeDtlsGridModule } from '../ChargeDtlsGrid/ChargeDtlsGrid.module';
+import { ChargeHandlerModule } from '../ChargeDtlsForm/charge-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 ChargeDtlsGridModule,
+ChargeHandlerModule,
 ],
 declarations: [
 ChargeDtlsFormComponent,

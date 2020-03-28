@@ -1588,5 +1588,29 @@
     "ND_COMMENT_CAT": "Comment Category",
     "FieldId_7": "null",
     "ND_COMMENTS": "Comments"
-  }
+  },
+  "ChargeDtlsForm" : {
+	"CH_CHARGE_BASIS" : "Charge Basis",
+	"CH_PARTY_NAME" : "Party Name",
+	"CH_PRD_END_DT" : "Periodic End Date",
+	"CH_SAVE_BTN" : "Save",
+	"FormTitle" : "Form for charge details",
+	"CH_PRD_ST_DT" : "Periodic Start Date",
+	"CH_FREQ" : "Frequency",
+	"Handler" : "null",
+	"CH_CHARGE_DESC" : "Charge Description",
+	"CH_PARTY_TYPE" : "Party Type",
+	"CH_PERIODIC_CHARGE" : "Periodic Charge",
+	"CH_CURRENCY" : "Currency",
+	"CH_CHARGE_AMT" : "Charge Amount",
+	"CH_RT_CH_ON" : "Rate Charge On",
+	"CH_CHARGE_TYPE" : "Charge Type",
+	"CH_COLL" : "Charge Collection",
+	"CH_CANCEL_BTN" : "Cancel",
+	"CHARGE_DTLS_GRID" : "null",
+	"CH_CHARGE_RATE" : "Charge Rate"
+	}
+
 }
+
+

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { LoanDetailsFormRoutingModule } from './LoanDetailsForm-routing.module';
 import { LoanDetailsFormComponent } from './LoanDetailsForm.component';
+import { LoanHandlerModule } from '../LoanDetailsForm/loan-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+LoanHandlerModule,
 ],
 declarations: [
 LoanDetailsFormComponent,

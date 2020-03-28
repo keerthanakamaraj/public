@@ -126,8 +126,7 @@ this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
 this.HidIncomeType.setValue('INCOME_TYPE');
 this.HidCurrency.setValue('CURRENCY');
 let inputMap = new Map();
-await this.Handler.onFormLoad({
-});
+ await this.Handler.onFormLoad({});
 this.setDependencies();
 }
 setInputs(param : any){
