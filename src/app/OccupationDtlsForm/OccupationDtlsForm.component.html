@@ -10,7 +10,7 @@
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_OCCUPATION.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory':OD_OCCUPATION.mandatory}">
 {{ 'OccupationDtlsForm.OD_OCCUPATION' | translate}}</label>
 </div>
 <app-combo-box #OD_OCCUPATION category="2" fieldID="OD_OCCUPATION" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_OCCUPATION', $event)"></app-combo-box>
@@ -73,7 +73,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INDUSTRY.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory':OD_INDUSTRY.mandatory}">
 {{ 'OccupationDtlsForm.OD_INDUSTRY' | translate}}</label>
 </div>
 <app-combo-box #OD_INDUSTRY category="2" fieldID="OD_INDUSTRY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INDUSTRY', $event)"></app-combo-box>
@@ -116,14 +116,14 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INC_DOC_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': OD_INC_DOC_TYPE.mandatory}">
 {{ 'OccupationDtlsForm.OD_INC_DOC_TYPE' | translate}}</label>
 </div>
 <app-combo-box #OD_INC_DOC_TYPE category="2" fieldID="OD_INC_DOC_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
 {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
 </div>
 <app-text-box #OD_NET_INCOME inputType="number" fieldID="OD_NET_INCOME" [formCode]="formCode" (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-text-box>
@@ -145,7 +145,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': OD_INCOME_TYPE.mandatory}">
 {{ 'OccupationDtlsForm.OD_INCOME_TYPE' | translate}}</label>
 </div>
 <app-combo-box #OD_INCOME_TYPE category="2" fieldID="OD_INCOME_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_TYPE', $event)"></app-combo-box>
@@ -167,14 +167,14 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_CURRENCY.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': OD_CURRENCY.mandatory}">
 {{ 'OccupationDtlsForm.OD_CURRENCY' | translate}}</label>
 </div>
 <app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_CURRENCY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LOC_CURR_EQ.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': OD_LOC_CURR_EQ.mandatory}">
 {{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}</label>
 </div>
 <app-text-box #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-text-box>
@@ -189,7 +189,7 @@
 <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode" (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"></app-OccuptionDtlsGrid>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-occupation-handler #Handler></app-occupation-handler>
+    <app-occupation-handler #Handler [MainComponent]="this"></app-occupation-handler>    
 </div>
 </div>
 <app-hidden #HidOccupation fieldID="HidOccupation"></app-hidden>
