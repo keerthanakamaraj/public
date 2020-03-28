@@ -1,0 +1,26 @@
+
+.rlo-ui-radio-container {
+  box-sizing: border-box;
+  height: 42px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background-color: #FAFAFA;
+  line-height: 18px;
+  font-size: 13px;
+}
+
+.rlo-ui-radio-container span {
+  margin-left: 10px;
+  height: 18px;
+}
+
+.rlo-ui-radio-container div {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 24px;
+}
+
+.rlo-ui-radio-container input[type="radio"] {
+  width: 16px;
+  height: 16px;
+}

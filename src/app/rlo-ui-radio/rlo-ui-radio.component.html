@@ -1,0 +1,23 @@
+<div style="width:100%">
+  
+  <div class="rlo-ui-radio-container">
+
+    <!-- <select [attr.id]="fieldID" (change)="onChange($event.target.value)" [name]="fieldID" (focus)="onFocus()"
+      (blur)="onBlur()" [disabled]="readOnly" class="form-control {{customClass}}" [ngClass]="{'error' : error}">
+
+      <ng-container *ngFor="let opt of dropDownOptions.Options; let first = first;">
+        <option [value]="opt.id" [disabled]="first && (value===undefined)" [selected]="value==opt.id">{{opt.text}}
+        </option>
+      </ng-container>
+
+    </select> -->
+
+    <ng-container *ngFor="let opt of dropDownOptions.Options;" >
+      <div class="radio-item">
+        <input type="radio" [value]="opt.id" [name]="fieldID" [disabled]="readOnly" [checked]="value==opt.id" (change)="onChange($event.target.value)"><span>{{opt.text}}</span>
+      </div>
+    </ng-container>
+
+  </div>
+  <span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+</div>
