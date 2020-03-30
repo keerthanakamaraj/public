@@ -31,15 +31,21 @@ export class RLOUIHandlerComponent implements OnInit {
 
     var formFields = this.rloui.getFormFields(this.formName);
 
+    console.log("field ", formFields.length);
+
     formFields.forEach(field => {
-      // console.log("field ", field);
+      console.log("field ", field);
       if(this.MainComponent[field["ID"]]){ // Check if field is available in form - ignore if not
         if(field["M"] && field["M"] == "1") { // Set Mandatory - Currently not checking type
           this.MainComponent[field["ID"]].mandatory = true;
         }
 
-        if(field["D"] && field["D"] == "1") { // Set Mandatory - Currently not checking type
+        if(field["D"] && field["D"] == "1") { // Set Readonly - Currently not checking type
           this.MainComponent[field["ID"]].setReadOnly(true);
+        }
+
+        if(field["H"] && field["H"] == "1") { // Set Hidden - Currently not checking type
+          this.MainComponent[field["ID"]].setHidden(true);
         }
 
         if(field["V"]) { // Check Validations
