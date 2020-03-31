@@ -108,18 +108,18 @@ inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(th
 this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.HD_PROD_CAT.setValue(res['ApplicationDetails']['ProductCategory']);
-this.HD_PROD.setValue(res['ApplicationDetails']['Product']);
-this.HD_SUB_PROD.setValue(res['ApplicationDetails']['SubProduct']);
-this.HD_SCHEME.setValue(res['ApplicationDetails']['Scheme']);
-this.HD_PROMOTION.setValue(res['ApplicationDetails']['Promotion']);
-this.LD_LOAN_AMT.setValue(res['LoanDetails']['LoanAmount']);
-this.LD_INTEREST_RATE.setValue(res['LoanDetails']['InterestRate']);
-this.LD_TENURE.setValue(res['LoanDetails']['Tenure']);
-this.LD_TENURE_PERIOD.setValue(res['LoanDetails']['TenurePeriod']);
-this.LD_APP_PRPSE.setValue(res['LoanDetails']['ApplicationPurpose']);
-this.LD_SYS_RCMD_AMT.setValue(res['LoanDetails']['SystemRecommendedAmount']);
-this.LD_USR_RCMD_AMT.setValue(res['LoanDetails']['UserRecommendedAmount']);
+this.HD_PROD_CAT.setValue(res['Header']['ProductCategory']);
+this.HD_PROD.setValue(res['Header']['Product']);
+this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
+this.HD_SCHEME.setValue(res['Header']['Scheme']);
+this.HD_PROMOTION.setValue(res['Header']['Promotion']);
+this.LD_LOAN_AMT.setValue(res['Header']['LoanAmount']);
+this.LD_INTEREST_RATE.setValue(res['Header']['InterestRate']);
+this.LD_TENURE.setValue(res['Header']['Tenure']);
+this.LD_TENURE_PERIOD.setValue(res['Header']['TenurePeriod']);
+this.LD_APP_PRPSE.setValue(res['Header']['ApplicationPurpose']);
+this.LD_SYS_RCMD_AMT.setValue(res['Header']['SystemRecommendedAmount']);
+this.LD_USR_RCMD_AMT.setValue(res['Header']['UserRecommendedAmount']);
 },
 async (httpError)=>{
 var err = httpError['error']
