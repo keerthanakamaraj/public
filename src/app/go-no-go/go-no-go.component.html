@@ -9,7 +9,6 @@
             <th>Level</th>
             <th>Result</th>
             <th>Remarks</th>
-            <th>Save</th>
         </tr>
     </thead>
     <tbody class="go-no-go-tb-cell">
@@ -26,8 +25,7 @@
                         </option>
                     </select>
                 </td>
-                <td><textarea class="go-no-go-text-area" rows="1">{{ question.Remarks }}</textarea></td>
-                <td><button class="btn btn-small go-no-go-save" (click)="persistData($event)">Save</button></td>
+                <td><textarea class="go-no-go-text-area" rows="1" >{{ question.Remarks }}</textarea></td>
             </tr>
         </ng-container>
     </tbody>
@@ -35,10 +33,11 @@
         <tr>
             <td></td>
             <td></td>
-            <td></td>
-            <td align="left">No Rows To Show</td>
+            <td align="middle">No Rows To Show</td>
             <td></td>
             <td></td>
         </tr>
     </ng-template>
 </table>
+
+<button class="btn btn-default" (click)="persistData($event)">Save</button>

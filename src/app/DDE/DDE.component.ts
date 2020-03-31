@@ -64,7 +64,7 @@ constructor(services: ServiceStock){
 super(services);
 this.value = new DDEModel();
 this.componentCode = 'DDE';
-this.initHTabGroup('FieldId_10', ['BORROWER_TAB','VISIT_REF','COLATTERAL','GO_NO_GO','COMMENTS_TAB',], 'BORROWER_TAB', 1);
+this.initHTabGroup('FieldId_10', ['BORROWER_TAB','VISIT_REF','COLATTERAL','GO_NO_GO','COMMENTS_TAB',], 'GO_NO_GO', 1);
 }
 setReadOnly(readOnly){
 super.setBasicFieldsReadOnly(readOnly);
@@ -80,7 +80,7 @@ this.FieldId_13.setReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.openHTab('FieldId_10', 'BORROWER_TAB');
+this.openHTab('FieldId_10', 'GO_NO_GO');
 this.setDependencies();
 }
 setInputs(param : any){
