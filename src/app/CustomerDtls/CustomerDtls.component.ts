@@ -492,6 +492,12 @@ await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': event.BorrowerSeq,
 });
 }
+async loadCustDtlsGrid(event){
+  let inputMap = new Map();
+  await this.CUST_DTLS_GRID.gridDataLoad({
+  'custSeqToGrid': event.custSeq,
+  });
+  }
 fieldDependencies = {
 CD_STAFF: {
 inDep: [
