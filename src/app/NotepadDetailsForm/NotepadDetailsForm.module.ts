@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { NotepadDetailsFormRoutingModule } from './NotepadDetailsForm-routing.module';
 import { NotepadDetailsFormComponent } from './NotepadDetailsForm.component';
 import { NotepadDetailsGridModule } from '../NotepadDetailsGrid/NotepadDetailsGrid.module';
+import { NotepadHandlerModule } from '../NotepadDetailsForm/notepad-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 NotepadDetailsGridModule,
+NotepadHandlerModule,
 ],
 declarations: [
 NotepadDetailsFormComponent,

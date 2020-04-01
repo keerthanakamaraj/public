@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { NotepadDetailsGridComponent } from '../NotepadDetailsGrid/NotepadDetailsGrid.component';
+import { NotepadHandlerComponent } from '../NotepadDetailsForm/notepad-handler.component';
 
 const customCss: string = '';
 
@@ -29,6 +30,9 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
 @ViewChild('ND_SAVE', {static: false}) ND_SAVE: ButtonComponent;
 @ViewChild('ND_CLEAR', {static: false}) ND_CLEAR: ButtonComponent;
 @ViewChild('FieldId_7', {static: false}) FieldId_7: NotepadDetailsGridComponent;
+@ViewChild('Handler', {static: false}) Handler: NotepadHandlerComponent;
+@ViewChild('hiddenAppId', {static: false}) hiddenAppId: HiddenComponent;
+@ViewChild('hiddenKey', {static: false}) hiddenKey: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -54,6 +58,13 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.hiddenAppId.setValue('RLO');
+this.hiddenKey.setValue('NOTEPAD_COMMENT');
+let inputMap = new Map();
+await this.Handler.onFormLoad({
+});
+await this.FieldId_7.gridDataLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -77,7 +88,6 @@ return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
-this.FieldId_7.setValue(inputValue['FieldId_7']);
 this.value = new NotepadDetailsFormModel();
 this.value.setValue(inputValue);
 this.setDependencies();
@@ -125,7 +135,44 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
+async ND_SAVE_click(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
+inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
+this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Record Saved Successfully!', 5000);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'NotepadDetails.Comments'){
+this.ND_COMMENTS.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'NotepadDetails.CommentCategory'){
+this.ND_COMMENT_CAT.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Failed to save data', -1);
+}
+);
+}
+async ND_CLEAR_click(event){
+let inputMap = new Map();
+this.onReset();
+}
 fieldDependencies = {
+ND_COMMENT_CAT: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "ND_COMMENT_CAT", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hiddenKey", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hiddenAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
 }
 
 }
