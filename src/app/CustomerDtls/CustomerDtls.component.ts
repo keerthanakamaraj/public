@@ -28,33 +28,35 @@ templateUrl: './CustomerDtls.component.html'
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
 @ViewChild('CD_CUST_TYPE', {static: false}) CD_CUST_TYPE: ComboBoxComponent;
+@ViewChild('CD_EXISTING_CUST', {static: false}) CD_EXISTING_CUST: ComboBoxComponent;
 @ViewChild('CD_STAFF', {static: false}) CD_STAFF: ComboBoxComponent;
 @ViewChild('CD_CIF', {static: false}) CD_CIF: TextBoxComponent;
 @ViewChild('CD_STAFF_ID', {static: false}) CD_STAFF_ID: TextBoxComponent;
 @ViewChild('CD_CUST_ID', {static: false}) CD_CUST_ID: TextBoxComponent;
 @ViewChild('CD_TITLE', {static: false}) CD_TITLE: ComboBoxComponent;
 @ViewChild('CD_FIRST_NAME', {static: false}) CD_FIRST_NAME: TextBoxComponent;
-@ViewChild('CD_LAST_NAME', {static: false}) CD_LAST_NAME: TextBoxComponent;
 @ViewChild('CD_MIDDLE_NAME', {static: false}) CD_MIDDLE_NAME: TextBoxComponent;
+@ViewChild('CD_THIRD_NAME', {static: false}) CD_THIRD_NAME: TextBoxComponent;
+@ViewChild('CD_LAST_NAME', {static: false}) CD_LAST_NAME: TextBoxComponent;
 @ViewChild('CD_FULL_NAME', {static: false}) CD_FULL_NAME: TextBoxComponent;
 @ViewChild('CD_GENDER', {static: false}) CD_GENDER: ComboBoxComponent;
-@ViewChild('CD_MOBILE_NO', {static: false}) CD_MOBILE_NO: TextBoxComponent;
 @ViewChild('CD_DOB', {static: false}) CD_DOB: DateComponent;
-@ViewChild('CD_TAX_ID', {static: false}) CD_TAX_ID: TextBoxComponent;
-@ViewChild('CD_DEBIT_SCORE', {static: false}) CD_DEBIT_SCORE: TextBoxComponent;
-@ViewChild('CD_LOAN_OWN', {static: false}) CD_LOAN_OWN: TextBoxComponent;
-@ViewChild('CD_CUST_SEGMENT', {static: false}) CD_CUST_SEGMENT: ComboBoxComponent;
-@ViewChild('CD_PRIME_USAGE', {static: false}) CD_PRIME_USAGE: TextBoxComponent;
-@ViewChild('CD_PMRY_EMBSR_NAME', {static: false}) CD_PMRY_EMBSR_NAME: TextBoxComponent;
-@ViewChild('CD_CITIZENSHIP', {static: false}) CD_CITIZENSHIP: TextBoxComponent;
-@ViewChild('CD_VISA_VALID', {static: false}) CD_VISA_VALID: DateComponent;
-@ViewChild('CD_NATIONALITY', {static: false}) CD_NATIONALITY: ComboBoxComponent;
 @ViewChild('CD_MARITAL_STATUS', {static: false}) CD_MARITAL_STATUS: ComboBoxComponent;
-@ViewChild('CD_PASSPORT_NO', {static: false}) CD_PASSPORT_NO: TextBoxComponent;
+@ViewChild('CD_MOBILE_NO', {static: false}) CD_MOBILE_NO: TextBoxComponent;
+@ViewChild('CD_NATIONALITY', {static: false}) CD_NATIONALITY: ComboBoxComponent;
+@ViewChild('CD_CITIZENSHIP', {static: false}) CD_CITIZENSHIP: TextBoxComponent;
 @ViewChild('CD_PASSPORT_EXPIRY', {static: false}) CD_PASSPORT_EXPIRY: DateComponent;
-@ViewChild('CD_NATIONAL_ID', {static: false}) CD_NATIONAL_ID: TextBoxComponent;
+@ViewChild('CD_PASSPORT_NO', {static: false}) CD_PASSPORT_NO: TextBoxComponent;
+@ViewChild('CD_VISA_VALID', {static: false}) CD_VISA_VALID: DateComponent;
 @ViewChild('CD_DRIVING_LICENSE', {static: false}) CD_DRIVING_LICENSE: TextBoxComponent;
 @ViewChild('CD_DRVNG_LCNSE_EXP_DT', {static: false}) CD_DRVNG_LCNSE_EXP_DT: DateComponent;
+@ViewChild('CD_TAX_ID', {static: false}) CD_TAX_ID: TextBoxComponent;
+@ViewChild('CD_DEBIT_SCORE', {static: false}) CD_DEBIT_SCORE: TextBoxComponent;
+@ViewChild('CD_NATIONAL_ID', {static: false}) CD_NATIONAL_ID: TextBoxComponent;
+@ViewChild('CD_CUST_SEGMENT', {static: false}) CD_CUST_SEGMENT: ComboBoxComponent;
+@ViewChild('CD_LOAN_OWN', {static: false}) CD_LOAN_OWN: TextBoxComponent;
+@ViewChild('CD_PRIME_USAGE', {static: false}) CD_PRIME_USAGE: TextBoxComponent;
+@ViewChild('CD_PMRY_EMBSR_NAME', {static: false}) CD_PMRY_EMBSR_NAME: TextBoxComponent;
 @ViewChild('CD_PREF_LANG', {static: false}) CD_PREF_LANG: ComboBoxComponent;
 @ViewChild('CD_PREF_COM_CH', {static: false}) CD_PREF_COM_CH: ComboBoxComponent;
 @ViewChild('CD_SAVE_BTN', {static: false}) CD_SAVE_BTN: ButtonComponent;
@@ -64,51 +66,54 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('FieldId_29', {static: false}) FieldId_29: AddressDetailsComponent;
 @ViewChild('FieldId_30', {static: false}) FieldId_30: OccupationDtlsFormComponent;
 @ViewChild('Handler', {static: false}) Handler: CustomerHandlerComponent;
+@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
-@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
 @ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
+@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
 @ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
+@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
-@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
+
 await Promise.all([
 this.revalidateBasicField('CD_CUST_TYPE'),
+this.revalidateBasicField('CD_EXISTING_CUST'),
 this.revalidateBasicField('CD_STAFF'),
 this.revalidateBasicField('CD_CIF'),
 this.revalidateBasicField('CD_STAFF_ID'),
 this.revalidateBasicField('CD_CUST_ID'),
 this.revalidateBasicField('CD_TITLE'),
 this.revalidateBasicField('CD_FIRST_NAME'),
-this.revalidateBasicField('CD_LAST_NAME'),
 this.revalidateBasicField('CD_MIDDLE_NAME'),
+this.revalidateBasicField('CD_THIRD_NAME'),
+this.revalidateBasicField('CD_LAST_NAME'),
 this.revalidateBasicField('CD_FULL_NAME'),
 this.revalidateBasicField('CD_GENDER'),
-this.revalidateBasicField('CD_MOBILE_NO'),
 this.revalidateBasicField('CD_DOB'),
-this.revalidateBasicField('CD_TAX_ID'),
-this.revalidateBasicField('CD_DEBIT_SCORE'),
-this.revalidateBasicField('CD_LOAN_OWN'),
-this.revalidateBasicField('CD_CUST_SEGMENT'),
-this.revalidateBasicField('CD_PRIME_USAGE'),
-this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
-this.revalidateBasicField('CD_CITIZENSHIP'),
-this.revalidateBasicField('CD_VISA_VALID'),
-this.revalidateBasicField('CD_NATIONALITY'),
 this.revalidateBasicField('CD_MARITAL_STATUS'),
-this.revalidateBasicField('CD_PASSPORT_NO'),
+this.revalidateBasicField('CD_MOBILE_NO'),
+this.revalidateBasicField('CD_NATIONALITY'),
+this.revalidateBasicField('CD_CITIZENSHIP'),
 this.revalidateBasicField('CD_PASSPORT_EXPIRY'),
-this.revalidateBasicField('CD_NATIONAL_ID'),
+this.revalidateBasicField('CD_PASSPORT_NO'),
+this.revalidateBasicField('CD_VISA_VALID'),
 this.revalidateBasicField('CD_DRIVING_LICENSE'),
 this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT'),
+this.revalidateBasicField('CD_TAX_ID'),
+this.revalidateBasicField('CD_DEBIT_SCORE'),
+this.revalidateBasicField('CD_NATIONAL_ID'),
+this.revalidateBasicField('CD_CUST_SEGMENT'),
+this.revalidateBasicField('CD_LOAN_OWN'),
+this.revalidateBasicField('CD_PRIME_USAGE'),
+this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
 this.revalidateBasicField('CD_PREF_LANG'),
-this.revalidateBasicField('CD_PREF_COM_CH'),
-this.FieldId_29.revalidate(),
-this.FieldId_30.revalidate(),
+this.revalidateBasicField('CD_PREF_COM_CH')
+// this.FieldId_29.revalidate(),
+// this.FieldId_30.revalidate(),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -131,18 +136,25 @@ this.FieldId_30.setReadOnly(readOnly);
 async onFormLoad(){
     await this.Handler.onFormLoad({
     });
+   
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.CD_FULL_NAME.setReadOnly(true);
 this.hidAppId.setValue('RLO');
 this.hidCusSgmt.setValue('CUST_SEGMENT');
-this.hidStaff.setValue('Y/N');
 this.hidGender.setValue('GENDER');
-this.hidNationality.setValue('NATIONALITY');
 this.hidMaritalStatus.setValue('MARITAL_STATUS');
+this.hidNationality.setValue('NATIONALITY');
 this.hidPrefCommCh.setValue('PREF_COMM_CH');
+this.hidStaff.setValue('Y/N');
 this.hidTitle.setValue('TITLE');
 this.setDependencies();
 }
+async loadCustDtlsGrid(event){
+    let inputMap = new Map();
+    await this.CUST_DTLS_GRID.gridDataLoad({
+    'custSeqToGrid': event.custSeq,
+    });
+    }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);
 if(params['mode']){
@@ -225,9 +237,32 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
+
+  async CD_FIRST_NAME_blur(event){
+    let inputMap = new Map();
+    await this.Handler.updateFullName({
+    });
+    }
+    async CD_MIDDLE_NAME_blur(event){
+    let inputMap = new Map();
+    await this.Handler.updateFullName({
+    });
+    }
+    async CD_THIRD_NAME_blur(event){
+    let inputMap = new Map();
+    await this.Handler.updateFullName({
+    });
+    }
+    async CD_LAST_NAME_blur(event){
+    let inputMap = new Map();
+    await this.Handler.updateFullName({
+    });
+    }
 async CD_SAVE_BTN_click(event){
 let inputMap = new Map();
-if(this.HidCustomerId.getFieldValue() != undefined){
+    var NoOfError:number = await this.revalidate();
+    if(NoOfError == 0){
+        if(this.HidCustomerId.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
@@ -443,6 +478,11 @@ this.services.alert.showAlert(2, 'Something went wrong', -1);
 }
 );
 }
+    }
+    else{
+      this.services.alert.showAlert(3, 'Please field all the details', -1);
+    }
+
 }
 async CUST_DTLS_GRID_custDtlsEdit(event){
 let inputMap = new Map();
@@ -492,12 +532,7 @@ await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': event.BorrowerSeq,
 });
 }
-async loadCustDtlsGrid(event){
-  let inputMap = new Map();
-  await this.CUST_DTLS_GRID.gridDataLoad({
-  'custSeqToGrid': event.custSeq,
-  });
-  }
+
 fieldDependencies = {
 CD_STAFF: {
 inDep: [
@@ -526,12 +561,12 @@ inDep: [
 ],
 outDep: [
 ]},
-CD_CUST_SEGMENT: {
+CD_MARITAL_STATUS: {
 inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType:"PathParam"},
+{paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType:"PathParam"},
 {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType:"QueryParam"},
 ],
 outDep: [
 ]},
@@ -544,12 +579,12 @@ inDep: [
 ],
 outDep: [
 ]},
-CD_MARITAL_STATUS: {
+CD_CUST_SEGMENT: {
 inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType:"PathParam"},
+{paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType:"PathParam"},
 {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType:"QueryParam"},
 ],
 outDep: [
 ]},
@@ -563,5 +598,8 @@ inDep: [
 outDep: [
 ]},
 }
+
+
+
 
 }

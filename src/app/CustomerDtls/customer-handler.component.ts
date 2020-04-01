@@ -19,8 +19,27 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   onFormLoad(arg0: {}) {
     console.log("customer .. On form load");
     super.onFormLoad({});
+    this.MainComponent.CD_THIRD_NAME.setHidden(true);
     // this.MainComponent.CD_THIRD_NAME.setHidden(true);
-	}
+  }
+  
+  updateFullName(arg0: {}) {
+    let fullName = "";
+    if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
+      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue() + " ";
+    }
+    if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
+      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue() + " ";
+    }
+    if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
+      fullName = fullName + " " + this.MainComponent.CD_THIRD_NAME.getFieldValue() + " ";
+    }
+    if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
+      fullName = fullName + " " + this.MainComponent.CD_LAST_NAME.getFieldValue() + " ";
+    }
+    fullName.trim();
+    this.MainComponent.CD_FULL_NAME.setValue(fullName);
+  }
 
  }
 
