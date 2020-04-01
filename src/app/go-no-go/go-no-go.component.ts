@@ -33,10 +33,10 @@ export class GoNoGoComponent implements OnInit {
       this.apiResponse['MstQuestionnaireDtls'].map((element) => {
         let tempAnsSeq: String = null;
 
-        element['MstQuestionnaireAns'].forEach(answer => {
+        element['MstQuestionnaireAns'].some(answer => {
           tempAnsSeq = this.answerCollection.find(answers => answers.split('-')[0] === answer.AnswerSeq);
-          if(tempAnsSeq)
-            return false;
+          if(tempAnsSeq != undefined)
+            return answer.AnswerSeq == tempAnsSeq.split('-')[0];
         });
 
         if (tempAnsSeq != null && tempAnsSeq != undefined) {
