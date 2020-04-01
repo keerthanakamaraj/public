@@ -517,6 +517,8 @@ inDep: [
 {paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType:"QueryParam"},
 ],
 outDep: [
+
+{paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE"},
 ]},
 BAD_PROMOTION: {
 inDep: [

@@ -160,7 +160,7 @@
                           </div>
                           <app-combo-box #BAD_SCHEME category="2" fieldID="BAD_SCHEME" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstSchemeDetails/{SchemeCd}"
-                            domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)">
+                            doServerUrl="/masters" domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)">
                           </app-combo-box>
                         </div>
                       </div>
