@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter, Injectable } from '@angular/core';
 import { trigger, state, style, animate, transition, group } from '@angular/animations';
+import { errorMap } from '../providehttp.service';
 
 @Component({
   selector: 'app-alerts',
@@ -53,12 +54,12 @@ export class AlertsComponent implements OnInit {
 
     switch (alertType) {
       case 1:
-        tempObj.alertMsg = ((alertMsg == "" || alertMsg == undefined) ? "Success" : alertMsg);
+        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "Success" : alertMsg);
         tempObj.alertIconClass = "fa-check-circle";
         tempObj.textColor = "#38d038";
         break;
       case 2:
-        tempObj.alertMsg = ((alertMsg == "" || alertMsg == undefined) ? "Failed" : alertMsg);
+        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "Failed" : alertMsg);
         tempObj.alertIconClass = "fa-times-circle";
         tempObj.textColor = "#ec1919";
         break;
@@ -75,6 +76,10 @@ export class AlertsComponent implements OnInit {
     }
 
     return tempObj;
+  }
+
+  getAlertMessage(alertMsg: string) : string {
+    return errorMap[alertMsg];
   }
 
 
