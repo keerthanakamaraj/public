@@ -106,6 +106,7 @@ this.hidResType.setValue('RESIDENCE_TYPE');
 this.hidMailingAddress.setValue('Y/N');
 this.hidResDurType.setValue('PERIOD');
 let inputMap = new Map();
+await this.AddressGrid.gridDataLoad({});
 await this.Handler.onFormLoad({
 });
 this.setDependencies();

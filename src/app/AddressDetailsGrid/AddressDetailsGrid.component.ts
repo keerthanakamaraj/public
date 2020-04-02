@@ -220,10 +220,10 @@ var loopVar10 = res['AddressDetails'];
 if (loopVar10) {
 for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
-tempObj['AD_ADD_ID'] = loopVar10[i].Body.AddressDetailsSeq;
-tempObj['AD_Address_Type'] = loopVar10[i].Body.AddressType;
-tempObj['AD_Address'] = loopVar10[i].Body.AddressLine1;
-tempObj['AD_Residence_Duration'] = loopVar10[i].Body.PeriodCurrentResidenceYrs;
+tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
+tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
+tempObj['AD_Address'] = loopVar10[i].AddressLine1;
+tempObj['AD_Residence_Duration'] = loopVar10[i].PeriodCurrentResidenceYrs;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);

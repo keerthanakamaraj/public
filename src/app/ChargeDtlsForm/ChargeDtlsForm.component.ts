@@ -101,6 +101,7 @@ this.hidChargeCollection.setValue('CHARGE_COLL');
 this.hidPartyType.setValue('PARTY_TYPE');
 this.hidChargeBasis.setValue('CHARGE_BASIS');
 this.setDependencies();
+await this.CHARGE_DTLS_GRID.gridDataLoad({});
 await this.Handler.onFormLoad({});
 }
 setInputs(param : any){
