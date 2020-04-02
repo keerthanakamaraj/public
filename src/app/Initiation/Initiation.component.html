@@ -178,7 +178,7 @@
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PROMOTION.isHidden()">
                           <app-combo-box #BAD_PROMOTION category="2" fieldID="BAD_PROMOTION" [formCode]="formCode"
                             placeholder="Select" valueAlign="center"
-                            domainObjectUrl="/MstPromotionDetails/{PromotionCd}" domainObjectCode="MstPromotionDetails"
+                            domainObjectUrl="/MstPromotionDetails/{PromotionCd}" doServerUrl="/masters" domainObjectCode="MstPromotionDetails"
                             (blur)="genericOnBlur('BAD_PROMOTION', $event)">
                           </app-combo-box>
                         </div>

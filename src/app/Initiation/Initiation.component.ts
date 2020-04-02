@@ -528,6 +528,8 @@ inDep: [
 {paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType:"QueryParam"},
 ],
 outDep: [
+
+{paramKey: "MstPromotionDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE"},
 ]},
 CD_CUST_TYPE: {
 inDep: [
