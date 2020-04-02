@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { DeductionHandlerComponent } from '../OtherDeductionForm/deduction-handler.component';
 
 const customCss: string = '';
 
@@ -29,6 +30,7 @@ export class OtherDeductionFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_CURRENCY', {static: false}) OD_CURRENCY: ComboBoxComponent;
 @ViewChild('OD_Equivalent_Amt', {static: false}) OD_Equivalent_Amt: AmountComponent;
 @ViewChild('OD_SAVE', {static: false}) OD_SAVE: ButtonComponent;
+@ViewChild('Handler', {static: false}) Handler: DeductionHandlerComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -60,6 +62,7 @@ this.setInputs(this.services.dataStore.getData(this.services.routing.currModal))
 this.OD_Amount.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.OD_Equivalent_Amt.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.setDependencies();
+await this.Handler.onFormLoad({});
 }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);

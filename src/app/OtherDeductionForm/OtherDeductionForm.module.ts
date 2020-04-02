@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { OtherDeductionFormRoutingModule } from './OtherDeductionForm-routing.module';
 import { OtherDeductionFormComponent } from './OtherDeductionForm.component';
+import { DeductionHandlerModule } from '../OtherDeductionForm/deduction-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+DeductionHandlerModule,
 ],
 declarations: [
 OtherDeductionFormComponent,

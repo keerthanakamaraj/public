@@ -149,12 +149,7 @@ this.hidStaff.setValue('Y/N');
 this.hidTitle.setValue('TITLE');
 this.setDependencies();
 }
-async loadCustDtlsGrid(event){
-    let inputMap = new Map();
-    await this.CUST_DTLS_GRID.gridDataLoad({
-    'custSeqToGrid': event.custSeq,
-    });
-    }
+
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);
 if(params['mode']){
@@ -532,7 +527,12 @@ await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': event.BorrowerSeq,
 });
 }
-
+async loadCustDtlsGrid(event){
+    let inputMap = new Map();
+    await this.CUST_DTLS_GRID.gridDataLoad({
+    'custSeqToGrid': event.custSeq,
+    });
+    }
 fieldDependencies = {
 CD_STAFF: {
 inDep: [

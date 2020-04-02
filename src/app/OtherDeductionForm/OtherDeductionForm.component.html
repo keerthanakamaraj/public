@@ -1,4 +1,16 @@
 <form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-5 col-md-5">
@@ -19,46 +31,49 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OD_OBILGATION_HEAD.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OtherDeductionForm.OD_OBILGATION_HEAD' | translate}}<span class="error-d">*</span>
+{{ 'OtherDeductionForm.OD_OBILGATION_HEAD' | translate}}
 </label>
 </div>
-<app-combo-box #OD_OBILGATION_HEAD category="2" fieldID="OD_OBILGATION_HEAD" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_OBILGATION_HEAD', $event)"></app-combo-box>
+<app-combo-box #OD_OBILGATION_HEAD category="2" fieldID="OD_OBILGATION_HEAD" [formCode]="formCode" (blur)="genericOnBlur('OD_OBILGATION_HEAD', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OD_OBLIGATION_FREQUENCY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OtherDeductionForm.OD_OBLIGATION_FREQUENCY' | translate}}<span class="error-d">*</span>
+{{ 'OtherDeductionForm.OD_OBLIGATION_FREQUENCY' | translate}}
 </label>
 </div>
-<app-combo-box #OD_OBLIGATION_FREQUENCY category="2" fieldID="OD_OBLIGATION_FREQUENCY" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_OBLIGATION_FREQUENCY', $event)"></app-combo-box>
+<app-combo-box #OD_OBLIGATION_FREQUENCY category="2" fieldID="OD_OBLIGATION_FREQUENCY" [formCode]="formCode" (blur)="genericOnBlur('OD_OBLIGATION_FREQUENCY', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OD_Amount.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OtherDeductionForm.OD_Amount' | translate}}<span class="error-d">*</span>
+{{ 'OtherDeductionForm.OD_Amount' | translate}}
 </label>
 </div>
-<app-amount #OD_Amount fieldID="OD_Amount" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_Amount', $event)"></app-amount>
+<app-amount #OD_Amount fieldID="OD_Amount" [formCode]="formCode" (blur)="genericOnBlur('OD_Amount', $event)"></app-amount>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OD_CURRENCY.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OtherDeductionForm.OD_CURRENCY' | translate}}<span class="error-d">*</span>
+{{ 'OtherDeductionForm.OD_CURRENCY' | translate}}
 </label>
 </div>
-<app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_CURRENCY', $event)"></app-combo-box>
+<app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" (blur)="genericOnBlur('OD_CURRENCY', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OD_Equivalent_Amt.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'OtherDeductionForm.OD_Equivalent_Amt' | translate}}<span class="error-d">*</span>
+{{ 'OtherDeductionForm.OD_Equivalent_Amt' | translate}}
 </label>
 </div>
-<app-amount #OD_Equivalent_Amt fieldID="OD_Equivalent_Amt" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('OD_Equivalent_Amt', $event)"></app-amount>
+<app-amount #OD_Equivalent_Amt fieldID="OD_Equivalent_Amt" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('OD_Equivalent_Amt', $event)"></app-amount>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE.isHidden()">
 <app-button #OD_SAVE fieldName="{{ 'OtherDeductionForm.OD_SAVE' | translate}}" fieldID="OD_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="OD_SAVE_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-deduction-handler #Handler [MainComponent]="this"></app-deduction-handler>
 </div>
 </div>
 </div>

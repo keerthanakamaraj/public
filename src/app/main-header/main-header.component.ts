@@ -73,7 +73,7 @@ export class MainHeaderComponent implements OnInit {
   // ];
 
   //this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
-  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]},
+  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' },{ id: 'DDE', text: 'DDE' }]},
   //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
   //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
   //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },

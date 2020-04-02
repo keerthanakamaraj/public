@@ -86,11 +86,6 @@ this.hideAssetType.setValue('ASSET_TYPE');
 this.hideIncludeInDBR.setValue('Y/N');
 this.hideName.setValue('NAME');
 this.hideOwnedBy.setValue('OWNED_BY');
-let inputMap = new Map();
-await this.AssetDetailsGrid.gridDataLoad({
-});
-await this.Handler.onFormLoad({
-});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -163,6 +158,11 @@ this.onFormLoad();
 }
 async AT_SAVE_click(event){
 let inputMap = new Map();
+var numberOfErrors:number = await this.revalidate();
+if(numberOfErrors==0){
+}
+else{
+}
 if(this.ASSET_ID.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('PathParam.AssetSeq', this.ASSET_ID.getFieldValue());
