@@ -218,9 +218,7 @@ let inputMap = new Map();
 let sliderVal:any = event.sliderVal;
 if(sliderVal){
 inputMap.clear();
-
-inputMap.set('PathParam.userid','Vishal');
-
+inputMap.set('PathParam.userid',sessionStorage.getItem('userId'));
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
