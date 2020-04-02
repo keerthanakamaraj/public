@@ -109,7 +109,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LAST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" >
 {{ 'CustomerDtls.CD_LAST_NAME' | translate}}
 </label>
 </div>
@@ -118,7 +118,7 @@
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_FULL_NAME.mandatory}">
 {{ 'CustomerDtls.CD_FULL_NAME' | translate}}
 </label>
 </div>
@@ -135,7 +135,7 @@
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
 {{ 'CustomerDtls.CD_DOB' | translate}}
 </label>
 </div>
@@ -162,7 +162,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_NATIONALITY.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_NATIONALITY.mandatory}"> 
 {{ 'CustomerDtls.CD_NATIONALITY' | translate}}
 </label>
 </div>
@@ -170,7 +170,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CITIZENSHIP.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_CITIZENSHIP.mandatory}">
 {{ 'CustomerDtls.CD_CITIZENSHIP' | translate}}
 </label>
 </div>
@@ -221,7 +221,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TAX_ID.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_TAX_ID.mandatory}">
 {{ 'CustomerDtls.CD_TAX_ID' | translate}}
 </label>
 </div>
