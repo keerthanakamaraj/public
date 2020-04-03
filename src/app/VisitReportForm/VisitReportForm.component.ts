@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { VisitReportGridComponent } from '../VisitReportGrid/VisitReportGrid.component';
+import { VisitReportHandlerComponent } from '../VisitReportForm/visitreport-handler.component';
 
 const customCss: string = '';
 
@@ -39,6 +40,14 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 @ViewChild('VRF_Save', {static: false}) VRF_Save: ButtonComponent;
 @ViewChild('VRF_Reset', {static: false}) VRF_Reset: ButtonComponent;
 @ViewChild('Visit_Report_Grid', {static: false}) Visit_Report_Grid: VisitReportGridComponent;
+@ViewChild('Handler', {static: false}) Handler: VisitReportHandlerComponent;
+@ViewChild('HidAnyObservation', {static: false}) HidAnyObservation: HiddenComponent;
+@ViewChild('HidAppid', {static: false}) HidAppid: HiddenComponent;
+@ViewChild('HidAttachPhoto', {static: false}) HidAttachPhoto: HiddenComponent;
+@ViewChild('HidOfficialBusGroup', {static: false}) HidOfficialBusGroup: HiddenComponent;
+@ViewChild('HidOfficialId', {static: false}) HidOfficialId: HiddenComponent;
+@ViewChild('HidOfficialName', {static: false}) HidOfficialName: HiddenComponent;
+@ViewChild('HidReportType', {static: false}) HidReportType: HiddenComponent;
 @ViewChild('HidVisitReportSeqId', {static: false}) HidVisitReportSeqId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
@@ -75,9 +84,19 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.HidAnyObservation.setValue('YES_NO');
+this.HidAppid.setValue('RLO');
+this.HidAttachPhoto.setValue('YES_NO');
+this.HidOfficialBusGroup.setValue('OFFICIAL_BUSINESS_GROUP');
+this.HidOfficialId.setValue('OFFICIAL_ID');
+this.HidOfficialName.setValue('OFFICIAL_NAME');
+this.HidReportType.setValue('REPORT_TYPE');
 let inputMap = new Map();
 await this.Visit_Report_Grid.gridDataLoad({
+    'VisitReportSeqToGrid' :222,
 });
+// await this.Handler.onFormLoad({
+// });
 this.setDependencies();
 }
 setInputs(param : any){
@@ -316,6 +335,60 @@ this.hideSpinner();
 );
 }
 fieldDependencies = {
+VRF_ReportType: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "VRF_ReportType", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidReportType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+VRF_OfficialName: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "VRF_OfficialName", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "HidOfficialName", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+],
+outDep: [
+]},
+VRF_OfficialId: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "VRF_OfficialId", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidOfficialId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+VRF_OfficialBusinessGroup: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "VRF_OfficialBusinessGroup", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidOfficialBusGroup", paramType:"QueryParam"},
+],
+outDep: [
+]},
+VRF_Photograph: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "VRF_Photograph", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidAttachPhoto", paramType:"QueryParam"},
+],
+outDep: [
+]},
+VRF_AdverseObservation: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "VRF_AdverseObservation", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidAnyObservation", paramType:"QueryParam"},
+],
+outDep: [
+]},
 }
 
 }
