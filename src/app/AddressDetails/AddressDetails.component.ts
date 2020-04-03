@@ -50,12 +50,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 @ViewChild('AD_CLEAR_BTN', {static: false}) AD_CLEAR_BTN: ButtonComponent;
 @ViewChild('AddressGrid', {static: false}) AddressGrid: AddressDetailsGridComponent;
 @ViewChild('Handler', {static: false}) Handler: AddressHandlerComponent;
-@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
+@ViewChild('AD_HIDE_ID', {static: false}) AD_HIDE_ID: HiddenComponent;
 @ViewChild('hidAddType', {static: false}) hidAddType: HiddenComponent;
-@ViewChild('hidResType', {static: false}) hidResType: HiddenComponent;
+@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidMailingAddress', {static: false}) hidMailingAddress: HiddenComponent;
 @ViewChild('hidResDurType', {static: false}) hidResDurType: HiddenComponent;
-@ViewChild('AD_HIDE_ID', {static: false}) AD_HIDE_ID: HiddenComponent;
+@ViewChild('hidResType', {static: false}) hidResType: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -100,15 +100,15 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.hidAppId.setValue('RLO');
 this.hidAddType.setValue('ADDRESS_TYPE');
-this.hidResType.setValue('RESIDENCE_TYPE');
+this.hidAppId.setValue('RLO');
 this.hidMailingAddress.setValue('Y/N');
 this.hidResDurType.setValue('PERIOD');
+this.hidResType.setValue('RESIDENCE_TYPE');
 let inputMap = new Map();
-await this.AddressGrid.gridDataLoad({});
 await this.Handler.onFormLoad({
 });
+//await this.AddressGrid.gridDataLoad({});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -181,6 +181,8 @@ this.onFormLoad()
 }
 async AD_SAVE_ADDRESS_click(event){
 let inputMap = new Map();
+var noOfError:number = await this.revalidate();
+if(noOfError ==0){
 if(this.AD_HIDE_ID.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
@@ -362,10 +364,13 @@ this.services.alert.showAlert(3, 'Failed to save address details', 5000);
 );
 }
 }
+}
+
 async AD_CLEAR_BTN_click(event){
-let inputMap = new Map();
-let durationType:any = this.AD_RES_DUR_UNIT.getFieldValue();
-console.log('durationType', durationType);}
+    let inputMap = new Map();
+    let durationType:any = this.AD_RES_DUR_UNIT.getFieldValue();
+    console.log('durationType', durationType);
+    }
 async AddressGrid_emitAddressDetails(event){
 let inputMap = new Map();
 this.showSpinner();
