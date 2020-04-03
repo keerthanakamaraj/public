@@ -97,6 +97,7 @@ isColumnHidden(columnId) {
 return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 }
 ngOnInit(): void {
+this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
 var styleElement = document.createElement('style');
 styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
@@ -109,14 +110,71 @@ this.unsubscribe$.complete();
 var styleElement = document.getElementById('NotepadDetailsGrid_customCss');
 styleElement.parentNode.removeChild(styleElement);
 }
-setValue(rowData) {
-this.readonlyGrid.setRowData(rowData);
+gridDataLoad(formInputs) {
+this.readonlyGrid.setFormInputs(formInputs);
+}
+refreshGrid(){
+this.readonlyGrid.refreshGrid();
 }
 setHidden(value: boolean){
 this.hidden = value;
 }
 isHidden(){
 return this.hidden;
+}
+async gridDataAPI(params, gridReqMap: Map<string, any>, event){
+let inputMap = new Map();
+inputMap.clear();
+if(gridReqMap.get("FilterCriteria")){
+var obj = gridReqMap.get("FilterCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "ND_SR_NO":obj[i].columnName =  "NotepadSeq";break;
+case "ND_COMMENTS":obj[i].columnName =  "Comments";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+if(gridReqMap.get("OrderCriteria")){
+var obj = gridReqMap.get("OrderCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "ND_SR_NO":obj[i].columnName =  "NotepadSeq";break;
+case "ND_COMMENTS":obj[i].columnName =  "Comments";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+this.services.http.fetchApi('/NotepadDetails', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+var loopDataVar4 = [];
+var loopVar4 = res['NotepadDetails'];
+if (loopVar4) {
+for (var i = 0; i < loopVar4.length; i++) {
+var tempObj = {};
+tempObj['ND_SR_NO'] = loopVar4[i].NotepadSeq;
+tempObj['ND_COMMENTS'] = loopVar4[i].Comments;
+loopDataVar4.push(tempObj);}
+}
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Failed to load grid!', -1);
+}
+);
+
+}
+loadSpinner=false;
+showSpinner(){
+this.loadSpinner=true;
+}
+hideSpinner(){
+this.loadSpinner=false;
 }
 
 }

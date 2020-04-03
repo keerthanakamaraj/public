@@ -200,7 +200,7 @@ cellRendererParams: {
 gridCode: 'VisitReportGrid',
 columnId: 'VR_Modify',
 Type: '1',
-onClick: this.VR_Modify_click.bind(this)
+onClick: this.VR_Modify_click.bind(this),
 },
 },
 {
@@ -215,7 +215,7 @@ cellRendererParams: {
 gridCode: 'VisitReportGrid',
 columnId: 'VR_Delete',
 Type: '1',
-onClick: this.VR_Delete_click.bind(this)
+onClick: this.VR_Delete_click.bind(this),
 },
 },
 ];
@@ -275,7 +275,23 @@ return this.hidden;
 }
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
 let inputMap = new Map();
+//if(VisitReportId){
 inputMap.clear();
+let VisitReportId:any = event.VisitReportSeqToGrid;
+let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
+if(VisitReportId){
+criteriaJson.FilterCriteria.push({
+	"columnName": "ApplicationId",
+	"columnType": "String",
+	"conditions": {
+		"searchType": "equals",
+		"searchText": VisitReportId
+	}
+});
+inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+
+}
+
 if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
@@ -318,25 +334,25 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/VisitReportDetails', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar4 = [];
-var loopVar4 = res['VisitReportDetails'];
-if (loopVar4) {
-for (var i = 0; i < loopVar4.length; i++) {
+var loopDataVar10 = [];
+var loopVar10 = res['VisitReportDetails'];
+if (loopVar10) {
+for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
-tempObj['VR_Type'] = loopVar4[i].ReportType;
-tempObj['VR_DateofVisit'] = loopVar4[i].DateOfVisit;
-tempObj['VR_AddressOfVisit'] = loopVar4[i].AddressOfVisit;
-tempObj['VR_OfficialName'] = loopVar4[i].OfficialName;
-tempObj['VR_NameOfPersonMet'] = loopVar4[i].PersonMet;
-tempObj['VR_Designation'] = loopVar4[i].PersonMetDesgn;
-tempObj['VR_OficialBusiGroup'] = loopVar4[i].OfficialBusiGroup;
-tempObj['VR_PlaceOfVisit'] = loopVar4[i].PlaceOfVisit;
-tempObj['VR_Photograph'] = loopVar4[i].PhotoTaken;
-tempObj['VR_Observation'] = loopVar4[i].AdverseObservations;
-tempObj['HidVisitReportId'] = loopVar4[i].VisitReportSeq;
-loopDataVar4.push(tempObj);}
+tempObj['VR_Type'] = loopVar10[i].ReportType;
+tempObj['VR_DateofVisit'] = loopVar10[i].DateOfVisit;
+tempObj['VR_AddressOfVisit'] = loopVar10[i].AddressOfVisit;
+tempObj['VR_OfficialName'] = loopVar10[i].OfficialName;
+tempObj['VR_NameOfPersonMet'] = loopVar10[i].PersonMet;
+tempObj['VR_Designation'] = loopVar10[i].PersonMetDesgn;
+tempObj['VR_OficialBusiGroup'] = loopVar10[i].OfficialBusiGroup;
+tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceOfVisit;
+tempObj['VR_Photograph'] = loopVar10[i].PhotoTaken;
+tempObj['VR_Observation'] = loopVar10[i].AdverseObservations;
+tempObj['HidVisitReportId'] = loopVar10[i].VisitReportSeq;
+loopDataVar10.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -345,6 +361,7 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 this.services.alert.showAlert(2, 'Fail To Load', -1);
 }
 );
+//}
 
 }
 async VR_Modify_click(event){
@@ -372,6 +389,13 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 this.services.alert.showAlert(2, 'Fail To Delete', -1);
 }
 );
+}
+loadSpinner=false;
+showSpinner(){
+this.loadSpinner=true;
+}
+hideSpinner(){
+this.loadSpinner=false;
 }
 
 }

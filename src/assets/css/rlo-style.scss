@@ -1,0 +1,167 @@
+/*
+
+RLO Project SCSS File
+
+*/
+
+/* Variable Definitions */
+$default-font-family: 'Open Sans', sans-serif;
+$default-text-color: #000;
+$border-light: 1px solid #CCCCCC;
+$body-bg-color: #fff;
+$primary-color: #0079B8;
+$mandatory-star-color: red;
+$input-height: 36px;
+$input-bg-color: #FFFFFF;
+$input-bg-disbl-color: #f9f9f9;
+$input-lbl-color: #565656;
+$bg-light: #FAFCFF;
+$default-spacing: 1.25rem;
+
+
+/* Class Definitions */
+
+body {
+  font-family: $default-font-family !important;
+  color: $default-text-color;
+  background-color: $body-bg-color;
+}
+
+.bi-reponsive {
+  .form-control {
+    box-sizing: border-box !important;
+    height: $input-height !important;
+    border: $border-light !important;
+    border-radius: 4px !important;
+    background-color: $input-bg-color !important;
+    margin-top: $default-spacing;
+    margin-bottom: 1.167rem;
+
+    .input-readonly {
+      background-color: $input-bg-disbl-color !important;
+    }
+
+    &:disabled {
+      background-color: $input-bg-disbl-color !important;
+    }
+  }
+
+  .form-group {
+
+    label {
+      color: $input-lbl-color;
+      height: 12px;
+      font-size: 12px;
+      line-height: 12px;
+      letter-spacing: 0;
+      margin: 2px 0;
+    }
+  }
+
+  // .res-pr-hide {
+  //   padding: 0px 20px 10px 20px;
+  // }
+
+  .ng-select {
+    background-color: $input-bg-color;
+    border-radius: 3px;
+    border: 1px solid $border-light;
+    font-size: 13px;
+    margin-top: $default-spacing;
+
+    .ng-select-container {
+      background-color: transparent !important;
+      border-radius: 4px !important;
+      min-height: 20px;
+      font-size: 0.9rem;
+
+      .ng-input {
+        font-size: 0.9rem;
+      }
+
+      &.ng-select-single {
+        .ng-select-container {
+          height: 36px;
+          font-size: inherit;
+        }
+      }
+    }
+
+    &.ng-select-disabled>.ng-select-container {
+      background-color: #f9f9f9 !important;
+    }
+
+  }
+
+  my-date-picker {
+    border-radius: 4px;
+    margin-top: $default-spacing;
+  }
+
+  .res-pr-hide-line {
+    box-sizing: border-box;
+    height: 1px;
+    border-bottom: 1px solid #DDDDDD !important;
+    margin: 2.5rem $default-spacing;
+  }
+}
+
+.FormTitle {
+  color: $primary-color;
+  font-size: 12px;
+  line-height: 17px;
+  text-align: right !important;
+  border-bottom: 1px solid #979797;
+  padding-bottom: 12px;
+}
+
+.form-group-initiation-header {
+  box-sizing: border-box;
+  border: 1px solid #DDDDDD;
+  border-radius: 8px;
+  background-color: $bg-light;
+  padding: $default-spacing;
+}
+
+.mandatory::after {
+  content: " *";
+  color: $mandatory-star-color;
+}
+
+
+.icon-button {
+  margin-top: 32px;
+  align-self: start;
+  width: $input-height !important;
+  height: $input-height;
+  cursor: pointer;
+  border-radius: 4px;
+  color: $primary-color;
+  background: rgba(0,121,184,0.09);
+  border: 1px solid $primary-color;
+}
+
+// #SEARCH_CUST_BTN {
+//   box-sizing: border-box !important;
+//   border: 1px solid #0079B8 !important;
+//   border-radius: 4px !important;
+//   background-color: rgba(0, 121, 184, 0.09) !important;
+//   color: #0079B8 !important
+// }
+
+// #CD_ADD {
+//   box-sizing: border-box;
+//   border: 1px solid #0079B8;
+//   border-radius: 4px;
+//   background-color: #FFFFFF;
+//   color: #0079B8;
+// }
+
+// #CD_RESET {
+//   box-sizing: border-box;
+//   border: 1px solid #4F4E4E;
+//   border-radius: 4px;
+//   background-color: rgba(255, 255, 255, 0.09);
+//   color: #4F4E4E;
+// }
+

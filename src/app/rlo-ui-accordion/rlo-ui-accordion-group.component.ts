@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
     <div class="acc-header" (click)="toggle.emit()">
       <div class="acc-header-text">{{title}}</div>
     </div>
-    <div class="body">
+    <div class="body row">
       <ng-content></ng-content>
     </div>
   <div>

@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { VisitReportFormRoutingModule } from './VisitReportForm-routing.module';
 import { VisitReportFormComponent } from './VisitReportForm.component';
 import { VisitReportGridModule } from '../VisitReportGrid/VisitReportGrid.module';
+//import { VisitReportModule } from '../VisitReportForm/visitreport-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 VisitReportGridModule,
+//VisitReportModule,
 ],
 declarations: [
 VisitReportFormComponent,
