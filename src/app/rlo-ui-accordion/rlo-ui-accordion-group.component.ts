@@ -6,6 +6,9 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
   <div class="rlo-panel" [ngClass]="{'active': opened}">
     <div class="acc-header" (click)="toggle.emit()">
       <div class="acc-header-text">{{title}}</div>
+      <span *ngFor="let tag of tags;" class="tag">
+        {{ tag }}
+      </span>
     </div>
     <div class="body row">
       <ng-content></ng-content>
@@ -27,7 +30,7 @@ export class RloUiAccordionGroupComponent {
   @Input() title: string;
 
 
-  @Input() tags: [];
+  @Input() tags: string[] = [];
 
   /**
    * Emitted when user clicks on group titlebar
@@ -35,4 +38,7 @@ export class RloUiAccordionGroupComponent {
    */
   @Output() toggle: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor(){
+    this.tags.push("ABCD", "DEF");
+  }
 }
