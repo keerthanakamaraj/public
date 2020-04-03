@@ -1618,7 +1618,44 @@
 	"CH_CANCEL_BTN" : "Cancel",
 	"CHARGE_DTLS_GRID" : "null",
 	"CH_CHARGE_RATE" : "Charge Rate"
-	}
+  },
+  "VisitReportGrid": {
+    "VR_DateofVisit": "Date of Visit",
+    "VR_Modify": "Modify",
+    "toolbar_VisitReportGrid": "null",
+    "VR_Designation": "Designation",
+    "VR_OficialBusiGroup": "Official Business Group",
+    "VR_Modify_ButtonName": "Modify",
+    "VR_NameOfPersonMet": "Name of Person Met",
+    "VR_Observation": "Observation",
+    "VR_AddressOfVisit": "Address of Visit",
+    "VR_Type": "Type",
+    "VR_Photograph": "Photograph",
+    "GridTitle": "Visit Report Grid",
+    "VR_Delete": "Delete",
+    "VR_PlaceOfVisit": "Place of Visit",
+    "VR_OfficialName": "Official Name",
+    "VR_Delete_ButtonName": "Delete"
+  },
+  "VisitReportForm": {
+    "FormTitle": "Visit Report Form",
+    "VRF_DateOfVisit": "Date of Visit",
+    "Visit_Report_Grid": "null",
+    "Handler": "null",
+    "VRF_Save": "Save",
+    "VRF_AdverseObservation": "Any Adverse Observation",
+    "VRF_Designation": "Designation",
+    "VRF_Observations": "Observations",
+    "VRF_AddressofVisit": "Address of Visit",
+    "VRF_PlaceOfVisit": "Place of Visit",
+    "VRF_ReportType": "Report Type",
+    "VRF_NameofPersonMet": "Name of Person Met",
+    "VRF_OfficialName": "Official Name",
+    "VRF_OfficialBusinessGroup": "Official Business Group",
+    "VRF_Photograph": "Have You Attached Visit Report And Photograph?",
+    "VRF_Reset": "Reset",
+    "VRF_OfficialId": "Official Id"
+  }
 
 }
 
