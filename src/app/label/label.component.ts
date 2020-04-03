@@ -12,7 +12,7 @@ export class LabelComponent extends FieldComponent implements OnInit {
   @Input('parentCompCode') parentCompCode: string;
   @Input('fontSize') fontSize: string = 'null';
   @Input('fontColor') fontColor: string = 'null';
-  @Input('fontFamily') fontFamily: string = 'null';
+  @Input('fontFamily') fontFamily: string = 'inherit';
 
   @Input('fontStyle') fontStyle: string = 'null';
   @Input('fontWeight') fontWeight: string = 'null';

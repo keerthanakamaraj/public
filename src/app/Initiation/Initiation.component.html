@@ -10,11 +10,10 @@
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-        <div class="form-group pb10">
+        <div class="form-group pb10 row">
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
             <app-label #FieldId_71 parentCompCode="Initiation" legendAlign="text-center" fieldID="FieldId_71"
-              [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px"
-              fontWeight="400" customClass="section-header-search"></app-label>
+              [formCode]="formCode" customClass="section-header-search"></app-label>
           </div>
           <div class="col-12  col-sm-12 col-md-12 group-default">
             <div #FieldId_68 id="FieldId_68">
@@ -53,9 +52,9 @@
             </div>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
-            <div style=" width:100%; background:null;height:1px;"></div>
+            <div style="width:100%; background:null;height:1px;"></div>
           </div>
-          <rlo-ui-accordion #acc_1 class="col-13 col-sm-13 col-md-13">
+          <rlo-ui-accordion #acc_1 class="col-12 col-sm-12 col-md-12">
             <rlo-ui-accordion-group title="{{ 'Initiation.BAD_LABEL' | translate}}">
               <div #BAD_GROUP id="BAD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
@@ -193,16 +192,6 @@
             <rlo-ui-accordion-group title="{{ 'Initiation.CD_HEAD_LABEL' | translate}}">
               <div #CD_GROUP id="CD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
-                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
-                    <div class="clr-brown fieldLegend">
-                      <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
-                        {{ 'Initiation.CD_CUST_TYPE' | translate}}
-                      </label>
-                    </div>
-                    <app-combo-box #CD_CUST_TYPE category="2" fieldID="CD_CUST_TYPE" [formCode]="formCode"
-                      domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></app-combo-box>
-                  </div> -->
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
@@ -213,16 +202,6 @@
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></rlo-ui-radio>
                   </div>
-                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
-                    <div class="clr-brown fieldLegend">
-                      <label class="clr-brown" [ngClass]="{'mandatory': CD_EXISTING_CUST.mandatory}">
-                        {{ 'Initiation.CD_EXISTING_CUST' | translate}}</label>
-                    </div>
-                    <app-combo-box #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"
-                      domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)">
-                    </app-combo-box>
-                  </div> -->
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_EXISTING_CUST.mandatory}">
@@ -233,15 +212,6 @@
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)">
                     </rlo-ui-radio>
                   </div>
-                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
-                    <div class="clr-brown fieldLegend">
-                      <label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
-                        {{ 'Initiation.CD_STAFF' | translate}}</label>
-                    </div>
-                    <app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode"
-                      placeholder="(Select)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
-                  </div> -->
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF.mandatory}">

@@ -735,13 +735,13 @@ table th {
 .col-xs-8,
 .col-xs-9 {
     min-height: .07143rem;
-    padding-right: 1.071rem;
-    padding-left: 1.071rem
+    padding-right: 1.25rem;
+    padding-left: 1.25rem
 }
 
 .container-fluid {
-    padding-right: 1.071rem;
-    padding-left: 1.071rem
+    padding-right: 1.25rem;
+    padding-left: 1.25rem
 }
 
 .row {
@@ -749,8 +749,8 @@ table th {
 }
 
 .container {
-    padding-right: 1.071rem;
-    padding-left: 1.071rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
     width: 83.4vw;
     margin: 0 auto
 }
@@ -5283,10 +5283,10 @@ h3 {
     border-left: 0!important
 }
 
-.bi-reponsive .form-group label {
+/* .bi-reponsive .form-group label {
     color: #333;
     font-size: 13px;
-}
+} */
 
 .bi-reponsive .form-control {
     height: 34px;
@@ -7558,9 +7558,9 @@ li.rog-toolbar-li.open{
     flex-wrap: wrap;
 }
 
-.res-pr-hide {
+/* .res-pr-hide {
     padding: 0px 15px 10px 15px;
-}
+} */
 
 .modal-width-sm .modal-dialog{
     width: 30%;
@@ -7584,10 +7584,10 @@ li.rog-toolbar-li.open{
     color: #b20812;
 }
 
-.FormTitle{
+/* .FormTitle{
     font-family: "Roboto", sans-serif;
     font-size: 20px;
-}
+} */
 
 /* ngselect custom styles */
 
