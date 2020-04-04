@@ -1,4 +1,5 @@
 <form class="MakeRelative">
+
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
 <div class="col-sm-12 col-md-12">
@@ -11,9 +12,9 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+<!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
 <app-Header #HEADER fieldID="HEADER" [formCode]="formCode"></app-Header>
-</div>
+</div> -->
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
 <app-CustomerDtls #CUSTOMER_DETAILS fieldID="CUSTOMER_DETAILS" [formCode]="formCode"></app-CustomerDtls>
 </div>
@@ -21,7 +22,7 @@
 <div #BUTTON_SECTION id="BUTTON_SECTION">
 <div class="form-group pb10 button-group">
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
-<app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary"></app-button>
+<app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="QDE_SUBMIT_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
 <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
@@ -34,6 +35,11 @@
 <app-qde-handler #Handler [MainComponent]="this"></app-qde-handler>
 </div>
 </div>
+<app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+<app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
+<app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden>
+<app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
+<app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
 </div>
 </div>
 </div>

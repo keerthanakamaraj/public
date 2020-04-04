@@ -7,7 +7,7 @@ import { CheckBoxComponent } from '../check-box/check-box.component';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { FileuploadComponent } from '../fileupload/fileupload.component';
 import { DateComponent } from '../date/date.component';
-import { ButtonComponent } from '../button/button.component';
+import { ButtonComponent } from '../button/button.component'
 import { AmountComponent } from '../amount/amount.component';
 import { FormComponent } from '../form/form.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,6 +31,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 @ViewChild('QDE_SUBMIT', {static: false}) QDE_SUBMIT: ButtonComponent;
 @ViewChild('QDE_CANCEL', {static: false}) QDE_CANCEL: ButtonComponent;
 @ViewChild('Handler', {static: false}) Handler: QDEHandlerComponent;
+@ViewChild('HideProcessId', {static: false}) HideProcessId: HiddenComponent;
+@ViewChild('HideServiceCode', {static: false}) HideServiceCode: HiddenComponent;
+@ViewChild('HideTaskId', {static: false}) HideTaskId: HiddenComponent;
+@ViewChild('HideTenantId', {static: false}) HideTenantId: HiddenComponent;
+@ViewChild('HideUserId', {static: false}) HideUserId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -59,12 +64,47 @@ this.CUSTOMER_DETAILS.setReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.HideProcessId.setValue('RLO_Process');
+this.HideServiceCode.setValue('ClaimTask');
 let inputMap = new Map();
 await this.CUSTOMER_DETAILS.loadCustDtlsGrid({
 'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
 });
 await this.Handler.onFormLoad({
 });
+inputMap.clear();
+inputMap.set('Body.UserId', this.HideUserId.getFieldValue());
+inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+inputMap.set('Body.TaskId', this.HideTaskId.getFieldValue());
+inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/clo-bpm-services/rest').subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Proposal Claimed Successfully', 5000);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'ServiceCode'){
+this.HideServiceCode.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ProcessId'){
+this.HideProcessId.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'TaskId'){
+this.HideTaskId.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'TENANT_ID'){
+this.HideTenantId.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'UserId'){
+this.HideUserId.setError(err['ErrorDescription']);
+}
+}
+this.services.alert.showAlert(2, 'Failed To Claim', -1);
+}
+);
 this.setDependencies();
 }
 setInputs(param : any){
@@ -74,7 +114,7 @@ this.mode = params['mode'];
 }
 }
 async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = 'QDE';
+this.submitData['formName'] = 'Quick Data Entry';
 await super.submit(path, apiCode, serviceCode);
 }
 getFieldInfo() {
@@ -117,8 +157,8 @@ styleElement.parentNode.removeChild(styleElement);
 ngAfterViewInit(){
 setTimeout(() => {
 this.subsBFldsValueUpdates();
-this.value.HEADER = this.HEADER.getFieldValue();
-this.HEADER.valueChangeUpdates().subscribe((value) => {this.value.HEADER = value;});
+// this.value.HEADER = this.HEADER.getFieldValue();
+// this.HEADER.valueChangeUpdates().subscribe((value) => {this.value.HEADER = value;});
 this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
 this.CUSTOMER_DETAILS.valueChangeUpdates().subscribe((value) => {this.value.CUSTOMER_DETAILS = value;});
 this.onFormLoad();
@@ -148,6 +188,9 @@ this.value = new QDEModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
+}
+async QDE_SUBMIT_click(event){
+let inputMap = new Map();
 }
 fieldDependencies = {
 }

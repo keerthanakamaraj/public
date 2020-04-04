@@ -50,12 +50,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 @ViewChild('AD_CLEAR_BTN', {static: false}) AD_CLEAR_BTN: ButtonComponent;
 @ViewChild('AddressGrid', {static: false}) AddressGrid: AddressDetailsGridComponent;
 @ViewChild('Handler', {static: false}) Handler: AddressHandlerComponent;
-@ViewChild('AD_HIDE_ID', {static: false}) AD_HIDE_ID: HiddenComponent;
-@ViewChild('hidAddType', {static: false}) hidAddType: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
+@ViewChild('hidAddType', {static: false}) hidAddType: HiddenComponent;
+@ViewChild('hidResType', {static: false}) hidResType: HiddenComponent;
 @ViewChild('hidMailingAddress', {static: false}) hidMailingAddress: HiddenComponent;
 @ViewChild('hidResDurType', {static: false}) hidResDurType: HiddenComponent;
-@ViewChild('hidResType', {static: false}) hidResType: HiddenComponent;
+@ViewChild('AD_HIDE_ID', {static: false}) AD_HIDE_ID: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -70,9 +70,9 @@ this.revalidateBasicField('AD_ADDRESS_LINE2'),
 this.revalidateBasicField('AD_ADDRESS_LINE3'),
 this.revalidateBasicField('AD_ADDRESS_LINE4'),
 this.revalidateBasicField('AD_PINCODE'),
-this.revalidateBasicField('AD_REGION'),
-this.revalidateBasicField('AD_CITY'),
-this.revalidateBasicField('AD_STATE'),
+// this.revalidateBasicField('AD_REGION'),
+// this.revalidateBasicField('AD_CITY'),
+// this.revalidateBasicField('AD_STATE'),
 this.revalidateBasicField('AD_LANDMARK'),
 this.revalidateBasicField('AD_LANDLINE_NUMBER'),
 this.revalidateBasicField('AD_MAILING_ADDRESS'),
@@ -100,11 +100,11 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.hidAddType.setValue('ADDRESS_TYPE');
 this.hidAppId.setValue('RLO');
+this.hidAddType.setValue('ADDRESS_TYPE');
+this.hidResType.setValue('RESIDENCE_TYPE');
 this.hidMailingAddress.setValue('Y/N');
 this.hidResDurType.setValue('PERIOD');
-this.hidResType.setValue('RESIDENCE_TYPE');
 let inputMap = new Map();
 await this.Handler.onFormLoad({
 });
@@ -203,10 +203,14 @@ inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFi
 inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
 inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
 inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
+inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
+this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Address Details Updated Successfulyl', 5000);
+await this.AddressGrid.gridDataLoad({
+'passBorrowerSeqToGrid': this.addBorrowerSeq,
+});
 this.onReset();
 },
 async (httpError)=>{
@@ -285,19 +289,23 @@ inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldV
 inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
 inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
 inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+inputMap.set('Body.AddressDetails.Region', 'andheri');
+inputMap.set('Body.AddressDetails.City', 'Mumbai');
+inputMap.set('Body.AddressDetails.State', 'Maharastra');
 inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
 inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
 inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
 inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
 inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
 inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-this.services.http.fetchApi('/AddressDetails', 'POST', inputMap, '/olive/publisher').subscribe(
+inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
+this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Address successfully saved', 5000);
+await this.AddressGrid.gridDataLoad({
+'passBorrowerSeqToGrid': this.addBorrowerSeq,
+});
 this.onReset();
 },
 async (httpError)=>{
@@ -460,5 +468,7 @@ inDep: [
 outDep: [
 ]},
 }
-
+  /* Write Custom Scripts Here */
+  
+addBorrowerSeq;
 }

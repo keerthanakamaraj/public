@@ -66,15 +66,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 @ViewChild('FieldId_29', {static: false}) FieldId_29: AddressDetailsComponent;
 @ViewChild('FieldId_30', {static: false}) FieldId_30: OccupationDtlsFormComponent;
 @ViewChild('Handler', {static: false}) Handler: CustomerHandlerComponent;
-@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
 @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
 @ViewChild('hidCusSgmt', {static: false}) hidCusSgmt: HiddenComponent;
-@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
-@ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
-@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
-@ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
 @ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
+@ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
+@ViewChild('hidNationality', {static: false}) hidNationality: HiddenComponent;
+@ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
+@ViewChild('hidPrefCommCh', {static: false}) hidPrefCommCh: HiddenComponent;
 @ViewChild('hidTitle', {static: false}) hidTitle: HiddenComponent;
+@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
+@ViewChild('hideCustomerType', {static: false}) hideCustomerType: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -134,19 +135,23 @@ this.FieldId_29.setReadOnly(readOnly);
 this.FieldId_30.setReadOnly(readOnly);
 }
 async onFormLoad(){
-    await this.Handler.onFormLoad({
-    });
+    // await this.Handler.onFormLoad({
+    // });
    
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.CD_FULL_NAME.setReadOnly(true);
 this.hidAppId.setValue('RLO');
 this.hidCusSgmt.setValue('CUST_SEGMENT');
+this.hidStaff.setValue('Y_N');
 this.hidGender.setValue('GENDER');
-this.hidMaritalStatus.setValue('MARITAL_STATUS');
 this.hidNationality.setValue('NATIONALITY');
+this.hidMaritalStatus.setValue('MARITAL_STATUS');
 this.hidPrefCommCh.setValue('PREF_COMM_CH');
-this.hidStaff.setValue('Y/N');
 this.hidTitle.setValue('TITLE');
+this.hideCustomerType.setValue('CUSTOMER_TYPE');
+let inputMap = new Map();
+await this.Handler.onFormLoad({
+});
 this.setDependencies();
 }
 
@@ -255,9 +260,9 @@ this.onFormLoad();
     }
 async CD_SAVE_BTN_click(event){
 let inputMap = new Map();
-    var NoOfError:number = await this.revalidate();
-    if(NoOfError == 0){
-        if(this.HidCustomerId.getFieldValue() != undefined){
+var noOfErrors:number = await this.revalidate();
+if(noOfErrors == 0){
+if(this.HidCustomerId.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
@@ -473,11 +478,10 @@ this.services.alert.showAlert(2, 'Something went wrong', -1);
 }
 );
 }
-    }
-    else{
-      this.services.alert.showAlert(3, 'Please field all the details', -1);
-    }
-
+}
+else{
+this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+}
 }
 async CUST_DTLS_GRID_custDtlsEdit(event){
 let inputMap = new Map();
@@ -510,6 +514,8 @@ this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
 this.CD_DRVNG_LCNSE_EXP_DT.setValue(res['BorrowerDetails']['DrivingLicenseExpiryDt']);
 this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
+this.FieldId_30.occBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
+this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -535,6 +541,15 @@ async loadCustDtlsGrid(event){
     }
 
 fieldDependencies = {
+CD_CUST_TYPE: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideCustomerType", paramType:"QueryParam"},
+],
+outDep: [
+]},
 CD_STAFF: {
 inDep: [
 
@@ -599,8 +614,5 @@ inDep: [
 outDep: [
 ]},
 }
-
-
-
 
 }

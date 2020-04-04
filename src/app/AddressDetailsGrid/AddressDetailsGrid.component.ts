@@ -191,10 +191,10 @@ if(gridReqMap.get("FilterCriteria")){
 var obj = gridReqMap.get("FilterCriteria");
 for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
-case "AD_ADD_ID":obj[i].columnName =  "Body.AddressDetailsSeq";break;
-case "AD_Address_Type":obj[i].columnName =  "Body.AddressType";break;
-case "AD_Address":obj[i].columnName =  "Body.AddressLine1";break;
-case "AD_Residence_Duration":obj[i].columnName =  "Body.PeriodCurrentResidenceYrs";break;
+case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
+case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
+case "AD_Address":obj[i].columnName =  "AddressLine1";break;
+case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -203,10 +203,10 @@ if(gridReqMap.get("OrderCriteria")){
 var obj = gridReqMap.get("OrderCriteria");
 for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
-case "AD_ADD_ID":obj[i].columnName =  "Body.AddressDetailsSeq";break;
-case "AD_Address_Type":obj[i].columnName =  "Body.AddressType";break;
-case "AD_Address":obj[i].columnName =  "Body.AddressLine1";break;
-case "AD_Residence_Duration":obj[i].columnName =  "Body.PeriodCurrentResidenceYrs";break;
+case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
+case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
+case "AD_Address":obj[i].columnName =  "AddressLine1";break;
+case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -261,6 +261,13 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 this.services.alert.showAlert(2, 'Something went wrong', -1);
 }
 );
+}
+loadSpinner=false;
+showSpinner(){
+this.loadSpinner=true;
+}
+hideSpinner(){
+this.loadSpinner=false;
 }
 
 }

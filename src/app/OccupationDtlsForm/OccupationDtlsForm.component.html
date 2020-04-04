@@ -1,4 +1,16 @@
 <form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
 <div class="clearfix content">
 <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
 <div *ngIf="!formOnLoadError">
@@ -197,6 +209,7 @@
 <app-hidden #HidIncomeDocType fieldID="HidIncomeDocType"></app-hidden>
 <app-hidden #HidDesignation fieldID="HidDesignation"></app-hidden>
 <app-hidden #HidIndustry fieldID="HidIndustry"></app-hidden>
+<app-hidden #hidBorrowerSeq fieldID="hidBorrowerSeq"></app-hidden>
 <app-hidden #HidSelfEmpType fieldID="HidSelfEmpType"></app-hidden>
 <app-hidden #HidNatureOfBusiness fieldID="HidNatureOfBusiness"></app-hidden>
 <app-hidden #HidEmpStatus fieldID="HidEmpStatus"></app-hidden>

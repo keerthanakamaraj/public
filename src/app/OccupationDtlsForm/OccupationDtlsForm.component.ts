@@ -58,6 +58,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('HidIncomeDocType', {static: false}) HidIncomeDocType: HiddenComponent;
 @ViewChild('HidDesignation', {static: false}) HidDesignation: HiddenComponent;
 @ViewChild('HidIndustry', {static: false}) HidIndustry: HiddenComponent;
+@ViewChild('hidBorrowerSeq', {static: false}) hidBorrowerSeq: HiddenComponent;
 @ViewChild('HidSelfEmpType', {static: false}) HidSelfEmpType: HiddenComponent;
 @ViewChild('HidNatureOfBusiness', {static: false}) HidNatureOfBusiness: HiddenComponent;
 @ViewChild('HidEmpStatus', {static: false}) HidEmpStatus: HiddenComponent;
@@ -92,13 +93,13 @@ this.revalidateBasicField('OD_EMP_STATUS'),
 this.revalidateBasicField('OD_INCOME_TYPE'),
 this.revalidateBasicField('OD_WRK_PERMIT_NO'),
 this.revalidateBasicField('OD_RES_PRT_NO'),
-this.revalidateBasicField('OD_CURRENCY'),
-this.revalidateBasicField('OD_LOC_CURR_EQ'),
+this.revalidateBasicField('OD_CURRENCY')
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
 });
 });
+
 this.errors = totalErrors;
 super.afterRevalidate();
 return totalErrors;
@@ -126,8 +127,8 @@ this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
 this.HidIncomeType.setValue('INCOME_TYPE');
 this.HidCurrency.setValue('CURRENCY');
 let inputMap = new Map();
-await this.OCC_DTLS_GRID.gridDataLoad({});
- await this.Handler.onFormLoad({});
+await this.Handler.onFormLoad({
+});
 this.setDependencies();
 }
 setInputs(param : any){
@@ -198,8 +199,11 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
+
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
+var nooferror:number = await this.revalidate();
+if(nooferror==0){
 if(typeof(this.HidOccupationSeq.getFieldValue()) !==  'undefined' ){
 inputMap.clear();
 inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
@@ -225,11 +229,15 @@ inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldVa
 inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
 inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
 inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
+inputMap.set('Body.OccupationDetails.BorrowerSeq', this.occBorrowerSeq);
 inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
 this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Updated Successfully', 5000);
+await this.OCC_DTLS_GRID.gridDataLoad({
+'refNumToGrid': this.occBorrowerSeq,
+});
 this.onReset();
 },
 async (httpError)=>{
@@ -337,12 +345,17 @@ inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldVa
 inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
 inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
 inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
+inputMap.set('Body.OccupationDetails.BorrowerSeq', this.occBorrowerSeq);
 inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
 this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+await this.OCC_DTLS_GRID.gridDataLoad({
+'refNumToGrid': this.occBorrowerSeq,
+});
 this.onReset();
+
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -425,6 +438,10 @@ this.services.alert.showAlert(2, 'Error occurred while saving form!', -1);
 );
 }
 }
+else{
+this.services.alert.showAlert(2, 'Please Fill all Mandatory Fields', -1);
+}
+}
 async OCC_DTLS_GRID_occDtlsEdit(event){
 let inputMap = new Map();
 inputMap.clear();
@@ -456,6 +473,7 @@ this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
 this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
 this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
 this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
+
 this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
 },
 async (httpError)=>{
@@ -573,5 +591,8 @@ inDep: [
 outDep: [
 ]},
 }
+    /* Write Custom Scripts Here */
+    
+  occBorrowerSeq;
 
 }
