@@ -806,5 +806,110 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 .go-no-go-tb-cell {
   color: #004d8a;
 }
+.read-only-field{
+    height: 27px !important;
+    width: 85px !important;
+    color: #000000 !important;
+    font-family: "Open Sans" !important;
+    font-size: 20px !important;
+    letter-spacing: 0 !important;
+    line-height: 27px !important;
+    margin-bottom: 19px !important;
+    margin-top: 15px !important;
+    font-weight: none !important;
+}
+.mainheader{
+  height: 338px !important;
+ /* border : 1px solid ; */
+  padding-left: none !important;
+}
+.imageheader{
+  height: 338px;
+  width: 301px;
+  /* background-color: blue; */
+  float:left !important;
+}
+.subheader1{
+  height: 338px !important;
+  width: 344px !important;
+  background-color: #E4F0F9 !important;
+  float: left !important;
+}
+.internalheader{ 
+  height: 292px;
+  width: 246px;
+  padding-left: 35px;
+  padding-right: 55px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+}
+.rightheader{
+  float: left !important;
+  /* height: 338px !important;
+  width: 681px !important; */
+  background-color: #FFFFFF;
+}
+.subrightheader1{
+  float: left;
+  height: 292px !important;
+  width: 243px !important;
+  padding-left: 39px !important;
+  padding-top: 23px !important;
+  padding-bottom: 23px !important
+}
+ .subrightheader2{
+   float: left;
+  height: 134px !important;
+  width: 246px !important;
+  /* padding-left: 381px !important; */
+  padding-top: 23px !important;
+  /* padding-right:123px !important; */
+  /* padding-bottom: 181 !important  */
+ }
+ .first-child
+ {
+  height: 338px;
+  width: 301px;
+  background-color: #004467;
+  
+ }
+ .second-child{
+  height: 54px;
+  width: 301px;
+  background-color: #013653;
+  text-align: center;
+ }
+ #HD_APP_REF_NUM{
+  
+   height: 22px !important;
+   width: 83px !important;
+   color: #FFFFFF !important;
+   font-family: "Open Sans" !important;
+   font-size: 16px !important;
+   letter-spacing: 0 !important;
+   line-height: 22px !important;
+   text-align: center !important;
+ }
 
+ #LD_LOAN_AMT{
+    height: 49px !important;
+    width: 154px !important;
+    color: #FFFFFF !important;
+    font-family: "Open Sans" !important;
+    font-size: 36px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 49px !important;
+    text-align: center !important;
+    padding-left:74px !important;
+    padding-right:73px !important;
+    padding-top:60px !important;
+    padding-bottom:159px !important
+ }
+.border{
+  box-sizing: border-box !important;
+  height: 1.01px !important;
+  width: 253px !important;
+  border: 1px solid #0069A0 !important;
+}
 /* Go No Go Component CSS End */

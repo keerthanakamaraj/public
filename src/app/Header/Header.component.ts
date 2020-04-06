@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Inpu
 import { HeaderModel } from './Header.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
+import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { TextAreaComponent } from '../text-area/text-area.component';
 import { CheckBoxComponent } from '../check-box/check-box.component';
 import { HiddenComponent } from '../hidden/hidden.component';
@@ -24,23 +25,23 @@ const customCss: string = '';
     templateUrl: './Header.component.html'
 })
 export class HeaderComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('HD_CIF', { static: false }) HD_CIF: TextBoxComponent;
-    @ViewChild('HD_CUST_ID', { static: false }) HD_CUST_ID: TextBoxComponent;
-    @ViewChild('HD_APP_REF_NUM', { static: false }) HD_APP_REF_NUM: TextBoxComponent;
+    @ViewChild('HD_CIF', { static: false }) HD_CIF: ReadOnlyComponent;
+    @ViewChild('HD_CUST_ID', { static: false }) HD_CUST_ID: ReadOnlyComponent;
+    @ViewChild('HD_APP_REF_NUM', { static: false }) HD_APP_REF_NUM: ReadOnlyComponent;
     @ViewChild('HD_APP_SUBMSN_DT', { static: false }) HD_APP_SUBMSN_DT: DateComponent;
-    @ViewChild('HD_TTL_TAT_PRPSL', { static: false }) HD_TTL_TAT_PRPSL: TextBoxComponent;
-    @ViewChild('HD_PROD_CAT', { static: false }) HD_PROD_CAT: TextBoxComponent;
-    @ViewChild('HD_PROD', { static: false }) HD_PROD: TextBoxComponent;
-    @ViewChild('HD_SUB_PROD', { static: false }) HD_SUB_PROD: TextBoxComponent;
-    @ViewChild('HD_SCHEME', { static: false }) HD_SCHEME: TextBoxComponent;
-    @ViewChild('HD_PROMOTION', { static: false }) HD_PROMOTION: TextBoxComponent;
-    @ViewChild('LD_LOAN_AMT', { static: false }) LD_LOAN_AMT: AmountComponent;
-    @ViewChild('LD_INTEREST_RATE', { static: false }) LD_INTEREST_RATE: TextBoxComponent;
-    @ViewChild('LD_TENURE', { static: false }) LD_TENURE: TextBoxComponent;
-    @ViewChild('LD_TENURE_PERIOD', { static: false }) LD_TENURE_PERIOD: ComboBoxComponent;
-    @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: ComboBoxComponent;
-    @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: AmountComponent;
-    @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: AmountComponent;
+    @ViewChild('HD_TTL_TAT_PRPSL', { static: false }) HD_TTL_TAT_PRPSL: ReadOnlyComponent;
+    @ViewChild('HD_PROD_CAT', { static: false }) HD_PROD_CAT: ReadOnlyComponent;
+    @ViewChild('HD_PROD', { static: false }) HD_PROD: ReadOnlyComponent;
+    @ViewChild('HD_SUB_PROD', { static: false }) HD_SUB_PROD: ReadOnlyComponent;
+    @ViewChild('HD_SCHEME', { static: false }) HD_SCHEME: ReadOnlyComponent;
+    @ViewChild('HD_PROMOTION', { static: false }) HD_PROMOTION: ReadOnlyComponent;
+    @ViewChild('LD_LOAN_AMT', { static: false }) LD_LOAN_AMT: ReadOnlyComponent;
+    @ViewChild('LD_INTEREST_RATE', { static: false }) LD_INTEREST_RATE: ReadOnlyComponent;
+    @ViewChild('LD_TENURE', { static: false }) LD_TENURE: ReadOnlyComponent;
+    @ViewChild('LD_TENURE_PERIOD', { static: false }) LD_TENURE_PERIOD: ReadOnlyComponent;
+    @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: ReadOnlyComponent;
+    @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
+    @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -82,45 +83,46 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        this.HD_CIF.setReadOnly(true);
-        this.HD_CUST_ID.setReadOnly(true);
-        this.HD_APP_REF_NUM.setReadOnly(true);
-        this.HD_APP_SUBMSN_DT.setReadOnly(true);
-        this.HD_TTL_TAT_PRPSL.setReadOnly(true);
-        this.HD_PROD_CAT.setReadOnly(true);
-        this.HD_PROD.setReadOnly(true);
-        this.HD_SUB_PROD.setReadOnly(true);
-        this.HD_SCHEME.setReadOnly(true);
-        this.HD_PROMOTION.setReadOnly(true);
-        this.LD_LOAN_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.LD_LOAN_AMT.setReadOnly(true);
-        this.LD_INTEREST_RATE.setReadOnly(true);
-        this.LD_TENURE.setReadOnly(true);
-        this.LD_TENURE_PERIOD.setReadOnly(true);
-        this.LD_APP_PRPSE.setReadOnly(true);
-        this.LD_SYS_RCMD_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.LD_SYS_RCMD_AMT.setReadOnly(true);
-        this.LD_USR_RCMD_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.LD_USR_RCMD_AMT.setReadOnly(true);
+        // this.HD_CIF.setReadOnly(true);
+        // this.HD_CUST_ID.setReadOnly(true);
+        // this.HD_APP_REF_NUM.setReadOnly(true);
+        // this.HD_APP_SUBMSN_DT.setReadOnly(true);
+        // this.HD_TTL_TAT_PRPSL.setReadOnly(true);
+        // this.HD_PROD_CAT.setReadOnly(true);
+        // this.HD_PROD.setReadOnly(true);
+        // this.HD_SUB_PROD.setReadOnly(true);
+        // this.HD_SCHEME.setReadOnly(true);
+        // this.HD_PROMOTION.setReadOnly(true);
+        // this.LD_LOAN_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.LD_LOAN_AMT.setReadOnly(true);
+        // this.LD_INTEREST_RATE.setReadOnly(true);
+        // this.LD_TENURE.setReadOnly(true);
+        // this.LD_TENURE_PERIOD.setReadOnly(true);
+        // this.LD_APP_PRPSE.setReadOnly(true);
+        // this.LD_SYS_RCMD_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.LD_SYS_RCMD_AMT.setReadOnly(true);
+        // this.LD_USR_RCMD_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.LD_USR_RCMD_AMT.setReadOnly(true);
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
         this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.HD_PROD_CAT.setValue(res['Header']['ProductCategory']);
+                // this.HD_PROD_CAT.setValue(res['Header']['ProductCategory']);
+                this.HD_APP_REF_NUM.setValue('125567897');
                 this.HD_PROD.setValue(res['Header']['Product']);
                 this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
                 this.HD_SCHEME.setValue(res['Header']['Scheme']);
                 this.HD_PROMOTION.setValue(res['Header']['Promotion']);
-                this.LD_LOAN_AMT.setValue(res['Header']['LoanAmount']);
+                 this.LD_LOAN_AMT.setValue('2000000');
                 this.LD_INTEREST_RATE.setValue(res['Header']['InterestRate']);
                 this.LD_TENURE.setValue(res['Header']['Tenure']);
                 this.LD_TENURE_PERIOD.setValue(res['Header']['TenurePeriod']);
                 this.LD_APP_PRPSE.setValue(res['Header']['ApplicationPurpose']);
                 this.LD_SYS_RCMD_AMT.setValue(res['Header']['SystemRecommendedAmount']);
                 this.LD_USR_RCMD_AMT.setValue(res['Header']['UserRecommendedAmount']);
-                this.HD_APP_SUBMSN_DT.setValue(res['Header']['AppSubmissionDate']);
+                // this.HD_APP_SUBMSN_DT.setValue(res['Header']['AppSubmissionDate']);
                 this.HD_CIF.setValue(res['Header']['CIF']);
                 this.HD_CUST_ID.setValue(res['Header']['CustomerId']);
             },
