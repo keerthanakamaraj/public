@@ -124,9 +124,10 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'AssetDetailsGrid',
 columnId: 'AT_EDIT',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-edit',
-onClick: this.AT_EDIT_click.bind(this)
+IconClass: 'fas fa-edit fa-lg',
+onClick: this.AT_EDIT_click.bind(this),
 },
 },
 {
@@ -140,9 +141,10 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'AssetDetailsGrid',
 columnId: 'AT_DELETE',
-Type: '1',
+Type: '2',
 CustomClass: 'btn-delete',
-onClick: this.AT_DELETE_click.bind(this)
+IconClass: 'fa fa-trash fa-lg',
+onClick: this.AT_DELETE_click.bind(this),
 },
 },
 ];

@@ -87,6 +87,9 @@ this.hideIncludeInDBR.setValue('Y/N');
 this.hideName.setValue('NAME');
 this.hideOwnedBy.setValue('OWNED_BY');
 this.setDependencies();
+await this.Handler.onFormLoad({});
+await this.AssetDetailsGrid.gridDataLoad({
+});
 }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);
@@ -160,9 +163,6 @@ async AT_SAVE_click(event){
 let inputMap = new Map();
 var numberOfErrors:number = await this.revalidate();
 if(numberOfErrors==0){
-}
-else{
-}
 if(this.ASSET_ID.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('PathParam.AssetSeq', this.ASSET_ID.getFieldValue());
@@ -286,6 +286,10 @@ this.AT_ASSET_TYPE.setError(err['ErrorDescription']);
 this.services.alert.showAlert(2, 'Fail', -1);
 }
 );
+}
+}
+else{
+this.services.alert.showAlert(2, 'Please fill all mandatory Fields', -1);
 }
 }
 async AssetDetailsGrid_modifyAssetDetails(event){
