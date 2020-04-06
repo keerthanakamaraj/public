@@ -79,7 +79,7 @@ export class AlertsComponent implements OnInit {
   }
 
   getAlertMessage(alertMsg: string) : string {
-    return errorMap[alertMsg];
+    return errorMap[alertMsg] ? errorMap[alertMsg] : alertMsg;
   }
 
 
