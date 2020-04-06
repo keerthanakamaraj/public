@@ -70,9 +70,9 @@ this.revalidateBasicField('AD_ADDRESS_LINE2'),
 this.revalidateBasicField('AD_ADDRESS_LINE3'),
 this.revalidateBasicField('AD_ADDRESS_LINE4'),
 this.revalidateBasicField('AD_PINCODE'),
-// this.revalidateBasicField('AD_REGION'),
-// this.revalidateBasicField('AD_CITY'),
-// this.revalidateBasicField('AD_STATE'),
+this.revalidateBasicField('AD_REGION'),
+this.revalidateBasicField('AD_CITY'),
+this.revalidateBasicField('AD_STATE'),
 this.revalidateBasicField('AD_LANDMARK'),
 this.revalidateBasicField('AD_LANDLINE_NUMBER'),
 this.revalidateBasicField('AD_MAILING_ADDRESS'),
@@ -176,7 +176,7 @@ this.dependencyMap.clear();
 this.value = new AddressDetailsModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
-this.onFormLoad()
+this.onFormLoad();
 }
 async AD_SAVE_ADDRESS_click(event){
 let inputMap = new Map();
@@ -207,6 +207,7 @@ inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
 this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
+
 this.services.alert.showAlert(1, 'Address Details Updated Successfulyl', 5000);
 await this.AddressGrid.gridDataLoad({
 'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -289,9 +290,9 @@ inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldV
 inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
 inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
 inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-inputMap.set('Body.AddressDetails.Region', 'andheri');
-inputMap.set('Body.AddressDetails.City', 'Mumbai');
-inputMap.set('Body.AddressDetails.State', 'Maharastra');
+ inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
+ inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
+ inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
 inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
 inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
 inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
@@ -302,10 +303,12 @@ inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
 this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Address successfully saved', 5000);
+
+this.services.alert.showAlert(1, 'Address Details Saved Successfully', 5000);
 await this.AddressGrid.gridDataLoad({
 'passBorrowerSeqToGrid': this.addBorrowerSeq,
 });
+
 this.onReset();
 },
 async (httpError)=>{
@@ -396,8 +399,8 @@ this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
 this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
 this.AD_ADDRESS_LINE4.setValue(res['AddressDetails']['AddressLine4']);
 this.AD_PINCODE.setValue(res['AddressDetails']['PinCode']);
-this.AD_REGION.setValue(res['AddressDetails']['Region']);
-this.AD_CITY.setValue(res['AddressDetails']['City']);
+ this.AD_REGION.setValue(res['AddressDetails']['Region']);
+ this.AD_CITY.setValue(res['AddressDetails']['City']);
 this.AD_STATE.setValue(res['AddressDetails']['State']);
 this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
 this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);

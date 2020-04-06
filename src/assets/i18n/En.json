@@ -1314,7 +1314,7 @@
     "IS_HEADING": "Income Summary"
   },
   "OccuptionDtlsGrid": {
-    "OD_EDIT_BTN": "Modify",
+    "OD_EDIT_BTN": "Edit",
     "OD_DELETE": "Delete",
     "OD_EDIT_BTN_ButtonName": "Edit",
     "toolbar_OccuptionDtlsGrid": "null",
@@ -1330,8 +1330,8 @@
     "LD_FIN_NAME/OBLIG_HEAD": "Financier Name/Obligation",
     "LD_TYPE_OF_LOAN/OBLIGATION": "Type Of Loan/Obligation",
     "LD_DELETE_ButtonName": "Delete",
-    "LD_MODIFY": "Modify",
-    "LD_MODIFY_ButtonName": "Modify"
+    "LD_EDIT_BUTTON_ButtonName": "Edit",
+    "LD_EDIT_BUTTON": "Edit"
   },
   "Initiation": {
     "CD_CUST_SGMT": "Customer Segment",
@@ -1410,7 +1410,7 @@
     "toolbar_AddressDetailsGrid": "null",
     "AD_Address": "Address",
     "AD_EDIT_BTN_ButtonName": "Edit",
-    "AD_EDIT_BTN": "Modify",
+    "AD_EDIT_BTN": "Edit",
     "AD_Address_Type": "Address Type"
   },
   "AssetDetailsGrid": {
@@ -1530,10 +1530,11 @@
     "FD_RELATIONSHIP": "Relationship",
     "FD_DELETE": "Delete",
     "toolbar_FamilyDetailsGrid": "null",
-    "FD_MODIFY_ButtonName": "Modify",
-    "FD_DELETE_ButtonName": "Delete",
+    "FD_EDIT_BUTTON_ButtonName": "Edit",
+    "FD_EDIT_BUTTON": "Edit",
     "FD_MODIFY": "Modify"
   },
+  
   "OtherDeductionForm": {
     "OD_SAVE": "Save",
     "DD_HEADING": "Other Deductions Details",

@@ -5,7 +5,7 @@
 
 .acc-header {
     height: 50px;
-    // width: calc(100% - 20px);
+    width: calc(100% - 20px);
     padding: 10px;
 }
 
@@ -31,6 +31,26 @@
     margin: -25px 10px;
     color: #0079B8;
 }
+.ul{
+    margin: 0;
+    position: absolute;
+    right: 30px;
+    top: 0;
+}
+.tag{
+    padding: 9px 10px;
+    display: inline-block;
+    background: #fff;
+    margin-right: 15px;
+    border: 1px solid #0079B8;
+    border-radius: 18px;
+    background-color: #FFFFFF;
+    line-height: 1;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+  
 
 .rlo-panel.active .acc-header {
     background-color: #0079B8;

@@ -1,14 +1,21 @@
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+// import { CustomerDtlsComponent} from'../CustomerDtls/CustomerDtls.component';
+
 
 @Component({
   selector: 'rlo-ui-accordion-group',
   template: `
   <div class="rlo-panel" [ngClass]="{'active': opened}">
     <div class="acc-header" (click)="toggle.emit()">
-      <div class="acc-header-text">{{title}}</div>
-      <span *ngFor="let tag of tags;" class="tag">
-        {{ tag }}
-      </span>
+      <div class="acc-header-text">{{title}}
+      <ul class="ul">
+      <li *ngFor="let tag of tags;" class="tag">
+    <span class="sap">
+      {{ tag }}
+     </span>
+      </li>
+      </ul>
+      </div>
     </div>
     <div class="body row">
       <ng-content></ng-content>
@@ -18,6 +25,7 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
   styleUrls: ['./rlo-ui-accordion.component.scss']
 })
 export class RloUiAccordionGroupComponent {
+  
 
   /**
    * If the panel is opened or closed
@@ -31,7 +39,7 @@ export class RloUiAccordionGroupComponent {
 
 
   @Input() tags: string[] = [];
-
+  // @Input('CustomerDetails') CustomerDetails:string;
   /**
    * Emitted when user clicks on group titlebar
    * @type {EventEmitter<any>}
@@ -39,6 +47,7 @@ export class RloUiAccordionGroupComponent {
   @Output() toggle: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(){
-    this.tags.push("ABCD", "DEF");
+  
+    this.tags.push("Personal_loan","Short_form");
+    }
   }
-}

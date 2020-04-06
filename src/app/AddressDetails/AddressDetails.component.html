@@ -1,4 +1,16 @@
 <form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
 <div class="clearfix content">
 <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
 <div *ngIf="!formOnLoadError">
@@ -80,7 +92,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_REGION.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_REGION.mandatory}">
 {{ 'AddressDetails.AD_REGION' | translate}}</label>
 </div>
 <app-text-box #AD_REGION fieldID="AD_REGION" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_REGION', $event)"></app-text-box>

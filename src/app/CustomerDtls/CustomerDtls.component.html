@@ -85,7 +85,7 @@
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FIRST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_FIRST_NAME.mandatory}">
+<label class="clr-brown"  [ngClass]="{'mandatory': CD_FIRST_NAME.mandatory}">
 {{ 'CustomerDtls.CD_FIRST_NAME' | translate}}
 </label>
 </div>
@@ -109,7 +109,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LAST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" >
+<label class="clr-brown"[ngClass]="{'mandatory': CD_LAST_NAME.mandatory}" >
 {{ 'CustomerDtls.CD_LAST_NAME' | translate}}
 </label>
 </div>
@@ -118,7 +118,7 @@
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_FULL_NAME.mandatory}">
+<label class="clr-brown" >
 {{ 'CustomerDtls.CD_FULL_NAME' | translate}}
 </label>
 </div>

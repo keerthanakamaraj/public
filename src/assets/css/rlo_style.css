@@ -475,6 +475,10 @@
   text-align: center;
 }
 
+.tag{
+  padding: 8px;
+}
+
 .btn-secondary,
 .btn-primary,
 .btn-warning-outline {

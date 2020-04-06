@@ -178,7 +178,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap).subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'Form Successfully Updated', 5000);
+          this.services.alert.showAlert(1, 'Libility Details Updated Successfulyl', 5000);
           this.onReset();
         },
         async (httpError)=>{

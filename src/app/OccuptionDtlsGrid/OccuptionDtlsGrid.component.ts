@@ -262,5 +262,12 @@ this.services.alert.showAlert(2, 'Something went wrong', -1);
 }
 );
 }
+loadSpinner=false;
+showSpinner(){
+this.loadSpinner=true;
+}
+hideSpinner(){
+this.loadSpinner=false;
+}
 
 }

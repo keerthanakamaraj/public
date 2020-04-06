@@ -127,8 +127,10 @@ this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
 this.HidIncomeType.setValue('INCOME_TYPE');
 this.HidCurrency.setValue('CURRENCY');
 let inputMap = new Map();
+
 await this.Handler.onFormLoad({
 });
+
 this.setDependencies();
 }
 setInputs(param : any){
@@ -234,10 +236,11 @@ inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_
 this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Updated Successfully', 5000);
+this.services.alert.showAlert(1, 'Occupation Details Updated Successfully', 5000);
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
 });
+
 this.onReset();
 },
 async (httpError)=>{
@@ -350,10 +353,11 @@ inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_
 this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+this.services.alert.showAlert(1, 'Occupation Details Saved Successfully!', 5000);
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
 });
+
 this.onReset();
 
 },

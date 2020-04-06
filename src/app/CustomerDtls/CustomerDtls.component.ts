@@ -80,6 +80,7 @@ async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
 
+
 await Promise.all([
 this.revalidateBasicField('CD_CUST_TYPE'),
 this.revalidateBasicField('CD_EXISTING_CUST'),
@@ -290,7 +291,7 @@ inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_
 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Success', 5000);
+this.services.alert.showAlert(1, 'Family Details Updated Successfuly', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -398,7 +399,7 @@ inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_
 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Record Saved Successfully', 5000);
+this.services.alert.showAlert(1, 'Address Details Saved Successfuly', 5000);
 this.onReset();
 },
 async (httpError)=>{
