@@ -112,20 +112,19 @@
                     <app-label #BAD_PROD_LBL parentCompCode="Initiation" fieldID="BAD_PROD_LBL" [formCode]="formCode"
                       customClass="sub-section-header"></app-label>
                   </div>
-                  <div class="col-12  col-sm-6 col-md-6 group-default">
+                  <div class="col-12  col-sm-12 col-md-12 group-default">
                     <div #PRDUCT_GROUP id="PRDUCT_GROUP">
                       <div class="form-group pb10 PRDUCT_GROUP">
-                        <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
+                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
                           <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': BAD_PROD_CAT.mandatory}">
                               {{ 'Initiation.BAD_PROD_CAT' | translate}}
                             </label>
                           </div>
-                          <app-combo-box #BAD_PROD_CAT category="2" fieldID="BAD_PROD_CAT" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"
-                            (change)="BAD_PROD_CAT_change($event)">
-                          </app-combo-box>
+                          <rlo-ui-radio #BAD_PROD_CAT fieldID="BAD_PROD_CAT" [formCode]="formCode"
+                          domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                          domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)">
+                        </rlo-ui-radio>
                         </div>
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
                           <div class="clr-brown fieldLegend">

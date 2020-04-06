@@ -35,7 +35,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('BAD_SRC_CHANNEL', {static: false}) BAD_SRC_CHANNEL: ComboBoxComponent;
 @ViewChild('BAD_DSA_ID', {static: false}) BAD_DSA_ID: ComboBoxComponent;
 @ViewChild('BAD_BRANCH', {static: false}) BAD_BRANCH: ComboBoxComponent;
-@ViewChild('BAD_PROD_CAT', {static: false}) BAD_PROD_CAT: ComboBoxComponent;
+@ViewChild('BAD_PROD_CAT', {static: false}) BAD_PROD_CAT: RLOUIRadioComponent;
 @ViewChild('BAD_PRODUCT', {static: false}) BAD_PRODUCT: ComboBoxComponent;
 @ViewChild('BAD_SUB_PROD', {static: false}) BAD_SUB_PROD: ComboBoxComponent;
 @ViewChild('BAD_SCHEME', {static: false}) BAD_SCHEME: ComboBoxComponent;

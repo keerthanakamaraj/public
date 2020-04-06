@@ -1,3 +1,4 @@
+
 /*
 
 RLO Project SCSS File
@@ -19,6 +20,41 @@ $bg-light: #FAFCFF;
 $default-spacing: 1.25rem;
 $default-spacing-bottom: 1.167rem;
 
+/* mixins*/
+
+@mixin image-radio-settings($imgurl) {
+  height: 180px !important;
+  display: inline-block !important;
+  width: 180px;
+  background-image: url($imgurl);
+  background-repeat: no-repeat;
+  background-position: center!important;
+  padding-left: 42px;
+  border: 1px solid #DDDDDD !important;
+  background-color: transparent !important;
+  cursor:pointer;
+
+   input[type="radio"]{
+    -webkit-appearance:none;
+    }
+    span{
+      text-align: center !important;
+      position: absolute;
+      padding-top: 140px;
+      margin-left:0px !important;
+    }
+ input:checked::after{
+ content: "\2611";
+ padding-left: 78px;
+ font-size: 26px;
+ color: rgb(7, 165, 46);
+}
+
+&:hover {
+  box-shadow: 0 0 5px $primary-color;
+}
+
+}
 
 /* Class Definitions */
 
@@ -178,3 +214,24 @@ body {
 .checkboxRight {
   height: 70px;
 }
+
+rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
+  height: 200px !important;
+  width: 100% !important;
+  background-color: white !important;
+  border:none!important;
+  
+  
+.PL {
+  @include image-radio-settings("../images/icons/personaloan.png");
+}
+.ML {
+  @include image-radio-settings("../images/icons/mortageloan.png");
+}
+
+  .AL {
+    @include image-radio-settings("../images/icons/autoloan.png");
+  }
+}
+  
+  
