@@ -144,7 +144,7 @@ export class ProvidehttpService implements CanActivate {
       url += '?' + queryParam.substring(0, queryParam.length - 1);
     }
 
-    return this.httpClient.get(url, httpOpts);
+    return this.httpClient.get(encodeURI(url), httpOpts);
   }  
 
 loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl, searchById: boolean = false) {
@@ -193,7 +193,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       url += "&criteriaDetails="+JSON.stringify(criteriaDetails);
     }
 
-    return this.httpClient.get(url, httpOpts);
+    return this.httpClient.get(encodeURI(url), httpOpts);
   }
 
   // loginService(URL) {
@@ -473,6 +473,8 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       url = url.substring(0, url.length - 1);
     }
 
+    url = encodeURI(url);
+
     if (method == 'GET') {
       return this.httpClient.get(url, httpOpts);
     } else if (method == 'POST') {
@@ -521,7 +523,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
         var value = json['QueryParam'][key];
         if (value) {
           if((typeof value)!='string'){
-            value= JSON.stringify(value)
+            value= JSON.stringify(value);
           }
           url += key + "=" + value + "&";
         }
@@ -529,6 +531,8 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       url = url.substring(0, url.length - 1);
     }
 
+    url = encodeURI(url);
+    
     if (method == 'GET') {
       return this.httpClient.get(url, httpOpts);
     } else if (method == 'POST') {
