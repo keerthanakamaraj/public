@@ -95,8 +95,8 @@ let inputMap = new Map();
 await this.Visit_Report_Grid.gridDataLoad({
     'VisitReportSeqToGrid' :222,
 });
-// await this.Handler.onFormLoad({
-// });
+ await this.Handler.onFormLoad({
+ });
 this.setDependencies();
 }
 setInputs(param : any){
@@ -169,6 +169,8 @@ this.onFormLoad();
 }
 async VRF_Save_click(event){
 let inputMap = new Map();
+var numberOfErrors:number = await this.revalidate();
+if(numberOfErrors==0){
 if(this.HidVisitReportSeqId.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('PathParam.VisitReportSeq', this.HidVisitReportSeqId.getFieldValue());
@@ -300,6 +302,10 @@ this.VRF_ReportType.setError(err['ErrorDescription']);
 this.services.alert.showAlert(2, 'Fail To Save', -1);
 }
 );
+}
+}
+else{
+this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
 }
 }
 async Visit_Report_Grid_modifyVisitReport(event){

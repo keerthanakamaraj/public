@@ -199,8 +199,10 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'VisitReportGrid',
 columnId: 'VR_Modify',
-Type: '1',
-onClick: this.VR_Modify_click.bind(this),
+Type: '2',
+CustomClass: 'btn-edit',
+IconClass: 'fa fa-edit fa-lg',
+onClick: this.VR_Modify_click.bind(this)
 },
 },
 {
@@ -214,8 +216,10 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'VisitReportGrid',
 columnId: 'VR_Delete',
-Type: '1',
-onClick: this.VR_Delete_click.bind(this),
+Type: '2',
+CustomClass: 'btn-delete',
+IconClass: 'fa fa-trash fa-lg',
+onClick: this.VR_Delete_click.bind(this)
 },
 },
 ];

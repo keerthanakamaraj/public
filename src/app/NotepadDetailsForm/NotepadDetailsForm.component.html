@@ -24,7 +24,7 @@
 <div class="form-group pb10">
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="ND_COMMENT_CAT.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': ND_COMMENT_CAT.mandatory}">
 {{ 'NotepadDetailsForm.ND_COMMENT_CAT' | translate}}
 </label>
 </div>
@@ -33,7 +33,7 @@
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-8 col-md-8 res-pr-hide" [hidden]="ND_COMMENTS.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': ND_COMMENTS.mandatory}">
 {{ 'NotepadDetailsForm.ND_COMMENTS' | translate}}
 </label>
 </div>

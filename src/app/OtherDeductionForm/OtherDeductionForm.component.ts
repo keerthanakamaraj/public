@@ -134,6 +134,8 @@ this.onFormLoad();
 }
 async OD_SAVE_click(event){
 let inputMap = new Map();
+var numberOfErrors:number = await this.revalidate();
+if(numberOfErrors==0){
 inputMap.clear();
 inputMap.set('Body.DeductionDetails.ObligationHead', this.OD_OBILGATION_HEAD.getFieldValue());
 inputMap.set('Body.DeductionDetails.ObligationFrequency', this.OD_OBLIGATION_FREQUENCY.getFieldValue());
@@ -167,6 +169,10 @@ this.OD_OBILGATION_HEAD.setError(err['ErrorDescription']);
 this.services.alert.showAlert(2, "Failed tp Save Deduction Details", 200);
 }
 );
+}
+else{
+this.services.alert.showAlert(2, 'Please fill all the mandatory fields', -1);
+}
 }
 fieldDependencies = {
 }

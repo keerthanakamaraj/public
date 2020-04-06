@@ -27,12 +27,11 @@
 <div class="form-group pb10">
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_ReportType.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory':VRF_ReportType.mandatory}">
 {{ 'VisitReportForm.VRF_ReportType' | translate}}
-<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #VRF_ReportType category="2" fieldID="VRF_ReportType" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('VRF_ReportType', $event)"></app-combo-box>
+<app-combo-box #VRF_ReportType category="2" fieldID="VRF_ReportType" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('VRF_ReportType', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_DateOfVisit.isHidden()">
@@ -50,33 +49,31 @@
 </label>
 </div>
 <app-text-area #VRF_AddressofVisit fieldID="VRF_AddressofVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_AddressofVisit', $event)"></app-text-area>
+
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_OfficialName.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory':VRF_OfficialName.mandatory}">
 {{ 'VisitReportForm.VRF_OfficialName' | translate}}
-<span class="error-d">*</span>
 </label>
 </div>
-<app-combo-box #VRF_OfficialName category="2" fieldID="VRF_OfficialName" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('VRF_OfficialName', $event)"></app-combo-box>
+<app-combo-box #VRF_OfficialName category="2" fieldID="VRF_OfficialName" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('VRF_OfficialName', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_NameofPersonMet.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': VRF_NameofPersonMet.mandatory}">
 {{ 'VisitReportForm.VRF_NameofPersonMet' | translate}}
-<span class="error-d">*</span>
 </label>
 </div>
-<app-text-box #VRF_NameofPersonMet fieldID="VRF_NameofPersonMet" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('VRF_NameofPersonMet', $event)"></app-text-box>
+<app-text-box #VRF_NameofPersonMet fieldID="VRF_NameofPersonMet" [formCode]="formCode" (blur)="genericOnBlur('VRF_NameofPersonMet', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_Designation.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': VRF_Designation.mandatory}">
 {{ 'VisitReportForm.VRF_Designation' | translate}}
-<span class="error-d">*</span>
 </label>
 </div>
-<app-text-box #VRF_Designation fieldID="VRF_Designation" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('VRF_Designation', $event)"></app-text-box>
+<app-text-box #VRF_Designation fieldID="VRF_Designation" [formCode]="formCode" (blur)="genericOnBlur('VRF_Designation', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_OfficialId.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -96,12 +93,11 @@
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_PlaceOfVisit.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': VRF_PlaceOfVisit.mandatory}">
 {{ 'VisitReportForm.VRF_PlaceOfVisit' | translate}}
-<span class="error-d">*</span>
 </label>
 </div>
-<app-text-area #VRF_PlaceOfVisit fieldID="VRF_PlaceOfVisit" [formCode]="formCode" cols="10" [mandatory]="true" rows="2" (blur)="genericOnBlur('VRF_PlaceOfVisit', $event)"></app-text-area>
+<app-text-area #VRF_PlaceOfVisit fieldID="VRF_PlaceOfVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_PlaceOfVisit', $event)"></app-text-area>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_Photograph.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -140,7 +136,7 @@
 <app-VisitReportGrid #Visit_Report_Grid fieldID="Visit_Report_Grid" [formCode]="formCode" (modifyVisitReport)="Visit_Report_Grid_modifyVisitReport($event)"></app-VisitReportGrid>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<!-- <app-visitreport-handler #Handler></app-visitreport-handler> -->
+<app-visitreport-handler #Handler [MainComponent]="this"></app-visitreport-handler>
 </div>
 </div>
 <app-hidden #HidAnyObservation fieldID="HidAnyObservation"></app-hidden>

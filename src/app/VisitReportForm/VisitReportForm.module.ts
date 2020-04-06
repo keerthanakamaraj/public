@@ -9,6 +9,7 @@ import { VisitReportFormRoutingModule } from './VisitReportForm-routing.module';
 import { VisitReportFormComponent } from './VisitReportForm.component';
 import { VisitReportGridModule } from '../VisitReportGrid/VisitReportGrid.module';
 //import { VisitReportModule } from '../VisitReportForm/visitreport-handler.module';
+import {VisitReportHandlerModule} from '../VisitReportForm/visitreport-handler.module'
 @NgModule({
 imports: [
 CommonModule,
@@ -25,6 +26,7 @@ deps: [HttpClient]
 }),
 VisitReportGridModule,
 //VisitReportModule,
+VisitReportHandlerModule,
 ],
 declarations: [
 VisitReportFormComponent,

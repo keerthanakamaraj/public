@@ -174,6 +174,8 @@ this.onFormLoad();
 }
 async CH_SAVE_BTN_click(event){
 let inputMap = new Map();
+var numberOfErrors:number = await this.revalidate();
+if(numberOfErrors==0){
 if(this.hidChargeSeq.getFieldValue() != undefined){
 inputMap.clear();
 inputMap.set('PathParam.ChargeDtlSeq', this.hidChargeSeq.getFieldValue());
@@ -321,6 +323,10 @@ this.CH_CHARGE_DESC.setError(err['ErrorDescription']);
 this.services.alert.showAlert(2, 'Failed to save data!', -1);
 }
 );
+}
+}
+else{
+this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
 }
 }
 async CHARGE_DTLS_GRID_chargeDtlsEdit(event){

@@ -184,7 +184,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'ChargeDtlsGrid',
 columnId: 'CH_EDIT',
-Type: '1',
+Type: '2',
+CustomClass: 'btn-edit',
+IconClass: 'fas fa-edit fa-lg',
 onClick: this.CH_EDIT_click.bind(this)
 },
 },
@@ -199,7 +201,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'ChargeDtlsGrid',
 columnId: 'CH_DEL',
-Type: '1',
+Type: '2',
+CustomClass: 'btn-delete',
+IconClass: 'fa fa-trash fa-lg',
 onClick: this.CH_DEL_click.bind(this)
 },
 },

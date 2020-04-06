@@ -63,8 +63,8 @@ this.hiddenKey.setValue('NOTEPAD_COMMENT');
 let inputMap = new Map();
 await this.Handler.onFormLoad({
 });
-await this.FieldId_7.gridDataLoad({
-});
+//await this.FieldId_7.gridDataLoad({
+// });
 this.setDependencies();
 }
 setInputs(param : any){
@@ -137,6 +137,8 @@ this.onFormLoad();
 }
 async ND_SAVE_click(event){
 let inputMap = new Map();
+var numberOfErrors:number = await this.revalidate();
+if(numberOfErrors==0){
 inputMap.clear();
 inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
 inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
@@ -158,6 +160,10 @@ this.ND_COMMENT_CAT.setError(err['ErrorDescription']);
 this.services.alert.showAlert(2, 'Failed to save data', -1);
 }
 );
+}
+else{
+this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+}
 }
 async ND_CLEAR_click(event){
 let inputMap = new Map();
