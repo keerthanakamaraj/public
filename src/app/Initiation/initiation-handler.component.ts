@@ -114,6 +114,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.customers.splice(index, 1);
 
     this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+    this.updateCustomerTags();
+
     this.MainComponent.services.alert.showAlert(1, 'Customer deleted', 1000);
   }
 
@@ -135,12 +137,21 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         }
 
         this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+        this.updateCustomerTags();
 
         this.MainComponent.services.alert.showAlert(1, 'Customer added', 1000);
         this.resetCustomerDetails();
       }
     });
 
+  }
+
+  private updateCustomerTags(){
+    let tags = [];
+    this.customers.forEach(c => {
+      tags.push({label: c.customerType.value, text: c.firstName});
+    });
+    this.MainComponent.INIT_ACCORD.setTags("ACC_CUSTOMER", tags);
   }
 
   private getFormCustomerDetails(): Customer {

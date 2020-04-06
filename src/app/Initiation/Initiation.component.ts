@@ -18,6 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CustDtlsGridComponent } from '../CustDtlsGrid/CustDtlsGrid.component';
 import { InitiationHandlerComponent } from '../Initiation/initiation-handler.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 
 const customCss: string = '';
 
@@ -94,6 +95,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
+
+@ViewChild('INIT_ACCORD', {static:false}) INIT_ACCORD: RloUiAccordionComponent;
+
 isLoanCategory: boolean;
 async revalidate(): Promise<number> {
 var totalErrors = 0;

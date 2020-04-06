@@ -1,5 +1,6 @@
 import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { RloUiAccordionGroupComponent } from './rlo-ui-accordion-group.component';
+import { element } from 'protractor';
 
 @Component({
   selector: 'rlo-ui-accordion',
@@ -36,15 +37,20 @@ export class RloUiAccordionComponent implements AfterContentInit {
     });
   }
 
-    /**
-   * Open an accordion group
-   * @param group   Group instance
-   */
-    openGroup(group: RloUiAccordionGroupComponent) {
-      // close other groups
-      this.groups.toArray().forEach((t) => t.opened = false);
-      // open current group
-      group.opened = true;
-    }
+  /**
+ * Open an accordion group
+ * @param group   Group instance
+ */
+  openGroup(group: RloUiAccordionGroupComponent) {
+    // close other groups
+    this.groups.toArray().forEach((t) => t.opened = false);
+    // open current group
+    group.opened = true;
+  }
+
+  setTags(group: any, tags: Array<any>){
+    let accordionGroup = this.groups.find(element => { return element.id == group });
+    accordionGroup.tags = tags;
+  }
 
 }

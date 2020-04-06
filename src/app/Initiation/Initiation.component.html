@@ -54,8 +54,8 @@
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
             <div style="width:100%; background:null;height:1px;"></div>
           </div>
-          <rlo-ui-accordion #acc_1 class="col-12 col-sm-12 col-md-12">
-            <rlo-ui-accordion-group title="{{ 'Initiation.BAD_LABEL' | translate}}">
+          <rlo-ui-accordion #INIT_ACCORD class="col-12 col-sm-12 col-md-12">
+            <rlo-ui-accordion-group #ACC_APPLICATION id="ACC_APPLICATION" title="{{ 'Initiation.BAD_LABEL' | translate}}">
               <div #BAD_GROUP id="BAD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
@@ -187,7 +187,7 @@
 
               </div>
             </rlo-ui-accordion-group>
-            <rlo-ui-accordion-group title="{{ 'Initiation.CD_HEAD_LABEL' | translate}}">
+            <rlo-ui-accordion-group #ACC_CUSTOMER id="ACC_CUSTOMER" title="{{ 'Initiation.CD_HEAD_LABEL' | translate}}">
               <div #CD_GROUP id="CD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
@@ -394,7 +394,7 @@
 
               </div>
             </rlo-ui-accordion-group>
-            <rlo-ui-accordion-group title="{{ 'Initiation.LD_HEAD' | translate}}" [hidden]="!isLoanCategory">
+            <rlo-ui-accordion-group #ACC_LOAN_DTLS id="ACC_LOAN_DTLS" title="{{ 'Initiation.LD_HEAD' | translate}}" [hidden]="!isLoanCategory">
               <div #LD_GROUP id="LD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
@@ -525,7 +525,7 @@
 
               </div>
             </rlo-ui-accordion-group>
-            <rlo-ui-accordion-group title="{{ 'Initiation.RD_HEAD_LBL' | translate}}">
+            <rlo-ui-accordion-group #ACC_REFERRER id="ACC_REFERRER" title="{{ 'Initiation.RD_HEAD_LBL' | translate}}">
               <div #RD_GROUP id="RD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NAME.isHidden()">

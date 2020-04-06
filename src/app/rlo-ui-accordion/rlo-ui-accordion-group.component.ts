@@ -9,11 +9,9 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
     <div class="acc-header" (click)="toggle.emit()">
       <div class="acc-header-text">{{title}}
       <ul class="ul">
-      <li *ngFor="let tag of tags;" class="tag">
-    <span class="sap">
-      {{ tag }}
-     </span>
-      </li>
+        <li *ngFor="let tag of tags;" class="tag">
+          <span class="label">{{ tag.label }}</span><span>{{ tag.text }}</span>
+        </li>
       </ul>
       </div>
     </div>
@@ -25,7 +23,11 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
   styleUrls: ['./rlo-ui-accordion.component.scss']
 })
 export class RloUiAccordionGroupComponent {
-  
+
+  /**
+   * Id of Accordion Group
+   */
+  @Input() id: string;
 
   /**
    * If the panel is opened or closed
@@ -38,16 +40,17 @@ export class RloUiAccordionGroupComponent {
   @Input() title: string;
 
 
-  @Input() tags: string[] = [];
-  // @Input('CustomerDetails') CustomerDetails:string;
+  /**
+   * Tags
+   */
+  @Input() tags: {label: String, text: string}[];
+  
   /**
    * Emitted when user clicks on group titlebar
    * @type {EventEmitter<any>}
    */
   @Output() toggle: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(){
-  
-    this.tags.push("Personal_loan","Short_form");
-    }
+  constructor() {
   }
+}
