@@ -17,6 +17,7 @@ $input-bg-disbl-color: #f9f9f9;
 $input-lbl-color: #565656;
 $bg-light: #FAFCFF;
 $default-spacing: 1.25rem;
+$default-spacing-bottom: 1.167rem;
 
 
 /* Class Definitions */
@@ -35,7 +36,7 @@ body {
     border-radius: 4px !important;
     background-color: $input-bg-color !important;
     margin-top: $default-spacing;
-    margin-bottom: 1.167rem;
+    margin-bottom: $default-spacing-bottom;
 
     .input-readonly {
       background-color: $input-bg-disbl-color !important;
@@ -55,6 +56,14 @@ body {
       line-height: 12px;
       letter-spacing: 0;
       margin: 2px 0;
+
+      &.sub-section-header {
+        margin: 16px 0;
+        height: 1.25rem;
+        color: #000000;
+        font-size: 16px;
+        line-height: 1.25rem;
+      }
     }
   }
 
@@ -68,6 +77,7 @@ body {
     border: 1px solid $border-light;
     font-size: 13px;
     margin-top: $default-spacing;
+    margin-bottom: $default-spacing-bottom;
 
     .ng-select-container {
       background-color: transparent !important;
@@ -165,3 +175,6 @@ body {
 //   color: #4F4E4E;
 // }
 
+.checkboxRight {
+  height: 70px;
+}
