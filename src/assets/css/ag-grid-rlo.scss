@@ -1,0 +1,68 @@
+/* gogula styles */
+.grid-search-input {
+  border-bottom: 2px solid #555555 !important;
+}
+
+.grid-search-input input:focus {
+  box-shadow: none !important;
+}
+
+.grid-search-input:focus-within {
+  border-bottom-color: #67B26F !important;
+}
+
+.grid-search-input:focus-within button {
+  color: #67B26F !important;
+}
+
+input[type=number].no-spinner::-webkit-inner-spin-button,
+input[type=number].no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* RLO Styles */
+
+.ag-theme-balham {
+  font-family: 'Open Sans', sans-serif;
+
+  .ag-root {
+    border: none;
+  }
+
+  .ag-header {
+    background-color: #E4F0F9;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 17px;
+    color: #565656;
+    border-radius: 4px;
+    border: none;
+    height: 40px;
+  }
+
+  .ag-row {
+
+    &:not(.ag-row-first) {
+      border: none;
+    }
+  }
+
+  .ag-row-hover {
+    background-color: #ECF0F1;
+  }
+
+  .ag-row-odd {
+    background-color: #FAFAFA;
+
+    &.ag-row-hover {
+      background-color: #ECF0F1;
+    }
+  }
+
+  .ag-cell {
+    border: none;
+    line-height: 40px;
+  }
+}
