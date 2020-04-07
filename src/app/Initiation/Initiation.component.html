@@ -126,7 +126,7 @@
                           domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)">
                         </rlo-ui-radio>
                         </div>
-                        <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
                           <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': BAD_PRODUCT.mandatory}">
                               {{ 'Initiation.BAD_PRODUCT' | translate}}
@@ -137,8 +137,7 @@
                             customClass="Product_Group" domainObjectCode="MstProductDetails"
                             (blur)="genericOnBlur('BAD_PRODUCT', $event)"></app-combo-box>
                         </div>
-                        <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                        <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
                           <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': BAD_SUB_PROD.mandatory}">
                               {{ 'Initiation.BAD_SUB_PROD' | translate}}
@@ -149,7 +148,7 @@
                             doServerUrl="/masters" domainObjectCode="MstSubProductDetails"
                             (blur)="genericOnBlur('BAD_SUB_PROD', $event)"></app-combo-box>
                         </div>
-                        <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
                           <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': BAD_SCHEME.mandatory}">
                               {{ 'Initiation.BAD_SCHEME' | translate}}

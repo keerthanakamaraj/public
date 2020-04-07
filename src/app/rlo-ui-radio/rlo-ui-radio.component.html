@@ -15,9 +15,10 @@
     <ng-container *ngFor="let opt of dropDownOptions.Options;" >
       <Label class="radio-item {{opt.id}}">
         <input type="radio" [value]="opt.id" [name]="fieldID"
-         [disabled]="readOnly" [checked]="value==opt.id" 
-         (change)="onChange($event.target.value)">
-         <span>{{opt.text}}</span>
+        [disabled]="readOnly" [checked]="value==opt.id" 
+        (change)="onChange($event.target.value)">
+        <span class="custom-icon"></span>
+         <span class="radio-text">{{opt.text}}</span>
       </Label>
     </ng-container>
 

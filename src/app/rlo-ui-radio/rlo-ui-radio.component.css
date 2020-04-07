@@ -8,22 +8,30 @@
   background-color: #FAFAFA;
   line-height: 18px;
   font-size: 13px;
-  display:inline-block;
-  margin-top:20px;
+  display:inline-block; 
 }
 
-.rlo-ui-radio-container span {
+.rlo-ui-radio-container .radio-text {
   margin-left: 10px;
   height: 18px;
 }
 
 .rlo-ui-radio-container Label {
-  display: inline;
-  /* margin-top: 10px; */
-  margin-left: 24px;
+  display: inline; 
+  margin-right: 40px;
 }
 
 .rlo-ui-radio-container Label input[type="radio"] {
-  width: 16px;
-  height: 16px;
+      -webkit-appearance:none; 
 }
+.rlo-ui-radio-container Label .custom-icon::before {
+    content: '\25EF';
+    font-size: 11px;
+    color: rgba(110, 94, 94, 0.815);
+ } 
+
+ .rlo-ui-radio-container Label  input[type="radio"]:checked +.custom-icon::before{ 
+      content:'\25C9';
+      font-size: 14px;
+      color: #0079B8;
+ }
