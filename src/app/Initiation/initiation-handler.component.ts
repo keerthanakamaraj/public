@@ -21,7 +21,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
-  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID"];
+  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID"];
 
   constructor(rloui: RlouiService) {
     super(rloui);
@@ -220,7 +220,39 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     return new ValueLabel(element.getFieldValue(), element.getFieldInfo());
   }
 
+  public getBorrowerPostData() {
+    var CustData = [];
+    var CustData = this.customers;
+    if (CustData) {
+      for (var i = 0; i < CustData.length; i++) {
+        var tempObj = {};
+        console.log("CustData   ",CustData);
+        tempObj['CustomerType'] = CustData[i].customerType;
+        tempObj['ExistingCustomer'] = CustData[i].existingCustomer;
+        tempObj['CIF'] = CustData[i].CIF;
+        tempObj['Title'] = CustData[i].title;
+        tempObj['FirstName'] = CustData[i].firstName;
+        tempObj['middleName'] = CustData[i].middleName;
+        tempObj['LastName'] = CustData[i].lastName;
+        tempObj['FullName'] = CustData[i].FULL_NAME;
+        tempObj['Gender'] = CustData[i].gender;
+        tempObj['DOB'] = CustData[i].dob;
+        tempObj['TaxId'] = CustData[i].taxId;
+        tempObj['MobileNo'] = CustData[i].mobileNumber;
+        tempObj['DebitScore'] = CustData[i].debitScore;
+        tempObj['CustomerSegment'] = CustData[i].customerSegment;
+        tempObj['IsStaff'] = CustData[i].staff;
+        tempObj['StaffId'] = CustData[i].staffId;
+        CustData.push(tempObj);
+      }
+    }
+  }
+
+
 }
+
+
+
 
 class Customer {
   tempId: string;
