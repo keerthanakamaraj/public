@@ -184,12 +184,14 @@
                     </div>
                   </div>
                 </div>
-
+              </div>
+              <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
+                <div style="width:100%; background:null;height:1px;"></div>
               </div>
             </rlo-ui-accordion-group>
             <rlo-ui-accordion-group #ACC_CUSTOMER id="ACC_CUSTOMER" title="{{ 'Initiation.CD_HEAD_LABEL' | translate}}">
               <div #CD_GROUP id="CD_GROUP">
-                <div class="form-group pb10 form-group-initiation">
+                <div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
@@ -391,12 +393,14 @@
                       (ModifyCustDetails)="CUST_DTLS_GRID_ModifyCustDetails($event)"></app-CustDtlsGrid>
                   </div>
                 </div>
-
+              </div>
+              <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
+                <div style="width:100%; background:null;height:1px;"></div>
               </div>
             </rlo-ui-accordion-group>
             <rlo-ui-accordion-group #ACC_LOAN_DTLS id="ACC_LOAN_DTLS" title="{{ 'Initiation.LD_HEAD' | translate}}" [hidden]="!isLoanCategory">
               <div #LD_GROUP id="LD_GROUP">
-                <div class="form-group pb10 form-group-initiation">
+                <div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_AMOUNT.mandatory}">
@@ -522,12 +526,14 @@
                   </div>
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                 </div>
-
+              </div>
+              <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
+                <div style="width:100%; background:null;height:1px;"></div>
               </div>
             </rlo-ui-accordion-group>
             <rlo-ui-accordion-group #ACC_REFERRER id="ACC_REFERRER" title="{{ 'Initiation.RD_HEAD_LBL' | translate}}">
               <div #RD_GROUP id="RD_GROUP">
-                <div class="form-group pb10 form-group-initiation">
+                <div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NAME.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': RD_REFERRER_NAME.mandatory}">
@@ -545,7 +551,9 @@
                       placeholder="(Optional)" (blur)="genericOnBlur('RD_REFERRER_NO', $event)"></app-text-box>
                   </div>
                 </div>
-
+              </div>
+              <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
+                <div style="width:100%; background:null;height:1px;"></div>
               </div>
             </rlo-ui-accordion-group>
           </rlo-ui-accordion>

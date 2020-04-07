@@ -10,7 +10,8 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
       <div class="acc-header-text">{{title}}
       <ul class="ul">
         <li *ngFor="let tag of tags;" class="tag">
-          <span class="label">{{ tag.label }}</span><span>{{ tag.text }}</span>
+          <span class="label">{{ tag.label }}</span>
+          <span class="text">{{ tag.text }}</span>
         </li>
       </ul>
       </div>

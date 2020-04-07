@@ -451,13 +451,13 @@
   line-height: 22px !important;
 }
 
-.form-group-initiation {
+/* .form-group-initiation { */
   /* box-sizing: border-box;
     height: 1px;
     width: 1325px; */
-  border-bottom: 1px solid #DDDDDD !important;
-  padding-top: 19px;
-}
+  /* border-bottom: 1px solid #DDDDDD !important; */
+  /* padding-top: 19px; */
+
 
 /* Buttons */
 .inlineButton {
