@@ -25,6 +25,7 @@
             "styles": [
               "src/assets/css/rlo-style.scss",
               "src/assets/css/rlo_style.css",
+              "src/assets/css/ag-grid-rlo.scss",
               "src/assets/css/font-awesome.min.css",
               "src/assets/css/font-awesome-5.min.css"
             ],
@@ -76,6 +77,7 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/assets/css/rlo-style.scss",
+              "src/assets/css/ag-grid-rlo.scss",
               "src/assets/css/rlo_style.css"
             ],
             "scripts": [],
