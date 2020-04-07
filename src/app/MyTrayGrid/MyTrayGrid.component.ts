@@ -21,8 +21,8 @@ transition('false => true', animate('300ms ease-in'))
 ],
 })
 export class MyTrayGridComponent implements AfterViewInit {
-constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
-@ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
+constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
+@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
 @Input('formCode') formCode: string;
 @Input('displayTitle') displayTitle: boolean = true;
@@ -30,131 +30,131 @@ constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @Input('fieldID') fieldID: string;
 
 componentCode: string = 'MyTrayGrid';
-openedFilterForm:string = '';
-hidden:boolean = false;
+openedFilterForm: string = '';
+hidden: boolean = false;
 gridConsts: any = {
 paginationPageSize: 10,
 gridCode: "MyTrayGrid",
-paginationReq:false
+paginationReq: true
 };
-columnDefs:any[] = [{
-field:"MT_PROPOSAL_ID",
-width:12,
+columnDefs: any[] = [{
+field: "MT_PROPOSAL_ID",
+width: 12,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_CUSTOMER",
-width:14,
+field: "MT_CUSTOMER",
+width: 14,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_CAM_TYPE",
-width:12,
+field: "MT_CAM_TYPE",
+width: 12,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_STAGE",
-width:14,
+field: "MT_STAGE",
+width: 14,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_INITIATED_BY",
-width:12,
+field: "MT_INITIATED_BY",
+width: 12,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_INITIATED_ON",
-width:12,
+field: "MT_INITIATED_ON",
+width: 12,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_CAD_LOCATION",
-width:12,
+field: "MT_CAD_LOCATION",
+width: 12,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 {
-field:"MT_PENDING_WITH",
-width:12,
+field: "MT_PENDING_WITH",
+width: 12,
 sortable: true,
 resizable: true,
-cellStyle: {'text-align': 'left'},
+cellStyle: { 'text-align': 'left' },
 filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
+filterParams: {
+suppressAndOrCondition: true,
 applyButton: true,
 clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
+filterOptions: ["contains"],
+caseSensitive: true,
 },
 },
 ];
@@ -164,15 +164,18 @@ this.services.translate.onLangChange
 .pipe(takeUntil(this.unsubscribe$))
 .subscribe((event: LangChangeEvent) => {
 var colDefClone = [];
-for(var i=0;i<this.columnDefs.length;i++){
+for (var i = 0; i < this.columnDefs.length; i++) {
 colDefClone[i] = Object.assign({}, this.columnDefs[i]);
 }
 this.readonlyGrid.loadColums(colDefClone);
 });
+
+
+console.log("AGGrid ngAfterViewInit ", this.readonlyGrid.agGrid);
 }
-onGridSizeChanged(){
+onGridSizeChanged() {
 var colDefClone = [];
-for(var i=0;i<this.columnDefs.length;i++){
+for (var i = 0; i < this.columnDefs.length; i++) {
 colDefClone[i] = Object.assign({}, this.columnDefs[i]);
 }
 this.readonlyGrid.loadColums(colDefClone);
@@ -195,7 +198,7 @@ styleElement.innerHTML = customCss;
 styleElement.id = 'MyTrayGrid_customCss';
 document.getElementsByTagName('head')[0].appendChild(styleElement);
 }
-ngOnDestroy(){
+ngOnDestroy() {
 this.unsubscribe$.next();
 this.unsubscribe$.complete();
 var styleElement = document.getElementById('MyTrayGrid_customCss');
@@ -203,57 +206,59 @@ styleElement.parentNode.removeChild(styleElement);
 }
 gridDataLoad(formInputs) {
 this.readonlyGrid.setFormInputs(formInputs);
+
+console.log("AGGrid gridDataLoad", this.readonlyGrid.agGrid.gridOptions);
 }
-refreshGrid(){
+refreshGrid() {
 this.readonlyGrid.refreshGrid();
 }
-setHidden(value: boolean){
+setHidden(value: boolean) {
 this.hidden = value;
 }
-isHidden(){
+isHidden() {
 return this.hidden;
 }
-async gridDataAPI(params, gridReqMap: Map<string, any>, event){
+async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
 let inputMap = new Map();
-let sliderVal:any = event.sliderVal;
-if(sliderVal){
+let sliderVal: any = event.sliderVal;
+if (sliderVal) {
 inputMap.clear();
-inputMap.set('PathParam.userid',sessionStorage.getItem('userId'));
-if(gridReqMap.get("FilterCriteria")){
+inputMap.set('PathParam.userid', sessionStorage.getItem('userId'));
+if (gridReqMap.get("FilterCriteria")) {
 var obj = gridReqMap.get("FilterCriteria");
-for(var i=0;i<obj.length;i++){
+for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
-case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
-case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
-case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
-case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
-case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
-case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
-case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
-case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
-case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
-case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
-default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
+case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
+case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
+case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
+case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
+case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
+case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
 }
 }
 }
-if(gridReqMap.get("OrderCriteria")){
+if (gridReqMap.get("OrderCriteria")) {
 var obj = gridReqMap.get("OrderCriteria");
-for(var i=0;i<obj.length;i++){
+for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
-case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
-case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
-case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
-case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
-case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
-case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
-case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
-case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
-case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
-case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
-default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
+case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
+case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
+case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
+case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
+case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
+case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
 }
 }
 }
@@ -277,56 +282,57 @@ tempObj['MT_PENDING_WITH'] = loopVar7[i].ASSIGNED_TO;
 tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
 tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
 tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
-loopDataVar7.push(tempObj);}
+loopDataVar7.push(tempObj);
+}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
 },
-async (httpError)=>{
+async (httpError) => {
 var err = httpError['error']
-if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
 }
 this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
 }
 );
 }
-else{
+else {
 inputMap.clear();
 inputMap.set('PathParam.userid', sessionStorage.getItem('userId'));
-if(gridReqMap.get("FilterCriteria")){
+if (gridReqMap.get("FilterCriteria")) {
 var obj = gridReqMap.get("FilterCriteria");
-for(var i=0;i<obj.length;i++){
+for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
-case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
-case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
-case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
-case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
-case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
-case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
-case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
-case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
-case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
-case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
-default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
+case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
+case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
+case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
+case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
+case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
+case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
 }
 }
 }
-if(gridReqMap.get("OrderCriteria")){
+if (gridReqMap.get("OrderCriteria")) {
 var obj = gridReqMap.get("OrderCriteria");
-for(var i=0;i<obj.length;i++){
+for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
-case "MT_PROPOSAL_ID":obj[i].columnName =  "PROPOSAL_ID";break;
-case "MT_CUSTOMER":obj[i].columnName =  "CUSTOMER_NAME";break;
-case "MT_CAM_TYPE":obj[i].columnName =  "EXISTING_CUST";break;
-case "MT_STAGE":obj[i].columnName =  "STAGE_NAME";break;
-case "MT_INITIATED_BY":obj[i].columnName =  "CREATED_BY";break;
-case "MT_INITIATED_ON":obj[i].columnName =  "CREATED_ON";break;
-case "MT_CAD_LOCATION":obj[i].columnName =  "BRANCH";break;
-case "MT_PENDING_WITH":obj[i].columnName =  "ASSIGNED_TO";break;
-case "hiddenTaskId":obj[i].columnName =  "TASK_ID";break;
-case "hiddenInstanceId":obj[i].columnName =  "INSTANCE_ID";break;
-case "hiddenStageId":obj[i].columnName =  "STAGE_ID";break;
-default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
+case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
+case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
+case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
+case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
+case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
+case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
 }
 }
 }
@@ -350,13 +356,14 @@ tempObj['MT_PENDING_WITH'] = loopVar32[i].ASSIGNED_TO;
 tempObj['hiddenTaskId'] = loopVar32[i].TASK_ID;
 tempObj['hiddenInstanceId'] = loopVar32[i].INSTANCE_ID;
 tempObj['hiddenStageId'] = loopVar32[i].STAGE_ID;
-loopDataVar32.push(tempObj);}
+loopDataVar32.push(tempObj);
+}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar32);
 },
-async (httpError)=>{
+async (httpError) => {
 var err = httpError['error']
-if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
 }
 this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
 }
@@ -370,7 +377,7 @@ var navPath = ('/home').split('/');
 navPath = navPath.slice(1);
 inputMap.clear();
 const selectedData2 = this.readonlyGrid.getSelectedData();
-if(selectedData2){
+if (selectedData2) {
 navPath.push(selectedData2['hiddenStageId']);
 inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
 inputMap.set('taskId', selectedData2['hiddenTaskId']);
@@ -379,7 +386,7 @@ inputMap.set('instanceId', selectedData2['hiddenInstanceId']);
 this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
 if (this.services.routing.currModal > 0) {
 var routerOutlets = {};
-routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length-1], 'popup'];
+routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length - 1], 'popup'];
 this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange: true });
 } else {
 this.services.router.navigate(navPath);
