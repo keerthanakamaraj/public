@@ -164,29 +164,13 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   onChange(event) {
-    // console.log("onChange ", event);
     this.value = event;
-    // if(event==undefined){return;}
-    // if (this.category == '3') {
-    //   this.additionalInfo = [];
-    //   for (var i in event) {
-    //     let obj = event[i];
-    //     this.additionalInfo[i] = obj['text'];
-    //   }
-    // } else if (this.category == '2') {
-    //   this.dropDownOptions.selectedOption = {};
-    //   this.dropDownOptions.selectedOption['id'] = event['id'];
-    //   this.dropDownOptions.selectedOption['text'] = event['text'];
-    //   this.additionalInfo = event['text'];
-    // } else {
-    //   if (event === "undefined" || event === undefined) {
-    //     this.dropDownOptions.Options[0].text = this.placeholder;
-    //     this.value = undefined;
-    //   } else {
-    //     this.dropDownOptions.Options[0].text = '';
-    //     this.value = event;
-    //   }
-    // }
+    
+    let opt = this.dropDownOptions.Options.find(o => o.id == this.value) ;
+    if(opt){
+      this.additionalInfo = opt.text;
+    }
+
     this.change.emit();
   }
 
@@ -240,73 +224,13 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   setValue(value, description = undefined) {
-    // if (this.category == '3') {
-    //   if(description==undefined){
-    //     this.getDescription(value).then(
-    //       (desc)=>{
-    //         this.value = [];
-    //         this.dropDownOptions.Options = [];
-    //         for (var i = 0; i < value.length; i++) {
-    //           let json = {};
-    //           json['id'] = value[i];
-    //           json['text'] = desc[i];
-    //           this.dropDownOptions.Options.push(json);
-    //         }
-    //         this.additionalInfo = desc;
-    //       }
-    //     );
-    //   }else{
-    //     this.value = [];
-    //     this.dropDownOptions.Options = [];
-    //     for (var i = 0; i < value.length; i++) {
-    //       let json = {};
-    //       json['id'] = value[i];
-    //       json['text'] = description[i];
-    //       this.dropDownOptions.Options.push(json);
-    //     }
-    //     this.additionalInfo = description;
-    //   }
-    // } else {
-    //   if(description==undefined){
-    //     this.getDescription(value).then(
-    //       (desc)=>{
-    //         if(this.category=="2"){
-    //           this.dropDownOptions.Options = [{ 'id': value, 'text': desc }];
-    //         }
-    //         this.additionalInfo = desc;
-    //       }
-    //     );
-    //   }else{
-    //     if(this.category=="2"){
-    //       this.dropDownOptions.Options = [{ 'id': value, 'text': description }];
-    //     }
-    //     this.additionalInfo = description;
-    //   }
-    // }
-    this.value = value;
-    // if (description == undefined) {
-    //   this.dropDownOptions.loading = true;
-    //   this.getDescription(value).then(
-    //     (desc)=>{
-    //       if(this.category=="3"){
-    //         for (let i = 0; i < value.length; i++) {
-    //           var opt = this.dropDownOptions.Options.find((opt)=>{return (opt.id == value[i])});
-    //           if(opt){
-    //             opt['text'] = desc[i];
-    //           }
-    //         }
-    //       }else{
-    //         var opt = this.dropDownOptions.Options.find((opt)=>{return (opt.id == value)});
-    //         if(opt){
-    //           opt['text'] = desc;
-    //         }
-    //       }
-    //       this.dropDownOptions.loading = false;
-    //       this.additionalInfo = description;
-    //       this.cdRef.detectChanges();
-    //     }
-    //   );
-    // }
+    let opt = this.dropDownOptions.Options.find(o => o.id == value) ;
+    if(opt){
+      this.value = value
+      this.additionalInfo = opt.text;
+    }else {
+      this.onReset();
+    }
     this.passNewValue(value);
   }
 
