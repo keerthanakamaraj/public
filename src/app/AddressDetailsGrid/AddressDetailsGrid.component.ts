@@ -195,6 +195,7 @@ case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
 case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
 case "AD_Address":obj[i].columnName =  "AddressLine1";break;
 case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
+case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -207,6 +208,7 @@ case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
 case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
 case "AD_Address":obj[i].columnName =  "AddressLine1";break;
 case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
+case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -224,6 +226,7 @@ tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
 tempObj['AD_Address'] = loopVar10[i].AddressLine1;
 tempObj['AD_Residence_Duration'] = loopVar10[i].PeriodCurrentResidenceYrs;
+tempObj['MailingAddress'] = loopVar10[i].MailingAddress;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
@@ -269,5 +272,10 @@ this.loadSpinner=true;
 hideSpinner(){
 this.loadSpinner=false;
 }
+getFieldValue() {
+    let rowData = [];
+    this.readonlyGrid.gridApi.forEachNode(node => rowData.push(node.data));
+    return rowData;
+  }
 
 }
