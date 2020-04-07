@@ -222,30 +222,30 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   public getBorrowerPostData() {
     var CustData = [];
-    var CustData = this.customers;
-    if (CustData) {
-      for (var i = 0; i < CustData.length; i++) {
+    if (this.customers) {
+      for (var i = 0; i < this.customers.length; i++) {
         var tempObj = {};
-        console.log("CustData   ",CustData);
-        tempObj['CustomerType'] = CustData[i].customerType;
-        tempObj['ExistingCustomer'] = CustData[i].existingCustomer;
-        tempObj['CIF'] = CustData[i].CIF;
-        tempObj['Title'] = CustData[i].title;
-        tempObj['FirstName'] = CustData[i].firstName;
-        tempObj['middleName'] = CustData[i].middleName;
-        tempObj['LastName'] = CustData[i].lastName;
-        tempObj['FullName'] = CustData[i].FULL_NAME;
-        tempObj['Gender'] = CustData[i].gender;
-        tempObj['DOB'] = CustData[i].dob;
-        tempObj['TaxId'] = CustData[i].taxId;
-        tempObj['MobileNo'] = CustData[i].mobileNumber;
-        tempObj['DebitScore'] = CustData[i].debitScore;
-        tempObj['CustomerSegment'] = CustData[i].customerSegment;
-        tempObj['IsStaff'] = CustData[i].staff;
-        tempObj['StaffId'] = CustData[i].staffId;
+        console.log("CustData   ", this.customers[i]);
+        tempObj['CustomerType'] = this.customers[i].customerType.value;
+        tempObj['ExistingCustomer'] = this.customers[i].existingCustomer.value;
+        tempObj['CIF'] = this.customers[i].CIF;
+        tempObj['Title'] = this.customers[i].title.value;
+        tempObj['FirstName'] = this.customers[i].firstName;
+        tempObj['middleName'] = this.customers[i].middleName;
+        tempObj['LastName'] = this.customers[i].lastName;
+        tempObj['FullName'] = this.customers[i].FULL_NAME;
+        tempObj['Gender'] = this.customers[i].gender.value;
+        tempObj['DOB'] = this.customers[i].dob;
+        tempObj['TaxId'] = this.customers[i].taxId;
+        tempObj['MobileNo'] = this.customers[i].mobileNumber;
+        tempObj['DebitScore'] = this.customers[i].debitScore;
+        tempObj['CustomerSegment'] = this.customers[i].customerSegment.value;
+        tempObj['IsStaff'] = this.customers[i].staff.value;
+        tempObj['StaffId'] = this.customers[i].staffId;
         CustData.push(tempObj);
       }
     }
+    return CustData;
   }
 
 

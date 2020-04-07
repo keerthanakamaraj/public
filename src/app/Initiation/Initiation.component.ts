@@ -351,29 +351,13 @@ await this.Handler.onCheckEligibilityClick({}
 }
 async SUBMIT_MAIN_BTN_click(event){
 
-// console.log("Existing customer Radio Value ", this.CD_EXISTING_CUST.getFieldValue());
-this.CD_EXISTING_CUST.setValue("Y");
-
-//return;
-
-
 let inputMap = new Map();
 inputMap.clear();
+inputMap.set('HeaderParam.tenant-id', 'SB1');
+inputMap.set('HeaderParam.user-id', 'Vishal');
+
 inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
 inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.FullName', this.CD_FULL_NAME.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SGMT.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
-// inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
 inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
 inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
 inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
@@ -383,30 +367,11 @@ inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.ge
 inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
 inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
 
-// var loopDataVar12 = [];
-// var loopVar12 = this.Handler.customers;
-// if (loopVar12) {
-// for (var i = 0; i < loopVar12.length; i++) {
-// var tempObj = {};
-// tempObj['CustomerType'] = loopVar12[i].customerType;
-// tempObj['ExistingCustomer'] = loopVar12[i].existingCustomer;
-// tempObj['CIF'] = loopVar12[i].CIF;
-// tempObj['Title'] = loopVar12[i].title;
-// tempObj['FirstName'] = loopVar12[i].firstName;
-// tempObj['middleName'] = loopVar12[i].middleName;
-// tempObj['LastName'] = loopVar12[i].lastName;
-// tempObj['FullName'] = loopVar12[i].FULL_NAME;
-// tempObj['Gender'] = loopVar12[i].gender;
-// // tempObj['DOB'] = loopVar12[i].dob;
-// tempObj['TaxId'] = loopVar12[i].taxId;
-// tempObj['MobileNo'] = loopVar12[i].mobileNumber;
-// tempObj['DebitScore'] = loopVar12[i].debitScore;
-// tempObj['CustomerSegment'] = loopVar12[i].customerSegment;
-// tempObj['IsStaff'] = loopVar12[i].staff;
-// tempObj['StaffId'] = loopVar12[i].staffId;
-// loopDataVar12.push(tempObj);}
-// }
 inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+
+console.log("Params ", inputMap);
+
+//return;
 
 this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
