@@ -9,7 +9,9 @@
         <ul class="pagination pull-right mt0">
             <li [ngClass]="{'disabled': activePage==1}" (click)="previousPage()">
                 <a  style="cursor: pointer;" aria-label="Previous">
-                  <span aria-hidden="true">&#171;</span>
+                  <span aria-hidden="true">&#8249;</span>
+                  &nbsp;&nbsp;
+                  <span aria-hidden="true">&#8249;</span>
                 </a>
               </li>
               <!-- <div style="display: inline;" *ngFor="let num of numbers; let i=index">
@@ -18,10 +20,10 @@
                     </li>
               </div> -->
 
-              <li [ngClass]="{'active': number==activePage}" *ngIf="number<=maxSize" (click)="onBtPage(number)" >
+              <!-- <li [ngClass]="{'active': number}" *ngIf="number<=maxSize" (click)="onBtPage(number)" >
                 <a style="cursor: pointer;" title="{{number}}">{{number}}</a>
-              </li>
-              <li [ngClass]="{'active': number+1==activePage}" *ngIf="number+1<=maxSize" (click)="onBtPage(number+1)" >
+              </li> -->
+              <!-- <li [ngClass]="{'active': number+1==activePage}" *ngIf="number+1<=maxSize" (click)="onBtPage(number+1)" >
                 <a  style="cursor: pointer;" title="{{number+1}}">{{number+1}}</a>
               </li>
               <li [ngClass]="{'active': number+2==activePage}" *ngIf="number+2<=maxSize" (click)="onBtPage(number+2)" >
@@ -32,12 +34,14 @@
               </li>
               <li [ngClass]="{'active': number+4==activePage}" *ngIf="number+4<=maxSize" (click)="onBtPage(number+4)" >
                 <a  title="{{number+4}}">{{number+4}}</a>
-              </li>
+              </li> -->
               
 
               <li (click)="nextPage()" [ngClass]="{'disabled': activePage==maxSize}">
                 <a  style="cursor: pointer;" aria-label="Next">
-                  <span aria-hidden="true">&#187;</span>
+                  <span aria-hidden="true">&#8250;</span>
+                  &nbsp;&nbsp;
+                  <span aria-hidden="true">&#8250;</span>
                 </a>
               </li>
         </ul>
