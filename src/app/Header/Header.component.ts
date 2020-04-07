@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Inpu
 import { HeaderModel } from './Header.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
-import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { TextAreaComponent } from '../text-area/text-area.component';
 import { CheckBoxComponent } from '../check-box/check-box.component';
 import { HiddenComponent } from '../hidden/hidden.component';
@@ -106,16 +106,17 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
+        console.log('inputmaap', inputMap);
         this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                // this.HD_PROD_CAT.setValue(res['Header']['ProductCategory']);
-                this.HD_APP_REF_NUM.setValue('125567897');
+                this.HD_PROD_CAT.setValue('Mortgage');
+                this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
                 this.HD_PROD.setValue(res['Header']['Product']);
                 this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
                 this.HD_SCHEME.setValue(res['Header']['Scheme']);
                 this.HD_PROMOTION.setValue(res['Header']['Promotion']);
-                 this.LD_LOAN_AMT.setValue('2000000');
+                this.LD_LOAN_AMT.setValue('2000000');
                 this.LD_INTEREST_RATE.setValue(res['Header']['InterestRate']);
                 this.LD_TENURE.setValue(res['Header']['Tenure']);
                 this.LD_TENURE_PERIOD.setValue(res['Header']['TenurePeriod']);
