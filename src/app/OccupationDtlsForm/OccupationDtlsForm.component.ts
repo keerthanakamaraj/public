@@ -201,7 +201,10 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
-
+async OD_CLEAR_BTN_click(event){
+  let inputMap = new Map();
+  this.onReset();
+}
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
 var nooferror:number = await this.revalidate();
