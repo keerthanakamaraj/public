@@ -93,7 +93,6 @@ body {
 
     label {
       color: $input-lbl-color;
-      height: 12px;
       font-size: 12px;
       line-height: 12px;
       letter-spacing: 0;
@@ -335,8 +334,6 @@ text-align: center;
 }
 
 #LD_LOAN_AMT{
-  height: 49px !important;
-  width: 154px !important;
   color: #FFFFFF !important;
   font-family: "Open Sans" !important;
   font-size: 36px !important;
@@ -344,9 +341,8 @@ text-align: center;
   letter-spacing: 0 !important;
   line-height: 49px !important;
   text-align: center !important;
-  padding-right:73px !important;
   padding-top:40px !important;
-  padding-bottom:159px !important
+  padding-bottom:53px !important
 }
 .border{
 box-sizing: border-box !important;
@@ -354,14 +350,14 @@ height: 1.01px !important;
 width: 253px !important;
 border: 1px solid #0069A0 !important;
 margin-left: 27px;
-margin-top: 38px;
+
 }
 .loanimage{
 max-width: 15% !important;
 }
 
 .LoanTypeImage{
-padding-top: 62px !important;
+padding-top: 35px !important;
 
 }
 #HD_PROD_CAT{

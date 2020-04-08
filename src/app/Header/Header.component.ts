@@ -110,13 +110,13 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.HD_PROD_CAT.setValue('Mortgage');
+                this.HD_PROD_CAT.setValue(res['Header']['TypeOfLoan']);
                 this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
                 this.HD_PROD.setValue(res['Header']['Product']);
                 this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
                 this.HD_SCHEME.setValue(res['Header']['Scheme']);
                 this.HD_PROMOTION.setValue(res['Header']['Promotion']);
-                this.LD_LOAN_AMT.setValue('2000000');
+                this.LD_LOAN_AMT.setValue(res['Header']['LoanAmount']);
                 this.LD_INTEREST_RATE.setValue(res['Header']['InterestRate']);
                 this.LD_TENURE.setValue(res['Header']['Tenure']);
                 this.LD_TENURE_PERIOD.setValue(res['Header']['TenurePeriod']);
@@ -124,8 +124,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
                 this.LD_SYS_RCMD_AMT.setValue(res['Header']['SystemRecommendedAmount']);
                 this.LD_USR_RCMD_AMT.setValue(res['Header']['UserRecommendedAmount']);
                 // this.HD_APP_SUBMSN_DT.setValue(res['Header']['AppSubmissionDate']);
-                this.HD_CIF.setValue(res['Header']['CIF']);
-                this.HD_CUST_ID.setValue(res['Header']['CustomerId']);
+                // this.HD_CIF.setValue(res['Header']['CIF']);
+                // this.HD_CUST_ID.setValue(res['Header']['CustomerId']);
             },
             async (httpError) => {
                 var err = httpError['error']
