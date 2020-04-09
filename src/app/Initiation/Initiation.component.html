@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="SEARCH_CUST_BTN.isHidden()">
                   <app-button #SEARCH_CUST_BTN fieldName="{{ 'Initiation.SEARCH_CUST_BTN' | translate}}"
-                    fieldID="SEARCH_CUST_BTN" [formCode]="formCode" iconClass="fas fa-search fa-lg" [type]="4"
+                    fieldID="SEARCH_CUST_BTN" [formCode]="formCode" iconClass="fas fa-search" [type]="4"
                     customClass="icon-button" (buttonClick)="SEARCH_CUST_BTN_click($event)"></app-button>
                 </div>
               </div>
@@ -163,13 +163,12 @@
 
                     </div>
                   </div>
-                  <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 23px 15px 10px 15px;">
+                  <div class="col-12  col-sm-6 col-md-6 group-default">
                     <div #FieldId_73 id="FieldId_73">
                       <div class="form-group pb10 PROMOTION_GROUP">
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
                           <app-label #PROMOTION_LABEL parentCompCode="Initiation" legendAlign="text-center"
-                            fieldID="PROMOTION_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555"
-                            fontStyle="normal" fontSize="16px" fontWeight="400"></app-label>
+                            fieldID="PROMOTION_LABEL" [formCode]="formCode" ></app-label>
                         </div>
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PROMOTION.isHidden()">
                           <app-combo-box #BAD_PROMOTION category="2" fieldID="BAD_PROMOTION" [formCode]="formCode"
@@ -253,7 +252,6 @@
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #FieldId_65 parentCompCode="Initiation" fieldID="FieldId_65" [formCode]="formCode"
-                      fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="unset"
                       customClass="sub-section-header"></app-label>
                   </div>
                   <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CD_TITLE.isHidden()">
@@ -347,7 +345,6 @@
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #FieldId_66 parentCompCode="Initiation" fieldID="FieldId_66" [formCode]="formCode"
-                      fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="unset"
                       customClass="sub-section-header"></app-label>
                   </div>
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
@@ -378,12 +375,12 @@
                   </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_ADD.isHidden()">
                     <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"
-                      [formCode]="formCode" iconClass="fa fa-plus fa-lg" [type]="4" customClass="icon-button"
+                      [formCode]="formCode" iconClass="fa fa-plus" [type]="4" customClass="icon-button"
                       (buttonClick)="CD_ADD_click($event)"></app-button>
                   </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_RESET.isHidden()">
                     <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
-                      [formCode]="formCode" iconClass="fas fa-undo fa-lg" [type]="4" customClass="icon-button"
+                      [formCode]="formCode" iconClass="fas fa-undo" [type]="4" customClass="icon-button"
                       (buttonClick)="CD_RESET_click($event)"></app-button>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
@@ -432,7 +429,8 @@
                         {{ 'Initiation.LD_TENURE_PERIOD' | translate}}</label>
                     </div>
                     <app-combo-box #LD_TENURE_PERIOD category="2" fieldID="LD_TENURE_PERIOD" [formCode]="formCode"
-                      placeholder="Select" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)"></app-combo-box>
+                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)"></app-combo-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_APP_PRPSE.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -441,12 +439,11 @@
                       </label>
                     </div>
                     <app-combo-box #LD_APP_PRPSE category="2" fieldID="LD_APP_PRPSE" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="null" domainObjectCode="LoanDetails"
-                      (blur)="genericOnBlur('LD_APP_PRPSE', $event)"></app-combo-box>
+                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" 
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_APP_PRPSE', $event)"></app-combo-box>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #FieldId_67 parentCompCode="Initiation" fieldID="FieldId_67" [formCode]="formCode"
-                      fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="unset"
                       customClass="sub-section-header"></app-label>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_GROSS_INCOME.isHidden()">
@@ -483,6 +480,7 @@
                     <app-amount #LD_NET_INCOME fieldID="LD_NET_INCOME" [formCode]="formCode"
                       (blur)="genericOnBlur('LD_NET_INCOME', $event)"></app-amount>
                   </div>
+                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CHK_ELGBTY_BTN.isHidden()">
                     <app-button #LD_CHK_ELGBTY_BTN fieldName="{{ 'Initiation.LD_CHK_ELGBTY_BTN' | translate}}"
                       fieldID="LD_CHK_ELGBTY_BTN" [formCode]="formCode" customClass="inlineButton"
@@ -573,6 +571,8 @@
         <app-hidden #hidGender fieldID="hidGender"></app-hidden>
         <app-hidden #hidCustSeg fieldID="hidCustSeg"></app-hidden>
         <app-hidden #hideExsCust fieldID="hideExsCust"></app-hidden>
+        <app-hidden #hidetTenurePeriod fieldID="hidetTenurePeriod"></app-hidden>
+        <app-hidden #hideAppPurpose fieldID="hideAppPurpose"></app-hidden>
       </div>
     </div>
     <div class="col-12  col-sm-12 col-md-12 group-default">

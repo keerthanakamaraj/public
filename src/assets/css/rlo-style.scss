@@ -20,48 +20,6 @@ $bg-light: #FAFCFF;
 $default-spacing: 1.25rem;
 $default-spacing-bottom: 1.167rem;
 
-/* mixins*/
-
-@mixin image-radio-settings($imgurl) {
-  height: 180px !important;
-  display: inline-block !important;
-  width: 180px;
-  background-image: url($imgurl);
-  background-repeat: no-repeat;
-  background-position: center!important;
-  padding-left: 42px;
-  border: 1px solid #DDDDDD !important;
-  border-radius: 5px;
-  background-color: transparent !important;
-  cursor:pointer;
-
-   input[type="radio"]{
-    -webkit-appearance:none;
-    }
-    .radio-text{
-      text-align: center !important;
-      position: absolute;
-      padding-top: 140px;
-      margin-left:0px !important;
-    }
-    .custom-icon::before{
-     // padding-left: 78px !important;
-      font-size: 26px !important;
-      content: "" !important;
-    }
- input:checked +.custom-icon::before{
- content: "\2611" !important;
- //padding-left: 78px !important;
- font-size: 26px !important;
- color: rgb(7, 165, 46) !important;
-}
-
-&:hover {
-  box-shadow: 0 0 5px $primary-color;
-}
-
-}
-
 /* Class Definitions */
 
 body {
@@ -152,6 +110,11 @@ body {
     margin-top: $default-spacing;
   }
 
+  .mydp .icon-mydpcalendar:before {
+    content: "\f073";
+    font-family: "Font Awesome 5 Free";
+  }
+
   .res-pr-hide-line {
     box-sizing: border-box;
     height: 1px;
@@ -185,7 +148,7 @@ body {
 
 
 .icon-button {
-  margin-top: 32px;
+  margin-top: 50px;
   align-self: start;
   width: $input-height !important;
   height: $input-height;
@@ -194,6 +157,10 @@ body {
   color: $primary-color;
   background: rgba(0,121,184,0.09);
   border: 1px solid $primary-color;
+}
+
+app-button[customclass="icon-button"] div {
+  text-align: left !important;
 }
 
 // #SEARCH_CUST_BTN {
@@ -224,25 +191,73 @@ body {
   height: 70px;
 }
 
+
 rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
-  margin-top:16px;
-  height: 200px !important;
-  width: 100% !important;
-  background-color: white !important;
-  border:none!important;
-  
-.PL {
-  @include image-radio-settings("../images/icons/personaloan.png");
-}
-.ML {
-  @include image-radio-settings("../images/icons/mortageloan.png");
-}
+  height: 200px ;
+  background-color: transparent ;
+  border:none ;
 
-  .AL {
-    @include image-radio-settings("../images/icons/autoloan.png");
-  }
+  .radio-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    display: inline-block !important;
+    width: 180px;
+    height: 180px;
+    vertical-align: middle;
 
+    .checkmark {
+      height: 96px;
+      width: 96px;
+      display: inline-block;
+      margin: 30px 41px 5px;
+      border: none !important;
+      background-color: rgba(204,204,204,0.4) !important;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 64px 64px;
+    }
 
+    input:checked ~ .checkmark {
+      border: 1px solid $primary-color !important;
+      
+      &::after {
+        content: "\f058";
+        font-family: "Font Awesome 5 Free";
+        font-size: 20px;
+        float: right;
+        margin-top: -20px;
+        margin-right: -20px;
+        color: #00B500;
+      }
+    }
+
+    .radio-text {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      margin-left: 0;
+      font-size: 16px;
+      color: #595959;
+    }
+
+    input:checked ~ .radio-text {
+      color: $primary-color;
+    }
+
+    &.AL .checkmark{
+      background-image: url("../images/icons/autoloan.svg");
+    }
+
+    &.PL .checkmark{
+      background-image: url("../images/icons/personaloan.png");
+    }
+
+    &.ML .checkmark{
+      background-image: url("../images/icons/mortageloan.svg");
+    }
+  }  
 }
 
 .read-only-field{

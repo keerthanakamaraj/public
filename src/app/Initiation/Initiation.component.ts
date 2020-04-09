@@ -96,6 +96,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
 
+@ViewChild('hidetTenurePeriod', {static: false}) hidetTenurePeriod: HiddenComponent;
+@ViewChild('hideAppPurpose', {static: false}) hideAppPurpose: HiddenComponent;
+
 @ViewChild('INIT_ACCORD', {static:false}) INIT_ACCORD: RloUiAccordionComponent;
 
 isLoanCategory: boolean;
@@ -199,6 +202,8 @@ this.hidTitle.setValue('TITLE');
 this.hidGender.setValue('GENDER');
 this.hidCustSeg.setValue('CUST_SEGMENT');
 this.hideExsCust.setValue('YES_NO');
+this.hidetTenurePeriod.setValue('TENURE_PERIOD');
+this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
 let inputMap = new Map();
 await this.Handler.onFormLoad({
 });
@@ -301,6 +306,9 @@ let inputMap = new Map();
 await this.Handler.onProdCategoryChange({
 }
 );
+}
+async BAD_BRANCH_change(event){
+console.log("branch changed ", event);
 }
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
@@ -589,6 +597,26 @@ inDep: [
 ],
 outDep: [
 ]},
+LD_APP_PRPSE: {
+  inDep: [
+
+    {paramKey: "VALUE1", depFieldID: "LD_APP_PRPSE", paramType:"PathParam"},
+    {paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType:"QueryParam"},
+    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+    ],
+    outDep: [
+    ]
+},
+LD_TENURE_PERIOD: {
+  inDep: [
+
+    {paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType:"PathParam"},
+    {paramKey: "KEY1", depFieldID: "hidetTenurePeriod", paramType:"QueryParam"},
+    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+    ],
+    outDep: [
+    ]
+}
 }
 
 }
