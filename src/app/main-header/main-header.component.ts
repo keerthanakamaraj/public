@@ -128,4 +128,12 @@ export class MainHeaderComponent implements OnInit {
   navigateToHome(){
     this.router.navigate(['/home/LANDING']);
   }
+
+  /* Un-implemented Methods */
+  getTray(){}
+  getHistory(){}
+
+  isMytrayAvilable: boolean = false;
+  btnck: boolean = false;
+  btnckd: boolean = false;
 }

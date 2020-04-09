@@ -4,7 +4,7 @@ import { RlouiService } from '../rlo-services/rloui.service';
 @Component({
   selector: 'app-rlouihandler',
   template: `
-    <span>rlouihandler works!</p>
+    <span>rlouihandler works!</span>
   `,
   styles: []
 })
@@ -34,7 +34,7 @@ export class RLOUIHandlerComponent implements OnInit {
     console.log("field ", formFields.length);
 
     formFields.forEach(field => {
-      console.log("field ", field);
+      // console.log("field ", field);
       if(this.MainComponent[field["ID"]]){ // Check if field is available in form - ignore if not
         if(field["M"] && field["M"] == "1") { // Set Mandatory - Currently not checking type
           this.MainComponent[field["ID"]].mandatory = true;
