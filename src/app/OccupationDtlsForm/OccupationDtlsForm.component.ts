@@ -93,7 +93,8 @@ this.revalidateBasicField('OD_EMP_STATUS'),
 this.revalidateBasicField('OD_INCOME_TYPE'),
 this.revalidateBasicField('OD_WRK_PERMIT_NO'),
 this.revalidateBasicField('OD_RES_PRT_NO'),
-this.revalidateBasicField('OD_CURRENCY')
+this.revalidateBasicField('OD_CURRENCY'),
+this.revalidateBasicField('OD_LOC_CURR_EQ'),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -200,10 +201,6 @@ this.value = new OccupationDtlsFormModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
-}
-async OD_CLEAR_BTN_click(event){
-  let inputMap = new Map();
-  this.onReset();
 }
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
@@ -448,6 +445,10 @@ this.services.alert.showAlert(2, 'Error occurred while saving form!', -1);
 else{
 this.services.alert.showAlert(2, 'Please Fill all Mandatory Fields', -1);
 }
+}
+async OD_CLEAR_BTN_click(event){
+let inputMap = new Map();
+this.onReset();
 }
 async OCC_DTLS_GRID_occDtlsEdit(event){
 let inputMap = new Map();

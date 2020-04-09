@@ -191,14 +191,13 @@
 </div>
 <app-text-box #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-text-box>
 </div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE_BTN.isHidden()">
-<app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
+<app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN" [formCode]="formCode" iconClass="fa fa-plus fa-lg" [type]="4" customClass="icon-button" (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_CLEAR_BTN.isHidden()">
-<app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}" fieldID="OD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
+<app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}" fieldID="OD_CLEAR_BTN" [formCode]="formCode" iconClass="fas fa-undo fa-lg" [type]="4" customClass="icon-button" (buttonClick)="OD_CLEAR_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
 <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode" (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"></app-OccuptionDtlsGrid>

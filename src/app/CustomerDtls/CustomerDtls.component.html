@@ -15,7 +15,7 @@
 <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
+<div class="form-group pb10 row">
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
@@ -116,13 +116,21 @@
 <app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
+<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown" >
 {{ 'CustomerDtls.CD_FULL_NAME' | translate}}
 </label>
 </div>
 <app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode" (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
+{{ 'CustomerDtls.CD_DOB' | translate}}
+</label>
+</div>
+<app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_GENDER.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -132,15 +140,8 @@
 </div>
 <app-combo-box #CD_GENDER category="2" fieldID="CD_GENDER" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_GENDER', $event)"></app-combo-box>
 </div>
+
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
-{{ 'CustomerDtls.CD_DOB' | translate}}
-</label>
-</div>
-<app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
-</div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MARITAL_STATUS.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -192,6 +193,9 @@
 </div>
 <app-text-box #CD_PASSPORT_NO fieldID="CD_PASSPORT_NO" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('CD_PASSPORT_NO', $event)"></app-text-box>
 </div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_VISA_VALID.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -200,6 +204,7 @@
 </div>
 <app-date #CD_VISA_VALID fieldID="CD_VISA_VALID" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_VISA_VALID', $event)"></app-date>
 </div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DRIVING_LICENSE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -270,7 +275,6 @@
 </div>
 <app-text-box #CD_PRIME_USAGE fieldID="CD_PRIME_USAGE" [formCode]="formCode" (blur)="genericOnBlur('CD_PRIME_USAGE', $event)"></app-text-box>
 </div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -278,6 +282,15 @@
 </label>
 </div>
 <app-text-box #CD_PMRY_EMBSR_NAME fieldID="CD_PMRY_EMBSR_NAME" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('CD_PMRY_EMBSR_NAME', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PREF_COM_CH.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'CustomerDtls.CD_PREF_COM_CH' | translate}}
+</label>
+</div>
+<app-combo-box #CD_PREF_COM_CH category="2" fieldID="CD_PREF_COM_CH" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_PREF_COM_CH', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PREF_LANG.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -287,22 +300,17 @@
 </div>
 <app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_PREF_LANG', $event)"></app-combo-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PREF_COM_CH.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CustomerDtls.CD_PREF_COM_CH' | translate}}
-</label>
-</div>
-<app-combo-box #CD_PREF_COM_CH category="2" fieldID="CD_PREF_COM_CH" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_PREF_COM_CH', $event)"></app-combo-box>
-</div>
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
     <app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_CLEAR_BTN.isHidden()">
-    <app-button #CD_CLEAR_BTN fieldName="{{ 'CustomerDtls.CD_CLEAR_BTN' | translate}}" fieldID="CD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
+<app-button #CD_CLEAR_BTN fieldName="{{ 'CustomerDtls.CD_CLEAR_BTN' | translate}}" fieldID="CD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="CD_CLEAR_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
 <app-CustomerDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode" (custDtlsEdit)="CUST_DTLS_GRID_custDtlsEdit($event)"></app-CustomerDtlsGrid>
@@ -317,15 +325,15 @@
 <app-customer-handler #Handler [MainComponent]="this"></app-customer-handler>
 </div>
 </div>
-<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
-<app-hidden #hidGender fieldID="hidGender"></app-hidden>
-<app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
-<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
-<app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
 <app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
+<app-hidden #hidGender fieldID="hidGender"></app-hidden>
+<app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
+<app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>
+<app-hidden #hidPrefCommCh fieldID="hidPrefCommCh"></app-hidden>
 <app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
+<app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 <app-hidden #hideCustomerType fieldID="hideCustomerType"></app-hidden>
 </div>
 </div>

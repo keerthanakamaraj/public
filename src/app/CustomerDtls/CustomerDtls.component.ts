@@ -39,8 +39,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_THIRD_NAME', { static: false }) CD_THIRD_NAME: TextBoxComponent;
     @ViewChild('CD_LAST_NAME', { static: false }) CD_LAST_NAME: TextBoxComponent;
     @ViewChild('CD_FULL_NAME', { static: false }) CD_FULL_NAME: TextBoxComponent;
-    @ViewChild('CD_GENDER', { static: false }) CD_GENDER: ComboBoxComponent;
     @ViewChild('CD_DOB', { static: false }) CD_DOB: DateComponent;
+@ViewChild('CD_GENDER', {static: false}) CD_GENDER: ComboBoxComponent;
     @ViewChild('CD_MARITAL_STATUS', { static: false }) CD_MARITAL_STATUS: ComboBoxComponent;
     @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
     @ViewChild('CD_NATIONALITY', { static: false }) CD_NATIONALITY: ComboBoxComponent;
@@ -57,8 +57,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_LOAN_OWN', { static: false }) CD_LOAN_OWN: TextBoxComponent;
     @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
     @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
-    @ViewChild('CD_PREF_LANG', { static: false }) CD_PREF_LANG: ComboBoxComponent;
     @ViewChild('CD_PREF_COM_CH', { static: false }) CD_PREF_COM_CH: ComboBoxComponent;
+@ViewChild('CD_PREF_LANG', {static: false}) CD_PREF_LANG: ComboBoxComponent;
     @ViewChild('CD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
     @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
     @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
@@ -66,15 +66,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
     @ViewChild('Handler', { static: false }) Handler: CustomerHandlerComponent;
-    @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidCusSgmt', { static: false }) hidCusSgmt: HiddenComponent;
+@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
     @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
-    @ViewChild('hidMaritalStatus', { static: false }) hidMaritalStatus: HiddenComponent;
     @ViewChild('hidNationality', { static: false }) hidNationality: HiddenComponent;
+@ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
     @ViewChild('hidPrefCommCh', { static: false }) hidPrefCommCh: HiddenComponent;
-    @ViewChild('hidStaff', { static: false }) hidStaff: HiddenComponent;
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
+@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -94,8 +94,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_THIRD_NAME'),
             this.revalidateBasicField('CD_LAST_NAME'),
             this.revalidateBasicField('CD_FULL_NAME'),
-            this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_DOB'),
+this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_MARITAL_STATUS'),
             this.revalidateBasicField('CD_MOBILE_NO'),
             this.revalidateBasicField('CD_NATIONALITY'),
@@ -112,8 +112,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_LOAN_OWN'),
             this.revalidateBasicField('CD_PRIME_USAGE'),
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
+this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
-            this.revalidateBasicField('CD_PREF_COM_CH')
             // this.FieldId_29.revalidate(),
             // this.FieldId_30.revalidate(),
         ]).then((errorCounts) => {
@@ -143,9 +143,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_FULL_NAME.setReadOnly(true);
         this.hidAppId.setValue('RLO');
         this.hidCusSgmt.setValue('CUST_SEGMENT');
-        this.hidStaff.setValue('Y_N');
         this.hidGender.setValue('GENDER');
-        this.hidNationality.setValue('NATIONALITY');
         this.hidMaritalStatus.setValue('MARITAL_STATUS');
         this.hidNationality.setValue('NATIONALITY');
         this.hidPrefCommCh.setValue('PREF_COMM_CH');
