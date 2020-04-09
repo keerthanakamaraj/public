@@ -18,6 +18,7 @@ import { LabelComponent } from '../label/label.component';
 import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
 import * as toPromise from 'rxjs/add/operator/toPromise';
+import { ModalComponent } from 'src/app/modal/modal.component';
 
 declare let addResizeListener: any;
 declare let $: any;
@@ -127,7 +128,7 @@ export class FormComponent {
     // more than one domain object can have same param key and every place
     // it can mean different
 
-  // let keyToMatch = 'paramKey';
+    // let keyToMatch = 'paramKey';
     // if(key.startsWith('@') && key.endsWith('@')){
     //   keyToMatch = 'depFieldID';
     // }
@@ -182,10 +183,10 @@ export class FormComponent {
       field.valueChangeUpdates()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
-          (value) => {
-            this.value[field.fieldID] = value;
-            this.setDependency(field.fieldID, value);
-          }
+        (value) => {
+          this.value[field.fieldID] = value;
+          this.setDependency(field.fieldID, value);
+        }
         );
     });
   }
@@ -231,9 +232,15 @@ export class FormComponent {
     this.services.routing.navigateToComponent(path);
   }
 
+
   openModal(map) {
     const modalRef = this.services.modal.open(PopupModalComponent, { size: 'lg' });
     modalRef.componentInstance.rotueToComponent(map);
+  }
+
+  showMessage(map) {
+    const modalRef  = this.services.modal.open(PopupModalComponent, { ariaLabelledBy: 'modal-basic-title' });
+    modalRef.componentInstance.openmsg(map);
   }
 
   async submit(path, apiCode, serviceCode) {
@@ -694,9 +701,9 @@ export class FormComponent {
   // async onHTabOpen(event) { };//only for accordians
   // async onHTabChange(event) { };
 
-  public openHTab(tabGroupId, tabId, isOnClick:boolean = false) {
+  public openHTab(tabGroupId, tabId, isOnClick: boolean = false) {
 
-    !isOnClick?this.scrollToHTab(tabGroupId, tabId):undefined;
+    !isOnClick ? this.scrollToHTab(tabGroupId, tabId) : undefined;
 
     var prevActiveTab = this.hTabGroups[tabGroupId].activeTabId;
     if (this.isHTabDisabled(tabGroupId, tabId) || (this.hTabGroups[tabGroupId].tabType != 2 && prevActiveTab == tabId)) { return }
@@ -772,8 +779,8 @@ export class FormComponent {
           = (tabGroupElem.scrollLeft <= 0) ? 'none' : 'block';
 
         tabGroupElem.getElementsByClassName('next-arrow')['0'].style.display
-          = (tabGroupElem.scrollWidth - (tabGroupElem.scrollLeft + tabGroupElem.offsetWidth) <= 0) ? 
-          'none' : 'block';
+          = (tabGroupElem.scrollWidth - (tabGroupElem.scrollLeft + tabGroupElem.offsetWidth) <= 0) ?
+            'none' : 'block';
       });
   }
 
@@ -782,7 +789,7 @@ export class FormComponent {
       var tabGroupElem = document.getElementById(this.componentCode + '_' + tabGroupId);
       if (tabGroupElem) {
         addResizeListener(tabGroupElem, () => {
-          if (tabGroupElem.scrollWidth > tabGroupElem.offsetWidth){
+          if (tabGroupElem.scrollWidth > tabGroupElem.offsetWidth) {
             tabGroupElem.getElementsByClassName('next-arrow')['0'].style.display = 'block';
           }
         });

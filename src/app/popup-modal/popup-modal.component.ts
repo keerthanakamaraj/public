@@ -13,6 +13,7 @@ import { ServiceStock } from '../service-stock.service';
   styleUrls: ['./popup-modal.component.css']
 })
 export class PopupModalComponent implements OnInit {
+  message: any;
 
   name: string;
   closeReq: boolean = true;
@@ -25,7 +26,7 @@ export class PopupModalComponent implements OnInit {
     // this.name = this.routing.currOutlet;
     this.createNewOutlet();
     this.name = this.services.routing.currOutlet;
-
+ 
     // let outletJson = {};
     // outletJson[this.routing.currOutlet] = ['BLANK', 'popup'];
     // this.router.navigate([{ outlets: outletJson }], { skipLocationChange: true });
@@ -35,15 +36,21 @@ export class PopupModalComponent implements OnInit {
   ngOnInit() {
     
   }
+  
+async openmsg(map){
+  this.message = map;
+}
 
 
   async rotueToComponent(map: Map<string, string>) {
+
+  
 
     if (map) {
       let URL = map.get('component');
       map.delete("component");
       // this.dataStore.setData(this.routing.currModal, map);
-      this.services.dataStore.setRouteParams(this.services.routing.currModal, map);
+    this.services.dataStore.setRouteParams(this.services.routing.currModal, map);
       let mode = undefined;
       //this.router.navigate([{ outlets: { 'test': [URL] } }], { skipLocationChange: true });
       if (URL) {

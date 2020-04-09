@@ -355,9 +355,11 @@ let inputMap = new Map();
 inputMap.clear();
 inputMap.set('HeaderParam.tenant-id', 'SB1');
 inputMap.set('HeaderParam.user-id', 'Vishal');
-
 inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
 inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
+inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
+inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
 inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
 inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
 inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
@@ -366,6 +368,12 @@ inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValu
 inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
 inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
 inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
+inputMap.set('Body.LoanDetails.Product', this.BAD_PRODUCT.getFieldValue());
+inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
+inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
+inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
+inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
+
 
 inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
 
@@ -376,7 +384,8 @@ console.log("Params ", inputMap);
 this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully");
+//this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -451,7 +460,7 @@ else if(err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel'){
 this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(3, 'Unable to save form!', 5000);
+this.showMessage('Unable to save form!');
 }
 );
 }
