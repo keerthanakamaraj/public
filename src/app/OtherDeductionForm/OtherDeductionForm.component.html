@@ -69,6 +69,8 @@
 </div>
 <app-amount #OD_Equivalent_Amt fieldID="OD_Equivalent_Amt" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('OD_Equivalent_Amt', $event)"></app-amount>
 </div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE.isHidden()">
 <app-button #OD_SAVE fieldName="{{ 'OtherDeductionForm.OD_SAVE' | translate}}" fieldID="OD_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="OD_SAVE_click($event)"></app-button>
 </div>

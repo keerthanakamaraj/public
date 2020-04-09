@@ -1532,9 +1532,9 @@
     "FD_RELATIONSHIP": "Relationship",
     "FD_DELETE": "Delete",
     "toolbar_FamilyDetailsGrid": "null",
-    "FD_EDIT_BUTTON_ButtonName": "Edit",
     "FD_EDIT_BUTTON": "Edit",
-    "FD_MODIFY": "Modify"
+    "FD_EDIT_BTN_ButtonName": "Edit",
+    "FD_EDIT_BTN": "Edit"
   },
   
   "OtherDeductionForm": {
@@ -1564,12 +1564,12 @@
   },
   "CustDtlsGrid": {
     "CIF": "CIF NO",
-    "CD_Modify": "Modify",
+    "CD_EDIT_BTN_ButtonName": "Edit",
+    "CD_EDIT_BTN": "Edit",
     "toolbar_CustDtlsGrid": "null",
     "DOB": "Date of Birth",
     "GridTitle": "Customer Details Grid",
     "FULL_NAME": "Customer Name",
-    "CD_Modify_ButtonName": "Modify",
     "CUST_TYPE_LBL": "Customer Type",
     "CD_Delete": "Delete",
     "CD_Delete_ButtonName": "Delete"
@@ -1624,11 +1624,11 @@
   },
   "VisitReportGrid": {
     "VR_DateofVisit": "Date of Visit",
-    "VR_Modify": "Modify",
+    "VR_EDIT_BTN_ButtonName": "Edit",
+    "VR_EDIT_BTN": "Edit",
     "toolbar_VisitReportGrid": "null",
     "VR_Designation": "Designation",
     "VR_OficialBusiGroup": "Official Business Group",
-    "VR_Modify_ButtonName": "Modify",
     "VR_NameOfPersonMet": "Name of Person Met",
     "VR_Observation": "Observation",
     "VR_AddressOfVisit": "Address of Visit",

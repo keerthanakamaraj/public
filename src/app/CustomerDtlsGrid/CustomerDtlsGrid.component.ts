@@ -100,7 +100,7 @@ caseSensitive:true,
 },
 {
 width:10,
-field:"CD_EDIT_BUTTON",
+field:"Edit",
 sortable: false,
 filter: false,
 resizable: true,
@@ -117,7 +117,7 @@ onClick: this.CD_EDIT_BUTTON_click.bind(this)
 },
 {
 width:10,
-field:"CD_DELETE",
+field:"Delete",
 sortable: false,
 filter: false,
 resizable: true,

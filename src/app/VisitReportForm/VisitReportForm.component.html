@@ -48,7 +48,7 @@
 {{ 'VisitReportForm.VRF_AddressofVisit' | translate}}
 </label>
 </div>
-<app-text-area #VRF_AddressofVisit fieldID="VRF_AddressofVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_AddressofVisit', $event)"></app-text-area>
+<app-text-box #VRF_AddressofVisit fieldID="VRF_AddressofVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_AddressofVisit', $event)"></app-text-box>
 
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_OfficialName.isHidden()">
@@ -97,7 +97,7 @@
 {{ 'VisitReportForm.VRF_PlaceOfVisit' | translate}}
 </label>
 </div>
-<app-text-area #VRF_PlaceOfVisit fieldID="VRF_PlaceOfVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_PlaceOfVisit', $event)"></app-text-area>
+<app-text-box #VRF_PlaceOfVisit fieldID="VRF_PlaceOfVisit" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_PlaceOfVisit', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_Photograph.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -121,7 +121,7 @@
 {{ 'VisitReportForm.VRF_Observations' | translate}}
 </label>
 </div>
-<app-text-area #VRF_Observations fieldID="VRF_Observations" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_Observations', $event)"></app-text-area>
+<app-text-box #VRF_Observations fieldID="VRF_Observations" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('VRF_Observations', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>

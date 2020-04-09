@@ -492,7 +492,6 @@
   font-weight: 600;
   line-height: 17px;
   text-align: center;
-
 }
 
 /* btn-secondary */
@@ -728,6 +727,7 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 .btn-warning-outline {
   margin-inline-start: 50px;
 }
+
 
 #BAD_PROMOTION {
   padding-right: 10px !important;

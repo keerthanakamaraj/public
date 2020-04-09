@@ -5825,11 +5825,17 @@ table {
     border-radius: .2rem
 }
 
-.bi-reponsive textarea.form-control {
+.bi-reponsive textarea {
     height: auto;
     resize: none;
     padding: .1rem .5rem
+    
 }
+
+#ND_COMMENTS{
+    height: 150px !important;
+}
+
 
 /* .bi-reponsive {
     margin-bottom: 3.5rem;

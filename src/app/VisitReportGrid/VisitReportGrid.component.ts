@@ -190,7 +190,7 @@ caseSensitive:true,
 },
 {
 width:10,
-field:"VR_Modify",
+field:"Edit",
 sortable: false,
 filter: false,
 resizable: true,
@@ -207,7 +207,7 @@ onClick: this.VR_Modify_click.bind(this)
 },
 {
 width:10,
-field:"VR_Delete",
+field:"Delete",
 sortable: false,
 filter: false,
 resizable: true,

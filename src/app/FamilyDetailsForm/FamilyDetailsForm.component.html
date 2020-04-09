@@ -116,6 +116,8 @@
 <app-text-box #FD_TAX_ID fieldID="FD_TAX_ID" [formCode]="formCode" (blur)="genericOnBlur('FD_TAX_ID', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="FD_SAVE_BTN.isHidden()">
 <app-button #FD_SAVE_BTN fieldName="{{ 'FamilyDetailsForm.FD_SAVE_BTN' | translate}}" fieldID="FD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary"></app-button>
 </div>

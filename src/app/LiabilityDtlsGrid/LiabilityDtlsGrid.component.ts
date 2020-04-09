@@ -84,35 +84,37 @@ caseSensitive:true,
 },
 },
 {
-width:20,
-field:"LD_MODIFY",
-sortable: false,
-filter: false,
-resizable: true,
-cellRenderer: 'buttonRenderer',
-cellStyle: {'text-align': 'left'},
-cellRendererParams: {
-gridCode: 'LiabilityDtlsGrid',
-columnId: 'LD_MODIFY',
-Type: '1',
-CustomClass: 'btn-edit',
-onClick: this.LD_MODIFY_click.bind(this)
+    width:20,
+    field:"Edit",
+    sortable: false,
+    filter: false,
+    resizable: true,
+    cellRenderer: 'buttonRenderer',
+    cellStyle: {'text-align': 'left'},
+    cellRendererParams: {
+      gridCode: 'LiabilityDtlsGrid',
+      columnId: 'LD_EDIT_BTN',
+      Type: '2',
+      CustomClass: 'btn-edit',
+      IconClass: 'fas fa-edit fa-lg',
+      onClick: this.LD_EDIT_BTN_click.bind(this),
 },
 },
 {
-width:20,
-field:"LD_DELETE",
-sortable: false,
-filter: false,
-resizable: true,
-cellRenderer: 'buttonRenderer',
-cellStyle: {'text-align': 'left'},
-cellRendererParams: {
-gridCode: 'LiabilityDtlsGrid',
-columnId: 'LD_DELETE',
-Type: '1',
-CustomClass: 'btn-delete',
-onClick: this.LD_DELETE_click.bind(this)
+    width:20,
+    field:"Delete",
+    sortable: false,
+    filter: false,
+    resizable: true,
+    cellRenderer: 'buttonRenderer',
+    cellStyle: {'text-align': 'left'},
+    cellRendererParams: {
+      gridCode: 'LiabilityDtlsGrid',
+      columnId: 'LD_DELETE',
+      Type: '2',
+      CustomClass: 'btn-delete',
+      IconClass: 'fas fa-edit fa-lg',
+      onClick: this.LD_DELETE_click.bind(this),
 },
 },
 ];
@@ -223,15 +225,15 @@ this.services.alert.showAlert(2, 'Something went wrong!', -1);
 );
 
 }
-async LD_MODIFY_click(event){
-let inputMap = new Map();
-const selectedData0 = this.readonlyGrid.getSelectedData();
-if(selectedData0){
-this.onModify.emit({
-'SeqKey': selectedData0['LIABILITY_ID'],
-});
-}
-}
+async LD_EDIT_BTN_click(event){
+    let inputMap = new Map();
+    const selectedData0 = this.readonlyGrid.getSelectedData();
+    if(selectedData0){
+      this.onModify.emit({
+        'SeqKey': selectedData0['LIABILITY_ID'],
+      });
+    }
+  }
 async LD_DELETE_click(event){
 let inputMap = new Map();
 inputMap.clear();

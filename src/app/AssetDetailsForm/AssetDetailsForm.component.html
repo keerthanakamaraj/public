@@ -119,6 +119,8 @@
 <app-combo-box #AT_INCLUDE_IN_DBR category="2" fieldID="AT_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_INCLUDE_IN_DBR', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
 <app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="AT_SAVE_click($event)"></app-button>
 </div>
