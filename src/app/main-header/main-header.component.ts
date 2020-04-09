@@ -73,7 +73,7 @@ export class MainHeaderComponent implements OnInit {
   // ];
 
   //this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
-  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' },{ id: 'DDE', text: 'DDE' }]},
+  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]},
   //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
   //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
   //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
@@ -113,25 +113,18 @@ export class MainHeaderComponent implements OnInit {
     keycloakInstance.clearToken();
     keycloakInstance.logout();
 
-    this.router.navigate(['/']);
+    this.navigateToHome();
   }
 
   redirect(id) {
-    // if (id === 'Initiation') {
-    //   this.router.navigate(['/home/' + id]);
-    // } else if (id === 'modWithEnhancement' || id === 'modWithReduction'
-    //   || id === 'modTermAndConditionWithFL' || id === 'modTermAndConditionWithoutFL'
-    //   || id === 'renewalIOM' || id === 'renewalWithEnhancement' || id === 'renewalWithReduction' || id === 'renewalWithChanges'
-    //   || id === 'renewalWithoutChanges' || id === 'renewalSTAR') {
-    //     this.router.navigate(['/modificationRenewalComponent'],
-    //   { queryParams: {modRenType: id} } );
-    // } else if (id === 'dnReissue' || id === 'dnTranche') {
-    //   this.router.navigate(['/searchDN'], { queryParams: {dnType: id} } );
-    // } else if (id === 'starCondition') {
-    //   this.router.navigate(['/starProcessComponent'], { queryParams: {modRenType: id, taskName : 'fileMaker'} } );
-    // }
-    this.router.navigate(['/home/' + id]);
+    if(id && id != ""){
+      this.router.navigate(['/home/' + id]);
+    } else {
+      this.navigateToHome();
+    }
+    
   }
+
   navigateToHome(){
     this.router.navigate(['/home/LANDING']);
   }

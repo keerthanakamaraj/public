@@ -30,9 +30,7 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle-workflow" data-toggle="dropdown">
-                        Workflow
-                        <span class="caret"></span>
+                    <a class="dropdown-toggle-workflow" data-toggle="dropdown">Workflow<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" *ngFor="let menu of menuList">
                         <li *ngFor="let listElems of menu.MenuList"><a href="javascript:void(0)"
@@ -83,7 +81,7 @@
                     </ul> -->
                 </li>
                 <li>
-                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }">
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }" (click)="logout()" >
                         <img class="navbar-img-link" src="assets/icons/logout-svgrepo-com.svg"
                             alt="Logout" /></a>
                 </li>
