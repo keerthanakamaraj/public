@@ -1,6 +1,27 @@
 .disabled >a{
-    cursor: not-allowed !important; 
+  cursor: not-allowed !important; 
+  color:#CCCCCC;
+  background-color:#fff;
 }
 .pagination{
-    margin: 10px 0px 0px 0px;
+  margin: 16px 0px 0px 0px;
+  font-size: 0.75rem;
+}
+
+.pagination>li>a, .pagination>li>span {
+  border: none;
+}
+
+.pagination>.active a, .pagination>.active>span.current-page, .pagination>.active>span.current-page:focus, .pagination>.active>span.current-page:hover {
+  background-color: #0079B8;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 17px;
+  border-radius: 4px;
+}
+
+.pagination>.active>span.total-pages, .pagination>.active>span.total-pages:focus, .pagination>.active>span.total-pages:hover {
+  background-color: #fff;
+  color: #565656;
 }
