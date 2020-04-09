@@ -18,7 +18,7 @@ import { LabelComponent } from '../label/label.component';
 import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
 import * as toPromise from 'rxjs/add/operator/toPromise';
-import { ModalComponent } from 'src/app/modal/modal.component';
+// import { ModalComponent } from 'src/app/modal/modal.component';
 
 declare let addResizeListener: any;
 declare let $: any;
