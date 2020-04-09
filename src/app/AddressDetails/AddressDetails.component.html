@@ -1,238 +1,236 @@
 <form class="MakeRelative">
-    <div class="ShowLoading " *ngIf="loadSpinner">
-        <div class="lds-roller MakeItMiddle">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <div class="clearfix content">
-        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-        <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10">
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-                        <app-label #AD_HEADING parentCompCode="AddressDetails" fieldID="AD_HEADING"
-                            [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
-                            fontSize="16px" fontWeight="normal" customClass="section-header"></app-label>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CUST_TYPE.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_CUST_TYPE' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_CUST_TYPE category="2" fieldID="AD_CUST_TYPE" [formCode]="formCode"
-                            placeholder="Select" (blur)="genericOnBlur('AD_CUST_TYPE', $event)"></app-combo-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_TYPE.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_ADDRESS_TYPE.mandatory}">
-                                {{ 'AddressDetails.AD_ADDRESS_TYPE' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_ADDRESS_TYPE category="2" fieldID="AD_ADDRESS_TYPE" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_ADDRESS_TYPE', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_RES_DUR.mandatory}">
-                                {{ 'AddressDetails.AD_RES_DUR' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_RES_DUR inputType="number" fieldID="AD_RES_DUR" [formCode]="formCode"
-                            (blur)="genericOnBlur('AD_RES_DUR', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR_UNIT.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_RES_DUR_UNIT' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_RES_DUR_UNIT category="2" fieldID="AD_RES_DUR_UNIT" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RES_DUR_UNIT', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RESIDENCE_TYPE.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_RESIDENCE_TYPE.mandatory}">
-                                {{ 'AddressDetails.AD_RESIDENCE_TYPE' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_RESIDENCE_TYPE category="2" fieldID="AD_RESIDENCE_TYPE" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RESIDENCE_TYPE', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE1.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_ADDRESS_LINE1.mandatory}">
-                                {{ 'AddressDetails.AD_ADDRESS_LINE1' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_ADDRESS_LINE1 fieldID="AD_ADDRESS_LINE1" [formCode]="formCode"
-                            (blur)="genericOnBlur('AD_ADDRESS_LINE1', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE2.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_ADDRESS_LINE2' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_ADDRESS_LINE2 fieldID="AD_ADDRESS_LINE2" [formCode]="formCode"
-                            placeholder="(Optional)" (blur)="genericOnBlur('AD_ADDRESS_LINE2', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE3.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_ADDRESS_LINE3' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_ADDRESS_LINE3 fieldID="AD_ADDRESS_LINE3" [formCode]="formCode"
-                            placeholder="(Optional)" (blur)="genericOnBlur('AD_ADDRESS_LINE3', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE4.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_ADDRESS_LINE4' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_ADDRESS_LINE4 fieldID="AD_ADDRESS_LINE4" [formCode]="formCode"
-                            placeholder="(Optional)" (blur)="genericOnBlur('AD_ADDRESS_LINE4', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_PINCODE.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_PINCODE.mandatory}">
-                                {{ 'AddressDetails.AD_PINCODE' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode"
-                            (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_REGION.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_REGION.mandatory}">
-                                {{ 'AddressDetails.AD_REGION' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_REGION fieldID="AD_REGION" [formCode]="formCode" placeholder="(Optional)"
-                            (blur)="genericOnBlur('AD_REGION', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CITY.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_CITY.mandatory}">
-                                {{ 'AddressDetails.AD_CITY' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_CITY category="2" fieldID="AD_CITY" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MstCityDetails/{CityCd}"
-                            domainObjectCode="MstCityDetails" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_STATE.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': AD_STATE.mandatory}">
-                                {{ 'AddressDetails.AD_STATE' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_STATE category="2" fieldID="AD_STATE" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MstStateDetails/{StateCd}"
-                            domainObjectCode="MstStateDetails" (blur)="genericOnBlur('AD_STATE', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div style="min-height: 0px;height: nullpx;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDMARK.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_LANDMARK' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_LANDMARK fieldID="AD_LANDMARK" [formCode]="formCode" placeholder="(Optional)"
-                            (blur)="genericOnBlur('AD_LANDMARK', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDLINE_NUMBER.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_LANDLINE_NUMBER' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [formCode]="formCode"
-                            placeholder="(Optional)" (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)">
-                        </app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_MAILING_ADDRESS.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_MAILING_ADDRESS' | translate}}</label>
-                        </div>
-                        <app-combo-box #AD_MAILING_ADDRESS category="2" fieldID="AD_MAILING_ADDRESS"
-                            [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                            (blur)="genericOnBlur('AD_MAILING_ADDRESS', $event)"></app-combo-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID1.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_EMAIL_ID1' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_EMAIL_ID1 fieldID="AD_EMAIL_ID1" [formCode]="formCode"
-                            placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID1', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()"
-                        [ngClass]="'checkboxRight'">
-                        <app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode"
-                            placeholder="Placeholder" (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)">
-                        </app-check-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID2.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_EMAIL_ID2' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_EMAIL_ID2 fieldID="AD_EMAIL_ID2" [formCode]="formCode"
-                            placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID2', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()"
-                        [ngClass]="'checkboxRight'">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_EMAIL2_CHECKBOX' | translate}}</label>
-                        </div>
-                        <app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode"
-                            placeholder="Placeholder" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)">
-                        </app-check-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ALTERNATE_MOB_NO.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AddressDetails.AD_ALTERNATE_MOB_NO' | translate}}</label>
-                        </div>
-                        <app-text-box #AD_ALTERNATE_MOB_NO inputType="number" fieldID="AD_ALTERNATE_MOB_NO"
-                            [formCode]="formCode" placeholder="(Optional)"
-                            (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></app-text-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_SAVE_ADDRESS.isHidden()">
-                        <app-button #AD_SAVE_ADDRESS fieldName="{{ 'AddressDetails.AD_SAVE_ADDRESS' | translate}}"
-                            fieldID="AD_SAVE_ADDRESS" [formCode]="formCode" customClass="btn btn-secondary"
-                            (buttonClick)="AD_SAVE_ADDRESS_click($event)"></app-button>
-                    </div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_CLEAR_BTN.isHidden()">
-                        <app-button #AD_CLEAR_BTN fieldName="{{ 'AddressDetails.AD_CLEAR_BTN' | translate}}"
-                            fieldID="AD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
-                            (buttonClick)="AD_CLEAR_BTN_click($event)"></app-button>
-                    </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
-                        <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode"
-                            (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>
-                    </div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                        <app-address-handler #Handler [MainComponent]="this"></app-address-handler>
-                    </div>
-                </div>
-                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-                <app-hidden #hidAddType fieldID="hidAddType"></app-hidden>
-                <app-hidden #hidResType fieldID="hidResType"></app-hidden>
-                <app-hidden #hidMailingAddress fieldID="hidMailingAddress"></app-hidden>
-                <app-hidden #hidResDurType fieldID="hidResDurType"></app-hidden>
-                <app-hidden #AD_HIDE_ID fieldID="AD_HIDE_ID"></app-hidden>
-            </div>
-        </div>
-    </div>
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
+<div class="clearfix content">
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10 row">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #AD_HEADING parentCompCode="AddressDetails" fieldID="AD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="normal" customClass="section-header"></app-label>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_TYPE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown" [ngClass]="{'mandatory': AD_ADDRESS_TYPE.mandatory}">
+{{ 'AddressDetails.AD_ADDRESS_TYPE' | translate}}
+</label>
+</div>
+<app-combo-box #AD_ADDRESS_TYPE category="2" fieldID="AD_ADDRESS_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_ADDRESS_TYPE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RESIDENCE_TYPE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_RESIDENCE_TYPE.mandatory}">
+{{ 'AddressDetails.AD_RESIDENCE_TYPE' | translate}}
+</label>
+</div>
+<app-combo-box #AD_RESIDENCE_TYPE category="2" fieldID="AD_RESIDENCE_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RESIDENCE_TYPE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CUST_TYPE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_CUST_TYPE' | translate}}
+</label>
+</div>
+<app-combo-box #AD_CUST_TYPE category="2" fieldID="AD_CUST_TYPE" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('AD_CUST_TYPE', $event)"></app-combo-box>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE1.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_ADDRESS_LINE1.mandatory}">
+{{ 'AddressDetails.AD_ADDRESS_LINE1' | translate}}
+</label>
+</div>
+<app-text-box #AD_ADDRESS_LINE1 fieldID="AD_ADDRESS_LINE1" [formCode]="formCode" (blur)="genericOnBlur('AD_ADDRESS_LINE1', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE2.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_ADDRESS_LINE2' | translate}}
+</label>
+</div>
+<app-text-box #AD_ADDRESS_LINE2 fieldID="AD_ADDRESS_LINE2" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_ADDRESS_LINE2', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE3.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_ADDRESS_LINE3' | translate}}
+</label>
+</div>
+<app-text-box #AD_ADDRESS_LINE3 fieldID="AD_ADDRESS_LINE3" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_ADDRESS_LINE3', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE4.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_ADDRESS_LINE4' | translate}}
+</label>
+</div>
+<app-text-box #AD_ADDRESS_LINE4 fieldID="AD_ADDRESS_LINE4" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_ADDRESS_LINE4', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_PINCODE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_PINCODE.mandatory}">
+{{ 'AddressDetails.AD_PINCODE' | translate}}
+</label>
+</div>
+<app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_REGION.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_REGION.mandatory}">
+{{ 'AddressDetails.AD_REGION' | translate}}
+</label>
+</div>
+<app-text-box #AD_REGION fieldID="AD_REGION" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_REGION', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CITY.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_CITY.mandatory}">
+{{ 'AddressDetails.AD_CITY' | translate}}
+</label>
+</div>
+<app-combo-box #AD_CITY category="2" fieldID="AD_CITY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstCityDetails/{CityCd}" domainObjectCode="MstCityDetails" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_STATE.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_STATE.mandatory}">   
+{{ 'AddressDetails.AD_STATE' | translate}}
+</label>
+</div>
+<app-combo-box #AD_STATE category="2" fieldID="AD_STATE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstStateDetails/{StateCd}" domainObjectCode="MstStateDetails" (blur)="genericOnBlur('AD_STATE', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDMARK.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_LANDMARK' | translate}}
+</label>
+</div>
+<app-text-box #AD_LANDMARK fieldID="AD_LANDMARK" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_LANDMARK', $event)"></app-text-box>
+</div>
+<div style="min-height: 0px;height: nullpx;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_MAILING_ADDRESS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_MAILING_ADDRESS' | translate}}
+</label>
+</div>
+<app-combo-box #AD_MAILING_ADDRESS category="2" fieldID="AD_MAILING_ADDRESS" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_MAILING_ADDRESS', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #YRS_LABEL parentCompCode="AddressDetails" fieldID="YRS_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
+</div>
+<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_RES_DUR.mandatory}">
+{{ 'AddressDetails.AD_RES_DUR' | translate}}
+</label>
+</div>
+<app-text-box #AD_RES_DUR inputType="number" fieldID="AD_RES_DUR" [formCode]="formCode" (blur)="genericOnBlur('AD_RES_DUR', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR_UNIT.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_RES_DUR_UNIT' | translate}}
+</label>
+</div>
+<app-combo-box #AD_RES_DUR_UNIT category="2" fieldID="AD_RES_DUR_UNIT" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RES_DUR_UNIT', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #FieldId_30 parentCompCode="AddressDetails" fieldID="FieldId_30" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDLINE_NUMBER.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_LANDLINE_NUMBER' | translate}}
+</label>
+</div>
+<app-text-box #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ALTERNATE_MOB_NO.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_ALTERNATE_MOB_NO' | translate}}
+</label>
+</div>
+<app-text-box #AD_ALTERNATE_MOB_NO fieldID="AD_ALTERNATE_MOB_NO" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID1.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_EMAIL_ID1' | translate}}
+</label>
+</div>
+<app-text-box #AD_EMAIL_ID1 fieldID="AD_EMAIL_ID1" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID1', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID2.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_EMAIL_ID2' | translate}}
+</label>
+</div>
+<app-text-box #AD_EMAIL_ID2 fieldID="AD_EMAIL_ID2" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID2', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #EMAIL_LABEL parentCompCode="AddressDetails" fieldID="EMAIL_LABEL" [formCode]="formCode" fontFamily="unset" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="unset"></app-label>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-6 col-md-6 group-default">
+<div #EMAIL_GROUP id="EMAIL_GROUP">
+<div class="form-group pb10 email-group">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown emailcheckbox">
+{{ 'AddressDetails.AD_EMAIL1_CHECKBOX' | translate}}
+</label>
+</div>
+<app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
+</div>
+<div class="col-12  col-sm-7 col-md-7 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown emailcheckbox">
+{{ 'AddressDetails.AD_EMAIL2_CHECKBOX' | translate}}
+</label>
+</div>
+<app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"></app-check-box>
+</div>
+</div>
+
+</div>
+</div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_SAVE_ADDRESS.isHidden()">
+<app-button #AD_SAVE_ADDRESS fieldName="{{ 'AddressDetails.AD_SAVE_ADDRESS' | translate}}" fieldID="AD_SAVE_ADDRESS" [formCode]="formCode" iconClass="fa fa-plus fa-lg" [type]="4" customClass="icon-button" (buttonClick)="AD_SAVE_ADDRESS_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_CLEAR_BTN.isHidden()">
+<app-button #AD_CLEAR_BTN fieldName="{{ 'AddressDetails.AD_CLEAR_BTN' | translate}}" fieldID="AD_CLEAR_BTN" [formCode]="formCode" iconClass="fas fa-undo fa-lg" [type]="4" customClass="icon-button" (buttonClick)="AD_CLEAR_BTN_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
+<app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<app-address-handler #Handler [MainComponent]="this"></app-address-handler>
+</div>
+</div>
+<app-hidden #AD_HIDE_ID fieldID="AD_HIDE_ID"></app-hidden>
+<app-hidden #hidAddType fieldID="hidAddType"></app-hidden>
+<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+<app-hidden #hidMailingAddress fieldID="hidMailingAddress"></app-hidden>
+<app-hidden #hidResDurType fieldID="hidResDurType"></app-hidden>
+<app-hidden #hidResType fieldID="hidResType"></app-hidden>
+</div>
+</div>
+</div>
+</form>
 </form>

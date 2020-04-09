@@ -396,5 +396,25 @@ padding-right: none !important;
 .headerform{
 border: 1px solid #979797 !important;
 }
-  
+#EMAIL_GROUP{
+  box-sizing: border-box;
+  height: 42px;
+  width: 301px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background-color: #FAFAFA;
+  padding-bottom: 64px;
+  margin-top: 20px;
+}
+
+.emailcheckbox{
+  height: 18px !important;
+  width: 109px !important;
+  color: #000000 !important;
+  font-family: "Open Sans" !important;
+  font-size: 13px !important;
+  letter-spacing: 0 !important;
+  line-height: 18px !important;
+}
+
   
