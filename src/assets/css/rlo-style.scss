@@ -499,6 +499,33 @@ border: 1px solid #979797 !important;
           }
 
         }
+
+         .customer-names-active{
+          height: 47px;
+          width: 260px;
+         // width: 135px;
+          display: block;
+           padding-top: 12px;            
+           color:#0079B8 !important;
+           font-family: "Open Sans";
+           font-size: 16px;
+           letter-spacing: 0;
+           line-height: 12px;
+           border-bottom:1px solid #E2E2E2;
+         //  color:#0079B8 !important;
+                .customer-edit-active{
+                  width: 50px;
+                  color:white;
+                  height: 16px;
+                  font-size: 12px;                  
+                  background-color:#00B500;
+                  border-radius: 10px;
+                  border: none;
+                  cursor:pointer;
+                  padding-right: 16px;
+                  float:right;
+                  }
+        }
       }
 
     }
