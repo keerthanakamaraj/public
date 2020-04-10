@@ -40,7 +40,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_LAST_NAME', { static: false }) CD_LAST_NAME: TextBoxComponent;
     @ViewChild('CD_FULL_NAME', { static: false }) CD_FULL_NAME: TextBoxComponent;
     @ViewChild('CD_DOB', { static: false }) CD_DOB: DateComponent;
-@ViewChild('CD_GENDER', {static: false}) CD_GENDER: ComboBoxComponent;
+    @ViewChild('CD_GENDER', { static: false }) CD_GENDER: ComboBoxComponent;
     @ViewChild('CD_MARITAL_STATUS', { static: false }) CD_MARITAL_STATUS: ComboBoxComponent;
     @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
     @ViewChild('CD_NATIONALITY', { static: false }) CD_NATIONALITY: ComboBoxComponent;
@@ -58,7 +58,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
     @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
     @ViewChild('CD_PREF_COM_CH', { static: false }) CD_PREF_COM_CH: ComboBoxComponent;
-@ViewChild('CD_PREF_LANG', {static: false}) CD_PREF_LANG: ComboBoxComponent;
+    @ViewChild('CD_PREF_LANG', { static: false }) CD_PREF_LANG: ComboBoxComponent;
     @ViewChild('CD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
     @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
     @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
@@ -68,14 +68,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('Handler', { static: false }) Handler: CustomerHandlerComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidCusSgmt', { static: false }) hidCusSgmt: HiddenComponent;
-@ViewChild('hidStaff', {static: false}) hidStaff: HiddenComponent;
+    @ViewChild('hidStaff', { static: false }) hidStaff: HiddenComponent;
     @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
     @ViewChild('hidNationality', { static: false }) hidNationality: HiddenComponent;
-@ViewChild('hidMaritalStatus', {static: false}) hidMaritalStatus: HiddenComponent;
+    @ViewChild('hidMaritalStatus', { static: false }) hidMaritalStatus: HiddenComponent;
     @ViewChild('hidPrefCommCh', { static: false }) hidPrefCommCh: HiddenComponent;
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
-@ViewChild('HidCustomerId', {static: false}) HidCustomerId: HiddenComponent;
+    @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
+    appId: any;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -95,7 +96,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_LAST_NAME'),
             this.revalidateBasicField('CD_FULL_NAME'),
             this.revalidateBasicField('CD_DOB'),
-this.revalidateBasicField('CD_GENDER'),
+            this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_MARITAL_STATUS'),
             this.revalidateBasicField('CD_MOBILE_NO'),
             this.revalidateBasicField('CD_NATIONALITY'),
@@ -112,7 +113,7 @@ this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_LOAN_OWN'),
             this.revalidateBasicField('CD_PRIME_USAGE'),
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
-this.revalidateBasicField('CD_PREF_COM_CH'),
+            this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
             // this.FieldId_29.revalidate(),
             // this.FieldId_30.revalidate(),
@@ -488,10 +489,10 @@ this.revalidateBasicField('CD_PREF_COM_CH'),
         let inputMap = new Map();
         this.onReset();
     }
-    async CUST_DTLS_GRID_custDtlsEdit(event) {
+    async CUST_DTLS_GRID_custDtlsEdit(event, selectedCustomerId) {
         let inputMap = new Map();
         inputMap.clear();
-        inputMap.set('PathParam.BorrowerSeq', event.BorrowerSeq);
+        inputMap.set('PathParam.BorrowerSeq', selectedCustomerId);
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
@@ -540,9 +541,10 @@ this.revalidateBasicField('CD_PREF_COM_CH'),
     }
     async loadCustDtlsGrid(event) {
         let inputMap = new Map();
-        await this.CUST_DTLS_GRID.gridDataLoad({
-            'custSeqToGrid': event.custSeq,
-        });
+        // await this.CUST_DTLS_GRID.gridDataLoad({
+        //     'custSeqToGrid': event.custSeq,
+        // });
+        this.Handler.APIForCustomerData(event);
     }
 
     fieldDependencies = {

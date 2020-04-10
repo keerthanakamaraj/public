@@ -1,0 +1,72 @@
+<div class="cd-grid col-12  col-sm-12 col-md-12">
+      <div class="cd-col col-12  col-sm-12 col-md-12">
+            <div class="cd-col-row fieldLegend">
+                  <div class="cust-type-head">
+                        <label class="cust-type-code ">B</label>
+                        <label class="customer-type-label">Borrower</label>
+                        <span class="cd-add-icon" (click)="doReset()"></span>
+                  </div>
+                  <div class="cd-col-row fieldLegend">
+                        <ul class="cust-name-container">
+                              <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('B')">
+                                    {{customer.CD_CUSTOMER_NAME}}
+                                    <button class="fas fa-edit edit-button" (click)="editCustomer($event, customer)"></button>
+                              </li>
+                        </ul>
+                  </div>
+            </div>
+
+      </div>
+      <div class="cd-col col-12 col-sm-12 col-md-12">
+            <div class="cd-col-row fieldLegend">
+                  <div class="cust-type-head">
+                        <label class="cust-type-code ">SB</label>
+                        <label class="customer-type-label">Sub-Borrower</label>
+                        <span class="cd-add-icon" (click)="doReset()"></span>
+                  </div>
+                  <div class="cd-col-row fieldLegend">
+                        <ul class="cust-name-container">
+                              <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('SB')">
+                                    {{customer.CD_CUSTOMER_NAME}}
+                                    <button class="fas fa-edit edit-button" (click)="editCustomer($event, customer)"></button>
+                              </li>
+                        </ul>
+                  </div>
+            </div>
+      </div>
+
+      <div class="cd-col col-12 col-sm-12 col-md-12">
+            <div class="cd-col-row fieldLegend">
+                  <div class="cust-type-head">
+                        <label class="cust-type-code ">G</label>
+                        <label class="customer-type-label"> Guarantor </label>
+                        <span class="cd-add-icon" (click)="doReset()"></span>
+                  </div>
+                  <div class="cd-col-row fieldLegend">
+                        <ul class="cust-name-container">
+                              <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('G')">
+                                    {{customer.CD_CUSTOMER_NAME}}
+                                    <button class="fas fa-edit edit-button" (click)="editCustomer($event, customer)"></button>
+                              </li>
+                        </ul>
+                  </div>
+            </div>
+      </div>
+      <div class="cd-col col-12 col-sm-12 col-md-12" id="op-container">
+            <div class="cd-col-row fieldLegend">
+                  <div class="cust-type-head">
+                        <label class="cust-type-code ">OP</label>
+                        <label class="customer-type-label"> Other Party</label>
+                        <span class="cd-add-icon" (click)="doReset()"></span>
+                  </div>
+                  <div class="cd-col-row fieldLegend">
+                        <ul class="cust-name-container">
+                              <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('OP')">
+                                    {{customer.CD_CUSTOMER_NAME}}
+                                    <button class="fas fa-edit edit-button" (click)="editCustomer($event, customer)"></button>
+                              </li>
+                        </ul>
+                  </div>
+            </div>
+      </div>
+</div>

@@ -1,3 +1,8 @@
+<div class="MakeRelative">
+        <div class="clearfix content">
+        <app-customer-handler #Handler [MainComponent]="this"></app-customer-handler>
+        <div class="clearfix content"></div>
+    </div>
 <form class="MakeRelative">
 <div class="ShowLoading " *ngIf="loadSpinner">
  <div class="lds-roller MakeItMiddle">
@@ -312,17 +317,15 @@
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_CLEAR_BTN.isHidden()">
 <app-button #CD_CLEAR_BTN fieldName="{{ 'CustomerDtls.CD_CLEAR_BTN' | translate}}" fieldID="CD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="CD_CLEAR_BTN_click($event)"></app-button>
 </div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
+<!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
+<!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
 <app-CustomerDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode" (custDtlsEdit)="CUST_DTLS_GRID_custDtlsEdit($event)"></app-CustomerDtlsGrid>
-</div>
+</div> -->
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_29.isHidden()">
 <app-AddressDetails #FieldId_29 fieldID="FieldId_29" [formCode]="formCode"></app-AddressDetails>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_30.isHidden()">
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-customer-handler #Handler [MainComponent]="this"></app-customer-handler>
 </div>
 </div>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>

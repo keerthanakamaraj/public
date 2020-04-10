@@ -418,3 +418,95 @@ border: 1px solid #979797 !important;
 }
 
   
+.cd-grid {
+  margin-top:-7px;
+  margin-left:-9px!important;
+  border-radius: 0 0 8px 8px;
+  background-color: #F6FBFF;
+  margin-left: 24px;
+  width: 1229px;
+  height: 187px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border: 1px solid #8FC3E0;
+  display: inline-grid;
+   grid-template-columns: auto auto auto auto; 
+   #op-container {
+    box-shadow:none!important;
+   }
+   .cd-col {
+  //  border: 2px solid black;
+    height:154px  !important;
+    width:284px;
+    box-shadow: 1px 0px 0px 0px #E2E2E2;
+    /* display:inline-block !important; */
+ .cd-col-row{
+    .cust-type-code{
+      height: 24px !important;
+      width: 24px !important;
+      color: #FFFFFF;
+      background-color: #0079B8;
+      font-family: "Open Sans" !important;
+      font-size: 12px;
+      font-weight: 600;
+      /* letter-spacing: 0; */
+      line-height: 17px;
+      text-align: center;
+   //   border:1px solid blue;
+      }
+      .customer-type-label {
+       //  border: 2px solid rgb(255, 0, 0); 
+         display: inline-block;
+        /* float:left; */
+         height:27px; 
+         width:195px;
+        color: #0079B8 !important;
+        font-size:20px !important;
+       
+      }
+      .cd-add-icon::after{
+        content:"\2295";
+        color:#0079B8;
+        font-size: 26px;
+      }
+     // .cd-add-icon{
+       // content:"\2295" !important;
+     //   color:black !important;
+       // padding-left: 73px;
+    //  }
+      .cust-name-container{
+        width:300px;
+        .customer-names{
+           height: 47px;
+           width: 260px;
+          // width: 135px;
+           display: block;
+            padding-top: 12px;            
+            color: #565656;
+            font-family: "Open Sans";
+            font-size: 16px;
+            letter-spacing: 0;
+            line-height: 12px;
+            border-bottom:1px solid #E2E2E2;
+          //  border: 1px solid black;
+          .fas{
+            background-color: Transparent;
+            color:#565656;
+            border: none;
+            cursor:pointer;
+            padding-right: 16px;
+            float:right;
+          }
+
+        }
+      }
+
+    }
+    
+  
+  
+  }
+   
+  
+}
+
