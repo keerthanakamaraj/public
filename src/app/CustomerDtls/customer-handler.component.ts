@@ -74,9 +74,14 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
           if (BorrowerDetails) {
             BorrowerDetails.forEach(eachBorrower => {
               let customer = {};
+
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
-              customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
+
+              customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null 
+              && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
+                ? eachBorrower.CustomerType : 'OP';
+                
               customerDataArr.push(customer);
             });
           }
@@ -95,34 +100,32 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   apiSuccessCallback(customerDataArr: any[]) {
     this.customerDetailsMap.clear();
     customerDataArr.forEach(customer => {
-      if (customer != null && customer.CD_CUSTOMER_TYPE != undefined && customer != '') {
+      if (customer != null && customer != undefined && customer != '') {
         this.categoriseCustomers(customer.CD_CUSTOMER_TYPE, customer);
       }
     });
   }
   categoriseCustomers(customerType: String, customer: {}) {
     let customerTypeArr = [];
-    if (customer !== null) {
-      if (this.customerDetailsMap.has(customerType)) {
-        customerTypeArr = this.customerDetailsMap.get(customerType);
+    if (this.customerDetailsMap.has(customerType)) {
+      customerTypeArr = this.customerDetailsMap.get(customerType);
 
-      }
-      else {
-        customerTypeArr = [];
-      }
-      customerTypeArr.push(customer);
-      this.customerDetailsMap.set(customerType, customerTypeArr);
     }
+    else {
+      customerTypeArr = [];
+    }
+    customerTypeArr.push(customer);
+    this.customerDetailsMap.set(customerType, customerTypeArr);
   }
 
   public editCustomer(event, selectedCustomer) {
-    if (selectedCustomer) {  
+    if (selectedCustomer) {
       this.deactivateClasses();
       event.target.classList.remove("fas");
       event.target.classList.remove("fa-edit");
       event.target.classList.add("customer-edit-active");
       event.target.textContent = "Editing";
-     event.target.parentElement.classList.remove("customer-names");
+      event.target.parentElement.classList.remove("customer-names");
       event.target.parentElement.classList.add("customer-names-active");
       this.MainComponent.CUST_DTLS_GRID_custDtlsEdit(event, selectedCustomer.CustomerId);
     }
@@ -131,21 +134,21 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     this.deactivateClasses();
     this.MainComponent.onReset();
   }
-deactivateClasses(){
-  let elementList= Array.from(document.getElementsByClassName("customer-names-active"));
-  elementList.forEach(element => {
-    element.classList.add("customer-names");
-    element.classList.remove("customer-names-active");
-  });  
+  deactivateClasses() {
+    let elementList = Array.from(document.getElementsByClassName("customer-names-active"));
+    elementList.forEach(element => {
+      element.classList.add("customer-names");
+      element.classList.remove("customer-names-active");
+    });
 
-  elementList= Array.from(document.getElementsByClassName("customer-edit-active"));
-  elementList.forEach(element => {
-    element.classList.add("fas");
-    element.classList.add("fa-edit");
-    element.textContent = "";
-    element.classList.remove("customer-edit-active");
-  });
-}
+    elementList = Array.from(document.getElementsByClassName("customer-edit-active"));
+    elementList.forEach(element => {
+      element.classList.add("fas");
+      element.classList.add("fa-edit");
+      element.textContent = "";
+      element.classList.remove("customer-edit-active");
+    });
+  }
 
 }
 

@@ -522,6 +522,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.FieldId_30.occBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
                 this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
+                this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
+
             },
             async (httpError) => {
                 var err = httpError['error']
