@@ -129,10 +129,24 @@
 </div>
 </div>
 </div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #BUTTON_SECTION id="BUTTON_SECTION">
+<div class="form-group pb10 button-group">
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Submit.isHidden()">
+<app-button #Submit fieldName="{{ 'DDE.Submit' | translate}}" fieldID="Submit" [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Submit_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Cancel.isHidden()">
+<app-button #Cancel fieldName="{{ 'DDE.Cancel' | translate}}" fieldID="Cancel" [formCode]="formCode" customClass="btn btn-warning-outline"></app-button>
+</div>
+</div>
+
+</div>
+</div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
 <app-dde-handler #Handler></app-dde-handler>
 </div>
 </div>
+<app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
 </div>
 </div>
 </div>

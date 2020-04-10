@@ -40,7 +40,7 @@
 {{ 'FamilyDetailsForm.FD_FIRST_NAME' | translate}}
 </label>
 </div>
-<app-text-box #FD_FIRST_NAME fieldID="FD_FIRST_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('FD_FIRST_NAME', $event)"></app-text-box>
+<app-text-box #FD_FIRST_NAME fieldID="FD_FIRST_NAME" [formCode]="formCode"  (blur)="genericOnBlur('FD_FIRST_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_MIDDLE_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -66,14 +66,14 @@
 </div>
 <app-text-box #FD_FULL_NAME fieldID="FD_FULL_NAME" [formCode]="formCode" (blur)="genericOnBlur('FD_FULL_NAME', $event)"></app-text-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_GENDER.isHidden()">
+<!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_GENDER.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown" [ngClass]="{'mandatory': FD_GENDER.mandatory}">
 {{ 'FamilyDetailsForm.FD_GENDER' | translate}}
 </label>
 </div>
 <app-combo-box #FD_GENDER category="2" fieldID="FD_GENDER" [formCode]="formCode" (blur)="genericOnBlur('FD_GENDER', $event)"></app-combo-box>
-</div>
+</div> -->
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_DOB.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown" [ngClass]="{'mandatory': FD_DOB.mandatory}">
@@ -91,14 +91,14 @@
 <app-text-box #FD_MOBILE inputType="number" fieldID="FD_MOBILE" [formCode]="formCode" (blur)="genericOnBlur('FD_MOBILE', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_RELATIONSHIP.isHidden()">
+<!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_RELATIONSHIP.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown" [ngClass]="{'mandatory': FD_RELATIONSHIP.mandatory}">
 {{ 'FamilyDetailsForm.FD_RELATIONSHIP' | translate}}
 </label>
 </div>
 <app-combo-box #FD_RELATIONSHIP category="2" fieldID="FD_RELATIONSHIP" [formCode]="formCode" (blur)="genericOnBlur('FD_RELATIONSHIP', $event)"></app-combo-box>
-</div>
+</div> -->
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_NATIONAL_ID.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown" >
@@ -121,6 +121,9 @@
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="FD_SAVE_BTN.isHidden()">
 <app-button #FD_SAVE_BTN fieldName="{{ 'FamilyDetailsForm.FD_SAVE_BTN' | translate}}" fieldID="FD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary"></app-button>
 </div>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
+    <app-button #clear fieldName="{{ 'FamilyDetailsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="clear_click($event)"></app-button>
+</div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_18.isHidden()">
 <app-FamilyDetailsGrid #FieldId_18 fieldID="FieldId_18" [formCode]="formCode"></app-FamilyDetailsGrid>
 </div>
@@ -128,6 +131,9 @@
 <app-family-handler #Handler [MainComponent]="this"></app-family-handler>
 </div>
 </div>
+<app-hidden #HidRelationship fieldID="HidRelationship"></app-hidden>
+<app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
+<app-hidden #HidGender fieldID="HidGender"></app-hidden>
 </div>
 </div>
 </div>

@@ -44,7 +44,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 @ViewChild('FieldId_16', {static: false}) FieldId_16: VisitReportFormComponent;
 @ViewChild('FieldId_17', {static: false}) FieldId_17: GoNoGoComponent;
 @ViewChild('FieldId_13', {static: false}) FieldId_13: NotepadDetailsFormComponent;
+@ViewChild('Submit', {static: false}) Submit: ButtonComponent;
+@ViewChild('Cancel', {static: false}) Cancel: ButtonComponent;
 @ViewChild('Handler', {static: false}) Handler: DDEHandlerComponent;
+@ViewChild('HideProcessId', {static: false}) HideProcessId: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -81,6 +84,7 @@ this.FieldId_13.setReadOnly(readOnly);
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 this.openHTab('FieldId_10', 'GO_NO_GO');
+this.HideProcessId.setValue('RLO_Process');
 this.setDependencies();
 }
 setInputs(param : any){
@@ -292,7 +296,12 @@ totalErrors+=errorCount;
 });
 return totalErrors;
 }
+async Submit_click(event){
+let inputMap = new Map();
+inputMap.clear();
+}
 fieldDependencies = {
 }
-
 }
+
+

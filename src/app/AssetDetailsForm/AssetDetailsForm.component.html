@@ -60,7 +60,7 @@
 {{ 'AssetDetailsForm.AT_ASSET_STATUS' | translate}}
 </label>
 </div>
-<app-text-box #AT_ASSET_STATUS fieldID="AT_ASSET_STATUS" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-text-box>
+<app-text-box #AT_ASSET_STATUS fieldID="AT_ASSET_STATUS" [formCode]="formCode"  (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_VALUE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -84,7 +84,7 @@
 {{ 'AssetDetailsForm.AT_CURRENCY' | translate}}
 </label>
 </div>
-<app-text-box #AT_CURRENCY fieldID="AT_CURRENCY" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('AT_CURRENCY', $event)"></app-text-box>
+<app-text-box #AT_CURRENCY fieldID="AT_CURRENCY" [formCode]="formCode" (blur)="genericOnBlur('AT_CURRENCY', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_EQUIVALENT_AMOUNT.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -108,7 +108,7 @@
 {{ 'AssetDetailsForm.AT_NAME' | translate}}
 </label>
 </div>
-<app-combo-box #AT_NAME category="2" fieldID="AT_NAME" [formCode]="formCode" placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_NAME', $event)"></app-combo-box>
+<app-combo-box #AT_NAME category="2" fieldID="AT_NAME" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_NAME', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_INCLUDE_IN_DBR.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -123,6 +123,9 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
 <app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="AT_SAVE_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
+    <app-button #clear fieldName="{{ 'AssetDetailsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="clear_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AssetDetailsGrid.isHidden()">
 <app-AssetDetailsGrid #AssetDetailsGrid fieldID="AssetDetailsGrid" [formCode]="formCode" (modifyAssetDetails)="AssetDetailsGrid_modifyAssetDetails($event)"></app-AssetDetailsGrid>

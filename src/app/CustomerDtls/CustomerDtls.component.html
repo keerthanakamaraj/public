@@ -30,7 +30,7 @@
 {{ 'CustomerDtls.CD_EXISTING_CUST' | translate}}
 </label>
 </div>
-<app-combo-box #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></app-combo-box>
+<app-combo-box #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"  (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -105,7 +105,7 @@
 {{ 'CustomerDtls.CD_THIRD_NAME' | translate}}
 </label>
 </div>
-<app-text-box #CD_THIRD_NAME fieldID="CD_THIRD_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CD_THIRD_NAME', $event)"></app-text-box>
+<app-text-box #CD_THIRD_NAME fieldID="CD_THIRD_NAME" [formCode]="formCode"  (blur)="genericOnBlur('CD_THIRD_NAME', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LAST_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -113,7 +113,7 @@
 {{ 'CustomerDtls.CD_LAST_NAME' | translate}}
 </label>
 </div>
-<app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
+<app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode"  (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
@@ -156,7 +156,7 @@
 {{ 'CustomerDtls.CD_MOBILE_NO' | translate}}
 </label>
 </div>
-<app-text-box #CD_MOBILE_NO fieldID="CD_MOBILE_NO" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box>
+<app-text-box #CD_MOBILE_NO fieldID="CD_MOBILE_NO" [formCode]="formCode"  (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #NATIONALITY_DTLS_LBL parentCompCode="CustomerDtls" fieldID="NATIONALITY_DTLS_LBL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>

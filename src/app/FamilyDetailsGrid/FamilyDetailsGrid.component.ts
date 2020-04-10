@@ -96,7 +96,7 @@ caseSensitive:true,
       columnId: 'FD_DELETE',
       Type: '2',
       CustomClass: 'btn-delete',
-      IconClass: 'fas fa-edit fa-lg',
+      IconClass: 'fa fa-trash fa-lg',
 },
 },
 ];

@@ -1279,6 +1279,7 @@
   "LiabilityDtlsForm": {
     "LD_FINANCIER_NAME": "Financier Name",
     "LD_SAVE": "Save",
+    "clear":"clear",
     "FD_HEADING": "Liability Details",
     "LD_EQUIVALENT_AMOUNT": "Equivalent Amount",
     "LD_CURRENCY": "Currency",
@@ -1295,6 +1296,7 @@
   "AssetDetailsForm": {
     "FormTitle": "",
     "AT_SAVE": "Save",
+    "clear":"clear",
     "AT_ASSET_VALUE": "Asset Value",
     "AT_OWNED_BY": "Owned By",
     "AT_INCLUDE_IN_DBR": "Include in DBR",
@@ -1527,6 +1529,7 @@
     "FD_MIDDLE_NAME": "Middle Name",
     "FD_TAX_ID": "Tax ID",
     "FD_SAVE_BTN": "Save",
+    "clear":"clear",
     "FD_NATIONAL_ID": "National ID",
     "FD_LAST_NAME": "Last Name"
   },
@@ -1542,6 +1545,7 @@
   
   "OtherDeductionForm": {
     "OD_SAVE": "Save",
+    "Clear":"clear",
     "DD_HEADING": "Other Deductions Details",
     "OD_OBILGATION_HEAD": "Obligation Head",
     "OD_CURRENCY": "Currency",
@@ -1554,6 +1558,8 @@
     "FieldId_10_GO_NO_GO": "Go / No-Go",
     "FormTitle": "Details Data Entry",
     "CUST_DTLS": "null",
+    "Submit": "Submit",
+    "Cancel": "Cancel",
     "FieldId_10_VISIT_REF": "RM Visit",
     "FieldId_10_COMMENTS_TAB": "Comments",
     "FieldId_1": "null",

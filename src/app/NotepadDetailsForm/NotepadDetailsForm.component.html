@@ -40,6 +40,8 @@
 <app-text-area #ND_COMMENTS fieldID="ND_COMMENTS" [formCode]="formCode" cols="10" rows="4" (blur)="genericOnBlur('ND_COMMENTS', $event)"></app-text-area>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="ND_SAVE.isHidden()">
 <app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" fieldID="ND_SAVE" [formCode]="formCode" (buttonClick)="ND_SAVE_click($event)"></app-button>
 </div>

@@ -37,8 +37,12 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
 @ViewChild('FD_NATIONAL_ID', {static: false}) FD_NATIONAL_ID: TextBoxComponent;
 @ViewChild('FD_TAX_ID', {static: false}) FD_TAX_ID: TextBoxComponent;
 @ViewChild('FD_SAVE_BTN', {static: false}) FD_SAVE_BTN: ButtonComponent;
+@ViewChild('clear', {static: false}) clear: ButtonComponent;
 @ViewChild('FieldId_18', {static: false}) FieldId_18: FamilyDetailsGridComponent;
 @ViewChild('Handler', {static: false}) Handler: FamilyHandlerComponent;
+@ViewChild('HidRelationship', {static: false}) HidRelationship: HiddenComponent;
+@ViewChild('HidAppId', {static: false}) HidAppId: HiddenComponent;
+@ViewChild('HidGender', {static: false}) HidGender: HiddenComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -75,6 +79,9 @@ async onFormLoad(){
 
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 //this.FD_FULL_NAME.setReadOnly(true);
+this.HidRelationship.setValue('RELATIONSHIP');
+this.HidAppId.setValue('RLO');
+this.HidGender.setValue('GENDER');
 this.setDependencies();
 await this.Handler.onFormLoad({});
 }
@@ -147,7 +154,61 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
+async FD_SAVE_BTN_click(event){
+let inputMap = new Map();
+var noOfError:number = await this.revalidate();
+if(noOfError==0){
+inputMap.clear();
+this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+var loopDataVar6 = [];
+var loopVar6 = res['BorrowerDetails'];
+if (loopVar6) {
+for (var i = 0; i < loopVar6.length; i++) {
+var tempObj = {};
+tempObj['FD_RELATIONSHIP'] = loopVar6[i].Body.Relationship;
+tempObj['FD_NAME'] = loopVar6[i].Body.FullName;
+loopDataVar6.push(tempObj);}
+}
+this.FieldId_18.setValue(loopDataVar6);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+}
+);
+await this.Handler.onFormLoad({
+});
+}
+else{
+this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+}
+}
+async clear_click(event){
+let inputMap = new Map();
+this.onReset();
+}
 fieldDependencies = {
+FD_GENDER: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "FD_GENDER", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidGender", paramType:"QueryParam"},
+],
+outDep: [
+]},
+FD_RELATIONSHIP: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "FD_RELATIONSHIP", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "HidRelationship", paramType:"QueryParam"},
+],
+outDep: [
+]},
 }
 
 }
