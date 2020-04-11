@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FluidPage": {
+    "rlo-ui": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/FluidPage",
+            "outputPath": "dist/rlo-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -54,18 +54,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "FluidPage:build"
+            "browserTarget": "rlo-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "FluidPage:build:production"
+              "browserTarget": "rlo-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FluidPage:build"
+            "browserTarget": "rlo-ui:build"
           }
         },
         "test": {
@@ -101,7 +101,7 @@
         }
       }
     },
-    "FluidPage-e2e": {
+    "rlo-ui-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -109,11 +109,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "FluidPage:serve"
+            "devServerTarget": "rlo-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "FluidPage:serve:production"
+              "devServerTarget": "rlo-ui:serve:production"
             }
           }
         },
@@ -129,5 +129,5 @@
       }
     }
   },
-  "defaultProject": "FluidPage"
+  "defaultProject": "rlo-ui"
 }
