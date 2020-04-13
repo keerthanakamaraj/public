@@ -43,11 +43,10 @@
                     (blur)="genericOnBlur('SRC_CIF_NO', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="SEARCH_CUST_BTN.isHidden()">
-                  <app-button #SEARCH_CUST_BTN fieldName="{{ 'Initiation.SEARCH_CUST_BTN' | translate}}"
-                    fieldID="SEARCH_CUST_BTN" [formCode]="formCode" iconClass="fas fa-search" [type]="4"
-                    customClass="icon-button" (buttonClick)="SEARCH_CUST_BTN_click($event)"></app-button>
-                </div>
-              </div>
+          <app-button #SEARCH_CUST_BTN  fieldID="SEARCH_CUST_BTN" [type]= "2" [formCode]="formCode" imagePath = "./assets/icons/search-lens.svg" customClass="icon-button"  (buttonClick)="SEARCH_CUST_BTN_click($event)">
+          </app-button>
+</div>
+</div>
 
             </div>
           </div>

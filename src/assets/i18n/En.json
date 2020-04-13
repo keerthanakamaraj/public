@@ -1246,6 +1246,7 @@
   },
   "AddressDetails" : {
     "AD_ADDRESS_TYPE" : "Address Type",
+    "AD_CORR_EMAIL" : "Correspondence Email?",
     "EMAIL_LABEL" : "Correspondence Email?",
     "AD_CLEAR_BTN" : "Clear",
     "AD_RES_DUR_UNIT" : "Period",

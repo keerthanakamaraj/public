@@ -164,14 +164,6 @@
 </div>
 <app-text-box #AD_ALTERNATE_MOB_NO fieldID="AD_ALTERNATE_MOB_NO" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></app-text-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID1.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AddressDetails.AD_EMAIL_ID1' | translate}}
-</label>
-</div>
-<app-text-box #AD_EMAIL_ID1 fieldID="AD_EMAIL_ID1" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID1', $event)"></app-text-box>
-</div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID2.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -180,28 +172,41 @@
 </div>
 <app-text-box #AD_EMAIL_ID2 fieldID="AD_EMAIL_ID2" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID2', $event)"></app-text-box>
 </div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-<app-label #EMAIL_LABEL parentCompCode="AddressDetails" fieldID="EMAIL_LABEL" [formCode]="formCode" fontFamily="unset" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="unset"></app-label>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID1.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_EMAIL_ID1' | translate}}
+</label>
+</div>
+<app-text-box #AD_EMAIL_ID1 fieldID="AD_EMAIL_ID1" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID1', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CORR_EMAIL.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_CORR_EMAIL' | translate}}
+</label>
+</div>
+<app-combo-box #AD_CORR_EMAIL category="2" fieldID="AD_CORR_EMAIL" [formCode]="formCode" placeholder="(Select)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_CORR_EMAIL', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-6 col-md-6 group-default">
-<div #EMAIL_GROUP id="EMAIL_GROUP">
-<div class="form-group pb10 email-group">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
+<div #FieldId_36 id="FieldId_36">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown emailcheckbox">
+<label class="clr-brown">
 {{ 'AddressDetails.AD_EMAIL1_CHECKBOX' | translate}}
 </label>
 </div>
-<app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode"  (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
+<app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
 </div>
-<div class="col-12  col-sm-7 col-md-7 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown emailcheckbox">
+<label class="clr-brown">
 {{ 'AddressDetails.AD_EMAIL2_CHECKBOX' | translate}}
 </label>
 </div>
-<app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"></app-check-box>
+<app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"></app-check-box>
 </div>
 </div>
 
@@ -229,6 +234,7 @@
 <app-hidden #hidMailingAddress fieldID="hidMailingAddress"></app-hidden>
 <app-hidden #hidResDurType fieldID="hidResDurType"></app-hidden>
 <app-hidden #hidResType fieldID="hidResType"></app-hidden>
+<app-hidden #hideCorrEmail fieldID="hideCorrEmail"></app-hidden>
 </div>
 </div>
 </div>

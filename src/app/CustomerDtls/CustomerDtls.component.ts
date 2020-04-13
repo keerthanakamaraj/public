@@ -532,13 +532,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             }
         );
         this.passBorrowerSeq.emit({
-            'BorrowerSeq': event.BorrowerSeq,
+            'BorrowerSeq': selectedCustomerId,
         });
         await this.FieldId_29.AddressGrid.gridDataLoad({
-            'passBorrowerSeqToGrid': event.BorrowerSeq,
+            'passBorrowerSeqToGrid': selectedCustomerId,
         });
         await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
-            'refNumToGrid': event.BorrowerSeq,
+            'refNumToGrid': selectedCustomerId,
         });
     }
     async loadCustDtlsGrid(event) {
