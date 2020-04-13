@@ -513,7 +513,8 @@ audio:not([controls]) {
 
 img {
     border-style: none;
-    max-width: 100%
+    max-width: 100%;
+    height: 26px;
 }
 
 svg:not(:root) {
@@ -550,7 +551,7 @@ html [type=button] {
 [type=submit],
 button,
 html [type=button] {
-    -webkit-appearance: button
+    -webkit-appearance: initial;
 }
 
 [type=button]::-moz-focus-inner,
@@ -595,6 +596,10 @@ textarea {
 [type=search] {
     -webkit-appearance: textfield;
     outline-offset: -.1429rem
+}
+
+#SEARCH_CUST_BTN{
+    margin-top: 34px;
 }
 
 [type=search]::-webkit-search-cancel-button,
@@ -3094,6 +3099,19 @@ textarea:focus
         max-width: 28%
     }
 }
+
+.sub{
+    margin-top: -65px;
+    margin-left: 220px;
+    height: 35px;
+}
+
+.sube{
+    margin-top: -65px;
+    margin-left: 270px;
+    height: 35px;
+}
+
 
 .lform-submit {
     position: relative;

@@ -247,15 +247,15 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     }
 
     &.AL .checkmark{
-      background-image: url("../images/icons/autoloan.svg");
+      background-image: url("/assets/icons/autoloan.png");
     }
 
     &.PL .checkmark{
-      background-image: url("../images/icons/personaloan.png");
+      background-image: url("/assets/icons/personalloan.png");
     }
 
     &.ML .checkmark{
-      background-image: url("../images/icons/mortageloan.svg");
+      background-image: url("/assets/icons/mortgageloan.png");
     }
   }  
 }
@@ -366,10 +366,13 @@ height: 1.01px !important;
 width: 253px !important;
 border: 1px solid #0069A0 !important;
 margin-left: 27px;
-
+margin-top: 59px;
 }
 .loanimage{
 max-width: 15% !important;
+height: 43px;
+margin-top: 22px;
+
 }
 
 .LoanTypeImage{
@@ -424,7 +427,7 @@ border: 1px solid #979797 !important;
   border-radius: 0 0 8px 8px;
   background-color: #F6FBFF;
   margin-left: 24px;
-  width: 1229px;
+  width: 1309px;
   height: 187px;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -465,10 +468,14 @@ border: 1px solid #979797 !important;
        
       }
       .cd-add-icon::after{
-        content:"\2295";
-        color:#0079B8;
+        // content:"\2295";
+        // color:#0079B8;
         font-size: 26px;
       }
+      
+     
+      
+    
      // .cd-add-icon{
        // content:"\2295" !important;
      //   color:black !important;

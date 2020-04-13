@@ -3,14 +3,15 @@
             <div class="cd-col-row fieldLegend">
                   <div class="cust-type-head">
                         <label class="cust-type-code ">B</label>
+                        &nbsp;
                         <label class="customer-type-label">Borrower</label>
-                        <span class="cd-add-icon" (click)="doReset()"></span>
+                        <img class="sub" type="submit" (click)="doReset()" src="assets\icons\add_plus.png"/>
                   </div>
                   <div class="cd-col-row fieldLegend">
                         <ul class="cust-name-container">
                               <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('B')">
                                     {{customer.CD_CUSTOMER_NAME}}
-                                    <button class="fas fa-edit" (click)="editCustomer($event, customer)"></button>
+                                    <button  (click)="editCustomer($event, customer)"></button>
                               </li>
                         </ul>
                   </div>
@@ -22,7 +23,7 @@
                   <div class="cust-type-head">
                         <label class="cust-type-code ">CB</label>
                         <label class="customer-type-label">Co-Borrower</label>
-                        <span class="cd-add-icon" (click)="doReset()"></span>
+                        <img class="sub" type="submit" (click)="doReset()" src="assets\icons\add_plus.png"/>
                   </div>
                   <div class="cd-col-row fieldLegend">
                         <ul class="cust-name-container">
@@ -39,8 +40,9 @@
             <div class="cd-col-row fieldLegend">
                   <div class="cust-type-head">
                         <label class="cust-type-code ">G</label>
+                        &nbsp;
                         <label class="customer-type-label"> Guarantor </label>
-                        <span class="cd-add-icon" (click)="doReset()"></span>
+                        <img class="sub" type="submit" (click)="doReset()" src="assets\icons\add_plus.png"/>
                   </div>
                   <div class="cd-col-row fieldLegend">
                         <ul class="cust-name-container">
@@ -56,14 +58,17 @@
             <div class="cd-col-row fieldLegend">
                   <div class="cust-type-head">
                         <label class="cust-type-code ">OP</label>
+                        &nbsp;
                         <label class="customer-type-label"> Other Party</label>
-                        <span class="cd-add-icon" (click)="doReset()"></span>
+                              <img class="sube" type="submit" (click)="doReset()" src="assets\icons\add_plus.png"/>
                   </div>
                   <div class="cd-col-row fieldLegend">
                         <ul class="cust-name-container">
                               <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('OP')">
                                     {{customer.CD_CUSTOMER_NAME}}
-                                    <button class="fas fa-edit" (click)="editCustomer($event, customer)"></button>
+                                    <button type="submit" class="fas fa-edit" (click)="editCustomer($event, customer)">
+                              </button>
+                              
                               </li>
                         </ul>
                   </div>
