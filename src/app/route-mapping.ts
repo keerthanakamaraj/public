@@ -87,5 +87,10 @@ export var componentRoutes: Routes = [
 		path: 'DDE',
 		loadChildren: 'src/app/DDE/DDE.module#DDEModule'
 	},
+	{
+		path: 'FamilyDetailsForm',
+		loadChildren: 'src/app/FamilyDetailsForm/FamilyDetailsForm.module#FamilyDetailsFormModule'
+	},
+	
 ];
 export class AppRoutingModule { }
