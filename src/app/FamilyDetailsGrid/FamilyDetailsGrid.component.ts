@@ -24,6 +24,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
+@Output() onFamilyModify: EventEmitter<any> = new EventEmitter<any>();
 @Input('formCode') formCode: string;
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
@@ -68,35 +69,37 @@ caseSensitive:true,
 },
 },
 {
-    width:25,
-    field:"Edit",
-    sortable: false,
-    filter: false,
-    resizable: true,
-    cellRenderer: 'buttonRenderer',
-    cellStyle: {'text-align': 'left'},
-    cellRendererParams: {
-      gridCode: 'FamilyDetailsGrid',
-      columnId: 'FD_MODIFY',
-      Type: '2',
-      CustomClass: 'btn-edit',
-      IconClass: 'fas fa-edit fa-lg',
+width:25,
+field:"FD_MODIFY",
+sortable: false,
+filter: false,
+resizable: true,
+cellRenderer: 'buttonRenderer',
+cellStyle: {'text-align': 'left'},
+cellRendererParams: {
+gridCode: 'FamilyDetailsGrid',
+columnId: 'FD_MODIFY',
+Type: '2',
+CustomClass: 'btn-edit',
+IconClass: 'fas fa-edit fa-lg',
+onClick: this.FD_MODIFY_click.bind(this),
 },
 },
 {
-    width:25,
-    field:"Delete",
-    sortable: false,
-    filter: false,
-    resizable: true,
-    cellRenderer: 'buttonRenderer',
-    cellStyle: {'text-align': 'left'},
-    cellRendererParams: {
-      gridCode: 'FamilyDetailsGrid',
-      columnId: 'FD_DELETE',
-      Type: '2',
-      CustomClass: 'btn-delete',
-      IconClass: 'fa fa-trash fa-lg',
+width:25,
+field:"FD_DELETE",
+sortable: false,
+filter: false,
+resizable: true,
+cellRenderer: 'buttonRenderer',
+cellStyle: {'text-align': 'left'},
+cellRendererParams: {
+gridCode: 'FamilyDetailsGrid',
+columnId: 'FD_DELETE',
+Type: '2',
+CustomClass: 'btn-delete',
+IconClass: 'fa fa-trash fa-lg',
+onClick: this.FD_DELETE_click.bind(this),
 },
 },
 ];
@@ -129,6 +132,7 @@ isColumnHidden(columnId) {
 return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 }
 ngOnInit(): void {
+this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
 var styleElement = document.createElement('style');
 styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
@@ -141,14 +145,100 @@ this.unsubscribe$.complete();
 var styleElement = document.getElementById('FamilyDetailsGrid_customCss');
 styleElement.parentNode.removeChild(styleElement);
 }
-setValue(rowData) {
-this.readonlyGrid.setRowData(rowData);
+gridDataLoad(formInputs) {
+this.readonlyGrid.setFormInputs(formInputs);
+}
+refreshGrid(){
+this.readonlyGrid.refreshGrid();
 }
 setHidden(value: boolean){
 this.hidden = value;
 }
 isHidden(){
 return this.hidden;
+}
+async gridDataAPI(params, gridReqMap: Map<string, any>, event){
+let inputMap = new Map();
+inputMap.clear();
+if(gridReqMap.get("FilterCriteria")){
+var obj = gridReqMap.get("FilterCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "Family_ID":obj[i].columnName =  "BorrowerSeq";break;
+case "FD_RELATIONSHIP":obj[i].columnName =  "Relationship";break;
+case "FD_NAME":obj[i].columnName =  "FullName";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+if(gridReqMap.get("OrderCriteria")){
+var obj = gridReqMap.get("OrderCriteria");
+for(var i=0;i<obj.length;i++){
+switch (obj[i].columnName) {
+case "Family_ID":obj[i].columnName =  "BorrowerSeq";break;
+case "FD_RELATIONSHIP":obj[i].columnName =  "Relationship";break;
+case "FD_NAME":obj[i].columnName =  "FullName";break;
+default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+}
+}
+}
+this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+var loopDataVar4 = [];
+var loopVar4 = res['BorrowerDetails'];
+if (loopVar4) {
+for (var i = 0; i < loopVar4.length; i++) {
+var tempObj = {};
+tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
+tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
+tempObj['FD_NAME'] = loopVar4[i].FullName;
+loopDataVar4.push(tempObj);}
+}
+this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Fail To Load Data', -1);
+}
+);
+
+}
+async FD_MODIFY_click(event){
+let inputMap = new Map();
+const selectedData0 = this.readonlyGrid.getSelectedData();
+if(selectedData0){
+this.onFamilyModify.emit({
+'SeqKey': selectedData0['Family_ID'],
+});
+}
+}
+async FD_DELETE_click(event){
+let inputMap = new Map();
+inputMap.clear();
+inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
+this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.services.alert.showAlert(1, 'Successfully Deleted', 5000);
+this.readonlyGrid.refreshGrid();},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+}
+this.services.alert.showAlert(2, 'Failed To Delete', -1);
+}
+);
+}
+loadSpinner=false;
+showSpinner(){
+this.loadSpinner=true;
+}
+hideSpinner(){
+this.loadSpinner=false;
 }
 
 }
