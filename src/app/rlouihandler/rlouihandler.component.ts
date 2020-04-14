@@ -53,7 +53,7 @@ export class RLOUIHandlerComponent implements OnInit {
           // console.log("Validation ", validation);
 
           if(validation) { // TODO: Check Type and set appropriate Validations
-            if(field["T"] == "S"){ // String type
+            if(field["T"] == undefined || field["T"] == "S" ){ // String type -- Treat null / undefined as string
               if(validation["MX"]) { // MaxLength
                 this.MainComponent[field["ID"]].maxLength = validation["MX"];
               }
