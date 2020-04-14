@@ -264,6 +264,10 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     &.ML .checkmark{
       background-image: url("/assets/icons/mortgageloan.png");
     }
+
+    &.CC .checkmark{
+      background-image: url("/assets/icons/personalloan.png");
+    }
   }  
 }
 
