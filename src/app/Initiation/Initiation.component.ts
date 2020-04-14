@@ -96,9 +96,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
 
-@ViewChild('hidetTenurePeriod', {static: false}) hidetTenurePeriod: HiddenComponent;
-@ViewChild('hideAppPurpose', {static: false}) hideAppPurpose: HiddenComponent;
-
 @ViewChild('INIT_ACCORD', {static:false}) INIT_ACCORD: RloUiAccordionComponent;
 
 isLoanCategory: boolean;
@@ -202,8 +199,6 @@ this.hidTitle.setValue('TITLE');
 this.hidGender.setValue('GENDER');
 this.hidCustSeg.setValue('CUST_SEGMENT');
 this.hideExsCust.setValue('YES_NO');
-this.hidetTenurePeriod.setValue('TENURE_PERIOD');
-this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
 let inputMap = new Map();
 await this.Handler.onFormLoad({
 });
@@ -278,28 +273,42 @@ this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
 }
+
+
+
 async SEARCH_CUST_BTN_click(event){
-let inputMap = new Map();
-inputMap.clear();
-inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
-inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
-inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
-inputMap.set('component','SearchForm');
-const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-var onModalClose = async (reason)=>{
-(reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
-if(this.services.dataStore.getData('selectedData')){
-let tempVar:any = this.services.dataStore.getData('selectedData');
-this.CD_DOB.setValue(tempVar['dob']);
-this.CD_TAX_ID.setValue(tempVar['taxId']);
-this.CD_FULL_NAME.setValue(tempVar['custName']);
-this.CD_MOBILE.setValue(tempVar['mobileNum']);
+    let inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
+    inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
+    inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
+if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
+    
+    this.showMessage("Please fill atlest one field");
 }
-this.services.dataStore.setData('selectedData', undefined);
+else{
+   
+
+    inputMap.set('component','SearchForm');
+    // this.Handler.searchForm();
+    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+    var onModalClose = async (reason)=>{
+    (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
+    if(this.services.dataStore.getData('selectedData')){
+    let tempVar:any = this.services.dataStore.getData('selectedData');
+    this.CD_DOB.setValue(tempVar['dob']);
+    this.CD_TAX_ID.setValue(tempVar['taxId']);
+    this.CD_FULL_NAME.setValue(tempVar['custName']);
+    this.CD_MOBILE.setValue(tempVar['mobileNum']);
+    }
+    this.services.dataStore.setData('selectedData', undefined);
+    }
+    modalRef.result.then(onModalClose, onModalClose);
+    modalRef.componentInstance.rotueToComponent(inputMap);
+    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+    inputMap.clear();
+    
 }
-modalRef.result.then(onModalClose, onModalClose);
-modalRef.componentInstance.rotueToComponent(inputMap);
-this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
 }
 async BAD_PROD_CAT_change(event){
 let inputMap = new Map();
@@ -307,9 +316,26 @@ await this.Handler.onProdCategoryChange({
 }
 );
 }
-async BAD_BRANCH_change(event){
-console.log("branch changed ", event);
+
+// async BAD_PRODUCT_change(event){
+//     let inputMap = new Map();
+//     await this.Handler.onProdCategoryChange({
+//     }
+//     );
+//     }
+
+genderCheck(){
+    if((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() !='MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() !='MRS') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() !='MS')){
+      //console.log("Please select gender according to tilte");
+      this.showMessage("Please select gender according to tilte");
+    }
+  }
+
+async CD_GENDER_blur(event){
+    let inputMap = new Map();
+    this.genderCheck();
 }
+
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
 await this.Handler.updateFullName({
@@ -597,26 +623,6 @@ inDep: [
 ],
 outDep: [
 ]},
-LD_APP_PRPSE: {
-  inDep: [
-
-    {paramKey: "VALUE1", depFieldID: "LD_APP_PRPSE", paramType:"PathParam"},
-    {paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType:"QueryParam"},
-    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-    ],
-    outDep: [
-    ]
-},
-LD_TENURE_PERIOD: {
-  inDep: [
-
-    {paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType:"PathParam"},
-    {paramKey: "KEY1", depFieldID: "hidetTenurePeriod", paramType:"QueryParam"},
-    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-    ],
-    outDep: [
-    ]
-}
 }
 
 }

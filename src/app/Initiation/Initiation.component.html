@@ -122,7 +122,7 @@
                           </div>
                           <rlo-ui-radio #BAD_PROD_CAT fieldID="BAD_PROD_CAT" [formCode]="formCode"
                           domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                          domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)">
+                          domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)" (change)="BAD_PROD_CAT_change('BAD_PROD_CAT', $event)">
                         </rlo-ui-radio>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
@@ -134,7 +134,7 @@
                           <app-combo-box #BAD_PRODUCT category="2" fieldID="BAD_PRODUCT" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstProductDetails/{ProductCd}" doServerUrl="/masters"
                             customClass="Product_Group" domainObjectCode="MstProductDetails"
-                            (blur)="genericOnBlur('BAD_PRODUCT', $event)"></app-combo-box>
+                            (blur)="genericOnBlur('BAD_PRODUCT', $event)" ></app-combo-box>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
                           <div class="clr-brown fieldLegend">
@@ -189,7 +189,7 @@
             <rlo-ui-accordion-group #ACC_CUSTOMER id="ACC_CUSTOMER" title="{{ 'Initiation.CD_HEAD_LABEL' | translate}}">
               <div #CD_GROUP id="CD_GROUP">
                 <div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
+                  <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
                         {{ 'Initiation.CD_CUST_TYPE' | translate}}
@@ -377,6 +377,7 @@
                       [formCode]="formCode" iconClass="fa fa-plus" [type]="4" customClass="icon-button"
                       (buttonClick)="CD_ADD_click($event)"></app-button>
                   </div>
+                  <div class="col-12  col-sm-1 col-md-1 res-pr-hide"></div>                  
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_RESET.isHidden()">
                     <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
                       [formCode]="formCode" iconClass="fas fa-undo" [type]="4" customClass="icon-button"
