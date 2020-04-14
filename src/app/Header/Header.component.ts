@@ -43,6 +43,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
+    PRODUCT_CATEGORY_IMG = '';
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -126,6 +127,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
                 // this.HD_APP_SUBMSN_DT.setValue(res['Header']['AppSubmissionDate']);
                 // this.HD_CIF.setValue(res['Header']['CIF']);
                 // this.HD_CUST_ID.setValue(res['Header']['CustomerId']);
+                this.apiSuccessCallback();
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -209,4 +211,15 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     fieldDependencies = {
     }
 
+    apiSuccessCallback() {
+        if (this.HD_PROD_CAT != undefined) {
+            switch (this.HD_PROD_CAT.getFieldValue()) {
+                case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/images/icons/autoloan.png'; break;
+                case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan.png'; break;
+                case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgageloan.png'; break;
+            //   case 'retail': this.PRODUCT_CATEGORY_IMG = '/assets/icons/autoloan.png'; break;
+            }
+
+        }
+    }
 }
