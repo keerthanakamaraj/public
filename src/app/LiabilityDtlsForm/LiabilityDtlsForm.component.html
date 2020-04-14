@@ -121,10 +121,10 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="LD_SAVE.isHidden()">
-<app-button #LD_SAVE fieldName="{{ 'LiabilityDtlsForm.LD_SAVE' | translate}}" fieldID="LD_SAVE" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="LD_SAVE_click($event)"></app-button>
+<app-button #LD_SAVE fieldName="{{ 'LiabilityDtlsForm.LD_SAVE' | translate}}" fieldID="LD_SAVE" [formCode]="formCode"  imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="LD_SAVE_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
-    <app-button #clear fieldName="{{ 'LiabilityDtlsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="clear_click($event)"></app-button>
+    <app-button #clear fieldName="{{ 'LiabilityDtlsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode"  imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
 </div>
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LIABILITY_GRID.isHidden()">

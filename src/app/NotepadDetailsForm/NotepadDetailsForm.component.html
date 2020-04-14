@@ -43,10 +43,10 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="ND_SAVE.isHidden()">
-<app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" fieldID="ND_SAVE" [formCode]="formCode" (buttonClick)="ND_SAVE_click($event)"></app-button>
+<app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" fieldID="ND_SAVE" [formCode]="formCode"  imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="ND_SAVE_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="ND_CLEAR.isHidden()">
-<app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}" fieldID="ND_CLEAR" [formCode]="formCode" (buttonClick)="ND_CLEAR_click($event)"></app-button>
+<app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}" fieldID="ND_CLEAR" [formCode]="formCode"  imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="ND_CLEAR_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">
 <app-NotepadDetailsGrid #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-NotepadDetailsGrid>

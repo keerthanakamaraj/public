@@ -162,14 +162,14 @@
 </div>
 <app-combo-box #OD_INCOME_TYPE category="2" fieldID="OD_INCOME_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_TYPE', $event)"></app-combo-box>
 </div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_WRK_PERMIT_NO.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
 {{ 'OccupationDtlsForm.OD_WRK_PERMIT_NO' | translate}}</label>
 </div>
 <app-text-box #OD_WRK_PERMIT_NO inputType="number" fieldID="OD_WRK_PERMIT_NO" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('OD_WRK_PERMIT_NO', $event)"></app-text-box>
 </div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_RES_PRT_NO.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
@@ -191,13 +191,15 @@
 </div>
 <app-text-box #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-text-box>
 </div>
+<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE_BTN.isHidden()">
-<app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN" [formCode]="formCode" iconClass="fa fa-plus fa-lg" [type]="4" customClass="icon-button" (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
+<app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN" [formCode]="formCode" imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_CLEAR_BTN.isHidden()">
-<app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}" fieldID="OD_CLEAR_BTN" [formCode]="formCode" iconClass="fas fa-undo fa-lg" [type]="4" customClass="icon-button" (buttonClick)="OD_CLEAR_BTN_click($event)"></app-button>
+<app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}" fieldID="OD_CLEAR_BTN" [formCode]="formCode" imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="OD_CLEAR_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
 <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode" (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"></app-OccuptionDtlsGrid>

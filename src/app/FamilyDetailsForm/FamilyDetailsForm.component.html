@@ -119,10 +119,10 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Save.isHidden()">
-<app-button #Save fieldName="{{ 'FamilyDetailsForm.Save' | translate}}" fieldID="Save" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="Save_click($event)"></app-button>
+<app-button #Save fieldName="{{ 'FamilyDetailsForm.Save' | translate}}" fieldID="Save" [formCode]="formCode" imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="Save_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
-<app-button #clear fieldName="{{ 'FamilyDetailsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="clear_click($event)"></app-button>
+<app-button #clear fieldName="{{ 'FamilyDetailsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode"  imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FAMILY_GRID.isHidden()">
 <app-FamilyDetailsGrid #FAMILY_GRID fieldID="FAMILY_GRID" [formCode]="formCode" (onFamilyModify)="FAMILY_GRID_onFamilyModify($event)"></app-FamilyDetailsGrid>

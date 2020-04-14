@@ -155,8 +155,10 @@ body {
   cursor: pointer;
   border-radius: 4px;
   color: $primary-color;
-  background: rgba(0,121,184,0.09);
+  background-color: #FFFFFF;
   border: 1px solid $primary-color;
+  margin-top: 37px;
+  // margin-left: 40px;
 }
 
 #SEARCH_CUST_BTN{
@@ -559,21 +561,27 @@ padding-right: none !important;
                     /* padding-right: 16px; */
                     float: right;
                 }
-                
           }
         }
-  
       }
-      
-    
-    
     }
-     
-    
   }
  } 
- .CD_ADD .CD_RESET{
-  margin-top: 36px !important
- }
 
+ .img{
+  height: 24px !important;
+  width: 24px
+ }
+.radio-text{
+  height: 18px !important;
+  color: #000000;
+  font-family: "Open Sans";
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 18px;
+  font-weight: 600 !important;
+  margin-left: 10px !important;
+
+}
+ 
 

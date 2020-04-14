@@ -21,29 +21,29 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10 row">
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
+<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
+<label class="clr-brown radio"  [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
 {{ 'CustomerDtls.CD_CUST_TYPE' | translate}}
 </label>
 </div>
-<app-combo-box #CD_CUST_TYPE category="2" fieldID="CD_CUST_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></app-combo-box>
+<rlo-ui-radio #CD_CUST_TYPE category="2" fieldID="CD_CUST_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></rlo-ui-radio>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown radio">
 {{ 'CustomerDtls.CD_EXISTING_CUST' | translate}}
 </label>
 </div>
-<app-combo-box #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"  (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></app-combo-box>
+<rlo-ui-radio #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"  (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></rlo-ui-radio>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
+<label class="clr-brown radio" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
 {{ 'CustomerDtls.CD_STAFF' | translate}}
 </label>
 </div>
-<app-combo-box #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></app-combo-box>
+<rlo-ui-radio #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></rlo-ui-radio>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #CD_LABEL parentCompCode="CustomerDtls" fieldID="CD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
@@ -303,6 +303,7 @@
 {{ 'CustomerDtls.CD_PREF_LANG' | translate}}
 </label>
 </div>
+
 <app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_PREF_LANG', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
@@ -312,7 +313,7 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
-    <app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" imagePath = "src/assets/icons/search-lens.svg" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
+    <app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_CLEAR_BTN.isHidden()">
 <app-button #CD_CLEAR_BTN fieldName="{{ 'CustomerDtls.CD_CLEAR_BTN' | translate}}" fieldID="CD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="CD_CLEAR_BTN_click($event)"></app-button>
