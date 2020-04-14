@@ -214,10 +214,18 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     apiSuccessCallback() {
         if (this.HD_PROD_CAT != undefined) {
             switch (this.HD_PROD_CAT.getFieldValue()) {
-                case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/images/icons/autoloan.png'; break;
-                case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan.png'; break;
-                case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgageloan.png'; break;
-            //   case 'retail': this.PRODUCT_CATEGORY_IMG = '/assets/icons/autoloan.png'; break;
+                
+                case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/images/icons/autoloan.png';
+                    this.HD_PROD_CAT.setValue('Auto Loan'); break;
+               
+                 case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan.png';
+                    this.HD_PROD_CAT.setValue('Personal Loan'); break;
+              
+                 case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgageloan.png';
+                    this.HD_PROD_CAT.setValue('Mortgage Loan'); break;
+               
+                 case 'CC': this.PRODUCT_CATEGORY_IMG = '/assets/icons/creditcard.png';
+                    this.HD_PROD_CAT.setValue('Credit Card'); break;
             }
 
         }
