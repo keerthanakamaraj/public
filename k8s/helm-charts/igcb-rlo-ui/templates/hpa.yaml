@@ -1,0 +1,15 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "igcb-rlo-ui.fullname" . }}-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    name: {{ template "igcb-rlo-ui.fullname" . }}
+  minReplicas: {{ .Values.hpa.minCount }}
+  maxReplicas: {{ .Values.hpa.maxCount }}
+  metrics:
+{{- with .Values.hpa.metrics }}
+{{ toYaml . | indent 2 }}
+{{- end }}

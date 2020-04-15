@@ -1,0 +1,17 @@
+node{
+        checkout scm
+        withCredentials([file(credentialsId: 'ida-qa-kubeconfig', variable: 'KUBE_QA'), file(credentialsId: 'ida-dev-kubeconfig', variable: 'KUBE_DEV')]) {
+                stage('Helm Init'){
+                        tagValue = image_tag.split('-')[0]
+                        if (tagValue == "dev") {
+                                env.KUBECONFIG = KUBE_DEV
+                        }
+                        sh "helm init --client-only --service-account=tiller"
+                }
+ 
+                stage('Deploy Chart'){
+                            sh "helm upgrade dev-rlo-ui --recreate-pods -f k8s/helm-charts/dev_igcb-rlo-ui.yaml  --set image.tag=${image_tag} ./k8s/helm-charts/igcb-rlo-ui"
+        }
+  }
+                slackSend 'Dev iGCB RLO UI Deployment has completed Successfully'
+}
