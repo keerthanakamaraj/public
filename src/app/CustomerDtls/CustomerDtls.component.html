@@ -23,7 +23,7 @@
 <div class="form-group pb10 row">
 <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown radio"  [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
+<label class="clr-brown"  [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
 {{ 'CustomerDtls.CD_CUST_TYPE' | translate}}
 </label>
 </div>
@@ -31,15 +31,15 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown radio">
+<label class="clr-brown">
 {{ 'CustomerDtls.CD_EXISTING_CUST' | translate}}
 </label>
 </div>
-<rlo-ui-radio #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"  (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></rlo-ui-radio>
+<rlo-ui-radio  #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></rlo-ui-radio >
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown radio" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
 {{ 'CustomerDtls.CD_STAFF' | translate}}
 </label>
 </div>
@@ -329,9 +329,9 @@
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
 </div>
+<app-hidden #hidYN fieldID="hidYN"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
-<app-hidden #hidStaff fieldID="hidStaff"></app-hidden>
 <app-hidden #hidGender fieldID="hidGender"></app-hidden>
 <app-hidden #hidNationality fieldID="hidNationality"></app-hidden>
 <app-hidden #hidMaritalStatus fieldID="hidMaritalStatus"></app-hidden>

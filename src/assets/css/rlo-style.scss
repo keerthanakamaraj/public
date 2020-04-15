@@ -275,14 +275,14 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
 
 .read-only-field{
   height: 27px !important;
-  width: 85px !important;
+  // width: 85px !important;
   color: #000000 !important;
   font-family: "Open Sans" !important;
   font-size: 20px !important;
   letter-spacing: 0 !important;
   line-height: 27px !important;
   margin-bottom: 19px !important;
-  margin-top: 15px !important;
+  // margin-top: 15px !important;
 }
 .internalheader .res-pr-hide .read-only-field{
 font-weight: 600 !important;
@@ -401,12 +401,13 @@ height: 43px;
 }
 
 .LoanTypeImage{
-padding-top: 35px !important;
+padding-top: 26px !important;
+padding-bottom: 10px;
 
 }
 #HD_PROD_CAT{
 height: 12px !important;
-width: 93px !important;
+// width: 93px !important;
 color: #FFFFFF !important;
 font-family: "Open Sans" !important;
 font-size: 20px !important;

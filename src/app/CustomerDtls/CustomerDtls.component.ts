@@ -66,9 +66,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
     @ViewChild('Handler', { static: false }) Handler: CustomerHandlerComponent;
+@ViewChild('hidYN', {static: false}) hidYN: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidCusSgmt', { static: false }) hidCusSgmt: HiddenComponent;
-    @ViewChild('hidStaff', { static: false }) hidStaff: HiddenComponent;
     @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
     @ViewChild('hidNationality', { static: false }) hidNationality: HiddenComponent;
     @ViewChild('hidMaritalStatus', { static: false }) hidMaritalStatus: HiddenComponent;
@@ -142,13 +142,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
+this.hidYN.setValue('Y_N');
         this.hidAppId.setValue('RLO');
         this.hidCusSgmt.setValue('CUST_SEGMENT');
         this.hidGender.setValue('GENDER');
         this.hidMaritalStatus.setValue('MARITAL_STATUS');
         this.hidNationality.setValue('NATIONALITY');
         this.hidPrefCommCh.setValue('PREF_COMM_CH');
-        this.hidStaff.setValue('Y_N');
         this.hidTitle.setValue('TITLE');
         this.hideCustomerType.setValue('CUSTOMER_TYPE');
         let inputMap = new Map();
@@ -288,6 +288,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
+inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -300,6 +301,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                             if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
+this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt') {
                                 this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
@@ -397,6 +401,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
+inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
@@ -406,7 +411,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     async (httpError) => {
                         var err = httpError['error']
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
+if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
+this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt') {
@@ -558,48 +566,52 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
             ],
             outDep: [
-            ]
-        },
-        CD_STAFF: {
-            inDep: [
+]},
+CD_EXISTING_CUST: {
+inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
-                { paramKey: "KEY1", depFieldID: "hidStaff", paramType: "QueryParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_TITLE: {
-            inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidYN", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_STAFF: {
+inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidTitle", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_GENDER: {
-            inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidYN", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_TITLE: {
+inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidGender", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_MARITAL_STATUS: {
-            inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidTitle", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_GENDER: {
+inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+{paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidGender", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_MARITAL_STATUS: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType:"QueryParam"},
+],
+outDep: [
+]},
         CD_NATIONALITY: {
             inDep: [
 
@@ -608,28 +620,28 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 { paramKey: "KEY1", depFieldID: "hidNationality", paramType: "QueryParam" },
             ],
             outDep: [
-            ]
-        },
+]},
         CD_CUST_SEGMENT: {
             inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_PREF_COM_CH: {
-            inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_PREF_COM_CH: {
+inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-    }
+{paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType:"QueryParam"},
+],
+outDep: [
+]},
+}
+    /* Write Custom Scripts Here */
+    
+  
 
 }
