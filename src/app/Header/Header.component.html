@@ -24,17 +24,19 @@
                                     <rlo-ui-readonlyfield #HD_APP_REF_NUM fieldID="HD_APP_REF_NUM" [formCode]="formCode"
                                         (blur)="genericOnBlur('HD_APP_REF_NUM', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <label>$
+                                <div class="CurrencyTypeImage">
+                                    <img class='currencyImage' src="{{CURRENCY_IMG}}" alt="RLO" />               
+                                </div>
+                                <label>
                                     <rlo-ui-readonlyfield #LD_LOAN_AMT fieldID="LD_LOAN_AMT" [formCode]="formCode"
-                                        (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield></label>
+                                        (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield>
+                               </label>
                                 <div class="col-12  col-sm-12 col-md-12 border">
                                     <div></div>
                                 </div>
 
                                 <div class="LoanTypeImage">
-                                    <img class='loanimage' src="{{PRODUCT_CATEGORY_IMG}}" alt="RLO" />
-                                    <!-- <img class='loanimage'  *ngIf = "HD_PROD_CAT == 'AutoLoan'"  src="assets/images/icons/autoloan.svg" alt="RLO" />
-                                    <img class='loanimage'  *ngIf = "HD_PROD_CAT == 'PesonalLoan'" src="assets/images/icons/personaloan.svg" alt="RLO" /> -->
+                                    <img class='loanimage' src="{{PRODUCT_CATEGORY_IMG}}" alt="RLO" />               
                                 </div>
 
                                 <rlo-ui-readonlyfield #HD_PROD_CAT fieldID="HD_PROD_CAT" [formCode]="formCode"

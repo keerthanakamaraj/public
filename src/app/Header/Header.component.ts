@@ -44,6 +44,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
     PRODUCT_CATEGORY_IMG = '';
+    CURRENCY_IMG = '';
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -212,19 +213,22 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     }
 
     apiSuccessCallback() {
+
+        this.CURRENCY_IMG = '/assets/icons/rupee-yellow.svg';
+
         if (this.HD_PROD_CAT != undefined) {
             switch (this.HD_PROD_CAT.getFieldValue()) {
-                
-                case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/images/icons/autoloan.png';
+
+                case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/autoloan-yellow.svg';
                     this.HD_PROD_CAT.setValue('Auto Loan'); break;
-               
-                 case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan.png';
+
+                case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan-yellow.svg';
                     this.HD_PROD_CAT.setValue('Personal Loan'); break;
-              
-                 case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgageloan.png';
+
+                case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgage-yellow.svg';
                     this.HD_PROD_CAT.setValue('Mortgage Loan'); break;
-               
-                 case 'CC': this.PRODUCT_CATEGORY_IMG = '/assets/icons/creditcard.png';
+
+                case 'CC': this.PRODUCT_CATEGORY_IMG = '/assets/icons/creditcard-yellow.svg';
                     this.HD_PROD_CAT.setValue('Credit Card'); break;
             }
 
