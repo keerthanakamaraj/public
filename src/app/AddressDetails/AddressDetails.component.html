@@ -75,7 +75,7 @@
 {{ 'AddressDetails.AD_PINCODE' | translate}}
 </label>
 </div>
-<app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
+<app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" domainObjectUrl="/MasterPincodeDtls/{PinCd}" doServerUrl="/masters" domainObjectCode="MasterPincodeDtls" (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_REGION.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -91,7 +91,7 @@
 {{ 'AddressDetails.AD_CITY' | translate}}
 </label>
 </div>
-<app-combo-box #AD_CITY category="2" fieldID="AD_CITY" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstCityDetails/{CityCd}" domainObjectCode="MstCityDetails" (blur)="genericOnBlur('AD_CITY', $event)"></app-combo-box>
+<app-text-box #AD_CITY fieldID="AD_CITY" [formCode]="formCode" (blur)="genericOnBlur('AD_CITY', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_STATE.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -99,7 +99,7 @@
 {{ 'AddressDetails.AD_STATE' | translate}}
 </label>
 </div>
-<app-combo-box #AD_STATE category="2" fieldID="AD_STATE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstStateDetails/{StateCd}" domainObjectCode="MstStateDetails" (blur)="genericOnBlur('AD_STATE', $event)"></app-combo-box>
+<app-text-box #AD_STATE fieldID="AD_STATE" [formCode]="formCode" (blur)="genericOnBlur('AD_STATE', $event)"></app-text-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDMARK.isHidden()">
 <div class="clr-brown fieldLegend">

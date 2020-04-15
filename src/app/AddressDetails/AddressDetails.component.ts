@@ -465,19 +465,15 @@ inDep: [
 ],
 outDep: [
 ]},
-AD_CITY: {
+AD_PINCODE: {
 inDep: [
 
-{paramKey: "CityCd", depFieldID: "AD_CITY", paramType:"PathParam"},
+{paramKey: "PinCd", depFieldID: "AD_PINCODE", paramType:"PathParam"},
 ],
 outDep: [
-]},
-AD_STATE: {
-inDep: [
 
-{paramKey: "StateCd", depFieldID: "AD_STATE", paramType:"PathParam"},
-],
-outDep: [
+{paramKey: "MasterPincodeDtls.CityCd.CityName", depFieldID: "AD_CITY"},
+{paramKey: "MasterPincodeDtls.StateCd.StateName", depFieldID: "AD_STATE"},
 ]},
 AD_MAILING_ADDRESS: {
 inDep: [
