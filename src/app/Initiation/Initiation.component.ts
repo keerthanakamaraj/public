@@ -95,7 +95,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 @ViewChild('hidGender', {static: false}) hidGender: HiddenComponent;
 @ViewChild('hidCustSeg', {static: false}) hidCustSeg: HiddenComponent;
 @ViewChild('hideExsCust', {static: false}) hideExsCust: HiddenComponent;
-
+@ViewChild('hideAppPurpose', {static: false}) hideAppPurpose: HiddenComponent;
+@ViewChild('hideTenurePeriod', {static: false}) hideTenurePeriod: HiddenComponent;
 @ViewChild('INIT_ACCORD', {static:false}) INIT_ACCORD: RloUiAccordionComponent;
 
 isLoanCategory: boolean;
@@ -199,6 +200,10 @@ this.hidTitle.setValue('TITLE');
 this.hidGender.setValue('GENDER');
 this.hidCustSeg.setValue('CUST_SEGMENT');
 this.hideExsCust.setValue('YES_NO');
+this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
+this.hideTenurePeriod.setValue('TENURE_PERIOD');
+// this.hideTenurePeriod.setValue('TENURE_PERIOD');
+
 let inputMap = new Map();
 await this.Handler.onFormLoad({
 });
@@ -335,6 +340,33 @@ async CD_GENDER_blur(event){
     let inputMap = new Map();
     this.genderCheck();
 }
+
+ 
+async LD_LOAN_AMOUNT_blur(event){
+    let inputMap = new Map();
+    this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
+}
+
+async LD_GROSS_INCOME_blur(event){
+    let inputMap = new Map();
+    await this.Handler.calculateNetIncome({});
+    }
+
+async LD_EXST_LBLT_AMT_blur(event){
+        let inputMap = new Map();
+        await this.Handler.calculateNetIncome({});
+        }
+
+        
+ async LD_OTH_DEDUCTIONS_blur(event){
+            let inputMap = new Map();
+            await this.Handler.calculateNetIncome({});
+            }
+
+async LD_TENURE_blur(event){
+    let inputMap = new Map();
+    await this.Handler.calculateEMI({});
+    }
 
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
@@ -623,6 +655,24 @@ inDep: [
 ],
 outDep: [
 ]},
+LD_TENURE_PERIOD: {
+    inDep: [
+    
+    {paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType:"PathParam"},
+    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+    {paramKey: "KEY1", depFieldID: "hideTenurePeriod", paramType:"QueryParam"},
+    ],
+    outDep: [
+    ]},
+    LD_APP_PRPSE: {
+    inDep: [
+    
+    {paramKey: "VALUE1", depFieldID: "LD_APP_PRPSE", paramType:"PathParam"},
+    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+    {paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType:"QueryParam"},
+    ],
+    outDep: [
+    ]},
 }
 
 }

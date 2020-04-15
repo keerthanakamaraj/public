@@ -47,6 +47,34 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
   }
 
+  calculateEMI({ }) {
+    let amount = this.MainComponent.LD_LOAN_AMOUNT.getFieldValue();
+    let rate = this.MainComponent.LD_INTEREST_RATE.getFieldValue() / 1200;
+    let months = this.MainComponent.LD_TENURE.getFieldValue();
+    if (this.MainComponent.LD_TENURE_PERIOD.getFieldValue() == 'YRS') {
+      let years = this.MainComponent.LD_TENURE.getFieldValue() * 12;
+      months = years;
+    }
+    let EMI = amount * rate / (1 - (Math.pow(1 / (1 + rate), months)));
+    console.log("Loan EMI", EMI);
+    this.MainComponent.LD_EMI_AMT.setValue(EMI.toFixed(2));
+  }
+
+
+  calculateNetIncome({ }) {
+    let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
+    let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
+    let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
+
+    if (liability > grossincome || otherDeduction > grossincome) {
+      alert("Grossincome should be greater.");
+    }
+    let netIncome = (liability + otherDeduction) - grossincome;
+    let DBR = (liability + otherDeduction) / grossincome;
+    this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+    this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
+
+  }
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
 
@@ -146,10 +174,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   }
 
-  private updateCustomerTags(){
+  private updateCustomerTags() {
     let tags = [];
     this.customers.forEach(c => {
-      tags.push({label: c.customerType.value, text: c.firstName});
+      tags.push({ label: c.customerType.value, text: c.firstName });
     });
     this.MainComponent.INIT_ACCORD.setTags("ACC_CUSTOMER", tags);
   }
