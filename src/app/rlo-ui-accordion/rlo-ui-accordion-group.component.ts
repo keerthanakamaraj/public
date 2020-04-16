@@ -9,7 +9,6 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
     <div class="acc-header" (click)="toggle.emit()">
       <div class="acc-header-text">{{title}} 
       &nbsp;
-      <img src="assets/icons/green-tick.png" alt="RLO" />
       <ul class="ul">
         <li *ngFor="let tag of tags;" class="tag">
           <span class="label">{{ tag.label }}</span>
@@ -23,6 +22,7 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
     </div>
   <div>
   `,
+  // <img src="assets/icons/green-tick.png" alt="RLO" />
   styleUrls: ['./rlo-ui-accordion.component.scss']
 })
 export class RloUiAccordionGroupComponent {
