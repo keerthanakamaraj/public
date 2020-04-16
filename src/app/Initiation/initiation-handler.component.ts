@@ -84,6 +84,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   onResetCustomer(arg: {}) {
     this.MainComponent.CD_CUST_TYPE.onReset();
     this.MainComponent.CD_FIRST_NAME.onReset();
+    this.MainComponent.CD_LAST_NAME.onReset();
+    this.MainComponent.CD_GENDER.onReset();
+    this.MainComponent.CD_TAX_ID.onReset();
+    this.MainComponent.CD_DOB.onReset();
   }
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name

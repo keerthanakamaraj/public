@@ -346,14 +346,14 @@ genderCheck(){
     var day = ("0" + Givendate.getDate()).slice(-2);
     var now = [day, mnth,Givendate.getFullYear()].join("-");
     // console.log(now);
-    if ( Givendate.getFullYear() > 2000)
-    {
-      this.showMessage("Your age is less than 18 years")
-    }
     if( Currentdate > now){
       // console.log("select date");
       this.showMessage("Please select correct date");
      this.CD_DOB.onReset();
+     if ( Givendate.getFullYear() > 2000)
+     {
+       this.showMessage("Your age is less than 18 years")
+     }
     }
   }
 
@@ -369,7 +369,7 @@ genderCheck(){
     if( Currentdate > now){
       // console.log("select date");
       this.showMessage("Please select correct date");
-     this.CD_DOB.onReset();
+     this.BAD_DATE_OF_RCPT.onReset();
     }
   }
 
@@ -580,6 +580,17 @@ this.showMessage('Unable to save form!');
 }
 );
 }
+
+cancel(){
+  window.history.back();
+}
+
+
+async CANCEL_MAIN_BTN_click(event){
+let inputMap = new Map();
+this.cancel();
+}
+
 fieldDependencies = {
 BAD_SRC_CHANNEL: {
 inDep: [
@@ -620,7 +631,6 @@ inDep: [
 
 {paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType:"PathParam"},
 {paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType:"QueryParam"},
-
 ],
 outDep: [
 ]},
