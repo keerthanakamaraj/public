@@ -134,7 +134,7 @@
                           <app-combo-box #BAD_PRODUCT category="2" fieldID="BAD_PRODUCT" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstProductDetails/{ProductCd}" doServerUrl="/masters"
                             customClass="Product_Group" domainObjectCode="MstProductDetails"
-                            (blur)="genericOnBlur('BAD_PRODUCT', $event)" ></app-combo-box>
+                            (blur)="genericOnBlur('BAD_PRODUCT', $event)" (change)="BAD_PRODUCT_change('BAD_PRODUCT', $event)"></app-combo-box>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
                           <div class="clr-brown fieldLegend">
@@ -145,7 +145,7 @@
                           <app-combo-box #BAD_SUB_PROD category="2" fieldID="BAD_SUB_PROD" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstSubProductDetails/{SubProductCd}"
                             doServerUrl="/masters" domainObjectCode="MstSubProductDetails"
-                            (blur)="genericOnBlur('BAD_SUB_PROD', $event)"></app-combo-box>
+                            (blur)="genericOnBlur('BAD_SUB_PROD', $event)" (change)="BAD_SUB_PROD_change('BAD_SUB_PROD', $event)"></app-combo-box>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
                           <div class="clr-brown fieldLegend">
@@ -155,7 +155,7 @@
                           </div>
                           <app-combo-box #BAD_SCHEME category="2" fieldID="BAD_SCHEME" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstSchemeDetails/{SchemeCd}"
-                            doServerUrl="/masters" domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)">
+                            doServerUrl="/masters" domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)" (change)="BAD_SCHEME_change('BAD_SCHEME', $event)">
                           </app-combo-box>
                         </div>
                       </div>
@@ -206,7 +206,7 @@
                     </div>
                     <rlo-ui-radio #CD_EXISTING_CUST fieldID="CD_EXISTING_CUST" [formCode]="formCode"
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)">
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)" (change)="CD_EXISTING_CUST_change('CD_EXISTING_CUST', $event)">
                     </rlo-ui-radio>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
@@ -571,7 +571,7 @@
         <app-hidden #hidGender fieldID="hidGender"></app-hidden>
         <app-hidden #hidCustSeg fieldID="hidCustSeg"></app-hidden>
         <app-hidden #hideExsCust fieldID="hideExsCust"></app-hidden>
-        <app-hidden #hideTenurePeriod fieldID="hidetTenurePeriod"></app-hidden>
+        <app-hidden #hideTenurePeriod fieldID="hideTenurePeriod"></app-hidden>
         <app-hidden #hideAppPurpose fieldID="hideAppPurpose"></app-hidden>
       </div>
     </div>
