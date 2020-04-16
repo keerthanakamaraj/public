@@ -112,8 +112,11 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
           // if (this.category != '1' && !this.paginating)
           //   this.dropDownOptions.Options = this.dropDownOptions.Options.concat([{ id: undefined, text: '' }]);
           // if (result) {
-            this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
+            // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
           // }
+
+          this.dropDownOptions.Options = this.dropDownOptions.Options = result;
+          
         }
       },
       err => { },
@@ -164,14 +167,15 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   onChange(event) {
-    this.value = event;
+    event.stopPropagation();
+    this.value = event.target.value;
     
     let opt = this.dropDownOptions.Options.find(o => o.id == this.value) ;
     if(opt){
       this.additionalInfo = opt.text;
     }
 
-    this.change.emit();
+    this.change.emit(this.value);
   }
 
   fieldReset() {

@@ -315,8 +315,9 @@ else{
     
 }
 }
-async BAD_PROD_CAT_change(event){
+async BAD_PROD_CAT_change(fieldID, value){
 let inputMap = new Map();
+this.setDependency(fieldID, value);
 await this.Handler.onProdCategoryChange({
 }
 );
@@ -618,6 +619,8 @@ BAD_PRODUCT: {
 inDep: [
 
 {paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType:"PathParam"},
+{paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType:"QueryParam"},
+
 ],
 outDep: [
 ]},

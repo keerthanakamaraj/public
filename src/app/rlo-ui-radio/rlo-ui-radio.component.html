@@ -16,7 +16,7 @@
       <Label class="radio-item {{opt.id}}">
         <input type="radio" [value]="opt.id" [name]="fieldID"
         [disabled]="readOnly" [checked]="value==opt.id" 
-        (change)="onChange($event.target.value)">
+        (change)="onChange($event)">
         <!-- <span class="custom-icon"></span> -->
         <span class="checkmark"></span>
          <span class="radio-text">{{opt.text}}</span>
