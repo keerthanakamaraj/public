@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from 
   <div class="rlo-panel" [ngClass]="{'active': opened}">
     <div class="acc-header" (click)="toggle.emit()">
       <div class="acc-header-text">{{title}} 
-      &nbsp;
       <ul class="ul">
         <li *ngFor="let tag of tags;" class="tag">
           <span class="label">{{ tag.label }}</span>

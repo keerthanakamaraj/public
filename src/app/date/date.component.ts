@@ -43,10 +43,13 @@ export class DateComponent extends FieldComponent implements OnInit {
   onDataChanged(event: IMyDateModel) {
     this.blur.emit(event.formatted);
   }
+  
+
 
   getFieldValue(){
     return this.getFieldInfo();
   }
+  
 
   async validateValue(value): Promise<number> {
     var totalErrors: number = 0;

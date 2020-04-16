@@ -69,7 +69,7 @@ filter: false,
 },
 {
 width:16,
-field:"CD_Modify",
+field:"Edit",
 sortable: false,
 filter: false,
 resizable: true,

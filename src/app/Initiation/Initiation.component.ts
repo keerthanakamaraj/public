@@ -336,6 +336,55 @@ genderCheck(){
     }
   }
 
+  getToday(){
+    var Currentdate = this.CD_DOB.getFieldValue();
+    // console.log(Currentdate);
+    var Givendate = new Date();
+    Givendate = new Date(Givendate);
+    var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+    var day = ("0" + Givendate.getDate()).slice(-2);
+    var now = [day, mnth,Givendate.getFullYear()].join("-");
+    // console.log(now);
+    if ( Givendate.getFullYear() > 2000)
+    {
+      this.showMessage("Your age is less than 18 years")
+    }
+    if( Currentdate > now){
+      // console.log("select date");
+      this.showMessage("Please select correct date");
+     this.CD_DOB.onReset();
+    }
+  }
+
+  getDateRept(){
+    var Currentdate = this.BAD_DATE_OF_RCPT.getFieldValue();
+    // console.log(Currentdate);
+    var Givendate = new Date();
+    Givendate = new Date(Givendate);
+    var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+    var day = ("0" + Givendate.getDate()).slice(-2);
+    var now = [day, mnth,Givendate.getFullYear(),].join("-");
+    // console.log(now);
+    if( Currentdate > now){
+      // console.log("select date");
+      this.showMessage("Please select correct date");
+     this.CD_DOB.onReset();
+    }
+  }
+
+  async BAD_DATE_OF_RCPT_blur(event)
+  {
+    let inputMap = new Map();
+    this.getDateRept();
+  }
+
+  async CD_DOB_blur(event){
+    let inputMap = new Map();
+    this.getToday(); 
+  }
+
+
+
 async CD_GENDER_blur(event){
     let inputMap = new Map();
     this.genderCheck();
