@@ -338,6 +338,12 @@ async BAD_SCHEME_change(fieldID, value){
     this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
 }
 
+genderCheck(){
+  if((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() !='MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() !='MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() !='MS')){
+    //console.log("Please select gender according to tilte");
+    this.showMessage("Please select gender according to tilte");
+  }
+}
 
   getToday(){
     var Currentdate = this.CD_DOB.getFieldValue();
@@ -471,6 +477,8 @@ await this.Handler.onCheckEligibilityClick({}
 async SUBMIT_MAIN_BTN_click(event){
 
 let inputMap = new Map();
+var noofErrors:number = await this.revalidate();
+if(noofErrors==0){
 inputMap.clear();
 inputMap.set('HeaderParam.tenant-id', 'SB1');
 inputMap.set('HeaderParam.user-id', 'Vishal');
@@ -580,6 +588,10 @@ this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
 this.showMessage('Unable to save form!');
 }
 );
+}
+else{
+this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+}
 }
 
 cancel(){
