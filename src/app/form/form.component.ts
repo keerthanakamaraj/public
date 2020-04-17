@@ -18,7 +18,8 @@ import { LabelComponent } from '../label/label.component';
 import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
 import * as toPromise from 'rxjs/add/operator/toPromise';
-// import { ModalComponent } from 'src/app/modal/modal.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+//import { ModalComponent } from 'src/app/modal/modal.component';
 
 declare let addResizeListener: any;
 declare let $: any;
@@ -48,6 +49,7 @@ export class FormComponent {
   @ViewChildren(CheckBoxComponent) checkboxComponent: QueryList<CheckBoxComponent>;
   @ViewChildren(LabelComponent) labelComponent: QueryList<LabelComponent>;
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
+  @ViewChildren(RLOUIRadioComponent) radioFields : QueryList<RLOUIRadioComponent>;
 
   //formCode : string;
   errors = 0;
@@ -201,6 +203,7 @@ export class FormComponent {
     this.checkboxComponent.forEach(fn);
     this.labelComponent.forEach(fn);
     this.hiddenComponent.forEach(fn);
+    this.radioFields.forEach(fn);
   }
 
   setBasicFieldsReadOnly(readOnly) {

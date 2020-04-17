@@ -27,7 +27,7 @@
 {{ 'CustomerDtls.CD_CUST_TYPE' | translate}}
 </label>
 </div>
-<rlo-ui-radio #CD_CUST_TYPE category="2" fieldID="CD_CUST_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></rlo-ui-radio>
+<rlo-ui-radio #CD_CUST_TYPE  fieldID="CD_CUST_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></rlo-ui-radio>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -35,7 +35,7 @@
 {{ 'CustomerDtls.CD_EXISTING_CUST' | translate}}
 </label>
 </div>
-<rlo-ui-radio  #CD_EXISTING_CUST category="2" fieldID="CD_EXISTING_CUST" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></rlo-ui-radio >
+<rlo-ui-radio  #CD_EXISTING_CUST  fieldID="CD_EXISTING_CUST" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></rlo-ui-radio >
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -43,7 +43,7 @@
 {{ 'CustomerDtls.CD_STAFF' | translate}}
 </label>
 </div>
-<rlo-ui-radio #CD_STAFF category="2" fieldID="CD_STAFF" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></rlo-ui-radio>
+<rlo-ui-radio #CD_STAFF fieldID="CD_STAFF" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></rlo-ui-radio>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #CD_LABEL parentCompCode="CustomerDtls" fieldID="CD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
@@ -329,7 +329,8 @@
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
 </div>
-<app-hidden #hidYN fieldID="hidYN"></app-hidden>
+<app-hidden #hidExistCust fieldID="hidExistCust"></app-hidden>
+<app-hidden #hideStaffId fieldID="hideStaffId"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidCusSgmt fieldID="hidCusSgmt"></app-hidden>
 <app-hidden #hidGender fieldID="hidGender"></app-hidden>

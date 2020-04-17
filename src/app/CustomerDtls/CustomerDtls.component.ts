@@ -66,7 +66,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
     @ViewChild('Handler', { static: false }) Handler: CustomerHandlerComponent;
-@ViewChild('hidYN', {static: false}) hidYN: HiddenComponent;
+@ViewChild('hidExistCust', {static: false}) hidExistCust: HiddenComponent;
+@ViewChild('hideStaffId', {static: false}) hideStaffId: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidCusSgmt', { static: false }) hidCusSgmt: HiddenComponent;
     @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
@@ -85,7 +86,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         await Promise.all([
             this.revalidateBasicField('CD_CUST_TYPE'),
             this.revalidateBasicField('CD_EXISTING_CUST'),
-            this.revalidateBasicField('CD_STAFF'),
+            // this.revalidateBasicField('CD_STAFF'),
             this.revalidateBasicField('CD_CIF'),
             this.revalidateBasicField('CD_STAFF_ID'),
             this.revalidateBasicField('CD_CUST_ID'),
@@ -142,7 +143,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
-this.hidYN.setValue('Y_N');
+this.hidExistCust.setValue('Y_N');
+this.hideStaffId.setValue('Y_N');
         this.hidAppId.setValue('RLO');
         this.hidCusSgmt.setValue('CUST_SEGMENT');
         this.hidGender.setValue('GENDER');
@@ -266,6 +268,7 @@ this.hidYN.setValue('Y_N');
         if (noOfErrors == 0) {
             if (this.HidCustomerId.getFieldValue() != undefined) {
                 inputMap.clear();
+inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
@@ -281,19 +284,22 @@ this.hidYN.setValue('Y_N');
                 inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName1', this.CD_PMRY_EMBSR_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONAL_ID.getFieldValue());
+                //  inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
-inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+              inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CustomerType',this.CD_CUST_TYPE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.LoanOwnership',this.CD_LOAN_OWN.getFieldValue());
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'Family Details Updated Successfuly', 5000);
+                        this.services.alert.showAlert(1, 'Customer Details Updated Successfuly', 5000);
                         this.onReset();
                     },
                     async (httpError) => {
@@ -367,10 +373,13 @@ this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.FirstName') {
                                 this.CD_FIRST_NAME.setError(err['ErrorDescription']);
-                            }
+}
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Title') {
                                 this.CD_TITLE.setError(err['ErrorDescription']);
                             }
+else if(err['ErrorElementPath'] == 'BorrowerSeq'){
+this.HidCustomerId.setError(err['ErrorDescription']);
+}
                         }
                         this.services.alert.showAlert(2, 'Fail', -1);
                     }
@@ -393,19 +402,22 @@ this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
                 inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName2', this.CD_PMRY_EMBSR_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
+                 inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CustomerType',this.CD_CUST_TYPE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.LoanOwnership',this.CD_LOAN_OWN.getFieldValue());
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'Address Details Saved Successfuly', 5000);
+                        this.services.alert.showAlert(1, 'Customer Details Saved Successfuly', 5000);
                         this.onReset();
                     },
                     async (httpError) => {
@@ -488,6 +500,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                     }
                 );
             }
+            this.Handler.deactivateClasses();
         }
         else {
             this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
@@ -496,6 +509,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
     async CD_CLEAR_BTN_click(event) {
         let inputMap = new Map();
         this.onReset();
+        this.Handler.deactivateClasses();
     }
     async CUST_DTLS_GRID_custDtlsEdit(event, selectedCustomerId) {
         let inputMap = new Map();
@@ -519,7 +533,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_STAFF_ID.setValue(res['BorrowerDetails']['StaffID']);
                 this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
-                this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['ExistingCustomer']);
+                // this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['ExistingCustomer']);
                 this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
                 this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
                 this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
@@ -530,7 +544,10 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.FieldId_30.occBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
                 this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
-                this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
+                this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
+                this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
+                this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
+                
 
             },
             async (httpError) => {
@@ -571,7 +588,7 @@ CD_EXISTING_CUST: {
 inDep: [
 
 {paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidYN", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidExistCust", paramType:"QueryParam"},
 {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
 ],
 outDep: [
@@ -580,7 +597,7 @@ CD_STAFF: {
 inDep: [
 
 {paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidYN", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideStaffId", paramType:"QueryParam"},
 {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
 ],
 outDep: [
