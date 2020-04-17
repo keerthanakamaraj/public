@@ -149,7 +149,8 @@ export class AppModule implements DoBootstrap {
       redirectUri: environment.redirectURL
     };
 
-    keycloakService
+    // if(!environment.production && environment.enableKeycloak) {
+      keycloakService
       .init({ config, enableBearerInterceptor: true })
       .then((auth) => {
         console.log('[ngDoBootstrap] bootstrap app');
@@ -177,6 +178,14 @@ export class AppModule implements DoBootstrap {
         }
       })
       .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));
+    // } else {
+    //   sessionStorage.setItem('userId', "vishal.kardode@inttellectdesign.com");
+    //   sessionStorage.setItem('fullName', "Vishal Kardode" );
+
+    //   appRef.bootstrap(AppComponent);
+    // }
+
+    
   }
 }
 

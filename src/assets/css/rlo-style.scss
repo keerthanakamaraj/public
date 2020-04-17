@@ -57,14 +57,18 @@ body {
       margin: 2px 0;
 
       &.sub-section-header {
-        margin: 16px 0;
+        // margin: 16px 0;
         height: 1.25rem;
         color: #000000;
         font-size: 16px;
         line-height: 1.25rem;
-        margin-bottom: 35px;
+        margin-bottom: 16px;
         font-weight:500;
       }
+    }
+
+    .res-pr-hide {
+      margin-bottom: $default-spacing-bottom;
     }
   }
 
