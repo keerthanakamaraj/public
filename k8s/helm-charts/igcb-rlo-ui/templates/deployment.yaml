@@ -33,7 +33,7 @@ spec:
               cpu: "{{ .Values.resources.limits.cpu }}"
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: 80
               protocol: TCP
           env:
             - name: KONG_URL
