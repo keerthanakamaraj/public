@@ -554,7 +554,7 @@
 .ag-cell .btn-delete {
   background-color: transparent;
   border: none;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .ag-cell {
@@ -767,7 +767,9 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 }
 
 #CD_RESET {
-  margin-left: -86px !important;
+  margin-left: -111px !important;
+  border: 1px solid #4F4E4E;
+
 }
 
 /* Go No Go Component CSS Start */

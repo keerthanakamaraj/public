@@ -51,11 +51,17 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.MT_SLIDER.setValue(true);
 let inputMap = new Map();
+//this.MT_SLIDER.setValue('true');
 await this.MT_GRID.gridDataLoad({
-});
-this.setDependencies();
-}
+    'sliderVal': this.MT_SLIDER.getFieldValue(),
+    });
+    
+// await this.MT_GRID.gridDataLoad({
+// });
+// this.setDependencies();
+ }
 setInputs(param : any){
 let params = this.services.http.mapToJson(param);
 if(params['mode']){

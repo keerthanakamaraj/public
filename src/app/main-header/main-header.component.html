@@ -57,19 +57,19 @@
                 </li>
                 <!-- END - Logged in user details. -->
 
-                <li>
+                <li style="visibility: hidden">
                     <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnck==true }" (click)="getTray()"><img
                             class="navbar-img-link" src="assets/icons/folder-open-line.svg" alt="My Tray" /></a>
                     <span class="badge" *ngIf="!isMytrayAvilable">{{myTrayCountsRecords}}</span>
                 </li>
 
-                <li>
+                <li style="visibility: hidden">
                     <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }"
                         (click)="getHistory()"><img class="navbar-img-link" src="assets/icons/history-line.svg"
                             alt="History" /></a>
                             <span class="badge" *ngIf="isMytrayAvilable">{{myTrayCountsRecords}}</span>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" style="visibility: hidden">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
                         <img class="navbar-img-link" src="assets/icons/settings.svg" alt="Settings" />
                         <span class="caret"></span>
@@ -80,7 +80,7 @@
                         <li><a href="#" (click)="logout()">{{getLabel('LOGOUT')}}</a></li>
                     </ul> -->
                 </li>
-                <li>
+                <li style="visibility: hidden">
                     <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }" (click)="logout()" >
                         <img class="navbar-img-link" src="assets/icons/logout.svg"
                             alt="Logout" /></a>

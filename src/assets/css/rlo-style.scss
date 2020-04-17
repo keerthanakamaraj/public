@@ -149,23 +149,27 @@ body {
   color: $mandatory-star-color;
 }
 
-
-.icon-button {
-  margin-top: 50px;
-  align-self: start;
-  width: $input-height !important;
-  height: $input-height;
-  cursor: pointer;
-  border-radius: 4px;
-  color: $primary-color;
-  background-color: #FFFFFF;
-  border: 1px solid $primary-color;
-  margin-top: 37px;
-  // margin-left: 40px;
+.res-pr-hide{
+  .icon-button {
+    margin-top: 50px;
+    align-self: start;
+    width: $input-height !important;
+    height: $input-height;
+    cursor: pointer;
+    border-radius: 4px;
+    color: $primary-color;
+    background-color: #FFFFFF;
+    border: 1px solid $primary-color;
+    margin-top: 37px;
+   
+  }
+  
+  
 }
 
 #SEARCH_CUST_BTN{
-  background-image: url('/icons/search-lens.svg')
+  // background-image: url('/icons/search-lens.svg');
+  background-color: rgba(0,121,184,0.09) !important ;
 }
 app-button[customclass="icon-button"] div {
   text-align: left !important;
@@ -599,5 +603,20 @@ padding-right: none !important;
   margin-left: 10px !important;
 
 }
- 
+.btn-edit{
+  background-image: url("/assets/icons/edit.svg");
+  white-space: nowrap;
+  text-indent: -9999px;
+  width: 35px;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.btn-delete{
+  background-image: url("/assets/icons/delete.svg");
+  white-space: nowrap;
+  text-indent: -9999px;
+  width: 35px;
+  background-repeat: no-repeat;
+  position: relative;
+}
 

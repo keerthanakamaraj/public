@@ -263,7 +263,7 @@ default: console.error("Column ID '" + obj[i].columnName + "' not mapped with an
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/tasks/all/{userid}', 'GET', inputMap, '/los-wf').subscribe(
+this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar7 = [];
@@ -337,7 +337,7 @@ default: console.error("Column ID '" + obj[i].columnName + "' not mapped with an
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/tasks/user/{userid}', 'GET', inputMap, '/los-wf').subscribe(
+this.services.http.fetchApi('/tasks/all/{userid}', 'GET', inputMap, '/los-wf').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar32 = [];
@@ -382,6 +382,7 @@ navPath.push(selectedData2['hiddenStageId']);
 inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
 inputMap.set('taskId', selectedData2['hiddenTaskId']);
 inputMap.set('instanceId', selectedData2['hiddenInstanceId']);
+inputMap.set('userId', selectedData2['MT_PENDING_WITH']);
 }
 this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
 if (this.services.routing.currModal > 0) {
@@ -392,6 +393,13 @@ this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange
 this.services.router.navigate(navPath);
 }
 
+}
+loadSpinner=false;
+showSpinner(){
+this.loadSpinner=true;
+}
+hideSpinner(){
+this.loadSpinner=false;
 }
 
 }

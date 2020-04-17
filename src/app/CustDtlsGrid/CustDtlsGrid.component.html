@@ -1,2 +1,17 @@
-<div class="MakeRelative"><app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
-</div>
+<div class="MakeRelative">
+        <div class="ShowLoading " *ngIf="loadSpinner">
+            <div class="lds-roller MakeItMiddle">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+    </div>
+    
+    

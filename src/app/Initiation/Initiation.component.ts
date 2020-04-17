@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Inpu
 import { InitiationModel } from './Initiation.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
+import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { TextAreaComponent } from '../text-area/text-area.component';
 import { CheckBoxComponent } from '../check-box/check-box.component';
 import { HiddenComponent } from '../hidden/hidden.component';
