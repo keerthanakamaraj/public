@@ -75,6 +75,20 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
 
   }
+
+
+  existingCustomer({}){
+    if(this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N' && this.MainComponent.CD_EXISTING_CUST.getFieldValue() != 'Y'){
+       this.MainComponent.CD_CIF.readOnly = true;
+       this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
+       this.MainComponent.CD_STAFF_ID .readOnly = true;       
+    }
+    else{
+       this.MainComponent.CD_CIF.readOnly = false;
+       this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
+       this.MainComponent.CD_STAFF_ID .readOnly = false;       
+    }
+}
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
 

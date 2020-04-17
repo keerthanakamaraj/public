@@ -318,11 +318,29 @@ else{
 async BAD_PROD_CAT_change(fieldID, value){
 let inputMap = new Map();
 this.setDependency(fieldID, value);
+this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
+this.BAD_SUB_PROD.setValue(this.BAD_SUB_PROD.getFieldValue().clear);
+this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
+this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
 await this.Handler.onProdCategoryChange({
 }
 );
 }
 
+async BAD_PRODUCT_change(fieldID, value){
+    this.BAD_SUB_PROD.setValue(this.BAD_SUB_PROD.getFieldValue().clear);
+    this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
+    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
+}
+
+async BAD_SUB_PROD_blur(fieldID, value){
+    this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
+    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
+}
+
+async BAD_SCHEME_blur(event){
+    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
+}
 // async BAD_PRODUCT_change(event){
 //     let inputMap = new Map();
 //     await this.Handler.onProdCategoryChange({
@@ -373,8 +391,12 @@ genderCheck(){
     }
   }
 
-  async BAD_DATE_OF_RCPT_blur(event)
-  {
+ 
+ async CD_EXISTING_CUST_change(fieldID, value){
+     this.Handler.existingCustomer({});
+ }
+ 
+  async BAD_DATE_OF_RCPT_blur(event){
     let inputMap = new Map();
     this.getDateRept();
   }
@@ -383,6 +405,7 @@ genderCheck(){
     let inputMap = new Map();
     this.getToday(); 
   }
+
 
 
 
@@ -413,7 +436,7 @@ async LD_EXST_LBLT_AMT_blur(event){
             await this.Handler.calculateNetIncome({});
             }
 
-async LD_TENURE_blur(event){
+async LD_TENURE_PERIOD_blur(event){
     let inputMap = new Map();
     await this.Handler.calculateEMI({});
     }
@@ -629,7 +652,7 @@ outDep: [
 BAD_PRODUCT: {
 inDep: [
 
-{paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType:"PathParam"},
+// {paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType:"PathParam"},
 {paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType:"QueryParam"},
 ],
 outDep: [
