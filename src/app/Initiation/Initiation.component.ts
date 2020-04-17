@@ -287,44 +287,40 @@ async SEARCH_CUST_BTN_click(event){
     inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
     inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
     inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
-if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
+    if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
+            this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
+        }else{
+            inputMap.set('component','SearchForm');
+            const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+            var onModalClose = async (reason)=>{
+            (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
+            if(this.services.dataStore.getData('selectedData')){
+            let tempVar:any = this.services.dataStore.getData('selectedData');
+            this.CD_DOB.setValue(tempVar['dob']);
+            this.CD_TAX_ID.setValue(tempVar['taxId']);
+            this.CD_FULL_NAME.setValue(tempVar['custName']);
+            this.CD_MOBILE.setValue(tempVar['mobileNum']);
+            }
+            this.services.dataStore.setData('selectedData', undefined);
+            }
+            modalRef.result.then(onModalClose, onModalClose);
+            modalRef.componentInstance.rotueToComponent(inputMap);
+            this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+        }
     
-    this.showMessage("Please fill atlest one field");
-}
-else{
-   
+    }
 
-    inputMap.set('component','SearchForm');
-    // this.Handler.searchForm();
-    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason)=>{
-    (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
-    if(this.services.dataStore.getData('selectedData')){
-    let tempVar:any = this.services.dataStore.getData('selectedData');
-    this.CD_DOB.setValue(tempVar['dob']);
-    this.CD_TAX_ID.setValue(tempVar['taxId']);
-    this.CD_FULL_NAME.setValue(tempVar['custName']);
-    this.CD_MOBILE.setValue(tempVar['mobileNum']);
-    }
-    this.services.dataStore.setData('selectedData', undefined);
-    }
-    modalRef.result.then(onModalClose, onModalClose);
-    modalRef.componentInstance.rotueToComponent(inputMap);
-    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-    inputMap.clear();
-    
-}
-}
 async BAD_PROD_CAT_change(fieldID, value){
 let inputMap = new Map();
+await this.Handler.onProdCategoryChange({
+}
+);
 this.setDependency(fieldID, value);
 this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
 this.BAD_SUB_PROD.setValue(this.BAD_SUB_PROD.getFieldValue().clear);
 this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
 this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
-await this.Handler.onProdCategoryChange({
-}
-);
+
 }
 
 async BAD_PRODUCT_change(fieldID, value){
@@ -333,27 +329,15 @@ async BAD_PRODUCT_change(fieldID, value){
     this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
 }
 
-async BAD_SUB_PROD_blur(fieldID, value){
+async BAD_SUB_PROD_change(fieldID, value){
     this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
     this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
 }
 
-async BAD_SCHEME_blur(event){
+async BAD_SCHEME_change(fieldID, value){
     this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
 }
-// async BAD_PRODUCT_change(event){
-//     let inputMap = new Map();
-//     await this.Handler.onProdCategoryChange({
-//     }
-//     );
-//     }
 
-genderCheck(){
-    if((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() !='MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() !='MRS') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() !='MS')){
-      //console.log("Please select gender according to tilte");
-      this.showMessage("Please select gender according to tilte");
-    }
-  }
 
   getToday(){
     var Currentdate = this.CD_DOB.getFieldValue();
@@ -396,6 +380,11 @@ genderCheck(){
      this.Handler.existingCustomer({});
  }
  
+async CD_STAFF_change(fieldID, value){
+    this.Handler.isStaff({});
+    
+}
+
   async BAD_DATE_OF_RCPT_blur(event){
     let inputMap = new Map();
     this.getDateRept();
@@ -406,40 +395,31 @@ genderCheck(){
     this.getToday(); 
   }
 
-
-
-
-async CD_GENDER_blur(event){
-    let inputMap = new Map();
-    this.genderCheck();
-}
-
- 
-async LD_LOAN_AMOUNT_blur(event){
-    let inputMap = new Map();
-    this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
-}
+// async CD_GENDER_change(fieldID, value){
+//     let inputMap = new Map();
+//     this.genderCheck();
+// }
 
 async LD_GROSS_INCOME_blur(event){
     let inputMap = new Map();
     await this.Handler.calculateNetIncome({});
-    }
+}
 
 async LD_EXST_LBLT_AMT_blur(event){
         let inputMap = new Map();
         await this.Handler.calculateNetIncome({});
-        }
+}
 
         
  async LD_OTH_DEDUCTIONS_blur(event){
-            let inputMap = new Map();
-            await this.Handler.calculateNetIncome({});
-            }
-
-async LD_TENURE_PERIOD_blur(event){
     let inputMap = new Map();
-    await this.Handler.calculateEMI({});
-    }
+    await this.Handler.calculateNetIncome({});
+}
+
+// async LD_TENURE_PERIOD_blur(event){
+//     let inputMap = new Map();
+//     await this.Handler.calculateEMI({});
+//     }
 
 async CD_FIRST_NAME_blur(event){
 let inputMap = new Map();
@@ -512,8 +492,6 @@ inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue
 inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
 inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
 inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-
-
 inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
 
 console.log("Params ", inputMap);

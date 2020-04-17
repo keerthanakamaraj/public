@@ -162,7 +162,7 @@
 
                     </div>
                   </div>
-                  <div class="col-12  col-sm-6 col-md-6 group-default">
+                  <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 23px 15px 10px 15px;">
                     <div #FieldId_73 id="FieldId_73">
                       <div class="form-group pb10 PROMOTION_GROUP">
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
@@ -216,7 +216,7 @@
                     </div>
                     <rlo-ui-radio #CD_STAFF fieldID="CD_STAFF" [formCode]="formCode"
                       placeholder="(Select)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)">
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)" (change)="CD_STAFF_change('CD_STAFF', $event)">
                     </rlo-ui-radio>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
@@ -377,7 +377,6 @@
                       [formCode]="formCode" iconClass="fa fa-plus" [type]="4" customClass="icon-button"
                       (buttonClick)="CD_ADD_click($event)"></app-button>
                   </div>
-                  <div class="col-12  col-sm-1 col-md-1 res-pr-hide"></div>                  
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_RESET.isHidden()">
                     <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
                       [formCode]="formCode" iconClass="fas fa-undo" [type]="4" customClass="icon-button"
@@ -468,8 +467,8 @@
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_OTH_DEDUCTIONS.mandatory}">
                         {{ 'Initiation.LD_OTH_DEDUCTIONS' | translate}}</label>
                     </div>
-                    <app-text-box #LD_OTH_DEDUCTIONS fieldID="LD_OTH_DEDUCTIONS" [formCode]="formCode"
-                      placeholder="(Optional)" (blur)="genericOnBlur('LD_OTH_DEDUCTIONS', $event)"></app-text-box>
+                    <app-amount #LD_OTH_DEDUCTIONS fieldID="LD_OTH_DEDUCTIONS" [formCode]="formCode"
+                      placeholder="(Optional)" (blur)="genericOnBlur('LD_OTH_DEDUCTIONS', $event)"></app-amount>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_NET_INCOME.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -480,7 +479,7 @@
                     <app-amount #LD_NET_INCOME fieldID="LD_NET_INCOME" [formCode]="formCode"
                       (blur)="genericOnBlur('LD_NET_INCOME', $event)"></app-amount>
                   </div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"style="padding: 23px 15px 10px 15px;"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CHK_ELGBTY_BTN.isHidden()">
                     <app-button #LD_CHK_ELGBTY_BTN fieldName="{{ 'Initiation.LD_CHK_ELGBTY_BTN' | translate}}"
                       fieldID="LD_CHK_ELGBTY_BTN" [formCode]="formCode" customClass="inlineButton"

@@ -3,7 +3,8 @@
   position: fixed;
   right: 10px;
   top: 5px;
-  z-index: 10;" data-dismiss="modal" (click)="closeModal()" aria-label="Close">   
+  z-index: 10;" data-dismiss="modal" (click)="closeModal()" aria-label="Close">    
+      <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
@@ -51,7 +52,7 @@
   </div>
 </div>
 
-<div class="modal-footer">
+<div class="modal-footer" style="padding: 5px 15px 5px 15px;">
     <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
   </div>
 <!-- <div *ngIf="false">

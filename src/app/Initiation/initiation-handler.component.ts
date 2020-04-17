@@ -47,7 +47,71 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
   }
 
-  calculateEMI({ }) {
+  //calcute Netincome 
+  calculateNetIncome({ }) {
+    let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
+    let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
+    let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
+  let liabityAndOtherDed =liability + otherDeduction ;
+    if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed> grossincome) {
+      this.MainComponent.services.alert.showAlert(2, 'Gross Income should be greater', 5000);
+    }else{
+      if (liability == undefined){
+        liability = 0;
+      }
+      if (otherDeduction == undefined){
+        otherDeduction = 0;
+      }
+      if (grossincome == undefined){
+        grossincome = 0;
+      }
+      let netIncome = grossincome - liability - otherDeduction;
+      // let DBR = (liability + otherDeduction) / grossincome;
+      this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+      // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
+    }
+  }
+
+
+  existingCustomer({}){
+    if(this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N' && this.MainComponent.CD_EXISTING_CUST.getFieldValue() != 'Y'){
+       this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
+    }
+    else{
+       this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
+    }
+}
+
+
+isStaff({}){
+  if(this.MainComponent.CD_STAFF.getFieldValue() == 'N' && this.MainComponent.CD_STAFF.getFieldValue() != 'Y'){
+     this.MainComponent.CD_STAFF_ID .readOnly = true;       
+  }
+  else{
+     this.MainComponent.CD_STAFF_ID .readOnly = false;  
+     console.log()     
+  }
+}
+  //onClickOfCheckElgibility
+  onCheckEligibilityClick({ }) {
+    this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
+    if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined){
+      let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();    
+      let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
+      let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
+      if (liability == undefined){
+        liability = 0;
+      }
+      if (otherDeduction == undefined){
+        otherDeduction = 0;
+      }
+      if (grossincome == undefined){
+        grossincome = 0;
+      }
+      
+      let DBR = (liability + otherDeduction) / grossincome;
+      this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
+    }
     let amount = this.MainComponent.LD_LOAN_AMOUNT.getFieldValue();
     let rate = this.MainComponent.LD_INTEREST_RATE.getFieldValue() / 1200;
     let months = this.MainComponent.LD_TENURE.getFieldValue();
@@ -58,41 +122,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     let EMI = amount * rate / (1 - (Math.pow(1 / (1 + rate), months)));
     console.log("Loan EMI", EMI);
     this.MainComponent.LD_EMI_AMT.setValue(EMI.toFixed(2));
-  }
-
-
-  calculateNetIncome({ }) {
-    let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
-    let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
-    let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
-
-    if (liability > grossincome || otherDeduction > grossincome) {
-      alert("Grossincome should be greater.");
-    }
-    let netIncome = (liability + otherDeduction) - grossincome;
-    let DBR = (liability + otherDeduction) / grossincome;
-    this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
-    this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
 
   }
 
-
-  existingCustomer({}){
-    if(this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N' && this.MainComponent.CD_EXISTING_CUST.getFieldValue() != 'Y'){
-       this.MainComponent.CD_CIF.readOnly = true;
-       this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
-       this.MainComponent.CD_STAFF_ID .readOnly = true;       
-    }
-    else{
-       this.MainComponent.CD_CIF.readOnly = false;
-       this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
-       this.MainComponent.CD_STAFF_ID .readOnly = false;       
-    }
-}
-  //onClickOfCheckElgibility
-  onCheckEligibilityClick({ }) {
-
-  }
+  
 
   // Reset Customer Form
   onResetCustomer(arg: {}) {
