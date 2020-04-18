@@ -7,8 +7,12 @@ export const environment = {
   // baseURL: 'http://10.11.12.26:8180/olive/'
   // baseURL: "http://10.11.12.19:18180" //Mumbai
   baseURL: 'http://10.11.12.53:9090',
-  authURL: 'https://iam.intellectseecapps.com/auth',
-  realm: 'ecpvdev',
+  // baseURL: 'http://localhost:8081',
+  enableKeycloak: false,
+  //authURL: 'https://iam.intellectseecapps.com/auth',
+  authURL: 'https://iam.intellectqacloud.com/auth', // QA
+  // realm: 'ecpvdev',
+  realm: 'dabank', // QA
   clientId: 'fabric',
   redirectURL: 'http://localhost:1841/#/home/LANDING'
 };
