@@ -344,6 +344,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
   }
 
+
   genderCheck() {
     if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
       //console.log("Please select gender according to tilte");
@@ -351,7 +352,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-  getToday() {
+
+
+  getToday(){
     var Currentdate = this.CD_DOB.getFieldValue();
     // console.log(Currentdate);
     var Givendate = new Date();
@@ -360,33 +363,30 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     var day = ("0" + Givendate.getDate()).slice(-2);
     var now = [day, mnth, Givendate.getFullYear()].join("-");
     // console.log(now);
-    if (Currentdate > now) {
+    if (Currentdate > now  || Givendate.getFullYear() > 1998) {
       // console.log("select date");
-      this.showMessage("Please select correct date");
+      this.services.alert.showAlert(2, 'Please select correct date', -1);
       this.CD_DOB.onReset();
-      if (Givendate.getFullYear() > 2000) {
-        this.showMessage("Your age is less than 18 years")
-      }
     }
   }
 
-  getDateRept() {
+  
+  getDateRept(){
     var Currentdate = this.BAD_DATE_OF_RCPT.getFieldValue();
     // console.log(Currentdate);
     var Givendate = new Date();
     Givendate = new Date(Givendate);
     var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
     var day = ("0" + Givendate.getDate()).slice(-2);
-    var now = [day, mnth, Givendate.getFullYear(),].join("-");
+    var now = [day, mnth,Givendate.getFullYear(),].join("-");
     // console.log(now);
-    if (Currentdate > now) {
-      // console.log("select date");
-      this.showMessage("Please select correct date");
-      this.BAD_DATE_OF_RCPT.onReset();
+    if( Currentdate > now){
+      this.services.alert.showAlert(2, 'Please select correct date', -1);
+     this.BAD_DATE_OF_RCPT.onReset();
     }
   }
 
-
+ 
   async CD_EXISTING_CUST_change(fieldID, value) {
     this.Handler.existingCustomer({});
   }
@@ -396,389 +396,360 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
 
-  async BAD_DATE_OF_RCPT_blur(event) {
+
+  async BAD_DATE_OF_RCPT_blur(event)
+  {
     let inputMap = new Map();
     this.getDateRept();
   }
 
-  async CD_DOB_blur(event) {
-    let inputMap = new Map();
-    this.getToday();
-  }
 
-  // async CD_GENDER_change(fieldID, value){
-  //     let inputMap = new Map();
-  //     this.genderCheck();
-  // }
+async CD_GENDER_blur(event){
+    let inputMap = new Map();
+    this.genderCheck();
+}
+
+ 
+async LD_LOAN_AMOUNT_blur(event){
+    let inputMap = new Map();
+    this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
+}
 
   async LD_GROSS_INCOME_blur(event) {
     let inputMap = new Map();
     await this.Handler.calculateNetIncome({});
-  }
-
-  async LD_EXST_LBLT_AMT_blur(event) {
-    let inputMap = new Map();
-    await this.Handler.calculateNetIncome({});
-  }
-
-
-  async LD_OTH_DEDUCTIONS_blur(event) {
-    let inputMap = new Map();
-    await this.Handler.calculateNetIncome({});
-  }
-
-  // async LD_TENURE_PERIOD_blur(event){
-  //     let inputMap = new Map();
-  //     await this.Handler.calculateEMI({});
-  //     }
-
-  async CD_FIRST_NAME_blur(event) {
-    let inputMap = new Map();
-    await this.Handler.updateFullName({
-    });
-  }
-  async CD_MIDDLE_NAME_blur(event) {
-    let inputMap = new Map();
-    await this.Handler.updateFullName({
-    });
-  }
-  async CD_THIRD_NAME_blur(event) {
-    let inputMap = new Map();
-    await this.Handler.updateFullName({
-    });
-  }
-  async CD_LAST_NAME_blur(event) {
-    let inputMap = new Map();
-    await this.Handler.updateFullName({
-    });
-  }
-  async CD_ADD_click(event) {
-    let inputMap = new Map();
-    await this.Handler.onAddCustomer({
-    });
-  }
-  async CD_RESET_click(event) {
-    let inputMap = new Map();
-    await this.Handler.onResetCustomer({
-    });
-  }
-  async CUST_DTLS_GRID_DeleteCustDetails(event) {
-    let inputMap = new Map();
-    await this.Handler.onDeleteCustomer({
-      'id': event.clickId,
-    });
-  }
-  async CUST_DTLS_GRID_ModifyCustDetails(event) {
-    let inputMap = new Map();
-    await this.Handler.onEditCustomer({
-      'id': event.clickId,
-    });
-  }
-  async LD_CHK_ELGBTY_BTN_click(event) {
-    let inputMap = new Map();
-    await this.Handler.onCheckEligibilityClick({}
-    );
-  }
-  async SUBMIT_MAIN_BTN_click(event) {
-
-    let inputMap = new Map();
-    var noofErrors: number = await this.revalidate();
-    var borrowercheck = this.Handler.getBorrowerPostData();
-    for (let i = 0; i < borrowercheck.length; i++) {
-      if (borrowercheck[i]['CustomerType'] == 'B') {
-        this.borrower = true
-        break;
-
-      }
     }
 
-    if (noofErrors == 0) {
-      inputMap.clear();
-      // var borrowercheck = this.Handler.getBorrowerPostData();
+async LD_EXST_LBLT_AMT_blur(event){
+        let inputMap = new Map();
+        await this.Handler.calculateNetIncome({});
+        }
 
-
-      if (this.borrower == true) {
-        inputMap.set('HeaderParam.tenant-id', 'SB1');
-        inputMap.set('HeaderParam.user-id', 'Vishal');
-        inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
-        inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
-        inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
-        inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
-        inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
-        inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
-        inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
-        inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
-        inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
-        inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
-        inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
-        inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
-        inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
-        inputMap.set('Body.LoanDetails.Product', this.BAD_PRODUCT.getFieldValue());
-        inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
-        inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
-        inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
-        inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-        inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
-
-        console.log("Params ", inputMap);
-
-        //return;
-
-        this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            var res = httpResponse.body;
-            this.showMessage("Proposal " + res.ApplicationReferenceNumber + " Saved Successfully");
-            this.borrower = false;
-            //this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
-          },
-          async (httpError) => {
-            var err = httpError['error']
-            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-              if (err['ErrorElementPath'] == 'LoanDetails.EMIAmount') {
-                this.LD_EMI_AMT.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.UserRecommendedAmount') {
-                this.LD_USR_RCMD_AMT.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount') {
-                this.LD_SYS_AMT_RCMD.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.TenurePeriod') {
-                this.LD_TENURE_PERIOD.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.Tenure') {
-                this.LD_TENURE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.ApplicationPurpose') {
-                this.LD_APP_PRPSE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.InterestRate') {
-                this.LD_INTEREST_RATE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'LoanDetails.LoanAmount') {
-                this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.StaffID') {
-                this.CD_STAFF_ID.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.IsStaff') {
-                this.CD_STAFF.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment') {
-                this.CD_CUST_SGMT.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.DebitScore') {
-                this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.MobileNo') {
-                this.CD_MOBILE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.TaxID') {
-                this.CD_TAX_ID.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.DOB') {
-                this.CD_DOB.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.Gender') {
-                this.CD_GENDER.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.FullName') {
-                this.CD_FULL_NAME.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.LastName') {
-                this.CD_LAST_NAME.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.MiddleName') {
-                this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.FirstName') {
-                this.CD_FIRST_NAME.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.Title') {
-                this.CD_TITLE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'ApplicationDetails.DSACode') {
-                this.BAD_DSA_ID.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel') {
-                this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
-              }
+        
+ async LD_OTH_DEDUCTIONS_blur(event){
+            let inputMap = new Map();
+            await this.Handler.calculateNetIncome({});
             }
-            this.showMessage('Unable to save form!');
-          }
-        );
-      }
-      else {
-        this.services.alert.showAlert(2, 'Please add details for Borrower', -1);
-      }
 
-    }
+// async LD_TENURE_blur(event){
+//     let inputMap = new Map();
+//     await this.Handler.calculateEMI({});
+//     }
 
-    else {
-      this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
-    }
-  }
+async CD_FIRST_NAME_blur(event){
+let inputMap = new Map();
+await this.Handler.updateFullName({
+});
+}
+async CD_MIDDLE_NAME_blur(event){
+let inputMap = new Map();
+await this.Handler.updateFullName({
+});
+}
+async CD_THIRD_NAME_blur(event){
+let inputMap = new Map();
+await this.Handler.updateFullName({
+});
+}
+async CD_LAST_NAME_blur(event){
+let inputMap = new Map();
+await this.Handler.updateFullName({
+});
+}
+async CD_ADD_click(event){
+let inputMap = new Map();
+await this.Handler.onAddCustomer({
+});
+}
+async CD_RESET_click(event){
+let inputMap = new Map();
+await this.Handler.onResetCustomer({
+});
+}
+async CUST_DTLS_GRID_DeleteCustDetails(event){
+let inputMap = new Map();
+await this.Handler.onDeleteCustomer({
+'id': event.clickId,
+});
+}
+async CUST_DTLS_GRID_ModifyCustDetails(event){
+let inputMap = new Map();
+await this.Handler.onEditCustomer({
+'id': event.clickId,
+});
+}
+async LD_CHK_ELGBTY_BTN_click(event){
+let inputMap = new Map();
+await this.Handler.onCheckEligibilityClick({}
+);
+}
+async SUBMIT_MAIN_BTN_click(event){
+let inputMap = new Map();
+var noofErrors:number = await this.revalidate();
+if(noofErrors==0){
+inputMap.clear();
+inputMap.set('HeaderParam.tenant-id', 'SB1');
+inputMap.set('HeaderParam.user-id', 'Vishal');
+inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
+inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
+inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
+inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
+inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
+inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
+inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
+inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
+inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
+inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
+inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
+inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
+inputMap.set('Body.LoanDetails.Product', this.BAD_PRODUCT.getFieldValue());
+inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
+inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
+inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
+inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
+// inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+console.log("Params ", inputMap);
 
-  cancel() {
-    window.history.back();
-  }
+//return;
 
+this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
+async (httpResponse: HttpResponse<any>) => {
+var res = httpResponse.body;
+this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully");
+//this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+},
+async (httpError)=>{
+var err = httpError['error']
+if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+if(err['ErrorElementPath'] == 'LoanDetails.EMIAmount'){
+this.LD_EMI_AMT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.UserRecommendedAmount'){
+this.LD_USR_RCMD_AMT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount'){
+this.LD_SYS_AMT_RCMD.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.TenurePeriod'){
+this.LD_TENURE_PERIOD.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.Tenure'){
+this.LD_TENURE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.ApplicationPurpose'){
+this.LD_APP_PRPSE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.InterestRate'){
+this.LD_INTEREST_RATE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'LoanDetails.LoanAmount'){
+this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.StaffID'){
+this.CD_STAFF_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.IsStaff'){
+this.CD_STAFF.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment'){
+this.CD_CUST_SGMT.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DebitScore'){
+this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MobileNo'){
+this.CD_MOBILE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.TaxID'){
+this.CD_TAX_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.DOB'){
+this.CD_DOB.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Gender'){
+this.CD_GENDER.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.FullName'){
+this.CD_FULL_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.LastName'){
+this.CD_LAST_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.MiddleName'){
+this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.FirstName'){
+this.CD_FIRST_NAME.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.Title'){
+this.CD_TITLE.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ApplicationDetails.DSACode'){
+this.BAD_DSA_ID.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel'){
+this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
+}
+}
+this.showMessage('Unable to save form!');
+}
+);
+}
+else{
+this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+}
+}
 
-  async CANCEL_MAIN_BTN_click(event) {
-    let inputMap = new Map();
-    this.cancel();
-  }
+cancel() {
+  window.history.back()  
+}
 
-  fieldDependencies = {
-    BAD_SRC_CHANNEL: {
-      inDep: [
+async CANCEL_MAIN_BTN_click(event){
+let inputMap = new Map();
+this.cancel();
+}
 
-        { paramKey: "VALUE1", depFieldID: "BAD_SRC_CHANNEL", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidSourceingChannel", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    BAD_DSA_ID: {
-      inDep: [
+async Reset_click(event){
+let inputMap = new Map();
+this.onReset();
+}
 
-        { paramKey: "VALUE1", depFieldID: "BAD_DSA_ID", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidDSAId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    BAD_BRANCH: {
-      inDep: [
+fieldDependencies = {
+BAD_SRC_CHANNEL: {
+inDep: [
 
-        { paramKey: "BranchCd", depFieldID: "BAD_BRANCH", paramType: "PathParam" },
-      ],
-      outDep: [
-      ]
-    },
-    BAD_PROD_CAT: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "BAD_SRC_CHANNEL", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidSourceingChannel", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+BAD_DSA_ID: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "BAD_PROD_CAT", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidProdCat", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    BAD_PRODUCT: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "BAD_DSA_ID", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidDSAId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+BAD_BRANCH: {
+inDep: [
 
-        // {paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType:"PathParam"},
-        { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    BAD_SUB_PROD: {
-      inDep: [
+{paramKey: "BranchCd", depFieldID: "BAD_BRANCH", paramType:"PathParam"},
+],
+outDep: [
+]},
+BAD_PROD_CAT: {
+inDep: [
 
-        { paramKey: "SubProductCd", depFieldID: "BAD_SUB_PROD", paramType: "PathParam" },
-        { paramKey: "BAD_PRODUCT", depFieldID: "BAD_PRODUCT", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    BAD_SCHEME: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "BAD_PROD_CAT", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidProdCat", paramType:"QueryParam"},
+],
+outDep: [
+]},
+BAD_PRODUCT: {
+inDep: [
 
-        { paramKey: "SchemeCd", depFieldID: "BAD_SCHEME", paramType: "PathParam" },
-        { paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType: "QueryParam" },
-      ],
-      outDep: [
+{paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType:"PathParam"},
+{paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType:"QueryParam"},
+],
+outDep: [
+]},
+BAD_SUB_PROD: {
+inDep: [
 
-        { paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-      ]
-    },
-    BAD_PROMOTION: {
-      inDep: [
+{paramKey: "SubProductCd", depFieldID: "BAD_SUB_PROD", paramType:"PathParam"},
+{paramKey: "BAD_PRODUCT", depFieldID: "BAD_PRODUCT", paramType:"QueryParam"},
+],
+outDep: [
+]},
+BAD_SCHEME: {
+inDep: [
 
-        { paramKey: "PromotionCd", depFieldID: "BAD_PROMOTION", paramType: "PathParam" },
-        { paramKey: "BAD_PRODUCT", depFieldID: "BAD_PRODUCT", paramType: "QueryParam" },
-        { paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType: "QueryParam" },
-      ],
-      outDep: [
+{paramKey: "SchemeCd", depFieldID: "BAD_SCHEME", paramType:"PathParam"},
+{paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType:"QueryParam"},
+],
+outDep: [
 
-        { paramKey: "MstPromotionDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-      ]
-    },
-    CD_CUST_TYPE: {
-      inDep: [
+{paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE"},
+]},
+BAD_PROMOTION: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_EXISTING_CUST: {
-      inDep: [
+{paramKey: "PromotionCd", depFieldID: "BAD_PROMOTION", paramType:"PathParam"},
+{paramKey: "BAD_PRODUCT", depFieldID: "BAD_PRODUCT", paramType:"QueryParam"},
+{paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType:"QueryParam"},
+],
+outDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideExsCust", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_STAFF: {
-      inDep: [
+{paramKey: "MstPromotionDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE"},
+]},
+CD_CUST_TYPE: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidYesNo", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_TITLE: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideCustomerType", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_EXISTING_CUST: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidTitle", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_GENDER: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hideExsCust", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_STAFF: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidGender", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_CUST_SGMT: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType:"PathParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+{paramKey: "KEY1", depFieldID: "hidYesNo", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_TITLE: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_CUST_SGMT", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidCustSeg", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    LD_TENURE_PERIOD: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidTitle", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_GENDER: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideTenurePeriod", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+{paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidGender", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+CD_CUST_SGMT: {
+inDep: [
+
+{paramKey: "VALUE1", depFieldID: "CD_CUST_SGMT", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidCustSeg", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+LD_TENURE_PERIOD: {
+    inDep: [
+    
+    {paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType:"PathParam"},
+    {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+    {paramKey: "KEY1", depFieldID: "hideTenurePeriod", paramType:"QueryParam"},
+    ],
+    outDep: [
+    ]},
     LD_APP_PRPSE: {
       inDep: [
 

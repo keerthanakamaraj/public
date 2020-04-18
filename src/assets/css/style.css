@@ -1999,7 +1999,7 @@ label {
 }
 
 .date {
-    background: url(../images/icons/calendar.svg);
+    background: url(../assets/icons/calendar.png);
     background-repeat: no-repeat;
     background-position: right;
     background-size: 1.6rem
@@ -3784,6 +3784,10 @@ select.form-control {
     border: .1429rem solid #b20812;
     color: #fff;
     line-height: .8rem
+}
+
+#Reset{
+  margin-left: 98px;
 }
 
 .i-info:focus {

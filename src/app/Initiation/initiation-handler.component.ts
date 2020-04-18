@@ -47,29 +47,29 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
   }
 
-  //calcute Netincome
-calculateNetIncome({ }) {
-  let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
-  let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
-  let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
-  if (liability == undefined){
-  liability = 0;
-  }
-  if (otherDeduction == undefined){
-  otherDeduction = 0;
-  }
-  if (grossincome == undefined){
-  grossincome = 0;
-  }
+  //calcute Netincome 
+  calculateNetIncome({ }) {
+    let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
+    let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
+    let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
+    if (liability == undefined){
+      liability = 0;
+    }
+    if (otherDeduction == undefined){
+      otherDeduction = 0;
+    }
+    if (grossincome == undefined){
+      grossincome = 0;
+    }
   let liabityAndOtherDed =liability + otherDeduction ;
-  if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed> grossincome) {
-  this.MainComponent.services.alert.showAlert(2, 'Gross Income should be greater', 5000);
-  }else{
-  let netIncome = grossincome - liability - otherDeduction;
-  // let DBR = (liability + otherDeduction) / grossincome;
-  this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
-  // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
-  }
+    if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed> grossincome) {
+      this.MainComponent.services.alert.showAlert(2, 'Gross Income should be greater', 5000);
+    }else{
+      let netIncome = grossincome - liability - otherDeduction;
+      // let DBR = (liability + otherDeduction) / grossincome;
+      this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+      // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
+    }
   }
 
 
@@ -89,7 +89,6 @@ isStaff({}){
   }
   else{
      this.MainComponent.CD_STAFF_ID .readOnly = false;  
-     console.log()     
   }
 }
   //onClickOfCheckElgibility
