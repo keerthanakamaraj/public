@@ -20,6 +20,7 @@ import { CustDtlsGridComponent } from '../CustDtlsGrid/CustDtlsGrid.component';
 import { InitiationHandlerComponent } from '../Initiation/initiation-handler.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+import { isFulfilled } from 'q';
 
 const customCss: string = '';
 
@@ -113,30 +114,30 @@ this.revalidateBasicField('BAD_DATE_OF_RCPT'),
 this.revalidateBasicField('BAD_SRC_CHANNEL'),
 this.revalidateBasicField('BAD_DSA_ID'),
 this.revalidateBasicField('BAD_BRANCH'),
-this.revalidateBasicField('BAD_PROD_CAT'),
+// this.revalidateBasicField('BAD_PROD_CAT'),
 this.revalidateBasicField('BAD_PRODUCT'),
 this.revalidateBasicField('BAD_SUB_PROD'),
 this.revalidateBasicField('BAD_SCHEME'),
 this.revalidateBasicField('BAD_PROMOTION'),
-this.revalidateBasicField('CD_CUST_TYPE'),
-this.revalidateBasicField('CD_EXISTING_CUST'),
-this.revalidateBasicField('CD_STAFF'),
-this.revalidateBasicField('CD_CIF'),
-this.revalidateBasicField('CD_CUSTOMER_ID'),
-this.revalidateBasicField('CD_STAFF_ID'),
-this.revalidateBasicField('CD_TITLE'),
-this.revalidateBasicField('CD_FIRST_NAME'),
-this.revalidateBasicField('CD_MIDDLE_NAME'),
-this.revalidateBasicField('CD_THIRD_NAME'),
-this.revalidateBasicField('CD_LAST_NAME'),
-this.revalidateBasicField('CD_FULL_NAME'),
-this.revalidateBasicField('CD_GENDER'),
-this.revalidateBasicField('CD_TAX_ID'),
-this.revalidateBasicField('CD_MOBILE'),
-this.revalidateBasicField('CD_DOB'),
-this.revalidateBasicField('CD_CUST_SGMT'),
-this.revalidateBasicField('CD_DEBIT_SCORE'),
-this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
+// this.revalidateBasicField('CD_CUST_TYPE'),
+// this.revalidateBasicField('CD_EXISTING_CUST'),
+// this.revalidateBasicField('CD_STAFF'),
+// this.revalidateBasicField('CD_CIF'),
+// this.revalidateBasicField('CD_CUSTOMER_ID'),
+// this.revalidateBasicField('CD_STAFF_ID'),
+// this.revalidateBasicField('CD_TITLE'),
+// this.revalidateBasicField('CD_FIRST_NAME'),
+// this.revalidateBasicField('CD_MIDDLE_NAME'),
+// this.revalidateBasicField('CD_THIRD_NAME'),
+// this.revalidateBasicField('CD_LAST_NAME'),
+// this.revalidateBasicField('CD_FULL_NAME'),
+// this.revalidateBasicField('CD_GENDER'),
+// this.revalidateBasicField('CD_TAX_ID'),
+// this.revalidateBasicField('CD_MOBILE'),
+// this.revalidateBasicField('CD_DOB'),
+// this.revalidateBasicField('CD_CUST_SGMT'),
+// this.revalidateBasicField('CD_DEBIT_SCORE'),
+// this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
 this.revalidateBasicField('LD_LOAN_AMOUNT'),
 this.revalidateBasicField('LD_INTEREST_RATE'),
 this.revalidateBasicField('LD_TENURE'),
@@ -479,117 +480,136 @@ async SUBMIT_MAIN_BTN_click(event){
 
 let inputMap = new Map();
 var noofErrors:number = await this.revalidate();
+var borrowercheck = this.Handler.getBorrowerPostData();
+// for(let i = 0; i < borrowercheck.length; i++){
+//   if(borrowercheck[i]['CustomerType'] == 'B'){
+//     this.services.alert.showAlert(1, 'Please Add on borrower', 1000);
+
+//   }
+// }
+
 if(noofErrors==0){
-inputMap.clear();
-inputMap.set('HeaderParam.tenant-id', 'SB1');
-inputMap.set('HeaderParam.user-id', 'Vishal');
-inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
-inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
-inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
-inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
-inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
-inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
-inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
-inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
-inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
-inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
-inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
-inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
-inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
-inputMap.set('Body.LoanDetails.Product', this.BAD_PRODUCT.getFieldValue());
-inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
-inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
-inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
-inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+  inputMap.clear();
+  // var borrowercheck = this.Handler.getBorrowerPostData();
+  for(let i = 0; i < borrowercheck.length; i++){
+    if(borrowercheck[i]['CustomerType'] == 'B'){
+      inputMap.set('HeaderParam.tenant-id', 'SB1');
+      inputMap.set('HeaderParam.user-id', 'Vishal');
+      inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
+      inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
+      inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
+      inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
+      inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
+      inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
+      inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
+      inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
+      inputMap.set('Body.LoanDetails.EMIAmount', this.LD_EMI_AMT.getFieldValue());
+      inputMap.set('Body.LoanDetails.Product', this.BAD_PRODUCT.getFieldValue());
+      inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
+      inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
+      inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
+      inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
+      inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+      
+      console.log("Params ", inputMap);
+      
+      //return;
+      
+      this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+      var res = httpResponse.body;
+      this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully");
+      //this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+      },
+      async (httpError)=>{
+      var err = httpError['error']
+      if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+      if(err['ErrorElementPath'] == 'LoanDetails.EMIAmount'){
+      this.LD_EMI_AMT.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.UserRecommendedAmount'){
+      this.LD_USR_RCMD_AMT.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount'){
+      this.LD_SYS_AMT_RCMD.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.TenurePeriod'){
+      this.LD_TENURE_PERIOD.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.Tenure'){
+      this.LD_TENURE.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.ApplicationPurpose'){
+      this.LD_APP_PRPSE.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.InterestRate'){
+      this.LD_INTEREST_RATE.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'LoanDetails.LoanAmount'){
+      this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.StaffID'){
+      this.CD_STAFF_ID.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.IsStaff'){
+      this.CD_STAFF.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment'){
+      this.CD_CUST_SGMT.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.DebitScore'){
+      this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.MobileNo'){
+      this.CD_MOBILE.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.TaxID'){
+      this.CD_TAX_ID.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.DOB'){
+      this.CD_DOB.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.Gender'){
+      this.CD_GENDER.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.FullName'){
+      this.CD_FULL_NAME.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.LastName'){
+      this.CD_LAST_NAME.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.MiddleName'){
+      this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.FirstName'){
+      this.CD_FIRST_NAME.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'BorrowerDetails.Title'){
+      this.CD_TITLE.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'ApplicationDetails.DSACode'){
+      this.BAD_DSA_ID.setError(err['ErrorDescription']);
+      }
+      else if(err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel'){
+      this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
+      }
+      }
+      this.showMessage('Unable to save form!');
+      }
+      );
+      }
+      else{
+        this.services.alert.showAlert(2, 'Please Add Details for Borrower', 1000);
+      }
+    }
+  }
+   
 
-console.log("Params ", inputMap);
 
-//return;
-
-this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
-async (httpResponse: HttpResponse<any>) => {
-var res = httpResponse.body;
-this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully");
-//this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
-},
-async (httpError)=>{
-var err = httpError['error']
-if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-if(err['ErrorElementPath'] == 'LoanDetails.EMIAmount'){
-this.LD_EMI_AMT.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.UserRecommendedAmount'){
-this.LD_USR_RCMD_AMT.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount'){
-this.LD_SYS_AMT_RCMD.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.TenurePeriod'){
-this.LD_TENURE_PERIOD.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.Tenure'){
-this.LD_TENURE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.ApplicationPurpose'){
-this.LD_APP_PRPSE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.InterestRate'){
-this.LD_INTEREST_RATE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.LoanAmount'){
-this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.StaffID'){
-this.CD_STAFF_ID.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.IsStaff'){
-this.CD_STAFF.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment'){
-this.CD_CUST_SGMT.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.DebitScore'){
-this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.MobileNo'){
-this.CD_MOBILE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.TaxID'){
-this.CD_TAX_ID.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.DOB'){
-this.CD_DOB.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.Gender'){
-this.CD_GENDER.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.FullName'){
-this.CD_FULL_NAME.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.LastName'){
-this.CD_LAST_NAME.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.MiddleName'){
-this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.FirstName'){
-this.CD_FIRST_NAME.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.Title'){
-this.CD_TITLE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'ApplicationDetails.DSACode'){
-this.BAD_DSA_ID.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel'){
-this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
-}
-}
-this.showMessage('Unable to save form!');
-}
-);
-}
 else{
 this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
 }

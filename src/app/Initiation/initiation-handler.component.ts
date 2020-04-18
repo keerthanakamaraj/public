@@ -158,7 +158,7 @@ isStaff({}){
 
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
-
+   this.editId = undefined;
     this.editId = arg0.id;
     let customer = this.customers.find(cust => cust.tempId === arg0.id);
 
@@ -206,21 +206,32 @@ isStaff({}){
         this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
       } else {
         let customer = this.getFormCustomerDetails();
-
-        if (this.editId) {
-          let index = this.customers.findIndex(cust => cust.tempId === this.editId);
-          this.customers[index] = customer;
-        } else {
-          customer.tempId = "ID-" + (this.counter++);
-          this.customers.push(customer);
+        if(customer.customerType.value == 'B'){
+          for(let i = 0 ; i < this.customers.length; i++){
+            if(this.customers[i].customerType.value == 'B' && this.editId !== this.customers[i].tempId){
+              this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+              return;
+            }
+          }
         }
+        
+          if (this.editId) {
+            let index = this.customers.findIndex(cust => cust.tempId === this.editId);
+            this.customers[index] = customer;
+          } else {
+            customer.tempId = "ID-" + (this.counter++);
+            this.customers.push(customer);
+          }
+  
+          this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+          this.updateCustomerTags();
+  
+          this.MainComponent.services.alert.showAlert(1, 'Customer added', 1000);
+          this.resetCustomerDetails();
+        }
+        
 
-        this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
-        this.updateCustomerTags();
-
-        this.MainComponent.services.alert.showAlert(1, 'Customer added', 1000);
-        this.resetCustomerDetails();
-      }
+        
     });
 
   }
@@ -263,7 +274,7 @@ isStaff({}){
     this.editId = undefined;
 
     this.customerFormFields.forEach(field => {
-      this.MainComponent[field].setValue("");
+      this.MainComponent[field].setValue(undefined);
       // this.MainComponent[field].onReset(); // Not working - Dropdown does not show values any further
     });
   }
