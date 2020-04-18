@@ -293,22 +293,25 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
       this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
     } else {
-      inputMap.set('component', 'SearchForm');
-      const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-      var onModalClose = async (reason) => {
-        (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-        if (this.services.dataStore.getData('selectedData')) {
-          let tempVar: any = this.services.dataStore.getData('selectedData');
-          this.CD_DOB.setValue(tempVar['dob']);
-          this.CD_TAX_ID.setValue(tempVar['taxId']);
-          this.CD_FULL_NAME.setValue(tempVar['custName']);
-          this.CD_MOBILE.setValue(tempVar['mobileNum']);
+      setTimeout (() => {
+        inputMap.set('component', 'SearchForm');
+        const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+        var onModalClose = async (reason) => {
+          (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+          if (this.services.dataStore.getData('selectedData')) {
+            let tempVar: any = this.services.dataStore.getData('selectedData');
+            this.CD_DOB.setValue(tempVar['dob']);
+            this.CD_TAX_ID.setValue(tempVar['taxId']);
+            this.CD_FULL_NAME.setValue(tempVar['custName']);
+            this.CD_MOBILE.setValue(tempVar['mobileNum']);
+          }
+          this.services.dataStore.setData('selectedData', undefined);
         }
-        this.services.dataStore.setData('selectedData', undefined);
-      }
-      modalRef.result.then(onModalClose, onModalClose);
-      modalRef.componentInstance.rotueToComponent(inputMap);
-      this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+        modalRef.result.then(onModalClose, onModalClose);
+        modalRef.componentInstance.rotueToComponent(inputMap);
+        this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+     }, 1000);
+
     }
 
   }

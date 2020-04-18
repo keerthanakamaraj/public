@@ -21,6 +21,7 @@ transition('false => true', animate('300ms ease-in'))
 ],
 })
 export class SearchCustomerGridComponent implements AfterViewInit {
+    dedupecount: boolean = true;
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
@@ -272,8 +273,18 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/dedupe', 'GET', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
+console.log("res",res)
+if(res == null){
+    this.dedupecount = false;
+   
+  //  this.readonlyGrid.setHidden(true);
+}else{
+    var loopVar7 = res['Dedupe'];
+}
 var loopDataVar7 = [];
-var loopVar7 = res['Dedupe'];
+
+console.log("loopVar7",loopVar7);
+
 if (loopVar7) {
 for (var i = 0; i < loopVar7.length; i++) {
 var tempObj = {};
