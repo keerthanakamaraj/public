@@ -49,7 +49,7 @@ export class FormComponent {
   @ViewChildren(CheckBoxComponent) checkboxComponent: QueryList<CheckBoxComponent>;
   @ViewChildren(LabelComponent) labelComponent: QueryList<LabelComponent>;
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
-  @ViewChildren(RLOUIRadioComponent) radioFields : QueryList<RLOUIRadioComponent>;
+  @ViewChildren(RLOUIRadioComponent) radioFields: QueryList<RLOUIRadioComponent>;
 
   //formCode : string;
   errors = 0;
@@ -242,7 +242,7 @@ export class FormComponent {
   }
 
   showMessage(map) {
-    const modalRef  = this.services.modal.open(PopupModalComponent, { ariaLabelledBy: 'modal-basic-title' });
+    const modalRef = this.services.modal.open(PopupModalComponent, { ariaLabelledBy: 'modal-basic-title' });
     modalRef.componentInstance.openmsg(map);
   }
 
@@ -566,9 +566,10 @@ export class FormComponent {
   async revalidateBasicField(fieldId: string, isOnBlur: boolean = false): Promise<number> {
     var totalErrors = 0;
     this[fieldId].clearError();
-
     var formModelObject = this.value;
-    var value = formModelObject[fieldId];
+
+    var value = this[fieldId].constructor.name == 'RLOUIRadioComponent' ?
+      this[fieldId].getFieldValue() : formModelObject[fieldId];
 
     if (value != undefined && value.toString() != "") {
       await this[fieldId].validateValue(value).then((errors) => { totalErrors += errors });
