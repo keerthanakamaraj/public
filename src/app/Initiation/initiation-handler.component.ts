@@ -129,11 +129,22 @@ isStaff({}){
   // Reset Customer Form
   onResetCustomer(arg: {}) {
     this.MainComponent.CD_CUST_TYPE.onReset();
+    this.MainComponent.CD_EXISTING_CUST.onReset();
+    this.MainComponent.CD_STAFF.onReset();
+    this.MainComponent.CD_CIF.onReset();
+    this.MainComponent.CD_CUSTOMER_ID.onReset();
+    this.MainComponent.CD_STAFF_ID.onReset();
+    this.MainComponent.CD_TITLE.onReset();
     this.MainComponent.CD_FIRST_NAME.onReset();
+    this.MainComponent.CD_MIDDLE_NAME.onReset();
     this.MainComponent.CD_LAST_NAME.onReset();
     this.MainComponent.CD_GENDER.onReset();
+    this.MainComponent.CD_MOBILE.onReset();
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
+    this.MainComponent.CD_CUST_SGMT.onReset();
+    this.MainComponent.CD_DEBIT_SCORE.onReset();
+    this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
   }
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name

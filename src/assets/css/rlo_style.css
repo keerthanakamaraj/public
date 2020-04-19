@@ -554,6 +554,7 @@
 .ag-cell .btn-delete {
   background-color: transparent;
   border: none;
+  margin-top: 5px;
   /* text-decoration: underline; */
 }
 

@@ -69,7 +69,7 @@ export class CustDtlsGridComponent implements AfterViewInit {
   },
   {
     width:6,
-    field:"CD_Modify",
+    field:"",
     sortable: false,
     filter: false,
     resizable: true,
@@ -85,7 +85,7 @@ export class CustDtlsGridComponent implements AfterViewInit {
   },
   {
     width:6,
-    field:"CD_Delete",
+    field:"",
     sortable: false,
     filter: false,
     resizable: true,

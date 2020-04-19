@@ -357,15 +357,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
 
   getToday(){
-    var Currentdate = this.CD_DOB.getFieldValue();
-    // console.log(Currentdate);
+    var Selectdate = this.CD_DOB.getFieldValue();
+    // console.log(Selectdate);
     var Givendate = new Date();
     Givendate = new Date(Givendate);
     var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
     var day = ("0" + Givendate.getDate()).slice(-2);
     var now = [day, mnth, Givendate.getFullYear()].join("-");
     // console.log(now);
-    if (Currentdate > now  || Givendate.getFullYear() > 1998) {
+    if (Selectdate > now ) {
       // console.log("select date");
       this.services.alert.showAlert(2, 'Please select correct date', -1);
       this.CD_DOB.onReset();
@@ -396,6 +396,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async CD_STAFF_change(fieldID, value) {
     this.Handler.isStaff({});
 
+  }
+  async CD_DOB_blur(event) {
+    let inputMap = new Map();
+    this.getToday();
   }
 
 
