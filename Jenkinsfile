@@ -109,7 +109,8 @@ stage('Node') {
 		}
             steps {
                 sh 'npm install'
-				// sh 'npm audit fix'    
+				// sh 'npm audit fix'
+				sh 'node_modules/.bin/ng version'
                 sh 'node_modules/.bin/ng build --prod'
             }
         }
