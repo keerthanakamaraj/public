@@ -373,16 +373,14 @@
                       placeholder="(Optional)" (blur)="genericOnBlur('CD_LOAN_OWNERSHIP', $event)"></app-amount>
                   </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_ADD.isHidden()">
-                    <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"
-                      [formCode]="formCode" iconClass="fa fa-plus" [type]="4" customClass="icon-button"
-                      (buttonClick)="CD_ADD_click($event)"></app-button>
+                      <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"
+                      [formCode]="formCode" iconClass="fa fa-plus" [type]="2" customClass="icon-button plus"
+                      (buttonClick)="CD_ADD_click($event)" imagePath = "./assets/icons/plus.svg"></app-button>
                   </div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>                  
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_RESET.isHidden()">
-                    <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
-                      [formCode]="formCode" iconClass="fas fa-undo" [type]="4" customClass="icon-button"
-                      (buttonClick)="CD_RESET_click($event)"></app-button>
+                      <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
+                      [formCode]="formCode" iconClass="fas fa-undo" [type]="2" customClass="icon-button reset"
+                      (buttonClick)="CD_RESET_click($event)" imagePath = "./assets/icons/refresh-form.svg"></app-button>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
                     <app-CustDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode"

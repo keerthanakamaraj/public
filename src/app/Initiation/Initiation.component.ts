@@ -103,6 +103,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   isLoanCategory: boolean;
   borrower: any;
+  borrowericif: any;
+  icif: any;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -515,10 +517,22 @@ console.log("Params ", inputMap);
 
 this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
+
 var res = httpResponse.body;
-this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully");
-//this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+for (let i=0; i<res.Data.length; i++) {
+const CustData = res.Data[i];
+if (CustData.CustomerType == 'B')
+{
+ this.borrowericif = CustData.ICIFNumber
+}
+this.icif = CustData.ICIFNumber;
+
+}
+this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully With ICIF Number "+this.borrowericif);
 },
+
+//this.services.alert.showAlert(1, 'Form Saved Successfully!', 5000);
+
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){

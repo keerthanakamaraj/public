@@ -78,7 +78,7 @@ export class CustDtlsGridComponent implements AfterViewInit {
     cellRendererParams: {
       gridCode: 'CustDtlsGrid',
       columnId: 'CD_Modify',
-      Type: '1',
+    //   Type: '1',
       CustomClass: 'btn-edit',
       onClick: this.CD_Modify_click.bind(this),
     },
@@ -94,7 +94,7 @@ export class CustDtlsGridComponent implements AfterViewInit {
     cellRendererParams: {
       gridCode: 'CustDtlsGrid',
       columnId: 'CD_Delete',
-      Type: '1',
+    //   Type: '1',
       CustomClass: 'btn-delete',
       onClick: this.CD_Delete_click.bind(this),
     },
