@@ -263,6 +263,53 @@ isStaff({}){
     });
     this.MainComponent.INIT_ACCORD.setTags("ACC_CUSTOMER", tags);
   }
+   updateAmountTags(){
+     let displayTag = [];
+     if(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined){
+      displayTag.push("$" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
+     }
+     
+     if(this.MainComponent.LD_INTEREST_RATE.getFieldValue() !==undefined){
+      displayTag.push(this.MainComponent.LD_INTEREST_RATE.getFieldValue() + "" + "%" + " " + "pa")
+     }
+     if(this.MainComponent.LD_TENURE.getFieldValue() !== undefined && this.MainComponent.LD_TENURE_PERIOD.getFieldValue() !== undefined){
+      displayTag.push(this.MainComponent.LD_TENURE.getFieldValue() + " " + this.MainComponent.LD_TENURE_PERIOD.getFieldInfo());
+     }
+
+    let tags = [];
+    displayTag.forEach(tag =>{
+      tags.push({ text:tag});
+    })
+  
+    this.MainComponent.INIT_ACCORD.setTags("ACC_LOAN_DTLS",tags);
+  }
+
+  updateLoanTag(){
+  let loantag = []
+  let tags = [];
+
+   if(this.MainComponent.BAD_PROD_CAT.getFieldValue !== undefined){
+     tags.push({label:this.MainComponent.BAD_PROD_CAT.getFieldValue(), text : this.MainComponent.BAD_PROD_CAT.getFieldInfo()})
+   }
+  
+  this.MainComponent.INIT_ACCORD.setTags("ACC_APPLICATION", tags);
+}
+  
+  // updateInterestTags(){
+  //   let tags = [];
+  //   tags.push({ text:this.MainComponent.LD_INTEREST_RATE.getFieldValue()});
+  //   this.MainComponent.INIT_ACCORD.setTags("ACC_LOAN_DTLS",tags);
+  // }
+  // updateTenureTags(){
+  //   let tags = [];
+  //   if(this.MainComponent.LD_TENURE !== undefined && this.MainComponent.LD_TENURE_PERIOD !== undefined){
+  //     tags.push({ text:this.MainComponent.LD_TENURE.getFieldValue() + " " + this.MainComponent.LD_TENURE_PERIOD.getFieldInfo()});
+  //     this.MainComponent.INIT_ACCORD.setTags("ACC_LOAN_DTLS",tags);
+  //   }
+   
+  // }
+
+
 
   private getFormCustomerDetails(): Customer {
     let customer = new Customer();

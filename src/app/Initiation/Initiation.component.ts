@@ -341,7 +341,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         modalRef.result.then(onModalClose, onModalClose);
         modalRef.componentInstance.rotueToComponent(inputMap);
         this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-     }, 1000);
+     }, 1500);
 
     }
 
@@ -352,6 +352,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     await this.Handler.onProdCategoryChange({
     }
     );
+    this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
     if(this.BAD_PRODUCT!=undefined){
     this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
@@ -449,12 +450,32 @@ async CD_GENDER_blur(event){
 async LD_LOAN_AMOUNT_blur(event){
     let inputMap = new Map();
     this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
+    this.Handler.updateAmountTags();
+}
+async LD_INTEREST_RATE_blur(event){
+  let inputMap = new Map();
+  // this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
+  this.Handler.updateAmountTags();
+}
+ 
+async LD_TENURE_blur(event){
+  let inputMap = new Map();
+  // this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
+  this.Handler.updateAmountTags();
+}
+async LD_TENURE_PERIOD_blur(event){
+  let inputMap = new Map();
+  // this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
+  this.Handler.updateAmountTags();
 }
 
   async LD_GROSS_INCOME_blur(event) {
     let inputMap = new Map();
     await this.Handler.calculateNetIncome({});
     }
+
+    
+
 
 async LD_EXST_LBLT_AMT_blur(event){
         let inputMap = new Map();
@@ -466,6 +487,7 @@ async LD_EXST_LBLT_AMT_blur(event){
             let inputMap = new Map();
             await this.Handler.calculateNetIncome({});
             }
+
 
 // async LD_TENURE_blur(event){
 //     let inputMap = new Map();
