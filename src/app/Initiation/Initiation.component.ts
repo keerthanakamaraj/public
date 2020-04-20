@@ -108,6 +108,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
+    if(this.BAD_PROD_CAT.getFieldValue()!='CC'){
     await Promise.all([
       this.revalidateBasicField('SRC_MOBILE_NO'),
       this.revalidateBasicField('SRC_TAX_ID'),
@@ -122,25 +123,25 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('BAD_SUB_PROD'),
       this.revalidateBasicField('BAD_SCHEME'),
       this.revalidateBasicField('BAD_PROMOTION'),
-      this.revalidateBasicField('CD_CUST_TYPE'),
-      this.revalidateBasicField('CD_EXISTING_CUST'),
-      this.revalidateBasicField('CD_STAFF'),
-      this.revalidateBasicField('CD_CIF'),
-      this.revalidateBasicField('CD_CUSTOMER_ID'),
-      this.revalidateBasicField('CD_STAFF_ID'),
-      this.revalidateBasicField('CD_TITLE'),
-      this.revalidateBasicField('CD_FIRST_NAME'),
-      this.revalidateBasicField('CD_MIDDLE_NAME'),
-      this.revalidateBasicField('CD_THIRD_NAME'),
-      this.revalidateBasicField('CD_LAST_NAME'),
-      this.revalidateBasicField('CD_FULL_NAME'),
-      this.revalidateBasicField('CD_GENDER'),
-      this.revalidateBasicField('CD_TAX_ID'),
-      this.revalidateBasicField('CD_MOBILE'),
-      this.revalidateBasicField('CD_DOB'),
-      this.revalidateBasicField('CD_CUST_SGMT'),
-      this.revalidateBasicField('CD_DEBIT_SCORE'),
-      this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
+      // this.revalidateBasicField('CD_CUST_TYPE'),
+      // this.revalidateBasicField('CD_EXISTING_CUST'),
+      // this.revalidateBasicField('CD_STAFF'),
+      // this.revalidateBasicField('CD_CIF'),
+      // this.revalidateBasicField('CD_CUSTOMER_ID'),
+      // this.revalidateBasicField('CD_STAFF_ID'),
+      // this.revalidateBasicField('CD_TITLE'),
+      // this.revalidateBasicField('CD_FIRST_NAME'),
+      // this.revalidateBasicField('CD_MIDDLE_NAME'),
+      // this.revalidateBasicField('CD_THIRD_NAME'),
+      // this.revalidateBasicField('CD_LAST_NAME'),
+      // this.revalidateBasicField('CD_FULL_NAME'),
+      // this.revalidateBasicField('CD_GENDER'),
+      // this.revalidateBasicField('CD_TAX_ID'),
+      // this.revalidateBasicField('CD_MOBILE'),
+      // this.revalidateBasicField('CD_DOB'),
+      // this.revalidateBasicField('CD_CUST_SGMT'),
+      // this.revalidateBasicField('CD_DEBIT_SCORE'),
+      // this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('LD_LOAN_AMOUNT'),
       this.revalidateBasicField('LD_INTEREST_RATE'),
       this.revalidateBasicField('LD_TENURE'),
@@ -153,14 +154,36 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('LD_SYS_AMT_RCMD'),
       this.revalidateBasicField('LD_USR_RCMD_AMT'),
       this.revalidateBasicField('LD_LTV_DBR'),
-      this.revalidateBasicField('LD_EMI_AMT'),
+       this.revalidateBasicField('LD_EMI_AMT'),
       this.revalidateBasicField('RD_REFERRER_NAME'),
       this.revalidateBasicField('RD_REFERRER_NO'),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
       });
-    });
+    });}else{
+      await Promise.all([
+        this.revalidateBasicField('SRC_MOBILE_NO'),
+        this.revalidateBasicField('SRC_TAX_ID'),
+        this.revalidateBasicField('SRC_CIF_NO'),
+        this.revalidateBasicField('BAD_PHYSICAL_FRM_NO'),
+        this.revalidateBasicField('BAD_DATE_OF_RCPT'),
+        this.revalidateBasicField('BAD_SRC_CHANNEL'),
+        this.revalidateBasicField('BAD_DSA_ID'),
+        this.revalidateBasicField('BAD_BRANCH'),
+        this.revalidateBasicField('BAD_PROD_CAT'),
+        this.revalidateBasicField('BAD_PRODUCT'),
+        this.revalidateBasicField('BAD_SUB_PROD'),
+        this.revalidateBasicField('BAD_SCHEME'),
+        this.revalidateBasicField('BAD_PROMOTION'),
+        this.revalidateBasicField('RD_REFERRER_NAME'),
+        this.revalidateBasicField('RD_REFERRER_NO'),
+      ]).then((errorCounts) => {
+        errorCounts.forEach((errorCount) => {
+          totalErrors += errorCount;
+        });
+      });
+    }
     this.errors = totalErrors;
     super.afterRevalidate();
     return totalErrors;
@@ -208,6 +231,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
     // this.hideTenurePeriod.setValue('TENURE_PERIOD');
+
+    this.CD_EXISTING_CUST.setDefault('N');
+    this.CD_STAFF.setDefault('N');
+
+    this.Handler.isStaff({});
+    this.Handler.existingCustomer({});
 
     let inputMap = new Map();
     await this.Handler.onFormLoad({
@@ -324,11 +353,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
     );
     this.setDependency(fieldID, value);
+    if(this.BAD_PRODUCT!=undefined){
     this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
     this.BAD_SUB_PROD.setValue(this.BAD_SUB_PROD.getFieldValue().clear);
     this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
     this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
-
+    }
   }
 
   async BAD_PRODUCT_change(fieldID, value) {
@@ -514,7 +544,7 @@ inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue
 inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
 inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
 inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-// inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
+inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
 console.log("Params ", inputMap);
 
 //return;

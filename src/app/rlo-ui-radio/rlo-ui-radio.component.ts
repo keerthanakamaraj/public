@@ -15,9 +15,10 @@ import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentVal
 })
 export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   @Input('category') category: string;
-  
+
   dropDownOptions: DropDown = new DropDown();
   paginating = false;
+  default: String = '';
 
   @ViewChild('select', { static: false }) select: NgSelectComponent;
 
@@ -28,10 +29,10 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   setDependency(key, value) {
-    if(this.dependencyMap.get(key)==undefined){return;}
+    if (this.dependencyMap.get(key) == undefined) { return; }
     var previousVal = this.getDependency(key);
     this.dependencyMap.get(key).value = value;
-    setTimeout(async ()=>{
+    setTimeout(async () => {
       if (this.doCustomScript) {
         await this.doCustomScript();
       }
@@ -40,6 +41,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
     // setTimeout(async ()=>{
     //   if (this.category == '1') {
     //     if (this.doCustomScript) {
@@ -48,6 +50,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     //     this.loadOptions();
     //   }
     // });
+
   }
 
   async ngOnInit() {
@@ -91,14 +94,14 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   async loadOptions() {
-    if(this.dropDownOptions.loading){ // return if already loading.
+    if (this.dropDownOptions.loading) { // return if already loading.
       return;
     }
     this.dropDownOptions.loading = true;
     let count = 0;
     if (this.category != '1') {
       count = 20;
-    }else{
+    } else {
       // NOt Required for Radio
       //this.dropDownOptions.Options = [{ id: undefined, text: 'Loading...' }];
       //In static combo-box, There will be always one element in option to show the placeholder
@@ -112,11 +115,12 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
           // if (this.category != '1' && !this.paginating)
           //   this.dropDownOptions.Options = this.dropDownOptions.Options.concat([{ id: undefined, text: '' }]);
           // if (result) {
-            // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
+          // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
           // }
 
           this.dropDownOptions.Options = this.dropDownOptions.Options = result;
-          
+          if (this.getDefault())
+            this.setValue(this.getDefault());
         }
       },
       err => { },
@@ -169,9 +173,9 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   onChange(event) {
     event.stopPropagation();
     this.value = event.target.value;
-    
-    let opt = this.dropDownOptions.Options.find(o => o.id == this.value) ;
-    if(opt){
+
+    let opt = this.dropDownOptions.Options.find(o => o.id == this.value);
+    if (opt) {
       this.additionalInfo = opt.text;
     }
 
@@ -189,29 +193,29 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   //TODO: check if required
-  async getDescription(value){
-    if(value==undefined){
+  async getDescription(value) {
+    if (value == undefined) {
       return undefined;
     }
-    var description: any = (this.category=="3")?[]:undefined;
+    var description: any = (this.category == "3") ? [] : undefined;
 
-    if(this.doCustomScript){
+    if (this.doCustomScript) {
       await this.doCustomScript();
     }
 
-    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, 0, (this.category=="3"?undefined:value), 20, this.doServerUrl, true).toPromise().then(
+    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, 0, (this.category == "3" ? undefined : value), 20, this.doServerUrl, true).toPromise().then(
       data => {
         // this.http.checkForSession(data);
         if (data) {
           let result = data['Data'];
-          if(this.category=="3"){
+          if (this.category == "3") {
             for (let i = 0; i < value.length; i++) {
-              var opt = result.find((opt)=>{return (opt.id == value[i])});
+              var opt = result.find((opt) => { return (opt.id == value[i]) });
               if (opt) {
                 description.push(opt['text']);
               }
             }
-          }else{
+          } else {
             if (result && result[0] && result[0]["id"] == value) {
               description = result[0]['text'];
             }
@@ -224,15 +228,15 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
           }
         }
       });
-      return description;
+    return description;
   }
 
   setValue(value, description = undefined) {
-    let opt = this.dropDownOptions.Options.find(o => o.id == value) ;
-    if(opt){
+    let opt = this.dropDownOptions.Options.find(o => o.id == value);
+    if (opt) {
       this.value = value
       this.additionalInfo = opt.text;
-    }else {
+    } else {
       this.onReset();
     }
     this.passNewValue(value);
@@ -241,4 +245,12 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   setValues(value, description = undefined) {
     this.setValue(value, description);
   }
+
+  setDefault(defaultValue) {
+    this.default = defaultValue;
+  }
+  getDefault() {
+    return this.default;
+  }
+
 }

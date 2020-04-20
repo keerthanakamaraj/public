@@ -42,9 +42,15 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   onProdCategoryChange({ }) {
     if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.isLoanCategory = false;
+      this.MainComponent.CD_CUST_TYPE.setValue('B');
+      this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
     } else {
       this.MainComponent.isLoanCategory = true;
+      this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
+     if(!(this.MainComponent.CD_CUST_TYPE.getFieldValue()==null||this.MainComponent.CD_CUST_TYPE.getFieldValue()==undefined || this.MainComponent.CD_CUST_TYPE.getFieldValue()=='')){
+    this.MainComponent.CD_CUST_TYPE.setValue(this.MainComponent.CD_CUST_TYPE.getFieldValue().clear);
     }
+  }
   }
 
   //calcute Netincome 
@@ -74,7 +80,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
 
   existingCustomer({}){
-    if(this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N' && this.MainComponent.CD_EXISTING_CUST.getFieldValue() != 'Y'){
+    if(this.MainComponent.CD_EXISTING_CUST.getFieldValue()==null||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==undefined
+    ||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==''||this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N'){
        this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
     }
     else{
@@ -84,9 +91,12 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
 
 isStaff({}){
-  if(this.MainComponent.CD_STAFF.getFieldValue() == 'N' && this.MainComponent.CD_STAFF.getFieldValue() != 'Y'){
-     this.MainComponent.CD_STAFF_ID .readOnly = true;       
-  }
+//  if(this.MainComponent.CD_STAFF.getFieldValue() == 'N' && this.MainComponent.CD_STAFF.getFieldValue() != 'Y'){
+    if(this.MainComponent.CD_STAFF.getFieldValue()==null||this.MainComponent.CD_STAFF.getFieldValue==undefined
+    ||this.MainComponent.CD_STAFF.getFieldValue()==''||this.MainComponent.CD_STAFF.getFieldValue() == 'N') 
+    {
+        this.MainComponent.CD_STAFF_ID .readOnly = true;       
+     }
   else{
      this.MainComponent.CD_STAFF_ID .readOnly = false;  
   }
