@@ -336,6 +336,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             this.CD_TAX_ID.setValue(tempVar['taxId']);
             this.CD_FULL_NAME.setValue(tempVar['custName']);
             this.CD_MOBILE.setValue(tempVar['mobileNum']);
+            this.CD_CIF.setValue(tempVar['cif']);
           }
           this.services.dataStore.setData('selectedData', undefined);
         }
