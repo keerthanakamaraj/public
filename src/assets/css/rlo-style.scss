@@ -114,8 +114,9 @@ body {
   }
 
   .mydp .icon-mydpcalendar:before {
-    content: "\f073";
-    font-family: "Font Awesome 5 Free";
+    //  content: "\f073";
+     content: url("/assets/icons/calendar-line.svg");
+    // font-family: "Font Awesome 5 Free";
   }
 
   .res-pr-hide-line {
