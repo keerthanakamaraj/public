@@ -19,6 +19,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   dropDownOptions: DropDown = new DropDown();
   paginating = false;
   default: String = '';
+  isOptionsLoaded: boolean=false;
 
   @ViewChild('select', { static: false }) select: NgSelectComponent;
 
@@ -108,6 +109,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     }
 
     // this.services.http.loadlookup(this.formCode, this.domainObjectCode, this.dropDownOptions.pageNo, this.dropDownOptions.term, this.dependencyMap, count).subscribe(
+    if(!this.isOptionsLoaded){
     this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, count, this.doServerUrl).subscribe(
       data => {
         if (data) {
@@ -119,8 +121,9 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
           // }
 
           this.dropDownOptions.Options = this.dropDownOptions.Options = result;
-          if (this.getDefault())
-            this.setValue(this.getDefault());
+          this.isOptionsLoaded=true;
+          if (this.getDefault()!=''){
+            this.setValue(this.getDefault());}
         }
       },
       err => { },
@@ -138,7 +141,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
         this.paginating = false;
         this.dropDownOptions.loading = false;
-      });
+      });}
   }
 
   setFocus(setFocus) {

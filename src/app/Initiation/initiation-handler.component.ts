@@ -46,10 +46,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
     } else {
       this.MainComponent.isLoanCategory = true;
-      this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
-     if(!(this.MainComponent.CD_CUST_TYPE.getFieldValue()==null||this.MainComponent.CD_CUST_TYPE.getFieldValue()==undefined || this.MainComponent.CD_CUST_TYPE.getFieldValue()=='')){
-    this.MainComponent.CD_CUST_TYPE.setValue(this.MainComponent.CD_CUST_TYPE.getFieldValue().clear);
-    }
+      this.MainComponent.CD_CUST_TYPE.setReadOnly(false);   
+      this.MainComponent.CD_CUST_TYPE.clearField();
+
   }
   }
 
@@ -81,20 +80,23 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   existingCustomer({}){
     if(this.MainComponent.CD_EXISTING_CUST.getFieldValue()==null||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==undefined
-    ||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==''||this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N'){
-       this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
+    ||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==''||this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N')
+    {
+      this.MainComponent.CD_CUSTOMER_ID.clearField();
+      this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
     }
     else{
        this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
     }
+    
 }
 
 
 isStaff({}){
-//  if(this.MainComponent.CD_STAFF.getFieldValue() == 'N' && this.MainComponent.CD_STAFF.getFieldValue() != 'Y'){
     if(this.MainComponent.CD_STAFF.getFieldValue()==null||this.MainComponent.CD_STAFF.getFieldValue==undefined
     ||this.MainComponent.CD_STAFF.getFieldValue()==''||this.MainComponent.CD_STAFF.getFieldValue() == 'N') 
     {
+      this.MainComponent.CD_STAFF_ID.clearField();
         this.MainComponent.CD_STAFF_ID .readOnly = true;       
      }
   else{
@@ -139,15 +141,16 @@ isStaff({}){
   // Reset Customer Form
   onResetCustomer(arg: {}) {
     this.MainComponent.CD_CUST_TYPE.onReset();
-    this.MainComponent.CD_EXISTING_CUST.onReset();
-    this.MainComponent.CD_STAFF.onReset();
-    this.MainComponent.CD_CIF.onReset();
-    this.MainComponent.CD_CUSTOMER_ID.onReset();
+  //  this.MainComponent.CD_EXISTING_CUST.onReset();
+  //  this.MainComponent.CD_STAFF.onReset();
+ //   this.MainComponent.CD_CIF.onReset();
+  //  this.MainComponent.CD_CUSTOMER_ID.onReset();
     this.MainComponent.CD_STAFF_ID.onReset();
     this.MainComponent.CD_TITLE.onReset();
     this.MainComponent.CD_FIRST_NAME.onReset();
     this.MainComponent.CD_MIDDLE_NAME.onReset();
     this.MainComponent.CD_LAST_NAME.onReset();
+    this.MainComponent.CD_FULL_NAME.clearField();
     this.MainComponent.CD_GENDER.onReset();
     this.MainComponent.CD_MOBILE.onReset();
     this.MainComponent.CD_TAX_ID.onReset();
@@ -155,6 +158,14 @@ isStaff({}){
     this.MainComponent.CD_CUST_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
+    this.onProdCategoryChange({});
+   
+    this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
+    this.existingCustomer({});
+
+    this.MainComponent.CD_STAFF.setValue(this.MainComponent.CD_STAFF.getDefault());
+    this.isStaff({});
+
   }
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name
@@ -407,7 +418,6 @@ isStaff({}){
 
 
 }
-
 
 
 

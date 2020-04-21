@@ -232,11 +232,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
     // this.hideTenurePeriod.setValue('TENURE_PERIOD');
 
-    this.CD_EXISTING_CUST.setDefault('N');
-    this.CD_STAFF.setDefault('N');
+     this.CD_EXISTING_CUST.setDefault('N');
+     this.Handler.existingCustomer({});
+    
+     this.CD_STAFF.setDefault('N');
+     this.Handler.isStaff({});
 
-    this.Handler.isStaff({});
-    this.Handler.existingCustomer({});
 
     let inputMap = new Map();
     await this.Handler.onFormLoad({
@@ -354,27 +355,29 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     );
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
-    if(this.BAD_PRODUCT!=undefined){
-    this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
-    this.BAD_SUB_PROD.setValue(this.BAD_SUB_PROD.getFieldValue().clear);
-    this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
-    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
-    }
+    //this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
+    this.BAD_PRODUCT.clearField();
+    this.BAD_SUB_PROD.clearField();
+    this.BAD_SCHEME.clearField();
+    this.BAD_PROMOTION.clearField();
+  
   }
 
+
   async BAD_PRODUCT_change(fieldID, value) {
-    this.BAD_SUB_PROD.setValue(this.BAD_SUB_PROD.getFieldValue().clear);
-    this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
-    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
+    
+    this.BAD_SUB_PROD.clearField();
+    this.BAD_SCHEME.clearField();
+    this.BAD_PROMOTION.clearField();
   }
 
   async BAD_SUB_PROD_change(fieldID, value) {
-    this.BAD_SCHEME.setValue(this.BAD_SCHEME.getFieldValue().clear);
-    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
+    this.BAD_SCHEME.clearField();
+    this.BAD_PROMOTION.clearField();
   }
 
   async BAD_SCHEME_change(fieldID, value) {
-    this.BAD_PROMOTION.setValue(this.BAD_PROMOTION.getFieldValue().clear);
+    this.BAD_PROMOTION.clearField();
   }
 
 
@@ -523,6 +526,7 @@ async CD_RESET_click(event){
 let inputMap = new Map();
 await this.Handler.onResetCustomer({
 });
+
 }
 async CUST_DTLS_GRID_DeleteCustDetails(event){
 let inputMap = new Map();

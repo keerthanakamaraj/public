@@ -184,4 +184,11 @@ export class FieldComponent{
     this.doCustomScript = fn;
   }
   doCustomScript: () => void = undefined;
+
+  clearField() {
+    if (!(this.getFieldValue() == null || this.getFieldValue() == undefined || this.getFieldValue() == '')) {
+        this.setValue(this.getFieldValue().clear);
+    }
+  }
+
 }
