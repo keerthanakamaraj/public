@@ -310,7 +310,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.dependencyMap.clear();
     this.value = new InitiationModel();
     this.passNewValue(this.value);
-    this.setReadOnly(false);
+    //this.setReadOnly(false);
+    this.CD_EXISTING_CUST.isOptionsLoaded=false;
+    this.CD_STAFF.isOptionsLoaded=false;
     this.onFormLoad();
   }
 
@@ -361,7 +363,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_SUB_PROD.clearField();
     this.BAD_SCHEME.clearField();
     this.BAD_PROMOTION.clearField();
-  
+    this.Handler.onResetCustomer({});
+    this.Handler.resetLoanInformation();
+    this.Handler.resetReferalInformation();
   }
 
 

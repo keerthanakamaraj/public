@@ -82,7 +82,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if(this.MainComponent.CD_EXISTING_CUST.getFieldValue()==null||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==undefined
     ||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==''||this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N')
     {
-      this.MainComponent.CD_CUSTOMER_ID.clearField();
+      this.MainComponent.CD_CUSTOMER_ID.onReset();
       this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
     }
     else{
@@ -96,7 +96,7 @@ isStaff({}){
     if(this.MainComponent.CD_STAFF.getFieldValue()==null||this.MainComponent.CD_STAFF.getFieldValue==undefined
     ||this.MainComponent.CD_STAFF.getFieldValue()==''||this.MainComponent.CD_STAFF.getFieldValue() == 'N') 
     {
-      this.MainComponent.CD_STAFF_ID.clearField();
+        this.MainComponent.CD_STAFF_ID.onReset();
         this.MainComponent.CD_STAFF_ID .readOnly = true;       
      }
   else{
@@ -143,19 +143,17 @@ isStaff({}){
     this.MainComponent.CD_CUST_TYPE.onReset();
   //  this.MainComponent.CD_EXISTING_CUST.onReset();
   //  this.MainComponent.CD_STAFF.onReset();
- //   this.MainComponent.CD_CIF.onReset();
-  //  this.MainComponent.CD_CUSTOMER_ID.onReset();
-    this.MainComponent.CD_STAFF_ID.onReset();
-    this.MainComponent.CD_TITLE.onReset();
+    this.MainComponent.CD_CIF.onReset();
+    this.MainComponent.CD_TITLE.clearField();
     this.MainComponent.CD_FIRST_NAME.onReset();
     this.MainComponent.CD_MIDDLE_NAME.onReset();
     this.MainComponent.CD_LAST_NAME.onReset();
-    this.MainComponent.CD_FULL_NAME.clearField();
-    this.MainComponent.CD_GENDER.onReset();
+    this.MainComponent.CD_FULL_NAME.onReset();
+    this.MainComponent.CD_GENDER.clearField();
     this.MainComponent.CD_MOBILE.onReset();
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
-    this.MainComponent.CD_CUST_SGMT.onReset();
+    this.MainComponent.CD_CUST_SGMT.clearField();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.onProdCategoryChange({});
@@ -351,10 +349,12 @@ isStaff({}){
   private resetCustomerDetails() {
     this.editId = undefined;
 
-    this.customerFormFields.forEach(field => {
-      this.MainComponent[field].setValue(undefined);
-      // this.MainComponent[field].onReset(); // Not working - Dropdown does not show values any further
-    });
+    // this.customerFormFields.forEach(field => {
+    //   this.MainComponent[field].setValue(undefined);
+    //   // this.MainComponent[field].onReset(); // Not working - Dropdown does not show values any further
+    // });
+
+    this.onResetCustomer({});
   }
 
   async validateCustomerForm() {
@@ -416,6 +416,28 @@ isStaff({}){
     return CustData;
   }
 
+  resetLoanInformation() {
+    this.MainComponent.LD_LOAN_AMOUNT.onReset();
+    this.MainComponent.LD_INTEREST_RATE.clearField();
+    this.MainComponent.LD_TENURE.onReset();
+    this.MainComponent.LD_TENURE_PERIOD.clearField();
+    this.MainComponent.LD_APP_PRPSE.clearField();
+    this.MainComponent.LD_GROSS_INCOME.onReset();
+    this.MainComponent.LD_EXST_LBLT_AMT.onReset();
+    this.MainComponent.LD_OTH_DEDUCTIONS.onReset();
+    this.MainComponent.LD_NET_INCOME.onReset();
+    this.MainComponent.LD_SYS_AMT_RCMD.onReset();
+    this.MainComponent.LD_USR_RCMD_AMT.onReset();
+    this.MainComponent.LD_LTV_DBR.onReset();
+    this.MainComponent.LD_EMI_AMT.onReset();
+    this.updateAmountTags();
+   
+  }
+
+  resetReferalInformation() {
+    this.MainComponent.RD_REFERRER_NAME.onReset();
+    this.MainComponent.RD_REFERRER_NO.onReset();
+  }
 
 }
 

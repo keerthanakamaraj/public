@@ -95,7 +95,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   async loadOptions() {
-    if (this.dropDownOptions.loading) { // return if already loading.
+    if (this.dropDownOptions.loading && this.isOptionsLoaded) { // return if already loading.
       return;
     }
     this.dropDownOptions.loading = true;

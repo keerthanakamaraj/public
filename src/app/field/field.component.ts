@@ -98,7 +98,7 @@ export class FieldComponent{
     this.additionalInfo = undefined;
     this.error = false;
     this.errorCode = undefined;
-    this.readOnly = false;
+   // this.readOnly = false;
     this.dependencyMap.clear();
     this.fieldReset();
   }
