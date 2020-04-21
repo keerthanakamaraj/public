@@ -1586,17 +1586,21 @@
     "CD_Delete": "Delete",
     "CD_Delete_ButtonName": "Delete"
   },
-  "MyTrayGrid": {
-    "MT_PROPOSAL_ID": "Proposal ID",
-    "MT_CAM_TYPE": "CAM Type",
-    "MT_INITIATED_ON": "Initiated On",
-    "MT_CAD_LOCATION": "CAD Location",
-    "MT_PENDING_WITH": "Pending With",
-    "MT_CUSTOMER": "Customer",
-    "MT_INITIATED_BY": "Initiated By",
-    "MT_STAGE": "Stage",
-    "toolbar_MyTrayGrid": "null"
-  },
+  "MyTrayGrid" : {
+    "MT_SCHEME" : "Scheme",
+    "MT_PRODUCT" : "Product",
+    "MT_INITIATED_ON" : "Initiated On",
+    "MT_LOAN_AMOUNT" : "Loan Amount",
+    "MT_PENDING_WITH" : "Pending With",
+    "MT_INITIATED_BY" : "Initiated By",
+    "toolbar_MyTrayGrid" : "null",
+    "MT_SUB_PRODUCT" : "Sub Product",
+    "MT_PROPOSAL_ID" : "Proposal ID",
+    "MT_CAM_TYPE" : "CAM Type",
+    "MT_CAD_LOCATION" : "CAD Location",
+    "MT_CUSTOMER" : "Customer",
+    "MT_STAGE" : "Stage"
+    },
   "MyTrayForm": {
     "MT_SLIDER": "Pending with Self",
     "FormTitle": "My Tray"
