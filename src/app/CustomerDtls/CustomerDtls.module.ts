@@ -11,8 +11,8 @@ import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
 import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 import { CustomerDtlsGridModule } from '../CustomerDtlsGrid/CustomerDtlsGrid.module';
 import { CustomerHandlerModule } from '../CustomerDtls/customer-handler.module';
-import { RloUiAccordionGroupComponent } from '../rlo-ui-accordion/rlo-ui-accordion-group.component';
-import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+// import { RloUiAccordionGroupComponent } from '../rlo-ui-accordion/rlo-ui-accordion-group.component';
+// import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 @NgModule({
 imports: [
 CommonModule,
@@ -33,9 +33,9 @@ CustomerDtlsGridModule,
 CustomerHandlerModule,
 ],
 declarations: [
-CustomerDtlsComponent,
-RloUiAccordionComponent,
-RloUiAccordionGroupComponent
+CustomerDtlsComponent
+// RloUiAccordionComponent,
+// RloUiAccordionGroupComponent
 ],
 exports:[
 CustomerDtlsComponent,

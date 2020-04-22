@@ -170,7 +170,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
    }
      
   
-  this.MainComponent.QDE_ACCORD.setTags("CUST_APPLICATION", tags);
+  // this.MainComponent.QDE_ACCORD.setTags("CUST_APPLICATION", tags);
   }
 }
 

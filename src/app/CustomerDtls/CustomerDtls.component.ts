@@ -19,7 +19,7 @@ import { CustomerDtlsGridComponent } from '../CustomerDtlsGrid/CustomerDtlsGrid.
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
-import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+// import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 
 
 const customCss: string = '';
@@ -79,7 +79,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
     @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
-    @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
+    // @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
 
     appId: any;
     staffcheck: boolean;
