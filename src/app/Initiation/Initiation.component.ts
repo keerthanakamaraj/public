@@ -449,26 +449,23 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
 
-async CD_GENDER_blur(event){
-    let inputMap = new Map();
-    this.genderCheck();
-}
+// async CD_GENDER_blur(event){
+//     let inputMap = new Map();
+//     this.genderCheck();
+// }
 
  
 async LD_LOAN_AMOUNT_blur(event){
     let inputMap = new Map();
-    this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
     this.Handler.updateAmountTags();
 }
 async LD_INTEREST_RATE_blur(event){
   let inputMap = new Map();
-  // this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
   this.Handler.updateAmountTags();
 }
  
 async LD_TENURE_blur(event){
   let inputMap = new Map();
-  // this.LD_SYS_AMT_RCMD.setValue(this.LD_LOAN_AMOUNT.getFieldValue());
   this.Handler.updateAmountTags();
 }
 async LD_TENURE_PERIOD_blur(event){
