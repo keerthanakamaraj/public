@@ -69,9 +69,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_ADDRESS_LINE3'),
       this.revalidateBasicField('AD_ADDRESS_LINE4'),
       this.revalidateBasicField('AD_PINCODE'),
-      // this.revalidateBasicField('AD_REGION'),
-      // this.revalidateBasicField('AD_CITY'),
-      // this.revalidateBasicField('AD_STATE'),
+      this.revalidateBasicField('AD_REGION'),
+      this.revalidateBasicField('AD_CITY'),
+      this.revalidateBasicField('AD_STATE'),
       this.revalidateBasicField('AD_LANDMARK'),
       this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_RES_DUR'),
@@ -80,9 +80,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
       this.revalidateBasicField('AD_EMAIL_ID1'),
-      this.revalidateBasicField('AD_CORR_EMAIL'),
-      this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
-      this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
+      this.revalidateBasicField('AD_CORR_EMAIL')
+      // this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
+      // this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;

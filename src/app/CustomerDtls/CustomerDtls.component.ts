@@ -19,6 +19,8 @@ import { CustomerDtlsGridComponent } from '../CustomerDtlsGrid/CustomerDtlsGrid.
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
+import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+
 
 const customCss: string = '';
 
@@ -77,7 +79,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
     @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
+    @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
+
     appId: any;
+    staffcheck: boolean;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -86,7 +91,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         await Promise.all([
             this.revalidateBasicField('CD_CUST_TYPE'),
             this.revalidateBasicField('CD_EXISTING_CUST'),
-            // this.revalidateBasicField('CD_STAFF'),
+            this.revalidateBasicField('CD_STAFF'),
             this.revalidateBasicField('CD_CIF'),
             this.revalidateBasicField('CD_STAFF_ID'),
             this.revalidateBasicField('CD_CUST_ID'),
@@ -262,6 +267,11 @@ this.hideStaffId.setValue('Y_N');
         await this.Handler.updateFullName({
         });
     }
+    async CD_STAFF_change(fieldID, value) {
+        let inputMap = new Map();
+        await this.Handler.isStaffEnabled({});
+    
+      }
     async CD_SAVE_BTN_click(event) {
         let inputMap = new Map();
         var noOfErrors: number = await this.revalidate();
@@ -530,6 +540,10 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
                 this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
+                if(this.CD_STAFF.getFieldValue() !== undefined && this.CD_STAFF.getFieldValue() !== "" && this.CD_STAFF.getFieldValue() !== null && this.CD_STAFF.getFieldValue() !== 'N'){
+                  this.CD_STAFF_ID.readOnly = false;
+                  this.CD_STAFF_ID.mandatory =true;
+                }
                 this.CD_STAFF_ID.setValue(res['BorrowerDetails']['StaffID']);
                 this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
@@ -547,6 +561,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
+                this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
                 
 
             },
@@ -565,6 +580,8 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
         await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
             'refNumToGrid': selectedCustomerId,
         });
+       
+        
     }
     async loadCustDtlsGrid(event) {
         let inputMap = new Map();

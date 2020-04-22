@@ -21,6 +21,7 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10 row">
+ <rlo-ui-accordion #QDE_ACCORD class="col-12 col-sm-12 col-md-12">
 <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown"  [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
@@ -43,7 +44,7 @@
 {{ 'CustomerDtls.CD_STAFF' | translate}}
 </label>
 </div>
-<rlo-ui-radio #CD_STAFF fieldID="CD_STAFF" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"></rlo-ui-radio>
+<rlo-ui-radio #CD_STAFF fieldID="CD_STAFF" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)" (change)="CD_STAFF_change('CD_STAFF', $event)"></rlo-ui-radio>
 </div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #CD_LABEL parentCompCode="CustomerDtls" fieldID="CD_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
@@ -60,7 +61,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF_ID.mandatory}">
 {{ 'CustomerDtls.CD_STAFF_ID' | translate}}
 </label>
 </div>
@@ -328,6 +329,11 @@
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_30.isHidden()">
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
+
+
+
+
+</rlo-ui-accordion>
 </div>
 <app-hidden #hidExistCust fieldID="hidExistCust"></app-hidden>
 <app-hidden #hideStaffId fieldID="hideStaffId"></app-hidden>

@@ -20,7 +20,26 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
     console.log("Occupation .. On form load");
     super.onFormLoad({});
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
-	}
+  }
+  
+  occupationOnchange(){
+   if (this.MainComponent.OD_OCCUPATION.getFieldValue() == 'SL'){
+     this.MainComponent.OD_EMPLT_TYPE.mandatory = true;
+   }
+   else{
+     this.MainComponent.OD_EMPLT_TYPE.mandatory = false;
+   }
+
+   if (this.MainComponent.OD_OCCUPATION.getFieldValue() == 'SE'){
+    this.MainComponent.OD_SELF_EMPLD_TYPE.mandatory = true;
+  }
+    else{
+    this.MainComponent.OD_SELF_EMPLD_TYPE.mandatory = false;
+  }
+
+
+
+  }
 
  }
 

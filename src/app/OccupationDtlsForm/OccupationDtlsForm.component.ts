@@ -94,7 +94,7 @@ this.revalidateBasicField('OD_INCOME_TYPE'),
 this.revalidateBasicField('OD_WRK_PERMIT_NO'),
 this.revalidateBasicField('OD_RES_PRT_NO'),
 this.revalidateBasicField('OD_CURRENCY'),
-this.revalidateBasicField('OD_LOC_CURR_EQ'),
+//this.revalidateBasicField('OD_LOC_CURR_EQ'),
 ]).then((errorCounts) => {
 errorCounts.forEach((errorCount)=>{
 totalErrors+=errorCount;
@@ -201,6 +201,10 @@ this.value = new OccupationDtlsFormModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
 this.onFormLoad();
+}
+async OD_OCCUPATION_change(fieldID,value){
+  let inputMap = new Map();
+  this.Handler.occupationOnchange();
 }
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
@@ -458,6 +462,11 @@ this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'GET', inputMa
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']);
+if (this.OD_OCCUPATION.getFieldValue() == 'SL'){
+  this.OD_EMPLT_TYPE.mandatory = true;
+}else  if (this.OD_OCCUPATION.getFieldValue() == 'SE'){
+  this.OD_SELF_EMPLD_TYPE.mandatory = true;
+}
 this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']);
 this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
 this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']);

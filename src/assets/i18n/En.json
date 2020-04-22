@@ -1436,6 +1436,7 @@
     "AT_EDIT_ButtonName": "Edit"
   },
   "CustomerDtls" : {
+    "CD_LABEL" :"Customer",
     "CD_CUST_TYPE" : "Customer Type",
     "CD_DRIVING_LICENSE" : "Driving License",
     "CD_PRIME_USAGE" : "Prime Usage",

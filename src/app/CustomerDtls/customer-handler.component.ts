@@ -78,10 +78,10 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
 
-              customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null 
-              && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
+              customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
+                && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
                 ? eachBorrower.CustomerType : 'OP';
-                
+
               customerDataArr.push(customer);
             });
           }
@@ -150,5 +150,15 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     });
   }
 
+  isStaffEnabled({ }) {
+    if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
+      || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
+      this.MainComponent.CD_STAFF_ID.readOnly = true;
+    }
+    else {
+      this.MainComponent.CD_STAFF_ID.readOnly = false;
+      this.MainComponent.CD_STAFF_ID.mandatory = true;
+    }
+  }
 }
 
