@@ -17,6 +17,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   customerDetailsMap = new Map();
   @ViewChild('"CD_CUSTOMER_TYPE"', { static: false }) CD_CUSTOMER_TYPE: ReadOnlyComponent;
   @ViewChild('"CD_CUSTOMER_NAME"', { static: false }) CD_CUSTOMER_NAME: ReadOnlyComponent;
+  customerDataArr: any[];
   ngOnInit() {
     // ngOnInit
   }
@@ -86,6 +87,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
             });
           }
           this.apiSuccessCallback(customerDataArr);
+          // this.displayCustomerTag(customerDataArr);
         },
         async (httpError) => {
           var err = httpError['error']
@@ -128,6 +130,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
       event.target.parentElement.classList.remove("customer-names");
       event.target.parentElement.classList.add("customer-names-active");
       this.MainComponent.CUST_DTLS_GRID_custDtlsEdit(event, selectedCustomer.CustomerId);
+      //  this.displayCustomerTag();
     }
   }
   doReset() {
@@ -159,6 +162,15 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
       this.MainComponent.CD_STAFF_ID.readOnly = false;
       this.MainComponent.CD_STAFF_ID.mandatory = true;
     }
+  }
+  async displayCustomerTag(){
+    let tags = [];
+   if(this.MainComponent.CD_CUST_TYPE.getFieldValue() !== undefined && this.MainComponent.CD_FULL_NAME.getFieldValue() !== undefined){
+    tags.push({ label:this.MainComponent.CD_CUST_TYPE.getFieldValue() , text: this.MainComponent.CD_FULL_NAME.getFieldValue() });
+   }
+     
+  
+  this.MainComponent.QDE_ACCORD.setTags("CUST_APPLICATION", tags);
   }
 }
 

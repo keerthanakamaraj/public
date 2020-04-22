@@ -162,6 +162,7 @@ this.hideStaffId.setValue('Y_N');
         await this.Handler.onFormLoad({
         });
         this.setDependencies();
+        // this.Handler.displayCustomerTag();
     }
 
     setInputs(param: any) {
@@ -533,6 +534,9 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
                 this.CD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
                 this.CD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
+                if(this.CD_FULL_NAME.getFieldValue() !== undefined){
+                    this.Handler.displayCustomerTag();
+                }
                 this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
                 this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
@@ -562,7 +566,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
-                
+               
 
             },
             async (httpError) => {
@@ -581,7 +585,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
             'refNumToGrid': selectedCustomerId,
         });
        
-        
+      
     }
     async loadCustDtlsGrid(event) {
         let inputMap = new Map();
@@ -589,6 +593,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
         //     'custSeqToGrid': event.custSeq,
         // });
         this.Handler.APIForCustomerData(event);
+
     }
 
     fieldDependencies = {

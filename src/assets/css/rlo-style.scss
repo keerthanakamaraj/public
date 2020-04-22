@@ -455,10 +455,11 @@ padding-right: none !important;
 }
 
  .customer{
-   padding-left: 7px;
-   padding-right: 7px;
+  margin-top: -7px;
+   margin-left: -2px;
+   margin-right: -2px;
   .cd-grid {
-    margin-top:-7px;
+    margin-top: -24px;
     //margin-left:-9px!important;
     border-radius: 0 0 8px 8px;
     background-color: #F6FBFF;
@@ -481,7 +482,7 @@ padding-right: none !important;
       /* display:inline-block !important; */
    .cd-col-row{
      .cust-type-head{
-       margin-left: 4px;
+      //  margin-left: 4px;
      }
       .cust-type-code{
         height: 24px !important;
@@ -512,13 +513,17 @@ padding-right: none !important;
         .sub{
           height: 23.54px;
           width: 23.54px;
-          margin-left: 251px;
+          margin-left: 230px;
           margin-top: -47px;
         }
         .cd-add-icon::after{
           // content:"\2295";
           // color:#0079B8;
           font-size: 26px;
+        }
+        .cd-grid .col-12  .col-sm-12 .col-md-12 {
+          padding-right: 0px !important;
+          padding-left: 0px !important
         }
         
         

@@ -865,7 +865,7 @@
     "OD_COMP_CAT": "Company Category",
     "OD_EMP_STATUS": "Employment Status",
     "OD_WRK_PERMIT_NO": "Work Permit Number",
-    "OD_HEADING": "Occupation Details",
+    "OD_HEADING": "Occupation",
     "OD_DESIGNATION": "Designation",
     "OD_INCOME_FREQ": "Income Frequency",
     "OD_DATE_OF_JOINING": "Date of Joining",
@@ -1250,7 +1250,7 @@
     "EMAIL_LABEL" : "Correspondence Email?",
     "AD_CLEAR_BTN" : "Clear",
     "AD_RES_DUR_UNIT" : "Period",
-    "AD_HEADING" : "Address Details",
+    "AD_HEADING" : "Address",
     "YRS_LABEL" : "How Long has the client been living at the above address?",
     "AD_ADDRESS_LINE1" : "Address Line 1",
     "AD_ADDRESS_LINE2" : "Address Line 2",
@@ -1436,7 +1436,7 @@
     "AT_EDIT_ButtonName": "Edit"
   },
   "CustomerDtls" : {
-    "CD_LABEL" :"Customer",
+    "CD_MAIN_LABEL" :"Customer",
     "CD_CUST_TYPE" : "Customer Type",
     "CD_DRIVING_LICENSE" : "Driving License",
     "CD_PRIME_USAGE" : "Prime Usage",
