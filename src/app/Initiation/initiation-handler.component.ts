@@ -195,6 +195,7 @@ isStaff({}){
 
     this.MainComponent.CD_CUST_TYPE.setValue(customer.customerType.value, customer.customerType.label);
     this.MainComponent.CD_EXISTING_CUST.setValue(customer.existingCustomer.value, customer.existingCustomer.label);
+    this.existingCustomer({});
     this.MainComponent.CD_CIF.setValue(customer.CIF);
     this.MainComponent.CD_CUSTOMER_ID.setValue(customer.customerId);
     this.MainComponent.CD_TITLE.setValue(customer.title.value, customer.title.label);
@@ -210,6 +211,7 @@ isStaff({}){
     this.MainComponent.CD_DEBIT_SCORE.setValue(customer.debitScore);
     this.MainComponent.CD_CUST_SGMT.setValue(customer.customerSegment.value, customer.customerSegment.label);
     this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
+    this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
 
@@ -265,7 +267,7 @@ isStaff({}){
 
   }
 
-  private updateCustomerTags() {
+   updateCustomerTags() {
     let tags = [];
     this.customers.forEach(c => {
       tags.push({ label: c.customerType.value, text: c.firstName });
@@ -297,7 +299,7 @@ isStaff({}){
   let loantag = []
   let tags = [];
 
-   if(this.MainComponent.BAD_PROD_CAT.getFieldValue !== undefined){
+   if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== undefined){
      tags.push({label:this.MainComponent.BAD_PROD_CAT.getFieldValue(), text : this.MainComponent.BAD_PROD_CAT.getFieldInfo()})
    }
   
@@ -439,6 +441,12 @@ isStaff({}){
     this.MainComponent.RD_REFERRER_NO.onReset();
   }
 
+  resetSearchBox(){
+    this.MainComponent.SRC_MOBILE_NO.onReset();
+    this.MainComponent.SRC_TAX_ID.onReset();
+    this.MainComponent.SRC_CIF_NO.onReset();
+
+  }
 }
 
 

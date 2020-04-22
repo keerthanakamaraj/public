@@ -313,7 +313,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     //this.setReadOnly(false);
     this.CD_EXISTING_CUST.isOptionsLoaded=false;
     this.CD_STAFF.isOptionsLoaded=false;
+    this.Handler.customers=[];
+    this.CUST_DTLS_GRID.setValue(Object.assign([], this.Handler.customers));
     this.onFormLoad();
+    this.Handler.updateLoanTag();
+    this.Handler.updateCustomerTags();
+    this.Handler.updateAmountTags();
   }
 
 
@@ -603,6 +608,8 @@ this.icif = CustData.ICIFNumber;
 
 }
 this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully With ICIF Number "+this.borrowericif);
+inputMap = new Map();
+this.onReset();
 },
       async (httpError) => {
         var err = httpError['error']
