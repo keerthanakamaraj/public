@@ -20,11 +20,11 @@ export class ProvidehttpService implements CanActivate {
 
   baseURL: string = environment.baseURL;
   restURL: string = environment.baseURL;
-  showMenu=false;
+  showMenu = false;
   displaySide = false;
-  ActiveTab='LANDING';
+  ActiveTab = 'LANDING';
   showDraft = true;
-  navBarMessage='';
+  navBarMessage = '';
   currentLanguage;
 
   sessionValid = true;
@@ -46,24 +46,24 @@ export class ProvidehttpService implements CanActivate {
       return false;
     }
   }
-  
+
 
   constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService, private router: Router, private data: Data, private http: Http) {
-  //   if (isDevMode()) {
-  //     // this.baseURL = 'http://localhost:28080/RARuntimeWeb/';//local
-  // //    this.baseURL = 'http://10.10.16.203:8390/OliveFabricWeb/';//HDFC
-  //     this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
-  //     //this.baseURL = window.location.origin + '/RARuntimeWeb/';
-  //   } else {
-  //     //let href = window.location.href.lastIndexOf('/');
-  //     // this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
-  //     this.baseURL = window.location.origin + '/olive/';
-  //   }
+    //   if (isDevMode()) {
+    //     // this.baseURL = 'http://localhost:28080/RARuntimeWeb/';//local
+    // //    this.baseURL = 'http://10.10.16.203:8390/OliveFabricWeb/';//HDFC
+    //     this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
+    //     //this.baseURL = window.location.origin + '/RARuntimeWeb/';
+    //   } else {
+    //     //let href = window.location.href.lastIndexOf('/');
+    //     // this.baseURL = 'http://10.10.8.113:8980/olive/';//OTTO
+    //     this.baseURL = window.location.origin + '/olive/';
+    //   }
     // this.restURL = this.baseURL; 
     this.getJSON().subscribe(data => {
       errorMap = data['ErrorCodes'];
     }
-    , error => {});
+      , error => { });
   }
 
   submitLoginForm(formCode, csrf, value) {
@@ -96,7 +96,7 @@ export class ProvidehttpService implements CanActivate {
       withCredentials: true
     };
 
-    const URL = this.restURL + 'Auth/SSGW/' + formCode + '/RESET';    
+    const URL = this.restURL + 'Auth/SSGW/' + formCode + '/RESET';
     return this.httpClient.post(URL, '', httpOptions);
   }
 
@@ -124,30 +124,35 @@ export class ProvidehttpService implements CanActivate {
     // let httpOpts = { headers, withCredentials: true };
     let httpOpts = { headers };
     // var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
-
-    var url = this.baseURL + ((doServerUrl==undefined)?"/olive/publisher":doServerUrl) + doURL
+    // var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : doServerUrl) + doURL
+    var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(doServerUrl) ) + doURL;
 
     url = url.replace(url.substring(url.indexOf('{'), url.indexOf('}') + 1), fieldValue);
 
     var queryParam = "";
     dependentValues.forEach(
       (dep, key) => {
-        if(dep.paramType == undefined || dep.paramType == 'PathParam'){
+        if (dep.paramType == undefined || dep.paramType == 'PathParam') {
           url = url.replace('{' + key + '}', dep.value ? dep.value : '');
-        }else if(dep.paramType == 'QueryParam'){
+        } else if (dep.paramType == 'QueryParam') {
           queryParam += key + "=" + dep.value + "&";
         }
       }
     );
 
-    if(queryParam.length>0){
+    if (queryParam.length > 0) {
       url += '?' + queryParam.substring(0, queryParam.length - 1);
     }
 
     return this.httpClient.get(encodeURI(url), httpOpts);
-  }  
+  }
 
-loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl, searchById: boolean = false) {
+  /** RLO addition */
+  getServiceURL(doServerUrl: string){
+    return environment.serviceMap[doServerUrl] ? environment.serviceMap[doServerUrl] : doServerUrl;
+  }
+
+  loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl, searchById: boolean = false) {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'my-auth-token',
@@ -157,23 +162,23 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
 
     // var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
 
-    var url = this.baseURL + ((doServerUrl==undefined)?"/olive/publisher":doServerUrl) + doURL
+    var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(doServerUrl) ) + doURL ;
 
     url = url.replace(url.substring(url.indexOf('{') - 1, url.indexOf('}') + 1), "");
 
     var queryParam = "";
     dependentValues.forEach(
       (dep, key) => {
-        if(dep.paramType == undefined || dep.paramType == 'PathParam'){
+        if (dep.paramType == undefined || dep.paramType == 'PathParam') {
           url = url.replace('{' + key + '}', dep.value ? dep.value : '');
-        }else if(dep.paramType == 'QueryParam'){
+        } else if (dep.paramType == 'QueryParam') {
           queryParam += key + "=" + dep.value + "&";
         }
       }
     );
 
     url += "?lookup=1";
-    if(queryParam.length>0){
+    if (queryParam.length > 0) {
       url += '&' + queryParam.substring(0, queryParam.length - 1);
     }
 
@@ -181,16 +186,16 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     if (searchTerm) {
       let filter = [];
       let filterOption = {};
-      filterOption['columnName'] = (searchById?'id':'text');
+      filterOption['columnName'] = (searchById ? 'id' : 'text');
       filterOption['columnType'] = 'string';
-      filterOption['conditions'] = { searchText: searchTerm, searchType : (searchById?'equals':'Contains')};
+      filterOption['conditions'] = { searchText: searchTerm, searchType: (searchById ? 'equals' : 'Contains') };
       filter.push(filterOption);
       criteriaDetails['FilterCriteria'] = filter;
     }
     if (count > 0) {
       criteriaDetails['Count'] = count;
       criteriaDetails['Offset'] = (pageNo * count) + 1;
-      url += "&criteriaDetails="+JSON.stringify(criteriaDetails);
+      url += "&criteriaDetails=" + JSON.stringify(criteriaDetails);
     }
 
     return this.httpClient.get(encodeURI(url), httpOpts);
@@ -261,7 +266,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       withCredentials: true
     };
     const URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/SUBMIT';
-    
+
     let response = await this.httpClient.post(URL, formData, httpOptions).toPromise();
     let res = JSON.parse(JSON.stringify(response));
 
@@ -464,8 +469,8 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
       for (let key in json['QueryParam']) {
         var value = json['QueryParam'][key];
         if (value) {
-          if((typeof value)!='string'){
-            value= JSON.stringify(value)
+          if ((typeof value) != 'string') {
+            value = JSON.stringify(value)
           }
           url += key + "=" + value + "&";
         }
@@ -491,7 +496,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
 
     let headers = {
       'Content-Type': 'application/json',
-      'authorization': 'Bearer '+sessionStorage.getItem('access_token')
+      'authorization': 'Bearer ' + sessionStorage.getItem('access_token')
     };
     for (let key in json['HeaderParam']) {
       var value = json['HeaderParam'][key];
@@ -499,13 +504,13 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
         headers[key] = value;
       }
     }
-    
-    let httpOpts: { 
+
+    let httpOpts: {
       headers: HttpHeaders,
       observe: any,
     } = {
       headers: new HttpHeaders(headers),
-      observe:"response"
+      observe: "response"
     };
 
     for (let key in json['PathParam']) {
@@ -514,16 +519,17 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     }
 
     // url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + url;
+    // url = this.baseURL + ((serverUrl == undefined) ? environment.serviceMap["default"] : serverUrl) + url;
 
-    url = this.baseURL + ((serverUrl==undefined)?"/olive/publisher":serverUrl) + url;
+    url = this.baseURL + ((serverUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(serverUrl) ) + url;
 
     if (json['QueryParam']) {
       url += '?';
       for (let key in json['QueryParam']) {
         var value = json['QueryParam'][key];
         if (value) {
-          if((typeof value)!='string'){
-            value= JSON.stringify(value);
+          if ((typeof value) != 'string') {
+            value = JSON.stringify(value);
           }
           url += key + "=" + value + "&";
         }
@@ -532,7 +538,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
     }
 
     url = encodeURI(url);
-    
+
     if (method == 'GET') {
       return this.httpClient.get(url, httpOpts);
     } else if (method == 'POST') {
@@ -557,15 +563,15 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
   // }
 
   checkForSession(response) {
-  //   //var stringArray = ["SS00", "SS001", "SS002", "SS003", "SS004", "SS005", "SS006", "SS007", "SS008", "SS009", "SS0010", "SS0011"];
-  //   var stringArray = ["FLI000", "FLI001", "FLI002", "FLI003", "FLI004", "FLI005", "FLI006", "FLI007", "FLI008", "FLI009", "FLI010", "FLI011", "FLI012", "FLI013"];
-  //   if (response['Status'] == 'F') {
-  //     if (stringArray.indexOf(response['error']) >= 0) {
-  //       this.sessionValid = false;
-  //       this.data.formGenericData = response['error'];
-  //       this.router.navigate(['/logout']);
-  //     }
-  //   }
+    //   //var stringArray = ["SS00", "SS001", "SS002", "SS003", "SS004", "SS005", "SS006", "SS007", "SS008", "SS009", "SS0010", "SS0011"];
+    //   var stringArray = ["FLI000", "FLI001", "FLI002", "FLI003", "FLI004", "FLI005", "FLI006", "FLI007", "FLI008", "FLI009", "FLI010", "FLI011", "FLI012", "FLI013"];
+    //   if (response['Status'] == 'F') {
+    //     if (stringArray.indexOf(response['error']) >= 0) {
+    //       this.sessionValid = false;
+    //       this.data.formGenericData = response['error'];
+    //       this.router.navigate(['/logout']);
+    //     }
+    //   }
   }
 
   getFileName(cfsNumber) {
@@ -684,7 +690,7 @@ loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: nu
 
   public getJSON(): Observable<any> {
     const url = window.location.origin + window.location.pathname + "assets/i18n/En.json";
-  
+
     return this.http.get(url).pipe(map((res: any) => res.json()));
   }
 

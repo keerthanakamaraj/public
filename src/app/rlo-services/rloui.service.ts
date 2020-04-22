@@ -8,7 +8,7 @@ import { retry } from 'rxjs/operators';
 })
 export class RlouiService {
 
-  private serviceContext: string = "/olive/publisher";
+  private serviceContext: string = "/ui";
 
   private tenantConfigAPI: string = "/TenantConfig";
   private tenantconfig: any = {};

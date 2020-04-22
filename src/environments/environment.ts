@@ -6,15 +6,22 @@ export const environment = {
   production: false,
   // baseURL: 'http://10.11.12.26:8180/olive/'
   // baseURL: "http://10.11.12.19:18180" //Mumbai
-  baseURL: 'http://10.11.12.53:9090',
+  //baseURL: 'http://10.11.12.53:9090',
+  baseURL: 'https://rlfc.intellectseecapps.com',
   // baseURL: 'http://localhost:8081',
   enableKeycloak: false,
-  //authURL: 'https://iam.intellectseecapps.com/auth',
-  authURL: 'https://iam.intellectqacloud.com/auth', // QA
-  // realm: 'ecpvdev',
-  realm: 'dabank', // QA
+  authURL: 'https://iam.intellectseecapps.com/auth',
+  // authURL: 'https://iam.intellectqacloud.com/auth', // QA
+  realm: 'ecpvdev',
+  // realm: 'dabank', // QA
   clientId: 'fabric',
-  redirectURL: 'http://localhost:1841/#/home/LANDING'
+  redirectURL: 'http://localhost:1841/#/home/LANDING',
+
+  serviceMap : {
+    "default" : "/olive/publisher",
+    "/masters" : "/masters",
+    "/ui" : "/olive/publisher"
+  }
 };
 
 /*
