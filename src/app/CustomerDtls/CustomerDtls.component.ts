@@ -19,7 +19,7 @@ import { CustomerDtlsGridComponent } from '../CustomerDtlsGrid/CustomerDtlsGrid.
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
-// import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 
 
 const customCss: string = '';
@@ -79,7 +79,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
     @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
-    // @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
+     @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
 
     appId: any;
     staffcheck: boolean;
@@ -305,7 +305,10 @@ inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
               inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerType',this.CD_CUST_TYPE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CUST_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ICIFNumber',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenShip',this.CD_CITIZENSHIP.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PreferredLanguage',this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership',this.CD_LOAN_OWN.getFieldValue());
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -423,7 +426,10 @@ this.HidCustomerId.setError(err['ErrorDescription']);
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerType',this.CD_CUST_TYPE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CUST_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ICIFNumber',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenShip',this.CD_CITIZENSHIP.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PreferredLanguage',this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership',this.CD_LOAN_OWN.getFieldValue());
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -563,10 +569,13 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.FieldId_30.occBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
                 this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
-                this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
+                // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
-               
+                this.CD_CUST_ID.setValue(res['BorrowerDetails']['CIF'])
+               this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
+               this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
+               this.CD_CIF.setValue(res['BorrowerDetails']['ICIFNumber'])
 
             },
             async (httpError) => {
