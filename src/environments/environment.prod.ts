@@ -13,6 +13,7 @@ export const environment = {
   serviceMap : {
     "default" : "/initiation/publisher",
     "/masters" : "/masters/publisher",
-    "/ui" : "/initiation/publisher"
+    "/ui" : "/initiation/publisher",
+    '/los-wf' : '/los-wf/rest'
   }
 };
