@@ -697,14 +697,6 @@ this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
 }
 }
 
-cancel() {
-  window.history.back()  
-}
-
-async CANCEL_MAIN_BTN_click(event){
-let inputMap = new Map();
-this.cancel();
-}
 
 async Reset_click(event){
 let inputMap = new Map();

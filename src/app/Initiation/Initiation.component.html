@@ -585,8 +585,7 @@
               (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CANCEL_MAIN_BTN.isHidden()">
-            <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}" (buttonClick)="CANCEL_MAIN_BTN_click($event)"
-              fieldID="CANCEL_MAIN_BTN" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
+            <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}" [routerLink]="['/','home','LANDING']" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
           </div>
 		  <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Reset.isHidden()">
             <app-button #Reset fieldName="{{ 'Initiation.Reset' | translate}}" fieldID="Reset" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="Reset_click($event)"></app-button>
