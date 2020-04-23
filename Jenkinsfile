@@ -110,7 +110,7 @@ stage('Node') {
             steps {
                 sh 'npm install'
 				// sh 'npm audit fix'
-				sh 'node_modules/.bin/ng build --prod --base-href /rlo/'
+				sh 'node_modules/.bin/ng build --prod --base-href /rlo/ --sourceMap=true'
             }
         }
 	
