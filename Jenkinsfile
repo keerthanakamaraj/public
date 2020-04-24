@@ -110,7 +110,7 @@ stage('Node') {
             steps {
                 sh 'npm install'
 				// sh 'npm audit fix'
-				sh 'node_modules/.bin/ng build --prod --base-href /rlo/ --sourceMap=true'
+				sh 'node --max_old_space_size=3076 node_modules/.bin/ng build --prod --base-href /rlo/ --sourceMap=true'
             }
         }
 	
