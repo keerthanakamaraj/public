@@ -568,7 +568,8 @@ export class FormComponent {
     this[fieldId].clearError();
     var formModelObject = this.value;
 
-    var value = this[fieldId].constructor.name == 'RLOUIRadioComponent' ?
+
+    var value = this[fieldId].componentName == 'RLOUIRadioComponent' ?
       this[fieldId].getFieldValue() : formModelObject[fieldId];
 
     if (value != undefined && value.toString() != "") {

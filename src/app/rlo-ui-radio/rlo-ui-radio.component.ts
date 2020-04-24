@@ -20,7 +20,8 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   paginating = false;
   default: String = '';
   isOptionsLoaded: boolean=false;
-
+  componentName:string='RLOUIRadioComponent';
+  
   @ViewChild('select', { static: false }) select: NgSelectComponent;
 
   private searchText$ = new Subject<string>();
