@@ -115,7 +115,7 @@ body {
 
   .mydp .icon-mydpcalendar:before {
     //  content: "\f073";
-     content: url("/../assets/icons/calendar-line.svg");
+     content: url("./../icons/calendar-line.svg");
     //  content:url("data:calendar-line/svg+xml");
     // font-family: "Font Awesome 5 Free";
   }
@@ -265,19 +265,19 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     }
 
     &.AL .checkmark{
-      background-image: url("/../assets/icons/autoloan.png");
+      background-image: url("./../icons/autoloan.png");
     }
 
     &.PL .checkmark{
-      background-image: url("/../assets/icons/personalloan.png");
+      background-image: url("./../icons/personalloan.png");
     }
 
     &.ML .checkmark{
-      background-image: url("/../assets/icons/mortgageloan.png");
+      background-image: url("./../icons/mortgageloan.png");
     }
 
     &.CC .checkmark{
-      background-image: url("/../assets/icons/creditcard.png");
+      background-image: url("./../icons/creditcard.png");
     }
   }  
 }
