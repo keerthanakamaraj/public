@@ -38,7 +38,7 @@ gridCode: "MyTrayGrid",
 paginationReq: true
 };
 columnDefs: any[] = [{
-field: "MT_PROPOSAL_ID",
+field: "MT_ARN",
 width: 12,
 sortable: true,
 resizable: true,
@@ -52,6 +52,22 @@ filterOptions: ["contains"],
 caseSensitive: true,
 },
 },
+{
+  field: "MT_PROPOSAL_ID",
+  width: 12,
+  sortable: true,
+  resizable: true,
+  hide: true,
+  cellStyle: { 'text-align': 'left' },
+  filter: "agTextColumnFilter",
+  filterParams: {
+  suppressAndOrCondition: true,
+  applyButton: true,
+  clearButton: true,
+  filterOptions: ["contains"],
+  caseSensitive: true,
+  },
+  },
 {
 field: "MT_CUSTOMER",
 width: 12,
@@ -292,6 +308,7 @@ if (gridReqMap.get("FilterCriteria")) {
 var obj = gridReqMap.get("FilterCriteria");
 for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
+case "MT_ARN": obj[i].columnName = "ARN"; break;
 case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
 case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
 case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
@@ -316,6 +333,7 @@ if (gridReqMap.get("OrderCriteria")) {
 var obj = gridReqMap.get("OrderCriteria");
 for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
+case "MT_ARN": obj[i].columnName = "ARN"; break;
 case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
 case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
 case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
@@ -344,6 +362,7 @@ var loopVar7 = res['Tasks'];
 if (loopVar7) {
 for (var i = 0; i < loopVar7.length; i++) {
 var tempObj = {};
+tempObj['MT_ARN'] = loopVar7[i].ARN;
 tempObj['MT_PROPOSAL_ID'] = loopVar7[i].PROPOSAL_ID;
 tempObj['MT_CUSTOMER'] = loopVar7[i].CUSTOMER_NAME;
 
@@ -381,6 +400,7 @@ if (gridReqMap.get("FilterCriteria")) {
 var obj = gridReqMap.get("FilterCriteria");
 for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
+case "MT_ARN": obj[i].columnName = "ARN"; break;
 case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
 case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
 
@@ -406,6 +426,7 @@ if (gridReqMap.get("OrderCriteria")) {
 var obj = gridReqMap.get("OrderCriteria");
 for (var i = 0; i < obj.length; i++) {
 switch (obj[i].columnName) {
+case "MT_ARN": obj[i].columnName = "ARN"; break;
 case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
 case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
 
@@ -436,6 +457,7 @@ var loopVar32 = res['Tasks'];
 if (loopVar32) {
 for (var i = 0; i < loopVar32.length; i++) {
 var tempObj = {};
+tempObj['MT_ARN'] = loopVar32[i].ARN;
 tempObj['MT_PROPOSAL_ID'] = loopVar32[i].PROPOSAL_ID;
 tempObj['MT_CUSTOMER'] = loopVar32[i].CUSTOMER_NAME;
 

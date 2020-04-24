@@ -1597,6 +1597,7 @@
     "toolbar_MyTrayGrid" : "null",
     "MT_SUB_PRODUCT" : "Sub Product",
     "MT_PROPOSAL_ID" : "Proposal ID",
+    "MT_ARN" : "ARN",
     "MT_CAM_TYPE" : "CAM Type",
     "MT_CAD_LOCATION" : "Branch",
     "MT_CUSTOMER" : "Customer",
