@@ -365,7 +365,7 @@
                     <app-text-box #CD_DEBIT_SCORE inputType="number" fieldID="CD_DEBIT_SCORE" [formCode]="formCode"
                       placeholder="(Optional)" (blur)="genericOnBlur('CD_DEBIT_SCORE', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWNERSHIP.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWNERSHIP.isHidden() || !isLoanCategory">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_LOAN_OWNERSHIP.mandatory}">
                         {{ 'Initiation.CD_LOAN_OWNERSHIP' | translate}}</label>

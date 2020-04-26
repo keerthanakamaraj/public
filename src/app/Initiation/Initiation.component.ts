@@ -595,7 +595,7 @@ if (noofErrors == 0) {
 
     //return;
 
-    this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
+    this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
 for (let i=0; i<res.Data.length; i++) {
