@@ -573,7 +573,7 @@ if (noofErrors == 0) {
     inputMap.set('HeaderParam.user-id', 'Vishal');
     inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
     inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
-    inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
+    inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
     inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
@@ -589,8 +589,9 @@ if (noofErrors == 0) {
     inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
     inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
     inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
+    inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
+    inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
     inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
-
     console.log("Params ", inputMap);
 
     //return;

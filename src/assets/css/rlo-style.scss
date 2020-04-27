@@ -606,7 +606,7 @@ padding-right: none !important;
   margin-left: 10px !important;
 }
 .btn-edit{
-  background-image: url("/assets/icons/edit.svg");
+  background-image: url("./../icons/edit.svg");
   white-space: nowrap;
   text-indent: -9999px;
   width: 35px;
@@ -614,7 +614,7 @@ padding-right: none !important;
   position: relative;
 }
 .btn-delete{
-  background-image: url("/assets/icons/delete.svg");
+  background-image: url("./../icons/delete.svg");
   white-space: nowrap;
   text-indent: -9999px;
   width: 35px;

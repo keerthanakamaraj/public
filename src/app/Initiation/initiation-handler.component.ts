@@ -277,7 +277,7 @@ isStaff({}){
    updateAmountTags(){
      let displayTag = [];
      if(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined){
-      displayTag.push("$" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
+      displayTag.push("₹" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
      }
      
      if(this.MainComponent.LD_INTEREST_RATE.getFieldValue() !==undefined){
