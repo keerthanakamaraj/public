@@ -10,11 +10,14 @@
 <div *ngIf="!formOnLoadError">
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 <div class="form-group pb10 row">
-    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-        <app-customer-handler #Handler [MainComponent]="this"></app-customer-handler> 
-        </div> 
-<!-- <rlo-ui-accordion #QDE_ACCORD class="col-12 col-sm-12 col-md-12 res-pr-hide"> -->
- <!-- <rlo-ui-accordion-group #CUST_DETAILS id="CUST_DETAILS" title="{{ 'CustomerDtls.CD_MAIN_LABEL' | translate}}"> -->
+    
+    <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <app-customer-handler #Handler  [MainComponent]="this"></app-customer-handler> 
+        </div>  -->
+    
+        <!-- <rlo-ui-accordion #CUST_ACCORD class="col-12 col-sm-12 col-md-12 res-pr-hide"> -->
+                
+   
 <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown"  [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
@@ -313,23 +316,30 @@
 <app-button #CD_CLEAR_BTN fieldName="{{ 'CustomerDtls.CD_CLEAR_BTN' | translate}}" fieldID="CD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="CD_CLEAR_BTN_click($event)"></app-button>
 </div>
 <!-- </rlo-ui-accordion-group> -->
+<!-- </rlo-ui-accordion-group> -->
 
 <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
 <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
 <app-CustomerDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode" (custDtlsEdit)="CUST_DTLS_GRID_custDtlsEdit($event)"></app-CustomerDtlsGrid>
 </div> -->
 <!-- <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS" title="{{ 'AddressDetails.AD_HEADING' | translate}}"> -->
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_29.isHidden()">
+        <!-- <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS" title="{{ 'AddressDetails.AD_HEADING' | translate}}">
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_29.isHidden()">
 <app-AddressDetails #FieldId_29 fieldID="FieldId_29" [formCode]="formCode"></app-AddressDetails>
 </div>
-<!-- </rlo-ui-accordion-group> -->
-<!-- <rlo-ui-accordion-group #OCC_DETAILS id="OCC_DETAILS" title="{{ 'OccupationDtlsForm.OD_HEADING' | translate}}"> -->
+</rlo-ui-accordion-group>
+<rlo-ui-accordion-group #OCC_DETAILS id="OCC_DETAILS" title="{{ 'OccupationDtlsForm.OD_HEADING' | translate}}">
+
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_30.isHidden()">
 <app-OccupationDtlsForm #FieldId_30 fieldID="FieldId_30" [formCode]="formCode"></app-OccupationDtlsForm>
 </div>
-<!-- </rlo-ui-accordion-group> -->
-<!-- </rlo-ui-accordion> -->
+</rlo-ui-accordion-group>  -->
+ <!-- </rlo-ui-accordion> -->
+ <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+    <app-customer-handler #Handler [MainComponent]="this"></app-customer-handler>
+    </div>
 </div>
+
 <app-hidden #hidExistCust fieldID="hidExistCust"></app-hidden>
 <app-hidden #hideStaffId fieldID="hideStaffId"></app-hidden>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>

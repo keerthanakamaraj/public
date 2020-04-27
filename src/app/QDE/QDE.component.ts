@@ -16,183 +16,290 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { HeaderComponent } from '../Header/Header.component';
+import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { QDEHandlerComponent } from '../QDE/QDE-handler.component';
+import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
+import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
+import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+// import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
+
 
 const customCss: string = '';
 
 @Component({
-selector: 'app-QDE',
-templateUrl: './QDE.component.html'
+    selector: 'app-QDE',
+    templateUrl: './QDE.component.html'
 })
 export class QDEComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('HEADER', {static: false}) HEADER: HeaderComponent;
-@ViewChild('CUSTOMER_DETAILS', {static: false}) CUSTOMER_DETAILS: CustomerDtlsComponent;
-@ViewChild('QDE_SUBMIT', {static: false}) QDE_SUBMIT: ButtonComponent;
-@ViewChild('QDE_CANCEL', {static: false}) QDE_CANCEL: ButtonComponent;
-@ViewChild('Handler', {static: false}) Handler: QDEHandlerComponent;
-@ViewChild('HideProcessId', {static: false}) HideProcessId: HiddenComponent;
-@ViewChild('HideServiceCode', {static: false}) HideServiceCode: HiddenComponent;
-@ViewChild('HideTaskId', {static: false}) HideTaskId: HiddenComponent;
-@ViewChild('HideTenantId', {static: false}) HideTenantId: HiddenComponent;
-@ViewChild('HideUserId', {static: false}) HideUserId: HiddenComponent;
-async revalidate(): Promise<number> {
-var totalErrors = 0;
-super.beforeRevalidate();
-await Promise.all([
-this.HEADER.revalidate(),
-this.CUSTOMER_DETAILS.revalidate(),
-]).then((errorCounts) => {
-errorCounts.forEach((errorCount)=>{
-totalErrors+=errorCount;
-});
-});
-this.errors = totalErrors;
-super.afterRevalidate();
-return totalErrors;
-}
-constructor(services: ServiceStock){
-super(services);
-this.value = new QDEModel();
-this.componentCode = 'QDE';
-this.displayBorder = false;
-}
-setReadOnly(readOnly){
-super.setBasicFieldsReadOnly(readOnly);
-this.HEADER.setReadOnly(readOnly);
-this.CUSTOMER_DETAILS.setReadOnly(readOnly);
-}
-async onFormLoad(){
-this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.HideProcessId.setValue('RLO_Process');
-this.HideServiceCode.setValue('ClaimTask');
-let inputMap = new Map();
-await this.CUSTOMER_DETAILS.loadCustDtlsGrid({
-'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-});
-await this.Handler.onFormLoad({
-});
-inputMap.clear();
-inputMap.set('Body.UserId', this.HideUserId.getFieldValue());
-inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-inputMap.set('Body.TaskId', this.HideTaskId.getFieldValue());
-inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
-inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
-this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/clo-bpm-services/rest').subscribe(
-async (httpResponse: HttpResponse<any>) => {
-var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Proposal Claimed Successfully', 5000);
-},
-async (httpError)=>{
-var err = httpError['error']
-if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-if(err['ErrorElementPath'] == 'ServiceCode'){
-this.HideServiceCode.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'ProcessId'){
-this.HideProcessId.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'TaskId'){
-this.HideTaskId.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'TENANT_ID'){
-this.HideTenantId.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'UserId'){
-this.HideUserId.setError(err['ErrorDescription']);
-}
-}
-this.services.alert.showAlert(2, 'Failed To Claim', -1);
-}
-);
-this.setDependencies();
-}
-setInputs(param : any){
-let params = this.services.http.mapToJson(param);
-if(params['mode']){
-this.mode = params['mode'];
-}
-}
-async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = 'Quick Data Entry';
-await super.submit(path, apiCode, serviceCode);
-}
-getFieldInfo() {
-this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.additionalInfo['HEADER_desc'] = this.HEADER.getFieldInfo();
-this.additionalInfo['CUSTOMER_DETAILS_desc'] = this.CUSTOMER_DETAILS.getFieldInfo();
-return this.additionalInfo;
-}
-getFieldValue(){
-this.value.HEADER = this.HEADER.getFieldValue();
-this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
-return this.value;
-}
-setValue(inputValue, inputDesc=undefined) {
-this.setBasicFieldsValue(inputValue, inputDesc);
-this.HEADER.setValue(inputValue['HEADER'], inputDesc['HEADER_desc']);
-this.CUSTOMER_DETAILS.setValue(inputValue['CUSTOMER_DETAILS'], inputDesc['CUSTOMER_DETAILS_desc']);
-this.value = new QDEModel();
-this.value.setValue(inputValue);
-this.setDependencies();
-this.passNewValue(this.value);
-}
-ngOnInit(){
-if(this.formCode == undefined) {this.formCode = 'QDE';}
-if(this.formOnLoadError){return;}
-var styleElement = document.createElement('style');
-styleElement.type = 'text/css';
-styleElement.innerHTML = customCss;
-styleElement.id = 'QDE_customCss';
-document.getElementsByTagName('head')[0].appendChild(styleElement);
-}
-ngOnDestroy(){
-this.unsubscribe$.next();
-this.unsubscribe$.complete();
-var styleElement = document.getElementById('QDE_customCss');
-styleElement.parentNode.removeChild(styleElement);
-}
-ngAfterViewInit(){
-setTimeout(() => {
-this.subsBFldsValueUpdates();
-// this.value.HEADER = this.HEADER.getFieldValue();
-// this.HEADER.valueChangeUpdates().subscribe((value) => {this.value.HEADER = value;});
-this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
-this.CUSTOMER_DETAILS.valueChangeUpdates().subscribe((value) => {this.value.CUSTOMER_DETAILS = value;});
-this.onFormLoad();
-this.checkForHTabOverFlow();
-});
-}
-clearError(){
-super.clearBasicFieldsError();
-super.clearHTabErrors();
-super.clearVTabErrors();
-this.HEADER.clearError();
-this.CUSTOMER_DETAILS.clearError();
-this.errors = 0;
-this.errorMessage = [];
-}
-onReset(){
-super.resetBasicFields();
-this.HEADER.onReset();
-this.CUSTOMER_DETAILS.onReset();
-this.clearHTabErrors();
-this.clearVTabErrors();
-this.errors = 0;
-this.errorMessage = [];
-this.additionalInfo = undefined;
-this.dependencyMap.clear();
-this.value = new QDEModel();
-this.passNewValue(this.value);
-this.setReadOnly(false);
-this.onFormLoad();
-}
-async QDE_SUBMIT_click(event){
-let inputMap = new Map();
-}
-fieldDependencies = {
-}
+    @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
+    @ViewChild('FieldId_9', { static: false }) FieldId_9: CustomerGridDTLSComponent;
+    @ViewChild('CUSTOMER_DETAILS', { static: false }) CUSTOMER_DETAILS: CustomerDtlsComponent;
+    @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
+    @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
+@ViewChild('FieldId_10', {static: false}) FieldId_10: ReferralDetailsFormComponent;
+    @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
+    @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
+    @ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
+    @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
+    @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
+    @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
+    @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
+    @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
+    @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
+    // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
+    async revalidate(): Promise<number> {
+        var totalErrors = 0;
+        super.beforeRevalidate();
+        await Promise.all([
+            this.HEADER.revalidate(),
+            this.CUSTOMER_DETAILS.revalidate(),
+            this.FieldId_9.revalidate(),
+            this.FieldId_6.revalidate(),
+            this.FieldId_5.revalidate(),
+this.FieldId_10.revalidate(),
+        ]).then((errorCounts) => {
+            errorCounts.forEach((errorCount) => {
+                totalErrors += errorCount;
+            });
+        });
+        this.errors = totalErrors;
+        super.afterRevalidate();
+        return totalErrors;
+    }
+    constructor(services: ServiceStock) {
+        super(services);
+        this.value = new QDEModel();
+        this.componentCode = 'QDE';
+        this.displayBorder = false;
+    }
+    setReadOnly(readOnly) {
+        super.setBasicFieldsReadOnly(readOnly);
+        this.HEADER.setReadOnly(readOnly);
+
+        this.CUSTOMER_DETAILS.setReadOnly(readOnly);
+        this.FieldId_9.setReadOnly(readOnly);
+        this.FieldId_6.setReadOnly(readOnly);
+        this.FieldId_5.setReadOnly(readOnly);
+this.FieldId_10.setReadOnly(readOnly);
+    }
+    async onFormLoad() {
+        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.HideProcessId.setValue('RLO_Process');
+        this.HideServiceCode.setValue('ClaimTask');
+        let inputMap = new Map();
+      
+        this.FieldId_9.loadCustDtlsGrid({
+            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId')
+        })
+
+     
+            await this.FieldId_10.onFormLoad({
+            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+            });
+
+            await this.CUSTOMER_DETAILS.onFormLoad({
+                'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+            })
+        await this.Handler.onFormLoad({
+        });
+        inputMap.clear();
+        inputMap.set('Body.UserId', this.HideUserId.getFieldValue());
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.TaskId', this.HideTaskId.getFieldValue());
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/clo-bpm-services/rest').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.services.alert.showAlert(1, 'Proposal Claimed Successfully', 5000);
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'Failed To Claim', -1);
+            }
+        );
+        this.setDependencies();
+    }
+    setInputs(param: any) {
+        let params = this.services.http.mapToJson(param);
+        if (params['mode']) {
+            this.mode = params['mode'];
+        }
+    }
+    async submitForm(path, apiCode, serviceCode) {
+        this.submitData['formName'] = 'Quick Data Entry';
+        await super.submit(path, apiCode, serviceCode);
+    }
+    getFieldInfo() {
+        this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+        this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+        this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+        this.additionalInfo['HEADER_desc'] = this.HEADER.getFieldInfo();
+        this.additionalInfo['CUSTOMER_DETAILS_desc'] = this.CUSTOMER_DETAILS.getFieldInfo();
+        this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
+        this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
+        this.additionalInfo['FieldId_5_desc'] = this.FieldId_5.getFieldInfo();
+this.additionalInfo['FieldId_10_desc'] = this.FieldId_10.getFieldInfo();
+        return this.additionalInfo;
+    }
+    getFieldValue() {
+        this.value.HEADER = this.HEADER.getFieldValue();
+        this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
+        this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+        this.value.FieldId_6 = this.FieldId_6.getFieldValue();
+        this.value.FieldId_5 = this.FieldId_5.getFieldValue();
+this.value.FieldId_10 = this.FieldId_10.getFieldValue();
+        return this.value;
+    }
+    setValue(inputValue, inputDesc = undefined) {
+        this.setBasicFieldsValue(inputValue, inputDesc);
+        this.HEADER.setValue(inputValue['HEADER'], inputDesc['HEADER_desc']);
+        this.CUSTOMER_DETAILS.setValue(inputValue['CUSTOMER_DETAILS'], inputDesc['CUSTOMER_DETAILS_desc']);
+        this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
+        this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
+        this.FieldId_5.setValue(inputValue['FieldId_5'], inputDesc['FieldId_5_desc']);
+this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc']);
+        this.value = new QDEModel();
+        this.value.setValue(inputValue);
+        this.setDependencies();
+        this.passNewValue(this.value);
+    }
+    ngOnInit() {
+        if (this.formCode == undefined) { this.formCode = 'QDE'; }
+        if (this.formOnLoadError) { return; }
+        var styleElement = document.createElement('style');
+        styleElement.type = 'text/css';
+        styleElement.innerHTML = customCss;
+        styleElement.id = 'QDE_customCss';
+        document.getElementsByTagName('head')[0].appendChild(styleElement);
+    }
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+        var styleElement = document.getElementById('QDE_customCss');
+        styleElement.parentNode.removeChild(styleElement);
+    }
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.subsBFldsValueUpdates();
+            // this.value.HEADER = this.HEADER.getFieldValue();
+            // this.HEADER.valueChangeUpdates().subscribe((value) => {this.value.HEADER = value;});
+            this.value.CUSTOMER_DETAILS = this.CUSTOMER_DETAILS.getFieldValue();
+            this.CUSTOMER_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.CUSTOMER_DETAILS = value; });
+            this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+            this.FieldId_9.valueChangeUpdates().subscribe((value) => { this.value.FieldId_9 = value; });
+            this.value.FieldId_6 = this.FieldId_6.getFieldValue();
+            this.FieldId_6.valueChangeUpdates().subscribe((value) => { this.value.FieldId_6 = value; });
+            this.value.FieldId_5 = this.FieldId_5.getFieldValue();
+            this.FieldId_5.valueChangeUpdates().subscribe((value) => { this.value.FieldId_5 = value; });
+this.value.FieldId_10 = this.FieldId_10.getFieldValue();
+this.FieldId_10.valueChangeUpdates().subscribe((value) => {this.value.FieldId_10 = value;});
+            this.onFormLoad();
+            this.checkForHTabOverFlow();
+        });
+    }
+    clearError() {
+        super.clearBasicFieldsError();
+        super.clearHTabErrors();
+        super.clearVTabErrors();
+        this.HEADER.clearError();
+        this.CUSTOMER_DETAILS.clearError();
+        this.FieldId_9.clearError();
+        this.FieldId_6.clearError();
+        this.FieldId_5.clearError();
+this.FieldId_10.clearError();
+        this.errors = 0;
+        this.errorMessage = [];
+    }
+    onReset() {
+        super.resetBasicFields();
+        this.HEADER.onReset();
+        this.FieldId_9.onReset();
+        this.CUSTOMER_DETAILS.onReset();
+        // this.FieldId_8.onReset();
+        this.FieldId_6.onReset();
+        this.FieldId_5.onReset();
+this.FieldId_10.onReset();
+        this.clearHTabErrors();
+        this.clearVTabErrors();
+        this.errors = 0;
+        this.errorMessage = [];
+        this.additionalInfo = undefined;
+        this.dependencyMap.clear();
+        this.value = new QDEModel();
+        this.passNewValue(this.value);
+        this.setReadOnly(false);
+        this.onFormLoad();
+    }
+      async CUSTOMER_DETAILS_passBorrowerSeq(event) {
+        let inputMap = new Map();
+        await this.FieldId_6.AddressGrid.gridDataLoad({
+            'passBorrowerSeqToGrid': event.BorrowerSeq
+            // 'addBorrowerSeq' : event.BorrowerSeq
+        });
+        this.FieldId_6.addBorrowerSeq = event.BorrowerSeq;
+        await this.FieldId_5.OCC_DTLS_GRID.gridDataLoad({
+            'refNumToGrid': event.BorrowerSeq,
+
+        });
+        this.FieldId_5.occBorrowerSeq = event.BorrowerSeq;
+       
+        // await this.FieldId_10.onFormLoad({})
+        // await this.FieldId_10.onFormLoad({
+        //     'passBorrowerSeqToRefGrid': event.BorrowerSeq
+        // });
+
+        // this.FieldId_10.loanA = event.BorrowerSeq
+    }
+
+    async CUSTOMER_DETAILS_updateCustGrid(event){
+        console.log("Calling this Emitter");
+        this.FieldId_9.APIForCustomerData(event);
+    }
+    async FieldId_9_selectCustId(event) {
+        let inputMap = new Map();
+        this.CUSTOMER_DETAILS.CUST_DTLS_GRID_custDtlsEdit(event);
+    }
+
+    async FieldId_9_resetCustForm(event){
+        this.CUSTOMER_DETAILS.onReset();
+    }
+
+    // async FieldId_9_passApplicationId(event){
+    //     this.CUSTOMER_DETAILS.onFormLoad(event);
+    // }
+
+  
+
+    async QDE_SUBMIT_click(event) {
+        let inputMap = new Map();
+    }
+    fieldDependencies = {
+    }
+
+
+    // async loadCustDtlsGrid(event) {
+    //     this.CustGrid.APIForCustomerData(event);
+
+    // }
 
 }

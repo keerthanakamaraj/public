@@ -94,9 +94,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'OccuptionDtlsGrid',
 columnId: 'OD_EDIT_BTN',
-Type: '2',
+Type: '1',
 CustomClass: 'btn-edit',
-IconClass: 'fas fa-edit fa-lg',
+// IconClass: 'fas fa-edit fa-lg',
 onClick: this.OD_EDIT_BTN_click.bind(this)
 },
 },
@@ -111,9 +111,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'OccuptionDtlsGrid',
 columnId: 'OD_DELETE',
-Type: '2',
+Type: '1',
 CustomClass: 'btn-delete',
-IconClass: 'fa fa-trash fa-lg',
+// IconClass: 'fa fa-trash fa-lg',
 onClick: this.OD_DELETE_click.bind(this)
 },
 },

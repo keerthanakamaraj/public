@@ -1675,7 +1675,14 @@
     "VRF_Photograph": "Have You Attached Visit Report And Photograph?",
     "VRF_Reset": "clear",
     "VRF_OfficialId": "Official Id"
-  }
+  },
+  "ReferralDetailsForm" : {
+    "RD_HEADING" : "Referral",
+    "RD_SAVE" : "null",
+    "RD_RESET" : "null",
+    "RD_REF_NO" : "Referrer Mobile No.",
+    "RD_REF_NAME" : "Referrer Name"
+    }
 
 }
 
