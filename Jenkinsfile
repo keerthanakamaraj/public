@@ -369,8 +369,8 @@ stage('Twistlock Scan'){
 					  }
         	sh "helm init --service-account=tiller"
 	  		sh "helm init --client-only --service-account=tiller"
-          	sh "helm upgrade ${envAppend}-${buildProps.helm_name} --recreate-pods  -f k8s/helm-charts/${envAppend}_${buildProps.yamlfile_name}.yaml --set image.tag=${envAppend}-${currentBuild.number} ./k8s/helm-charts/${buildProps.folder_name}/"
-	  		// sh "helm install --name ${envAppend}-${buildProps.helm_name} --namespace igcb-dev -f k8s/helm-charts/${envAppend}_${buildProps.yamlfile_name}.yaml --set image.tag=${envAppend}-${currentBuild.number} ./k8s/helm-charts/${buildProps.folder_name}/"  
+          	//sh "helm upgrade ${envAppend}-${buildProps.helm_name} --recreate-pods  -f k8s/helm-charts/${envAppend}_${buildProps.yamlfile_name}.yaml --set image.tag=${envAppend}-${currentBuild.number} ./k8s/helm-charts/${buildProps.folder_name}/"
+	  		sh "helm install --name ${envAppend}-${buildProps.helm_name} --namespace igcb-qa -f k8s/helm-charts/${envAppend}_${buildProps.yamlfile_name}.yaml --set image.tag=${envAppend}-${currentBuild.number} ./k8s/helm-charts/${buildProps.folder_name}/"  
     }
    }   
    }
