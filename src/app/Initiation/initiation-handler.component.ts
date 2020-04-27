@@ -105,7 +105,9 @@ isStaff({}){
 }
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
+    this.MainComponent.LD_SYS_AMT_RCMD.onReset();
     this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
+    this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
     if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined){
       let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();    
       let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
@@ -405,7 +407,7 @@ isStaff({}){
         tempObj['LastName'] = this.customers[i].lastName;
         tempObj['FullName'] = this.customers[i].FULL_NAME;
         tempObj['Gender'] = this.customers[i].gender.value;
-        tempObj['DOB'] = this.customers[i].dob;
+        tempObj['DOB'] = this.customers[i].DOB;
         tempObj['TaxId'] = this.customers[i].taxId;
         tempObj['MobileNo'] = this.customers[i].mobileNumber;
         tempObj['DebitScore'] = this.customers[i].debitScore;
@@ -420,7 +422,7 @@ isStaff({}){
 
   resetLoanInformation() {
     this.MainComponent.LD_LOAN_AMOUNT.onReset();
-    this.MainComponent.LD_INTEREST_RATE.clearField();
+    this.MainComponent.LD_INTEREST_RATE.onReset();
     this.MainComponent.LD_TENURE.onReset();
     this.MainComponent.LD_TENURE_PERIOD.clearField();
     this.MainComponent.LD_APP_PRPSE.clearField();

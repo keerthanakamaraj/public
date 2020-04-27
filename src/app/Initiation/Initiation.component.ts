@@ -358,6 +358,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
+    this.revalidateBasicField('BAD_PROD_CAT');
     await this.Handler.onProdCategoryChange({
     }
     );
