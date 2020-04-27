@@ -251,6 +251,104 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.setReadOnly(false);
         this.onFormLoad(event);
     }
+    getToday() {
+        var Selectdate = this.CD_DOB.getFieldValue();
+        // console.log(Selectdate);
+        var Givendate = new Date();
+        Givendate = new Date(Givendate);
+        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+        var day = ("0" + Givendate.getDate()).slice(-2);
+        var now = [day, mnth, Givendate.getFullYear()].join("-");
+        // console.log(now);
+        if (Selectdate > now) {
+            // console.log("select date");
+            this.services.alert.showAlert(2, 'Please select correct date', -1);
+            this.CD_DOB.onReset();
+        }
+    }
+
+    passExp() {
+        var Selectdate = this.CD_PASSPORT_EXPIRY.getFieldValue();
+        // console.log(Selectdate);
+        var Givendate = new Date();
+        Givendate = new Date(Givendate);
+        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+        var day = ("0" + Givendate.getDate()).slice(-2);
+        var now = [day, mnth, Givendate.getFullYear()].join("-");
+        // console.log(now);
+        if (Selectdate < now) {
+            // console.log("select date");
+            this.services.alert.showAlert(2, 'Please select correct date', -1);
+            this.CD_PASSPORT_EXPIRY.onReset();
+        }
+    }
+
+    visaExp() {
+        var Selectdate = this.CD_VISA_VALID.getFieldValue();
+        // console.log(Selectdate);
+        var Givendate = new Date();
+        Givendate = new Date(Givendate);
+        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+        var day = ("0" + Givendate.getDate()).slice(-2);
+        var now = [day, mnth, Givendate.getFullYear()].join("-");
+        // console.log(now);
+        if (Selectdate < now) {
+            // console.log("select date");
+            this.services.alert.showAlert(2, 'Please select correct date', -1);
+            this.CD_VISA_VALID.onReset();
+        }
+    }
+
+    drvngExp() {
+        var Selectdate = this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue();
+        // console.log(Selectdate);
+        var Givendate = new Date();
+        Givendate = new Date(Givendate);
+        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+        var day = ("0" + Givendate.getDate()).slice(-2);
+        var now = [day, mnth, Givendate.getFullYear()].join("-");
+        // console.log(now);
+        if (Selectdate < now) {
+            // console.log("select date");
+            this.services.alert.showAlert(2, 'Please select correct date', -1);
+            this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+        }
+    }
+
+
+    genderCheck() {
+        if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
+            //console.log("Please select gender according to tilte");
+            this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+        }
+    }
+
+
+    async CD_GENDER_blur(event) {
+        let inputMap = new Map();
+        this.genderCheck();
+    }
+
+    async CD_DOB_blur(event) {
+        let inputMap = new Map();
+        this.getToday();
+    }
+
+    async CD_PASSPORT_EXPIRY_blur (event) {
+        let inputMap = new Map();
+        this.passExp();
+    }
+
+    async CD_VISA_VALID_blur (event) {
+        let inputMap = new Map();
+        this.visaExp();
+    }
+
+    async CD_DRVNG_LCNSE_EXP_DT_blur  (event) {
+        let inputMap = new Map();
+        this.drvngExp();
+    }
+
 
     async CD_FIRST_NAME_blur(event) {
         let inputMap = new Map();

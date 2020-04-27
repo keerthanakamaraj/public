@@ -115,7 +115,8 @@ body {
 
   .mydp .icon-mydpcalendar:before {
     //  content: "\f073";
-     content: url("/assets/icons/calendar-line.svg");
+     content: url("./../icons/calendar-line.svg");
+    //  content:url("data:calendar-line/svg+xml");
     // font-family: "Font Awesome 5 Free";
   }
 
@@ -264,19 +265,19 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     }
 
     &.AL .checkmark{
-      background-image: url("/assets/icons/autoloan.png");
+      background-image: url("./../icons/autoloan.png");
     }
 
     &.PL .checkmark{
-      background-image: url("/assets/icons/personalloan.png");
+      background-image: url("./../icons/personalloan.png");
     }
 
     &.ML .checkmark{
-      background-image: url("/assets/icons/mortgageloan.png");
+      background-image: url("./../icons/mortgageloan.png");
     }
 
     &.CC .checkmark{
-      background-image: url("/assets/icons/creditcard.png");
+      background-image: url("./../icons/creditcard.png");
     }
   }  
 }
@@ -295,11 +296,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
 .internalheader .res-pr-hide .read-only-field{
 font-weight: 600 !important;
 }
-.mainheader{
-height: 338px !important;
-/* border : 1px solid ; */
-padding-left: none !important;
-}
+
 .imageheader{
 height: 338px;
 width: 301px;
@@ -609,10 +606,9 @@ padding-right: none !important;
   line-height: 18px;
   font-weight: 600 !important;
   margin-left: 10px !important;
-
 }
 .btn-edit{
-  background-image: url("/assets/icons/edit.svg");
+  background-image: url("./../icons/edit.svg");
   white-space: nowrap;
   text-indent: -9999px;
   width: 35px;
@@ -620,7 +616,7 @@ padding-right: none !important;
   position: relative;
 }
 .btn-delete{
-  background-image: url("/assets/icons/delete.svg");
+  background-image: url("./../icons/delete.svg");
   white-space: nowrap;
   text-indent: -9999px;
   width: 35px;

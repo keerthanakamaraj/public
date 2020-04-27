@@ -1,5 +1,4 @@
 <form class="MakeRelative">
-
     <div class="clearfix content">
         <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
             <div class="col-sm-12 col-md-12">
@@ -28,7 +27,6 @@
                                     (passBorrowerSeq)="CUSTOMER_DETAILS_passBorrowerSeq($event)" (updateCustGrid) = "CUSTOMER_DETAILS_updateCustGrid($event)"></app-CustomerDtls>
                             </div>
                         </rlo-ui-accordion-group>
-
                         <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS"
                             title="{{ 'AddressDetails.AD_HEADING' | translate}}">
                             <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_6.isHidden()">

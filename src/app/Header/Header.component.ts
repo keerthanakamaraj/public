@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input,HostListener } from '@angular/core';
 import { HeaderModel } from './Header.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -45,6 +45,10 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
     PRODUCT_CATEGORY_IMG = '';
     CURRENCY_IMG = '';
+    stickyy: boolean = false;
+    elementPosition: any;
+    disply1:boolean = true;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -212,6 +216,20 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     fieldDependencies = {
     }
 
+    @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+        const windowScroll = window.pageYOffset;
+        if(windowScroll >= 40){
+          this.stickyy = true;
+          this.disply1= false; 
+        } 
+     if(!windowScroll){
+          this.stickyy = false;
+          this.disply1 = true; 
+        } 
+        
+      }
+   
     apiSuccessCallback() {
 
         this.CURRENCY_IMG = '/assets/icons/rupee-yellow.svg';

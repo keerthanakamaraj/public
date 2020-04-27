@@ -22,6 +22,12 @@ export const environment = {
     "/masters" : "/masters",
     "/ui" : "/olive/publisher"
   }
+
+  // serviceMap : {
+  //   "default" : "/initiation/publisher",
+  //   "/masters" : "/masters/publisher",
+  //   "/ui" : "/initiation/publisher"
+  // }
 };
 
 /*

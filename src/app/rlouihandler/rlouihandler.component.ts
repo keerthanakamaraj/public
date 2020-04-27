@@ -32,9 +32,9 @@ export class RLOUIHandlerComponent implements OnInit {
     var formFields = this.rloui.getFormFields(this.formName);
 
     // console.log("field ", formFields.length);
-if(formFields.length !== undefined && formFields.length > 0){
+    if(formFields.length !== undefined && formFields.length > 0){
 
-  formFields.forEach(field => {
+     formFields.forEach(field => {
     // console.log("field ", field);
     if(this.MainComponent[field["ID"]]){ // Check if field is available in form - ignore if not
       if(field["M"] && field["M"] == "1") { // Set Mandatory - Currently not checking type

@@ -182,6 +182,50 @@ this.onFormLoad();
 this.checkForHTabOverFlow();
 });
 }
+joinDate() {
+  var Selectdate = this.OD_DATE_OF_JOINING.getFieldValue();
+  // console.log(Selectdate);
+  var Givendate = new Date();
+  Givendate = new Date(Givendate);
+  var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+  var day = ("0" + Givendate.getDate()).slice(-2);
+  var now = [day, mnth, Givendate.getFullYear()].join("-");
+  // console.log(now);
+  if (Selectdate > now) {
+      // console.log("select date");
+      this.services.alert.showAlert(2, 'Please select correct date', -1);
+      this.OD_DATE_OF_JOINING.onReset();
+  }
+}
+
+dt_Incptn() {
+  var Selectdate = this.OD_DT_OF_INCPTN.getFieldValue();
+  // console.log(Selectdate);
+  var Givendate = new Date();
+  Givendate = new Date(Givendate);
+  var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+  var day = ("0" + Givendate.getDate()).slice(-2);
+  var now = [day, mnth, Givendate.getFullYear()].join("-");
+  // console.log(now);
+  if (Selectdate < now) {
+      // console.log("select date");
+      this.services.alert.showAlert(2, 'Please select correct date', -1);
+      this.OD_DT_OF_INCPTN.onReset();
+  }
+}
+
+async OD_DATE_OF_JOINING_blur(event) {
+  let inputMap = new Map();
+  this.joinDate();
+}
+
+async OD_DT_OF_INCPTN_blur(event) {
+  let inputMap = new Map();
+  this.dt_Incptn();
+}
+
+
+
 clearError(){
 super.clearBasicFieldsError();
 super.clearHTabErrors();

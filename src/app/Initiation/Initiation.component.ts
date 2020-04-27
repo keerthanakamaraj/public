@@ -398,7 +398,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   genderCheck() {
     if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
       //console.log("Please select gender according to tilte");
-      this.showMessage("Please select gender according to tilte");
+      this.services.alert.showAlert(2, 'Please select gender according to title', -1);
     }
   }
 

@@ -15,6 +15,14 @@
   color: #999999;
 }
 
+/* .sticky{
+  position: fixed;
+  top: 0;
+  overflow: overly;
+  z-index: 10;
+  
+  width: 100%;
+} */
 /* .ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
   border-color: #66afe9 !important;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6) !important;
@@ -332,6 +340,10 @@
 }
 
 
+
+
+
+
 /* some dashbord styles */
 .amcharts-g2 {
   stroke-dasharray: 6px 6px;
@@ -561,6 +573,20 @@
 .ag-cell {
   color: #004d8a;
 }
+.shirnkheader {
+  float: left;
+  width: 100%;
+  /* padding: 10px; */
+  height: 70px;
+}
+.headerclass{
+  width:12.5%;
+  float: left;
+  height: 60px;
+}
+.headerclass li{
+ display:inline;
+}
 
 .fas.fa-edit.fa-lg {
   box-sizing: border-box;
@@ -570,7 +596,7 @@
   color: #0079B8 !important;
 }
 #Edit{
-  margin-top:87px;
+  margin-top:75px;
   margin-left: 185px;
 }
 .icon {
@@ -655,6 +681,7 @@ app-check-box[fieldID=MT_SLIDER] .check {
   float: unset;
   position: unset;
 }
+
 
 app-check-box[fieldID=MT_SLIDER] .check span {
   width: unset;
