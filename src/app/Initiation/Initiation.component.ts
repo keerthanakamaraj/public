@@ -557,6 +557,7 @@ await this.Handler.onCheckEligibilityClick({}
 );
 }
 async SUBMIT_MAIN_BTN_click(event){
+  this.SUBMIT_MAIN_BTN.setDisabled(true);  
   let inputMap = new Map();
   var noofErrors: number = await this.revalidate();
   var borrowercheck = this.Handler.getBorrowerPostData();
@@ -611,6 +612,8 @@ this.icif = CustData.ICIFNumber;
 this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully With ICIF Number "+this.borrowericif);
 inputMap = new Map();
 this.onReset();
+this.SUBMIT_MAIN_BTN.setDisabled(false);  
+
 },
       async (httpError) => {
         var err = httpError['error']
@@ -686,15 +689,21 @@ this.onReset();
           }
         }
         this.showMessage('Unable to save form!');
+        this.SUBMIT_MAIN_BTN.setDisabled(false);  
+        
       }
     );
   }
   else{
     this.services.alert.showAlert(2, 'Please Add Details for Borrower', 1000);
+    this.SUBMIT_MAIN_BTN.setDisabled(false);  
+    
   }
 }
 else{
 this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+this.SUBMIT_MAIN_BTN.setDisabled(false);  
+
 }
 }
 
