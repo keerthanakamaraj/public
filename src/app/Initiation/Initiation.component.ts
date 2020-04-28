@@ -409,9 +409,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_PROMOTION.onReset();
   }
 
-  async BAD_SCHEME_change(fieldID, value) {
-    this.BAD_PROMOTION.onReset();
-  }
+  // async BAD_SCHEME_change(fieldID, value) {
+  //   this.BAD_PROMOTION.onReset();
+  // }
    async BAD_PROMOTION_change(fieldID, value){
     this.Handler.updateAmountTags();
 
