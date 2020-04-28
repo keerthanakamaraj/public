@@ -364,7 +364,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     );
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
-    //this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
      this.BAD_PRODUCT.onReset();
     this.BAD_SUB_PROD.onReset();
     this.BAD_SCHEME.onReset();
