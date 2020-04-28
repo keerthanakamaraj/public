@@ -3,7 +3,7 @@ export const environment = {
   // baseURL: window.location.origin + '/olive/'
   baseURL: window.location.origin,
   // baseURL: 'http://10.11.12.53:9090',
-  authURL: 'https://iam.intellectseecapps.com/auth',
+  authURL: 'https://iam.intellectqacloud.com/auth',
   // realm: 'ecpvdev',
   realm: window.location.hostname.split(".")[0],
   clientId: 'fabric',
