@@ -366,7 +366,7 @@
                     <app-text-box #CD_DEBIT_SCORE inputType="number" fieldID="CD_DEBIT_SCORE" [formCode]="formCode"
                       placeholder="(Optional)" (blur)="genericOnBlur('CD_DEBIT_SCORE', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWNERSHIP.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWNERSHIP.isHidden() || !isLoanCategory">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_LOAN_OWNERSHIP.mandatory}">
                         {{ 'Initiation.CD_LOAN_OWNERSHIP' | translate}}</label>
@@ -586,8 +586,7 @@
               (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CANCEL_MAIN_BTN.isHidden()">
-            <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}" (buttonClick)="CANCEL_MAIN_BTN_click($event)"
-              fieldID="CANCEL_MAIN_BTN" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
+            <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}" [routerLink]="['/','home','LANDING']" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
           </div>
 		  <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Reset.isHidden()">
             <app-button #Reset fieldName="{{ 'Initiation.Reset' | translate}}" fieldID="Reset" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="Reset_click($event)"></app-button>

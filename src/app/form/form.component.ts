@@ -568,7 +568,8 @@ export class FormComponent {
     this[fieldId].clearError();
     var formModelObject = this.value;
 
-    var value = this[fieldId].constructor.name == 'RLOUIRadioComponent' ?
+
+    var value = this[fieldId].componentName == 'RLOUIRadioComponent' ?
       this[fieldId].getFieldValue() : formModelObject[fieldId];
 
     if (value != undefined && value.toString() != "") {
@@ -576,7 +577,7 @@ export class FormComponent {
       if (totalErrors > 0) { return totalErrors }
     }
 
-    if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '')) {
+    if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '' || value==0 || value==0.00 )) {
       this[fieldId].setError("Value cannot be empty");
       return ++totalErrors;
     }

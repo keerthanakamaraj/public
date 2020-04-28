@@ -358,16 +358,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
+    this.revalidateBasicField('BAD_PROD_CAT');
     await this.Handler.onProdCategoryChange({
     }
     );
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
-    //this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
-    this.BAD_PRODUCT.clearField();
-    this.BAD_SUB_PROD.clearField();
-    this.BAD_SCHEME.clearField();
-    this.BAD_PROMOTION.clearField();
+     this.BAD_PRODUCT.onReset();
+    this.BAD_SUB_PROD.onReset();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PROMOTION.onReset();
     this.Handler.onResetCustomer({});
     this.Handler.resetLoanInformation();
     this.Handler.resetReferalInformation();
@@ -376,18 +376,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_PRODUCT_change(fieldID, value) {
     
-    this.BAD_SUB_PROD.clearField();
-    this.BAD_SCHEME.clearField();
-    this.BAD_PROMOTION.clearField();
+    this.BAD_SUB_PROD.onReset();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PROMOTION.onReset();
   }
 
   async BAD_SUB_PROD_change(fieldID, value) {
-    this.BAD_SCHEME.clearField();
-    this.BAD_PROMOTION.clearField();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PROMOTION.onReset();
   }
 
   async BAD_SCHEME_change(fieldID, value) {
-    this.BAD_PROMOTION.clearField();
+    this.BAD_PROMOTION.onReset();
   }
    async BAD_PROMOTION_change(fieldID, value){
     this.Handler.updateAmountTags();
@@ -557,6 +557,7 @@ await this.Handler.onCheckEligibilityClick({}
 );
 }
 async SUBMIT_MAIN_BTN_click(event){
+  this.SUBMIT_MAIN_BTN.setDisabled(true);  
   let inputMap = new Map();
   var noofErrors: number = await this.revalidate();
   var borrowercheck = this.Handler.getBorrowerPostData();
@@ -573,7 +574,7 @@ if (noofErrors == 0) {
     inputMap.set('HeaderParam.user-id', 'Vishal');
     inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
     inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
-    inputMap.set('Body.ApplicationDetails.DateOfReciept', this.BAD_DATE_OF_RCPT.getFieldValue());
+    inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
     inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
@@ -589,13 +590,14 @@ if (noofErrors == 0) {
     inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
     inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
     inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
+    inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
+    inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
     inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
-
     console.log("Params ", inputMap);
 
     //return;
 
-    this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/olive/publisher').subscribe(
+    this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
 for (let i=0; i<res.Data.length; i++) {
@@ -610,6 +612,8 @@ this.icif = CustData.ICIFNumber;
 this.showMessage("Proposal "+res.ApplicationReferenceNumber + " Saved Successfully With ICIF Number "+this.borrowericif);
 inputMap = new Map();
 this.onReset();
+this.SUBMIT_MAIN_BTN.setDisabled(false);  
+
 },
       async (httpError) => {
         var err = httpError['error']
@@ -685,31 +689,33 @@ this.onReset();
           }
         }
         this.showMessage('Unable to save form!');
+        this.SUBMIT_MAIN_BTN.setDisabled(false);  
+        
       }
     );
   }
   else{
     this.services.alert.showAlert(2, 'Please Add Details for Borrower', 1000);
+    this.SUBMIT_MAIN_BTN.setDisabled(false);  
+    
   }
 }
 else{
 this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+this.SUBMIT_MAIN_BTN.setDisabled(false);  
+
 }
 }
 
-cancel() {
-  window.history.back()  
-}
-
-async CANCEL_MAIN_BTN_click(event){
-let inputMap = new Map();
-this.cancel();
-}
 
 async Reset_click(event){
 let inputMap = new Map();
 this.onReset();
 }
+
+// async CD_CUST_TYPE_change(fieldID, value) {
+//   this.revalidateBasicField('CD_CUST_TYPE');
+// }
 
 fieldDependencies = {
 BAD_SRC_CHANNEL: {

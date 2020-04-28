@@ -47,7 +47,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     } else {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);   
-      this.MainComponent.CD_CUST_TYPE.clearField();
+      this.MainComponent.CD_CUST_TYPE.onReset();
 
   }
   }
@@ -105,7 +105,9 @@ isStaff({}){
 }
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
+    this.MainComponent.LD_SYS_AMT_RCMD.onReset();
     this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
+    this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
     if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined){
       let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();    
       let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
@@ -144,16 +146,16 @@ isStaff({}){
   //  this.MainComponent.CD_EXISTING_CUST.onReset();
   //  this.MainComponent.CD_STAFF.onReset();
     this.MainComponent.CD_CIF.onReset();
-    this.MainComponent.CD_TITLE.clearField();
+    this.MainComponent.CD_TITLE.onReset();
     this.MainComponent.CD_FIRST_NAME.onReset();
     this.MainComponent.CD_MIDDLE_NAME.onReset();
     this.MainComponent.CD_LAST_NAME.onReset();
     this.MainComponent.CD_FULL_NAME.onReset();
-    this.MainComponent.CD_GENDER.clearField();
+    this.MainComponent.CD_GENDER.onReset();
     this.MainComponent.CD_MOBILE.onReset();
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
-    this.MainComponent.CD_CUST_SGMT.clearField();
+    this.MainComponent.CD_CUST_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.onProdCategoryChange({});
@@ -277,7 +279,7 @@ isStaff({}){
    updateAmountTags(){
      let displayTag = [];
      if(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined){
-      displayTag.push("$" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
+      displayTag.push("₹" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
      }
      
      if(this.MainComponent.LD_INTEREST_RATE.getFieldValue() !==undefined){
@@ -405,7 +407,7 @@ isStaff({}){
         tempObj['LastName'] = this.customers[i].lastName;
         tempObj['FullName'] = this.customers[i].FULL_NAME;
         tempObj['Gender'] = this.customers[i].gender.value;
-        tempObj['DOB'] = this.customers[i].dob;
+        tempObj['DOB'] = this.customers[i].DOB;
         tempObj['TaxId'] = this.customers[i].taxId;
         tempObj['MobileNo'] = this.customers[i].mobileNumber;
         tempObj['DebitScore'] = this.customers[i].debitScore;
@@ -420,10 +422,10 @@ isStaff({}){
 
   resetLoanInformation() {
     this.MainComponent.LD_LOAN_AMOUNT.onReset();
-    this.MainComponent.LD_INTEREST_RATE.clearField();
+    this.MainComponent.LD_INTEREST_RATE.onReset();
     this.MainComponent.LD_TENURE.onReset();
-    this.MainComponent.LD_TENURE_PERIOD.clearField();
-    this.MainComponent.LD_APP_PRPSE.clearField();
+    this.MainComponent.LD_TENURE_PERIOD.onReset();
+    this.MainComponent.LD_APP_PRPSE.onReset();
     this.MainComponent.LD_GROSS_INCOME.onReset();
     this.MainComponent.LD_EXST_LBLT_AMT.onReset();
     this.MainComponent.LD_OTH_DEDUCTIONS.onReset();
