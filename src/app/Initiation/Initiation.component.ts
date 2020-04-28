@@ -105,10 +105,24 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   borrower: any;
   borrowericif: any;
   icif: any;
+  searchbutton: string;
+  
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
-    if(this.BAD_PROD_CAT.getFieldValue()!='CC'){
+   if(this.searchbutton == 'Y'){
+    {
+      await Promise.all([
+        this.revalidateBasicField('SRC_MOBILE_NO'),
+        this.revalidateBasicField('SRC_TAX_ID'),
+        this.revalidateBasicField('SRC_CIF_NO'),
+      ]).then((errorCounts) => {
+        errorCounts.forEach((errorCount) => {
+          totalErrors += errorCount;
+        });
+      });}
+
+   }else if(this.BAD_PROD_CAT.getFieldValue()!='CC'){
     await Promise.all([
       this.revalidateBasicField('SRC_MOBILE_NO'),
       this.revalidateBasicField('SRC_TAX_ID'),
@@ -188,6 +202,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     super.afterRevalidate();
     return totalErrors;
   }
+
+
   constructor(services: ServiceStock) {
     super(services);
     this.value = new InitiationModel();
@@ -322,37 +338,44 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
 
-
+ 
   async SEARCH_CUST_BTN_click(event) {
+     this.searchbutton = 'Y';
     let inputMap = new Map();
     inputMap.clear();
-    inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
-    inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
-    inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
-    if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
-      this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
-    } else {
-      setTimeout (() => {
-        inputMap.set('component', 'SearchForm');
-        const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-        var onModalClose = async (reason) => {
-          (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-          if (this.services.dataStore.getData('selectedData')) {
-            let tempVar: any = this.services.dataStore.getData('selectedData');
-            this.CD_DOB.setValue(tempVar['dob']);
-            this.CD_TAX_ID.setValue(tempVar['taxId']);
-            this.CD_FULL_NAME.setValue(tempVar['custName']);
-            this.CD_MOBILE.setValue(tempVar['mobileNum']);
-            this.CD_CIF.setValue(tempVar['cif']);
+    var noofErrors: number = await this.revalidate(); 
+    if(noofErrors == 0){
+      inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
+      inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
+      inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
+      if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
+        this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
+      } else {
+        setTimeout (() => {
+          inputMap.set('component', 'SearchForm');
+          const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+          var onModalClose = async (reason) => {
+            (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+            if (this.services.dataStore.getData('selectedData')) {
+              let tempVar: any = this.services.dataStore.getData('selectedData');
+              this.CD_DOB.setValue(tempVar['dob']);
+              this.CD_TAX_ID.setValue(tempVar['taxId']);
+              this.CD_FULL_NAME.setValue(tempVar['custName']);
+              this.CD_MOBILE.setValue(tempVar['mobileNum']);
+              this.CD_CIF.setValue(tempVar['cif']);
+            }
+            this.services.dataStore.setData('selectedData', undefined);
           }
-          this.services.dataStore.setData('selectedData', undefined);
-        }
-        modalRef.result.then(onModalClose, onModalClose);
-        modalRef.componentInstance.rotueToComponent(inputMap);
-        this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-     }, 1500);
-
-    }
+          modalRef.result.then(onModalClose, onModalClose);
+          modalRef.componentInstance.rotueToComponent(inputMap);
+          this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+       }, 1500);
+      this.searchbutton = '';
+      }
+    }else{
+      this.services.alert.showAlert(2, 'Please correct form errors', -1);  
+    }   
+   
 
   }
 
