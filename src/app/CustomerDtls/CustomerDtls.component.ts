@@ -20,6 +20,7 @@ import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.compon
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+import{RLOUIRadioComponent} from'../rlo-ui-radio/rlo-ui-radio.component';
 
 
 const customCss: string = '';
@@ -29,9 +30,9 @@ const customCss: string = '';
     templateUrl: './CustomerDtls.component.html'
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: ComboBoxComponent;
-    @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: ComboBoxComponent;
-    @ViewChild('CD_STAFF', { static: false }) CD_STAFF: ComboBoxComponent;
+    @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
+    @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
+    @ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;
     @ViewChild('CD_CIF', { static: false }) CD_CIF: TextBoxComponent;
     @ViewChild('CD_STAFF_ID', { static: false }) CD_STAFF_ID: TextBoxComponent;
     @ViewChild('CD_CUST_ID', { static: false }) CD_CUST_ID: TextBoxComponent;
@@ -146,7 +147,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.FieldId_30.setReadOnly(readOnly);
     }
     async onFormLoad(event) {
-        this.applicationId = event.custSeq
+       this.applicationId = event.custSeq
         await this.Handler.onFormLoad({
         });
 
@@ -162,6 +163,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.hidPrefCommCh.setValue('PREF_COMM_CH');
         this.hidTitle.setValue('TITLE');
         this.hideCustomerType.setValue('CUSTOMER_TYPE');
+
+        this.CD_EXISTING_CUST.setDefault('N');
+        this.setYesNoTypeDependency(this.CD_EXISTING_CUST,this.CD_CUST_ID);
+       
+        this.CD_STAFF.setDefault('N');
+        this.setYesNoTypeDependency(this.CD_STAFF,this.CD_STAFF_ID);
+   
         let inputMap = new Map();
         //  this.Handler.onFormLoad({
         // });
@@ -248,7 +256,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.dependencyMap.clear();
         this.value = new CustomerDtlsModel();
         this.passNewValue(this.value);
-        this.setReadOnly(false);
+       // this.setReadOnly(false);
+       this.CD_EXISTING_CUST.isOptionsLoaded=false;
+       this.CD_STAFF.isOptionsLoaded=false;
         this.onFormLoad(event);
     }
     getToday() {
@@ -267,52 +277,50 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         }
     }
 
-    passExp() {
-        var Selectdate = this.CD_PASSPORT_EXPIRY.getFieldValue();
-        // console.log(Selectdate);
-        var Givendate = new Date();
-        Givendate = new Date(Givendate);
-        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-        var day = ("0" + Givendate.getDate()).slice(-2);
-        var now = [day, mnth, Givendate.getFullYear()].join("-");
-        // console.log(now);
-        if (Selectdate < now) {
-            // console.log("select date");
-            this.services.alert.showAlert(2, 'Please select correct date', -1);
-            this.CD_PASSPORT_EXPIRY.onReset();
+    isFutureDate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({hour:0,minute:0,second:0,millisecond:0});
+
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ",currentDate._d);
+        console.log("selected date :: ",selectedDate._d);
+        if(selectedDate <= currentDate){
+          return false;
         }
+         return true;
     }
 
     visaExp() {
-        var Selectdate = this.CD_VISA_VALID.getFieldValue();
-        // console.log(Selectdate);
-        var Givendate = new Date();
-        Givendate = new Date(Givendate);
-        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-        var day = ("0" + Givendate.getDate()).slice(-2);
-        var now = [day, mnth, Givendate.getFullYear()].join("-");
-        // console.log(now);
-        if (Selectdate < now) {
-            // console.log("select date");
-            this.services.alert.showAlert(2, 'Please select correct date', -1);
-            this.CD_VISA_VALID.onReset();
-        }
+        // var Selectdate = this.CD_VISA_VALID.getFieldValue();
+        // // console.log(Selectdate);
+        // var Givendate = new Date();
+        // Givendate = new Date(Givendate);
+        // var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+        // var day = ("0" + Givendate.getDate()).slice(-2);
+        // var now = [day, mnth, Givendate.getFullYear()].join("-");
+        // // console.log(now);
+        // if (Selectdate < now) {
+        //     // console.log("select date");
+        //     this.services.alert.showAlert(2, 'Please select correct date', -1);
+        //     this.CD_VISA_VALID.onReset();
+        // }
     }
 
     drvngExp() {
-        var Selectdate = this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue();
-        // console.log(Selectdate);
-        var Givendate = new Date();
-        Givendate = new Date(Givendate);
-        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-        var day = ("0" + Givendate.getDate()).slice(-2);
-        var now = [day, mnth, Givendate.getFullYear()].join("-");
-        // console.log(now);
-        if (Selectdate < now) {
-            // console.log("select date");
-            this.services.alert.showAlert(2, 'Please select correct date', -1);
-            this.CD_DRVNG_LCNSE_EXP_DT.onReset();
-        }
+        // var Selectdate = this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue();
+        // // console.log(Selectdate);
+        // var Givendate = new Date();
+        // Givendate = new Date(Givendate);
+        // var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
+        // var day = ("0" + Givendate.getDate()).slice(-2);
+        // var now = [day, mnth, Givendate.getFullYear()].join("-");
+        // // console.log(now);
+        // if (Selectdate < now) {
+        //     // console.log("select date");
+        //     this.services.alert.showAlert(2, 'Please select correct date', -1);
+        //     this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+        // }
     }
 
 
@@ -336,17 +344,26 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     async CD_PASSPORT_EXPIRY_blur (event) {
         let inputMap = new Map();
-        this.passExp();
+        if(!this.isFutureDate(this.CD_PASSPORT_EXPIRY.getFieldValue())){
+            this.services.alert.showAlert(2, 'Passport is expired', -1);
+             this.CD_PASSPORT_EXPIRY.onReset();
+        }
     }
 
     async CD_VISA_VALID_blur (event) {
         let inputMap = new Map();
-        this.visaExp();
+        if(!this.isFutureDate(this.CD_VISA_VALID.getFieldValue())){
+            this.services.alert.showAlert(2, 'Visa is expired', -1);
+             this.CD_VISA_VALID.onReset();
+        }
     }
 
-    async CD_DRVNG_LCNSE_EXP_DT_blur  (event) {
+    async CD_DRVNG_LCNSE_EXP_DT_blur (event) {
         let inputMap = new Map();
-        this.drvngExp();
+        if(!this.isFutureDate(this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue())){
+            this.services.alert.showAlert(2, 'Driving Licence is expired', -1);
+             this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+        }
     }
 
 
@@ -672,16 +689,14 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
                 this.CD_MOBILE_NO.setValue(res['BorrowerDetails']['MobileNo']);
                 this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
-                this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
+                this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);               
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
-                if (this.CD_STAFF.getFieldValue() !== undefined && this.CD_STAFF.getFieldValue() !== "" && this.CD_STAFF.getFieldValue() !== null && this.CD_STAFF.getFieldValue() !== 'N') {
-                    this.CD_STAFF_ID.readOnly = false;
-                    this.CD_STAFF_ID.mandatory = true;
-                }
-                this.CD_STAFF_ID.setValue(res['BorrowerDetails']['StaffID']);
-                this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
+                this.setYesNoTypeDependency(this.CD_STAFF,this.CD_STAFF_ID,res['BorrowerDetails']['StaffID']);               
+                this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
+                this.setYesNoTypeDependency(this.CD_EXISTING_CUST,this.CD_CUST_ID,res['BorrowerDetails']['CustID']);
+                this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
-                 this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
+                this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
                 this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
                 this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
                 this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
@@ -692,7 +707,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.addseq = res['BorrowerDetails']['BorrowerSeq'];
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
-                this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
                 // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
@@ -721,6 +735,19 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //     this.Handler.APIForCustomerData(event);
 
     // }
+    setYesNoTypeDependency(field,dependantField,dependantValue?:String){
+        if (field.getFieldValue() == null||field.getFieldValue() == undefined || field.getFieldValue() == ''  || field.getFieldValue() == 'N') {
+            dependantField.readOnly = true;
+            dependantField.mandatory = false;
+        }
+        else{
+           
+            dependantField.readOnly = false;
+            dependantField.mandatory = true;
+            dependantField.setValue(dependantValue);
+            
+        }
+    }
 
     fieldDependencies = {
         CD_CUST_TYPE: {
