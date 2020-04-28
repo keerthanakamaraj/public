@@ -365,10 +365,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.updateLoanTag();
     this.setDependency(fieldID, value);
     //this.BAD_PRODUCT.setValue(this.BAD_PRODUCT.getFieldValue().clear);
-    this.BAD_PRODUCT.clearField();
-    this.BAD_SUB_PROD.clearField();
-    this.BAD_SCHEME.clearField();
-    this.BAD_PROMOTION.clearField();
+     this.BAD_PRODUCT.onReset();
+    this.BAD_SUB_PROD.onReset();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PROMOTION.onReset();
     this.Handler.onResetCustomer({});
     this.Handler.resetLoanInformation();
     this.Handler.resetReferalInformation();
@@ -377,18 +377,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async BAD_PRODUCT_change(fieldID, value) {
     
-    this.BAD_SUB_PROD.clearField();
-    this.BAD_SCHEME.clearField();
-    this.BAD_PROMOTION.clearField();
+    this.BAD_SUB_PROD.onReset();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PROMOTION.onReset();
   }
 
   async BAD_SUB_PROD_change(fieldID, value) {
-    this.BAD_SCHEME.clearField();
-    this.BAD_PROMOTION.clearField();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PROMOTION.onReset();
   }
 
   async BAD_SCHEME_change(fieldID, value) {
-    this.BAD_PROMOTION.clearField();
+    this.BAD_PROMOTION.onReset();
   }
    async BAD_PROMOTION_change(fieldID, value){
     this.Handler.updateAmountTags();
@@ -704,6 +704,10 @@ async Reset_click(event){
 let inputMap = new Map();
 this.onReset();
 }
+
+// async CD_CUST_TYPE_change(fieldID, value) {
+//   this.revalidateBasicField('CD_CUST_TYPE');
+// }
 
 fieldDependencies = {
 BAD_SRC_CHANNEL: {

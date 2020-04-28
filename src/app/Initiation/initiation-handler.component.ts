@@ -47,7 +47,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     } else {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);   
-      this.MainComponent.CD_CUST_TYPE.clearField();
+      this.MainComponent.CD_CUST_TYPE.onReset();
 
   }
   }
@@ -146,16 +146,16 @@ isStaff({}){
   //  this.MainComponent.CD_EXISTING_CUST.onReset();
   //  this.MainComponent.CD_STAFF.onReset();
     this.MainComponent.CD_CIF.onReset();
-    this.MainComponent.CD_TITLE.clearField();
+    this.MainComponent.CD_TITLE.onReset();
     this.MainComponent.CD_FIRST_NAME.onReset();
     this.MainComponent.CD_MIDDLE_NAME.onReset();
     this.MainComponent.CD_LAST_NAME.onReset();
     this.MainComponent.CD_FULL_NAME.onReset();
-    this.MainComponent.CD_GENDER.clearField();
+    this.MainComponent.CD_GENDER.onReset();
     this.MainComponent.CD_MOBILE.onReset();
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
-    this.MainComponent.CD_CUST_SGMT.clearField();
+    this.MainComponent.CD_CUST_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.onProdCategoryChange({});
@@ -424,8 +424,8 @@ isStaff({}){
     this.MainComponent.LD_LOAN_AMOUNT.onReset();
     this.MainComponent.LD_INTEREST_RATE.onReset();
     this.MainComponent.LD_TENURE.onReset();
-    this.MainComponent.LD_TENURE_PERIOD.clearField();
-    this.MainComponent.LD_APP_PRPSE.clearField();
+    this.MainComponent.LD_TENURE_PERIOD.onReset();
+    this.MainComponent.LD_APP_PRPSE.onReset();
     this.MainComponent.LD_GROSS_INCOME.onReset();
     this.MainComponent.LD_EXST_LBLT_AMT.onReset();
     this.MainComponent.LD_OTH_DEDUCTIONS.onReset();
