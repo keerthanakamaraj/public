@@ -759,6 +759,21 @@ isAgeValid(selectedDate){
   }
 }
 
+async CD_CUST_TYPE_change(fieldID, value) {
+  if(this.CD_CUST_TYPE.getFieldValue() == 'B'){
+  this.CD_LOAN_OWNERSHIP.setValue('100');
+  }
+  
+  }
+  
+  async CD_LOAN_OWNERSHIP_blur(){
+  if(this.CD_CUST_TYPE.getFieldValue() == 'B' && this.CD_LOAN_OWNERSHIP.getFieldValue() > 100){
+  this.services.alert.showAlert(2,'More than 100% not allowed',-1) ;
+  this.CD_LOAN_OWNERSHIP.onReset();
+  }
+  }
+  
+
 fieldDependencies = {
 BAD_SRC_CHANNEL: {
 inDep: [
