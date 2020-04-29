@@ -724,7 +724,7 @@ this.SUBMIT_MAIN_BTN.setDisabled(false);
   }
 }
 else{
-this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+this.services.alert.showAlert(2, 'Please correct form errors', -1);
 this.SUBMIT_MAIN_BTN.setDisabled(false);  
 
 }
