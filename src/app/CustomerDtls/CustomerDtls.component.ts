@@ -397,7 +397,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     async CD_SAVE_BTN_click(event) {
         let inputMap = new Map();
-         this.customerDetailMap = any;
+     //    this.customerDetailMap = any;
         
         this.updateCustGrid.emit({
             'custSeq' : this.applicationId
