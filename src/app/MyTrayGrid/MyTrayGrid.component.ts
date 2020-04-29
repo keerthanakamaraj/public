@@ -542,7 +542,13 @@ export class MyTrayGridComponent implements AfterViewInit {
     if(date){
       var languageCode = "en-IN";
       var options = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"};
-      return new Intl.DateTimeFormat(languageCode, options).format(date.value);
+      try{
+        var dt = new Date(date.value)
+        return new Intl.DateTimeFormat(languageCode, options).format(dt);
+      } catch(e) {
+        console.log("error formatting date", date.value);
+        return date;
+      }      
     } else {
       return '-';
     }
