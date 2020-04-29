@@ -199,6 +199,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
+    valueFormatter: this.formatDate,
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -535,6 +536,16 @@ export class MyTrayGridComponent implements AfterViewInit {
       return '-';
     }
 
+  }
+
+  formatDate(date){
+    if(date){
+      var languageCode = "en-IN";
+      var options = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"};
+      return new Intl.DateTimeFormat(languageCode, options).format(date.value);
+    } else {
+      return '-';
+    }
   }
 
 }
