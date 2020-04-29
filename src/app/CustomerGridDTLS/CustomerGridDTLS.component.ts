@@ -162,7 +162,10 @@ async APIForCustomerData(event) {
               customerDataArr.push(customer);
             });
           }
+          
           this.apiSuccessCallback(customerDataArr);
+          // return customerDataArr;
+         
           // this.displayCustomerTag(customerDataArr);
         },
         async (httpError) => {
@@ -172,11 +175,13 @@ async APIForCustomerData(event) {
           this.services.alert.showAlert(2, 'Failed to load customer Borrower details!', -1);
         }
       );
+
+     return this.customerDetailsMap
     }
     // this.passApplicationId.emit({
     //   'applicationId' : event.custSeq
     // })
-    
+  
   }
 
   apiSuccessCallback(customerDataArr: any[]) {

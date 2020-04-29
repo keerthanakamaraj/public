@@ -111,6 +111,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     await this.Handler.onFormLoad({
     });
+    
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -187,6 +188,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     var noOfError: number = await this.revalidate();
 
     if (noOfError == 0) {
+      this.AD_SAVE_ADDRESS.setDisabled(true);
       if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y') {
         var loopVar4 = addGridData;
         if (loopVar4) {
@@ -226,6 +228,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'Address Details Updated Successfulyl', 5000);
+            this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
@@ -326,6 +329,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'Address Details Saved Successfully', 5000);
+            this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });

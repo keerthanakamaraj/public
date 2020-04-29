@@ -87,6 +87,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     staffcheck: boolean;
     addseq: any;
     applicationId: void;
+    customerDetailMap: any;
+    // customerDetailMap: {};
+    // let customerDetailMap any;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -394,8 +397,31 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     async CD_SAVE_BTN_click(event) {
         let inputMap = new Map();
+         this.customerDetailMap = any;
+        
+        this.updateCustGrid.emit({
+            'custSeq' : this.applicationId
+        })
+        console.log('customerDetailMap',this.customerDetailMap);
         var noOfErrors: number = await this.revalidate();
+        if(this.CD_CUST_TYPE.getFieldValue() == 'B'){
+            this.customerDetailMap.forEach((value: string, key: string) => {
+                console.log(key, value);
+           if(key == 'B' && this.HidCustomerId == undefined){
+            this.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+            return;
+           }
+              });
+            // for(let i = 0 ; i < this.customerDetailMap.; i++){
+            //   if(this.customers[i].customerType.value == 'B' && this.editId !== this.customers[i].tempId){
+            //     this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+            //     return;
+            //   }
+            // }
+          }
         if (noOfErrors == 0) {
+
+            this.CD_SAVE_BTN.setDisabled(true);
             if (this.HidCustomerId.getFieldValue() != undefined) {
                 inputMap.clear();
                
@@ -437,6 +463,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'Customer Details Updated Successfuly', 5000);
+                        this.CD_SAVE_BTN.setDisabled(false);
                         this.updateCustGrid.emit({
                             'custSeq' : this.applicationId
                         })

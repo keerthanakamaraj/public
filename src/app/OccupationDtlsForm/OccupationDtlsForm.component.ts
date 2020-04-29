@@ -254,6 +254,7 @@ async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
 var nooferror:number = await this.revalidate();
 if(nooferror==0){
+  this.OD_SAVE_BTN.setDisabled(true);
 if(typeof(this.HidOccupationSeq.getFieldValue()) !==  'undefined' ){
 inputMap.clear();
 inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
@@ -285,6 +286,8 @@ this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMa
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Occupation Details Updated Successfully', 5000);
+this.OD_SAVE_BTN.setDisabled(false);
+
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
 });
@@ -402,6 +405,8 @@ this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'Occupation Details Saved Successfully!', 5000);
+this.OD_SAVE_BTN.setDisabled(false);
+
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
 });

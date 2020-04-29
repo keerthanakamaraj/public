@@ -211,8 +211,8 @@ this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc'])
             this.FieldId_6.valueChangeUpdates().subscribe((value) => { this.value.FieldId_6 = value; });
             this.value.FieldId_5 = this.FieldId_5.getFieldValue();
             this.FieldId_5.valueChangeUpdates().subscribe((value) => { this.value.FieldId_5 = value; });
-this.value.FieldId_10 = this.FieldId_10.getFieldValue();
-this.FieldId_10.valueChangeUpdates().subscribe((value) => {this.value.FieldId_10 = value;});
+            this.value.FieldId_10 = this.FieldId_10.getFieldValue();
+            this.FieldId_10.valueChangeUpdates().subscribe((value) => {this.value.FieldId_10 = value;});
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
@@ -273,7 +273,11 @@ this.FieldId_10.onReset();
 
     async CUSTOMER_DETAILS_updateCustGrid(event){
         console.log("Calling this Emitter");
+        
         this.FieldId_9.APIForCustomerData(event);
+        this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.APIForCustomerData(event)
+      
+
     }
     async FieldId_9_selectCustId(event) {
         let inputMap = new Map();
@@ -295,6 +299,8 @@ this.FieldId_10.onReset();
     }
     fieldDependencies = {
     }
+
+
 
 
     // async loadCustDtlsGrid(event) {
