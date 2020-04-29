@@ -106,6 +106,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   borrowericif: any;
   icif: any;
   searchbutton: string;
+  custMinAge:number=18;
+  custMaxAge:number=100;
   
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -424,25 +426,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.showMessage("Please select gender according to tilte");
     }
   }
-
-
-
-  getToday(){
-    var Selectdate = this.CD_DOB.getFieldValue();
-    // console.log(Selectdate);
-    var Givendate = new Date();
-    Givendate = new Date(Givendate);
-    var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-    var day = ("0" + Givendate.getDate()).slice(-2);
-    var now = [day, mnth, Givendate.getFullYear()].join("-");
-    // console.log(now);
-    if (Selectdate > now ) {
-      // console.log("select date");
-      this.services.alert.showAlert(2, 'Please select correct date', -1);
-      this.CD_DOB.onReset();
-    }
-  }
-
   
   getDateRept(){
     var Currentdate = this.BAD_DATE_OF_RCPT.getFieldValue();
@@ -470,14 +453,24 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
   async CD_DOB_blur(event) {
     let inputMap = new Map();
-    this.getToday();
+    if(!this.isPastDate(this.CD_DOB.getFieldValue())){
+      this.services.alert.showAlert(2, 'Please select correct date of birth', -1);
+      this.CD_DOB.onReset();
+    }else if(!this.isAgeValid(this.CD_DOB.getFieldValue())){ 
+      this.services.alert.showAlert(2, 'age not valid', -1);
+      this.CD_DOB.onReset();
+    }
   }
 
 
   async BAD_DATE_OF_RCPT_blur(event)
   {
     let inputMap = new Map();
-    this.getDateRept();
+   // this.getDateRept();
+   if(!this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue())){
+    this.services.alert.showAlert(2, 'Please select correct date of reciept ', -1);
+    this.BAD_DATE_OF_RCPT.onReset();
+  }
   }
 
 
@@ -736,9 +729,35 @@ let inputMap = new Map();
 this.onReset();
 }
 
-// async CD_CUST_TYPE_change(fieldID, value) {
-//   this.revalidateBasicField('CD_CUST_TYPE');
-// }
+isPastDate(selectedDate){
+  const moment = require('moment');
+  const currentDate = moment();
+  currentDate.set({hour:0,minute:0,second:0,millisecond:0});
+  selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+  console.log("current date :: ",currentDate._d);
+  console.log("selected date :: ",selectedDate._d);
+  if(selectedDate >= currentDate){
+    return false;
+  }
+   return true;
+}
+
+isAgeValid(selectedDate){
+  const moment = require('moment');
+  let currentDate=moment();
+  currentDate.set({hour:0,minute:0,second:0,millisecond:0});
+  selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+  let age = currentDate.diff(selectedDate, 'years');
+  console.log("age is:",age);
+  console.log("cif min age is:",this.custMinAge);
+  console.log("cif max age is:",this.custMaxAge);
+  if(age<this.custMinAge || age>this.custMaxAge){
+    return false;
+  }
+  else{
+    return true;
+  }
+}
 
 fieldDependencies = {
 BAD_SRC_CHANNEL: {
