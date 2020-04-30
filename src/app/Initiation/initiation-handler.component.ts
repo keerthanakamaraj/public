@@ -68,12 +68,13 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
     let liabityAndOtherDed = liability + otherDeduction;
     if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed > grossincome) {
-      this.MainComponent.services.alert.showAlert(2, 'Gross Income should be greater', 5000);
+      this.MainComponent.LD_GROSS_INCOME.setError('Gross Income should be greater');
     } else {
       let netIncome = grossincome - liability - otherDeduction;
       // let DBR = (liability + otherDeduction) / grossincome;
       this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
       // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
+      this.MainComponent.LD_GROSS_INCOME.clearError();
     }
   }
 

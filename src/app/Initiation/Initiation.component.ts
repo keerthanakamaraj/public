@@ -434,22 +434,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-  getDateRept() {
-    var Currentdate = this.BAD_DATE_OF_RCPT.getFieldValue();
-    // console.log(Currentdate);
-    var Givendate = new Date();
-    Givendate = new Date(Givendate);
-    var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-    var day = ("0" + Givendate.getDate()).slice(-2);
-    var now = [day, mnth, Givendate.getFullYear(),].join("-");
-    // console.log(now);
-    if (Currentdate > now) {
-      this.services.alert.showAlert(2, 'Please select correct date', -1);
-      this.BAD_DATE_OF_RCPT.onReset();
-    }
-  }
-
-
   async CD_EXISTING_CUST_change(fieldID, value) {
     this.Handler.existingCustomer({});
   }
@@ -461,21 +445,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async CD_DOB_blur(event) {
     let inputMap = new Map();
     if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-      this.services.alert.showAlert(2, 'Please select correct date of birth', -1);
-      this.CD_DOB.onReset();
+      this.CD_DOB.setError('Please select correct date of birth');
     } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-      this.services.alert.showAlert(2, 'age not valid', -1);
-      this.CD_DOB.onReset();
+      this.CD_DOB.setError('age not valid');     
     }
   }
 
 
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
-    // this.getDateRept();
     if (!this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue())) {
-      this.services.alert.showAlert(2, 'Please select correct date of reciept ', -1);
-      this.BAD_DATE_OF_RCPT.onReset();
+      this.BAD_DATE_OF_RCPT.setError('Please select correct date of reciept ');
     }
   }
 
@@ -773,8 +753,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async CD_LOAN_OWNERSHIP_blur() {
     if (this.CD_CUST_TYPE.getFieldValue() == 'B' && this.CD_LOAN_OWNERSHIP.getFieldValue() > 100) {
-      this.services.alert.showAlert(2, 'More than 100% not allowed', -1);
-      this.CD_LOAN_OWNERSHIP.onReset();
+      this.CD_LOAN_OWNERSHIP.setError('More than 100% not allowed');
     }
   }
 
