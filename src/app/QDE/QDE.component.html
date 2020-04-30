@@ -14,12 +14,26 @@
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
                         <app-Header #HEADER fieldID="HEADER" [formCode]="formCode"></app-Header>
                     </div>
+                    
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div">
+                    <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">
+                        <a href="#customer-panel" class="btn btn-default active" data-toggle="tab">
+                          <input type="radio" />CUSTOMER
+                        </a>
+                        <a href="#application-panel" class="btn btn-default" data-toggle="tab">
+                          <input type="radio" />APPLICATION
+                        </a>                       
+                      </div>
+                        </div>
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="customer-panel">
+                    
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_9.isHidden()">
                         <app-CustomerGridDTLS #FieldId_9 fieldID="FieldId_9" [formCode]="formCode" (selectCustId) = "FieldId_9_selectCustId($event)" 
                         (resetCustForm) = "FieldId_9_resetCustForm($event)"   (updateCustGrid) = "CUSTOMER_DETAILS_updateCustGrid($event)">
                         </app-CustomerGridDTLS>
                     </div>
-                    <rlo-ui-accordion #QDE_ACCORD class="col-12 col-sm-12 col-md-12 res-pr-hide">
+                    <rlo-ui-accordion #QDE_ACCORD1 class="col-12 col-sm-12 col-md-12 res-pr-hide">
                         <rlo-ui-accordion-group #CUST_DETAILS id="CUST_DETAILS"
                             title="{{ 'CustomerDtls.CD_MAIN_LABEL' | translate}}">
                             <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
@@ -42,13 +56,20 @@
                                 </app-OccupationDtlsForm>
                             </div>
                         </rlo-ui-accordion-group>
+                    </rlo-ui-accordion></div>
+                    <div class="tab-pane" id="application-panel">             
+                <rlo-ui-accordion #QDE_ACCORD2 class="col-12 col-sm-12 col-md-12 res-pr-hide">
                         <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS"
                             title="{{ 'ReferralDetailsForm.RD_HEADING' | translate}}">
-                            <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_10.isHidden()">
+                            <div class="col-12  col-sm-12 col-md-12 res-pr-hide referalform" [hidden]="FieldId_10.isHidden()">
                             <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" [formCode]="formCode"></app-ReferralDetailsForm>
                             </div>
                         </rlo-ui-accordion-group>
                     </rlo-ui-accordion>
+                    </div>
+                
+                
+              </div>
                     <div class="col-12  col-sm-12 col-md-12 group-default">
                         <div #BUTTON_SECTION id="BUTTON_SECTION">
                             <div class="form-group pb10 button-group">

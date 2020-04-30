@@ -460,7 +460,7 @@ padding-right: none !important;
   .cd-grid {
     // margin-top: -24px;
     //margin-left:-9px!important;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px;
     background-color: #F6FBFF;
    // margin-left: 24px;
    // width: 1309px;
@@ -624,3 +624,54 @@ padding-right: none !important;
   position: relative;
 }
 
+// .btn-group-justified>.btn {
+//   display: table-cell;
+//   width: 254px;
+//   height: 45px;
+// }
+
+
+.qde-tab-btn-div{
+  margin-top: 30px;
+  margin-bottom: 70px !important;
+  margin-left: 431px;
+}
+
+.btn-group{
+  width:253px
+}
+
+.btn.btn-default.active {
+  box-sizing: border-box;
+  height: 45px;
+  width: 254px;
+  border: 1px solid #004467;
+  border-radius: 4px 0 0 4px;
+  background-color: #004467;
+  color: #FFFFFF;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+  text-align: center;
+}
+.btn.btn-default{
+ box-sizing: border-box;
+ height: 45px;
+ width: 254px;
+  border: 1px solid #004467;
+  border-radius: 4px 0 0 4px;
+  background-color: #FFFFFF;
+  color: #004467;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+  text-align: center;
+}
+  
+.referalform{
+  height:800px;
+}

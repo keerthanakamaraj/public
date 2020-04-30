@@ -47,7 +47,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
     @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
     @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
-    @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
+    @ViewChild('QDE_ACCORD1', { static: false }) QDE_ACCORD1: RloUiAccordionComponent;
+    @ViewChild('QDE_ACCORD2', { static: false }) QDE_ACCORD2: RloUiAccordionComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
