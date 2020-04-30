@@ -46,6 +46,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_GENDER', { static: false }) CD_GENDER: ComboBoxComponent;
     @ViewChild('CD_MARITAL_STATUS', { static: false }) CD_MARITAL_STATUS: ComboBoxComponent;
     @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
+@ViewChild('CD_EMAIL', {static: false}) CD_EMAIL: TextBoxComponent;
     @ViewChild('CD_NATIONALITY', { static: false }) CD_NATIONALITY: ComboBoxComponent;
     @ViewChild('CD_CITIZENSHIP', { static: false }) CD_CITIZENSHIP: TextBoxComponent;
     @ViewChild('CD_PASSPORT_EXPIRY', { static: false }) CD_PASSPORT_EXPIRY: DateComponent;
@@ -115,6 +116,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_MARITAL_STATUS'),
             this.revalidateBasicField('CD_MOBILE_NO'),
+this.revalidateBasicField('CD_EMAIL'),
             this.revalidateBasicField('CD_NATIONALITY'),
             this.revalidateBasicField('CD_CITIZENSHIP'),
             this.revalidateBasicField('CD_PASSPORT_EXPIRY'),
@@ -398,21 +400,20 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         })
         console.log('customerDetailMap',this.customerDetailMap);
         var noOfErrors: number = await this.revalidate();
-        if(this.CD_CUST_TYPE.getFieldValue() == 'B'){
-            this.customerDetailMap.forEach((value: string, key: string) => {
-                console.log(key, value);
-           if(key == 'B' && this.HidCustomerId == undefined){
-            this.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
-            return;
-           }
-              });
+        
+        // if(this.CD_CUST_TYPE.getFieldValue() == 'B'){
+        //     if(this.customerDetailMap.has(this.CD_CUST_TYPE.getFieldValue())){
+        //         this.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+        //         return;
+        //     }
+        //     }
             // for(let i = 0 ; i < this.customerDetailMap.; i++){
             //   if(this.customers[i].customerType.value == 'B' && this.editId !== this.customers[i].tempId){
             //     this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
             //     return;
             //   }
             // }
-          }
+          
         if (noOfErrors == 0) {
 
             this.CD_SAVE_BTN.setDisabled(true);
@@ -452,6 +453,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+	        	inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
+
                 
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -468,7 +471,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     async (httpError) => {
                         var err = httpError['error']
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
+if(err['ErrorElementPath'] == 'BorrowerDetails.Email'){
+this.CD_EMAIL.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.LoanOwnership'){
+this.CD_LOAN_OWN.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CIF'){
+this.CD_CIF.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer') {
@@ -582,6 +594,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+		        inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
                 
               
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
@@ -598,7 +611,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     async (httpError) => {
                         var err = httpError['error']
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer') {
+if(err['ErrorElementPath'] == 'BorrowerDetails.Email'){
+this.CD_EMAIL.setError(err['ErrorDescription']);
+}
+else if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
                                 this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
@@ -725,7 +741,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
                 this.CD_DRVNG_LCNSE_EXP_DT.setValue(res['BorrowerDetails']['DrivingLicenseExpiryDt']);
                 this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
+                this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
+                
                 this.addseq = res['BorrowerDetails']['BorrowerSeq'];
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
                 // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);

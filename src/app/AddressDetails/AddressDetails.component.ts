@@ -25,8 +25,9 @@ const customCss: string = '';
   templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
-  @ViewChild('AD_ADDRESS_TYPE', { static: false }) AD_ADDRESS_TYPE: ComboBoxComponent;
-  @ViewChild('AD_RESIDENCE_TYPE', { static: false }) AD_RESIDENCE_TYPE: ComboBoxComponent;
+@ViewChild('AD_ADD_TYPE', {static: false}) AD_ADD_TYPE: ComboBoxComponent;
+@ViewChild('AD_OCCUPANCY_TYPE', {static: false}) AD_OCCUPANCY_TYPE: ComboBoxComponent;
+@ViewChild('AD_OCCUPANCY_STATUS', {static: false}) AD_OCCUPANCY_STATUS: ComboBoxComponent;
   @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: ComboBoxComponent;
   @ViewChild('AD_ADDRESS_LINE1', { static: false }) AD_ADDRESS_LINE1: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE2', { static: false }) AD_ADDRESS_LINE2: TextBoxComponent;
@@ -43,7 +44,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_LANDLINE_NUMBER', { static: false }) AD_LANDLINE_NUMBER: TextBoxComponent;
   @ViewChild('AD_ALTERNATE_MOB_NO', { static: false }) AD_ALTERNATE_MOB_NO: TextBoxComponent;
   @ViewChild('AD_EMAIL_ID2', { static: false }) AD_EMAIL_ID2: TextBoxComponent;
-  @ViewChild('AD_EMAIL_ID1', { static: false }) AD_EMAIL_ID1: TextBoxComponent;
+@ViewChild('AD_PREF_TIME', {static: false}) AD_PREF_TIME: ComboBoxComponent;
   @ViewChild('AD_CORR_EMAIL', { static: false }) AD_CORR_EMAIL: ComboBoxComponent;
   @ViewChild('AD_EMAIL1_CHECKBOX', { static: false }) AD_EMAIL1_CHECKBOX: CheckBoxComponent;
   @ViewChild('AD_EMAIL2_CHECKBOX', { static: false }) AD_EMAIL2_CHECKBOX: CheckBoxComponent;
@@ -56,14 +57,17 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidMailingAddress', { static: false }) hidMailingAddress: HiddenComponent;
   @ViewChild('hidResDurType', { static: false }) hidResDurType: HiddenComponent;
-  @ViewChild('hidResType', { static: false }) hidResType: HiddenComponent;
+@ViewChild('hidOccStatus', {static: false}) hidOccStatus: HiddenComponent;
+@ViewChild('hideOccType', {static: false}) hideOccType: HiddenComponent;
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('AD_ADDRESS_TYPE'),
-      this.revalidateBasicField('AD_RESIDENCE_TYPE'),
+this.revalidateBasicField('AD_ADD_TYPE'),
+this.revalidateBasicField('AD_OCCUPANCY_TYPE'),
+this.revalidateBasicField('AD_OCCUPANCY_STATUS'),
+      // this.revalidateBasicField('AD_RESIDENCE_TYPE'),
       this.revalidateBasicField('AD_ADDRESS_LINE1'),
       this.revalidateBasicField('AD_ADDRESS_LINE2'),
       this.revalidateBasicField('AD_ADDRESS_LINE3'),
@@ -79,7 +83,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_LANDLINE_NUMBER'),
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
-      this.revalidateBasicField('AD_EMAIL_ID1'),
+this.revalidateBasicField('AD_PREF_TIME'),
       this.revalidateBasicField('AD_CORR_EMAIL')
       // this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       // this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
@@ -106,7 +110,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hidAppId.setValue('RLO');
     this.hidMailingAddress.setValue('Y_N');
     this.hidResDurType.setValue('PERIOD');
-    this.hidResType.setValue('RESIDENCE_TYPE');
+this.hidOccStatus.setValue('OCCUPANCY_STATUS');
+this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     let inputMap = new Map();
     await this.Handler.onFormLoad({
@@ -188,7 +193,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     var noOfError: number = await this.revalidate();
 
     if (noOfError == 0) {
-      this.AD_SAVE_ADDRESS.setDisabled(true);
+      // this.AD_SAVE_ADDRESS.setDisabled(true);
       if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y') {
         var loopVar4 = addGridData;
         if (loopVar4) {
@@ -203,10 +208,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       if (this.AD_HIDE_ID.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressType', this.AD_ADDRESS_TYPE.getFieldValue());
+        inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
+        inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
+        inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
+        inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());        
         inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
         inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-        inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
+        // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
@@ -218,7 +226,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
-        inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
+        // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
@@ -228,7 +236,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'Address Details Updated Successfulyl', 5000);
-            this.AD_SAVE_ADDRESS.setDisabled(false);
+            // this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
@@ -247,7 +255,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.EmailId1') {
-                this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
+                // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.MailingAddress') {
                 this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
@@ -283,7 +291,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
-                this.AD_RESIDENCE_TYPE.setError(err['ErrorDescription']);
+                this.AD_OCCUPANCY_STATUS.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.Period') {
                 this.AD_RES_DUR_UNIT.setError(err['ErrorDescription']);
@@ -292,10 +300,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_RES_DUR.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.AddressType') {
-                this.AD_ADDRESS_TYPE.setError(err['ErrorDescription']);
+                this.AD_ADD_TYPE.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetailsSeq') {
                 this.AD_HIDE_ID.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
+                this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
+                this.AD_PREF_TIME.setError(err['ErrorDescription']);
               }
             }
             this.services.alert.showAlert(2, 'Update Failed', -1);
@@ -304,10 +318,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
       else {
         inputMap.clear();
-        inputMap.set('Body.AddressDetails.AddressType', this.AD_ADDRESS_TYPE.getFieldValue());
+        inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
+        inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
+        inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
+        inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
         inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
         inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-        inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
+        // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
@@ -319,7 +336,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
-        inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
+        // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
@@ -349,7 +366,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.EmailId1') {
-                this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
+                // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.MailingAddress') {
                 this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
@@ -385,7 +402,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
-                this.AD_RESIDENCE_TYPE.setError(err['ErrorDescription']);
+                this.AD_OCCUPANCY_STATUS.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.Period') {
                 this.AD_RES_DUR_UNIT.setError(err['ErrorDescription']);
@@ -394,7 +411,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_RES_DUR.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.AddressType') {
-                this.AD_ADDRESS_TYPE.setError(err['ErrorDescription']);
+                this.AD_ADD_TYPE.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
+                this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
+                this.AD_PREF_TIME.setError(err['ErrorDescription']);
               }
             }
             this.services.alert.showAlert(3, 'Failed to save address details', 5000);
@@ -420,10 +443,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.AD_ADDRESS_TYPE.setValue(res['AddressDetails']['AddressType']);
+        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']);
-        this.AD_RESIDENCE_TYPE.setValue(res['AddressDetails']['ResidenceType']);
+        this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']);
+        this.AD_OCCUPANCY_TYPE.setValue(res['AddressDetails']['OccupancyType']);
+        this.AD_PREF_TIME.setValue(res['AddressDetails']['PreferredTime']);
         this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
         this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
         this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
@@ -433,7 +458,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_CITY.setValue(res['AddressDetails']['City']);
         this.AD_STATE.setValue(res['AddressDetails']['State']);
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
-        this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
+        // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
@@ -451,21 +476,28 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     );
   }
   fieldDependencies = {
-    AD_ADDRESS_TYPE: {
-      inDep: [
+AD_ADD_TYPE: {
+inDep: [
+{paramKey: "VALUE1", depFieldID: "AD_ADD_TYPE", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidAddType", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+AD_OCCUPANCY_TYPE: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "AD_ADDRESS_TYPE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidAddType", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_RESIDENCE_TYPE: {
-      inDep: [
+{paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_TYPE", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hideOccType", paramType:"QueryParam"},
+{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+],
+outDep: [
+]},
+AD_OCCUPANCY_STATUS: {
+inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "AD_RESIDENCE_TYPE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidResType", paramType: "QueryParam" },
+{paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_STATUS", paramType:"PathParam"},
+{paramKey: "KEY1", depFieldID: "hidOccStatus", paramType:"QueryParam"},
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [

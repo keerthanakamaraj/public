@@ -19,23 +19,38 @@
 <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #AD_HEADING parentCompCode="AddressDetails" fieldID="AD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="normal" customClass="section-header"></app-label>
 </div> -->
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_TYPE.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADD_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': AD_ADDRESS_TYPE.mandatory}">
-{{ 'AddressDetails.AD_ADDRESS_TYPE' | translate}}
+<label class="clr-brown">
+{{ 'AddressDetails.AD_ADD_TYPE' | translate}}
 </label>
 </div>
-<rlo-ui-radio #AD_ADDRESS_TYPE category="2" fieldID="AD_ADDRESS_TYPE" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_ADDRESS_TYPE', $event)"></rlo-ui-radio>
+<rlo-ui-radio #AD_ADD_TYPE category="2" fieldID="AD_ADD_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_ADD_TYPE', $event)"></rlo-ui-radio>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RESIDENCE_TYPE.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_OCCUPANCY_TYPE.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown"  [ngClass]="{'mandatory': AD_RESIDENCE_TYPE.mandatory}">
-{{ 'AddressDetails.AD_RESIDENCE_TYPE' | translate}}
+<label class="clr-brown">
+{{ 'AddressDetails.AD_OCCUPANCY_TYPE' | translate}}
 </label>
 </div>
-<rlo-ui-radio #AD_RESIDENCE_TYPE category="2" fieldID="AD_RESIDENCE_TYPE" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RESIDENCE_TYPE', $event)"></rlo-ui-radio>
+<rlo-ui-radio #AD_OCCUPANCY_TYPE category="2" fieldID="AD_OCCUPANCY_TYPE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_OCCUPANCY_TYPE', $event)"></rlo-ui-radio>
 </div>
-
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_OCCUPANCY_STATUS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown"  [ngClass]="{'mandatory': AD_OCCUPANCY_STATUS.mandatory}">
+{{ 'AddressDetails.AD_OCCUPANCY_STATUS' | translate}}
+</label>
+</div>
+<rlo-ui-radio #AD_OCCUPANCY_STATUS category="2" fieldID="AD_OCCUPANCY_STATUS" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_OCCUPANCY_STATUS', $event)"></rlo-ui-radio>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_MAILING_ADDRESS.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'AddressDetails.AD_MAILING_ADDRESS' | translate}}
+</label>
+</div>
+<rlo-ui-radio  #AD_MAILING_ADDRESS category="2" fieldID="AD_MAILING_ADDRESS" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_MAILING_ADDRESS', $event)"></rlo-ui-radio >
+</div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE1.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -109,15 +124,7 @@
 </div>
 <app-text-box #AD_LANDMARK fieldID="AD_LANDMARK" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_LANDMARK', $event)"></app-text-box>
 </div>
-<div style="min-height: 0px;height: nullpx;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_MAILING_ADDRESS.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AddressDetails.AD_MAILING_ADDRESS' | translate}}
-</label>
-</div>
-<rlo-ui-radio #AD_MAILING_ADDRESS fieldID="AD_MAILING_ADDRESS" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_MAILING_ADDRESS', $event)"></rlo-ui-radio>
-</div>
+<div style="min-height: 0px;height: NaNpx;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <app-label #YRS_LABEL parentCompCode="AddressDetails" fieldID="YRS_LABEL" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
 </div>
@@ -165,13 +172,13 @@
 </div>
 <app-text-box #AD_EMAIL_ID2 fieldID="AD_EMAIL_ID2" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID2', $event)"></app-text-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID1.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_PREF_TIME.isHidden()">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
-{{ 'AddressDetails.AD_EMAIL_ID1' | translate}}
+{{ 'AddressDetails.AD_PREF_TIME' | translate}}
 </label>
 </div>
-<app-text-box #AD_EMAIL_ID1 fieldID="AD_EMAIL_ID1" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_EMAIL_ID1', $event)"></app-text-box>
+<app-combo-box #AD_PREF_TIME category="2" fieldID="AD_PREF_TIME" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('AD_PREF_TIME', $event)"></app-combo-box>
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CORR_EMAIL.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -203,9 +210,10 @@
 </div>
 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 <app-hidden #hidAddType fieldID="hidAddType"></app-hidden>
-<app-hidden #hidResType fieldID="hidResType"></app-hidden>
 <app-hidden #hidMailingAddress fieldID="hidMailingAddress"></app-hidden>
 <app-hidden #hidResDurType fieldID="hidResDurType"></app-hidden>
+<app-hidden #hidOccStatus fieldID="hidOccStatus"></app-hidden>
+<app-hidden #hideOccType fieldID="hideOccType"></app-hidden>
 <app-hidden #AD_HIDE_ID fieldID="AD_HIDE_ID"></app-hidden>
 <app-hidden #hideCorrEmail fieldID="hideCorrEmail"></app-hidden>
 </div>
