@@ -400,7 +400,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_SUB_PROD.onReset();
     this.BAD_SCHEME.onReset();
     this.BAD_PROMOTION.onReset();
-    this.Handler.onResetCustomer({});
+    // this.Handler.onResetCustomer({});
     this.Handler.resetLoanInformation();
     this.Handler.resetReferalInformation();
   }
