@@ -413,6 +413,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['CustomerSegment'] = this.customers[i].customerSegment.value;
         tempObj['IsStaff'] = this.customers[i].staff.value;
         tempObj['StaffId'] = this.customers[i].staffId;
+        tempObj['ICIFNumber'] = this.customers[i].customerId;
         CustData.push(tempObj);
       }
     }

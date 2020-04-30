@@ -250,8 +250,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideExsCust.setValue('YES_NO');
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
-    // this.hideTenurePeriod.setValue('TENURE_PERIOD');
-
+  
     this.CD_EXISTING_CUST.setDefault('N');
     this.Handler.existingCustomer({});
 
@@ -372,6 +371,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_LAST_NAME.setValue(tempVar['lastName']);
               this.CD_GENDER.setValue(tempVar['gender']);
               this.CD_TITLE.setValue(tempVar['title']);
+              this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
+              if(tempVar != '' || tempVar != undefined)
+                  this.CD_EXISTING_CUST.setValue('Y'); 
+                  this.Handler.existingCustomer({});
             }
             this.services.dataStore.setData('selectedData', undefined);
           }
