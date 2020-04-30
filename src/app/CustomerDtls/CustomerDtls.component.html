@@ -32,7 +32,7 @@
 {{ 'CustomerDtls.CD_EXISTING_CUST' | translate}}
 </label>
 </div>
-<rlo-ui-radio  #CD_EXISTING_CUST  fieldID="CD_EXISTING_CUST" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"></rlo-ui-radio >
+<rlo-ui-radio  #CD_EXISTING_CUST  fieldID="CD_EXISTING_CUST" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)" (change)="CD_EXISTING_CUST_change('CD_EXISTING_CUST', $event)"></rlo-ui-radio >
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -301,7 +301,7 @@
 </label>
 </div>
 
-<app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_PREF_LANG', $event)"></app-combo-box>
+<app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_PREF_LANG', $event)"></app-combo-box>
 </div>
 <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
@@ -351,6 +351,7 @@
 <app-hidden #hidTitle fieldID="hidTitle"></app-hidden>
 <app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
 <app-hidden #hideCustomerType fieldID="hideCustomerType"></app-hidden>
+<app-hidden #hidPrefLanguage fieldID="hidPrefLanguage"></app-hidden>
 </div>
 </div>
 </div>

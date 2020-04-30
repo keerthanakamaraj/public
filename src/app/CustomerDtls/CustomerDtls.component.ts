@@ -81,6 +81,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
     @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
+    @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
 
     appId: any;
@@ -90,6 +91,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     customerDetailMap: any;
     // customerDetailMap: {};
     // let customerDetailMap any;
+    custMinAge:number=18;
+    custMaxAge:number=100;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -166,6 +169,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.hidPrefCommCh.setValue('PREF_COMM_CH');
         this.hidTitle.setValue('TITLE');
         this.hideCustomerType.setValue('CUSTOMER_TYPE');
+        this.hidPrefLanguage.setValue('PREF_LANGUAGE');
+        
 
         this.CD_EXISTING_CUST.setDefault('N');
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST,this.CD_CUST_ID);
@@ -264,22 +269,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
        this.CD_STAFF.isOptionsLoaded=false;
         this.onFormLoad(event);
     }
-    getToday() {
-        var Selectdate = this.CD_DOB.getFieldValue();
-        // console.log(Selectdate);
-        var Givendate = new Date();
-        Givendate = new Date(Givendate);
-        var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-        var day = ("0" + Givendate.getDate()).slice(-2);
-        var now = [day, mnth, Givendate.getFullYear()].join("-");
-        // console.log(now);
-        if (Selectdate > now) {
-            // console.log("select date");
-            this.services.alert.showAlert(2, 'Please select correct date', -1);
-            this.CD_DOB.onReset();
-        }
-    }
-
+   
     isFutureDate(selectedDate) {
         const moment = require('moment');
         const currentDate = moment();
@@ -294,37 +284,35 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
          return true;
     }
 
-    visaExp() {
-        // var Selectdate = this.CD_VISA_VALID.getFieldValue();
-        // // console.log(Selectdate);
-        // var Givendate = new Date();
-        // Givendate = new Date(Givendate);
-        // var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-        // var day = ("0" + Givendate.getDate()).slice(-2);
-        // var now = [day, mnth, Givendate.getFullYear()].join("-");
-        // // console.log(now);
-        // if (Selectdate < now) {
-        //     // console.log("select date");
-        //     this.services.alert.showAlert(2, 'Please select correct date', -1);
-        //     this.CD_VISA_VALID.onReset();
-        // }
-    }
-
-    drvngExp() {
-        // var Selectdate = this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue();
-        // // console.log(Selectdate);
-        // var Givendate = new Date();
-        // Givendate = new Date(Givendate);
-        // var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-        // var day = ("0" + Givendate.getDate()).slice(-2);
-        // var now = [day, mnth, Givendate.getFullYear()].join("-");
-        // // console.log(now);
-        // if (Selectdate < now) {
-        //     // console.log("select date");
-        //     this.services.alert.showAlert(2, 'Please select correct date', -1);
-        //     this.CD_DRVNG_LCNSE_EXP_DT.onReset();
-        // }
-    }
+    isPastDate(selectedDate){
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({hour:0,minute:0,second:0,millisecond:0});
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ",currentDate._d);
+        console.log("selected date :: ",selectedDate._d);
+        if(selectedDate >= currentDate){
+          return false;
+        }
+         return true;
+      }
+      
+      isAgeValid(selectedDate){
+        const moment = require('moment');
+        let currentDate=moment();
+        currentDate.set({hour:0,minute:0,second:0,millisecond:0});
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        let age = currentDate.diff(selectedDate, 'years');
+        console.log("age is:",age);
+        console.log("cif min age is:",this.custMinAge);
+        console.log("cif max age is:",this.custMaxAge);
+        if(age<this.custMinAge || age>this.custMaxAge){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
 
 
     genderCheck() {
@@ -342,7 +330,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     async CD_DOB_blur(event) {
         let inputMap = new Map();
-        this.getToday();
+        if(!this.isPastDate(this.CD_DOB.getFieldValue())){
+            this.services.alert.showAlert(2, 'Please select correct date of birth', -1);
+            this.CD_DOB.onReset();
+          }else if(!this.isAgeValid(this.CD_DOB.getFieldValue())){ 
+            this.services.alert.showAlert(2, 'age not valid', -1);
+            this.CD_DOB.onReset();
+          }
     }
 
     async CD_PASSPORT_EXPIRY_blur (event) {
@@ -392,7 +386,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     async CD_STAFF_change(fieldID, value) {
         let inputMap = new Map();
-        await this.Handler.isStaffEnabled({});
+        await this.setYesNoTypeDependency(this.CD_STAFF,this.CD_STAFF_ID);
 
     }
     async CD_SAVE_BTN_click(event) {
@@ -452,8 +446,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CIF', this.CD_CUST_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue() );
+                inputMap.set('Body.BorrowerDetails.ICIFNumber',this.CD_CUST_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
@@ -582,8 +576,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CIF', this.CD_CUST_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
@@ -720,7 +714,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
                 this.setYesNoTypeDependency(this.CD_STAFF,this.CD_STAFF_ID,res['BorrowerDetails']['StaffID']);               
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
-                this.setYesNoTypeDependency(this.CD_EXISTING_CUST,this.CD_CUST_ID,res['BorrowerDetails']['CustID']);
+                this.setYesNoTypeDependency(this.CD_EXISTING_CUST,this.CD_CUST_ID,res['BorrowerDetails']['ICIFNumber']);
                 this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
                 this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
@@ -742,7 +736,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 });
                 this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
-                this.CD_CIF.setValue(res['BorrowerDetails']['ICIFNumber'])
+                this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
 
             },
             async (httpError) => {
@@ -763,17 +757,24 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     // }
     setYesNoTypeDependency(field,dependantField,dependantValue?:String){
+        if(dependantValue!=undefined)
+        {
+            dependantField.setValue(dependantValue);
+            field.setValue('Y');
+        }
         if (field.getFieldValue() == null||field.getFieldValue() == undefined || field.getFieldValue() == ''  || field.getFieldValue() == 'N') {
+            dependantField.onReset()
             dependantField.readOnly = true;
-            dependantField.mandatory = false;
+            dependantField.mandatory = false;           
         }
         else{
-           
             dependantField.readOnly = false;
-            dependantField.mandatory = true;
-            dependantField.setValue(dependantValue);
-            
+            dependantField.mandatory = true;                       
         }
+    }
+
+    CD_EXISTING_CUST_change(fieldId,value){
+        this.setYesNoTypeDependency(this.CD_EXISTING_CUST,this.CD_CUST_ID);
     }
 
     fieldDependencies = {
@@ -863,6 +864,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 { paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
                 { paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_LANG: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_PREF_LANG", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidPrefLanguage", paramType: "QueryParam" },
             ],
             outDep: [
             ]

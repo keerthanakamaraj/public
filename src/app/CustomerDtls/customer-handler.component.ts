@@ -153,16 +153,16 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     });
   }
 
-  isStaffEnabled({ }) {
-    if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
-      || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
-      this.MainComponent.CD_STAFF_ID.readOnly = true;
-    }
-    else {
-      this.MainComponent.CD_STAFF_ID.readOnly = false;
-      this.MainComponent.CD_STAFF_ID.mandatory = true;
-    }
-  }
+  // isStaffEnabled({ }) {
+  //   if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
+  //     || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
+  //     this.MainComponent.CD_STAFF_ID.readOnly = true;
+  //   }
+  //   else {
+  //     this.MainComponent.CD_STAFF_ID.readOnly = false;
+  //     this.MainComponent.CD_STAFF_ID.mandatory = true;
+  //   }
+  // }
   async displayCustomerTag(){
     let tags = [];
    if(this.MainComponent.CD_CUST_TYPE.getFieldValue() !== undefined && this.MainComponent.CD_FULL_NAME.getFieldValue() !== undefined){
