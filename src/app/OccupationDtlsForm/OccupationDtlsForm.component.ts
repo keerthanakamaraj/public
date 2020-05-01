@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { OccuptionDtlsGridComponent } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.component';
 import { OccupationHandlerComponent } from '../OccupationDtlsForm/occupation-handler.component';
+import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
 
 const customCss: string = '';
 
@@ -67,6 +68,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('HidIncomeType', {static: false}) HidIncomeType: HiddenComponent;
 @ViewChild('HidCurrency', {static: false}) HidCurrency: HiddenComponent;
 @ViewChild('HidOccupationSeq', {static: false}) HidOccupationSeq: HiddenComponent;
+@ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
+@Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
+
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -223,7 +227,10 @@ async OD_DT_OF_INCPTN_blur(event) {
   let inputMap = new Map();
   this.dt_Incptn();
 }
-
+async OD_OCCUPATION_blur(event) {
+  let inputMap = new Map();
+  this.occpOnBlur.emit({});
+}
 
 
 clearError(){

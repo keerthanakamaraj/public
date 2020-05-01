@@ -289,10 +289,65 @@ this.FieldId_10.onReset();
         this.CUSTOMER_DETAILS.onReset();
     }
 
+    async FieldId_6_addonblur(event){
+        console.log("Calling this Emitter");
+        this.updateAddressTags();
+    }
+    async CUSTOMER_DETAILS_custOnBlur(event){
+        console.log("Calling this Emitter");
+        this.addOccupationTags();
+    }
+
+    
+
+    updateAddressTags(){
+        let displayTag = [];
+        if(this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !==undefined){
+         displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";"+ " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue())
+        }
+       let tags = [];
+       displayTag.forEach(tag =>{
+         tags.push({ text:tag});
+       })
+       this.QDE_ACCORD1.setTags("ADD_DETAILS",tags);
+     }
+
+  addOccupationTags(){
+    let displayTag = [];
+    if(this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined){
+     displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+    }
+   let tags = [];
+   displayTag.forEach(tag =>{
+     tags.push({ text:tag});
+   })
+ 
+   this.QDE_ACCORD1.setTags("OCC_DETAILS",tags);
+ }
+
+
+//  async displayCustomerTag(){
+//     let displayTag = [];
+//     if(this.CUSTOMER_DETAILS.CD_FIRST_NAME.getFieldValue() !== undefined){
+//      displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+//     }
+//     if(this.CUSTOMER_DETAILS.CD_LAST_NAME.getFieldValue() !== undefined){
+//         displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+//        }
+//     let tags = [];
+//     displayTag.forEach(c => {
+//       tags.push({ label: c.customerType.value, text: c.FullName });
+//     })
+
+//     this.CUSTOMER_DETAILS.setTags("CUST_DETAILS", tags);
+//    }
+     
+ 
+
     // async FieldId_9_passApplicationId(event){
     //     this.CUSTOMER_DETAILS.onFormLoad(event);
     // }
-
+   
   
 
     async QDE_SUBMIT_click(event) {

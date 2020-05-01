@@ -11,7 +11,7 @@ import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
 export class AddressHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: AddressDetailsComponent;
   formName: string = "AddressDetails";
-  
+  address = [];
   ngOnInit() {
     // ngOnInit
   }
@@ -25,6 +25,14 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
   
   
 
-  
+ onAddTypeChange({}) {
+  if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'OF') {
+    this.MainComponent.AD_OCCUPANCY_TYPE.setReadOnly(true);
+    this.MainComponent.AD_OCCUPANCY_STATUS.setReadOnly(true);
+  } else {
+    this.MainComponent.AD_OCCUPANCY_TYPE.setReadOnly(false);
+    this.MainComponent.AD_OCCUPANCY_STATUS.setReadOnly(false);
+}
+}
 }
 

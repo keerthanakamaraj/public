@@ -84,7 +84,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
     @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
-
+    @Output() custOnBlur: EventEmitter<any> = new EventEmitter<any>();
     appId: any;
     staffcheck: boolean;
     addseq: any;
@@ -370,6 +370,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         let inputMap = new Map();
         await this.Handler.updateFullName({
         });
+        this.custOnBlur.emit({});
     }
     async CD_MIDDLE_NAME_blur(event) {
         let inputMap = new Map();
@@ -383,6 +384,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     async CD_LAST_NAME_blur(event) {
         let inputMap = new Map();
+        this.custOnBlur.emit({});
         await this.Handler.updateFullName({
         });
     }
@@ -752,7 +754,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
                 this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
-
+               
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -761,7 +763,7 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
             }
         );
 
-
+//  this.Handler.displayCustomerTag();
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();

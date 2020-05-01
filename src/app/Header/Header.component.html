@@ -16,7 +16,7 @@
         <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
         <div *ngIf="!formOnLoadError">
             <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10 headerForm" >
+                <div class="form-group pb10 headerForm">
                     <div class="col-12  col-sm-12 col-md-12 mainheader row" *ngIf="disply1">
                         <div class='imageheader'>
                             <div class='first-child'>
@@ -160,47 +160,28 @@
 </form>
 <!-- /* shrink header */ -->
 <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-    <div class="form-group pb10" >
-        <div class="shirnkheader" *ngIf="stickyy"  style="background-color:#004467;">
-            <div class="headerclass" style="background-color:#013653;">
-                <rlo-ui-readonlyfield #HD_APP_REF_NUM fieldID="HD_APP_REF_NUM" [formCode]="formCode" (blur)="genericOnBlur('HD_APP_REF_NUM', $event)"></rlo-ui-readonlyfield>
-            </div>
-            <div class="headerclass" style="background-color:#004467;">
-                <ul>
-                <li><img class='currencyImage' src="{{CURRENCY_IMG}}" alt="RLO" /></li>
-                <rlo-ui-readonlyfield #LD_LOAN_AMT fieldID="LD_LOAN_AMT" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield>
-            </ul>
-            </div>
-            <div class="headerclass" style="background-color:#004467;">
-             <ul>
-               <li> <img class='loanimage' src="{{PRODUCT_CATEGORY_IMG}}" alt="RLO" /></li>
-               <rlo-ui-readonlyfield #HD_PROD_CAT fieldID="HD_PROD_CAT" [formCode]="formCode" (blur)="genericOnBlur('HD_PROD_CAT', $event)"></rlo-ui-readonlyfield>
-            </ul>
-            </div>
-            <div class="headerclass" style="background-color:#004467;">
-                <rlo-ui-readonlyfield #LD_INTEREST_RATE fieldID="LD_INTEREST_RATE" [formCode]="formCode" (blur)="genericOnBlur('LD_INTEREST_RATE', $event)">
-                </rlo-ui-readonlyfield>
-                    </div>
-            <div class="headerclass" style="background-color:#004467;">
-                <ul>
-                    <li> <rlo-ui-readonlyfield #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE', $event)"></rlo-ui-readonlyfield></li>
-                    <li> <rlo-ui-readonlyfield #LD_TENURE_PERIOD fieldID="LD_TENURE_PERIOD" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)"></rlo-ui-readonlyfield>
-                        
-                </li>
-            </ul>
-            </div>
-            <div class="headerclass" style="background-color:#004467;">
-                <rlo-ui-readonlyfield #HD_SUB_PROD fieldID="HD_SUB_PROD" [formCode]="formCode" (blur)="genericOnBlur('HD_SUB_PROD', $event)"></rlo-ui-readonlyfield>
-            </div>
-            <div class="headerclass" style="background-color:#004467;">
-                LOAN2020
-            </div>
-    
+    <div class="form-group pb10">
+        <div class="shirnkheader" *ngIf="stickyy" style="background-color:#004467;">
+            <ul class="ulheader">
+                <li class="liheader"><span class="a">ARN</span> </li>
+                <li class="liheader"><rlo-ui-readonlyfield class="a" #HD_APP_REF_NUM fieldID="HD_APP_REF_NUM" [formCode]="formCode"
+                 (blur)="genericOnBlur('HD_APP_REF_NUM', $event)"></rlo-ui-readonlyfield></li>
+                <li class="liheader"><img class="a" src="{{CURRENCY_IMG}}" alt="RLO" /></li>
+                <li class="liheader">  <rlo-ui-readonlyfield class="a" fieldID="LD_LOAN_AMT" [formCode]="formCode"
+                 (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield></li>
+                <li class="liheader"><img class="a" src="{{PRODUCT_CATEGORY_IMG}}" alt="RLO" /></li>
+                <li class="liheader"><rlo-ui-readonlyfield class="a" #HD_PROD_CAT fieldID="HD_PROD_CAT" [formCode]="formCode" 
+                (blur)="genericOnBlur('HD_PROD_CAT', $event)"></rlo-ui-readonlyfield></li>
+                <li class="liheader"><rlo-ui-readonlyfield #LD_INTEREST_RATE fieldID="LD_INTEREST_RATE" [formCode]="formCode" 
+                (blur)="genericOnBlur('LD_INTEREST_RATE', $event)"> </rlo-ui-readonlyfield></li>
+                <li class="liheader"><rlo-ui-readonlyfield class="a" #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode"
+                 (blur)="genericOnBlur('LD_TENURE', $event)"></rlo-ui-readonlyfield></li>
+                <li class="liheader"><rlo-ui-readonlyfield class="a" #LD_TENURE_PERIOD fieldID="LD_TENURE_PERIOD" [formCode]="formCode" 
+                (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)"></rlo-ui-readonlyfield></li>
+                <li class="liheader"><rlo-ui-readonlyfield class="a" #HD_SUB_PROD fieldID="HD_SUB_PROD" [formCode]="formCode" 
+                (blur)="genericOnBlur('HD_SUB_PROD', $event)"></rlo-ui-readonlyfield></li>
+                <li class="liheader"><span class="a">LOAN 2020</span></li>
+              </ul>
         </div>
-        </div>
-        </div>
-
-
-
-
-
+    </div>
+</div>
