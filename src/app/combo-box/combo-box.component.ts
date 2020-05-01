@@ -323,4 +323,13 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   setValues(value, description = undefined) {
     this.setValue(value, description);
   }
+
+  onReset() {
+    if (!(this.getFieldValue() == null || this.getFieldValue() == undefined || this.getFieldValue() == '')) {
+        this.setValue(this.getFieldValue().clear);
+    }
+    this.additionalInfo = undefined;
+    this.error = false;
+    this.errorCode = undefined;
+  }
 }

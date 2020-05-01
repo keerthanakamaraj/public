@@ -257,4 +257,10 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     return this.default;
   }
 
+  onReset() {
+    this.value = undefined;
+    this.additionalInfo = undefined;
+    this.error = false;
+    this.errorCode = undefined;
+  }
 }
