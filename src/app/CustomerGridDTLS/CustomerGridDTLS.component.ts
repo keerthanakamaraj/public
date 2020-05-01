@@ -20,113 +20,113 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 const customCss: string = '';
 
 @Component({
-selector: 'app-CustomerGridDTLS',
-templateUrl: './CustomerGridDTLS.component.html'
+  selector: 'app-CustomerGridDTLS',
+  templateUrl: './CustomerGridDTLS.component.html'
 })
 export class CustomerGridDTLSComponent extends FormComponent implements OnInit, AfterViewInit {
-    customerDetailsMap = new Map();
-    @ViewChild('"CD_CUSTOMER_TYPE"', { static: false }) CD_CUSTOMER_TYPE: ReadOnlyComponent;
-    @ViewChild('"CD_CUSTOMER_NAME"', { static: false }) CD_CUSTOMER_NAME: ReadOnlyComponent;
-    @Output() selectCustId: EventEmitter<any> = new EventEmitter<any>();
-    @Output() resetCustForm: EventEmitter<any> = new EventEmitter<any>();
-    @Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
-    customerDataArr: any[];
-async revalidate(): Promise<number> {
-var totalErrors = 0;
-super.beforeRevalidate();
-await Promise.all([
-]).then((errorCounts) => {
-errorCounts.forEach((errorCount)=>{
-totalErrors+=errorCount;
-});
-});
-this.errors = totalErrors;
-super.afterRevalidate();
-return totalErrors;
-}
-constructor(services: ServiceStock){
-super(services);
-this.value = new CustomerGridDTLSModel();
-this.componentCode = 'CustomerGridDTLS';
-}
-setReadOnly(readOnly){
-super.setBasicFieldsReadOnly(readOnly);
-}
-async onFormLoad(){
-this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.setDependencies();
-}
-setInputs(param : any){
-let params = this.services.http.mapToJson(param);
-if(params['mode']){
-this.mode = params['mode'];
-}
-}
-async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = 'CustomerGridDTLS';
-await super.submit(path, apiCode, serviceCode);
-}
-getFieldInfo() {
-this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-return this.additionalInfo;
-}
-getFieldValue(){
-return this.value;
-}
-setValue(inputValue, inputDesc=undefined) {
-this.setBasicFieldsValue(inputValue, inputDesc);
-this.value = new CustomerGridDTLSModel();
-this.value.setValue(inputValue);
-this.setDependencies();
-this.passNewValue(this.value);
-}
-ngOnInit(){
-if(this.formCode == undefined) {this.formCode = 'CustomerGridDTLS';}
-if(this.formOnLoadError){return;}
-var styleElement = document.createElement('style');
-styleElement.type = 'text/css';
-styleElement.innerHTML = customCss;
-styleElement.id = 'CustomerGridDTLS_customCss';
-document.getElementsByTagName('head')[0].appendChild(styleElement);
-}
-ngOnDestroy(){
-this.unsubscribe$.next();
-this.unsubscribe$.complete();
-var styleElement = document.getElementById('CustomerGridDTLS_customCss');
-styleElement.parentNode.removeChild(styleElement);
-}
-ngAfterViewInit(){
-setTimeout(() => {
-this.subsBFldsValueUpdates();
-this.onFormLoad();
-this.checkForHTabOverFlow();
-});
-}
-clearError(){
-super.clearBasicFieldsError();
-super.clearHTabErrors();
-super.clearVTabErrors();
-this.errors = 0;
-this.errorMessage = [];
-}
-onReset(){
-super.resetBasicFields();
-this.clearHTabErrors();
-this.clearVTabErrors();
-this.errors = 0;
-this.errorMessage = [];
-this.additionalInfo = undefined;
-this.dependencyMap.clear();
-this.value = new CustomerGridDTLSModel();
-this.passNewValue(this.value);
-this.setReadOnly(false);
-this.onFormLoad();
-}
-fieldDependencies = {
-}
-async APIForCustomerData(event) {
+  customerDetailsMap = new Map();
+  @ViewChild('"CD_CUSTOMER_TYPE"', { static: false }) CD_CUSTOMER_TYPE: ReadOnlyComponent;
+  @ViewChild('"CD_CUSTOMER_NAME"', { static: false }) CD_CUSTOMER_NAME: ReadOnlyComponent;
+  @Output() selectCustId: EventEmitter<any> = new EventEmitter<any>();
+  @Output() resetCustForm: EventEmitter<any> = new EventEmitter<any>();
+  @Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
+  customerDataArr: any[];
+  async revalidate(): Promise<number> {
+    var totalErrors = 0;
+    super.beforeRevalidate();
+    await Promise.all([
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.errors = totalErrors;
+    super.afterRevalidate();
+    return totalErrors;
+  }
+  constructor(services: ServiceStock) {
+    super(services);
+    this.value = new CustomerGridDTLSModel();
+    this.componentCode = 'CustomerGridDTLS';
+  }
+  setReadOnly(readOnly) {
+    super.setBasicFieldsReadOnly(readOnly);
+  }
+  async onFormLoad() {
+    this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+    this.setDependencies();
+  }
+  setInputs(param: any) {
+    let params = this.services.http.mapToJson(param);
+    if (params['mode']) {
+      this.mode = params['mode'];
+    }
+  }
+  async submitForm(path, apiCode, serviceCode) {
+    this.submitData['formName'] = 'CustomerGridDTLS';
+    await super.submit(path, apiCode, serviceCode);
+  }
+  getFieldInfo() {
+    this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    return this.additionalInfo;
+  }
+  getFieldValue() {
+    return this.value;
+  }
+  setValue(inputValue, inputDesc = undefined) {
+    this.setBasicFieldsValue(inputValue, inputDesc);
+    this.value = new CustomerGridDTLSModel();
+    this.value.setValue(inputValue);
+    this.setDependencies();
+    this.passNewValue(this.value);
+  }
+  ngOnInit() {
+    if (this.formCode == undefined) { this.formCode = 'CustomerGridDTLS'; }
+    if (this.formOnLoadError) { return; }
+    var styleElement = document.createElement('style');
+    styleElement.type = 'text/css';
+    styleElement.innerHTML = customCss;
+    styleElement.id = 'CustomerGridDTLS_customCss';
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
+  }
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    var styleElement = document.getElementById('CustomerGridDTLS_customCss');
+    styleElement.parentNode.removeChild(styleElement);
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.subsBFldsValueUpdates();
+      this.onFormLoad();
+      this.checkForHTabOverFlow();
+    });
+  }
+  clearError() {
+    super.clearBasicFieldsError();
+    super.clearHTabErrors();
+    super.clearVTabErrors();
+    this.errors = 0;
+    this.errorMessage = [];
+  }
+  onReset() {
+    super.resetBasicFields();
+    this.clearHTabErrors();
+    this.clearVTabErrors();
+    this.errors = 0;
+    this.errorMessage = [];
+    this.additionalInfo = undefined;
+    this.dependencyMap.clear();
+    this.value = new CustomerGridDTLSModel();
+    this.passNewValue(this.value);
+    this.setReadOnly(false);
+    this.onFormLoad();
+  }
+  fieldDependencies = {
+  }
+  async APIForCustomerData(event) {
     let inputMap = new Map();
     let custId: any = event.custSeq;
     if (custId) {
@@ -162,10 +162,10 @@ async APIForCustomerData(event) {
               customerDataArr.push(customer);
             });
           }
-          
+
           this.apiSuccessCallback(customerDataArr);
           // return customerDataArr;
-         
+
           // this.displayCustomerTag(customerDataArr);
         },
         async (httpError) => {
@@ -176,22 +176,30 @@ async APIForCustomerData(event) {
         }
       );
 
-     return this.customerDetailsMap
+      return this.customerDetailsMap
     }
     // this.passApplicationId.emit({
     //   'applicationId' : event.custSeq
     // })
-  
+
   }
 
   apiSuccessCallback(customerDataArr: any[]) {
     this.customerDetailsMap.clear();
+    let borrowerSeq = undefined;
     customerDataArr.forEach(customer => {
       if (customer != null && customer != undefined && customer != '') {
         this.categoriseCustomers(customer.CD_CUSTOMER_TYPE, customer);
+        if (customer.CD_CUSTOMER_TYPE == 'B') {
+          borrowerSeq = customer.CustomerId;
+        }
       }
     });
+    if (borrowerSeq != undefined) {
+      this.selectCustId.emit({ 'selectedCustId': borrowerSeq });
+    }
   }
+
   categoriseCustomers(customerType: String, customer: {}) {
     let customerTypeArr = [];
     if (this.customerDetailsMap.has(customerType)) {
@@ -216,7 +224,7 @@ async APIForCustomerData(event) {
       event.target.parentElement.classList.add("customer-names-active");
       this.selectCustId.emit({
         'selectedCustId': selectedCustomer.CustomerId
-    });
+      });
       //this.MainComponent.CUST_D TLS_GRID_custDtlsEdit(event, selectedCustomer.CustomerId);
       //  this.displayCustomerTag();
     }
@@ -242,9 +250,9 @@ async APIForCustomerData(event) {
       element.classList.remove("customer-edit-active");
     });
   }
-   
+
   async loadCustDtlsGrid(event) {
     this.APIForCustomerData(event);
-}
+  }
 
 }

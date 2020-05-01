@@ -11,9 +11,9 @@
                       </div>
                       <div class="cd-col-row fieldLegend">
                             <ul class="cust-name-container">
-                                  <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('B')">
+                                  <li class="customer-names-active" *ngFor="let customer of customerDetailsMap.get('B')">
                                         {{customer.CD_CUSTOMER_NAME}}
-                                        <button class="fas fa-edit"  (click)="editCustomer($event, customer)"></button>
+                                        <button class="customer-edit-active"  (click)="editCustomer($event, customer)">Editing</button>
                                   </li>
                             </ul>
                       </div>
