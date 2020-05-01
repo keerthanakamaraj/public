@@ -116,7 +116,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_MARITAL_STATUS'),
             this.revalidateBasicField('CD_MOBILE_NO'),
-this.revalidateBasicField('CD_EMAIL'),
+            this.revalidateBasicField('CD_EMAIL'),
             this.revalidateBasicField('CD_NATIONALITY'),
             this.revalidateBasicField('CD_CITIZENSHIP'),
             this.revalidateBasicField('CD_PASSPORT_EXPIRY'),
@@ -718,9 +718,6 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
                 this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
                 this.CD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
                 this.CD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
-                // if (this.CD_FULL_NAME.getFieldValue() !== undefined) {
-                //     // this.Handler.displayCustomerTag();
-                // }
                 this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
                 this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);

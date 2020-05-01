@@ -40,7 +40,7 @@ paginationReq:true
 };
 columnDefs:any[] = [{
 field:"AD_Address_Type",
-width:25,
+width:10,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -69,8 +69,8 @@ caseSensitive:true,
 },
 },
 {
-field:"AD_Residence_Duration",
-width:25,
+field:"AD_OCC_STATUS",
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -84,7 +84,37 @@ caseSensitive:true,
 },
 },
 {
-width:12,
+field:"AD_CORR_ADD",
+width:10,
+sortable: true,
+resizable: true,
+cellStyle: {'text-align': 'left'},
+filter: "agTextColumnFilter",
+filterParams:{
+suppressAndOrCondition : true,
+applyButton: true,
+clearButton: true,
+filterOptions:["contains"] ,
+caseSensitive:true,
+},
+},
+{
+field:"AD_Residence_Duration",
+width:20,
+sortable: true,
+resizable: true,
+cellStyle: {'text-align': 'left'},
+filter: "agTextColumnFilter",
+filterParams:{
+suppressAndOrCondition : true,
+applyButton: true,
+clearButton: true,
+filterOptions:["contains"] ,
+caseSensitive:true,
+},
+},
+{
+width:10,
 field:"AD_EDIT_BTN",
 sortable: false,
 filter: false,
@@ -101,7 +131,7 @@ onClick: this.AD_EDIT_BTN_click.bind(this)
 },
 },
 {
-width:13,
+width:10,
 field:"AD_DELETE_BTN",
 sortable: false,
 filter: false,
@@ -195,7 +225,9 @@ case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
 case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
 case "AD_Address":obj[i].columnName =  "AddressLine1";break;
 case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
-case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+// case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+case "AD_OCC_STATUS":obj[i].columnName =  "ResidenceType";break;
+case "AD_CORR_ADD":obj[i].columnName =  "MailingAddress";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -208,7 +240,9 @@ case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
 case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
 case "AD_Address":obj[i].columnName =  "AddressLine1";break;
 case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
-case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+// case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+case "AD_OCC_STATUS":obj[i].columnName =  "ResidenceType";break;
+case "AD_CORR_ADD":obj[i].columnName =  "MailingAddress";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -225,8 +259,10 @@ var tempObj = {};
 tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
 tempObj['AD_Address'] = loopVar10[i].AddressLine1;
-tempObj['AD_Residence_Duration'] = loopVar10[i].PeriodCurrentResidenceYrs;
-tempObj['MailingAddress'] = loopVar10[i].MailingAddress;
+tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration +""+loopVar10[i].Period;
+tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
+tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
+tempObj['AD_CORR_ADD'] = loopVar10[i].MailingAddress;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);

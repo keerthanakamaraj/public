@@ -513,8 +513,11 @@ var res = httpResponse.body;
 this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']);
 if (this.OD_OCCUPATION.getFieldValue() == 'SL'){
   this.OD_EMPLT_TYPE.mandatory = true;
+  this.OD_EMPLT_TYPE.setReadOnly(false);
 }else  if (this.OD_OCCUPATION.getFieldValue() == 'SE'){
   this.OD_SELF_EMPLD_TYPE.mandatory = true;
+  this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
+  this.OD_SELF_EMPLD_PROF.setReadOnly(false);
 }
 this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']);
 this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
