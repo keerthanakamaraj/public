@@ -18,6 +18,8 @@ import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsFo
 // import { CUSTOMERHANDLERModule } from '../customer-handler/customer-handler.module';
 import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
+import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
+import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module'
 @NgModule({
     imports: [
         CommonModule,
@@ -32,13 +34,15 @@ import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
                 deps: [HttpClient]
             }
         }),
-ReferralDetailsFormModule,
+        ReferralDetailsFormModule,
         HeaderModule,
         CustomerGridDTLSModule,
         QDEHandlerModule,
         AddressDetailsModule,
         OccupationDtlsFormModule,
-        CustomerDtlsModule
+        CustomerDtlsModule,
+        ApplicationDtlsModule,
+        NotepadDetailsFormModule
     ],
     declarations: [
         QDEComponent,

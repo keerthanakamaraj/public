@@ -24,47 +24,51 @@ const customCss: string = '';
   templateUrl: './ApplicationDtls.component.html'
 })
 export class ApplicationDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
-  @ViewChild('AD_PHYSICAL_FORM_NO', {static: false}) AD_PHYSICAL_FORM_NO: TextBoxComponent;
-  @ViewChild('AD_DATE_OF_RECIEPT', {static: false}) AD_DATE_OF_RECIEPT: DateComponent;
-  @ViewChild('AD_EXISTING_CUSTOMER', {static: false}) AD_EXISTING_CUSTOMER: ComboBoxComponent;
-  @ViewChild('AD_SOURCING_CHANNEL', {static: false}) AD_SOURCING_CHANNEL: ComboBoxComponent;
-  @ViewChild('AD_DSA_ID', {static: false}) AD_DSA_ID: ComboBoxComponent;
-  @ViewChild('AD_BRANCH', {static: false}) AD_BRANCH: ComboBoxComponent;
-  @ViewChild('AD_Save', {static: false}) AD_Save: ButtonComponent;
-  @ViewChild('Handler', {static: false}) Handler: ApplicationHandlerComponent;
-  @ViewChild('hidExistCust', {static: false}) hidExistCust: HiddenComponent;
-  @ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-  @ViewChild('hidSourcingChannel', {static: false}) hidSourcingChannel: HiddenComponent;
-  @ViewChild('hidDsaId', {static: false}) hidDsaId: HiddenComponent;
-  @ViewChild('hidAccBranch', {static: false}) hidAccBranch: HiddenComponent;
+  @ViewChild('AD_PHYSICAL_FORM_NO', { static: false }) AD_PHYSICAL_FORM_NO: TextBoxComponent;
+  @ViewChild('AD_DATE_OF_RECIEPT', { static: false }) AD_DATE_OF_RECIEPT: DateComponent;
+  @ViewChild('AD_EXISTING_CUSTOMER', { static: false }) AD_EXISTING_CUSTOMER: ComboBoxComponent;
+  @ViewChild('AD_SOURCING_CHANNEL', { static: false }) AD_SOURCING_CHANNEL: ComboBoxComponent;
+  @ViewChild('AD_DSA_ID', { static: false }) AD_DSA_ID: ComboBoxComponent;
+  @ViewChild('AD_BRANCH', { static: false }) AD_BRANCH: ComboBoxComponent;
+  @ViewChild('AD_Save', { static: false }) AD_Save: ButtonComponent;
+  @ViewChild('Handler', { static: false }) Handler: ApplicationHandlerComponent;
+  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
+  @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+  @ViewChild('hidSourcingChannel', { static: false }) hidSourcingChannel: HiddenComponent;
+  @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
+  @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
+
+  refApplicationReq: any;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-    this.revalidateBasicField('AD_PHYSICAL_FORM_NO'),
-    this.revalidateBasicField('AD_DATE_OF_RECIEPT'),
-    this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
-    this.revalidateBasicField('AD_SOURCING_CHANNEL'),
-    this.revalidateBasicField('AD_DSA_ID'),
-    this.revalidateBasicField('AD_BRANCH'),
+      this.revalidateBasicField('AD_PHYSICAL_FORM_NO'),
+      this.revalidateBasicField('AD_DATE_OF_RECIEPT'),
+      this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
+      this.revalidateBasicField('AD_SOURCING_CHANNEL'),
+      this.revalidateBasicField('AD_DSA_ID'),
+      this.revalidateBasicField('AD_BRANCH'),
     ]).then((errorCounts) => {
-      errorCounts.forEach((errorCount)=>{
-        totalErrors+=errorCount;
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
       });
     });
     this.errors = totalErrors;
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock){
+  constructor(services: ServiceStock) {
     super(services);
     this.value = new ApplicationDtlsModel();
     this.componentCode = 'ApplicationDtls';
   }
-  setReadOnly(readOnly){
+  setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
   }
-  async onFormLoad(){
+  async onFormLoad(event) {
+    this.refApplicationReq = event.custSeq;
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
@@ -74,62 +78,62 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     this.setDependencies();
     await this.Handler.onFormLoad({});
   }
-  setInputs(param : any){
+  setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
-    if(params['mode']){
+    if (params['mode']) {
       this.mode = params['mode'];
     }
   }
-  async submitForm(path, apiCode, serviceCode){
+  async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'Application Details';
     await super.submit(path, apiCode, serviceCode);
   }
   getFieldInfo() {
-    this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-    this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-    this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
+    this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
     return this.additionalInfo;
   }
-  getFieldValue(){
+  getFieldValue() {
     return this.value;
   }
-  setValue(inputValue, inputDesc=undefined) {
+  setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
     this.value = new ApplicationDtlsModel();
     this.value.setValue(inputValue);
     this.setDependencies();
     this.passNewValue(this.value);
   }
-  ngOnInit(){
-    if(this.formCode == undefined) {this.formCode = 'ApplicationDtls';}
-    if(this.formOnLoadError){return;}
+  ngOnInit() {
+    if (this.formCode == undefined) { this.formCode = 'ApplicationDtls'; }
+    if (this.formOnLoadError) { return; }
     var styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.innerHTML = customCss;
     styleElement.id = 'ApplicationDtls_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('ApplicationDtls_customCss');
     styleElement.parentNode.removeChild(styleElement);
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     setTimeout(() => {
       this.subsBFldsValueUpdates();
-      this.onFormLoad();
+      this.onFormLoad(event);
       this.checkForHTabOverFlow();
     });
   }
-  clearError(){
+  clearError() {
     super.clearBasicFieldsError();
     super.clearHTabErrors();
     super.clearVTabErrors();
     this.errors = 0;
     this.errorMessage = [];
   }
-  onReset(){
+  onReset() {
     super.resetBasicFields();
     this.clearHTabErrors();
     this.clearVTabErrors();
@@ -140,9 +144,9 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     this.value = new ApplicationDtlsModel();
     this.passNewValue(this.value);
     this.setReadOnly(false);
-    this.onFormLoad();
+    this.onFormLoad(event);
   }
-  async AD_Save_click(event){
+  async AD_Save_click(event) {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('Body.ApplicationDetails.SourcingChannel', this.AD_SOURCING_CHANNEL.getFieldValue());
@@ -151,70 +155,74 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
     await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap, '/olive/publisher').toPromise()
-    .then(
-    async (httpResponse: HttpResponse<any>) => {
-      var res = httpResponse.body;
-      this.services.alert.showAlert(1, 'Success', 5000);
-    },
-    async (httpError)=>{
-      var err = httpError['error']
-      if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        if(err['ErrorElementPath'] == 'ApplicationDetails.ApplicationBranch'){
-          this.AD_BRANCH.setError(err['ErrorDescription']);
+      .then(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.services.alert.showAlert(1, 'Success', 5000);
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationBranch') {
+            this.AD_BRANCH.setError(err['ErrorDescription']);
+          }
+          else if (err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer') {
+            this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
+          }
+          else if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationInfo.PhysicalFormNo') {
+            this.AD_PHYSICAL_FORM_NO.setError(err['ErrorDescription']);
+          }
+          else if (err['ErrorElementPath'] == 'ApplicationDetails.DSACode') {
+            this.AD_DSA_ID.setError(err['ErrorDescription']);
+          }
+          else if (err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel') {
+            this.AD_SOURCING_CHANNEL.setError(err['ErrorDescription']);
+          }
         }
-        else if(err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer'){
-          this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ApplicationDetails.ApplicationInfo.PhysicalFormNo'){
-          this.AD_PHYSICAL_FORM_NO.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ApplicationDetails.DSACode'){
-          this.AD_DSA_ID.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel'){
-          this.AD_SOURCING_CHANNEL.setError(err['ErrorDescription']);
-        }
+        this.services.alert.showAlert(2, 'Fail', -1);
       }
-      this.services.alert.showAlert(2, 'Fail', -1);
-    }
-    );
+      );
   }
   fieldDependencies = {
     AD_EXISTING_CUSTOMER: {
       inDep: [
-      
-      {paramKey: "VALUE1", depFieldID: "AD_EXISTING_CUSTOMER", paramType:"PathParam"},
-      {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-      {paramKey: "KEY1", depFieldID: "hidExistCust", paramType:"QueryParam"},
+
+        { paramKey: "VALUE1", depFieldID: "AD_EXISTING_CUSTOMER", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
       ],
       outDep: [
-    ]},
+      ]
+    },
     AD_SOURCING_CHANNEL: {
       inDep: [
-      
-      {paramKey: "VALUE1", depFieldID: "AD_SOURCING_CHANNEL", paramType:"PathParam"},
-      {paramKey: "KEY1", depFieldID: "hidSourcingChannel", paramType:"QueryParam"},
-      {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+
+        { paramKey: "VALUE1", depFieldID: "AD_SOURCING_CHANNEL", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidSourcingChannel", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
-    ]},
+      ]
+    },
     AD_DSA_ID: {
       inDep: [
-      
-      {paramKey: "VALUE1", depFieldID: "AD_DSA_ID", paramType:"PathParam"},
-      {paramKey: "KEY1", depFieldID: "hidDsaId", paramType:"QueryParam"},
-      {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
+
+        { paramKey: "VALUE1", depFieldID: "AD_DSA_ID", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidDsaId", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
-    ]},
+      ]
+    },
     AD_BRANCH: {
       inDep: [
-      
-      {paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType:"PathParam"},
-      {paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-      {paramKey: "KEY1", depFieldID: "hidAccBranch", paramType:"QueryParam"},
+
+        { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
       ],
       outDep: [
-    ]},
+      ]
+    },
   }
 }

@@ -23,6 +23,8 @@ import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.co
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component'
+import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component'
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -38,7 +40,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUSTOMER_DETAILS', { static: false }) CUSTOMER_DETAILS: CustomerDtlsComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
     @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
-@ViewChild('FieldId_10', {static: false}) FieldId_10: ReferralDetailsFormComponent;
+    @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
     @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
     @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
     @ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
@@ -49,6 +51,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
     @ViewChild('QDE_ACCORD1', { static: false }) QDE_ACCORD1: RloUiAccordionComponent;
     @ViewChild('QDE_ACCORD2', { static: false }) QDE_ACCORD2: RloUiAccordionComponent;
+    @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
+    @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -59,7 +63,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.FieldId_9.revalidate(),
             this.FieldId_6.revalidate(),
             this.FieldId_5.revalidate(),
-this.FieldId_10.revalidate(),
+            this.FieldId_10.revalidate(),
+            this.APPLICATION_DETAILS.revalidate(),
+            this.NOTEPAD_DETAILS.revalidate(),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -83,26 +89,36 @@ this.FieldId_10.revalidate(),
         this.FieldId_9.setReadOnly(readOnly);
         this.FieldId_6.setReadOnly(readOnly);
         this.FieldId_5.setReadOnly(readOnly);
-this.FieldId_10.setReadOnly(readOnly);
+        this.FieldId_10.setReadOnly(readOnly);
+        this.APPLICATION_DETAILS.setReadOnly(readOnly);
+        this.NOTEPAD_DETAILS.setReadOnly(readOnly);
+
     }
+
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.HideProcessId.setValue('RLO_Process');
         this.HideServiceCode.setValue('ClaimTask');
         let inputMap = new Map();
-      
+
         this.FieldId_9.loadCustDtlsGrid({
             'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId')
         })
 
-     
-            await this.FieldId_10.onFormLoad({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-            });
 
-            await this.CUSTOMER_DETAILS.onFormLoad({
-                'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-            })
+        await this.FieldId_10.onFormLoad({
+            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+        });
+
+        await this.CUSTOMER_DETAILS.onFormLoad({
+            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+        })
+        await this.APPLICATION_DETAILS.onFormLoad({
+            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+        })
+        await this.NOTEPAD_DETAILS.onFormLoad({
+            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+        })
         await this.Handler.onFormLoad({
         });
         inputMap.clear();
@@ -159,7 +175,9 @@ this.FieldId_10.setReadOnly(readOnly);
         this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
         this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
         this.additionalInfo['FieldId_5_desc'] = this.FieldId_5.getFieldInfo();
-this.additionalInfo['FieldId_10_desc'] = this.FieldId_10.getFieldInfo();
+        this.additionalInfo['FieldId_10_desc'] = this.FieldId_10.getFieldInfo();
+        this.additionalInfo['APPLICATION_DETAILS_desc'] = this.APPLICATION_DETAILS.getFieldInfo();
+        this.additionalInfo['NOTEPAD_DETAILS_desc'] = this.NOTEPAD_DETAILS.getFieldInfo();
         return this.additionalInfo;
     }
     getFieldValue() {
@@ -168,7 +186,9 @@ this.additionalInfo['FieldId_10_desc'] = this.FieldId_10.getFieldInfo();
         this.value.FieldId_9 = this.FieldId_9.getFieldValue();
         this.value.FieldId_6 = this.FieldId_6.getFieldValue();
         this.value.FieldId_5 = this.FieldId_5.getFieldValue();
-this.value.FieldId_10 = this.FieldId_10.getFieldValue();
+        this.value.FieldId_10 = this.FieldId_10.getFieldValue();
+        this.value.APPLICATION_DETAILS = this.APPLICATION_DETAILS.getFieldValue();
+        this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
         return this.value;
     }
     setValue(inputValue, inputDesc = undefined) {
@@ -178,7 +198,9 @@ this.value.FieldId_10 = this.FieldId_10.getFieldValue();
         this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
         this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
         this.FieldId_5.setValue(inputValue['FieldId_5'], inputDesc['FieldId_5_desc']);
-this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc']);
+        this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc']);
+        this.APPLICATION_DETAILS.setValue(inputValue['APPLICATION_DETAILS'], inputDesc['APPLICATION_DETAILS_desc']);
+        this.NOTEPAD_DETAILS.setValue(inputValue['NOTEPAD_DETAILS'], inputDesc['NOTEPAD_DETAILS_desc']);
         this.value = new QDEModel();
         this.value.setValue(inputValue);
         this.setDependencies();
@@ -213,7 +235,11 @@ this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc'])
             this.value.FieldId_5 = this.FieldId_5.getFieldValue();
             this.FieldId_5.valueChangeUpdates().subscribe((value) => { this.value.FieldId_5 = value; });
             this.value.FieldId_10 = this.FieldId_10.getFieldValue();
-            this.FieldId_10.valueChangeUpdates().subscribe((value) => {this.value.FieldId_10 = value;});
+            this.FieldId_10.valueChangeUpdates().subscribe((value) => { this.value.FieldId_10 = value; });
+            this.value.APPLICATION_DETAILS = this.APPLICATION_DETAILS.getFieldValue();
+            this.APPLICATION_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.APPLICATION_DETAILS = value; });
+            this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
+            this.NOTEPAD_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.NOTEPAD_DETAILS = value; });
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
@@ -227,7 +253,9 @@ this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc'])
         this.FieldId_9.clearError();
         this.FieldId_6.clearError();
         this.FieldId_5.clearError();
-this.FieldId_10.clearError();
+        this.FieldId_10.clearError();
+        this.APPLICATION_DETAILS.clearError();
+        this.NOTEPAD_DETAILS.clearError();
         this.errors = 0;
         this.errorMessage = [];
     }
@@ -239,7 +267,9 @@ this.FieldId_10.clearError();
         // this.FieldId_8.onReset();
         this.FieldId_6.onReset();
         this.FieldId_5.onReset();
-this.FieldId_10.onReset();
+        this.FieldId_10.onReset();
+        this.APPLICATION_DETAILS.onReset();
+        this.NOTEPAD_DETAILS.onReset();
         this.clearHTabErrors();
         this.clearVTabErrors();
         this.errors = 0;
@@ -251,7 +281,7 @@ this.FieldId_10.onReset();
         this.setReadOnly(false);
         this.onFormLoad();
     }
-      async CUSTOMER_DETAILS_passBorrowerSeq(event) {
+    async CUSTOMER_DETAILS_passBorrowerSeq(event) {
         let inputMap = new Map();
         await this.FieldId_6.AddressGrid.gridDataLoad({
             'passBorrowerSeqToGrid': event.BorrowerSeq
@@ -263,7 +293,7 @@ this.FieldId_10.onReset();
 
         });
         this.FieldId_5.occBorrowerSeq = event.BorrowerSeq;
-       
+
         // await this.FieldId_10.onFormLoad({})
         // await this.FieldId_10.onFormLoad({
         //     'passBorrowerSeqToRefGrid': event.BorrowerSeq
@@ -272,12 +302,12 @@ this.FieldId_10.onReset();
         // this.FieldId_10.loanA = event.BorrowerSeq
     }
 
-    async CUSTOMER_DETAILS_updateCustGrid(event){
+    async CUSTOMER_DETAILS_updateCustGrid(event) {
         console.log("Calling this Emitter");
-        
+
         this.FieldId_9.APIForCustomerData(event);
         this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.APIForCustomerData(event)
-      
+
 
     }
     async FieldId_9_selectCustId(event) {
@@ -285,70 +315,70 @@ this.FieldId_10.onReset();
         this.CUSTOMER_DETAILS.CUST_DTLS_GRID_custDtlsEdit(event);
     }
 
-    async FieldId_9_resetCustForm(event){
+    async FieldId_9_resetCustForm(event) {
         this.CUSTOMER_DETAILS.onReset();
     }
 
-    async FieldId_6_addonblur(event){
+    async FieldId_6_addonblur(event) {
         console.log("Calling this Emitter");
         this.updateAddressTags();
     }
-    async CUSTOMER_DETAILS_custOnBlur(event){
+    async CUSTOMER_DETAILS_custOnBlur(event) {
         console.log("Calling this Emitter");
         this.addOccupationTags();
     }
 
-    
 
-    updateAddressTags(){
+
+    updateAddressTags() {
         let displayTag = [];
-        if(this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !==undefined){
-         displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";"+ " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue())
+        if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined) {
+            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";" + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue())
         }
-       let tags = [];
-       displayTag.forEach(tag =>{
-         tags.push({ text:tag});
-       })
-       this.QDE_ACCORD1.setTags("ADD_DETAILS",tags);
-     }
-
-  addOccupationTags(){
-    let displayTag = [];
-    if(this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined){
-     displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+        let tags = [];
+        displayTag.forEach(tag => {
+            tags.push({ text: tag });
+        })
+        this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
     }
-   let tags = [];
-   displayTag.forEach(tag =>{
-     tags.push({ text:tag});
-   })
- 
-   this.QDE_ACCORD1.setTags("OCC_DETAILS",tags);
- }
+
+    addOccupationTags() {
+        let displayTag = [];
+        if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
+            displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+        }
+        let tags = [];
+        displayTag.forEach(tag => {
+            tags.push({ text: tag });
+        })
+
+        this.QDE_ACCORD1.setTags("OCC_DETAILS", tags);
+    }
 
 
-//  async displayCustomerTag(){
-//     let displayTag = [];
-//     if(this.CUSTOMER_DETAILS.CD_FIRST_NAME.getFieldValue() !== undefined){
-//      displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
-//     }
-//     if(this.CUSTOMER_DETAILS.CD_LAST_NAME.getFieldValue() !== undefined){
-//         displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
-//        }
-//     let tags = [];
-//     displayTag.forEach(c => {
-//       tags.push({ label: c.customerType.value, text: c.FullName });
-//     })
+    //  async displayCustomerTag(){
+    //     let displayTag = [];
+    //     if(this.CUSTOMER_DETAILS.CD_FIRST_NAME.getFieldValue() !== undefined){
+    //      displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+    //     }
+    //     if(this.CUSTOMER_DETAILS.CD_LAST_NAME.getFieldValue() !== undefined){
+    //         displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+    //        }
+    //     let tags = [];
+    //     displayTag.forEach(c => {
+    //       tags.push({ label: c.customerType.value, text: c.FullName });
+    //     })
 
-//     this.CUSTOMER_DETAILS.setTags("CUST_DETAILS", tags);
-//    }
-     
- 
+    //     this.CUSTOMER_DETAILS.setTags("CUST_DETAILS", tags);
+    //    }
+
+
 
     // async FieldId_9_passApplicationId(event){
     //     this.CUSTOMER_DETAILS.onFormLoad(event);
     // }
-   
-  
+
+
 
     async QDE_SUBMIT_click(event) {
         let inputMap = new Map();
