@@ -11,8 +11,6 @@ import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetail
 import { HeaderModule } from '../Header/Header.module';
 
 import { QDEHandlerModule } from '../QDE/QDE-handler.module';
-import { RloUiAccordionGroupComponent } from '../rlo-ui-accordion/rlo-ui-accordion-group.component';
-import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
 import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 // import { CUSTOMERHANDLERModule } from '../customer-handler/customer-handler.module';
@@ -20,6 +18,7 @@ import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.mod
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module'
+import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -42,12 +41,11 @@ import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsFo
         OccupationDtlsFormModule,
         CustomerDtlsModule,
         ApplicationDtlsModule,
-        NotepadDetailsFormModule
+        NotepadDetailsFormModule,
+        RloUiAccordionModule
     ],
     declarations: [
-        QDEComponent,
-        RloUiAccordionComponent,
-        RloUiAccordionGroupComponent
+        QDEComponent
     ],
     exports: [
         QDEComponent,
