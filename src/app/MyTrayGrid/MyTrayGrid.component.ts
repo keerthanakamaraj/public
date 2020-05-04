@@ -494,6 +494,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   }
   async rowClicked(event) {
     let inputMap = new Map();
+    return; // stop navigation for QDE - Sprint 1
     var navPath = ('/home').split('/');
     navPath = navPath.slice(1);
     inputMap.clear();
