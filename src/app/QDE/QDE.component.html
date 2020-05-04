@@ -30,7 +30,8 @@
 
                             <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_9.isHidden()">
                                 <app-CustomerGridDTLS #FieldId_9 fieldID="FieldId_9" [formCode]="formCode" (selectCustId)="FieldId_9_selectCustId($event)"
-                                    (resetCustForm)="FieldId_9_resetCustForm($event)" (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)">
+                                    (resetCustForm)="FieldId_9_resetCustForm($event)" (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"
+                                    (passArrayToCustomer) = "FieldId_9_passArrayToCustomer($event)">
                                 </app-CustomerGridDTLS>
                             </div>
                             <rlo-ui-accordion #QDE_ACCORD1 class="col-12 col-sm-12 col-md-12 res-pr-hide">
