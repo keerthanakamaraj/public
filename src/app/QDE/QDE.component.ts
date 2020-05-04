@@ -378,6 +378,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //     this.CUSTOMER_DETAILS.onFormLoad(event);
     // }
 
+    async FieldId_9_passArrayToCustomer(event) {
+        setTimeout(() => {
+            this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
+        }, 20000);
+    }
+
 
 
     async QDE_SUBMIT_click(event) {
@@ -385,14 +391,5 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     fieldDependencies = {
     }
-
-
-
-
-    // async loadCustDtlsGrid(event) {
-    //     this.CustGrid.APIForCustomerData(event);
-
-    // }
-
 
 }

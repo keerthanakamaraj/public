@@ -30,7 +30,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @Output() selectCustId: EventEmitter<any> = new EventEmitter<any>();
   @Output() resetCustForm: EventEmitter<any> = new EventEmitter<any>();
   @Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
+  @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
   customerDataArr: any[];
+  // passArrayToCustomer: any;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -148,6 +150,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var res = httpResponse.body;
           var customerDataArr = [];
           var BorrowerDetails = res['BorrowerDetails'];
+          this.passArrayToCustomer.emit({
+            'CustomerArray' : BorrowerDetails
+          })
           if (BorrowerDetails) {
             BorrowerDetails.forEach(eachBorrower => {
               let customer = {};
