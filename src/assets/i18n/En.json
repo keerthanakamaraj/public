@@ -1,5 +1,6 @@
 {
   "ErrorCodes": {
+    "rlo.error.invalid.regex" : "Value does not match",
     "rlo.error.invalid.form" : "Please Fill all Mandatory Fields",
     "rlo.error.wrong.form":"Something went Wrong",
     "rlo.success.update.address": "Address Details Updated Successfully",
