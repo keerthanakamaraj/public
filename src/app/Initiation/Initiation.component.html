@@ -331,7 +331,7 @@
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_MOBILE.mandatory}">
                         {{ 'Initiation.CD_MOBILE' | translate}}</label>
                     </div>
-                    <app-text-box #CD_MOBILE fieldID="CD_MOBILE" [formCode]="formCode" placeholder="(Optional)"
+                    <app-text-box #CD_MOBILE fieldID="CD_MOBILE" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_MOBILE', $event)"></app-text-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
