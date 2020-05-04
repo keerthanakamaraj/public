@@ -272,13 +272,13 @@ inputMap.set('PathParam.BorrowerSeq', event.CustomerId);
 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);
+this.services.alert.showAlert(1, 'rlo.success.delete.customer', 5000);
 this.readonlyGrid.refreshGrid();},
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Something went wrong', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 }
 );
 }

@@ -151,7 +151,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
                         this.HideUserId.setError(err['ErrorDescription']);
                     }
                 }
-                this.services.alert.showAlert(2, 'Failed To Claim', -1);
+                this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
             }
         );
         this.setDependencies();

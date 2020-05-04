@@ -138,7 +138,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
                 var err = httpError['error']
                 if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                 }
-                this.services.alert.showAlert(2, 'Failed to load header details!', -1);
+                this.services.alert.showAlert(2, 'rlo.error.load.header', -1);
             }
         );
         await this.Handler.onFormLoad({

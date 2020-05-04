@@ -164,7 +164,7 @@ await this.services.http.fetchApi('/LoanDetails', 'POST', inputMap).toPromise()
 .then(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Loan Details Saved Successfully', 4000);
+this.services.alert.showAlert(1, 'rlo.success.save.loan', 4000);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -191,7 +191,7 @@ else if(err['ErrorElementPath'] == 'LoanDetails.LoanAmount'){
 this.LD_LOAN_AMT.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Loan Details Save Failed', 4000);
+this.services.alert.showAlert(2, 'rlo.error.save.loan', 4000);
 }
 );
 }

@@ -223,6 +223,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     width: 180px;
     height: 180px;
     vertical-align: middle;
+    cursor: pointer;
 
     .checkmark {
       height: 96px;
@@ -403,6 +404,9 @@ height: 43px;
   max-width: 15% !important;
   height: 43px;
   
+}
+.horizontal{
+  display: inline;
 }
 
 .LoanTypeImage{
@@ -605,7 +609,7 @@ padding-right: none !important;
   letter-spacing: 0;
   line-height: 18px;
   font-weight: 600 !important;
-  margin-left: 10px !important;
+  // margin-left: 10px !important;
 }
 .btn-edit{
   background-image: url("./../icons/edit.svg");

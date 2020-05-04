@@ -292,7 +292,7 @@ inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_
 this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Occupation Details Updated Successfully', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
 this.OD_SAVE_BTN.setDisabled(false);
 
 await this.OCC_DTLS_GRID.gridDataLoad({
@@ -377,7 +377,7 @@ else if(err['ErrorElementPath'] == 'OccupationSeq'){
 this.HidOccupationSeq.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Update failed', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.occupation', -1);
 }
 );
 }
@@ -411,7 +411,7 @@ inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_
 this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Occupation Details Saved Successfully!', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.occupation', 5000);
 this.OD_SAVE_BTN.setDisabled(false);
 
 await this.OCC_DTLS_GRID.gridDataLoad({
@@ -497,13 +497,13 @@ else if(err['ErrorElementPath'] == 'OccupationDetails.Occupation'){
 this.OD_OCCUPATION.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Error occurred while saving form!', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.occupation', -1);
 }
 );
 }
 }
 else{
-this.services.alert.showAlert(2, 'Please Fill all Mandatory Fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 async OD_CLEAR_BTN_click(event){
@@ -556,7 +556,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Failed to load data', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 }
 );
 }

@@ -177,7 +177,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var err = httpError['error']
           if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           }
-          this.services.alert.showAlert(2, 'Failed to load customer Borrower details!', -1);
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
       );
 

@@ -228,7 +228,7 @@ isStaff({}){
     this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
     this.updateCustomerTags();
 
-    this.MainComponent.services.alert.showAlert(1, 'Customer deleted', 1000);
+    this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
   }
 
   // Add Customer

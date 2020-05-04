@@ -389,7 +389,7 @@ async (httpError) => {
 var err = httpError['error']
 if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
 }
-this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 }
 );
 }
@@ -484,7 +484,7 @@ async (httpError) => {
 var err = httpError['error']
 if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
 }
-this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 }
 );
 }

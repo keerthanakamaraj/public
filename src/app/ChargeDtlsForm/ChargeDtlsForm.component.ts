@@ -196,7 +196,7 @@ inputMap.set('Body.ChargeDetails.ChargeCollection', this.CH_COLL.getFieldValue()
 this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Record Successfully Updated!', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.charge', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -248,7 +248,7 @@ else if(err['ErrorElementPath'] == 'ChargeDtlSeq'){
 this.hidChargeSeq.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Failed to update record!', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.charge', -1);
 }
 );
 }
@@ -271,7 +271,7 @@ inputMap.set('Body.ChargeDetails.ChargeCollection', this.CH_COLL.getFieldValue()
 this.services.http.fetchApi('/ChargeDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Record Saved Successfully!', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.charge', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -320,13 +320,13 @@ else if(err['ErrorElementPath'] == 'ChargeDetails.ChargeDescription'){
 this.CH_CHARGE_DESC.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Failed to save data!', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.charge', -1);
 }
 );
 }
 }
 else{
-this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 async CHARGE_DTLS_GRID_chargeDtlsEdit(event){
@@ -356,7 +356,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Something went wrong while getting data by id!', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 }
 );
 }

@@ -132,7 +132,7 @@ inputMap.set('Body.LoanDetails.Product', this.Product.getFieldValue());
 this.services.http.fetchApi('/LoanDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Loan Details Saved Successfully', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.loan', 5000);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -147,7 +147,7 @@ else if(err['ErrorElementPath'] == 'LoanDetails.ApplicationRefernceNo'){
 this.ARN.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(3, 'Failed To Save Details', -1);
+this.services.alert.showAlert(3, 'rlo.error.save.loan', -1);
 }
 );
 }

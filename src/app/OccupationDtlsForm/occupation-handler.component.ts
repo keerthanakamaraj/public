@@ -10,7 +10,8 @@ import { RLOUIHandlerComponent } from 'src/app/rlouihandler/rlouihandler.compone
 })
 export class OccupationHandlerComponent extends RLOUIHandlerComponent implements OnInit {
 	@Input() MainComponent: OccupationDtlsFormComponent;
-	formName: string = "OccupationDetails";
+  formName: string = "OccupationDetails";
+  occupations =[]; 
 	  ngOnInit() {
     // ngOnInit
   }
@@ -22,6 +23,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
   }
   
+
   occupationOnchange(){
    if (this.MainComponent.OD_OCCUPATION.getFieldValue() == 'SL'){
      this.MainComponent.OD_EMPLT_TYPE.mandatory = true;
@@ -40,6 +42,8 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
 
 
   }
+
+
 
  }
 

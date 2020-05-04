@@ -375,7 +375,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
 
   async BAD_PRODUCT_change(fieldID, value) {
-    
     this.BAD_SUB_PROD.onReset();
     this.BAD_SCHEME.onReset();
     this.BAD_PROMOTION.onReset();
@@ -701,7 +700,7 @@ this.SUBMIT_MAIN_BTN.setDisabled(false);
   }
 }
 else{
-this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 this.SUBMIT_MAIN_BTN.setDisabled(false);  
 
 }
