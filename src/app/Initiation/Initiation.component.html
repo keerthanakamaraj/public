@@ -31,7 +31,7 @@
                     <label class="clr-brown" [ngClass]="{'mandatory': SRC_TAX_ID.mandatory}">
                       {{ 'Initiation.SRC_TAX_ID' | translate}}</label>
                   </div>
-                  <app-text-box #SRC_TAX_ID fieldID="SRC_TAX_ID" [formCode]="formCode" placeholder="29750311018"
+                  <app-text-box #SRC_TAX_ID fieldID="SRC_TAX_ID" [formCode]="formCode"
                     (blur)="genericOnBlur('SRC_TAX_ID', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_CIF_NO.isHidden()">
