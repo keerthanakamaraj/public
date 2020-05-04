@@ -145,7 +145,7 @@ inputMap.set('Body.DeductionDetails.Equivalent Amt', this.OD_Equivalent_Amt.getF
 this.services.http.fetchApi('/DeductionDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, "Deduction Details Saved Successfully", 5000);
+this.services.alert.showAlert(1, "rlo.success.save.otherdeduction", 5000);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -166,12 +166,12 @@ else if(err['ErrorElementPath'] == 'DeductionDetails.ObligationHead'){
 this.OD_OBILGATION_HEAD.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, "Failed tp Save Deduction Details", 200);
+this.services.alert.showAlert(2, "rlo.error.save.otherdeduction", 200);
 }
 );
 }
 else{
-this.services.alert.showAlert(2, 'Please fill all the mandatory fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 fieldDependencies = {

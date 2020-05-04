@@ -180,7 +180,7 @@ inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue
 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Asset Details Updated Sucessfully', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.asset', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -223,7 +223,7 @@ else if(err['ErrorElementPath'] == 'AssetSeq'){
 this.ASSET_ID.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Failed to save Asset details', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.asset', -1);
 }
 );
 }
@@ -243,7 +243,7 @@ inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldVa
 this.services.http.fetchApi('/AssetDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Asset Details Saved Sucessfully', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.asset', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -283,13 +283,13 @@ else if(err['ErrorElementPath'] == 'AssetDetails.AssetType'){
 this.AT_ASSET_TYPE.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.asset', -1);
 }
 );
 }
 }
 else{
-this.services.alert.showAlert(2, 'Please fill all mandatory Fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 async AssetDetailsGrid_modifyAssetDetails(event){
@@ -318,7 +318,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Fail', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 this.hideSpinner();
 }
 );

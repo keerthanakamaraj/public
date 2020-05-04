@@ -175,7 +175,7 @@ this.services.http.fetchApi('/LoanDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 // this.hideLoanSeq.setValue(res['LoanDetails']['LoanDetailSeq']);
-this.services.alert.showAlert(1, 'Referrer details SuccessFully Saved', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.referral', 5000);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -190,7 +190,7 @@ else if(err['ErrorElementPath'] == 'LoanDetails.ReferrerName'){
 this.RD_REF_NAME.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail to save referrer details', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.referral', -1);
 }
 );
 }
@@ -204,7 +204,7 @@ inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REF_NO.getFieldValue())
 this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Referrer details SuccessFully Saved', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.referral', 5000);
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -222,7 +222,7 @@ else if(err['ErrorElementPath'] == 'LoanDetailSeq'){
 this.hideLoanSeq.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail to update referrer details', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.referral', -1);
 }
 );
 }

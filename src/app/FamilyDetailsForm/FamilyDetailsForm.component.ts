@@ -180,7 +180,7 @@ inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Successfully Updated', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.family', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -223,7 +223,7 @@ else if(err['ErrorElementPath'] == 'BorrowerSeq'){
 this.hiddenFamilySeq.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Failed To Update', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.family', -1);
 }
 );
 }
@@ -243,7 +243,7 @@ inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Successfully Saved', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.family', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -283,13 +283,13 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.Relationship'){
 this.FD_RELATIONSHIP.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail To Save', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.family', -1);
 }
 );
 }
 }
 else{
-this.services.alert.showAlert(2, 'Please Fill All Mandatory Fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 async clear_click(event){
@@ -322,7 +322,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Something Went Wrong', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 this.hideSpinner();
 }
 );

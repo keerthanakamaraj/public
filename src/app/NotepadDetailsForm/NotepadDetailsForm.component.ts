@@ -151,7 +151,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
             this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'Record Saved Successfully!', 5000);
+                    this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
                 },
                 async (httpError) => {
                     var err = httpError['error']
@@ -163,12 +163,12 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
                             this.ND_COMMENT_CAT.setError(err['ErrorDescription']);
                         }
                     }
-                    this.services.alert.showAlert(2, 'Failed to save data', -1);
+                    this.services.alert.showAlert(2, 'rlo.error.save.notepad', -1);
                 }
             );
         }
         else {
-            this.services.alert.showAlert(2, 'Please fill all mandatory fields', -1);
+            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
     }
     async ND_CLEAR_click(event) {

@@ -95,8 +95,8 @@ this.revalidateBasicField('AD_PREF_TIME'),
       this.revalidateBasicField('AD_CORR_EMAIL'),
       this.revalidateBasicField('AD_Email_ID'),
 this.revalidateBasicField('AD_Alternative_Email'),
-      // this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
-      // this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
+      this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
+      this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -208,6 +208,10 @@ async AD_ADDRESS_LINE1_blur (event) {
   this.addonblur.emit({});
   await this.Handler.onAddTypeChange({});
 }
+async AD_EMAIL1_CHECKBOX_blur(){
+  let inputMap =  new Map();
+  this.Handler.onEmailClick();
+}
 // async AD_CITY_blur  (event) {
 //   let inputMap = new Map();
 //   //  this.Handler.updateAddressTags();
@@ -231,7 +235,7 @@ async AD_PINCODE_blur (event) {
         if (loopVar4) {
           for (var i = 0; i < loopVar4.length; i++) {
             if (loopVar4[i].MailingAddress == 'Y') {
-              this.services.alert.showAlert(2, 'Mailing Address Already  Selected', -1);
+              this.services.alert.showAlert(2, 'Mailing Address Already Selected', -1);
               return;
             }
           }
@@ -268,7 +272,7 @@ async AD_PINCODE_blur (event) {
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
 
-            this.services.alert.showAlert(1, 'Address Details Updated Successfulyl', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
             // this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -345,7 +349,7 @@ async AD_PINCODE_blur (event) {
                 this.AD_PREF_TIME.setError(err['ErrorDescription']);
               }
             }
-            this.services.alert.showAlert(2, 'Update Failed', -1);
+            this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
           }
         );
       }
@@ -378,7 +382,7 @@ async AD_PINCODE_blur (event) {
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
 
-            this.services.alert.showAlert(1, 'Address Details Saved Successfully', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
             this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -453,13 +457,13 @@ async AD_PINCODE_blur (event) {
                 this.AD_PREF_TIME.setError(err['ErrorDescription']);
               }
             }
-            this.services.alert.showAlert(3, 'Failed to save address details', 5000);
+            this.services.alert.showAlert(3, 'rlo.error.save.address', 5000);
           }
         );
       }
     }
     else {
-      this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+      this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
   }
   async AD_CLEAR_BTN_click(event) {
@@ -504,7 +508,7 @@ async AD_PINCODE_blur (event) {
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
-        this.services.alert.showAlert(2, 'Fail to load', -1);
+        this.services.alert.showAlert(2, 'rlo.error.load.address', -1);
         this.hideSpinner();
       }
     );   

@@ -459,7 +459,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'Customer Details Updated Successfuly', 5000);
+                        this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.updateCustGrid.emit({
                             'custSeq': this.applicationId
@@ -556,7 +556,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                                 this.HidCustomerId.setError(err['ErrorDescription']);
                             }
                         }
-                        this.services.alert.showAlert(2, 'Fail', -1);
+                        this.services.alert.showAlert(2, 'rlo.error.update.cutomer', -1);
                     }
                 );
             }
@@ -601,7 +601,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
-                        this.services.alert.showAlert(1, 'Customer Details Saved Successfuly', 5000);
+                        this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.updateCustGrid.emit({
                             'custSeq': this.applicationId
                         })
@@ -687,7 +687,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                                 this.CD_TITLE.setError(err['ErrorDescription']);
                             }
                         }
-                        this.services.alert.showAlert(2, 'Something went wrong', -1);
+                        this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
                         this.updateCustGrid.emit({
                             'custSeq': this.applicationId
                         })
@@ -698,7 +698,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.Handler.deactivateClasses();
         }
         else {
-            this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
     }
     async CD_CLEAR_BTN_click(event) {

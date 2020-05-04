@@ -176,7 +176,7 @@ inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENC
 this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Form Successfully Updated', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.liability', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -219,7 +219,7 @@ else if(err['ErrorElementPath'] == 'LiabilitySeq'){
 this.hiddenLiabilitySeq.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Update Failed', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.liability', -1);
 }
 );
 }
@@ -239,7 +239,7 @@ inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENC
 this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, "Liability Details Saved Successfully", 5000);
+this.services.alert.showAlert(1, "rlo.success.save.liability", 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -279,7 +279,7 @@ else if(err['ErrorElementPath'] == 'LiabilityDetails.FinancerName'){
 this.LD_FINANCIER_NAME.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, "Failed to save liability details", -1);
+this.services.alert.showAlert(2, "rlo.error.save.liability", -1);
 }
 );
 }
@@ -310,7 +310,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Fail to load', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 this.hideSpinner();
 }
 );

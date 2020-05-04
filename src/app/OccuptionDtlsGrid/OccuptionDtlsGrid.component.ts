@@ -252,13 +252,13 @@ inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
 this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);
+this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
 this.readonlyGrid.refreshGrid();},
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Something went wrong', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 }
 );
 }

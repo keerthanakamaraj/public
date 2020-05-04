@@ -34,5 +34,13 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     this.MainComponent.AD_OCCUPANCY_STATUS.setReadOnly(false);
 }
 }
+
+onEmailClick()
+{
+  if(this.MainComponent.AD_EMAIL_ID2.getFieldValue() !== undefined){
+    this.MainComponent.AD_EMAIL2_CHECKBOX.checkedValue(true)
+  }
+}
+
 }
 

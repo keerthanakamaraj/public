@@ -189,7 +189,7 @@ inputMap.set('Body.VisitReportDetails.Observations', this.VRF_Observations.getFi
 this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Form Successfully Updated', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -235,7 +235,7 @@ else if(err['ErrorElementPath'] == 'VisitReportSeq'){
 this.HidVisitReportSeqId.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail To Update', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
 }
 );
 }
@@ -256,7 +256,7 @@ inputMap.set('Body.VisitReportDetails.Observations', this.VRF_Observations.getFi
 this.services.http.fetchApi('/VisitReportDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Successfully Added', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
 this.onReset();
 },
 async (httpError)=>{
@@ -299,13 +299,13 @@ else if(err['ErrorElementPath'] == 'VisitReportDetails.ReportType'){
 this.VRF_ReportType.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Fail To Save', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
 }
 );
 }
 }
 else{
-this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 async Visit_Report_Grid_modifyVisitReport(event){
@@ -335,7 +335,7 @@ var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
 this.hideSpinner();
-this.services.alert.showAlert(2, 'Fail To Load', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 this.hideSpinner();
 }
 );

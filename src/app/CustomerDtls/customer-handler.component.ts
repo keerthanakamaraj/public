@@ -13,7 +13,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   @Output() custDtlsEdit: EventEmitter<any> = new EventEmitter<any>();
   @Input() MainComponent: CustomerDtlsComponent;
   formName: string = "CustomerDetails";
-
+  customers = [];
   customerDetailsMap = new Map();
   // @ViewChild('"CD_CUSTOMER_TYPE"', { static: false }) CD_CUSTOMER_TYPE: ReadOnlyComponent;
   // @ViewChild('"CD_CUSTOMER_NAME"', { static: false }) CD_CUSTOMER_NAME: ReadOnlyComponent;
@@ -153,6 +153,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     });
   }
 
+
   // isStaffEnabled({ }) {
   //   if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
   //     || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
@@ -163,14 +164,11 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   //     this.MainComponent.CD_STAFF_ID.mandatory = true;
   //   }
   // }
-  async displayCustomerTag(){
-    let tags = [];
-   if(this.MainComponent.CD_CUST_TYPE.getFieldValue() !== undefined && this.MainComponent.CD_FULL_NAME.getFieldValue() !== undefined){
-    tags.push({ label:this.MainComponent.CD_CUST_TYPE.getFieldValue() , text: this.MainComponent.CD_FULL_NAME.getFieldValue() });
-   }
-     
+
+  
   
   // this.MainComponent.QDE_ACCORD.setTags("CUST_APPLICATION", tags);
   }
-}
+
+
 

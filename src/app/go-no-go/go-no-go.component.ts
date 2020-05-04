@@ -64,7 +64,7 @@ export class GoNoGoComponent implements OnInit {
     },
       (httpError) => {
         console.error(httpError);
-        this.services.alert.showAlert(2, 'Something went wrong while fetching data!', -1);
+        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
       });
   }
 
@@ -122,12 +122,12 @@ export class GoNoGoComponent implements OnInit {
     inputMap.set('Body.QuestionnaireDetails', questionnaireArray);
     
     this.services.http.fetchApi('/saveQuestionnaireDetails/{ApplicationId}', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-      this.services.alert.showAlert(1, 'Record Saved Successfully!', 5000);
+      this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
       this.loadQuestionnaireDtls();
     },
       (httpError) => {
         console.error(httpError);
-        this.services.alert.showAlert(2, 'Something went wrong while saving data!', -1);
+        this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
       });
       
   }

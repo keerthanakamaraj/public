@@ -362,7 +362,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Fail To Load', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.grid', -1);
 }
 );
 //}
@@ -384,13 +384,13 @@ inputMap.set('PathParam.VisitReportSeq', event.HidVisitReportId);
 this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'DELETE', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Successfully Deleted', 5000);
+this.services.alert.showAlert(1, 'rlo.success.delete.visitreport', 5000);
 this.readonlyGrid.refreshGrid();},
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Fail To Delete', -1);
+this.services.alert.showAlert(2, 'rlo.error.delete.visitreport', -1);
 }
 );
 }

@@ -158,7 +158,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       .then(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'Success', 5000);
+        this.services.alert.showAlert(1, 'rlo.success.save.application', 5000);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -179,7 +179,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             this.AD_SOURCING_CHANNEL.setError(err['ErrorDescription']);
           }
         }
-        this.services.alert.showAlert(2, 'Fail', -1);
+        this.services.alert.showAlert(2, 'rlo.error.save.application', -1);
       }
       );
   }
