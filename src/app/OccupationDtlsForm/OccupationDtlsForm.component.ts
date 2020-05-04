@@ -251,11 +251,17 @@ this.dependencyMap.clear();
 this.value = new OccupationDtlsFormModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
+
 this.onFormLoad();
 }
 async OD_OCCUPATION_change(fieldID,value){
   let inputMap = new Map();
   this.Handler.occupationOnchange();
+}
+
+async OD_COMPANY_CODE_change(fieldID , value){
+  let inputMap = new Map();
+  this.Handler.companyCodeChange();
 }
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
@@ -551,6 +557,7 @@ this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
 this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
 this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
+this.Handler.companyCodeChange()
 },
 async (httpError)=>{
 var err = httpError['error']

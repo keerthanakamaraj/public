@@ -201,16 +201,16 @@ this.hideOccType.setValue('OCCUPANCY_TYPE');
   async AD_ADD_TYPE_change (fieldID, value) {
     let inputMap = new Map();
     this.addonblur.emit({});
-   await this.Handler.onAddTypeChange({});
+   await this.Handler.onAddTypeChange();
 }
 async AD_ADDRESS_LINE1_blur (event) {
   let inputMap = new Map();
   this.addonblur.emit({});
-  await this.Handler.onAddTypeChange({});
+  // await this.Handler.onAddTypeChange();
 }
 async AD_EMAIL1_CHECKBOX_blur(){
   let inputMap =  new Map();
-  this.Handler.onEmailClick();
+   this.Handler.onEmailClick();
 }
 // async AD_CITY_blur  (event) {
 //   let inputMap = new Map();
@@ -219,7 +219,7 @@ async AD_EMAIL1_CHECKBOX_blur(){
 async AD_PINCODE_blur (event) {
   let inputMap = new Map();
   this.addonblur.emit({});
-  await this.Handler.onAddTypeChange({});
+  // await this.Handler.onAddTypeChange();
 }
 
 
@@ -267,7 +267,7 @@ async AD_PINCODE_blur (event) {
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
-        
+       
         this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -501,6 +501,7 @@ async AD_PINCODE_blur (event) {
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
         this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
+        this.Handler.onAddTypeChange();
         this.hideSpinner();
         
       },

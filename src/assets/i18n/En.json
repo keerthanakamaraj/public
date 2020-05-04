@@ -74,6 +74,7 @@
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
     "GRID_MANDATORY": "Add atleast one row",
+
     "VIEW_RECORD": "View the row to Approve or Reject",
     "SELECT_RECORD": "Select a row to Approve or Reject",
     "SELECT_RECORD_TO_VIEW": "Select a row to view",
@@ -1535,7 +1536,7 @@
     "CD_NATIONALITY" : "Nationality",
     "CD_PASSPORT_EXPIRY" : "Passport Expiry Date",
     "CD_GENDER" : "Gender",
-    "CD_PMRY_EMBSR_NAME" : "Primary Embosser 1 Name",
+    "CD_PMRY_EMBSR_NAME" : "Name on Card",
     "CD_LAST_NAME" : "Last Name",
     "CD_MIDDLE_NAME" : "Middle Name",
     "OTHER_DTLS_LBL" : "Other Details",
