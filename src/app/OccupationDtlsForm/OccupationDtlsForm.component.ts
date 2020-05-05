@@ -37,7 +37,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_DT_OF_INCPTN', {static: false}) OD_DT_OF_INCPTN: DateComponent;
 @ViewChild('OD_INDUSTRY', {static: false}) OD_INDUSTRY: ComboBoxComponent;
 @ViewChild('OD_NTR_OF_BUSS', {static: false}) OD_NTR_OF_BUSS: ComboBoxComponent;
-@ViewChild('OD_COMPANY_CODE', {static: false}) OD_COMPANY_CODE: TextBoxComponent;
+@ViewChild('OD_COMPANY_CODE', {static: false}) OD_COMPANY_CODE: ComboBoxComponent;
 @ViewChild('OD_COMP_CAT', {static: false}) OD_COMP_CAT: TextBoxComponent;
 @ViewChild('OD_COMP_NAME', {static: false}) OD_COMP_NAME: TextBoxComponent;
 @ViewChild('OD_LENGTH_OF_EXST', {static: false}) OD_LENGTH_OF_EXST: TextBoxComponent;
@@ -673,6 +673,19 @@ inDep: [
 ],
 outDep: [
 ]},
+OD_COMPANY_CODE: {
+  inDep: [
+  
+          { paramKey: "MstCompanyDetails.CompanyCd", depFieldID: "OD_COMPANY_CODE"},
+        ],
+        outDep: [
+  
+          { paramKey: "MstCompanyDetails.CompanyCategory", depFieldID: "OD_COMP_CAT" },
+          { paramKey: "MstCompanyDetails.CompnayName", depFieldID: "OD_COMP_NAME" }
+         
+        ]
+      },
+  
 }
     /* Write Custom Scripts Here */
     
