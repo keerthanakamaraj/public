@@ -92,6 +92,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     customerDetailMap: any;
     // customerDetailMap: {};
     // let customerDetailMap any;
+    NonEditableFieldList=[this.CD_CUST_TYPE,this.CD_EXISTING_CUST,this.CD_STAFF,this.CD_CIF,this.CD_STAFF_ID,this.CD_CUST_ID,this.CD_TITLE,this.CD_FIRST_NAME,this.CD_MIDDLE_NAME,this.CD_THIRD_NAME,this.CD_LAST_NAME,this.CD_FULL_NAME,this.CD_DOB,this.CD_GENDER];
     custMinAge: number = 18;
     custMaxAge: number = 100;
     async revalidate(): Promise<number> {
@@ -185,6 +186,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // });
         this.setDependencies();
         // this.Handler.displayCustomerTag();
+
     }
 
     setInputs(param: any) {
@@ -269,6 +271,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.setReadOnly(false);
         this.CD_EXISTING_CUST.isOptionsLoaded = false;
         this.CD_STAFF.isOptionsLoaded = false;
+        this.NonEditableFieldList.forEach(field => {
+            field.setReadOnly(false);
+        });
         this.onFormLoad(event);
     }
 
@@ -703,8 +708,30 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     async CD_CLEAR_BTN_click(event) {
         let inputMap = new Map();
-        this.onReset();
-        this.Handler.deactivateClasses();
+        this.clearQDEFields();
+     //   this.onReset();
+      //  this.Handler.deactivateClasses();
+    }
+    
+    clearQDEFields(){
+        this.CD_MARITAL_STATUS.onReset();
+        this.CD_MOBILE_NO.onReset();
+        this.CD_EMAIL.onReset();
+        this.CD_NATIONALITY.onReset();
+        this.CD_CITIZENSHIP.onReset();
+        this.CD_PASSPORT_EXPIRY.onReset();
+        this.CD_PASSPORT_NO.onReset();
+        this.CD_VISA_VALID.onReset();
+        this.CD_DRIVING_LICENSE.onReset();
+        this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+        this.CD_TAX_ID.onReset();
+        this.CD_DEBIT_SCORE.onReset();
+        this.CD_NATIONAL_ID.onReset();
+        this.CD_CUST_SEGMENT.onReset();
+        this.CD_PRIME_USAGE.onReset();
+        this.CD_PMRY_EMBSR_NAME.onReset();
+        this.CD_PREF_COM_CH.onReset();
+        this.CD_PREF_LANG.onReset();
     }
     async CUST_DTLS_GRID_custDtlsEdit(event) {
         let inputMap = new Map();
@@ -783,6 +810,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_DEBIT_SCORE.setValue(customer[i].DebitScore);
                 this.CD_CUST_SEGMENT.setValue(customer[i].CustomerSegment);
 
+                
                 this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer[i].StaffID);
 
                 this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer[i].ICIFNumber);
@@ -830,8 +858,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // }
     setYesNoTypeDependency(field, dependantField, dependantValue?: String) {
         if (dependantValue != undefined) {
+            field.setValue('Y')
             dependantField.setValue(dependantValue);
-            field.setValue('Y');
         }
         if (field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N') {
             dependantField.onReset()

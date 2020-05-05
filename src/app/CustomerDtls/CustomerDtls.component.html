@@ -154,7 +154,7 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE_NO.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_MOBILE_NO.mandatory}">
 {{ 'CustomerDtls.CD_MOBILE_NO' | translate}}
 </label>
 </div>
@@ -287,11 +287,11 @@
 </div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown">
+<label class="clr-brown" [ngClass]="{'mandatory': CD_PMRY_EMBSR_NAME.mandatory}" >
 {{ 'CustomerDtls.CD_PMRY_EMBSR_NAME' | translate}}
 </label>
 </div>
-<app-text-box #CD_PMRY_EMBSR_NAME fieldID="CD_PMRY_EMBSR_NAME" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('CD_PMRY_EMBSR_NAME', $event)"></app-text-box>
+<app-text-box #CD_PMRY_EMBSR_NAME fieldID="CD_PMRY_EMBSR_NAME" [formCode]="formCode" (blur)="genericOnBlur('CD_PMRY_EMBSR_NAME', $event)"></app-text-box>
 </div>
 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PREF_COM_CH.isHidden()">
