@@ -18,7 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ApplicationHandlerComponent } from '../ApplicationDtls/application-handler.component';
 
 const customCss: string = '';
-
+const moment = require('moment');
 @Component({
   selector: 'app-ApplicationDtls',
   templateUrl: './ApplicationDtls.component.html'
@@ -26,19 +26,19 @@ const customCss: string = '';
 export class ApplicationDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
   @ViewChild('AD_PHYSICAL_FORM_NO', { static: false }) AD_PHYSICAL_FORM_NO: TextBoxComponent;
   @ViewChild('AD_DATE_OF_RECIEPT', { static: false }) AD_DATE_OF_RECIEPT: DateComponent;
-  @ViewChild('AD_EXISTING_CUSTOMER', { static: false }) AD_EXISTING_CUSTOMER: ComboBoxComponent;
+ // @ViewChild('AD_EXISTING_CUSTOMER', { static: false }) AD_EXISTING_CUSTOMER: ComboBoxComponent;
   @ViewChild('AD_SOURCING_CHANNEL', { static: false }) AD_SOURCING_CHANNEL: ComboBoxComponent;
   @ViewChild('AD_DSA_ID', { static: false }) AD_DSA_ID: ComboBoxComponent;
   @ViewChild('AD_BRANCH', { static: false }) AD_BRANCH: ComboBoxComponent;
   @ViewChild('AD_Save', { static: false }) AD_Save: ButtonComponent;
   @ViewChild('Handler', { static: false }) Handler: ApplicationHandlerComponent;
-  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
+//  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidSourcingChannel', { static: false }) hidSourcingChannel: HiddenComponent;
   @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
   @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
 
-  refApplicationReq: any;
+  applicationId: any;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -68,15 +68,48 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     super.setBasicFieldsReadOnly(readOnly);
   }
   async onFormLoad(event) {
-    this.refApplicationReq = event.custSeq;
+    this.applicationId = event.custSeq;
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.hidExistCust.setValue('Y/N');
+    this.fetchApplicationDetails();
+ //   this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
     this.hidSourcingChannel.setValue('Branch');
     this.hidDsaId.setValue('DSA_ID');
     this.hidAccBranch.setValue('ACC_BRANCH');
     this.setDependencies();
     await this.Handler.onFormLoad({});
+
+  }
+
+  fetchApplicationDetails() {
+    let inputMap = new Map();
+    inputMap.clear();
+    if (this.applicationId) {
+
+      inputMap.set('PathParam.ApplicationId', this.applicationId);
+      this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap).subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+
+          var applDtls = res['ApplicationDetails'];
+          if (applDtls) {
+
+            this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+            this.AD_DATE_OF_RECIEPT.setValue(moment(applDtls.ApplicationInfo.CreatedOn, 'DD-MM-YYYY HH:mm:ss').format('DD-MM-YYYY'));
+           // this.AD_EXISTING_CUSTOMER.setValue(applDtls.ExistingCustomer);
+            this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
+            this.AD_DSA_ID.setValue(applDtls.DSACode);
+            this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
+          }
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+        }
+      );
+      this.setDependencies();
+    }
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -152,7 +185,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     inputMap.set('Body.ApplicationDetails.SourcingChannel', this.AD_SOURCING_CHANNEL.getFieldValue());
     inputMap.set('Body.ApplicationDetails.DSACode', this.AD_DSA_ID.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.AD_PHYSICAL_FORM_NO.getFieldValue());
-    inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
+   // inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
     await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap, '/olive/publisher').toPromise()
       .then(
@@ -166,9 +199,9 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
           if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationBranch') {
             this.AD_BRANCH.setError(err['ErrorDescription']);
           }
-          else if (err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer') {
-            this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
-          }
+          // else if (err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer') {
+          //   this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
+          // }
           else if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationInfo.PhysicalFormNo') {
             this.AD_PHYSICAL_FORM_NO.setError(err['ErrorDescription']);
           }
@@ -183,17 +216,18 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       }
       );
   }
-  fieldDependencies = {
-    AD_EXISTING_CUSTOMER: {
-      inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "AD_EXISTING_CUSTOMER", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+  fieldDependencies = {
+    // AD_EXISTING_CUSTOMER: {
+    //   inDep: [
+
+    //     { paramKey: "VALUE1", depFieldID: "AD_EXISTING_CUSTOMER", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     AD_SOURCING_CHANNEL: {
       inDep: [
 
@@ -218,8 +252,8 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       inDep: [
 
         { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
         { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
       ]

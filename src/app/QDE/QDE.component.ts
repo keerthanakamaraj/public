@@ -24,7 +24,7 @@ import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.compon
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component'
-import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component'
+// import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component'
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -52,7 +52,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('QDE_ACCORD1', { static: false }) QDE_ACCORD1: RloUiAccordionComponent;
     @ViewChild('QDE_ACCORD2', { static: false }) QDE_ACCORD2: RloUiAccordionComponent;
     @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
-    @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
+    // @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -65,7 +65,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.FieldId_5.revalidate(),
             this.FieldId_10.revalidate(),
             this.APPLICATION_DETAILS.revalidate(),
-            this.NOTEPAD_DETAILS.revalidate(),
+            // this.NOTEPAD_DETAILS.revalidate(),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -91,7 +91,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_5.setReadOnly(readOnly);
         this.FieldId_10.setReadOnly(readOnly);
         this.APPLICATION_DETAILS.setReadOnly(readOnly);
-        this.NOTEPAD_DETAILS.setReadOnly(readOnly);
+        // this.NOTEPAD_DETAILS.setReadOnly(readOnly);
 
     }
 
@@ -116,9 +116,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         await this.APPLICATION_DETAILS.onFormLoad({
             'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
         })
-        await this.NOTEPAD_DETAILS.onFormLoad({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-        })
+        // await this.NOTEPAD_DETAILS.onFormLoad({
+        //     'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+        // })
         await this.Handler.onFormLoad({
         });
         inputMap.clear();
@@ -177,7 +177,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.additionalInfo['FieldId_5_desc'] = this.FieldId_5.getFieldInfo();
         this.additionalInfo['FieldId_10_desc'] = this.FieldId_10.getFieldInfo();
         this.additionalInfo['APPLICATION_DETAILS_desc'] = this.APPLICATION_DETAILS.getFieldInfo();
-        this.additionalInfo['NOTEPAD_DETAILS_desc'] = this.NOTEPAD_DETAILS.getFieldInfo();
+        // this.additionalInfo['NOTEPAD_DETAILS_desc'] = this.NOTEPAD_DETAILS.getFieldInfo();
         return this.additionalInfo;
     }
     getFieldValue() {
@@ -188,7 +188,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value.FieldId_5 = this.FieldId_5.getFieldValue();
         this.value.FieldId_10 = this.FieldId_10.getFieldValue();
         this.value.APPLICATION_DETAILS = this.APPLICATION_DETAILS.getFieldValue();
-        this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
+        // this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
         return this.value;
     }
     setValue(inputValue, inputDesc = undefined) {
@@ -200,7 +200,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_5.setValue(inputValue['FieldId_5'], inputDesc['FieldId_5_desc']);
         this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc']);
         this.APPLICATION_DETAILS.setValue(inputValue['APPLICATION_DETAILS'], inputDesc['APPLICATION_DETAILS_desc']);
-        this.NOTEPAD_DETAILS.setValue(inputValue['NOTEPAD_DETAILS'], inputDesc['NOTEPAD_DETAILS_desc']);
+        // this.NOTEPAD_DETAILS.setValue(inputValue['NOTEPAD_DETAILS'], inputDesc['NOTEPAD_DETAILS_desc']);
         this.value = new QDEModel();
         this.value.setValue(inputValue);
         this.setDependencies();
@@ -238,8 +238,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.FieldId_10.valueChangeUpdates().subscribe((value) => { this.value.FieldId_10 = value; });
             this.value.APPLICATION_DETAILS = this.APPLICATION_DETAILS.getFieldValue();
             this.APPLICATION_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.APPLICATION_DETAILS = value; });
-            this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
-            this.NOTEPAD_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.NOTEPAD_DETAILS = value; });
+            // this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
+            // this.NOTEPAD_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.NOTEPAD_DETAILS = value; });
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
@@ -255,7 +255,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_5.clearError();
         this.FieldId_10.clearError();
         this.APPLICATION_DETAILS.clearError();
-        this.NOTEPAD_DETAILS.clearError();
+        // this.NOTEPAD_DETAILS.clearError();
         this.errors = 0;
         this.errorMessage = [];
     }
@@ -269,7 +269,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_5.onReset();
         this.FieldId_10.onReset();
         this.APPLICATION_DETAILS.onReset();
-        this.NOTEPAD_DETAILS.onReset();
+        // this.NOTEPAD_DETAILS.onReset();
         this.clearHTabErrors();
         this.clearVTabErrors();
         this.errors = 0;

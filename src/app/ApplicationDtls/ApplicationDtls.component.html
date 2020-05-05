@@ -30,7 +30,6 @@
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown">
 											{{ 'ApplicationDtls.AD_PHYSICAL_FORM_NO' | translate}}
-											<span class="error-d">*</span>
 										</label>
 									</div>
 									<app-text-box #AD_PHYSICAL_FORM_NO fieldID="AD_PHYSICAL_FORM_NO" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_PHYSICAL_FORM_NO', $event)"></app-text-box>
@@ -39,25 +38,22 @@
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown"  [ngClass]="{'mandatory': AD_DATE_OF_RECIEPT.mandatory}">
 											{{ 'ApplicationDtls.AD_DATE_OF_RECIEPT' | translate}}
-											<span class="error-d">*</span>
 										</label>
 									</div>
 									<app-date #AD_DATE_OF_RECIEPT fieldID="AD_DATE_OF_RECIEPT" [formCode]="formCode" [mandatory]="true" (blur)="genericOnBlur('AD_DATE_OF_RECIEPT', $event)"></app-date>
 								</div>
-								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EXISTING_CUSTOMER.isHidden()">
+								<!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EXISTING_CUSTOMER.isHidden()">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown">
 											{{ 'ApplicationDtls.AD_EXISTING_CUSTOMER' | translate}}
-											<span class="error-d">*</span>
 										</label>
 									</div>
 									<app-combo-box #AD_EXISTING_CUSTOMER category="2" fieldID="AD_EXISTING_CUSTOMER" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_EXISTING_CUSTOMER', $event)"></app-combo-box>
-								</div>
+								</div> -->
 								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_SOURCING_CHANNEL.isHidden()">
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown">
 											{{ 'ApplicationDtls.AD_SOURCING_CHANNEL' | translate}}
-											<span class="error-d">*</span>
 										</label>
 									</div>
 									<app-combo-box #AD_SOURCING_CHANNEL category="2" fieldID="AD_SOURCING_CHANNEL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_SOURCING_CHANNEL', $event)"></app-combo-box>
@@ -66,7 +62,6 @@
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown">
 											{{ 'ApplicationDtls.AD_DSA_ID' | translate}}
-											<span class="error-d">*</span>
 										</label>
 									</div>
 									<app-combo-box #AD_DSA_ID category="2" fieldID="AD_DSA_ID" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_DSA_ID', $event)"></app-combo-box>
@@ -75,7 +70,6 @@
 									<div class="clr-brown fieldLegend">
 										<label class="clr-brown">
 											{{ 'ApplicationDtls.AD_BRANCH' | translate}}
-											<span class="error-d">*</span>
 										</label>
 									</div>
 									<app-combo-box #AD_BRANCH category="2" fieldID="AD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_BRANCH', $event)"></app-combo-box>
@@ -88,10 +82,10 @@
 						</div>
 					</div>
 					<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-						<!-- <app-application-handler #Handler [MainComponent]="this"></app-application-handler> -->
+						<app-application-handler #Handler [MainComponent]="this"></app-application-handler>
 					</div>
 				</div>
-				<app-hidden #hidExistCust fieldID="hidExistCust"></app-hidden>
+				<!-- <app-hidden #hidExistCust fieldID="hidExistCust"></app-hidden> -->
 				<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
 				<app-hidden #hidSourcingChannel fieldID="hidSourcingChannel"></app-hidden>
 				<app-hidden #hidDsaId fieldID="hidDsaId"></app-hidden>

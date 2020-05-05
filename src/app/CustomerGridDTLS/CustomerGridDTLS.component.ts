@@ -191,7 +191,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   apiSuccessCallback(customerDataArr: any[]) {
     this.customerDetailsMap.clear();
-    // let borrowerSeq = undefined;
+  //  let borrowerSeq = undefined;
     customerDataArr.forEach(customer => {
       if (customer != null && customer != undefined && customer != '') {
         this.categoriseCustomers(customer.CD_CUSTOMER_TYPE, customer);

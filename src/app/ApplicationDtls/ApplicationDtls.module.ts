@@ -7,26 +7,29 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { ApplicationDtlsRoutingModule } from './ApplicationDtls-routing.module';
 import { ApplicationDtlsComponent } from './ApplicationDtls.component';
+import { ApplicationHandlerModule } from '../ApplicationDtls/application-handler.module';
 @NgModule({
-imports: [
-CommonModule,
-ApplicationDtlsRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-ApplicationDtlsComponent,
-],
-exports:[
-ApplicationDtlsComponent,
-],
+    imports: [
+        CommonModule,
+        ApplicationDtlsRoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        
+        ApplicationHandlerModule,
+    ],
+    declarations: [
+        ApplicationDtlsComponent,
+    ],
+    exports: [
+        ApplicationDtlsComponent,
+    ],
 })
 export class ApplicationDtlsModule { }
