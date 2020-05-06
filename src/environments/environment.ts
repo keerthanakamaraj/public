@@ -7,7 +7,7 @@ export const environment = {
   // baseURL: 'http://10.11.12.26:8180/olive/'
   // baseURL: "http://10.11.12.19:18180" //Mumbai
    baseURL: 'http://10.11.12.53:9090',
- // baseURL: 'https://rlfc.intellectseecapps.com',
+  // baseURL: 'https://rlfc.intellectseecapps.com',
   // baseURL: 'http://localhost:8081',
   enableKeycloak: false,
   authURL: 'https://iam.intellectseecapps.com/auth',
@@ -22,7 +22,8 @@ export const environment = {
     "/masters" : "/masters",
     "/ui" : "/olive/publisher",
     "/los-wf" : "/los-wf/",
-    "/initiation": "/olive/publisher"
+    "/initiation": "/olive/publisher",
+    "/rlo-de" : "/olive/publisher"
   }
 
   // serviceMap : {
@@ -30,7 +31,8 @@ export const environment = {
   //   "/masters" : "/masters/publisher",
   //   "/ui" : "/initiation/publisher",
   //   "/los-wf" : "/los-wf/rest",
-  //   "/initiation": "/initiation/publisher"
+  //   "/initiation": "/initiation/publisher",
+  //   "/rlo-de" : "/rlo-de/publisher"
   // }
 
   // serviceMap : {

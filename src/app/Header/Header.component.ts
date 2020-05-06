@@ -115,7 +115,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         inputMap.clear();
         inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
         console.log('inputmaap', inputMap);
-        this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.HD_PROD_CAT.setValue(res['Header']['TypeOfLoan']);
@@ -222,19 +222,19 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     fieldDependencies = {
     }
 
-    @HostListener('window:scroll', ['$event'])
-    handleScroll(){
-        const windowScroll = window.pageYOffset;
-        if(windowScroll >= 40){
-          this.stickyy = true;
-          this.disply1= false; 
-        } 
-     if(!windowScroll){
-          this.stickyy = false;
-          this.disply1 = true; 
-        } 
+    // @HostListener('window:scroll', ['$event'])
+    // handleScroll(){
+    //     const windowScroll = window.pageYOffset;
+    //     if(windowScroll >= 40){
+    //       this.stickyy = true;
+    //       this.disply1= false; 
+    //     } 
+    //  if(!windowScroll){
+    //       this.stickyy = false;
+    //       this.disply1 = true; 
+    //     } 
         
-      }
+    //   }
    
     apiSuccessCallback() {
 

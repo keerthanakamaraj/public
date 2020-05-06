@@ -99,66 +99,85 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async onFormLoad() {
-        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        this.HideProcessId.setValue('RLO_Process');
-        this.HideServiceCode.setValue('ClaimTask');
-        let inputMap = new Map();
-
-        this.FieldId_9.loadCustDtlsGrid({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId')
-        })
-
-
-        await this.FieldId_10.onFormLoad({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-        });
-
-        await this.CUSTOMER_DETAILS.onFormLoad({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-        })
-        await this.APPLICATION_DETAILS.onFormLoad({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-        })
-        await this.NOTEPAD_DETAILS.onFormLoad({
-            'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-        })
-        await this.Handler.onFormLoad({
-        });
-        inputMap.clear();
-        inputMap.set('Body.UserId', this.HideUserId.getFieldValue());
-        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-        inputMap.set('Body.TaskId', this.HideTaskId.getFieldValue());
-        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
-        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
-        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/clo-bpm-services/rest').subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body;
-                this.services.alert.showAlert(1, 'Proposal Claimed Successfully', 5000);
-            },
-            async (httpError) => {
-                var err = httpError['error']
-                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                    if (err['ErrorElementPath'] == 'ServiceCode') {
-                        this.HideServiceCode.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'ProcessId') {
-                        this.HideProcessId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'TaskId') {
-                        this.HideTaskId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
-                        this.HideTenantId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'UserId') {
-                        this.HideUserId.setError(err['ErrorDescription']);
-                    }
-                }
-                this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
-            }
-        );
-        this.setDependencies();
+      this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+      this.HideProcessId.setValue('RLO_Process');
+      this.HideServiceCode.setValue('ClaimTask');
+      this.HideTenantId.setValue('SB1');
+  
+      let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+      let taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+      let instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+      let userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+  
+      this.FieldId_9.loadCustDtlsGrid({
+        'custSeq': appId
+      });
+  
+      await this.FieldId_10.onFormLoad({
+        'custSeq': appId
+      });
+  
+      await this.CUSTOMER_DETAILS.onFormLoad({
+        'custSeq': appId
+      });
+      await this.APPLICATION_DETAILS.onFormLoad({
+        'custSeq': appId
+      });
+      // await this.NOTEPAD_DETAILS.onFormLoad({
+      //     'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+      // })
+      await this.Handler.onFormLoad({
+      });
+  
+      if(userId == undefined || userId == ''){
+        this.claimTask(taskId);
+      }
+      
+      this.setDependencies();
     }
+  
+    async claimTask(taskId){
+      let inputMap = new Map();
+      inputMap.clear();
+      inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+      inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+      inputMap.set('Body.TaskId', taskId);
+      inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+      inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+      this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+  
+          if(res.Status == "S"){
+            this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
+          } else {
+            this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+          }        
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            if (err['ErrorElementPath'] == 'ServiceCode') {
+              this.HideServiceCode.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'ProcessId') {
+              this.HideProcessId.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'TaskId') {
+              this.HideTaskId.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'TENANT_ID') {
+              this.HideTenantId.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'UserId') {
+              this.HideUserId.setError(err['ErrorDescription']);
+            }
+          }
+          this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+        }
+      );
+    }
+    
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
