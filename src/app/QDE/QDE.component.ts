@@ -123,9 +123,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       await this.APPLICATION_DETAILS.onFormLoad({
         'custSeq': appId
       });
-      // await this.NOTEPAD_DETAILS.onFormLoad({
-      //     'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-      // })
+      await this.NOTEPAD_DETAILS.onFormLoad({
+          'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+      })
       await this.Handler.onFormLoad({
       });
   
