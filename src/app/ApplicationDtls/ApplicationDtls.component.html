@@ -20,9 +20,9 @@
 		<div *ngIf="!formOnLoadError">
 			<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
 				<div class="form-group pb10">
-					<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+					<!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 						<app-label #APP_DTLS_HEAD parentCompCode="ApplicationDtls" fieldID="APP_DTLS_HEAD" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
-					</div>
+					</div> -->
 					<div class="col-12  col-sm-12 col-md-12 group-default">
 						<div #Application_Details id="Application_Details">
 							<div class="form-group pb10 ">
@@ -36,7 +36,7 @@
 								</div>
 								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_DATE_OF_RECIEPT.isHidden()">
 									<div class="clr-brown fieldLegend">
-										<label class="clr-brown"  [ngClass]="{'mandatory': AD_DATE_OF_RECIEPT.mandatory}">
+										<label class="clr-brown" [ngClass]="{'mandatory': AD_DATE_OF_RECIEPT.mandatory}">
 											{{ 'ApplicationDtls.AD_DATE_OF_RECIEPT' | translate}}
 										</label>
 									</div>
@@ -56,7 +56,8 @@
 											{{ 'ApplicationDtls.AD_SOURCING_CHANNEL' | translate}}
 										</label>
 									</div>
-									<app-combo-box #AD_SOURCING_CHANNEL category="2" fieldID="AD_SOURCING_CHANNEL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_SOURCING_CHANNEL', $event)"></app-combo-box>
+									<app-combo-box #AD_SOURCING_CHANNEL category="2" fieldID="AD_SOURCING_CHANNEL" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+									 doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_SOURCING_CHANNEL', $event)"></app-combo-box>
 								</div>
 								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_DSA_ID.isHidden()">
 									<div class="clr-brown fieldLegend">
@@ -64,7 +65,8 @@
 											{{ 'ApplicationDtls.AD_DSA_ID' | translate}}
 										</label>
 									</div>
-									<app-combo-box #AD_DSA_ID category="2" fieldID="AD_DSA_ID" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_DSA_ID', $event)"></app-combo-box>
+									<app-combo-box #AD_DSA_ID category="2" fieldID="AD_DSA_ID" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+									 doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_DSA_ID', $event)"></app-combo-box>
 								</div>
 								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_BRANCH.isHidden()">
 									<div class="clr-brown fieldLegend">
@@ -72,12 +74,13 @@
 											{{ 'ApplicationDtls.AD_BRANCH' | translate}}
 										</label>
 									</div>
-									<app-combo-box #AD_BRANCH category="2" fieldID="AD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_BRANCH', $event)"></app-combo-box>
+									<app-combo-box #AD_BRANCH category="2" fieldID="AD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+									 doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [mandatory]="true" (blur)="genericOnBlur('AD_BRANCH', $event)"></app-combo-box>
 								</div>
 								<div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
-								<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AD_Save.isHidden()">
+								<!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AD_Save.isHidden()">
 									<app-button #AD_Save fieldName="{{ 'ApplicationDtls.AD_Save' | translate}}" fieldID="AD_Save" [formCode]="formCode" (buttonClick)="AD_Save_click($event)"></app-button>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -94,4 +97,3 @@
 		</div>
 	</div>
 </form>
-

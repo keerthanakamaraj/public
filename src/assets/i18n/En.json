@@ -1758,8 +1758,8 @@
   },
   "ReferralDetailsForm" : {
     "RD_HEADING" : "Referral",
-    "RD_SAVE" : "null",
-    "RD_RESET" : "null",
+    "RD_SAVE" : "Save",
+    "RD_RESET" : "Clear",
     "RD_REF_NO" : "Referrer Mobile No.",
     "RD_REF_NAME" : "Referrer Name"
     }
