@@ -11,7 +11,7 @@ import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
 export class AddressHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: AddressDetailsComponent;
   formName: string = "AddressDetails";
-  address = [];
+
   ngOnInit() {
     // ngOnInit
   }
@@ -24,36 +24,34 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
   }
   
   
+ 
 
  onAddTypeChange() {
   if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'OF') {
     this.MainComponent.AD_OCCUPANCY_TYPE.setReadOnly(true);
     this.MainComponent.AD_OCCUPANCY_STATUS.setReadOnly(true);
-   
+
+    this.MainComponent.AD_OCCUPANCY_TYPE.mandatory = false;
+    this.MainComponent.AD_OCCUPANCY_STATUS.mandatory = false;
+
   } else {
     this.MainComponent.AD_OCCUPANCY_TYPE.setReadOnly(false);
     this.MainComponent.AD_OCCUPANCY_STATUS.setReadOnly(false);
 }
 if(this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'RS'){
-  this.MainComponent.AD_RES_DUR.setReadOnly(true)
-  this.MainComponent.AD_RES_DUR.setReadOnly(true);
-  this.MainComponent.AD_RES_DUR.mandatory = true;
+
+  this.MainComponent.AD_RES_DUR_UNIT.mandatory = true;
   this.MainComponent.AD_RES_DUR.mandatory = true;
 }
 else{
-  this.MainComponent.AD_RES_DUR.setReadOnly(false)
-  this.MainComponent.AD_RES_DUR.setReadOnly(false);
-  this.MainComponent.AD_RES_DUR.mandatory = false;
+  this.MainComponent.AD_RES_DUR_UNIT.mandatory = false;
   this.MainComponent.AD_RES_DUR.mandatory = false;
 }
 }
 
-onEmailClick()
-{
-  if(this.MainComponent.AD_EMAIL_ID2.getFieldValue() !== undefined){
-    this.MainComponent.AD_EMAIL2_CHECKBOX.checkedValue(true)
-  }
-}
+
+
+
 
 }
 

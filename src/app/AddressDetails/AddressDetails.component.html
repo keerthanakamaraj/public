@@ -147,7 +147,7 @@
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR_UNIT.isHidden()">
                         <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AD_RES_DUR.mandatory}">
                                 {{ 'AddressDetails.AD_RES_DUR_UNIT' | translate}}
                             </label>
                         </div>
@@ -210,7 +210,7 @@
                                 <label class="clr-brown">
                                     {{ 'AddressDetails.AD_EMAIL1_CHECKBOX' | translate}}
                                 </label>
-                                <app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
+                                <app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" checked='true' (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
                             </div>
                             <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'">
                                 <div class="clr-brown fieldLegend">

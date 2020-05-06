@@ -64,9 +64,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 @ViewChild('hidOccStatus', {static: false}) hidOccStatus: HiddenComponent;
 @ViewChild('hideOccType', {static: false}) hideOccType: HiddenComponent;
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
+  @ViewChild('hideOccp_type', { static: false }) hideOccp_type: HiddenComponent;
+  @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
-  address = [];
+  addResponse = [];
+  addresses = [];
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -92,9 +95,9 @@ this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
 this.revalidateBasicField('AD_PREF_TIME'),
-      this.revalidateBasicField('AD_CORR_EMAIL'),
-      this.revalidateBasicField('AD_Email_ID'),
-this.revalidateBasicField('AD_Alternative_Email'),
+      // this.revalidateBasicField('AD_CORR_EMAIL'),
+      // this.revalidateBasicField('AD_Email_ID'),
+// this.revalidateBasicField('AD_Alternative_Email'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
     ]).then((errorCounts) => {
@@ -210,8 +213,12 @@ async AD_ADDRESS_LINE1_blur (event) {
 }
 async AD_EMAIL1_CHECKBOX_blur(){
   let inputMap =  new Map();
-   this.Handler.onEmailClick();
+  //  this.onEmailClick();
 }
+// async AD_EMAIL2_CHECKBOX_blur(){
+//   let inputMap =  new Map();
+//   this.onEmailClick();
+// }
 // async AD_CITY_blur  (event) {
 //   let inputMap = new Map();
 //   //  this.Handler.updateAddressTags();
@@ -219,7 +226,20 @@ async AD_EMAIL1_CHECKBOX_blur(){
 async AD_PINCODE_blur (event) {
   let inputMap = new Map();
   this.addonblur.emit({});
-  // await this.Handler.onAddTypeChange();
+
+}
+
+// async  AD_RES_DUR_UNIT_blur (event) {
+//   let inputMap = new Map();
+//   this.addonblur.emit({});
+//   await this.Handler.setResDuration({});
+// }
+
+onEmailClick()
+{
+  if(this.AD_EMAIL_ID2.getFieldValue() == undefined){
+    this.services.alert.showAlert(2, 'You have to fill Alternate Email ID', -1);
+  }
 }
 
 
@@ -236,6 +256,39 @@ async AD_PINCODE_blur (event) {
           for (var i = 0; i < loopVar4.length; i++) {
             if (loopVar4[i].MailingAddress == 'Y') {
               this.services.alert.showAlert(2, 'Mailing Address Already Selected', -1);
+              return;
+            }
+          }
+        }
+      }
+      if (this.AD_ADD_TYPE.getFieldValue() == 'OF') {
+        var loopVar4 = addGridData;
+        if (loopVar4) {
+          for (var i = 0; i < loopVar4.length; i++) {
+            if (loopVar4[i].AD_Address_Type == 'OF') {
+              this.services.alert.showAlert(2, 'Office Address already exist', -1);
+              return;
+            }
+          }
+        }
+      }
+      if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR') {
+        var loopVar5 = addGridData;
+        if (loopVar5) {
+          for (var i = 0; i < loopVar5.length; i++) {
+            if (loopVar5[i].AD_OCCUP_TYPE == 'CR') {
+              this.services.alert.showAlert(2, 'Current Residence address already exist', -1);
+              return;
+            }
+          }
+        }
+      }
+      if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR') {
+        var loopVar5 = addGridData;
+        if (loopVar5) {
+          for (var i = 0; i < loopVar5.length; i++) {
+            if (loopVar5[i].AD_OCCUP_TYPE == 'PR') {
+              this.services.alert.showAlert(2, 'Permanent Residence address already exist', -1);
               return;
             }
           }
@@ -266,12 +319,11 @@ async AD_PINCODE_blur (event) {
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
-       
+        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
         this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-
+            
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
             // this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
@@ -375,14 +427,16 @@ async AD_PINCODE_blur (event) {
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
-        inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
+        inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue()); 
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
+        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
+     
         this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-
+  
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
+            
             this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -500,10 +554,11 @@ async AD_PINCODE_blur (event) {
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
-        this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
-        this.Handler.onAddTypeChange();
+        // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
+        this.addResponse = res;
         this.hideSpinner();
-        
+        await this.Handler.onAddTypeChange();
+        console.log(this.addResponse);
       },
       async (httpError) => {
         var err = httpError['error']

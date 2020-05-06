@@ -186,46 +186,47 @@ this.onFormLoad();
 this.checkForHTabOverFlow();
 });
 }
-joinDate() {
-  var Selectdate = this.OD_DATE_OF_JOINING.getFieldValue();
-  // console.log(Selectdate);
-  var Givendate = new Date();
-  Givendate = new Date(Givendate);
-  var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-  var day = ("0" + Givendate.getDate()).slice(-2);
-  var now = [day, mnth, Givendate.getFullYear()].join("-");
-  // console.log(now);
-  if (Selectdate > now) {
-      // console.log("select date");
-      this.services.alert.showAlert(2, 'Please select correct date', -1);
-      this.OD_DATE_OF_JOINING.onReset();
+joinDate(selectedDate) {
+  const moment = require('moment');
+  const currentDate = moment();
+  currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+  selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+  console.log("current date :: ", currentDate._d);
+  console.log("selected date :: ", selectedDate._d);
+  if (selectedDate <= currentDate) {
+      return false;
   }
+  return true;
 }
 
-dt_Incptn() {
-  var Selectdate = this.OD_DT_OF_INCPTN.getFieldValue();
-  // console.log(Selectdate);
-  var Givendate = new Date();
-  Givendate = new Date(Givendate);
-  var mnth = ("0" + (Givendate.getMonth() + 1)).slice(-2);
-  var day = ("0" + Givendate.getDate()).slice(-2);
-  var now = [day, mnth, Givendate.getFullYear()].join("-");
-  // console.log(now);
-  if (Selectdate < now) {
-      // console.log("select date");
-      this.services.alert.showAlert(2, 'Please select correct date', -1);
-      this.OD_DT_OF_INCPTN.onReset();
+dt_Incptn(selectedDate) {
+  const moment = require('moment');
+  const currentDate = moment();
+  currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+  console.log("current date :: ", currentDate._d);
+  console.log("selected date :: ", selectedDate._d);
+  if (selectedDate >= currentDate) {
+      return false;
   }
+  return true;
 }
 
 async OD_DATE_OF_JOINING_blur(event) {
   let inputMap = new Map();
-  this.joinDate();
+  if (!this.joinDate(this.OD_DATE_OF_JOINING.getFieldValue())) {
+    this.services.alert.showAlert(2, 'Please select correct date', -1);
+    this.OD_DATE_OF_JOINING.onReset();
+}
 }
 
 async OD_DT_OF_INCPTN_blur(event) {
   let inputMap = new Map();
-  this.dt_Incptn();
+  if (!this.dt_Incptn(this.OD_DT_OF_INCPTN.getFieldValue())) {
+    this.services.alert.showAlert(2, 'Please select correct date', -1);
+    this.OD_DT_OF_INCPTN.onReset();
+}
 }
 async OD_OCCUPATION_blur(event) {
   let inputMap = new Map();
