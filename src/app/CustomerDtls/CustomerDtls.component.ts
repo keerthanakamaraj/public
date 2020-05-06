@@ -22,7 +22,6 @@ import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.compo
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
-
 const customCss: string = '';
 
 @Component({
@@ -84,6 +83,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
     @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
+   // @Input() ProductCategory: String;
+    @Input() isLoanCategory:boolean=true;
 
     appId: any;
     staffcheck: boolean;
@@ -92,7 +93,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     customerDetailMap: any;
     // customerDetailMap: {};
     // let customerDetailMap any;
-    NonEditableFieldList=[this.CD_CUST_TYPE,this.CD_EXISTING_CUST,this.CD_STAFF,this.CD_CIF,this.CD_STAFF_ID,this.CD_CUST_ID,this.CD_TITLE,this.CD_FIRST_NAME,this.CD_MIDDLE_NAME,this.CD_THIRD_NAME,this.CD_LAST_NAME,this.CD_FULL_NAME,this.CD_DOB,this.CD_GENDER];
     custMinAge: number = 18;
     custMaxAge: number = 100;
     async revalidate(): Promise<number> {
@@ -184,9 +184,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         let inputMap = new Map();
         //  this.Handler.onFormLoad({
         // });
+
+        // if(this.ProductCategory!=undefined){
+        //     console.log("shweta event found 1 :::",this.ProductCategory);
+        //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
+        //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
+        // }
+        this.setNonEditableFields(false);
         this.setDependencies();
         // this.Handler.displayCustomerTag();
-
+        
     }
 
     setInputs(param: any) {
@@ -271,9 +278,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.setReadOnly(false);
         this.CD_EXISTING_CUST.isOptionsLoaded = false;
         this.CD_STAFF.isOptionsLoaded = false;
-        this.NonEditableFieldList.forEach(field => {
-            field.setReadOnly(false);
-        });
+        this.setNonEditableFields(false);
         this.onFormLoad(event);
     }
 
@@ -779,6 +784,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
+                this.setNonEditableFields(true);
 
             },
             async (httpError) => {
@@ -787,7 +793,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 }
             }
         );
-
 
     }
 
@@ -846,7 +851,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             }
 
         }
-
+        this.customerFetchSuccessCallBack();
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();
@@ -874,6 +879,27 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     CD_EXISTING_CUST_change(fieldId, value) {
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
+    }
+
+    customerFetchSuccessCallBack(){
+        this.setNonEditableFields(true);
+
+        // if(this.ProductCategory!=undefined){
+        //     console.log("shweta event found :::",this.ProductCategory);
+        //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
+        //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
+        // }
+    }
+
+    setNonEditableFields(flag) {
+        this.CD_CUST_TYPE.setReadOnly(flag);
+        this.CD_TITLE.setReadOnly(flag);
+        this.CD_FIRST_NAME.setReadOnly(flag);
+        this.CD_MIDDLE_NAME.setReadOnly(flag);
+        // this.CD_THIRD_NAME.setReadOnly(flag);
+        this.CD_LAST_NAME.setReadOnly(flag);
+        this.CD_DOB.setReadOnly(flag);
+        this.CD_GENDER.setReadOnly(flag);
     }
 
     fieldDependencies = {

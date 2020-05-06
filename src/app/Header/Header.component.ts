@@ -43,6 +43,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
+    @Output() productCategoryFound: EventEmitter<any> = new EventEmitter<any>();
+
     PRODUCT_CATEGORY_IMG = '';
     CURRENCY_IMG = '';
     stickyy: boolean = false;
@@ -117,6 +119,10 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.HD_PROD_CAT.setValue(res['Header']['TypeOfLoan']);
+               let isLoanCategory = this.HD_PROD_CAT.getFieldValue()=='CC'?false:true;
+                this.productCategoryFound.emit({
+                    'isLoanCategory' : isLoanCategory
+                  })
                 this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
                 this.HD_PROD.setValue(res['Header']['Product']);
                 this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
@@ -234,22 +240,26 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
         this.CURRENCY_IMG = '/assets/icons/rupee-yellow.svg';
 
-        if (this.HD_PROD_CAT != undefined) {
             switch (this.HD_PROD_CAT.getFieldValue()) {
 
                 case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/autoloan-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Auto Loan'); break;
+                    this.HD_PROD_CAT.setValue('Auto Loan');
+                    break;
 
                 case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Personal Loan'); break;
+                    this.HD_PROD_CAT.setValue('Personal Loan');
+                    break;
 
                 case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgage-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Mortgage Loan'); break;
+                    this.HD_PROD_CAT.setValue('Mortgage Loan'); 
+                    break;
 
                 case 'CC': this.PRODUCT_CATEGORY_IMG = '/assets/icons/creditcard-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Credit Card'); break;
+                    this.HD_PROD_CAT.setValue('Credit Card'); 
+                    break;
             }
 
-        }
+
+        
     }
 }

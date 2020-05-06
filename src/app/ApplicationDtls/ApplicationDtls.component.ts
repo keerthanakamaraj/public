@@ -46,7 +46,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     await Promise.all([
       this.revalidateBasicField('AD_PHYSICAL_FORM_NO'),
       this.revalidateBasicField('AD_DATE_OF_RECIEPT'),
-      this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
+    //  this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
       this.revalidateBasicField('AD_SOURCING_CHANNEL'),
       this.revalidateBasicField('AD_DSA_ID'),
       this.revalidateBasicField('AD_BRANCH'),

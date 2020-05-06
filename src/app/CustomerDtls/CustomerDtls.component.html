@@ -269,7 +269,7 @@
 </div>
 <app-combo-box #CD_CUST_SEGMENT category="2" fieldID="CD_CUST_SEGMENT" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SEGMENT', $event)"></app-combo-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWN.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWN.isHidden() || !isLoanCategory">
 <div class="clr-brown fieldLegend">
 <label class="clr-brown">
 {{ 'CustomerDtls.CD_LOAN_OWN' | translate}}
@@ -285,9 +285,9 @@
 </div>
 <app-text-box #CD_PRIME_USAGE fieldID="CD_PRIME_USAGE" [formCode]="formCode" (blur)="genericOnBlur('CD_PRIME_USAGE', $event)"></app-text-box>
 </div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()|| isLoanCategory">
 <div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_PMRY_EMBSR_NAME.mandatory}" >
+<label class="clr-brown">
 {{ 'CustomerDtls.CD_PMRY_EMBSR_NAME' | translate}}
 </label>
 </div>
