@@ -1309,7 +1309,7 @@
     "APP_DTLS_HEAD": "Application Details",
     "AD_EXISTING_CUSTOMER": "Existing Customer",
     "AD_SOURCING_CHANNEL": "Sourcing Channel",
-    "AD_Save": "Save",
+    "AD_Save": "SAVE",
     "AD_BRANCH": "Branch",
     "AD_DATE_OF_RECIEPT": "Date of Reciept",
     "AD_DSA_ID": "DSA Id",
@@ -1402,6 +1402,8 @@
     "OD_EDIT_BTN_ButtonName": "Edit",
     "toolbar_OccuptionDtlsGrid": "null",
     "OD_OCCUPATION": "Occupation",
+    "NET_INCOME":"Net Income",
+    "INCOME_FREQ":"Income Frequency",
     "OD_DELETE_ButtonName": "Delete",
     "OD_INDUSTRY": "Industry",
     "OD_COMPANY_NAME": "Company Name"
@@ -1542,8 +1544,8 @@
     "OTHER_DTLS_LBL" : "Other Details",
     "CD_CUST_SEGMENT" : "Customer Segment",
     "CD_DEBIT_SCORE" : "Debit Score",
-    "CD_CLEAR_BTN" : "Clear",
-    "CD_SAVE_BTN" : "Save",
+    "CD_CLEAR_BTN" : "CLEAR",
+    "CD_SAVE_BTN" : "SAVE",
     "Handler" : "null",
     "CUSTOMER_DTLS_LBL" : "Customer Details",
     "CD_STAFF_ID" : "Staff Id",
@@ -1691,8 +1693,8 @@
     "ND_COMMENTS": "Comments"
   },
   "NotepadDetailsForm": {
-    "ND_SAVE": "Save",
-    "ND_CLEAR": "Clear",
+    "ND_SAVE": "SAVE",
+    "ND_CLEAR": "CLEAR",
     "ND_COMMENT_CAT": "Comment Category",
     "FieldId_7": "null",
     "ND_COMMENTS": "Comments",
@@ -1758,8 +1760,8 @@
   },
   "ReferralDetailsForm" : {
     "RD_HEADING" : "Referral",
-    "RD_SAVE" : "Save",
-    "RD_RESET" : "Clear",
+    "RD_SAVE" : "SAVE",
+    "RD_RESET" : "CLEAR",
     "RD_REF_NO" : "Referrer Mobile No.",
     "RD_REF_NAME" : "Referrer Name"
     }

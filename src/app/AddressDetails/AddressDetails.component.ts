@@ -226,7 +226,6 @@ async AD_EMAIL1_CHECKBOX_blur(){
 async AD_PINCODE_blur (event) {
   let inputMap = new Map();
   this.addonblur.emit({});
-
 }
 
 // async  AD_RES_DUR_UNIT_blur (event) {

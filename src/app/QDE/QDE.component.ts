@@ -345,7 +345,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("Calling this Emitter");
         this.updateAddressTags();
     }
-    async CUSTOMER_DETAILS_custOnBlur(event) {
+    async FieldId_5_occpOnBlur(event) {
         console.log("Calling this Emitter");
         this.addOccupationTags();
     }

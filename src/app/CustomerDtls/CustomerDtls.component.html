@@ -318,7 +318,7 @@
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_SAVE_BTN.isHidden()">
-    <app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-secondary" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
+    <app-button #CD_SAVE_BTN fieldName="{{ 'CustomerDtls.CD_SAVE_BTN' | translate}}" fieldID="CD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="CD_SAVE_BTN_click($event)"></app-button>
 </div>
 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_CLEAR_BTN.isHidden()">
 <app-button #CD_CLEAR_BTN fieldName="{{ 'CustomerDtls.CD_CLEAR_BTN' | translate}}" fieldID="CD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="CD_CLEAR_BTN_click($event)"></app-button>

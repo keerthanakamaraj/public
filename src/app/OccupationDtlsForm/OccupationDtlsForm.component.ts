@@ -228,10 +228,6 @@ async OD_DT_OF_INCPTN_blur(event) {
     this.OD_DT_OF_INCPTN.onReset();
 }
 }
-async OD_OCCUPATION_blur(event) {
-  let inputMap = new Map();
-  this.occpOnBlur.emit({});
-}
 
 
 clearError(){
@@ -258,6 +254,7 @@ this.onFormLoad();
 async OD_OCCUPATION_change(fieldID,value){
   let inputMap = new Map();
   this.Handler.occupationOnchange();
+  this.occpOnBlur.emit({});
 }
 
 async OD_COMPANY_CODE_change(fieldID , value){

@@ -40,10 +40,10 @@
                     </div>
                     <div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_SAVE.isHidden()">
-                        <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" fieldID="RD_SAVE" [formCode]="formCode" (buttonClick)="RD_SAVE_click($event)"></app-button>
+                        <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" customClass="btn btn-primary" fieldID="RD_SAVE" [formCode]="formCode" (buttonClick)="RD_SAVE_click($event)"></app-button>
                     </div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_RESET.isHidden()">
-                        <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" fieldID="RD_RESET" [formCode]="formCode"></app-button>
+                        <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" customClass="btn-warning-outline" fieldID="RD_RESET" [formCode]="formCode"></app-button>
                     </div>
                 </div>
                 <app-hidden #hideLoanSeq fieldID="hideLoanSeq"></app-hidden>
