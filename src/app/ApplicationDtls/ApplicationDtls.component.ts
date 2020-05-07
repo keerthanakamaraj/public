@@ -26,19 +26,20 @@ const moment = require('moment');
 export class ApplicationDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
   @ViewChild('AD_PHYSICAL_FORM_NO', { static: false }) AD_PHYSICAL_FORM_NO: TextBoxComponent;
   @ViewChild('AD_DATE_OF_RECIEPT', { static: false }) AD_DATE_OF_RECIEPT: DateComponent;
- // @ViewChild('AD_EXISTING_CUSTOMER', { static: false }) AD_EXISTING_CUSTOMER: ComboBoxComponent;
+  // @ViewChild('AD_EXISTING_CUSTOMER', { static: false }) AD_EXISTING_CUSTOMER: ComboBoxComponent;
   @ViewChild('AD_SOURCING_CHANNEL', { static: false }) AD_SOURCING_CHANNEL: ComboBoxComponent;
   @ViewChild('AD_DSA_ID', { static: false }) AD_DSA_ID: ComboBoxComponent;
   @ViewChild('AD_BRANCH', { static: false }) AD_BRANCH: ComboBoxComponent;
   @ViewChild('AD_Save', { static: false }) AD_Save: ButtonComponent;
   @ViewChild('Handler', { static: false }) Handler: ApplicationHandlerComponent;
-//  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
+  //  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidSourcingChannel', { static: false }) hidSourcingChannel: HiddenComponent;
   @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
   @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
 
-  applicationId: any;
+  @Input() ApplicationId: string = undefined;
+
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -46,7 +47,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     await Promise.all([
       this.revalidateBasicField('AD_PHYSICAL_FORM_NO'),
       this.revalidateBasicField('AD_DATE_OF_RECIEPT'),
-    //  this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
+      //  this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
       this.revalidateBasicField('AD_SOURCING_CHANNEL'),
       this.revalidateBasicField('AD_DSA_ID'),
       this.revalidateBasicField('AD_BRANCH'),
@@ -68,10 +69,10 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     super.setBasicFieldsReadOnly(readOnly);
   }
   async onFormLoad(event) {
-    this.applicationId = event.custSeq;
+    // this.ApplicationId = event.custSeq;
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.fetchApplicationDetails();
- //   this.hidExistCust.setValue('Y/N');
+    // this.fetchApplicationDetails();
+    //   this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
     this.hidSourcingChannel.setValue('Branch');
     this.hidDsaId.setValue('DSA_ID');
@@ -84,9 +85,9 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   fetchApplicationDetails() {
     let inputMap = new Map();
     inputMap.clear();
-    if (this.applicationId) {
+    if (this.ApplicationId) {
 
-      inputMap.set('PathParam.ApplicationId', this.applicationId);
+      inputMap.set('PathParam.ApplicationId', this.ApplicationId);
       this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap).subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
@@ -96,7 +97,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
 
             this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
             this.AD_DATE_OF_RECIEPT.setValue(moment(applDtls.ApplicationInfo.CreatedOn, 'DD-MM-YYYY HH:mm:ss').format('DD-MM-YYYY'));
-           // this.AD_EXISTING_CUSTOMER.setValue(applDtls.ExistingCustomer);
+            // this.AD_EXISTING_CUSTOMER.setValue(applDtls.ExistingCustomer);
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
@@ -185,7 +186,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     inputMap.set('Body.ApplicationDetails.SourcingChannel', this.AD_SOURCING_CHANNEL.getFieldValue());
     inputMap.set('Body.ApplicationDetails.DSACode', this.AD_DSA_ID.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.AD_PHYSICAL_FORM_NO.getFieldValue());
-   // inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
+    // inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
     await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap, '/olive/publisher').toPromise()
       .then(

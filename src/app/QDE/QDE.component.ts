@@ -55,7 +55,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
 
-   // public ProductCategory: String;
+    // public ProductCategory: String;
+    ApplicationId: string = undefined;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -99,85 +100,90 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async onFormLoad() {
-      this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-      this.HideProcessId.setValue('RLO_Process');
-      this.HideServiceCode.setValue('ClaimTask');
-      this.HideTenantId.setValue('SB1');
-  
-      let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-      let taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
-      let instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-      let userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
-  
-      this.FieldId_9.loadCustDtlsGrid({
-        'custSeq': appId
-      });
-  
-      await this.FieldId_10.onFormLoad({
-        'custSeq': appId
-      });
-  
-      await this.CUSTOMER_DETAILS.onFormLoad({
-        'custSeq': appId
-      });
-      await this.APPLICATION_DETAILS.onFormLoad({
-        'custSeq': appId
-      });
-      await this.NOTEPAD_DETAILS.onFormLoad({
-          'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
-      })
-      await this.Handler.onFormLoad({
-      });
-  
-      if(userId == undefined || userId == ''){
-        this.claimTask(taskId);
-      }
-      
-      this.setDependencies();
-    }
-  
-    async claimTask(taskId){
-      let inputMap = new Map();
-      inputMap.clear();
-      inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
-      inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-      inputMap.set('Body.TaskId', taskId);
-      inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
-      inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
-      this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-  
-          if(res.Status == "S"){
-            this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
-          } else {
-            this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
-          }        
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-            if (err['ErrorElementPath'] == 'ServiceCode') {
-              this.HideServiceCode.setError(err['ErrorDescription']);
-            }
-            else if (err['ErrorElementPath'] == 'ProcessId') {
-              this.HideProcessId.setError(err['ErrorDescription']);
-            }
-            else if (err['ErrorElementPath'] == 'TaskId') {
-              this.HideTaskId.setError(err['ErrorDescription']);
-            }
-            else if (err['ErrorElementPath'] == 'TENANT_ID') {
-              this.HideTenantId.setError(err['ErrorDescription']);
-            }
-            else if (err['ErrorElementPath'] == 'UserId') {
-              this.HideUserId.setError(err['ErrorDescription']);
-            }
-          }
-          this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.HideProcessId.setValue('RLO_Process');
+        this.HideServiceCode.setValue('ClaimTask');
+        this.HideTenantId.setValue('SB1');
+
+        let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+        this.ApplicationId = appId;
+        let taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+        let instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+        let userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+
+        await this.brodcastApplicationId();
+
+        this.FieldId_9.doAPIForCustomerList({});
+        this.FieldId_10.fetchReferalDetails();
+        this.APPLICATION_DETAILS.fetchApplicationDetails();
+
+
+        //   await this.FieldId_10.onFormLoad({
+        //     'custSeq': appId
+        //   });
+
+        //   await this.CUSTOMER_DETAILS.onFormLoad({
+        //     'custSeq': appId
+        //   });
+
+        //   await this.APPLICATION_DETAILS.onFormLoad({
+        //     'custSeq': appId
+        //   });
+        //   await this.NOTEPAD_DETAILS.onFormLoad({
+        //       'custSeq': this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'),
+        //   })
+        await this.Handler.onFormLoad({
+        });
+
+        if (userId == undefined || userId == '') {
+            this.claimTask(taskId);
         }
-      );
+
+        this.setDependencies();
     }
-    
+
+    async claimTask(taskId) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.TaskId', taskId);
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+
+                if (res.Status == "S") {
+                    this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
+                } else {
+                    this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+                }
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+            }
+        );
+    }
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -325,10 +331,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async CUSTOMER_DETAILS_updateCustGrid(event) {
-        console.log("Calling this Emitter");
+        console.log("Calling update customer grid Emitter");
 
-        this.FieldId_9.APIForCustomerData(event);
-        this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.APIForCustomerData(event)
+        this.FieldId_9.doAPIForCustomerList(event);
+        // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
 
 
     }
@@ -401,9 +407,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // }
 
     async FieldId_9_passArrayToCustomer(event) {
-        setTimeout(() => {
-            this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
-        }, 20000);
+        //  setTimeout(() => {
+        this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
+        //  }, 20000);
     }
 
     async QDE_SUBMIT_click(event) {
@@ -411,10 +417,20 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async brodcastProdCategory(event) {
-        console.log("shweta :: in qde ",event.isLoanCategory);
-      //  this.ProductCategory = event.isLoanCategory;
-        this.CUSTOMER_DETAILS.isLoanCategory=event.isLoanCategory;
-      }
+        console.log("shweta :: in qde ", event.isLoanCategory);
+        //  this.ProductCategory = event.isLoanCategory;
+        this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+    }
+
+    brodcastApplicationId() {
+        console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
+        //  this.ProductCategory = event.isLoanCategory;
+        this.CUSTOMER_DETAILS.ApplicationId = this.ApplicationId;
+        this.FieldId_9.ApplicationId = this.ApplicationId;
+        this.APPLICATION_DETAILS.ApplicationId = this.ApplicationId;
+        this.FieldId_10.ApplicationId = this.ApplicationId;
+        this.NOTEPAD_DETAILS.ApplicationId = this.ApplicationId;
+    }
 
     fieldDependencies = {
     }

@@ -29,10 +29,14 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @ViewChild('"CD_CUSTOMER_NAME"', { static: false }) CD_CUSTOMER_NAME: ReadOnlyComponent;
   @Output() selectCustId: EventEmitter<any> = new EventEmitter<any>();
   @Output() resetCustForm: EventEmitter<any> = new EventEmitter<any>();
-  @Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
+  //@Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
   @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
+
+  @Input() ApplicationId:string=undefined;
+
   customerDataArr: any[];
-  // passArrayToCustomer: any;
+  isFirstAPICall:boolean=true;
+  
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -128,19 +132,18 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   fieldDependencies = {
   }
-  async APIForCustomerData(event) {
+  async doAPIForCustomerList(event) {
     let inputMap = new Map();
-    let custId: any = event.custSeq;
-    if (custId) {
+    if (this.ApplicationId !=undefined) {
       inputMap.clear();
       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-      if (custId) {
+      if (this.ApplicationId) {
         criteriaJson.FilterCriteria.push({
           "columnName": "ApplicationId",
           "columnType": "String",
           "conditions": {
             "searchType": "equals",
-            "searchText": custId
+            "searchText": this.ApplicationId
           }
         });
       }
@@ -150,10 +153,15 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var res = httpResponse.body;
           var customerDataArr = [];
           var BorrowerDetails = res['BorrowerDetails'];
-          this.passArrayToCustomer.emit({
-            'CustomerArray' : BorrowerDetails
-          })
-          if (BorrowerDetails) {
+          if(BorrowerDetails){
+
+         // if (this.isFirstAPICall) {
+              this.passArrayToCustomer.emit({
+                'CustomerArray' : BorrowerDetails
+              });
+         //     this.isFirstAPICall=false;
+         //   }
+         
             BorrowerDetails.forEach(eachBorrower => {
               let customer = {};
 
@@ -165,12 +173,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 ? eachBorrower.CustomerType : 'OP';
 
               customerDataArr.push(customer);
-            });
-          }
 
+          });
+        }
           this.apiSuccessCallback(customerDataArr);
           // return customerDataArr;
-
           // this.displayCustomerTag(customerDataArr);
         },
         async (httpError) => {
@@ -181,12 +188,8 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         }
       );
 
-      return this.customerDetailsMap
+  //    return this.customerDetailsMap
     }
-    // this.passApplicationId.emit({
-    //   'applicationId' : event.custSeq
-    // })
-
   }
 
   apiSuccessCallback(customerDataArr: any[]) {
@@ -256,8 +259,8 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     });
   }
 
-  async loadCustDtlsGrid(event) {
-    this.APIForCustomerData(event);
-  }
+  // async loadCustDtlsGrid(event) {
+  //   this.APIForCustomerData(event);
+  // }
 
 }

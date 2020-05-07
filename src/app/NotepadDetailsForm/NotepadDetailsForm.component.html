@@ -28,8 +28,8 @@
                                 {{ 'NotepadDetailsForm.ND_COMMENT_CAT' | translate}}
                             </label>
                         </div>
-                        <app-combo-box #ND_COMMENT_CAT category="2" fieldID="ND_COMMENT_CAT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ND_COMMENT_CAT', $event)"></app-combo-box>
+                        <app-combo-box #ND_COMMENT_CAT category="2" fieldID="ND_COMMENT_CAT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" 
+                        doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ND_COMMENT_CAT', $event)"></app-combo-box>
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-8 col-md-8 res-pr-hide" [hidden]="ND_COMMENTS.isHidden()">

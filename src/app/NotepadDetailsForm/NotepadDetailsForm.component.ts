@@ -33,8 +33,8 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     @ViewChild('Handler', { static: false }) Handler: NotepadHandlerComponent;
     @ViewChild('hiddenAppId', { static: false }) hiddenAppId: HiddenComponent;
     @ViewChild('hiddenKey', { static: false }) hiddenKey: HiddenComponent;
+    @Input() ApplicationId: string = undefined;
 
-    refApplicationReq: any;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -61,7 +61,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     }
     async onFormLoad(event) {
 
-        this.refApplicationReq = event.custSeq;
+        //  this.ApplicationId = event.custSeq;
 
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hiddenAppId.setValue('RLO');
@@ -142,43 +142,46 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         this.onFormLoad(event);
     }
     async ND_SAVE_click(event) {
-        let inputMap = new Map();
-        var numberOfErrors: number = await this.revalidate();
-        if (numberOfErrors == 0) {
-            inputMap.clear();
-            inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
-            inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
-            this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap).subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                        if (err['ErrorElementPath'] == 'NotepadDetails.Comments') {
-                            this.ND_COMMENTS.setError(err['ErrorDescription']);
+        console.log("shweta:: notepad app id ", this.ApplicationId);
+        if (this.ApplicationId != undefined) {
+            let inputMap = new Map();
+            var numberOfErrors: number = await this.revalidate();
+            if (numberOfErrors == 0) {
+                inputMap.clear();
+                inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
+                inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
+                this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap).subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                            if (err['ErrorElementPath'] == 'NotepadDetails.Comments') {
+                                this.ND_COMMENTS.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'NotepadDetails.CommentCategory') {
+                                this.ND_COMMENT_CAT.setError(err['ErrorDescription']);
+                            }
                         }
-                        else if (err['ErrorElementPath'] == 'NotepadDetails.CommentCategory') {
-                            this.ND_COMMENT_CAT.setError(err['ErrorDescription']);
-                        }
+                        this.services.alert.showAlert(2, 'rlo.error.save.notepad', -1);
                     }
-                    this.services.alert.showAlert(2, 'rlo.error.save.notepad', -1);
-                }
-            );
-        }
-        else {
-            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+                );
+            }
+            else {
+                this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+            }
         }
     }
     async ND_CLEAR_click(event) {
         let inputMap = new Map();
         this.onReset();
     }
+
     fieldDependencies = {
         ND_COMMENT_CAT: {
             inDep: [
-
                 { paramKey: "VALUE1", depFieldID: "ND_COMMENT_CAT", paramType: "PathParam" },
                 { paramKey: "KEY1", depFieldID: "hiddenKey", paramType: "QueryParam" },
                 { paramKey: "APPID", depFieldID: "hiddenAppId", paramType: "QueryParam" },

@@ -83,15 +83,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
     @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
-   // @Input() ProductCategory: String;
-    @Input() isLoanCategory:boolean=true;
-
+    // @Input() ProductCategory: String;
+    @Input() isLoanCategory: boolean = true;
+    @Input() ApplicationId: string = undefined;
     appId: any;
     staffcheck: boolean;
     addseq: any;
-    applicationId: void;
     customerDetailMap: any;
     // customerDetailMap: {};
+    // ApplicationId: void;
     // let customerDetailMap any;
     custMinAge: number = 18;
     custMaxAge: number = 100;
@@ -156,7 +156,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.FieldId_30.setReadOnly(readOnly);
     }
     async onFormLoad(event) {
-        this.applicationId = event.custSeq
+        //    this.ApplicationId = event.custSeq
         await this.Handler.onFormLoad({
         });
 
@@ -193,7 +193,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.setNonEditableFields(false);
         this.setDependencies();
         // this.Handler.displayCustomerTag();
-        
+
     }
 
     setInputs(param: any) {
@@ -280,6 +280,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_STAFF.isOptionsLoaded = false;
         this.setNonEditableFields(false);
         this.onFormLoad(event);
+        this.ApplicationId;
     }
 
     isFutureDate(selectedDate) {
@@ -405,9 +406,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         let inputMap = new Map();
         //    this.customerDetailMap = any;
 
-        this.updateCustGrid.emit({
-            'custSeq': this.applicationId
-        })
+        // this.updateCustGrid.emit({
+        //     'custSeq': this.ApplicationId
+        // })
         console.log('customerDetailMap', this.customerDetailMap);
         var noOfErrors: number = await this.revalidate();
 
@@ -431,7 +432,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.clear();
 
                 inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ApplicationId', this.applicationId);
+                inputMap.set('Body.BorrowerDetails.ApplicationId', this.ApplicationId);
                 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
@@ -472,7 +473,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.updateCustGrid.emit({
-                            'custSeq': this.applicationId
+                            'borroweSeq': this.HidCustomerId.getFieldValue()
                         })
                         // this.onReset();
 
@@ -573,7 +574,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             else {
                 inputMap.clear();
                 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ApplicationId', this.applicationId);
+                inputMap.set('Body.BorrowerDetails.ApplicationId', this.ApplicationId);
                 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
@@ -613,7 +614,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.updateCustGrid.emit({
-                            'custSeq': this.applicationId
+                            'borroweSeq': this.HidCustomerId.getFieldValue()
                         })
                         // this.onReset();
 
@@ -699,7 +700,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         }
                         this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
                         this.updateCustGrid.emit({
-                            'custSeq': this.applicationId
+                            'custSeq': this.ApplicationId
                         })
                     }
                 );
@@ -714,11 +715,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async CD_CLEAR_BTN_click(event) {
         let inputMap = new Map();
         this.clearQDEFields();
-     //   this.onReset();
-      //  this.Handler.deactivateClasses();
+        //   this.onReset();
+        //  this.Handler.deactivateClasses();
     }
-    
-    clearQDEFields(){
+
+    clearQDEFields() {
         this.CD_MARITAL_STATUS.onReset();
         this.CD_MOBILE_NO.onReset();
         this.CD_EMAIL.onReset();
@@ -815,7 +816,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_DEBIT_SCORE.setValue(customer[i].DebitScore);
                 this.CD_CUST_SEGMENT.setValue(customer[i].CustomerSegment);
 
-                
+
                 this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer[i].StaffID);
 
                 this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer[i].ICIFNumber);
@@ -881,7 +882,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
     }
 
-    customerFetchSuccessCallBack(){
+    customerFetchSuccessCallBack() {
         this.setNonEditableFields(true);
 
         // if(this.ProductCategory!=undefined){
