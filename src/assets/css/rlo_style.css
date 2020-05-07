@@ -573,10 +573,9 @@
 .ag-cell {
   color: #004d8a;
 }
-.shirnkheader {
+/* .shirnkheader {
   float: left;
   width: 100%;
-  /* padding: 10px; */
   height: 65px;
   text-align: justify;
   letter-spacing: 1px;
@@ -624,7 +623,7 @@ li .a {
   width:17%;
   float: left;
   height: 60px;
-}
+} */
 
 .occp_st{
   margin-left: -15px;

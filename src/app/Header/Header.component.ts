@@ -47,9 +47,19 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
     PRODUCT_CATEGORY_IMG = '';
     CURRENCY_IMG = '';
-    stickyy: boolean = false;
+
+    showExpanded: boolean = true;
     elementPosition: any;
-    disply1:boolean = true;
+    // disply1:boolean = true;
+
+    /* data binding variables  */
+    ARN: string;
+    LOAN_AMT: string;
+    LOAN_CATEGORY: string;
+    INTEREST_RATE: string;
+    TENURE: string;
+    SUB_PRODUCT: string;
+    SCHEME: string;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -123,7 +133,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
                 this.productCategoryFound.emit({
                     'isLoanCategory' : isLoanCategory
                   })
-                this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
+                // this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
+                this.HD_APP_REF_NUM.setValue(res['Header']['ApplicationRefernceNo']);
                 this.HD_PROD.setValue(res['Header']['Product']);
                 this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
                 this.HD_SCHEME.setValue(res['Header']['Scheme']);
@@ -138,6 +149,15 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
                 // this.HD_APP_SUBMSN_DT.setValue(res['Header']['AppSubmissionDate']);
                 // this.HD_CIF.setValue(res['Header']['CIF']);
                 // this.HD_CUST_ID.setValue(res['Header']['CustomerId']);
+
+                this.ARN = res['Header']['ApplicationRefernceNo'];
+                this.LOAN_AMT = "₹ " + res['Header']['LoanAmount'];
+                this.LOAN_CATEGORY = res['Header']['TypeOfLoan'];
+                this.INTEREST_RATE = res['Header']['InterestRate'] + "% pa";
+                this.TENURE = res['Header']['Tenure'] + " " + res['Header']['TenurePeriod'];
+                this.SUB_PRODUCT = res['Header']['SubProduct'];
+                this.SCHEME = res['Header']['Scheme'];
+
                 this.apiSuccessCallback();
             },
             async (httpError) => {
@@ -220,6 +240,17 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.onFormLoad();
     }
     fieldDependencies = {
+    }
+
+    @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      let windowScroll = window.pageYOffset;
+      if(windowScroll >= 100){
+        this.showExpanded = false;
+      } else {
+        this.showExpanded = true;
+      }
+        
     }
 
     // @HostListener('window:scroll', ['$event'])

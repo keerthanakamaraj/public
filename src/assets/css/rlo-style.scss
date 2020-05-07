@@ -136,6 +136,7 @@ body {
   text-align: right !important;
   border-bottom: 1px solid #979797;
   padding-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .form-group-initiation-header {
@@ -283,6 +284,76 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   }  
 }
 
+.collapsedHeader {
+  width: calc(100% - 30px);
+  background-color: #004467;
+  height: 60px;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  z-index: 10;
+  top: 56px;
+  left: 15px;
+
+  // &.top {
+  //   top: 55px;
+  // }
+
+  div {
+    font-size: 16px;
+    padding: 0 16px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 40px;
+    border-right: 1px solid #013653;
+
+    &.arn {
+      background-color: #013653;
+      
+      span {
+        color: rgb(250, 246, 35);
+      }
+    }
+
+    &.loan-amt::before {
+      width: 41px;
+      height: 27px;
+      content: "";
+      background-image: url("./../icons/rupee-yellow.svg");
+      display: inline-block;
+      background-size: 41px 27px;
+      background-repeat: no-repeat;      
+    }
+
+    &.loan-cat::before {
+      width: 20px;
+      height: 20px;
+      content: "";
+      display: inline-block;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      padding: 0 10px;
+    }
+
+    &.AL::before {
+      background-image: url("./../icons/autoloan-yellow.svg");
+    }
+
+    &.PL::before{
+      background-image: url("./../icons/personalloan-yellow.svg");
+    }
+
+    &.ML::before{
+      background-image: url("./../icons/mortgage-yellow.svg");
+    }
+
+    &.CC::before{
+      background-image: url("./../icons/creditcard-yellow.svg");
+    }
+    
+  }
+}
+
 .read-only-field{
   height: 27px !important;
   // width: 85px !important;
@@ -357,15 +428,14 @@ background-color: #013653;
 text-align: center;
 }
 #HD_APP_REF_NUM{
-
- height: 22px !important;
- width: 83px !important;
+//  height: 22px !important;
+//  width: 83px !important;
  color: #FFFFFF !important;
- font-family: "Open Sans" !important;
+//  font-family: "Open Sans" !important;
  font-size: 16px !important;
  letter-spacing: 0 !important;
- line-height: 22px !important;
- text-align: center !important;
+ line-height: 42px !important;
+//  text-align: center !important;
 }
 
 #LD_LOAN_AMT{
@@ -434,7 +504,8 @@ padding-right: none !important;
 .headerform{
   border: 1px solid #8FC3E0;
   margin-left: -7px !important;
-    margin-right: -7px !important;
+  margin-right: -7px !important;
+  border-top: none;
 }
 #EMAIL_GROUP{
   box-sizing: border-box;
@@ -459,6 +530,7 @@ padding-right: none !important;
 
  .customer{
   margin-top: -24px;
+  width: 97%;
   //  margin-left: -2px;
   //  margin-right: -2px;
   .cd-grid {
@@ -609,7 +681,7 @@ padding-right: none !important;
   font-size: 13px;
   letter-spacing: 0;
   line-height: 18px;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
   // margin-left: 10px !important;
 }
 .btn-edit{
