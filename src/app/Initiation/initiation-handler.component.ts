@@ -22,6 +22,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
   customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID"];
+  editTempId: any;
+  tempId: any;
 
   constructor(rloui: RlouiService) {
     super(rloui);
@@ -188,7 +190,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
-    this.editId = undefined;
+    // this.editId = undefined;
     this.editId = arg0.id;
     let customer = this.customers.find(cust => cust.tempId === arg0.id);
 
@@ -215,6 +217,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
+    this.tempId = customer.tempId
 
   }
 
@@ -238,9 +241,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
       } else {
         let customer = this.getFormCustomerDetails();
+        customer.tempId = "ID-" + (this.counter++);
+        console.log("this.customers before adding" , this.customers);
         if (customer.customerType.value == 'B') {
           for (let i = 0; i < this.customers.length; i++) {
-            if (this.customers[i].customerType.value == 'B' && this.editId !== this.customers[i].tempId) {
+            if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
               this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
               return;
             }
@@ -250,9 +255,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         if (this.editId) {
           let index = this.customers.findIndex(cust => cust.tempId === this.editId);
           this.customers[index] = customer;
+          console.log("updating customers",this.customers);
+         
         } else {
-          customer.tempId = "ID-" + (this.counter++);
+         
           this.customers.push(customer);
+          this.tempId = undefined;
+
+          console.log("this.customers",this.customers);
         }
 
         this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
@@ -345,6 +355,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
     customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
+    customer.tempId = this.tempId;
 
     return customer;
   }

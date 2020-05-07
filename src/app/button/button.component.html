@@ -1,7 +1,7 @@
 <ng-container *ngIf="!loading;else show_loading">
 
     <div *ngIf="type == 1">
-        <button [disabled]="readOnly" (click)="onClick($event)" (dblclick)="onDoubleClick($event)" title="{{fieldName}}"
+        <button [disabled]="readOnly" (click)="onClick($event)" (dblclick)="onDoubleClick($event)" 
             type="button" class="{{customClass}}" [id]="fieldID">
             {{ fieldName }}
         </button>
