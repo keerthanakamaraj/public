@@ -343,5 +343,14 @@ export class SearchCustomerGridComponent implements AfterViewInit {
         }
 
     }
+  
+    loadSpinner = true;
+    showSpinner(){
+        this.loadSpinner = true;
+    }
+
+    hideSpinner(){
+        this.loadSpinner = false;
+    }
 
 }
