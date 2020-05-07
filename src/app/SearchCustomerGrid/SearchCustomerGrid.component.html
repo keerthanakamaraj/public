@@ -1,14 +1,21 @@
-<div class="MakeRelative" >
-<div class="row reference-div">
-<div class="col-xs-12 col-sm-12">
-<h4 *ngIf="displayTitle">{{'SearchCustomerGrid.GridTitle' | translate}}</h4>
-</div>
-</div>
-<div>
-<app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts" [hidden] = "!dedupecount"></app-readonly-grid>
-</div>
-<div style="text-align: center" [hidden] = "dedupecount">
- <label >No Record Found</label>
-</div>
+<div class="MakeRelative">
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+
+        </div>
+    </div>
+    <div class="row reference-div">
+        <div class="col-xs-12 col-sm-12">
+            <h4 *ngIf="displayTitle">{{'SearchCustomerGrid.GridTitle' | translate}}</h4>
+        </div>
+
+    </div>
+    <div [hidden]="!dedupecount && loadSpinner">
+        <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode"
+            [gridConsts]="gridConsts"></app-readonly-grid>
+    </div>
+    <div style="text-align: center" [hidden]="dedupecount && loadSpinner">
+        <label>No Record Found</label>
+    </div>
 
 </div>
