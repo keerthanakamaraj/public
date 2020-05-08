@@ -3786,9 +3786,9 @@ select.form-control {
     line-height: .8rem
 }
 
-#Reset{
+/* #Reset{
   margin-left: 98px;
-}
+} */
 
 .i-info:focus {
     background: url(../images/icons/info_icon.svg);
