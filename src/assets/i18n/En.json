@@ -1559,7 +1559,8 @@
     "CD_CITIZENSHIP" : "Citizenship",
     "CD_CIF" : "CIF Number",
     "CD_FULL_NAME" : "Full Name",
-    "CD_LOAN_OWN" : "Loan Ownership (in %)"
+    "CD_LOAN_OWN" : "Loan Ownership (in %)",
+    "CD_COUNTRY_CODE":"Country Code"
     },
      "QDE": {
     "FieldId_1": "null",

@@ -82,6 +82,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
     @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
     @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
+    @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
+    @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
+
+
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
     // @Input() ProductCategory: String;
     @Input() isLoanCategory: boolean = true;
@@ -134,6 +138,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
             this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
+            this.revalidateBasicField('CD_COUNTRY_CODE'),
             // this.FieldId_29.revalidate(),
             // this.FieldId_30.revalidate(),
         ]).then((errorCounts) => {
@@ -173,6 +178,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.hidTitle.setValue('TITLE');
         this.hideCustomerType.setValue('CUSTOMER_TYPE');
         this.hidPrefLanguage.setValue('PREF_LANGUAGE');
+        this.hideISDCode.setValue('ISD_COUNTRY_CODE');
 
 
         this.CD_EXISTING_CUST.setDefault('N');
@@ -465,6 +471,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
 
 
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
@@ -606,6 +613,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
 
 
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
@@ -738,6 +746,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_PMRY_EMBSR_NAME.onReset();
         this.CD_PREF_COM_CH.onReset();
         this.CD_PREF_LANG.onReset();
+        this.CD_COUNTRY_CODE.onReset();
     }
     async CUST_DTLS_GRID_custDtlsEdit(event) {
         let inputMap = new Map();
@@ -773,6 +782,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
                 this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
+                this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
+                this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['STD']);
 
                 this.addseq = res['BorrowerDetails']['BorrowerSeq'];
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
@@ -783,7 +794,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
                 this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
-                this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
 
@@ -832,6 +842,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_PREF_COM_CH.setValue(customer[i].CommunicationAlertChannel);
                 this.CD_EMAIL.setValue(customer[i].Email);
                 this.HidCustomerId.setValue(customer[i].BorrowerSeq);
+                this.CD_PREF_LANG.setValue(customer[i].PreferredLanguage);
+                this.CD_COUNTRY_CODE.setValue(customer[i].STD);
 
                 this.addseq = customer[i].BorrowerSeq;
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
@@ -845,7 +857,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                     'BorrowerSeq': customer[i].BorrowerSeq,
                 });
                 this.CD_PRIME_USAGE.setValue(customer[i].PrimeUsage);
-                this.CD_PREF_LANG.setValue(customer[i].PreferredLanguage);
                 this.CD_CIF.setValue(customer[i].CIF)
 
                 //    }, 1500);
@@ -902,7 +913,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_DOB.setReadOnly(flag);
         this.CD_GENDER.setReadOnly(flag);
     }
-
+    onCountrycodeChanged() {
+        console.log("country code changed ", this.CD_COUNTRY_CODE);
+    }
     fieldDependencies = {
         CD_CUST_TYPE: {
             inDep: [
@@ -1004,6 +1017,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             outDep: [
             ]
         },
+        CD_COUNTRY_CODE: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        }
     }
     /* Write Custom Scripts Here */
 

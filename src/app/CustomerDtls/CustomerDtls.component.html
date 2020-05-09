@@ -163,14 +163,15 @@
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_MARITAL_STATUS', $event)"></app-combo-box>
                     </div>
 
-                    <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_COUNTRY_CODE.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': CD_COUNTRY_CODE.mandatory}">
-{{ 'CustomerDtls.CD_COUNTRY_CODE' | translate}}
-</label>
-</div> 
-<app-combo-box #CD_COUNTRY_CODE category="2" fieldID="CD_COUNTRY_CODE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_GENDER', $event)"></app-combo-box>
-</div> -->
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_COUNTRY_CODE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': CD_COUNTRY_CODE.mandatory}">
+                                {{ 'CustomerDtls.CD_COUNTRY_CODE' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #CD_COUNTRY_CODE category="2" fieldID="CD_COUNTRY_CODE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_COUNTRY_CODE', $event)" (change)="onCountrycodeChanged()"></app-combo-box>
+                    </div>
 
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE_NO.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -370,6 +371,7 @@
                 <app-hidden #HidCustomerId fieldID="HidCustomerId"></app-hidden>
                 <app-hidden #hideCustomerType fieldID="hideCustomerType"></app-hidden>
                 <app-hidden #hidPrefLanguage fieldID="hidPrefLanguage"></app-hidden>
+                <app-hidden #hideISDCode fieldID="hideISDCode"></app-hidden>               
             </div>
         </div>
     </div>
