@@ -1,46 +1,108 @@
 <form class="MakeRelative">
+    <div class="clearfix content">
+        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-12 col-md-12">
+                <h4 class="FormTitle">
+                    {{ 'QDE.FormTitle' | translate }}
+                </h4>
+            </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10 row">
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+                        <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (productCategoryFound) = "brodcastProdCategory($event)"></app-Header>
+                    </div>
 
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-12 col-md-12">
-<h4 class="FormTitle">
-{{ 'QDE.FormTitle' | translate }}
-</h4>
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10 row">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
-<app-Header #HEADER fieldID="HEADER" [formCode]="formCode"></app-Header>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
-<app-CustomerDtls #CUSTOMER_DETAILS fieldID="CUSTOMER_DETAILS" [formCode]="formCode"></app-CustomerDtls>
-</div>
-<div class="col-12  col-sm-12 col-md-12 group-default">
-<div #BUTTON_SECTION id="BUTTON_SECTION">
-<div class="form-group pb10 button-group">
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
-<app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="QDE_SUBMIT_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
-<app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
-</div>
-</div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div">
+                        <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">
+                            <a href="#customer-panel" class="btn btn-default active" data-toggle="tab">
+                                <input type="radio" />CUSTOMER
+                            </a>
+                            <a href="#application-panel" class="btn btn-default" data-toggle="tab">
+                                <input type="radio" />APPLICATION
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="customer-panel">
 
-</div>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-qde-handler #Handler [MainComponent]="this"></app-qde-handler>
-</div>
-</div>
-<app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
-<app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
-<app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden>
-<app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
-<app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
-</div>
-</div>
-</div>
+                            <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_9.isHidden()">
+                                <app-CustomerGridDTLS #FieldId_9 fieldID="FieldId_9" [formCode]="formCode" (selectCustId)="FieldId_9_selectCustId($event)"
+                                    (resetCustForm)="FieldId_9_resetCustForm($event)" (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"
+                                    (passArrayToCustomer) = "FieldId_9_passArrayToCustomer($event)">
+                                </app-CustomerGridDTLS>
+                            </div>
+                            <rlo-ui-accordion #QDE_ACCORD1 class="col-12 col-sm-12 col-md-12 res-pr-hide">
+                                <rlo-ui-accordion-group #CUST_DETAILS id="CUST_DETAILS" title="{{ 'CustomerDtls.CD_MAIN_LABEL' | translate}}">
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
+                                        <app-CustomerDtls #CUSTOMER_DETAILS fieldID="CUSTOMER_DETAILS" [formCode]="formCode" (passBorrowerSeq)="CUSTOMER_DETAILS_passBorrowerSeq($event)"
+                                            (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"></app-CustomerDtls>
+                                    </div>
+                                </rlo-ui-accordion-group>
+                                <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS" title="{{ 'AddressDetails.AD_HEADING' | translate}}">
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_6.isHidden()">
+                                        <app-AddressDetails #FieldId_6 fieldID="FieldId_6" (addonblur)="FieldId_6_addonblur($event)" [formCode]="formCode">
+                                        </app-AddressDetails>
+                                    </div>
+                                </rlo-ui-accordion-group>
+                                <rlo-ui-accordion-group #OCC_DETAILS id="OCC_DETAILS" title="{{ 'OccupationDtlsForm.OD_HEADING' | translate}}">
+
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide occp_st" [hidden]="FieldId_5.isHidden()">
+                                        <app-OccupationDtlsForm #FieldId_5 fieldID="FieldId_5" (occpOnBlur)="FieldId_5_occpOnBlur($event)" [formCode]="formCode">
+                                        </app-OccupationDtlsForm>
+                                    </div>
+                                </rlo-ui-accordion-group>
+                            </rlo-ui-accordion>
+                        </div>
+                        <div class="tab-pane" id="application-panel">
+                            <rlo-ui-accordion #QDE_ACCORD2 class="col-12 col-sm-12 col-md-12 res-pr-hide">
+                                 <rlo-ui-accordion-group #APP_DETAILS id="APP_DETAILS" title="{{ 'ApplicationDtls.AD_HEADING' | translate}}">
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-application " [hidden]="APPLICATION_DETAILS.isHidden()">
+                                        <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode"></app-ApplicationDtls>
+                                    </div>
+                                </rlo-ui-accordion-group>
+                                <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS" title="{{ 'ReferralDetailsForm.RD_HEADING' | translate}}">
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide refDtls " [hidden]="FieldId_10.isHidden()">
+                                        <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" [formCode]="formCode"></app-ReferralDetailsForm>
+                                    </div>
+                                </rlo-ui-accordion-group>
+                                <rlo-ui-accordion-group #NOTE_DETAILS id="NOTE_DETAILS" title="{{ 'NotepadDetailsForm.ND_HEADING' | translate}}">
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide noteDtls " [hidden]="NOTEPAD_DETAILS.isHidden()">
+                                        <app-NotepadDetailsForm #NOTEPAD_DETAILS fieldID="NOTEPAD_DETAILS" [formCode]="formCode"></app-NotepadDetailsForm>
+                                    </div>
+                                </rlo-ui-accordion-group>
+                            </rlo-ui-accordion>
+                        </div>
+
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 group-default">
+                        <div #BUTTON_SECTION id="BUTTON_SECTION">
+                            <div class="form-group pb10 button-group">
+                                <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_SUBMIT.isHidden()">
+                                    <app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary"
+                                        (buttonClick)="QDE_SUBMIT_click($event)"></app-button>
+                                </div>
+                                <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="QDE_CANCEL.isHidden()">
+                                    <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" [routerLink]="['/','home','LANDING']" fieldID="QDE_CANCEL"
+                                        [formCode]="formCode" customClass="btn-warning-outline">
+                                    </app-button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-qde-handler #Handler [MainComponent]="this"></app-qde-handler>
+                    </div>
+                </div>
+                <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+                <app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
+                <app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden>
+                <app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
+                <app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
+            </div>
+        </div>
+    </div>
 </form>

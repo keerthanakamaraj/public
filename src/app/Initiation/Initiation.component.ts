@@ -418,7 +418,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
 
   async BAD_PRODUCT_change(fieldID, value) {
-
     this.BAD_SUB_PROD.onReset();
     this.BAD_SCHEME.onReset();
     this.BAD_PROMOTION.onReset();
@@ -441,7 +440,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   genderCheck() {
     if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
       //console.log("Please select gender according to tilte");
-      this.showMessage("Please select gender according to tilte");
+      this.services.alert.showAlert(2, 'Please select gender according to title', -1);
     }
   }
 
@@ -713,12 +712,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     }
     else {
-      this.services.alert.showAlert(2, 'Please correct form errors', -1);
+      this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
       this.SUBMIT_MAIN_BTN.setDisabled(false);
 
     }
   }
-
 
   async Reset_click(event) {
     let inputMap = new Map();

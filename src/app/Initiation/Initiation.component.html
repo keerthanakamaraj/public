@@ -228,6 +228,7 @@
                       (change)="CD_STAFF_change('CD_STAFF', $event)">
                     </rlo-ui-radio>
                   </div>
+                  
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #CD_INLINE_HEADER parentCompCode="Initiation" fieldID="CD_INLINE_HEADER"
                       [formCode]="formCode" customClass="sub-section-header"></app-label>
@@ -350,7 +351,7 @@
                         {{ 'Initiation.CD_DOB' | translate}}
                       </label>
                     </div>
-                    <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select"
+                    <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select"  
                       (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">

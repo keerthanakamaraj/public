@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { OccuptionDtlsGridComponent } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.component';
 import { OccupationHandlerComponent } from '../OccupationDtlsForm/occupation-handler.component';
+import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
 
 const customCss: string = '';
 
@@ -36,7 +37,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_DT_OF_INCPTN', {static: false}) OD_DT_OF_INCPTN: DateComponent;
 @ViewChild('OD_INDUSTRY', {static: false}) OD_INDUSTRY: ComboBoxComponent;
 @ViewChild('OD_NTR_OF_BUSS', {static: false}) OD_NTR_OF_BUSS: ComboBoxComponent;
-@ViewChild('OD_COMPANY_CODE', {static: false}) OD_COMPANY_CODE: TextBoxComponent;
+@ViewChild('OD_COMPANY_CODE', {static: false}) OD_COMPANY_CODE: ComboBoxComponent;
 @ViewChild('OD_COMP_CAT', {static: false}) OD_COMP_CAT: TextBoxComponent;
 @ViewChild('OD_COMP_NAME', {static: false}) OD_COMP_NAME: TextBoxComponent;
 @ViewChild('OD_LENGTH_OF_EXST', {static: false}) OD_LENGTH_OF_EXST: TextBoxComponent;
@@ -67,6 +68,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('HidIncomeType', {static: false}) HidIncomeType: HiddenComponent;
 @ViewChild('HidCurrency', {static: false}) HidCurrency: HiddenComponent;
 @ViewChild('HidOccupationSeq', {static: false}) HidOccupationSeq: HiddenComponent;
+@ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
+@Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
+
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -182,6 +186,50 @@ this.onFormLoad();
 this.checkForHTabOverFlow();
 });
 }
+joinDate(selectedDate) {
+  const moment = require('moment');
+  const currentDate = moment();
+  currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+  selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+  console.log("current date :: ", currentDate._d);
+  console.log("selected date :: ", selectedDate._d);
+  if (selectedDate <= currentDate) {
+      return false;
+  }
+  return true;
+}
+
+dt_Incptn(selectedDate) {
+  const moment = require('moment');
+  const currentDate = moment();
+  currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+  console.log("current date :: ", currentDate._d);
+  console.log("selected date :: ", selectedDate._d);
+  if (selectedDate >= currentDate) {
+      return false;
+  }
+  return true;
+}
+
+async OD_DATE_OF_JOINING_blur(event) {
+  let inputMap = new Map();
+  if (!this.joinDate(this.OD_DATE_OF_JOINING.getFieldValue())) {
+    this.services.alert.showAlert(2, 'Please select correct date', -1);
+    this.OD_DATE_OF_JOINING.onReset();
+}
+}
+
+async OD_DT_OF_INCPTN_blur(event) {
+  let inputMap = new Map();
+  if (!this.dt_Incptn(this.OD_DT_OF_INCPTN.getFieldValue())) {
+    this.services.alert.showAlert(2, 'Please select correct date', -1);
+    this.OD_DT_OF_INCPTN.onReset();
+}
+}
+
+
 clearError(){
 super.clearBasicFieldsError();
 super.clearHTabErrors();
@@ -200,16 +248,24 @@ this.dependencyMap.clear();
 this.value = new OccupationDtlsFormModel();
 this.passNewValue(this.value);
 this.setReadOnly(false);
+
 this.onFormLoad();
 }
 async OD_OCCUPATION_change(fieldID,value){
   let inputMap = new Map();
   this.Handler.occupationOnchange();
+  this.occpOnBlur.emit({});
+}
+
+async OD_COMPANY_CODE_change(fieldID , value){
+  let inputMap = new Map();
+  this.Handler.companyCodeChange();
 }
 async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
 var nooferror:number = await this.revalidate();
 if(nooferror==0){
+  this.OD_SAVE_BTN.setDisabled(true);
 if(typeof(this.HidOccupationSeq.getFieldValue()) !==  'undefined' ){
 inputMap.clear();
 inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
@@ -240,7 +296,9 @@ inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_
 this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Occupation Details Updated Successfully', 5000);
+this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
+this.OD_SAVE_BTN.setDisabled(false);
+
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
 });
@@ -323,7 +381,7 @@ else if(err['ErrorElementPath'] == 'OccupationSeq'){
 this.HidOccupationSeq.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Update failed', -1);
+this.services.alert.showAlert(2, 'rlo.error.update.occupation', -1);
 }
 );
 }
@@ -357,7 +415,9 @@ inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_
 this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Occupation Details Saved Successfully!', 5000);
+this.services.alert.showAlert(1, 'rlo.success.save.occupation', 5000);
+this.OD_SAVE_BTN.setDisabled(false);
+
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
 });
@@ -441,13 +501,13 @@ else if(err['ErrorElementPath'] == 'OccupationDetails.Occupation'){
 this.OD_OCCUPATION.setError(err['ErrorDescription']);
 }
 }
-this.services.alert.showAlert(2, 'Error occurred while saving form!', -1);
+this.services.alert.showAlert(2, 'rlo.error.save.occupation', -1);
 }
 );
 }
 }
 else{
-this.services.alert.showAlert(2, 'Please Fill all Mandatory Fields', -1);
+this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
 }
 }
 async OD_CLEAR_BTN_click(event){
@@ -464,8 +524,11 @@ var res = httpResponse.body;
 this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']);
 if (this.OD_OCCUPATION.getFieldValue() == 'SL'){
   this.OD_EMPLT_TYPE.mandatory = true;
+  this.OD_EMPLT_TYPE.setReadOnly(false);
 }else  if (this.OD_OCCUPATION.getFieldValue() == 'SE'){
   this.OD_SELF_EMPLD_TYPE.mandatory = true;
+  this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
+  this.OD_SELF_EMPLD_PROF.setReadOnly(false);
 }
 this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']);
 this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
@@ -492,12 +555,13 @@ this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
 this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
 this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
+this.Handler.companyCodeChange()
 },
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Failed to load data', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 }
 );
 }
@@ -607,6 +671,19 @@ inDep: [
 ],
 outDep: [
 ]},
+OD_COMPANY_CODE: {
+  inDep: [
+  
+          { paramKey: "MstCompanyDetails.CompanyCd", depFieldID: "OD_COMPANY_CODE"},
+        ],
+        outDep: [
+  
+          { paramKey: "MstCompanyDetails.CompanyCategory", depFieldID: "OD_COMP_CAT" },
+          { paramKey: "MstCompanyDetails.CompnayName", depFieldID: "OD_COMP_NAME" }
+         
+        ]
+      },
+  
 }
     /* Write Custom Scripts Here */
     

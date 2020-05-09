@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input,HostListener } from '@angular/core';
 import { HeaderModel } from './Header.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -43,8 +43,24 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
     @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
+    @Output() productCategoryFound: EventEmitter<any> = new EventEmitter<any>();
+
     PRODUCT_CATEGORY_IMG = '';
     CURRENCY_IMG = '';
+
+    showExpanded: boolean = true;
+    elementPosition: any;
+    // disply1:boolean = true;
+
+    /* data binding variables  */
+    ARN: string;
+    LOAN_AMT: string;
+    LOAN_CATEGORY: string;
+    INTEREST_RATE: string;
+    TENURE: string;
+    SUB_PRODUCT: string;
+    SCHEME: string;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -109,11 +125,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         inputMap.clear();
         inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
         console.log('inputmaap', inputMap);
-        this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.HD_PROD_CAT.setValue(res['Header']['TypeOfLoan']);
-                this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
+               let isLoanCategory = this.HD_PROD_CAT.getFieldValue()=='CC'?false:true;
+                this.productCategoryFound.emit({
+                    'isLoanCategory' : isLoanCategory
+                  })
+                // this.HD_APP_REF_NUM.setValue(inputMap.get('PathParam.ApplicationId'));
+                this.HD_APP_REF_NUM.setValue(res['Header']['ApplicationRefernceNo']);
                 this.HD_PROD.setValue(res['Header']['Product']);
                 this.HD_SUB_PROD.setValue(res['Header']['SubProduct']);
                 this.HD_SCHEME.setValue(res['Header']['Scheme']);
@@ -128,13 +149,22 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
                 // this.HD_APP_SUBMSN_DT.setValue(res['Header']['AppSubmissionDate']);
                 // this.HD_CIF.setValue(res['Header']['CIF']);
                 // this.HD_CUST_ID.setValue(res['Header']['CustomerId']);
+
+                this.ARN = res['Header']['ApplicationRefernceNo'];
+                this.LOAN_AMT = "₹ " + res['Header']['LoanAmount'];
+                this.LOAN_CATEGORY = res['Header']['TypeOfLoan'];
+                this.INTEREST_RATE = res['Header']['InterestRate'] + "% pa";
+                this.TENURE = res['Header']['Tenure'] + " " + res['Header']['TenurePeriod'];
+                this.SUB_PRODUCT = res['Header']['SubProduct'];
+                this.SCHEME = res['Header']['Scheme'];
+
                 this.apiSuccessCallback();
             },
             async (httpError) => {
                 var err = httpError['error']
                 if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                 }
-                this.services.alert.showAlert(2, 'Failed to load header details!', -1);
+                this.services.alert.showAlert(2, 'rlo.error.load.header', -1);
             }
         );
         await this.Handler.onFormLoad({
@@ -212,26 +242,55 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     fieldDependencies = {
     }
 
+    @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      let windowScroll = window.pageYOffset;
+      if(windowScroll >= 100){
+        this.showExpanded = false;
+      } else {
+        this.showExpanded = true;
+      }
+        
+    }
+
+    // @HostListener('window:scroll', ['$event'])
+    // handleScroll(){
+    //     const windowScroll = window.pageYOffset;
+    //     if(windowScroll >= 40){
+    //       this.stickyy = true;
+    //       this.disply1= false; 
+    //     } 
+    //  if(!windowScroll){
+    //       this.stickyy = false;
+    //       this.disply1 = true; 
+    //     } 
+        
+    //   }
+   
     apiSuccessCallback() {
 
         this.CURRENCY_IMG = '/assets/icons/rupee-yellow.svg';
 
-        if (this.HD_PROD_CAT != undefined) {
             switch (this.HD_PROD_CAT.getFieldValue()) {
 
                 case 'AL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/autoloan-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Auto Loan'); break;
+                    this.HD_PROD_CAT.setValue('Auto Loan');
+                    break;
 
                 case 'PL': this.PRODUCT_CATEGORY_IMG = '/assets/icons/personalloan-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Personal Loan'); break;
+                    this.HD_PROD_CAT.setValue('Personal Loan');
+                    break;
 
                 case 'ML': this.PRODUCT_CATEGORY_IMG = '/assets/icons/mortgage-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Mortgage Loan'); break;
+                    this.HD_PROD_CAT.setValue('Mortgage Loan'); 
+                    break;
 
                 case 'CC': this.PRODUCT_CATEGORY_IMG = '/assets/icons/creditcard-yellow.svg';
-                    this.HD_PROD_CAT.setValue('Credit Card'); break;
+                    this.HD_PROD_CAT.setValue('Credit Card'); 
+                    break;
             }
 
-        }
+
+        
     }
 }

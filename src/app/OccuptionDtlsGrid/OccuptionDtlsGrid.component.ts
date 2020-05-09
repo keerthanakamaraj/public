@@ -40,7 +40,7 @@ paginationReq:true
 };
 columnDefs:any[] = [{
 field:"OD_OCCUPATION",
-width:20,
+width:17,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -55,7 +55,7 @@ caseSensitive:true,
 },
 {
 field:"OD_INDUSTRY",
-width:20,
+width:17,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -66,6 +66,58 @@ applyButton: true,
 clearButton: true,
 filterOptions:["contains"] ,
 caseSensitive:true,
+},
+},
+{
+field:"NET_INCOME",
+width:17,
+sortable: true,
+resizable: true,
+cellStyle: {'text-align': 'left'},
+filter: "agTextColumnFilter",
+filterParams:{
+suppressAndOrCondition : true,
+applyButton: true,
+clearButton: true,
+filterOptions:["contains"] ,
+caseSensitive:true,
+},
+cellRenderer: (params) => {
+let result = params.node.data?this.NET_INCOME_getCellContent(params.node.data):"";
+if (typeof result === 'string') {
+let eDiv = document.createElement('div');
+eDiv.style.display = 'contents';
+eDiv.innerHTML = result;
+return eDiv;
+}
+return result;
+
+},
+},
+{
+field:"INCOME_FREQ",
+width:17,
+sortable: true,
+resizable: true,
+cellStyle: {'text-align': 'left'},
+filter: "agTextColumnFilter",
+filterParams:{
+suppressAndOrCondition : true,
+applyButton: true,
+clearButton: true,
+filterOptions:["contains"] ,
+caseSensitive:true,
+},
+cellRenderer: (params) => {
+let result = params.node.data?this.INCOME_FREQ_getCellContent(params.node.data):"";
+if (typeof result === 'string') {
+let eDiv = document.createElement('div');
+eDiv.style.display = 'contents';
+eDiv.innerHTML = result;
+return eDiv;
+}
+return result;
+
 },
 },
 {
@@ -84,7 +136,7 @@ caseSensitive:true,
 },
 },
 {
-width:20,
+width:6,
 field:"OD_EDIT_BTN",
 sortable: false,
 filter: false,
@@ -94,14 +146,13 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'OccuptionDtlsGrid',
 columnId: 'OD_EDIT_BTN',
-Type: '2',
+Type: '1',
 CustomClass: 'btn-edit',
-IconClass: 'fas fa-edit fa-lg',
-onClick: this.OD_EDIT_BTN_click.bind(this)
+onClick: this.OD_EDIT_BTN_click.bind(this),
 },
 },
 {
-width:20,
+width:6,
 field:"OD_DELETE",
 sortable: false,
 filter: false,
@@ -111,10 +162,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'OccuptionDtlsGrid',
 columnId: 'OD_DELETE',
-Type: '2',
+Type: '1',
 CustomClass: 'btn-delete',
-IconClass: 'fa fa-trash fa-lg',
-onClick: this.OD_DELETE_click.bind(this)
+onClick: this.OD_DELETE_click.bind(this),
 },
 },
 ];
@@ -195,6 +245,8 @@ case "OCCUPATION_ID":obj[i].columnName =  "OccupationSeq";break;
 case "OD_OCCUPATION":obj[i].columnName =  "Occupation";break;
 case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
 case "OD_COMPANY_NAME":obj[i].columnName =  "CompanyName";break;
+case "INCOME_FREQ":obj[i].columnName =  "IncomeFrequecy";break;
+case "NET_INCOME":obj[i].columnName =  "NetIncome";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -207,6 +259,8 @@ case "OCCUPATION_ID":obj[i].columnName =  "OccupationSeq";break;
 case "OD_OCCUPATION":obj[i].columnName =  "Occupation";break;
 case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
 case "OD_COMPANY_NAME":obj[i].columnName =  "CompanyName";break;
+case "INCOME_FREQ":obj[i].columnName =  "IncomeFrequecy";break;
+case "NET_INCOME":obj[i].columnName =  "NetIncome";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -224,6 +278,8 @@ tempObj['OCCUPATION_ID'] = loopVar10[i].OccupationSeq;
 tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
 tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
 tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
+tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;
+tempObj['NET_INCOME'] = loopVar10[i].NetIncome;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
@@ -235,6 +291,12 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 }
 );
 
+}
+NET_INCOME_getCellContent(event){
+return event.NET_INCOME
+}
+INCOME_FREQ_getCellContent(event){
+return event.INCOME_FREQ
 }
 async OD_EDIT_BTN_click(event){
 let inputMap = new Map();
@@ -252,13 +314,13 @@ inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
 this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Record Successfully Deleted', 5000);
+this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
 this.readonlyGrid.refreshGrid();},
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Something went wrong', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 }
 );
 }

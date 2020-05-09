@@ -138,6 +138,7 @@ body {
   text-align: right !important;
   border-bottom: 1px solid #979797;
   padding-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .form-group-initiation-header {
@@ -225,6 +226,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     width: 180px;
     height: 180px;
     vertical-align: middle;
+    cursor: pointer;
 
     .checkmark {
       height: 96px;
@@ -282,6 +284,79 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       background-image: url("./../icons/creditcard.png");
     }
   }  
+}
+
+.collapsedHeader {
+  width: calc(100% - 30px);
+  background-color: #004467;
+  height: 60px;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  z-index: 10;
+  top: 56px;
+  left: 15px;
+
+  // &.top {
+  //   top: 55px;
+  // }
+
+  div {
+    font-size: 16px;
+    padding: 0 16px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 40px;
+    border-right: 1px solid #013653;
+
+    &.arn {
+      background-color: #013653;
+      
+      span {
+        color: rgb(250, 246, 35);
+      }
+    }
+
+    &.loan-amt::before {
+      width: 41px;
+      height: 27px;
+      content: "";
+      background-image: url("./../icons/rupee-yellow.svg");
+      display: inline-block;
+      background-size: 41px 27px;
+      background-repeat: no-repeat; 
+      padding: 0 20px;
+      vertical-align: middle;     
+    }
+
+    &.loan-cat::before {
+      width: 20px;
+      height: 20px;
+      content: "";
+      display: inline-block;
+      background-size: 20px 20px;
+      background-repeat: no-repeat;
+      padding: 0 20px;
+      vertical-align: middle;
+    }
+
+    &.AL::before {
+      background-image: url("./../icons/autoloan-yellow.svg");
+    }
+
+    &.PL::before{
+      background-image: url("./../icons/personalloan-yellow.svg");
+    }
+
+    &.ML::before{
+      background-image: url("./../icons/mortgage-yellow.svg");
+    }
+
+    &.CC::before{
+      background-image: url("./../icons/creditcard-yellow.svg");
+    }
+    
+  }
 }
 
 .read-only-field{
@@ -358,15 +433,14 @@ background-color: #013653;
 text-align: center;
 }
 #HD_APP_REF_NUM{
-
- height: 22px !important;
- width: 83px !important;
+//  height: 22px !important;
+//  width: 83px !important;
  color: #FFFFFF !important;
- font-family: "Open Sans" !important;
+//  font-family: "Open Sans" !important;
  font-size: 16px !important;
  letter-spacing: 0 !important;
- line-height: 22px !important;
- text-align: center !important;
+ line-height: 42px !important;
+//  text-align: center !important;
 }
 
 #LD_LOAN_AMT{
@@ -406,6 +480,9 @@ height: 43px;
   height: 43px;
   
 }
+.horizontal{
+  display: inline;
+}
 
 .LoanTypeImage{
 padding-top: 26px !important;
@@ -430,7 +507,10 @@ padding-left: none !important;
 padding-right: none !important;
 }
 .headerform{
-  border: 1px solid #8FC3E0
+  border: 1px solid #8FC3E0;
+  margin-left: -7px !important;
+  margin-right: -7px !important;
+  border-top: none;
 }
 #EMAIL_GROUP{
   box-sizing: border-box;
@@ -454,16 +534,18 @@ padding-right: none !important;
 }
 
  .customer{
-  margin-top: -7px;
-   margin-left: -2px;
-   margin-right: -2px;
+  margin-top: -24px;
+  width: 97%;
+  //  margin-left: -2px;
+  //  margin-right: -2px;
   .cd-grid {
-    margin-top: -24px;
+    // margin-top: -24px;
     //margin-left:-9px!important;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px;
     background-color: #F6FBFF;
    // margin-left: 24px;
    // width: 1309px;
+     width: 1325px;
     height: 187px;
     padding-top: 16px;
     padding-bottom: 16px;
@@ -604,8 +686,8 @@ padding-right: none !important;
   font-size: 13px;
   letter-spacing: 0;
   line-height: 18px;
-  font-weight: 600 !important;
-  margin-left: 10px !important;
+  font-weight: 400 !important;
+  // margin-left: 10px !important;
 }
 .btn-edit{
   background-image: url("./../icons/edit.svg");
@@ -633,3 +715,54 @@ padding-right: none !important;
   margin-left: 20px;
 }
 
+// .btn-group-justified>.btn {
+//   display: table-cell;
+//   width: 254px;
+//   height: 45px;
+// }
+
+
+.qde-tab-btn-div{
+  margin-top: 12px;
+  margin-bottom: 64px !important;
+  margin-left: 431px;
+}
+
+.btn-group{
+  width:253px
+}
+
+.btn.btn-default.active {
+  box-sizing: border-box;
+  height: 45px;
+  width: 254px;
+  border: 1px solid #004467;
+  border-radius: 4px 0 0 4px;
+  background-color: #004467;
+  color: #FFFFFF;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+  text-align: center;
+}
+.btn.btn-default{
+ box-sizing: border-box;
+ height: 45px;
+ width: 254px;
+  border: 1px solid #004467;
+  border-radius: 4px 0 0 4px;
+  background-color: #FFFFFF;
+  color: #004467;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 22px;
+  text-align: center;
+}
+  
+// .referalform{
+//   height:800px;
+// }

@@ -31,8 +31,8 @@ CD_PRIME_USAGE: string;
 CD_PMRY_EMBSR_NAME: string;
 CD_PREF_LANG: string;
 CD_PREF_COM_CH: string;
-FieldId_29 : any;
-FieldId_30 : any;
+// FieldId_29 : any;
+// FieldId_30 : any;
 setValue(res){
 if(res){
 if(res['CD_CUST_TYPE']){this.CD_CUST_TYPE = res['CD_CUST_TYPE'];}
@@ -67,8 +67,7 @@ if(res['CD_PRIME_USAGE']){this.CD_PRIME_USAGE = res['CD_PRIME_USAGE'];}
 if(res['CD_PMRY_EMBSR_NAME']){this.CD_PMRY_EMBSR_NAME = res['CD_PMRY_EMBSR_NAME'];}
 if(res['CD_PREF_LANG']){this.CD_PREF_LANG = res['CD_PREF_LANG'];}
 if(res['CD_PREF_COM_CH']){this.CD_PREF_COM_CH = res['CD_PREF_COM_CH'];}
-if(res['FieldId_29']){this.FieldId_29 = res['FieldId_29'];}
-if(res['FieldId_30']){this.FieldId_30 = res['FieldId_30'];}
+
 }
 }
 }

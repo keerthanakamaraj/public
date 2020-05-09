@@ -1,63 +1,65 @@
 <form class="MakeRelative">
-<div class="ShowLoading " *ngIf="loadSpinner">
- <div class="lds-roller MakeItMiddle">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div>
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="ND_COMMENT_CAT.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': ND_COMMENT_CAT.mandatory}">
-{{ 'NotepadDetailsForm.ND_COMMENT_CAT' | translate}}
-</label>
-</div>
-<app-combo-box #ND_COMMENT_CAT category="2" fieldID="ND_COMMENT_CAT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ND_COMMENT_CAT', $event)"></app-combo-box>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-8 col-md-8 res-pr-hide" [hidden]="ND_COMMENTS.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': ND_COMMENTS.mandatory}">
-{{ 'NotepadDetailsForm.ND_COMMENTS' | translate}}
-</label>
-</div>
-<app-text-area #ND_COMMENTS fieldID="ND_COMMENTS" [formCode]="formCode" cols="10" rows="4" (blur)="genericOnBlur('ND_COMMENTS', $event)"></app-text-area>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="ND_SAVE.isHidden()">
-<app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" fieldID="ND_SAVE" [formCode]="formCode"  imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="ND_SAVE_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="ND_CLEAR.isHidden()">
-<app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}" fieldID="ND_CLEAR" [formCode]="formCode"  imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="ND_CLEAR_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">
-<app-NotepadDetailsGrid #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-NotepadDetailsGrid>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-notepad-handler #Handler [MainComponent]="this"></app-notepad-handler>
-</div>
-</div>
-<app-hidden #hiddenAppId fieldID="hiddenAppId"></app-hidden>
-<app-hidden #hiddenKey fieldID="hiddenKey"></app-hidden>
-</div>
-</div>
-</div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="clearfix content">
+        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-5 col-md-5">
+            </div>
+            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+            </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="ND_COMMENT_CAT.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': ND_COMMENT_CAT.mandatory}">
+                                {{ 'NotepadDetailsForm.ND_COMMENT_CAT' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #ND_COMMENT_CAT category="2" fieldID="ND_COMMENT_CAT" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" 
+                        doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ND_COMMENT_CAT', $event)"></app-combo-box>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-8 col-md-8 res-pr-hide" [hidden]="ND_COMMENTS.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': ND_COMMENTS.mandatory}">
+                                {{ 'NotepadDetailsForm.ND_COMMENTS' | translate}}
+                            </label>
+                        </div>
+                        <app-text-area #ND_COMMENTS fieldID="ND_COMMENTS" [formCode]="formCode" cols="10" rows="4" (blur)="genericOnBlur('ND_COMMENTS', $event)"></app-text-area>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+                    <div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ND_SAVE.isHidden()">
+                        <app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" customClass="btn btn-primary" fieldID="ND_SAVE" [formCode]="formCode" (buttonClick)="ND_SAVE_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ND_CLEAR.isHidden()">
+                        <app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}"  customClass="btn-warning-outline" fieldID="ND_CLEAR" [formCode]="formCode"
+                            (buttonClick)="ND_CLEAR_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">
+                        <app-NotepadDetailsGrid #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-NotepadDetailsGrid>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-notepad-handler #Handler [MainComponent]="this"></app-notepad-handler>
+                    </div>
+                </div>
+                <app-hidden #hiddenAppId fieldID="hiddenAppId"></app-hidden>
+                <app-hidden #hiddenKey fieldID="hiddenKey"></app-hidden>
+            </div>
+        </div>
+    </div>
 </form>

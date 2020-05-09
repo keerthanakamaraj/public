@@ -230,7 +230,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
     this.updateCustomerTags();
 
-    this.MainComponent.services.alert.showAlert(1, 'Customer deleted', 1000);
+    this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
   }
 
   // Add Customer
@@ -251,7 +251,6 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
             }
           }
         }
-
         if (this.editId) {
           let index = this.customers.findIndex(cust => cust.tempId === this.editId);
           this.customers[index] = customer;
@@ -268,7 +267,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
         this.updateCustomerTags();
 
-        this.MainComponent.services.alert.showAlert(1, 'Customer added', 1000);
+        this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
         this.resetCustomerDetails();
       }
 

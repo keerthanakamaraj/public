@@ -164,7 +164,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Failed to load grid!', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.grid', -1);
 }
 );
 

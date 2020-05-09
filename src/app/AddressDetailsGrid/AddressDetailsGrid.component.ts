@@ -40,7 +40,7 @@ paginationReq:true
 };
 columnDefs:any[] = [{
 field:"AD_Address_Type",
-width:25,
+width:10,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -69,8 +69,8 @@ caseSensitive:true,
 },
 },
 {
-field:"AD_Residence_Duration",
-width:25,
+field:"AD_OCC_STATUS",
+width:15,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -84,7 +84,37 @@ caseSensitive:true,
 },
 },
 {
-width:12,
+field:"AD_CORR_ADD",
+width:10,
+sortable: true,
+resizable: true,
+cellStyle: {'text-align': 'left'},
+filter: "agTextColumnFilter",
+filterParams:{
+suppressAndOrCondition : true,
+applyButton: true,
+clearButton: true,
+filterOptions:["contains"] ,
+caseSensitive:true,
+},
+},
+{
+field:"AD_Residence_Duration",
+width:20,
+sortable: true,
+resizable: true,
+cellStyle: {'text-align': 'left'},
+filter: "agTextColumnFilter",
+filterParams:{
+suppressAndOrCondition : true,
+applyButton: true,
+clearButton: true,
+filterOptions:["contains"] ,
+caseSensitive:true,
+},
+},
+{
+width:10,
 field:"AD_EDIT_BTN",
 sortable: false,
 filter: false,
@@ -94,14 +124,14 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'AddressDetailsGrid',
 columnId: 'AD_EDIT_BTN',
-Type: '2',
+Type: '1',
 CustomClass: 'btn-edit',
-IconClass: 'fas fa-edit fa-lg',
+// IconClass: 'fas fa-edit fa-lg',
 onClick: this.AD_EDIT_BTN_click.bind(this)
 },
 },
 {
-width:13,
+width:10,
 field:"AD_DELETE_BTN",
 sortable: false,
 filter: false,
@@ -111,9 +141,9 @@ cellStyle: {'text-align': 'left'},
 cellRendererParams: {
 gridCode: 'AddressDetailsGrid',
 columnId: 'AD_DELETE_BTN',
-Type: '2',
+Type: '1',
 CustomClass: 'btn-delete',
-IconClass: 'fa fa-trash fa-lg',
+// IconClass: 'fa fa-trash fa-lg',
 onClick: this.AD_DELETE_BTN_click.bind(this)
 },
 },
@@ -195,7 +225,10 @@ case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
 case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
 case "AD_Address":obj[i].columnName =  "AddressLine1";break;
 case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
-case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+// case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+case "AD_OCC_STATUS":obj[i].columnName =  "ResidenceType";break;
+case "AD_CORR_ADD":obj[i].columnName =  "MailingAddress";break;
+case "AD_OCCUP_TYPE":obj[i].columnName =  "OccupancyType";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -208,7 +241,9 @@ case "AD_ADD_ID":obj[i].columnName =  "AddressDetailsSeq";break;
 case "AD_Address_Type":obj[i].columnName =  "AddressType";break;
 case "AD_Address":obj[i].columnName =  "AddressLine1";break;
 case "AD_Residence_Duration":obj[i].columnName =  "PeriodCurrentResidenceYrs";break;
-case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+// case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
+case "AD_OCC_STATUS":obj[i].columnName =  "ResidenceType";break;
+case "AD_OCCUP_TYPE":obj[i].columnName =  "OccupancyType";break;
 default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
 }
 }
@@ -225,8 +260,11 @@ var tempObj = {};
 tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
 tempObj['AD_Address'] = loopVar10[i].AddressLine1;
-tempObj['AD_Residence_Duration'] = loopVar10[i].PeriodCurrentResidenceYrs;
-tempObj['MailingAddress'] = loopVar10[i].MailingAddress;
+tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration +""+loopVar10[i].Period;
+tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
+tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
+tempObj['AD_CORR_ADD'] = loopVar10[i].MailingAddress;
+tempObj['AD_OCCUP_TYPE'] = loopVar10[i].OccupancyType;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
@@ -255,13 +293,13 @@ inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
 this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Successfully Deleted', 5000);
+this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
 this.readonlyGrid.refreshGrid();},
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Something went wrong', -1);
+this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 }
 );
 }

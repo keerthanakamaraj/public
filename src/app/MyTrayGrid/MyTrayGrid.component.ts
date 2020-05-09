@@ -372,7 +372,6 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_SUB_PRODUCT'] = loopVar7[i].SUB_PRODUCT;
               tempObj['MT_SCHEME'] = loopVar7[i].SCHEME;
               tempObj['MT_LOAN_AMOUNT'] = loopVar7[i].LOAN_AMOUNT;
-
               tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar7[i].CREATED_BY;
@@ -391,7 +390,7 @@ export class MyTrayGridComponent implements AfterViewInit {
           var err = httpError['error']
           if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           }
-          this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
       );
     }
@@ -405,12 +404,10 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_ARN": obj[i].columnName = "ARN"; break;
             case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
             case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
-
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
             case "MT_SUB_PRODUCT": obj[i].columnName = "SUB_PRODUCT"; break;
             case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
             case "MT_LOAN_AMOUNT": obj[i].columnName = "LOAN_AMOUNT"; break;
-
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
             case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
@@ -467,7 +464,6 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_SUB_PRODUCT'] = loopVar32[i].SUB_PRODUCT;
               tempObj['MT_SCHEME'] = loopVar32[i].SCHEME;
               tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].LOAN_AMOUNT;
-
               tempObj['MT_CAM_TYPE'] = loopVar32[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar32[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar32[i].CREATED_BY;
@@ -486,7 +482,7 @@ export class MyTrayGridComponent implements AfterViewInit {
           var err = httpError['error']
           if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           }
-          this.services.alert.showAlert(2, 'Error occurred while loading grid', -1);
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
       );
     }

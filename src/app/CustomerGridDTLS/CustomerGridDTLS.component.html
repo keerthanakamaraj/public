@@ -1,0 +1,83 @@
+
+<div class="form-group pb10 customer">
+    <div class="cd-grid col-12  col-sm-12 col-md-12">
+          <div class="cd-col col-sm-12 col-md-12">
+                <div class="cd-col-row fieldLegend">
+                      <div class="cust-type-head">
+                            <label class="cust-type-code ">B</label>
+                            &nbsp;
+                            <label class="customer-type-label">Borrower</label>
+                            <!-- <img class="sub" type="submit" (click)="doReset()" src="assets\icons\add_plus.png" /> -->
+                            <img class="sub" type="submit" src="assets\icons\add_plus.png" />
+                        </div>
+                      <div class="cd-col-row fieldLegend">
+                            <ul class="cust-name-container">
+                                  <li class="customer-names-active" *ngFor="let customer of customerDetailsMap.get('B')">
+                                        {{customer.CD_CUSTOMER_NAME}}
+                                        <button class="customer-edit-active"  (click)="editCustomer($event, customer)">Editing</button>
+                                  </li>
+                            </ul>
+                      </div>
+                </div>
+    
+          </div>
+          <div class="cd-col  col-sm-12 col-md-12">
+                <div class="cd-col-row fieldLegend">
+                      <div class="cust-type-head">
+                            <label class="cust-type-code ">CB</label>
+                            &nbsp;
+                            <label class="customer-type-label">Co-Borrower</label>
+                            <img class="sub" type="submit" src="assets\icons\add_plus.png"/>
+                      </div>
+                      <div class="cd-col-row fieldLegend">
+                            <ul class="cust-name-container">
+                                  <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('CB')">
+                                        {{customer.CD_CUSTOMER_NAME}}
+                                        <button class="fas fa-edit" (click)="editCustomer($event, customer)"></button>
+                                  </li>
+                            </ul>
+                      </div>
+                </div>
+          </div>
+    
+          <div class="cd-col col-sm-12 col-md-12">
+                <div class="cd-col-row fieldLegend">
+                      <div class="cust-type-head">
+                            <label class="cust-type-code ">G</label>
+                            &nbsp;
+                            <label class="customer-type-label"> Guarantor </label>
+                            <img class="sub" type="submit" src="assets\icons\add_plus.png"/>
+                      </div>
+                      <div class="cd-col-row fieldLegend">
+                            <ul class="cust-name-container">
+                                  <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('G')">
+                                        {{customer.CD_CUSTOMER_NAME}}
+                                        <button class="fas fa-edit" (click)="editCustomer($event, customer)"></button>
+                                  </li>
+                            </ul>
+                      </div>
+                </div>
+          </div>
+          <div class="cd-col col-sm-12 col-md-12" id="op-container">
+                <div class="cd-col-row fieldLegend">
+                      <div class="cust-type-head">
+                            <label class="cust-type-code ">OP</label>
+                            &nbsp;
+                            <label class="customer-type-label"> Other Party</label>
+                                  <img class="sub" type="submit" src="assets\icons\add_plus.png"/>
+                      </div>
+                      <div class="cd-col-row fieldLegend">
+                            <ul class="cust-name-container">
+                                  <li class="customer-names" *ngFor="let customer of customerDetailsMap.get('OP')">
+                                        {{customer.CD_CUSTOMER_NAME}}
+                                        <button type="submit" class="fas fa-edit" (click)="editCustomer($event, customer)">
+                                  </button>
+                                  
+                                  </li>
+                            </ul>
+                      </div>
+                </div>
+          </div>
+    </div>
+    </div>
+    

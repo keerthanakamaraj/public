@@ -19,8 +19,8 @@ import { CustomerDtlsGridComponent } from '../CustomerDtlsGrid/CustomerDtlsGrid.
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
-// import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
-
+import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 
@@ -29,9 +29,9 @@ const customCss: string = '';
     templateUrl: './CustomerDtls.component.html'
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: ComboBoxComponent;
-    @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: ComboBoxComponent;
-    @ViewChild('CD_STAFF', { static: false }) CD_STAFF: ComboBoxComponent;
+    @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
+    @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
+    @ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;
     @ViewChild('CD_CIF', { static: false }) CD_CIF: TextBoxComponent;
     @ViewChild('CD_STAFF_ID', { static: false }) CD_STAFF_ID: TextBoxComponent;
     @ViewChild('CD_CUST_ID', { static: false }) CD_CUST_ID: TextBoxComponent;
@@ -45,6 +45,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_GENDER', { static: false }) CD_GENDER: ComboBoxComponent;
     @ViewChild('CD_MARITAL_STATUS', { static: false }) CD_MARITAL_STATUS: ComboBoxComponent;
     @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
+    @ViewChild('CD_EMAIL', { static: false }) CD_EMAIL: TextBoxComponent;
     @ViewChild('CD_NATIONALITY', { static: false }) CD_NATIONALITY: ComboBoxComponent;
     @ViewChild('CD_CITIZENSHIP', { static: false }) CD_CITIZENSHIP: TextBoxComponent;
     @ViewChild('CD_PASSPORT_EXPIRY', { static: false }) CD_PASSPORT_EXPIRY: DateComponent;
@@ -65,11 +66,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
     @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('CUST_DTLS_GRID', { static: false }) CUST_DTLS_GRID: CustomerDtlsGridComponent;
-    @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
-    @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
+    // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
+    // @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
     @ViewChild('Handler', { static: false }) Handler: CustomerHandlerComponent;
-@ViewChild('hidExistCust', {static: false}) hidExistCust: HiddenComponent;
-@ViewChild('hideStaffId', {static: false}) hideStaffId: HiddenComponent;
+    @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
+    @ViewChild('hideStaffId', { static: false }) hideStaffId: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidCusSgmt', { static: false }) hidCusSgmt: HiddenComponent;
     @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
@@ -79,10 +80,25 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
     @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
-    // @ViewChild('QDE_ACCORD', { static: false }) QDE_ACCORD: RloUiAccordionComponent;
+    @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
+    @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
+    @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
+    @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
 
+
+    @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
+    // @Input() ProductCategory: String;
+    @Input() isLoanCategory: boolean = true;
+    @Input() ApplicationId: string = undefined;
     appId: any;
     staffcheck: boolean;
+    addseq: any;
+    customerDetailMap: any;
+    // customerDetailMap: {};
+    // ApplicationId: void;
+    // let customerDetailMap any;
+    custMinAge: number = 18;
+    custMaxAge: number = 100;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -105,6 +121,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_GENDER'),
             this.revalidateBasicField('CD_MARITAL_STATUS'),
             this.revalidateBasicField('CD_MOBILE_NO'),
+            this.revalidateBasicField('CD_EMAIL'),
             this.revalidateBasicField('CD_NATIONALITY'),
             this.revalidateBasicField('CD_CITIZENSHIP'),
             this.revalidateBasicField('CD_PASSPORT_EXPIRY'),
@@ -121,6 +138,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
             this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
+            this.revalidateBasicField('CD_COUNTRY_CODE'),
             // this.FieldId_29.revalidate(),
             // this.FieldId_30.revalidate(),
         ]).then((errorCounts) => {
@@ -139,17 +157,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
-        this.FieldId_29.setReadOnly(readOnly);
-        this.FieldId_30.setReadOnly(readOnly);
+        // this.FieldId_29.setReadOnly(readOnly);
+        // this.FieldId_30.setReadOnly(readOnly);
     }
-    async onFormLoad() {
-        // await this.Handler.onFormLoad({
-        // });
+    async onFormLoad(event) {
+        //    this.ApplicationId = event.custSeq
+        await this.Handler.onFormLoad({
+        });
 
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
-this.hidExistCust.setValue('Y_N');
-this.hideStaffId.setValue('Y_N');
+        this.hidExistCust.setValue('Y_N');
+        this.hideStaffId.setValue('Y_N');
         this.hidAppId.setValue('RLO');
         this.hidCusSgmt.setValue('CUST_SEGMENT');
         this.hidGender.setValue('GENDER');
@@ -158,11 +177,29 @@ this.hideStaffId.setValue('Y_N');
         this.hidPrefCommCh.setValue('PREF_COMM_CH');
         this.hidTitle.setValue('TITLE');
         this.hideCustomerType.setValue('CUSTOMER_TYPE');
+        this.hidPrefLanguage.setValue('PREF_LANGUAGE');
+        this.hideISDCode.setValue('ISD_COUNTRY_CODE');
+
+
+        this.CD_EXISTING_CUST.setDefault('N');
+        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
+
+        this.CD_STAFF.setDefault('N');
+        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
+
         let inputMap = new Map();
-        await this.Handler.onFormLoad({
-        });
+        //  this.Handler.onFormLoad({
+        // });
+
+        // if(this.ProductCategory!=undefined){
+        //     console.log("shweta event found 1 :::",this.ProductCategory);
+        //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
+        //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
+        // }
+        this.setNonEditableFields(false);
         this.setDependencies();
         // this.Handler.displayCustomerTag();
+
     }
 
     setInputs(param: any) {
@@ -179,19 +216,19 @@ this.hideStaffId.setValue('Y_N');
         this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
         this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
         this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.additionalInfo['FieldId_29_desc'] = this.FieldId_29.getFieldInfo();
-        this.additionalInfo['FieldId_30_desc'] = this.FieldId_30.getFieldInfo();
+        // this.additionalInfo['FieldId_29_desc'] = this.FieldId_29.getFieldInfo();
+        // this.additionalInfo['FieldId_30_desc'] = this.FieldId_30.getFieldInfo();
         return this.additionalInfo;
     }
     getFieldValue() {
-        this.value.FieldId_29 = this.FieldId_29.getFieldValue();
-        this.value.FieldId_30 = this.FieldId_30.getFieldValue();
+        // this.value.FieldId_29 = this.FieldId_29.getFieldValue();
+        // this.value.FieldId_30 = this.FieldId_30.getFieldValue();
         return this.value;
     }
     setValue(inputValue, inputDesc = undefined) {
         this.setBasicFieldsValue(inputValue, inputDesc);
-        this.FieldId_29.setValue(inputValue['FieldId_29'], inputDesc['FieldId_29_desc']);
-        this.FieldId_30.setValue(inputValue['FieldId_30'], inputDesc['FieldId_30_desc']);
+        // this.FieldId_29.setValue(inputValue['FieldId_29'], inputDesc['FieldId_29_desc']);
+        // this.FieldId_30.setValue(inputValue['FieldId_30'], inputDesc['FieldId_30_desc']);
         this.value = new CustomerDtlsModel();
         this.value.setValue(inputValue);
         this.setDependencies();
@@ -215,11 +252,11 @@ this.hideStaffId.setValue('Y_N');
     ngAfterViewInit() {
         setTimeout(() => {
             this.subsBFldsValueUpdates();
-            this.value.FieldId_29 = this.FieldId_29.getFieldValue();
-            this.FieldId_29.valueChangeUpdates().subscribe((value) => { this.value.FieldId_29 = value; });
-            this.value.FieldId_30 = this.FieldId_30.getFieldValue();
-            this.FieldId_30.valueChangeUpdates().subscribe((value) => { this.value.FieldId_30 = value; });
-            this.onFormLoad();
+            // this.value.FieldId_29 = this.FieldId_29.getFieldValue();
+            // this.FieldId_29.valueChangeUpdates().subscribe((value) => { this.value.FieldId_29 = value; });
+            // this.value.FieldId_30 = this.FieldId_30.getFieldValue();
+            // this.FieldId_30.valueChangeUpdates().subscribe((value) => { this.value.FieldId_30 = value; });
+            this.onFormLoad(event);
             this.checkForHTabOverFlow();
         });
     }
@@ -227,15 +264,15 @@ this.hideStaffId.setValue('Y_N');
         super.clearBasicFieldsError();
         super.clearHTabErrors();
         super.clearVTabErrors();
-        this.FieldId_29.clearError();
-        this.FieldId_30.clearError();
+        // this.FieldId_29.clearError();
+        // this.FieldId_30.clearError();
         this.errors = 0;
         this.errorMessage = [];
     }
     onReset() {
         super.resetBasicFields();
-        this.FieldId_29.onReset();
-        this.FieldId_30.onReset();
+        // this.FieldId_29.onReset();
+        // this.FieldId_30.onReset();
         this.clearHTabErrors();
         this.clearVTabErrors();
         this.errors = 0;
@@ -244,9 +281,107 @@ this.hideStaffId.setValue('Y_N');
         this.dependencyMap.clear();
         this.value = new CustomerDtlsModel();
         this.passNewValue(this.value);
-        this.setReadOnly(false);
-        this.onFormLoad();
+        // this.setReadOnly(false);
+        this.CD_EXISTING_CUST.isOptionsLoaded = false;
+        this.CD_STAFF.isOptionsLoaded = false;
+        this.setNonEditableFields(false);
+        this.onFormLoad(event);
+        this.ApplicationId;
     }
+
+    isFutureDate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate <= currentDate) {
+            return false;
+        }
+        return true;
+    }
+
+    isPastDate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate >= currentDate) {
+            return false;
+        }
+        return true;
+    }
+
+    isAgeValid(selectedDate) {
+        const moment = require('moment');
+        let currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        let age = currentDate.diff(selectedDate, 'years');
+        console.log("age is:", age);
+        console.log("cif min age is:", this.custMinAge);
+        console.log("cif max age is:", this.custMaxAge);
+        if (age < this.custMinAge || age > this.custMaxAge) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+    genderCheck() {
+        if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
+            //console.log("Please select gender according to tilte");
+            this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+        }
+    }
+
+
+    async CD_GENDER_blur(event) {
+        let inputMap = new Map();
+        this.genderCheck();
+    }
+
+    async CD_DOB_blur(event) {
+        let inputMap = new Map();
+        if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
+            this.services.alert.showAlert(2, 'Please select correct date of birth', -1);
+            this.CD_DOB.onReset();
+        } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
+            this.services.alert.showAlert(2, 'age not valid', -1);
+            this.CD_DOB.onReset();
+        }
+    }
+
+    async CD_PASSPORT_EXPIRY_blur(event) {
+        let inputMap = new Map();
+        if (!this.isFutureDate(this.CD_PASSPORT_EXPIRY.getFieldValue())) {
+            this.services.alert.showAlert(2, 'Passport is expired', -1);
+            this.CD_PASSPORT_EXPIRY.onReset();
+        }
+    }
+
+    async CD_VISA_VALID_blur(event) {
+        let inputMap = new Map();
+        if (!this.isFutureDate(this.CD_VISA_VALID.getFieldValue())) {
+            this.services.alert.showAlert(2, 'Visa is expired', -1);
+            this.CD_VISA_VALID.onReset();
+        }
+    }
+
+    async CD_DRVNG_LCNSE_EXP_DT_blur(event) {
+        let inputMap = new Map();
+        if (!this.isFutureDate(this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue())) {
+            this.services.alert.showAlert(2, 'Driving Licence is expired', -1);
+            this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+        }
+    }
+
 
     async CD_FIRST_NAME_blur(event) {
         let inputMap = new Map();
@@ -270,16 +405,40 @@ this.hideStaffId.setValue('Y_N');
     }
     async CD_STAFF_change(fieldID, value) {
         let inputMap = new Map();
-        await this.Handler.isStaffEnabled({});
-    
-      }
+        await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
+
+    }
     async CD_SAVE_BTN_click(event) {
         let inputMap = new Map();
+        //    this.customerDetailMap = any;
+
+        // this.updateCustGrid.emit({
+        //     'custSeq': this.ApplicationId
+        // })
+        console.log('customerDetailMap', this.customerDetailMap);
         var noOfErrors: number = await this.revalidate();
+
+        // if(this.CD_CUST_TYPE.getFieldValue() == 'B'){
+        //     if(this.customerDetailMap.has(this.CD_CUST_TYPE.getFieldValue())){
+        //         this.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+        //         return;
+        //     }
+        //     }
+        // for(let i = 0 ; i < this.customerDetailMap.; i++){
+        //   if(this.customers[i].customerType.value == 'B' && this.editId !== this.customers[i].tempId){
+        //     this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+        //     return;
+        //   }
+        // }
+
         if (noOfErrors == 0) {
+
+            this.CD_SAVE_BTN.setDisabled(true);
             if (this.HidCustomerId.getFieldValue() != undefined) {
                 inputMap.clear();
-inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
+
+                inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ApplicationId', this.ApplicationId);
                 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
@@ -302,25 +461,48 @@ inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
-              inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CustomerType',this.CD_CUST_TYPE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.LoanOwnership',this.CD_LOAN_OWN.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
+
+
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'Customer Details Updated Successfuly', 5000);
-                        this.onReset();
+                        this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
+                        this.CD_SAVE_BTN.setDisabled(false);
+                        this.updateCustGrid.emit({
+                            'borroweSeq': this.HidCustomerId.getFieldValue()
+                        })
+                        // this.onReset();
+
+
                     },
                     async (httpError) => {
                         var err = httpError['error']
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
+                            if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
+                                this.CD_EMAIL.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.LoanOwnership') {
+                                this.CD_LOAN_OWN.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CIF') {
+                                this.CD_CIF.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
-this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer') {
+                                this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt') {
                                 this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
@@ -384,21 +566,22 @@ this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.FirstName') {
                                 this.CD_FIRST_NAME.setError(err['ErrorDescription']);
-}
+                            }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Title') {
                                 this.CD_TITLE.setError(err['ErrorDescription']);
                             }
-else if(err['ErrorElementPath'] == 'BorrowerSeq'){
-this.HidCustomerId.setError(err['ErrorDescription']);
-}
+                            else if (err['ErrorElementPath'] == 'BorrowerSeq') {
+                                this.HidCustomerId.setError(err['ErrorDescription']);
+                            }
                         }
-                        this.services.alert.showAlert(2, 'Fail', -1);
+                        this.services.alert.showAlert(2, 'rlo.error.update.cutomer', -1);
                     }
                 );
             }
             else {
                 inputMap.clear();
                 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ApplicationId', this.ApplicationId);
                 inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
@@ -415,29 +598,45 @@ this.HidCustomerId.setError(err['ErrorDescription']);
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
-                 inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CustomerType',this.CD_CUST_TYPE.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CIF',this.CD_CIF.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.LoanOwnership',this.CD_LOAN_OWN.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
+
+
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'Customer Details Saved Successfuly', 5000);
-                        this.onReset();
+                        this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
+                        this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
+                        this.updateCustGrid.emit({
+                            'borroweSeq': this.HidCustomerId.getFieldValue()
+                        })
+                        // this.onReset();
+
                     },
                     async (httpError) => {
                         var err = httpError['error']
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-if(err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer'){
-this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
+                            if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
+                                this.CD_EMAIL.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer') {
+                                this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt') {
@@ -507,25 +706,52 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                                 this.CD_TITLE.setError(err['ErrorDescription']);
                             }
                         }
-                        this.services.alert.showAlert(2, 'Something went wrong', -1);
+                        this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+                        this.updateCustGrid.emit({
+                            'custSeq': this.ApplicationId
+                        })
                     }
                 );
             }
+
             this.Handler.deactivateClasses();
         }
         else {
-            this.services.alert.showAlert(2, 'Please Fill all the Mandatory Fields', -1);
+            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
     }
     async CD_CLEAR_BTN_click(event) {
         let inputMap = new Map();
-        this.onReset();
-        this.Handler.deactivateClasses();
+        this.clearQDEFields();
+        //   this.onReset();
+        //  this.Handler.deactivateClasses();
     }
-    async CUST_DTLS_GRID_custDtlsEdit(event, selectedCustomerId) {
+
+    clearQDEFields() {
+        this.CD_MARITAL_STATUS.onReset();
+        this.CD_MOBILE_NO.onReset();
+        this.CD_EMAIL.onReset();
+        this.CD_NATIONALITY.onReset();
+        this.CD_CITIZENSHIP.onReset();
+        this.CD_PASSPORT_EXPIRY.onReset();
+        this.CD_PASSPORT_NO.onReset();
+        this.CD_VISA_VALID.onReset();
+        this.CD_DRIVING_LICENSE.onReset();
+        this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+        this.CD_TAX_ID.onReset();
+        this.CD_DEBIT_SCORE.onReset();
+        this.CD_NATIONAL_ID.onReset();
+        this.CD_CUST_SEGMENT.onReset();
+        this.CD_PRIME_USAGE.onReset();
+        this.CD_PMRY_EMBSR_NAME.onReset();
+        this.CD_PREF_COM_CH.onReset();
+        this.CD_PREF_LANG.onReset();
+        this.CD_COUNTRY_CODE.onReset();
+    }
+    async CUST_DTLS_GRID_custDtlsEdit(event) {
         let inputMap = new Map();
         inputMap.clear();
-        inputMap.set('PathParam.BorrowerSeq', selectedCustomerId);
+        inputMap.set('PathParam.BorrowerSeq', event.selectedCustId);
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
@@ -534,9 +760,6 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
                 this.CD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
                 this.CD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
-                if(this.CD_FULL_NAME.getFieldValue() !== undefined){
-                    this.Handler.displayCustomerTag();
-                }
                 this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
                 this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
@@ -544,14 +767,12 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
                 this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
-                if(this.CD_STAFF.getFieldValue() !== undefined && this.CD_STAFF.getFieldValue() !== "" && this.CD_STAFF.getFieldValue() !== null && this.CD_STAFF.getFieldValue() !== 'N'){
-                  this.CD_STAFF_ID.readOnly = false;
-                  this.CD_STAFF_ID.mandatory =true;
-                }
-                this.CD_STAFF_ID.setValue(res['BorrowerDetails']['StaffID']);
-                this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
+                this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
+                this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
+                this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
+                this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
-                // this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['ExistingCustomer']);
+                this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
                 this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
                 this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
                 this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
@@ -559,14 +780,22 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
                 this.CD_DRVNG_LCNSE_EXP_DT.setValue(res['BorrowerDetails']['DrivingLicenseExpiryDt']);
                 this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
+                this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
-                this.FieldId_30.occBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
-                this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
-                this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
-                this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
+                this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
+                this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['STD']);
+
+                this.addseq = res['BorrowerDetails']['BorrowerSeq'];
+                // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
+                // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
-               
+                this.passBorrowerSeq.emit({
+                    'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
+                });
+                this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
+                this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
+                this.setNonEditableFields(true);
 
             },
             async (httpError) => {
@@ -575,27 +804,118 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 }
             }
         );
-        this.passBorrowerSeq.emit({
-            'BorrowerSeq': selectedCustomerId,
-        });
-        await this.FieldId_29.AddressGrid.gridDataLoad({
-            'passBorrowerSeqToGrid': selectedCustomerId,
-        });
-        await this.FieldId_30.OCC_DTLS_GRID.gridDataLoad({
-            'refNumToGrid': selectedCustomerId,
-        });
-       
-      
-    }
-    async loadCustDtlsGrid(event) {
-        let inputMap = new Map();
-        // await this.CUST_DTLS_GRID.gridDataLoad({
-        //     'custSeqToGrid': event.custSeq,
-        // });
-        this.Handler.APIForCustomerData(event);
 
     }
 
+    LoadCustomerDetailsonFormLoad(event) {
+        let customer = event.CustomerArray;
+
+        for (let i = 0; i < customer.length; i++) {
+            // console.log(customer[i].cus)
+            if (customer[i].CustomerType == 'B') {
+                //  setTimeout (() => {
+                this.CD_TITLE.setValue(customer[i].Title);
+                this.CD_FIRST_NAME.setValue(customer[i].FirstName);
+                this.CD_MIDDLE_NAME.setValue(customer[i].MiddleName);
+                this.CD_LAST_NAME.setValue(customer[i].LastName);
+                this.CD_FULL_NAME.setValue(customer[i].FullName);
+                this.CD_GENDER.setValue(customer[i].Gender);
+                this.CD_DOB.setValue(customer[i].DOB);
+                this.CD_TAX_ID.setValue(customer[i].TaxID);
+                this.CD_MOBILE_NO.setValue(customer[i].MobileNo);
+                this.CD_DEBIT_SCORE.setValue(customer[i].DebitScore);
+                this.CD_CUST_SEGMENT.setValue(customer[i].CustomerSegment);
+
+
+                this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer[i].StaffID);
+
+                this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer[i].ICIFNumber);
+                this.CD_PMRY_EMBSR_NAME.setValue(customer[i].PrimaryEmbosserName1);
+                this.CD_NATIONALITY.setValue(customer[i].Nationality);
+                this.CD_CITIZENSHIP.setValue(customer[i].CitizenShip);
+                this.CD_MARITAL_STATUS.setValue(customer[i].MaritalStatus);
+                this.CD_NATIONAL_ID.setValue(customer[i].CitizenID);
+                this.CD_PASSPORT_NO.setValue(customer[i].Passport);
+                this.CD_PASSPORT_EXPIRY.setValue(customer[i].PassportExpiryDt);
+                this.CD_DRIVING_LICENSE.setValue(customer[i].DrivingLicense);
+                this.CD_DRVNG_LCNSE_EXP_DT.setValue(customer[i].DrivingLicenseExpiryDt)
+                this.CD_PREF_COM_CH.setValue(customer[i].CommunicationAlertChannel);
+                this.CD_EMAIL.setValue(customer[i].Email);
+                this.HidCustomerId.setValue(customer[i].BorrowerSeq);
+                this.CD_PREF_LANG.setValue(customer[i].PreferredLanguage);
+                this.CD_COUNTRY_CODE.setValue(customer[i].STD);
+
+                this.addseq = customer[i].BorrowerSeq;
+                // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
+                // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
+                this.CD_LOAN_OWN.setValue(customer[i].LoanOwnership);
+                this.CD_CUST_TYPE.setValue(customer[i].CustomerType);
+                this.CD_STAFF.setValue(customer[i].IsStaff);
+                this.CD_EXISTING_CUST.setValue(customer[i].ExistingCustomer);
+
+                this.passBorrowerSeq.emit({
+                    'BorrowerSeq': customer[i].BorrowerSeq,
+                });
+                this.CD_PRIME_USAGE.setValue(customer[i].PrimeUsage);
+                this.CD_CIF.setValue(customer[i].CIF)
+
+                //    }, 1500);
+            }
+
+        }
+        this.customerFetchSuccessCallBack();
+    }
+    // async loadCustDtlsGrid(event) {
+    //     let inputMap = new Map();
+    //     // await this.CUST_DTLS_GRID.gridDataLoad({
+    //     //     'custSeqToGrid': event.custSeq,
+    //     // });
+    //     this.Handler.APIForCustomerData(event);
+
+    // }
+    setYesNoTypeDependency(field, dependantField, dependantValue?: String) {
+        if (dependantValue != undefined) {
+            field.setValue('Y')
+            dependantField.setValue(dependantValue);
+        }
+        if (field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N') {
+            dependantField.onReset()
+            dependantField.readOnly = true;
+            dependantField.mandatory = false;
+        }
+        else {
+            dependantField.readOnly = false;
+            dependantField.mandatory = true;
+        }
+    }
+
+    CD_EXISTING_CUST_change(fieldId, value) {
+        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
+    }
+
+    customerFetchSuccessCallBack() {
+        this.setNonEditableFields(true);
+
+        // if(this.ProductCategory!=undefined){
+        //     console.log("shweta event found :::",this.ProductCategory);
+        //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
+        //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
+        // }
+    }
+
+    setNonEditableFields(flag) {
+        this.CD_CUST_TYPE.setReadOnly(flag);
+        this.CD_TITLE.setReadOnly(flag);
+        this.CD_FIRST_NAME.setReadOnly(flag);
+        this.CD_MIDDLE_NAME.setReadOnly(flag);
+        // this.CD_THIRD_NAME.setReadOnly(flag);
+        this.CD_LAST_NAME.setReadOnly(flag);
+        this.CD_DOB.setReadOnly(flag);
+        this.CD_GENDER.setReadOnly(flag);
+    }
+    onCountrycodeChanged() {
+        console.log("country code changed ", this.CD_COUNTRY_CODE);
+    }
     fieldDependencies = {
         CD_CUST_TYPE: {
             inDep: [
@@ -605,52 +925,58 @@ else if(err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel'){
                 { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
             ],
             outDep: [
-]},
-CD_EXISTING_CUST: {
-inDep: [
+            ]
+        },
+        CD_EXISTING_CUST: {
+            inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidExistCust", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-CD_STAFF: {
-inDep: [
+                { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
+                { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_STAFF: {
+            inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hideStaffId", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-CD_TITLE: {
-inDep: [
+                { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
+                { paramKey: "KEY1", depFieldID: "hideStaffId", paramType: "QueryParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_TITLE: {
+            inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidTitle", paramType:"QueryParam"},
-],
-outDep: [
-]},
-CD_GENDER: {
-inDep: [
+                { paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidTitle", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_GENDER: {
+            inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidGender", paramType:"QueryParam"},
-],
-outDep: [
-]},
-CD_MARITAL_STATUS: {
-inDep: [
+                { paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidGender", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_MARITAL_STATUS: {
+            inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType:"QueryParam"},
-],
-outDep: [
-]},
+                { paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
         CD_NATIONALITY: {
             inDep: [
 
@@ -659,28 +985,51 @@ outDep: [
                 { paramKey: "KEY1", depFieldID: "hidNationality", paramType: "QueryParam" },
             ],
             outDep: [
-]},
+            ]
+        },
         CD_CUST_SEGMENT: {
             inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType:"QueryParam"},
-],
-outDep: [
-]},
-CD_PREF_COM_CH: {
-inDep: [
+                { paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_COM_CH: {
+            inDep: [
 
-{paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType:"QueryParam"},
-],
-outDep: [
-]},
-}
+                { paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_LANG: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_PREF_LANG", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidPrefLanguage", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_COUNTRY_CODE: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        }
+    }
     /* Write Custom Scripts Here */
-    
-  
+
+
 
 }

@@ -10,7 +10,7 @@ import { RlouiService } from '../rlo-services/rloui.service';
   styles: []
 })
 export class QDEHandlerComponent extends RLOUIHandlerComponent implements OnInit {
-	@Input() MainComponent: QDEComponent;
+  @Input() MainComponent: QDEComponent;
 
   constructor(rloui: RlouiService) {
     super(rloui);
@@ -24,7 +24,7 @@ export class QDEHandlerComponent extends RLOUIHandlerComponent implements OnInit
   onFormLoad(arg0: {}) {
     console.log("QDE .. On form load");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
-	}
+  }
 
 
 }

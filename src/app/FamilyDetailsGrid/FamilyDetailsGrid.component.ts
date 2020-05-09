@@ -202,7 +202,7 @@ async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Fail To Load Data', -1);
+this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
 }
 );
 
@@ -223,13 +223,13 @@ inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.services.alert.showAlert(1, 'Successfully Deleted', 5000);
+this.services.alert.showAlert(1, 'rlo.error.delete.family', 5000);
 this.readonlyGrid.refreshGrid();},
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
 }
-this.services.alert.showAlert(2, 'Failed To Delete', -1);
+this.services.alert.showAlert(2, 'rlo.error.delete.family', -1);
 }
 );
 }
