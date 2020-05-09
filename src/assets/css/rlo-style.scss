@@ -322,7 +322,9 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       background-image: url("./../icons/rupee-yellow.svg");
       display: inline-block;
       background-size: 41px 27px;
-      background-repeat: no-repeat;      
+      background-repeat: no-repeat; 
+      padding: 0 20px;
+      vertical-align: middle;     
     }
 
     &.loan-cat::before {
@@ -332,7 +334,8 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       display: inline-block;
       background-size: 20px 20px;
       background-repeat: no-repeat;
-      padding: 0 10px;
+      padding: 0 20px;
+      vertical-align: middle;
     }
 
     &.AL::before {
