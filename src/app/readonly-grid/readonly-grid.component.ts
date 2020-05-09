@@ -29,7 +29,7 @@ export class ReadonlyGridComponent {
 
   rowModelType: string = "infinite";
   cacheOverflowSize: number = 2;
-  maxConcurrentDatasourceRequests: number = 2;
+  maxConcurrentDatasourceRequests: number = 50; // If rowdata is blank then request is not cleared effecting next request call. Dirty Fix
   infiniteInitialRowCount: number = 1;
   maxBlocksInCache: number = 2;
   cacheBlockSize: number = 60;

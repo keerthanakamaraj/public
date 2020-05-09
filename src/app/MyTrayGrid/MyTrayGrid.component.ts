@@ -226,7 +226,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   },
   {
     field: "MT_PENDING_WITH",
-    width: 12,
+    width: 15,
     sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'left' },

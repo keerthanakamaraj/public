@@ -340,7 +340,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.updateAmountTags();
   }
 
-
+  cancel() {
+    window.history.back()  
+  }
+  
+  async CANCEL_MAIN_BTN_click(event){
+  let inputMap = new Map();
+  this.cancel();
+  }
+  
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -613,7 +621,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.icif = CustData.ICIFNumber;
 
             }
-            this.showMessage("Proposal " + res.ApplicationReferenceNumber + " Saved Successfully With ICIF Number " + this.borrowericif);
+            this.showMessage("Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif);
             inputMap = new Map();
             this.onReset();
             this.SUBMIT_MAIN_BTN.setDisabled(false);

@@ -726,10 +726,10 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 .button-group {
   height: 60px !important;
   background-color: #F8F8F8 !important;
-  padding-inline-start: 500px !important;
+  /* padding-inline-start: 500px !important; */
   padding-top: 11px !important;
-  margin-left: -13px !important;
-  margin-right: -6px !important;
+  /* margin-left: -13px !important;
+  margin-right: -6px !important; */
 }
 
 .btn-warning-outline {

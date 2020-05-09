@@ -46,6 +46,17 @@ export class RloUiAccordionComponent implements AfterContentInit {
     this.groups.toArray().forEach((t) => t.opened = false);
     // open current group
     group.opened = true;
+
+    // Temp Fix - using native js call change to better approach
+    let activePanel = document.getElementsByClassName("rlo-panel active")[0];
+
+    // Sol - 1
+    // let panelHeader = activePanel.getElementsByClassName("acc-header")[0];
+    // panelHeader.scrollIntoView();
+
+    // Sol - 2
+    let firstInput = activePanel.getElementsByTagName("input")[0];
+    firstInput.focus();
   }
 
   setTags(group: any, tags: Array<any>){
