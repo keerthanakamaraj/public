@@ -22,6 +22,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
   customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID"];
+  editTempId: any;
+  tempId: any;
 
   constructor(rloui: RlouiService) {
     super(rloui);
@@ -46,10 +48,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
     } else {
       this.MainComponent.isLoanCategory = true;
-      this.MainComponent.CD_CUST_TYPE.setReadOnly(false);   
+      this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
 
-  }
+    }
   }
 
   //calcute Netincome 
@@ -57,71 +59,70 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
     let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
     let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
-    if (liability == undefined){
+    if (liability == undefined) {
       liability = 0;
     }
-    if (otherDeduction == undefined){
+    if (otherDeduction == undefined) {
       otherDeduction = 0;
     }
-    if (grossincome == undefined){
+    if (grossincome == undefined) {
       grossincome = 0;
     }
-  let liabityAndOtherDed =liability + otherDeduction ;
-    if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed> grossincome) {
-      this.MainComponent.services.alert.showAlert(2, 'Gross Income should be greater', 5000);
-    }else{
+    let liabityAndOtherDed = liability + otherDeduction;
+    if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed > grossincome) {
+      this.MainComponent.LD_GROSS_INCOME.setError('Gross Income should be greater');
+    } else {
       let netIncome = grossincome - liability - otherDeduction;
       // let DBR = (liability + otherDeduction) / grossincome;
       this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
       // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
+      this.MainComponent.LD_GROSS_INCOME.clearError();
     }
   }
 
 
-  existingCustomer({}){
-    if(this.MainComponent.CD_EXISTING_CUST.getFieldValue()==null||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==undefined
-    ||this.MainComponent.CD_EXISTING_CUST.getFieldValue()==''||this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N')
-    {
+  existingCustomer({ }) {
+    if (this.MainComponent.CD_EXISTING_CUST.getFieldValue() == null || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == undefined
+      || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == '' || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N') {
       this.MainComponent.CD_CUSTOMER_ID.onReset();
       this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
     }
-    else{
-       this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
+    else {
+      this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
     }
-    
-}
 
-
-isStaff({}){
-    if(this.MainComponent.CD_STAFF.getFieldValue()==null||this.MainComponent.CD_STAFF.getFieldValue==undefined
-    ||this.MainComponent.CD_STAFF.getFieldValue()==''||this.MainComponent.CD_STAFF.getFieldValue() == 'N') 
-    {
-        this.MainComponent.CD_STAFF_ID.onReset();
-        this.MainComponent.CD_STAFF_ID .readOnly = true;       
-     }
-  else{
-     this.MainComponent.CD_STAFF_ID .readOnly = false;  
   }
-}
+
+
+  isStaff({ }) {
+    if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
+      || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
+      this.MainComponent.CD_STAFF_ID.onReset();
+      this.MainComponent.CD_STAFF_ID.readOnly = true;
+    }
+    else {
+      this.MainComponent.CD_STAFF_ID.readOnly = false;
+    }
+  }
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
     this.MainComponent.LD_SYS_AMT_RCMD.onReset();
     this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
     this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
-    if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined){
-      let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();    
+    if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined) {
+      let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
       let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
       let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
-      if (liability == undefined){
+      if (liability == undefined) {
         liability = 0;
       }
-      if (otherDeduction == undefined){
+      if (otherDeduction == undefined) {
         otherDeduction = 0;
       }
-      if (grossincome == undefined){
+      if (grossincome == undefined) {
         grossincome = 0;
       }
-      
+
       let DBR = (liability + otherDeduction) / grossincome;
       this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
     }
@@ -138,13 +139,13 @@ isStaff({}){
 
   }
 
-  
+
 
   // Reset Customer Form
   onResetCustomer(arg: {}) {
     this.MainComponent.CD_CUST_TYPE.onReset();
-  //  this.MainComponent.CD_EXISTING_CUST.onReset();
-  //  this.MainComponent.CD_STAFF.onReset();
+    //  this.MainComponent.CD_EXISTING_CUST.onReset();
+    //  this.MainComponent.CD_STAFF.onReset();
     this.MainComponent.CD_CIF.onReset();
     this.MainComponent.CD_TITLE.onReset();
     this.MainComponent.CD_FIRST_NAME.onReset();
@@ -159,7 +160,7 @@ isStaff({}){
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.onProdCategoryChange({});
-   
+
     this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
     this.existingCustomer({});
 
@@ -189,7 +190,7 @@ isStaff({}){
 
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
-   this.editId = undefined;
+    // this.editId = undefined;
     this.editId = arg0.id;
     let customer = this.customers.find(cust => cust.tempId === arg0.id);
 
@@ -216,6 +217,7 @@ isStaff({}){
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
+    this.tempId = customer.tempId
 
   }
 
@@ -239,75 +241,81 @@ isStaff({}){
         this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
       } else {
         let customer = this.getFormCustomerDetails();
-        if(customer.customerType.value == 'B'){
-          for(let i = 0 ; i < this.customers.length; i++){
-            if(this.customers[i].customerType.value == 'B' && this.editId !== this.customers[i].tempId){
+        customer.tempId = "ID-" + (this.counter++);
+        console.log("this.customers before adding" , this.customers);
+        if (customer.customerType.value == 'B') {
+          for (let i = 0; i < this.customers.length; i++) {
+            if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
               this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
               return;
             }
           }
         }
-        
-          if (this.editId) {
-            let index = this.customers.findIndex(cust => cust.tempId === this.editId);
-            this.customers[index] = customer;
-          } else {
-            customer.tempId = "ID-" + (this.counter++);
-            this.customers.push(customer);
-          }
-  
-          this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
-          this.updateCustomerTags();
-  
-          this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
-          this.resetCustomerDetails();
-        }
-        
+        if (this.editId) {
+          let index = this.customers.findIndex(cust => cust.tempId === this.editId);
+          this.customers[index] = customer;
+          console.log("updating customers",this.customers);
+         
+        } else {
+         
+          this.customers.push(customer);
+          this.tempId = undefined;
 
-        
+          console.log("this.customers",this.customers);
+        }
+
+        this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+        this.updateCustomerTags();
+
+        this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
+        this.resetCustomerDetails();
+      }
+
+
+
     });
 
   }
 
-   updateCustomerTags() {
+  updateCustomerTags() {
     let tags = [];
     this.customers.forEach(c => {
       tags.push({ label: c.customerType.value, text: c.firstName });
     });
     this.MainComponent.INIT_ACCORD.setTags("ACC_CUSTOMER", tags);
   }
-   updateAmountTags(){
-     let displayTag = [];
-     if(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined){
+  updateAmountTags() {
+    let displayTag = [];
+    if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined) {
       displayTag.push("₹" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
-     }
-     
-     if(this.MainComponent.LD_INTEREST_RATE.getFieldValue() !==undefined){
+    }
+
+    if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined) {
       displayTag.push(this.MainComponent.LD_INTEREST_RATE.getFieldValue() + "" + "%" + " " + "pa")
-     }
-     if(this.MainComponent.LD_TENURE.getFieldValue() !== undefined && this.MainComponent.LD_TENURE_PERIOD.getFieldValue() !== undefined){
+    }
+    if (this.MainComponent.LD_TENURE.getFieldValue() !== undefined && this.MainComponent.LD_TENURE_PERIOD.getFieldValue() !== undefined) {
       displayTag.push(this.MainComponent.LD_TENURE.getFieldValue() + " " + this.MainComponent.LD_TENURE_PERIOD.getFieldInfo());
-     }
+    }
 
     let tags = [];
-    displayTag.forEach(tag =>{
-      tags.push({ text:tag});
+    displayTag.forEach(tag => {
+      tags.push({ text: tag });
     })
-  
-    this.MainComponent.INIT_ACCORD.setTags("ACC_LOAN_DTLS",tags);
+
+    this.MainComponent.INIT_ACCORD.setTags("ACC_LOAN_DTLS", tags);
   }
 
-  updateLoanTag(){
-  let loantag = []
-  let tags = [];
+  updateLoanTag() {
+    let loantag = []
+    let tags = [];
 
-   if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== undefined){
-     tags.push({label:this.MainComponent.BAD_PROD_CAT.getFieldValue(), text : this.MainComponent.BAD_PROD_CAT.getFieldInfo()})
-   }
-  
-  this.MainComponent.INIT_ACCORD.setTags("ACC_APPLICATION", tags);
-}
-  
+    if (this.MainComponent.BAD_PROD_CAT.getFieldValue() !== undefined) {
+      tags.push({ label: this.MainComponent.BAD_PROD_CAT.getFieldValue(), text: this.MainComponent.BAD_PROD_CAT.getFieldInfo() })
+    }
+
+    this.MainComponent.INIT_ACCORD.setTags("ACC_APPLICATION", tags);
+  }
+
   // updateInterestTags(){
   //   let tags = [];
   //   tags.push({ text:this.MainComponent.LD_INTEREST_RATE.getFieldValue()});
@@ -319,7 +327,7 @@ isStaff({}){
   //     tags.push({ text:this.MainComponent.LD_TENURE.getFieldValue() + " " + this.MainComponent.LD_TENURE_PERIOD.getFieldInfo()});
   //     this.MainComponent.INIT_ACCORD.setTags("ACC_LOAN_DTLS",tags);
   //   }
-   
+
   // }
 
 
@@ -346,6 +354,7 @@ isStaff({}){
     customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
     customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
+    customer.tempId = this.tempId;
 
     return customer;
   }
@@ -403,17 +412,18 @@ isStaff({}){
         tempObj['CIF'] = this.customers[i].CIF;
         tempObj['Title'] = this.customers[i].title.value;
         tempObj['FirstName'] = this.customers[i].firstName;
-        tempObj['middleName'] = this.customers[i].middleName;
+        tempObj['MiddleName'] = this.customers[i].middleName;
         tempObj['LastName'] = this.customers[i].lastName;
         tempObj['FullName'] = this.customers[i].FULL_NAME;
         tempObj['Gender'] = this.customers[i].gender.value;
         tempObj['DOB'] = this.customers[i].DOB;
-        tempObj['TaxId'] = this.customers[i].taxId;
+        tempObj['TaxID'] = this.customers[i].taxId;
         tempObj['MobileNo'] = this.customers[i].mobileNumber;
         tempObj['DebitScore'] = this.customers[i].debitScore;
         tempObj['CustomerSegment'] = this.customers[i].customerSegment.value;
         tempObj['IsStaff'] = this.customers[i].staff.value;
         tempObj['StaffId'] = this.customers[i].staffId;
+        tempObj['ICIFNumber'] = this.customers[i].customerId;
         CustData.push(tempObj);
       }
     }
@@ -435,7 +445,7 @@ isStaff({}){
     this.MainComponent.LD_LTV_DBR.onReset();
     this.MainComponent.LD_EMI_AMT.onReset();
     this.updateAmountTags();
-   
+
   }
 
   resetReferalInformation() {
@@ -443,7 +453,7 @@ isStaff({}){
     this.MainComponent.RD_REFERRER_NO.onReset();
   }
 
-  resetSearchBox(){
+  resetSearchBox() {
     this.MainComponent.SRC_MOBILE_NO.onReset();
     this.MainComponent.SRC_TAX_ID.onReset();
     this.MainComponent.SRC_CIF_NO.onReset();

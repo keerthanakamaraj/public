@@ -31,7 +31,7 @@
                     <label class="clr-brown" [ngClass]="{'mandatory': SRC_TAX_ID.mandatory}">
                       {{ 'Initiation.SRC_TAX_ID' | translate}}</label>
                   </div>
-                  <app-text-box #SRC_TAX_ID fieldID="SRC_TAX_ID" [formCode]="formCode" placeholder="29750311018"
+                  <app-text-box #SRC_TAX_ID fieldID="SRC_TAX_ID" [formCode]="formCode"
                     (blur)="genericOnBlur('SRC_TAX_ID', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_CIF_NO.isHidden()">
@@ -43,10 +43,12 @@
                     (blur)="genericOnBlur('SRC_CIF_NO', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="SEARCH_CUST_BTN.isHidden()">
-          <app-button #SEARCH_CUST_BTN  fieldID="SEARCH_CUST_BTN" [type]= "2" [formCode]="formCode" imagePath = "./assets/icons/search-lens.svg" customClass="icon-button"  (buttonClick)="SEARCH_CUST_BTN_click($event)">
-          </app-button>
-</div>
-</div>
+                  <app-button #SEARCH_CUST_BTN fieldID="SEARCH_CUST_BTN" [type]="2" [formCode]="formCode"
+                    imagePath="./assets/icons/search-lens.svg" customClass="icon-button"
+                    (buttonClick)="SEARCH_CUST_BTN_click($event)">
+                  </app-button>
+                </div>
+              </div>
 
             </div>
           </div>
@@ -54,7 +56,8 @@
             <div style="width:100%; background:null;height:1px;"></div>
           </div>
           <rlo-ui-accordion #INIT_ACCORD class="col-12 col-sm-12 col-md-12">
-            <rlo-ui-accordion-group #ACC_APPLICATION id="ACC_APPLICATION" title="{{ 'Initiation.BAD_LABEL' | translate}}">
+            <rlo-ui-accordion-group #ACC_APPLICATION id="ACC_APPLICATION"
+              title="{{ 'Initiation.BAD_LABEL' | translate}}">
               <div #BAD_GROUP id="BAD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
@@ -121,9 +124,10 @@
                             </label>
                           </div>
                           <rlo-ui-radio #BAD_PROD_CAT fieldID="BAD_PROD_CAT" [formCode]="formCode"
-                          domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                          domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)" (change)="BAD_PROD_CAT_change('BAD_PROD_CAT', $event)">
-                        </rlo-ui-radio>
+                            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"
+                            (change)="BAD_PROD_CAT_change('BAD_PROD_CAT', $event)">
+                          </rlo-ui-radio>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
                           <div class="clr-brown fieldLegend">
@@ -134,7 +138,8 @@
                           <app-combo-box #BAD_PRODUCT category="2" fieldID="BAD_PRODUCT" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstProductDetails/{ProductCd}" doServerUrl="/masters"
                             customClass="Product_Group" domainObjectCode="MstProductDetails"
-                            (blur)="genericOnBlur('BAD_PRODUCT', $event)" (change)="BAD_PRODUCT_change('BAD_PRODUCT', $event)"></app-combo-box>
+                            (blur)="genericOnBlur('BAD_PRODUCT', $event)"
+                            (change)="BAD_PRODUCT_change('BAD_PRODUCT', $event)"></app-combo-box>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
                           <div class="clr-brown fieldLegend">
@@ -145,7 +150,8 @@
                           <app-combo-box #BAD_SUB_PROD category="2" fieldID="BAD_SUB_PROD" [formCode]="formCode"
                             placeholder="Select" domainObjectUrl="/MstSubProductDetails/{SubProductCd}"
                             doServerUrl="/masters" domainObjectCode="MstSubProductDetails"
-                            (blur)="genericOnBlur('BAD_SUB_PROD', $event)" (change)="BAD_SUB_PROD_change('BAD_SUB_PROD', $event)"></app-combo-box>
+                            (blur)="genericOnBlur('BAD_SUB_PROD', $event)"
+                            (change)="BAD_SUB_PROD_change('BAD_SUB_PROD', $event)"></app-combo-box>
                         </div>
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
                           <div class="clr-brown fieldLegend">
@@ -154,8 +160,8 @@
                             </label>
                           </div>
                           <app-combo-box #BAD_SCHEME category="2" fieldID="BAD_SCHEME" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MstSchemeDetails/{SchemeCd}"
-                            doServerUrl="/masters" domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)" (change)="BAD_SCHEME_change('BAD_SCHEME', $event)">
+                            placeholder="Select" domainObjectUrl="/MstSchemeDetails/{SchemeCd}" doServerUrl="/masters"
+                            domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)">
                           </app-combo-box>
                         </div>
                       </div>
@@ -167,13 +173,13 @@
                       <div class="form-group pb10 PROMOTION_GROUP">
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
                           <app-label #PROMOTION_LABEL parentCompCode="Initiation" legendAlign="text-center"
-                            fieldID="PROMOTION_LABEL" [formCode]="formCode" ></app-label>
+                            fieldID="PROMOTION_LABEL" [formCode]="formCode"></app-label>
                         </div>
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PROMOTION.isHidden()">
                           <app-combo-box #BAD_PROMOTION category="2" fieldID="BAD_PROMOTION" [formCode]="formCode"
                             placeholder="Select" valueAlign="center"
-                            domainObjectUrl="/MstPromotionDetails/{PromotionCd}" doServerUrl="/masters" domainObjectCode="MstPromotionDetails"
-                            (blur)="genericOnBlur('BAD_PROMOTION', $event)">
+                            domainObjectUrl="/MstPromotionDetails/{PromotionCd}" doServerUrl="/masters"
+                            domainObjectCode="MstPromotionDetails" (blur)="genericOnBlur('BAD_PROMOTION', $event)">
                           </app-combo-box>
                         </div>
                       </div>
@@ -197,7 +203,8 @@
                     </div>
                     <rlo-ui-radio #CD_CUST_TYPE fieldID="CD_CUST_TYPE" [formCode]="formCode"
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"></rlo-ui-radio>
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"
+                      (change)="CD_CUST_TYPE_change('CD_CUST_TYPE', $event)"></rlo-ui-radio>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -206,7 +213,8 @@
                     </div>
                     <rlo-ui-radio #CD_EXISTING_CUST fieldID="CD_EXISTING_CUST" [formCode]="formCode"
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)" (change)="CD_EXISTING_CUST_change('CD_EXISTING_CUST', $event)">
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"
+                      (change)="CD_EXISTING_CUST_change('CD_EXISTING_CUST', $event)">
                     </rlo-ui-radio>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
@@ -214,9 +222,10 @@
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
                         {{ 'Initiation.CD_STAFF' | translate}}</label>
                     </div>
-                    <rlo-ui-radio #CD_STAFF fieldID="CD_STAFF" [formCode]="formCode"
-                      placeholder="(Select)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)" (change)="CD_STAFF_change('CD_STAFF', $event)">
+                    <rlo-ui-radio #CD_STAFF fieldID="CD_STAFF" [formCode]="formCode" placeholder="(Select)"
+                      domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"
+                      (change)="CD_STAFF_change('CD_STAFF', $event)">
                     </rlo-ui-radio>
                   </div>
                   
@@ -308,7 +317,8 @@
                     <app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
                   </div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12" style="padding: 5px 10x 5px 10px;"></div>                                    
+                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
+                    style="padding: 5px 10x 5px 10px;"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_GENDER.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_GENDER.mandatory}">
@@ -332,7 +342,7 @@
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_MOBILE.mandatory}">
                         {{ 'Initiation.CD_MOBILE' | translate}}</label>
                     </div>
-                    <app-text-box #CD_MOBILE fieldID="CD_MOBILE" [formCode]="formCode" placeholder="(Optional)"
+                    <app-text-box #CD_MOBILE fieldID="CD_MOBILE" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_MOBILE', $event)"></app-text-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
@@ -366,23 +376,24 @@
                     <app-text-box #CD_DEBIT_SCORE inputType="number" fieldID="CD_DEBIT_SCORE" [formCode]="formCode"
                       placeholder="(Optional)" (blur)="genericOnBlur('CD_DEBIT_SCORE', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWNERSHIP.isHidden() || !isLoanCategory">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+                    [hidden]="CD_LOAN_OWNERSHIP.isHidden() || !isLoanCategory">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_LOAN_OWNERSHIP.mandatory}">
                         {{ 'Initiation.CD_LOAN_OWNERSHIP' | translate}}</label>
                     </div>
                     <app-amount #CD_LOAN_OWNERSHIP fieldID="CD_LOAN_OWNERSHIP" [formCode]="formCode"
-                      placeholder="(Optional)" (blur)="genericOnBlur('CD_LOAN_OWNERSHIP', $event)"></app-amount>
+                      placeholder="(Optional)" (blur)="CD_LOAN_OWNERSHIP_blur()"></app-amount>
                   </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_ADD.isHidden()">
-                      <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"
+                    <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"
                       [formCode]="formCode" iconClass="fa fa-plus" [type]="2" customClass="icon-button plus"
-                      (buttonClick)="CD_ADD_click($event)" imagePath = "./assets/icons/plus.svg"></app-button>
+                      (buttonClick)="CD_ADD_click($event)" imagePath="./assets/icons/plus.svg"></app-button>
                   </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_RESET.isHidden()">
-                      <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
+                    <app-button #CD_RESET fieldName="{{ 'Initiation.CD_RESET' | translate}}" fieldID="CD_RESET"
                       [formCode]="formCode" iconClass="fas fa-undo" [type]="2" customClass="icon-button reset"
-                      (buttonClick)="CD_RESET_click($event)" imagePath = "./assets/icons/refresh-form.svg"></app-button>
+                      (buttonClick)="CD_RESET_click($event)" imagePath="./assets/icons/refresh-form.svg"></app-button>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
                     <app-CustDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode"
@@ -395,7 +406,8 @@
                 <div style="width:100%; background:null;height:1px;"></div>
               </div>
             </rlo-ui-accordion-group>
-            <rlo-ui-accordion-group #ACC_LOAN_DTLS id="ACC_LOAN_DTLS" title="{{ 'Initiation.LD_HEAD' | translate}}" [hidden]="!isLoanCategory">
+            <rlo-ui-accordion-group #ACC_LOAN_DTLS id="ACC_LOAN_DTLS" title="{{ 'Initiation.LD_HEAD' | translate}}"
+              [hidden]="!isLoanCategory">
               <div #LD_GROUP id="LD_GROUP">
                 <div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
@@ -431,9 +443,11 @@
                     </div>
                     <app-combo-box #LD_TENURE_PERIOD category="2" fieldID="LD_TENURE_PERIOD" [formCode]="formCode"
                       placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)"></app-combo-box>
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)">
+                    </app-combo-box>
                   </div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12" style="padding: 5px 10x 5px 10px;"></div>                                                      
+                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
+                    style="padding: 5px 10x 5px 10px;"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_APP_PRPSE.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_APP_PRPSE.mandatory}">
@@ -441,7 +455,7 @@
                       </label>
                     </div>
                     <app-combo-box #LD_APP_PRPSE category="2" fieldID="LD_APP_PRPSE" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" 
+                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_APP_PRPSE', $event)"></app-combo-box>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
@@ -482,7 +496,8 @@
                     <app-amount #LD_NET_INCOME fieldID="LD_NET_INCOME" [formCode]="formCode"
                       (blur)="genericOnBlur('LD_NET_INCOME', $event)"></app-amount>
                   </div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"style="padding: 0px 15px 10px 15px;"></div>
+                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
+                    style="padding: 0px 15px 10px 15px;"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CHK_ELGBTY_BTN.isHidden()">
                     <app-button #LD_CHK_ELGBTY_BTN fieldName="{{ 'Initiation.LD_CHK_ELGBTY_BTN' | translate}}"
                       fieldID="LD_CHK_ELGBTY_BTN" [formCode]="formCode" customClass="inlineButton"
@@ -580,17 +595,23 @@
     <div class="col-12  col-sm-12 col-md-12 group-default">
       <div #BUTTON_SECTION id="BUTTON_SECTION">
         <div class="form-group pb10 button-group">
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="SUBMIT_MAIN_BTN.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4"></div>
+          <div class="col-12  col-sm-4 col-md-4">
+
             <app-button #SUBMIT_MAIN_BTN fieldName="{{ 'Initiation.SUBMIT_MAIN_BTN' | translate}}"
               fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" customClass="btn btn-primary"
-              (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
+              (buttonClick)="SUBMIT_MAIN_BTN_click($event)" style='float: left'></app-button>
+
+            <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}"
+              (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
+              customClass="btn-warning-outline" style='float: left'></app-button>
+
+            <app-button #Reset fieldName="{{ 'Initiation.Reset' | translate}}" fieldID="Reset" [formCode]="formCode"
+              customClass="btn-warning-outline" (buttonClick)="Reset_click($event)" style='float: left'></app-button>
+
           </div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CANCEL_MAIN_BTN.isHidden()">
-            <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}" [routerLink]="['/','home','LANDING']" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
-          </div>
-		  <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Reset.isHidden()">
-            <app-button #Reset fieldName="{{ 'Initiation.Reset' | translate}}" fieldID="Reset" [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="Reset_click($event)"></app-button>
-      </div>
+
+          <div class="col-12  col-sm-4 col-md-4"></div>
         </div>
 
       </div>

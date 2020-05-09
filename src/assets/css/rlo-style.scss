@@ -49,6 +49,8 @@ body {
   }
 
   .form-group {
+    
+    
     label {
       color: $input-lbl-color;
       font-size: 12px;
@@ -702,6 +704,15 @@ padding-right: none !important;
   width: 35px;
   background-repeat: no-repeat;
   position: relative;
+}
+
+/* hide modal header */
+.modal-header {
+  display: none;
+}
+
+#CANCEL_MAIN_BTN ,#Reset {
+  margin-left: 20px;
 }
 
 // .btn-group-justified>.btn {

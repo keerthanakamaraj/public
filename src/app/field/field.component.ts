@@ -147,7 +147,9 @@ export class FieldComponent{
   }
 
   clearError() {
-    this.error = undefined;
+  //  this.error = undefined;
+    this.error=false;
+    this.errorCode=undefined;
   }
 
   setReadOnly(readOnly:boolean) {
