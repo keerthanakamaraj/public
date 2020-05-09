@@ -653,14 +653,14 @@ a {
     border: none
 }
 
-a:active,
+/* a:active,
 a:focus,
 a:hover {
     text-decoration: none;
     outline: 0;
     border: none;
     color: #e1c151
-}
+} */
 
 table {
     border-collapse: collapse;

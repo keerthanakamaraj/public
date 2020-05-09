@@ -55,16 +55,24 @@ export class RLOUIHandlerComponent implements OnInit {
 
         if(validation) { // TODO: Check Type and set appropriate Validations
           if(field["T"] == undefined || field["T"] == "S" ){ // String type -- Treat null / undefined as string
+            var placeholder = '';
             if(validation["MX"]) { // MaxLength
               this.MainComponent[field["ID"]].maxLength = validation["MX"];
+              placeholder = "Max " + validation["MX"] + " chars";
             }
             if(validation["MI"]) { // Minlength
               this.MainComponent[field["ID"]].minLength = validation["MI"];
+
+              placeholder = "Min " + validation["MI"] + ( placeholder == '' ? '' : '/' + placeholder ) ;
             }
 
             if(validation["P"]) { // Pattern
               this.MainComponent[field["ID"]].regex = validation["P"];
             }
+
+            // Add Placeholder as Min / Max
+            this.MainComponent[field["ID"]].placeholder = placeholder;
+
           } else if(field["T"] == "N"){ // Number
             if(validation["MX"]) { // MaxLength
               this.MainComponent[field["ID"]].maxValue = validation["MX"];

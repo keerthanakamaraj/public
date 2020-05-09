@@ -673,7 +673,37 @@ padding-right: none !important;
       }
     }
   }
- } 
+ }
+ 
+ a.back {
+  float: left;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &::before {
+    content: "\f104";
+    // vertical-align: middle;
+    font-family: "Font Awesome 5 Free";
+    margin-right: 6px;
+  }
+ }
+
+ #BUTTON_SECTION {
+  margin-top: 30px;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+
+  .ng-star-inserted {
+    display: inline-block;
+  }
+}
 
  .img{
   height: 24px !important;
@@ -687,7 +717,7 @@ padding-right: none !important;
   letter-spacing: 0;
   line-height: 18px;
   font-weight: 400 !important;
-  // margin-left: 10px !important;
+  vertical-align: middle;
 }
 .btn-edit{
   background-image: url("./../icons/edit.svg");

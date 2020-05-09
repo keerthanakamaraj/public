@@ -435,4 +435,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     fieldDependencies = {
     }
 
+    /* Cancel / Back button */
+    goBack(){
+      if(confirm("Are you sure you want to cancel?")){
+        // history.back();
+        this.services.router.navigate(['home','LANDING']);
+      }
+    }
+
 }
