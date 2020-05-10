@@ -135,4 +135,53 @@ export class RlouiService {
   getConfig(configName: string){
     return this.tenantconfig[configName];
   }
+
+  formatAmount(amount, languageCode: string, minFraction, currency: string){
+    // console.log("Format Amount " , amount);
+    let amt: number;
+    if(typeof amount == "string"){
+      try { 
+        amt = Number(amount); 
+      } catch (e) { 
+        return amount; 
+      }
+    } else if(typeof amount == "number"){
+      amt = amount
+    } else {
+      console.warn("Unexpected Amount Type");
+      return amount;
+    }
+
+    if(!languageCode){ languageCode = this.getConfig("language.default"); }
+    if(!currency){ currency = this.getConfig("currency.code.default"); }
+
+    // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
+    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+  }
+
+  // TODO: Check Type of date and format accordingly
+  formatDateTime(date) {
+    var languageCode = this.getConfig("language.default");
+    var options = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"};
+    try{
+      var dt = new Date(date)
+      return new Intl.DateTimeFormat(languageCode, options).format(dt);
+    } catch(e) {
+      console.log("error formatting date", date);
+      return date;
+    }
+  }
+
+  // TODO: Check Type of date and format accordingly
+  formatDate(date) {
+    var languageCode = this.getConfig("language.default");
+    var options = {year: "numeric", month: "numeric", day: "numeric"};
+    try{
+      var dt = new Date(date);
+      return new Intl.DateTimeFormat(languageCode, options).format(dt);
+    } catch(e) {
+      console.log("error formatting date", date);
+      return date;
+    }
+  }  
 }
