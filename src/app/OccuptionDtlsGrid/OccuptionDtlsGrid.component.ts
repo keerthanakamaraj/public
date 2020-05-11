@@ -40,7 +40,7 @@ paginationReq:true
 };
 columnDefs:any[] = [{
 field:"OD_OCCUPATION",
-width:17,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -53,24 +53,24 @@ filterOptions:["contains"] ,
 caseSensitive:true,
 },
 },
-{
-field:"OD_INDUSTRY",
-width:17,
-sortable: true,
-resizable: true,
-cellStyle: {'text-align': 'left'},
-filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
-applyButton: true,
-clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
-},
-},
+// {
+// field:"OD_INDUSTRY",
+// width:17,
+// sortable: true,
+// resizable: true,
+// cellStyle: {'text-align': 'left'},
+// filter: "agTextColumnFilter",
+// filterParams:{
+// suppressAndOrCondition : true,
+// applyButton: true,
+// clearButton: true,
+// filterOptions:["contains"] ,
+// caseSensitive:true,
+// },
+// },
 {
 field:"NET_INCOME",
-width:17,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -96,7 +96,7 @@ return result;
 },
 {
 field:"INCOME_FREQ",
-width:17,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -122,7 +122,7 @@ return result;
 },
 {
 field:"OD_COMPANY_NAME",
-width:20,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -243,7 +243,7 @@ for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
 case "OCCUPATION_ID":obj[i].columnName =  "OccupationSeq";break;
 case "OD_OCCUPATION":obj[i].columnName =  "Occupation";break;
-case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
+// case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
 case "OD_COMPANY_NAME":obj[i].columnName =  "CompanyName";break;
 case "INCOME_FREQ":obj[i].columnName =  "IncomeFrequecy";break;
 case "NET_INCOME":obj[i].columnName =  "NetIncome";break;
@@ -257,7 +257,7 @@ for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
 case "OCCUPATION_ID":obj[i].columnName =  "OccupationSeq";break;
 case "OD_OCCUPATION":obj[i].columnName =  "Occupation";break;
-case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
+// case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
 case "OD_COMPANY_NAME":obj[i].columnName =  "CompanyName";break;
 case "INCOME_FREQ":obj[i].columnName =  "IncomeFrequecy";break;
 case "NET_INCOME":obj[i].columnName =  "NetIncome";break;
@@ -276,7 +276,7 @@ for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
 tempObj['OCCUPATION_ID'] = loopVar10[i].OccupationSeq;
 tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
-tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
+// tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
 tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
 tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;
 tempObj['NET_INCOME'] = loopVar10[i].NetIncome;

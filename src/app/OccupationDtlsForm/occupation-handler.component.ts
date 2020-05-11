@@ -12,6 +12,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
   @Input() MainComponent: OccupationDtlsFormComponent;
   formName: string = "OccupationDetails";
   occupations = [];
+  fieldArray: any[];
   ngOnInit() {
     // ngOnInit
   }
@@ -25,6 +26,8 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
 
 
   occupationOnchange() {
+    let array
+    array = this.fieldArrayFunction();
     if (this.MainComponent.OD_OCCUPATION.getFieldValue() == 'SL') {
       this.MainComponent.OD_EMPLT_TYPE.mandatory = true;
       this.MainComponent.OD_EMPLT_TYPE.setReadOnly(false);
@@ -32,6 +35,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
     else {
       this.MainComponent.OD_EMPLT_TYPE.mandatory = false;
       this.MainComponent.OD_EMPLT_TYPE.setReadOnly(true);
+      this.MainComponent.OD_EMPLT_TYPE.setValue(undefined);
 
     }
 
@@ -44,11 +48,25 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.OD_SELF_EMPLD_TYPE.mandatory = false;
       this.MainComponent.OD_SELF_EMPLD_TYPE.setReadOnly(true);
       this.MainComponent.OD_SELF_EMPLD_PROF.setReadOnly(true);
+      this.MainComponent.OD_SELF_EMPLD_PROF.setValue(undefined);
+      this.MainComponent.OD_SELF_EMPLD_TYPE.setValue(undefined);
+    }
+    if (this.MainComponent.OD_OCCUPATION.getFieldValue() == 'HW' ||
+      this.MainComponent.OD_OCCUPATION.getFieldValue() == 'RT' ||
+      this.MainComponent.OD_OCCUPATION.getFieldValue() == 'OT' ||
+      this.MainComponent.OD_OCCUPATION.getFieldValue() == 'ST') {
+
+      array.forEach(function (arrayfalse) { arrayfalse.mandatory = false });
+    }
+    else {
+      array.forEach(function (arrayTrue) {
+        arrayTrue.mandatory = true;
+      });
     }
   }
 
-  companyCodeChange(){
-    if(this.MainComponent.OD_COMPANY_CODE.getFieldValue() == 'OTH'){
+  companyCodeChange() {
+    if (this.MainComponent.OD_COMPANY_CODE.getFieldValue() == 'OTH') {
       this.MainComponent.OD_COMP_CAT.setReadOnly(false);
       this.MainComponent.OD_COMP_NAME.setReadOnly(false);
     }
@@ -56,6 +74,16 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.OD_COMP_CAT.setReadOnly(true);
       this.MainComponent.OD_COMP_NAME.setReadOnly(true);
     }
+  }
+
+
+
+  fieldArrayFunction() {
+    this.fieldArray = [];
+    this.fieldArray.push(this.MainComponent.OD_INDUSTRY, this.MainComponent.OD_COMPANY_CODE, this.MainComponent.OD_COMP_CAT,
+      this.MainComponent.OD_COMP_NAME, this.MainComponent.OD_INC_DOC_TYPE, this.MainComponent.OD_NET_INCOME,
+      this.MainComponent.OD_INCOME_FREQ, this.MainComponent.OD_INCOME_TYPE, this.MainComponent.OD_CURRENCY, this.MainComponent.OD_LOC_CURR_EQ)
+    return this.fieldArray;
   }
 }
 

@@ -70,6 +70,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('HidOccupationSeq', {static: false}) HidOccupationSeq: HiddenComponent;
 @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
 @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
+  fieldArray: any[];
 
 async revalidate(): Promise<number> {
 var totalErrors = 0;
@@ -555,7 +556,8 @@ this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
 this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
 this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
-this.Handler.companyCodeChange()
+this.Handler.occupationOnchange();
+this.Handler.companyCodeChange();
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -687,6 +689,7 @@ OD_COMPANY_CODE: {
 }
     /* Write Custom Scripts Here */
     
+ 
   occBorrowerSeq;
 
 }

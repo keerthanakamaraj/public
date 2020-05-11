@@ -639,18 +639,18 @@ li .a {
 #AD_CLEAR_BTN
 {
   border-color: dimgray;
-  margin-left: 99px;
+  /* margin-left: 99px; */
 }
 #AD_SAVE_ADDRESS
 {
-  margin-left: 161px;
+  /* margin-left: 161px; */
 }
 #OD_SAVE_BTN{
-  margin-left: 93px;
+  /* margin-left: 93px; */
 }
 #OD_CLEAR_BTN{
   border-color: dimgray;
-  margin-left: 35px;
+  /* margin-left: 35px; */
 }
 #RD_RESET{
   margin-left: 5px;
