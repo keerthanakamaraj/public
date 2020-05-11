@@ -529,7 +529,6 @@ export class MyTrayGridComponent implements AfterViewInit {
 
   formatDate(date){
     if(date.value){
-      console.log("date " + date.value);
       return this.services.formatDateTime(date.value);
     } else {
       return '-';

@@ -1765,7 +1765,18 @@
     "RD_RESET" : "CLEAR",
     "RD_REF_NO" : "Referrer Mobile No.",
     "RD_REF_NAME" : "Referrer Name"
-    }
+  },
+  "CustomerGridDTLS" : {
+    "BorrowerTag" : "B",
+    "BorrowerLabel" : "Borrower",
+    "CoBorrowerTag" : "CB",
+    "CoBorrowerLabel" : "Co-Borrower",
+    "GuarantorTag" : "G",
+    "GuarantorLabel" : "Guarantor",
+    "OtherPartyTag" : "OP",
+    "OtherPartyLabel" : "Other Party",
+    "Editing" : "Editing"
+  }
 
 }
 

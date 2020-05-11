@@ -167,6 +167,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
+              customer['editing'] = false;
 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
@@ -212,10 +213,12 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     let customerTypeArr = [];
     if (this.customerDetailsMap.has(customerType)) {
       customerTypeArr = this.customerDetailsMap.get(customerType);
-
     }
     else {
       customerTypeArr = [];
+    }
+    if(customerType == 'B' && customerTypeArr.length == 0) { // First Borrower
+      customer["editing"] = true;
     }
     customerTypeArr.push(customer);
     this.customerDetailsMap.set(customerType, customerTypeArr);
