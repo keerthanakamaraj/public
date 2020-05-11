@@ -251,10 +251,10 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     },
     AD_BRANCH: {
       inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        {paramKey: "BranchCd", depFieldID: "AD_BRANCH", paramType:"PathParam"},
+        // { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
+        // { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
+        // { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
       ]
