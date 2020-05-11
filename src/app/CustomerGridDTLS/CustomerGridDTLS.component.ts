@@ -32,11 +32,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   //@Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
   @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
 
-  @Input() ApplicationId:string=undefined;
+  @Input() ApplicationId: string = undefined;
 
   customerDataArr: any[];
-  isFirstAPICall:boolean=true;
-  
+  isFirstAPICall: boolean = true;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -134,7 +134,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   async doAPIForCustomerList(event) {
     let inputMap = new Map();
-    if (this.ApplicationId !=undefined) {
+    if (this.ApplicationId != undefined) {
       inputMap.clear();
       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
       if (this.ApplicationId) {
@@ -153,15 +153,15 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var res = httpResponse.body;
           var customerDataArr = [];
           var BorrowerDetails = res['BorrowerDetails'];
-          if(BorrowerDetails){
+          if (BorrowerDetails) {
 
-         // if (this.isFirstAPICall) {
-              this.passArrayToCustomer.emit({
-                'CustomerArray' : BorrowerDetails
-              });
-         //     this.isFirstAPICall=false;
-         //   }
-         
+            // if (this.isFirstAPICall) {
+            this.passArrayToCustomer.emit({
+              'CustomerArray': BorrowerDetails
+            });
+            //     this.isFirstAPICall=false;
+            //   }
+
             BorrowerDetails.forEach(eachBorrower => {
               let customer = {};
 
@@ -174,8 +174,8 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
               customerDataArr.push(customer);
 
-          });
-        }
+            });
+          }
           this.apiSuccessCallback(customerDataArr);
           // return customerDataArr;
           // this.displayCustomerTag(customerDataArr);
@@ -188,13 +188,13 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         }
       );
 
-  //    return this.customerDetailsMap
+      //    return this.customerDetailsMap
     }
   }
 
   apiSuccessCallback(customerDataArr: any[]) {
     this.customerDetailsMap.clear();
-  //  let borrowerSeq = undefined;
+    //  let borrowerSeq = undefined;
     customerDataArr.forEach(customer => {
       if (customer != null && customer != undefined && customer != '') {
         this.categoriseCustomers(customer.CD_CUSTOMER_TYPE, customer);

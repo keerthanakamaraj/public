@@ -23,8 +23,8 @@ import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.co
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
-import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component'
-import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component'
+import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
+import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -116,6 +116,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.doAPIForCustomerList({});
         this.FieldId_10.fetchReferalDetails();
         this.APPLICATION_DETAILS.fetchApplicationDetails();
+        await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
+            'ApplicationId':this.ApplicationId
+         });
+     //   this.NOTEPAD_GRID.gridDataAPI()
 
 
         //   await this.FieldId_10.onFormLoad({
