@@ -472,7 +472,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
               //  inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
 
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
@@ -613,7 +613,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
             //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
 
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
@@ -783,7 +783,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
-                this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['STD']);
+                this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['ISDCountryCode']);
 
                 this.addseq = res['BorrowerDetails']['BorrowerSeq'];
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
@@ -843,7 +843,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_EMAIL.setValue(customer[i].Email);
                 this.HidCustomerId.setValue(customer[i].BorrowerSeq);
                 this.CD_PREF_LANG.setValue(customer[i].PreferredLanguage);
-                this.CD_COUNTRY_CODE.setValue(customer[i].STD);
+                this.CD_COUNTRY_CODE.setValue(customer[i].ISDCountryCode);
 
                 this.addseq = customer[i].BorrowerSeq;
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
@@ -1029,7 +1029,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         },
         CD_CITIZENSHIP: {
             inDep: [
-                
+
                 { paramKey: "VALUE1", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
                 { paramKey: "KEY1", depFieldID: "hideCitizenship", paramType: "QueryParam" },
