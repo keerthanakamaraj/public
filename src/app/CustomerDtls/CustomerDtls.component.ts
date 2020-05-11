@@ -47,7 +47,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
     @ViewChild('CD_EMAIL', { static: false }) CD_EMAIL: TextBoxComponent;
     @ViewChild('CD_NATIONALITY', { static: false }) CD_NATIONALITY: ComboBoxComponent;
-    @ViewChild('CD_CITIZENSHIP', { static: false }) CD_CITIZENSHIP: TextBoxComponent;
+    @ViewChild('CD_CITIZENSHIP', { static: false }) CD_CITIZENSHIP: ComboBoxComponent;
     @ViewChild('CD_PASSPORT_EXPIRY', { static: false }) CD_PASSPORT_EXPIRY: DateComponent;
     @ViewChild('CD_PASSPORT_NO', { static: false }) CD_PASSPORT_NO: TextBoxComponent;
     @ViewChild('CD_VISA_VALID', { static: false }) CD_VISA_VALID: DateComponent;
@@ -58,7 +58,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
     @ViewChild('CD_CUST_SEGMENT', { static: false }) CD_CUST_SEGMENT: ComboBoxComponent;
     @ViewChild('CD_LOAN_OWN', { static: false }) CD_LOAN_OWN: TextBoxComponent;
-    @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
+   // @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
     @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
     @ViewChild('CD_PREF_COM_CH', { static: false }) CD_PREF_COM_CH: ComboBoxComponent;
     @ViewChild('CD_PREF_LANG', { static: false }) CD_PREF_LANG: ComboBoxComponent;
@@ -84,6 +84,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
     @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
     @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
+    @ViewChild('hideCitizenship', { static: false }) hideCitizenship: HiddenComponent;
 
 
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
@@ -134,7 +135,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_NATIONAL_ID'),
             this.revalidateBasicField('CD_CUST_SEGMENT'),
             this.revalidateBasicField('CD_LOAN_OWN'),
-            this.revalidateBasicField('CD_PRIME_USAGE'),
+         //   this.revalidateBasicField('CD_PRIME_USAGE'),
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
             this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
@@ -179,7 +180,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.hideCustomerType.setValue('CUSTOMER_TYPE');
         this.hidPrefLanguage.setValue('PREF_LANGUAGE');
         this.hideISDCode.setValue('ISD_COUNTRY_CODE');
-
+        this.hideCitizenship.setValue('CITIZENSHIP');
 
         this.CD_EXISTING_CUST.setDefault('N');
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
@@ -469,7 +470,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+              //  inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
 
@@ -596,7 +597,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName2', this.CD_PMRY_EMBSR_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
-                // inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
@@ -611,7 +611,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+            //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.STD', this.CD_COUNTRY_CODE.getFieldValue());
 
@@ -742,7 +742,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_DEBIT_SCORE.onReset();
         this.CD_NATIONAL_ID.onReset();
         this.CD_CUST_SEGMENT.onReset();
-        this.CD_PRIME_USAGE.onReset();
+      //  this.CD_PRIME_USAGE.onReset();
         this.CD_PMRY_EMBSR_NAME.onReset();
         this.CD_PREF_COM_CH.onReset();
         this.CD_PREF_LANG.onReset();
@@ -793,7 +793,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
-                this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
+          //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
 
@@ -856,7 +856,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': customer[i].BorrowerSeq,
                 });
-                this.CD_PRIME_USAGE.setValue(customer[i].PrimeUsage);
+             //   this.CD_PRIME_USAGE.setValue(customer[i].PrimeUsage);
                 this.CD_CIF.setValue(customer[i].CIF)
 
                 //    }, 1500);
@@ -1023,6 +1023,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
                 { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_CITIZENSHIP: {
+            inDep: [
+                
+                { paramKey: "VALUE1", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideCitizenship", paramType: "QueryParam" },
             ],
             outDep: [
             ]

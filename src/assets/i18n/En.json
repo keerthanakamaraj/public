@@ -1525,7 +1525,7 @@
     "CD_MARITAL_STATUS" : "Marital Status",
     "FieldId_29" : "null",
     "CD_NATIONAL_ID" : "National Id",
-    "CD_STAFF" : "Is the Customer a Smart Bank employee?",
+    "CD_STAFF" : "Is the Customer an employee?",
     "CD_VISA_VALID" : "Visa Valid Upto",
     "CD_PREF_COM_CH" : "Preferred Communication Channel",
     "CD_PREF_LANG" : "Preferred Language",
