@@ -348,7 +348,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async FieldId_9_resetCustForm(event) {
-        this.CUSTOMER_DETAILS.onReset();
+        this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
     }
 
     async FieldId_6_addonblur(event) {

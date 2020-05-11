@@ -58,7 +58,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
     @ViewChild('CD_CUST_SEGMENT', { static: false }) CD_CUST_SEGMENT: ComboBoxComponent;
     @ViewChild('CD_LOAN_OWN', { static: false }) CD_LOAN_OWN: TextBoxComponent;
-   // @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
+    // @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
     @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
     @ViewChild('CD_PREF_COM_CH', { static: false }) CD_PREF_COM_CH: ComboBoxComponent;
     @ViewChild('CD_PREF_LANG', { static: false }) CD_PREF_LANG: ComboBoxComponent;
@@ -135,7 +135,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_NATIONAL_ID'),
             this.revalidateBasicField('CD_CUST_SEGMENT'),
             this.revalidateBasicField('CD_LOAN_OWN'),
-         //   this.revalidateBasicField('CD_PRIME_USAGE'),
+            //   this.revalidateBasicField('CD_PRIME_USAGE'),
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
             this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
@@ -187,6 +187,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         this.CD_STAFF.setDefault('N');
         this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
+
 
         let inputMap = new Map();
         //  this.Handler.onFormLoad({
@@ -287,7 +288,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_STAFF.isOptionsLoaded = false;
         this.setNonEditableFields(false);
         this.onFormLoad(event);
-        this.ApplicationId;
     }
 
     isFutureDate(selectedDate) {
@@ -470,7 +470,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
-              //  inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+                //  inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
@@ -484,8 +484,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                             'borroweSeq': this.HidCustomerId.getFieldValue()
                         })
                         // this.onReset();
-
-
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -611,7 +609,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
-            //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
+                //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
@@ -742,7 +740,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_DEBIT_SCORE.onReset();
         this.CD_NATIONAL_ID.onReset();
         this.CD_CUST_SEGMENT.onReset();
-      //  this.CD_PRIME_USAGE.onReset();
+        //  this.CD_PRIME_USAGE.onReset();
         this.CD_PMRY_EMBSR_NAME.onReset();
         this.CD_PREF_COM_CH.onReset();
         this.CD_PREF_LANG.onReset();
@@ -793,7 +791,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
-          //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
+                //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
 
@@ -856,7 +854,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': customer[i].BorrowerSeq,
                 });
-             //   this.CD_PRIME_USAGE.setValue(customer[i].PrimeUsage);
+                //   this.CD_PRIME_USAGE.setValue(customer[i].PrimeUsage);
                 this.CD_CIF.setValue(customer[i].CIF)
 
                 //    }, 1500);
@@ -904,7 +902,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     setNonEditableFields(flag) {
-        this.CD_CUST_TYPE.setReadOnly(flag);
+        //  this.CD_CUST_TYPE.setReadOnly(flag);
         this.CD_TITLE.setReadOnly(flag);
         this.CD_FIRST_NAME.setReadOnly(flag);
         this.CD_MIDDLE_NAME.setReadOnly(flag);
@@ -916,6 +914,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     onCountrycodeChanged() {
         console.log("country code changed ", this.CD_COUNTRY_CODE);
     }
+
+    setNewCustomerFrom(event) {
+        this.onReset();
+        if (event != undefined && event.customerType != undefined) {
+            this.CD_CUST_TYPE.setValue(event.customerType);
+            this.CD_CUST_TYPE.setReadOnly(true);
+        }
+    }
+
     fieldDependencies = {
         CD_CUST_TYPE: {
             inDep: [

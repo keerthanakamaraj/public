@@ -237,9 +237,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       //  this.displayCustomerTag();
     }
   }
-  doReset() {
+  doReset(customerType?: string) {
     this.deactivateClasses();
-    this.resetCustForm.emit();
+    this.resetCustForm.emit({
+      'customerType': customerType
+    });
 
     // this.MainComponent.onReset();
   }
