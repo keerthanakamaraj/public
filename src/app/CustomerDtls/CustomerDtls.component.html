@@ -170,7 +170,8 @@
                             </label>
                         </div>
                         <app-combo-box #CD_COUNTRY_CODE category="2" fieldID="CD_COUNTRY_CODE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_COUNTRY_CODE', $event)" (change)="onCountrycodeChanged()"></app-combo-box>
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_COUNTRY_CODE', $event)"
+                            (change)="onCountrycodeChanged()"></app-combo-box>
                     </div>
 
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE_NO.isHidden()">
@@ -210,7 +211,7 @@
                         </div>
                         <!-- <app-text-box #CD_CITIZENSHIP fieldID="CD_CITIZENSHIP" [formCode]="formCode" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)"></app-text-box> -->
                         <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                        doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)"></app-combo-box>
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)"></app-combo-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_EXPIRY.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -374,7 +375,7 @@
                 <app-hidden #hideCustomerType fieldID="hideCustomerType"></app-hidden>
                 <app-hidden #hidPrefLanguage fieldID="hidPrefLanguage"></app-hidden>
                 <app-hidden #hideISDCode fieldID="hideISDCode"></app-hidden>
-                <app-hidden #hideCitizenship fieldID="hideCitizenship"></app-hidden>               
+                <app-hidden #hideCitizenship fieldID="hideCitizenship"></app-hidden>
             </div>
         </div>
     </div>

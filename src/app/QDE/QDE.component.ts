@@ -117,9 +117,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_10.fetchReferalDetails();
         this.APPLICATION_DETAILS.fetchApplicationDetails();
         await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
-            'ApplicationId':this.ApplicationId
-         });
-     //   this.NOTEPAD_GRID.gridDataAPI()
+            'ApplicationId': this.ApplicationId
+        });
+        //   this.NOTEPAD_GRID.gridDataAPI()
 
 
         //   await this.FieldId_10.onFormLoad({
@@ -424,6 +424,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("shweta :: in qde ", event.isLoanCategory);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+        this.FieldId_9.isLoanCategory = event.isLoanCategory;
     }
 
     brodcastApplicationId() {
@@ -440,11 +441,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     /* Cancel / Back button */
-    goBack(){
-      if(confirm("Are you sure you want to cancel?")){
-        // history.back();
-        this.services.router.navigate(['home','LANDING']);
-      }
+    goBack() {
+        if (confirm("Are you sure you want to cancel?")) {
+            // history.back();
+            this.services.router.navigate(['home', 'LANDING']);
+        }
     }
 
 }

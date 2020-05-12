@@ -115,7 +115,7 @@
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.GuarantorTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.GuarantorLabel' | translate }}</span>
-      <span class="cust-add" (click)="doReset('G')"><img src="assets/icons/add_plus.png" /></span>
+      <span class="cust-add" (click)="doReset('G')" [hidden]="!isLoanCategory"><img src="assets/icons/add_plus.png" /></span>
     </div>
     <div class="cust-list">
       <div *ngFor="let customer of customerDetailsMap.get('G')" [ngClass]="{'active' : customer.editing }"
@@ -130,7 +130,7 @@
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.OtherPartyTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.OtherPartyLabel' | translate }}</span>
-      <span class="cust-add" (click)="doReset('OP')"><img src="assets/icons/add_plus.png" /></span>
+      <span class="cust-add" (click)="doReset('OP')" [hidden]="!isLoanCategory"><img src="assets/icons/add_plus.png" /></span>
     </div>
     <div class="cust-list">
       <div *ngFor="let customer of customerDetailsMap.get('OP')" [ngClass]="{'active' : customer.editing }"

@@ -1768,7 +1768,8 @@
     "RD_SAVE" : "SAVE",
     "RD_RESET" : "CLEAR",
     "RD_REF_NO" : "Referrer Mobile No.",
-    "RD_REF_NAME" : "Referrer Name"
+    "RD_REF_NAME" : "Referrer Name",
+    "RD_ISD_CODE" : "Country Code"
   },
   "CustomerGridDTLS" : {
     "BorrowerTag" : "B",

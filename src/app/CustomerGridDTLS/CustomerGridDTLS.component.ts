@@ -33,6 +33,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() ApplicationId: string = undefined;
+  @Input() isLoanCategory: boolean = true;
 
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
@@ -134,6 +135,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   async doAPIForCustomerList(event) {
     let inputMap = new Map();
+    let borrowerSeq = undefined;
+    if (event != undefined) {
+      borrowerSeq = event.borrowerSeq;
+    }
     if (this.ApplicationId != undefined) {
       inputMap.clear();
       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
@@ -155,12 +160,12 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var BorrowerDetails = res['BorrowerDetails'];
           if (BorrowerDetails) {
 
-            // if (this.isFirstAPICall) {
-            this.passArrayToCustomer.emit({
-              'CustomerArray': BorrowerDetails
-            });
-            //     this.isFirstAPICall=false;
-            //   }
+            //  if (this.isFirstAPICall) {
+            // this.passArrayToCustomer.emit({
+            //   'CustomerArray': BorrowerDetails
+            // });
+            //      this.isFirstAPICall=false;
+            //    }
 
             BorrowerDetails.forEach(eachBorrower => {
               let customer = {};
@@ -172,6 +177,17 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
                 ? eachBorrower.CustomerType : 'OP';
+
+              if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
+                this.passArrayToCustomer.emit({
+                  'CustomerArray': eachBorrower
+                });
+                this.isFirstAPICall = false;
+                customer["editing"] = true;
+              }
+              else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
+                customer["editing"] = true;
+              }
 
               customerDataArr.push(customer);
 
@@ -217,9 +233,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     else {
       customerTypeArr = [];
     }
-    if(customerType == 'B' && customerTypeArr.length == 0) { // First Borrower
-      customer["editing"] = true;
-    }
+    // if(customerType == 'B' && customerTypeArr.length == 0 && this.isFirstAPICall) { // First Borrower
+    //   customer["editing"] = true;
+    // }
     customerTypeArr.push(customer);
     this.customerDetailsMap.set(customerType, customerTypeArr);
   }
@@ -243,7 +259,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     }
   }
   doReset(customerType?: string) {
-    // this.deactivateClasses();
+    this.resetEditingFlag();
     this.resetCustForm.emit({
       'customerType': customerType
     });
@@ -251,10 +267,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     // this.MainComponent.onReset();
   }
 
-  resetEditingFlag(){
+  resetEditingFlag() {
     this.customerDetailsMap.forEach(group => {
       console.log("group ", group);
-      group.forEach( cust => {
+      group.forEach(cust => {
         cust["editing"] = false;
       });
     });
