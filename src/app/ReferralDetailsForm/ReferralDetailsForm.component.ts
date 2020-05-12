@@ -27,17 +27,22 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
     @ViewChild('RD_REF_NO', { static: false }) RD_REF_NO: TextBoxComponent;
     @ViewChild('RD_SAVE', { static: false }) RD_SAVE: ButtonComponent;
     @ViewChild('RD_RESET', { static: false }) RD_RESET: ButtonComponent;
-    @ViewChild('hideLoanSeq', { static: false }) hideLoanSeq: HiddenComponent;
+  //  @ViewChild('hideLoanSeq', { static: false }) hideLoanSeq: HiddenComponent;
     @ViewChild('loanApplicationSeq', { static: false }) loanApplicationSeq: HiddenComponent;
+    @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+    @ViewChild('RD_ISD_CODE', { static: false }) RD_ISD_CODE: ComboBoxComponent;
+    @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
 
     @Input() ApplicationId: string = undefined;
 
+    loanDetailsSeq=undefined;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
         await Promise.all([
             this.revalidateBasicField('RD_REF_NAME'),
             this.revalidateBasicField('RD_REF_NO'),
+            this.revalidateBasicField('RD_ISD_CODE'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -60,6 +65,8 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         // this.ApplicationId = event.custSeq;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         //let inputMap = new Map();
+        this.hidAppId.setValue('RLO');
+        this.hideISDCode.setValue('ISD_COUNTRY_CODE');
     }
 
     fetchReferalDetails() {
@@ -92,8 +99,9 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
                         for (var i = 0; i < loopVar10.length; i++) {
 
                             this.RD_REF_NAME.setValue(loopVar10[i].ReferrerName);
+                            this.RD_ISD_CODE.setValue(loopVar10[i].ISDCountryCode);
                             this.RD_REF_NO.setValue(loopVar10[i].ReferrerPhoneNo);
-                            this.hideLoanSeq.setValue(loopVar10[i].LoanDetailSeq);
+                            this.loanDetailsSeq=loopVar10[i].LoanDetailSeq;
                         }
                     }
                 },
@@ -177,10 +185,11 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
     }
     async RD_SAVE_click(event) {
         let inputMap = new Map();
-        if (this.hideLoanSeq.getFieldValue() == undefined) {
+        if (this.loanDetailsSeq == undefined) {
             inputMap.clear();
             inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
             inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REF_NO.getFieldValue());
+            inputMap.set('Body.LoanDetails.ISDCountryCode', this.RD_ISD_CODE.getFieldValue());
             inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
 
             this.services.http.fetchApi('/LoanDetails', 'POST', inputMap).subscribe(
@@ -195,6 +204,9 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
                         if (err['ErrorElementPath'] == 'LoanDetails.ApplicationId') {
                             this.loanApplicationSeq.setError(err['ErrorDescription']);
                         }
+                        else if (err['ErrorElementPath'] == 'LoanDetails.ISDCountryCode') {
+                            this.RD_ISD_CODE.setError(err['ErrorDescription']);
+                        }
                         else if (err['ErrorElementPath'] == 'LoanDetails.ReferrerPhoneNo') {
                             this.RD_REF_NO.setError(err['ErrorDescription']);
                         }
@@ -208,10 +220,11 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         }
         else {
             inputMap.clear();
-            inputMap.set('PathParam.LoanDetailSeq', this.hideLoanSeq.getFieldValue());
+            inputMap.set('PathParam.LoanDetailSeq', this.loanDetailsSeq);
             inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
             inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
             inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REF_NO.getFieldValue());
+            inputMap.set('Body.LoanDetails.ISDCountryCode', this.RD_ISD_CODE.getFieldValue());
 
             this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
@@ -224,21 +237,39 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
                         if (err['ErrorElementPath'] == 'LoanDetails.ReferrerPhoneNo') {
                             this.RD_REF_NO.setError(err['ErrorDescription']);
                         }
+                        else if (err['ErrorElementPath'] == 'LoanDetails.ISDCountryCode') {
+                            this.RD_ISD_CODE.setError(err['ErrorDescription']);
+                        }
                         else if (err['ErrorElementPath'] == 'LoanDetails.ReferrerName') {
                             this.RD_REF_NAME.setError(err['ErrorDescription']);
                         }
                         else if (err['ErrorElementPath'] == 'LoanDetails.ApplicationId') {
                             this.loanApplicationSeq.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LoanDetailSeq') {
-                            this.hideLoanSeq.setError(err['ErrorDescription']);
-                        }
+                        // else if (err['ErrorElementPath'] == 'LoanDetailSeq') {
+                        //     this.loanDetailsSeq.setError(err['ErrorDescription']);
+                        // }
                     }
                     this.services.alert.showAlert(2, 'rlo.error.update.referral', -1);
                 }
             );
         }
     }
+
+    RD_RESET_click(event){
+this.onReset();
+    }
+
     fieldDependencies = {
+        RD_ISD_CODE : {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "RD_ISD_CODE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
     }
 }
