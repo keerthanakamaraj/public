@@ -226,13 +226,15 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   public editCustomer(event, selectedCustomer) {
     if (selectedCustomer) {
-      this.deactivateClasses();
-      event.target.classList.remove("fas");
-      event.target.classList.remove("fa-edit");
-      event.target.classList.add("customer-edit-active");
-      event.target.textContent = "Editing";
-      event.target.parentElement.classList.remove("customer-names");
-      event.target.parentElement.classList.add("customer-names-active");
+      this.resetEditingFlag();
+      selectedCustomer["editing"] = true;
+      // this.deactivateClasses();
+      // event.target.classList.remove("fas");
+      // event.target.classList.remove("fa-edit");
+      // event.target.classList.add("customer-edit-active");
+      // event.target.textContent = "Editing";
+      // event.target.parentElement.classList.remove("customer-names");
+      // event.target.parentElement.classList.add("customer-names-active");
       this.selectCustId.emit({
         'selectedCustId': selectedCustomer.CustomerId
       });
@@ -241,28 +243,38 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     }
   }
   doReset(customerType?: string) {
-    this.deactivateClasses();
+    // this.deactivateClasses();
     this.resetCustForm.emit({
       'customerType': customerType
     });
 
     // this.MainComponent.onReset();
   }
-  deactivateClasses() {
-    let elementList = Array.from(document.getElementsByClassName("customer-names-active"));
-    elementList.forEach(element => {
-      element.classList.add("customer-names");
-      element.classList.remove("customer-names-active");
-    });
 
-    elementList = Array.from(document.getElementsByClassName("customer-edit-active"));
-    elementList.forEach(element => {
-      element.classList.add("fas");
-      element.classList.add("fa-edit");
-      element.textContent = "";
-      element.classList.remove("customer-edit-active");
+  resetEditingFlag(){
+    this.customerDetailsMap.forEach(group => {
+      console.log("group ", group);
+      group.forEach( cust => {
+        cust["editing"] = false;
+      });
     });
   }
+
+  // deactivateClasses() {
+  //   let elementList = Array.from(document.getElementsByClassName("customer-names-active"));
+  //   elementList.forEach(element => {
+  //     element.classList.add("customer-names");
+  //     element.classList.remove("customer-names-active");
+  //   });
+
+  //   elementList = Array.from(document.getElementsByClassName("customer-edit-active"));
+  //   elementList.forEach(element => {
+  //     element.classList.add("fas");
+  //     element.classList.add("fa-edit");
+  //     element.textContent = "";
+  //     element.classList.remove("customer-edit-active");
+  //   });
+  // }
 
   // async loadCustDtlsGrid(event) {
   //   this.APIForCustomerData(event);

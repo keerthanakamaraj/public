@@ -475,7 +475,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
 
-                this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/olive/publisher').subscribe(
+                this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
@@ -614,14 +614,14 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
 
-                this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/olive/publisher').subscribe(
+                this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.updateCustGrid.emit({
                             'borroweSeq': this.HidCustomerId.getFieldValue()
-                        })
+                        });
                         // this.onReset();
 
                     },
@@ -750,7 +750,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.selectedCustId);
-        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
+        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/initiation').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);

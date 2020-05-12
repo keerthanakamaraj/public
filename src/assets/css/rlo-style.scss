@@ -775,10 +775,11 @@ padding-right: none !important;
       text-align: center;
       color: #F8F8F8;
       padding: 3px 12px;
+      // margin-top: 4px;
       display: none;
     }
 
-    .cust-edit { float: right; }
+    .cust-edit { float: right; cursor: pointer; }
   }
 
 }
