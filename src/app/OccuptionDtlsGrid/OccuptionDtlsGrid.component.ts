@@ -21,6 +21,7 @@ transition('false => true', animate('300ms ease-in'))
 ],
 })
 export class OccuptionDtlsGridComponent implements AfterViewInit {
+	occupationRecord: boolean = false;
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
@@ -223,6 +224,8 @@ isHidden(){
 return this.hidden;
 }
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
+this.showSpinner()
+
 let inputMap = new Map();
 inputMap.clear();
 let inputKey:any = event.refNumToGrid;
@@ -270,7 +273,16 @@ this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap, '/rlo-de').su
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar10 = [];
-var loopVar10 = res['OccupationDetails'];
+if(res !== null){
+	this.occupationRecord = true
+	var loopVar10 = res['OccupationDetails'];
+}
+else{
+	this.occupationRecord = false
+
+}
+
+
 if (loopVar10) {
 for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
@@ -283,10 +295,12 @@ tempObj['NET_INCOME'] = loopVar10[i].NetIncome;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+this.hideSpinner();
 },
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+	this.hideSpinner();
 }
 }
 );

@@ -85,5 +85,12 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.OD_INCOME_FREQ, this.MainComponent.OD_INCOME_TYPE, this.MainComponent.OD_CURRENCY, this.MainComponent.OD_LOC_CURR_EQ)
     return this.fieldArray;
   }
+
+  netIncomeOnblur(){
+    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.OD_NET_INCOME.getFieldValue() !== undefined){
+      let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.OD_NET_INCOME.getFieldValue();
+      this.MainComponent.OD_LOC_CURR_EQ.setValue(CurrenyExchangeValue);
+    }
+  }
 }
 
