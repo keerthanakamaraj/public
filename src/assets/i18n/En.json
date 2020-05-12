@@ -7,6 +7,10 @@
     "rlo.error.update.address":"Failed to Update Address Details",
     "rlo.success.save.address":"Address Details Saved Successfully",
     "rlo.error.save.address":"Failed to Save Address Details",
+    "rlo.error.mailing.address":"Mailing Address already exist",
+    "rlo.error.current.address":"Current Address already exist",
+    "rlo.error.permanent.address":"Permanent Address already exist",
+    "rlo.error.email.address":"You have to fill Alternate Email ID",
     "rlo.error.load.form":"Failed load Data",
     "rlo.error.load.grid":"Failed To Load Grid",
     "rlo.success.delete.address":"Address Details Successfully Deleted",
@@ -1397,8 +1401,8 @@
     "IS_HEADING": "Income Summary"
   },
   "OccuptionDtlsGrid": {
-    "OD_EDIT_BTN": "Edit",
-    "OD_DELETE": "Delete",
+    "OD_EDIT_BTN": "",
+    "OD_DELETE": "",
     "OD_EDIT_BTN_ButtonName": "Edit",
     "toolbar_OccuptionDtlsGrid": "null",
     "OD_OCCUPATION": "Occupation",

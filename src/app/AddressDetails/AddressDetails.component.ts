@@ -10,7 +10,7 @@ import { DateComponent } from '../date/date.component';
 import { ButtonComponent } from '../button/button.component';
 import { AmountComponent } from '../amount/amount.component';
 import { FormComponent } from '../form/form.component';
-import{RLOUIRadioComponent} from'../rlo-ui-radio/rlo-ui-radio.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
@@ -27,18 +27,18 @@ const customCss: string = '';
   templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('AD_ADD_TYPE', {static: false}) AD_ADD_TYPE: ComboBoxComponent;
-@ViewChild('AD_OCCUPANCY_TYPE', {static: false}) AD_OCCUPANCY_TYPE: ComboBoxComponent;
-@ViewChild('AD_OCCUPANCY_STATUS', {static: false}) AD_OCCUPANCY_STATUS: ComboBoxComponent;
+  @ViewChild('AD_ADD_TYPE', { static: false }) AD_ADD_TYPE: ComboBoxComponent;
+  @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: ComboBoxComponent;
+  @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: ComboBoxComponent;
   @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: ComboBoxComponent;
-  @ViewChild('AD_MAILING_ADDRESS', {static: false}) AD_MAILING_ADDRESS: ComboBoxComponent;
+  @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: ComboBoxComponent;
   @ViewChild('AD_ADDRESS_LINE1', { static: false }) AD_ADDRESS_LINE1: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE2', { static: false }) AD_ADDRESS_LINE2: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE3', { static: false }) AD_ADDRESS_LINE3: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE4', { static: false }) AD_ADDRESS_LINE4: TextBoxComponent;
   @ViewChild('AD_PINCODE', { static: false }) AD_PINCODE: TextBoxComponent;
   @ViewChild('AD_REGION', { static: false }) AD_REGION: TextBoxComponent;
- @ViewChild('AD_CITY', { static: false }) AD_CITY: ComboBoxComponent;
+  @ViewChild('AD_CITY', { static: false }) AD_CITY: ComboBoxComponent;
   @ViewChild('AD_STATE', { static: false }) AD_STATE: ComboBoxComponent;
   @ViewChild('AD_LANDMARK', { static: false }) AD_LANDMARK: TextBoxComponent;
   @ViewChild('AD_RES_DUR', { static: false }) AD_RES_DUR: TextBoxComponent;
@@ -46,10 +46,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_LANDLINE_NUMBER', { static: false }) AD_LANDLINE_NUMBER: TextBoxComponent;
   @ViewChild('AD_ALTERNATE_MOB_NO', { static: false }) AD_ALTERNATE_MOB_NO: TextBoxComponent;
   @ViewChild('AD_EMAIL_ID2', { static: false }) AD_EMAIL_ID2: TextBoxComponent;
-@ViewChild('AD_PREF_TIME', {static: false}) AD_PREF_TIME: ComboBoxComponent;
+  @ViewChild('AD_PREF_TIME', { static: false }) AD_PREF_TIME: ComboBoxComponent;
   @ViewChild('AD_CORR_EMAIL', { static: false }) AD_CORR_EMAIL: ComboBoxComponent;
-  @ViewChild('AD_Email_ID', {static: false}) AD_Email_ID: CheckBoxComponent;
-@ViewChild('AD_Alternative_Email', {static: false}) AD_Alternative_Email: CheckBoxComponent;
+  @ViewChild('AD_Email_ID', { static: false }) AD_Email_ID: CheckBoxComponent;
+  @ViewChild('AD_Alternative_Email', { static: false }) AD_Alternative_Email: CheckBoxComponent;
   @ViewChild('AD_EMAIL1_CHECKBOX', { static: false }) AD_EMAIL1_CHECKBOX: CheckBoxComponent;
   @ViewChild('AD_EMAIL2_CHECKBOX', { static: false }) AD_EMAIL2_CHECKBOX: CheckBoxComponent;
   @ViewChild('AD_SAVE_ADDRESS', { static: false }) AD_SAVE_ADDRESS: ButtonComponent;
@@ -61,23 +61,26 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidMailingAddress', { static: false }) hidMailingAddress: HiddenComponent;
   @ViewChild('hidResDurType', { static: false }) hidResDurType: HiddenComponent;
-@ViewChild('hidOccStatus', {static: false}) hidOccStatus: HiddenComponent;
-@ViewChild('hideOccType', {static: false}) hideOccType: HiddenComponent;
+  @ViewChild('hidOccStatus', { static: false }) hidOccStatus: HiddenComponent;
+  @ViewChild('hideOccType', { static: false }) hideOccType: HiddenComponent;
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
   @ViewChild('hideOccp_type', { static: false }) hideOccp_type: HiddenComponent;
   @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
+  @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
+  @ViewChild('hidPrefrredTime', { static: false }) hidPrefrredTime: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
-  addResponse = [];
-  addresses = [];
+
+  AD_Address_Type = [];
+  AD_OCCUP_TYPE = [];
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-this.revalidateBasicField('AD_ADD_TYPE'),
-this.revalidateBasicField('AD_OCCUPANCY_TYPE'),
-this.revalidateBasicField('AD_OCCUPANCY_STATUS'),
-this.revalidateBasicField('AD_MAILING_ADDRESS'),
+      this.revalidateBasicField('AD_ADD_TYPE'),
+      this.revalidateBasicField('AD_OCCUPANCY_TYPE'),
+      this.revalidateBasicField('AD_OCCUPANCY_STATUS'),
+      this.revalidateBasicField('AD_MAILING_ADDRESS'),
       // this.revalidateBasicField('AD_RESIDENCE_TYPE'),
       this.revalidateBasicField('AD_ADDRESS_LINE1'),
       this.revalidateBasicField('AD_ADDRESS_LINE2'),
@@ -94,10 +97,10 @@ this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_LANDLINE_NUMBER'),
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
-this.revalidateBasicField('AD_PREF_TIME'),
+      // this.revalidateBasicField('AD_PREF_TIME'),
       // this.revalidateBasicField('AD_CORR_EMAIL'),
       // this.revalidateBasicField('AD_Email_ID'),
-// this.revalidateBasicField('AD_Alternative_Email'),
+      // this.revalidateBasicField('AD_Alternative_Email'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
     ]).then((errorCounts) => {
@@ -123,13 +126,16 @@ this.revalidateBasicField('AD_PREF_TIME'),
     this.hidAppId.setValue('RLO');
     this.hidMailingAddress.setValue('Y_N');
     this.hidResDurType.setValue('PERIOD');
-this.hidOccStatus.setValue('OCCUPANCY_STATUS');
-this.hideOccType.setValue('OCCUPANCY_TYPE');
+    this.hidOccStatus.setValue('OCCUPANCY_STATUS');
+    this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
+    this.hidPrefrredTime.setValue('PREF_TIME_CONTACT');
+    this.AD_EMAIL1_CHECKBOX.setValue(true);
+    // this.AD_MAILING_ADDRESS.setd('N');
     let inputMap = new Map();
     await this.Handler.onFormLoad({
     });
-    
+
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -201,95 +207,78 @@ this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.onFormLoad();
   }
 
-  async AD_ADD_TYPE_change (fieldID, value) {
+  async AD_ADD_TYPE_change(fieldID, value) {
     let inputMap = new Map();
     this.addonblur.emit({});
-   await this.Handler.onAddTypeChange();
-}
-async AD_ADDRESS_LINE1_blur (event) {
-  let inputMap = new Map();
-  this.addonblur.emit({});
-  // await this.Handler.onAddTypeChange();
-}
-async AD_EMAIL1_CHECKBOX_blur(){
-  let inputMap =  new Map();
-  //  this.onEmailClick();
-}
-// async AD_EMAIL2_CHECKBOX_blur(){
-//   let inputMap =  new Map();
-//   this.onEmailClick();
-// }
-// async AD_CITY_blur  (event) {
-//   let inputMap = new Map();
-//   //  this.Handler.updateAddressTags();
-// }
-async AD_PINCODE_blur (event) {
-  let inputMap = new Map();
-  this.addonblur.emit({});
-}
-
-// async  AD_RES_DUR_UNIT_blur (event) {
-//   let inputMap = new Map();
-//   this.addonblur.emit({});
-//   await this.Handler.setResDuration({});
-// }
-
-onEmailClick()
-{
-  if(this.AD_EMAIL_ID2.getFieldValue() == undefined){
-    this.services.alert.showAlert(2, 'You have to fill Alternate Email ID', -1);
+    await this.Handler.onAddTypeChange();
   }
-}
+  async AD_ADDRESS_LINE1_blur(event) {
+    let inputMap = new Map();
+    this.addonblur.emit({});
+    // await this.Handler.onAddTypeChange();
+  }
+  async AD_EMAIL2_CHECKBOX_change(fieldID, value) {
+    let inputMap = new Map();
+    this.onAlterEmailClick();
+  }
+  // async AD_EMAIL2_CHECKBOX_blur(){
+  //   let inputMap =  new Map();
+  //   this.onEmailClick();
+  // }
+  // async AD_CITY_blur  (event) {
+  //   let inputMap = new Map();
+  //   //  this.Handler.updateAddressTags();
+  // }
+  async AD_PINCODE_blur(event) {
+    let inputMap = new Map();
+    this.addonblur.emit({});
+  }
+  async AD_PREF_TIME_blur(event) {
+    let inputMap = new Map();
+    this.fieldDependencies;
+  }
+
+  async AD_RES_DUR_UNIT_blur(event) {
+    let inputMap = new Map();
+    this.fieldDependencies;
+  }
+
+  // async  AD_RES_DUR_UNIT_blur (event) {
+  //   let inputMap = new Map();
+  //   this.addonblur.emit({});
+  //   await this.Handler.setResDuration({});
+  // }
+
+  onAlterEmailClick() {
+    if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
+      this.AD_EMAIL2_CHECKBOX.setValue(false);
+      this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+    }
+  }
 
 
   async AD_SAVE_ADDRESS_click(event) {
     let inputMap = new Map();
-    let addGridData: any = this.AddressGrid.getFieldValue();
+    let addGridData: any = this.AddressGrid.getAddressGridData();
     var noOfError: number = await this.revalidate();
-
     if (noOfError == 0) {
       // this.AD_SAVE_ADDRESS.setDisabled(true);
-      if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y') {
-        var loopVar4 = addGridData;
-        if (loopVar4) {
-          for (var i = 0; i < loopVar4.length; i++) {
-            if (loopVar4[i].MailingAddress == 'Y') {
-              this.services.alert.showAlert(2, 'Mailing Address Already Selected', -1);
+      if (this.AD_HIDE_ID.getFieldValue() == undefined) {
+        if (addGridData) {
+          for (var i = 0; i < addGridData.length; i++) {
+            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
+              this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
             }
-          }
-        }
-      }
-      if (this.AD_ADD_TYPE.getFieldValue() == 'OF') {
-        var loopVar4 = addGridData;
-        if (loopVar4) {
-          for (var i = 0; i < loopVar4.length; i++) {
-            if (loopVar4[i].AD_Address_Type == 'OF') {
-              this.services.alert.showAlert(2, 'Office Address already exist', -1);
+            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CURRENT' && addGridData[i].AD_OCCUP_TYPE == 'CURRENT') {
+              this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
               return;
             }
-          }
-        }
-      }
-      if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR') {
-        var loopVar5 = addGridData;
-        if (loopVar5) {
-          for (var i = 0; i < loopVar5.length; i++) {
-            if (loopVar5[i].AD_OCCUP_TYPE == 'CR') {
-              this.services.alert.showAlert(2, 'Current Residence address already exist', -1);
+            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PERM' && addGridData[i].AD_OCCUP_TYPE == 'PERM') {
+              this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
-          }
-        }
-      }
-      if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR') {
-        var loopVar5 = addGridData;
-        if (loopVar5) {
-          for (var i = 0; i < loopVar5.length; i++) {
-            if (loopVar5[i].AD_OCCUP_TYPE == 'PR') {
-              this.services.alert.showAlert(2, 'Permanent Residence address already exist', -1);
-              return;
-            }
+
           }
         }
       }
@@ -299,7 +288,7 @@ onEmailClick()
         inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
         inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
         inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());        
+        inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
         inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
         inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
         // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
@@ -322,7 +311,7 @@ onEmailClick()
         this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            
+
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
             // this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
@@ -426,16 +415,16 @@ onEmailClick()
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
-        inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue()); 
+        inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
-     
+
         this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-  
+
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
-            
+
             this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -518,6 +507,7 @@ onEmailClick()
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
+    this.onAlterEmailClick();
   }
   async AD_CLEAR_BTN_click(event) {
     let inputMap = new Map();
@@ -554,10 +544,8 @@ onEmailClick()
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
         // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
-        this.addResponse = res;
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
-        console.log(this.addResponse);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -566,46 +554,50 @@ onEmailClick()
         this.services.alert.showAlert(2, 'rlo.error.load.address', -1);
         this.hideSpinner();
       }
-    );   
+    );
   }
   fieldDependencies = {
-AD_ADD_TYPE: {
-inDep: [
-{paramKey: "VALUE1", depFieldID: "AD_ADD_TYPE", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidAddType", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-AD_OCCUPANCY_TYPE: {
-inDep: [
+    AD_ADD_TYPE: {
+      inDep: [
+        { paramKey: "VALUE1", depFieldID: "AD_ADD_TYPE", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidAddType", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    AD_OCCUPANCY_TYPE: {
+      inDep: [
 
-{paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_TYPE", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hideOccType", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-AD_OCCUPANCY_STATUS: {
-inDep: [
+        { paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_TYPE", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hideOccType", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    AD_OCCUPANCY_STATUS: {
+      inDep: [
 
-{paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_STATUS", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidOccStatus", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-AD_MAILING_ADDRESS: {
-inDep: [
+        { paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_STATUS", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidOccStatus", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    AD_MAILING_ADDRESS: {
+      inDep: [
 
-{paramKey: "VALUE1", depFieldID: "AD_MAILING_ADDRESS", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "hidMailingAddress", paramType:"QueryParam"},
-],
-outDep: [
-]},
-AD_PINCODE: {
-inDep: [
+        { paramKey: "VALUE1", depFieldID: "AD_MAILING_ADDRESS", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidMailingAddress", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    AD_PINCODE: {
+      inDep: [
 
         { paramKey: "PinCd", depFieldID: "AD_PINCODE", paramType: "PathParam" },
       ],
@@ -616,7 +608,7 @@ inDep: [
         { paramKey: "MasterPincodeDtls.UDF1", depFieldID: "AD_REGION" },
       ]
     },
-    
+
     AD_RES_DUR_UNIT: {
       inDep: [
 
@@ -632,6 +624,16 @@ inDep: [
         { paramKey: "VALUE1", depFieldID: "AD_CORR_ADD", paramType: "PathParam" },
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
         { paramKey: "KEY1", depFieldID: "hideCorrEmail", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    AD_PREF_TIME: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "AD_PREF_TIME", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidPrefrredTime", paramType: "QueryParam" },
       ],
       outDep: [
       ]

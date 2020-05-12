@@ -195,7 +195,7 @@ joinDate(selectedDate) {
   selectedDate = moment(selectedDate, 'DD-MM-YYYY');
   console.log("current date :: ", currentDate._d);
   console.log("selected date :: ", selectedDate._d);
-  if (selectedDate <= currentDate) {
+  if (selectedDate >= currentDate) {
       return false;
   }
   return true;
@@ -208,7 +208,7 @@ dt_Incptn(selectedDate) {
   selectedDate = moment(selectedDate, 'DD-MM-YYYY');
   console.log("current date :: ", currentDate._d);
   console.log("selected date :: ", selectedDate._d);
-  if (selectedDate >= currentDate) {
+  if (selectedDate <= currentDate) {
       return false;
   }
   return true;
