@@ -145,7 +145,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         });
 
         this.HD_PROD_CAT.setValue(this.LOAN_CATEGORY);
-        this.HD_APP_REF_NUM.setValue(header.ApplicationRefernceNo);
+        // this.HD_APP_REF_NUM.setValue(header.ApplicationRefernceNo);
         this.HD_PROD.setValue(header.Product);
         this.HD_SUB_PROD.setValue(this.SUB_PRODUCT);
         this.HD_SCHEME.setValue(this.SCHEME);

@@ -447,21 +447,32 @@ text-align: center !important
 
 }
 .second-child{
-height: 54px;
-width: 301px;
-background-color: #013653;
-text-align: center;
+  height: 54px;
+  width: 301px;
+  background-color: #013653;
+  text-align: center;
+  .arn {
+    line-height: 54px;
+    vertical-align: middle;
+    color: #fff;
+    font-size: 16px;
+
+    span {
+      color: rgb(250, 246, 35);
+    }
+  }
 }
-#HD_APP_REF_NUM{
-//  height: 22px !important;
-//  width: 83px !important;
- color: #FFFFFF !important;
-//  font-family: "Open Sans" !important;
- font-size: 16px !important;
- letter-spacing: 0 !important;
- line-height: 42px !important;
-//  text-align: center !important;
-}
+
+// #HD_APP_REF_NUM{
+// //  height: 22px !important;
+// //  width: 83px !important;
+//  color: #FFFFFF !important;
+// //  font-family: "Open Sans" !important;
+//  font-size: 16px !important;
+//  letter-spacing: 0 !important;
+//  line-height: 42px !important;
+// //  text-align: center !important;
+// }
 
 #LD_LOAN_AMT{
   color: #FFFFFF !important;
@@ -808,6 +819,7 @@ padding-right: none !important;
   bottom: 0px;
   left: 0px;
   width: 100%;
+  z-index: 10;
 
   .ng-star-inserted {
     display: inline-block;

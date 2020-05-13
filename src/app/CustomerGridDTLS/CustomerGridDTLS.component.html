@@ -106,7 +106,7 @@
       <div *ngFor="let customer of customerDetailsMap.get('CB')" [ngClass]="{'active' : customer.editing }"
         class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-        <div class="action">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
         <div class="cust-edit" (click)="editCustomer($event, customer)"><i class="fas fa-pen"></i></div>
       </div>
     </div>
@@ -121,7 +121,7 @@
       <div *ngFor="let customer of customerDetailsMap.get('G')" [ngClass]="{'active' : customer.editing }"
         class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-        <div class="action">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
         <div class="cust-edit" (click)="editCustomer($event, customer)"><i class="fas fa-pen"></i></div>
       </div>
     </div>
@@ -136,7 +136,7 @@
       <div *ngFor="let customer of customerDetailsMap.get('OP')" [ngClass]="{'active' : customer.editing }"
         class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-        <div class="action">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
         <div class="cust-edit" (click)="editCustomer($event, customer)"><i class="fas fa-pen"></i></div>
       </div>
     </div>
