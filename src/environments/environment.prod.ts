@@ -15,6 +15,7 @@ export const environment = {
     "/masters" : "/masters/publisher",
     "/ui" : "/initiation/publisher",
     "/los-wf" : "/los-wf/rest",
-    "/initiation": "/initiation/publisher"
+    "/initiation": "/initiation/publisher",
+    "/rlo-de" : "/rlo-de/publisher"
   }
 };
