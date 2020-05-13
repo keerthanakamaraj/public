@@ -210,28 +210,31 @@
 <rlo-ui-radio #AD_CORR_EMAIL fieldID="AD_CORR_EMAIL" [formCode]="formCode" placeholder="(Select)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_CORR_EMAIL', $event)"></rlo-ui-radio>
 </div> -->
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" #FieldId_36 id="FieldId_36">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                        <div class="clr-brown fieldLegend" >
+                            <label class="clr-brown mandatory">
                                 {{ 'AddressDetails.AD_CORR_EMAIL' | translate}}
                             </label>
                         </div>
-                        <div class="rlo-ui-radio-container form-group pb10">
+                        <div class="rlo-ui-radio-container form-group corrBox" >
                             <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
-                            <label class="clr-brown fieldLegend" [ngClass]="{'mandatory': AD_EMAIL1_CHECKBOX.mandatory}">
-                                {{ 'AddressDetails.AD_EMAIL1_CHECKBOX' | translate}}
-                            </label>
-                            <app-check-box #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
-                                checked='true' (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
+                            <app-check-box class="AD_EMAIL1" #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
+                                checked='true'  (change)="AD_EMAIL1_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)" (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
                             <!-- </div> -->
+                            <div class="clr-brown fieldLegend emailCheck1">
+                                <label class="clr-brown">
+                                    {{ 'AddressDetails.AD_EMAIL1_CHECKBOX' | translate}}
+                                </label>
+                            </div>
                             <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
-                            <div class="clr-brown fieldLegend">
+                            
+                            <app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
+                                (change)="AD_EMAIL2_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)" style="margin-left: 33px; margin-top: 6px;"></app-check-box>
+                            <!-- </div> -->
+                            <div class="clr-brown fieldLegend emailCheck2">
                                 <label class="clr-brown">
                                     {{ 'AddressDetails.AD_EMAIL2_CHECKBOX' | translate}}
                                 </label>
                             </div>
-                            <app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
-                                (change)="AD_EMAIL2_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"></app-check-box>
-                            <!-- </div> -->
                         </div>
                     </div>
 

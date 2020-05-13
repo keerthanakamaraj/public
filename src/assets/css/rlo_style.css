@@ -659,6 +659,34 @@ li .a {
   margin-left: 5px;
 }
 
+.AD_EMAIL1{
+  margin-left: 10px;
+  margin-top: 6px;
+}
+
+.emailCheck1{
+  margin-top: 6px;
+}
+
+.emailCheck2{
+  margin-top: 6px;
+}
+
+.mandatory{
+  content:" *";
+  color: red;
+}
+
+.corrBox {
+  box-sizing: border-box;
+  height: 36px;
+  width: 305px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background-color: #FAFAFA;
+  margin-top: 16px;
+}
+
 .fas.fa-edit.fa-lg {
   box-sizing: border-box;
   height: 22.8px;

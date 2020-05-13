@@ -8,6 +8,7 @@
     "rlo.success.save.address":"Address Details Saved Successfully",
     "rlo.error.save.address":"Failed to Save Address Details",
     "rlo.error.mailing.address":"Mailing Address already exist",
+    "rlo.error.emailcheckbox.address":"You have to select at least one checkbox",
     "rlo.error.current.address":"Current Address already exist",
     "rlo.error.permanent.address":"Permanent Address already exist",
     "rlo.error.email.address":"You have to fill Alternate Email ID",

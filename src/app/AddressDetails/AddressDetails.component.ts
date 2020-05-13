@@ -99,12 +99,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
       // this.revalidateBasicField('AD_PREF_TIME'),
-      this.revalidateBasicField('AD_CORR_EMAIL'),
-      this.revalidateBasicField('AD_Email_ID'),
-      this.revalidateBasicField('AD_Alternative_Email'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
-      this.revalidateBasicField('AD_COUNTRY_CODE')
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -221,21 +217,29 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   async AD_EMAIL2_CHECKBOX_change(fieldID, value) {
     let inputMap = new Map();
     this.onAlterEmailClick();
+    this.onCorrEmailChange();
   }
-  // async AD_EMAIL2_CHECKBOX_blur(){
-  //   let inputMap =  new Map();
-  //   this.onEmailClick();
-  // }
-  // async AD_CITY_blur  (event) {
-  //   let inputMap = new Map();
-  //   //  this.Handler.updateAddressTags();
-  // }
+
+  async AD_EMAIL1_CHECKBOX_change(fieldID, value){
+    let inputMap = new Map();
+    this.onCorrEmailChange();
+  }
+ 
+  async AD_CITY_blur  (event) {
+    let inputMap = new Map();
+    //  this.Handler.updateAddressTags();
+  }
   async AD_PINCODE_blur(event) {
     let inputMap = new Map();
     this.addonblur.emit({});
   }
-
-
+  
+  onCorrEmailChange(){
+    if(this.AD_EMAIL1_CHECKBOX == undefined && this.AD_EMAIL2_CHECKBOX == undefined)
+    {
+      this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
+    }
+  }
   // async  AD_RES_DUR_UNIT_blur (event) {
   //   let inputMap = new Map();
   //   this.addonblur.emit({});
@@ -413,7 +417,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-        inputMap.set('Body.AddressDetails.CountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+        // inputMap.set('Body.AddressDetails.CountryCode', this.AD_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
 
@@ -509,6 +513,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
     this.onAlterEmailClick();
+    this.onCorrEmailChange();
   }
   async AD_CLEAR_BTN_click(event) {
     let inputMap = new Map();
