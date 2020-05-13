@@ -7,6 +7,11 @@
     "rlo.error.update.address":"Failed to Update Address Details",
     "rlo.success.save.address":"Address Details Saved Successfully",
     "rlo.error.save.address":"Failed to Save Address Details",
+    "rlo.error.mailing.address":"Mailing Address already exist",
+    "rlo.error.emailcheckbox.address":"You have to select at least one checkbox",
+    "rlo.error.current.address":"Current Address already exist",
+    "rlo.error.permanent.address":"Permanent Address already exist",
+    "rlo.error.email.address":"You have to fill Alternate Email ID",
     "rlo.error.load.form":"Failed load Data",
     "rlo.error.load.grid":"Failed To Load Grid",
     "rlo.success.delete.address":"Address Details Successfully Deleted",
@@ -70,6 +75,11 @@
     "rlo.error.delete.charge":"Failed to Delete Asset Details",
     "rlo.error.load.header":"Failed to Load Header Details",
     "rlo.error.fill.initiation-serach":"Please Fill Atleaset One Field",
+    "rlo.error.passport-expire":"Passport is expired",
+    "rlo.error.visa-expire":"Visa is expired",
+    "rlo.error.driv-lcnse-expire":"Driving Licence is expired",
+    "rlo.error.dob-invalid":"Invalid Date of Birth",
+    "rlo.error.age-invalid":"Product not valid for this age",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
@@ -1325,6 +1335,7 @@
     "EMAIL_LABEL" : "Correspondence Email?",
     "AD_CLEAR_BTN" : "Clear",
     "AD_RES_DUR_UNIT" : "Period",
+    "AD_Country_Code":"Country Code",
     "AD_HEADING" : "Address",
     "YRS_LABEL" : "How Long has the client been living at the above address?",
     "AD_ADDRESS_LINE1" : "Address Line 1",
@@ -1397,8 +1408,8 @@
     "IS_HEADING": "Income Summary"
   },
   "OccuptionDtlsGrid": {
-    "OD_EDIT_BTN": "Edit",
-    "OD_DELETE": "Delete",
+    "OD_EDIT_BTN": "",
+    "OD_DELETE": "",
     "OD_EDIT_BTN_ButtonName": "Edit",
     "toolbar_OccuptionDtlsGrid": "null",
     "OD_OCCUPATION": "Occupation",
@@ -1525,7 +1536,7 @@
     "CD_MARITAL_STATUS" : "Marital Status",
     "FieldId_29" : "null",
     "CD_NATIONAL_ID" : "National Id",
-    "CD_STAFF" : "Is the Customer a Smart Bank employee?",
+    "CD_STAFF" : "Is the Customer an employee?",
     "CD_VISA_VALID" : "Visa Valid Upto",
     "CD_PREF_COM_CH" : "Preferred Communication Channel",
     "CD_PREF_LANG" : "Preferred Language",
@@ -1764,8 +1775,20 @@
     "RD_SAVE" : "SAVE",
     "RD_RESET" : "CLEAR",
     "RD_REF_NO" : "Referrer Mobile No.",
-    "RD_REF_NAME" : "Referrer Name"
-    }
+    "RD_REF_NAME" : "Referrer Name",
+    "RD_ISD_CODE" : "Country Code"
+  },
+  "CustomerGridDTLS" : {
+    "BorrowerTag" : "B",
+    "BorrowerLabel" : "Borrower",
+    "CoBorrowerTag" : "CB",
+    "CoBorrowerLabel" : "Co-Borrower",
+    "GuarantorTag" : "G",
+    "GuarantorLabel" : "Guarantor",
+    "OtherPartyTag" : "OP",
+    "OtherPartyLabel" : "Other Party",
+    "Editing" : "Editing"
+  }
 
 }
 

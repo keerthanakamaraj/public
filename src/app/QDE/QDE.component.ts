@@ -23,8 +23,8 @@ import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.co
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
-import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component'
-import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component'
+import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
+import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -116,6 +116,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.doAPIForCustomerList({});
         this.FieldId_10.fetchReferalDetails();
         this.APPLICATION_DETAILS.fetchApplicationDetails();
+        await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
+            'ApplicationId': this.ApplicationId
+        });
+        //   this.NOTEPAD_GRID.gridDataAPI()
 
 
         //   await this.FieldId_10.onFormLoad({
@@ -344,7 +348,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async FieldId_9_resetCustForm(event) {
-        this.CUSTOMER_DETAILS.onReset();
+        this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
     }
 
     async FieldId_6_addonblur(event) {
@@ -356,12 +360,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.addOccupationTags();
     }
 
-
-
     updateAddressTags() {
         let displayTag = [];
-        if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined) {
-            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";" + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue())
+        if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
+            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";" + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
         }
         let tags = [];
         displayTag.forEach(tag => {
@@ -420,6 +422,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("shweta :: in qde ", event.isLoanCategory);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+        this.FieldId_9.isLoanCategory = event.isLoanCategory;
     }
 
     brodcastApplicationId() {
@@ -432,7 +435,29 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.NOTEPAD_DETAILS.ApplicationId = this.ApplicationId;
     }
 
+    async CUSTOMER_DETAILS_onFullNameblur(event) {
+        console.log("Calling this Emitter");
+        this.updateCustomerTags();
+    }
+
+    updateCustomerTags() {
+        let tags = [];
+        if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
+            tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
+        }
+
+        this.QDE_ACCORD1.setTags("CUST_DETAILS", tags);
+    }
+
     fieldDependencies = {
+    }
+
+    /* Cancel / Back button */
+    goBack() {
+        if (confirm("Are you sure you want to cancel?")) {
+            // history.back();
+            this.services.router.navigate(['home', 'LANDING']);
+        }
     }
 
 }

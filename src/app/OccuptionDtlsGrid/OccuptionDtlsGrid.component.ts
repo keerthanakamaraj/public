@@ -21,6 +21,7 @@ transition('false => true', animate('300ms ease-in'))
 ],
 })
 export class OccuptionDtlsGridComponent implements AfterViewInit {
+	occupationRecord: boolean = false;
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
@@ -40,7 +41,7 @@ paginationReq:true
 };
 columnDefs:any[] = [{
 field:"OD_OCCUPATION",
-width:17,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -53,24 +54,24 @@ filterOptions:["contains"] ,
 caseSensitive:true,
 },
 },
-{
-field:"OD_INDUSTRY",
-width:17,
-sortable: true,
-resizable: true,
-cellStyle: {'text-align': 'left'},
-filter: "agTextColumnFilter",
-filterParams:{
-suppressAndOrCondition : true,
-applyButton: true,
-clearButton: true,
-filterOptions:["contains"] ,
-caseSensitive:true,
-},
-},
+// {
+// field:"OD_INDUSTRY",
+// width:17,
+// sortable: true,
+// resizable: true,
+// cellStyle: {'text-align': 'left'},
+// filter: "agTextColumnFilter",
+// filterParams:{
+// suppressAndOrCondition : true,
+// applyButton: true,
+// clearButton: true,
+// filterOptions:["contains"] ,
+// caseSensitive:true,
+// },
+// },
 {
 field:"NET_INCOME",
-width:17,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -96,7 +97,7 @@ return result;
 },
 {
 field:"INCOME_FREQ",
-width:17,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -122,7 +123,7 @@ return result;
 },
 {
 field:"OD_COMPANY_NAME",
-width:20,
+width:22,
 sortable: true,
 resizable: true,
 cellStyle: {'text-align': 'left'},
@@ -223,6 +224,8 @@ isHidden(){
 return this.hidden;
 }
 async gridDataAPI(params, gridReqMap: Map<string, any>, event){
+this.showSpinner()
+
 let inputMap = new Map();
 inputMap.clear();
 let inputKey:any = event.refNumToGrid;
@@ -243,7 +246,7 @@ for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
 case "OCCUPATION_ID":obj[i].columnName =  "OccupationSeq";break;
 case "OD_OCCUPATION":obj[i].columnName =  "Occupation";break;
-case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
+// case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
 case "OD_COMPANY_NAME":obj[i].columnName =  "CompanyName";break;
 case "INCOME_FREQ":obj[i].columnName =  "IncomeFrequecy";break;
 case "NET_INCOME":obj[i].columnName =  "NetIncome";break;
@@ -257,7 +260,7 @@ for(var i=0;i<obj.length;i++){
 switch (obj[i].columnName) {
 case "OCCUPATION_ID":obj[i].columnName =  "OccupationSeq";break;
 case "OD_OCCUPATION":obj[i].columnName =  "Occupation";break;
-case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
+// case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
 case "OD_COMPANY_NAME":obj[i].columnName =  "CompanyName";break;
 case "INCOME_FREQ":obj[i].columnName =  "IncomeFrequecy";break;
 case "NET_INCOME":obj[i].columnName =  "NetIncome";break;
@@ -266,27 +269,38 @@ default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key
 }
 }
 this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap).subscribe(
+this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap, '/rlo-de').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 var loopDataVar10 = [];
-var loopVar10 = res['OccupationDetails'];
+if(res !== null){
+	this.occupationRecord = true
+	var loopVar10 = res['OccupationDetails'];
+}
+else{
+	this.occupationRecord = false
+
+}
+
+
 if (loopVar10) {
 for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
 tempObj['OCCUPATION_ID'] = loopVar10[i].OccupationSeq;
 tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
-tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
+// tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
 tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
 tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;
 tempObj['NET_INCOME'] = loopVar10[i].NetIncome;
 loopDataVar10.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+this.hideSpinner();
 },
 async (httpError)=>{
 var err = httpError['error']
 if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+	this.hideSpinner();
 }
 }
 );

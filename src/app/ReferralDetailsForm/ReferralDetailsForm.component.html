@@ -30,6 +30,15 @@
                         </div>
                         <app-text-box #RD_REF_NAME fieldID="RD_REF_NAME" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('RD_REF_NAME', $event)"></app-text-box>
                     </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ISD_CODE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': RD_ISD_CODE.mandatory}">
+                                {{ 'ReferralDetailsForm.RD_ISD_CODE' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #RD_ISD_CODE category="2" fieldID="RD_ISD_CODE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RD_ISD_CODE', $event)" (change)="onCountrycodeChanged()"></app-combo-box>
+                    </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REF_NO.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
@@ -43,11 +52,13 @@
                         <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" customClass="btn btn-primary" fieldID="RD_SAVE" [formCode]="formCode" (buttonClick)="RD_SAVE_click($event)"></app-button>
                     </div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_RESET.isHidden()">
-                        <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" customClass="btn-warning-outline" fieldID="RD_RESET" [formCode]="formCode"></app-button>
+                        <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" customClass="btn-warning-outline" fieldID="RD_RESET" [formCode]="formCode" (buttonClick)="RD_RESET_click($event)"></app-button>
                     </div>
                 </div>
-                <app-hidden #hideLoanSeq fieldID="hideLoanSeq"></app-hidden>
+                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+                <!-- <app-hidden #hideLoanSeq fieldID="hideLoanSeq"></app-hidden> -->
                 <app-hidden #loanApplicationSeq fieldID="loanApplicationSeq"></app-hidden>
+                <app-hidden #hideISDCode fieldID="hideISDCode"></app-hidden>
             </div>
         </div>
     </div>

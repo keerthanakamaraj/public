@@ -32,11 +32,12 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   //@Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
   @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
 
-  @Input() ApplicationId:string=undefined;
+  @Input() ApplicationId: string = undefined;
+  @Input() isLoanCategory: boolean = true;
 
   customerDataArr: any[];
-  isFirstAPICall:boolean=true;
-  
+  isFirstAPICall: boolean = true;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -134,7 +135,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   async doAPIForCustomerList(event) {
     let inputMap = new Map();
-    if (this.ApplicationId !=undefined) {
+    let borrowerSeq = undefined;
+    if (event != undefined) {
+      borrowerSeq = event.borrowerSeq;
+    }
+    if (this.ApplicationId != undefined) {
       inputMap.clear();
       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
       if (this.ApplicationId) {
@@ -148,34 +153,46 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         });
       }
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-      this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
+      this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           var customerDataArr = [];
           var BorrowerDetails = res['BorrowerDetails'];
-          if(BorrowerDetails){
+          if (BorrowerDetails) {
 
-         // if (this.isFirstAPICall) {
-              this.passArrayToCustomer.emit({
-                'CustomerArray' : BorrowerDetails
-              });
-         //     this.isFirstAPICall=false;
-         //   }
-         
+            //  if (this.isFirstAPICall) {
+            // this.passArrayToCustomer.emit({
+            //   'CustomerArray': BorrowerDetails
+            // });
+            //      this.isFirstAPICall=false;
+            //    }
+
             BorrowerDetails.forEach(eachBorrower => {
               let customer = {};
 
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
+              customer['editing'] = false;
 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
                 ? eachBorrower.CustomerType : 'OP';
 
+              if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
+                this.passArrayToCustomer.emit({
+                  'CustomerArray': eachBorrower
+                });
+                this.isFirstAPICall = false;
+                customer["editing"] = true;
+              }
+              else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
+                customer["editing"] = true;
+              }
+
               customerDataArr.push(customer);
 
-          });
-        }
+            });
+          }
           this.apiSuccessCallback(customerDataArr);
           // return customerDataArr;
           // this.displayCustomerTag(customerDataArr);
@@ -188,13 +205,13 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         }
       );
 
-  //    return this.customerDetailsMap
+      //    return this.customerDetailsMap
     }
   }
 
   apiSuccessCallback(customerDataArr: any[]) {
     this.customerDetailsMap.clear();
-  //  let borrowerSeq = undefined;
+    //  let borrowerSeq = undefined;
     customerDataArr.forEach(customer => {
       if (customer != null && customer != undefined && customer != '') {
         this.categoriseCustomers(customer.CD_CUSTOMER_TYPE, customer);
@@ -212,24 +229,28 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     let customerTypeArr = [];
     if (this.customerDetailsMap.has(customerType)) {
       customerTypeArr = this.customerDetailsMap.get(customerType);
-
     }
     else {
       customerTypeArr = [];
     }
+    // if(customerType == 'B' && customerTypeArr.length == 0 && this.isFirstAPICall) { // First Borrower
+    //   customer["editing"] = true;
+    // }
     customerTypeArr.push(customer);
     this.customerDetailsMap.set(customerType, customerTypeArr);
   }
 
   public editCustomer(event, selectedCustomer) {
     if (selectedCustomer) {
-      this.deactivateClasses();
-      event.target.classList.remove("fas");
-      event.target.classList.remove("fa-edit");
-      event.target.classList.add("customer-edit-active");
-      event.target.textContent = "Editing";
-      event.target.parentElement.classList.remove("customer-names");
-      event.target.parentElement.classList.add("customer-names-active");
+      this.resetEditingFlag();
+      selectedCustomer["editing"] = true;
+      // this.deactivateClasses();
+      // event.target.classList.remove("fas");
+      // event.target.classList.remove("fa-edit");
+      // event.target.classList.add("customer-edit-active");
+      // event.target.textContent = "Editing";
+      // event.target.parentElement.classList.remove("customer-names");
+      // event.target.parentElement.classList.add("customer-names-active");
       this.selectCustId.emit({
         'selectedCustId': selectedCustomer.CustomerId
       });
@@ -237,27 +258,39 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       //  this.displayCustomerTag();
     }
   }
-  doReset() {
-    this.deactivateClasses();
-    this.resetCustForm.emit();
+  doReset(customerType?: string) {
+    this.resetEditingFlag();
+    this.resetCustForm.emit({
+      'customerType': customerType
+    });
 
     // this.MainComponent.onReset();
   }
-  deactivateClasses() {
-    let elementList = Array.from(document.getElementsByClassName("customer-names-active"));
-    elementList.forEach(element => {
-      element.classList.add("customer-names");
-      element.classList.remove("customer-names-active");
-    });
 
-    elementList = Array.from(document.getElementsByClassName("customer-edit-active"));
-    elementList.forEach(element => {
-      element.classList.add("fas");
-      element.classList.add("fa-edit");
-      element.textContent = "";
-      element.classList.remove("customer-edit-active");
+  resetEditingFlag() {
+    this.customerDetailsMap.forEach(group => {
+      console.log("group ", group);
+      group.forEach(cust => {
+        cust["editing"] = false;
+      });
     });
   }
+
+  // deactivateClasses() {
+  //   let elementList = Array.from(document.getElementsByClassName("customer-names-active"));
+  //   elementList.forEach(element => {
+  //     element.classList.add("customer-names");
+  //     element.classList.remove("customer-names-active");
+  //   });
+
+  //   elementList = Array.from(document.getElementsByClassName("customer-edit-active"));
+  //   elementList.forEach(element => {
+  //     element.classList.add("fas");
+  //     element.classList.add("fa-edit");
+  //     element.textContent = "";
+  //     element.classList.remove("customer-edit-active");
+  //   });
+  // }
 
   // async loadCustDtlsGrid(event) {
   //   this.APIForCustomerData(event);

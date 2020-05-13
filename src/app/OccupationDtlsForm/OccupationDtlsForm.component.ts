@@ -54,6 +54,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('OD_CLEAR_BTN', {static: false}) OD_CLEAR_BTN: ButtonComponent;
 @ViewChild('OCC_DTLS_GRID', {static: false}) OCC_DTLS_GRID: OccuptionDtlsGridComponent;
 @ViewChild('Handler', {static: false}) Handler: OccupationHandlerComponent;
+@ViewChild('hidExchangeRate', {static: false}) hidExchangeRate: HiddenComponent;
+@ViewChild('hideCurrencyDesc', {static: false}) hideCurrencyDesc: HiddenComponent;
 @ViewChild('HidOccupation', {static: false}) HidOccupation: HiddenComponent;
 @ViewChild('HidAppId', {static: false}) HidAppId: HiddenComponent;
 @ViewChild('HidIncomeDocType', {static: false}) HidIncomeDocType: HiddenComponent;
@@ -70,6 +72,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 @ViewChild('HidOccupationSeq', {static: false}) HidOccupationSeq: HiddenComponent;
 @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
 @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
+  fieldArray: any[];
 
 async revalidate(): Promise<number> {
 var totalErrors = 0;
@@ -119,6 +122,7 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+this.hideCurrencyDesc.setValue('INR');
 this.HidOccupation.setValue('OCCUPATION');
 this.HidAppId.setValue('RLO');
 this.HidIncomeDocType.setValue('INCOME_DOC_TYPE');
@@ -194,7 +198,7 @@ joinDate(selectedDate) {
   selectedDate = moment(selectedDate, 'DD-MM-YYYY');
   console.log("current date :: ", currentDate._d);
   console.log("selected date :: ", selectedDate._d);
-  if (selectedDate <= currentDate) {
+  if (selectedDate >= currentDate) {
       return false;
   }
   return true;
@@ -207,7 +211,7 @@ dt_Incptn(selectedDate) {
   selectedDate = moment(selectedDate, 'DD-MM-YYYY');
   console.log("current date :: ", currentDate._d);
   console.log("selected date :: ", selectedDate._d);
-  if (selectedDate >= currentDate) {
+  if (selectedDate <= currentDate) {
       return false;
   }
   return true;
@@ -256,6 +260,15 @@ async OD_OCCUPATION_change(fieldID,value){
   this.Handler.occupationOnchange();
   this.occpOnBlur.emit({});
 }
+async OD_CURRENCY_blur(event){
+  let inputMap = new Map();
+  this.Handler.netIncomeOnblur()
+}
+async OD_NET_INCOME_blur (event) {
+  let inputMap = new Map();
+  this.Handler.netIncomeOnblur()
+  // await this.Handler.onAddTypeChange();
+}
 
 async OD_COMPANY_CODE_change(fieldID , value){
   let inputMap = new Map();
@@ -265,7 +278,7 @@ async OD_SAVE_BTN_click(event){
 let inputMap = new Map();
 var nooferror:number = await this.revalidate();
 if(nooferror==0){
-  this.OD_SAVE_BTN.setDisabled(true);
+  // this.OD_SAVE_BTN.setDisabled(true);
 if(typeof(this.HidOccupationSeq.getFieldValue()) !==  'undefined' ){
 inputMap.clear();
 inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
@@ -297,7 +310,7 @@ this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMa
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
-this.OD_SAVE_BTN.setDisabled(false);
+// this.OD_SAVE_BTN.setDisabled(false);
 
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
@@ -416,7 +429,7 @@ this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'rlo.success.save.occupation', 5000);
-this.OD_SAVE_BTN.setDisabled(false);
+// this.OD_SAVE_BTN.setDisabled(false);
 
 await this.OCC_DTLS_GRID.gridDataLoad({
 'refNumToGrid': this.occBorrowerSeq,
@@ -555,7 +568,8 @@ this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
 this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
 this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
-this.Handler.companyCodeChange()
+this.Handler.occupationOnchange();
+this.Handler.companyCodeChange();
 },
 async (httpError)=>{
 var err = httpError['error']
@@ -665,11 +679,12 @@ outDep: [
 OD_CURRENCY: {
 inDep: [
 
-{paramKey: "VALUE1", depFieldID: "OD_CURRENCY", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "HidAppId", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "HidCurrency", paramType:"QueryParam"},
+{paramKey: "CurrencySrc", depFieldID: "OD_CURRENCY", paramType:"PathParam"},
+{paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType:"QueryParam"},
 ],
 outDep: [
+
+{paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate"},
 ]},
 OD_COMPANY_CODE: {
   inDep: [
@@ -687,6 +702,7 @@ OD_COMPANY_CODE: {
 }
     /* Write Custom Scripts Here */
     
+ 
   occBorrowerSeq;
 
 }

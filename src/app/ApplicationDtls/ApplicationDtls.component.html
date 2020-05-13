@@ -74,8 +74,12 @@
 											{{ 'ApplicationDtls.AD_BRANCH' | translate}}
 										</label>
 									</div>
-									<app-combo-box #AD_BRANCH category="2" fieldID="AD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-									 doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_BRANCH', $event)"></app-combo-box>
+									<!-- <app-combo-box #AD_BRANCH category="2" fieldID="AD_BRANCH" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+									 doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_BRANCH', $event)"></app-combo-box> -->
+									 <app-combo-box #AD_BRANCH category="2" fieldID="AD_BRANCH" [formCode]="formCode"
+									 placeholder="(Select)" domainObjectUrl="/MstBranchDetails/{BranchCd}" doServerUrl="/masters"
+									 domainObjectCode="MstBranchDetails" (blur)="genericOnBlur('BAD_BRANCH', $event)">
+								   </app-combo-box>
 								</div>
 								<div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
 								<!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AD_Save.isHidden()">

@@ -137,7 +137,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
-    valueFormatter: this.formatAmount,
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -199,7 +199,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    valueFormatter: this.formatDate,
+    valueFormatter: this.formatDate.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -521,30 +521,15 @@ export class MyTrayGridComponent implements AfterViewInit {
 
   formatAmount(number) {
     if (number.value) {
-      // TODO: change to central formatting
-      var languageCode = "en-IN";
-      var currency = "INR";
-      // return this.services.formatAmount(number.value , languageCode , 2);
-      //return "Rs. " + Number(number.value).toLocaleString(languageCode, { minimumFractionDigits: 2});
-      var amount = Number(number.value);
-      return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amount).map(val => val.value).join('');
+      return this.services.formatAmount(number.value, null, null);
     } else {
       return '-';
     }
-
   }
 
   formatDate(date){
-    if(date){
-      var languageCode = "en-IN";
-      var options = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"};
-      try{
-        var dt = new Date(date.value)
-        return new Intl.DateTimeFormat(languageCode, options).format(dt);
-      } catch(e) {
-        console.log("error formatting date", date.value);
-        return date;
-      }      
+    if(date.value){
+      return this.services.formatDateTime(date.value);
     } else {
       return '-';
     }

@@ -69,8 +69,9 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         let inputMap = new Map();
         await this.Handler.onFormLoad({
         });
-        //await this.FieldId_7.gridDataLoad({
-        // });
+        //  await this.FieldId_7.gridDataLoad({
+        //      'ApplicationId':this.ApplicationId
+        //   });
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -150,10 +151,14 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
                 inputMap.clear();
                 inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
                 inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
+                inputMap.set('Body.NotepadDetails.ApplicationId', this.ApplicationId);
                 this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap).subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
+                        this.FieldId_7.gridDataLoad({
+                            'ApplicationId': this.ApplicationId
+                        });
                     },
                     async (httpError) => {
                         var err = httpError['error']

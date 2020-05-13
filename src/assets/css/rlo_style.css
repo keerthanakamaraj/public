@@ -549,14 +549,6 @@
   background-color: #b7b7b7;
 }
 
-#BUTTON_SECTION {
-  margin-top: 30px;
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  width: 100%;
-}
-
 /* #BUTTON_SECTION .res-pr-hide {
   padding: 0;
 } */
@@ -646,25 +638,53 @@ li .a {
 }
 #AD_CLEAR_BTN
 {
-  border-color: dimgray;
-  margin-left: 99px;
+
+  border-color: gray;
 }
 #AD_SAVE_ADDRESS
 {
-  margin-left: 161px;
+  margin-left:60px;
 }
 #OD_SAVE_BTN{
-  margin-left: 93px;
+  margin-left: 60px;
 }
 #OD_CLEAR_BTN{
   border-color: dimgray;
-  margin-left: 35px;
+
 }
 #RD_RESET{
   margin-left: 5px;
 }
 #ND_CLEAR{
   margin-left: 5px;
+}
+
+.AD_EMAIL1{
+  margin-left: 10px;
+  margin-top: 6px;
+}
+
+.emailCheck1{
+  margin-top: 6px;
+}
+
+.emailCheck2{
+  margin-top: 6px;
+}
+
+.mandatory{
+  content:" *";
+  color: red;
+}
+
+.corrBox {
+  box-sizing: border-box;
+  height: 36px;
+  width: 305px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background-color: #FAFAFA;
+  margin-top: 16px;
 }
 
 .fas.fa-edit.fa-lg {
