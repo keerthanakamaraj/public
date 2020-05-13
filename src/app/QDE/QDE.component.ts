@@ -360,8 +360,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.addOccupationTags();
     }
 
-
-
     updateAddressTags() {
         let displayTag = [];
         if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
@@ -435,6 +433,20 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.APPLICATION_DETAILS.ApplicationId = this.ApplicationId;
         this.FieldId_10.ApplicationId = this.ApplicationId;
         this.NOTEPAD_DETAILS.ApplicationId = this.ApplicationId;
+    }
+
+    async CUSTOMER_DETAILS_onFullNameblur(event) {
+        console.log("Calling this Emitter");
+        this.updateCustomerTags();
+    }
+
+    updateCustomerTags() {
+        let tags = [];
+        if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
+            tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
+        }
+
+        this.QDE_ACCORD1.setTags("CUST_DETAILS", tags);
     }
 
     fieldDependencies = {

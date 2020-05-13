@@ -43,7 +43,7 @@
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
                     <app-CustomerDtls #CUSTOMER_DETAILS fieldID="CUSTOMER_DETAILS" [formCode]="formCode"
                       (passBorrowerSeq)="CUSTOMER_DETAILS_passBorrowerSeq($event)"
-                      (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"></app-CustomerDtls>
+                      (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)" (onFullNameblur)="CUSTOMER_DETAILS_onFullNameblur($event)"></app-CustomerDtls>
                   </div>
                 </rlo-ui-accordion-group>
                 <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS"

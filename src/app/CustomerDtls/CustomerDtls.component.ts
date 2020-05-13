@@ -88,6 +88,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
 
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     // @Input() ProductCategory: String;
     @Input() isLoanCategory: boolean = true;
     @Input() ApplicationId: string = undefined;
@@ -354,7 +355,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.CD_DOB.setError('rlo.error.dob-invalid');
         } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
             this.CD_DOB.setError('rlo.error.age-invalid');
-            
+
         }
     }
 
@@ -407,7 +408,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async CD_SAVE_BTN_click(event) {
         let inputMap = new Map();
         //    this.customerDetailMap = any;
-//    this.customerDetailMap = any;
+        //    this.customerDetailMap = any;
 
         // this.updateCustGrid.emit({
         //     'custSeq': this.ApplicationId
@@ -793,6 +794,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
+                this.CD_FULL_NAME_change();
 
             },
             async (httpError) => {
@@ -847,6 +849,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_STAFF.setValue(customer.IsStaff);
         this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
         this.CD_CIF.setValue(customer.CIF)
+
+        this.CD_FULL_NAME_change();
 
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
@@ -908,7 +912,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     setNewCustomerFrom(event) {
         this.onReset();
+        this.onFullNameblur.emit({});
         this.CD_CUST_TYPE.setValue(event.customerType);
+    }
+
+    async CD_FULL_NAME_change() {
+        let inputMap = new Map();
+        this.onFullNameblur.emit({});
     }
 
     fieldDependencies = {
