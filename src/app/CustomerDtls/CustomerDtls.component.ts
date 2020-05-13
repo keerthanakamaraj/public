@@ -351,35 +351,31 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async CD_DOB_blur(event) {
         let inputMap = new Map();
         if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-            this.services.alert.showAlert(2, 'Please select correct date of birth', -1);
-            this.CD_DOB.onReset();
+            this.CD_DOB.setError('rlo.error.dob-invalid');
         } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-            this.services.alert.showAlert(2, 'age not valid', -1);
-            this.CD_DOB.onReset();
+            this.CD_DOB.setError('rlo.error.age-invalid');
+            
         }
     }
 
     async CD_PASSPORT_EXPIRY_blur(event) {
         let inputMap = new Map();
         if (!this.isFutureDate(this.CD_PASSPORT_EXPIRY.getFieldValue())) {
-            this.services.alert.showAlert(2, 'Passport is expired', -1);
-            this.CD_PASSPORT_EXPIRY.onReset();
+            this.CD_PASSPORT_EXPIRY.setError('rlo.error.passport-expire');
         }
     }
 
     async CD_VISA_VALID_blur(event) {
         let inputMap = new Map();
         if (!this.isFutureDate(this.CD_VISA_VALID.getFieldValue())) {
-            this.services.alert.showAlert(2, 'Visa is expired', -1);
-            this.CD_VISA_VALID.onReset();
+            this.CD_VISA_VALID.setError('rlo.error.visa-expire');
         }
     }
 
     async CD_DRVNG_LCNSE_EXP_DT_blur(event) {
         let inputMap = new Map();
         if (!this.isFutureDate(this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue())) {
-            this.services.alert.showAlert(2, 'Driving Licence is expired', -1);
-            this.CD_DRVNG_LCNSE_EXP_DT.onReset();
+            this.CD_DRVNG_LCNSE_EXP_DT.setError('rlo.error.driv-lcnse-expire');
         }
     }
 
