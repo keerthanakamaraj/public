@@ -68,7 +68,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
   @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
-  @ViewChild('hidPrefrredTime', { static: false }) hidPrefrredTime: HiddenComponent;
+  @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
+  @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
 
   AD_Address_Type = [];
@@ -87,9 +88,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_ADDRESS_LINE3'),
       this.revalidateBasicField('AD_ADDRESS_LINE4'),
       this.revalidateBasicField('AD_PINCODE'),
-      // this.revalidateBasicField('AD_REGION'),
-      // this.revalidateBasicField('AD_CITY'),
-      // this.revalidateBasicField('AD_STATE'),
+      this.revalidateBasicField('AD_REGION'),
+      this.revalidateBasicField('AD_CITY'),
+      this.revalidateBasicField('AD_STATE'),
       this.revalidateBasicField('AD_LANDMARK'),
       this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_RES_DUR'),
@@ -98,11 +99,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
       // this.revalidateBasicField('AD_PREF_TIME'),
-      // this.revalidateBasicField('AD_CORR_EMAIL'),
-      // this.revalidateBasicField('AD_Email_ID'),
-      // this.revalidateBasicField('AD_Alternative_Email'),
+      this.revalidateBasicField('AD_CORR_EMAIL'),
+      this.revalidateBasicField('AD_Email_ID'),
+      this.revalidateBasicField('AD_Alternative_Email'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
+      this.revalidateBasicField('AD_COUNTRY_CODE')
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -129,13 +131,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hidOccStatus.setValue('OCCUPANCY_STATUS');
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
-    this.hidPrefrredTime.setValue('PREF_TIME_CONTACT');
+    this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
+    this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
-    // this.AD_MAILING_ADDRESS.setd('N');
     let inputMap = new Map();
     await this.Handler.onFormLoad({
     });
-
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -233,15 +234,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     this.addonblur.emit({});
   }
-  async AD_PREF_TIME_blur(event) {
-    let inputMap = new Map();
-    this.fieldDependencies;
-  }
 
-  async AD_RES_DUR_UNIT_blur(event) {
-    let inputMap = new Map();
-    this.fieldDependencies;
-  }
 
   // async  AD_RES_DUR_UNIT_blur (event) {
   //   let inputMap = new Map();
@@ -270,11 +263,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
             }
-            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CURRENT' && addGridData[i].AD_OCCUP_TYPE == 'CURRENT') {
+            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR' && addGridData[i].AD_OCCUP_TYPE == 'CR') {
               this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
               return;
             }
-            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PERM' && addGridData[i].AD_OCCUP_TYPE == 'PERM') {
+            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR' && addGridData[i].AD_OCCUP_TYPE == 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
@@ -297,15 +290,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
         inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-        // inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-        // inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-        // inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+        inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
+        inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
+        inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
         inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
+        inputMap.set('Body.AddressDetails.CountryCode', this.AD_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
         this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
@@ -343,15 +337,15 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               else if (err['ErrorElementPath'] == 'AddressDetails.Landmark') {
                 this.AD_LANDMARK.setError(err['ErrorDescription']);
               }
-              // else if (err['ErrorElementPath'] == 'AddressDetails.State') {
-              //   this.AD_STATE.setError(err['ErrorDescription']);
-              // }
-              // else if (err['ErrorElementPath'] == 'AddressDetails.City') {
-              //   this.AD_CITY.setError(err['ErrorDescription']);
-              // }
-              // else if (err['ErrorElementPath'] == 'AddressDetails.Region') {
-              //   this.AD_REGION.setError(err['ErrorDescription']);
-              // }
+              else if (err['ErrorElementPath'] == 'AddressDetails.State') {
+                this.AD_STATE.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.City') {
+                this.AD_CITY.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.Region') {
+                this.AD_REGION.setError(err['ErrorDescription']);
+              }
               else if (err['ErrorElementPath'] == 'AddressDetails.PinCode') {
                 this.AD_PINCODE.setError(err['ErrorDescription']);
               }
@@ -385,8 +379,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
                 this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
+              else if (err['ErrorElementPath'] == 'AddressDetails.PreferredTime') {
                 this.AD_PREF_TIME.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.CountryCode') {
+                this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
               }
             }
             this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
@@ -407,15 +404,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
         inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-        // inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-        // inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-        // inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+        inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
+        inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
+        inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
         inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
+        inputMap.set('Body.AddressDetails.CountryCode', this.AD_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
 
@@ -456,15 +454,15 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               else if (err['ErrorElementPath'] == 'AddressDetails.Landmark') {
                 this.AD_LANDMARK.setError(err['ErrorDescription']);
               }
-              // else if (err['ErrorElementPath'] == 'AddressDetails.State') {
-              //   this.AD_STATE.setError(err['ErrorDescription']);
-              // }
-              // else if (err['ErrorElementPath'] == 'AddressDetails.City') {
-              //   this.AD_CITY.setError(err['ErrorDescription']);
-              // }
-              // else if (err['ErrorElementPath'] == 'AddressDetails.Region') {
-              //   this.AD_REGION.setError(err['ErrorDescription']);
-              // }
+              else if (err['ErrorElementPath'] == 'AddressDetails.State') {
+                this.AD_STATE.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.City') {
+                this.AD_CITY.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.Region') {
+                this.AD_REGION.setError(err['ErrorDescription']);
+              }
               else if (err['ErrorElementPath'] == 'AddressDetails.PinCode') {
                 this.AD_PINCODE.setError(err['ErrorDescription']);
               }
@@ -495,8 +493,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
                 this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
+              else if (err['ErrorElementPath'] == 'AddressDetails.PreferredTime') {
                 this.AD_PREF_TIME.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.CountryCode') {
+                this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
               }
             }
             this.services.alert.showAlert(3, 'rlo.error.save.address', 5000);
@@ -520,7 +521,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.showSpinner();
     inputMap.clear();
     inputMap.set('PathParam.AddressDetailsSeq', event.addSeq);
-    this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/olive/publisher').subscribe(
+    this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
@@ -534,15 +535,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
         this.AD_ADDRESS_LINE4.setValue(res['AddressDetails']['AddressLine4']);
         this.AD_PINCODE.setValue(res['AddressDetails']['PinCode']);
-        // this.AD_REGION.setValue(res['AddressDetails']['Region']);
-        // this.AD_CITY.setValue(res['AddressDetails']['City']);
-        // this.AD_STATE.setValue(res['AddressDetails']['State']);
+        this.AD_REGION.setValue(res['AddressDetails']['Region']);
+        this.AD_CITY.setValue(res['AddressDetails']['City']);
+        this.AD_STATE.setValue(res['AddressDetails']['State']);
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
         // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
+        this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['CountryCode']);
         // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
@@ -628,12 +630,22 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       outDep: [
       ]
     },
+
     AD_PREF_TIME: {
       inDep: [
-
         { paramKey: "VALUE1", depFieldID: "AD_PREF_TIME", paramType: "PathParam" },
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidPrefrredTime", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidPrefferTime", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+
+    AD_COUNTRY_CODE: {
+      inDep: [
+        { paramKey: "VALUE1", depFieldID: "AD_COUNTRY_CODE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidCountryCode", paramType: "QueryParam" },
       ],
       outDep: [
       ]

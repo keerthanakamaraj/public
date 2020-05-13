@@ -21,6 +21,7 @@ const customCss: string = '';
 	],
 })
 export class AddressDetailsGridComponent implements AfterViewInit {
+	addressRecord: boolean = false;
 	constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 	@Output() emitAddressDetails: EventEmitter<any> = new EventEmitter<any>();
@@ -202,6 +203,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		return this.hidden;
 	}
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+		this.showSpinner()
 		let inputMap = new Map();
 		inputMap.clear();
 		let borrowerSeq: any = event.passBorrowerSeqToGrid;
@@ -253,7 +255,14 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.addressDetails = [];
-				var loopVar10 = res['AddressDetails'];
+				if (res !== null) {
+					this.addressRecord = true
+					var loopVar10 = res['AddressDetails'];
+				}
+				else {
+					this.addressRecord = false
+
+				}
 				if (loopVar10) {
 					for (var i = 0; i < loopVar10.length; i++) {
 						var tempObj = {};
@@ -269,10 +278,12 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 					}
 				}
 				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
+				this.hideSpinner();
 			},
 			async (httpError) => {
 				var err = httpError['error']
 				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+					this.hideSpinner();
 				}
 			}
 		);
@@ -291,7 +302,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		let inputMap = new Map();
 		inputMap.clear();
 		inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
-		this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/olive/publisher').subscribe(
+		this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/initiation').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);

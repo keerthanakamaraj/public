@@ -27,7 +27,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
 
 
   onAddTypeChange() {
-    if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'OFFICE') {
+    if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'OF') {
       this.MainComponent.AD_OCCUPANCY_TYPE.onReset();
       this.MainComponent.AD_OCCUPANCY_STATUS.onReset();
       this.MainComponent.AD_OCCUPANCY_TYPE.setReadOnly(true);
@@ -40,7 +40,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
       this.MainComponent.AD_OCCUPANCY_TYPE.mandatory = true;
       this.MainComponent.AD_OCCUPANCY_STATUS.mandatory = true;
     }
-    if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'RESI') {
+    if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'RS') {
 
       this.MainComponent.AD_RES_DUR_UNIT.mandatory = true;
       this.MainComponent.AD_RES_DUR.mandatory = true;

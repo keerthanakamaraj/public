@@ -407,11 +407,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async CD_STAFF_change(fieldID, value) {
         let inputMap = new Map();
         await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
-
     }
     async CD_SAVE_BTN_click(event) {
         let inputMap = new Map();
         //    this.customerDetailMap = any;
+//    this.customerDetailMap = any;
 
         // this.updateCustGrid.emit({
         //     'custSeq': this.ApplicationId
