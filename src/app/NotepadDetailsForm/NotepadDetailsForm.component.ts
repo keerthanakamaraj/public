@@ -156,6 +156,9 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
+                        this.FieldId_7.gridDataLoad({
+                            'ApplicationId': this.ApplicationId
+                        });
                     },
                     async (httpError) => {
                         var err = httpError['error']
