@@ -341,7 +341,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   cancel() {
-    window.history.back()  
+    // window.history.back()  
+    this.services.router.navigate(['home', 'LANDING']);
   }
   
   async CANCEL_MAIN_BTN_click(event){
