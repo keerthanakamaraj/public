@@ -68,7 +68,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
   @ViewChild('hideOccp_type', { static: false }) hideOccp_type: HiddenComponent;
   @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
-  @ViewChild('AD_COUNTRY_CODE', {static: false}) AD_COUNTRY_CODE: ComboBoxComponent;
+  @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
   @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
@@ -283,8 +283,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     let addGridData: any = this.AddressGrid.getAddressGridData();
     var noOfError: number = await this.revalidate();
+    
     if (noOfError == 0) {
-     
+
       // this.AD_SAVE_ADDRESS.setDisabled(true);
       if (this.AD_HIDE_ID.getFieldValue() == undefined) {
         if (addGridData) {
@@ -346,13 +347,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
-           
+
             // this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
             this.onReset();
-            
+
           },
           async (httpError) => {
             var err = httpError['error']
@@ -607,6 +608,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.hideSpinner();
       }
     );
+    this.addonblur.emit({});
   }
   fieldDependencies = {
     AD_ADD_TYPE: {

@@ -267,7 +267,6 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				if (loopVar10) {
 					for (var i = 0; i < loopVar10.length; i++) {
 						var tempObj = {};
-
 						tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 						tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
 						if (loopVar10[i].AddressLine2 == undefined && loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
