@@ -43,7 +43,8 @@
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
                     <app-CustomerDtls #CUSTOMER_DETAILS fieldID="CUSTOMER_DETAILS" [formCode]="formCode"
                       (passBorrowerSeq)="CUSTOMER_DETAILS_passBorrowerSeq($event)"
-                      (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)" (onFullNameblur)="CUSTOMER_DETAILS_onFullNameblur($event)"></app-CustomerDtls>
+                      (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"
+                      (onFullNameblur)="CUSTOMER_DETAILS_onFullNameblur($event)"></app-CustomerDtls>
                   </div>
                 </rlo-ui-accordion-group>
                 <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS"
@@ -103,6 +104,9 @@
                   </app-button>
                   <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL"
                     [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
+                  <app-button #QDE_WITHDRAW fieldName="{{ 'QDE.QDE_WITHDRAW' | translate}}" fieldID="QDE_WITHDRAW"
+                    [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="QDE_WITHDRAW_click($event)">
+                  </app-button>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4"></div>
               </div>
@@ -117,6 +121,9 @@
         <app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden>
         <app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
         <app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
+        <app-hidden #HideCurrentStage fieldID="HideCurrentStage"></app-hidden>
+        <app-hidden #HideAppId fieldID="HideAppId"></app-hidden>
+        <app-hidden #hideDirection fieldID="hideDirection"></app-hidden>
       </div>
     </div>
   </div>

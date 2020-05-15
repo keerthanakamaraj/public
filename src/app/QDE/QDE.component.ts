@@ -54,9 +54,18 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
     @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
+    @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
+    @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
+    @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
+
 
     // public ProductCategory: String;
     ApplicationId: string = undefined;
+    taskId: any;
+    instanceId: any;
+    userId: any;
+    appId: any;
+    router: any;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -104,12 +113,15 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.HideProcessId.setValue('RLO_Process');
         this.HideServiceCode.setValue('ClaimTask');
         this.HideTenantId.setValue('SB1');
+        this.HideAppId.setValue('RLO');
+        this.HideCurrentStage.setValue('QDE');
+      
 
         let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.ApplicationId = appId;
-        let taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
-        let instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-        let userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+        this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+        this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+        this.userId =  this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
         await this.brodcastApplicationId();
 
@@ -126,6 +138,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         //     'custSeq': appId
         //   });
 
+
         //   await this.CUSTOMER_DETAILS.onFormLoad({
         //     'custSeq': appId
         //   });
@@ -139,8 +152,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         await this.Handler.onFormLoad({
         });
 
-        if (userId == undefined || userId == '') {
-            this.claimTask(taskId);
+        if (this.userId == undefined || this.userId == '') {
+            this.claimTask(this.taskId);
         }
 
         this.setDependencies();
@@ -413,13 +426,121 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
         //  }, 20000);
     }
+    async QDE_WITHDRAW_click(event){
+        let inputMap = new Map();
+        this.hideDirection.setValue('W');
+        // var noofError:number = await this.revalidate();
+        // if(noofError==0){
+        inputMap.clear();
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        inputMap.set('Body.TaskId', this.taskId);
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.UserId', this.userId);
+        inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+        inputMap.set('Body.ApplicationId', this.ApplicationId);
+        inputMap.set('Body.ApplicationStatus', 'Withdraw');
+        inputMap.set('Body.direction', this.hideDirection.getFieldValue());
 
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap).subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.services.alert.showAlert(1, 'Proposal withdraw successfully', 5000);
+        },
+        async (httpError)=>{
+        var err = httpError['error']
+        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+        if(err['ErrorElementPath'] == 'ApplicationStatus'){
+        this.hideDirection.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'ApplicationId'){
+        this.HideAppId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'CurrentStage'){
+        this.HideCurrentStage.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'UserId'){
+        this.HideUserId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'TENANT_ID'){
+        this.HideTenantId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'TaskId'){
+        this.HideTaskId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'ServiceCode'){
+        this.HideServiceCode.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'ProcessId'){
+        this.HideProcessId.setError(err['ErrorDescription']);
+        }
+        }
+        this.services.alert.showAlert(2, 'Unable to withdraw proposal', -1);
+        }
+        );
+       
+      
+    }
     async QDE_SUBMIT_click(event) {
         let inputMap = new Map();
+        this.hideDirection.setValue('AP');
+        // var noofError:number = await this.revalidate();
+        // if(noofError==0){
+        //  this.QDE_SUBMIT.setDisabled(true);
+        inputMap.clear();
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        inputMap.set('Body.TaskId', this.taskId);
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.UserId', this.userId);
+        inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+        inputMap.set('Body.ApplicationId', this.ApplicationId);
+        inputMap.set('Body.ApplicationStatus', 'Approve');
+        inputMap.set('Body.direction', this.hideDirection.getFieldValue());
+
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap).subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
+        // this.QDE_SUBMIT.setDisabled(false)
+        this.services.router.navigate(['home', 'LANDING']);
+        },
+        async (httpError)=>{
+        var err = httpError['error']
+        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+        if(err['ErrorElementPath'] == 'ApplicationStatus'){
+        this.hideDirection.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'ApplicationId'){
+        this.HideAppId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'CurrentStage'){
+        this.HideCurrentStage.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'UserId'){
+        this.HideUserId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'TENANT_ID'){
+        this.HideTenantId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'TaskId'){
+        this.HideTaskId.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'ServiceCode'){
+        this.HideServiceCode.setError(err['ErrorDescription']);
+        }
+        else if(err['ErrorElementPath'] == 'ProcessId'){
+        this.HideProcessId.setError(err['ErrorDescription']);
+        }
+        }
+        this.services.alert.showAlert(2, 'Fail to Submit', -1);
+        }
+        );
+       
+      
     }
 
     async brodcastProdCategory(event) {
-        console.log("shweta :: in qde ", event.isLoanCategory);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
         this.FieldId_9.isLoanCategory = event.isLoanCategory;
@@ -459,5 +580,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.services.router.navigate(['home', 'LANDING']);
         }
     }
+
 
 }

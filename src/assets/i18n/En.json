@@ -1579,7 +1579,8 @@
     "FieldId_8": "null",
     "FieldId_5": "null",
     "QDE_SUBMIT": "Submit",
-    "QDE_CANCEL": "Cancel"
+    "QDE_CANCEL": "Cancel",
+    "QDE_WITHDRAW" :"Withdraw"
   },
   "Header": {
     "Edit":"Edit",
