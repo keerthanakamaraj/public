@@ -102,7 +102,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_COUNTRY_CODE'),
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
-      // this.revalidateBasicField('AD_PREF_TIME'),
+      this.revalidateBasicField('AD_PREF_TIME'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
     ]).then((errorCounts) => {
@@ -250,6 +250,26 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   //   this.addonblur.emit({});
   //   await this.Handler.setResDuration({});
   // }
+  async AD_LANDLINE_NUMBER_blur(event) {
+    let inputMap = new Map();
+    this.OnLandlineNumberAdd();
+  }
+  async AD_ALTERNATE_MOB_NO_blur(event) {
+    let inputMap = new Map();
+    this.OnLandlineNumberAdd();
+  }
+
+  OnLandlineNumberAdd() {
+    if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) {
+      this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+    }
+  }
+  OnMobileNumberAdd() {
+    if (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
+      this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+    }
+  }
+
 
   onAlterEmailClick() {
     if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
@@ -263,7 +283,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     let addGridData: any = this.AddressGrid.getAddressGridData();
     var noOfError: number = await this.revalidate();
-   
     if (noOfError == 0) {
      
       // this.AD_SAVE_ADDRESS.setDisabled(true);
@@ -549,6 +568,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     this.showSpinner();
     inputMap.clear();
+    this.onReset();
     inputMap.set('PathParam.AddressDetailsSeq', event.addSeq);
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {

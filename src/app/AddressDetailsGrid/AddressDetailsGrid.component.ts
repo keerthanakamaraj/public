@@ -251,6 +251,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 			}
 		}
 		this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+
 		this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/initiation').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
@@ -266,12 +267,33 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				if (loopVar10) {
 					for (var i = 0; i < loopVar10.length; i++) {
 						var tempObj = {};
+
 						tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 						tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
-						tempObj['AD_Address'] = loopVar10[i].AddressLine1;
-						tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + "" + loopVar10[i].Period;
-						tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
-						tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
+						if (loopVar10[i].AddressLine2 == undefined && loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].PinCode + " " + " " + " " + loopVar10[i].Region + " " + " " + " " + loopVar10[i].City + " " + " " + " " + loopVar10[i].State;;
+						}
+						else if (loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].AddressLine2 + " " + " " + " " + loopVar10[i].PinCode + "" + " " + " " + loopVar10[i].Region + "" + " " + " " + loopVar10[i].City + "" + " " + " " + loopVar10[i].State;;
+						}
+						else if (loopVar10[i].AddressLine4 == undefined) {
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].AddressLine2 + " " + " " + " " + loopVar10[i].AddressLine3 + " " + " " + " " + loopVar10[i].PinCode + " " + " " + " " + loopVar10[i].Region + " " + " " + " " + loopVar10[i].City + " " + " " + " " + loopVar10[i].State;;
+						}
+						else {
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].AddressLine2 + " " + " " + " " + loopVar10[i].AddressLine3 + " " + " " + " " + loopVar10[i].AddressLine4 + " " + " " + " " + loopVar10[i].PinCode + " " + " " + " " + loopVar10[i].Region + " " + " " + " " + loopVar10[i].City + " " + " " + " " + loopVar10[i].State;
+						}
+						if (loopVar10[i].ResidenceDuration == undefined && loopVar10[i].Period == undefined) {
+							tempObj['AD_Residence_Duration'] = "-";
+						}// tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
+						else {
+							tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + "" + loopVar10[i].Period;
+						}
+						if (loopVar10[i].ResidenceType == undefined) {
+							tempObj['AD_OCC_STATUS'] = "-"
+						}
+						else {
+							tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
+						}
 						tempObj['AD_CORR_ADD'] = loopVar10[i].MailingAddress;
 						tempObj['AD_OCCUP_TYPE'] = loopVar10[i].OccupancyType;
 						this.addressDetails.push(tempObj);
