@@ -275,7 +275,7 @@
                                 {{ 'CustomerDtls.CD_DEBIT_SCORE' | translate}}
                             </label>
                         </div>
-                        <app-text-box #CD_DEBIT_SCORE inputType="number" fieldID="CD_DEBIT_SCORE" [formCode]="formCode" placeholder="(Optional)"
+                        <app-text-box #CD_DEBIT_SCORE fieldID="CD_DEBIT_SCORE" [formCode]="formCode" placeholder="(Optional)"
                             (blur)="genericOnBlur('CD_DEBIT_SCORE', $event)"></app-text-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_NATIONAL_ID.isHidden()">
