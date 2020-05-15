@@ -618,6 +618,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
+                        this.CD_FULL_NAME_change();
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
                         });
