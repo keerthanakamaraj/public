@@ -69,7 +69,7 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
         },
     {
         field: "ND_COMMENTS",
-        width: 25,
+        width: 50,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -179,6 +179,7 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
         this.services.http.fetchApi('/NotepadDetails', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
+        if(res!=null&&res!=undefined){
         var loopDataVar9 = [];
         var loopVar9 = res['NotepadDetails'];
         if (loopVar9) {
@@ -191,6 +192,7 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
         loopDataVar9.push(tempObj);}
         }
         this.readonlyGrid.apiSuccessCallback(params, loopDataVar9);
+    }
         },
         async (httpError)=>{
         var err = httpError['error']

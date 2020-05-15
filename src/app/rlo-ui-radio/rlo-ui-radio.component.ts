@@ -21,6 +21,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   default: String = '';
   isOptionsLoaded: boolean=false;
   componentName:string='RLOUIRadioComponent';
+  isDisabled:boolean=false;
   
   @ViewChild('select', { static: false }) select: NgSelectComponent;
 
@@ -262,5 +263,10 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     this.additionalInfo = undefined;
     this.error = false;
     this.errorCode = undefined;
+  }
+
+  setReadOnly(flag){
+    this.readOnly=flag;
+    this.isDisabled=flag;
   }
 }
