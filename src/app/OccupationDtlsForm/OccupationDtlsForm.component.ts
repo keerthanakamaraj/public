@@ -220,7 +220,7 @@ dt_Incptn(selectedDate) {
 async OD_DATE_OF_JOINING_blur(event) {
   let inputMap = new Map();
   if (!this.joinDate(this.OD_DATE_OF_JOINING.getFieldValue())) {
-    this.services.alert.showAlert(2, 'Please select correct date', -1);
+    this.services.alert.showAlert(2, 'rlo.error.joiningdate.occupation', -1);
     this.OD_DATE_OF_JOINING.onReset();
 }
 }
@@ -228,7 +228,7 @@ async OD_DATE_OF_JOINING_blur(event) {
 async OD_DT_OF_INCPTN_blur(event) {
   let inputMap = new Map();
   if (!this.dt_Incptn(this.OD_DT_OF_INCPTN.getFieldValue())) {
-    this.services.alert.showAlert(2, 'Please select correct date', -1);
+    this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
     this.OD_DT_OF_INCPTN.onReset();
 }
 }
