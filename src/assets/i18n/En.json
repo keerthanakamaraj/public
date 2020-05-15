@@ -3,6 +3,7 @@
     "rlo.error.invalid.regex" : "Value does not match",
     "rlo.error.invalid.form" : "Please Fill all Mandatory Fields",
     "rlo.error.wrong.form":"Something went Wrong",
+    "rlo.error.feature.unavailable" : "This feature is currently not active",
     "rlo.success.update.address": "Address Details Updated Successfully",
     "rlo.error.update.address":"Failed to Update Address Details",
     "rlo.success.save.address":"Address Details Saved Successfully",

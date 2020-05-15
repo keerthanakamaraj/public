@@ -64,12 +64,12 @@ export class AlertsComponent implements OnInit {
         tempObj.textColor = "#ec1919";
         break;
       case 3:
-        tempObj.alertMsg = alertMsg;
+        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "" : alertMsg);
         tempObj.alertIconClass = "fa-warning";
         tempObj.textColor = "#ead430";
         break;
       case 4:
-        tempObj.alertMsg = alertMsg;
+        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "Info" : alertMsg);
         tempObj.alertIconClass = "fa-info-circle";
         tempObj.textColor = "#56abe8";
         break;
