@@ -184,7 +184,7 @@
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EMAIL.isHidden()">
                         <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                            <label class="clr-brown" [ngClass]="{'mandatory': CD_EMAIL.mandatory}">
                                 {{ 'CustomerDtls.CD_EMAIL' | translate}}
                             </label>
                         </div>
