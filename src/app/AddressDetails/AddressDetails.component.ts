@@ -283,7 +283,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     let addGridData: any = this.AddressGrid.getAddressGridData();
     var noOfError: number = await this.revalidate();
-    
+
     if (noOfError == 0) {
 
       // this.AD_SAVE_ADDRESS.setDisabled(true);
@@ -434,6 +434,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
           }
         );
+
       }
       else {
         inputMap.clear();
@@ -468,7 +469,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
-
+            this.AD_ADD_TYPE_change('AD_ADD_TYPE', event);
+            this.AD_ADDRESS_LINE1_blur(event);
+            this.AD_CITY_blur(event);
+            this.AD_PINCODE_blur(event);
             this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -553,12 +557,17 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           }
         );
       }
+      this.AD_ADD_TYPE_change('AD_ADD_TYPE', event);
+      this.AD_ADDRESS_LINE1_blur(event);
+      this.AD_CITY_blur(event);
+      this.AD_PINCODE_blur(event);
     }
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
     this.onCorrEmailChange();
   }
+
   async AD_CLEAR_BTN_click(event) {
     let inputMap = new Map();
     let durationType: any = this.AD_RES_DUR_UNIT.getFieldValue();
@@ -599,6 +608,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
+        this.AD_ADD_TYPE_change('AD_ADD_TYPE', event);
+        this.AD_ADDRESS_LINE1_blur(event);
+        this.AD_CITY_blur(event);
+        this.AD_PINCODE_blur(event);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -606,9 +619,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         }
         this.services.alert.showAlert(2, 'rlo.error.load.address', -1);
         this.hideSpinner();
+
       }
     );
-    this.addonblur.emit({});
   }
   fieldDependencies = {
     AD_ADD_TYPE: {
