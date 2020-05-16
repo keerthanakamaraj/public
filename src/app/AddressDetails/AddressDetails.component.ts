@@ -243,6 +243,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   onCorrEmailChange() {
     if (this.AD_EMAIL1_CHECKBOX == undefined && this.AD_EMAIL2_CHECKBOX == undefined) {
       this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
+      return;
     }
   }
   // async  AD_RES_DUR_UNIT_blur (event) {
@@ -250,25 +251,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   //   this.addonblur.emit({});
   //   await this.Handler.setResDuration({});
   // }
-  async AD_LANDLINE_NUMBER_blur(event) {
-    let inputMap = new Map();
-    this.OnLandlineNumberAdd();
-  }
-  async AD_ALTERNATE_MOB_NO_blur(event) {
-    let inputMap = new Map();
-    this.OnLandlineNumberAdd();
-  }
 
-  OnLandlineNumberAdd() {
-    if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) {
-      this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
-    }
-  }
-  OnMobileNumberAdd() {
-    if (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
-      this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
-    }
-  }
+
+
+
 
 
   onAlterEmailClick() {
@@ -289,6 +275,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       // this.AD_SAVE_ADDRESS.setDisabled(true);
       if (this.AD_HIDE_ID.getFieldValue() == undefined) {
         if (addGridData) {
+          // var addressline1 = addGridData[i].AD_Address;
           for (var i = 0; i < addGridData.length; i++) {
             if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
@@ -302,7 +289,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
-
           }
         }
       }
@@ -312,6 +298,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
       else if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
         this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+        return;
+      }
+      if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
+        this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
         return;
       }
       if (this.AD_HIDE_ID.getFieldValue() != undefined) {
@@ -348,7 +338,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
 
-            // this.AD_SAVE_ADDRESS.setDisabled(false);
+            this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
@@ -561,11 +551,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.AD_ADDRESS_LINE1_blur(event);
       this.AD_CITY_blur(event);
       this.AD_PINCODE_blur(event);
+      this.onCorrEmailChange();
     }
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
-    this.onCorrEmailChange();
+
   }
 
   async AD_CLEAR_BTN_click(event) {
