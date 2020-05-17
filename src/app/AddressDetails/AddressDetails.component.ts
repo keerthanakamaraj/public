@@ -76,6 +76,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
+  EmailCheck: any;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -219,43 +220,34 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.addonblur.emit({});
     // await this.Handler.onAddTypeChange();
   }
-  // async AD_EMAIL2_CHECKBOX_change(fieldID, value) {
-  //   let inputMap = new Map();
-  //   this.onAlterEmailClick();
-  //   this.onCorrEmailChange();
-  // }
-
-  async AD_EMAIL1_CHECKBOX_change(fieldID, value) {
-    let inputMap = new Map();
-    this.onCorrEmailChange();
-  }
+  
 
   async AD_CITY_blur(event) {
     let inputMap = new Map();
     this.addonblur.emit({});
-    //  this.Handler.updateAddressTags();
+    // this.Handler.updateAddressTags();
   }
   async AD_PINCODE_blur(event) {
     let inputMap = new Map();
+    inputMap.set('PathParam.PinCd' ,event.value)
+   
+    this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        console.log("res",res);
+        if(res != null){
+          this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1'])
+          this.AD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
+          this.AD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+        }else{
+          this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
+        }
+    
+      },
+    
+    );
     this.addonblur.emit({});
   }
-
-  onCorrEmailChange() {
-    if (this.AD_EMAIL1_CHECKBOX == undefined && this.AD_EMAIL2_CHECKBOX == undefined) {
-      this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
-      return;
-    }
-  }
-  // async  AD_RES_DUR_UNIT_blur (event) {
-  //   let inputMap = new Map();
-  //   this.addonblur.emit({});
-  //   await this.Handler.setResDuration({});
-  // }
-
-
-
-
-
 
   onAlterEmailClick() {
     if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
@@ -269,7 +261,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     let addGridData: any = this.AddressGrid.getAddressGridData();
     var noOfError: number = await this.revalidate();
-
+    this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' +this.AD_EMAIL2_CHECKBOX.getFieldValue();
     if (noOfError == 0) {
 
       // this.AD_SAVE_ADDRESS.setDisabled(true);
@@ -313,7 +305,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
         inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
         inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-        // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
@@ -325,13 +316,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
-        // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
+        inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);       
         this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -361,7 +351,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
                 this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.EmailId1') {
-                // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
+                //  this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.MailingAddress') {
                 this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
@@ -434,7 +424,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
         inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
         inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-        // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
         inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
@@ -446,23 +435,18 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
         inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
-        // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
         inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
+        inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);       
 
         this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
-            this.AD_ADD_TYPE_change('AD_ADD_TYPE', event);
-            this.AD_ADDRESS_LINE1_blur(event);
-            this.AD_CITY_blur(event);
-            this.AD_PINCODE_blur(event);
             this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
@@ -547,11 +531,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           }
         );
       }
-      this.AD_ADD_TYPE_change('AD_ADD_TYPE', event);
-      this.AD_ADDRESS_LINE1_blur(event);
-      this.AD_CITY_blur(event);
-      this.AD_PINCODE_blur(event);
-      this.onCorrEmailChange();
+     
     }
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
@@ -596,13 +576,23 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
         this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
-        // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
+        var array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
+        if(array[0] == 'true'){
+          this.AD_EMAIL1_CHECKBOX.setValue(true);
+        } 
+        if(array[0] == 'false'){
+          this.AD_EMAIL1_CHECKBOX.setValue(false);
+        }
+        if(array[1] == 'true'){
+          this.AD_EMAIL2_CHECKBOX.setValue(true);
+        }
+        if(array[1] == 'false'){
+          this.AD_EMAIL2_CHECKBOX.setValue(false);
+        }
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
-        this.AD_ADD_TYPE_change('AD_ADD_TYPE', event);
-        this.AD_ADDRESS_LINE1_blur(event);
-        this.AD_CITY_blur(event);
-        this.AD_PINCODE_blur(event);
+        this.addonblur.emit({});
+       
       },
       async (httpError) => {
         var err = httpError['error']
@@ -654,18 +644,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       outDep: [
       ]
     },
-    AD_PINCODE: {
-      inDep: [
-
-        { paramKey: "PinCd", depFieldID: "AD_PINCODE", paramType: "PathParam" },
-      ],
-      outDep: [
-
-        { paramKey: "MasterPincodeDtls.CityCd.CityName", depFieldID: "AD_CITY" },
-        { paramKey: "MasterPincodeDtls.StateCd.StateName", depFieldID: "AD_STATE" },
-        { paramKey: "MasterPincodeDtls.UDF1", depFieldID: "AD_REGION" },
-      ]
-    },
+   
 
     AD_RES_DUR_UNIT: {
       inDep: [

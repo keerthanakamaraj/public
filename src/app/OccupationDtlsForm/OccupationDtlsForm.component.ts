@@ -252,13 +252,12 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     this.value = new OccupationDtlsFormModel();
     this.passNewValue(this.value);
     this.setReadOnly(false);
-
     this.onFormLoad();
   }
   async OD_OCCUPATION_change(fieldID, value) {
     let inputMap = new Map();
     this.Handler.occupationOnchange();
-    this.occpOnBlur.emit({});
+    // this.occpOnBlur.emit({});
   }
   async OD_CURRENCY_blur(event) {
     let inputMap = new Map();
@@ -310,13 +309,15 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
+           
+            this.occpOnBlur.emit({});
             // this.OD_SAVE_BTN.setDisabled(false);
 
             await this.OCC_DTLS_GRID.gridDataLoad({
               'refNumToGrid': this.occBorrowerSeq,
             });
-
             this.onReset();
+
           },
           async (httpError) => {
             var err = httpError['error']
@@ -429,13 +430,17 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.occupation', 5000);
+         
+            this.occpOnBlur.emit({});
             // this.OD_SAVE_BTN.setDisabled(false);
             this.OD_OCCUPATION_change('OD_OCCUPATION', event);
             await this.OCC_DTLS_GRID.gridDataLoad({
               'refNumToGrid': this.occBorrowerSeq,
             });
-
             this.onReset();
+
+           
+            this.occpOnBlur.emit({});
 
           },
           async (httpError) => {
@@ -617,16 +622,16 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       outDep: [
       ]
     },
-    OD_DESIGNATION: {
-      inDep: [
+    // OD_DESIGNATION: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "OD_DESIGNATION", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "HidDesignation", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "OD_DESIGNATION", paramType: "PathParam" },
+    //     { paramKey: "KEY1", depFieldID: "HidDesignation", paramType: "QueryParam" },
+    //     { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     OD_INDUSTRY: {
       inDep: [
 

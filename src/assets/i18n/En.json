@@ -84,6 +84,7 @@
     "rlo.error.age-invalid":"Product not valid for this age",
     "rlo.error.joiningdate.occupation":"Please Select Valid Date of Joining ",
     "rlo.error.inceptiondate.occupation":"Please Select Valid Date Of Inception",
+    "rlo.error.pincode.invalid" : "Pincode not found",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",

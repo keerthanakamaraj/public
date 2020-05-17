@@ -376,7 +376,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     updateAddressTags() {
         let displayTag = [];
         if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
-            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";" + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
+            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + "," + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
         }
         let tags = [];
         displayTag.forEach(tag => {
@@ -386,14 +386,17 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     addOccupationTags() {
-        let displayTag = [];
-        if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
-            displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
-        }
         let tags = [];
-        displayTag.forEach(tag => {
-            tags.push({ text: tag });
+        this.FieldId_5.OCC_DTLS_GRID.loopDataVar10.forEach(Occ =>{
+            tags.push({text : Occ.OD_OCCUPATION});
         })
+        // if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
+        //     displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+        // }
+        // let tags = [];
+        // displayTag.forEach(tag => {
+        //     tags.push({ text: tag });
+        // })
 
         this.QDE_ACCORD1.setTags("OCC_DETAILS", tags);
     }

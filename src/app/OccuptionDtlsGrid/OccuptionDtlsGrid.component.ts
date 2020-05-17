@@ -22,6 +22,7 @@ transition('false => true', animate('300ms ease-in'))
 })
 export class OccuptionDtlsGridComponent implements AfterViewInit {
 	occupationRecord: boolean = false;
+	loopDataVar10: any[];
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
@@ -272,7 +273,7 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap, '/rlo-de').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar10 = [];
+this.loopDataVar10 = [];
 if(res !== null){
 	this.occupationRecord = true
 	var loopVar10 = res['OccupationDetails'];
@@ -292,9 +293,9 @@ tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
 tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
 tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;
 tempObj['NET_INCOME'] = loopVar10[i].NetIncome;
-loopDataVar10.push(tempObj);}
+this.loopDataVar10.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar10);
 this.hideSpinner();
 },
 async (httpError)=>{
