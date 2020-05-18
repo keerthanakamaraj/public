@@ -341,7 +341,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
         this.AD_SAVE_ADDRESS.setDisabled(true);
-        this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
+        this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
@@ -461,7 +461,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
         this.AD_SAVE_ADDRESS.setDisabled(true);
-        this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
+        this.services.http.fetchApi('/AddressDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
            
             var res = httpResponse.body;
@@ -573,7 +573,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.clear();
     this.onReset();
     inputMap.set('PathParam.AddressDetailsSeq', event.addSeq);
-    this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/initiation').subscribe(
+    this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);

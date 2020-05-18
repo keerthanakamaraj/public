@@ -254,7 +254,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		}
 		this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 
-		this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/initiation').subscribe(
+		this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.addressDetails = [];
@@ -331,7 +331,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		let inputMap = new Map();
 		inputMap.clear();
 		inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
-		this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/initiation').subscribe(
+		this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
