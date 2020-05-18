@@ -73,6 +73,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
 
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
@@ -612,6 +613,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
     );
   }
+
+  AddressGrid_addressGridLoaded(event){
+    console.log("Address grid Loaded");
+    this.updateStageValidation.emit(event);
+  }
+
   fieldDependencies = {
     AD_ADD_TYPE: {
       inDep: [

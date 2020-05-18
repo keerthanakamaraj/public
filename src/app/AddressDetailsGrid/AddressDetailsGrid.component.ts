@@ -25,7 +25,8 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 	@Output() emitAddressDetails: EventEmitter<any> = new EventEmitter<any>();
-	@Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+  @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+  @Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
 	@Input('formCode') formCode: string;
 	@Input('displayTitle') displayTitle: boolean = true;
 	@Input('displayToolbar') displayToolbar: boolean = true;
@@ -262,10 +263,16 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 					var loopVar10 = res['AddressDetails'];
 				}
 				else {
-					this.addressRecord = false
+					this.addressRecord = false;
+        }
+        
 
-				}
 				if (loopVar10) {
+          this.addressLoaded.emit({
+            "name" : "addressLoad",
+            "data": loopVar10
+          });
+
 					for (var i = 0; i < loopVar10.length; i++) {
 						var tempObj = {};
 						tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;

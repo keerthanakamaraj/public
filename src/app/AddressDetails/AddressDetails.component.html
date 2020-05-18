@@ -254,7 +254,10 @@
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
-                        <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>
+                        <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" 
+                          (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"
+                          (addressLoaded)="AddressGrid_addressGridLoaded($event)">
+                        </app-AddressDetailsGrid>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-address-handler #Handler [MainComponent]="this"></app-address-handler>

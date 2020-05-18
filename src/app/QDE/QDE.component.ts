@@ -67,6 +67,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     appId: any;
     router: any;
 
+    stageValidationMap: any;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -610,5 +612,45 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
     }
 
+    updateStageValidation(event) {
+      console.log("updateStageValidation ", event);
+      
+      if (event && event.name == "customerLoad") { // Customers loaded
+        if(this.stageValidationMap){ // stageValidation Map Exists - update existing
+  
+        } else { // stageValidation Map Does not Exists - create new
+          this.stageValidationMap = {};
+          this.stageValidationMap["customers"] = [];
+  
+          // let customers = [];
+  
+          if(event.data && event.data.length > 0) {
+            this.stageValidationMap["customers"] = event.data;
+  
+          //   event.data.forEach(customer => {
+          //     // Validation applies to Borrower / Co Borrower
+          //     if(customer["CustomerType"] == "B" || customer["CustomerType"] == "CB"){ 
+          //       customers.push({
+          //         BorrowerSeq: customer["BorrowerSeq"],
+          //         CustomerType: customer["CustomerType"],
+          //         DOB: customer["DOB"],
+          //         Gender: customer["Gender"],
+          //         LoanOwnership: customer["LoanOwnership"],
+          //         isAddressAdded: false,
+          //         isOccupationAdded: false
+          //       });
+          //     }
+          //   });
+  
+          //   this.stageValidationMap["customers"] = customers;
+          }
+        }
+      } else if(event && event.name == "addressLoad") { // Address loaded
+        // delete if exists for customer and then add
+        this.stageValidationMap["address"] = event.data;
 
+      } else if(event && event.name == "occupationLoad") { // Occupation loaded
+
+      }
+    } 
 }

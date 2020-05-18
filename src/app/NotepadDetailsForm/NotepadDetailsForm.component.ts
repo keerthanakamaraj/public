@@ -152,7 +152,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
                 inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
                 inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
                 inputMap.set('Body.NotepadDetails.ApplicationId', this.ApplicationId);
-                this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap).subscribe(
+                this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
