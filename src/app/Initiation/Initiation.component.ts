@@ -250,7 +250,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideExsCust.setValue('YES_NO');
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
-  
+
     this.CD_EXISTING_CUST.setDefault('N');
     this.Handler.existingCustomer({});
 
@@ -344,12 +344,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // window.history.back()  
     this.services.router.navigate(['home', 'LANDING']);
   }
-  
-  async CANCEL_MAIN_BTN_click(event){
-  let inputMap = new Map();
-  this.cancel();
+
+  async CANCEL_MAIN_BTN_click(event) {
+    let inputMap = new Map();
+    this.cancel();
   }
-  
+
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -381,9 +381,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_GENDER.setValue(tempVar['gender']);
               this.CD_TITLE.setValue(tempVar['title']);
               this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
-              if(tempVar != '' || tempVar != undefined)
-                  this.CD_EXISTING_CUST.setValue('Y'); 
-                  this.Handler.existingCustomer({});
+              if (tempVar != '' || tempVar != undefined)
+                this.CD_EXISTING_CUST.setValue('Y');
+              this.Handler.existingCustomer({});
             }
             this.services.dataStore.setData('selectedData', undefined);
           }
@@ -458,14 +458,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
       this.CD_DOB.setError('Please select correct date of birth');
     } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('age not valid');     
+      this.CD_DOB.setError('age not valid');
     }
   }
 
 
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
-    if (!this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue())) {
+
+    if (!(this.isTodaysDate(this.BAD_DATE_OF_RCPT.getFieldValue()) || this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue()))) {
       this.BAD_DATE_OF_RCPT.setError('Please select correct date of reciept ');
     }
   }
@@ -735,6 +736,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return false;
     }
     return true;
+  }
+
+  isTodaysDate(selectedDate) {
+    const moment = require('moment');
+    const currentDate = moment();
+    currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+    if (moment(currentDate).isSame(selectedDate)) {
+      return true;
+    }
+    return false;
   }
 
   isAgeValid(selectedDate) {
