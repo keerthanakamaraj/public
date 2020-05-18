@@ -347,4 +347,8 @@ hideSpinner(){
 this.loadSpinner=false;
 }
 
+getOccupationGridData() {	
+	return this.loopDataVar10;
+}
+
 }
