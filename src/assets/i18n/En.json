@@ -42,6 +42,8 @@
     "rlo.error.save.loan":"Failed to Save Loan Details",
     "rlo.success.claim.qde":"Proposal Claimed Successfully",
     "rlo.error.code.address":"Please select Country code",
+    "rlo.error.landline.address":"Please enter Landline Number",
+    "rlo.error.mobile.address":"Please enter Mobile Number",
     "rlo.error.claim.qde":"Failed To Claim Proposal",
     "rlo.success.update.referral": "Customer Details Updated Successfully",
     "rlo.error.update.referral":"Failed to Update Customer Details",

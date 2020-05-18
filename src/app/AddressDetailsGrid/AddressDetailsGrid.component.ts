@@ -271,16 +271,16 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 						tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
 						if (loopVar10[i].AddressLine2 == undefined && loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].Region + " " + " " + " " + loopVar10[i].City + " " + " " + " " + loopVar10[i].State + " " + " " + " " + loopVar10[i].PinCode;
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
 						}
 						else if (loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].AddressLine2 + "" + " " + " " + loopVar10[i].Region + "" + " " + " " + loopVar10[i].City + "" + " " + " " + loopVar10[i].State + " " + " " + " " + loopVar10[i].PinCode;
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].AddressLine2 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
 						}
 						else if (loopVar10[i].AddressLine4 == undefined) {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].AddressLine2 + " " + " " + " " + loopVar10[i].AddressLine3 + " " + " " + " " + loopVar10[i].Region + " " + " " + " " + loopVar10[i].City + " " + " " + " " + loopVar10[i].State + " " + " " + " " + loopVar10[i].PinCode;
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].AddressLine2 + "," + " " + " " + loopVar10[i].AddressLine3 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
 						}
 						else {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + " " + " " + " " + loopVar10[i].AddressLine2 + " " + " " + " " + loopVar10[i].AddressLine3 + " " + " " + " " + loopVar10[i].AddressLine4 + " " + " " + " " + loopVar10[i].Region + " " + " " + " " + loopVar10[i].City + " " + " " + " " + loopVar10[i].State + " " + " " + " " + loopVar10[i].PinCode;
+							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].AddressLine2 + "," + " " + " " + loopVar10[i].AddressLine3 + "," + " " + " " + loopVar10[i].AddressLine4 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
 						}
 						if (loopVar10[i].ResidenceDuration == undefined && loopVar10[i].Period == undefined) {
 							tempObj['AD_Residence_Duration'] = " ";
@@ -329,6 +329,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				var res = httpResponse.body;
 				this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
 				this.readonlyGrid.refreshGrid();
+
 			},
 			async (httpError) => {
 				var err = httpError['error']

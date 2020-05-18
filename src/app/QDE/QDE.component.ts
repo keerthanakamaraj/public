@@ -115,13 +115,13 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.HideTenantId.setValue('SB1');
         this.HideAppId.setValue('RLO');
         this.HideCurrentStage.setValue('QDE');
-      
+
 
         let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.ApplicationId = appId;
         this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
         this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-        this.userId =  this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+        this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
         await this.brodcastApplicationId();
 
@@ -374,21 +374,47 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     updateAddressTags() {
-        let displayTag = [];
-        if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
-            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + "," + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
-        }
         let tags = [];
-        displayTag.forEach(tag => {
-            tags.push({ text: tag });
+        this.FieldId_6.AddressGrid.addressDetails.forEach(Add => {
+            if (Add.AD_Address_Type == 'OF') {
+                tags.push({ text: 'Office' + ";" + " " + Add.AD_Address });
+            }
+            // else if (Add.AD_Address_Type == 'RS') {
+            //     tags.push({ text: 'Residence' + ";" + " " + Add.AD_Address });
+            // }
         })
+        // let displayTag = [];
+        // if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
+        //     displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + "," + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
+        // }
+        // let tags = [];
+        // displayTag.forEach(tag => {
+        //     tags.push({ text: tag });
+        // })
         this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
     }
 
     addOccupationTags() {
         let tags = [];
-        this.FieldId_5.OCC_DTLS_GRID.loopDataVar10.forEach(Occ =>{
-            tags.push({text : Occ.OD_OCCUPATION});
+        this.FieldId_5.OCC_DTLS_GRID.loopDataVar10.forEach(Occ => {
+            if (Occ.OD_OCCUPATION == 'RT') {
+                tags.push({ text: 'Retired' });
+            }
+            else if (Occ.OD_OCCUPATION == 'HW') {
+                tags.push({ text: 'Housewife' });
+            }
+            else if (Occ.OD_OCCUPATION = 'ST') {
+                tags.push({ text: 'Student' });
+            }
+            else if (Occ.OD_OCCUPATION = 'SL') {
+                tags.push({ text: 'Salaried' });
+            }
+            else if (Occ.OD_OCCUPATION == 'SE') {
+                tags.push({ text: 'Self Employed' });
+            }
+            else if (Occ.OD_OCCUPATION == 'OT') {
+                tags.push({ text: 'Others' });
+            }
         })
         // if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
         //     displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
@@ -429,7 +455,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
         //  }, 20000);
     }
-    async QDE_WITHDRAW_click(event){
+    async QDE_WITHDRAW_click(event) {
         let inputMap = new Map();
         this.hideDirection.setValue('W');
         // var noofError:number = await this.revalidate();
@@ -446,43 +472,43 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.set('Body.direction', this.hideDirection.getFieldValue());
 
         this.services.http.fetchApi('/acceptQDE', 'POST', inputMap).subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'Proposal withdraw successfully', 5000);
-        },
-        async (httpError)=>{
-        var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        if(err['ErrorElementPath'] == 'ApplicationStatus'){
-        this.hideDirection.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ApplicationId'){
-        this.HideAppId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'CurrentStage'){
-        this.HideCurrentStage.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'UserId'){
-        this.HideUserId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'TENANT_ID'){
-        this.HideTenantId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'TaskId'){
-        this.HideTaskId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ServiceCode'){
-        this.HideServiceCode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ProcessId'){
-        this.HideProcessId.setError(err['ErrorDescription']);
-        }
-        }
-        this.services.alert.showAlert(2, 'Unable to withdraw proposal', -1);
-        }
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.services.alert.showAlert(1, 'Proposal withdraw successfully', 5000);
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ApplicationStatus') {
+                        this.hideDirection.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ApplicationId') {
+                        this.HideAppId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'CurrentStage') {
+                        this.HideCurrentStage.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'Unable to withdraw proposal', -1);
+            }
         );
-       
-      
+
+
     }
     async QDE_SUBMIT_click(event) {
         let inputMap = new Map();
@@ -502,45 +528,45 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.set('Body.direction', this.hideDirection.getFieldValue());
 
         this.services.http.fetchApi('/acceptQDE', 'POST', inputMap).subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
-        // this.QDE_SUBMIT.setDisabled(false)
-        this.services.router.navigate(['home', 'LANDING']);
-        },
-        async (httpError)=>{
-        var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        if(err['ErrorElementPath'] == 'ApplicationStatus'){
-        this.hideDirection.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ApplicationId'){
-        this.HideAppId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'CurrentStage'){
-        this.HideCurrentStage.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'UserId'){
-        this.HideUserId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'TENANT_ID'){
-        this.HideTenantId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'TaskId'){
-        this.HideTaskId.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ServiceCode'){
-        this.HideServiceCode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'ProcessId'){
-        this.HideProcessId.setError(err['ErrorDescription']);
-        }
-        }
-        this.services.alert.showAlert(2, 'Fail to Submit', -1);
-        }
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
+                // this.QDE_SUBMIT.setDisabled(false)
+                this.services.router.navigate(['home', 'LANDING']);
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ApplicationStatus') {
+                        this.hideDirection.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ApplicationId') {
+                        this.HideAppId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'CurrentStage') {
+                        this.HideCurrentStage.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'Fail to Submit', -1);
+            }
         );
-       
-      
+
+
     }
 
     async brodcastProdCategory(event) {
