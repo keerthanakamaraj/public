@@ -219,7 +219,7 @@
                         <div class="rlo-ui-radio-container form-group corrBox">
                             <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
                             <app-check-box class="AD_EMAIL1" #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false"
-                                [checkedValue]="true" checked='true' (change)="AD_EMAIL1_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)"
+                                [checkedValue]="true" checked='true' 
                                 (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
                             <!-- </div> -->
                             <div class="clr-brown fieldLegend emailCheck1">
@@ -230,7 +230,7 @@
                             <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
 
                             <app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
-                                (change)="AD_EMAIL2_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"
+                                (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"
                                 style="margin-left: 33px; margin-top: 6px;"></app-check-box>
                             <!-- </div> -->
                             <div class="clr-brown fieldLegend emailCheck2">

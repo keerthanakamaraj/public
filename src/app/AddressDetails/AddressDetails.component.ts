@@ -217,14 +217,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   }
   async AD_ADDRESS_LINE1_blur(event) {
     let inputMap = new Map();
-    this.addonblur.emit({});
+   this.addonblur.emit({});
     // await this.Handler.onAddTypeChange();
   }
   
 
   async AD_CITY_blur(event) {
     let inputMap = new Map();
-    this.addonblur.emit({});
     // this.Handler.updateAddressTags();
   }
   async AD_PINCODE_blur(event) {
@@ -235,26 +234,26 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         console.log("res",res);
-        if(res != null){
+        if(res == null){
+          this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
+       
+        }else{
           this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1'])
           this.AD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
           this.AD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
-        }else{
-          this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
         }
     
       },
     
     );
-    this.addonblur.emit({});
   }
 
-  onAlterEmailClick() {
-    if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
-      this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
-      return;
-    }
-  }
+  // onAlterEmailClick() {
+  //   if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
+  //     this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+  //     return;
+  //   }
+  // }
 
 
   async AD_SAVE_ADDRESS_click(event) {
