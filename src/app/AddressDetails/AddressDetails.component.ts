@@ -267,25 +267,24 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
 
     if (noOfError == 0) {
-
-      // this.AD_SAVE_ADDRESS.setDisabled(true);
-
+      
       if (addGridData) {
-        // var addressline1 = addGridData[i].AD_Address;
-        for (var i = 0; i < addGridData.length; i++) {
-
-          if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_ADD_ID != this.AD_HIDE_ID && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
-            this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
-            return;
-          }
-          else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR' && addGridData[i].AD_ADD_ID != this.AD_HIDE_ID && addGridData[i].AD_OCCUP_TYPE == 'CR') {
-            this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
-            return;
-          }
-          else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR' && addGridData[i].AD_ADD_ID != this.AD_HIDE_ID && addGridData[i].AD_OCCUP_TYPE == 'PR') {
-            this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
-            return;
-          }
+        
+        for (var i = 0; i < addGridData.length; i++) {          
+          if(addGridData[i].AD_ADD_ID != this.AD_HIDE_ID.getFieldValue()){ // Check if Editing Existing Address
+            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' &&  addGridData[i].AD_MAILING_ADDRESS == 'Y') {
+              this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
+              return;
+            }
+            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR' && addGridData[i].AD_OCCUP_TYPE == 'CR') {
+              this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
+              return;
+            }
+            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR' && addGridData[i].AD_OCCUP_TYPE == 'PR') {
+              this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
+              return;
+            }
+          }          
         }
       }
 

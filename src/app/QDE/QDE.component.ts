@@ -473,7 +473,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.set('Body.ApplicationStatus', 'Withdraw');
         inputMap.set('Body.direction', this.hideDirection.getFieldValue());
 
-        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap).subscribe(
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.services.alert.showAlert(1, 'Proposal withdraw successfully', 5000);
@@ -529,7 +529,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.set('Body.ApplicationStatus', 'Approve');
         inputMap.set('Body.direction', this.hideDirection.getFieldValue());
 
-        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap).subscribe(
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
