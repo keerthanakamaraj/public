@@ -86,7 +86,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		field: "AD_CORR_ADD",
+		field: "AD_MAILING_ADDRESS",
 		width: 15,
 		sortable: true,
 		resizable: true,
@@ -232,6 +232,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 					// case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
 					case "AD_OCC_STATUS": obj[i].columnName = "ResidenceType"; break;
 					case "AD_CORR_ADD": obj[i].columnName = "MailingAddress"; break;
+					case "AD_MAILING_ADDRESS": obj[i].columnName = "MailingAddress"; break;
 					case "AD_OCCUP_TYPE": obj[i].columnName = "OccupancyType"; break;
 					default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
 				}
@@ -248,6 +249,8 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 					// case "MailingAddress":obj[i].columnName =  "MailingAddress";break;
 					case "AD_OCC_STATUS": obj[i].columnName = "ResidenceType"; break;
 					case "AD_OCCUP_TYPE": obj[i].columnName = "OccupancyType"; break;
+					case "AD_CORR_ADD": obj[i].columnName = "MailingAddress"; break;
+					case "AD_MAILING_ADDRESS": obj[i].columnName = "MailingAddress"; break;
 					default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
 				}
 			}
@@ -261,6 +264,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				if (res !== null) {
 					this.addressRecord = true
 					var loopVar10 = res['AddressDetails'];
+					
 				}
 				else {
 					this.addressRecord = false;
@@ -274,9 +278,12 @@ export class AddressDetailsGridComponent implements AfterViewInit {
           });
 
 					for (var i = 0; i < loopVar10.length; i++) {
+
 						var tempObj = {};
 						tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
 						tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
+						tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
+						tempObj['AD_OCCUP_TYPE'] = loopVar10[i].OccupancyType;
 						if (loopVar10[i].AddressLine2 == undefined && loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
 							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
 						}
@@ -301,9 +308,9 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						else {
 							tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
 						}
-						tempObj['AD_CORR_ADD'] = loopVar10[i].MailingAddress;
-						tempObj['AD_OCCUP_TYPE'] = loopVar10[i].OccupancyType;
+						
 						this.addressDetails.push(tempObj);
+						console.log("loopVar10",this.addressDetails);
 					}
 				}
 				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
