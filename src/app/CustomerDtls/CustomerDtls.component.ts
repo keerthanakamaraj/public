@@ -841,7 +841,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.addseq = customer.BorrowerSeq;
 
         this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
-        this.CD_CUST_TYPE.setValue(customer.CustomerType);
+        this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
         this.CD_STAFF.setValue(customer.IsStaff);
         this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
         this.CD_CIF.setValue(customer.CIF)
