@@ -223,7 +223,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     // Moved readonly to RLO Config - to be removed in next commit
     // this.CD_FULL_NAME.setReadOnly(true);
-    this.CD_LOAN_OWNERSHIP.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    // this.CD_LOAN_OWNERSHIP.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     this.LD_LOAN_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.LD_INTEREST_RATE.setReadOnly(true);
     this.LD_GROSS_INCOME.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
@@ -623,6 +623,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
             }
             this.showMessage("Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif);
+            this.services.router.navigate(['home', 'LANDING']);
             inputMap = new Map();
             this.onReset();
             this.SUBMIT_MAIN_BTN.setDisabled(false);
