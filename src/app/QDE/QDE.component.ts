@@ -707,10 +707,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     isFormValid() {
         let isAppValidFlag = true;
         this.errorsList = [];
-        //    Object.keys(this.ddlForms).forEach(x => {
-        //  for(let entry of Object.entries(this.stageValidationMap)){       
-        // for(let x of Object.keys(this.stageValidationMap)) {
-        //   for (const [key, value] of Object.entries(myMap)) { 
+        
         Array.from(this.stageValidationMap.entries()).forEach(entry => {
             let isAddressValid: boolean = true;
             let isOccupationValid: boolean = true;
@@ -721,10 +718,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             const bottowerSeq: string = entry[0];
             if (entry[1].has('customer')) {
                 let customer = entry[1].get('customer');
-                if (this.validateCustomer(customer)) {
-                    isCustomerValid = false;
-                    errorMessage = errorMessage + ' Mandatory fields of customer'
-                }
+                // if (this.validateCustomer(customer)) {
+                //     isCustomerValid = false;
+                //     errorMessage = errorMessage + ' Mandatory fields of customer'
+                // }
                 const LoanOwnership = customer.LoanOwnership;
                 custFullName = customer.FullName;
                 if (!entry[1].has('address')) {
@@ -754,6 +751,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async validateCustomer(customer) {
+
         let noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
         return (noOfErrors > 0) ? true : false;
 
