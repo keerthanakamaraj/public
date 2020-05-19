@@ -1,153 +1,194 @@
 <form class="MakeRelative">
-<div class="ShowLoading " *ngIf="loadSpinner">
- <div class="lds-roller MakeItMiddle">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div>
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'DDE.FormTitle' | translate }}
-</h4>
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
-<app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-Header>
-</div>
-<div class="col-12  col-sm-12 col-md-12 default-htab-padding">
-<div class='horizontalTab'>
-<div class="clearfix" [ngClass]="{'top-tab' : 'displayBorder'}">
-<ul class="clearfix resp-tabs-list " id="DDE_FieldId_10">
-<div (click)="scrollTabs('FieldId_10', '-')" class="clearfix arrow prev-arrow slick-arrow" style="display: none;">
-<img src="assets/images/icons/forward_tabs.svg" alt="Scroll Left"/>
-</div>
-<li class="col-12 col-sm-3 col-md-3" (click)="openHTab('FieldId_10', 'BORROWER_TAB', true)" [hidden]="isHTabHidden('FieldId_10', 'BORROWER_TAB')" id="DDE_BORROWER_TAB" [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'BORROWER_TAB'), 'disabled': isHTabDisabled('FieldId_10', 'BORROWER_TAB')}">
-{{ 'DDE.FieldId_10_BORROWER_TAB' | translate }}
-<span  *ngIf="hTabHasError('FieldId_10', 'BORROWER_TAB')" class="tabError">
-<span class="badge badge-error">
-{{getHTabErrorCount('FieldId_10', 'BORROWER_TAB')}}
-</span>
-</span>
-</li>
-<li class="col-12 col-sm-3 col-md-3" (click)="openHTab('FieldId_10', 'VISIT_REF', true)" [hidden]="isHTabHidden('FieldId_10', 'VISIT_REF')" id="DDE_VISIT_REF" [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'VISIT_REF'), 'disabled': isHTabDisabled('FieldId_10', 'VISIT_REF')}">
-{{ 'DDE.FieldId_10_VISIT_REF' | translate }}
-<span  *ngIf="hTabHasError('FieldId_10', 'VISIT_REF')" class="tabError">
-<span class="badge badge-error">
-{{getHTabErrorCount('FieldId_10', 'VISIT_REF')}}
-</span>
-</span>
-</li>
-<li class="col-12 col-sm-3 col-md-3" (click)="openHTab('FieldId_10', 'COLATTERAL', true)" [hidden]="isHTabHidden('FieldId_10', 'COLATTERAL')" id="DDE_COLATTERAL" [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'COLATTERAL'), 'disabled': isHTabDisabled('FieldId_10', 'COLATTERAL')}">
-{{ 'DDE.FieldId_10_COLATTERAL' | translate }}
-<span  *ngIf="hTabHasError('FieldId_10', 'COLATTERAL')" class="tabError">
-<span class="badge badge-error">
-{{getHTabErrorCount('FieldId_10', 'COLATTERAL')}}
-</span>
-</span>
-</li>
-<li class="col-12 col-sm-3 col-md-3" (click)="openHTab('FieldId_10', 'GO_NO_GO', true)" [hidden]="isHTabHidden('FieldId_10', 'GO_NO_GO')" id="DDE_GO_NO_GO" [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'GO_NO_GO'), 'disabled': isHTabDisabled('FieldId_10', 'GO_NO_GO')}">
-{{ 'DDE.FieldId_10_GO_NO_GO' | translate }}
-<span  *ngIf="hTabHasError('FieldId_10', 'GO_NO_GO')" class="tabError">
-<span class="badge badge-error">
-{{getHTabErrorCount('FieldId_10', 'GO_NO_GO')}}
-</span>
-</span>
-</li>
-<li class="col-12 col-sm-3 col-md-3" (click)="openHTab('FieldId_10', 'COMMENTS_TAB', true)" [hidden]="isHTabHidden('FieldId_10', 'COMMENTS_TAB')" id="DDE_COMMENTS_TAB" [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'COMMENTS_TAB'), 'disabled': isHTabDisabled('FieldId_10', 'COMMENTS_TAB')}">
-{{ 'DDE.FieldId_10_COMMENTS_TAB' | translate }}
-<span  *ngIf="hTabHasError('FieldId_10', 'COMMENTS_TAB')" class="tabError">
-<span class="badge badge-error">
-{{getHTabErrorCount('FieldId_10', 'COMMENTS_TAB')}}
-</span>
-</span>
-</li>
-<div (click)="scrollTabs('FieldId_10', '+')" class="clearfix arrow next-arrow slick-arrow" style="display: none;">
-<img src="assets/images/icons/forward_tabs.svg" alt="img-icon"/>
-</div>
-</ul>
-</div>
-<div class="resp-tabs-container">
-<div class="resp-tab-content"[ngStyle]="{'display' : isHTabActive('FieldId_10', 'BORROWER_TAB') ? 'block' : 'none'}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS.isHidden()">
-<app-CustomerDtls #CUST_DTLS fieldID="CUST_DTLS" [formCode]="formCode"></app-CustomerDtls>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FAMILY_DTLS.isHidden()">
-<app-FamilyDetailsForm #FAMILY_DTLS fieldID="FAMILY_DTLS" [formCode]="formCode"></app-FamilyDetailsForm>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_14.isHidden()">
-<app-AssetDetailsForm #FieldId_14 fieldID="FieldId_14" [formCode]="formCode"></app-AssetDetailsForm>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_15.isHidden()">
-<app-LiabilityDtlsForm #FieldId_15 fieldID="FieldId_15" [formCode]="formCode"></app-LiabilityDtlsForm>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_6.isHidden()">
-<app-OtherDeductionForm #FieldId_6 fieldID="FieldId_6" [formCode]="formCode"></app-OtherDeductionForm>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_9.isHidden()">
-<app-IncomeSummaryForm #FieldId_9 fieldID="FieldId_9" [formCode]="formCode"></app-IncomeSummaryForm>
-</div>
-</div>
-</div>
-<div class="resp-tab-content"[ngStyle]="{'display' : isHTabActive('FieldId_10', 'VISIT_REF') ? 'block' : 'none'}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_16.isHidden()">
-<app-VisitReportForm #FieldId_16 fieldID="FieldId_16" [formCode]="formCode"></app-VisitReportForm>
-</div>
-</div>
-</div>
-<div class="resp-tab-content"[ngStyle]="{'display' : isHTabActive('FieldId_10', 'COLATTERAL') ? 'block' : 'none'}">
-</div>
-<div class="resp-tab-content"[ngStyle]="{'display' : isHTabActive('FieldId_10', 'GO_NO_GO') ? 'block' : 'none'}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-<app-go-no-go #FieldId_17></app-go-no-go>
-</div>
-</div>
-</div>
-<div class="resp-tab-content"[ngStyle]="{'display' : isHTabActive('FieldId_10', 'COMMENTS_TAB') ? 'block' : 'none'}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_13.isHidden()">
-<app-NotepadDetailsForm #FieldId_13 fieldID="FieldId_13" [formCode]="formCode"></app-NotepadDetailsForm>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="col-12  col-sm-12 col-md-12 group-default">
-<div #BUTTON_SECTION id="BUTTON_SECTION">
-<div class="form-group pb10 button-group">
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Submit.isHidden()">
-<app-button #Submit fieldName="{{ 'DDE.Submit' | translate}}" fieldID="Submit" [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Submit_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Cancel.isHidden()">
-<app-button #Cancel fieldName="{{ 'DDE.Cancel' | translate}}" fieldID="Cancel" [formCode]="formCode" customClass="btn btn-warning-outline"></app-button>
-</div>
-</div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="clearfix content">
+        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-5 col-md-5">
+                <h4 class="FormTitle">
+                    {{ 'DDE.FormTitle' | translate }}
+                </h4>
+            </div>
+            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+            </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
+                        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-Header>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 default-htab-padding">
+                        <div class='horizontalTab'>
+                            <div class="clearfix" [ngClass]="{'top-tab' : 'displayBorder'}">
+                                <ul class="clearfix resp-tabs-list " id="DDE_FieldId_10">
+                                    <div (click)="scrollTabs('FieldId_10', '-')"
+                                        class="clearfix arrow prev-arrow slick-arrow" style="display: none;">
+                                        <img src="assets/images/icons/forward_tabs.svg" alt="Scroll Left" />
+                                    </div>
+                                    <li class="col-12 col-sm-3 col-md-3"
+                                        (click)="openHTab('FieldId_10', 'BORROWER_TAB', true)"
+                                        [hidden]="isHTabHidden('FieldId_10', 'BORROWER_TAB')" id="DDE_BORROWER_TAB"
+                                        [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'BORROWER_TAB'), 'disabled': isHTabDisabled('FieldId_10', 'BORROWER_TAB')}">
+                                        {{ 'DDE.FieldId_10_BORROWER_TAB' | translate }}
+                                        <span *ngIf="hTabHasError('FieldId_10', 'BORROWER_TAB')" class="tabError">
+                                            <span class="badge badge-error">
+                                                {{getHTabErrorCount('FieldId_10', 'BORROWER_TAB')}}
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="col-12 col-sm-3 col-md-3"
+                                        (click)="openHTab('FieldId_10', 'VISIT_REF', true)"
+                                        [hidden]="isHTabHidden('FieldId_10', 'VISIT_REF')" id="DDE_VISIT_REF"
+                                        [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'VISIT_REF'), 'disabled': isHTabDisabled('FieldId_10', 'VISIT_REF')}">
+                                        {{ 'DDE.FieldId_10_VISIT_REF' | translate }}
+                                        <span *ngIf="hTabHasError('FieldId_10', 'VISIT_REF')" class="tabError">
+                                            <span class="badge badge-error">
+                                                {{getHTabErrorCount('FieldId_10', 'VISIT_REF')}}
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="col-12 col-sm-3 col-md-3"
+                                        (click)="openHTab('FieldId_10', 'COLATTERAL', true)"
+                                        [hidden]="isHTabHidden('FieldId_10', 'COLATTERAL')" id="DDE_COLATTERAL"
+                                        [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'COLATTERAL'), 'disabled': isHTabDisabled('FieldId_10', 'COLATTERAL')}">
+                                        {{ 'DDE.FieldId_10_COLATTERAL' | translate }}
+                                        <span *ngIf="hTabHasError('FieldId_10', 'COLATTERAL')" class="tabError">
+                                            <span class="badge badge-error">
+                                                {{getHTabErrorCount('FieldId_10', 'COLATTERAL')}}
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="col-12 col-sm-3 col-md-3"
+                                        (click)="openHTab('FieldId_10', 'GO_NO_GO', true)"
+                                        [hidden]="isHTabHidden('FieldId_10', 'GO_NO_GO')" id="DDE_GO_NO_GO"
+                                        [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'GO_NO_GO'), 'disabled': isHTabDisabled('FieldId_10', 'GO_NO_GO')}">
+                                        {{ 'DDE.FieldId_10_GO_NO_GO' | translate }}
+                                        <span *ngIf="hTabHasError('FieldId_10', 'GO_NO_GO')" class="tabError">
+                                            <span class="badge badge-error">
+                                                {{getHTabErrorCount('FieldId_10', 'GO_NO_GO')}}
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="col-12 col-sm-3 col-md-3"
+                                        (click)="openHTab('FieldId_10', 'COMMENTS_TAB', true)"
+                                        [hidden]="isHTabHidden('FieldId_10', 'COMMENTS_TAB')" id="DDE_COMMENTS_TAB"
+                                        [ngClass]="{'resp-tab-active' : isHTabActive('FieldId_10', 'COMMENTS_TAB'), 'disabled': isHTabDisabled('FieldId_10', 'COMMENTS_TAB')}">
+                                        {{ 'DDE.FieldId_10_COMMENTS_TAB' | translate }}
+                                        <span *ngIf="hTabHasError('FieldId_10', 'COMMENTS_TAB')" class="tabError">
+                                            <span class="badge badge-error">
+                                                {{getHTabErrorCount('FieldId_10', 'COMMENTS_TAB')}}
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <div (click)="scrollTabs('FieldId_10', '+')"
+                                        class="clearfix arrow next-arrow slick-arrow" style="display: none;">
+                                        <img src="assets/images/icons/forward_tabs.svg" alt="img-icon" />
+                                    </div>
+                                </ul>
+                            </div>
+                            <div class="resp-tabs-container">
+                                <div class="resp-tab-content"
+                                    [ngStyle]="{'display' : isHTabActive('FieldId_10', 'BORROWER_TAB') ? 'block' : 'none'}">
+                                    <div class="form-group pb10">
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="CUST_DTLS.isHidden()">
+                                            <app-CustomerDtls #CUST_DTLS fieldID="CUST_DTLS" [formCode]="formCode">
+                                            </app-CustomerDtls>
+                                        </div>
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FAMILY_DTLS.isHidden()">
+                                            <app-FamilyDetailsForm #FAMILY_DTLS fieldID="FAMILY_DTLS"
+                                                [formCode]="formCode"></app-FamilyDetailsForm>
+                                        </div>
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FieldId_14.isHidden()">
+                                            <app-AssetDetailsForm #FieldId_14 fieldID="FieldId_14"
+                                                [formCode]="formCode"></app-AssetDetailsForm>
+                                        </div>
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FieldId_15.isHidden()">
+                                            <app-LiabilityDtlsForm #FieldId_15 fieldID="FieldId_15"
+                                                [formCode]="formCode"></app-LiabilityDtlsForm>
+                                        </div>
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FieldId_6.isHidden()">
+                                            <app-OtherDeductionForm #FieldId_6 fieldID="FieldId_6"
+                                                [formCode]="formCode"></app-OtherDeductionForm>
+                                        </div>
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FieldId_9.isHidden()">
+                                            <app-IncomeSummaryForm #FieldId_9 fieldID="FieldId_9" [formCode]="formCode">
+                                            </app-IncomeSummaryForm>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resp-tab-content"
+                                    [ngStyle]="{'display' : isHTabActive('FieldId_10', 'VISIT_REF') ? 'block' : 'none'}">
+                                    <div class="form-group pb10">
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FieldId_16.isHidden()">
+                                            <app-VisitReportForm #FieldId_16 fieldID="FieldId_16" [formCode]="formCode">
+                                            </app-VisitReportForm>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resp-tab-content"
+                                    [ngStyle]="{'display' : isHTabActive('FieldId_10', 'COLATTERAL') ? 'block' : 'none'}">
+                                </div>
+                                <div class="resp-tab-content"
+                                    [ngStyle]="{'display' : isHTabActive('FieldId_10', 'GO_NO_GO') ? 'block' : 'none'}">
+                                    <div class="form-group pb10">
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                                            <app-go-no-go #FieldId_17></app-go-no-go>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resp-tab-content"
+                                    [ngStyle]="{'display' : isHTabActive('FieldId_10', 'COMMENTS_TAB') ? 'block' : 'none'}">
+                                    <div class="form-group pb10">
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"
+                                            [hidden]="FieldId_13.isHidden()">
+                                            <app-NotepadDetailsForm #FieldId_13 fieldID="FieldId_13"
+                                                [formCode]="formCode"></app-NotepadDetailsForm>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 group-default">
+                        <div #BUTTON_SECTION id="BUTTON_SECTION">
+                            <div class="form-group pb10 button-group">
+                                <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Submit.isHidden()">
+                                    <app-button #Submit fieldName="{{ 'DDE.Submit' | translate}}" fieldID="Submit"
+                                        [formCode]="formCode" customClass="btn btn-primary"
+                                        (buttonClick)="Submit_click($event)"></app-button>
+                                </div>
+                                <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Cancel.isHidden()">
+                                    <app-button #Cancel fieldName="{{ 'DDE.Cancel' | translate}}" fieldID="Cancel"
+                                        [formCode]="formCode" customClass="btn btn-warning-outline"></app-button>
+                                </div>
+                            </div>
 
-</div>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-dde-handler #Handler></app-dde-handler>
-</div>
-</div>
-<app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
-</div>
-</div>
-</div>
+                        </div>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-dde-handler #Handler></app-dde-handler>
+                    </div>
+                </div>
+                <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+            </div>
+        </div>
+    </div>
 </form>

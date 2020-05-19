@@ -19,36 +19,36 @@ import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.mod
 import { GoNoGoModule } from '../go-no-go/go-no-go.module';
 import { DDEHandlerModule } from '../DDE/DDE-handler.module';
 @NgModule({
-imports: [
-CommonModule,
-DDERoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-VisitReportFormModule,
-HeaderModule,
-FamilyDetailsFormModule,
-LiabilityDtlsFormModule,
-NotepadDetailsFormModule,
-IncomeSummaryFormModule,
-CustomerDtlsModule,
-OtherDeductionFormModule,
-AssetDetailsFormModule,
-GoNoGoModule,
-DDEHandlerModule,
-],
-declarations: [
-DDEComponent,
-],
-exports:[
-DDEComponent,
-],
+    imports: [
+        CommonModule,
+        DDERoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        VisitReportFormModule,
+        HeaderModule,
+        FamilyDetailsFormModule,
+        LiabilityDtlsFormModule,
+        NotepadDetailsFormModule,
+        IncomeSummaryFormModule,
+        CustomerDtlsModule,
+        OtherDeductionFormModule,
+        AssetDetailsFormModule,
+        GoNoGoModule,
+        DDEHandlerModule,
+    ],
+    declarations: [
+        DDEComponent,
+    ],
+    exports: [
+        DDEComponent,
+    ],
 })
 export class DDEModule { }

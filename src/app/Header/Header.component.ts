@@ -90,6 +90,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     super.afterRevalidate();
     return totalErrors;
   }
+
   constructor(services: ServiceStock) {
     super(services);
     this.value = new HeaderModel();
@@ -131,7 +132,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         let header = res.Header;
 
         this.ARN = header.ApplicationRefernceNo;
-        this.LOAN_AMT =  this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
+        this.LOAN_AMT = this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
         this.LOAN_CATEGORY = header.TypeOfLoan;
         this.INTEREST_RATE = header.InterestRate + "% pa";
         this.TENURE = header.Tenure + " " + header.TenurePeriod;
@@ -157,8 +158,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.LD_APP_PRPSE.setValue(header.ApplicationPurpose);
         // this.LD_SYS_RCMD_AMT.setValue(header.SystemRecommendedAmount);
         // this.LD_USR_RCMD_AMT.setValue(header.UserRecommendedAmount);
-        this.LD_SYS_RCMD_AMT.setValue( this.services.formatAmount(header.SystemRecommendedAmount, null, null) );
-        this.LD_USR_RCMD_AMT.setValue( this.services.formatAmount(header.UserRecommendedAmount, null, null) );
+        this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null));
+        this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null));
         // this.HD_APP_SUBMSN_DT.setValue(header.AppSubmissionDate);
         // this.HD_CIF.setValue(header.CIF);
         // this.HD_CUST_ID.setValue(header.CustomerId);
@@ -248,11 +249,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   @HostListener('window:scroll', ['$event'])
-  handleScroll(){
+  handleScroll() {
     let windowScroll = window.pageYOffset;
-    if(windowScroll >= 100){
+    if (windowScroll >= 100) {
       this.showExpanded = false;
-    } else if(windowScroll < 80 ) {
+    } else if (windowScroll < 80) {
       this.showExpanded = true;
     }
   }
