@@ -260,7 +260,8 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
                         <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode"
-                            (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"></app-OccuptionDtlsGrid>
+                            (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"
+                            (occupationLoaded)="loadOccupationGrid($event)"></app-OccuptionDtlsGrid>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-occupation-handler #Handler [MainComponent]="this"></app-occupation-handler>

@@ -703,11 +703,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
 
     }
-
+   
     isFormValid() {
         let isAppValidFlag = true;
         this.errorsList = [];
-        
+
         Array.from(this.stageValidationMap.entries()).forEach(entry => {
             let isAddressValid: boolean = true;
             let isOccupationValid: boolean = true;

@@ -72,6 +72,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('HidOccupationSeq', { static: false }) HidOccupationSeq: HiddenComponent;
   @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
   @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   fieldArray: any[];
 
   async revalidate(): Promise<number> {
@@ -605,6 +606,11 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     await this.OCC_DTLS_GRID.gridDataLoad({
       'refNumToGrid': event.refNum,
     });
+  }
+
+  async loadOccupationGrid(event){
+    this.updateStageValidation.emit(event);
+    
   }
   fieldDependencies = {
     OD_OCCUPATION: {
