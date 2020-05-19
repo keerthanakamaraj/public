@@ -852,7 +852,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             'BorrowerSeq': customer.BorrowerSeq,
         });
 
-        this.customerFetchSuccessCallBack();
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();
@@ -880,16 +879,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     CD_EXISTING_CUST_change(fieldId, value) {
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
-    }
-
-    customerFetchSuccessCallBack() {
-        this.setNonEditableFields(true);
-
-        // if(this.ProductCategory!=undefined){
-        //     console.log("shweta event found :::",this.ProductCategory);
-        //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
-        //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
-        // }
     }
 
     setNonEditableFields(flag) {
