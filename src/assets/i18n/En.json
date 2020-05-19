@@ -1608,7 +1608,7 @@
     "HD_CIF": "CIF",
     "HD_SCHEME": "Scheme",
     "HD_PROD_CAT": "Product Category",
-    "LD_INTEREST_RATE": "Interest Rate"
+    "LD_INTEREST_RATE": "Net Interest Rate"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",

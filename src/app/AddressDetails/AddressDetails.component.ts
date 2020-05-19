@@ -304,15 +304,15 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
 
 
-      if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
+      if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
         this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
         return;
       }
-      else if (this.AD_LANDLINE_NUMBER.getFieldValue() == undefined && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined) {
+      else if (this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == ""  && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined)  {
         this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
         return;
       }
-      else if (this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined && this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
+      else if (this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == ""&& this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
         this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
         return;
       }

@@ -317,7 +317,7 @@
                     </div> -->
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()|| isLoanCategory">
                         <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                            <label class="clr-brown"  [ngClass]="{'mandatory': CD_PMRY_EMBSR_NAME.mandatory}">
                                 {{ 'CustomerDtls.CD_PMRY_EMBSR_NAME' | translate}}
                             </label>
                         </div>

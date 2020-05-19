@@ -804,6 +804,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     LoadCustomerDetailsonFormLoad(event) {
         let customer = event.CustomerArray;
+        if(this.isLoanCategory == false){
+            this.CD_PMRY_EMBSR_NAME.mandatory = true;
+        }
 
         //  if (customer.CustomerType) {
 
