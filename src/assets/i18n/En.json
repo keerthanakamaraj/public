@@ -1586,9 +1586,9 @@
     "FormTitle": "Quick Data Entry",
     "FieldId_8": "null",
     "FieldId_5": "null",
-    "QDE_SUBMIT": "Submit",
-    "QDE_CANCEL": "Cancel",
-    "QDE_WITHDRAW" :"Withdraw"
+    "QDE_SUBMIT": "SUBMIT",
+    "QDE_CANCEL": "CANCEL",
+    "QDE_WITHDRAW" :"WITHDRAW"
   },
   "Header": {
     "Edit":"Edit",

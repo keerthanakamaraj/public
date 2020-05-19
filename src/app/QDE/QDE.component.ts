@@ -67,7 +67,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     appId: any;
     router: any;
 
-    stageValidationMap: any;
+    stageValidationMap = new Map<string, any>();
+    errorsList = [];
+
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -127,6 +129,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         await this.brodcastApplicationId();
 
+        // await this.CUSTOMER_DETAILS.onFormLoad(event);
         this.FieldId_9.doAPIForCustomerList({});
         this.FieldId_10.fetchReferalDetails();
         this.APPLICATION_DETAILS.fetchApplicationDetails();
@@ -513,6 +516,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     }
     async QDE_SUBMIT_click(event) {
+        if(this.isFormValid()){
         let inputMap = new Map();
         this.hideDirection.setValue('AP');
         // var noofError:number = await this.revalidate();
@@ -563,12 +567,19 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
                     else if (err['ErrorElementPath'] == 'ProcessId') {
                         this.HideProcessId.setError(err['ErrorDescription']);
                     }
+                    this.services.alert.showAlert(2, 'Fail to Submit', -1);
                 }
-                this.services.alert.showAlert(2, 'Fail to Submit', -1);
             }
-        );
+            );
 
-
+        } else {
+            // let alertString="";
+            // let newLine = "\r\n";
+            //   this.errorsList.forEach(eachError => {
+            //     alertString=alertString+newLine+eachError;
+            //   });
+            this.services.alert.showAlert(2, this.errorsList[0], -1);
+        }
     }
 
     async brodcastProdCategory(event) {
@@ -613,44 +624,139 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     updateStageValidation(event) {
-      console.log("updateStageValidation ", event);
-      
-      if (event && event.name == "customerLoad") { // Customers loaded
-        if(this.stageValidationMap){ // stageValidation Map Exists - update existing
-  
-        } else { // stageValidation Map Does not Exists - create new
-          this.stageValidationMap = {};
-          this.stageValidationMap["customers"] = [];
-  
-          // let customers = [];
-  
-          if(event.data && event.data.length > 0) {
-            this.stageValidationMap["customers"] = event.data;
-  
-          //   event.data.forEach(customer => {
-          //     // Validation applies to Borrower / Co Borrower
-          //     if(customer["CustomerType"] == "B" || customer["CustomerType"] == "CB"){ 
-          //       customers.push({
-          //         BorrowerSeq: customer["BorrowerSeq"],
-          //         CustomerType: customer["CustomerType"],
-          //         DOB: customer["DOB"],
-          //         Gender: customer["Gender"],
-          //         LoanOwnership: customer["LoanOwnership"],
-          //         isAddressAdded: false,
-          //         isOccupationAdded: false
-          //       });
-          //     }
-          //   });
-  
-          //   this.stageValidationMap["customers"] = customers;
-          }
-        }
-      } else if(event && event.name == "addressLoad") { // Address loaded
-        // delete if exists for customer and then add
-        this.stageValidationMap["address"] = event.data;
 
-      } else if(event && event.name == "occupationLoad") { // Occupation loaded
+        this.categoriesCustomers(event);
+        //   console.log("updateStageValidation ", event);
+        //   if (event && event.name == "customerLoad") { // Customers loaded
+        //     if(this.stageValidationMap){ // stageValidation Map Exists - update existing
 
-      }
-    } 
+        //         this.stageValidationMap["customers"]=event.data;     
+
+        //      console.log("shweta after :: Validation Map",this.stageValidationMap);
+        //      console.log("shweta :: event map : ",event);
+        //     } else { // stageValidation Map Does not Exists - create new
+        //       this.stageValidationMap = {};
+        //       this.stageValidationMap["customers"] = [];
+
+        //       // let customers = [];
+
+        //       if(event.data && event.data.length > 0) {
+        //         this.stageValidationMap["customers"] = event.data;
+
+        //       //   event.data.forEach(customer => {
+        //       //     // Validation applies to Borrower / Co Borrower
+        //       //     if(customer["CustomerType"] == "B" || customer["CustomerType"] == "CB"){ 
+        //       //       customers.push({
+        //       //         BorrowerSeq: customer["BorrowerSeq"],
+        //       //         CustomerType: customer["CustomerType"],
+        //       //         DOB: customer["DOB"],
+        //       //         Gender: customer["Gender"],
+        //       //         LoanOwnership: customer["LoanOwnership"],
+        //       //         isAddressAdded: false,
+        //       //         isOccupationAdded: false
+        //       //       });
+        //       //     }
+        //       //   });
+
+        //       //   this.stageValidationMap["customers"] = customers;
+        //       }
+        //     }
+        //   } else if(event && event.name == "addressLoad") { // Address loaded
+        //     // delete if exists for customer and then add
+
+        //     this.stageValidationMap=this.stageValidationMap.customers.map(
+        //         mapCustomer => mapCustomer.BorrowerSeq===event.data[0].BorrowerSeq
+        //        );
+
+        //     this.stageValidationMap["address"] = event.data;
+
+        //   } else if(event && event.name == "occupationLoad") { // Occupation loaded
+        //     this.stageValidationMap["occupationLoad"] = event.data;
+        //   }
+    }
+
+    categoriesCustomers(event) {
+        let addressList = [];
+        let occupationList = [];
+        event.data.forEach(eventCustomer => {
+            const borSeq: string = "CustID" + eventCustomer.BorrowerSeq.toString();
+            let customerDetails = new Map();
+            if (this.stageValidationMap) {
+                // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));
+                console.log("shweta ::: map : ", this.stageValidationMap);
+                if ((this.stageValidationMap).has(borSeq)) {
+                    customerDetails = this.stageValidationMap.get(borSeq);
+                }
+            }
+            switch (event.name) {
+                case "customerLoad": customerDetails.set('customer', eventCustomer); break;
+                case "addressLoad":
+                    addressList.push(eventCustomer);
+                    customerDetails.set('address', addressList);
+                    break;
+                case "occupationLoad":
+                    occupationList.push(eventCustomer);
+                    customerDetails.set('occupation', occupationList);
+                    break;
+            }
+            this.stageValidationMap.set(borSeq, customerDetails);
+        });
+
+    }
+
+    isFormValid() {
+        let isAppValidFlag = true;
+        this.errorsList = [];
+        //    Object.keys(this.ddlForms).forEach(x => {
+        //  for(let entry of Object.entries(this.stageValidationMap)){       
+        // for(let x of Object.keys(this.stageValidationMap)) {
+        //   for (const [key, value] of Object.entries(myMap)) { 
+        Array.from(this.stageValidationMap.entries()).forEach(entry => {
+            let isAddressValid: boolean = true;
+            let isOccupationValid: boolean = true;
+            let isCustomerValid: boolean = true;
+            let errorMessage: string = '';
+            let custFullName: string = '';
+            console.log(' shweta :: Key: ', entry[0] + ' Value: ', entry[1]);
+            const bottowerSeq: string = entry[0];
+            if (entry[1].has('customer')) {
+                let customer = entry[1].get('customer');
+                if (this.validateCustomer(customer)) {
+                    isCustomerValid = false;
+                    errorMessage = errorMessage + ' Mandatory fields of customer'
+                }
+                const LoanOwnership = customer.LoanOwnership;
+                custFullName = customer.FullName;
+                if (!entry[1].has('address')) {
+                    isAddressValid = false;
+                    errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
+                    errorMessage = errorMessage + ' Add atleast one address';
+                }
+
+                if (LoanOwnership != undefined) {
+                    if (!entry[1].has('occupation')) {
+                        isOccupationValid = false;
+                        errorMessage = errorMessage != '' ? errorMessage + ' and ' : errorMessage;
+                        errorMessage = errorMessage + 'Cccupation details';
+                    }
+
+                }
+            }
+            if (!(isAddressValid && isOccupationValid)) {
+                errorMessage = "formalities of customer " + custFullName + " are pending. Please fill : " + errorMessage;
+                this.errorsList.push(errorMessage);
+                isAppValidFlag = false;
+
+            }
+        });
+        console.log("shweta :: validation error mesage :: ", this.errorsList);
+        return isAppValidFlag;
+    }
+
+    async validateCustomer(customer) {
+        let noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
+        return (noOfErrors > 0) ? true : false;
+
+    }
+
 }

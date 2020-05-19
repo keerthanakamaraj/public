@@ -105,11 +105,11 @@
                   <app-button #QDE_SUBMIT fieldName="{{ 'QDE.QDE_SUBMIT' | translate}}" fieldID="QDE_SUBMIT"
                     [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="QDE_SUBMIT_click($event)">
                   </app-button>
-                  <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL"
-                    [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
                   <app-button #QDE_WITHDRAW fieldName="{{ 'QDE.QDE_WITHDRAW' | translate}}" fieldID="QDE_WITHDRAW"
-                    [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="QDE_WITHDRAW_click($event)">
+                    [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="QDE_WITHDRAW_click($event)">
                   </app-button>
+                  <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL"
+                  [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="goBack($event)"></app-button>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4"></div>
               </div>

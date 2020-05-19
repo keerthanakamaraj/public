@@ -7,6 +7,7 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+
 const customCss: string = '';
 @Component({
 selector: 'app-OccuptionDtlsGrid',
@@ -31,6 +32,7 @@ constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
 @Input('fieldID') fieldID: string;
+@Output() occupationLoaded: EventEmitter<any> = new EventEmitter<any>();
 
 componentCode: string = 'OccuptionDtlsGrid';
 openedFilterForm:string = '';
@@ -283,6 +285,12 @@ else{
 
 }
 
+if (loopVar10) {
+	this.occupationLoaded.emit({
+	  "name" : "occupationLoad",
+	  "data": loopVar10
+	});
+}
 
 if (loopVar10) {
 for (var i = 0; i < loopVar10.length; i++) {

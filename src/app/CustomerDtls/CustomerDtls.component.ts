@@ -192,7 +192,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
         //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
         // }
-        this.setNonEditableFields(false);
+       // this.setNonEditableFields(false);
         this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -282,7 +282,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.setReadOnly(false);
         this.CD_EXISTING_CUST.isOptionsLoaded = false;
         this.CD_STAFF.isOptionsLoaded = false;
-        this.setNonEditableFields(false);
+      //  this.setNonEditableFields(false);
         this.onFormLoad(event);
     }
 
@@ -910,6 +910,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.onReset();
         this.onFullNameblur.emit({});
         this.CD_CUST_TYPE.setValue(event.customerType);
+        this.setNonEditableFields(false);
     }
 
     async CD_FULL_NAME_change() {
