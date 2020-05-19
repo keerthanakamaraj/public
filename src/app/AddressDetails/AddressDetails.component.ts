@@ -239,6 +239,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         console.log("res", res);
         if (res == null) {
           this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
+          this.AD_REGION.onReset()
+          this.AD_CITY.onReset();
+          this.AD_STATE.onReset();
+
+          return false
 
         } else {
           this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1'])
@@ -312,6 +317,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         return;
       }
 
+      
 
 
       if (this.AD_HIDE_ID.getFieldValue() != undefined) {
@@ -604,6 +610,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
         this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
+        this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
         var array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
         if (array[0] == 'true') {
           this.AD_EMAIL1_CHECKBOX.setValue(true);

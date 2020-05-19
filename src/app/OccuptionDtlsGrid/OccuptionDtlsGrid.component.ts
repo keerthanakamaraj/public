@@ -326,7 +326,7 @@ async OD_DELETE_click(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
-this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap).subscribe(
+this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap,'/rlo-de').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
