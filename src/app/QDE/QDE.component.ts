@@ -685,7 +685,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log('isCustomerValid '+ isCustomerValid );
         
 
-        if (isCustomerValid) {
+        if (!isCustomerValid) {
           errorMessage = errorMessage + ' Mandatory fields of customer'
         }
         const LoanOwnership = customer.LoanOwnership;
