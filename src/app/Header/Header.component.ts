@@ -146,7 +146,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
         this.SUB_PRODUCT = header.SubProduct;
         this.SCHEME = header.Scheme;
-
+               
         let isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
 
         this.productCategoryFound.emit({
