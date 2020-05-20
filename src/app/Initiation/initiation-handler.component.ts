@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { InitiationComponent } from './Initiation.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
@@ -11,6 +11,7 @@ import { RlouiService } from '../rlo-services/rloui.service';
 })
 export class InitiationHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: InitiationComponent;
+ 
   //isLoanCategory:boolean = true;
   customers = [];
   formName: string = "Initiation";
@@ -21,7 +22,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
-  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID"];
+  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID","CD_MOBILE"];
   editTempId: any;
   tempId: any;
 
@@ -238,7 +239,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     this.validateCustomerForm().then((errorCounts) => {
       if (errorCounts > 0) {
-        this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
+               this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
+              //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
+              //  this.MainComponent.ACC_CUSTOMER.nativeElement.focus();
+
       } else {
         let customer = this.getFormCustomerDetails();
         customer.tempId = "ID-" + (this.counter++);
@@ -355,6 +359,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
     customer.tempId = this.tempId;
+
+
 
     return customer;
   }
@@ -498,5 +504,9 @@ class ValueLabel {
     this.value = value;
     this.label = label;
   }
+
+
+  CustomerType
+  
 }
 
