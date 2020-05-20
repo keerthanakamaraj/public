@@ -49,7 +49,9 @@ export class AmountComponent extends FieldComponent implements OnInit {
   }
 
   formatAmount(number , languageCode , minFraction) {
-     return this.services.formatAmount(number , languageCode , minFraction);
+    // return this.services.formatAmount(number, languageCode, minFraction);
+    // Dirty Fix
+    return this.services.formatAmount(number, languageCode, minFraction).substr(1);
   }
 
   onBlur(){

@@ -134,10 +134,19 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.LOAN_AMT =  this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
         this.LOAN_CATEGORY = header.TypeOfLoan;
         this.INTEREST_RATE = header.InterestRate + "% pa";
-        this.TENURE = header.Tenure + " " + header.TenurePeriod;
+
+        this.TENURE = '';
+        if(header.Tenure) {
+          this.TENURE = header.Tenure + ' ';
+        }
+        if(header.TenurePeriod){
+          this.TENURE = this.TENURE + header.TenurePeriod;
+        }
+        this.TENURE = this.TENURE.trim();
+
         this.SUB_PRODUCT = header.SubProduct;
         this.SCHEME = header.Scheme;
-
+               
         let isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
 
         this.productCategoryFound.emit({
@@ -250,9 +259,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
     let windowScroll = window.pageYOffset;
-    if(windowScroll >= 100){
+    if(windowScroll >= 280){
       this.showExpanded = false;
-    } else if(windowScroll < 80 ) {
+    } else if(windowScroll < 60 ) {
       this.showExpanded = true;
     }
   }

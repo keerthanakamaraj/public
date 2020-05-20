@@ -130,6 +130,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
           if(this.valuePending){
             this.setValue(this.valuePending);
+            this.valuePending = undefined;
           } else if (this.getDefault() != '' ){
             this.setValue(this.getDefault());
           }
