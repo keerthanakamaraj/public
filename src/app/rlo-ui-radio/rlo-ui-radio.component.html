@@ -1,6 +1,6 @@
 <div style="width:100%">
   
-  <div class="rlo-ui-radio-container">
+  <div class="rlo-ui-radio-container" [ngClass]="{'radio-disabled' : isDisabled }">
 
     <!-- <select [attr.id]="fieldID" (change)="onChange($event.target.value)" [name]="fieldID" (focus)="onFocus()"
       (blur)="onBlur()" [disabled]="readOnly" class="form-control {{customClass}}" [ngClass]="{'error' : error}">

@@ -31,6 +31,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @Output() resetCustForm: EventEmitter<any> = new EventEmitter<any>();
   //@Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
   @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() ApplicationId: string = undefined;
   @Input() isLoanCategory: boolean = true;
@@ -159,6 +160,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var customerDataArr = [];
           var BorrowerDetails = res['BorrowerDetails'];
           if (BorrowerDetails) {
+
+            this.updateStageValidation.emit({
+              "name": "customerLoad",
+              "data": BorrowerDetails
+            });
 
             //  if (this.isFirstAPICall) {
             // this.passArrayToCustomer.emit({

@@ -66,7 +66,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
   }
 
   companyCodeChange() {
-    if (this.MainComponent.OD_COMPANY_CODE.getFieldValue() == 'OTH') {
+    if (this.MainComponent.OD_COMPANY_CODE.getFieldValue() == 'OTHERS') {
       this.MainComponent.OD_COMP_CAT.setReadOnly(false);
       this.MainComponent.OD_COMP_NAME.setReadOnly(false);
     }

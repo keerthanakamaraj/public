@@ -27,11 +27,11 @@ const customCss: string = '';
   templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
-  @ViewChild('AD_ADD_TYPE', { static: false }) AD_ADD_TYPE: ComboBoxComponent;
-  @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: ComboBoxComponent;
-  @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: ComboBoxComponent;
-  @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: ComboBoxComponent;
-  @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: ComboBoxComponent;
+  @ViewChild('AD_ADD_TYPE', { static: false }) AD_ADD_TYPE: RLOUIRadioComponent;
+  @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: RLOUIRadioComponent;
+  @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: RLOUIRadioComponent;
+  @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: RLOUIRadioComponent;
+  @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
   @ViewChild('AD_ADDRESS_LINE1', { static: false }) AD_ADDRESS_LINE1: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE2', { static: false }) AD_ADDRESS_LINE2: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE3', { static: false }) AD_ADDRESS_LINE3: TextBoxComponent;
@@ -43,6 +43,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_LANDMARK', { static: false }) AD_LANDMARK: TextBoxComponent;
   @ViewChild('AD_RES_DUR', { static: false }) AD_RES_DUR: TextBoxComponent;
   @ViewChild('AD_RES_DUR_UNIT', { static: false }) AD_RES_DUR_UNIT: ComboBoxComponent;
+  @ViewChild('AD_LAND_COUNTRY_CODE', { static: false }) AD_LAND_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('AD_LANDLINE_NUMBER', { static: false }) AD_LANDLINE_NUMBER: TextBoxComponent;
   @ViewChild('AD_ALTERNATE_MOB_NO', { static: false }) AD_ALTERNATE_MOB_NO: TextBoxComponent;
   @ViewChild('AD_EMAIL_ID2', { static: false }) AD_EMAIL_ID2: TextBoxComponent;
@@ -61,6 +62,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidMailingAddress', { static: false }) hidMailingAddress: HiddenComponent;
   @ViewChild('hidResDurType', { static: false }) hidResDurType: HiddenComponent;
+  @ViewChild('hidLandISDCode', { static: false }) hidLandISDCode: HiddenComponent;
   @ViewChild('hidOccStatus', { static: false }) hidOccStatus: HiddenComponent;
   @ViewChild('hideOccType', { static: false }) hideOccType: HiddenComponent;
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
@@ -71,9 +73,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+  @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
 
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
+  EmailCheck: string;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -95,10 +99,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_RES_DUR'),
       this.revalidateBasicField('AD_RES_DUR_UNIT'),
+      this.revalidateBasicField('AD_LAND_COUNTRY_CODE'),
       this.revalidateBasicField('AD_LANDLINE_NUMBER'),
+      this.revalidateBasicField('AD_COUNTRY_CODE'),
       this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
-      // this.revalidateBasicField('AD_PREF_TIME'),
+      this.revalidateBasicField('AD_PREF_TIME'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
       this.revalidateBasicField('AD_EMAIL2_CHECKBOX'),
     ]).then((errorCounts) => {
@@ -129,7 +135,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
     this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
+    this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
+    this.AD_MAILING_ADDRESS.setDefault('N');
     let inputMap = new Map();
     await this.Handler.onFormLoad({
     });
@@ -206,64 +214,70 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
   async AD_ADD_TYPE_change(fieldID, value) {
     let inputMap = new Map();
-    this.addonblur.emit({});
+    // this.addonblur.emit({});
     await this.Handler.onAddTypeChange();
   }
-  async AD_ADDRESS_LINE1_blur(event) {
-    let inputMap = new Map();
-    this.addonblur.emit({});
-    // await this.Handler.onAddTypeChange();
-  }
-  async AD_EMAIL2_CHECKBOX_change(fieldID, value) {
-    let inputMap = new Map();
-    this.onAlterEmailClick();
-    this.onCorrEmailChange();
-  }
 
-  async AD_EMAIL1_CHECKBOX_change(fieldID, value){
-    let inputMap = new Map();
-    this.onCorrEmailChange();
-  }
- 
-  async AD_CITY_blur  (event) {
-    let inputMap = new Map();
-    //  this.Handler.updateAddressTags();
-  }
-  async AD_PINCODE_blur(event) {
-    let inputMap = new Map();
-    this.addonblur.emit({});
-  }
-  
-  onCorrEmailChange(){
-    if(this.AD_EMAIL1_CHECKBOX == undefined && this.AD_EMAIL2_CHECKBOX == undefined)
-    {
-      this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
-    }
-  }
-  // async  AD_RES_DUR_UNIT_blur (event) {
+  // async AD_ADDRESS_LINE1_blur(event) {
   //   let inputMap = new Map();
-  //   this.addonblur.emit({});
-  //   await this.Handler.setResDuration({});
+  // //  this.addonblur.emit({});
+  //   // await this.Handler.onAddTypeChange();
   // }
 
-  onAlterEmailClick() {
-    if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
-      this.AD_EMAIL2_CHECKBOX.setValue(false);
-      this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
-    }
+
+  // async AD_CITY_blur(event) {
+  //   let inputMap = new Map();
+  //   // this.Handler.updateAddressTags();
+  // }
+  async AD_PINCODE_blur(event) {
+    let inputMap = new Map();
+    inputMap.set('PathParam.PinCd', event.value)
+
+    this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        console.log("res", res);
+        if (res == null) {
+          this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
+          this.AD_REGION.onReset()
+          this.AD_CITY.onReset();
+          this.AD_STATE.onReset();
+
+          return false
+
+        } else {
+          this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1'])
+          this.AD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
+          this.AD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+        }
+
+      },
+
+    );
   }
+
+  // onAlterEmailClick() {
+  //   if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
+  //     this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+  //     return;
+  //   }
+  // }
 
 
   async AD_SAVE_ADDRESS_click(event) {
     let inputMap = new Map();
     let addGridData: any = this.AddressGrid.getAddressGridData();
     var noOfError: number = await this.revalidate();
+    this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
+
+
     if (noOfError == 0) {
-      // this.AD_SAVE_ADDRESS.setDisabled(true);
-      if (this.AD_HIDE_ID.getFieldValue() == undefined) {
-        if (addGridData) {
-          for (var i = 0; i < addGridData.length; i++) {
-            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
+      
+      if (addGridData) {
+        
+        for (var i = 0; i < addGridData.length; i++) {          
+          if(addGridData[i].AD_ADD_ID != this.AD_HIDE_ID.getFieldValue()){ // Check if Editing Existing Address
+            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' &&  addGridData[i].AD_MAILING_ADDRESS == 'Y') {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
             }
@@ -275,10 +289,37 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
-
-          }
+          }          
         }
       }
+
+
+      if (this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false) {
+        this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
+        return;
+      }
+      else if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
+        this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+        return;
+      }
+
+
+      if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
+        this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+        return;
+      }
+      else if (this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == ""  && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined)  {
+        this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
+        return;
+      }
+      else if (this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == ""&& this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
+        this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
+        return;
+      }
+
+      
+
+
       if (this.AD_HIDE_ID.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
@@ -303,25 +344,32 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-        inputMap.set('Body.AddressDetails.CountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+        inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+        inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
+        inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
+
         // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
-        this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap).subscribe(
+        this.AD_SAVE_ADDRESS.setDisabled(true);
+        this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
-            // this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
             this.onReset();
+            this.addonblur.emit({});
+            this.AD_SAVE_ADDRESS.setDisabled(false);
           },
           async (httpError) => {
             var err = httpError['error']
             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
               if (err['ErrorElementPath'] == 'AddressDetails.PreferredEmailForCommunication') {
                 this.AD_CORR_EMAIL.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.LandlineCountryCode') {
+                this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.AltMobileNo') {
                 this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
@@ -386,13 +434,14 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               else if (err['ErrorElementPath'] == 'AddressDetails.PreferredTime') {
                 this.AD_PREF_TIME.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'AddressDetails.CountryCode') {
+              else if (err['ErrorElementPath'] == 'AddressDetails.MobileCountryCode') {
                 this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
               }
             }
             this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
           }
         );
+        this.AD_SAVE_ADDRESS.setDisabled(false);
       }
       else {
         inputMap.clear();
@@ -417,22 +466,27 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
         inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
         inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-        // inputMap.set('Body.AddressDetails.CountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+        inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+        inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
         inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
+        inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
 
-        this.services.http.fetchApi('/AddressDetails', 'POST', inputMap).subscribe(
+        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
+        this.AD_SAVE_ADDRESS.setDisabled(true);
+        this.services.http.fetchApi('/AddressDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
+
             var res = httpResponse.body;
 
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
 
-            this.AD_SAVE_ADDRESS.setDisabled(false);
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
 
             this.onReset();
+            this.AD_SAVE_ADDRESS.setDisabled(false);
+            this.addonblur.emit({});
           },
           async (httpError) => {
             var err = httpError['error']
@@ -442,6 +496,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.AltMobileNo') {
                 this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'AddressDetails.LandlineCountryCode') {
+                this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'AddressDetails.EmailId2') {
                 this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
@@ -500,7 +557,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               else if (err['ErrorElementPath'] == 'AddressDetails.PreferredTime') {
                 this.AD_PREF_TIME.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'AddressDetails.CountryCode') {
+              else if (err['ErrorElementPath'] == 'AddressDetails.MobileCountryCode') {
                 this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
               }
             }
@@ -508,13 +565,14 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           }
         );
       }
+      this.AD_SAVE_ADDRESS.setDisabled(false);
     }
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
-    this.onAlterEmailClick();
-    this.onCorrEmailChange();
+
   }
+
   async AD_CLEAR_BTN_click(event) {
     let inputMap = new Map();
     let durationType: any = this.AD_RES_DUR_UNIT.getFieldValue();
@@ -525,8 +583,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     this.showSpinner();
     inputMap.clear();
+    this.onReset();
     inputMap.set('PathParam.AddressDetailsSeq', event.addSeq);
-    this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/initiation').subscribe(
+    this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
@@ -549,10 +608,26 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
-        this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['CountryCode']);
+        this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
+        this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
+        this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
+        var array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
+        if (array[0] == 'true') {
+          this.AD_EMAIL1_CHECKBOX.setValue(true);
+        }
+        if (array[0] == 'false') {
+          this.AD_EMAIL1_CHECKBOX.setValue(false);
+        }
+        if (array[1] == 'true') {
+          this.AD_EMAIL2_CHECKBOX.setValue(true);
+        }
+        if (array[1] == 'false') {
+          this.AD_EMAIL2_CHECKBOX.setValue(false);
+        }
         // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
+
       },
       async (httpError) => {
         var err = httpError['error']
@@ -560,9 +635,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         }
         this.services.alert.showAlert(2, 'rlo.error.load.address', -1);
         this.hideSpinner();
+
       }
     );
   }
+
+  AddressGrid_addressGridLoaded(event){
+    console.log("Address grid Loaded");
+    this.updateStageValidation.emit(event);
+  }
+
   fieldDependencies = {
     AD_ADD_TYPE: {
       inDep: [
@@ -626,15 +708,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       outDep: [
       ]
     },
-    AD_CORR_EMAIL: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "AD_CORR_ADD", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideCorrEmail", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
 
     AD_PREF_TIME: {
       inDep: [
@@ -645,7 +718,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       outDep: [
       ]
     },
+    AD_LAND_COUNTRY_CODE: {
+      inDep: [
 
+        { paramKey: "VALUE1", depFieldID: "AD_LAND_COUNTRY_CODE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidLandISDCode", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
     AD_COUNTRY_CODE: {
       inDep: [
         { paramKey: "VALUE1", depFieldID: "AD_COUNTRY_CODE", paramType: "PathParam" },

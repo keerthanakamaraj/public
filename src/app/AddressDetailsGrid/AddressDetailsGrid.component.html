@@ -19,7 +19,7 @@
             </ul>
         </div>
     </div>
-    <div [hidden]="!addressRecord || loadSpinner">
+    <!-- <div [hidden]="!addressRecord || loadSpinner"> -->
         <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
-    </div>
+    <!-- </div> -->
 </div>

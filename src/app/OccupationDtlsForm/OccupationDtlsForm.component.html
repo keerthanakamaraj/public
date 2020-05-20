@@ -16,9 +16,7 @@
         <div *ngIf="!formOnLoadError">
             <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
                 <div class="form-group pb10">
-                    <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-<app-label #OD_HEADING parentCompCode="OccupationDtlsForm" fieldID="OD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="normal" customClass="section-header"></app-label>
-</div> -->
+              
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_OCCUPATION.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -130,8 +128,7 @@
                             placeholder="Select" domainObjectUrl="/MstCompanyDetails/{CompanyCd}" doServerUrl="/masters"
                             domainObjectCode="MstCompanyDetails" (blur)="genericOnBlur('OD_COMPANY_CODE', $event)"
                             (change)="OD_COMPANY_CODE_change('OD_COMPANY_CODE', $event)"></app-combo-box>
-                        <!-- <app-text-box #OD_COMPANY_CODE fieldID="OD_COMPANY_CODE" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('OD_COMPANY_CODE', $event)"
-(change)="OD_COMPANY_CODE_change('OD_COMPANY_CODE', $event)"></app-text-box>  -->
+                        
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMP_CAT.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -182,8 +179,8 @@
                             <label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
                                 {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
                         </div>
-                        <app-text-box #OD_NET_INCOME  fieldID="OD_NET_INCOME" [formCode]="formCode"
-                            (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-text-box>
+                        <app-amount #OD_NET_INCOME  fieldID="OD_NET_INCOME" [formCode]="formCode"
+                            (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-amount>
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_FREQ.isHidden()">
@@ -201,8 +198,8 @@
                             <label class="clr-brown" [ngClass]="{'mandatory': OD_LOC_CURR_EQ.mandatory}">
                                 {{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}</label>
                         </div>
-                        <app-text-box #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode"
-                            placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-text-box>
+                        <app-amount #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode"
+                            placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-amount>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMP_STATUS.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -263,7 +260,8 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
                         <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode"
-                            (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"></app-OccuptionDtlsGrid>
+                            (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"
+                            (occupationLoaded)="loadOccupationGrid($event)"></app-OccuptionDtlsGrid>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-occupation-handler #Handler [MainComponent]="this"></app-occupation-handler>

@@ -132,8 +132,8 @@ export class RlouiService {
     return this.fieldValidations[validation];
   }
 
-  getConfig(configName: string){
-    return this.tenantconfig[configName];
+  getConfig(configName: string, defaultValue? : string){
+    return this.tenantconfig[configName] ? this.tenantconfig[configName] : defaultValue;
   }
 
   formatAmount(amount, languageCode: string, minFraction, currency: string){
@@ -152,8 +152,8 @@ export class RlouiService {
       return amount;
     }
 
-    if(!languageCode){ languageCode = this.getConfig("language.default"); }
-    if(!currency){ currency = this.getConfig("currency.code.default"); }
+    if(!languageCode){ languageCode = this.getConfig("language.default", "en-IN"); }
+    if(!currency){ currency = this.getConfig("currency.code.default", "INR"); }
 
     // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
     return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
@@ -161,7 +161,7 @@ export class RlouiService {
 
   // TODO: Check Type of date and format accordingly
   formatDateTime(date) {
-    var languageCode = this.getConfig("language.default");
+    var languageCode = this.getConfig("language.default", "en-IN");
     var options = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"};
     try{
       var dt = new Date(date)
@@ -174,7 +174,7 @@ export class RlouiService {
 
   // TODO: Check Type of date and format accordingly
   formatDate(date) {
-    var languageCode = this.getConfig("language.default");
+    var languageCode = this.getConfig("language.default", "INR");
     var options = {year: "numeric", month: "numeric", day: "numeric"};
     try{
       var dt = new Date(date);

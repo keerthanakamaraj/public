@@ -251,9 +251,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     let windowScroll = window.pageYOffset;
-    if (windowScroll >= 100) {
+    if(windowScroll >= 280){
       this.showExpanded = false;
-    } else if (windowScroll < 80) {
+    } else if(windowScroll < 60 ) {
       this.showExpanded = true;
     }
   }

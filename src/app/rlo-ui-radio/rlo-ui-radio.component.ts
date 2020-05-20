@@ -21,6 +21,10 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   default: String = '';
   isOptionsLoaded: boolean=false;
   componentName:string='RLOUIRadioComponent';
+  isDisabled:boolean=false;
+
+  // FIXME: dirty Fix .. Should Cache Dropdown and Radio Button values
+  valuePending: string;
   
   @ViewChild('select', { static: false }) select: NgSelectComponent;
 
@@ -123,8 +127,13 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
           this.dropDownOptions.Options = this.dropDownOptions.Options = result;
           this.isOptionsLoaded=true;
-          if (this.getDefault()!=''){
-            this.setValue(this.getDefault());}
+
+          if(this.valuePending){
+            this.setValue(this.valuePending);
+            this.valuePending = undefined;
+          } else if (this.getDefault() != '' ){
+            this.setValue(this.getDefault());
+          }
         }
       },
       err => { },
@@ -235,11 +244,13 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     return description;
   }
 
-  setValue(value, description = undefined) {
+  setValue(value, description = undefined, waitForLoad? : boolean) {
     let opt = this.dropDownOptions.Options.find(o => o.id == value);
     if (opt) {
       this.value = value
       this.additionalInfo = opt.text;
+    } else if(waitForLoad){
+      this.valuePending = value;
     } else {
       this.onReset();
     }
@@ -262,5 +273,10 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     this.additionalInfo = undefined;
     this.error = false;
     this.errorCode = undefined;
+  }
+
+  setReadOnly(flag){
+    this.readOnly=flag;
+    this.isDisabled=flag;
   }
 }
