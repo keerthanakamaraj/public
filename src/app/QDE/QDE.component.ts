@@ -79,11 +79,34 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         super.afterRevalidate();
         return totalErrors;
     }
+
+    objectKeys = Object.keys;
+
+    customer = [
+        [
+            { name: "liability Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Asset Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Income Summary", completed: true, icon: "refresh-form.svg" },
+            { name: "Collateral Details", completed: false, icon: "refresh-form.svg" }
+        ],
+        [
+            { name: "Personal Interview Details", completed: false, icon: "refresh-form.svg" },
+            { name: "RM Visit Details", completed: true, icon: "refresh-form.svg" },
+        ],
+        [
+            { name: "Customer Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Address Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Occupation Details", completed: true, icon: "refresh-form.svg" },
+            { name: "Family Details", completed: true, icon: "refresh-form.svg" }
+        ]
+    ]
+
     constructor(services: ServiceStock) {
         super(services);
         this.value = new QDEModel();
         this.componentCode = 'QDE';
         this.displayBorder = false;
+        console.log("testing", this.customer);
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);

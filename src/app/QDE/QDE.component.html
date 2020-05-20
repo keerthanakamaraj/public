@@ -43,7 +43,8 @@
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_DETAILS.isHidden()">
                     <app-CustomerDtls #CUSTOMER_DETAILS fieldID="CUSTOMER_DETAILS" [formCode]="formCode"
                       (passBorrowerSeq)="CUSTOMER_DETAILS_passBorrowerSeq($event)"
-                      (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)" (onFullNameblur)="CUSTOMER_DETAILS_onFullNameblur($event)"></app-CustomerDtls>
+                      (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"
+                      (onFullNameblur)="CUSTOMER_DETAILS_onFullNameblur($event)"></app-CustomerDtls>
                   </div>
                 </rlo-ui-accordion-group>
                 <rlo-ui-accordion-group #ADD_DETAILS id="ADD_DETAILS"
@@ -117,6 +118,29 @@
         <app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden>
         <app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
         <app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
+      </div>
+    </div>
+
+    <div class="test">
+      <div class="row">
+        <div class="col-sm-1 col-md-1 col-lg-1 menu-container">
+
+          <div class="wgt-form-menu" *ngFor="let section of customer">
+            <div class="form-element" *ngFor="let menu of section">
+              <div [ngStyle]="{'background-image':'url('+menu.icon+')'}"></div>
+              <span *ngIf="menu.completed" class="status-flag"></span>
+              <span class="txt">{{menu.name}}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-sm-11 col-md-11 col-lg-11 p-0">
+          <div class="section-name">Customer Details</div>
+          <div>
+            Form body
+          </div>
+        </div>
       </div>
     </div>
   </div>

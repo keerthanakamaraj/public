@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-score-card',
@@ -6,6 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./score-card.component.css']
 })
 export class ScoreCardComponent implements OnInit {
+
+  @HostListener('window:scroll', ['$event'])
+  handleScroll() {
+    let windowScroll = window.pageYOffset;
+    if (windowScroll >= 100) {
+      this.showExpanded = false;
+    } else if (windowScroll < 80) {
+      this.showExpanded = true;
+    }
+  }
+
+  showExpanded: boolean = false;
 
   constructor() { }
 
