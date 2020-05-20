@@ -87,6 +87,7 @@
     "rlo.error.joiningdate.occupation":"Please Select Valid Date of Joining ",
     "rlo.error.inceptiondate.occupation":"Please Select Valid Date Of Inception",
     "rlo.error.pincode.invalid" : "Pincode not found",
+    "rlo.error.address.exist" : "This address already exist please enter diffirent address",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",

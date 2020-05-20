@@ -272,12 +272,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
 
     if (noOfError == 0) {
-      
+      let getCompleteAddress = this.Handler.CompleteAddress()
+
       if (addGridData) {
-        
-        for (var i = 0; i < addGridData.length; i++) {          
-          if(addGridData[i].AD_ADD_ID != this.AD_HIDE_ID.getFieldValue()){ // Check if Editing Existing Address
-            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' &&  addGridData[i].AD_MAILING_ADDRESS == 'Y') {
+
+        for (var i = 0; i < addGridData.length; i++) {
+          if (addGridData[i].AD_ADD_ID != this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
+            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
             }
@@ -289,7 +290,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
-          }          
+            if (this.AD_ADD_TYPE.getFieldValue() == 'OF' && addGridData[i].AD_Address_Type == 'OF') {
+              if (addGridData[i].AD_Address == getCompleteAddress) {
+                this.services.alert.showAlert(2, 'rlo.error.address.exist', -1);
+                return;
+              }
+            }
+          }
         }
       }
 
@@ -304,20 +311,20 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
 
 
-      if (this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined) {
+      if ((this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined)) {
         this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
         return;
       }
-      else if (this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == ""  && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined)  {
+      else if ((this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == "") && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined) {
         this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
         return;
       }
-      else if (this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == ""&& this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
+      else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == "") && this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
         this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
         return;
       }
 
-      
+
 
 
       if (this.AD_HIDE_ID.getFieldValue() != undefined) {
@@ -640,7 +647,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     );
   }
 
-  AddressGrid_addressGridLoaded(event){
+  AddressGrid_addressGridLoaded(event) {
     console.log("Address grid Loaded");
     this.updateStageValidation.emit(event);
   }
