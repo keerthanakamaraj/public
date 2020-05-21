@@ -685,6 +685,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (entry[1].has('customer')) {
         let customer = entry[1].get('customer');
         isCustomerValid = await this.validateCustomer(customer);
+        const custFullName = customer.FullName;
 
         console.log('isCustomerValid '+ isCustomerValid );
         
@@ -693,19 +694,68 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
           errorMessage = errorMessage + ' Mandatory fields of customer'
         }
         const LoanOwnership = customer.LoanOwnership;
-        custFullName = customer.FullName;
+        const custType=customer.CustomerType;
+
         if (!entry[1].has('address')) {
           isAddressValid = false;
           errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
           errorMessage = errorMessage + ' Add atleast one address';
+        }else{          
+          let addressList = entry[1].get('address');
+          let addrValidationObj ={isMailing:false,isPermenet:false,isCurrent:false,isOffice:false};
+          let isMailing=true;
+          for(let eachAddress of addressList){
+            if(eachAddress.MailingAddress.toString()=='Y'){
+              addrValidationObj.isMailing=true;
+            }
+            if('CR'== (""+eachAddress.OccupancyType)){
+              addrValidationObj.isCurrent=true;
+            }
+            if('PR'==(""+eachAddress.OccupancyType)){
+              addrValidationObj.isPermenet=true;
+            }
+            if('OF'==(""+eachAddress.AddressType)){
+              addrValidationObj.isOffice=true;
+            }
         }
 
-        if (LoanOwnership != undefined) {
-          if (!entry[1].has('occupation')) {
-            isOccupationValid = false;
-            errorMessage = errorMessage != '' ? errorMessage + ' and ' : errorMessage;
-            errorMessage = errorMessage + 'Occupation details';
+        if(LoanOwnership==undefined && custType!='B' && custType!='CB'){
+          addrValidationObj.isOffice=true;
+        }
+
+        console.log("shweta :: address obj",addrValidationObj);
+        for(let flag in addrValidationObj){
+          console.log("shweta :: address flag ::",flag," : ",addrValidationObj[flag]);
+          if(!addrValidationObj[flag]){
+            isAddressValid=false;
           }
+        }
+        
+        if(!isAddressValid){
+          errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
+          errorMessage +=(addrValidationObj.isOffice)?
+          "Customer must include permenent recidenctial address, current recidential address and any one of these must be correspondence address."
+          :"Customer must include permenent recidenctial address, current recidential address, one office address and any one of these must be correspondence address.";
+      
+        }
+      }
+
+        if (LoanOwnership != undefined ) {
+          isOccupationValid = false;
+          if (entry[1].has('occupation')) {           
+            const occupationList = entry[1].get('occupation');
+
+            for(let eachOccupation of occupationList){
+              if('PRI'==eachOccupation.IncomeType.toString()){
+                isOccupationValid=true;
+              }
+            }
+          }
+          if(!isOccupationValid){
+             errorMessage = errorMessage != '' ? errorMessage + ' and ' : errorMessage;
+             errorMessage = errorMessage + ' Primary Occupation required.';
+ 
+           }
         }
       }
 
