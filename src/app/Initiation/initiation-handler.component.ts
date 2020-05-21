@@ -174,16 +174,16 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   updateFullName(arg0: {}) {
     let fullName = "";
     if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue() + " ";
+      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue().trim() + " ";
     }
     if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue() + " ";
+      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue().trim() + " ";
     }
     if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_THIRD_NAME.getFieldValue() + " ";
+      fullName = fullName + this.MainComponent.CD_THIRD_NAME.getFieldValue().trim() + " ";
     }
     if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_LAST_NAME.getFieldValue() + " ";
+      fullName = fullName + this.MainComponent.CD_LAST_NAME.getFieldValue().trim() + " ";
     }
     fullName.trim();
     this.MainComponent.CD_FULL_NAME.setValue(fullName);
