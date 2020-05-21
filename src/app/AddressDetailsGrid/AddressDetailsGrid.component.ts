@@ -299,15 +299,15 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						if (loopVar10[i].ResidenceDuration == undefined && loopVar10[i].Period == undefined) {
 							tempObj['AD_Residence_Duration'] = " ";
 						}// tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
-						else {
-							tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + " " + " " + " " + loopVar10[i].Period;
+						else{
+							tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + " " +loopVar10[i].Period;
 						}
-						if (loopVar10[i].ResidenceType == undefined) {
-							tempObj['AD_OCC_STATUS'] = " "
-						}
-						else {
-							tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
-						}
+						// if (loopVar10[i].ResidenceType == undefined) {
+						// 	tempObj['AD_OCC_STATUS'] = " "
+						// }
+						// else {
+						// 	tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
+						// }
 						
 						this.addressDetails.push(tempObj);
 						console.log("loopVar10",this.addressDetails);

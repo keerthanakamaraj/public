@@ -299,29 +299,36 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           }
         }
       }
+      if (this.AD_ADD_TYPE.getFieldValue() == 'OF') {
+        if (this.AD_RES_DUR.getFieldValue() !== undefined && this.AD_RES_DUR.getFieldValue() !== "" && this.AD_RES_DUR_UNIT.getFieldValue() == undefined) {
+          this.services.alert.showAlert(2, 'rlo.error.duration.not.exist', -1);
+          return;
+        } else if ((this.AD_RES_DUR.getFieldValue() == undefined || this.AD_RES_DUR.getFieldValue() == "") && this.AD_RES_DUR_UNIT.getFieldValue() !== undefined) {
+          this.services.alert.showAlert(2, 'rlo.error.period.not.exist', -1);
+          return;
+        }
 
 
-      if (this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false) {
-        this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
-        return;
-      }
-      else if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
-        this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
-        return;
-      }
 
-
-      if ((this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined)) {
-        this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
-        return;
-      }
-      else if ((this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == "") && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined) {
-        this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
-        return;
-      }
-      else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == "") && this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
-        this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
-        return;
+        if ((this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined)) {
+          this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+          return;
+        }
+        else if ((this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == "") && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined) {
+          this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
+          return;
+        }
+        else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == "") && this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
+          this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
+          return;
+        } else if (this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false) {
+          this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
+          return;
+        }
+        else if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
+          this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+          return;
+        }
       }
 
 

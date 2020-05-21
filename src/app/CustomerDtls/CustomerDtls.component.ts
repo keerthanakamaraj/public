@@ -90,12 +90,14 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     // @Input() ProductCategory: String;
-    @Input() isLoanCategory: boolean = true;
+    @Input() customer: boolean = true;
     @Input() ApplicationId: string = undefined;
+    @Input() isLoanCategory: boolean = true;
     appId: any;
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
+   
     // customerDetailMap: {};
     // ApplicationId: void;
     // let customerDetailMap any;
@@ -163,6 +165,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.FieldId_30.setReadOnly(readOnly);
     }
     async onFormLoad(event) {
+       
         //    this.ApplicationId = event.custSeq
         
        // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -763,6 +766,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
                 this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
+                //  this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
                 this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
                 this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
@@ -787,7 +791,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
-                //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
+                
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
                 this.CD_FULL_NAME_change();
@@ -845,6 +849,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
        
         this.CD_CIF.setValue(customer.CIF)
+        // this.CD_CUST_ID.setValue(customer.ICIFNumber);
 
         this.CD_FULL_NAME_change();
 

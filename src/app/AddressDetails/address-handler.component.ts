@@ -54,13 +54,13 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     let CompleteAddress
 
     if (this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() == undefined && this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() == undefined && this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() == undefined) {
-      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
+      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
     }
     else if (this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() == undefined && this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() == undefined) {
       CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
     }
     else if (this.MainComponent.AD_ADDRESS_LINE1 == undefined) {
-      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
+      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
     }
     else {
       CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
