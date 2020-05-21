@@ -316,13 +316,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9_DDE.doAPIForCustomerList(event);
         // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
     }
-    async FieldId_9_selectCustId(event) {
+    async FieldId_9_DDE_selectCustId(event) {
         let inputMap = new Map();
         this.CUST_DTLS.CUST_DTLS_GRID_custDtlsEdit(event);
     }
 
-    async FieldId_9_resetCustForm(event) {
+    async FieldId_9_DDE_resetCustForm(event) {
         this.CUST_DTLS.setNewCustomerFrom(event);
+    }
+    async FieldId_9_DDE_passArrayToCustomer(event) {
+        //  setTimeout(() => {
+        this.CUST_DTLS.LoadCustomerDetailsonFormLoad(event);
+        //  }, 20000);
     }
     async Submit_click(event) {
         let inputMap = new Map();
