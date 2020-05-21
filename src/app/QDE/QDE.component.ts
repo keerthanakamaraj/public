@@ -461,11 +461,17 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //  }, 20000);
   }
   async QDE_WITHDRAW_click(event) {
-    let requestParams = new Map();
-    requestParams.set('Body.ApplicationStatus', 'Withdraw');
-    requestParams.set('Body.direction', 'W');
-
-    this.submitQDE(requestParams);
+    if (confirm("Are you sure you want to withdraw?")) {
+      // history.back();
+      let requestParams = new Map();
+      requestParams.set('Body.ApplicationStatus', 'Withdraw');
+      requestParams.set('Body.direction', 'W');
+  
+      this.submitQDE(requestParams);
+      this.services.router.navigate(['home', 'LANDING']);
+    }else{
+   
+    }
   }
 
   async QDE_SUBMIT_click(event) {
@@ -508,8 +514,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
 
-        const action:string=(requestParams.get('Body.ApplicationStatus'));
-        let alertMsg=("Withdraw"==action)?'Successfully Withrawed':'Successfully Submitted';
+        const action:string=(requestParams.get('Body.ApplicationStatus')).toUpperCase();
+        let alertMsg=("WITHDRAW"==action)?'rlo.success.qde.withraw':'rlo.success.qde.submit';
         
         this.services.alert.showAlert(1, alertMsg, 5000);
         // this.QDE_SUBMIT.setDisabled(false)
