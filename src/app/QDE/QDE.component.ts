@@ -507,7 +507,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
+
+        const action:string=(requestParams.get('Body.ApplicationStatus'));
+        let alertMsg=("Withdraw"==action)?'Successfully Withrawed':'Successfully Submitted';
+        
+        this.services.alert.showAlert(1, alertMsg, 5000);
         // this.QDE_SUBMIT.setDisabled(false)
         this.services.router.navigate(['home', 'LANDING']);
       },

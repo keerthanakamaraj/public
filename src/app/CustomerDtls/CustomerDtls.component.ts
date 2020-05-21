@@ -822,10 +822,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
         this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment);
 
-
-        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
-        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
-
         this.CD_PMRY_EMBSR_NAME.setValue(customer.PrimaryEmbosserName1);
         this.CD_NATIONALITY.setValue(customer.Nationality);
         this.CD_CITIZENSHIP.setValue(customer.CitizenShip);
@@ -845,8 +841,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
         this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
-        this.CD_STAFF.setValue(customer.IsStaff);
-        this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
+        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
+        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
+       
         this.CD_CIF.setValue(customer.CIF)
 
         this.CD_FULL_NAME_change();
@@ -866,10 +863,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // }
     setYesNoTypeDependency(field, dependantField, dependantValue?: String) {
         if (dependantValue != undefined) {
-            field.setValue('Y')
+            field.setValue('Y', undefined, true);
+          //  field.setValue('Y')
             dependantField.setValue(dependantValue);
         }
-        if (field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N') {
+        if ((field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N')&& field.valuePending!='Y') {
             dependantField.onReset()
             dependantField.readOnly = true;
             dependantField.mandatory = false;
