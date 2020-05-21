@@ -775,7 +775,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async CD_LOAN_OWNERSHIP_blur() {
-    if (this.CD_CUST_TYPE.getFieldValue() == 'B' && this.CD_LOAN_OWNERSHIP.getFieldValue() > 100) {
+
+    let loanTotal = this.Handler.aggregateLoanOwnerShip();
+    if (this.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined) {
+      loanTotal = loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
+    }
+    if (loanTotal > 100) {
       this.CD_LOAN_OWNERSHIP.setError('More than 100% not allowed');
     }
   }

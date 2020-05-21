@@ -11,7 +11,7 @@ import { RlouiService } from '../rlo-services/rloui.service';
 })
 export class InitiationHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: InitiationComponent;
- 
+
   //isLoanCategory:boolean = true;
   customers = [];
   formName: string = "Initiation";
@@ -22,7 +22,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
-  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID","CD_MOBILE"];
+  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID", "CD_MOBILE"];
   editTempId: any;
   tempId: any;
 
@@ -239,14 +239,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     this.validateCustomerForm().then((errorCounts) => {
       if (errorCounts > 0) {
-               this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
-              //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
-              //  this.MainComponent.ACC_CUSTOMER.nativeElement.focus();
+        this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
+        //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
+        //  this.MainComponent.ACC_CUSTOMER.nativeElement.focus();
 
       } else {
         let customer = this.getFormCustomerDetails();
         customer.tempId = "ID-" + (this.counter++);
-        console.log("this.customers before adding" , this.customers);
+        console.log("this.customers before adding", this.customers);
         if (customer.customerType.value == 'B') {
           for (let i = 0; i < this.customers.length; i++) {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
@@ -258,14 +258,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         if (this.editId) {
           let index = this.customers.findIndex(cust => cust.tempId === this.editId);
           this.customers[index] = customer;
-          console.log("updating customers",this.customers);
-         
+          console.log("updating customers", this.customers);
+
         } else {
-         
+
           this.customers.push(customer);
           this.tempId = undefined;
 
-          console.log("this.customers",this.customers);
+          console.log("this.customers", this.customers);
         }
 
         this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
@@ -466,6 +466,15 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.SRC_CIF_NO.onReset();
 
   }
+  aggregateLoanOwnerShip() {
+    var total = 0
+    for (let i = 0; i < this.customers.length; i++) {
+      if (this.customers[i].loanOwnership !== undefined && this.customers[i].loanOwnership !== "") {
+        total += Number(this.customers[i].loanOwnership);
+      }
+    }
+    return total;
+  }
 }
 
 
@@ -507,6 +516,6 @@ class ValueLabel {
 
 
   CustomerType
-  
+
 }
 
