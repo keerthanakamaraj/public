@@ -88,6 +88,8 @@
     "rlo.error.inceptiondate.occupation":"Please Select Valid Date Of Inception",
     "rlo.error.pincode.invalid" : "Pincode not found",
     "rlo.error.address.exist" : "This address already exist please enter diffrent address",
+    "rlo.success.qde.withraw" :"Application withdrew successfully",
+    "rlo.success.qde.submit":"Application Submitted Successfully.",
     "rlo.error.duration.not.exist" : "Duration is entered please select Period also",
     "rlo.error.period.not.exist" : "Period is selected please entered Duration also",
     "999": "Unspecified error",
