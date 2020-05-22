@@ -582,6 +582,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     }
     if (noofErrors == 0) {
+      let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
+      if (countLoanOwnership < 100) {
+        this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
+        return;
+      }
       inputMap.clear();
       if (this.borrower == true) {
         inputMap.set('HeaderParam.tenant-id', 'SB1');
@@ -768,6 +773,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async CD_CUST_TYPE_change(fieldID, value) {
+    this.Handler.CustomerTypeOnChange();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
       this.CD_LOAN_OWNERSHIP.setValue('100');
     }
@@ -781,7 +787,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       loanTotal = loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
     }
     if (loanTotal > 100) {
-      this.CD_LOAN_OWNERSHIP.setError('More than 100% not allowed');
+      this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
     }
   }
 

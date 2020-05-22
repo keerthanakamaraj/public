@@ -92,6 +92,8 @@
     "rlo.success.qde.submit":"Application Submitted Successfully.",
     "rlo.error.duration.not.exist" : "Duration is entered please select Period also",
     "rlo.error.period.not.exist" : "Period is selected please entered Duration also",
+    "rlo.error.loanownership.invalid" :"For an Application Loan Ownership cannot be less than 100%",
+    "rlo.error.loanownership.onblur" : "For an Application Loan Ownership cannot be allowed more than 100%",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",

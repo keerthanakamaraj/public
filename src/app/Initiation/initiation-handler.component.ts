@@ -475,6 +475,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
     return total;
   }
+
+  CustomerTypeOnChange() {
+    if (this.MainComponent.CD_CUST_TYPE.getFieldValue() == 'B') {
+      this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = true;
+    } else {
+      this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = false;
+    }
+  }
 }
 
 
