@@ -708,7 +708,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
           let addrValidationObj ={isMailing:false,isPermenet:false,isCurrent:false,isOffice:false};
           let isMailing=true;
           for(let eachAddress of addressList){
-            if(eachAddress.MailingAddress.toString()=='Y'){
+            if(eachAddress.MailingAddress && eachAddress.MailingAddress.toString()=='Y'){
               addrValidationObj.isMailing=true;
             }
             if('CR'== (""+eachAddress.OccupancyType)){
@@ -749,7 +749,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             const occupationList = entry[1].get('occupation');
 
             for(let eachOccupation of occupationList){
-              if('PRI'==eachOccupation.IncomeType.toString()){
+              if(eachOccupation.IncomeType && 'PRI'==eachOccupation.IncomeType.toString()){
                 isOccupationValid=true;
               }
             }

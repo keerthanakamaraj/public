@@ -42,8 +42,9 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
       totalErrors += this.onNumberInput(value, event);
     }
 
-    // Validate Regular Expression
-    totalErrors += this.validateRegEx(value, event);
+    if(totalErrors == 0){ // Validate Regular Expression if Min Max are valid
+      totalErrors += this.validateRegEx(value, event);
+    }
 
     return totalErrors;
   }
