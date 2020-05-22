@@ -583,7 +583,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
     if (noofErrors == 0) {
       let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
-      if (countLoanOwnership < 100) {
+      if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
         return;
       }

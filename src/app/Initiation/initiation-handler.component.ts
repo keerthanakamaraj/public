@@ -477,7 +477,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   }
 
   CustomerTypeOnChange() {
-    if (this.MainComponent.CD_CUST_TYPE.getFieldValue() == 'B') {
+    if (this.MainComponent.CD_CUST_TYPE.getFieldValue() == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
       this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = true;
     } else {
       this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = false;
