@@ -1800,11 +1800,14 @@
     "VRF_NameofPersonMet": "Name of Person Met",
     "VRF_OfficialName": "Official Name",
     "VRF_OfficialBusinessGroup": "Official Business Group",
-    "VRF_Photograph": "Have You Attached Visit Report And Photograph?",
+    "VRF_Photograph": "Would you like to attach the Visit Report & Photograph?",
     "VRF_Reset": "clear",
     "VRF_OfficialId": "Official Id",
     "VISIT_DTLS_LABEL":"Please Enter the details of the visit",
-    "CONTACT_PERSON_DTLS_LABEL":"Contact Person Details"
+    "CONTACT_PERSON_DTLS_LABEL":"Contact Person Details",
+    "OTHER_DTLS_LABEL":"Other Details",
+    "BANK_REPRESENTATIVE_DTLS_LABEL":"Bank Representative Details Label",
+    "VRF_UPLOAD_BTN":"UPLOAD"
   },
   "ReferralDetailsForm" : {
     "RD_HEADING" : "Referral",
