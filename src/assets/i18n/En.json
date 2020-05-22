@@ -1802,7 +1802,9 @@
     "VRF_OfficialBusinessGroup": "Official Business Group",
     "VRF_Photograph": "Have You Attached Visit Report And Photograph?",
     "VRF_Reset": "clear",
-    "VRF_OfficialId": "Official Id"
+    "VRF_OfficialId": "Official Id",
+    "VISIT_DTLS_LABEL":"Please Enter the details of the visit",
+    "CONTACT_PERSON_DTLS_LABEL":"Contact Person Details"
   },
   "ReferralDetailsForm" : {
     "RD_HEADING" : "Referral",
