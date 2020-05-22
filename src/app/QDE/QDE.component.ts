@@ -694,7 +694,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         
 
         if (!isCustomerValid) {
-          errorMessage = errorMessage + ' Mandatory fields of customer'
+          errorMessage = errorMessage + ' All mandatory fields for the customer'
         }
         const LoanOwnership = customer.LoanOwnership;
         const custType=customer.CustomerType;
@@ -737,8 +737,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         if(!isAddressValid){
           errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
           errorMessage +=(addrValidationObj.isOffice)?
-          "Customer must include permenent recidenctial address, current recidential address and any one of these must be correspondence address."
-          :"Customer must include permenent recidenctial address, current recidential address, one office address and any one of these must be correspondence address.";
+          "add one permanent residence, one current residence and select one of these as the correspondence address"
+          :"add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address";
       
         }
       }
@@ -755,13 +755,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             }
           }
           if(!isOccupationValid){
-             errorMessage = errorMessage != '' ? errorMessage + ' and ' : errorMessage;
-             errorMessage = errorMessage + ' Primary Occupation required.';
+             errorMessage = errorMessage != '' ? errorMessage + '. ' : errorMessage;
+             errorMessage = errorMessage + 'Customer\'s primary occupation is required.';
  
            }
         }
       }
-
       console.log("isCustomerValid " + isCustomerValid + " isAddressValid " + isAddressValid + " isOccupationValid " + isOccupationValid );
       
 

@@ -297,6 +297,7 @@ for (var i = 0; i < loopVar10.length; i++) {
 var tempObj = {};
 tempObj['OCCUPATION_ID'] = loopVar10[i].OccupationSeq;
 tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
+tempObj['OD_INCOME_TYPE']= loopVar10[i].IncomeType;
 // tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
 tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
 tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;

@@ -277,21 +277,24 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   async OD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     let occupationGridData  : any = this.OCC_DTLS_GRID.getOccupationGridData();
-    
+    console.log("shweta :: occupation grid :: ",occupationGridData);
     var nooferror: number = await this.revalidate();
     if (nooferror == 0) {
-      if(this.OD_COMP_NAME.getFieldValue() !== undefined){
+      //if(this.OD_COMP_NAME.getFieldValue() !== undefined){
         if(occupationGridData){
           for(let i = 0 ; i < occupationGridData.length; i++){
-           
-            if(occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue() && occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()){
+           if(occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()){
+            if(this.OD_COMP_NAME.getFieldValue()!==undefined && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()){
               this.services.alert.showAlert(2, 'occupation alreday addded for same company name', -1);
               return;
+            }else if(this.OD_INCOME_TYPE.getFieldValue()==='PRI' && occupationGridData[i].OD_INCOME_TYPE==='PRI'){
+              this.services.alert.showAlert(2, 'Primary occupation already present', -1);
+              return;
             }
-
+          }
           }
         }
-      }
+      //}
       
       // this.OD_SAVE_BTN.setDisabled(true);
       if (typeof (this.HidOccupationSeq.getFieldValue()) !== 'undefined') {
