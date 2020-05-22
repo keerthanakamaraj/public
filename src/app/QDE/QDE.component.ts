@@ -684,8 +684,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       // const bottowerSeq: string = entry[0];
       if (entry[1].has('customer')) {
         let customer = entry[1].get('customer');
+        custFullName = customer.FullName;
         isCustomerValid = await this.validateCustomer(customer);
-        const custFullName = customer.FullName;
 
         console.log('isCustomerValid '+ isCustomerValid );
         
