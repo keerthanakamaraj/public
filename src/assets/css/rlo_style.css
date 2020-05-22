@@ -701,7 +701,10 @@ li .a {
 .icon {
   color: white;
 }
-
+#MT_Proposal{
+  margin-left: 261px;
+  margin-top: 19px;
+}
 .fa.fa-trash.fa-lg {
   box-sizing: border-box;
   height: 22.8px;
