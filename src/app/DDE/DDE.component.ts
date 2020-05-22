@@ -49,9 +49,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('Cancel', { static: false }) Cancel: ButtonComponent;
     @ViewChild('Handler', { static: false }) Handler: DDEHandlerComponent;
     @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
-    @ViewChild('FieldId_9_DDE', { static: false }) FieldId_9_DDE: CustomerGridDTLSComponent;
+    @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
-
+    ApplicationId: string = undefined;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -59,6 +59,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         await Promise.all([
             this.FieldId_1.revalidate(),
             this.FieldId_10_revalidate(),
+            // this.CUSTOMER_GRID.revalidate(),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -85,14 +86,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.setReadOnly(readOnly);
         this.FieldId_16.setReadOnly(readOnly);
         this.FieldId_13.setReadOnly(readOnly);
-        this.FieldId_9_DDE.setReadOnly(readOnly);
+        this.CUSTOMER_GRID.setReadOnly(readOnly);
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+        this.ApplicationId = appId;
+        await this.brodcastApplicationId();
         this.openHTab('FieldId_10', 'GO_NO_GO');
         this.HideProcessId.setValue('RLO_Process');
         this.setDependencies();
-        this.FieldId_9_DDE.doAPIForCustomerList({});
+        this.CUSTOMER_GRID.doAPIForCustomerList({});
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -117,7 +121,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
         this.additionalInfo['FieldId_16_desc'] = this.FieldId_16.getFieldInfo();
         this.additionalInfo['FieldId_13_desc'] = this.FieldId_13.getFieldInfo();
-        this.additionalInfo['FieldId_9_DDE_desc'] = this.FieldId_9_DDE.getFieldInfo();
+        this.additionalInfo['CUSTOMER_GRID_desc'] = this.CUSTOMER_GRID.getFieldInfo();
         return this.additionalInfo;
     }
     getFieldValue() {
@@ -130,7 +134,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value.FieldId_9 = this.FieldId_9.getFieldValue();
         this.value.FieldId_16 = this.FieldId_16.getFieldValue();
         this.value.FieldId_13 = this.FieldId_13.getFieldValue();
-        this.value.FieldId_9_DDE = this.FieldId_9_DDE.getFieldValue();
+        this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
         return this.value;
     }
     setValue(inputValue, inputDesc = undefined) {
@@ -144,7 +148,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
         this.FieldId_16.setValue(inputValue['FieldId_16'], inputDesc['FieldId_16_desc']);
         this.FieldId_13.setValue(inputValue['FieldId_13'], inputDesc['FieldId_13_desc']);
-        this.FieldId_9_DDE.setValue(inputValue['FieldId_9_DDE'], inputDesc['FieldId_9_DDE_desc']);
+        this.CUSTOMER_GRID.setValue(inputValue['CUSTOMER_GRID'], inputDesc['CUSTOMER_GRID_desc']);
         this.value = new DDEModel();
         this.value.setValue(inputValue);
         this.setDependencies();
@@ -186,8 +190,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.FieldId_16.valueChangeUpdates().subscribe((value) => { this.value.FieldId_16 = value; });
             this.value.FieldId_13 = this.FieldId_13.getFieldValue();
             this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
-            this.value.FieldId_9_DDE = this.FieldId_9_DDE.getFieldValue();
-            this.FieldId_9_DDE.valueChangeUpdates().subscribe((value) => { this.value.FieldId_9_DDE = value; });
+            this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
+            this.CUSTOMER_GRID.valueChangeUpdates().subscribe((value) => { this.value.CUSTOMER_GRID = value; });
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
@@ -203,7 +207,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_15.clearError();
         this.FieldId_6.clearError();
         this.FieldId_9.clearError();
-        this.FieldId_9_DDE.clearError();
+        this.CUSTOMER_GRID.clearError();
         this.FieldId_16.clearError();
         this.FieldId_13.clearError();
         this.errors = 0;
@@ -220,7 +224,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.onReset();
         this.FieldId_16.onReset();
         this.FieldId_13.onReset();
-        // this.FieldId_9_DDE.onReset();
+        // this.CUSTOMER_GRID.onReset();
         this.clearHTabErrors();
         this.clearVTabErrors();
         this.errors = 0;
@@ -313,18 +317,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     async CUST_DTLS_updateCustGrid(event) {
         console.log("Calling update customer grid Emitter");
-        this.FieldId_9_DDE.doAPIForCustomerList(event);
+        this.CUSTOMER_GRID.doAPIForCustomerList(event);
         // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
     }
-    async FieldId_9_DDE_selectCustId(event) {
+    async CUSTOMER_GRID_selectCustId(event) {
         let inputMap = new Map();
         this.CUST_DTLS.CUST_DTLS_GRID_custDtlsEdit(event);
     }
 
-    async FieldId_9_DDE_resetCustForm(event) {
+    async CUSTOMER_GRID_resetCustForm(event) {
         this.CUST_DTLS.setNewCustomerFrom(event);
     }
-    async FieldId_9_DDE_passArrayToCustomer(event) {
+    async CUSTOMER_GRID_passArrayToCustomer(event) {
         //  setTimeout(() => {
         this.CUST_DTLS.LoadCustomerDetailsonFormLoad(event);
         //  }, 20000);
@@ -333,6 +337,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         let inputMap = new Map();
         inputMap.clear();
     }
+
+    brodcastApplicationId() {
+        console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
+        //  this.ProductCategory = event.isLoanCategory;
+        this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+    }
+
     fieldDependencies = {
     }
 }
