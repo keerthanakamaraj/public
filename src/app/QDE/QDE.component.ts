@@ -369,66 +369,50 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
   }
 
-  async FieldId_6_addonblur(event) {
-    console.log("Calling this Emitter");
-    this.updateAddressTags();
-  }
-  async FieldId_5_occpOnBlur(event) {
-    console.log("Calling this Emitter");
-    this.addOccupationTags();
-  }
+  // async FieldId_6_addonblur(event) {
+  //   console.log("Calling this Emitter");
+  //   this.updateAddressTags();
+  // }
+  // async FieldId_5_occpOnBlur(event) {
+  //   console.log("Calling this Emitter");
+  //   this.addOccupationTags();
+  // }
 
-  updateAddressTags() {
+  updateAddressTags(event) {
     let tags = [];
-    this.FieldId_6.AddressGrid.addressDetails.forEach(Add => {
-      if (Add.AD_Address_Type == 'OF') {
-        tags.push({ text: 'Office' + ";" + " " + Add.AD_Address });
+    event.data.forEach(address => {
+      if (address.MailingAddress == 'Y' && address.AddressType == 'OF') {
+        tags.push({ text: 'Office' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + ","+ address.PinCode });
       }
-      // else if (Add.AD_Address_Type == 'RS') {
-      //     tags.push({ text: 'Residence' + ";" + " " + Add.AD_Address });
-      // }
+      else if (address.MailingAddress == 'Y' && address.AddressType == 'RS') {
+        tags.push({ text: 'Residence' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + ","+ address.PinCode });
+      }
     })
-    // let displayTag = [];
-    // if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
-    //     displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + "," + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
-    // }
-    // let tags = [];
-    // displayTag.forEach(tag => {
-    //     tags.push({ text: tag });
-    // })
     this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
   }
 
-  addOccupationTags() {
+  addOccupationTags(event) {
     let tags = [];
-    this.FieldId_5.OCC_DTLS_GRID.loopDataVar10.forEach(Occ => {
-      if (Occ.OD_OCCUPATION == 'RT') {
+    event.data.forEach(occupation => {
+      if (occupation.Occupation == 'RT') {
         tags.push({ text: 'Retired' });
       }
-      else if (Occ.OD_OCCUPATION == 'HW') {
+      else if (occupation.Occupation == 'HW') {
         tags.push({ text: 'Housewife' });
       }
-      else if (Occ.OD_OCCUPATION = 'ST') {
+      else if (occupation.Occupation = 'ST') {
         tags.push({ text: 'Student' });
       }
-      else if (Occ.OD_OCCUPATION = 'SL') {
+      else if (occupation.Occupation = 'SL') {
         tags.push({ text: 'Salaried' });
       }
-      else if (Occ.OD_OCCUPATION == 'SE') {
+      else if (occupation.Occupation == 'SE') {
         tags.push({ text: 'Self Employed' });
       }
-      else if (Occ.OD_OCCUPATION == 'OT') {
+      else if (occupation.Occupation == 'OT') {
         tags.push({ text: 'Others' });
       }
     })
-    // if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
-    //     displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
-    // }
-    // let tags = [];
-    // displayTag.forEach(tag => {
-    //     tags.push({ text: tag });
-    // })
-
     this.QDE_ACCORD1.setTags("OCC_DETAILS", tags);
   }
 
@@ -495,8 +479,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
 
-    if(requestParams){
-      requestParams.forEach( (val, key) => { 
+    if (requestParams) {
+      requestParams.forEach((val, key) => {
         inputMap.set(key, val);
       });
       // for (let [key, value] of requestParams) {
@@ -511,9 +495,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
 
-        const action:string=(requestParams.get('Body.ApplicationStatus')).toUpperCase();
-        let alertMsg=("WITHDRAW"==action)?'rlo.success.qde.withraw':'rlo.success.qde.submit';
-        
+        const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+        let alertMsg = ("WITHDRAW" == action) ? 'rlo.success.qde.withraw' : 'rlo.success.qde.submit';
+
         this.services.alert.showAlert(1, alertMsg, 5000);
         // this.QDE_SUBMIT.setDisabled(false)
         this.services.router.navigate(['home', 'LANDING']);
@@ -577,7 +561,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
       tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
     }
-
     this.QDE_ACCORD1.setTags("CUST_DETAILS", tags);
   }
 
@@ -595,6 +578,16 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   updateStageValidation(event) {
 
     this.categoriesCustomers(event);
+    console.log("jghjghjg", event);
+    if (event && event.name == "addressLoad") {
+      // console.log("jhhfhjfhgfh",event);
+      this.updateAddressTags(event);
+    }
+    if (event && event.name == "occupationLoad") { // Occupation loaded
+      console.log("vdhjfvhj", event);
+      this.addOccupationTags(event);
+    }
+
     //   console.log("updateStageValidation ", event);
     //   if (event && event.name == "customerLoad") { // Customers loaded
     //     if(this.stageValidationMap){ // stageValidation Map Exists - update existing
@@ -690,49 +683,52 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         custFullName = customer.FullName;
         isCustomerValid = await this.validateCustomer(customer);
 
-        console.log('isCustomerValid '+ isCustomerValid );
-        
+        console.log('isCustomerValid ' + isCustomerValid);
+
 
         if (!isCustomerValid) {
           errorMessage = errorMessage + ' All mandatory fields for the customer'
         }
         const LoanOwnership = customer.LoanOwnership;
-        const custType=customer.CustomerType;
+        const custType = customer.CustomerType;
 
         if (!entry[1].has('address')) {
           isAddressValid = false;
           errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
           errorMessage = errorMessage + ' Add atleast one address';
-        }else{          
+        } else {
           let addressList = entry[1].get('address');
-          let addrValidationObj ={isMailing:false,isPermenet:false,isCurrent:false,isOffice:false};
-          let isMailing=true;
-          for(let eachAddress of addressList){
-            if(eachAddress.MailingAddress && eachAddress.MailingAddress.toString()=='Y'){
-              addrValidationObj.isMailing=true;
+          let addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+          let isMailing = true;
+          for (let eachAddress of addressList) {
+            if (eachAddress.MailingAddress && eachAddress.MailingAddress.toString() == 'Y') {
+              addrValidationObj.isMailing = true;
             }
-            if('CR'== (""+eachAddress.OccupancyType)){
-              addrValidationObj.isCurrent=true;
+            if ('CR' == ("" + eachAddress.OccupancyType)) {
+              addrValidationObj.isCurrent = true;
             }
-            if('PR'==(""+eachAddress.OccupancyType)){
-              addrValidationObj.isPermenet=true;
+            if ('PR' == ("" + eachAddress.OccupancyType)) {
+              addrValidationObj.isPermenet = true;
             }
-            if('OF'==(""+eachAddress.AddressType)){
-              addrValidationObj.isOffice=true;
+            if ('OF' == ("" + eachAddress.AddressType)) {
+              addrValidationObj.isOffice = true;
             }
-        }
-
-        if(LoanOwnership==undefined && custType!='B' && custType!='CB'){
-          addrValidationObj.isOffice=true;
-        }
-
-        console.log("shweta :: address obj",addrValidationObj);
-        for(let flag in addrValidationObj){
-          console.log("shweta :: address flag ::",flag," : ",addrValidationObj[flag]);
-          if(!addrValidationObj[flag]){
-            isAddressValid=false;
           }
-        }
+
+          if (LoanOwnership == undefined && custType != 'B' && custType != 'CB') {
+            addrValidationObj.isOffice = true;
+          }
+
+          console.log("shweta :: address obj", addrValidationObj);
+          for (let flag in addrValidationObj) {
+            console.log("shweta :: address flag ::", flag, " : ", addrValidationObj[flag]);
+            if (!addrValidationObj[flag]) {
+              isAddressValid = false;
+            }
+          }
+
+         
+
         
         if(!isAddressValid){
           errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
@@ -743,17 +739,18 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
       }
 
-        if (LoanOwnership != undefined ) {
+        if (LoanOwnership != undefined) {
           isOccupationValid = false;
-          if (entry[1].has('occupation')) {           
+          if (entry[1].has('occupation')) {
             const occupationList = entry[1].get('occupation');
 
-            for(let eachOccupation of occupationList){
-              if(eachOccupation.IncomeType && 'PRI'==eachOccupation.IncomeType.toString()){
-                isOccupationValid=true;
+            for (let eachOccupation of occupationList) {
+              if (eachOccupation.IncomeType && 'PRI' == eachOccupation.IncomeType.toString()) {
+                isOccupationValid = true;
               }
             }
           }
+
           if(!isOccupationValid){
              errorMessage = errorMessage != '' ? errorMessage + '. ' : errorMessage;
              errorMessage = errorMessage + 'Customer\'s primary occupation is required.';
@@ -762,7 +759,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
       }
       console.log("isCustomerValid " + isCustomerValid + " isAddressValid " + isAddressValid + " isOccupationValid " + isOccupationValid );
-      
+
 
       if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
         errorMessage = "formalities of customer " + custFullName + " are pending. Please fill : " + errorMessage;
@@ -784,8 +781,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async validateCustomer(customer) {
 
     let noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
-    console.log('validateCustomer noOfErrors '+ noOfErrors);
-    
+    console.log('validateCustomer noOfErrors ' + noOfErrors);
+
     return (noOfErrors > 0) ? false : true;
   }
 

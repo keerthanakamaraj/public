@@ -25,8 +25,8 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 	@Output() emitAddressDetails: EventEmitter<any> = new EventEmitter<any>();
-  @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
-  @Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
+	@Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+	@Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
 	@Input('formCode') formCode: string;
 	@Input('displayTitle') displayTitle: boolean = true;
 	@Input('displayToolbar') displayToolbar: boolean = true;
@@ -264,18 +264,18 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				if (res !== null) {
 					this.addressRecord = true
 					var loopVar10 = res['AddressDetails'];
-					
+
 				}
 				else {
 					this.addressRecord = false;
-        }
-        
+				}
+
 
 				if (loopVar10) {
-          this.addressLoaded.emit({
-            "name" : "addressLoad",
-            "data": loopVar10
-          });
+					this.addressLoaded.emit({
+						"name": "addressLoad",
+						"data": loopVar10
+					});
 
 					for (var i = 0; i < loopVar10.length; i++) {
 
@@ -299,8 +299,8 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						if (loopVar10[i].ResidenceDuration == undefined && loopVar10[i].Period == undefined) {
 							tempObj['AD_Residence_Duration'] = " ";
 						}// tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
-						else{
-							tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + " " +loopVar10[i].Period;
+						else {
+							tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + " " + loopVar10[i].Period;
 						}
 						// if (loopVar10[i].ResidenceType == undefined) {
 						// 	tempObj['AD_OCC_STATUS'] = " "
@@ -308,9 +308,9 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						// else {
 						// 	tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
 						// }
-						
+
 						this.addressDetails.push(tempObj);
-						console.log("loopVar10",this.addressDetails);
+						// console.log("loopVar10",this.addressDetails);
 					}
 				}
 				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);

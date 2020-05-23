@@ -236,7 +236,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        console.log("res", res);
+        // console.log("res", res);
         if (res == null) {
           this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
           this.AD_REGION.onReset()
@@ -369,11 +369,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
+
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
             this.onReset();
-            this.addonblur.emit({});
+
             this.AD_SAVE_ADDRESS.setDisabled(false);
           },
           async (httpError) => {
@@ -497,10 +498,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             await this.AddressGrid.gridDataLoad({
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
-
             this.onReset();
             this.AD_SAVE_ADDRESS.setDisabled(false);
-            this.addonblur.emit({});
           },
           async (httpError) => {
             var err = httpError['error']
@@ -591,7 +590,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     let inputMap = new Map();
     let durationType: any = this.AD_RES_DUR_UNIT.getFieldValue();
     this.onReset();
-    console.log('durationType', durationType);
+    // console.log('durationType', durationType);
   }
   async AddressGrid_emitAddressDetails(event) {
     let inputMap = new Map();
@@ -638,6 +637,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         if (array[1] == 'false') {
           this.AD_EMAIL2_CHECKBOX.setValue(false);
         }
+
         // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
@@ -655,8 +655,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   }
 
   AddressGrid_addressGridLoaded(event) {
-    console.log("Address grid Loaded");
+    // console.log("Address grid Loaded");
     this.updateStageValidation.emit(event);
+
   }
 
   fieldDependencies = {
