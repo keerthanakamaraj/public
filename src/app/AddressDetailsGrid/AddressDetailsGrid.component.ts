@@ -25,7 +25,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 	@Output() emitAddressDetails: EventEmitter<any> = new EventEmitter<any>();
-	@Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+	//@Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
 	@Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
 	@Input('formCode') formCode: string;
 	@Input('displayTitle') displayTitle: boolean = true;
@@ -270,11 +270,14 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 					this.addressRecord = false;
 				}
 
+				//	this.addonblur.emit({});
 
 				if (loopVar10) {
+
 					this.addressLoaded.emit({
 						"name": "addressLoad",
-						"data": loopVar10
+						"data": loopVar10,
+						"BorrowerSeq": borrowerSeq
 					});
 
 					for (var i = 0; i < loopVar10.length; i++) {
@@ -312,6 +315,13 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						this.addressDetails.push(tempObj);
 						// console.log("loopVar10",this.addressDetails);
 					}
+				} else {
+					loopVar10 = [];
+					this.addressLoaded.emit({
+						"name": "addressLoad",
+						"data": loopVar10,
+						"BorrowerSeq": borrowerSeq
+					});
 				}
 				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
 				this.hideSpinner();

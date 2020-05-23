@@ -374,7 +374,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               'passBorrowerSeqToGrid': this.addBorrowerSeq,
             });
             this.onReset();
-
             this.AD_SAVE_ADDRESS.setDisabled(false);
           },
           async (httpError) => {
@@ -657,7 +656,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   AddressGrid_addressGridLoaded(event) {
     // console.log("Address grid Loaded");
     this.updateStageValidation.emit(event);
-
   }
 
   fieldDependencies = {

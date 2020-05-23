@@ -353,11 +353,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async CUSTOMER_DETAILS_updateCustGrid(event) {
-    console.log("Calling update customer grid Emitter");
 
     this.FieldId_9.doAPIForCustomerList(event);
     // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
-
 
   }
   async FieldId_9_selectCustId(event) {
@@ -382,10 +380,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     let tags = [];
     event.data.forEach(address => {
       if (address.MailingAddress == 'Y' && address.AddressType == 'OF') {
-        tags.push({ text: 'Office' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + ","+ address.PinCode });
+        tags.push({ text: 'Office' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + "," + address.PinCode });
       }
       else if (address.MailingAddress == 'Y' && address.AddressType == 'RS') {
-        tags.push({ text: 'Residence' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + ","+ address.PinCode });
+        tags.push({ text: 'Residence' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + "," + address.PinCode });
       }
     })
     this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
@@ -487,7 +485,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       //   inputMap.set(key, value);
       // } 
     } else {
-      console.log('input Map not found .. returing');
+      //console.log('input Map not found .. returing');
       return;
     }
 
@@ -542,7 +540,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   brodcastApplicationId() {
-    console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
     //  this.ProductCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.ApplicationId = this.ApplicationId;
     this.FieldId_9.ApplicationId = this.ApplicationId;
@@ -552,15 +549,17 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async CUSTOMER_DETAILS_onFullNameblur(event) {
-    console.log("Calling this Emitter");
-    this.updateCustomerTags();
+    this.updateCustomerTags(event);
   }
 
-  updateCustomerTags() {
+  updateCustomerTags(event) {
     let tags = [];
-    if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
-      tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
+    if (event.fullName !== undefined && event.customerType !== undefined) {
+      tags.push({ label: event.customerType, text: event.fullName });
     }
+    // if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
+    //   tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
+    // }
     this.QDE_ACCORD1.setTags("CUST_DETAILS", tags);
   }
 
@@ -578,93 +577,54 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   updateStageValidation(event) {
 
     this.categoriesCustomers(event);
-    console.log("jghjghjg", event);
+   
     if (event && event.name == "addressLoad") {
-      // console.log("jhhfhjfhgfh",event);
+
       this.updateAddressTags(event);
     }
     if (event && event.name == "occupationLoad") { // Occupation loaded
-      console.log("vdhjfvhj", event);
+
       this.addOccupationTags(event);
     }
-
-    //   console.log("updateStageValidation ", event);
-    //   if (event && event.name == "customerLoad") { // Customers loaded
-    //     if(this.stageValidationMap){ // stageValidation Map Exists - update existing
-
-    //         this.stageValidationMap["customers"]=event.data;     
-
-    //      console.log("shweta after :: Validation Map",this.stageValidationMap);
-    //      console.log("shweta :: event map : ",event);
-    //     } else { // stageValidation Map Does not Exists - create new
-    //       this.stageValidationMap = {};
-    //       this.stageValidationMap["customers"] = [];
-
-    //       // let customers = [];
-
-    //       if(event.data && event.data.length > 0) {
-    //         this.stageValidationMap["customers"] = event.data;
-
-    //       //   event.data.forEach(customer => {
-    //       //     // Validation applies to Borrower / Co Borrower
-    //       //     if(customer["CustomerType"] == "B" || customer["CustomerType"] == "CB"){ 
-    //       //       customers.push({
-    //       //         BorrowerSeq: customer["BorrowerSeq"],
-    //       //         CustomerType: customer["CustomerType"],
-    //       //         DOB: customer["DOB"],
-    //       //         Gender: customer["Gender"],
-    //       //         LoanOwnership: customer["LoanOwnership"],
-    //       //         isAddressAdded: false,
-    //       //         isOccupationAdded: false
-    //       //       });
-    //       //     }
-    //       //   });
-
-    //       //   this.stageValidationMap["customers"] = customers;
-    //       }
-    //     }
-    //   } else if(event && event.name == "addressLoad") { // Address loaded
-    //     // delete if exists for customer and then add
-
-    //     this.stageValidationMap=this.stageValidationMap.customers.map(
-    //         mapCustomer => mapCustomer.BorrowerSeq===event.data[0].BorrowerSeq
-    //        );
-
-    //     this.stageValidationMap["address"] = event.data;
-
-    //   } else if(event && event.name == "occupationLoad") { // Occupation loaded
-    //     this.stageValidationMap["occupationLoad"] = event.data;
-    //   }
   }
 
   categoriesCustomers(event) {
     let addressList = [];
     let occupationList = [];
-    event.data.forEach(eventCustomer => {
-      const borSeq: string = "CustID" + eventCustomer.BorrowerSeq.toString();
-      let customerDetails = new Map();
-      if (this.stageValidationMap) {
-        // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));
-        console.log("shweta ::: map : ", this.stageValidationMap);
-        if ((this.stageValidationMap).has(borSeq)) {
-          customerDetails = this.stageValidationMap.get(borSeq);
+    if (event.data.length > 0) {
+      event.data.forEach(eventCustomer => {
+        const borSeq: string = "CustID" + eventCustomer.BorrowerSeq;
+        let customerDetails = new Map();
+        if (this.stageValidationMap) {
+          // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));
+          if ((this.stageValidationMap).has(borSeq)) {
+            customerDetails = this.stageValidationMap.get(borSeq);
+          }
         }
+        switch (event.name) {
+          case "customerLoad": customerDetails.set('customerLoad', eventCustomer); break;
+          case "addressLoad":
+            addressList.push(eventCustomer);
+            customerDetails.set('addressLoad', addressList);
+            break;
+          case "occupationLoad":
+            occupationList.push(eventCustomer);
+            customerDetails.set('occupationLoad', occupationList);
+            break;
+        }
+        this.stageValidationMap.set(borSeq, customerDetails);
+      });
+    } else if (event.name != 'customerLoad') {
+      let borSeq: string = "CustID" + event.BorrowerSeq;
+      let customerDetails = new Map();
+      if (this.stageValidationMap.has(borSeq)) {
+        customerDetails = this.stageValidationMap.get(borSeq);
+        customerDetails.delete(event.name)
       }
-      switch (event.name) {
-        case "customerLoad": customerDetails.set('customer', eventCustomer); break;
-        case "addressLoad":
-          addressList.push(eventCustomer);
-          customerDetails.set('address', addressList);
-          break;
-        case "occupationLoad":
-          occupationList.push(eventCustomer);
-          customerDetails.set('occupation', occupationList);
-          break;
-      }
-      this.stageValidationMap.set(borSeq, customerDetails);
-    });
-
+    }
+    //  console.log("shweta ::  map ", this.stageValidationMap);
   }
+
 
   async isFormValid() {
     let isAppValidFlag = true;
@@ -676,15 +636,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       let isCustomerValid: boolean = true;
       let errorMessage: string = '';
       let custFullName: string = '';
-      console.log(' shweta :: Key: ', entry[0] + ' Value: ', entry[1]);
       // const bottowerSeq: string = entry[0];
-      if (entry[1].has('customer')) {
-        let customer = entry[1].get('customer');
+      if (entry[1].has('customerLoad')) {
+        let customer = entry[1].get('customerLoad');
         custFullName = customer.FullName;
         isCustomerValid = await this.validateCustomer(customer);
-
-        console.log('isCustomerValid ' + isCustomerValid);
-
 
         if (!isCustomerValid) {
           errorMessage = errorMessage + ' All mandatory fields for the customer'
@@ -692,16 +648,16 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         const LoanOwnership = customer.LoanOwnership;
         const custType = customer.CustomerType;
 
-        if (!entry[1].has('address')) {
+        if (!entry[1].has('addressLoad')) {
           isAddressValid = false;
           errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
           errorMessage = errorMessage + ' Add atleast one address';
         } else {
-          let addressList = entry[1].get('address');
+          let addressList = entry[1].get('addressLoad');
           let addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
           let isMailing = true;
           for (let eachAddress of addressList) {
-            if (eachAddress.MailingAddress && eachAddress.MailingAddress.toString() == 'Y') {
+            if (eachAddress.MailingAddress && eachAddress.MailingAddress == 'Y') {
               addrValidationObj.isMailing = true;
             }
             if ('CR' == ("" + eachAddress.OccupancyType)) {
@@ -719,30 +675,26 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             addrValidationObj.isOffice = true;
           }
 
-          console.log("shweta :: address obj", addrValidationObj);
           for (let flag in addrValidationObj) {
-            console.log("shweta :: address flag ::", flag, " : ", addrValidationObj[flag]);
+
             if (!addrValidationObj[flag]) {
               isAddressValid = false;
             }
           }
 
-         
+          if (!isAddressValid) {
+            errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
+            errorMessage += (addrValidationObj.isOffice) ?
+              "add one permanent residence, one current residence and select one of these as the correspondence address"
+              : "add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address";
 
-        
-        if(!isAddressValid){
-          errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
-          errorMessage +=(addrValidationObj.isOffice)?
-          "add one permanent residence, one current residence and select one of these as the correspondence address"
-          :"add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address";
-      
+          }
         }
-      }
 
         if (LoanOwnership != undefined) {
           isOccupationValid = false;
-          if (entry[1].has('occupation')) {
-            const occupationList = entry[1].get('occupation');
+          if (entry[1].has('occupationLoad')) {
+            const occupationList = entry[1].get('occupationLoad');
 
             for (let eachOccupation of occupationList) {
               if (eachOccupation.IncomeType && 'PRI' == eachOccupation.IncomeType.toString()) {
@@ -750,16 +702,13 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
               }
             }
           }
+          if (!isOccupationValid) {
+            errorMessage = errorMessage != '' ? errorMessage + '. ' : errorMessage;
+            errorMessage = errorMessage + 'Customer\'s primary occupation is required.';
 
-          if(!isOccupationValid){
-             errorMessage = errorMessage != '' ? errorMessage + '. ' : errorMessage;
-             errorMessage = errorMessage + 'Customer\'s primary occupation is required.';
- 
-           }
+          }
         }
       }
-      console.log("isCustomerValid " + isCustomerValid + " isAddressValid " + isAddressValid + " isOccupationValid " + isOccupationValid );
-
 
       if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
         errorMessage = "formalities of customer " + custFullName + " are pending. Please fill : " + errorMessage;
@@ -768,7 +717,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       }
     });
 
-    console.log("validation error mesage :: ", this.errorsList);
     return isAppValidFlag;
   }
 
@@ -781,7 +729,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async validateCustomer(customer) {
 
     let noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
-    console.log('validateCustomer noOfErrors ' + noOfErrors);
 
     return (noOfErrors > 0) ? false : true;
   }

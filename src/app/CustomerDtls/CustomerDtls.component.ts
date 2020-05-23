@@ -97,7 +97,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
-   
+
     // customerDetailMap: {};
     // ApplicationId: void;
     // let customerDetailMap any;
@@ -165,10 +165,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.FieldId_30.setReadOnly(readOnly);
     }
     async onFormLoad(event) {
-       
+
         //    this.ApplicationId = event.custSeq
-        
-       // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+
+        // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
         this.hidExistCust.setValue('Y_N');
         this.hideStaffId.setValue('Y_N');
@@ -195,7 +195,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
         //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
         // }
-       // this.setNonEditableFields(false);
+        // this.setNonEditableFields(false);
         this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -285,7 +285,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.setReadOnly(false);
         this.CD_EXISTING_CUST.isOptionsLoaded = false;
         this.CD_STAFF.isOptionsLoaded = false;
-      //  this.setNonEditableFields(false);
+        //  this.setNonEditableFields(false);
         this.onFormLoad(event);
     }
 
@@ -616,7 +616,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
-                        this.CD_FULL_NAME_change();
+                        this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
                         });
@@ -791,10 +791,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
-                
+
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
-                this.CD_FULL_NAME_change();
+                this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
 
             },
             async (httpError) => {
@@ -808,7 +808,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     LoadCustomerDetailsonFormLoad(event) {
         let customer = event.CustomerArray;
-        if(this.isLoanCategory == false){
+        if (this.isLoanCategory == false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
 
@@ -847,11 +847,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
         this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
-       
+
         this.CD_CIF.setValue(customer.CIF)
         // this.CD_CUST_ID.setValue(customer.ICIFNumber);
 
-        this.CD_FULL_NAME_change();
+        this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
 
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
@@ -869,10 +869,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     setYesNoTypeDependency(field, dependantField, dependantValue?: String) {
         if (dependantValue != undefined) {
             field.setValue('Y', undefined, true);
-          //  field.setValue('Y')
+            //  field.setValue('Y')
             dependantField.setValue(dependantValue);
         }
-        if ((field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N')&& field.valuePending!='Y') {
+        if ((field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N') && field.valuePending != 'Y') {
             dependantField.onReset()
             dependantField.readOnly = true;
             dependantField.mandatory = false;
@@ -908,9 +908,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.setNonEditableFields(false);
     }
 
-    async CD_FULL_NAME_change() {
+    async CD_FULL_NAME_change(fullName, customerType) {
         let inputMap = new Map();
-        this.onFullNameblur.emit({});
+        this.onFullNameblur.emit({
+            "fullName": fullName,
+            "customerType": customerType
+        });
     }
 
     fieldDependencies = {
