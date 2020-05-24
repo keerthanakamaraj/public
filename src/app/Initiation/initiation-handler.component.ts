@@ -172,20 +172,31 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name
   updateFullName(arg0: {}) {
-    let fullName = "";
-    if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue().trim() + " ";
-    }
-    if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue().trim() + " ";
-    }
-    if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_THIRD_NAME.getFieldValue().trim() + " ";
-    }
-    if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_LAST_NAME.getFieldValue().trim() + " ";
-    }
-    fullName.trim();
+    // let fullName = "";
+    // if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_THIRD_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_LAST_NAME.getFieldValue().trim() + " ";
+    // }
+    // fullName.trim();
+    // this.MainComponent.CD_FULL_NAME.setValue(fullName);
+    let fullNameArr = [];
+    fullNameArr.push(this.MainComponent.CD_FIRST_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_MIDDLE_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_THIRD_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_LAST_NAME.getFieldValue());
+
+    let fullName = this.MainComponent.services.rloutil.concatenate(fullNameArr, " ") ;
+    
+    console.log("Full Name  ", fullNameArr, fullName);    
+
     this.MainComponent.CD_FULL_NAME.setValue(fullName);
   }
 

@@ -590,7 +590,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       inputMap.clear();
       if (this.borrower == true) {
         inputMap.set('HeaderParam.tenant-id', 'SB1');
-        inputMap.set('HeaderParam.user-id', 'Vishal');
+        // inputMap.set('HeaderParam.user-id', 'Vishal');
+        inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId') );
         inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
         inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());

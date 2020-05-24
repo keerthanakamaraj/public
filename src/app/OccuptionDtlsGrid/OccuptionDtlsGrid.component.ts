@@ -23,7 +23,7 @@ const customCss: string = '';
 })
 export class OccuptionDtlsGridComponent implements AfterViewInit {
 	occupationRecord: boolean = false;
-	loopDataVar10: any[];
+	occupation: any[];
 	constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
@@ -48,14 +48,14 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	// {
 	// field:"OD_INDUSTRY",
@@ -77,26 +77,27 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		width: 22,
 		sortable: true,
 		resizable: true,
-		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
-		cellRenderer: (params) => {
-			let result = params.node.data ? this.NET_INCOME_getCellContent(params.node.data) : "";
-			if (typeof result === 'string') {
-				let eDiv = document.createElement('div');
-				eDiv.style.display = 'contents';
-				eDiv.innerHTML = result;
-				return eDiv;
-			}
-			return result;
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
+		// cellRenderer: (params) => {
+		// 	let result = params.node.data ? this.NET_INCOME_getCellContent(params.node.data) : "";
+		// 	if (typeof result === 'string') {
+		// 		let eDiv = document.createElement('div');
+		// 		eDiv.style.display = 'contents';
+		// 		eDiv.innerHTML = result;
+		// 		return eDiv;
+		// 	}
+		// 	return result;
 
-		},
+		// },
 	},
 	{
 		field: "INCOME_FREQ",
@@ -104,25 +105,25 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
-		cellRenderer: (params) => {
-			let result = params.node.data ? this.INCOME_FREQ_getCellContent(params.node.data) : "";
-			if (typeof result === 'string') {
-				let eDiv = document.createElement('div');
-				eDiv.style.display = 'contents';
-				eDiv.innerHTML = result;
-				return eDiv;
-			}
-			return result;
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
+		// cellRenderer: (params) => {
+		// 	let result = params.node.data ? this.INCOME_FREQ_getCellContent(params.node.data) : "";
+		// 	if (typeof result === 'string') {
+		// 		let eDiv = document.createElement('div');
+		// 		eDiv.style.display = 'contents';
+		// 		eDiv.innerHTML = result;
+		// 		return eDiv;
+		// 	}
+		// 	return result;
 
-		},
+		// },
 	},
 	{
 		field: "OD_COMPANY_NAME",
@@ -130,21 +131,21 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		width: 6,
 		field: "OD_EDIT_BTN",
 		sortable: false,
 		filter: false,
-		resizable: true,
+		resizable: false,
 		cellRenderer: 'buttonRenderer',
 		cellStyle: { 'text-align': 'left' },
 		cellRendererParams: {
@@ -160,7 +161,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		field: "OD_DELETE",
 		sortable: false,
 		filter: false,
-		resizable: true,
+		resizable: false,
 		cellRenderer: 'buttonRenderer',
 		cellStyle: { 'text-align': 'left' },
 		cellRendererParams: {
@@ -276,43 +277,51 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
-				this.loopDataVar10 = [];
+				this.occupation = [];
 				if (res !== null) {
-					this.occupationRecord = true
-					var loopVar10 = res['OccupationDetails'];
+					this.occupationRecord = true;
+					var occupationDetails = res['OccupationDetails'];
 				}
 				else {
-					this.occupationRecord = false
+					this.occupationRecord = false;
+        }
+        
+        console.log("loopVar10 ", occupationDetails, this.occupation);
 
-				}
-
-				if (loopVar10) {
+				if (occupationDetails) {
 
 					this.occupationLoaded.emit({
 						"name": "occupationLoad",
-						"data": loopVar10
+						"data": occupationDetails
 					});
 
-					for (var i = 0; i < loopVar10.length; i++) {
+					for (var i = 0; i < occupationDetails.length; i++) {
 						var tempObj = {};
-						tempObj['OCCUPATION_ID'] = loopVar10[i].OccupationSeq;
-						tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
-						tempObj['OD_INCOME_TYPE'] = loopVar10[i].IncomeType;
-						// tempObj['OD_INDUSTRY'] = loopVar10[i].Industry;
-						tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
-						tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;
-						tempObj['NET_INCOME'] = loopVar10[i].NetIncome;
-						this.loopDataVar10.push(tempObj);
+						tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
+            tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation;
+            console.log("Occupation ", occupationDetails[i].Occupation);
+            
+
+						tempObj['OD_INCOME_TYPE'] = occupationDetails[i].IncomeType;
+						// tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
+						tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
+						tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy;
+						tempObj['NET_INCOME'] = occupationDetails[i].NetIncome;
+						this.occupation.push(tempObj);
 					}
 				} else {
-					loopVar10 = [];
+					this.occupation = [];
 					this.occupationLoaded.emit({
 						"name": "occupationLoad",
 						"borrowerSeq": inputKey,
-						"data": loopVar10
+						"data": this.occupation
 					});
-				}
-				this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar10);
+        }
+        
+        console.log("params ", params, " data ", this.occupation);
+        
+        this.readonlyGrid.apiSuccessCallback(params, this.occupation);
+        
 				this.hideSpinner();
 			},
 			async (httpError) => {
@@ -340,22 +349,25 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		}
 	}
 	async OD_DELETE_click(event) {
-		let inputMap = new Map();
-		inputMap.clear();
-		inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
-		this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-			async (httpResponse: HttpResponse<any>) => {
-				var res = httpResponse.body;
-				this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
-				this.readonlyGrid.refreshGrid();
-			},
-			async (httpError) => {
-				var err = httpError['error']
-				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-				}
-				this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-			}
-		);
+
+    if(confirm("Are you sure you want do delete this record")){
+      let inputMap = new Map();
+      inputMap.clear();
+      inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
+      this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
+          this.readonlyGrid.refreshGrid();
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+        }
+      );
+    }		
 	}
 	loadSpinner = false;
 	showSpinner() {
@@ -366,7 +378,16 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 	}
 
 	getOccupationGridData() {
-		return this.loopDataVar10;
-	}
+		return this.occupation;
+  }
+  
+  formatAmount(number) {
+    if (number.value) {
+      // Dirty Fix
+      return this.services.formatAmount(number.value, null, null).substr(1);
+    } else {
+      return '-';
+    }
+  }
 
 }

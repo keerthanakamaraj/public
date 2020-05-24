@@ -33,20 +33,13 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   }
 
   updateFullName(arg0: {}) {
-    let fullName = "";
-    if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_THIRD_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_LAST_NAME.getFieldValue() + " ";
-    }
-    fullName.trim();
+    let fullNameArr = [];
+    fullNameArr.push(this.MainComponent.CD_FIRST_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_MIDDLE_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_THIRD_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_LAST_NAME.getFieldValue());
+
+    let fullName = this.MainComponent.services.rloutil.concatenate(fullNameArr, " ") ;
     this.MainComponent.CD_FULL_NAME.setValue(fullName);
   }
 

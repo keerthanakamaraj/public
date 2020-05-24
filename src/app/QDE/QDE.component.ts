@@ -379,11 +379,16 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   updateAddressTags(event) {
     let tags = [];
     event.data.forEach(address => {
-      if (address.MailingAddress == 'Y' && address.AddressType == 'OF') {
-        tags.push({ text: 'Office' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + "," + address.PinCode });
-      }
-      else if (address.MailingAddress == 'Y' && address.AddressType == 'RS') {
-        tags.push({ text: 'Residence' + ";" + address.AddressLine1 + "," + address.Region + "," + address.City + "," + address.State + "," + address.PinCode });
+      let tagText = '';
+      if (address.MailingAddress == 'Y'){
+        if(address.AddressType == 'OF') {
+          tagText = 'Office; ';
+        } else if (address.AddressType == 'RS') {
+          tagText = 'Residence; ';
+        }
+        
+        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ", " );
+        tags.push({ text: tagText });
       }
     })
     this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
@@ -392,25 +397,16 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   addOccupationTags(event) {
     let tags = [];
     event.data.forEach(occupation => {
-      if (occupation.Occupation == 'RT') {
-        tags.push({ text: 'Retired' });
+      switch(occupation.Occupation){
+        case 'RT' : tags.push({ text: 'Retired' }); break;
+        case 'HW' : tags.push({ text: 'Housewife' }); break;
+        case 'ST' : tags.push({ text: 'Student' }); break;
+        case 'SL' : tags.push({ text: 'Salaried' }); break;
+        case 'SE' : tags.push({ text: 'Self Employed' }); break;
+        case 'OT' : tags.push({ text: 'Others' }); break;
+        default: tags.push({ text: occupation.Occupation });
       }
-      else if (occupation.Occupation == 'HW') {
-        tags.push({ text: 'Housewife' });
-      }
-      else if (occupation.Occupation = 'ST') {
-        tags.push({ text: 'Student' });
-      }
-      else if (occupation.Occupation = 'SL') {
-        tags.push({ text: 'Salaried' });
-      }
-      else if (occupation.Occupation == 'SE') {
-        tags.push({ text: 'Self Employed' });
-      }
-      else if (occupation.Occupation == 'OT') {
-        tags.push({ text: 'Others' });
-      }
-    })
+    });
     this.QDE_ACCORD1.setTags("OCC_DETAILS", tags);
   }
 

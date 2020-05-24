@@ -50,23 +50,19 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
   }
 
 
-  CompleteAddress() {
-    let CompleteAddress
+  getFullAddress() {
+    let fullAddressArr = [];
 
-    if (this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() == undefined && this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() == undefined && this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() == undefined) {
-      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
-    }
-    else if (this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() == undefined && this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() == undefined) {
-      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
-    }
-    else if (this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() == undefined) {
-      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
-    }
-    else {
-      CompleteAddress = this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() + "," + " " + " " + this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() + "," + " " + " " + this.MainComponent.AD_REGION.getFieldValue() + "," + " " + " " + this.MainComponent.AD_CITY.getFieldValue() + "," + " " + " " + this.MainComponent.AD_STATE.getFieldValue() + "," + " " + " " + this.MainComponent.AD_PINCODE.getFieldValue();
-    }
+    fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE1.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_REGION.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_CITY.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_STATE.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_PINCODE.getFieldValue());
 
-    return CompleteAddress;
+    return this.MainComponent.services.rloutil.concatenate(fullAddressArr, ", ");
   }
 
 

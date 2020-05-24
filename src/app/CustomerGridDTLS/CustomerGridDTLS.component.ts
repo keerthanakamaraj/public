@@ -156,7 +156,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
       this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
         async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
+          var res = httpResponse.body ? httpResponse.body : {};
           var customerDataArr = [];
           var BorrowerDetails = res['BorrowerDetails'];
           if (BorrowerDetails) {

@@ -231,7 +231,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   // }
   async AD_PINCODE_blur(event) {
     let inputMap = new Map();
-    inputMap.set('PathParam.PinCd', event.value)
+    inputMap.set('PathParam.PinCd', event.value);
 
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -239,16 +239,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         // console.log("res", res);
         if (res == null) {
           this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
-          this.AD_REGION.onReset()
+          this.AD_REGION.onReset();
           this.AD_CITY.onReset();
           this.AD_STATE.onReset();
 
-          return false
+          return false;
 
         } else {
-          this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1'])
-          this.AD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
-          this.AD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
+          this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1']);
+          this.AD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName']);
+          this.AD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName']);
         }
 
       },
@@ -270,12 +270,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     var noOfError: number = await this.revalidate();
     this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
 
-
     if (noOfError == 0) {
-      let getCompleteAddress = this.Handler.CompleteAddress()
-
+      
       if (addGridData) {
-
+        
         for (var i = 0; i < addGridData.length; i++) {
           if (addGridData[i].AD_ADD_ID != this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
             if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
@@ -291,7 +289,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               return;
             }
             if (this.AD_ADD_TYPE.getFieldValue() == 'OF' && addGridData[i].AD_Address_Type == 'OF') {
-              if (addGridData[i].AD_Address == getCompleteAddress) {
+              if (addGridData[i].AD_Address == this.Handler.getFullAddress() ) {
                 this.services.alert.showAlert(2, 'rlo.error.address.exist', -1);
                 return;
               }
@@ -307,8 +305,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.services.alert.showAlert(2, 'rlo.error.period.not.exist', -1);
           return;
         }
-
-
 
         if ((this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined)) {
           this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
@@ -330,9 +326,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           return;
         }
       }
-
-
-
 
       if (this.AD_HIDE_ID.getFieldValue() != undefined) {
         inputMap.clear();
@@ -491,7 +484,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           async (httpResponse: HttpResponse<any>) => {
 
             var res = httpResponse.body;
-
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
 
             await this.AddressGrid.gridDataLoad({
