@@ -362,7 +362,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
       inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
       if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
-        this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
+        this.services.alert.showAlert(2, 'Please fill at least one field', -1);
       } else {
         setTimeout(() => {
           inputMap.set('component', 'SearchForm');
