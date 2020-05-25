@@ -108,6 +108,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   searchbutton: string;
   custMinAge: number = 18;
   custMaxAge: number = 100;
+  loanTotal: number;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -544,8 +545,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
   async CD_ADD_click(event) {
     let inputMap = new Map();
+    if(this.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined){
+      if(this.loanTotal > 100){
+        this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
+        return;
+      }
+    }
+    
     await this.Handler.onAddCustomer({
     });
+
+    this.loanTotal = 0
   }
   async CD_RESET_click(event) {
     let inputMap = new Map();
@@ -776,20 +786,21 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async CD_CUST_TYPE_change(fieldID, value) {
     this.Handler.CustomerTypeOnChange();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
-      this.CD_LOAN_OWNERSHIP.setValue('100');
+      this.CD_LOAN_OWNERSHIP.setValue(100);
     }
 
   }
 
   async CD_LOAN_OWNERSHIP_blur() {
 
-    let loanTotal = this.Handler.aggregateLoanOwnerShip();
+    this.loanTotal = this.Handler.aggregateLoanOwnerShip();
     if (this.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined) {
-      loanTotal = loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
+      this.loanTotal = this.loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
     }
-    if (loanTotal > 100) {
+    if (this.loanTotal > 100) {
       this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
     }
+    
   }
 
 

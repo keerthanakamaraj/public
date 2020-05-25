@@ -287,10 +287,10 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
            if(occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()){
             if(this.OD_COMP_NAME.getFieldValue()!==undefined && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()){
 
-              this.services.alert.showAlert(2, 'occupation alreday addded for same company name', -1);
+              this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);
               return;
             }else if(this.OD_INCOME_TYPE.getFieldValue()==='PRI' && occupationGridData[i].OD_INCOME_TYPE==='PRI'){
-              this.services.alert.showAlert(2, 'Primary occupation already present', -1);
+              this.services.alert.showAlert(2, 'rlo.error.occupation.primaryIncome.exist', -1);
               return;
             }
           }

@@ -22,7 +22,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
-  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID", "CD_MOBILE"];
+  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID", "CD_MOBILE","CD_LOAN_OWNERSHIP"];
   editTempId: any;
   tempId: any;
 
@@ -46,6 +46,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.isLoanCategory = false;
       this.MainComponent.CD_CUST_TYPE.setValue('B');
+      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
     } else {
       this.MainComponent.isLoanCategory = true;
