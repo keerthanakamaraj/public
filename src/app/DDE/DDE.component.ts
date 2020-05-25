@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
-import { DDEModel } from './DDE.model';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ViewContainerRef, ComponentFactoryResolver, Type, ComponentRef } from '@angular/core';
+import { DDEModel, AddSpecificComponent } from './DDE.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
 import { TextAreaComponent } from '../text-area/text-area.component';
@@ -26,7 +26,6 @@ import { VisitReportFormComponent } from '../VisitReportForm/VisitReportForm.com
 import { GoNoGoComponent } from '../go-no-go/go-no-go.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { DDEHandlerComponent } from '../DDE/DDE-handler.component';
-import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
 
 const customCss: string = '';
 
@@ -49,9 +48,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('Cancel', { static: false }) Cancel: ButtonComponent;
     @ViewChild('Handler', { static: false }) Handler: DDEHandlerComponent;
     @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
-    @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
-    ApplicationId: string = undefined;
+    @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -59,7 +57,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         await Promise.all([
             this.FieldId_1.revalidate(),
             this.FieldId_10_revalidate(),
-            // this.CUSTOMER_GRID.revalidate(),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -69,7 +66,29 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         super.afterRevalidate();
         return totalErrors;
     }
-    constructor(services: ServiceStock) {
+
+    customerMenu = [
+        [
+            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false }
+        ],
+        [
+            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "refresh-form.svg", isActive: false },
+        ],
+        [
+            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "refresh-form.svg", isActive: true },
+            { id: "AddressDetails", name: "Address Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "refresh-form.svg", isActive: false }
+        ]
+    ];
+
+    componentToGenerate: any;
+
+    constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
         super(services);
         this.value = new DDEModel();
         this.componentCode = 'DDE';
@@ -86,17 +105,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.setReadOnly(readOnly);
         this.FieldId_16.setReadOnly(readOnly);
         this.FieldId_13.setReadOnly(readOnly);
-        this.CUSTOMER_GRID.setReadOnly(readOnly);
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-        this.ApplicationId = appId;
-        await this.brodcastApplicationId();
         this.openHTab('FieldId_10', 'GO_NO_GO');
         this.HideProcessId.setValue('RLO_Process');
         this.setDependencies();
-        this.CUSTOMER_GRID.doAPIForCustomerList({});
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -121,7 +135,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
         this.additionalInfo['FieldId_16_desc'] = this.FieldId_16.getFieldInfo();
         this.additionalInfo['FieldId_13_desc'] = this.FieldId_13.getFieldInfo();
-        this.additionalInfo['CUSTOMER_GRID_desc'] = this.CUSTOMER_GRID.getFieldInfo();
         return this.additionalInfo;
     }
     getFieldValue() {
@@ -134,7 +147,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value.FieldId_9 = this.FieldId_9.getFieldValue();
         this.value.FieldId_16 = this.FieldId_16.getFieldValue();
         this.value.FieldId_13 = this.FieldId_13.getFieldValue();
-        this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
         return this.value;
     }
     setValue(inputValue, inputDesc = undefined) {
@@ -148,7 +160,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
         this.FieldId_16.setValue(inputValue['FieldId_16'], inputDesc['FieldId_16_desc']);
         this.FieldId_13.setValue(inputValue['FieldId_13'], inputDesc['FieldId_13_desc']);
-        this.CUSTOMER_GRID.setValue(inputValue['CUSTOMER_GRID'], inputDesc['CUSTOMER_GRID_desc']);
         this.value = new DDEModel();
         this.value.setValue(inputValue);
         this.setDependencies();
@@ -162,6 +173,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         styleElement.innerHTML = customCss;
         styleElement.id = 'DDE_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
+
+        this.injectDynamicComponent('CustomDetails', 2, 1);
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -190,8 +203,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.FieldId_16.valueChangeUpdates().subscribe((value) => { this.value.FieldId_16 = value; });
             this.value.FieldId_13 = this.FieldId_13.getFieldValue();
             this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
-            this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
-            this.CUSTOMER_GRID.valueChangeUpdates().subscribe((value) => { this.value.CUSTOMER_GRID = value; });
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
@@ -207,7 +218,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_15.clearError();
         this.FieldId_6.clearError();
         this.FieldId_9.clearError();
-        this.CUSTOMER_GRID.clearError();
         this.FieldId_16.clearError();
         this.FieldId_13.clearError();
         this.errors = 0;
@@ -224,7 +234,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.FieldId_9.onReset();
         this.FieldId_16.onReset();
         this.FieldId_13.onReset();
-        // this.CUSTOMER_GRID.onReset();
         this.clearHTabErrors();
         this.clearVTabErrors();
         this.errors = 0;
@@ -314,37 +323,45 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
         return totalErrors;
     }
-
-    async CUST_DTLS_updateCustGrid(event) {
-        console.log("Calling update customer grid Emitter");
-        this.CUSTOMER_GRID.doAPIForCustomerList(event);
-        // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
-    }
-    async CUSTOMER_GRID_selectCustId(event) {
-        let inputMap = new Map();
-        this.CUST_DTLS.CUST_DTLS_GRID_custDtlsEdit(event);
-    }
-
-    async CUSTOMER_GRID_resetCustForm(event) {
-        this.CUST_DTLS.setNewCustomerFrom(event);
-    }
-    async CUSTOMER_GRID_passArrayToCustomer(event) {
-        //  setTimeout(() => {
-        this.CUST_DTLS.LoadCustomerDetailsonFormLoad(event);
-        //  }, 20000);
-    }
     async Submit_click(event) {
         let inputMap = new Map();
         inputMap.clear();
     }
-
-    brodcastApplicationId() {
-        console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
-        //  this.ProductCategory = event.isLoanCategory;
-        this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+    fieldDependencies = {
     }
 
-    fieldDependencies = {
+    injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
+        //console.log(ele1, ele2);
+        this.customerMenu.forEach(element => element.forEach(ele => ele.isActive = false))
+        this.customerMenu[ele1][ele2].isActive = true;
+
+        const componentRef = this.getComponentClassRef(componentId);
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
+
+        const viewContainerRef = this.FormHost;
+        viewContainerRef.clear();
+
+        const dynamicComponent = viewContainerRef.createComponent(componentFactory);
+        var componentInstance = dynamicComponent.instance;
+        console.log(componentInstance);
+        //componentInstance = this.ApplicationId;
+        componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+    }
+
+    getComponentClassRef(componentId: string): AddSpecificComponent {
+        switch (componentId) {
+            case 'CustomDetails':
+                return new AddSpecificComponent(CustomerDtlsComponent);
+                break;
+
+            case 'FamilyDetails':
+                return new AddSpecificComponent(FamilyDetailsFormComponent);
+                break;
+
+            default:
+                return new AddSpecificComponent(NotepadDetailsFormComponent);
+                break;
+        }
     }
 }
 
