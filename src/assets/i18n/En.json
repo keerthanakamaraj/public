@@ -1528,6 +1528,7 @@
     "GridTitle": "AssetDetailsGrid",
     "AT_Asset_Type": "Asset Type",
     "AT_Asset_Subtype": "Asset Subtype",
+    "AT_INCLUDE_IN_DBR": "Include in DBR",
     "toolbar_AssetDetailsGrid": "null",
     "AT_DELETE": "Delete",
     "AT_DELETE_ButtonName": "Delete",

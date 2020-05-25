@@ -53,36 +53,36 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             caseSensitive: true,
         },
     },
-    {
-        field: "AT_Asset_Subtype",
-        width: 15,
-        sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
-    },
-    {
-        field: "AT_Asset_Location",
-        width: 15,
-        sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
-    },
+    // {
+    //     field: "AT_Asset_Subtype",
+    //     width: 15,
+    //     sortable: true,
+    //     resizable: true,
+    //     cellStyle: { 'text-align': 'left' },
+    //     filter: "agTextColumnFilter",
+    //     filterParams: {
+    //         suppressAndOrCondition: true,
+    //         applyButton: true,
+    //         clearButton: true,
+    //         filterOptions: ["contains"],
+    //         caseSensitive: true,
+    //     },
+    // },
+    // {
+    //     field: "AT_Asset_Location",
+    //     width: 15,
+    //     sortable: true,
+    //     resizable: true,
+    //     cellStyle: { 'text-align': 'left' },
+    //     filter: "agTextColumnFilter",
+    //     filterParams: {
+    //         suppressAndOrCondition: true,
+    //         applyButton: true,
+    //         clearButton: true,
+    //         filterOptions: ["contains"],
+    //         caseSensitive: true,
+    //     },
+    // },
     {
         field: "AT_Asset_Status",
         width: 15,
@@ -100,6 +100,21 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     },
     {
         field: "AT_Asset_Value",
+        width: 15,
+        sortable: true,
+        resizable: true,
+        cellStyle: { 'text-align': 'left' },
+        filter: "agTextColumnFilter",
+        filterParams: {
+            suppressAndOrCondition: true,
+            applyButton: true,
+            clearButton: true,
+            filterOptions: ["contains"],
+            caseSensitive: true,
+        },
+    },
+     {
+        field: "AT_INCLUDE_IN_DBR",
         width: 15,
         sortable: true,
         resizable: true,
@@ -205,16 +220,33 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
         inputMap.clear();
+
+        let AssetId:any = event.passBorrowerToAsset;
+        let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
+        if(AssetId){
+        criteriaJson.FilterCriteria.push({
+            "columnName": "BorrowerSeq",
+            "columnType": "String",
+            "conditions": {
+                "searchType": "equals",
+                "searchText": AssetId
+            }
+        });
+        inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+        
+        }
+
         if (gridReqMap.get("FilterCriteria")) {
             var obj = gridReqMap.get("FilterCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    case "AT_Asset_Subtype": obj[i].columnName = "AssetSubtype"; break;
+                    // case "AT_Asset_Subtype": obj[i].columnName = "AssetSubtype"; break;
                     case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
                     case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
                     case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
                     case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
-                    case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
+                    // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
+                    case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
                     default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
                 }
             }
@@ -223,12 +255,13 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             var obj = gridReqMap.get("OrderCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    case "AT_Asset_Subtype": obj[i].columnName = "AssetSubtype"; break;
+                    // case "AT_Asset_Subtype": obj[i].columnName = "AssetSubtype"; break;
                     case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
                     case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
                     case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
                     case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
-                    case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
+                    // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
+                    case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
                     default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
                 }
             }
@@ -242,12 +275,13 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
+                        // tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
                         tempObj['AT_Asset_Type'] = loopVar4[i].AssetType;
                         tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus;
                         tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
                         tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
-                        tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
+                        // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
+                        tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR;
                         loopDataVar4.push(tempObj);
                     }
                 }
