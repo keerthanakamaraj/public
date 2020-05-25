@@ -19,6 +19,7 @@ import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.mod
 import { GoNoGoModule } from '../go-no-go/go-no-go.module';
 import { DDEHandlerModule } from '../DDE/DDE-handler.module';
 import { ScoreCardModule } from '../score-card/score-card.module';
+import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import { ScoreCardModule } from '../score-card/score-card.module';
         AssetDetailsFormModule,
         GoNoGoModule,
         DDEHandlerModule,
-        ScoreCardModule
+        ScoreCardModule,
+        CustomerGridDTLSModule
     ],
     declarations: [
         DDEComponent,

@@ -496,7 +496,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     const selectedData2 = this.readonlyGrid.getSelectedData();
     if (selectedData2) {
       let stageId = selectedData2['hiddenStageId'];
-      if(stageId !== "QDE"){ // Restrict navigation other than QDE - Sprint -2
+      if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
         this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
         return;
       }
