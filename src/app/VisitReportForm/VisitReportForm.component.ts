@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { VisitReportGridComponent } from '../VisitReportGrid/VisitReportGrid.component';
 import { VisitReportHandlerComponent } from '../VisitReportForm/visitreport-handler.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 
@@ -25,7 +26,7 @@ selector: 'app-VisitReportForm',
 templateUrl: './VisitReportForm.component.html'
 })
 export class VisitReportFormComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('VRF_ReportType', {static: false}) VRF_ReportType: ComboBoxComponent;
+@ViewChild('VRF_ReportType', {static: false}) VRF_ReportType: RLOUIRadioComponent;
 @ViewChild('VRF_DateOfVisit', {static: false}) VRF_DateOfVisit: DateComponent;
 @ViewChild('VRF_AddressofVisit', {static: false}) VRF_AddressofVisit: TextAreaComponent;
 @ViewChild('VRF_OfficialName', {static: false}) VRF_OfficialName: ComboBoxComponent;
@@ -34,8 +35,8 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 @ViewChild('VRF_OfficialId', {static: false}) VRF_OfficialId: ComboBoxComponent;
 @ViewChild('VRF_OfficialBusinessGroup', {static: false}) VRF_OfficialBusinessGroup: ComboBoxComponent;
 @ViewChild('VRF_PlaceOfVisit', {static: false}) VRF_PlaceOfVisit: TextAreaComponent;
-@ViewChild('VRF_Photograph', {static: false}) VRF_Photograph: ComboBoxComponent;
-@ViewChild('VRF_AdverseObservation', {static: false}) VRF_AdverseObservation: ComboBoxComponent;
+@ViewChild('VRF_Photograph', {static: false}) VRF_Photograph: RLOUIRadioComponent;
+@ViewChild('VRF_AdverseObservation', {static: false}) VRF_AdverseObservation: RLOUIRadioComponent;
 @ViewChild('VRF_Observations', {static: false}) VRF_Observations: TextAreaComponent;
 @ViewChild('VRF_Save', {static: false}) VRF_Save: ButtonComponent;
 @ViewChild('VRF_Reset', {static: false}) VRF_Reset: ButtonComponent;
@@ -92,6 +93,8 @@ this.HidOfficialId.setValue('OFFICIAL_ID');
 this.HidOfficialName.setValue('OFFICIAL_NAME');
 this.HidReportType.setValue('REPORT_TYPE');
 let inputMap = new Map();
+this.VRF_Photograph.setDefault('N');
+this.VRF_AdverseObservation.setDefault('N');
 await this.Visit_Report_Grid.gridDataLoad({
     'VisitReportSeqToGrid' :222,
 });

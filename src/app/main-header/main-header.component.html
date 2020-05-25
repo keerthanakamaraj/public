@@ -1,11 +1,11 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
-            <!-- <span class="navbar-logo"></span> -->
-         
-			<img src="assets/icons/menu.svg" alt="RLO" />
-        </div>
+        <!-- <div class="navbar-header"> -->
+        <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
+        <!-- <span class="navbar-logo"></span> -->
+
+        <!-- <img src="assets/icons/menu.svg" alt="RLO" />
+        </div> -->
         <!-- <li>
             <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnck==true }" (click)="getTray()"><img
                     class="navbar-img-link" src="assets/icons/folder-open-line.svg" alt="My Tray" /></a>
@@ -16,9 +16,10 @@
             <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
             <!-- <span class="navbar-logo"></span> -->
             <a href="javascript:void(0)">
-			<img src="assets/icons/intellect.png" height="28" width="50" alt="RLO" /></a>
+                <img src="assets/icons/Intellect-Logo.png" alt="RLO" style="height: 36px;" />
+            </a>
         </div>
-
+        <!-- height="28" width="50" -->
         <!-- <li>
                 <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }">
                     <img class="navbar-img-link" src="assets/icons/logout-svgrepo-com.svg"
@@ -28,7 +29,7 @@
 
         <!--/.navbar-header-->
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
+            <!-- <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a class="dropdown-toggle-workflow" data-toggle="dropdown">Workflow<span class="caret"></span>
                     </a>
@@ -38,27 +39,28 @@
                     </ul>
                 </li>            
 
-            </ul>
+            </ul> -->
 
             <!-- START - NAVBAR RIGHT -->
 
             <ul class="nav navbar-nav navbar-right">
 
                 <!-- START - Logged in user details. -->
-             
+
                 <!-- END - Logged in user details. -->
 
                 <li style="visibility: hidden">
-                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnck==true }" (click)="getTray()"><img
-                            class="navbar-img-link" src="assets/icons/folder-open-line.svg" alt="My Tray" /></a>
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnck==true }" (click)="getTray()">
+                        <img class="navbar-img-link" src="assets/icons/folder-open-line.svg" alt="My Tray" />
+                    </a>
                     <span class="badge" *ngIf="!isMytrayAvilable">{{myTrayCountsRecords}}</span>
                 </li>
 
                 <li style="visibility: hidden">
-                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }"
-                        (click)="getHistory()"><img class="navbar-img-link" src="assets/icons/history-line.svg"
-                            alt="History" /></a>
-                            <span class="badge" *ngIf="isMytrayAvilable">{{myTrayCountsRecords}}</span>
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }" (click)="getHistory()">
+                        <img class="navbar-img-link" src="assets/icons/history-line.svg" alt="History" />
+                    </a>
+                    <span class="badge" *ngIf="isMytrayAvilable">{{myTrayCountsRecords}}</span>
                 </li>
                 <li class="dropdown" style="visibility: hidden">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">
@@ -71,7 +73,8 @@
                         <li><a href="#" (click)="logout()">{{getLabel('LOGOUT')}}</a></li>
                     </ul> -->
                 </li>
-                <li><img class="profile" src="assets/icons/profile.png"> </li> 
+                <li>
+                    <img class="profile" src="assets/icons/profile.png"> </li>
                 <li class="vertical-center">
                     <div class="navbar-img-user">
                         <span></span>
@@ -79,15 +82,15 @@
                     <div class="navbar-account">
                         <!-- <span id="loggedInUser">{{fullName}}, {{USER_ROLES}}</span> -->
                         <span id="loggedInUser">{{fullName}}</span>
-                        <span id="todaysdate">{{today | date:'dd-MMM-yyyy' }}</span>
+                        <span id="todaysdate">{{today | date:'dd-MMM-yyyy hh:mm:ss' }}</span>
                     </div>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }" (click)="logout()" >
-                        <img class="navbar-img-link" src="assets/icons/logout.svg"
-                            alt="Logout" /></a>
+                    <a href="javascript:void(0)" [ngClass]="{'fill-data-btn' : btnckd==true }" (click)="logout()">
+                        <img class="navbar-img-link" src="assets/icons/logout.svg" alt="Logout" />
+                    </a>
                 </li>
-               
+
             </ul>
 
             <!-- END - NAVBAR RIGHT -->

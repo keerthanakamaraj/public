@@ -50,6 +50,7 @@ export class MainHeaderComponent implements OnInit {
 
   today = new Date();
 
+
   @ViewChild('loginDiv', { static: false }) loginDiv: ElementRef;//userInfo
   @ViewChild('userInfo', { static: false }) userInfo: ElementRef;
   @ViewChild('notificationDiv', { static: false }) notificationDiv: ElementRef;
@@ -59,37 +60,37 @@ export class MainHeaderComponent implements OnInit {
     this.selectedlang = this.services.http.currentLanguage;
 
     // TODO: Get Menu List from entitlements
-  //   this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
-  //       { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
-  //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
-  //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
-  //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
-  //   // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
-  //   //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
-  //   //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
-  //   //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
-  //   //                             { id: 'starCondition', text: 'STAR'}] },
-  //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
-  // ];
+    //   this.menuList = [{ Menu: 'NEW_TO_BANK', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
+    //       { Menu: 'MODIFICATION', MenuList: [{ id: 'QDE', text: 'QDE' }]},
+    //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
+    //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
+    //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
+    //   // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
+    //   //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
+    //   //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
+    //   //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
+    //   //                             { id: 'starCondition', text: 'STAR'}] },
+    //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
+    // ];
 
-  //this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
-  this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]},
-  //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
-  //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
-  //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
-  //   // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
-  //   //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
-  //   //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
-  //   //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
-  //   //                             { id: 'starCondition', text: 'STAR'}] },
-  //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
-  ];
+    //this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }, { id: 'QDE', text: 'QDE' }]},
+    this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }] },
+      //   // { Menu: 'MODIFICATION', MenuList: [{ id: 'modWithEnhancement', text: 'WITH_ENHANCEMENT' },
+      //   //                                  { id: 'modWithReduction', text: 'WITH_REDUCTION' },
+      //   //                                  { id: 'modTermAndCondition', text: 'TERM_AND_CONDITION' }] },
+      //   // { Menu: 'RENEWAL', MenuList: [{ id: 'renewalWithEnhancement', text: 'WITH_ENHANCEMENT' },
+      //   //                             { id: 'renewalWithReduction', text: 'WITH_REDUCTION' },
+      //   //                             { id: 'renewalWithChanges', text: 'WITH_CHANGES' },
+      //   //                             { id: 'renewalWithoutChanges', text: 'WITHOUT_CHANGES' },
+      //   //                             { id: 'starCondition', text: 'STAR'}] },
+      //   // { Menu: 'DISBURSEMENT', MenuList: [ { id: 'dnTranche', text: 'DN_TRANCHE' }] },
+    ];
 
-  //this.menu = { MenuList: [{ id: 'Initiation', text: 'Initiate' }]};
+    //this.menu = { MenuList: [{ id: 'Initiation', text: 'Initiate' }]};
 
 
-  this.termAndConditionMenuList = [{id : 'modTermAndConditionWithFL', text : 'WITH_FL'},
-    {id : 'modTermAndConditionWithoutFL', text : 'WITHOUT_FL'}];
+    this.termAndConditionMenuList = [{ id: 'modTermAndConditionWithFL', text: 'WITH_FL' },
+    { id: 'modTermAndConditionWithoutFL', text: 'WITHOUT_FL' }];
   }
   public navbarSearchOpen = false;
   public sessionStorage = sessionStorage;
@@ -116,22 +117,22 @@ export class MainHeaderComponent implements OnInit {
     this.navigateToHome();
   }
 
-  redirect(id) {
-    if(id && id != ""){
-      this.router.navigate(['/home/' + id]);
-    } else {
-      this.navigateToHome();
-    }
-    
-  }
+  // redirect(id) {
+  //   if(id && id != ""){
+  //     this.router.navigate(['/home/' + id]);
+  //   } else {
+  //     this.navigateToHome();
+  //   }
 
-  navigateToHome(){
+  // }
+
+  navigateToHome() {
     this.router.navigate(['/home/LANDING']);
   }
 
   /* Un-implemented Methods */
-  getTray(){}
-  getHistory(){}
+  getTray() { }
+  getHistory() { }
 
   isMytrayAvilable: boolean = false;
   btnck: boolean = false;
