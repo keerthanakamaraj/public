@@ -18,7 +18,7 @@ import { OtherDeductionFormModule } from '../OtherDeductionForm/OtherDeductionFo
 import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.module';
 import { GoNoGoModule } from '../go-no-go/go-no-go.module';
 import { DDEHandlerModule } from '../DDE/DDE-handler.module';
-import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
+import { ScoreCardModule } from '../score-card/score-card.module';
 
 @NgModule({
     imports: [
@@ -45,7 +45,7 @@ import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.mod
         AssetDetailsFormModule,
         GoNoGoModule,
         DDEHandlerModule,
-        CustomerGridDTLSModule,
+        ScoreCardModule
     ],
     declarations: [
         DDEComponent,

@@ -9,7 +9,6 @@ import { HeaderRoutingModule } from './Header-routing.module';
 import { HeaderComponent } from './Header.component';
 import { HeaderHandlerModule } from '../Header/header-handler.module';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
-import { ScoreCardModule } from '../score-card/score-card.module';
 
 @NgModule({
     imports: [
@@ -25,8 +24,7 @@ import { ScoreCardModule } from '../score-card/score-card.module';
                 deps: [HttpClient]
             }
         }),
-        HeaderHandlerModule,
-        ScoreCardModule
+        HeaderHandlerModule
     ],
     declarations: [
         HeaderComponent,

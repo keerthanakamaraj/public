@@ -54,9 +54,22 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
     @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
+    @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
+    @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
+    @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
+
 
     // public ProductCategory: String;
     ApplicationId: string = undefined;
+    taskId: any;
+    instanceId: any;
+    userId: any;
+    appId: any;
+    router: any;
+
+    stageValidationMap = new Map<string, any>();
+    errorsList = [];
+
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -79,11 +92,34 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         super.afterRevalidate();
         return totalErrors;
     }
+
+    objectKeys = Object.keys;
+
+    customer = [
+        [
+            { name: "liability Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Asset Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Income Summary", completed: true, icon: "refresh-form.svg" },
+            { name: "Collateral Details", completed: false, icon: "refresh-form.svg" }
+        ],
+        [
+            { name: "Personal Interview Details", completed: false, icon: "refresh-form.svg" },
+            { name: "RM Visit Details", completed: true, icon: "refresh-form.svg" },
+        ],
+        [
+            { name: "Customer Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Address Details", completed: false, icon: "refresh-form.svg" },
+            { name: "Occupation Details", completed: true, icon: "refresh-form.svg" },
+            { name: "Family Details", completed: true, icon: "refresh-form.svg" }
+        ]
+    ]
+
     constructor(services: ServiceStock) {
         super(services);
         this.value = new QDEModel();
         this.componentCode = 'QDE';
         this.displayBorder = false;
+        console.log("testing", this.customer);
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
@@ -104,15 +140,19 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.HideProcessId.setValue('RLO_Process');
         this.HideServiceCode.setValue('ClaimTask');
         this.HideTenantId.setValue('SB1');
+        this.HideAppId.setValue('RLO');
+        this.HideCurrentStage.setValue('QDE');
+
 
         let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.ApplicationId = appId;
-        let taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
-        let instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-        let userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+        this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+        this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+        this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
         await this.brodcastApplicationId();
 
+        // await this.CUSTOMER_DETAILS.onFormLoad(event);
         this.FieldId_9.doAPIForCustomerList({});
         this.FieldId_10.fetchReferalDetails();
         this.APPLICATION_DETAILS.fetchApplicationDetails();
@@ -125,6 +165,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         //   await this.FieldId_10.onFormLoad({
         //     'custSeq': appId
         //   });
+
 
         //   await this.CUSTOMER_DETAILS.onFormLoad({
         //     'custSeq': appId
@@ -139,8 +180,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         await this.Handler.onFormLoad({
         });
 
-        if (userId == undefined || userId == '') {
-            this.claimTask(taskId);
+        if (this.userId == undefined || this.userId == '') {
+            this.claimTask(this.taskId);
         }
 
         this.setDependencies();
@@ -361,26 +402,55 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     updateAddressTags() {
-        let displayTag = [];
-        if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
-            displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + ";" + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
-        }
         let tags = [];
-        displayTag.forEach(tag => {
-            tags.push({ text: tag });
+        this.FieldId_6.AddressGrid.addressDetails.forEach(Add => {
+            if (Add.AD_Address_Type == 'OF') {
+                tags.push({ text: 'Office' + ";" + " " + Add.AD_Address });
+            }
+            // else if (Add.AD_Address_Type == 'RS') {
+            //     tags.push({ text: 'Residence' + ";" + " " + Add.AD_Address });
+            // }
         })
+        // let displayTag = [];
+        // if (this.FieldId_6.AD_ADD_TYPE.getFieldValue() !== undefined && this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() !== undefined && this.FieldId_6.AD_PINCODE.getFieldValue() !== undefined && this.FieldId_6.AD_CITY.getFieldValue() !== undefined) {
+        //     displayTag.push(this.FieldId_6.AD_ADD_TYPE.getFieldInfo() + "," + " " + this.FieldId_6.AD_ADDRESS_LINE1.getFieldValue() + "," + this.FieldId_6.AD_CITY.getFieldValue() + "," + this.FieldId_6.AD_PINCODE.getFieldValue())
+        // }
+        // let tags = [];
+        // displayTag.forEach(tag => {
+        //     tags.push({ text: tag });
+        // })
         this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
     }
 
     addOccupationTags() {
-        let displayTag = [];
-        if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
-            displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
-        }
         let tags = [];
-        displayTag.forEach(tag => {
-            tags.push({ text: tag });
+        this.FieldId_5.OCC_DTLS_GRID.loopDataVar10.forEach(Occ => {
+            if (Occ.OD_OCCUPATION == 'RT') {
+                tags.push({ text: 'Retired' });
+            }
+            else if (Occ.OD_OCCUPATION == 'HW') {
+                tags.push({ text: 'Housewife' });
+            }
+            else if (Occ.OD_OCCUPATION = 'ST') {
+                tags.push({ text: 'Student' });
+            }
+            else if (Occ.OD_OCCUPATION = 'SL') {
+                tags.push({ text: 'Salaried' });
+            }
+            else if (Occ.OD_OCCUPATION == 'SE') {
+                tags.push({ text: 'Self Employed' });
+            }
+            else if (Occ.OD_OCCUPATION == 'OT') {
+                tags.push({ text: 'Others' });
+            }
         })
+        // if (this.FieldId_5.OD_OCCUPATION.getFieldValue() !== undefined) {
+        //     displayTag.push(this.FieldId_5.OD_OCCUPATION.getFieldInfo())
+        // }
+        // let tags = [];
+        // displayTag.forEach(tag => {
+        //     tags.push({ text: tag });
+        // })
 
         this.QDE_ACCORD1.setTags("OCC_DETAILS", tags);
     }
@@ -413,13 +483,129 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
         //  }, 20000);
     }
-
-    async QDE_SUBMIT_click(event) {
+    async QDE_WITHDRAW_click(event) {
         let inputMap = new Map();
+        this.hideDirection.setValue('W');
+        // var noofError:number = await this.revalidate();
+        // if(noofError==0){
+        inputMap.clear();
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        inputMap.set('Body.TaskId', this.taskId);
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.UserId', this.userId);
+        inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+        inputMap.set('Body.ApplicationId', this.ApplicationId);
+        inputMap.set('Body.ApplicationStatus', 'Withdraw');
+        inputMap.set('Body.direction', this.hideDirection.getFieldValue());
+
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.services.alert.showAlert(1, 'Proposal withdraw successfully', 5000);
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ApplicationStatus') {
+                        this.hideDirection.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ApplicationId') {
+                        this.HideAppId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'CurrentStage') {
+                        this.HideCurrentStage.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'Unable to withdraw proposal', -1);
+            }
+        );
+
+
+    }
+    async QDE_SUBMIT_click(event) {
+        if(this.isFormValid()){
+        let inputMap = new Map();
+        this.hideDirection.setValue('AP');
+        // var noofError:number = await this.revalidate();
+        // if(noofError==0){
+        //  this.QDE_SUBMIT.setDisabled(true);
+        inputMap.clear();
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        inputMap.set('Body.TaskId', this.taskId);
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.UserId', this.userId);
+        inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+        inputMap.set('Body.ApplicationId', this.ApplicationId);
+        inputMap.set('Body.ApplicationStatus', 'Approve');
+        inputMap.set('Body.direction', this.hideDirection.getFieldValue());
+
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
+                // this.QDE_SUBMIT.setDisabled(false)
+                this.services.router.navigate(['home', 'LANDING']);
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ApplicationStatus') {
+                        this.hideDirection.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ApplicationId') {
+                        this.HideAppId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'CurrentStage') {
+                        this.HideCurrentStage.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                    this.services.alert.showAlert(2, 'Fail to Submit', -1);
+                }
+            }
+            );
+
+        } else {
+            // let alertString="";
+            // let newLine = "\r\n";
+            //   this.errorsList.forEach(eachError => {
+            //     alertString=alertString+newLine+eachError;
+            //   });
+            this.services.alert.showAlert(2, this.errorsList[0], -1);
+        }
     }
 
     async brodcastProdCategory(event) {
-        console.log("shweta :: in qde ", event.isLoanCategory);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
         this.FieldId_9.isLoanCategory = event.isLoanCategory;
@@ -458,6 +644,140 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             // history.back();
             this.services.router.navigate(['home', 'LANDING']);
         }
+    }
+
+    updateStageValidation(event) {
+
+        this.categoriesCustomers(event);
+        //   console.log("updateStageValidation ", event);
+        //   if (event && event.name == "customerLoad") { // Customers loaded
+        //     if(this.stageValidationMap){ // stageValidation Map Exists - update existing
+
+        //         this.stageValidationMap["customers"]=event.data;     
+
+        //      console.log("shweta after :: Validation Map",this.stageValidationMap);
+        //      console.log("shweta :: event map : ",event);
+        //     } else { // stageValidation Map Does not Exists - create new
+        //       this.stageValidationMap = {};
+        //       this.stageValidationMap["customers"] = [];
+
+        //       // let customers = [];
+
+        //       if(event.data && event.data.length > 0) {
+        //         this.stageValidationMap["customers"] = event.data;
+
+        //       //   event.data.forEach(customer => {
+        //       //     // Validation applies to Borrower / Co Borrower
+        //       //     if(customer["CustomerType"] == "B" || customer["CustomerType"] == "CB"){ 
+        //       //       customers.push({
+        //       //         BorrowerSeq: customer["BorrowerSeq"],
+        //       //         CustomerType: customer["CustomerType"],
+        //       //         DOB: customer["DOB"],
+        //       //         Gender: customer["Gender"],
+        //       //         LoanOwnership: customer["LoanOwnership"],
+        //       //         isAddressAdded: false,
+        //       //         isOccupationAdded: false
+        //       //       });
+        //       //     }
+        //       //   });
+
+        //       //   this.stageValidationMap["customers"] = customers;
+        //       }
+        //     }
+        //   } else if(event && event.name == "addressLoad") { // Address loaded
+        //     // delete if exists for customer and then add
+
+        //     this.stageValidationMap=this.stageValidationMap.customers.map(
+        //         mapCustomer => mapCustomer.BorrowerSeq===event.data[0].BorrowerSeq
+        //        );
+
+        //     this.stageValidationMap["address"] = event.data;
+
+        //   } else if(event && event.name == "occupationLoad") { // Occupation loaded
+        //     this.stageValidationMap["occupationLoad"] = event.data;
+        //   }
+    }
+
+    categoriesCustomers(event) {
+        let addressList = [];
+        let occupationList = [];
+        event.data.forEach(eventCustomer => {
+            const borSeq: string = "CustID" + eventCustomer.BorrowerSeq.toString();
+            let customerDetails = new Map();
+            if (this.stageValidationMap) {
+                // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));
+                console.log("shweta ::: map : ", this.stageValidationMap);
+                if ((this.stageValidationMap).has(borSeq)) {
+                    customerDetails = this.stageValidationMap.get(borSeq);
+                }
+            }
+            switch (event.name) {
+                case "customerLoad": customerDetails.set('customer', eventCustomer); break;
+                case "addressLoad":
+                    addressList.push(eventCustomer);
+                    customerDetails.set('address', addressList);
+                    break;
+                case "occupationLoad":
+                    occupationList.push(eventCustomer);
+                    customerDetails.set('occupation', occupationList);
+                    break;
+            }
+            this.stageValidationMap.set(borSeq, customerDetails);
+        });
+
+    }
+   
+    isFormValid() {
+        let isAppValidFlag = true;
+        this.errorsList = [];
+
+        Array.from(this.stageValidationMap.entries()).forEach(entry => {
+            let isAddressValid: boolean = true;
+            let isOccupationValid: boolean = true;
+            let isCustomerValid: boolean = true;
+            let errorMessage: string = '';
+            let custFullName: string = '';
+            console.log(' shweta :: Key: ', entry[0] + ' Value: ', entry[1]);
+            const bottowerSeq: string = entry[0];
+            if (entry[1].has('customer')) {
+                let customer = entry[1].get('customer');
+                // if (this.validateCustomer(customer)) {
+                //     isCustomerValid = false;
+                //     errorMessage = errorMessage + ' Mandatory fields of customer'
+                // }
+                const LoanOwnership = customer.LoanOwnership;
+                custFullName = customer.FullName;
+                if (!entry[1].has('address')) {
+                    isAddressValid = false;
+                    errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
+                    errorMessage = errorMessage + ' Add atleast one address';
+                }
+
+                if (LoanOwnership != undefined) {
+                    if (!entry[1].has('occupation')) {
+                        isOccupationValid = false;
+                        errorMessage = errorMessage != '' ? errorMessage + ' and ' : errorMessage;
+                        errorMessage = errorMessage + 'Cccupation details';
+                    }
+
+                }
+            }
+            if (!(isAddressValid && isOccupationValid)) {
+                errorMessage = "formalities of customer " + custFullName + " are pending. Please fill : " + errorMessage;
+                this.errorsList.push(errorMessage);
+                isAppValidFlag = false;
+
+            }
+        });
+        console.log("shweta :: validation error mesage :: ", this.errorsList);
+        return isAppValidFlag;
+    }
+
+    async validateCustomer(customer) {
+
+        let noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
+        return (noOfErrors > 0) ? true : false;
+
     }
 
 }

@@ -382,8 +382,8 @@
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_LOAN_OWNERSHIP.mandatory}">
                         {{ 'Initiation.CD_LOAN_OWNERSHIP' | translate}}</label>
                     </div>
-                    <app-amount #CD_LOAN_OWNERSHIP fieldID="CD_LOAN_OWNERSHIP" [formCode]="formCode"
-                      placeholder="(Optional)" (blur)="CD_LOAN_OWNERSHIP_blur()"></app-amount>
+                    <app-text-box #CD_LOAN_OWNERSHIP fieldID="CD_LOAN_OWNERSHIP" [formCode]="formCode"
+                      placeholder="(Optional)" (blur)="genericOnBlur('CD_LOAN_OWNERSHIP', $event)"></app-text-box>
                   </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_ADD.isHidden()">
                     <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"

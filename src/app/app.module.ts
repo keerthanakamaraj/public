@@ -104,7 +104,7 @@ const keycloakService = new KeycloakService();
 ],
   imports: [
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes, { useHash: true}),
+    RouterModule.forRoot(appRoutes, { useHash: true,scrollPositionRestoration: 'enabled'}),
     HttpClientModule,
     HttpModule,
     FormsModule,

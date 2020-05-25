@@ -7,6 +7,7 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+
 const customCss: string = '';
 @Component({
 selector: 'app-OccuptionDtlsGrid',
@@ -22,6 +23,7 @@ transition('false => true', animate('300ms ease-in'))
 })
 export class OccuptionDtlsGridComponent implements AfterViewInit {
 	occupationRecord: boolean = false;
+	loopDataVar10: any[];
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
@@ -30,6 +32,7 @@ constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
 @Input('fieldID') fieldID: string;
+@Output() occupationLoaded: EventEmitter<any> = new EventEmitter<any>();
 
 componentCode: string = 'OccuptionDtlsGrid';
 openedFilterForm:string = '';
@@ -272,7 +275,7 @@ this.readonlyGrid.combineMaps(gridReqMap, inputMap);
 this.services.http.fetchApi('/OccupationDetails', 'GET', inputMap, '/rlo-de').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-var loopDataVar10 = [];
+this.loopDataVar10 = [];
 if(res !== null){
 	this.occupationRecord = true
 	var loopVar10 = res['OccupationDetails'];
@@ -282,6 +285,12 @@ else{
 
 }
 
+if (loopVar10) {
+	this.occupationLoaded.emit({
+	  "name" : "occupationLoad",
+	  "data": loopVar10
+	});
+}
 
 if (loopVar10) {
 for (var i = 0; i < loopVar10.length; i++) {
@@ -292,9 +301,9 @@ tempObj['OD_OCCUPATION'] = loopVar10[i].Occupation;
 tempObj['OD_COMPANY_NAME'] = loopVar10[i].CompanyName;
 tempObj['INCOME_FREQ'] = loopVar10[i].IncomeFrequecy;
 tempObj['NET_INCOME'] = loopVar10[i].NetIncome;
-loopDataVar10.push(tempObj);}
+this.loopDataVar10.push(tempObj);}
 }
-this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar10);
 this.hideSpinner();
 },
 async (httpError)=>{
@@ -325,7 +334,7 @@ async OD_DELETE_click(event){
 let inputMap = new Map();
 inputMap.clear();
 inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
-this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap).subscribe(
+this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap,'/rlo-de').subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
 this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
@@ -344,6 +353,10 @@ this.loadSpinner=true;
 }
 hideSpinner(){
 this.loadSpinner=false;
+}
+
+getOccupationGridData() {	
+	return this.loopDataVar10;
 }
 
 }

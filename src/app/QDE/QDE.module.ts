@@ -19,6 +19,7 @@ import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module'
 import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.module';
+
 @NgModule({
     imports: [
         CommonModule,

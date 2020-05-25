@@ -3,6 +3,7 @@
     "rlo.error.invalid.regex" : "Value does not match",
     "rlo.error.invalid.form" : "Please Fill all Mandatory Fields",
     "rlo.error.wrong.form":"Something went Wrong",
+    "rlo.error.feature.unavailable" : "This feature is currently not active",
     "rlo.success.update.address": "Address Details Updated Successfully",
     "rlo.error.update.address":"Failed to Update Address Details",
     "rlo.success.save.address":"Address Details Saved Successfully",
@@ -40,6 +41,9 @@
     "rlo.success.save.loan":"Loan Details Saved Successfully",
     "rlo.error.save.loan":"Failed to Save Loan Details",
     "rlo.success.claim.qde":"Proposal Claimed Successfully",
+    "rlo.error.code.address":"Please select Country code",
+    "rlo.error.landline.address":"Please enter Landline Number",
+    "rlo.error.mobile.address":"Please enter Mobile Number",
     "rlo.error.claim.qde":"Failed To Claim Proposal",
     "rlo.success.update.referral": "Customer Details Updated Successfully",
     "rlo.error.update.referral":"Failed to Update Customer Details",
@@ -80,6 +84,9 @@
     "rlo.error.driv-lcnse-expire":"Driving Licence is expired",
     "rlo.error.dob-invalid":"Invalid Date of Birth",
     "rlo.error.age-invalid":"Product not valid for this age",
+    "rlo.error.joiningdate.occupation":"Please Select Valid Date of Joining ",
+    "rlo.error.inceptiondate.occupation":"Please Select Valid Date Of Inception",
+    "rlo.error.pincode.invalid" : "Pincode not found",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
@@ -1335,7 +1342,8 @@
     "EMAIL_LABEL" : "Correspondence Email?",
     "AD_CLEAR_BTN" : "Clear",
     "AD_RES_DUR_UNIT" : "Period",
-    "AD_Country_Code":"Country Code",
+    "AD_COUNTRY_CODE":"Country Code",
+    "AD_LAND_COUNTRY_CODE":"Country Code",
     "AD_HEADING" : "Address",
     "YRS_LABEL" : "How Long has the client been living at the above address?",
     "AD_ADDRESS_LINE1" : "Address Line 1",
@@ -1504,7 +1512,7 @@
     "AD_Residence_Duration" : "Duration of Occupancy",
     "AD_DELETE_BTN_ButtonName" : "Delete",
     "AD_DELETE_BTN" : "",
-    "AD_CORR_ADD" : "Correspondence Address",
+    "AD_MAILING_ADDRESS" : "Correspondence Address",
     "toolbar_AddressDetailsGrid" : "null",
     "AD_Address" : "Address",
     "AD_OCC_STATUS" : "Occupancy Status",
@@ -1611,8 +1619,9 @@
     "FormTitle": "Quick Data Entry",
     "FieldId_8": "null",
     "FieldId_5": "null",
-    "QDE_SUBMIT": "Submit",
-    "QDE_CANCEL": "Cancel"
+    "QDE_SUBMIT": "SUBMIT",
+    "QDE_CANCEL": "CANCEL",
+    "QDE_WITHDRAW" :"WITHDRAW"
   },
   "Header": {
     "Edit":"Edit",
@@ -1632,7 +1641,7 @@
     "HD_CIF": "CIF",
     "HD_SCHEME": "Scheme",
     "HD_PROD_CAT": "Product Category",
-    "LD_INTEREST_RATE": "Interest Rate"
+    "LD_INTEREST_RATE": "Net Interest Rate"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",

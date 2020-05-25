@@ -11,7 +11,7 @@ import { ServiceStock } from '../service-stock.service';
 })
 
 export class DateComponent extends FieldComponent implements OnInit {
-  @Input('format') format : string = 'dd-mm-yyyy';
+  @Input('format') format: string = 'dd-mm-yyyy';
 
   @ViewChild('field', { static: true }) field: MyDatePicker;
 
@@ -43,13 +43,13 @@ export class DateComponent extends FieldComponent implements OnInit {
   onDataChanged(event: IMyDateModel) {
     this.blur.emit(event.formatted);
   }
-  
 
 
-  getFieldValue(){
+
+  getFieldValue() {
     return this.getFieldInfo();
   }
-  
+
 
   async validateValue(value): Promise<number> {
     var totalErrors: number = 0;
@@ -85,7 +85,7 @@ export class DateComponent extends FieldComponent implements OnInit {
 
   getFieldInfo() {
     if (this.value) {
-      if(this.value.formatted){
+      if (this.value.formatted) {
         return this.value.formatted;
       }
       let format = this.format.toUpperCase();
@@ -106,12 +106,12 @@ export class DateComponent extends FieldComponent implements OnInit {
         if (splits[i] == 'YYYY') {
           dateString += this.value.date.year;
         } else if (splits[i] == 'MM') {
-          if(this.value.date.month < 10){
+          if (this.value.date.month < 10) {
             dateString += '0';
           }
           dateString += this.value.date.month;
         } else {
-          if(this.value.date.day < 10){
+          if (this.value.date.day < 10) {
             dateString += '0';
           }
           dateString += this.value.date.day;
@@ -127,28 +127,26 @@ export class DateComponent extends FieldComponent implements OnInit {
   }
 
   setValue(value, additionalInfo = undefined) {
+    if (value != undefined) {
+      this.value = undefined;
+      let date;
+      if (typeof value === 'string' && value.length == 10) {
+        date = this.parseDate(value);
+      } else if (Object.prototype.toString.call(value) === "[object Date]" && !isNaN(value.getTime())) {
+        date = value;
+      } else {
+        var consoleErrorMsg = this.fieldID + ".setValue()" + ": Ivalid Input Value"
+          + "\nInput Value: " + JSON.stringify(value);
+        console.error(consoleErrorMsg);
+        this.onReset();
+      }
 
-    this.value = undefined;
-    let date;
-    if (typeof value === 'string' && value.length == 10) {
-      date = this.parseDate(value);
-    } else if (Object.prototype.toString.call(value) === "[object Date]" && !isNaN(value.getTime())) {
-      date = value;
-    }else {
-      var consoleErrorMsg = this.fieldID + ".setValue()" + ": Ivalid Input Value"
-      + "\nInput Value: "+ JSON.stringify(value);
-      console.error(consoleErrorMsg);
-      this.onReset();
+      if (date) {
+        this.value = { date: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() } };
+        this.maxlength = 10;
+      }
     }
-
-    if (date) {
-      this.value = { date: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() } };
-      this.maxlength = 10;
-    }
-
-    
-
-    this.passNewValue(this.value==undefined?undefined:this.getFieldInfo());
+    this.passNewValue(this.value == undefined ? undefined : this.getFieldInfo());
   }
 
   /*parseDate(input, format) {
@@ -194,9 +192,9 @@ export class DateComponent extends FieldComponent implements OnInit {
 
       if ((date.getFullYear() == (+year)) && (date.getMonth() == ((+month) - 1)) && (date.getDate() == (+day))) {
         return date;
-      }else{
+      } else {
         var consoleErrorMsg = this.fieldID + ".parseDate() : Invalid Value\nDate Format : "
-        +this.format+"\nInput Value : "+value;
+          + this.format + "\nInput Value : " + value;
         console.error(consoleErrorMsg);
       }
 

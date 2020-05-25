@@ -1,5 +1,5 @@
 <form class="MakeRelative">
-    <div class="ShowLoading " *ngIf="loadSpinner">
+    <!-- <div class="ShowLoading " *ngIf="loadSpinner">
         <div class="lds-roller MakeItMiddle">
             <div></div>
             <div></div>
@@ -10,7 +10,7 @@
             <div></div>
             <div></div>
         </div>
-    </div>
+    </div> -->
     <div class="clearfix content">
         <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
         <div *ngIf="!formOnLoadError">
@@ -96,8 +96,8 @@
                                 {{ 'AddressDetails.AD_PINCODE' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" domainObjectUrl="/MasterPincodeDtls/{PinCd}" doServerUrl="/masters"
-                            domainObjectCode="MasterPincodeDtls" (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
+                        <app-text-box #AD_PINCODE fieldID="AD_PINCODE" [formCode]="formCode" 
+                          (blur)="genericOnBlur('AD_PINCODE', $event)"></app-text-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_REGION.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -105,7 +105,7 @@
                                 {{ 'AddressDetails.AD_REGION' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AD_REGION fieldID="AD_REGION" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_REGION', $event)"></app-text-box>
+                        <app-text-box #AD_REGION fieldID="AD_REGION" [formCode]="formCode" (blur)="genericOnBlur('AD_REGION', $event)"></app-text-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CITY.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -158,6 +158,16 @@
                         <app-label #FieldId_30 parentCompCode="AddressDetails" fieldID="FieldId_30" [formCode]="formCode" fontFamily="sans-serif"
                             fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
                     </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LAND_COUNTRY_CODE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'AddressDetails.AD_LAND_COUNTRY_CODE' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AD_LAND_COUNTRY_CODE category="2" fieldID="AD_LAND_COUNTRY_CODE" placeholder="Select" [formCode]="formCode"
+                            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                            (blur)="genericOnBlur('AD_LAND_COUNTRY_CODE', $event)"></app-combo-box>
+                    </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDLINE_NUMBER.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
@@ -166,14 +176,14 @@
                         </div>
                         <app-text-box #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)"></app-text-box>
                     </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_Country_Code.isHidden()">
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_COUNTRY_CODE.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
-                                {{ 'AddressDetails.AD_Country_Code' | translate}}
+                                {{ 'AddressDetails.AD_COUNTRY_CODE' | translate}}
                             </label>
                         </div>
-                        <app-combo-box #AD_Country_Code category="2" fieldID="AD_Country_Code" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_Country_Code', $event)"></app-combo-box>
+                        <app-combo-box #AD_COUNTRY_CODE category="2" fieldID="AD_COUNTRY_CODE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_COUNTRY_CODE', $event)"></app-combo-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ALTERNATE_MOB_NO.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -200,25 +210,17 @@
                         <app-combo-box #AD_PREF_TIME category="2" fieldID="AD_PREF_TIME" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_PREF_TIME', $event)"></app-combo-box>
                     </div>
-                    <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_CORR_EMAIL.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AddressDetails.AD_CORR_EMAIL' | translate}}
-</label>
-</div>
-
-<rlo-ui-radio #AD_CORR_EMAIL fieldID="AD_CORR_EMAIL" [formCode]="formCode" placeholder="(Select)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_CORR_EMAIL', $event)"></rlo-ui-radio>
-</div> -->
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" #FieldId_36 id="FieldId_36">
-                        <div class="clr-brown fieldLegend" >
+                        <div class="clr-brown fieldLegend">
                             <label class="clr-brown mandatory">
                                 {{ 'AddressDetails.AD_CORR_EMAIL' | translate}}
                             </label>
                         </div>
-                        <div class="rlo-ui-radio-container form-group corrBox" >
+                        <div class="rlo-ui-radio-container form-group corrBox">
                             <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
-                            <app-check-box class="AD_EMAIL1" #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
-                                checked='true'  (change)="AD_EMAIL1_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)" (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
+                            <app-check-box class="AD_EMAIL1" #AD_EMAIL1_CHECKBOX fieldID="AD_EMAIL1_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false"
+                                [checkedValue]="true" checked='true' 
+                                (blur)="genericOnBlur('AD_EMAIL1_CHECKBOX', $event)"></app-check-box>
                             <!-- </div> -->
                             <div class="clr-brown fieldLegend emailCheck1">
                                 <label class="clr-brown">
@@ -226,9 +228,10 @@
                                 </label>
                             </div>
                             <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_EMAIL2_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
-                            
+
                             <app-check-box #AD_EMAIL2_CHECKBOX fieldID="AD_EMAIL2_CHECKBOX" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true"
-                                (change)="AD_EMAIL2_CHECKBOX_change('AD_EMAIL2_CHECKBOX', $event)" (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)" style="margin-left: 33px; margin-top: 6px;"></app-check-box>
+                                (blur)="genericOnBlur('AD_EMAIL2_CHECKBOX', $event)"
+                                style="margin-left: 33px; margin-top: 6px;"></app-check-box>
                             <!-- </div> -->
                             <div class="clr-brown fieldLegend emailCheck2">
                                 <label class="clr-brown">
@@ -238,7 +241,6 @@
                         </div>
                     </div>
 
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_SAVE_ADDRESS.isHidden()">
                         <app-button #AD_SAVE_ADDRESS fieldName="{{ 'AddressDetails.AD_SAVE_ADDRESS' | translate}}" fieldID="AD_SAVE_ADDRESS" [formCode]="formCode"
                             imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="AD_SAVE_ADDRESS_click($event)"></app-button>
@@ -252,7 +254,10 @@
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AddressGrid.isHidden()">
-                        <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"></app-AddressDetailsGrid>
+                        <app-AddressDetailsGrid #AddressGrid fieldID="AddressGrid" [formCode]="formCode" 
+                          (emitAddressDetails)="AddressGrid_emitAddressDetails($event)"
+                          (addressLoaded)="AddressGrid_addressGridLoaded($event)">
+                        </app-AddressDetailsGrid>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-address-handler #Handler [MainComponent]="this"></app-address-handler>
@@ -262,6 +267,7 @@
                 <app-hidden #hidAddType fieldID="hidAddType"></app-hidden>
                 <app-hidden #hidMailingAddress fieldID="hidMailingAddress"></app-hidden>
                 <app-hidden #hidResDurType fieldID="hidResDurType"></app-hidden>
+                <app-hidden #hidLandISDCode fieldID="hidLandISDCode"></app-hidden>
                 <app-hidden #hidOccStatus fieldID="hidOccStatus"></app-hidden>
                 <app-hidden #hideOccType fieldID="hideOccType"></app-hidden>
                 <app-hidden #AD_HIDE_ID fieldID="AD_HIDE_ID"></app-hidden>

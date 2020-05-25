@@ -57,6 +57,19 @@
   border: 5px solid #0079B8;
 }
 
+.radio-disabled, .radio-disabled .checkmark, .radio-disabled Label {
+  cursor:not-allowed;
+}
+
+.radio-disabled input:checked ~ .checkmark {
+  border: 5px solid rgba(0, 0, 0, 0.493);
+}
+/*input[type=radio]:disabled{*/
+  /* .rlo-ui-radio-container :disabled:hover{
+  background-color: red;
+  cursor: not-allowed !important;
+} */
+
 /* Create the indicator (the dot/circle - hidden when not checked) * /
 .checkmark:after {
   content: "";
