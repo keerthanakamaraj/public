@@ -130,27 +130,5 @@
       </div>
     </div>
 
-    <div class="test">
-      <div class="row">
-        <div class="col-sm-1 col-md-1 col-lg-1 menu-container">
-
-          <div class="wgt-form-menu" *ngFor="let section of customer">
-            <div class="form-element" *ngFor="let menu of section">
-              <div [ngStyle]="{'background-image':'url('+menu.icon+')'}"></div>
-              <span *ngIf="menu.completed" class="status-flag"></span>
-              <span class="txt">{{menu.name}}</span>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-sm-11 col-md-11 col-lg-11 p-0">
-          <div class="section-name">Customer Details</div>
-          <div>
-            Form body
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </form>
