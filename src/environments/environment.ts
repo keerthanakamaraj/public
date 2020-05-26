@@ -42,6 +42,22 @@ export const environment = {
   // }
 };
 
+  // serviceMap : {
+  //   "default" : "/initiation/publisher",
+  //   "/masters" : "/masters/publisher",
+  //   "/ui" : "/initiation/publisher",
+  //   "/los-wf" : "/los-wf/rest",
+  //   "/initiation": "/initiation/publisher",
+  //   "/rlo-de" : "/rlo-de/publisher"
+  // }
+
+  // serviceMap : {
+  //   "default" : "/initiation/publisher",
+  //   "/masters" : "/masters/publisher",
+  //   "/ui" : "/initiation/publisher"
+  // }
+
+
 /*
  * In development mode, for easier debugging, you can ignore zone related error
  * stack frames such as `zone.run`/`zoneDelegate.invokeTask` by importing the

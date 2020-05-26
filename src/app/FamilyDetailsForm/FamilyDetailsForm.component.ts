@@ -29,6 +29,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('FD_FIRST_NAME', { static: false }) FD_FIRST_NAME: TextBoxComponent;
     @ViewChild('FD_MIDDLE_NAME', { static: false }) FD_MIDDLE_NAME: TextBoxComponent;
     @ViewChild('FD_LAST_NAME', { static: false }) FD_LAST_NAME: TextBoxComponent;
+    @ViewChild('FD_THIRD_NAME', { static: false }) FD_THIRD_NAME: TextBoxComponent;
     @ViewChild('FD_FULL_NAME', { static: false }) FD_FULL_NAME: TextBoxComponent;
     @ViewChild('FD_GENDER', { static: false }) FD_GENDER: ComboBoxComponent;
     @ViewChild('FD_DOB', { static: false }) FD_DOB: DateComponent;
@@ -47,8 +48,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
     @ViewChild('hiddenFamilySeq', { static: false }) hiddenFamilySeq: HiddenComponent;
     @ViewChild('hidISDCode', { static: false }) hidISDCode: HiddenComponent;
-    custMinAge: number = 18;
-    custMaxAge: number = 100;
+    @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
+
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -57,6 +59,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('FD_FIRST_NAME'),
             this.revalidateBasicField('FD_MIDDLE_NAME'),
             this.revalidateBasicField('FD_LAST_NAME'),
+            // this.revalidateBasicField('FD_THIRD_NAME'),
             this.revalidateBasicField('FD_FULL_NAME'),
             this.revalidateBasicField('FD_GENDER'),
             this.revalidateBasicField('FD_DOB'),
@@ -165,50 +168,58 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         this.setReadOnly(false);
         this.onFormLoad();
     }
-    isPastDate(selectedDate) {
-        const moment = require('moment');
-        const currentDate = moment();
-        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        console.log("current date :: ", currentDate._d);
-        console.log("selected date :: ", selectedDate._d);
-        if (selectedDate >= currentDate) {
-            return false;
-        }
-        return true;
-    }
 
-    isAgeValid(selectedDate) {
-        const moment = require('moment');
-        let currentDate = moment();
-        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        let age = currentDate.diff(selectedDate, 'years');
-        console.log("age is:", age);
-        console.log("cif min age is:", this.custMinAge);
-        console.log("cif max age is:", this.custMaxAge);
-        if (age < this.custMinAge || age > this.custMaxAge) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    async FD_DOB_blur(event) {
+    async FD_FIRST_NAME_blur(event) {
         let inputMap = new Map();
-        if (!this.isPastDate(this.FD_DOB.getFieldValue())) {
-            this.FD_DOB.setError('rlo.error.dob-invalid');
-        } else if (!this.isAgeValid(this.FD_DOB.getFieldValue())) {
-            this.FD_DOB.setError('rlo.error.age-invalid');
-
+        await this.Handler.updateFullName({
+        });
+    }
+    async FD_MIDDLE_NAME_blur(event) {
+        let inputMap = new Map();
+        await this.Handler.updateFullName({
+        });
+    }
+    // async FD_THIRD_NAME_blur(event) {
+    //     let inputMap = new Map();
+    //     await this.Handler.updateFullName({
+    //     });
+    // }
+    async FD_LAST_NAME_blur(event) {
+        let inputMap = new Map();
+        await this.Handler.updateFullName({
+        });
+    }
+    genderCheck() {
+        if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
+            //console.log("Please select gender according to tilte");
+            this.services.alert.showAlert(2, 'Please select gender according to title', -1);
         }
     }
-
+    async FD_GENDER_blur(event) {
+        let inputMap = new Map();
+        this.genderCheck();
+    }
     async Save_click(event) {
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
+        let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
         if (noOfError == 0) {
+            // if (familyGridData) { 
+            //     for (var i = 0; i < familyGridData.length; i++) {  
+            //             if(familyGridData[i].FD_RELATIONSHIP != this.hiddenFamilySeq.getFieldValue()){
+            //                 this.services.alert.showAlert(2, 'rlo.error.exits.family', -1);
+            //                 return;
+            //             }
+            //         }
+            //     }
+            if (this.FD_ISD_Code.getFieldValue() == undefined && this.FD_MOBILE.getFieldValue() != undefined) {
+                this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+                return;
+            }
+            else if (this.FD_ISD_Code.getFieldValue() != undefined && this.FD_MOBILE.getFieldValue() == undefined) {
+                this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
+                return;
+            }
             if (this.hiddenFamilySeq.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.BorrowerSeq', this.hiddenFamilySeq.getFieldValue());
@@ -381,6 +392,10 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 this.hideSpinner();
             }
         );
+    }
+    async FD_FULL_NAME_change() {
+        let inputMap = new Map();
+        this.onFullNameblur.emit({});
     }
     fieldDependencies = {
         FD_TITLE: {

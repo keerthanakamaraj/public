@@ -29,7 +29,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     @Input('displayTitle') displayTitle: boolean = true;
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
-
+    familyDetails = [];
     componentCode: string = 'FamilyDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -186,7 +186,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                var loopDataVar4 = [];
+                this.familyDetails = [];
                 var loopVar4 = res['BorrowerDetails'];
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
@@ -194,10 +194,10 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                         tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
                         tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
                         tempObj['FD_NAME'] = loopVar4[i].FullName;
-                        loopDataVar4.push(tempObj);
+                        this.familyDetails.push(tempObj);
                     }
                 }
-                this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+                this.readonlyGrid.apiSuccessCallback(params, this.familyDetails);
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -221,19 +221,21 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
-        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body;
-                this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);
-                this.readonlyGrid.refreshGrid();
-            },
-            async (httpError) => {
-                var err = httpError['error']
-                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        if (confirm("Are you sure you want to Delete?")) {
+            this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    var res = httpResponse.body;
+                    this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);
+                    this.readonlyGrid.refreshGrid();
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    }
+                    this.services.alert.showAlert(2, 'rlo.error.delete.family', -1);
                 }
-                this.services.alert.showAlert(2, 'rlo.error.delete.family', -1);
-            }
-        );
+            );
+        }
     }
     loadSpinner = false;
     showSpinner() {
@@ -241,6 +243,9 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     }
     hideSpinner() {
         this.loadSpinner = false;
+    }
+    getFamilyDetails() {
+        return this.familyDetails;
     }
 
 }
