@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
-import { DDEModel } from './DDE.model';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { DDEModel, AddSpecificComponent } from './DDE.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
 import { TextAreaComponent } from '../text-area/text-area.component';
@@ -51,6 +51,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
+    @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
+
     ApplicationId: string = undefined;
 
     async revalidate(): Promise<number> {
@@ -69,7 +71,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         super.afterRevalidate();
         return totalErrors;
     }
-    constructor(services: ServiceStock) {
+
+    customerMenu = [
+        [
+            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false }
+        ],
+        [
+            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "refresh-form.svg", isActive: false },
+        ],
+        [
+            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "refresh-form.svg", isActive: true },
+            { id: "AddressDetails", name: "Address Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "refresh-form.svg", isActive: false }
+        ]
+    ];
+
+    constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
         this.value = new DDEModel();
         this.componentCode = 'DDE';
@@ -162,6 +184,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         styleElement.innerHTML = customCss;
         styleElement.id = 'DDE_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
+
+        this.injectDynamicComponent('CustomDetails', 2, 1);
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -345,6 +369,40 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     fieldDependencies = {
+    }
+
+    injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
+        //console.log(ele1, ele2);
+        this.customerMenu.forEach(element => element.forEach(ele => ele.isActive = false))
+        this.customerMenu[ele1][ele2].isActive = true;
+
+        const componentRef = this.getComponentClassRef(componentId);
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
+
+        const viewContainerRef = this.FormHost;
+        viewContainerRef.clear();
+
+        const dynamicComponent = viewContainerRef.createComponent(componentFactory);
+        var componentInstance = dynamicComponent.instance;
+        console.log(componentInstance);
+        //componentInstance = this.ApplicationId;
+        componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+    }
+
+    getComponentClassRef(componentId: string): AddSpecificComponent {
+        switch (componentId) {
+            case 'CustomDetails':
+                return new AddSpecificComponent(CustomerDtlsComponent);
+                break;
+
+            case 'FamilyDetails':
+                return new AddSpecificComponent(FamilyDetailsFormComponent);
+                break;
+
+            default:
+                return new AddSpecificComponent(NotepadDetailsFormComponent);
+                break;
+        }
     }
 }
 

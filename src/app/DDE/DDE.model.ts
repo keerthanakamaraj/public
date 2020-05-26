@@ -1,3 +1,5 @@
+import { Type } from "@angular/core";
+
 export class DDEModel {
 FieldId_1 : any;
 CUST_DTLS : any;
@@ -23,4 +25,8 @@ if(res['FieldId_13']){this.FieldId_13 = res['FieldId_13'];}
 if(res['CUSTOMER_GRID']){this.CUSTOMER_GRID = res['CUSTOMER_GRID'];}
 }
 }
+}
+
+export class AddSpecificComponent {
+    constructor(public component: Type<any>) { }
 }

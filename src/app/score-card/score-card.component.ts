@@ -10,10 +10,10 @@ export class ScoreCardComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     let windowScroll = window.pageYOffset;
-    if (windowScroll >= 100) {
-      this.showExpanded = false;
-    } else if (windowScroll < 80) {
+    if (windowScroll >= 280) {
       this.showExpanded = true;
+    } else if (windowScroll < 60) {
+      this.showExpanded = false;
     }
   }
 
