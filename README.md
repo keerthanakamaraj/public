@@ -19,8 +19,10 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - [Visual Studio Code](https://code.visualstudio.com/)
   
   Recommended Plugins for Visual Studio Code
+  - [TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin)
   - [Beautify](https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify)
   - [EditorConfig for VSCode](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+  - [XML Tools](https://marketplace.visualstudio.com/items?itemName=DotJoshJohnson.xml)
 
 
 ## Coding Standards
