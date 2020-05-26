@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { MyTrayGridComponent } from '../MyTrayGrid/MyTrayGrid.component';
+import { Router } from "@angular/router";
 
 const customCss: string = '';
 
@@ -26,6 +27,8 @@ const customCss: string = '';
 export class MyTrayFormComponent extends FormComponent implements OnInit, AfterViewInit {
   @ViewChild('MT_SLIDER', { static: false }) MT_SLIDER: CheckBoxComponent;
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
+  @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
+  menuList = [];
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -40,11 +43,12 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock) {
+  constructor(services: ServiceStock, private router: Router) {
     super(services);
     this.value = new MyTrayFormModel();
     this.componentCode = 'MyTrayForm';
     this.displayBorder = false;
+    // this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]}]
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
@@ -140,5 +144,19 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   }
   fieldDependencies = {
   }
-
+  MT_Proposal_click() {
+    let inputMap = new Map();
+    this.redirect();
+  }
+  navigateToHome() {
+    this.router.navigate(['/home/LANDING']);
+  }
+  redirect() {
+    var id = "Initiation";
+    if (id && id != "") {
+      this.router.navigate(['/home/' + id]);
+    } else {
+      this.navigateToHome();
+    }
+  }
 }

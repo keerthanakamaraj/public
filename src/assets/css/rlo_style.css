@@ -563,7 +563,7 @@
 }
 
 .ag-cell {
-  color: #004d8a;
+  color: #4F4E4E;
 }
 /* .shirnkheader {
   float: left;
@@ -701,9 +701,12 @@ li .a {
 .icon {
   color: white;
 }
+
 #MT_Proposal{
   margin-left: 261px;
   margin-top: 19px;
+  height: 36px;
+  width: 165px;
 }
 .fa.fa-trash.fa-lg {
   box-sizing: border-box;

@@ -1741,7 +1741,8 @@
     },
   "MyTrayForm": {
     "MT_SLIDER": "Pending with Self",
-    "FormTitle": "My Tray"
+    "FormTitle": "My Tray",
+    "MT_Proposal":"NEW PROPOSAL"
   },
   "NotepadDetailsGrid": {
     "ND_SR_NO": "S No",
