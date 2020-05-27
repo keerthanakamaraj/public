@@ -31,10 +31,10 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
                         <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
-                            <a class="btn btn-default active" data-toggle="tab">
+                            <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
                                 <input type="radio" />CUSTOMER
                             </a>
-                            <a class="btn btn-default" data-toggle="tab">
+                            <a class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
                                 <input type="radio" />APPLICATION
                             </a>
                         </div>
@@ -182,10 +182,9 @@
          <!-- FORM MENU TABS -->
          <div class="row">
             <div class="col-sm-1 col-md-1 col-lg-1 wgt-form-menu">
-
                 <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
                     (mouseout)="mouseOvered=false">
-                    <div class="form-element" *ngFor="let section of customerMenu;let j= index">
+                    <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
                         <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
                             *ngFor="let menu of section;let i= index"
                             [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': 'inactive-table'">
@@ -198,11 +197,11 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="col-sm-11 col-md-11 col-lg-11 p-0">           
                 <div>
+                    <!-- components added here -->
                     <ng-template #appDDEFormDirective></ng-template>
                 </div>
             </div>

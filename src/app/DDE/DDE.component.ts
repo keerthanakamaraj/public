@@ -91,6 +91,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         ]
     ];
 
+    applicationMenu = [
+        [
+            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "refresh-form.svg", isActive: false }
+        ],
+        [
+            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "LoanDetails", name: "Loan Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "refresh-form.svg", isActive: true },
+            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "refresh-form.svg", isActive: false },
+            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "Notes", name: "Notes", completed: true, icon: "refresh-form.svg", isActive: false }
+        ]
+    ];
+
+    formsMenuList: Array<any> = [];
+
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
         this.value = new DDEModel();
@@ -185,6 +206,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         styleElement.id = 'DDE_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
 
+        this.formsMenuList = this.customerMenu;
         this.injectDynamicComponent('CustomDetails', 2, 1);
     }
     ngOnDestroy() {
@@ -373,8 +395,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
         //console.log(ele1, ele2);
-        this.customerMenu.forEach(element => element.forEach(ele => ele.isActive = false))
-        this.customerMenu[ele1][ele2].isActive = true;
+        this.formsMenuList.forEach(element => element.forEach(ele => ele.isActive = false))
+        this.formsMenuList[ele1][ele2].isActive = true;
 
         const componentRef = this.getComponentClassRef(componentId);
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
@@ -403,6 +425,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;
         }
+    }
+    
+    tabSwitched(tabName: string) {
+        console.log(tabName);
+        this.formsMenuList = this.applicationMenu;
+        console.log(this.formsMenuList);
+        this.injectDynamicComponent('CustomDetails', 0, 1);
     }
 }
 
