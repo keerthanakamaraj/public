@@ -40,7 +40,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     };
     columnDefs: any[] = [{
         field: "AT_Asset_Type",
-        width: 15,
+        width: 20,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -53,39 +53,9 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             caseSensitive: true,
         },
     },
-    // {
-    //     field: "AT_Asset_Subtype",
-    //     width: 15,
-    //     sortable: true,
-    //     resizable: true,
-    //     cellStyle: { 'text-align': 'left' },
-    //     filter: "agTextColumnFilter",
-    //     filterParams: {
-    //         suppressAndOrCondition: true,
-    //         applyButton: true,
-    //         clearButton: true,
-    //         filterOptions: ["contains"],
-    //         caseSensitive: true,
-    //     },
-    // },
-    // {
-    //     field: "AT_Asset_Location",
-    //     width: 15,
-    //     sortable: true,
-    //     resizable: true,
-    //     cellStyle: { 'text-align': 'left' },
-    //     filter: "agTextColumnFilter",
-    //     filterParams: {
-    //         suppressAndOrCondition: true,
-    //         applyButton: true,
-    //         clearButton: true,
-    //         filterOptions: ["contains"],
-    //         caseSensitive: true,
-    //     },
-    // },
     {
         field: "AT_Asset_Status",
-        width: 15,
+        width: 20,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -100,7 +70,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     },
     {
         field: "AT_Asset_Value",
-        width: 15,
+        width: 20,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -115,7 +85,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     },
      {
         field: "AT_INCLUDE_IN_DBR",
-        width: 15,
+        width: 20,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -129,7 +99,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        width: 13,
+        width: 10,
         field: " ",
         sortable: false,
         filter: false,
@@ -146,7 +116,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        width: 13,
+        width: 10,
         field: " ",
         sortable: false,
         filter: false,
@@ -161,7 +131,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             IconClass: 'fa fa-trash fa-lg',
             onClick: this.AT_DELETE_click.bind(this),
         },
-    },
+    }
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
     ngAfterViewInit() {

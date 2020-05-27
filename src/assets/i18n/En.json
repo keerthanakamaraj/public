@@ -1377,7 +1377,7 @@
     "LD_SAVE": "Save",
     "clear":"clear",
     "FD_HEADING": "Liability Details",
-    "LD_EQUIVALENT_AMOUNT": "Equivalent Amount",
+    "LD_EQUIVALENT_AMOUNT": "Local Currency Equivalent",
     "LD_CURRENCY": "Currency",
     "LD_LOAN_EMI": "Loan EMI",
     "LD_TYPE_OF_LOAN": "Type of Loan",
@@ -1386,7 +1386,7 @@
     "LD_LOAN_CLOSURE_DATE": "Loan Closure Date",
     "LD_INCLUDE_IN_DBR": "Include in DBR",
     "LD_LOAN_EMI_FREQUENCY": "Loan Emi Frequency",
-    "LD_LOAN_AMOUNT": "Loan Amount*",
+    "LD_LOAN_AMOUNT": "Loan Amount",
     "LIABILITY_GRID": "null"
   },
   "AssetDetailsForm": {
@@ -1398,7 +1398,7 @@
     "AT_INCLUDE_IN_DBR": "Include in DBR",
     "AssetDetailsGrid": "null",
     "AD_HEADING": "Assets Details",
-    "AT_EQUIVALENT_AMOUNT": "Equivalent Amount",
+    "AT_EQUIVALENT_AMOUNT": "Local Currency Equivalent",
     "AT_ASSET_LOCATION": "Asset Location",
     "AT_FAIR_MRKT_VALUE": "Fair Market Value",
     "AT_ASSET_SUBTYPE": "Asset Subtype",

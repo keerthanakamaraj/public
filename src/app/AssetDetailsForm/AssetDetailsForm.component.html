@@ -67,11 +67,11 @@
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_VALUE.isHidden()">
                         <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_VALUE.mandatory}">
                                 {{ 'AssetDetailsForm.AT_ASSET_VALUE' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-text-box>
+                        <app-amount #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-amount>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_FAIR_MRKT_VALUE.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -79,7 +79,7 @@
                                 {{ 'AssetDetailsForm.AT_FAIR_MRKT_VALUE' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_FAIR_MRKT_VALUE', $event)"></app-text-box>
+                        <app-amount #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_FAIR_MRKT_VALUE', $event)"></app-amount>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_CURRENCY.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -90,14 +90,14 @@
                         <app-combo-box #AT_CURRENCY category="2" fieldID="AT_CURRENCY" [formCode]="formCode" domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}"
                             doServerUrl="/masters" domainObjectCode="MstCurrencyDetails" placeholder="Select" (blur)="genericOnBlur('AT_CURRENCY', $event)"></app-combo-box>
                     </div>
-                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_EQUIVALENT_AMOUNT.isHidden()">
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_EQUIVALENT_AMOUNT.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AssetDetailsForm.AT_EQUIVALENT_AMOUNT' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-text-box>
-                    </div> -->
+                        <app-amount #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-amount>
+                    </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_OWNED_BY.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">

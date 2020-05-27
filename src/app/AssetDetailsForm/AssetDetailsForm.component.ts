@@ -82,6 +82,12 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
     }
+
+    async clear_click(event) {
+        let inputMap = new Map();
+        this.onReset();
+      }
+
     async onFormLoad() {
         this.assetBorrowerSeq = 2;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -95,9 +101,11 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.setDependencies();
         await this.Handler.onFormLoad({});
         await this.AssetDetailsGrid.gridDataLoad({
-            'passBorrowerToAsset' :this.assetBorrowerSeq
+                'passBorrowerToAsset' :this.assetBorrowerSeq
         });
     }
+
+   
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
