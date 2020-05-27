@@ -175,6 +175,22 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
   async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
     let inputMap = new Map();
     inputMap.clear();
+
+    let LiabilityId:any = event.passBorrowerToLiability;
+    let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
+    if(LiabilityId){
+    criteriaJson.FilterCriteria.push({
+        "columnName": "BorrowerSeq",
+        "columnType": "String",
+        "conditions": {
+            "searchType": "equals",
+            "searchText": LiabilityId
+        }
+    });
+    inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+    
+    }
+
     if (gridReqMap.get("FilterCriteria")) {
       var obj = gridReqMap.get("FilterCriteria");
       for (var i = 0; i < obj.length; i++) {

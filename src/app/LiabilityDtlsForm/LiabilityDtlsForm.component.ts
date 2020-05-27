@@ -25,6 +25,7 @@ const customCss: string = '';
     templateUrl: './LiabilityDtlsForm.component.html'
 })
 export class LiabilityDtlsFormComponent extends FormComponent implements OnInit, AfterViewInit {
+    liabilityBorrowerSeq: any;
     @ViewChild('LD_FINANCIER_NAME', { static: false }) LD_FINANCIER_NAME: TextBoxComponent;
     @ViewChild('LD_LOAN_STATUS', { static: false }) LD_LOAN_STATUS: ComboBoxComponent;
     @ViewChild('LD_TYPE_OF_LOAN', { static: false }) LD_TYPE_OF_LOAN: ComboBoxComponent;
@@ -80,7 +81,12 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
     }
+    async clear_click(event) {
+        let inputMap = new Map();
+        this.onReset();
+      }
     async onFormLoad() {
+        this.liabilityBorrowerSeq = 2;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.LD_OS_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         this.LD_EQUIVALENT_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
@@ -92,6 +98,11 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.hideCurrencyDesc.setValue('INR');
         this.setDependencies();
         await this.Handler.onFormLoad({});
+        await this.LIABILITY_GRID.gridDataLoad({
+            'passBorrowerToLiability':this.liabilityBorrowerSeq
+        });
+
+        
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -177,10 +188,14 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
             inputMap.set('Body.LiabilityDetails.EquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
             inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.liabilityBorrowerSeq);            
             this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.update.liability', 5000);
+                    await this.LIABILITY_GRID.gridDataLoad({
+                        'passBorrowerToLiability':this.liabilityBorrowerSeq
+                    });
                     this.onReset();
                 },
                 async (httpError) => {
@@ -240,10 +255,14 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
             inputMap.set('Body.LiabilityDetails.EquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
             inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.liabilityBorrowerSeq);            
             this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, "rlo.success.save.liability", 5000);
+                    await this.LIABILITY_GRID.gridDataLoad({
+                        'passBorrowerToLiability':this.liabilityBorrowerSeq
+                    });
                     this.onReset();
                 },
                 async (httpError) => {

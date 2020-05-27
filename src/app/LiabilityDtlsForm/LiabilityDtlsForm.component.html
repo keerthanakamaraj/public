@@ -61,7 +61,7 @@
                                 {{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}
                             </label>
                         </div>
-                        <app-text-box #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-text-box>
+                        <app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-amount>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_CLOSURE_DATE.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -77,7 +77,7 @@
                                 {{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}
                             </label>
                         </div>
-                        <app-text-box #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-text-box>
+                        <app-amount #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-amount>
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_INCLUDE_IN_DBR.isHidden()">
@@ -124,6 +124,9 @@
                             domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
                             (blur)="genericOnBlur('LD_LOAN_EMI_FREQUENCY', $event)"></app-combo-box>
                     </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="LD_SAVE.isHidden()">
                         <app-button #LD_SAVE fieldName="{{ 'LiabilityDtlsForm.LD_SAVE' | translate}}" fieldID="LD_SAVE" [formCode]="formCode" imagePath="./assets/icons/plus.svg"
                             [type]="2" customClass="icon-button" (buttonClick)="LD_SAVE_click($event)"></app-button>
