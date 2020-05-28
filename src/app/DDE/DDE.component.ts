@@ -388,6 +388,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+        this.CUST_DTLS.ApplicationId = this.ApplicationId;
     }
 
     fieldDependencies = {
@@ -426,7 +427,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 break;
         }
     }
-    
+
     tabSwitched(tabName: string) {
         console.log(tabName);
         this.formsMenuList = this.applicationMenu;
