@@ -29,7 +29,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('AT_ASSET_TYPE', { static: false }) AT_ASSET_TYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_SUBTYPE', { static: false }) AT_ASSET_SUBTYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_LOCATION', { static: false }) AT_ASSET_LOCATION: TextBoxComponent;
-    @ViewChild('AT_ASSET_STATUS', { static: false }) AT_ASSET_STATUS: TextBoxComponent;
+    @ViewChild('AT_ASSET_STATUS', { static: false }) AT_ASSET_STATUS: ComboBoxComponent;
     @ViewChild('AT_ASSET_VALUE', { static: false }) AT_ASSET_VALUE: TextBoxComponent;
     @ViewChild('AT_FAIR_MRKT_VALUE', { static: false }) AT_FAIR_MRKT_VALUE: TextBoxComponent;
     @ViewChild('AT_CURRENCY', { static: false }) AT_CURRENCY: ComboBoxComponent;
@@ -49,7 +49,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('hideOwnedBy', { static: false }) hideOwnedBy: HiddenComponent;
     @ViewChild('hideCurrencyDesc', { static: false }) hideCurrencyDesc: HiddenComponent;
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
-
+    @ViewChild('hideAssetStatus', { static: false }) hideAssetStatus: HiddenComponent;
+    
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -94,6 +95,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.hidAppId.setValue('RLO');
         this.hideAssetSubType.setValue('ASSET_SUBTYPE');
         this.hideAssetType.setValue('ASSET_TYPE');
+        this.hideAssetStatus.setValue('ASSET_STATUS');
         this.hideIncludeInDBR.setValue('Y_N');
         this.hideName.setValue('NAME');
         this.hideOwnedBy.setValue('OWNED_BY');
@@ -175,6 +177,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.onFormLoad();
     }
     async AT_SAVE_click(event) {
+        this.AT_SAVE.setDisabled(true);
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
         if (numberOfErrors == 0) {
@@ -201,6 +204,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             'passBorrowerToAsset':this.assetBorrowerSeq
                         });
                         this.onReset();
+                        this.AT_SAVE.setDisabled(false);
+                        
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -243,6 +248,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.update.asset', -1);
+                        this.AT_SAVE.setDisabled(false);
+                        
                     }
                 );
             }
@@ -268,6 +275,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             'passBorrowerToAsset':this.assetBorrowerSeq
                         });
                         this.onReset();
+                        this.AT_SAVE.setDisabled(false);
+                        
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -307,6 +316,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.save.asset', -1);
+                        this.AT_SAVE.setDisabled(false);
+                        
                     }
                 );
             }
@@ -405,6 +416,17 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             ],
             outDep: [
                 { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+            ]
+        },
+
+        AT_ASSET_STATUS: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "AT_ASSET_TYPE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideAssetStatus", paramType: "QueryParam" },
+            ],
+            outDep: [
             ]
         },
     }

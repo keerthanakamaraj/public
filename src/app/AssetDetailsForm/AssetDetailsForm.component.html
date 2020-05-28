@@ -63,7 +63,8 @@
                                 {{ 'AssetDetailsForm.AT_ASSET_STATUS' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AT_ASSET_STATUS fieldID="AT_ASSET_STATUS" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-text-box>
+                        <app-combo-box #AT_ASSET_STATUS category="2" placeholder="Select" fieldID="AT_ASSET_STATUS" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                        doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-combo-box>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_VALUE.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -148,6 +149,7 @@
                 <app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
                 <app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
                 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+                <app-hidden #hideAssetStatus fieldID="hideAssetStatus"></app-hidden>
                 <app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
                 <app-hidden #hideAssetSubType fieldID="hideAssetSubType"></app-hidden>
                 <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>

@@ -173,8 +173,9 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.onFormLoad();
     }
     async LD_SAVE_click(event) {
+        this.LD_SAVE.setDisabled(true);
         let inputMap = new Map();
-        if (this.hiddenLiabilitySeq.getFieldValue() != undefined || this.hiddenLiabilitySeq.getFieldValue() != '') {
+        if (this.hiddenLiabilitySeq.getFieldValue() != undefined) {
             inputMap.clear();
             inputMap.set('PathParam.LiabilitySeq', this.hiddenLiabilitySeq.getFieldValue());
             inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
@@ -197,6 +198,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         'passBorrowerToLiability':this.liabilityBorrowerSeq
                     });
                     this.onReset();
+                    this.LD_SAVE.setDisabled(false);
+                    
                 },
                 async (httpError) => {
                     var err = httpError['error']
@@ -239,6 +242,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         }
                     }
                     this.services.alert.showAlert(2, 'rlo.error.update.liability', -1);
+                    this.LD_SAVE.setDisabled(false);
+                    
                 }
             );
         }
@@ -264,6 +269,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         'passBorrowerToLiability':this.liabilityBorrowerSeq
                     });
                     this.onReset();
+                    this.LD_SAVE.setDisabled(false);
+                    
                 },
                 async (httpError) => {
                     var err = httpError['error']
@@ -303,6 +310,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         }
                     }
                     this.services.alert.showAlert(2, "rlo.error.save.liability", -1);
+                    this.LD_SAVE.setDisabled(false);
+                    
                 }
             );
         }
