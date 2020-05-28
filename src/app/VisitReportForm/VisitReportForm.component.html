@@ -138,7 +138,7 @@
                         <app-combo-box #VRF_OfficialName category="2" fieldID="VRF_OfficialName" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('VRF_OfficialName', $event)"></app-combo-box>
                     </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="VRF_OfficialId.isHidden()">
+                    <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="VRF_OfficialId.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'VisitReportForm.VRF_OfficialId' | translate}}
@@ -146,7 +146,7 @@
                         </div>
                         <app-combo-box #VRF_OfficialId category="2" fieldID="VRF_OfficialId" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('VRF_OfficialId', $event)"></app-combo-box>
-                    </div>
+                    </div> -->
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="VRF_OfficialBusinessGroup.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
@@ -178,7 +178,7 @@
                 <app-hidden #HidAppid fieldID="HidAppid"></app-hidden>
                 <app-hidden #HidAttachPhoto fieldID="HidAttachPhoto"></app-hidden>
                 <app-hidden #HidOfficialBusGroup fieldID="HidOfficialBusGroup"></app-hidden>
-                <app-hidden #HidOfficialId fieldID="HidOfficialId"></app-hidden>
+                <!-- <app-hidden #HidOfficialId fieldID="HidOfficialId"></app-hidden> -->
                 <app-hidden #HidOfficialName fieldID="HidOfficialName"></app-hidden>
                 <app-hidden #HidReportType fieldID="HidReportType"></app-hidden>
                 <app-hidden #HidVisitReportSeqId fieldID="HidVisitReportSeqId"></app-hidden>
