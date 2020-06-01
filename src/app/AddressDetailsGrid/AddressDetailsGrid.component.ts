@@ -205,7 +205,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		return this.hidden;
 	}
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
-		this.showSpinner()
+		this.recordShow()
 		let inputMap = new Map();
 		inputMap.clear();
 		let borrowerSeq: any = event.passBorrowerSeqToGrid;
@@ -283,18 +283,19 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						tempObj['AD_Address_Type'] = address[i].AddressType;
 						tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress;
 						tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType;
-						
-            let fullAddressArr = [];
-            fullAddressArr.push(address[i].AddressLine1);
-            fullAddressArr.push(address[i].AddressLine2);
-            fullAddressArr.push(address[i].AddressLine3);
-            fullAddressArr.push(address[i].AddressLine4);
-            fullAddressArr.push(address[i].Region);
-            fullAddressArr.push(address[i].City);
-            fullAddressArr.push(address[i].State);
-            fullAddressArr.push(address[i].PinCode);
+						tempObj['AD_OCC_STATUS'] = address[i].ResidenceType;
 
-            tempObj['AD_Address'] = this.services.rloutil.concatenate(fullAddressArr, ", ");
+						let fullAddressArr = [];
+						fullAddressArr.push(address[i].AddressLine1);
+						fullAddressArr.push(address[i].AddressLine2);
+						fullAddressArr.push(address[i].AddressLine3);
+						fullAddressArr.push(address[i].AddressLine4);
+						fullAddressArr.push(address[i].Region);
+						fullAddressArr.push(address[i].City);
+						fullAddressArr.push(address[i].State);
+						fullAddressArr.push(address[i].PinCode);
+
+						tempObj['AD_Address'] = this.services.rloutil.concatenate(fullAddressArr, ", ");
 
 						if (address[i].ResidenceDuration == undefined && address[i].Period == undefined) {
 							tempObj['AD_Residence_Duration'] = " ";
@@ -319,15 +320,15 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						"data": address,
 						"BorrowerSeq": borrowerSeq
 					});
-        }
-        
-        this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
-				this.hideSpinner();
+				}
+
+				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
+				this.recordHide();
 			},
 			async (httpError) => {
 				var err = httpError['error']
 				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-					this.hideSpinner();
+					this.recordHide();
 				}
 			}
 		);
@@ -335,40 +336,41 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	}
 	async AD_EDIT_BTN_click(event) {
 		let inputMap = new Map();
-		const selectedData0 = this.readonlyGrid.getSelectedData();
-		if (selectedData0) {
-			this.emitAddressDetails.emit({
-				'addSeq': selectedData0['AD_ADD_ID'],
-			});
-		}
+		// const selectedData0 = this.readonlyGrid.getSelectedData();
+		this.emitAddressDetails.emit({
+			'addSeq': event['AD_ADD_ID'],
+		});
+		// if (selectedData0) {
+
+		// }
 	}
 	async AD_DELETE_BTN_click(event) {
 
-    if(confirm("Are you sure you want do delete this record")){
-      let inputMap = new Map();
-      inputMap.clear();
-      inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
-      this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
-          this.readonlyGrid.refreshGrid();
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          }
-          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-        }
-      );
-    }
+		if (confirm("Are you sure you want to delete this record")) {
+			let inputMap = new Map();
+			inputMap.clear();
+			inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
+			this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+				async (httpResponse: HttpResponse<any>) => {
+					var res = httpResponse.body;
+					this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
+					this.readonlyGrid.refreshGrid();
+				},
+				async (httpError) => {
+					var err = httpError['error']
+					if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+					}
+					this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+				}
+			);
+		}
 	}
-	loadSpinner = false;
-	showSpinner() {
-		this.loadSpinner = true;
+	recordDisplay = false;
+	recordShow() {
+		this.recordDisplay = true;
 	}
-	hideSpinner() {
-		this.loadSpinner = false;
+	recordHide() {
+		this.recordDisplay = false;
 	}
 	getAddressGridData() {
 		//  this.addressDetails.push();

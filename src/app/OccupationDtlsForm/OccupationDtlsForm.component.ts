@@ -212,11 +212,13 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     selectedDate = moment(selectedDate, 'DD-MM-YYYY');
     console.log("current date :: ", currentDate._d);
     console.log("selected date :: ", selectedDate._d);
-    if (selectedDate <= currentDate) {
+    if (selectedDate > currentDate) {
       return false;
     }
     return true;
   }
+
+ 
 
   async OD_DATE_OF_JOINING_blur(event) {
     let inputMap = new Map();

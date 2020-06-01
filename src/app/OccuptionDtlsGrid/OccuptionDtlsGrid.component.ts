@@ -228,7 +228,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		return this.hidden;
 	}
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
-		this.showSpinner()
+		this.recordShow()
 
 		let inputMap = new Map();
 		inputMap.clear();
@@ -322,12 +322,12 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
         
         this.readonlyGrid.apiSuccessCallback(params, this.occupation);
         
-				this.hideSpinner();
+				this.recordHide();
 			},
 			async (httpError) => {
 				var err = httpError['error']
 				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-					this.hideSpinner();
+					this.recordHide();
 				}
 			}
 		);
@@ -341,12 +341,13 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 	}
 	async OD_EDIT_BTN_click(event) {
 		let inputMap = new Map();
-		const selectedData0 = this.readonlyGrid.getSelectedData();
-		if (selectedData0) {
-			this.occDtlsEdit.emit({
-				'OccupationSeq': selectedData0['OCCUPATION_ID'],
-			});
-		}
+		// const selectedData0 = this.readonlyGrid.getSelectedData();
+		this.occDtlsEdit.emit({
+			'OccupationSeq': event['OCCUPATION_ID'],
+		});
+		// if (selectedData0) {
+			
+		// }
 	}
 	async OD_DELETE_click(event) {
 
@@ -369,12 +370,12 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
       );
     }		
 	}
-	loadSpinner = false;
-	showSpinner() {
-		this.loadSpinner = true;
+	recordDisplay = false;
+	recordShow() {
+		this.recordDisplay = true;
 	}
-	hideSpinner() {
-		this.loadSpinner = false;
+	recordHide() {
+		this.recordDisplay = false;
 	}
 
 	getOccupationGridData() {

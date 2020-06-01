@@ -7,7 +7,7 @@ import { CheckBoxComponent } from '../check-box/check-box.component';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { FileuploadComponent } from '../fileupload/fileupload.component';
 import { DateComponent } from '../date/date.component';
-import { ButtonComponent } from '../button/button.component'
+import { ButtonComponent } from '../button/button.component';
 import { AmountComponent } from '../amount/amount.component';
 import { FormComponent } from '../form/form.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -69,6 +69,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   stageValidationMap = new Map<string, any>();
   errorsList = [];
+  customerGridArray: any;
 
 
   async revalidate(): Promise<number> {
@@ -157,7 +158,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     await this.Handler.onFormLoad({
     });
 
-    if (this.userId == undefined || this.userId == '') {
+    if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
     }
 
@@ -165,7 +166,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async claimTask(taskId) {
-    let inputMap = new Map();
+    const inputMap = new Map();
     inputMap.clear();
     inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
@@ -174,30 +175,26 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
     this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
+        const res = httpResponse.body;
 
-        if (res.Status == "S") {
+        if (res.Status == 'S') {
           this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
         } else {
           this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
         }
       },
       async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          if (err['ErrorElementPath'] == 'ServiceCode') {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
             this.HideServiceCode.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'ProcessId') {
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
             this.HideProcessId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'TaskId') {
+          } else if (err['ErrorElementPath'] === 'TaskId') {
             this.HideTaskId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'TENANT_ID') {
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
             this.HideTenantId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'UserId') {
+          } else if (err['ErrorElementPath'] === 'UserId') {
             this.HideUserId.setError(err['ErrorDescription']);
           }
         }
@@ -207,7 +204,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   setInputs(param: any) {
-    let params = this.services.http.mapToJson(param);
+    const params = this.services.http.mapToJson(param);
     if (params['mode']) {
       this.mode = params['mode'];
     }
@@ -241,6 +238,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
     return this.value;
   }
+  // tslint:disable-next-line:no-unnecessary-initializer
   setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
     this.HEADER.setValue(inputValue['HEADER'], inputDesc['HEADER_desc']);
@@ -257,18 +255,19 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.passNewValue(this.value);
   }
   ngOnInit() {
-    if (this.formCode == undefined) { this.formCode = 'QDE'; }
+    if (this.formCode === undefined) { this.formCode = 'QDE'; }
     if (this.formOnLoadError) { return; }
-    var styleElement = document.createElement('style');
+    const styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.innerHTML = customCss;
     styleElement.id = 'QDE_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
   }
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    var styleElement = document.getElementById('QDE_customCss');
+    const styleElement = document.getElementById('QDE_customCss');
     styleElement.parentNode.removeChild(styleElement);
   }
   ngAfterViewInit() {
@@ -332,7 +331,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.onFormLoad();
   }
   async CUSTOMER_DETAILS_passBorrowerSeq(event) {
-    let inputMap = new Map();
+    const inputMap = new Map();
     await this.FieldId_6.AddressGrid.gridDataLoad({
       'passBorrowerSeqToGrid': event.BorrowerSeq
       // 'addBorrowerSeq' : event.BorrowerSeq
@@ -359,7 +358,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   }
   async FieldId_9_selectCustId(event) {
-    let inputMap = new Map();
+    const inputMap = new Map();
     this.CUSTOMER_DETAILS.CUST_DTLS_GRID_custDtlsEdit(event);
   }
 
@@ -377,27 +376,28 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   // }
 
   updateAddressTags(event) {
-    let tags = [];
+    const tags = [];
     event.data.forEach(address => {
       let tagText = '';
-      if (address.MailingAddress == 'Y'){
-        if(address.AddressType == 'OF') {
+      if (address.MailingAddress === 'Y') {
+        if (address.AddressType === 'OF') {
           tagText = 'Office; ';
-        } else if (address.AddressType == 'RS') {
+        } else if (address.AddressType === 'RS') {
           tagText = 'Residence; ';
         }
-        
-        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ", " );
+
+        // tslint:disable-next-line:max-line-length
+        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ' );
         tags.push({ text: tagText });
       }
-    })
-    this.QDE_ACCORD1.setTags("ADD_DETAILS", tags);
+    });
+    this.QDE_ACCORD1.setTags('ADD_DETAILS', tags);
   }
 
   addOccupationTags(event) {
-    let tags = [];
+    const tags = [];
     event.data.forEach(occupation => {
-      switch(occupation.Occupation){
+      switch (occupation.Occupation) {
         case 'RT' : tags.push({ text: 'Retired' }); break;
         case 'HW' : tags.push({ text: 'Housewife' }); break;
         case 'ST' : tags.push({ text: 'Student' }); break;
@@ -407,7 +407,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         default: tags.push({ text: occupation.Occupation });
       }
     });
-    this.QDE_ACCORD1.setTags("OCC_DETAILS", tags);
+    this.QDE_ACCORD1.setTags('OCC_DETAILS', tags);
   }
 
 
@@ -439,9 +439,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //  }, 20000);
   }
   async QDE_WITHDRAW_click(event) {
-    if (confirm("Are you sure you want to withdraw?")) {
+    if (confirm('Are you sure you want to withdraw?')) {
       // history.back();
-      let requestParams = new Map();
+      const requestParams = new Map();
       requestParams.set('Body.ApplicationStatus', 'Withdraw');
       requestParams.set('Body.direction', 'W');
       this.submitQDE(requestParams);
@@ -451,7 +451,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async QDE_SUBMIT_click(event) {
     if (await this.isFormValid()) {
-      let requestParams = new Map();
+      const requestParams = new Map();
       requestParams.set('Body.ApplicationStatus', 'Approve');
       requestParams.set('Body.direction', 'AP');
 
@@ -462,7 +462,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async submitQDE(requestParams) {
-    let inputMap = new Map();
+    const inputMap = new Map();
 
     inputMap.clear();
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
@@ -479,48 +479,45 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       });
       // for (let [key, value] of requestParams) {
       //   inputMap.set(key, value);
-      // } 
+      // }
     } else {
-      //console.log('input Map not found .. returing');
+      // console.log('input Map not found .. returing');
       return;
     }
 
     this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
+        const res = httpResponse.body;
 
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
-        let alertMsg = ("WITHDRAW" == action) ? 'rlo.success.qde.withraw' : 'rlo.success.qde.submit';
-
-        this.services.alert.showAlert(1, alertMsg, 5000);
-        // this.QDE_SUBMIT.setDisabled(false)
-        this.services.router.navigate(['home', 'LANDING']);
+        const alertMsg = ('WITHDRAW' === action) ? 'Application withdrew successfully' : 'Application Submitted Successfully';
+        if (confirm(alertMsg)) {
+            // history.back();
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+          this.QDE_SUBMIT.setDisabled(true);
+        // this.services.alert.showAlert(1, alertMsg, 5000);
+        // // this.QDE_SUBMIT.setDisabled(false)
+        // this.services.router.navigate(['home', 'LANDING']);
       },
       async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          if (err['ErrorElementPath'] == 'ApplicationStatus') {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ApplicationStatus') {
             this.hideDirection.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'ApplicationId') {
+          } else if (err['ErrorElementPath'] === 'ApplicationId') {
             this.HideAppId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'CurrentStage') {
+          } else if (err['ErrorElementPath'] === 'CurrentStage') {
             this.HideCurrentStage.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'UserId') {
+          } else if (err['ErrorElementPath'] === 'UserId') {
             this.HideUserId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'TENANT_ID') {
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
             this.HideTenantId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'TaskId') {
+          } else if (err['ErrorElementPath'] === 'TaskId') {
             this.HideTaskId.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'ServiceCode') {
+          } else if (err['ErrorElementPath'] === 'ServiceCode') {
             this.HideServiceCode.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'ProcessId') {
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
             this.HideProcessId.setError(err['ErrorDescription']);
           }
           this.services.alert.showAlert(2, 'Fail to Submit', -1);
@@ -549,22 +546,22 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   updateCustomerTags(event) {
-    let tags = [];
+    const tags = [];
     if (event.fullName !== undefined && event.customerType !== undefined) {
       tags.push({ label: event.customerType, text: event.fullName });
     }
     // if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
     //   tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
     // }
-    this.QDE_ACCORD1.setTags("CUST_DETAILS", tags);
+    this.QDE_ACCORD1.setTags('CUST_DETAILS', tags);
   }
 
   fieldDependencies = {
-  }
+  };
 
   /* Cancel / Back button */
   goBack() {
-    if (confirm("Are you sure you want to cancel?")) {
+    if (confirm('Are you sure you want to cancel?')) {
       // history.back();
       this.services.router.navigate(['home', 'LANDING']);
     }
@@ -572,24 +569,28 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   updateStageValidation(event) {
 
+    if(event.name ==  'customerLoad'){
+      this.CUSTOMER_DETAILS.custGridArray = event.data;
+    }
+    
     this.categoriesCustomers(event);
-   
-    if (event && event.name == "addressLoad") {
+
+    if (event && event.name === 'addressLoad') {
 
       this.updateAddressTags(event);
     }
-    if (event && event.name == "occupationLoad") { // Occupation loaded
+    if (event && event.name === 'occupationLoad') { // Occupation loaded
 
       this.addOccupationTags(event);
     }
   }
 
   categoriesCustomers(event) {
-    let addressList = [];
-    let occupationList = [];
+    const addressList = [];
+    const occupationList = [];
     if (event.data.length > 0) {
       event.data.forEach(eventCustomer => {
-        const borSeq: string = "CustID" + eventCustomer.BorrowerSeq;
+        const borSeq: string = 'CustID' + eventCustomer.BorrowerSeq;
         let customerDetails = new Map();
         if (this.stageValidationMap) {
           // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));
@@ -598,24 +599,24 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
         }
         switch (event.name) {
-          case "customerLoad": customerDetails.set('customerLoad', eventCustomer); break;
-          case "addressLoad":
+          case 'customerLoad': customerDetails.set('customerLoad', eventCustomer); break;
+          case 'addressLoad':
             addressList.push(eventCustomer);
             customerDetails.set('addressLoad', addressList);
             break;
-          case "occupationLoad":
+          case 'occupationLoad':
             occupationList.push(eventCustomer);
             customerDetails.set('occupationLoad', occupationList);
             break;
         }
         this.stageValidationMap.set(borSeq, customerDetails);
       });
-    } else if (event.name != 'customerLoad') {
-      let borSeq: string = "CustID" + event.BorrowerSeq;
+    } else if (event.name !== 'customerLoad') {
+      const borSeq: string = 'CustID' + event.BorrowerSeq;
       let customerDetails = new Map();
       if (this.stageValidationMap.has(borSeq)) {
         customerDetails = this.stageValidationMap.get(borSeq);
-        customerDetails.delete(event.name)
+        customerDetails.delete(event.name);
       }
     }
     //  console.log("shweta ::  map ", this.stageValidationMap);
@@ -627,51 +628,51 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.errorsList = [];
 
     await this.asyncForEach(Array.from(this.stageValidationMap.entries()), async (entry) => {
-      let isAddressValid: boolean = true;
-      let isOccupationValid: boolean = true;
-      let isCustomerValid: boolean = true;
-      let errorMessage: string = '';
-      let custFullName: string = '';
+      let isAddressValid = true;
+      let isOccupationValid = true;
+      let isCustomerValid = true;
+      let errorMessage = '';
+      let custFullName = '';
       // const bottowerSeq: string = entry[0];
       if (entry[1].has('customerLoad')) {
-        let customer = entry[1].get('customerLoad');
+        const customer = entry[1].get('customerLoad');
         custFullName = customer.FullName;
         isCustomerValid = await this.validateCustomer(customer);
 
         if (!isCustomerValid) {
-          errorMessage = errorMessage + ' All mandatory fields for the customer'
+          errorMessage = errorMessage + ' All mandatory fields for the customer';
         }
         const LoanOwnership = customer.LoanOwnership;
         const custType = customer.CustomerType;
 
         if (!entry[1].has('addressLoad')) {
           isAddressValid = false;
-          errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
+          errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
           errorMessage = errorMessage + ' Add atleast one address';
         } else {
-          let addressList = entry[1].get('addressLoad');
-          let addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
-          let isMailing = true;
-          for (let eachAddress of addressList) {
-            if (eachAddress.MailingAddress && eachAddress.MailingAddress == 'Y') {
+          const addressList = entry[1].get('addressLoad');
+          const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+          const isMailing = true;
+          for (const eachAddress of addressList) {
+            if (eachAddress.MailingAddress && eachAddress.MailingAddress === 'Y') {
               addrValidationObj.isMailing = true;
             }
-            if ('CR' == ("" + eachAddress.OccupancyType)) {
+            if ('CR' === ('' + eachAddress.OccupancyType)) {
               addrValidationObj.isCurrent = true;
             }
-            if ('PR' == ("" + eachAddress.OccupancyType)) {
+            if ('PR' === ('' + eachAddress.OccupancyType)) {
               addrValidationObj.isPermenet = true;
             }
-            if ('OF' == ("" + eachAddress.AddressType)) {
+            if ('OF' === ('' + eachAddress.AddressType)) {
               addrValidationObj.isOffice = true;
             }
           }
 
-          if (LoanOwnership == undefined && custType != 'B' && custType != 'CB') {
+          if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
             addrValidationObj.isOffice = true;
           }
 
-          for (let flag in addrValidationObj) {
+          for (const flag in addrValidationObj) {
 
             if (!addrValidationObj[flag]) {
               isAddressValid = false;
@@ -679,27 +680,28 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
 
           if (!isAddressValid) {
-            errorMessage = errorMessage != '' ? errorMessage + ', ' : errorMessage;
+            errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
             errorMessage += (addrValidationObj.isOffice) ?
-              "add one permanent residence, one current residence and select one of these as the correspondence address"
-              : "add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address";
+              'add one permanent residence, one current residence and select one of these as the correspondence address'
+              // tslint:disable-next-line:max-line-length
+              : 'add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address';
 
           }
         }
 
-        if (LoanOwnership != undefined) {
+        if (LoanOwnership !== undefined) {
           isOccupationValid = false;
           if (entry[1].has('occupationLoad')) {
             const occupationList = entry[1].get('occupationLoad');
 
-            for (let eachOccupation of occupationList) {
-              if (eachOccupation.IncomeType && 'PRI' == eachOccupation.IncomeType.toString()) {
+            for (const eachOccupation of occupationList) {
+              if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
                 isOccupationValid = true;
               }
             }
           }
           if (!isOccupationValid) {
-            errorMessage = errorMessage != '' ? errorMessage + '. ' : errorMessage;
+            errorMessage = errorMessage !== '' ? errorMessage + '. ' : errorMessage;
             errorMessage = errorMessage + 'Customer\'s primary occupation is required.';
 
           }
@@ -707,7 +709,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       }
 
       if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
-        errorMessage = "formalities of customer " + custFullName + " are pending. Please fill : " + errorMessage;
+        errorMessage = 'formalities of customer ' + custFullName + ' are pending. Please fill : ' + errorMessage;
         this.errorsList.push(errorMessage);
         isAppValidFlag = false;
       }
@@ -724,7 +726,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async validateCustomer(customer) {
 
-    let noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
+    const noOfErrors: number = await this.CUSTOMER_DETAILS.revalidate();
 
     return (noOfErrors > 0) ? false : true;
   }

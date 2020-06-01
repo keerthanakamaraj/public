@@ -22,13 +22,18 @@ import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.compo
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
-const customCss: string = '';
+const customCss = '';
 
 @Component({
     selector: 'app-CustomerDtls',
     templateUrl: './CustomerDtls.component.html'
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
+    constructor(services: ServiceStock) {
+        super(services);
+        this.value = new CustomerDtlsModel();
+        this.componentCode = 'CustomerDtls';
+    }
     @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
     @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
     @ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;
@@ -55,7 +60,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_DRVNG_LCNSE_EXP_DT', { static: false }) CD_DRVNG_LCNSE_EXP_DT: DateComponent;
     @ViewChild('CD_TAX_ID', { static: false }) CD_TAX_ID: TextBoxComponent;
     @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
-    //@ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
+    // @ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
     @ViewChild('CD_CUST_SEGMENT', { static: false }) CD_CUST_SEGMENT: ComboBoxComponent;
     @ViewChild('CD_LOAN_OWN', { static: false }) CD_LOAN_OWN: TextBoxComponent;
     // @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
@@ -90,21 +95,146 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     // @Input() ProductCategory: String;
-    @Input() customer: boolean = true;
+    @Input() customer = true;
     @Input() ApplicationId: string = undefined;
-    @Input() isLoanCategory: boolean = true;
+    @Input() isLoanCategory = true;
+    custGridArray : any;
     appId: any;
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
+    
 
     // customerDetailMap: {};
     // ApplicationId: void;
     // let customerDetailMap any;
-    custMinAge: number = 18;
-    custMaxAge: number = 100;
+    custMinAge = 18;
+    custMaxAge = 100;
+
+    fieldDependencies = {
+        CD_CUST_TYPE: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_CUST_TYPE', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hideCustomerType', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_EXISTING_CUST: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_EXISTING_CUST', paramType: 'PathParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidExistCust', paramType: 'QueryParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_STAFF: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_STAFF', paramType: 'PathParam' },
+                { paramKey: 'KEY1', depFieldID: 'hideStaffId', paramType: 'QueryParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_TITLE: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_TITLE', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidTitle', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_GENDER: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_GENDER', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidGender', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_MARITAL_STATUS: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_MARITAL_STATUS', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidMaritalStatus', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_NATIONALITY: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_NATIONALITY', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidNationality', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_CUST_SEGMENT: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_CUST_SEGMENT', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidCusSgmt', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_COM_CH: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_PREF_COM_CH', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidPrefCommCh', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_LANG: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_PREF_LANG', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hidPrefLanguage', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_COUNTRY_CODE: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_COUNTRY_CODE', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hideISDCode', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+        CD_CITIZENSHIP: {
+            inDep: [
+
+                { paramKey: 'VALUE1', depFieldID: 'CD_CITIZENSHIP', paramType: 'PathParam' },
+                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+                { paramKey: 'KEY1', depFieldID: 'hideCitizenship', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        }
+    };
     async revalidate(): Promise<number> {
-        var totalErrors = 0;
+        let totalErrors = 0;
         super.beforeRevalidate();
 
 
@@ -135,7 +265,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT'),
             this.revalidateBasicField('CD_TAX_ID'),
             this.revalidateBasicField('CD_DEBIT_SCORE'),
-            //this.revalidateBasicField('CD_NATIONAL_ID'),
+            // this.revalidateBasicField('CD_NATIONAL_ID'),
             this.revalidateBasicField('CD_CUST_SEGMENT'),
             this.revalidateBasicField('CD_LOAN_OWN'),
             //   this.revalidateBasicField('CD_PRIME_USAGE'),
@@ -153,11 +283,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.errors = totalErrors;
         super.afterRevalidate();
         return totalErrors;
-    }
-    constructor(services: ServiceStock) {
-        super(services);
-        this.value = new CustomerDtlsModel();
-        this.componentCode = 'CustomerDtls';
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
@@ -204,7 +329,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     setInputs(param: any) {
-        let params = this.services.http.mapToJson(param);
+        const params = this.services.http.mapToJson(param);
         if (params['mode']) {
             this.mode = params['mode'];
         }
@@ -236,9 +361,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.passNewValue(this.value);
     }
     ngOnInit() {
-        if (this.formCode == undefined) { this.formCode = 'CustomerDtls'; }
+        if (this.formCode === undefined) { this.formCode = 'CustomerDtls'; }
         if (this.formOnLoadError) { return; }
-        var styleElement = document.createElement('style');
+        const styleElement = document.createElement('style');
         styleElement.type = 'text/css';
         styleElement.innerHTML = customCss;
         styleElement.id = 'CustomerDtls_customCss';
@@ -247,7 +372,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        var styleElement = document.getElementById('CustomerDtls_customCss');
+        const styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
     }
     ngAfterViewInit() {
@@ -295,8 +420,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 
         selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        console.log("current date :: ", currentDate._d);
-        console.log("selected date :: ", selectedDate._d);
+        console.log('current date :: ', currentDate._d);
+        console.log('selected date :: ', selectedDate._d);
         if (selectedDate <= currentDate) {
             return false;
         }
@@ -308,8 +433,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         const currentDate = moment();
         currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        console.log("current date :: ", currentDate._d);
-        console.log("selected date :: ", selectedDate._d);
+        console.log('current date :: ', currentDate._d);
+        console.log('selected date :: ', selectedDate._d);
         if (selectedDate >= currentDate) {
             return false;
         }
@@ -318,37 +443,36 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     isAgeValid(selectedDate) {
         const moment = require('moment');
-        let currentDate = moment();
+        const currentDate = moment();
         currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        let age = currentDate.diff(selectedDate, 'years');
-        console.log("age is:", age);
-        console.log("cif min age is:", this.custMinAge);
-        console.log("cif max age is:", this.custMaxAge);
+        const age = currentDate.diff(selectedDate, 'years');
+        console.log('age is:', age);
+        console.log('cif min age is:', this.custMinAge);
+        console.log('cif max age is:', this.custMaxAge);
         if (age < this.custMinAge || age > this.custMaxAge) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
 
 
     genderCheck() {
-        if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
-            //console.log("Please select gender according to tilte");
+        if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
+            // console.log("Please select gender according to tilte");
             this.services.alert.showAlert(2, 'Please select gender according to title', -1);
         }
     }
 
 
     async CD_GENDER_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         this.genderCheck();
     }
 
     async CD_DOB_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
             this.CD_DOB.setError('rlo.error.dob-invalid');
         } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
@@ -358,21 +482,21 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     async CD_PASSPORT_EXPIRY_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         if (!this.isFutureDate(this.CD_PASSPORT_EXPIRY.getFieldValue())) {
             this.CD_PASSPORT_EXPIRY.setError('rlo.error.passport-expire');
         }
     }
 
     async CD_VISA_VALID_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         if (!this.isFutureDate(this.CD_VISA_VALID.getFieldValue())) {
             this.CD_VISA_VALID.setError('rlo.error.visa-expire');
         }
     }
 
     async CD_DRVNG_LCNSE_EXP_DT_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         if (!this.isFutureDate(this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue())) {
             this.CD_DRVNG_LCNSE_EXP_DT.setError('rlo.error.driv-lcnse-expire');
         }
@@ -380,31 +504,34 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
 
     async CD_FIRST_NAME_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         await this.Handler.updateFullName({
         });
     }
     async CD_MIDDLE_NAME_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         await this.Handler.updateFullName({
         });
     }
     async CD_THIRD_NAME_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         await this.Handler.updateFullName({
         });
     }
     async CD_LAST_NAME_blur(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         await this.Handler.updateFullName({
         });
     }
     async CD_STAFF_change(fieldID, value) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
     }
+
+   
     async CD_SAVE_BTN_click(event) {
-        let inputMap = new Map();
+        
+        const inputMap = new Map();
         //    this.customerDetailMap = any;
         //    this.customerDetailMap = any;
 
@@ -412,7 +539,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //     'custSeq': this.ApplicationId
         // })
         console.log('customerDetailMap', this.customerDetailMap);
-        var noOfErrors: number = await this.revalidate();
+        const noOfErrors: number = await this.revalidate();
 
         // if(this.CD_CUST_TYPE.getFieldValue() == 'B'){
         //     if(this.customerDetailMap.has(this.CD_CUST_TYPE.getFieldValue())){
@@ -427,10 +554,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //   }
         // }
 
-        if (noOfErrors == 0) {
-
+        if (noOfErrors === 0) {
+                for(let i = 0 ; i < this.custGridArray.length ; i++){
+                    if(this.custGridArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()){
+                        if(this.custGridArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && this.custGridArray[i].DOB == this.CD_DOB.getFieldValue()){
+                            this.services.alert.showAlert(2, 'Same Customer is alreaday exist', -1);
+                            return;
+                        }
+                    }
+                }
             this.CD_SAVE_BTN.setDisabled(true);
-            if (this.HidCustomerId.getFieldValue() != undefined) {
+            if (this.HidCustomerId.getFieldValue() !== undefined) {
                 inputMap.clear();
 
                 inputMap.set('PathParam.BorrowerSeq', this.HidCustomerId.getFieldValue());
@@ -450,7 +584,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName1', this.CD_PMRY_EMBSR_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
-                //inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
                 //  inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
@@ -472,99 +606,70 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
-                        var res = httpResponse.body;
+                        const res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
-                        })
+                        });
                         // this.onReset();
                     },
                     async (httpError) => {
-                        var err = httpError['error']
-                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
+                        const err = httpError['error'];
+                        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+                            if (err['ErrorElementPath'] === 'BorrowerDetails.Email') {
                                 this.CD_EMAIL.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.LoanOwnership') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.LoanOwnership') {
                                 this.CD_LOAN_OWN.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CIF') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CIF') {
                                 this.CD_CIF.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CommunicationAlertChannel') {
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.ExistingCustomer') {
                                 this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicenseExpiryDt') {
                                 this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicense') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicense') {
                                 this.CD_DRIVING_LICENSE.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.PassportExpiryDt') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PassportExpiryDt') {
                                 this.CD_PASSPORT_EXPIRY.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.PassportNumber') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PassportNumber') {
                                 this.CD_PASSPORT_NO.setError(err['ErrorDescription']);
-                            }
-                            // else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
-                            //     this.CD_NATIONAL_ID.setError(err['ErrorDescription']);
-                            // }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.MaritalStatus') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.MaritalStatus') {
                                 this.CD_MARITAL_STATUS.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CitizenID') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CitizenID') {
                                 this.CD_CITIZENSHIP.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.Nationality') {
                                 this.CD_NATIONALITY.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.PrimaryEmbosserName1') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PrimaryEmbosserName1') {
                                 this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.StaffID') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.StaffID') {
                                 this.CD_STAFF_ID.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.IsStaff') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.IsStaff') {
                                 this.CD_STAFF.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CustomerSegment') {
                                 this.CD_CUST_SEGMENT.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DebitScore') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DebitScore') {
                                 this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.MobileNo') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.MobileNo') {
                                 this.CD_MOBILE_NO.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.TaxID') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.TaxID') {
                                 this.CD_TAX_ID.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DOB') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DOB') {
                                 this.CD_DOB.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Gender') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.Gender') {
                                 this.CD_GENDER.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.FullName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.FullName') {
                                 this.CD_FULL_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.LastName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.LastName') {
                                 this.CD_LAST_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.MiddleName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.MiddleName') {
                                 this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.FirstName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.FirstName') {
                                 this.CD_FIRST_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Title') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.Title') {
                                 this.CD_TITLE.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerSeq') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerSeq') {
                                 this.HidCustomerId.setError(err['ErrorDescription']);
                             }
                         }
@@ -572,8 +677,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.CD_SAVE_BTN.setDisabled(false);
                     }
                 );
-            }
-            else {
+            } else {
                 inputMap.clear();
                 inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ApplicationId', this.ApplicationId);
@@ -592,7 +696,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName2', this.CD_PMRY_EMBSR_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
-                //inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportNumber', this.CD_PASSPORT_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
@@ -612,7 +716,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
-                        var res = httpResponse.body;
+                        const res = httpResponse.body;
                         this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
@@ -624,81 +728,55 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
                     },
                     async (httpError) => {
-                        var err = httpError['error']
-                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
+                        const err = httpError['error'];
+                        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+                            if (err['ErrorElementPath'] === 'BorrowerDetails.Email') {
                                 this.CD_EMAIL.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.ExistingCustomer') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.ExistingCustomer') {
                                 this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CommunicationAlertChannel') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CommunicationAlertChannel') {
                                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicenseExpiryDt') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicenseExpiryDt') {
                                 this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DrivingLicense') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicense') {
                                 this.CD_DRIVING_LICENSE.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.PassportExpiryDt') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PassportExpiryDt') {
                                 this.CD_PASSPORT_EXPIRY.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.PassportNumber') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PassportNumber') {
                                 this.CD_PASSPORT_NO.setError(err['ErrorDescription']);
-                            }
-                            // else if (err['ErrorElementPath'] == 'BorrowerDetails.CitizenID') {
-                            //     this.CD_NATIONAL_ID.setError(err['ErrorDescription']);
-                            // }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.MaritalStatus') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.MaritalStatus') {
                                 this.CD_MARITAL_STATUS.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CitizenID') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CitizenID') {
                                 this.CD_CITIZENSHIP.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.Nationality') {
                                 this.CD_NATIONALITY.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.PrimaryEmbosserName2') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PrimaryEmbosserName2') {
                                 this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.StaffID') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.StaffID') {
                                 this.CD_STAFF_ID.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.IsStaff') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.IsStaff') {
                                 this.CD_STAFF.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.CustomerSegment') {
                                 this.CD_CUST_SEGMENT.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DebitScore') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DebitScore') {
                                 this.CD_DEBIT_SCORE.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.MobileNo') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.MobileNo') {
                                 this.CD_MOBILE_NO.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.TaxID') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.TaxID') {
                                 this.CD_TAX_ID.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.DOB') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.DOB') {
                                 this.CD_DOB.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Gender') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.Gender') {
                                 this.CD_GENDER.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.FullName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.FullName') {
                                 this.CD_FULL_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.LastName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.LastName') {
                                 this.CD_LAST_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.MiddleName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.MiddleName') {
                                 this.CD_MIDDLE_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.FirstName') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.FirstName') {
                                 this.CD_FIRST_NAME.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Title') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.Title') {
                                 this.CD_TITLE.setError(err['ErrorDescription']);
                             }
                         }
@@ -712,14 +790,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             }
 
             //    this.Handler.deactivateClasses();
-        }
-        else {
+        } else {
             this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
     }
     async CD_CLEAR_BTN_click(event) {
-        let inputMap = new Map();
-        this.clearQDEFields();
+        const inputMap = new Map();
+        if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP') {
+            this.clearQDEFields();
+        } else {
+            this.onReset();
+            this.setNonEditableFields(false);
+        }
         //   this.onReset();
         //  this.Handler.deactivateClasses();
     }
@@ -737,7 +819,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_DRVNG_LCNSE_EXP_DT.onReset();
         this.CD_TAX_ID.onReset();
         this.CD_DEBIT_SCORE.onReset();
-        //this.CD_NATIONAL_ID.onReset();
+        // this.CD_NATIONAL_ID.onReset();
         this.CD_CUST_SEGMENT.onReset();
         //  this.CD_PRIME_USAGE.onReset();
         this.CD_PMRY_EMBSR_NAME.onReset();
@@ -746,12 +828,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_COUNTRY_CODE.onReset();
     }
     async CUST_DTLS_GRID_custDtlsEdit(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.selectedCustId);
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/initiation').subscribe(
             async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body;
+                const res = httpResponse.body;
+
                 this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);
                 this.CD_FIRST_NAME.setValue(res['BorrowerDetails']['FirstName']);
                 this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
@@ -772,7 +855,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
                 this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
                 this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
-                //this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
+                // this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
                 this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
                 this.CD_PASSPORT_EXPIRY.setValue(res['BorrowerDetails']['PassportExpiryDt']);
                 this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
@@ -788,18 +871,25 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
+                if(this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !=='OP'){
+                    this.setNonEditableFields(true);
+                }
+                else{
+                    this.setNonEditableFields(false);
+                }
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
 
-                this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
-                this.setNonEditableFields(true);
+                this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
+             
+              
                 this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
 
             },
             async (httpError) => {
-                var err = httpError['error']
-                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                const err = httpError['error'];
+                if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
                 }
             }
         );
@@ -807,8 +897,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     LoadCustomerDetailsonFormLoad(event) {
-        let customer = event.CustomerArray;
-        if (this.isLoanCategory == false) {
+        const customer = event.CustomerArray;
+        if (this.isLoanCategory === false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
 
@@ -830,11 +920,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_NATIONALITY.setValue(customer.Nationality);
         this.CD_CITIZENSHIP.setValue(customer.CitizenShip);
         this.CD_MARITAL_STATUS.setValue(customer.MaritalStatus);
-        //this.CD_NATIONAL_ID.setValue(customer.CitizenID);
+        // this.CD_NATIONAL_ID.setValue(customer.CitizenID);
         this.CD_PASSPORT_NO.setValue(customer.Passport);
         this.CD_PASSPORT_EXPIRY.setValue(customer.PassportExpiryDt);
         this.CD_DRIVING_LICENSE.setValue(customer.DrivingLicense);
-        this.CD_DRVNG_LCNSE_EXP_DT.setValue(customer.DrivingLicenseExpiryDt)
+        this.CD_DRVNG_LCNSE_EXP_DT.setValue(customer.DrivingLicenseExpiryDt);
         this.CD_PREF_COM_CH.setValue(customer.CommunicationAlertChannel);
         this.CD_EMAIL.setValue(customer.Email);
         this.HidCustomerId.setValue(customer.BorrowerSeq);
@@ -848,7 +938,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
         this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
 
-        this.CD_CIF.setValue(customer.CIF)
+        this.CD_CIF.setValue(customer.CIF);
         // this.CD_CUST_ID.setValue(customer.ICIFNumber);
 
         this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
@@ -867,17 +957,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     // }
     setYesNoTypeDependency(field, dependantField, dependantValue?: String) {
-        if (dependantValue != undefined) {
+        if (dependantValue !== undefined) {
             field.setValue('Y', undefined, true);
             //  field.setValue('Y')
             dependantField.setValue(dependantValue);
         }
-        if ((field.getFieldValue() == null || field.getFieldValue() == undefined || field.getFieldValue() == '' || field.getFieldValue() == 'N') && field.valuePending != 'Y') {
-            dependantField.onReset()
+        if ((field.getFieldValue() == null || field.getFieldValue() === undefined || field.getFieldValue() === '' || field.getFieldValue() === 'N') && field.valuePending !== 'Y') {
+            dependantField.onReset();
             dependantField.readOnly = true;
             dependantField.mandatory = false;
-        }
-        else {
+        } else {
             dependantField.readOnly = false;
             dependantField.mandatory = true;
         }
@@ -889,16 +978,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     setNonEditableFields(flag) {
         //  this.CD_CUST_TYPE.setReadOnly(flag);
-        this.CD_TITLE.setReadOnly(flag);
-        this.CD_FIRST_NAME.setReadOnly(flag);
-        this.CD_MIDDLE_NAME.setReadOnly(flag);
-        // this.CD_THIRD_NAME.setReadOnly(flag);
-        this.CD_LAST_NAME.setReadOnly(flag);
-        this.CD_DOB.setReadOnly(flag);
-        this.CD_GENDER.setReadOnly(flag);
+            this.CD_TITLE.setReadOnly(flag);
+            this.CD_FIRST_NAME.setReadOnly(flag);
+            this.CD_MIDDLE_NAME.setReadOnly(flag);
+            // this.CD_THIRD_NAME.setReadOnly(flag);
+            this.CD_LAST_NAME.setReadOnly(flag);
+            this.CD_DOB.setReadOnly(flag);
+            this.CD_GENDER.setReadOnly(flag);
     }
     onCountrycodeChanged() {
-        console.log("country code changed ", this.CD_COUNTRY_CODE);
+        console.log('country code changed ', this.CD_COUNTRY_CODE);
     }
 
     setNewCustomerFrom(event) {
@@ -909,134 +998,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     async CD_FULL_NAME_change(fullName, customerType) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         this.onFullNameblur.emit({
-            "fullName": fullName,
-            "customerType": customerType
+            'fullName': fullName,
+            'customerType': customerType
         });
-    }
-
-    fieldDependencies = {
-        CD_CUST_TYPE: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_EXISTING_CUST: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
-                { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_STAFF: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
-                { paramKey: "KEY1", depFieldID: "hideStaffId", paramType: "QueryParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_TITLE: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidTitle", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_GENDER: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidGender", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_MARITAL_STATUS: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_NATIONALITY: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_NATIONALITY", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidNationality", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_CUST_SEGMENT: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_PREF_COM_CH: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_PREF_LANG: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_PREF_LANG", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidPrefLanguage", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_COUNTRY_CODE: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        CD_CITIZENSHIP: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideCitizenship", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        }
     }
     /* Write Custom Scripts Here */
 

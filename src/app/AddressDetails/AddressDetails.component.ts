@@ -20,13 +20,19 @@ import { AddressDetailsGridComponent } from '../AddressDetailsGrid/AddressDetail
 import { AddressHandlerComponent } from '../AddressDetails/address-handler.component';
 import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
 
-const customCss: string = '';
+const customCss = '';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-AddressDetails',
   templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
+  constructor(services: ServiceStock) {
+    super(services);
+    this.value = new AddressDetailsModel();
+    this.componentCode = 'AddressDetails';
+  }
   @ViewChild('AD_ADD_TYPE', { static: false }) AD_ADD_TYPE: RLOUIRadioComponent;
   @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: RLOUIRadioComponent;
   @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: RLOUIRadioComponent;
@@ -78,8 +84,106 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
+
+  // tslint:disable-next-line:member-ordering
+  fieldDependencies = {
+    AD_ADD_TYPE: {
+      inDep: [
+        { paramKey: 'VALUE1', depFieldID: 'AD_ADD_TYPE', paramType: 'PathParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidAddType', paramType: 'QueryParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+    AD_OCCUPANCY_TYPE: {
+      inDep: [
+
+        { paramKey: 'VALUE1', depFieldID: 'AD_OCCUPANCY_TYPE', paramType: 'PathParam' },
+        { paramKey: 'KEY1', depFieldID: 'hideOccType', paramType: 'QueryParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+    AD_OCCUPANCY_STATUS: {
+      inDep: [
+
+        { paramKey: 'VALUE1', depFieldID: 'AD_OCCUPANCY_STATUS', paramType: 'PathParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidOccStatus', paramType: 'QueryParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+    AD_MAILING_ADDRESS: {
+      inDep: [
+
+        { paramKey: 'VALUE1', depFieldID: 'AD_MAILING_ADDRESS', paramType: 'PathParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidMailingAddress', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+    AD_PINCODE: {
+      inDep: [
+
+        { paramKey: 'PinCd', depFieldID: 'AD_PINCODE', paramType: 'PathParam' },
+      ],
+      outDep: [
+
+        { paramKey: 'MasterPincodeDtls.CityCd.CityName', depFieldID: 'AD_CITY' },
+        { paramKey: 'MasterPincodeDtls.StateCd.StateName', depFieldID: 'AD_STATE' },
+        { paramKey: 'MasterPincodeDtls.UDF1', depFieldID: 'AD_REGION' },
+      ]
+    },
+
+    AD_RES_DUR_UNIT: {
+      inDep: [
+
+        { paramKey: 'VALUE1', depFieldID: 'AD_RES_DUR_UNIT', paramType: 'PathParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidResDurType', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+
+    AD_PREF_TIME: {
+      inDep: [
+        { paramKey: 'VALUE1', depFieldID: 'AD_PREF_TIME', paramType: 'PathParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidPrefferTime', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+    AD_LAND_COUNTRY_CODE: {
+      inDep: [
+
+        { paramKey: 'VALUE1', depFieldID: 'AD_LAND_COUNTRY_CODE', paramType: 'PathParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidLandISDCode', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+    AD_COUNTRY_CODE: {
+      inDep: [
+        { paramKey: 'VALUE1', depFieldID: 'AD_COUNTRY_CODE', paramType: 'PathParam' },
+        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+        { paramKey: 'KEY1', depFieldID: 'hidCountryCode', paramType: 'QueryParam' },
+      ],
+      outDep: [
+      ]
+    },
+  };
+  /* Write Custom Scripts Here */
+
+  addBorrowerSeq;
   async revalidate(): Promise<number> {
-    var totalErrors = 0;
+    let totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
       this.revalidateBasicField('AD_ADD_TYPE'),
@@ -116,11 +220,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock) {
-    super(services);
-    this.value = new AddressDetailsModel();
-    this.componentCode = 'AddressDetails';
-  }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
   }
@@ -138,13 +237,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.AD_MAILING_ADDRESS.setDefault('N');
-    let inputMap = new Map();
+    const inputMap = new Map();
     await this.Handler.onFormLoad({
     });
     this.setDependencies();
   }
   setInputs(param: any) {
-    let params = this.services.http.mapToJson(param);
+    const params = this.services.http.mapToJson(param);
     if (params['mode']) {
       this.mode = params['mode'];
     }
@@ -162,6 +261,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   getFieldValue() {
     return this.value;
   }
+  // tslint:disable-next-line:no-unnecessary-initializer
   setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
     this.value = new AddressDetailsModel();
@@ -170,18 +270,19 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.passNewValue(this.value);
   }
   ngOnInit() {
-    if (this.formCode == undefined) { this.formCode = 'AddressDetails'; }
+    if (this.formCode === undefined) { this.formCode = 'AddressDetails'; }
     if (this.formOnLoadError) { return; }
-    var styleElement = document.createElement('style');
+    const styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.innerHTML = customCss;
     styleElement.id = 'AddressDetails_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
   }
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    var styleElement = document.getElementById('AddressDetails_customCss');
+    const styleElement = document.getElementById('AddressDetails_customCss');
     styleElement.parentNode.removeChild(styleElement);
   }
   ngAfterViewInit() {
@@ -213,7 +314,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   }
 
   async AD_ADD_TYPE_change(fieldID, value) {
-    let inputMap = new Map();
+    const inputMap = new Map();
     // this.addonblur.emit({});
     await this.Handler.onAddTypeChange();
   }
@@ -230,12 +331,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   //   // this.Handler.updateAddressTags();
   // }
   async AD_PINCODE_blur(event) {
-    let inputMap = new Map();
+    const inputMap = new Map();
     inputMap.set('PathParam.PinCd', event.value);
 
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
+        const res = httpResponse.body;
         // console.log("res", res);
         if (res == null) {
           this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
@@ -263,33 +364,61 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   //   }
   // }
 
-
+  requestParameterForAddressDetails() {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
+    inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
+    inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
+    inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
+    inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
+    inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
+    inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
+    inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
+    inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
+    inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
+    inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
+    inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
+    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
+    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
+    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+    inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
+    inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
+    inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
+    inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
+    inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
+    inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+    inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
+    inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
+    inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
+    return inputMap;
+  }
   async AD_SAVE_ADDRESS_click(event) {
-    let inputMap = new Map();
-    let addGridData: any = this.AddressGrid.getAddressGridData();
-    var noOfError: number = await this.revalidate();
+    let serviceName;
+    let method;
+    const inputMap = new Map();
+    const addGridData: any = this.AddressGrid.getAddressGridData();
+    const noOfError: number = await this.revalidate();
     this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
 
-    if (noOfError == 0) {
-      
+    if (noOfError === 0) {
+
       if (addGridData) {
-        
-        for (var i = 0; i < addGridData.length; i++) {
-          if (addGridData[i].AD_ADD_ID != this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
-            if (this.AD_MAILING_ADDRESS.getFieldValue() == 'Y' && addGridData[i].AD_MAILING_ADDRESS == 'Y') {
+
+        for (let i = 0; i < addGridData.length; i++) {
+          if (addGridData[i].AD_ADD_ID !== this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
+            if (this.AD_MAILING_ADDRESS.getFieldValue() === 'Y' && addGridData[i].AD_MAILING_ADDRESS === 'Y') {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
-            }
-            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR' && addGridData[i].AD_OCCUP_TYPE == 'CR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].AD_OCCUP_TYPE === 'CR') {
               this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
               return;
-            }
-            else if (this.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR' && addGridData[i].AD_OCCUP_TYPE == 'PR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].AD_OCCUP_TYPE === 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
-            if (this.AD_ADD_TYPE.getFieldValue() == 'OF' && addGridData[i].AD_Address_Type == 'OF') {
-              if (addGridData[i].AD_Address == this.Handler.getFullAddress() ) {
+            if (this.AD_ADD_TYPE.getFieldValue() === 'OF' && addGridData[i].AD_Address_Type === 'OF') {
+              if (addGridData[i].AD_Address === this.Handler.getFullAddress()) {
                 this.services.alert.showAlert(2, 'rlo.error.address.exist', -1);
                 return;
               }
@@ -297,301 +426,138 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           }
         }
       }
-      if (this.AD_ADD_TYPE.getFieldValue() == 'OF') {
-        if (this.AD_RES_DUR.getFieldValue() !== undefined && this.AD_RES_DUR.getFieldValue() !== "" && this.AD_RES_DUR_UNIT.getFieldValue() == undefined) {
+      if (this.AD_ADD_TYPE.getFieldValue() === 'OF') {
+        // tslint:disable-next-line:max-line-length
+        if (this.AD_RES_DUR.getFieldValue() !== undefined && this.AD_RES_DUR.getFieldValue() !== '' && this.AD_RES_DUR_UNIT.getFieldValue() === undefined) {
           this.services.alert.showAlert(2, 'rlo.error.duration.not.exist', -1);
           return;
-        } else if ((this.AD_RES_DUR.getFieldValue() == undefined || this.AD_RES_DUR.getFieldValue() == "") && this.AD_RES_DUR_UNIT.getFieldValue() !== undefined) {
+          // tslint:disable-next-line:max-line-length
+        } else if ((this.AD_RES_DUR.getFieldValue() === undefined || this.AD_RES_DUR.getFieldValue() === '') && this.AD_RES_DUR_UNIT.getFieldValue() !== undefined) {
           this.services.alert.showAlert(2, 'rlo.error.period.not.exist', -1);
           return;
         }
 
-        if ((this.AD_LANDLINE_NUMBER.getFieldValue() != undefined && this.AD_LANDLINE_NUMBER.getFieldValue() != "" && this.AD_LAND_COUNTRY_CODE.getFieldValue() == undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() != undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== "" && this.AD_COUNTRY_CODE.getFieldValue() == undefined)) {
+        // tslint:disable-next-line:max-line-length
+        if ((this.AD_LANDLINE_NUMBER.getFieldValue() !== undefined && this.AD_LANDLINE_NUMBER.getFieldValue() !== '' && this.AD_LAND_COUNTRY_CODE.getFieldValue() === undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() !== undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== '' && this.AD_COUNTRY_CODE.getFieldValue() === undefined)) {
           this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
           return;
-        }
-        else if ((this.AD_LANDLINE_NUMBER.getFieldValue() == undefined || this.AD_LANDLINE_NUMBER.getFieldValue() == "") && this.AD_LAND_COUNTRY_CODE.getFieldValue() != undefined) {
+          // tslint:disable-next-line:max-line-length
+        } else if ((this.AD_LANDLINE_NUMBER.getFieldValue() === undefined || this.AD_LANDLINE_NUMBER.getFieldValue() === '') && this.AD_LAND_COUNTRY_CODE.getFieldValue() !== undefined) {
           this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
           return;
-        }
-        else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() == undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() == "") && this.AD_COUNTRY_CODE.getFieldValue() != undefined) {
+          // tslint:disable-next-line:max-line-length
+        } else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() === undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() === '') && this.AD_COUNTRY_CODE.getFieldValue() !== undefined) {
           this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
           return;
-        } else if (this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false) {
+        } else if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
           this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
           return;
-        }
-        else if (this.AD_EMAIL_ID2.getFieldValue() == undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() == true) {
+        } else if (this.AD_EMAIL_ID2.getFieldValue() === undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() === true) {
           this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
           return;
         }
       }
-
-      if (this.AD_HIDE_ID.getFieldValue() != undefined) {
-        inputMap.clear();
-        inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
-        inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
-        inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
-        inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-        // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
-        inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-        inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-        inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-        inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
-        inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
-        inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
-        inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
-        // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
-        inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
-        inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-        inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
-        inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
-        inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
-
-        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
-        this.AD_SAVE_ADDRESS.setDisabled(true);
-        this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
-
-            await this.AddressGrid.gridDataLoad({
-              'passBorrowerSeqToGrid': this.addBorrowerSeq,
-            });
-            this.onReset();
-            this.AD_SAVE_ADDRESS.setDisabled(false);
-          },
-          async (httpError) => {
-            var err = httpError['error']
-            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-              if (err['ErrorElementPath'] == 'AddressDetails.PreferredEmailForCommunication') {
-                this.AD_CORR_EMAIL.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.LandlineCountryCode') {
-                this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AltMobileNo') {
-                this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.EmailId2') {
-                this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.EmailId1') {
-                // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.MailingAddress') {
-                this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.LandlineNumber') {
-                this.AD_LANDLINE_NUMBER.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.Landmark') {
-                this.AD_LANDMARK.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.State') {
-                this.AD_STATE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.City') {
-                this.AD_CITY.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.Region') {
-                this.AD_REGION.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.PinCode') {
-                this.AD_PINCODE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine4') {
-                this.AD_ADDRESS_LINE4.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine3') {
-                this.AD_ADDRESS_LINE3.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine2') {
-                this.AD_ADDRESS_LINE2.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine1') {
-                this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
-                this.AD_OCCUPANCY_STATUS.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.Period') {
-                this.AD_RES_DUR_UNIT.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceDuration') {
-                this.AD_RES_DUR.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressType') {
-                this.AD_ADD_TYPE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetailsSeq') {
-                this.AD_HIDE_ID.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
-                this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.PreferredTime') {
-                this.AD_PREF_TIME.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.MobileCountryCode') {
-                this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
-              }
-            }
-            this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
-          }
-        );
-        this.AD_SAVE_ADDRESS.setDisabled(false);
+      const requestdata = this.requestParameterForAddressDetails();
+      this.AD_SAVE_ADDRESS.setDisabled(true);
+      if (this.AD_HIDE_ID.getFieldValue() !== undefined) {
+        serviceName = '/AddressDetails/{AddressDetailsSeq}';
+        method = 'PUT';
+      } else {
+        serviceName = '/AddressDetails';
+        method = 'POST';
       }
-      else {
-        inputMap.clear();
-        inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
-        inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
-        inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
-        inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-        // inputMap.set('Body.AddressDetails.ResidenceType', this.AD_RESIDENCE_TYPE.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
-        inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
-        inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-        inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-        inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-        inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
-        inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
-        inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
-        inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
-        // inputMap.set('Body.AddressDetails.EmailId1', this.AD_EMAIL_ID1.getFieldValue());
-        inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
-        inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-        inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
-        inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
-        inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
-        inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
-
-        // inputMap.set('Body.AddressDetails.PreferredEmailForCommunication', this.AD_CORR_EMAIL.getFieldValue());
-        this.AD_SAVE_ADDRESS.setDisabled(true);
-        this.services.http.fetchApi('/AddressDetails', 'POST', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-
-            var res = httpResponse.body;
+      this.services.http.fetchApi(serviceName, method, requestdata, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          const res = httpResponse.body;
+          if (res !== undefined) {
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
-
-            await this.AddressGrid.gridDataLoad({
-              'passBorrowerSeqToGrid': this.addBorrowerSeq,
-            });
-            this.onReset();
-            this.AD_SAVE_ADDRESS.setDisabled(false);
-          },
-          async (httpError) => {
-            var err = httpError['error']
-            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-              if (err['ErrorElementPath'] == 'AddressDetails.PreferredEmailForCommunication') {
-                this.AD_CORR_EMAIL.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AltMobileNo') {
-                this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.LandlineCountryCode') {
-                this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.EmailId2') {
-                this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.EmailId1') {
-                // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.MailingAddress') {
-                this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.LandlineNumber') {
-                this.AD_LANDLINE_NUMBER.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.Landmark') {
-                this.AD_LANDMARK.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.State') {
-                this.AD_STATE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.City') {
-                this.AD_CITY.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.Region') {
-                this.AD_REGION.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.PinCode') {
-                this.AD_PINCODE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine4') {
-                this.AD_ADDRESS_LINE4.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine3') {
-                this.AD_ADDRESS_LINE3.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine2') {
-                this.AD_ADDRESS_LINE2.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressLine1') {
-                this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
-                this.AD_OCCUPANCY_STATUS.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.Period') {
-                this.AD_RES_DUR_UNIT.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceDuration') {
-                this.AD_RES_DUR.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.AddressType') {
-                this.AD_ADD_TYPE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.ResidenceType') {
-                this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.PreferredTime') {
-                this.AD_PREF_TIME.setError(err['ErrorDescription']);
-              }
-              else if (err['ErrorElementPath'] == 'AddressDetails.MobileCountryCode') {
-                this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
-              }
-            }
-            this.services.alert.showAlert(3, 'rlo.error.save.address', 5000);
+          } else {
+            this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
           }
-        );
-      }
+          await this.AddressGrid.gridDataLoad({
+            'passBorrowerSeqToGrid': this.addBorrowerSeq,
+          });
+          this.onReset();
+          this.AD_SAVE_ADDRESS.setDisabled(false);
+        },
+        async (httpError) => {
+          const err = httpError['error'];
+          if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+            if (err['ErrorElementPath'] === 'AddressDetails.PreferredEmailForCommunication') {
+              this.AD_CORR_EMAIL.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.LandlineCountryCode') {
+              this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.AltMobileNo') {
+              this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.EmailId2') {
+              this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.EmailId1') {
+              // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.MailingAddress') {
+              this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.LandlineNumber') {
+              this.AD_LANDLINE_NUMBER.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.Landmark') {
+              this.AD_LANDMARK.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.State') {
+              this.AD_STATE.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.City') {
+              this.AD_CITY.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.Region') {
+              this.AD_REGION.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.PinCode') {
+              this.AD_PINCODE.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.AddressLine4') {
+              this.AD_ADDRESS_LINE4.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.AddressLine3') {
+              this.AD_ADDRESS_LINE3.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.AddressLine2') {
+              this.AD_ADDRESS_LINE2.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.AddressLine1') {
+              this.AD_ADDRESS_LINE1.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.ResidenceType') {
+              this.AD_OCCUPANCY_STATUS.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.Period') {
+              this.AD_RES_DUR_UNIT.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.ResidenceDuration') {
+              this.AD_RES_DUR.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.AddressType') {
+              this.AD_ADD_TYPE.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetailsSeq') {
+              this.AD_HIDE_ID.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.ResidenceType') {
+              this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.PreferredTime') {
+              this.AD_PREF_TIME.setError(err['ErrorDescription']);
+            } else if (err['ErrorElementPath'] === 'AddressDetails.MobileCountryCode') {
+              this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
+            }
+          }
+          this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
+        }
+      );
       this.AD_SAVE_ADDRESS.setDisabled(false);
-    }
-    else {
+    } else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
     }
 
   }
 
   async AD_CLEAR_BTN_click(event) {
-    let inputMap = new Map();
-    let durationType: any = this.AD_RES_DUR_UNIT.getFieldValue();
+    const inputMap = new Map();
+    const durationType: any = this.AD_RES_DUR_UNIT.getFieldValue();
     this.onReset();
     // console.log('durationType', durationType);
   }
   async AddressGrid_emitAddressDetails(event) {
-    let inputMap = new Map();
+    const inputMap = new Map();
     this.showSpinner();
     inputMap.clear();
     this.onReset();
     inputMap.set('PathParam.AddressDetailsSeq', event.addSeq);
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
+        const res = httpResponse.body;
         this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']);
@@ -615,28 +581,26 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
         this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
-        var array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
-        if (array[0] == 'true') {
+        const array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
+        if (array[0] === 'true') {
           this.AD_EMAIL1_CHECKBOX.setValue(true);
         }
-        if (array[0] == 'false') {
+        if (array[0] === 'false') {
           this.AD_EMAIL1_CHECKBOX.setValue(false);
         }
-        if (array[1] == 'true') {
+        if (array[1] === 'true') {
           this.AD_EMAIL2_CHECKBOX.setValue(true);
         }
-        if (array[1] == 'false') {
+        if (array[1] === 'false') {
           this.AD_EMAIL2_CHECKBOX.setValue(false);
         }
-
-        // this.AD_CORR_EMAIL.setValue(res['AddressDetails']['PreferredEmailForCommunication']);
         this.hideSpinner();
         await this.Handler.onAddTypeChange();
 
       },
       async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
         }
         this.services.alert.showAlert(2, 'rlo.error.load.address', -1);
         this.hideSpinner();
@@ -649,101 +613,4 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     // console.log("Address grid Loaded");
     this.updateStageValidation.emit(event);
   }
-
-  fieldDependencies = {
-    AD_ADD_TYPE: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "AD_ADD_TYPE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidAddType", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_OCCUPANCY_TYPE: {
-      inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_TYPE", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hideOccType", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_OCCUPANCY_STATUS: {
-      inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "AD_OCCUPANCY_STATUS", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidOccStatus", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_MAILING_ADDRESS: {
-      inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "AD_MAILING_ADDRESS", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidMailingAddress", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_PINCODE: {
-      inDep: [
-
-        { paramKey: "PinCd", depFieldID: "AD_PINCODE", paramType: "PathParam" },
-      ],
-      outDep: [
-
-        { paramKey: "MasterPincodeDtls.CityCd.CityName", depFieldID: "AD_CITY" },
-        { paramKey: "MasterPincodeDtls.StateCd.StateName", depFieldID: "AD_STATE" },
-        { paramKey: "MasterPincodeDtls.UDF1", depFieldID: "AD_REGION" },
-      ]
-    },
-
-    AD_RES_DUR_UNIT: {
-      inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "AD_RES_DUR_UNIT", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidResDurType", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-
-    AD_PREF_TIME: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "AD_PREF_TIME", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidPrefferTime", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_LAND_COUNTRY_CODE: {
-      inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "AD_LAND_COUNTRY_CODE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidLandISDCode", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    AD_COUNTRY_CODE: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "AD_COUNTRY_CODE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidCountryCode", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-  }
-  /* Write Custom Scripts Here */
-
-  addBorrowerSeq;
 }
