@@ -18,7 +18,8 @@ export class FieldComponent{
   @Input('domainObjectUrl') domainObjectUrl: string;
   @Input('doServerUrl') doServerUrl: string;
   @Input('customClass') customClass: string = "";
-  
+
+  @Input('doValidate') doValidate: boolean = true;
 
   // @Input('readOnly') readOnly: boolean = false;
   //Cannot take readonly as input because on reset it has to be reinitialized to the original value

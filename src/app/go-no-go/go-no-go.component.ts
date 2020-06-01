@@ -58,7 +58,7 @@ export class GoNoGoComponent implements OnInit {
     inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
     inputMap.set('QueryParam.ApplicationId', '666');
 
-    this.services.http.fetchApi('/questionnaire', 'GET', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
+    this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
       this.apiResponse = httpResponse.body;
       this.afterLoadQuestionnaireDtls();
     },

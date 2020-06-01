@@ -15,13 +15,15 @@ import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentVal
 })
 export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   @Input('category') category: string;
+  @Input('options') options: [];
 
   dropDownOptions: DropDown = new DropDown();
+
   paginating = false;
   default: String = '';
-  isOptionsLoaded: boolean=false;
-  componentName:string='RLOUIRadioComponent';
-  isDisabled:boolean=false;
+  isOptionsLoaded: boolean = false;
+  componentName:string = 'RLOUIRadioComponent';
+  isDisabled:boolean = false;
 
   // FIXME: dirty Fix .. Should Cache Dropdown and Radio Button values
   valuePending: string;
@@ -60,37 +62,13 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // if (this.category != '1') {
-    //   this.searchText$.pipe(
-    //     debounceTime(500),
-    //     // distinctUntilChanged(),
-    //     switchMap(searchText => {
-    //       if(searchText==null){
-    //         this.select.open();
-    //         return empty();
-    //       }
-    //       this.dropDownOptions.loading = true;
-    //       this.dropDownOptions.Options = [];
-    //       this.dropDownOptions.pageNo = 0;
-    //       this.dropDownOptions.term = searchText;
-    //       this.paginating = false;
-    //       return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl);
-    //     }
-    //     )).subscribe(
-    //       data => {
-    //         if (data) {
-    //           this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
-    //           if (data['Data']) {
-    //             this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
-    //           }
-    //         }
-    //         this.dropDownOptions.loading = false;
-    //       },
-    //       err => {
-    //         this.dropDownOptions.loading = false;
-    //       }
-    //     );
-    // }
+    // console.log("Options ", this.options);
+
+    if (this.options && this.options.length > 0) {
+      this.dropDownOptions.Options = this.options;
+      this.isOptionsLoaded = true;
+    }
+
   }
 
   scroll() {
@@ -151,7 +129,8 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
         this.paginating = false;
         this.dropDownOptions.loading = false;
-      });}
+      });
+    }
   }
 
   setFocus(setFocus) {

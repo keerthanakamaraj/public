@@ -582,7 +582,7 @@ export class FormComponent {
       return ++totalErrors;
     }
 
-    if (value && this[fieldId].domainObjectCode) {
+    if (value && this[fieldId].domainObjectCode && this[fieldId].doValidate) {
       await (await this[fieldId].domainObjectValidation()).toPromise().then(
         (res) => {
           if (isOnBlur && this.fieldDependencies[fieldId]) {
