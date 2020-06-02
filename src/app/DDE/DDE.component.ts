@@ -55,6 +55,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     ApplicationId: string = undefined;
 
+    formMenuObject: {
+        selectedMenuComponent: string,
+        firstArr?: number,
+        secondArr?: number
+    } =
+        {
+            selectedMenuComponent: "",
+            firstArr: 0,
+            secondArr: 0
+        };
+
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -74,39 +86,39 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false }
+            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
         ],
         [
-            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "refresh-form.svg", isActive: false },
+            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true },
         ],
         [
-            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "refresh-form.svg", isActive: true },
-            { id: "AddressDetails", name: "Address Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "refresh-form.svg", isActive: false }
+            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "AddressDetails", name: "Address Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true }
         ]
     ];
 
     applicationMenu = [
         [
-            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "refresh-form.svg", isActive: false }
+            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
         ],
         [
-            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "LoanDetails", name: "Loan Details", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "refresh-form.svg", isActive: true },
-            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "refresh-form.svg", isActive: false },
-            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "refresh-form.svg", isActive: false },
-            { id: "Notes", name: "Notes", completed: true, icon: "refresh-form.svg", isActive: false }
+            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "LoanDetails", name: "Loan Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "refresh-form.svg", isActive: true, isOptional: false },
+            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "Notes", name: "Notes", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true }
         ]
     ];
 
@@ -207,7 +219,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         document.getElementsByTagName('head')[0].appendChild(styleElement);
 
         this.formsMenuList = this.customerMenu;
-        this.injectDynamicComponent('CustomDetails', 2, 1);
+        this.injectDynamicComponent('CustomDetails', 2, 0);
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -395,9 +407,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
-        //console.log(ele1, ele2);
-        this.formsMenuList.forEach(element => element.forEach(ele => ele.isActive = false))
+        this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isActive = false;
         this.formsMenuList[ele1][ele2].isActive = true;
+
+        this.formMenuObject.firstArr = ele1;
+        this.formMenuObject.secondArr = ele2;
+        this.formMenuObject.selectedMenuComponent = this.formsMenuList[ele1][ele2].name
 
         const componentRef = this.getComponentClassRef(componentId);
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
@@ -430,9 +445,64 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     tabSwitched(tabName: string) {
         console.log(tabName);
-        this.formsMenuList = this.applicationMenu;
+        this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
         console.log(this.formsMenuList);
+        this.formsMenuList.forEach(element => {
+            element.forEach(ele => { ele.isActive = false })
+        });
         this.injectDynamicComponent('CustomDetails', 0, 1);
+        this.formMenuObject.firstArr = 0;
+        this.formMenuObject.secondArr = 1;
+    }
+
+
+    //going back and forth via btns
+
+    loadForm(loadDirection: string, firstArrayIndex: number = -1, secondArrayIndex: number = -1) {
+        console.log(this.formMenuObject, loadDirection);
+        console.error(this.formsMenuList);
+        let firstArray = firstArrayIndex == -1 ? this.formMenuObject.firstArr : firstArrayIndex;
+        let secondArray = secondArrayIndex == -1 ? this.formMenuObject.secondArr : secondArrayIndex;
+        let selectedIndex = -1;
+
+        if (loadDirection == 'nxt') {
+            for (let j = 0; j < this.formsMenuList[firstArray].length; j++) {
+                const arrEle = this.formsMenuList[firstArray][j];
+                if (j >= secondArray && !arrEle.isActive && !arrEle.completed) {
+                    console.warn(arrEle);
+                    this.injectDynamicComponent(arrEle.id, firstArray, j);
+                    selectedIndex = j;
+                }
+            }
+            if (selectedIndex == -1) {
+                let sIndex;
+                if (this.formsMenuList.length - 1 == firstArray) {
+                    sIndex = 0;
+                } else {
+                    sIndex = firstArray + 1;
+                }
+                this.loadForm('nxt', sIndex, 0)
+            }
+        }
+        else {
+            for (let j = this.formsMenuList[firstArray].length - 1; j >= 0; j--) {
+                const arrEle = this.formsMenuList[firstArray][j];
+                if (j <= secondArray && !arrEle.isActive && !arrEle.completed) {
+                    console.warn(arrEle);
+                    this.injectDynamicComponent(arrEle.id, firstArray, j);
+                    selectedIndex = j;
+                }
+            }
+            if (selectedIndex == -1) {
+                let sIndex;
+                if (firstArray == 0) {
+                    sIndex = this.formsMenuList.length - 1
+                } else {
+                    sIndex = firstArray - 1;
+                }
+                this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1)
+            }
+        }
     }
 }
 
