@@ -1,12 +1,13 @@
 <form class="MakeRelative">
   <div class="clearfix content">
-    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
       <div class="col-sm-12 col-md-12">
-        <h4 class="FormTitle">
-          {{ 'Initiation.FormTitle' | translate }}
-        </h4>
+        <div class="FormTitle">
+          <span>{{ 'Initiation.FormTitle' | translate }}</span>
+        </div>
       </div>
     </div>
+
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">

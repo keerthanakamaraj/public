@@ -24,15 +24,15 @@ export class ScoreCardComponent implements OnInit {
   scoreCards = [
     {
       type: "Final DBR",
-      score: 50,
+      score: 54,
     },
     {
-      type: "Final DBR",
-      score: 50,
+      type: "Fire Policy",
+      score: 36,
     },
     {
-      type: "Final DBR",
-      score: 50,
+      type: "Application Score",
+      score: 75,
     }
   ];
 

@@ -10,27 +10,27 @@ import { AddressDetailsComponent } from './AddressDetails.component';
 import { AddressDetailsGridModule } from '../AddressDetailsGrid/AddressDetailsGrid.module';
 import { AddressHandlerModule } from '../AddressDetails/address-handler.module';
 @NgModule({
-imports: [
-CommonModule,
-AddressDetailsRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-AddressDetailsGridModule,
-AddressHandlerModule,
-],
-declarations: [
-AddressDetailsComponent,
-],
-exports:[
-AddressDetailsComponent,
-],
+    imports: [
+        CommonModule,
+        AddressDetailsRoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        AddressDetailsGridModule,
+        AddressHandlerModule,
+    ],
+    declarations: [
+        AddressDetailsComponent,
+    ],
+    exports: [
+        AddressDetailsComponent,
+    ],
 })
 export class AddressDetailsModule { }

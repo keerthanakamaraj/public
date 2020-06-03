@@ -94,9 +94,6 @@ const keycloakService = new KeycloakService();
     AlertsComponent,
     //MyTrayPageComponent
     // MyTrayGridComponent,
-    
-
-   
   ],
   exports: [
     FooterComponent
