@@ -20,6 +20,13 @@ export class AssetsHandlerComponent extends RLOUIHandlerComponent implements OnI
     console.log("Assets Details Load ");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
     super.onFormLoad({});
-	}
+  }
+  
+  calculateLocalCurrEquv(){
+    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.AT_ASSET_VALUE.getFieldValue() !== undefined){
+      let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.AT_ASSET_VALUE.getFieldValue();
+      this.MainComponent.AT_EQUIVALENT_AMOUNT.setValue(CurrenyExchangeValue.toFixed(2));
+    }
+  }
   }
 
