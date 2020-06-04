@@ -1,7 +1,6 @@
 import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { RloUiAccordionGroupComponent } from './rlo-ui-accordion-group.component';
-import { element } from 'protractor';
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 
 @Component({
   selector: 'rlo-ui-accordion',
