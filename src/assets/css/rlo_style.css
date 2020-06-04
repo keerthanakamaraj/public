@@ -703,10 +703,10 @@ li .a {
 }
 
 #MT_Proposal{
-  margin-left: 261px;
+  margin-left: 250px;
   margin-top: 19px;
-  height: 36px;
-  width: 165px;
+  /* height: 36px; */
+  width: 165px !important
 }
 .fa.fa-trash.fa-lg {
   box-sizing: border-box;
