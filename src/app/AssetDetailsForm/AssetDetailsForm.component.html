@@ -76,7 +76,7 @@
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_FAIR_MRKT_VALUE.isHidden()">
                         <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_FAIR_MRKT_VALUE.mandatory}">
                                 {{ 'AssetDetailsForm.AT_FAIR_MRKT_VALUE' | translate}}
                             </label>
                         </div>
@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_CURRENCY.isHidden()">
                         <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_CURRENCY.mandatory}">
                                 {{ 'AssetDetailsForm.AT_CURRENCY' | translate}}
                             </label>
                         </div>

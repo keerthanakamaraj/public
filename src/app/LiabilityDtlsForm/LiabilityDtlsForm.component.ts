@@ -150,6 +150,17 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.LD_OS_AMOUNT.onReset();
 
     }
+
+    async LD_CURRENCY_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+      }
+      async LD_LOAN_AMOUNT_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+        // await this.Handler.onAddTypeChange();
+      }
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
