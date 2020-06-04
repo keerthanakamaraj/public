@@ -490,7 +490,6 @@ export class MyTrayGridComponent implements AfterViewInit {
   }
   async rowClicked(event) {
     let inputMap = new Map();
-    return; // stop navigation for QDE - Sprint 1
     var navPath = ('/home').split('/');
     navPath = navPath.slice(1);
     inputMap.clear();
@@ -508,7 +507,6 @@ export class MyTrayGridComponent implements AfterViewInit {
       inputMap.set('userId', selectedData2['MT_PENDING_WITH']);
     } else {
       console.warn("Selected data not found");
-      
       this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
       return;
     }

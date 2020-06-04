@@ -1,6 +1,7 @@
 import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { RloUiAccordionGroupComponent } from './rlo-ui-accordion-group.component';
 import { element } from 'protractor';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'rlo-ui-accordion',
@@ -47,16 +48,21 @@ export class RloUiAccordionComponent implements AfterContentInit {
     // open current group
     group.opened = true;
 
-    // Temp Fix - using native js call change to better approach
-    let activePanel = document.getElementsByClassName("rlo-panel active")[0];
+    setTimeout(function(){
+      // Temp Fix - using native js call change to better approach
+      // let activePanel = document.getElementsByClassName("rlo-panel active")[0];
+      const activePanel = document.getElementById(group.id);
 
-    // Sol - 1
-    // let panelHeader = activePanel.getElementsByClassName("acc-header")[0];
-    // panelHeader.scrollIntoView();
+      // Sol - 1
+      // let panelHeader = activePanel.getElementsByClassName("acc-header")[0];
+      // panelHeader.scrollIntoView();
 
-    // Sol - 2
-    let firstInput = activePanel.getElementsByTagName("input")[0];
-    firstInput.focus();
+      // Sol - 2
+      const firstInput = activePanel.getElementsByTagName('input')[0];
+      firstInput.focus();
+
+    }, 100);
+
   }
 
   setTags(group: any, tags: Array<any>){
