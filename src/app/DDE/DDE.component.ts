@@ -27,6 +27,9 @@ import { GoNoGoComponent } from '../go-no-go/go-no-go.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { DDEHandlerComponent } from '../DDE/DDE-handler.component';
 import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
+import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
+import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -38,6 +41,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
     @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
+    @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
+    @ViewChild('REFERRER_DTLS',{static:false}) REFERRER_DTLS: ReferralDetailsFormComponent;
+    @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
@@ -52,8 +58,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
-
+    @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
+    Cust_FullName: string = undefined;
+    Cust_DOB: string = undefined;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -376,6 +384,20 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
         return totalErrors;
     }
+    async CUSTOMER_DETAILS_passBorrowerSeq(event) {
+        let inputMap = new Map();
+        await this.FAMILY_DTLS.FAMILY_GRID.gridDataLoad({
+            'passFamilyGrid': event.BorrowerSeq,
+
+        });
+        // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
+        this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+        // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
+        //     'ReferrerSeqToGrid': event.BorrowerSeq,
+
+        // });
+        // this.REFERRER_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+    }
 
     async CUST_DTLS_updateCustGrid(event) {
         console.log("Calling update customer grid Emitter");
@@ -394,7 +416,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //  setTimeout(() => {
         this.CUST_DTLS.LoadCustomerDetailsonFormLoad(event);
         //  }, 20000);
+        console.log('cust full name', event.CustomerArray.FullName);
+        this.Cust_FullName = event.CustomerArray.FullName;
+        this.Cust_DOB = event.CustomerArray.DOB;
     }
+    async FAMILY_DTLS_familyBlur(event) {
+        console.log("Calling this Emitter", this.Cust_FullName);
+        this.Cust_FullName;
+        this.Cust_DOB;
+    }
+
     async Submit_click(event) {
         let inputMap = new Map();
         inputMap.clear();
@@ -404,7 +435,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+
         //   this.CUST_DTLS.ApplicationId = this.ApplicationId;
+
     }
 
     fieldDependencies = {
@@ -429,7 +462,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         componentInstance.ApplicationId = this.ApplicationId;
         console.log("Deep :: ", componentInstance);
         //componentInstance = this.ApplicationId;
-        componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+        // componentInstance.testEmitter.subscribe((x) => { console.log(x) })
     }
 
     getComponentClassRef(componentId: string): AddSpecificComponent {

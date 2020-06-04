@@ -29,6 +29,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     @Input('displayTitle') displayTitle: boolean = true;
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
+    @Output() Cust_FullName: EventEmitter<any> = new EventEmitter<any>();
     familyDetails = [];
     componentCode: string = 'FamilyDetailsGrid';
     openedFilterForm: string = '';
@@ -160,13 +161,28 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
         inputMap.clear();
+        let borrowerSeq: any = event.passFamilyGrid;
+        let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+        if (borrowerSeq) {
+            criteriaJson.FilterCriteria.push({
+                "columnName": "CustomerRelated",
+                "columnType": "String",
+                "conditions": {
+                    "searchType": "equals",
+                    "searchText": borrowerSeq
+                }
+            });
+        }
+        inputMap.set('QueryParam.criteriaDetails', criteriaJson);
         if (gridReqMap.get("FilterCriteria")) {
             var obj = gridReqMap.get("FilterCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    case "Family_ID": obj[i].columnName = "BorrowerSeq"; break;
+                    case "Family_ID": obj[i].columnName = "CustomerRelated"; break;
                     case "FD_RELATIONSHIP": obj[i].columnName = "Relationship"; break;
                     case "FD_NAME": obj[i].columnName = "FullName"; break;
+                    case "FD_DOB": obj[i].columnName = "DOB"; break;
+                    case "Full_NAME": obj[i].columnName = "CustFullName"; break;
                     default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
                 }
             }
@@ -175,15 +191,17 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             var obj = gridReqMap.get("OrderCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    case "Family_ID": obj[i].columnName = "BorrowerSeq"; break;
+                    case "Family_ID": obj[i].columnName = "CustomerRelated"; break;
                     case "FD_RELATIONSHIP": obj[i].columnName = "Relationship"; break;
                     case "FD_NAME": obj[i].columnName = "FullName"; break;
+                    case "FD_DOB": obj[i].columnName = "DOB"; break;
+                    case "Full_NAME": obj[i].columnName = "CustFullName"; break;
                     default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
                 }
             }
         }
         this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-        this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/initiation').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
@@ -191,9 +209,11 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
+                        tempObj['Family_ID'] = loopVar4[i].CustomerRelated;
                         tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
                         tempObj['FD_NAME'] = loopVar4[i].FullName;
+                        tempObj['FD_DOB'] = loopVar4[i].DOB;
+                        tempObj['Full_NAME'] = loopVar4[i].CustFullName;
                         this.familyDetails.push(tempObj);
                     }
                 }
@@ -220,9 +240,9 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async FD_DELETE_click(event) {
         let inputMap = new Map();
         inputMap.clear();
-        inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
+        inputMap.set('PathParam.CustomerRelated', event.Family_ID);
         if (confirm("Are you sure you want to Delete?")) {
-            this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap).subscribe(
+            this.services.http.fetchApi('/BorrowerDetails/{CustomerRelated}', 'DELETE', inputMap, '/initiation').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);

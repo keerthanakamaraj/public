@@ -177,6 +177,17 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.setReadOnly(false);
         this.onFormLoad();
     }
+
+    async AT_CURRENCY_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+      }
+      async AT_ASSET_VALUE_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+        // await this.Handler.onAddTypeChange();
+      }  
+      
     async AT_SAVE_click(event) {
         this.AT_SAVE.setDisabled(true);
         let inputMap = new Map();

@@ -65,6 +65,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
     @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
     @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
+    @Output() passfullName: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('CUST_DTLS_GRID', { static: false }) CUST_DTLS_GRID: CustomerDtlsGridComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     // @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
@@ -85,14 +86,14 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
     @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
     @ViewChild('hideCitizenship', { static: false }) hideCitizenship: HiddenComponent;
-
-
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     // @Input() ProductCategory: String;
     @Input() isLoanCategory: boolean = true;
     @Input() ApplicationId: string = undefined;
+    @Input() Cust_FullName: string = undefined;
     appId: any;
+    fullName: any;
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
@@ -164,8 +165,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     async onFormLoad(event) {
         //    this.ApplicationId = event.custSeq
-        
-       // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+
+        // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
         this.hidExistCust.setValue('Y_N');
         this.hideStaffId.setValue('Y_N');
@@ -192,7 +193,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
         //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
         // }
-       // this.setNonEditableFields(false);
+        // this.setNonEditableFields(false);
         this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -282,7 +283,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.setReadOnly(false);
         this.CD_EXISTING_CUST.isOptionsLoaded = false;
         this.CD_STAFF.isOptionsLoaded = false;
-      //  this.setNonEditableFields(false);
+        //  this.setNonEditableFields(false);
         this.onFormLoad(event);
     }
 
@@ -328,6 +329,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         else {
             return true;
         }
+    }
+    async family_addfullname(event) {
+        console.log("Calling this Emitter");
     }
 
 
@@ -787,6 +791,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
+                this.passfullName.emit({
+                    'FullName': res['BorrowerDetails']['FullName'],
+                });
+
                 //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF'])
                 this.setNonEditableFields(true);
@@ -804,7 +812,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     LoadCustomerDetailsonFormLoad(event) {
         let customer = event.CustomerArray;
-        if(this.isLoanCategory == false){
+        if (this.isLoanCategory == false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
 
@@ -854,7 +862,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
         });
-
+        this.passfullName.emit({
+            'FullName': customer.FullName,
+        });
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();

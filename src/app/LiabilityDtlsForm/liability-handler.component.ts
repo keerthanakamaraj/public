@@ -47,5 +47,12 @@ export class LiabilityHandlerComponent extends RLOUIHandlerComponent implements 
     // }
   }
 
+  calculateLocalCurrEquv(){
+    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined){
+      let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.LD_LOAN_AMOUNT.getFieldValue();
+      this.MainComponent.LD_EQUIVALENT_AMOUNT.setValue(CurrenyExchangeValue.toFixed(2));
+    }
+  }
+
  }
 
