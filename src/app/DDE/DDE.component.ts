@@ -86,7 +86,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
             { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
             { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
             { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
@@ -435,6 +435,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
             case 'FamilyDetails':
                 return new AddSpecificComponent(FamilyDetailsFormComponent);
+                break;
+
+            case 'LiabilityDetails':
+                return new AddSpecificComponent(LiabilityDtlsFormComponent);
+                break;
+
+            case 'AssetDetails':
+                return new AddSpecificComponent(AssetDetailsFormComponent);
+                break;
+
+            case 'IncomeSummary':
+                return new AddSpecificComponent(IncomeSummaryFormComponent);
                 break;
 
             default:

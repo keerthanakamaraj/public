@@ -122,20 +122,33 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     async LD_OBLIGATION_HEAD_change(fieldID, value)
     {
         let inputMap = new Map();
-        if(this.LD_OBLIGATION_HEAD.getFieldValue() == '' || this.LD_OBLIGATION_HEAD.getFieldValue() == undefined )
-        this.LD_LOAN_AMOUNT.mandatory = true;
+        if(this.LD_OBLIGATION_HEAD.getFieldValue() != '' || this.LD_OBLIGATION_HEAD.getFieldValue() != undefined ){
         this.LD_CURRENCY.mandatory = true;
         this.LD_EQUIVALENT_AMOUNT.mandatory = true;
         this.LD_INCLUDE_IN_DBR.mandatory = true;
         this.LD_LOAN_EMI_FREQUENCY.mandatory = true;
-
+        this.LD_LOAN_AMOUNT.mandatory = true;
+        }
     }
 
     async LD_LIABILITY_TYPE_change(fieldID, value)
     {
         let inputMap = new Map();        
         this.Handler.hideObligationField({});
-       
+        this.LD_LOAN_AMOUNT.onReset();
+        this.LD_CURRENCY.onReset();
+        this.LD_EQUIVALENT_AMOUNT.onReset();
+        this.LD_INCLUDE_IN_DBR.onReset();
+        this.LD_LOAN_EMI_FREQUENCY.onReset();
+        this.LD_OBLIGATION_HEAD.onReset();
+        this.LD_FINANCIER_NAME.onReset();
+        this.LD_TYPE_OF_LOAN.onReset();
+        this.LD_LOAN_CLOSURE_DATE.onReset();
+        this.LD_LOAN_STATUS.onReset();
+        this.LD_REMARKS.onReset();
+        this.LD_LOAN_EMI.onReset();
+        this.LD_OS_AMOUNT.onReset();
+
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -208,6 +221,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     async LD_SAVE_click(event) {
         this.LD_SAVE.setDisabled(true);
         let inputMap = new Map();
+        var numberOfErrors: number = await this.revalidate();
+        if (numberOfErrors == 0) {
         if (this.hiddenLiabilitySeq.getFieldValue() != undefined) {
             inputMap.clear();
             inputMap.set('PathParam.LiabilitySeq', this.hiddenLiabilitySeq.getFieldValue());
@@ -372,6 +387,10 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 }
             );
         }
+    }
+    else {
+        this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+    }
     }
     async LIABILITY_GRID_onModify(event) {
         let inputMap = new Map();

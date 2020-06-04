@@ -35,11 +35,12 @@ export class LiabilityHandlerComponent extends RLOUIHandlerComponent implements 
   
     }else{
       this.MainComponent.isObligation = true;
-      this.MainComponent.LD_LOAN_AMOUNT.mandatory = true;
+      // this.MainComponent.LD_LOAN_AMOUNT.mandatory = true;
       this.MainComponent.LD_CURRENCY.mandatory = true;
       this.MainComponent.LD_EQUIVALENT_AMOUNT.mandatory = true;
       this.MainComponent.LD_INCLUDE_IN_DBR.mandatory = true;
       this.MainComponent.LD_LOAN_EMI_FREQUENCY.mandatory = true;
+      this.MainComponent.LD_LOAN_AMOUNT.mandatory = true;
     }
     // if(this.MainComponent.LD_LIABILITY_TYPE.getFieldValue() == 'L'){
     //   this.MainComponent.LD_OBLIGATION_HEAD.setHidden(true); 
