@@ -43,7 +43,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
     @ViewChild('FieldId_9', { static: false }) FieldId_9: IncomeSummaryFormComponent;
     @ViewChild('FieldId_16', { static: false }) FieldId_16: VisitReportFormComponent;
-    @ViewChild('FieldId_17', { static: false }) FieldId_17: GoNoGoComponent;
+    @ViewChild('GoNoGo_Dtls', { static: false }) GoNoGo_Dtls: GoNoGoComponent;
     @ViewChild('FieldId_13', { static: false }) FieldId_13: NotepadDetailsFormComponent;
     @ViewChild('Submit', { static: false }) Submit: ButtonComponent;
     @ViewChild('Cancel', { static: false }) Cancel: ButtonComponent;
@@ -453,7 +453,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             case 'IncomeSummary':
                 return new AddSpecificComponent(IncomeSummaryFormComponent);
                 break;
-
+            case 'GoNoGoDetails':
+                return new AddSpecificComponent(GoNoGoComponent);
+                break;
             default:
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;
@@ -462,16 +464,33 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     tabSwitched(tabName: string) {
         console.log(tabName);
-        this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
-        console.log(this.formsMenuList);
-        this.formsMenuList.forEach(element => {
-            element.forEach(ele => { ele.isActive = false })
-        });
-        this.injectDynamicComponent('CustomDetails', 0, 1);
-        this.formMenuObject.firstArr = 0;
-        this.formMenuObject.secondArr = 1;
+        let defaultSection:string='';
+        if(tabName == "customer"){
+            this.formsMenuList=this.customerMenu;
+            this.formsMenuList.forEach(element => {
+                element.forEach(ele => { ele.isActive = false })
+            });
+            this.injectDynamicComponent('CustomDetails', 2, 0);
+        }
+        else{
+            this.formsMenuList=this.applicationMenu;
+            this.formsMenuList.forEach(element => {
+                element.forEach(ele => { ele.isActive = false })
+            });
+            this.injectDynamicComponent('GoNoGoDetails', 0, 1);
+        }
+                   
+              this.formMenuObject.firstArr = 0;
+              this.formMenuObject.secondArr = 1;
+        // this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
+        // console.log(this.formsMenuList);
+        // this.formsMenuList.forEach(element => {
+        //     element.forEach(ele => { ele.isActive = false })
+        // });
+        // this.injectDynamicComponent('CustomDetails', 0, 1);
+        // this.formMenuObject.firstArr = 0;
+        // this.formMenuObject.secondArr = 1;
     }
-
 
     //going back and forth via btns
 
