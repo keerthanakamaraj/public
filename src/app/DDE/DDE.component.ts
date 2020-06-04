@@ -29,7 +29,7 @@ import { DDEHandlerComponent } from '../DDE/DDE-handler.component';
 import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
 import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
-import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
+//import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -43,7 +43,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
     @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
     @ViewChild('REFERRER_DTLS',{static:false}) REFERRER_DTLS: ReferralDetailsFormComponent;
-    @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
+  //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;

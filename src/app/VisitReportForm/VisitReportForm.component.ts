@@ -50,6 +50,9 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 @ViewChild('HidOfficialName', {static: false}) HidOfficialName: HiddenComponent;
 @ViewChild('HidReportType', {static: false}) HidReportType: HiddenComponent;
 @ViewChild('HidVisitReportSeqId', {static: false}) HidVisitReportSeqId: HiddenComponent;
+
+@Input() ApplicationId: string = undefined;
+
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -96,7 +99,7 @@ let inputMap = new Map();
 this.VRF_Photograph.setDefault('N');
 this.VRF_AdverseObservation.setDefault('N');
 await this.Visit_Report_Grid.gridDataLoad({
-    'VisitReportSeqToGrid' :222,
+    'VisitReportSeqToGrid' :this.ApplicationId,
 });
  await this.Handler.onFormLoad({
  });
