@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   // baseURL: 'http://10.11.12.26:8180/olive/'
   // baseURL: "http://10.11.12.19:18180" //Mumbai
-  //  baseURL: 'http://10.11.12.53:9090',
-  baseURL: 'https://rlfc.intellectseecapps.com',
+   baseURL: 'http://10.11.12.53:9090',
+  // baseURL: 'https://rlfc.intellectseecapps.com',
   // baseURL: 'http://localhost:8081',
   enableKeycloak: false,
   authURL: 'https://iam.intellectseecapps.com/auth',
@@ -17,23 +17,23 @@ export const environment = {
   clientId: 'fabric',
   redirectURL: 'http://localhost:1841/#/home/LANDING',
 
-  // serviceMap : {
-  //   "default" : "/olive/publisher",
-  //   "/masters" : "/masters",
-  //   "/ui" : "/olive/publisher",
-  //   "/los-wf" : "/los-wf/",
-  //   "/initiation": "/olive/publisher",
-  //   "/rlo-de" : "/olive/publisher"
-  // }
-
   serviceMap : {
-    "default" : "/initiation/publisher",
-    "/masters" : "/masters/publisher",
-    "/ui" : "/initiation/publisher",
-    "/los-wf" : "/los-wf/rest",
-    "/initiation": "/initiation/publisher",
-    "/rlo-de" : "/rlo-de/publisher"
+    "default" : "/olive/publisher",
+    "/masters" : "/masters",
+    "/ui" : "/olive/publisher",
+    "/los-wf" : "/los-wf/",
+    "/initiation": "/olive/publisher",
+    "/rlo-de" : "/olive/publisher"
   }
+
+  // serviceMap : {
+  //   "default" : "/initiation/publisher",
+  //   "/masters" : "/masters/publisher",
+  //   "/ui" : "/initiation/publisher",
+  //   "/los-wf" : "/los-wf/rest",
+  //   "/initiation": "/initiation/publisher",
+  //   "/rlo-de" : "/rlo-de/publisher"
+  // }
 
   // serviceMap : {
   //   "default" : "/initiation/publisher",

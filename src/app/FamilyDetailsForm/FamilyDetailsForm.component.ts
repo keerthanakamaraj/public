@@ -17,6 +17,8 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
 import { FamilyHandlerComponent } from '../FamilyDetailsForm/family-handler.component';
+import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
+import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
 
 const customCss: string = '';
 
@@ -48,8 +50,13 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
     @ViewChild('hiddenFamilySeq', { static: false }) hiddenFamilySeq: HiddenComponent;
     @ViewChild('hidISDCode', { static: false }) hidISDCode: HiddenComponent;
+    @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
+    @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
+    @Input() Cust_FullName: any;
 
+    CustomerFullName: string;
+    CustomerDOB: Date;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -199,19 +206,51 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         let inputMap = new Map();
         this.genderCheck();
     }
+    //    iscustomer(event){
+    //     let inputMap = new Map();
+    //     this.addfullname.emit();
+    //    }
+
+    isPastDate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate >= currentDate) {
+            return false;
+        }
+        return true;
+    }
+    async FD_DOB_blur(event) {
+        let inputMap = new Map();
+        if (!this.isPastDate(this.FD_DOB.getFieldValue())) {
+            this.FD_DOB.setError('rlo.error.dob-invalid');
+        }
+    }
+
     async Save_click(event) {
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
+        console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
         if (noOfError == 0) {
-            // if (familyGridData) { 
-            //     for (var i = 0; i < familyGridData.length; i++) {  
-            //             if(familyGridData[i].FD_RELATIONSHIP != this.hiddenFamilySeq.getFieldValue()){
-            //                 this.services.alert.showAlert(2, 'rlo.error.exits.family', -1);
-            //                 return;
-            //             }
-            //         }
-            //     }
+            if (this.FD_FULL_NAME.getFieldValue() !== undefined) {
+                if (familyGridData) {
+                    for (let i = 0; i < familyGridData.length; i++) {
+                        if (familyGridData[i].FD_NAME == this.FD_FULL_NAME.getFieldValue() && familyGridData[i].FD_DOB == this.FD_DOB.getFieldValue() && familyGridData[i].Family_ID !== this.hiddenFamilySeq.getFieldValue()) {
+                            this.services.alert.showAlert(2, 'rlo.error.exits.family', -1);
+                            return;
+                        }
+                        else if (this.Cust_FullName == this.FD_FULL_NAME.getFieldValue() && this.Cust_FullName.Cust_DOB == this.FD_DOB.getFieldValue()) {
+                            this.services.alert.showAlert(2, 'borrower', -1);
+                            return;
+                        }
+                    }
+                }
+            }
+
             if (this.FD_ISD_Code.getFieldValue() == undefined && this.FD_MOBILE.getFieldValue() != undefined) {
                 this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
                 return;
@@ -235,10 +274,15 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
-                this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
+                inputMap.set('Body.BorrowerDetails.CustomerRelated', this.familyBorrowerSeq);
+                this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.family', 5000);
+                        await this.FAMILY_GRID.gridDataLoad({
+                            'passFamilyGrid': this.familyBorrowerSeq,
+                        });
+
                         this.onReset();
                     },
                     async (httpError) => {
@@ -302,10 +346,14 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
-                this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap).subscribe(
+                inputMap.set('Body.BorrowerDetails.CustomerRelated', this.familyBorrowerSeq);
+                this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.family', 5000);
+                        // await this.FAMILY_GRID.gridDataLoad({
+                        //     'passFamilyGrid': this.familyBorrowerSeq.CUSTOMER_RELATED,
+                        //   });
                         this.onReset();
                     },
                     async (httpError) => {
@@ -440,5 +488,5 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         },
     }
 
-
+    familyBorrowerSeq;
 }
