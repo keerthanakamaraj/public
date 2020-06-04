@@ -69,7 +69,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   //   this.isOptionsLoaded=true;
   // }
   async ngOnInit() {
-    if (this.emittedOptions.length > 0) {
+    if (this.emittedOptions && this.emittedOptions.length > 0) {
       console.log("shweta :: onetimeoption : ", this.emittedOptions);
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
