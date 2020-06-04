@@ -123,8 +123,8 @@
                                 {{ 'AssetDetailsForm.AT_INCLUDE_IN_DBR' | translate}}
                             </label>
                         </div>
-                        <app-combo-box #AT_INCLUDE_IN_DBR category="2" placeholder="Select" fieldID="AT_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_INCLUDE_IN_DBR', $event)"></app-combo-box>
+                        <rlo-ui-radio #AT_INCLUDE_IN_DBR category="2" placeholder="Select" fieldID="AT_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_INCLUDE_IN_DBR', $event)"></rlo-ui-radio>
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
