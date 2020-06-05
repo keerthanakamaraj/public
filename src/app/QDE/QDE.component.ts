@@ -517,60 +517,60 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     }
     async QDE_SUBMIT_click(event) {
-        if(this.isFormValid()){
-        let inputMap = new Map();
-        this.hideDirection.setValue('AP');
-        // var noofError:number = await this.revalidate();
-        // if(noofError==0){
-        //  this.QDE_SUBMIT.setDisabled(true);
-        inputMap.clear();
-        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
-        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
-        inputMap.set('Body.TaskId', this.taskId);
-        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-        inputMap.set('Body.UserId', this.userId);
-        inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
-        inputMap.set('Body.ApplicationId', this.ApplicationId);
-        inputMap.set('Body.ApplicationStatus', 'Approve');
-        inputMap.set('Body.direction', this.hideDirection.getFieldValue());
+        if (this.isFormValid()) {
+            let inputMap = new Map();
+            this.hideDirection.setValue('AP');
+            // var noofError:number = await this.revalidate();
+            // if(noofError==0){
+            //  this.QDE_SUBMIT.setDisabled(true);
+            inputMap.clear();
+            inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+            inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+            inputMap.set('Body.TaskId', this.taskId);
+            inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+            inputMap.set('Body.UserId', this.userId);
+            inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+            inputMap.set('Body.ApplicationId', this.ApplicationId);
+            inputMap.set('Body.ApplicationStatus', 'Approve');
+            inputMap.set('Body.direction', this.hideDirection.getFieldValue());
 
-        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body;
-                this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
-                // this.QDE_SUBMIT.setDisabled(false)
-                this.services.router.navigate(['home', 'LANDING']);
-            },
-            async (httpError) => {
-                var err = httpError['error']
-                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                    if (err['ErrorElementPath'] == 'ApplicationStatus') {
-                        this.hideDirection.setError(err['ErrorDescription']);
+            this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    var res = httpResponse.body;
+                    this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
+                    // this.QDE_SUBMIT.setDisabled(false)
+                    this.services.router.navigate(['home', 'LANDING']);
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        if (err['ErrorElementPath'] == 'ApplicationStatus') {
+                            this.hideDirection.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'ApplicationId') {
+                            this.HideAppId.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'CurrentStage') {
+                            this.HideCurrentStage.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'UserId') {
+                            this.HideUserId.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                            this.HideTenantId.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'TaskId') {
+                            this.HideTaskId.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'ServiceCode') {
+                            this.HideServiceCode.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'ProcessId') {
+                            this.HideProcessId.setError(err['ErrorDescription']);
+                        }
+                        this.services.alert.showAlert(2, 'Fail to Submit', -1);
                     }
-                    else if (err['ErrorElementPath'] == 'ApplicationId') {
-                        this.HideAppId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'CurrentStage') {
-                        this.HideCurrentStage.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'UserId') {
-                        this.HideUserId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
-                        this.HideTenantId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'TaskId') {
-                        this.HideTaskId.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'ServiceCode') {
-                        this.HideServiceCode.setError(err['ErrorDescription']);
-                    }
-                    else if (err['ErrorElementPath'] == 'ProcessId') {
-                        this.HideProcessId.setError(err['ErrorDescription']);
-                    }
-                    this.services.alert.showAlert(2, 'Fail to Submit', -1);
                 }
-            }
             );
 
         } else {
@@ -690,7 +690,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
                 }
             }
             switch (event.name) {
-                case "customerLoad": customerDetails.set('customer', eventCustomer); break;
+                case "customerLoad":
+                    customerDetails.set('customer', eventCustomer);
+                    break;
                 case "addressLoad":
                     addressList.push(eventCustomer);
                     customerDetails.set('address', addressList);
@@ -704,7 +706,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
 
     }
-   
+
     isFormValid() {
         let isAppValidFlag = true;
         this.errorsList = [];

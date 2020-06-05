@@ -86,39 +86,39 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
-            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
-            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
+            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
         ],
         [
-            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
-            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
         ],
         [
-            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "AddressDetails", name: "Address Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true }
+            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "AddressDetails", name: "Address Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
         ]
     ];
 
     applicationMenu = [
         [
-            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
+            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
         ],
         [
-            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "LoanDetails", name: "Loan Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "refresh-form.svg", isActive: true, isOptional: false },
-            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true },
-            { id: "Notes", name: "Notes", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: true }
+            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "LoanDetails", name: "Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: true, isOptional: false },
+            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "Notes", name: "Notes", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
         ]
     ];
 
@@ -478,10 +478,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 let sIndex;
                 if (this.formsMenuList.length - 1 == firstArray) {
                     sIndex = 0;
+                    alert("No more unfilled sections");
                 } else {
                     sIndex = firstArray + 1;
-                }
-                this.loadForm('nxt', sIndex, 0)
+                    this.loadForm('nxt', sIndex, 0);
+                }       
             }
         }
         else {
@@ -496,12 +497,21 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             if (selectedIndex == -1) {
                 let sIndex;
                 if (firstArray == 0) {
-                    sIndex = this.formsMenuList.length - 1
+                    sIndex = this.formsMenuList.length - 1;
+                    alert("No more unfilled sections");
                 } else {
                     sIndex = firstArray - 1;
-                }
-                this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1)
+                    this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
+                }               
             }
+        }
+    }
+
+    /* Cancel / Back button */
+    goBack() {
+        if (confirm("Are you sure you want to cancel?")) {
+            // history.back();
+            this.services.router.navigate(['home', 'LANDING']);
         }
     }
 }

@@ -125,7 +125,7 @@ export class ProvidehttpService implements CanActivate {
     let httpOpts = { headers };
     // var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
     // var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : doServerUrl) + doURL
-    var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(doServerUrl) ) + doURL;
+    var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(doServerUrl)) + doURL;
 
     url = url.replace(url.substring(url.indexOf('{'), url.indexOf('}') + 1), fieldValue);
 
@@ -148,11 +148,12 @@ export class ProvidehttpService implements CanActivate {
   }
 
   /** RLO addition */
-  getServiceURL(doServerUrl: string){
+  getServiceURL(doServerUrl: string) {
     return environment.serviceMap[doServerUrl] ? environment.serviceMap[doServerUrl] : doServerUrl;
   }
 
   loadLookup(doURL, dependentValues, pageNo: number, searchTerm: string, count: number, doServerUrl, searchById: boolean = false) {
+    //console.log(doURL, dependentValues, pageNo, searchTerm, count, doServerUrl);
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'my-auth-token',
@@ -162,7 +163,7 @@ export class ProvidehttpService implements CanActivate {
 
     // var url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + doURL;
 
-    var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(doServerUrl) ) + doURL ;
+    var url = this.baseURL + ((doServerUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(doServerUrl)) + doURL;
 
     url = url.replace(url.substring(url.indexOf('{') - 1, url.indexOf('}') + 1), "");
 
@@ -521,7 +522,7 @@ export class ProvidehttpService implements CanActivate {
     // url = this.restURL.substring(0, this.restURL.length - 1)+'/publisher' + url;
     // url = this.baseURL + ((serverUrl == undefined) ? environment.serviceMap["default"] : serverUrl) + url;
 
-    url = this.baseURL + ((serverUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(serverUrl) ) + url;
+    url = this.baseURL + ((serverUrl == undefined) ? environment.serviceMap["default"] : this.getServiceURL(serverUrl)) + url;
 
     if (json['QueryParam']) {
       url += '?';

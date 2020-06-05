@@ -1060,18 +1060,6 @@ a.back {
     }
   }
 
-  .progress-count::after {
-    // background-image: url(./../icons/yyyyyy);
-    // width: 17px;
-    // height: 17px;
-    // display: inline-block;
-    // background-size: 17px 17px;
-    // background-repeat: no-repeat;
-    // cursor: pointer;
-    // vertical-align: middle;
-    // margin-left: 2.55rem;
-  }
-
   &.expanded {
     width: calc(100% - 30px) !important;
     top: 147px;
@@ -1236,7 +1224,7 @@ a.back {
 
 .wgt-form-menu-container {
   .menu-header {
-    border-bottom: 1px solid $primary-color;
+    border-bottom: 1px solid $light-color;
     /* border-color: red; */
     padding: 0.8rem 1.7rem;
 
@@ -1342,41 +1330,6 @@ a.back {
 
   .input-group-btn {
     padding-top: 1.3rem;
-
-    .dropdown-menu {
-      box-shadow: none;
-      border-top: 0;
-    }
-  }
-
-  .input-group-code {
-    padding-top: 17px;
-  }
-
-  .btn-country-code {
-    height: 36px !important;
-    width: auto !important;
-    border: 1px solid $primary-color !important;
-    color: #565656 !important;
-    font-size: 12px !important;
-    font-weight: 100 !important;
-    border-right: none !important;
-    background-color: #EEEEEE;
-  }
-}
-
-//country code
-
-.wgt-country-input {
-  .form-control {
-    border-left: none !important;
-    border-radius: 0 !important;
-    border-bottom-right-radius: 4px !important;
-    border-top-right-radius: 4px !important;
-  }
-
-  .input-group-btn {
-    padding-top: 1.3rem;
     // padding-bottom: 1.5rem;
 
     .dropdown-menu {
@@ -1398,16 +1351,7 @@ a.back {
     font-weight: 100 !important;
     border-right: none !important;
     background-color: #EEEEEE;
-
-    &:-webkit-scrollbar-thumb {
-      border: none !important;
-      background: green !important;
-    }
-
-    &:-webkit-scrollbar-track{
-      border: none !important;
-      background: green !important;
-    }
+    outline: none !important;
   }
 
   .error-country-code {

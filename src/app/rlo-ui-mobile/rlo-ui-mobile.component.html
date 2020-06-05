@@ -1,0 +1,19 @@
+<div style="width:100%" class="wgt-country-input input-group">
+
+    <div class="input-group-btn">
+        <button type="button" name="CD_COUNTRY_CODE" class="btn btn-default btn-country-code dropdown-toggle"
+            data-toggle="dropdown" (blur)="onBlur('CD_COUNTRY_CODE', $event)"
+            (click)="open()" aria-haspopup="true" aria-expanded="false">+{{countryCode}}</button>
+        <ul class="dropdown-menu country-code-list">
+            <li *ngIf="showLoader" class="loading">Loading...</li>
+            <li *ngFor="let data of countriesList" (click)="selectedCode(data.id)" [ngClass]="countryCode == data.id?'selected-code':''">{{data.text}}</li>
+        </ul>
+    </div>
+
+    <input [attr.id]="fieldID" type="number" [placeholder]="placeholder"
+        (input)="validateValue($event.target.value, $event)" [ngClass]="{'error' : error, 'input-readonly':readOnly}"
+        [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
+        [disabled]="readOnly" (change)="onChange()" [ngStyle]="{'text-align' : valueAlign}" />
+
+    <span class="errorMessagespan error-country-code" *ngIf="error">{{errorCode | translate}}</span>
+</div>

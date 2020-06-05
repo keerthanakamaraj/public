@@ -1,11 +1,11 @@
 <form class="MakeRelative">
   <div class="clearfix content">
-    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
       <div class="col-sm-12 col-md-12">
-        <h4 class="FormTitle">
+        <div class="FormTitle no-border">
           <a class="back" (click)="goBack()">Back</a>
           <span>{{ 'QDE.FormTitle' | translate }}</span>
-        </h4>
+        </div>
       </div>
     </div>
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>

@@ -19,6 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
 import * as toPromise from 'rxjs/add/operator/toPromise';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 //import { ModalComponent } from 'src/app/modal/modal.component';
 
 declare let addResizeListener: any;
@@ -50,6 +51,8 @@ export class FormComponent {
   @ViewChildren(LabelComponent) labelComponent: QueryList<LabelComponent>;
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
   @ViewChildren(RLOUIRadioComponent) radioFields: QueryList<RLOUIRadioComponent>;
+
+  @ViewChildren(RloUiMobileComponent) countryCodeMobile: QueryList<RloUiMobileComponent>;
 
   //formCode : string;
   errors = 0;
@@ -185,10 +188,10 @@ export class FormComponent {
       field.valueChangeUpdates()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
-        (value) => {
-          this.value[field.fieldID] = value;
-          this.setDependency(field.fieldID, value);
-        }
+          (value) => {
+            this.value[field.fieldID] = value;
+            this.setDependency(field.fieldID, value);
+          }
         );
     });
   }
@@ -204,6 +207,8 @@ export class FormComponent {
     this.labelComponent.forEach(fn);
     this.hiddenComponent.forEach(fn);
     this.radioFields.forEach(fn);
+
+    this.countryCodeMobile.forEach(fn);
   }
 
   setBasicFieldsReadOnly(readOnly) {
