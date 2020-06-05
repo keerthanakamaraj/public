@@ -361,10 +361,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
 
     }
-    async FieldId_9_selectCustId(event) {
-        let inputMap = new Map();
-        this.CUSTOMER_DETAILS.CUST_DTLS_GRID_custDtlsEdit(event);
-    }
+    // async FieldId_9_selectCustId(event) {
+    //     let inputMap = new Map();
+    //     this.CUSTOMER_DETAILS.CUST_DTLS_GRID_custDtlsEdit(event);
+    // }
 
     async FieldId_9_resetCustForm(event) {
         this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
@@ -458,7 +458,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     async FieldId_9_passArrayToCustomer(event) {
         //  setTimeout(() => {
-        this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
+        this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
         //  }, 20000);
     }
     async QDE_WITHDRAW_click(event) {
@@ -680,7 +680,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         let addressList = [];
         let occupationList = [];
         event.data.forEach(eventCustomer => {
-            const borSeq: string = "CustID" + eventCustomer.BorrowerSeq.toString();
+            const borSeq: string = "CustID" + eventCustomer.BorrowerSeq;
             let customerDetails = new Map();
             if (this.stageValidationMap) {
                 // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));

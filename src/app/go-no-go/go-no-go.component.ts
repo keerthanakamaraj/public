@@ -15,8 +15,9 @@ export class GoNoGoComponent implements OnInit {
   //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
   //apiResponse: HttpResponse<any>;
   mstParamList:any[]=[]; 
-  questionnaireCat: Map<Number, String> = new Map();
+ // questionnaireCat: Map<Number, String> = new Map();
   answerCollection: Array<String> = new Array();
+  prevDecisionsMap: Map<String,any>=new Map<String,any>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
   //@ViewChild('GNG_PARAM_ANS', { static: false }) GNG_PARAM_ANS: RLOUIRadioComponent;
   @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
@@ -67,6 +68,13 @@ export class GoNoGoComponent implements OnInit {
     if (this.mstParamList) {
 
       let QuestionsMap: any[] = [];
+      if(this.mstParamList['GoNoGoDetails'] !=undefined){
+        this.mstParamList['GoNoGoDetails'].forEach((element) => {
+                   if (element.AnswerSeq)
+
+                    this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
+                 });
+      }
       if (this.mstParamList['MstQuestionnaireDtls']) {
         this.mstParamList['MstQuestionnaireDtls'].map((element) => {
           // let tempAnsSeq: String = null;

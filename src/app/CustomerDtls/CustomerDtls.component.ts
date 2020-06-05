@@ -477,7 +477,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
 
                 console.log(inputMap, this.CD_MOBILE_NO.countryCode);
-               
+
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
@@ -614,7 +614,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
-              
+
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
 
@@ -808,8 +808,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
 
                 //this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['ISDCountryCode']);
-                
-                this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'],res['BorrowerDetails']['ISDCountryCode']);         
+
+                this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
                 this.setNonEditableFields(true);
                 this.CD_FULL_NAME_change();
 
@@ -824,7 +824,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     LoadCustomerDetailsonFormLoad(event) {
-        let customer = event.CustomerArray;
+        //  let customer = event.CustomerArray;
+        let customer = event;
         if (this.isLoanCategory == false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
@@ -868,7 +869,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_CIF.setValue(customer.CIF);
 
         //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
-        this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo,customer.ISDCountryCode);
+        this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
 
         this.CD_FULL_NAME_change();
 
@@ -1034,16 +1035,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             outDep: [
             ]
         },
-        CD_COUNTRY_CODE: {
-            inDep: [
+        // CD_COUNTRY_CODE: {
+        //     inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+        //         { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
         CD_CITIZENSHIP: {
             inDep: [
 

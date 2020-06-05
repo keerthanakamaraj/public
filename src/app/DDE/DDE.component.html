@@ -43,7 +43,6 @@
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
                       <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
-                          (selectCustId)="CUSTOMER_GRID_selectCustId($event)"
                           (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
                           (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
                           (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
