@@ -21,6 +21,7 @@ import { InitiationHandlerComponent } from '../Initiation/initiation-handler.com
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { isFulfilled } from 'q';
+import { ignoreElements } from 'rxjs/operators';
 
 const customCss: string = '';
 
@@ -60,6 +61,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_MOBILE', { static: false }) CD_MOBILE: TextBoxComponent;
   @ViewChild('CD_DOB', { static: false }) CD_DOB: DateComponent;
   @ViewChild('CD_CUST_SGMT', { static: false }) CD_CUST_SGMT: ComboBoxComponent;
+
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   @ViewChild('CD_LOAN_OWNERSHIP', { static: false }) CD_LOAN_OWNERSHIP: AmountComponent;
   @ViewChild('CD_ADD', { static: false }) CD_ADD: ButtonComponent;
@@ -69,7 +71,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('LD_INTEREST_RATE', { static: false }) LD_INTEREST_RATE: TextBoxComponent;
   @ViewChild('LD_TENURE', { static: false }) LD_TENURE: TextBoxComponent;
   @ViewChild('LD_TENURE_PERIOD', { static: false }) LD_TENURE_PERIOD: ComboBoxComponent;
-  @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: ComboBoxComponent;
+  // @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: ComboBoxComponent;
   @ViewChild('LD_GROSS_INCOME', { static: false }) LD_GROSS_INCOME: AmountComponent;
   @ViewChild('LD_EXST_LBLT_AMT', { static: false }) LD_EXST_LBLT_AMT: AmountComponent;
   @ViewChild('LD_OTH_DEDUCTIONS', { static: false }) LD_OTH_DEDUCTIONS: TextBoxComponent;
@@ -79,8 +81,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: AmountComponent;
   @ViewChild('LD_LTV_DBR', { static: false }) LD_LTV_DBR: TextBoxComponent;
   @ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: AmountComponent;
+  @ViewChild('CD_EMAIL_ID', { static: false }) CD_EMAIL_ID: TextBoxComponent;
   @ViewChild('RD_REFERRER_NAME', { static: false }) RD_REFERRER_NAME: TextBoxComponent;
   @ViewChild('RD_REFERRER_NO', { static: false }) RD_REFERRER_NO: TextBoxComponent;
+  @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
+  @ViewChild('RD_COUNTRY_CODE', { static: false }) RD_COUNTRY_CODE: ComboBoxComponent;
+  @ViewChild('CD_NAME_ON_CARD', { static: false }) CD_NAME_ON_CARD: TextBoxComponent;
+  @ViewChild('BAD_APP_PRPSE', { static: false }) BAD_APP_PRPSE: ComboBoxComponent;
+  @ViewChild('BAD_PRIME_USAGE', { static: false }) BAD_PRIME_USAGE: ComboBoxComponent;
   @ViewChild('SUBMIT_MAIN_BTN', { static: false }) SUBMIT_MAIN_BTN: ButtonComponent;
   @ViewChild('CANCEL_MAIN_BTN', { static: false }) CANCEL_MAIN_BTN: ButtonComponent;
   @ViewChild('Handler', { static: false }) Handler: InitiationHandlerComponent;
@@ -100,6 +108,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('hideAppPurpose', { static: false }) hideAppPurpose: HiddenComponent;
   @ViewChild('hideTenurePeriod', { static: false }) hideTenurePeriod: HiddenComponent;
   @ViewChild('INIT_ACCORD', { static: false }) INIT_ACCORD: RloUiAccordionComponent;
+  @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
 
   isLoanCategory: boolean;
   borrower: any;
@@ -140,6 +149,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_SUB_PROD'),
         this.revalidateBasicField('BAD_SCHEME'),
         this.revalidateBasicField('BAD_PROMOTION'),
+      
         // this.revalidateBasicField('CD_CUST_TYPE'),
         // this.revalidateBasicField('CD_EXISTING_CUST'),
         // this.revalidateBasicField('CD_STAFF'),
@@ -173,6 +183,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('LD_LTV_DBR'),
         this.revalidateBasicField('LD_EMI_AMT'),
         this.revalidateBasicField('RD_REFERRER_NAME'),
+        this.revalidateBasicField('RD_COUNTRY_CODE'),
         this.revalidateBasicField('RD_REFERRER_NO'),
       ]).then((errorCounts) => {
         errorCounts.forEach((errorCount) => {
@@ -250,6 +261,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideExsCust.setValue('YES_NO');
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
+    this.hideISDCode.setValue('ISD_COUNTRY_CODE');
+    
 
     this.CD_EXISTING_CUST.setDefault('N');
     this.Handler.existingCustomer({});
@@ -381,6 +394,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_GENDER.setValue(tempVar['gender']);
               this.CD_TITLE.setValue(tempVar['title']);
               this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
+
               if (tempVar != '' || tempVar != undefined)
                 this.CD_EXISTING_CUST.setValue('Y');
               this.Handler.existingCustomer({});
@@ -593,7 +607,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
-        inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
+        if(this.BAD_PROD_CAT.getFieldValue() == 'CC'){
+          inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_PRIME_USAGE.getFieldValue());
+        }else{
+          inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_APP_PRPSE.getFieldValue());
+        }
+       
         inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
         inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
         inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
@@ -648,7 +667,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
                 this.LD_TENURE.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'LoanDetails.ApplicationPurpose') {
-                this.LD_APP_PRPSE.setError(err['ErrorDescription']);
+                this.BAD_APP_PRPSE.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'LoanDetails.InterestRate') {
                 this.LD_INTEREST_RATE.setError(err['ErrorDescription']);
@@ -931,16 +950,36 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
-    LD_APP_PRPSE: {
+    BAD_APP_PRPSE: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "LD_APP_PRPSE", paramType: "PathParam" },
+        { paramKey: "VALUE1", depFieldID: "BAD_APP_PRPSE", paramType: "PathParam" },
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
         { paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType: "QueryParam" },
       ],
       outDep: [
       ]
     },
+    BAD_PRIME_USAGE: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "BAD_PRIME_USAGE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    CD_COUNTRY_CODE: {
+      inDep: [
+
+          { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+          { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+          { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+  },
   }
 
 }
