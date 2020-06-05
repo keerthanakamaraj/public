@@ -39,8 +39,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     paginationReq: true
   };
   columnDefs: any[] = [{
-    field: "LD_FIN_NAME/OBLIG_HEAD",
-    width: 20,
+    field: "LD_LIABILITY_TYPE",
+    width: 35,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -54,8 +54,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     },
   },
   {
-    field: "LD_TYPE_OF_LOAN/OBLIGATION",
-    width: 20,
+    field: "LD_AMOUNT",
+    width: 35,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -69,22 +69,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     },
   },
   {
-    field: "LD_LOAN/OBLIGATION_AMOUNT",
-    width: 20,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
-  {
-    width: 20,
+    width: 15,
     field: "",
     sortable: false,
     filter: false,
@@ -101,7 +86,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     },
   },
   {
-    width: 20,
+    width: 15,
     field: "",
     sortable: false,
     filter: false,
@@ -196,9 +181,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
       for (var i = 0; i < obj.length; i++) {
         switch (obj[i].columnName) {
           case "LIABILITY_ID": obj[i].columnName = "LiabilitySeq"; break;
-          case "LD_FIN_NAME/OBLIG_HEAD": obj[i].columnName = "FinancerName"; break;
-          case "LD_TYPE_OF_LOAN/OBLIGATION": obj[i].columnName = "TypeofLoan"; break;
-          case "LD_LOAN/OBLIGATION_AMOUNT": obj[i].columnName = "LoanAmount"; break;
+          case "LD_LIABILITY_TYPE": obj[i].columnName = "LiabilityType"; break;
+          case "LD_AMOUNT": obj[i].columnName = "Amount"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -208,9 +192,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
       for (var i = 0; i < obj.length; i++) {
         switch (obj[i].columnName) {
           case "LIABILITY_ID": obj[i].columnName = "LiabilitySeq"; break;
-          case "LD_FIN_NAME/OBLIG_HEAD": obj[i].columnName = "FinancerName"; break;
-          case "LD_TYPE_OF_LOAN/OBLIGATION": obj[i].columnName = "TypeofLoan"; break;
-          case "LD_LOAN/OBLIGATION_AMOUNT": obj[i].columnName = "LoanAmount"; break;
+          case "LD_LIABILITY_TYPE": obj[i].columnName = "LiabilityType"; break;
+          case "LD_AMOUNT": obj[i].columnName = "Amount"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -225,9 +208,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
           for (var i = 0; i < loopVar4.length; i++) {
             var tempObj = {};
             tempObj['LIABILITY_ID'] = loopVar4[i].LiabilitySeq;
-            tempObj['LD_FIN_NAME/OBLIG_HEAD'] = loopVar4[i].FinancerName;
-            tempObj['LD_TYPE_OF_LOAN/OBLIGATION'] = loopVar4[i].TypeofLoan;
-            tempObj['LD_LOAN/OBLIGATION_AMOUNT'] = loopVar4[i].LoanAmount;
+            tempObj['LD_LIABILITY_TYPE'] = loopVar4[i].LiabilityType;
+            tempObj['LD_AMOUNT'] = loopVar4[i].Amount;
             loopDataVar4.push(tempObj);
           }
         }
@@ -250,7 +232,9 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
         'SeqKey': selectedData0['LIABILITY_ID'],
       });
     }
+
   }
+
   async LD_DELETE_click(event) {
     let inputMap = new Map();
     inputMap.clear();

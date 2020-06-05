@@ -66,6 +66,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
     @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
     @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
+    @Output() passfullName: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('CUST_DTLS_GRID', { static: false }) CUST_DTLS_GRID: CustomerDtlsGridComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     // @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
@@ -94,7 +95,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // @Input() ProductCategory: String;
     @Input() isLoanCategory: boolean = true;
     @Input() ApplicationId: string = undefined;
+    @Input() Cust_FullName: string = undefined;
     appId: any;
+    fullName: any;
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
@@ -330,6 +333,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         else {
             return true;
         }
+    }
+    async family_addfullname(event) {
+        console.log("Calling this Emitter");
     }
 
 
@@ -794,6 +800,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.passBorrowerSeq.emit({
                     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
                 });
+                this.passfullName.emit({
+                    'FullName': res['BorrowerDetails']['FullName'],
+                });
+
                 //      this.CD_PRIME_USAGE.setValue(res['BorrowerDetails']['PrimeUsage']);
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
 
@@ -865,7 +875,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
         });
-
+        this.passfullName.emit({
+            'FullName': customer.FullName,
+        });
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();

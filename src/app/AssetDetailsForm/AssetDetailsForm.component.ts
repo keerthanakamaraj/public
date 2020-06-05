@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AssetDetailsGridComponent } from '../AssetDetailsGrid/AssetDetailsGrid.component';
 import { AssetsHandlerComponent } from '../AssetDetailsForm/assets-handler.component';
+import { RLOUIRadioComponent } from 'src/app/rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 
@@ -36,7 +37,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('AT_EQUIVALENT_AMOUNT', { static: false }) AT_EQUIVALENT_AMOUNT: TextBoxComponent;
     @ViewChild('AT_OWNED_BY', { static: false }) AT_OWNED_BY: ComboBoxComponent;
     @ViewChild('AT_NAME', { static: false }) AT_NAME: ComboBoxComponent;
-    @ViewChild('AT_INCLUDE_IN_DBR', { static: false }) AT_INCLUDE_IN_DBR: ComboBoxComponent;
+    @ViewChild('AT_INCLUDE_IN_DBR', { static: false }) AT_INCLUDE_IN_DBR: RLOUIRadioComponent;
     @ViewChild('AT_SAVE', { static: false }) AT_SAVE: ButtonComponent;
     @ViewChild('AssetDetailsGrid', { static: false }) AssetDetailsGrid: AssetDetailsGridComponent;
     @ViewChild('Handler', { static: false }) Handler: AssetsHandlerComponent;
@@ -176,6 +177,17 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.setReadOnly(false);
         this.onFormLoad();
     }
+
+    async AT_CURRENCY_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+      }
+      async AT_ASSET_VALUE_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+        // await this.Handler.onAddTypeChange();
+      }  
+      
     async AT_SAVE_click(event) {
         this.AT_SAVE.setDisabled(true);
         let inputMap = new Map();

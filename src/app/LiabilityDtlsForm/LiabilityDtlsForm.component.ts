@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { LiabilityDtlsGridComponent } from '../LiabilityDtlsGrid/LiabilityDtlsGrid.component';
 import { LiabilityHandlerComponent } from '../LiabilityDtlsForm/liability-handler.component';
+import { RLOUIRadioComponent } from 'src/app/rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 
@@ -32,11 +33,12 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: TextBoxComponent;
     @ViewChild('LD_LOAN_CLOSURE_DATE', { static: false }) LD_LOAN_CLOSURE_DATE: DateComponent;
     @ViewChild('LD_LOAN_EMI', { static: false }) LD_LOAN_EMI: TextBoxComponent;
-    @ViewChild('LD_INCLUDE_IN_DBR', { static: false }) LD_INCLUDE_IN_DBR: ComboBoxComponent;
+    @ViewChild('LD_INCLUDE_IN_DBR', { static: false }) LD_INCLUDE_IN_DBR: RLOUIRadioComponent;
     @ViewChild('LD_OS_AMOUNT', { static: false }) LD_OS_AMOUNT: AmountComponent;
     @ViewChild('LD_CURRENCY', { static: false }) LD_CURRENCY: ComboBoxComponent;
     @ViewChild('LD_EQUIVALENT_AMOUNT', { static: false }) LD_EQUIVALENT_AMOUNT: AmountComponent;
     @ViewChild('LD_LOAN_EMI_FREQUENCY', { static: false }) LD_LOAN_EMI_FREQUENCY: ComboBoxComponent;
+    @ViewChild('LD_REMARKS', {static: false}) LD_REMARKS: TextAreaComponent;    
     @ViewChild('LD_SAVE', { static: false }) LD_SAVE: ButtonComponent;
     @ViewChild('LIABILITY_GRID', { static: false }) LIABILITY_GRID: LiabilityDtlsGridComponent;
     @ViewChild('Handler', { static: false }) Handler: LiabilityHandlerComponent;
@@ -48,7 +50,13 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     @ViewChild('hideInculdeInDBR', { static: false }) hideInculdeInDBR: HiddenComponent;
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
     @ViewChild('hideCurrencyDesc', { static: false }) hideCurrencyDesc: HiddenComponent;
-
+    @ViewChild('LD_LIABILITY_TYPE', { static: false }) LD_LIABILITY_TYPE: RLOUIRadioComponent;
+    @ViewChild('LD_OBLIGATION_HEAD', { static: false }) LD_OBLIGATION_HEAD: ComboBoxComponent;
+    @ViewChild('hideLiabilityType', { static: false }) hideLiabilityType: HiddenComponent;
+    @ViewChild('hideObligationHead', { static: false }) hideObligationHead: HiddenComponent;
+    
+    isObligation: boolean;
+    
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -64,6 +72,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('LD_CURRENCY'),
             this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
             this.revalidateBasicField('LD_LOAN_EMI_FREQUENCY'),
+            this.revalidateBasicField('LD_LIABILITY_TYPE'),
+            this.revalidateBasicField('LD_REMARKS'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -77,6 +87,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         super(services);
         this.value = new LiabilityDtlsFormModel();
         this.componentCode = 'LiabilityDtlsForm';
+        this.isObligation = true;
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
@@ -86,24 +97,70 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.onReset();
       }
     async onFormLoad() {
+        this.LD_LIABILITY_TYPE.setValue('L');
         this.liabilityBorrowerSeq = 2;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.LD_OS_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         this.LD_EQUIVALENT_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         this.hideEmiFrequency.setValue('LOAN_EMI_FREQUENCY');
-        this.hideTypeOfLoan.setValue('PRODUCT_CATEGORY');
+        this.hideTypeOfLoan.setValue('LOAN_TYPE');
         this.hidAppId.setValue('RLO');
         this.hidLoanStatus.setValue('LOAN_STATUS');
         this.hideInculdeInDBR.setValue('Y_N');
         this.hideCurrencyDesc.setValue('INR');
+        this.hideLiabilityType.setValue('LIABILITY_TYPE');
+        this.hideObligationHead.setValue('OBLIGATION_HEAD');
         this.setDependencies();
+        this.LD_LIABILITY_TYPE.setDefault('L');
+        this.Handler.hideObligationField({});
         await this.Handler.onFormLoad({});
         await this.LIABILITY_GRID.gridDataLoad({
             'passBorrowerToLiability':this.liabilityBorrowerSeq
         });
-
-        
     }
+
+    async LD_OBLIGATION_HEAD_change(fieldID, value)
+    {
+        let inputMap = new Map();
+        if(this.LD_OBLIGATION_HEAD.getFieldValue() != '' || this.LD_OBLIGATION_HEAD.getFieldValue() != undefined ){
+        this.LD_CURRENCY.mandatory = true;
+        this.LD_EQUIVALENT_AMOUNT.mandatory = true;
+        this.LD_INCLUDE_IN_DBR.mandatory = true;
+        this.LD_LOAN_EMI_FREQUENCY.mandatory = true;
+        this.LD_LOAN_AMOUNT.mandatory = true;
+        }
+    }
+
+    async LD_LIABILITY_TYPE_change(fieldID, value)
+    {
+        let inputMap = new Map();        
+        this.Handler.hideObligationField({});
+        this.LD_LOAN_AMOUNT.onReset();
+        this.LD_CURRENCY.onReset();
+        this.LD_EQUIVALENT_AMOUNT.onReset();
+        this.LD_INCLUDE_IN_DBR.onReset();
+        this.LD_LOAN_EMI_FREQUENCY.onReset();
+        this.LD_OBLIGATION_HEAD.onReset();
+        this.LD_FINANCIER_NAME.onReset();
+        this.LD_TYPE_OF_LOAN.onReset();
+        this.LD_LOAN_CLOSURE_DATE.onReset();
+        this.LD_LOAN_STATUS.onReset();
+        this.LD_REMARKS.onReset();
+        this.LD_LOAN_EMI.onReset();
+        this.LD_OS_AMOUNT.onReset();
+
+    }
+
+    async LD_CURRENCY_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+      }
+      async LD_LOAN_AMOUNT_blur(event) {
+        let inputMap = new Map();
+        this.Handler.calculateLocalCurrEquv()
+        // await this.Handler.onAddTypeChange();
+      }
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -175,20 +232,25 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     async LD_SAVE_click(event) {
         this.LD_SAVE.setDisabled(true);
         let inputMap = new Map();
+        var numberOfErrors: number = await this.revalidate();
+        if (numberOfErrors == 0) {
         if (this.hiddenLiabilitySeq.getFieldValue() != undefined) {
             inputMap.clear();
             inputMap.set('PathParam.LiabilitySeq', this.hiddenLiabilitySeq.getFieldValue());
             inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
             inputMap.set('Body.LiabilityDetails.LoanStatus', this.LD_LOAN_STATUS.getFieldValue());
             inputMap.set('Body.LiabilityDetails.TypeofLoan', this.LD_TYPE_OF_LOAN.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.LoanClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.ClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
             inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
             inputMap.set('Body.LiabilityDetails.IncludeInDBR', this.LD_INCLUDE_IN_DBR.getFieldValue());
             inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
             inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.EquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.EmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.LiabilityType', this.LD_LIABILITY_TYPE.getFieldValue()); 
+            inputMap.set('Body.LiabilityDetails.Remarks', this.LD_REMARKS.getFieldValue());             
+            inputMap.set('Body.LiabilityDetails.ObligationHead', this.LD_OBLIGATION_HEAD.getFieldValue());
             inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.liabilityBorrowerSeq);            
             this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
@@ -207,7 +269,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         if (err['ErrorElementPath'] == 'LiabilityDetails.LoanEmiFrequency') {
                             this.LD_LOAN_EMI_FREQUENCY.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LiabilityDetails.EquivalentAmt') {
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LocalEquivalentAmt') {
                             this.LD_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                         }
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.Currency') {
@@ -222,10 +284,10 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.LoanEMI') {
                             this.LD_LOAN_EMI.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LoanClosureDate') {
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.ClosureDate') {
                             this.LD_LOAN_CLOSURE_DATE.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LoanAmount') {
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.Amount') {
                             this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
                         }
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.TypeofLoan') {
@@ -240,6 +302,15 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         else if (err['ErrorElementPath'] == 'LiabilitySeq') {
                             this.hiddenLiabilitySeq.setError(err['ErrorDescription']);
                         }
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LiabilityType') {
+                            this.LD_LIABILITY_TYPE.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.ObligationHead') {
+                            this.LD_OBLIGATION_HEAD.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.Remarks') {
+                            this.LD_REMARKS.setError(err['ErrorDescription']);
+                        }
                     }
                     this.services.alert.showAlert(2, 'rlo.error.update.liability', -1);
                     this.LD_SAVE.setDisabled(false);
@@ -252,14 +323,17 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
             inputMap.set('Body.LiabilityDetails.LoanStatus', this.LD_LOAN_STATUS.getFieldValue());
             inputMap.set('Body.LiabilityDetails.TypeofLoan', this.LD_TYPE_OF_LOAN.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.LoanClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.ClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
             inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
             inputMap.set('Body.LiabilityDetails.IncludeInDBR', this.LD_INCLUDE_IN_DBR.getFieldValue());
             inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
             inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.EquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
-            inputMap.set('Body.LiabilityDetails.LoanEmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.EmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
+            inputMap.set('Body.LiabilityDetails.LiabilityType', this.LD_LIABILITY_TYPE.getFieldValue()); 
+            inputMap.set('Body.LiabilityDetails.Remarks', this.LD_REMARKS.getFieldValue());             
+            inputMap.set('Body.LiabilityDetails.ObligationHead', this.LD_OBLIGATION_HEAD.getFieldValue());
             inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.liabilityBorrowerSeq);            
             this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
@@ -278,7 +352,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         if (err['ErrorElementPath'] == 'LiabilityDetails.LoanEmiFrequency') {
                             this.LD_LOAN_EMI_FREQUENCY.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LiabilityDetails.EquivalentAmt') {
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LocalEquivalentAmt') {
                             this.LD_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                         }
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.Currency') {
@@ -293,10 +367,10 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.LoanEMI') {
                             this.LD_LOAN_EMI.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LoanClosureDate') {
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.ClosureDate') {
                             this.LD_LOAN_CLOSURE_DATE.setError(err['ErrorDescription']);
                         }
-                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LoanAmount') {
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.Amount') {
                             this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
                         }
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.TypeofLoan') {
@@ -308,6 +382,15 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                         else if (err['ErrorElementPath'] == 'LiabilityDetails.FinancerName') {
                             this.LD_FINANCIER_NAME.setError(err['ErrorDescription']);
                         }
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.LiabilityType') {
+                            this.LD_LIABILITY_TYPE.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.ObligationHead') {
+                            this.LD_OBLIGATION_HEAD.setError(err['ErrorDescription']);
+                        }
+                        else if (err['ErrorElementPath'] == 'LiabilityDetails.Remarks') {
+                            this.LD_REMARKS.setError(err['ErrorDescription']);
+                        }
                     }
                     this.services.alert.showAlert(2, "rlo.error.save.liability", -1);
                     this.LD_SAVE.setDisabled(false);
@@ -315,6 +398,10 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 }
             );
         }
+    }
+    else {
+        this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+    }
     }
     async LIABILITY_GRID_onModify(event) {
         let inputMap = new Map();
@@ -327,16 +414,20 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 this.LD_FINANCIER_NAME.setValue(res['LiabilityDetails']['FinancerName']);
                 this.LD_LOAN_STATUS.setValue(res['LiabilityDetails']['LoanStatus']);
                 this.LD_TYPE_OF_LOAN.setValue(res['LiabilityDetails']['TypeofLoan']);
-                this.LD_LOAN_AMOUNT.setValue(res['LiabilityDetails']['LoanAmount']);
-                this.LD_LOAN_CLOSURE_DATE.setValue(res['LiabilityDetails']['LoanClosureDate']);
+                this.LD_LOAN_AMOUNT.setValue(res['LiabilityDetails']['Amount']);
+                this.LD_LOAN_CLOSURE_DATE.setValue(res['LiabilityDetails']['ClosureDate']);
                 this.LD_LOAN_EMI.setValue(res['LiabilityDetails']['LoanEMI']);
                 this.LD_INCLUDE_IN_DBR.setValue(res['LiabilityDetails']['IncludeInDBR']);
                 this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
                 this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
-                this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['EquivalentAmt']);
-                this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['LoanEmiFrequency']);
+                this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['LocalEquivalentAmt']);
+                this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['EmiFrequency']);
+                this.LD_LIABILITY_TYPE.setValue(res['LiabilityDetails']['LiabilityType']);
+                this.LD_REMARKS.setValue(res['LiabilityDetails']['Remarks']);                
+                this.LD_OBLIGATION_HEAD.setValue(res['LiabilityDetails']['ObligationHead']);
                 this.hiddenLiabilitySeq.setValue(res['LiabilityDetails']['LiabilitySeq']);
                 this.hideSpinner();
+                this.Handler.hideObligationField({});
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -398,6 +489,27 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
             ]
         },
+        LD_OBLIGATION_HEAD: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "LD_OBLIGATION_HEAD", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideObligationHead", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        LD_LIABILITY_TYPE: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "LD_LIABILITY_TYPE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideLiabilityType", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        
     }
 
 }

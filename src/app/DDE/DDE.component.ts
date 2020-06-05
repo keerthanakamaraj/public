@@ -27,6 +27,9 @@ import { GoNoGoComponent } from '../go-no-go/go-no-go.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { DDEHandlerComponent } from '../DDE/DDE-handler.component';
 import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
+import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
+import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+//import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -38,12 +41,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
     @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
+    @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
+    @ViewChild('REFERRER_DTLS',{static:false}) REFERRER_DTLS: ReferralDetailsFormComponent;
+  //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
     @ViewChild('FieldId_9', { static: false }) FieldId_9: IncomeSummaryFormComponent;
     @ViewChild('FieldId_16', { static: false }) FieldId_16: VisitReportFormComponent;
-    @ViewChild('FieldId_17', { static: false }) FieldId_17: GoNoGoComponent;
+    @ViewChild('GoNoGo_Dtls', { static: false }) GoNoGo_Dtls: GoNoGoComponent;
     @ViewChild('FieldId_13', { static: false }) FieldId_13: NotepadDetailsFormComponent;
     @ViewChild('Submit', { static: false }) Submit: ButtonComponent;
     @ViewChild('Cancel', { static: false }) Cancel: ButtonComponent;
@@ -52,19 +58,21 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
-
+    @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
+    Cust_FullName: string = undefined;
+    Cust_DOB: string = undefined;
 
     formMenuObject: {
         selectedMenuComponent: string,
         firstArr?: number,
         secondArr?: number
     } =
-        {
-            selectedMenuComponent: "",
-            firstArr: 0,
-            secondArr: 0
-        };
+    {
+        selectedMenuComponent: "",
+        firstArr: 0,
+        secondArr: 0
+    };
 
 
     async revalidate(): Promise<number> {
@@ -86,10 +94,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "liability Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
-            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
-            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
+            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
+            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
         ],
         [
             { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
@@ -145,13 +153,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-        this.ApplicationId = appId;
-        await this.brodcastApplicationId();
-        this.openHTab('FieldId_10', 'GO_NO_GO');
+        this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+
+        this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+        this.CUSTOMER_GRID.doAPIForCustomerList({});
+        // await this.brodcastApplicationId();
+        //this.openHTab('FieldId_10', 'GO_NO_GO');
         this.HideProcessId.setValue('RLO_Process');
         this.setDependencies();
-        this.CUSTOMER_GRID.doAPIForCustomerList({});
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -217,9 +226,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         styleElement.innerHTML = customCss;
         styleElement.id = 'DDE_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
-
+        //this.onFormLoad();
+        this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.formsMenuList = this.customerMenu;
         this.injectDynamicComponent('CustomDetails', 2, 0);
+
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -232,27 +243,28 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.subsBFldsValueUpdates();
             this.value.FieldId_1 = this.FieldId_1.getFieldValue();
             this.FieldId_1.valueChangeUpdates().subscribe((value) => { this.value.FieldId_1 = value; });
-            this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
-            this.CUST_DTLS.valueChangeUpdates().subscribe((value) => { this.value.CUST_DTLS = value; });
-            this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
-            this.FAMILY_DTLS.valueChangeUpdates().subscribe((value) => { this.value.FAMILY_DTLS = value; });
-            this.value.FieldId_14 = this.FieldId_14.getFieldValue();
-            this.FieldId_14.valueChangeUpdates().subscribe((value) => { this.value.FieldId_14 = value; });
-            this.value.FieldId_15 = this.FieldId_15.getFieldValue();
-            this.FieldId_15.valueChangeUpdates().subscribe((value) => { this.value.FieldId_15 = value; });
-            this.value.FieldId_6 = this.FieldId_6.getFieldValue();
-            this.FieldId_6.valueChangeUpdates().subscribe((value) => { this.value.FieldId_6 = value; });
-            this.value.FieldId_9 = this.FieldId_9.getFieldValue();
-            this.FieldId_9.valueChangeUpdates().subscribe((value) => { this.value.FieldId_9 = value; });
-            this.value.FieldId_16 = this.FieldId_16.getFieldValue();
-            this.FieldId_16.valueChangeUpdates().subscribe((value) => { this.value.FieldId_16 = value; });
-            this.value.FieldId_13 = this.FieldId_13.getFieldValue();
-            this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
+            // this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
+            // this.CUST_DTLS.valueChangeUpdates().subscribe((value) => { this.value.CUST_DTLS = value; });
+            // this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
+            // this.FAMILY_DTLS.valueChangeUpdates().subscribe((value) => { this.value.FAMILY_DTLS = value; });
+            // this.value.FieldId_14 = this.FieldId_14.getFieldValue();
+            // this.FieldId_14.valueChangeUpdates().subscribe((value) => { this.value.FieldId_14 = value; });
+            // this.value.FieldId_15 = this.FieldId_15.getFieldValue();
+            // this.FieldId_15.valueChangeUpdates().subscribe((value) => { this.value.FieldId_15 = value; });
+            // this.value.FieldId_6 = this.FieldId_6.getFieldValue();
+            // this.FieldId_6.valueChangeUpdates().subscribe((value) => { this.value.FieldId_6 = value; });
+            // this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+            // this.FieldId_9.valueChangeUpdates().subscribe((value) => { this.value.FieldId_9 = value; });
+            // this.value.FieldId_16 = this.FieldId_16.getFieldValue();
+            // this.FieldId_16.valueChangeUpdates().subscribe((value) => { this.value.FieldId_16 = value; });
+            // this.value.FieldId_13 = this.FieldId_13.getFieldValue();
+            // this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
             this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
             this.CUSTOMER_GRID.valueChangeUpdates().subscribe((value) => { this.value.CUSTOMER_GRID = value; });
-            this.onFormLoad();
-            this.checkForHTabOverFlow();
+            // this.onFormLoad();
+            // this.checkForHTabOverFlow();
         });
+        this.onFormLoad();
     }
     clearError() {
         super.clearBasicFieldsError();
@@ -372,6 +384,20 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
         return totalErrors;
     }
+    async CUSTOMER_DETAILS_passBorrowerSeq(event) {
+        let inputMap = new Map();
+        await this.FAMILY_DTLS.FAMILY_GRID.gridDataLoad({
+            'passFamilyGrid': event.BorrowerSeq,
+
+        });
+        // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
+        this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+        // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
+        //     'ReferrerSeqToGrid': event.BorrowerSeq,
+
+        // });
+        // this.REFERRER_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+    }
 
     async CUST_DTLS_updateCustGrid(event) {
         console.log("Calling update customer grid Emitter");
@@ -390,7 +416,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //  setTimeout(() => {
         this.CUST_DTLS.LoadCustomerDetailsonFormLoad(event);
         //  }, 20000);
+        console.log('cust full name', event.CustomerArray.FullName);
+        this.Cust_FullName = event.CustomerArray.FullName;
+        this.Cust_DOB = event.CustomerArray.DOB;
     }
+    async FAMILY_DTLS_familyBlur(event) {
+        console.log("Calling this Emitter", this.Cust_FullName);
+        this.Cust_FullName;
+        this.Cust_DOB;
+    }
+
     async Submit_click(event) {
         let inputMap = new Map();
         inputMap.clear();
@@ -400,7 +435,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
         //  this.ProductCategory = event.isLoanCategory;
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
-        this.CUST_DTLS.ApplicationId = this.ApplicationId;
+
+        //   this.CUST_DTLS.ApplicationId = this.ApplicationId;
+
     }
 
     fieldDependencies = {
@@ -422,9 +459,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         const dynamicComponent = viewContainerRef.createComponent(componentFactory);
         var componentInstance = dynamicComponent.instance;
-        console.log(componentInstance);
+        componentInstance.ApplicationId = this.ApplicationId;
+        console.log("Deep :: ", componentInstance);
         //componentInstance = this.ApplicationId;
-        componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+        // componentInstance.testEmitter.subscribe((x) => { console.log(x) })
     }
 
     getComponentClassRef(componentId: string): AddSpecificComponent {
@@ -437,6 +475,20 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 return new AddSpecificComponent(FamilyDetailsFormComponent);
                 break;
 
+            case 'LiabilityDetails':
+                return new AddSpecificComponent(LiabilityDtlsFormComponent);
+                break;
+
+            case 'AssetDetails':
+                return new AddSpecificComponent(AssetDetailsFormComponent);
+                break;
+
+            case 'IncomeSummary':
+                return new AddSpecificComponent(IncomeSummaryFormComponent);
+                break;
+            case 'GoNoGoDetails':
+                return new AddSpecificComponent(GoNoGoComponent);
+                break;
             default:
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;
@@ -445,16 +497,33 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     tabSwitched(tabName: string) {
         console.log(tabName);
-        this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
-        console.log(this.formsMenuList);
-        this.formsMenuList.forEach(element => {
-            element.forEach(ele => { ele.isActive = false })
-        });
-        this.injectDynamicComponent('CustomDetails', 0, 1);
-        this.formMenuObject.firstArr = 0;
-        this.formMenuObject.secondArr = 1;
+        let defaultSection:string='';
+        if(tabName == "customer"){
+            this.formsMenuList=this.customerMenu;
+            this.formsMenuList.forEach(element => {
+                element.forEach(ele => { ele.isActive = false })
+            });
+            this.injectDynamicComponent('CustomDetails', 2, 0);
+        }
+        else{
+            this.formsMenuList=this.applicationMenu;
+            this.formsMenuList.forEach(element => {
+                element.forEach(ele => { ele.isActive = false })
+            });
+            this.injectDynamicComponent('GoNoGoDetails', 0, 1);
+        }
+                   
+              this.formMenuObject.firstArr = 0;
+              this.formMenuObject.secondArr = 1;
+        // this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
+        // console.log(this.formsMenuList);
+        // this.formsMenuList.forEach(element => {
+        //     element.forEach(ele => { ele.isActive = false })
+        // });
+        // this.injectDynamicComponent('CustomDetails', 0, 1);
+        // this.formMenuObject.firstArr = 0;
+        // this.formMenuObject.secondArr = 1;
     }
-
 
     //going back and forth via btns
 

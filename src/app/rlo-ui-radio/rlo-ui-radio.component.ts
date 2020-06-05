@@ -7,7 +7,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { ServiceStock } from '../service-stock.service';
 import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentValues, DependentValuesService } from '../DependentValues.service';
 //import { FormService } from '../FormService';
-
+// shweta::  create input param to  data binding options. set flags to no API call
 @Component({
   selector: 'rlo-ui-radio',
   templateUrl: './rlo-ui-radio.component.html',
@@ -15,19 +15,18 @@ import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentVal
 })
 export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   @Input('category') category: string;
-  @Input('options') options: [];
-
+  @Input('emittedOptions') emittedOptions: any[] = [];
   dropDownOptions: DropDown = new DropDown();
 
   paginating = false;
   default: String = '';
   isOptionsLoaded: boolean = false;
-  componentName:string = 'RLOUIRadioComponent';
-  isDisabled:boolean = false;
+  componentName: string = 'RLOUIRadioComponent';
+  isDisabled: boolean = false;
 
   // FIXME: dirty Fix .. Should Cache Dropdown and Radio Button values
   valuePending: string;
-  
+
   @ViewChild('select', { static: false }) select: NgSelectComponent;
 
   private searchText$ = new Subject<string>();
@@ -49,7 +48,11 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
+    if (this.emittedOptions.length > 0) {
+      console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      this.dropDownOptions.Options = this.emittedOptions;
+      this.isOptionsLoaded = true;
+    }
     // setTimeout(async ()=>{
     //   if (this.category == '1') {
     //     if (this.doCustomScript) {
@@ -60,15 +63,49 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     // });
 
   }
-
+  // emitOptions(event){
+  //   console.log("shweta :: emitted method : ",event.emittedOptions);
+  //   this.dropDownOptions.Options=event.emittedOptions;
+  //   this.isOptionsLoaded=true;
+  // }
   async ngOnInit() {
-    // console.log("Options ", this.options);
-
-    if (this.options && this.options.length > 0) {
-      this.dropDownOptions.Options = this.options;
+    if (this.emittedOptions && this.emittedOptions.length > 0) {
+      console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
     }
 
+    // if (this.category != '1') {
+    //   this.searchText$.pipe(
+    //     debounceTime(500),
+    //     // distinctUntilChanged(),
+    //     switchMap(searchText => {
+    //       if(searchText==null){
+    //         this.select.open();
+    //         return empty();
+    //       }
+    //       this.dropDownOptions.loading = true;
+    //       this.dropDownOptions.Options = [];
+    //       this.dropDownOptions.pageNo = 0;
+    //       this.dropDownOptions.term = searchText;
+    //       this.paginating = false;
+    //       return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl);
+    //     }
+    //     )).subscribe(
+    //       data => {
+    //         if (data) {
+    //           this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
+    //           if (data['Data']) {
+    //             this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
+    //           }
+    //         }
+    //         this.dropDownOptions.loading = false;
+    //       },
+    //       err => {
+    //         this.dropDownOptions.loading = false;
+    //       }
+    //     );
+    // }
   }
 
   scroll() {
@@ -92,45 +129,46 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     }
 
     // this.services.http.loadlookup(this.formCode, this.domainObjectCode, this.dropDownOptions.pageNo, this.dropDownOptions.term, this.dependencyMap, count).subscribe(
-    if(!this.isOptionsLoaded){
-    this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, count, this.doServerUrl).subscribe(
-      data => {
-        if (data) {
-          let result = data['Data'];
-          // if (this.category != '1' && !this.paginating)
-          //   this.dropDownOptions.Options = this.dropDownOptions.Options.concat([{ id: undefined, text: '' }]);
-          // if (result) {
-          // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
+    if (!this.isOptionsLoaded) {
+      this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, count, this.doServerUrl).subscribe(
+        data => {
+          if (data) {
+            let result = data['Data'];
+            // if (this.category != '1' && !this.paginating)
+            //   this.dropDownOptions.Options = this.dropDownOptions.Options.concat([{ id: undefined, text: '' }]);
+            // if (result) {
+            // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
+            // }
+
+            this.dropDownOptions.Options = this.dropDownOptions.Options = result;
+            this.isOptionsLoaded = true;
+
+            if (this.valuePending) {
+              this.setValue(this.valuePending);
+              this.valuePending = undefined;
+            } else if (this.getDefault() != '') {
+              this.setValue(this.getDefault());
+            }
+          }
+        },
+        err => { },
+        () => {
+
+          // if (this.category == '1' && ((this.value === undefined) 
+          //     || (this.dropDownOptions.Options.find(opt => opt.id === this.value) == undefined))){
+          //     this.value = undefined;
+          //     this.dropDownOptions.Options[0].text = this.placeholder;
           // }
 
-          this.dropDownOptions.Options = this.dropDownOptions.Options = result;
-          this.isOptionsLoaded=true;
+          // if(this.category == '1' && this.value !=undefined){
+          //   this.dropDownOptions.Options[0].text = '';
+          // }
 
-          if(this.valuePending){
-            this.setValue(this.valuePending);
-            this.valuePending = undefined;
-          } else if (this.getDefault() != '' ){
-            this.setValue(this.getDefault());
-          }
-        }
-      },
-      err => { },
-      () => {
-
-        // if (this.category == '1' && ((this.value === undefined) 
-        //     || (this.dropDownOptions.Options.find(opt => opt.id === this.value) == undefined))){
-        //     this.value = undefined;
-        //     this.dropDownOptions.Options[0].text = this.placeholder;
-        // }
-
-        // if(this.category == '1' && this.value !=undefined){
-        //   this.dropDownOptions.Options[0].text = '';
-        // }
-
-        this.paginating = false;
-        this.dropDownOptions.loading = false;
-      });
+          this.paginating = false;
+          this.dropDownOptions.loading = false;
+        });
     }
+
   }
 
   setFocus(setFocus) {
@@ -223,12 +261,12 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     return description;
   }
 
-  setValue(value, description = undefined, waitForLoad? : boolean) {
+  setValue(value, description = undefined, waitForLoad?: boolean) {
     let opt = this.dropDownOptions.Options.find(o => o.id == value);
     if (opt) {
       this.value = value
       this.additionalInfo = opt.text;
-    } else if(waitForLoad){
+    } else if (waitForLoad) {
       this.valuePending = value;
     } else {
       this.onReset();
@@ -254,8 +292,8 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     this.errorCode = undefined;
   }
 
-  setReadOnly(flag){
-    this.readOnly=flag;
-    this.isDisabled=flag;
+  setReadOnly(flag) {
+    this.readOnly = flag;
+    this.isDisabled = flag;
   }
 }
