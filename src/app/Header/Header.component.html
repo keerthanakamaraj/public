@@ -160,7 +160,7 @@
                       <div class="arn"><span>ARN | </span>{{ ARN }}</div>
                       <div class="loan-amt">{{ LOAN_AMT }}</div>
                       <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY }}</div>
-                      <div>{{ INTEREST_RATE }}</div>                   
+                      <div *ngIf = "this.LOAN_CATEGORY !== 'CC'">{{ INTEREST_RATE }}</div>                   
                       <div>{{ TENURE }}</div>
                       <div>{{ SUB_PRODUCT }}</div>
                       <div>{{ SCHEME }}</div>

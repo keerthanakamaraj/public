@@ -229,7 +229,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
             this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap).subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.update.referral', 5000);
+                    this.services.alert.showAlert(1, 'rlo.error.save.referral', 5000);
                 },
                 async (httpError) => {
                     var err = httpError['error']

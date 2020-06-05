@@ -18,13 +18,19 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { NotepadDetailsGridComponent } from '../NotepadDetailsGrid/NotepadDetailsGrid.component';
 import { NotepadHandlerComponent } from '../NotepadDetailsForm/notepad-handler.component';
 
-const customCss: string = '';
+const customCss = '';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'app-NotepadDetailsForm',
     templateUrl: './NotepadDetailsForm.component.html'
 })
 export class NotepadDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
+    constructor(services: ServiceStock) {
+        super(services);
+        this.value = new NotepadDetailsFormModel();
+        this.componentCode = 'NotepadDetailsForm';
+    }
     @ViewChild('ND_COMMENT_CAT', { static: false }) ND_COMMENT_CAT: ComboBoxComponent;
     @ViewChild('ND_COMMENTS', { static: false }) ND_COMMENTS: TextAreaComponent;
     @ViewChild('ND_SAVE', { static: false }) ND_SAVE: ButtonComponent;
@@ -35,9 +41,21 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     @ViewChild('hiddenKey', { static: false }) hiddenKey: HiddenComponent;
     @Input() ApplicationId: string = undefined;
 
+    fieldDependencies = {
+        ND_COMMENT_CAT: {
+            inDep: [
+                { paramKey: 'VALUE1', depFieldID: 'ND_COMMENT_CAT', paramType: 'PathParam' },
+                { paramKey: 'KEY1', depFieldID: 'hiddenKey', paramType: 'QueryParam' },
+                { paramKey: 'APPID', depFieldID: 'hiddenAppId', paramType: 'QueryParam' },
+            ],
+            outDep: [
+            ]
+        },
+    };
+
 
     async revalidate(): Promise<number> {
-        var totalErrors = 0;
+        let totalErrors = 0;
         super.beforeRevalidate();
         await Promise.all([
             this.revalidateBasicField('ND_COMMENT_CAT'),
@@ -51,11 +69,6 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         super.afterRevalidate();
         return totalErrors;
     }
-    constructor(services: ServiceStock) {
-        super(services);
-        this.value = new NotepadDetailsFormModel();
-        this.componentCode = 'NotepadDetailsForm';
-    }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
     }
@@ -66,7 +79,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hiddenAppId.setValue('RLO');
         this.hiddenKey.setValue('NOTEPAD_COMMENT');
-        let inputMap = new Map();
+        const inputMap = new Map();
         await this.Handler.onFormLoad({
         });
         //  await this.FieldId_7.gridDataLoad({
@@ -75,7 +88,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         this.setDependencies();
     }
     setInputs(param: any) {
-        let params = this.services.http.mapToJson(param);
+        const params = this.services.http.mapToJson(param);
         if (params['mode']) {
             this.mode = params['mode'];
         }
@@ -93,6 +106,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     getFieldValue() {
         return this.value;
     }
+    // tslint:disable-next-line:no-unnecessary-initializer
     setValue(inputValue, inputDesc = undefined) {
         this.setBasicFieldsValue(inputValue, inputDesc);
         this.value = new NotepadDetailsFormModel();
@@ -101,18 +115,19 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         this.passNewValue(this.value);
     }
     ngOnInit() {
-        if (this.formCode == undefined) { this.formCode = 'NotepadDetailsForm'; }
+        if (this.formCode === undefined) { this.formCode = 'NotepadDetailsForm'; }
         if (this.formOnLoadError) { return; }
-        var styleElement = document.createElement('style');
+        const styleElement = document.createElement('style');
         styleElement.type = 'text/css';
         styleElement.innerHTML = customCss;
         styleElement.id = 'NotepadDetailsForm_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
     }
+    // tslint:disable-next-line:use-life-cycle-interface
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        var styleElement = document.getElementById('NotepadDetailsForm_customCss');
+        const styleElement = document.getElementById('NotepadDetailsForm_customCss');
         styleElement.parentNode.removeChild(styleElement);
     }
     ngAfterViewInit() {
@@ -143,57 +158,44 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         this.onFormLoad(event);
     }
     async ND_SAVE_click(event) {
-        console.log("shweta:: notepad app id ", this.ApplicationId);
-        if (this.ApplicationId != undefined) {
-            let inputMap = new Map();
-            var numberOfErrors: number = await this.revalidate();
-            if (numberOfErrors == 0) {
+        console.log('shweta:: notepad app id ', this.ApplicationId);
+        if (this.ApplicationId !== undefined) {
+            const inputMap = new Map();
+            const numberOfErrors: number = await this.revalidate();
+            if (numberOfErrors === 0) {
                 inputMap.clear();
                 inputMap.set('Body.NotepadDetails.CommentCategory', this.ND_COMMENT_CAT.getFieldValue());
                 inputMap.set('Body.NotepadDetails.Comments', this.ND_COMMENTS.getFieldValue());
                 inputMap.set('Body.NotepadDetails.ApplicationId', this.ApplicationId);
                 this.services.http.fetchApi('/NotepadDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
-                        var res = httpResponse.body;
+                        const res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
                         this.FieldId_7.gridDataLoad({
                             'ApplicationId': this.ApplicationId
                         });
+                       this.onReset();
                     },
                     async (httpError) => {
-                        var err = httpError['error']
-                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'NotepadDetails.Comments') {
+                        const err = httpError['error'];
+                        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+                            if (err['ErrorElementPath'] === 'NotepadDetails.Comments') {
                                 this.ND_COMMENTS.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'NotepadDetails.CommentCategory') {
+                            } else if (err['ErrorElementPath'] === 'NotepadDetails.CommentCategory') {
                                 this.ND_COMMENT_CAT.setError(err['ErrorDescription']);
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.save.notepad', -1);
                     }
                 );
-            }
-            else {
+            } else {
                 this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
             }
         }
     }
     async ND_CLEAR_click(event) {
-        let inputMap = new Map();
+        const inputMap = new Map();
         this.onReset();
-    }
-
-    fieldDependencies = {
-        ND_COMMENT_CAT: {
-            inDep: [
-                { paramKey: "VALUE1", depFieldID: "ND_COMMENT_CAT", paramType: "PathParam" },
-                { paramKey: "KEY1", depFieldID: "hiddenKey", paramType: "QueryParam" },
-                { paramKey: "APPID", depFieldID: "hiddenAppId", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
     }
 
 }

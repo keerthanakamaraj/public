@@ -29,6 +29,7 @@ const customCss = '';
     templateUrl: './CustomerDtls.component.html'
 })
 export class CustomerDtlsComponent extends FormComponent implements OnInit, AfterViewInit {
+    fieldArray: any[];
     constructor(services: ServiceStock) {
         super(services);
         this.value = new CustomerDtlsModel();
@@ -795,11 +796,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         }
     }
     async CD_CLEAR_BTN_click(event) {
+        let array = this.fieldArrayFunction();
         const inputMap = new Map();
         if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP') {
             this.clearQDEFields();
         } else {
-            this.onReset();
+            this.clearQDEFields();
+            array.forEach(function (arrayreset) { arrayreset.onReset()});
             this.setNonEditableFields(false);
         }
         //   this.onReset();
@@ -1006,6 +1009,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     /* Write Custom Scripts Here */
 
+    fieldArrayFunction() {
+        this.fieldArray = [];
+        this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME,this.CD_LAST_NAME,this.CD_MIDDLE_NAME,
+            this.CD_FULL_NAME,this.CD_DOB,this.CD_GENDER, this.CD_CIF,this.CD_CUST_ID
+        )
+        return this.fieldArray;
+      }
 
 
 }
