@@ -158,7 +158,7 @@
               <div class="form-group pb10">
                   <div class="collapsedHeader">
                       <div class="arn"><span>ARN | </span>{{ ARN }}</div>
-                      <div class="loan-amt">{{ LOAN_AMT }}</div>
+                      <div class="loan-amt" *ngIf = "this.LOAN_CATEGORY !== 'CC'">{{ LOAN_AMT }}</div>
                       <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY }}</div>
                       <div *ngIf = "this.LOAN_CATEGORY !== 'CC'">{{ INTEREST_RATE }}</div>                   
                       <div>{{ TENURE }}</div>

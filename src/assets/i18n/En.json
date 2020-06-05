@@ -96,6 +96,7 @@
     "rlo.error.loanownership.onblur" : "For an Application Loan Ownership cannot be allowed more than 100%",
     "rlo.error.occupation.company.exist": "Occupation already added for same company name",
     "rlo.error.occupation.primaryIncome.exist" : "Primary occupation is exist",
+    "rlo.error.customer.exist" :  "Same Customer is already exist",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",

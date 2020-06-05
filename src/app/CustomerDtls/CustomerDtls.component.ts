@@ -559,7 +559,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 for(let i = 0 ; i < this.custGridArray.length ; i++){
                     if(this.custGridArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()){
                         if(this.custGridArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && this.custGridArray[i].DOB == this.CD_DOB.getFieldValue()){
-                            this.services.alert.showAlert(2, 'Same Customer is alreaday exist', -1);
+                            this.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
                             return;
                         }
                     }
