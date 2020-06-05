@@ -43,6 +43,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
   @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
   @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
+  @ViewChild('QDE_WITHDRAW', { static: false }) QDE_WITHDRAW: ButtonComponent;
   @ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
   @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
   @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
@@ -445,7 +446,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       requestParams.set('Body.ApplicationStatus', 'Withdraw');
       requestParams.set('Body.direction', 'W');
       this.submitQDE(requestParams);
-      this.services.router.navigate(['home', 'LANDING']);
+      // this.services.router.navigate(['home', 'LANDING']);
     }
   }
 
@@ -490,12 +491,13 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         const res = httpResponse.body;
 
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
-        const alertMsg = ('WITHDRAW' === action) ? 'Application withdrew successfully' : 'Application Submitted Successfully';
+        const alertMsg = ('WITHDRAW' === action) ? 'Application Withdrawn successfully' : 'Application Submitted Successfully';
         if (confirm(alertMsg)) {
             // history.back();
             this.services.router.navigate(['home', 'LANDING']);
           }
           this.QDE_SUBMIT.setDisabled(true);
+          this.QDE_WITHDRAW.setDisabled(true);
         // this.services.alert.showAlert(1, alertMsg, 5000);
         // // this.QDE_SUBMIT.setDisabled(false)
         // this.services.router.navigate(['home', 'LANDING']);
