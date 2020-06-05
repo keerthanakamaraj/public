@@ -82,8 +82,8 @@
 
 <div>
     <div class="param-container col-12 col-sm-12 col-md-12">
-            <ng-container *ngIf="apiResponse != undefined">
-        <div class="param-row col-12 col-sm-12 col-md-12" *ngFor="let question of apiResponse['MstQuestionnaireDtls']; let i = index;">      
+            <ng-container *ngIf="mstParamList != undefined">
+        <div class="param-row col-12 col-sm-12 col-md-12" *ngFor="let question of mstParamList['MstQuestionnaireDtls']; let i = index;">      
           <div class="param-seq col-12 col-sm-1 col-md-1">
                 <span>{{ i + 1 }}</span>
               </div>
