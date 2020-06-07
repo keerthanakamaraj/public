@@ -42,8 +42,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
     @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
-    @ViewChild('REFERRER_DTLS',{static:false}) REFERRER_DTLS: ReferralDetailsFormComponent;
-  //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
+    @ViewChild('REFERRER_DTLS', { static: false }) REFERRER_DTLS: ReferralDetailsFormComponent;
+    //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
@@ -62,8 +62,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     ApplicationId: string = undefined;
     Cust_FullName: string = undefined;
     Cust_DOB: string = undefined;
-    ActiveCustomerDtls:{}={};
-    ActiveBorrowerSeq:String=undefined;
+    ActiveCustomerDtls: {} = {};
+    ActiveBorrowerSeq: String = undefined;
+    isCustomerTab:boolean=true;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -158,12 +159,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
-         this.CUSTOMER_GRID.doAPIForCustomerList({});
-       
+        this.CUSTOMER_GRID.doAPIForCustomerList({});
+
         // await this.brodcastApplicationId();
         //this.openHTab('FieldId_10', 'GO_NO_GO');
-       // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
-       
+        // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
+
         this.HideProcessId.setValue('RLO_Process');
         this.setDependencies();
     }
@@ -417,10 +418,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     async CUSTOMER_GRID_resetCustForm(event) {
         this.CUST_DTLS.setNewCustomerFrom(event);
     }
-    async CUSTOMER_GRID_passArrayToCustomer(event) {  
-        this.ActiveCustomerDtls=event.CustomerArray;  
-        this.ActiveBorrowerSeq=event.BorrowerSeq;
-        this.injectDynamicComponent('CustomDetails', 2, 0,'customer');
+    async CUSTOMER_GRID_passArrayToCustomer(event) {
+        this.ActiveCustomerDtls = event.CustomerArray;
+        this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
+        this.injectDynamicComponent('CustomDetails', 2, 0);
     }
     async FAMILY_DTLS_familyBlur(event) {
         console.log("Calling this Emitter", this.Cust_FullName);
@@ -445,7 +446,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     fieldDependencies = {
     }
 
-    injectDynamicComponent(componentId: string, ele1?: number, ele2?: number,tabName?:string) {
+    injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
         this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isActive = false;
         this.formsMenuList[ele1][ele2].isActive = true;
 
@@ -463,17 +464,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         var componentInstance = dynamicComponent.instance;
         componentInstance.ApplicationId = this.ApplicationId;
         console.log("Deep :: ", componentInstance);
-       
-        if(this.CUSTOMER_GRID){
-        if(componentId=='CustomDetails' && this.ActiveCustomerDtls!=undefined){
-            setTimeout(() => {
-            componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls)},1000);
 
+        if (this.CUSTOMER_GRID) {
+            if (componentId == 'CustomDetails' && this.ActiveCustomerDtls != undefined) {
+                setTimeout(() => {
+                    componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls)
+                }, 1000);
+
+            }
+            else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
+                componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
+            }
         }
-        else if('customer'==tabName && this.ActiveBorrowerSeq !=undefined){
-            componentInstance.activeBorrowerSeq=this.ActiveBorrowerSeq;
-        }
-    }
         //componentInstance = this.ApplicationId;
         // componentInstance.testEmitter.subscribe((x) => { console.log(x) })
     }
@@ -510,32 +512,30 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     tabSwitched(tabName: string) {
         console.log(tabName);
-        let defaultSection:string='';
-        if(tabName == "customer"){
-            this.formsMenuList=this.customerMenu;
+        let defaultSection: string = '';
+        if (tabName == "customer") {
+            this.isCustomerTab=true;
+            this.formsMenuList = this.customerMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
             });
-            this.injectDynamicComponent('CustomDetails', 2, 0,tabName);
+            this.updateSelectedTabIndex(2, 0);
+            this.injectDynamicComponent('CustomDetails', 2, 0);
         }
-        else{
-            this.formsMenuList=this.applicationMenu;
+        else {
+            this.isCustomerTab=false;
+            this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
             });
-            this.injectDynamicComponent('GoNoGoDetails', 0, 1,tabName);
+            this.updateSelectedTabIndex(0, 1);
+            this.injectDynamicComponent('GoNoGoDetails', 0, 0);
         }
-                   
-              this.formMenuObject.firstArr = 0;
-              this.formMenuObject.secondArr = 1;
-        // this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
-        // console.log(this.formsMenuList);
-        // this.formsMenuList.forEach(element => {
-        //     element.forEach(ele => { ele.isActive = false })
-        // });
-        // this.injectDynamicComponent('CustomDetails', 0, 1);
-        // this.formMenuObject.firstArr = 0;
-        // this.formMenuObject.secondArr = 1;
+    }
+
+    updateSelectedTabIndex(firstArrayIndex: number, secondArrayIndex: number): void {
+        this.formMenuObject.firstArr = firstArrayIndex;
+        this.formMenuObject.secondArr = secondArrayIndex;
     }
 
     //going back and forth via btns
@@ -564,7 +564,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 } else {
                     sIndex = firstArray + 1;
                     this.loadForm('nxt', sIndex, 0);
-                }       
+                }
             }
         }
         else {
@@ -584,7 +584,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 } else {
                     sIndex = firstArray - 1;
                     this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
-                }               
+                }
             }
         }
     }

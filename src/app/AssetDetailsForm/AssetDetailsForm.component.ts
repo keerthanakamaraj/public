@@ -26,7 +26,7 @@ const customCss: string = '';
     templateUrl: './AssetDetailsForm.component.html'
 })
 export class AssetDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
-    assetBorrowerSeq: any;
+   // activeBorrowerSeq: any;
     @ViewChild('AT_ASSET_TYPE', { static: false }) AT_ASSET_TYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_SUBTYPE', { static: false }) AT_ASSET_SUBTYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_LOCATION', { static: false }) AT_ASSET_LOCATION: TextBoxComponent;
@@ -51,7 +51,9 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('hideCurrencyDesc', { static: false }) hideCurrencyDesc: HiddenComponent;
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
     @ViewChild('hideAssetStatus', { static: false }) hideAssetStatus: HiddenComponent;
-    
+
+    @Input() activeBorrowerSeq: string = undefined;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -91,7 +93,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
       }
 
     async onFormLoad() {
-        this.assetBorrowerSeq = 2;
+        //this.activeBorrowerSeq = 2;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
         this.hideAssetSubType.setValue('ASSET_SUBTYPE');
@@ -104,7 +106,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.setDependencies();
         await this.Handler.onFormLoad({});
         await this.AssetDetailsGrid.gridDataLoad({
-                'passBorrowerToAsset' :this.assetBorrowerSeq
+                'passBorrowerToAsset' :this.activeBorrowerSeq
         });
     }
 
@@ -207,13 +209,13 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
                 inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
-                inputMap.set('Body.AssetDetails.BorrowerSeq',this.assetBorrowerSeq);
+                inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
                 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap).subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.asset', 5000);
                         await this.AssetDetailsGrid.gridDataLoad({
-                            'passBorrowerToAsset':this.assetBorrowerSeq
+                            'passBorrowerToAsset':this.activeBorrowerSeq
                         });
                         this.onReset();
                         this.AT_SAVE.setDisabled(false);
@@ -278,13 +280,13 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
                 inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
-                inputMap.set('Body.AssetDetails.BorrowerSeq',this.assetBorrowerSeq);
+                inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
                 this.services.http.fetchApi('/AssetDetails', 'POST', inputMap).subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.asset', 5000);
                         await this.AssetDetailsGrid.gridDataLoad({
-                            'passBorrowerToAsset':this.assetBorrowerSeq
+                            'passBorrowerToAsset':this.activeBorrowerSeq
                         });
                         this.onReset();
                         this.AT_SAVE.setDisabled(false);
