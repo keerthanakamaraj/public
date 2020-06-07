@@ -22,6 +22,7 @@ import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.compo
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+import { Subject } from 'rxjs';
 
 const customCss: string = '';
 
@@ -96,6 +97,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Input() isLoanCategory: boolean = true;
     @Input() ApplicationId: string = undefined;
     @Input() Cust_FullName: string = undefined;
+
+    private updateCustGridEmitter = new Subject();
+
     appId: any;
     fullName: any;
     staffcheck: boolean;
@@ -251,6 +255,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
+      //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -483,6 +488,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
+                        this.updateCustGridEmitter.next({
+                            'action': 'updateCustGrid',
+                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        });
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
                         })
@@ -626,6 +635,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.CD_FULL_NAME_change();
+                        this.updateCustGridEmitter.next({
+                            'action': 'updateCustGrid',
+                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        });
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
                         });

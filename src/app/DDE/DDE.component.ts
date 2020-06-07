@@ -64,7 +64,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     Cust_DOB: string = undefined;
     ActiveCustomerDtls: {} = {};
     ActiveBorrowerSeq: String = undefined;
-    isCustomerTab:boolean=true;
+    isCustomerTab: boolean = true;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -477,9 +477,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             }
         }
         //componentInstance = this.ApplicationId;
-        // componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+        if (componentId == 'CustomDetails') {
+            componentInstance.updateCustGridEmitter.subscribe((event) => {
+                console.log("shweta :: grid update ", event);
+                this.CUSTOMER_GRID.doAPIForCustomerList(event);
+            });
+        }
     }
-
+    // if(x.action=='updateCustGrid'){
+    //     this.CUSTOMER_GRID.doAPIForCustomerList(x);
+    // }
     getComponentClassRef(componentId: string): AddSpecificComponent {
         switch (componentId) {
             case 'CustomDetails':
@@ -514,7 +521,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log(tabName);
         let defaultSection: string = '';
         if (tabName == "customer") {
-            this.isCustomerTab=true;
+            this.isCustomerTab = true;
             this.formsMenuList = this.customerMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
@@ -523,7 +530,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.injectDynamicComponent('CustomDetails', 2, 0);
         }
         else {
-            this.isCustomerTab=false;
+            this.isCustomerTab = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
