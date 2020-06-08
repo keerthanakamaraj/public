@@ -233,7 +233,20 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.LD_SAVE.setDisabled(true);
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
+
+        let liabilityGridData: any = this.LIABILITY_GRID.getLiabilityDetails();
         if (numberOfErrors == 0) {
+            if (this.LD_LIABILITY_TYPE.getFieldValue() !== undefined) {
+                if (liabilityGridData) {
+                    for (let i = 0; i < liabilityGridData.length; i++) {
+                        if (liabilityGridData[i].LD_LIABILITY_TYPE == this.LD_LIABILITY_TYPE.getFieldValue() && liabilityGridData[i].LD_AMOUNT == this.LD_LOAN_AMOUNT.getFieldValue() && liabilityGridData[i].LIABILITY_ID !== this.hiddenLiabilitySeq.getFieldValue()) {
+                            this.services.alert.showAlert(2, 'rlo.error.exits.liability', -1);
+                            return;
+                        }
+                    }
+                }
+                }
+
         if (this.hiddenLiabilitySeq.getFieldValue() != undefined) {
             inputMap.clear();
             inputMap.set('PathParam.LiabilitySeq', this.hiddenLiabilitySeq.getFieldValue());

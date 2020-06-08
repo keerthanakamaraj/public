@@ -21,6 +21,8 @@ const customCss: string = '';
   ],
 })
 export class LiabilityDtlsGridComponent implements AfterViewInit {
+  loopDataVar4 = [];
+  liabilityRecord : boolean = false;
   constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
   @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
@@ -58,7 +60,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     width: 35,
     sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     filter: "agTextColumnFilter",
     filterParams: {
       suppressAndOrCondition: true,
@@ -203,17 +205,24 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         var loopDataVar4 = [];
-        var loopVar4 = res['LiabilityDetails'];
+        if(res !== null){
+          this.liabilityRecord = true
+          var loopVar4 = res['LiabilityDetails'];
+      }
+      else{
+          this.liabilityRecord = false
+      }
+        // var loopVar4 = res['LiabilityDetails'];
         if (loopVar4) {
           for (var i = 0; i < loopVar4.length; i++) {
             var tempObj = {};
             tempObj['LIABILITY_ID'] = loopVar4[i].LiabilitySeq;
             tempObj['LD_LIABILITY_TYPE'] = loopVar4[i].LiabilityType;
             tempObj['LD_AMOUNT'] = loopVar4[i].Amount;
-            loopDataVar4.push(tempObj);
+            this.loopDataVar4.push(tempObj);
           }
         }
-        this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+        this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -252,6 +261,10 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
         this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
       }
     );
+  }
+
+  getLiabilityDetails(){
+    return this.loopDataVar4;
   }
 
 }

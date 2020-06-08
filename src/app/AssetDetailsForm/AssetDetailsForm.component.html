@@ -37,8 +37,8 @@
                                 {{ 'AssetDetailsForm.AT_ASSET_TYPE' | translate}}
                             </label>
                         </div>
-                        <app-combo-box #AT_ASSET_TYPE category="2" placeholder="Select" fieldID="AT_ASSET_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_TYPE', $event)"></app-combo-box>
+                        <app-combo-box #AT_ASSET_TYPE category="2" placeholder="Select" fieldID="AT_ASSET_TYPE" [formCode]="formCode" domainObjectUrl="/MstAssetType/{AssetTypeCode}"
+                            doServerUrl="/masters" domainObjectCode="MstAssetType" (blur)="genericOnBlur('AT_ASSET_TYPE', $event)" (change)="AT_ASSET_TYPE_change('AT_ASSET_TYPE', $event)"></app-combo-box>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_SUBTYPE.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -46,8 +46,8 @@
                                 {{ 'AssetDetailsForm.AT_ASSET_SUBTYPE' | translate}}
                             </label>
                         </div>
-                        <app-combo-box #AT_ASSET_SUBTYPE category="2" placeholder="Select" fieldID="AT_ASSET_SUBTYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_SUBTYPE', $event)"></app-combo-box>
+                        <app-combo-box #AT_ASSET_SUBTYPE category="2" placeholder="Select" fieldID="AT_ASSET_SUBTYPE" [formCode]="formCode" domainObjectUrl="/MstAssetSubType/{AssetSubTypeCode}"
+                            doServerUrl="/masters" domainObjectCode="MstAssetSubType" (blur)="genericOnBlur('AT_ASSET_SUBTYPE', $event)"></app-combo-box>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_LOCATION.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -99,7 +99,7 @@
                         </div>
                         <app-amount #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-amount>
                     </div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_OWNED_BY.isHidden()">
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_OWNED_BY.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AssetDetailsForm.AT_OWNED_BY' | translate}}
@@ -107,8 +107,8 @@
                         </div>
                         <app-combo-box #AT_OWNED_BY category="2" placeholder="Select" fieldID="AT_OWNED_BY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_OWNED_BY', $event)"></app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_NAME.isHidden()">
+                    </div> -->
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_NAME.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AssetDetailsForm.AT_NAME' | translate}}
@@ -116,7 +116,7 @@
                         </div>
                         <app-combo-box #AT_NAME category="2" fieldID="AT_NAME" placeholder="Select" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_NAME', $event)"></app-combo-box>
-                    </div>
+                    </div> -->
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_INCLUDE_IN_DBR.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': AT_INCLUDE_IN_DBR.mandatory}">
@@ -128,7 +128,8 @@
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>                   
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
                         <app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode" imagePath="./assets/icons/plus.svg"
                             [type]="2" customClass="icon-button" (buttonClick)="AT_SAVE_click($event)"></app-button>
@@ -144,8 +145,8 @@
                         <app-assets-handler #Handler [MainComponent]="this"></app-assets-handler>
                     </div>
                 </div>
-                <app-hidden #hideName fieldID="hideName"></app-hidden>
-                <app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden>
+                <!-- <app-hidden #hideName fieldID="hideName"></app-hidden>
+                <app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden> -->
                 <app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
                 <app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
                 <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>

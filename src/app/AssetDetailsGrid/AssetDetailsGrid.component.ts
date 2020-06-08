@@ -21,6 +21,8 @@ const customCss: string = '';
     ],
 })
 export class AssetDetailsGridComponent implements AfterViewInit {
+    loopDataVar4 = [];
+    assetRecord: boolean = false;
     constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
     @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
@@ -73,7 +75,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         width: 20,
         sortable: true,
         resizable: true,
-        cellStyle: { 'text-align': 'left' },
+        cellStyle: { 'text-align': 'right' },
         filter: "agTextColumnFilter",
         filterParams: {
             suppressAndOrCondition: true,
@@ -241,21 +243,28 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar4 = [];
-                var loopVar4 = res['AssetDetails'];
+                if(res !== null){
+                    this.assetRecord = true
+                    var loopVar4 = res['AssetDetails'];
+                }
+                else{
+                    this.assetRecord = false
+                }
+                // var loopVar4 = res['AssetDetails'];
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        // tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
+                        tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
                         tempObj['AT_Asset_Type'] = loopVar4[i].AssetType;
                         tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus;
                         tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
                         tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
                         // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
                         tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR;
-                        loopDataVar4.push(tempObj);
+                        this.loopDataVar4.push(tempObj);
                     }
                 }
-                this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
+                this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -292,6 +301,10 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
             }
         );
+    }
+
+    getAssetDetails(){
+        return this.loopDataVar4;
     }
 
 }

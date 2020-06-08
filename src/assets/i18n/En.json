@@ -54,6 +54,8 @@
     "rlo.success.save.notepad":"Notepad Details Saved Successfully",
     "rlo.error.save.notepad":"Failed to Save Notepad Details",
     "rlo.error.exits.family":"Family Details already exits",
+    "rlo.error.exits.asset":"Asset Details already exits",
+    "rlo.error.exits.liability":"Liability Details already exits",    
     "rlo.success.update.family": "Family Details Updated Successfully",
     "rlo.error.update.family":"Failed to Update Family Details",
     "rlo.success.save.family":"Family Details Saved Successfully",
