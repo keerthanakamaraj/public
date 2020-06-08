@@ -30,7 +30,9 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
     @Output() Cust_FullName: EventEmitter<any> = new EventEmitter<any>();
+    @Input() ActiveBorrowerSeq : any;
     familyDetails = [];
+    familyRecord: boolean = false;
     componentCode: string = 'FamilyDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -161,7 +163,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
         inputMap.clear();
-        let borrowerSeq: any = event.passFamilyGrid;
+        let borrowerSeq: any = event.activeBorrowerSeq;
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
         if (borrowerSeq) {
             criteriaJson.FilterCriteria.push({
@@ -205,7 +207,13 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
-                var loopVar4 = res['BorrowerDetails'];
+                if(res !== null){
+                    this.familyRecord = true
+                    var loopVar4 = res['BorrowerDetails'];
+                }
+                else{
+                    this.familyRecord = false
+                }
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
@@ -240,9 +248,9 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async FD_DELETE_click(event) {
         let inputMap = new Map();
         inputMap.clear();
-        inputMap.set('PathParam.CustomerRelated', event.Family_ID);
+        inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
         if (confirm("Are you sure you want to Delete?")) {
-            this.services.http.fetchApi('/BorrowerDetails/{CustomerRelated}', 'DELETE', inputMap, '/initiation').subscribe(
+            this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/initiation').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);

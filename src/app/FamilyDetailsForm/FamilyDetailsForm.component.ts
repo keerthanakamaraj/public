@@ -54,6 +54,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     @Input() Cust_FullName: any;
+    @Input() activeBorrowerSeq: string = undefined;
 
     CustomerFullName: string;
     CustomerDOB: Date;
@@ -102,6 +103,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         this.hidTitle.setValue('TITLE');
         let inputMap = new Map();
         await this.FAMILY_GRID.gridDataLoad({
+            'passFamilyGrid': this.activeBorrowerSeq,
         });
         await this.Handler.onFormLoad({
         });
@@ -216,8 +218,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         const currentDate = moment();
         currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
         selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        console.log("current date :: ", currentDate._d);
-        console.log("selected date :: ", selectedDate._d);
+        // console.log("current date :: ", currentDate._d);
+        // console.log("selected date :: ", selectedDate._d);
         if (selectedDate >= currentDate) {
             return false;
         }
@@ -233,7 +235,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     async Save_click(event) {
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
-        console.log("juhi ::", this.Cust_FullName);
+        // console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
         if (noOfError == 0) {
             if (this.FD_FULL_NAME.getFieldValue() !== undefined) {
@@ -274,13 +276,13 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CustomerRelated', this.familyBorrowerSeq);
+                inputMap.set('Body.BorrowerDetails.CustomerRelated', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.family', 5000);
                         await this.FAMILY_GRID.gridDataLoad({
-                            'passFamilyGrid': this.familyBorrowerSeq,
+                            'passFamilyGrid': this.activeBorrowerSeq,
                         });
 
                         this.onReset();
@@ -346,14 +348,14 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CustomerRelated', this.familyBorrowerSeq);
+                inputMap.set('Body.BorrowerDetails.CustomerRelated', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.family', 5000);
-                        // await this.FAMILY_GRID.gridDataLoad({
-                        //     'passFamilyGrid': this.familyBorrowerSeq.CUSTOMER_RELATED,
-                        //   });
+                        await this.FAMILY_GRID.gridDataLoad({
+                            'passFamilyGrid': this.activeBorrowerSeq,
+                          });
                         this.onReset();
                     },
                     async (httpError) => {
@@ -429,7 +431,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
                 this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['Nationality']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
-                this.hiddenFamilySeq.setValue(res['BorrowerDetails']['BorrowerSeq']);
+                this.hiddenFamilySeq.setValue(res['BorrowerDetails']['CustomerRelated']);
                 this.hideSpinner();
             },
             async (httpError) => {
@@ -488,5 +490,5 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         },
     }
 
-    familyBorrowerSeq;
+    // ActiveBorrowerSeq;
 }
