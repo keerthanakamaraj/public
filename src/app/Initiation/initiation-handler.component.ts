@@ -21,7 +21,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
-  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID"];
+  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID","CD_MOBILE","CD_LOAN_OWNERSHIP"];
   editTempId: any;
   tempId: any;
 
@@ -46,6 +46,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.isLoanCategory = false;
       this.MainComponent.CD_CUST_TYPE.setValue('B');
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
+      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
     } else {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
@@ -159,6 +160,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_CUST_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
+    this.MainComponent.CD_EMAIL_ID.onReset();
+    this.MainComponent.CD_COUNTRY_CODE.onReset();
+    this.MainComponent.CD_NAME_ON_CARD.onReset();
+
     this.onProdCategoryChange({});
 
     this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
@@ -217,6 +222,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
+    this.MainComponent.CD_EMAIL_ID.setValue(customer.email);
+    this.MainComponent.CD_COUNTRY_CODE.setValue(customer.countryCode);
+    this.MainComponent.CD_NAME_ON_CARD.setValue(customer.nameOnCard);
     this.tempId = customer.tempId
 
   }
@@ -354,7 +362,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
     customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
+    customer.email = this.MainComponent.CD_EMAIL_ID.getFieldValue();
+    customer.countryCode = this.MainComponent.CD_COUNTRY_CODE.getFieldValue();
+    customer.nameOnCard  = this.MainComponent.CD_NAME_ON_CARD.getFieldValue();
     customer.tempId = this.tempId;
+
 
     return customer;
   }
@@ -406,7 +418,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (this.customers) {
       for (var i = 0; i < this.customers.length; i++) {
         var tempObj = {};
-        console.log("CustData   ", this.customers[i]);
+        console.log("CustData", this.customers[i]);
         tempObj['CustomerType'] = this.customers[i].customerType.value;
         tempObj['ExistingCustomer'] = this.customers[i].existingCustomer.value;
         tempObj['CIF'] = this.customers[i].CIF;
@@ -425,6 +437,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['StaffID'] = this.customers[i].staffId;
         tempObj['ICIFNumber'] = this.customers[i].customerId;
         tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
+        tempObj['Email'] = this.customers[i].email;
+        tempObj['ISDCountryCode'] = this.customers[i].countryCode;
+        tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
         CustData.push(tempObj);
       }
     }
@@ -436,7 +451,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.LD_INTEREST_RATE.onReset();
     this.MainComponent.LD_TENURE.onReset();
     this.MainComponent.LD_TENURE_PERIOD.onReset();
-    this.MainComponent.LD_APP_PRPSE.onReset();
+    this.MainComponent.BAD_APP_PRPSE.onReset();
+    this.MainComponent.BAD_PRIME_USAGE.onReset()
     this.MainComponent.LD_GROSS_INCOME.onReset();
     this.MainComponent.LD_EXST_LBLT_AMT.onReset();
     this.MainComponent.LD_OTH_DEDUCTIONS.onReset();
@@ -486,6 +502,9 @@ class Customer {
   staff: ValueLabel;
   staffId: string;
   loanOwnership: string;
+  email: any;
+  countryCode: any;
+  nameOnCard: any;
 
   constructor() { }
 }

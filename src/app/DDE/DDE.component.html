@@ -31,8 +31,7 @@
                         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-Header>
                         <app-score-card></app-score-card>
                     </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div"
-                        [ngStyle]="{'margin-top' : showExpandedHeader ? '12px': '7.5rem'}">
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
                         <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
                             <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
                                 <input type="radio" />CUSTOMER
@@ -44,8 +43,7 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
                         <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
-                            (selectCustId)="CUSTOMER_GRID_selectCustId($event)"
-                            (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
+                            [hidden]="!isCustomerTab" (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
                             (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
                             (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
                         </app-CustomerGridDTLS>

@@ -13,9 +13,11 @@ import { DropDown } from '../DropDownOptions';
 
 export class GoNoGoComponent implements OnInit {
   //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
-  apiResponse: HttpResponse<any>;
-  questionnaireCat: Map<Number, String> = new Map();
+  //apiResponse: HttpResponse<any>;
+  mstParamList:any[]=[]; 
+ // questionnaireCat: Map<Number, String> = new Map();
   answerCollection: Array<String> = new Array();
+  prevDecisionsMap: Map<String,any>=new Map<String,any>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
   //@ViewChild('GNG_PARAM_ANS', { static: false }) GNG_PARAM_ANS: RLOUIRadioComponent;
   @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
@@ -63,11 +65,18 @@ export class GoNoGoComponent implements OnInit {
   //     console.log(this.apiResponse['MstQuestionnaireDtls']);
   //   }
   afterLoadQuestionnaireDtls() {
-    if (this.apiResponse) {
+    if (this.mstParamList) {
 
       let QuestionsMap: any[] = [];
-      if (this.apiResponse['MstQuestionnaireDtls']) {
-        this.apiResponse['MstQuestionnaireDtls'].map((element) => {
+      if(this.mstParamList['GoNoGoDetails'] !=undefined){
+        this.mstParamList['GoNoGoDetails'].forEach((element) => {
+                   if (element.AnswerSeq)
+
+                    this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
+                 });
+      }
+      if (this.mstParamList['MstQuestionnaireDtls']) {
+        this.mstParamList['MstQuestionnaireDtls'].map((element) => {
           // let tempAnsSeq: String = null;
           //shweta :: create dropdown objects array and bind to html
           let dropDownOptions: any[] = [];
@@ -78,7 +87,7 @@ export class GoNoGoComponent implements OnInit {
           return element;
         });
       }
-      console.log("shweta :: ", this.apiResponse['MstQuestionnaireDtls']);
+      console.log("shweta :: ", this.mstParamList['MstQuestionnaireDtls']);
     }
   }
 
@@ -92,7 +101,7 @@ export class GoNoGoComponent implements OnInit {
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-      this.apiResponse = httpResponse.body;
+      this.mstParamList = httpResponse.body;
       this.afterLoadQuestionnaireDtls();
     },
       (httpError) => {
@@ -184,7 +193,7 @@ export class GoNoGoComponent implements OnInit {
       }
     });
 
-    this.apiResponse['MstQuestionnaireDtls'].forEach(question => {
+    this.mstParamList['MstQuestionnaireDtls'].forEach(question => {
       questionnaireArray.map(element => {
         const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === element.AnswerSeq);
 

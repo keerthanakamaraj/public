@@ -1512,7 +1512,10 @@
     "CD_CIF": "CIF Number",
     "LD_INTEREST_RATE": "Interest Rate",
     "LD_LTV_DBR": "LTV/DBR (%)",
-    "PROMOTION_LABEL": "Have a promotion to apply?"
+    "PROMOTION_LABEL": "Have a promotion to apply?",
+    "CD_EMAIL_ID" : "Email ID",
+    "CD_COUNTRY_CODE" : "Country Code",
+    "CD_NAME_ON_CARD" : "Name on Card"
   },
   "AddressDetailsGrid" : {
     "AD_Residence_Duration" : "Duration of Occupancy",

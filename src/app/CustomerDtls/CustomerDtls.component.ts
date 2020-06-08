@@ -22,6 +22,7 @@ import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.compo
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+import { Subject } from 'rxjs';
 
 const customCss: string = '';
 
@@ -96,6 +97,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Input() isLoanCategory: boolean = true;
     @Input() ApplicationId: string = undefined;
     @Input() Cust_FullName: string = undefined;
+
+    private updateCustGridEmitter = new Subject();
+
     appId: any;
     fullName: any;
     staffcheck: boolean;
@@ -251,6 +255,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
+      //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -477,12 +482,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
 
                 console.log(inputMap, this.CD_MOBILE_NO.countryCode);
-               
+
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
+                        this.updateCustGridEmitter.next({
+                            'action': 'updateCustGrid',
+                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        });
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
                         })
@@ -614,7 +623,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
-              
+
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
 
@@ -626,6 +635,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.CD_FULL_NAME_change();
+                        this.updateCustGridEmitter.next({
+                            'action': 'updateCustGrid',
+                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        });
                         this.updateCustGrid.emit({
                             'borrowerSeq': this.HidCustomerId.getFieldValue()
                         });
@@ -808,8 +821,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
 
                 //this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['ISDCountryCode']);
-                
-                this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'],res['BorrowerDetails']['ISDCountryCode']);         
+
+                this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
                 this.setNonEditableFields(true);
                 this.CD_FULL_NAME_change();
 
@@ -824,7 +837,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     LoadCustomerDetailsonFormLoad(event) {
-        let customer = event.CustomerArray;
+        //  let customer = event.CustomerArray;
+        let customer = event;
         if (this.isLoanCategory == false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
@@ -868,7 +882,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_CIF.setValue(customer.CIF);
 
         //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
-        this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo,customer.ISDCountryCode);
+        this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
 
         this.CD_FULL_NAME_change();
 
@@ -1034,16 +1048,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             outDep: [
             ]
         },
-        CD_COUNTRY_CODE: {
-            inDep: [
+        // CD_COUNTRY_CODE: {
+        //     inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+        //         { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
         CD_CITIZENSHIP: {
             inDep: [
 

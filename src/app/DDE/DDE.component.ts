@@ -62,6 +62,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     ApplicationId: string = undefined;
     Cust_FullName: string = undefined;
     Cust_DOB: string = undefined;
+    ActiveCustomerDtls: {} = {};
+    ActiveBorrowerSeq: String = undefined;
+    isCustomerTab: boolean = true;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -158,8 +161,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
+
         // await this.brodcastApplicationId();
         //this.openHTab('FieldId_10', 'GO_NO_GO');
+        // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
+
         this.HideProcessId.setValue('RLO_Process');
         this.setDependencies();
     }
@@ -248,8 +254,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.subsBFldsValueUpdates();
             this.value.FieldId_1 = this.FieldId_1.getFieldValue();
             this.FieldId_1.valueChangeUpdates().subscribe((value) => { this.value.FieldId_1 = value; });
-            // this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
-            // this.CUST_DTLS.valueChangeUpdates().subscribe((value) => { this.value.CUST_DTLS = value; });
+            //  this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
+            //  this.CUST_DTLS.valueChangeUpdates().subscribe((value) => { this.value.CUST_DTLS = value; });
             // this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
             // this.FAMILY_DTLS.valueChangeUpdates().subscribe((value) => { this.value.FAMILY_DTLS = value; });
             // this.value.FieldId_14 = this.FieldId_14.getFieldValue();
@@ -396,7 +402,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         });
         // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
-        this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+        // this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
         // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
         //     'ReferrerSeqToGrid': event.BorrowerSeq,
 
@@ -418,12 +424,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUST_DTLS.setNewCustomerFrom(event);
     }
     async CUSTOMER_GRID_passArrayToCustomer(event) {
-        //  setTimeout(() => {
-        this.CUST_DTLS.LoadCustomerDetailsonFormLoad(event);
-        //  }, 20000);
-        console.log('cust full name', event.CustomerArray.FullName);
-        this.Cust_FullName = event.CustomerArray.FullName;
-        this.Cust_DOB = event.CustomerArray.DOB;
+        this.ActiveCustomerDtls = event.CustomerArray;
+        this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
+        this.injectDynamicComponent('CustomDetails', 2, 0);
     }
     async FAMILY_DTLS_familyBlur(event) {
         console.log("Calling this Emitter", this.Cust_FullName);
@@ -466,12 +469,31 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         const dynamicComponent = viewContainerRef.createComponent(componentFactory);
         var componentInstance = dynamicComponent.instance;
         componentInstance.ApplicationId = this.ApplicationId;
-        console.warn("Deep", componentInstance.emitData());
-        console.log("Deep :: ", componentInstance);
+       // console.warn("Deep", componentInstance.emitData());
+        //console.log("Deep :: ", componentInstance);
 
-        componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+        if (this.CUSTOMER_GRID) {
+            if (componentId == 'CustomDetails' && this.ActiveCustomerDtls != undefined) {
+                setTimeout(() => {
+                    componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls)
+                }, 1000);
+
+            }
+            else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
+                componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
+            }
+        }
+        //componentInstance = this.ApplicationId;
+        if (componentId == 'CustomDetails') {
+            componentInstance.updateCustGridEmitter.subscribe((event) => {
+                console.log("shweta :: grid update ", event);
+                this.CUSTOMER_GRID.doAPIForCustomerList(event);
+            });
+        }
     }
-
+    // if(x.action=='updateCustGrid'){
+    //     this.CUSTOMER_GRID.doAPIForCustomerList(x);
+    // }
     getComponentClassRef(componentId: string): AddSpecificComponent {
         switch (componentId) {
             case 'CustomDetails':
@@ -506,6 +528,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log(tabName);
         let defaultSection: string = '';
         if (tabName == "customer") {
+            this.isCustomerTab = true;
             this.formsMenuList = this.customerMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
@@ -514,6 +537,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.injectDynamicComponent('CustomDetails', 2, 0);
         }
         else {
+            this.isCustomerTab = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
