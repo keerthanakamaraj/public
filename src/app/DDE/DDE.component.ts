@@ -42,8 +42,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
     @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
-    @ViewChild('REFERRER_DTLS',{static:false}) REFERRER_DTLS: ReferralDetailsFormComponent;
-  //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
+    @ViewChild('REFERRER_DTLS', { static: false }) REFERRER_DTLS: ReferralDetailsFormComponent;
+    //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
@@ -68,11 +68,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-    {
-        selectedMenuComponent: "",
-        firstArr: 0,
-        secondArr: 0
-    };
+        {
+            selectedMenuComponent: "",
+            firstArr: 0,
+            secondArr: 0
+        };
 
 
     async revalidate(): Promise<number> {
@@ -94,10 +94,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
-            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: true },
-            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "refresh-form.svg", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "refresh-form.svg", isActive: false, isOptional: false }
+            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
         ],
         [
             { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
@@ -131,6 +131,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     ];
 
     formsMenuList: Array<any> = [];
+    showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
@@ -219,6 +220,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.passNewValue(this.value);
     }
     ngOnInit() {
+        this.services.rloCommonData.headerState.subscribe((data) => {
+            console.log(data);
+            this.showExpandedHeader = data;
+        });
         if (this.formCode == undefined) { this.formCode = 'DDE'; }
         if (this.formOnLoadError) { return; }
         var styleElement = document.createElement('style');
@@ -230,13 +235,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.formsMenuList = this.customerMenu;
         this.injectDynamicComponent('CustomDetails', 2, 0);
-
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('DDE_customCss');
         styleElement.parentNode.removeChild(styleElement);
+        this.services.rloCommonData.headerState.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -444,6 +449,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
+        console.log(this.formMenuObject, this.formsMenuList);
         this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isActive = false;
         this.formsMenuList[ele1][ele2].isActive = true;
 
@@ -460,9 +466,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         const dynamicComponent = viewContainerRef.createComponent(componentFactory);
         var componentInstance = dynamicComponent.instance;
         componentInstance.ApplicationId = this.ApplicationId;
+        console.warn("Deep", componentInstance.emitData());
         console.log("Deep :: ", componentInstance);
-        //componentInstance = this.ApplicationId;
-        // componentInstance.testEmitter.subscribe((x) => { console.log(x) })
+
+        componentInstance.testEmitter.subscribe((x) => { console.log(x) })
     }
 
     getComponentClassRef(componentId: string): AddSpecificComponent {
@@ -497,32 +504,28 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     tabSwitched(tabName: string) {
         console.log(tabName);
-        let defaultSection:string='';
-        if(tabName == "customer"){
-            this.formsMenuList=this.customerMenu;
+        let defaultSection: string = '';
+        if (tabName == "customer") {
+            this.formsMenuList = this.customerMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
             });
+            this.updateSelectedTabIndex(2, 0);
             this.injectDynamicComponent('CustomDetails', 2, 0);
         }
-        else{
-            this.formsMenuList=this.applicationMenu;
+        else {
+            this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
                 element.forEach(ele => { ele.isActive = false })
             });
-            this.injectDynamicComponent('GoNoGoDetails', 0, 1);
+            this.updateSelectedTabIndex(0, 1);
+            this.injectDynamicComponent('GoNoGoDetails', 0, 0);
         }
-                   
-              this.formMenuObject.firstArr = 0;
-              this.formMenuObject.secondArr = 1;
-        // this.formsMenuList = tabName == "customer" ? this.customerMenu : this.applicationMenu;
-        // console.log(this.formsMenuList);
-        // this.formsMenuList.forEach(element => {
-        //     element.forEach(ele => { ele.isActive = false })
-        // });
-        // this.injectDynamicComponent('CustomDetails', 0, 1);
-        // this.formMenuObject.firstArr = 0;
-        // this.formMenuObject.secondArr = 1;
+    }
+
+    updateSelectedTabIndex(firstArrayIndex: number, secondArrayIndex: number): void {
+        this.formMenuObject.firstArr = firstArrayIndex;
+        this.formMenuObject.secondArr = secondArrayIndex;
     }
 
     //going back and forth via btns
@@ -551,7 +554,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 } else {
                     sIndex = firstArray + 1;
                     this.loadForm('nxt', sIndex, 0);
-                }       
+                }
             }
         }
         else {
@@ -571,7 +574,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 } else {
                     sIndex = firstArray - 1;
                     this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
-                }               
+                }
             }
         }
     }

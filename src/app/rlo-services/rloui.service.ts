@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ProvidehttpService } from '../providehttp.service';
 import { HttpResponse } from '@angular/common/http';
 import { retry } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class RlouiService {
   private serviceContext: string = "/ui";
 
   private tenantConfigAPI: string = "/TenantConfig";
-  private tenantconfig: any = {};
+  tenantconfig: any = {};
 
   private fieldvalidationAPI: string = "/UiFieldValidation";
   private fieldValidations: any = {};
@@ -19,20 +21,20 @@ export class RlouiService {
   private formFieldAPI: string = "/UiField";
   private formFields: any = {};
 
-  constructor(public http: ProvidehttpService) {
+  constructor(public http: ProvidehttpService, public translate: TranslateService) {
     console.log("UI Service .. constructor --------------------------------");
 
     // TODO: initialize on startup and call after login
     this.loadUiConfigs();
   }
 
-  loadUiConfigs(){
+  loadUiConfigs() {
 
     this.loadTenantConfig();
-    
+
   }
 
-  private loadTenantConfig(){
+  private loadTenantConfig() {
     this.http.fetchApi(this.tenantConfigAPI, 'GET', undefined, this.serviceContext).subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var tconfig = httpResponse.body ? httpResponse.body.TenantConfig : [];
@@ -41,22 +43,37 @@ export class RlouiService {
         tconfig.forEach(element => {
           this.tenantconfig[element["TCName"]] = element["TCValue"];
         });
-        console.log("tenantconfig ", this.tenantconfig);
+        // console.log("tenantconfig ", this.tenantconfig, this.tenantconfig["language"]);
+
+        // switch (this.tenantconfig["language"].default) {
+        //   case "en-IN":
+        //     this.translate.use('En');
+        //     this.http.currentLanguage = 'En';
+        //     break;
+
+        //   case "bh-BH":
+        //     this.translate.use('bh');
+        //     this.http.currentLanguage = 'bh';
+        //     break;
+
+        //   default:
+        //     break;
+        // }
 
         this.loadValidations();
         this.loadFormFields();
       },
-      async (httpError)=>{
+      async (httpError) => {
         var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           // this.services.alert.showAlert(3, 'Unable to save form!', 5000);
         }
       }
     );
   }
 
-  private loadValidations(){
-    if(this.tenantconfig["ui.validation.version"] == localStorage.getItem("ui.validation.version")){
+  private loadValidations() {
+    if (this.tenantconfig["ui.validation.version"] == localStorage.getItem("ui.validation.version")) {
       try {
         this.fieldValidations = JSON.parse(localStorage.getItem("ui.validations"));
         console.log("Loading cached validations .. v", localStorage.getItem("ui.validation.version"));
@@ -76,20 +93,20 @@ export class RlouiService {
           this.fieldValidations[element.V] = element;
         });
         //console.log("validations ", this.fieldValidations);
-        localStorage.setItem("ui.validations", JSON.stringify(this.fieldValidations) );
-        localStorage.setItem("ui.validation.version",this.tenantconfig["ui.validation.version"]);
+        localStorage.setItem("ui.validations", JSON.stringify(this.fieldValidations));
+        localStorage.setItem("ui.validation.version", this.tenantconfig["ui.validation.version"]);
       },
-      async (httpError)=>{
+      async (httpError) => {
         var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           // this.services.alert.showAlert(3, 'Unable to save form!', 5000);
         }
       }
     );
   }
 
-  private loadFormFields(){
-    if(this.tenantconfig["ui.fields.version"] == localStorage.getItem("ui.fields.version")){
+  private loadFormFields() {
+    if (this.tenantconfig["ui.fields.version"] == localStorage.getItem("ui.fields.version")) {
       try {
         this.formFields = JSON.parse(localStorage.getItem("ui.formfields"));
         console.log("Loading cached Form Fields .. v", localStorage.getItem("ui.fields.version"));
@@ -105,55 +122,55 @@ export class RlouiService {
         // console.log("fields ", fields);
 
         fields.forEach(element => {
-          if(!this.formFields[element["F"]]){ // check for form already added
+          if (!this.formFields[element["F"]]) { // check for form already added
             this.formFields[element["F"]] = [];
           }
           this.formFields[element["F"]].push(element);
         });
         //console.log("form fields ", this.formFields);
 
-        localStorage.setItem("ui.formfields", JSON.stringify(this.formFields) );
-        localStorage.setItem("ui.fields.version",this.tenantconfig["ui.fields.version"]);
+        localStorage.setItem("ui.formfields", JSON.stringify(this.formFields));
+        localStorage.setItem("ui.fields.version", this.tenantconfig["ui.fields.version"]);
       },
-      async (httpError)=>{
+      async (httpError) => {
         var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           // this.services.alert.showAlert(3, 'Unable to save form!', 5000);
         }
       }
     );
   }
 
-  getFormFields(formName: string) : []{
+  getFormFields(formName: string): [] {
     return this.formFields[formName];
   }
 
-  getValidation(validation: string){
+  getValidation(validation: string) {
     return this.fieldValidations[validation];
   }
 
-  getConfig(configName: string, defaultValue? : string){
+  getConfig(configName: string, defaultValue?: string) {
     return this.tenantconfig[configName] ? this.tenantconfig[configName] : defaultValue;
   }
 
-  formatAmount(amount, languageCode: string, minFraction, currency: string){
+  formatAmount(amount, languageCode: string, minFraction, currency: string) {
     // console.log("Format Amount " , amount);
     let amt: number;
-    if(typeof amount == "string"){
-      try { 
-        amt = Number(amount); 
-      } catch (e) { 
-        return amount; 
+    if (typeof amount == "string") {
+      try {
+        amt = Number(amount);
+      } catch (e) {
+        return amount;
       }
-    } else if(typeof amount == "number"){
+    } else if (typeof amount == "number") {
       amt = amount
     } else {
       console.warn("Unexpected Amount Type");
       return amount;
     }
 
-    if(!languageCode){ languageCode = this.getConfig("language.default", "en-IN"); }
-    if(!currency){ currency = this.getConfig("currency.code.default", "INR"); }
+    if (!languageCode) { languageCode = this.getConfig("language.default", "en-IN"); }
+    if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
 
     // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
     return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
@@ -162,11 +179,11 @@ export class RlouiService {
   // TODO: Check Type of date and format accordingly
   formatDateTime(date) {
     var languageCode = this.getConfig("language.default", "en-IN");
-    var options = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric"};
-    try{
+    var options = { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" };
+    try {
       var dt = new Date(date)
       return new Intl.DateTimeFormat(languageCode, options).format(dt);
-    } catch(e) {
+    } catch (e) {
       console.log("error formatting date", date);
       return date;
     }
@@ -175,13 +192,13 @@ export class RlouiService {
   // TODO: Check Type of date and format accordingly
   formatDate(date) {
     var languageCode = this.getConfig("language.default", "INR");
-    var options = {year: "numeric", month: "numeric", day: "numeric"};
-    try{
+    var options = { year: "numeric", month: "numeric", day: "numeric" };
+    try {
       var dt = new Date(date);
       return new Intl.DateTimeFormat(languageCode, options).format(dt);
-    } catch(e) {
+    } catch (e) {
       console.log("error formatting date", date);
       return date;
     }
-  }  
+  }
 }

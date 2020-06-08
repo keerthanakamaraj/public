@@ -15,7 +15,7 @@
     <div class="clearfix content">
         <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
         <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="!showExpanded">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="!headerExpandedView">
                 <div class="form-group pb10 headerform border-top">
                     <div class="col-12  col-sm-12 col-md-12 mainheader row">
                         <div class='imageheader'>
@@ -167,10 +167,11 @@
                             <app-header-handler #Handler></app-header-handler>
                         </div>
                     </div>
+                    <span class="switch" (click)="headerState(false)"></span>
                 </div>
             </div>
             <!-- /* shrink header */ -->
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="showExpanded">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="headerExpandedView">
                 <div class="form-group pb10">
                     <div class="collapsedHeader">
                         <div class="arn"><span>ARN | </span>{{ ARN }}</div>
@@ -180,6 +181,7 @@
                         <div>{{ TENURE }}</div>
                         <div>{{ SUB_PRODUCT }}</div>
                         <div>{{ SCHEME }}</div>
+                        <span class="switch" (click)="headerState(true)"></span>
                         <!-- <ul class="ulheader">
                           <li class="liheader"><span class="a">ARN</span> </li>
 

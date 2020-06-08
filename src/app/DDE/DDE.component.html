@@ -1,55 +1,56 @@
 <form class="MakeRelative">
-  <div class="ShowLoading " *ngIf="loadSpinner">
-      <div class="lds-roller MakeItMiddle">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-      </div>
-  </div>
-  <div class="clearfix content">
-      <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-          <div class="col-sm-12 col-md-12">
-              <div class="FormTitle no-border">
-                  <a class="back" (click)="goBack()">Back</a>
-                  <span>{{ 'DDE.FormTitle' | translate }}</span>
-              </div>
-          </div>
-          <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-          </div>
-      </div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="clearfix content">
+        <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-12 col-md-12">
+                <div class="FormTitle no-border">
+                    <a class="back" (click)="goBack()">Back</a>
+                    <span>{{ 'DDE.FormTitle' | translate }}</span>
+                </div>
+            </div>
+            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+            </div>
+        </div>
 
-      <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-      <div *ngIf="!formOnLoadError">
-          <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-              <div class="form-group pb10">
-                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
-                      <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-Header>
-                      <app-score-card></app-score-card>
-                  </div>
-                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
-                      <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
-                          <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
-                              <input type="radio" />CUSTOMER
-                          </a>
-                          <a class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
-                              <input type="radio" />APPLICATION
-                          </a>
-                      </div>
-                  </div>
-                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
-                      <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
-                          (selectCustId)="CUSTOMER_GRID_selectCustId($event)"
-                          (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
-                          (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
-                          (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
-                      </app-CustomerGridDTLS>
-                  </div>
-                  <!-- <div class="col-12  col-sm-12 col-md-12 default-htab-padding">
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
+                        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"></app-Header>
+                        <app-score-card></app-score-card>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div"
+                        [ngStyle]="{'margin-top' : showExpandedHeader ? '12px': '7.5rem'}">
+                        <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
+                            <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
+                                <input type="radio" />CUSTOMER
+                            </a>
+                            <a class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
+                                <input type="radio" />APPLICATION
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
+                        <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
+                            (selectCustId)="CUSTOMER_GRID_selectCustId($event)"
+                            (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
+                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
+                            (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
+                        </app-CustomerGridDTLS>
+                    </div>
+                    <!-- <div class="col-12  col-sm-12 col-md-12 default-htab-padding">
                       <div class='horizontalTab'>
 
                           <div class="clearfix" [ngClass]="{'top-tab' : 'displayBorder'}">
@@ -189,7 +190,7 @@
                           </div>
                       </div>
                   </div> -->
-                  <!-- 
+                    <!-- 
                   <div class="col-12  col-sm-12 col-md-12 group-default" style="display:none;">
                       <div #BUTTON_SECTION id="BUTTON_SECTION">
                           <div class="form-group pb10 button-group">
@@ -210,59 +211,59 @@
                   <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                       <app-dde-handler #Handler></app-dde-handler>
                   </div> -->
-              </div>
-              <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
-          </div>
-      </div>
+                </div>
+                <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+            </div>
+        </div>
 
-      <!-- FORM MENU TABS [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': 'inactive-table'"-->
-      <div class="row">
-          <div class="col-sm-1 col-md-1 col-lg-1 wgt-form-menu">
-              <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
-                  (mouseout)="mouseOvered=false">
-                  <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
-                      <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
-                          *ngFor="let menu of section;let i= index"
-                          [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
+        <!-- FORM MENU TABS [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': 'inactive-table'"-->
+        <div class="row">
+            <div class="col-sm-1 col-md-1 col-lg-1 wgt-form-menu">
+                <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
+                    (mouseout)="mouseOvered=false">
+                    <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
+                        <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
+                            *ngFor="let menu of section;let i= index"
+                            [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
 
-                          <div class="small-menu" [ngStyle]="{'background-image':'url('+menu.icon+')'}"></div>
-                          <span *ngIf="menu.completed" class="status-flag"></span>
-                          <span class="txt" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
-                              (mouseout)="mouseOvered=false">
-                              {{menu.name}}
-                              <span *ngIf="menu.isOptional">(Optional)</span>
-                          </span>
+                            <div class="small-menu" [ngStyle]="{'background-image':'url('+menu.icon+')'}"></div>
+                            <span *ngIf="menu.completed" class="status-flag"></span>
+                            <span class="txt" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
+                                (mouseout)="mouseOvered=false">
+                                {{menu.name}}
+                                <span *ngIf="menu.isOptional">(Optional)</span>
+                            </span>
 
-                      </div>
-                  </div>
-              </div>
-          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-          <div class="col-sm-11 col-md-11 col-lg-11 p-0">
-              <div class="wgt-form-menu-container">
-                  <div class="menu-header">
-                      <span class="form-title">{{formMenuObject.selectedMenuComponent}}</span>
-                      <div class="info">
-                          <ul class="tag-list">
-                              <li class="tag">
-                                  <span class="label">B</span>
-                                  <span class="txt">Vishal Karan Kotwal</span>
-                              </li>
-                          </ul>
-                          <span class="menu-btn">
-                              <span class="prev-btn" (click)="loadForm('prev')"></span>
-                              <span class="nxt-btn" (click)="loadForm('nxt')"></span>
-                          </span>
-                      </div>
-                  </div>
+            <div class="col-sm-11 col-md-11 col-lg-11 p-0">
+                <div class="wgt-form-menu-container">
+                    <div class="menu-header">
+                        <span class="form-title">{{formMenuObject.selectedMenuComponent}}</span>
+                        <div class="info">
+                            <ul class="tag-list">
+                                <li class="tag">
+                                    <span class="label">B</span>
+                                    <span class="txt">Vishal Karan Kotwal</span>
+                                </li>
+                            </ul>
+                            <span class="menu-btn">
+                                <span class="prev-btn" (click)="loadForm('prev')"></span>
+                                <span class="nxt-btn" (click)="loadForm('nxt')"></span>
+                            </span>
+                        </div>
+                    </div>
 
-                  <!-- components added here -->
-                  <div class="menu-content">
-                      <ng-template #appDDEFormDirective></ng-template>
-                  </div>
-              </div>
-          </div>
-      </div>
+                    <!-- components added here -->
+                    <div class="menu-content">
+                        <ng-template #appDDEFormDirective></ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  </div>
+    </div>
 </form>

@@ -78,17 +78,19 @@ export class AlertsComponent implements OnInit {
     return tempObj;
   }
 
-  getAlertMessage(alertMsg: string) : string {
+  getAlertMessage(alertMsg: string): string {
+    console.clear();
+    console.log(errorMap, alertMsg);
     return errorMap[alertMsg] ? errorMap[alertMsg] : alertMsg;
   }
 
 
   showAlert(alertType: number, alertMsg: string, timeout: number = 5000) {
     var tempObj = this.setAlertValues(alertType, alertMsg);
-    if(timeout<=-1){
+    if (timeout <= -1) {
       tempObj["showCloseButton"] = true;
     }
-    
+
     var thisObject = this;
 
     this.alertsInfo = [];

@@ -25,6 +25,19 @@ const customCss: string = '';
   templateUrl: './Header.component.html'
 })
 export class HeaderComponent extends FormComponent implements OnInit, AfterViewInit {
+
+  @HostListener('window:scroll', ['$event'])
+  handleScroll() {
+    let windowScroll = window.pageYOffset;
+    if (this.headerCurrentState) {
+      if (windowScroll >= 280) {
+        this.headerExpandedView = false;
+      } else if (windowScroll < 60) {
+        this.headerExpandedView = true;
+      }
+    }
+  }
+
   @ViewChild('HD_CIF', { static: false }) HD_CIF: ReadOnlyComponent;
   @ViewChild('HD_CUST_ID', { static: false }) HD_CUST_ID: ReadOnlyComponent;
   @ViewChild('HD_APP_REF_NUM', { static: false }) HD_APP_REF_NUM: ReadOnlyComponent;
@@ -48,7 +61,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   PRODUCT_CATEGORY_IMG = '';
   CURRENCY_IMG = '';
 
-  showExpanded: boolean = true;
+  headerExpandedView: boolean = true;
+  headerCurrentState: boolean = true; //expanded-1,collapsed-0
+
   elementPosition: any;
 
   /* data binding variables  */
@@ -248,40 +263,27 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   fieldDependencies = {
   }
 
-  @HostListener('window:scroll', ['$event'])
-  handleScroll() {
-    let windowScroll = window.pageYOffset;
-    if(windowScroll >= 280){
-      this.showExpanded = false;
-    } else if(windowScroll < 60 ) {
-      this.showExpanded = true;
-    }
-  }
-
   apiSuccessCallback() {
-
     this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
-
     switch (this.HD_PROD_CAT.getFieldValue()) {
-
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
         this.HD_PROD_CAT.setValue('Auto Loan');
         break;
-
       case 'PL': this.PRODUCT_CATEGORY_IMG = './assets/icons/personalloan-yellow.svg';
         this.HD_PROD_CAT.setValue('Personal Loan');
         break;
-
       case 'ML': this.PRODUCT_CATEGORY_IMG = './assets/icons/mortgage-yellow.svg';
         this.HD_PROD_CAT.setValue('Mortgage Loan');
         break;
-
       case 'CC': this.PRODUCT_CATEGORY_IMG = './assets/icons/creditcard-yellow.svg';
         this.HD_PROD_CAT.setValue('Credit Card');
         break;
     }
+  }
 
-
-
+  headerState(state: boolean) {
+    this.headerExpandedView = state;
+    this.headerCurrentState = state;
+    this.services.rloCommonData.headerState.next(state);
   }
 }

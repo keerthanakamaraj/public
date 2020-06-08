@@ -7,31 +7,33 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AlertsService } from './AlertsService';
 import { RlouiService } from './rlo-services/rloui.service';
+import { RloCommonData } from './rlo-services/rloCommonData.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceStock {
 
-  constructor(public routing: RoutingService, 
-    public http: ProvidehttpService, 
-    public dataStore: Data, 
+  constructor(public routing: RoutingService,
+    public http: ProvidehttpService,
+    public dataStore: Data,
     public modal: NgbModal,
-    public translate : TranslateService,
+    public translate: TranslateService,
     public router: Router,
     public alert: AlertsService,
-    public rloui: RlouiService) { }
+    public rloui: RlouiService,
+    public rloCommonData: RloCommonData) { }
 
-    formatAmount(number , languageCode , minFraction) {
-      //return number.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
-      return this.rloui.formatAmount(number, languageCode, minFraction, null);
-    }
+  formatAmount(number, languageCode, minFraction) {
+    //return number.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
+    return this.rloui.formatAmount(number, languageCode, minFraction, null);
+  }
 
-    formatDate(date){
-      return this.rloui.formatDate(date);
-    }
+  formatDate(date) {
+    return this.rloui.formatDate(date);
+  }
 
-    formatDateTime(date){
-      return this.rloui.formatDateTime(date);
-    }
+  formatDateTime(date) {
+    return this.rloui.formatDateTime(date);
+  }
 }

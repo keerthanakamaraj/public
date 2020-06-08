@@ -93,6 +93,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         return totalErrors;
     }
 
+    showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+
     constructor(services: ServiceStock) {
         super(services);
         this.value = new QDEModel();
@@ -258,6 +260,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.passNewValue(this.value);
     }
     ngOnInit() {
+        this.services.rloCommonData.headerState.subscribe((data) => {
+            console.log(data);
+            this.showExpandedHeader = data;
+        });
         if (this.formCode == undefined) { this.formCode = 'QDE'; }
         if (this.formOnLoadError) { return; }
         var styleElement = document.createElement('style');

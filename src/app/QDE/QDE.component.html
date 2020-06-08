@@ -17,7 +17,7 @@
               (productCategoryFound)="brodcastProdCategory($event)"></app-Header>
           </div>
 
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div" [ngStyle]="{'margin-top' : showExpandedHeader ? '12px': '4.5rem'}">
             <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">
               <a href="#customer-panel" class="btn btn-default active" data-toggle="tab">
                 <input type="radio" />CUSTOMER

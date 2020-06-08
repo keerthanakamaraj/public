@@ -374,6 +374,33 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       background-image: url("./../icons/creditcard-yellow.svg");
     }
   }
+
+  // &::after {
+  //   position: absolute;
+  //   height: 30px;
+  //   width: 30px;
+  //   background: red;
+  //   z-index: 1;
+  //   content: "";
+  //   right: 1.2rem;
+  //   top: 1.1rem;
+  //   background-image: url("./../icons/score_card_refresher.svg");
+  //   background-size: cover;
+  // }
+}
+
+.switch {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  //background: red;
+  z-index: 1;
+  content: "";
+  right: 1.2rem;
+  top: 1.1rem;
+  background-image: url("./../icons/score_card_refresher.svg");
+  background-size: cover;
+  cursor: pointer;
 }
 
 .read-only-field {
