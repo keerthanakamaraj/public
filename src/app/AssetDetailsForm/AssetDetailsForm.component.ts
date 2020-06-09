@@ -91,7 +91,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
       }
 
     async onFormLoad() {
-        this.activeBorrowerSeq = 2;
+        // this.activeBorrowerSeq = 2;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
         this.hideAssetSubType.setValue('ASSET_SUBTYPE');
@@ -193,7 +193,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
       }
 
     async AT_SAVE_click(event) {
-        this.AT_SAVE.setDisabled(true);
+        // this.AT_SAVE.setDisabled(true);
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
         let assetGridData: any = this.AssetDetailsGrid.getAssetDetails();
@@ -231,7 +231,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             'passBorrowerToAsset':this.activeBorrowerSeq
                         });
                         this.onReset();
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     },
                     async (httpError) => {
@@ -275,7 +275,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.update.asset', -1);
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     }
                 );
@@ -302,7 +302,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             'passBorrowerToAsset':this.activeBorrowerSeq
                         });
                         this.onReset();
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     },
                     async (httpError) => {
@@ -343,7 +343,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.save.asset', -1);
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     }
                 );
