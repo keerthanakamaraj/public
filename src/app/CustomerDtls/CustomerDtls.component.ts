@@ -98,7 +98,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Input() ApplicationId: string = undefined;
     @Input() Cust_FullName: string = undefined;
 
-    private updateCustGridEmitter = new Subject();
+    //private updateCustGridEmitter = new Subject();
 
     appId: any;
     fullName: any;
@@ -206,7 +206,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         });
         this.setDependencies();
         // this.Handler.displayCustomerTag();
-
     }
 
     setInputs(param: any) {
@@ -255,6 +254,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
+       // this.services.rloCommonData.childToParentSubject.unsubscribe();
       //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
@@ -488,13 +488,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
-                        this.updateCustGridEmitter.next({
-                            'action': 'updateCustGrid',
-                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        this.services.rloCommonData.childToParentSubject.next({
+                            action: 'updateCustGrid',
+                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
                         });
-                        this.updateCustGrid.emit({
-                            'borrowerSeq': this.HidCustomerId.getFieldValue()
-                        })
+                        // this.updateCustGrid.emit({
+                        //     'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        // })
                         // this.onReset();
                     },
                     async (httpError) => {
@@ -635,13 +635,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.CD_FULL_NAME_change();
-                        this.updateCustGridEmitter.next({
-                            'action': 'updateCustGrid',
-                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        this.services.rloCommonData.childToParentSubject.next({
+                            action: 'updateCustGrid',
+                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
                         });
-                        this.updateCustGrid.emit({
-                            'borrowerSeq': this.HidCustomerId.getFieldValue()
-                        });
+                        // this.updateCustGrid.emit({
+                        //     'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        // });
                         // this.onReset();
 
                     },

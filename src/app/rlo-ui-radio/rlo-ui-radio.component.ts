@@ -141,14 +141,16 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
             // }
 
             this.dropDownOptions.Options = this.dropDownOptions.Options = result;
-            this.isOptionsLoaded = true;
-
+           // this.isOptionsLoaded = true;
+            if(!this.isOptionsLoaded){
             if (this.valuePending) {
               this.setValue(this.valuePending);
               this.valuePending = undefined;
             } else if (this.getDefault() != '') {
               this.setValue(this.getDefault());
             }
+          }
+          this.isOptionsLoaded=true;
           }
         },
         err => { },
