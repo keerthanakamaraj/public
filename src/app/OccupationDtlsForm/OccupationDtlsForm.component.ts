@@ -223,7 +223,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   async OD_DATE_OF_JOINING_blur(event) {
     let inputMap = new Map();
     if (!this.joinDate(this.OD_DATE_OF_JOINING.getFieldValue())) {
-      this.OD_DATE_OF_JOINING.setError('Please select correct date of reciept ');
+      this.OD_DATE_OF_JOINING.setError('Please select correct date of joining');
       return 1;
       // this.services.alert.showAlert(2, 'rlo.error.joiningdate.occupation', -1);
     
@@ -233,7 +233,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   async OD_DT_OF_INCPTN_blur(event) {
     let inputMap = new Map();
     if (!this.dt_Incptn(this.OD_DT_OF_INCPTN.getFieldValue())) {
-      this.OD_DT_OF_INCPTN.setError('Please select correct date of reciept ')
+      this.OD_DT_OF_INCPTN.setError('Please select correct date of inception')
       return 1;
       // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
       // this.OD_DT_OF_INCPTN.onReset();
