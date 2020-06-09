@@ -620,7 +620,7 @@ export class FormComponent {
     }
 
     if (this[fieldId + "_blur"]) {
-      var noOfErrors = this[fieldId + "_blur"]({ fieldId: fieldId, value: value, isOnBlur: isOnBlur });
+      var noOfErrors = await this[fieldId + "_blur"]({ fieldId: fieldId, value: value, isOnBlur: isOnBlur });
       totalErrors += (noOfErrors != undefined && typeof noOfErrors == 'number' ? noOfErrors : 0);
     }
 

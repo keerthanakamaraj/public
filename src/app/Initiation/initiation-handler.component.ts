@@ -247,10 +247,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   }
 
   // Add Customer
-  onAddCustomer(arg0: {}) {
-
-    this.validateCustomerForm().then((errorCounts) => {
-      if (errorCounts > 0) {
+  async onAddCustomer(arg0: {}) {
+    var noofErrors: number = await this.MainComponent.revalidateCustomers();
+   
+      if (noofErrors > 0) {
         this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
         //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
         //  this.MainComponent.ACC_CUSTOMER.nativeElement.focus();
@@ -282,14 +282,18 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
         this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
         this.updateCustomerTags();
+        if(this.editId){
+          this.MainComponent.services.alert.showAlert(1, 'rlo.success.update.customer', 1000);
+        }else{
+          this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
 
-        this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
+        }
         this.resetCustomerDetails();
       }
 
 
 
-    });
+    
 
   }
 
@@ -481,7 +485,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   aggregateLoanOwnerShip() {
     var total = 0
     for (let i = 0; i < this.customers.length; i++) {
-      if (this.customers[i].loanOwnership !== undefined && this.customers[i].loanOwnership !== "") {
+      if (this.customers[i].loanOwnership !== undefined && this.customers[i].loanOwnership !== "" && this.customers[i].tempId !== this.editId ) {
         total += Number(this.customers[i].loanOwnership);
       }
     }

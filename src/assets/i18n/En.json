@@ -1551,6 +1551,7 @@
     "CD_DRIVING_LICENSE" : "Driving License",
     "CD_PRIME_USAGE" : "Prime Usage",
     "LOAN_DTLS_LBL" : "Loan Details",
+    "CARD_DTLS_LBL" : "Card Details",
     "CD_DOB" : "Date Of Birth",
     "CD_MARITAL_STATUS" : "Marital Status",
     "FieldId_29" : "null",

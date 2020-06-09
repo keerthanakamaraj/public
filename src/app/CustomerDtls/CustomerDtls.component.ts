@@ -461,23 +461,27 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     genderCheck() {
         if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
-            // console.log("Please select gender according to tilte");
-            this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+            this.CD_GENDER.setError('Please select gender according to title');
+            return 1;
         }
     }
 
 
     async CD_GENDER_blur(event) {
         const inputMap = new Map();
-        this.genderCheck();
+        let checkGender =  this.genderCheck();
+        return checkGender;
     }
 
     async CD_DOB_blur(event) {
         const inputMap = new Map();
         if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
             this.CD_DOB.setError('rlo.error.dob-invalid');
+            return 1
         } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
             this.CD_DOB.setError('rlo.error.age-invalid');
+            return 1
+
 
         }
     }
@@ -486,6 +490,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         const inputMap = new Map();
         if (!this.isFutureDate(this.CD_PASSPORT_EXPIRY.getFieldValue())) {
             this.CD_PASSPORT_EXPIRY.setError('rlo.error.passport-expire');
+            return 1
         }
     }
 
@@ -493,6 +498,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         const inputMap = new Map();
         if (!this.isFutureDate(this.CD_VISA_VALID.getFieldValue())) {
             this.CD_VISA_VALID.setError('rlo.error.visa-expire');
+            return 1;
         }
     }
 
@@ -500,6 +506,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         const inputMap = new Map();
         if (!this.isFutureDate(this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue())) {
             this.CD_DRVNG_LCNSE_EXP_DT.setError('rlo.error.driv-lcnse-expire');
+            return 1
         }
     }
 
