@@ -23,8 +23,8 @@ export class AssetsHandlerComponent extends RLOUIHandlerComponent implements OnI
   }
   
   calculateLocalCurrEquv(){
-    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.AT_ASSET_VALUE.getFieldValue() !== undefined){
-      let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.AT_ASSET_VALUE.getFieldValue();
+    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.AT_FAIR_MRKT_VALUE.getFieldValue() !== undefined){
+      let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.AT_FAIR_MRKT_VALUE.getFieldValue();
       this.MainComponent.AT_EQUIVALENT_AMOUNT.setValue(CurrenyExchangeValue.toFixed(2));
     }
   }

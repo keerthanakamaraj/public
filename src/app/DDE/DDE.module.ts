@@ -20,6 +20,7 @@ import { GoNoGoModule } from '../go-no-go/go-no-go.module';
 import { DDEHandlerModule } from '../DDE/DDE-handler.module';
 import { ScoreCardModule } from '../score-card/score-card.module';
 import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
+import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetailsForm.module';
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.mod
         GoNoGoModule,
         DDEHandlerModule,
         ScoreCardModule,
-        CustomerGridDTLSModule
+        CustomerGridDTLSModule,
+        ReferralDetailsFormModule,
     ],
     declarations: [
         DDEComponent,

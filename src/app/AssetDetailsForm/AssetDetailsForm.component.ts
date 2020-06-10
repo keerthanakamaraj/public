@@ -26,7 +26,7 @@ const customCss: string = '';
     templateUrl: './AssetDetailsForm.component.html'
 })
 export class AssetDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
-   // activeBorrowerSeq: any;
+    activeBorrowerSeq: any;
     @ViewChild('AT_ASSET_TYPE', { static: false }) AT_ASSET_TYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_SUBTYPE', { static: false }) AT_ASSET_SUBTYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_LOCATION', { static: false }) AT_ASSET_LOCATION: TextBoxComponent;
@@ -35,8 +35,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('AT_FAIR_MRKT_VALUE', { static: false }) AT_FAIR_MRKT_VALUE: TextBoxComponent;
     @ViewChild('AT_CURRENCY', { static: false }) AT_CURRENCY: ComboBoxComponent;
     @ViewChild('AT_EQUIVALENT_AMOUNT', { static: false }) AT_EQUIVALENT_AMOUNT: TextBoxComponent;
-    @ViewChild('AT_OWNED_BY', { static: false }) AT_OWNED_BY: ComboBoxComponent;
-    @ViewChild('AT_NAME', { static: false }) AT_NAME: ComboBoxComponent;
+    // @ViewChild('AT_OWNED_BY', { static: false }) AT_OWNED_BY: ComboBoxComponent;
+    // @ViewChild('AT_NAME', { static: false }) AT_NAME: ComboBoxComponent;
     @ViewChild('AT_INCLUDE_IN_DBR', { static: false }) AT_INCLUDE_IN_DBR: RLOUIRadioComponent;
     @ViewChild('AT_SAVE', { static: false }) AT_SAVE: ButtonComponent;
     @ViewChild('AssetDetailsGrid', { static: false }) AssetDetailsGrid: AssetDetailsGridComponent;
@@ -44,16 +44,14 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('ASSET_ID', { static: false }) ASSET_ID: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hideAssetSubType', { static: false }) hideAssetSubType: HiddenComponent;
-    @ViewChild('hideAssetType', { static: false }) hideAssetType: HiddenComponent;
+    // @ViewChild('hideAssetType', { static: false }) hideAssetType: HiddenComponent;
     @ViewChild('hideIncludeInDBR', { static: false }) hideIncludeInDBR: HiddenComponent;
-    @ViewChild('hideName', { static: false }) hideName: HiddenComponent;
-    @ViewChild('hideOwnedBy', { static: false }) hideOwnedBy: HiddenComponent;
+    // @ViewChild('hideName', { static: false }) hideName: HiddenComponent;
+    // @ViewChild('hideOwnedBy', { static: false }) hideOwnedBy: HiddenComponent;
     @ViewChild('hideCurrencyDesc', { static: false }) hideCurrencyDesc: HiddenComponent;
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
     @ViewChild('hideAssetStatus', { static: false }) hideAssetStatus: HiddenComponent;
-
-    @Input() activeBorrowerSeq: string = undefined;
-
+    
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -66,8 +64,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             this.revalidateBasicField('AT_FAIR_MRKT_VALUE'),
             this.revalidateBasicField('AT_CURRENCY'),
             this.revalidateBasicField('AT_EQUIVALENT_AMOUNT'),
-            this.revalidateBasicField('AT_OWNED_BY'),
-            this.revalidateBasicField('AT_NAME'),
+            // this.revalidateBasicField('AT_OWNED_BY'),
+            // this.revalidateBasicField('AT_NAME'),
             this.revalidateBasicField('AT_INCLUDE_IN_DBR'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
@@ -93,15 +91,15 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
       }
 
     async onFormLoad() {
-        //this.activeBorrowerSeq = 2;
+        // this.activeBorrowerSeq = 2;
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
         this.hideAssetSubType.setValue('ASSET_SUBTYPE');
-        this.hideAssetType.setValue('ASSET_TYPE');
+        // this.hideAssetType.setValue('ASSET_TYPE');
         this.hideAssetStatus.setValue('ASSET_STATUS');
         this.hideIncludeInDBR.setValue('Y_N');
-        this.hideName.setValue('NAME');
-        this.hideOwnedBy.setValue('OWNED_BY');
+        // this.hideName.setValue('NAME');
+        // this.hideOwnedBy.setValue('OWNED_BY');
         this.hideCurrencyDesc.setValue('INR');
         this.setDependencies();
         await this.Handler.onFormLoad({});
@@ -184,17 +182,32 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
       }
-      async AT_ASSET_VALUE_blur(event) {
+      async AT_FAIR_MRKT_VALUE_blur(event) {
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
         // await this.Handler.onAddTypeChange();
       }  
-      
+
+      async AT_ASSET_TYPE_change(fieldID, value){
+          this.AT_ASSET_SUBTYPE.onReset();
+      }
+
     async AT_SAVE_click(event) {
-        this.AT_SAVE.setDisabled(true);
+        // this.AT_SAVE.setDisabled(true);
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
+        let assetGridData: any = this.AssetDetailsGrid.getAssetDetails();
         if (numberOfErrors == 0) {
+            if (this.AT_ASSET_TYPE.getFieldValue() !== undefined) {
+                if (assetGridData) {
+                    for (let i = 0; i < assetGridData.length; i++) {
+                        if (assetGridData[i].AT_Asset_Type == this.AT_ASSET_TYPE.getFieldValue() && assetGridData[i].AT_Asset_Value == this.AT_ASSET_VALUE.getFieldValue() && assetGridData[i].AT_Asset_Subtype == this.AT_ASSET_SUBTYPE.getFieldValue() && assetGridData[i].ASSET_ID !== this.ASSET_ID.getFieldValue()) {
+                            this.services.alert.showAlert(2, 'rlo.error.exits.asset', -1);
+                            return;
+                        }
+                    }
+                }
+                }
             if (this.ASSET_ID.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.AssetSeq', this.ASSET_ID.getFieldValue());
@@ -205,9 +218,9 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
                 inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
                 inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
-                inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
+                // inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
-                inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
+                // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
                 inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
                 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap).subscribe(
@@ -218,7 +231,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             'passBorrowerToAsset':this.activeBorrowerSeq
                         });
                         this.onReset();
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     },
                     async (httpError) => {
@@ -227,15 +240,15 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             if (err['ErrorElementPath'] == 'AssetDetails.AssetStatus') {
                                 this.AT_ASSET_STATUS.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'AssetDetails.OwnerName') {
-                                this.AT_NAME.setError(err['ErrorDescription']);
-                            }
+                            // else if (err['ErrorElementPath'] == 'AssetDetails.OwnerName') {
+                            //     this.AT_NAME.setError(err['ErrorDescription']);
+                            // }
                             else if (err['ErrorElementPath'] == 'AssetDetails.IncludeInDBR') {
                                 this.AT_INCLUDE_IN_DBR.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'AssetDetails.OwnedBy') {
-                                this.AT_OWNED_BY.setError(err['ErrorDescription']);
-                            }
+                            // else if (err['ErrorElementPath'] == 'AssetDetails.OwnedBy') {
+                            //     this.AT_OWNED_BY.setError(err['ErrorDescription']);
+                            // }
                             else if (err['ErrorElementPath'] == 'AssetDetails.EquivalentAmt') {
                                 this.AT_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                             }
@@ -262,7 +275,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.update.asset', -1);
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     }
                 );
@@ -276,9 +289,9 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
                 inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
                 inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
-                inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
+                // inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
-                inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
+                // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
                 inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
                 this.services.http.fetchApi('/AssetDetails', 'POST', inputMap).subscribe(
@@ -289,7 +302,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             'passBorrowerToAsset':this.activeBorrowerSeq
                         });
                         this.onReset();
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     },
                     async (httpError) => {
@@ -298,15 +311,15 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             if (err['ErrorElementPath'] == 'AssetDetails.IncludeInDBR') {
                                 this.AT_INCLUDE_IN_DBR.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'AssetDetails.OwnerName') {
-                                this.AT_NAME.setError(err['ErrorDescription']);
-                            }
+                            // else if (err['ErrorElementPath'] == 'AssetDetails.OwnerName') {
+                            //     this.AT_NAME.setError(err['ErrorDescription']);
+                            // }
                             else if (err['ErrorElementPath'] == 'AssetDetails.AssetValue') {
                                 this.AT_ASSET_VALUE.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'AssetDetails.OwnedBy') {
-                                this.AT_OWNED_BY.setError(err['ErrorDescription']);
-                            }
+                            // else if (err['ErrorElementPath'] == 'AssetDetails.OwnedBy') {
+                            //     this.AT_OWNED_BY.setError(err['ErrorDescription']);
+                            // }
                             else if (err['ErrorElementPath'] == 'AssetDetails.EquivalentAmt') {
                                 this.AT_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                             }
@@ -330,7 +343,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                             }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.save.asset', -1);
-                        this.AT_SAVE.setDisabled(false);
+                        // this.AT_SAVE.setDisabled(false);
                         
                     }
                 );
@@ -356,9 +369,9 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
                 this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
                 this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
-                this.AT_NAME.setValue(res['AssetDetails']['OwnerName']);
+                // this.AT_NAME.setValue(res['AssetDetails']['OwnerName']);
                 this.AT_INCLUDE_IN_DBR.setValue(res['AssetDetails']['IncludeInDBR']);
-                this.AT_OWNED_BY.setValue(res['AssetDetails']['OwnedBy']);
+                // this.AT_OWNED_BY.setValue(res['AssetDetails']['OwnedBy']);
                 this.ASSET_ID.setValue(res['AssetDetails']['AssetSeq']);
                 this.hideSpinner();
             },
@@ -374,44 +387,42 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     fieldDependencies = {
         AT_ASSET_TYPE: {
             inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "AT_ASSET_TYPE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideAssetType", paramType: "QueryParam" },
+      
+              { paramKey: "AssetTypeCode", depFieldID: "AT_ASSET_TYPE", paramType: "PathParam" },
             ],
             outDep: [
             ]
-        },
+          },
+
         AT_ASSET_SUBTYPE: {
             inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "AT_ASSET_SUBTYPE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideAssetSubType", paramType: "QueryParam" },
+      
+              { paramKey: "AssetSubTypeCode", depFieldID: "AT_ASSET_SUBTYPE", paramType: "PathParam" },
+              { paramKey: "AT_ASSET_TYPE", depFieldID: "AT_ASSET_TYPE", paramType: "QueryParam" },
             ],
             outDep: [
             ]
-        },
-        AT_OWNED_BY: {
-            inDep: [
+          },
+        // AT_OWNED_BY: {
+        //     inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "AT_OWNED_BY", paramType: "PathParam" },
-                { paramKey: "KEY1", depFieldID: "hideOwnedBy", paramType: "QueryParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        AT_NAME: {
-            inDep: [
+        //         { paramKey: "VALUE1", depFieldID: "AT_OWNED_BY", paramType: "PathParam" },
+        //         { paramKey: "KEY1", depFieldID: "hideOwnedBy", paramType: "QueryParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
+        // AT_NAME: {
+        //     inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "AD_NAME", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideName", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+        //         { paramKey: "VALUE1", depFieldID: "AD_NAME", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "hideName", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
         AT_INCLUDE_IN_DBR: {
             inDep: [
 
