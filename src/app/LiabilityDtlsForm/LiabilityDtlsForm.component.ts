@@ -284,9 +284,6 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.update.liability', 5000);
-                    await this.LIABILITY_GRID.gridDataLoad({
-                        'passBorrowerToLiability':this.activeBorrowerSeq
-                    });
                     this.onReset();
                     // this.LD_SAVE.setDisabled(false);
                     
@@ -367,9 +364,6 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, "rlo.success.save.liability", 5000);
-                    await this.LIABILITY_GRID.gridDataLoad({
-                        'passBorrowerToLiability':this.activeBorrowerSeq
-                    });
                     this.onReset();
                     // this.LD_SAVE.setDisabled(false);
                     
