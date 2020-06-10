@@ -20,6 +20,10 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
   // RLO Additions
   @Input('regex') regex: string;
 
+  // RLO Additions
+  // Restrict Tenant level case formatting, default: true
+  @Input('allowFormat') allowFormat = true;
+
   constructor(services: ServiceStock) {
     super(services);
   }
@@ -44,6 +48,10 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
 
     // Validate Regular Expression
     totalErrors += this.validateRegEx(value, event);
+
+    if (this.allowFormat && totalErrors === 0 ){ // format
+      this.value =  this.services.rloui.formatText( this.value + '' );
+    }
 
     return totalErrors;
   }
