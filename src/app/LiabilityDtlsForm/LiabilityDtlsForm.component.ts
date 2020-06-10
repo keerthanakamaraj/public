@@ -60,25 +60,41 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
-        await Promise.all([
-            this.revalidateBasicField('LD_FINANCIER_NAME'),
-            this.revalidateBasicField('LD_LOAN_STATUS'),
-            this.revalidateBasicField('LD_TYPE_OF_LOAN'),
-            this.revalidateBasicField('LD_LOAN_AMOUNT'),
-            this.revalidateBasicField('LD_LOAN_CLOSURE_DATE'),
-            this.revalidateBasicField('LD_LOAN_EMI'),
-            this.revalidateBasicField('LD_INCLUDE_IN_DBR'),
-            this.revalidateBasicField('LD_OS_AMOUNT'),
-            this.revalidateBasicField('LD_CURRENCY'),
-            this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
-            this.revalidateBasicField('LD_LOAN_EMI_FREQUENCY'),
-            this.revalidateBasicField('LD_LIABILITY_TYPE'),
-            this.revalidateBasicField('LD_REMARKS'),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
+        if(this.LD_LIABILITY_TYPE.getFieldValue() == 'O' && (this.LD_OBLIGATION_HEAD.getFieldValue() != undefined || this.LD_OBLIGATION_HEAD.getFieldValue() != '')){
+            await Promise.all([
+                this.revalidateBasicField('LD_LOAN_AMOUNT'),
+                this.revalidateBasicField('LD_INCLUDE_IN_DBR'),
+                this.revalidateBasicField('LD_CURRENCY'),
+                this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
+                this.revalidateBasicField('LD_LOAN_EMI_FREQUENCY'),
+                this.revalidateBasicField('LD_LIABILITY_TYPE'),
+            ]).then((errorCounts) => {
+                errorCounts.forEach((errorCount) => {
+                    totalErrors += errorCount;
+                });
+            }); 
+        } else{
+            await Promise.all([
+                this.revalidateBasicField('LD_FINANCIER_NAME'),
+                this.revalidateBasicField('LD_LOAN_STATUS'),
+                this.revalidateBasicField('LD_TYPE_OF_LOAN'),
+                this.revalidateBasicField('LD_LOAN_AMOUNT'),
+                this.revalidateBasicField('LD_LOAN_CLOSURE_DATE'),
+                this.revalidateBasicField('LD_LOAN_EMI'),
+                this.revalidateBasicField('LD_INCLUDE_IN_DBR'),
+                this.revalidateBasicField('LD_OS_AMOUNT'),
+                this.revalidateBasicField('LD_CURRENCY'),
+                this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
+                this.revalidateBasicField('LD_LOAN_EMI_FREQUENCY'),
+                this.revalidateBasicField('LD_LIABILITY_TYPE'),
+                this.revalidateBasicField('LD_REMARKS'),
+            ]).then((errorCounts) => {
+                errorCounts.forEach((errorCount) => {
+                    totalErrors += errorCount;
+                });
             });
-        });
+            
+        }
         this.errors = totalErrors;
         super.afterRevalidate();
         return totalErrors;
