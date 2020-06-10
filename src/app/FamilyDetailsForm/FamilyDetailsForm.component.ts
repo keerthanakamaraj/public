@@ -55,9 +55,13 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     @Input() Cust_FullName: any;
     @Input() activeBorrowerSeq: string = undefined;
+    @Input() activeCustomerName: string = undefined;
+    @Input() activeCustomerDOB: string = undefined;
 
-    CustomerFullName: string;
-    CustomerDOB: Date;
+    fullName: string;
+    dob: Date;
+    cust_name: string;
+    cust_dob: string;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -202,6 +206,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
             this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+            return;
         }
     }
     async FD_GENDER_blur(event) {
@@ -229,14 +234,19 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         let inputMap = new Map();
         if (!this.isPastDate(this.FD_DOB.getFieldValue())) {
             this.FD_DOB.setError('rlo.error.dob-invalid');
+            return 1;
         }
     }
-
+    Customer_data() {
+        this.cust_name = this.activeCustomerName;
+        this.cust_dob = this.activeCustomerDOB
+    }
     async Save_click(event) {
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
+
         if (noOfError == 0) {
             if (this.FD_FULL_NAME.getFieldValue() !== undefined) {
                 if (familyGridData) {
@@ -245,12 +255,12 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             this.services.alert.showAlert(2, 'rlo.error.exits.family', -1);
                             return;
                         }
-                        else if (this.Cust_FullName == this.FD_FULL_NAME.getFieldValue() && this.Cust_FullName.Cust_DOB == this.FD_DOB.getFieldValue()) {
-                            this.services.alert.showAlert(2, 'borrower', -1);
-                            return;
-                        }
                     }
                 }
+            }
+            if (this.cust_name == this.FD_FULL_NAME.getFieldValue() && this.cust_dob == this.FD_DOB.getFieldValue()) {
+                this.services.alert.showAlert(2, 'You Can not add Borrower/Co-Borrower as Family', -1);
+                return;
             }
 
             if (this.FD_ISD_Code.getFieldValue() == undefined && this.FD_MOBILE.getFieldValue() != undefined) {
@@ -355,7 +365,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                         this.services.alert.showAlert(1, 'rlo.success.save.family', 5000);
                         await this.FAMILY_GRID.gridDataLoad({
                             'passFamilyGrid': this.activeBorrowerSeq,
-                          });
+                        });
+
                         this.onReset();
                     },
                     async (httpError) => {
@@ -431,7 +442,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
                 this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['Nationality']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
-                this.hiddenFamilySeq.setValue(res['BorrowerDetails']['CustomerRelated']);
+                this.hiddenFamilySeq.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.hideSpinner();
             },
             async (httpError) => {

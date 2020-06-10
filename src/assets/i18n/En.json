@@ -65,6 +65,7 @@
     "rlo.error.update.referral":"Failed to Update Customer Details",
     "rlo.success.save.referral":"Customer Details Saved Successfully",
     "rlo.error.save.referral":"Failed to Save Customer Details",
+
     "rlo.success.save.otherdeduction":"otherdeduction Details Saved Successfully",
     "rlo.error.save.otherdeduction":"Failed to Save otherdeduction Details",
     "rlo.success.save.notepad":"Notepad Details Saved Successfully",

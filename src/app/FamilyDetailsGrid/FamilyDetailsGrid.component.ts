@@ -30,7 +30,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
     @Output() Cust_FullName: EventEmitter<any> = new EventEmitter<any>();
-    @Input() ActiveBorrowerSeq : any;
+    @Input() ActiveBorrowerSeq: any;
     familyDetails = [];
     familyRecord: boolean = false;
     componentCode: string = 'FamilyDetailsGrid';
@@ -163,7 +163,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
         inputMap.clear();
-        let borrowerSeq: any = event.activeBorrowerSeq;
+        let borrowerSeq: any = event.passFamilyGrid;
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
         if (borrowerSeq) {
             criteriaJson.FilterCriteria.push({
@@ -180,7 +180,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             var obj = gridReqMap.get("FilterCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    case "Family_ID": obj[i].columnName = "CustomerRelated"; break;
+                    case "Family_ID": obj[i].columnName = "BorrowerSeq"; break;
                     case "FD_RELATIONSHIP": obj[i].columnName = "Relationship"; break;
                     case "FD_NAME": obj[i].columnName = "FullName"; break;
                     case "FD_DOB": obj[i].columnName = "DOB"; break;
@@ -193,7 +193,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             var obj = gridReqMap.get("OrderCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    case "Family_ID": obj[i].columnName = "CustomerRelated"; break;
+                    case "Family_ID": obj[i].columnName = "BorrowerSeq"; break;
                     case "FD_RELATIONSHIP": obj[i].columnName = "Relationship"; break;
                     case "FD_NAME": obj[i].columnName = "FullName"; break;
                     case "FD_DOB": obj[i].columnName = "DOB"; break;
@@ -207,17 +207,11 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
-                if(res !== null){
-                    this.familyRecord = true
-                    var loopVar4 = res['BorrowerDetails'];
-                }
-                else{
-                    this.familyRecord = false
-                }
+                var loopVar4 = res['BorrowerDetails'];
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        tempObj['Family_ID'] = loopVar4[i].CustomerRelated;
+                        tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
                         tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
                         tempObj['FD_NAME'] = loopVar4[i].FullName;
                         tempObj['FD_DOB'] = loopVar4[i].DOB;
