@@ -8,7 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, MissingTranslationHandler } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { Data } from './DataService';
@@ -65,7 +65,7 @@ const appRoutes: Routes = [
   //   path: 'logout',
   //   component: LogoutComponent
   // },
- 
+
   {
     path: 'home',
     loadChildren: 'src/app/home/home.module#HomeModule',
@@ -97,11 +97,11 @@ const keycloakService = new KeycloakService();
   ],
   exports: [
     FooterComponent
-    
-],
+
+  ],
   imports: [
     BrowserAnimationsModule,
-    RouterModule.forRoot(appRoutes, { useHash: true,scrollPositionRestoration: 'enabled'}),
+    RouterModule.forRoot(appRoutes, { useHash: true, scrollPositionRestoration: 'enabled' }),
     HttpClientModule,
     HttpModule,
     FormsModule,
@@ -147,27 +147,27 @@ export class AppModule implements DoBootstrap {
     };
 
     // if(!environment.production && environment.enableKeycloak) {
-      keycloakService
+    keycloakService
       .init({ config, enableBearerInterceptor: true })
       .then((auth) => {
         console.log('[ngDoBootstrap] bootstrap app');
         if (!auth) {
           keycloakService.login({ redirectUri: initOptions.redirectUri });
         } else {
-          
+
           //console.log('Username: ', keycloakService.getUsername());
           // keycloakService.getToken().then( (token) => {
           //   console.log("token " + token);
           // });
-          keycloakService.loadUserProfile().then( (profile) => {
+          keycloakService.loadUserProfile().then((profile) => {
             console.log("User Profile ", profile);
             sessionStorage.setItem('userId', profile.username);
 
-            let fullName = ( profile.firstName ? profile.firstName : "" ) + " " + ( profile.lastName ? profile.lastName : "" );
-            sessionStorage.setItem('fullName', fullName );
+            let fullName = (profile.firstName ? profile.firstName : "") + " " + (profile.lastName ? profile.lastName : "");
+            sessionStorage.setItem('fullName', fullName);
 
-            if(profile["attributes"] && profile["attributes"].tenantId){
-              sessionStorage.setItem('tenants', profile["attributes"].tenantId.join(",") );
+            if (profile["attributes"] && profile["attributes"].tenantId) {
+              sessionStorage.setItem('tenants', profile["attributes"].tenantId.join(","));
             }
 
           })
@@ -182,7 +182,7 @@ export class AppModule implements DoBootstrap {
     //   appRef.bootstrap(AppComponent);
     // }
 
-    
+
   }
 }
 

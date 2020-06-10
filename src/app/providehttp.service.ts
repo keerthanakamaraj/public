@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Http } from '@angular/http';
 import { environment } from 'src/environments/environment';
+import { ServiceStock } from './service-stock.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export var errorMap;
 
@@ -48,7 +50,7 @@ export class ProvidehttpService implements CanActivate {
   }
 
 
-  constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService, private router: Router, private data: Data, private http: Http) {
+  constructor(private httpClient: HttpClient, private spinnerService: Ng4LoadingSpinnerService, private router: Router, private data: Data, private http: Http, public translateService: TranslateService) {
     //   if (isDevMode()) {
     //     // this.baseURL = 'http://localhost:28080/RARuntimeWeb/';//local
     // //    this.baseURL = 'http://10.10.16.203:8390/OliveFabricWeb/';//HDFC
@@ -60,10 +62,6 @@ export class ProvidehttpService implements CanActivate {
     //     this.baseURL = window.location.origin + '/olive/';
     //   }
     // this.restURL = this.baseURL; 
-    this.getJSON().subscribe(data => {
-      errorMap = data['ErrorCodes'];
-    }
-      , error => { });
   }
 
   submitLoginForm(formCode, csrf, value) {
@@ -687,12 +685,6 @@ export class ProvidehttpService implements CanActivate {
     };
     const URL = this.restURL + 'form/' + apiGatewayCode + '/' + formCode + '/' + serviceCode + '/urlaction/DELETEDRAFT';
     return this.httpClient.post<String>(URL, Json, httpOptions);
-  }
-
-  public getJSON(): Observable<any> {
-    const url = window.location.origin + window.location.pathname + "assets/i18n/En.json";
-
-    return this.http.get(url).pipe(map((res: any) => res.json()));
   }
 
   // public getLanguages(formCode) {

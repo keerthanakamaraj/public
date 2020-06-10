@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
 
     }
     console.error("------");
-    this.services.translate.setDefaultLang('En');
+    //this.services.translate.setDefaultLang('En');
   }
 
   //tfacompletedValue : any;

@@ -10,7 +10,6 @@ export class RloCommonData {
     headerState = new Subject<boolean>();
 
     constructor() {
-        // console.log("Util Service .. constructor --------------------------------");
     }
 
 }

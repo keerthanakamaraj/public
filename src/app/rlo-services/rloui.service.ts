@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { ProvidehttpService } from '../providehttp.service';
 import { HttpResponse } from '@angular/common/http';
 import { retry } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from "rxjs/operators";
+import { Http } from '@angular/http';
+
+export var errorMap;
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +25,12 @@ export class RlouiService {
   private formFieldAPI: string = "/UiField";
   private formFields: any = {};
 
-  constructor(public http: ProvidehttpService, public translate: TranslateService) {
+  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http) {
     console.log("UI Service .. constructor --------------------------------");
+
+    // this.getJSON().subscribe(data => {
+    //   errorMap = data['ErrorCodes'];
+    // }, error => { });
 
     // TODO: initialize on startup and call after login
     this.loadUiConfigs();
@@ -38,14 +46,15 @@ export class RlouiService {
     this.http.fetchApi(this.tenantConfigAPI, 'GET', undefined, this.serviceContext).subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var tconfig = httpResponse.body ? httpResponse.body.TenantConfig : [];
-        // console.log("res ", validations);
-
+  
         tconfig.forEach(element => {
           this.tenantconfig[element["TCName"]] = element["TCValue"];
         });
-        // console.log("tenantconfig ", this.tenantconfig, this.tenantconfig["language"]);
+        console.log("tenantconfig ", this.tenantconfig, this.tenantconfig["language.default"]);
+        //this.tenantconfig["language.default"] = "bh-BH";
+        this.translate.setDefaultLang('En');
 
-        // switch (this.tenantconfig["language"].default) {
+        // switch (this.tenantconfig["language.default"]) {
         //   case "en-IN":
         //     this.translate.use('En');
         //     this.http.currentLanguage = 'En';
@@ -62,6 +71,10 @@ export class RlouiService {
 
         this.loadValidations();
         this.loadFormFields();
+        this.getJSON("En").subscribe(data => {
+          errorMap = data['ErrorCodes'];
+        }, error => { });
+
       },
       async (httpError) => {
         var err = httpError['error']
@@ -70,6 +83,11 @@ export class RlouiService {
         }
       }
     );
+  }
+
+  public getJSON(lan: string): Observable<any> {
+    const url = window.location.origin + window.location.pathname + "assets/i18n/" + lan + ".json";
+    return this.httpProvider.get(url).pipe(map((res: any) => res.json()));
   }
 
   private loadValidations() {
