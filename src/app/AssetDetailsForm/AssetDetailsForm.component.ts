@@ -223,7 +223,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
                 inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
-                this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap).subscribe(
+                this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.asset', 5000);
@@ -291,7 +291,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
                 inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
-                this.services.http.fetchApi('/AssetDetails', 'POST', inputMap).subscribe(
+                this.services.http.fetchApi('/AssetDetails', 'POST', inputMap,'/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.asset', 5000);
@@ -352,7 +352,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.AssetKey);
-        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap,'/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']);

@@ -280,7 +280,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             inputMap.set('Body.LiabilityDetails.Remarks', this.LD_REMARKS.getFieldValue());             
             inputMap.set('Body.LiabilityDetails.ObligationHead', this.LD_OBLIGATION_HEAD.getFieldValue());
             inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.activeBorrowerSeq);            
-            this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap).subscribe(
+            this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.update.liability', 5000);
@@ -360,7 +360,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             inputMap.set('Body.LiabilityDetails.Remarks', this.LD_REMARKS.getFieldValue());             
             inputMap.set('Body.LiabilityDetails.ObligationHead', this.LD_OBLIGATION_HEAD.getFieldValue());
             inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.activeBorrowerSeq);            
-            this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap).subscribe(
+            this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap, '/rlo-de').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, "rlo.success.save.liability", 5000);
@@ -430,7 +430,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.LiabilitySeq', event.SeqKey);
-        this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.LD_FINANCIER_NAME.setValue(res['LiabilityDetails']['FinancerName']);

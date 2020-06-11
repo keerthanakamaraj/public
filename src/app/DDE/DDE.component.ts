@@ -59,7 +59,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('Handler', { static: false }) Handler: DDEHandlerComponent;
     @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
-
+    @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
+    @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
+    @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
+    @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
     @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
 
@@ -75,6 +78,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     isCustomerTab: boolean = true;
     CustomerType: string = undefined;
     isLoanCategory: boolean = false;
+    taskId: any;
+    instanceId: any;
+    userId: any;
+    appId: any;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -188,8 +195,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_GRID.setReadOnly(readOnly);
     }
     async onFormLoad() {
-        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal)); 
+        this.HideProcessId.setValue('RLO_Process');
+        this.HideServiceCode.setValue('ClaimTask');
+        this.HideTenantId.setValue('SB1'); 
+        
+		 this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+        this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+        this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+           
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
@@ -198,9 +213,55 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //this.openHTab('FieldId_10', 'GO_NO_GO');
         // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
 
-        this.HideProcessId.setValue('RLO_Process');
+        if (this.userId == undefined || this.userId == '') {
+            this.claimTask(this.taskId);
+        }
         this.setDependencies();
     }
+
+
+    async claimTask(taskId) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.TaskId', taskId);
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+
+                if (res.Status == "S") {
+                    this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+                } else {
+                    this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+                }
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+            }
+        );
+    }
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -256,6 +317,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value.setValue(inputValue);
         this.setDependencies();
         this.passNewValue(this.value);
+        
     }
     ngOnInit() {
         this.services.rloCommonData.headerState.subscribe((data) => {

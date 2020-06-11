@@ -239,7 +239,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             }
         }
         this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-        this.services.http.fetchApi('/AssetDetails', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/AssetDetails', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar4 = [];
@@ -288,7 +288,8 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.ASSET_ID);
-        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap).subscribe(
+        if (confirm("Are you sure you want to delete?")) {            
+        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap,'/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
@@ -301,6 +302,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
             }
         );
+    }
     }
 
     getAssetDetails(){
