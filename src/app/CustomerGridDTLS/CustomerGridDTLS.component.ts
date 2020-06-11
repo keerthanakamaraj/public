@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { each } from '@amcharts/amcharts4/.internal/core/utils/Iterator';
 
 const customCss: string = '';
 
@@ -190,28 +191,28 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               customer['editing'] = false;
 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
-                && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != ''
+                && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != '' && eachBorrower.Relationship == undefined || eachBorrower.ReferrerRelation == undefined
                 ? eachBorrower.CustomerType : 'OP';
 
               if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
                 this.passArrayToCustomer.emit({
-                  'actionName':'gridUpdated',
+                  'actionName': 'gridUpdated',
                   'CustomerArray': eachBorrower
                 });
-              //   this.services.rloCommonData.childToParentSubject.next({
-              //     action: 'passArrayToCustomer',
-              //     data:{'CustomerArray': eachBorrower}
-              // });
+                //   this.services.rloCommonData.childToParentSubject.next({
+                //     action: 'passArrayToCustomer',
+                //     data:{'CustomerArray': eachBorrower}
+                // });
                 this.isFirstAPICall = false;
                 customer["editing"] = true;
               }
               else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
-              //   this.services.rloCommonData.childToParentSubject.next({
-              //     action: 'passArrayToCustomer',
-              //     data:{'CustomerArray': eachBorrower}
-              // });
+                //   this.services.rloCommonData.childToParentSubject.next({
+                //     action: 'passArrayToCustomer',
+                //     data:{'CustomerArray': eachBorrower}
+                // });
                 this.passArrayToCustomer.emit({
-                  'actionName':'gridUpdated',
+                  'actionName': 'gridUpdated',
                   'CustomerArray': eachBorrower
                 });
                 customer["editing"] = true;
@@ -272,12 +273,12 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       this.resetEditingFlag();
       selectedCustomer["editing"] = true;
       let activeCustomer = this.CustomerDetailsMap.get(selectedCustomer.CustomerId);
-    //   this.services.rloCommonData.childToParentSubject.next({
-    //     action: 'switchCustomer',
-    //     data:{'CustomerArray': activeCustomer}
-    // });
+      //   this.services.rloCommonData.childToParentSubject.next({
+      //     action: 'switchCustomer',
+      //     data:{'CustomerArray': activeCustomer}
+      // });
       this.passArrayToCustomer.emit({
-        'actionName':'toEditCustForm',
+        'actionName': 'toEditCustForm',
         'CustomerArray': activeCustomer
       });
 
@@ -290,10 +291,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   doReset(customerType?: string) {
     this.resetEditingFlag();
-  //   this.services.rloCommonData.childToParentSubject.next({
-  //     action: 'openNewCustForm',
-  //     data:{'customerType': customerType}
-  // });
+    //   this.services.rloCommonData.childToParentSubject.next({
+    //     action: 'openNewCustForm',
+    //     data:{'customerType': customerType}
+    // });
     this.resetCustForm.emit({
       'customerType': customerType
     });
