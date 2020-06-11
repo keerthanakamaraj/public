@@ -66,25 +66,31 @@ export class GoNoGoComponent implements OnInit {
   //   }
   afterLoadQuestionnaireDtls() {
     if (this.mstParamList) {
-
+      this.prevDecisionsMap.clear();
       let QuestionsMap: any[] = [];
       if(this.mstParamList['GoNoGoDetails'] !=undefined){
         this.mstParamList['GoNoGoDetails'].forEach((element) => {
                    if (element.AnswerSeq)
-
-                    this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
+                    this.prevDecisionsMap.set(element.QustionSeq,element)
+                    console.log("shweta :: setting prevmap",this.prevDecisionsMap)
+                  //  this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
                  });
       }
       if (this.mstParamList['MstQuestionnaireDtls']) {
-        this.mstParamList['MstQuestionnaireDtls'].map((element) => {
+        this.mstParamList['MstQuestionnaireDtls'].map((question) => {
           // let tempAnsSeq: String = null;
           //shweta :: create dropdown objects array and bind to html
           let dropDownOptions: any[] = [];
-          element['MstQuestionnaireAns'].some(answer => {
+          question['MstQuestionnaireAns'].some(answer => {
             dropDownOptions.push({ id: answer.AnswerSeq, text: answer.AnswerText });
           });
-          element['dropdownOptions'] = dropDownOptions;
-          return element;
+          question['dropdownOptions'] = dropDownOptions;
+           if(this.prevDecisionsMap.has(question.QuestionSeq)){
+             question['oldDecision']=this.prevDecisionsMap.get(question.QuestionSeq).AnswerSeq;
+             question['oldRemark']=this.prevDecisionsMap.get(question.QuestionSeq).Remarks;
+             //console.log("shweta :: old decision set",question['oldDecision']);
+           }
+          return question;
         });
       }
       console.log("shweta :: ", this.mstParamList['MstQuestionnaireDtls']);
@@ -110,26 +116,44 @@ export class GoNoGoComponent implements OnInit {
       });
   }
 
-  createSaveApiRequestBody(element, temp) {
-    if (temp['Remarks'] != undefined)
-      temp = {};
+  createSaveApiRequestBody(element, questionairemap, key) {
+    let quesParam={}={};
+    if(questionairemap.has(key))
+    {
+     quesParam = questionairemap.get(key);
+    }
+
+    if (element.value != undefined && element.componentName == 'RLOUIRadioComponent') {
+      quesParam['AnswerSeq'] = element.value;
+      quesParam['Result'] = element.additionalInfo
+    }
+
+    if (element.value != '' && element.inputType == 'text') {
+      quesParam['Remarks'] = element.value;
+       }
+  
+       questionairemap.set(key,quesParam);
+    // if (temp['Remarks'] != undefined)
+    //   temp = {};
 
     // if(element.value != 'Select' && element.nodeName == 'SELECT') {
     //   temp['AnswerSeq'] = element.value;
     //   if(element.selectedOptions)
     //     temp['Result'] = element.selectedOptions[0].text;
     // }
-    if (element.value != undefined && element.componentName == 'RLOUIRadioComponent') {
-      temp['AnswerSeq'] = element.value;
-      temp['Result'] = element.additionalInfo
-    }
+    // if (element.value != undefined && element.componentName == 'RLOUIRadioComponent') {
+    //   temp['AnswerSeq'] = element.value;
+    //   temp['Result'] = element.additionalInfo
+    //   //console.log("gng Radio id",element.fieldID);
+    // }
 
 
-    if (element.value != '' && element.inputType == 'text') {
-      temp['Remarks'] = element.value;
-    }
+    // if (element.value != '' && element.inputType == 'text') {
+    //   temp['Remarks'] = element.value;
+    //   //console.log("gng Remarks id",element.fieldID);
+    // }
 
-    return temp;
+    return questionairemap;
   }
 
   // persistData() {
@@ -184,32 +208,51 @@ export class GoNoGoComponent implements OnInit {
 
     let temp = {};
     const questionnaireArray = new Array();
-    //    const questionairemap=new Map<string,any>();
+    let questionniareSaveReqMap=new Map<string,any>();
     this.domRef.forEach(element => {
-      //  let id=element.fieldID;
-      temp = this.createSaveApiRequestBody(element, temp);
-      if (!this.isEmpty(temp) && 'AnswerSeq' in temp && 'Remarks' in temp) {
-        questionnaireArray.push(temp);
-      }
+      console.log("elemem id ",element['fieldID']);
+      let fieldId:string=""+element['fieldID'];
+      let fieldSplitArr = fieldId.split("_");
+      let key=fieldSplitArr[0]+"_"+fieldSplitArr[fieldSplitArr.length-1];
+      questionniareSaveReqMap = this.createSaveApiRequestBody(element, questionniareSaveReqMap,key);
+      // if (!this.isEmpty(temp) && 'AnswerSeq' in temp && 'Remarks' in temp) {
+      //  // questionnaireArray.push(temp);
+      // }
     });
 
     this.mstParamList['MstQuestionnaireDtls'].forEach(question => {
-      questionnaireArray.map(element => {
-        const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === element.AnswerSeq);
-
+        Array.from(questionniareSaveReqMap.values()).forEach(value => {
+          const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === value.AnswerSeq);
+        console.log(value);
         if (answer != undefined) {
-          element['QuestionSeq'] = question.QuestionSeq;
-          element['ApplicationId'] = this.ApplicationId;
-          element['QuestionnaireCategory'] = question.QuestionnaireCategory;
-          element['CreatedBy'] = sessionStorage.getItem('userId');
-          element['UpdatedBy'] = sessionStorage.getItem('userId');
+          value['QuestionSeq'] = question.QuestionSeq;
+          value['ApplicationId'] = this.ApplicationId;
+          value['QuestionnaireCategory'] = question.QuestionnaireCategory;
+          value['CreatedBy'] = sessionStorage.getItem('userId');
+          value['UpdatedBy'] = sessionStorage.getItem('userId');
+          questionnaireArray.push(value);
         }
-        return element;
+        else{
+          //here write code for manadatory field error
+        }
+    
+      // questionniareSaveReqMap.forEach(element => {
+      //   const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === element.AnswerSeq);
+
+        // if (answer != undefined) {
+        //   element['QuestionSeq'] = question.QuestionSeq;
+        //   element['ApplicationId'] = this.ApplicationId;
+        //   element['QuestionnaireCategory'] = question.QuestionnaireCategory;
+        //   element['CreatedBy'] = sessionStorage.getItem('userId');
+        //   element['UpdatedBy'] = sessionStorage.getItem('userId');
+        // }
+      //  return element;
+     // questionnaireArray.push(value);
       });
 
     });
 
-    console.log('Questionnaire Array: ', questionnaireArray);
+    console.log('shweta:: req json Questionnaire Array : ', questionnaireArray);
 
     let inputMap = new Map();
     inputMap.clear();

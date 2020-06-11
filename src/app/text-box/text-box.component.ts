@@ -34,6 +34,10 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
     // }
   }
 
+  // ngAfterViewInit() {
+  //   console.log("textbox",this.fieldID);
+  // }
+
   getFieldInfo() {
     return (this.value == undefined) ? "" : this.value;
   }

@@ -1,7 +1,3 @@
-<div>
-    <h3>Go No Go Details</h3>
-</div>
-
 <!-- <table class="table go-no-go-table">
     <thead class="go-no-go-header go-no-go-font">
         <tr>
@@ -85,12 +81,19 @@
             <ng-container *ngIf="mstParamList != undefined">
         <div class="param-row col-12 col-sm-12 col-md-12" *ngFor="let question of mstParamList['MstQuestionnaireDtls']; let i = index;">      
           <div class="param-seq col-12 col-sm-1 col-md-1">
+                <div class="clr-brown fieldLegend">
+                        <label class="clr-brown"></label>
+                </div>
                 <span>{{ i + 1 }}</span>
               </div>
-              <div class="param-Question col-12 col-sm-5 col-md-5"> 
+              <div class="param-Question col-12 col-sm-4 col-md-4"> 
+                    <div class="clr-brown fieldLegend">
+                            <label class="clr-brown"></label>
+                    </div>
                     <span>{{question.QuestionText }}</span>            
                 </div>
-                <div class="param-answer col-12 col-sm-3 col-md-3">  
+                <div class="param-answer col-12 col-sm-2 col-md-2"> </div>
+                <div class="param-answer col-12 col-sm-2 col-md-2">  
                     <!-- <select #tbData class="ng-select" name="questionCat" id="questionCat{{i+1}}" [ngModel]="question.AnswerSeq || 'Select'">
                         <option style="display: none" [value]="">Select</option>
                         <option *ngFor="let q of question['dropdownOptions'].Options" [value]="q.id">
@@ -98,10 +101,13 @@
                         </option>
                     </select> -->
                     <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                    doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question['dropdownOptions']"></rlo-ui-radio>
+                    doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question['dropdownOptions']" defaultValue="{{question['oldDecision']}}"></rlo-ui-radio>
                     </div>
-                    <div class="param-remark col-12 col-sm-3 col-md-3">    
-                            <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.QuestionSeq}}" placeholder="Remarks, If any"[formCode]="formCode"></app-text-box>        
+                    <div class="param-remark col-12 col-sm-3 col-md-3"> 
+                            <div class="clr-brown fieldLegend">
+                                    <label class="clr-brown"></label>
+                            </div>   
+                            <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.QuestionSeq}}" placeholder="Remarks, If any"[formCode]="formCode" defaultValue="{{question['oldRemark']}}"></app-text-box>        
                         </div>
               </div>
            </ng-container>
