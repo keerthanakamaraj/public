@@ -171,6 +171,23 @@ export class RlouiService {
     return this.tenantconfig[configName] ? this.tenantconfig[configName] : defaultValue;
   }
 
+  // TODO: Add optional parameter to format
+  formatText(text: string) {
+    const formatOption = this.getConfig('name.format.default', 'UPPER');
+
+    switch (formatOption) {
+      case 'UPPER': return text.toUpperCase();
+      case 'CAMEL': return this.convertToCamelCase(text);
+      default: return text;
+    }
+  }
+
+  convertToCamelCase(text: string) {
+    return text.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
+      return m.toUpperCase();
+   });
+  }
+
   formatAmount(amount, languageCode: string, minFraction, currency: string) {
     // console.log("Format Amount " , amount);
     let amt: number;
@@ -218,5 +235,28 @@ export class RlouiService {
       console.log("error formatting date", date);
       return date;
     }
+  }
+
+  async getAlertMessage(alertMsg: string) {
+    console.log(errorMap, alertMsg);
+    var customeMsg = "";
+    function getCode(alertMsg) {
+      if (errorMap[alertMsg]) {
+        customeMsg = errorMap[alertMsg]
+      }
+      else {
+        let keyArray = alertMsg.split(".");
+        keyArray.pop();
+        console.log(keyArray);
+        var newKey = "";
+        keyArray.forEach(ele => {
+          let node = ele + "."
+          newKey += node;
+        });
+        getCode(newKey.slice(0, newKey.lastIndexOf(".")))
+      }
+    }
+    getCode(alertMsg);
+    return customeMsg;
   }
 }

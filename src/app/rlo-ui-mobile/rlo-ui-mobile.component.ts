@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 import { FieldComponent } from '../field/field.component';
 
@@ -41,11 +41,13 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
     return "91";
   }
 
-  constructor(services: ServiceStock) {
+  constructor(services: ServiceStock, private cdRef: ChangeDetectorRef) {
     super(services);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.showLoader = false;
+  }
 
   ngAfterViewInit() {
     this.loadOptions();
@@ -91,6 +93,7 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   async loadOptions() {
     let count = 0;
     this.showLoader = true;
+    this.cdRef.detectChanges();
     this.countriesList = [];
     this.services.http.loadLookup('/MSTGENERALPARAM', this.dependencyMap2, 1, "", count, '/masters').subscribe(
       data => {

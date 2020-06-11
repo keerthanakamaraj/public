@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter, Injectable } from '@angular/core';
 import { trigger, state, style, animate, transition, group } from '@angular/animations';
 //import { errorMap } from '../providehttp.service';
-import { errorMap } from '../rlo-services/rloui.service';
+import { errorMap, RlouiService } from '../rlo-services/rloui.service';
 
 @Component({
   selector: 'app-alerts',
@@ -36,7 +36,8 @@ export class AlertsComponent implements OnInit {
   }[] = [];
 
   timer: any;
-  constructor() { }
+
+  constructor(public rloService: RlouiService) { }
 
   ngOnInit() { }
 
@@ -50,10 +51,10 @@ export class AlertsComponent implements OnInit {
       showCloseButton: false
     };
 
-    await this.getAlertMessage(alertMsg).then((data) => {
+    await this.rloService.getAlertMessage(alertMsg).then((data) => {
       console.log(data);
       tempObj.alertMsg = data;
-    })
+    });
 
     switch (alertType) {
       case 1:
@@ -78,28 +79,28 @@ export class AlertsComponent implements OnInit {
     return tempObj;
   }
 
-  async getAlertMessage(alertMsg: string) {
-    console.log(errorMap, alertMsg);
-    var customeMsg = "";
-    function getCode(alertMsg) {
-      if (errorMap[alertMsg]) {
-        customeMsg = errorMap[alertMsg]
-      }
-      else {
-        let keyArray = alertMsg.split(".");
-        keyArray.pop();
-        console.log(keyArray);
-        var newKey = "";
-        keyArray.forEach(ele => {
-          let node = ele + "."
-          newKey += node;
-        });
-        getCode(newKey.slice(0, newKey.lastIndexOf(".")))
-      }
-    }
-    getCode(alertMsg);
-    return customeMsg;
-  }
+  // async getAlertMessage(alertMsg: string) {
+  //   console.log(errorMap, alertMsg);
+  //   var customeMsg = "";
+  //   function getCode(alertMsg) {
+  //     if (errorMap[alertMsg]) {
+  //       customeMsg = errorMap[alertMsg]
+  //     }
+  //     else {
+  //       let keyArray = alertMsg.split(".");
+  //       keyArray.pop();
+  //       console.log(keyArray);
+  //       var newKey = "";
+  //       keyArray.forEach(ele => {
+  //         let node = ele + "."
+  //         newKey += node;
+  //       });
+  //       getCode(newKey.slice(0, newKey.lastIndexOf(".")))
+  //     }
+  //   }
+  //   getCode(alertMsg);
+  //   return customeMsg;
+  // }
 
   //this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
   showAlert(alertType: number, alertMsg: string, timeout: number = 5000) {

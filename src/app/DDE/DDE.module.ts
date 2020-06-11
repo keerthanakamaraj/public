@@ -21,6 +21,7 @@ import { DDEHandlerModule } from '../DDE/DDE-handler.module';
 import { ScoreCardModule } from '../score-card/score-card.module';
 import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
 import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetailsForm.module';
+import { HeaderProgressModule } from '../header-progress/header-progress.module';
 
 @NgModule({
     imports: [
@@ -48,8 +49,9 @@ import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetail
         GoNoGoModule,
         DDEHandlerModule,
         ScoreCardModule,
+        HeaderProgressModule,
         CustomerGridDTLSModule,
-        ReferralDetailsFormModule,
+        ReferralDetailsFormModule
     ],
     declarations: [
         DDEComponent,

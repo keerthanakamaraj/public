@@ -8,25 +8,25 @@ import { ReadonlyGridModule } from '../readonly-grid/readonly-grid.module';
 import { GridPaginationModule } from '../grid-pagination/grid-pagination.module';
 import { ReferralDetailsGridComponent } from './ReferralDetailsGrid.component';
 @NgModule({
-imports: [
-CommonModule,
-ReadonlyGridModule,
-GridPaginationModule,
-RAFormModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-ReferralDetailsGridComponent,
-],
-exports:[
-ReferralDetailsGridComponent,
-],
+    imports: [
+        CommonModule,
+        ReadonlyGridModule,
+        GridPaginationModule,
+        RAFormModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+    ],
+    declarations: [
+        ReferralDetailsGridComponent,
+    ],
+    exports: [
+        ReferralDetailsGridComponent,
+    ],
 })
 export class ReferralDetailsGridModule { }

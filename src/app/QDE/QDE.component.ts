@@ -135,7 +135,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         // await this.CUSTOMER_DETAILS.onFormLoad(event);
         this.FieldId_9.doAPIForCustomerList({});
+
         // this.FieldId_10.fetchReferalDetails();
+
         this.APPLICATION_DETAILS.fetchApplicationDetails();
         await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
             'ApplicationId': this.ApplicationId

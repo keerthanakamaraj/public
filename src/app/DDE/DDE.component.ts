@@ -29,6 +29,8 @@ import { DDEHandlerComponent } from '../DDE/DDE-handler.component';
 import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
 import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+import { HeaderProgressComponent } from '../header-progress/header-progress.component';
+//import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 import { each } from '@amcharts/amcharts4/.internal/core/utils/Iterator';
 import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 
@@ -59,6 +61,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
+    @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
+
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
     fullName: string = undefined;
@@ -141,6 +145,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     formsMenuList: Array<any> = [];
     showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+
+    progressStatus: any = {
+        manditorySection: 10,
+        completedSection: 9
+    };
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
@@ -648,6 +657,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //  this.ProductCategory = event.isLoanCategory;
         this.isLoanCategory = event.isLoanCategory;
         this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+    }
+
+    updateProgressBar() {
+        let individualSectionScore = (1 / this.progressStatus.manditorySection) * 100;
+        let score = Math.round(individualSectionScore * this.progressStatus.completedSection);
+        this.headerProgressBar.update(score);
     }
 }
 
