@@ -28,7 +28,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   @Input('displayTitle') displayTitle: boolean = true;
   @Input('displayToolbar') displayToolbar: boolean = true;
   @Input('fieldID') fieldID: string;
-
+  today = new Date();
   componentCode: string = 'MyTrayGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
@@ -239,6 +239,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     // caseSensitive: true,
     // },
   },
+
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
   ngAfterViewInit() {
@@ -496,10 +497,12 @@ export class MyTrayGridComponent implements AfterViewInit {
     const selectedData2 = this.readonlyGrid.getSelectedData();
     if (selectedData2) {
       let stageId = selectedData2['hiddenStageId'];
-      if(stageId !== "QDE"){ // Restrict navigation other than QDE - Sprint -2
-        this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
-        return;
-      }
+
+      // if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
+      //   this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
+      //   return;
+      // }
+
       navPath.push(stageId);
       inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
       inputMap.set('taskId', selectedData2['hiddenTaskId']);
@@ -536,10 +539,11 @@ export class MyTrayGridComponent implements AfterViewInit {
     }
   }
 
-  formatDate(date){
-    if(date.value){
+  formatDate(date) {
+    if (date.value) {
       return this.services.formatDateTime(date.value);
-    } else {
+    }
+    else {
       return '-';
     }
   }

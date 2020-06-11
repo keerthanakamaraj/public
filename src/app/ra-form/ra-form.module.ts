@@ -31,6 +31,8 @@ import { HttpLoaderFactory } from '../app.module';
 import { LabelComponent } from '../label/label.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
     FieldComponent,
     LabelComponent,
     // RLO
-    RLOUIRadioComponent
+    RLOUIRadioComponent,
+    RloUiMobileComponent
   ],
   exports: [
     ComboBoxComponent,
@@ -79,7 +82,8 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
     FieldComponent,
     LabelComponent,
     // RLO
-    RLOUIRadioComponent
+    RLOUIRadioComponent,
+    RloUiMobileComponent
   ]
 })
 export class RAFormModule { }

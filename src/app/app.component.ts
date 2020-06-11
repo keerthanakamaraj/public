@@ -12,7 +12,7 @@ import { RlouiService } from './rlo-services/rloui.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  @ViewChild('appAlerts', {static: false}) appAlerts: AlertsComponent;
+  @ViewChild('appAlerts', { static: false }) appAlerts: AlertsComponent;
 
   switchLanguage(language: string) {
     this.services.translate.use(language);
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
       for (var j = 1; j < 3; j++) {
         let pushValue = {};
         pushValue['path'] = path;
-        pushValue['outlet'] = 'popUp'+j;
+        pushValue['outlet'] = 'popUp' + j;
         pushValue['component'] = PopupContentComponent;
         pushValue['children'] = [
           {
@@ -40,18 +40,17 @@ export class AppComponent implements OnInit {
       }
 
     }
-    this.services.translate.setDefaultLang('En');
-    this.services.translate.use('En');
-    this.services.http.currentLanguage = 'En';
+    console.error("------");
+    //this.services.translate.setDefaultLang('En');
   }
 
   //tfacompletedValue : any;
 
   ngOnInit() {
-   // this.router.navigate(["login/elogin"]);
+    // this.router.navigate(["login/elogin"]);
     this.services.alert.checkForAlerts.subscribe(
-      (data) =>{
-        this.appAlerts.showAlert(data["alertType"],data["alertMsg"],data["timeout"]);
+      (data) => {
+        this.appAlerts.showAlert(data["alertType"], data["alertMsg"], data["timeout"]);
       }
     );
   }

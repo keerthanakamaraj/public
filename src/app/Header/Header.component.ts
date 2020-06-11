@@ -25,6 +25,22 @@ const customCss: string = '';
   templateUrl: './Header.component.html'
 })
 export class HeaderComponent extends FormComponent implements OnInit, AfterViewInit {
+
+  @HostListener('window:scroll', ['$event'])
+  handleScroll() {
+    let windowScroll = window.pageYOffset;
+    this.scrollPosition = windowScroll;
+    if (this.headerCurrentState) {
+      if (windowScroll >= 280) {
+        this.headerExpandedView = false;
+      } else if (windowScroll < 60) {
+        this.headerExpandedView = true;
+      }
+    }
+  }
+
+  @Input('showProgressBar') showProgressBar: boolean = false;
+
   @ViewChild('HD_CIF', { static: false }) HD_CIF: ReadOnlyComponent;
   @ViewChild('HD_CUST_ID', { static: false }) HD_CUST_ID: ReadOnlyComponent;
   @ViewChild('HD_APP_REF_NUM', { static: false }) HD_APP_REF_NUM: ReadOnlyComponent;
@@ -43,12 +59,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
+
   @Output() productCategoryFound: EventEmitter<any> = new EventEmitter<any>();
+  @Output() headerStateEvent: EventEmitter<any> = new EventEmitter<any>();
 
   PRODUCT_CATEGORY_IMG = '';
   CURRENCY_IMG = '';
 
-  showExpanded: boolean = true;
+  headerExpandedView: boolean = true;
+  headerCurrentState: boolean = true; //expanded-1,collapsed-0
+
   elementPosition: any;
 
   /* data binding variables  */
@@ -59,6 +79,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   TENURE: string;
   SUB_PRODUCT: string;
   SCHEME: string;
+
+  scrollPosition: number = 0;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -90,6 +112,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     super.afterRevalidate();
     return totalErrors;
   }
+
   constructor(services: ServiceStock) {
     super(services);
     this.value = new HeaderModel();
@@ -131,7 +154,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         let header = res.Header;
 
         this.ARN = header.ApplicationRefernceNo;
-        this.LOAN_AMT =  this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
+        this.LOAN_AMT = this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
         this.LOAN_CATEGORY = header.TypeOfLoan;
     
         this.INTEREST_RATE = header.InterestRate + "% pa";
@@ -169,8 +192,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.LD_APP_PRPSE.setValue(header.ApplicationPurpose);
         // this.LD_SYS_RCMD_AMT.setValue(header.SystemRecommendedAmount);
         // this.LD_USR_RCMD_AMT.setValue(header.UserRecommendedAmount);
-        this.LD_SYS_RCMD_AMT.setValue( this.services.formatAmount(header.SystemRecommendedAmount, null, null) );
-        this.LD_USR_RCMD_AMT.setValue( this.services.formatAmount(header.UserRecommendedAmount, null, null) );
+        this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null));
+        this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null));
         // this.HD_APP_SUBMSN_DT.setValue(header.AppSubmissionDate);
         // this.HD_CIF.setValue(header.CIF);
         // this.HD_CUST_ID.setValue(header.CustomerId);
@@ -259,40 +282,29 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   fieldDependencies = {
   }
 
-  @HostListener('window:scroll', ['$event'])
-  handleScroll(){
-    let windowScroll = window.pageYOffset;
-    if(windowScroll >= 280){
-      this.showExpanded = false;
-    } else if(windowScroll < 60 ) {
-      this.showExpanded = true;
-    }
-  }
-
   apiSuccessCallback() {
-
     this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
-
     switch (this.HD_PROD_CAT.getFieldValue()) {
-
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
         this.HD_PROD_CAT.setValue('Auto Loan');
         break;
-
       case 'PL': this.PRODUCT_CATEGORY_IMG = './assets/icons/personalloan-yellow.svg';
         this.HD_PROD_CAT.setValue('Personal Loan');
         break;
-
       case 'ML': this.PRODUCT_CATEGORY_IMG = './assets/icons/mortgage-yellow.svg';
         this.HD_PROD_CAT.setValue('Mortgage Loan');
         break;
-
       case 'CC': this.PRODUCT_CATEGORY_IMG = './assets/icons/creditcard-yellow.svg';
         this.HD_PROD_CAT.setValue('Credit Card');
         break;
     }
+  }
 
-
-
+  headerState(state: boolean) {
+    this.headerExpandedView = state;
+    this.headerCurrentState = state;
+    this.services.rloCommonData.headerState.next(state);
+    window.scrollBy(0, 5);
+    window.scrollTo(0, this.scrollPosition);
   }
 }

@@ -15,261 +15,529 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
+import { ReferralDetailsFormHandlerComponent } from '../ReferralDetailsForm/referrer-handler.component';
+
 
 const customCss: string = '';
 
 @Component({
-    selector: 'app-ReferralDetailsForm',
-    templateUrl: './ReferralDetailsForm.component.html'
+	selector: 'app-ReferralDetailsForm',
+	templateUrl: './ReferralDetailsForm.component.html'
 })
 export class ReferralDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('RD_REF_NAME', { static: false }) RD_REF_NAME: TextBoxComponent;
-    @ViewChild('RD_REF_NO', { static: false }) RD_REF_NO: TextBoxComponent;
-    @ViewChild('RD_SAVE', { static: false }) RD_SAVE: ButtonComponent;
-    @ViewChild('RD_RESET', { static: false }) RD_RESET: ButtonComponent;
-  //  @ViewChild('hideLoanSeq', { static: false }) hideLoanSeq: HiddenComponent;
-    @ViewChild('loanApplicationSeq', { static: false }) loanApplicationSeq: HiddenComponent;
-    @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
-    @ViewChild('RD_ISD_CODE', { static: false }) RD_ISD_CODE: ComboBoxComponent;
-    @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
+	@ViewChild('RD_REF_NAME', { static: false }) RD_REF_NAME: TextBoxComponent;
+	@ViewChild('RD_REFERRER_RELATION', { static: false }) RD_REFERRER_RELATION: ComboBoxComponent;
+	@ViewChild('RD_ISD_CODE', { static: false }) RD_ISD_CODE: ComboBoxComponent;
+	@ViewChild('RD_REF_NO', { static: false }) RD_REF_NO: TextBoxComponent;
+	@ViewChild('RD_REFRRER_EMAILID', { static: false }) RD_REFRRER_EMAILID: TextBoxComponent;
+	@ViewChild('RD_ADDRESSLINE1', { static: false }) RD_ADDRESSLINE1: TextBoxComponent;
+	@ViewChild('RD_ADDRESSLINE2', { static: false }) RD_ADDRESSLINE2: TextBoxComponent;
+	@ViewChild('RD_ADDRESSLINE3', { static: false }) RD_ADDRESSLINE3: TextBoxComponent;
+	@ViewChild('RD_ADDRESSLINE4', { static: false }) RD_ADDRESSLINE4: TextBoxComponent;
+	@ViewChild('RD_PINCODE', { static: false }) RD_PINCODE: TextBoxComponent;
+	@ViewChild('RD_REGION', { static: false }) RD_REGION: TextBoxComponent;
+	@ViewChild('RD_CITY', { static: false }) RD_CITY: TextBoxComponent;
+	@ViewChild('RD_STATE', { static: false }) RD_STATE: TextBoxComponent;
+	@ViewChild('RD_LANDMARK', { static: false }) RD_LANDMARK: TextBoxComponent;
+	@ViewChild('RD_COUNTRY_CODE1', { static: false }) RD_COUNTRY_CODE1: ComboBoxComponent;
+	@ViewChild('RD_PHONE1', { static: false }) RD_PHONE1: TextBoxComponent;
+	@ViewChild('RD_COUNTRY_CODE2', { static: false }) RD_COUNTRY_CODE2: ComboBoxComponent;
+	@ViewChild('RD_PHONE2', { static: false }) RD_PHONE2: TextBoxComponent;
+	@ViewChild('RD_SAVE', { static: false }) RD_SAVE: ButtonComponent;
+	@ViewChild('RD_RESET', { static: false }) RD_RESET: ButtonComponent;
+	@ViewChild('ReferralDetailsGrid', { static: false }) ReferralDetailsGrid: ReferralDetailsGridComponent;
+	@ViewChild('Handler', { static: false }) Handler: ReferralDetailsFormHandlerComponent;
+	@ViewChild('AddBorrowerSeq', { static: false }) AddBorrowerSeq: HiddenComponent;
+	@ViewChild('ReferrerBorrowerSeq', { static: false }) ReferrerBorrowerSeq: HiddenComponent;
+	@ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+	@ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
+	@ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
+	@Input() ApplicationId: string = undefined;
+	@Input() activeCustomerName: string = undefined;
+	@Input() activeBorrowerSeq: string = undefined;
+	@Input() activeCustomerMobile: string = undefined;
+	cust_name: string;
+	cust_dob: string;
+	async revalidate(): Promise<number> {
+		var totalErrors = 0;
+		super.beforeRevalidate();
+		await Promise.all([
+			this.revalidateBasicField('RD_REF_NAME'),
+			this.revalidateBasicField('RD_REFERRER_RELATION'),
+			this.revalidateBasicField('RD_ISD_CODE'),
+			this.revalidateBasicField('RD_REF_NO'),
+			this.revalidateBasicField('RD_REFRRER_EMAILID'),
+			this.revalidateBasicField('RD_ADDRESSLINE1'),
+			this.revalidateBasicField('RD_ADDRESSLINE2'),
+			this.revalidateBasicField('RD_ADDRESSLINE3'),
+			this.revalidateBasicField('RD_ADDRESSLINE4'),
+			this.revalidateBasicField('RD_PINCODE'),
+			this.revalidateBasicField('RD_REGION'),
+			this.revalidateBasicField('RD_CITY'),
+			this.revalidateBasicField('RD_STATE'),
+			this.revalidateBasicField('RD_LANDMARK'),
+			this.revalidateBasicField('RD_COUNTRY_CODE1'),
+			this.revalidateBasicField('RD_PHONE1'),
+			this.revalidateBasicField('RD_COUNTRY_CODE2'),
+			this.revalidateBasicField('RD_PHONE2'),
+		]).then((errorCounts) => {
+			errorCounts.forEach((errorCount) => {
+				totalErrors += errorCount;
+			});
+		});
+		this.errors = totalErrors;
+		super.afterRevalidate();
+		return totalErrors;
+	}
+	constructor(services: ServiceStock) {
+		super(services);
+		this.value = new ReferralDetailsFormModel();
+		this.componentCode = 'ReferralDetailsForm';
+	}
+	setReadOnly(readOnly) {
+		super.setBasicFieldsReadOnly(readOnly);
+	}
+	async onFormLoad() {
+		// this.ApplicationId = '2221';
+		this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+		this.RD_REGION.setReadOnly(true);
+		this.RD_CITY.setReadOnly(true);
+		this.RD_STATE.setReadOnly(true);
+		let inputMap = new Map();
+		this.hidAppId.setValue('RLO');
+		this.hideISDCode.setValue('ISD_COUNTRY_CODE');
+		this.hidRelation.setValue('REFERRER_RELATION');
+		await this.ReferralDetailsGrid.gridDataLoad({
+			'passReferrerGrid': this.ApplicationId,
+		});
+		await this.Handler.onFormLoad({});
+		this.setDependencies();
+	}
+	setInputs(param: any) {
+		let params = this.services.http.mapToJson(param);
+		if (params['mode']) {
+			this.mode = params['mode'];
+		}
+	}
+	async submitForm(path, apiCode, serviceCode) {
+		this.submitData['formName'] = 'ReferralDetails';
+		await super.submit(path, apiCode, serviceCode);
+	}
+	getFieldInfo() {
+		this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+		this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+		this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+		return this.additionalInfo;
+	}
+	getFieldValue() {
+		return this.value;
+	}
+	setValue(inputValue, inputDesc = undefined) {
+		this.setBasicFieldsValue(inputValue, inputDesc);
+		this.value = new ReferralDetailsFormModel();
+		this.value.setValue(inputValue);
+		this.setDependencies();
+		this.passNewValue(this.value);
+	}
+	ngOnInit() {
+		if (this.formCode == undefined) { this.formCode = 'ReferralDetailsForm'; }
+		if (this.formOnLoadError) { return; }
+		var styleElement = document.createElement('style');
+		styleElement.type = 'text/css';
+		styleElement.innerHTML = customCss;
+		styleElement.id = 'ReferralDetailsForm_customCss';
+		document.getElementsByTagName('head')[0].appendChild(styleElement);
+	}
+	ngOnDestroy() {
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
+		var styleElement = document.getElementById('ReferralDetailsForm_customCss');
+		styleElement.parentNode.removeChild(styleElement);
+	}
+	ngAfterViewInit() {
+		setTimeout(() => {
+			this.subsBFldsValueUpdates();
+			this.onFormLoad();
+			this.checkForHTabOverFlow();
+		});
+	}
+	clearError() {
+		super.clearBasicFieldsError();
+		super.clearHTabErrors();
+		super.clearVTabErrors();
+		this.errors = 0;
+		this.errorMessage = [];
+	}
+	onReset() {
+		super.resetBasicFields();
+		this.clearHTabErrors();
+		this.clearVTabErrors();
+		this.errors = 0;
+		this.errorMessage = [];
+		this.additionalInfo = undefined;
+		this.dependencyMap.clear();
+		this.value = new ReferralDetailsFormModel();
+		this.passNewValue(this.value);
+		this.setReadOnly(false);
+		this.onFormLoad();
+	}
+	async RD_PINCODE_blur(event) {
+		let inputMap = new Map();
+		inputMap.set('PathParam.PinCd', event.value)
+		this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
+			async (httpResponse: HttpResponse<any>) => {
+				var res = httpResponse.body;
+				console.log("res", res);
+				this.RD_REGION.setValue(res['MasterPincodeDtls']['UDF1'])
+				this.RD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName'])
+				this.RD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName'])
 
-    @Input() ApplicationId: string = undefined;
+			},
+		);
+	}
+	Customer_data() {
+		this.cust_name = this.activeCustomerName;
+		this.cust_dob = this.activeCustomerMobile;
+	}
+	async RD_SAVE_click(event) {
+		let inputMap = new Map();
+		let referrerGridData: any = this.ReferralDetailsGrid.getReferrerGrid();
+		var noOfError: number = await this.revalidate();
 
-    loanDetailsSeq=undefined;
-    async revalidate(): Promise<number> {
-        var totalErrors = 0;
-        super.beforeRevalidate();
-        await Promise.all([
-            this.revalidateBasicField('RD_REF_NAME'),
-            this.revalidateBasicField('RD_REF_NO'),
-            this.revalidateBasicField('RD_ISD_CODE'),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.errors = totalErrors;
-        super.afterRevalidate();
-        return totalErrors;
-    }
-    constructor(services: ServiceStock) {
-        super(services);
-        this.value = new ReferralDetailsFormModel();
-        this.componentCode = 'ReferralDetailsForm';
-    }
-    setReadOnly(readOnly) {
-        super.setBasicFieldsReadOnly(readOnly);
-    }
+		if (noOfError == 0) {
+			if (referrerGridData) {
+				for (var i = 0; i < referrerGridData.length; i++) {
+					if (referrerGridData[i].Referrer_ID != this.ReferrerBorrowerSeq.getFieldValue()) { // Check if Editing Existing referrer
+						if (referrerGridData[i].RD_REFERRER_NAME == this.RD_REF_NAME.getFieldValue() && referrerGridData[i].RD_REFERRER_RELATION == this.RD_REFERRER_RELATION.getFieldValue()) {
+							this.services.alert.showAlert(2, 'rlo.error.exist.referrer', -1);
+							return;
+						}
+					}
+				}
+			}
+			if (this.RD_ISD_CODE.getFieldValue() == undefined && this.RD_REF_NO.getFieldValue() != undefined) {
+				this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+				return;
+			}
+			else if (this.RD_ISD_CODE.getFieldValue() != undefined && this.RD_REF_NO.getFieldValue() == undefined) {
+				this.services.alert.showAlert(2, 'rlo.error.mobile.referrer', -1);
+				return;
+			}
+			if (this.RD_COUNTRY_CODE1.getFieldValue() == undefined && this.RD_PHONE1.getFieldValue() != undefined) {
+				this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+				return;
+			}
+			else if (this.RD_COUNTRY_CODE1.getFieldValue() != undefined && this.RD_PHONE1.getFieldValue() == undefined) {
+				this.services.alert.showAlert(2, 'rlo.error.phone.referrer', -1);
+				return;
+			}
+			if (this.RD_COUNTRY_CODE2.getFieldValue() == undefined && this.RD_PHONE2.getFieldValue() != undefined) {
+				this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+				return;
+			}
+			else if (this.RD_COUNTRY_CODE2.getFieldValue() != undefined && this.RD_PHONE2.getFieldValue() == undefined) {
+				this.services.alert.showAlert(2, 'rlo.error.phone.referrer', -1);
+				return;
+			}
+			if (this.cust_name == this.RD_REF_NAME.getFieldValue() && this.cust_dob == this.RD_REF_NO.getFieldValue())  {
+				this.services.alert.showAlert(2, 'You Can not add Borrower as Referrer', -1);
+				return;
+			}
 
-    async onFormLoad(event) {
-        // this.ApplicationId = event.custSeq;
-        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        //let inputMap = new Map();
-        this.hidAppId.setValue('RLO');
-        this.hideISDCode.setValue('ISD_COUNTRY_CODE');
-    }
+			if (this.ReferrerBorrowerSeq.getFieldValue() != undefined) {
+				inputMap.clear();
+				inputMap.set('PathParam.BorrowerSeq', this.ReferrerBorrowerSeq.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerRelation', this.RD_REFERRER_RELATION.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_ISD_CODE.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerMobileNumber', this.RD_REF_NO.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerEmailID', this.RD_REFRRER_EMAILID.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine1', this.RD_ADDRESSLINE1.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine2', this.RD_ADDRESSLINE2.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine3', this.RD_ADDRESSLINE3.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine4', this.RD_ADDRESSLINE4.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.PinCode', this.RD_PINCODE.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.Region', this.RD_REGION.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.City', this.RD_CITY.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.State', this.RD_STATE.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.Landmark', this.RD_LANDMARK.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.LandlineCountryCode', this.RD_COUNTRY_CODE1.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.LandlineNumber', this.RD_PHONE1.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.MobileCountryCode', this.RD_COUNTRY_CODE2.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AltMobileNo', this.RD_PHONE2.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
+				this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
+					async (httpResponse: HttpResponse<any>) => {
+						var res = httpResponse.body;
+						this.services.alert.showAlert(1, 'rlo.success.update.referrer', 5000);
+						await this.ReferralDetailsGrid.gridDataLoad({
+							'passReferrerGrid': this.ApplicationId,
+						});
+						this.onReset();
+					},
+					async (httpError) => {
+						var err = httpError['error']
+						if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+							if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AltMobileNo') {
+								this.RD_PHONE2.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.MobileCountryCode') {
+								this.RD_COUNTRY_CODE2.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineNumber') {
+								this.RD_PHONE1.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineCountryCode') {
+								this.RD_COUNTRY_CODE1.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Landmark') {
+								this.RD_LANDMARK.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.State') {
+								this.RD_STATE.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.City') {
+								this.RD_CITY.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Region') {
+								this.RD_REGION.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.PinCode') {
+								this.RD_PINCODE.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine4') {
+								this.RD_ADDRESSLINE4.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine3') {
+								this.RD_ADDRESSLINE3.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine2') {
+								this.RD_ADDRESSLINE2.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine1') {
+								this.RD_ADDRESSLINE1.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerEmailID') {
+								this.RD_REFRRER_EMAILID.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerMobileNumber') {
+								this.RD_REF_NO.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.CountryCode') {
+								this.RD_ISD_CODE.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerRelation') {
+								this.RD_REFERRER_RELATION.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerName') {
+								this.RD_REF_NAME.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'BorrowerSeq') {
+								this.ReferrerBorrowerSeq.setError(err['ErrorDescription']);
+							}
+						}
+						this.services.alert.showAlert(2, 'rlo.error.update.referrer', -1);
+					}
+				);
+			}
 
-    fetchReferalDetails() {
-        let inputMap = new Map();
-        inputMap.clear();
+			else {
+				inputMap.clear();
+				inputMap.set('Body.ReferrerDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerRelation', this.RD_REFERRER_RELATION.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_ISD_CODE.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerMobileNumber', this.RD_REF_NO.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ReferrerEmailID', this.RD_REFRRER_EMAILID.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine1', this.RD_ADDRESSLINE1.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine2', this.RD_ADDRESSLINE2.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine3', this.RD_ADDRESSLINE3.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine4', this.RD_ADDRESSLINE4.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.PinCode', this.RD_PINCODE.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.Region', this.RD_REGION.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.City', this.RD_CITY.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.State', this.RD_STATE.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.Landmark', this.RD_LANDMARK.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.LandlineCountryCode', this.RD_COUNTRY_CODE1.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.LandlineNumber', this.RD_PHONE1.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.MobileCountryCode', this.RD_COUNTRY_CODE2.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AltMobileNo', this.RD_PHONE2.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
+				inputMap.set('Body.ReferrerDetails.BorrowerSeq', this.activeBorrowerSeq);
+				inputMap.set('Body.ReferrerDetails.CustomerType', 'R');
+				if(this.RD_REF_NAME.getFieldValue() ==  undefined || this.RD_REF_NAME.getFieldValue() == null  ){
+					this.services.alert.showAlert(2, 'rlo.error.fillone.rdetailsform', -1);
+					return;
+				}
+				else{
+				this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap).subscribe(
+					async (httpResponse: HttpResponse<any>) => {
+						var res = httpResponse.body;
+						this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
+						await this.ReferralDetailsGrid.gridDataLoad({
+							'passReferrerGrid': this.ApplicationId,
+						});
+						this.onReset();
+					},
+					async (httpError) => {
+						var err = httpError['error']
+						if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+							if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AltMobileNo') {
+								this.RD_PHONE2.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.MobileCountryCode') {
+								this.RD_COUNTRY_CODE2.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineNumber') {
+								this.RD_PHONE1.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineCountryCode') {
+								this.RD_COUNTRY_CODE1.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Landmark') {
+								this.RD_LANDMARK.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.State') {
+								this.RD_STATE.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.City') {
+								this.RD_CITY.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Region') {
+								this.RD_REGION.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.PinCode') {
+								this.RD_PINCODE.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine4') {
+								this.RD_ADDRESSLINE4.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine3') {
+								this.RD_ADDRESSLINE3.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine2') {
+								this.RD_ADDRESSLINE2.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine1') {
+								this.RD_ADDRESSLINE1.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerEmailID') {
+								this.RD_REFRRER_EMAILID.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerMobileNumber') {
+								this.RD_REF_NO.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.CountryCode') {
+								this.RD_ISD_CODE.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerRelation') {
+								this.RD_REFERRER_RELATION.setError(err['ErrorDescription']);
+							}
+							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerName') {
+								this.RD_REF_NAME.setError(err['ErrorDescription']);
+							}
+						}
+						this.services.alert.showAlert(2, 'rlo.error.save.referrer', -1);
+					}
+				);
+				}
+			}
+		}
+		else {
+			this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+		}
+	}
+	RD_RESET_click(event) {
+		this.onReset();
+	}
+	async FieldId_6_EditReferrerDetails(event) {
+		let inputMap = new Map();
+		this.showSpinner();
+		inputMap.clear();
+		inputMap.set('PathParam.BorrowerSeq', event.SeqKey);
+		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap).subscribe(
+			async (httpResponse: HttpResponse<any>) => {
+				var res = httpResponse.body;
+				// this.AddBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
+				this.RD_REF_NAME.setValue(res['ReferrerDetails']['ReferrerName']);
+				this.RD_REFERRER_RELATION.setValue(res['ReferrerDetails']['ReferrerRelation']);
+				this.RD_ISD_CODE.setValue(res['ReferrerDetails']['CountryCode']);
+				this.RD_REF_NO.setValue(res['ReferrerDetails']['ReferrerMobileNumber']);
+				this.RD_REFRRER_EMAILID.setValue(res['ReferrerDetails']['ReferrerEmailID']);
+				this.RD_ADDRESSLINE1.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine1']);
+				this.RD_ADDRESSLINE2.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine2']);
+				this.RD_ADDRESSLINE3.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine3']);
+				this.RD_ADDRESSLINE4.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine4']);
+				this.RD_PINCODE.setValue(res['ReferrerDetails']['AddressDetails']['PinCode']);
+				this.RD_REGION.setValue(res['ReferrerDetails']['AddressDetails']['Region']);
+				this.RD_CITY.setValue(res['ReferrerDetails']['AddressDetails']['City']);
+				this.RD_STATE.setValue(res['ReferrerDetails']['AddressDetails']['State']);
+				this.RD_LANDMARK.setValue(res['ReferrerDetails']['AddressDetails']['Landmark']);
+				this.RD_COUNTRY_CODE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineCountryCode']);
+				this.RD_PHONE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineNumber']);
+				this.RD_COUNTRY_CODE2.setValue(res['ReferrerDetails']['AddressDetails']['MobileCountryCode']);
+				this.RD_PHONE2.setValue(res['ReferrerDetails']['AddressDetails']['AltMobileNo']);
+				this.hideSpinner();
+			},
+			async (httpError) => {
+				var err = httpError['error']
+				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+				}
+				this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+				this.hideSpinner();
+			}
+		);
+	}
+	fieldDependencies = {
+		RD_ISD_CODE: {
+			inDep: [
 
-        if (this.ApplicationId != undefined) {
+				{ paramKey: "VALUE1", depFieldID: "RD_ISD_CODE", paramType: "PathParam" },
+				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+				{ paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+			],
+			outDep: [
+			]
+		},
+		RD_COUNTRY_CODE1: {
+			inDep: [
 
-            let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+				{ paramKey: "VALUE1", depFieldID: "RD_COUNTRY_CODE1", paramType: "PathParam" },
+				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+				{ paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+			],
+			outDep: [
+			]
+		},
+		RD_COUNTRY_CODE2: {
+			inDep: [
+				{ paramKey: "VALUE1", depFieldID: "RD_COUNTRY_CODE2", paramType: "PathParam" },
+				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+				{ paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+			],
+			outDep: [
+			]
+		},
+		RD_REFERRER_RELATION: {
+			inDep: [
+				{ paramKey: "VALUE1", depFieldID: "RD_REFERRER_RELATION", paramType: "PathParam" },
+				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+				{ paramKey: "KEY1", depFieldID: "hidRelation", paramType: "QueryParam" },
+			],
+			outDep: [
+			]
+		},
+		RD_PINCODE: {
+			inDep: [
+				{ paramKey: "PinCd", depFieldID: "RD_PINCODE", paramType: "PathParam" },
+			],
+			outDep: [
 
-            criteriaJson.FilterCriteria.push({
-                "columnName": "ApplicationId",
-                "columnType": "String",
-                "conditions": {
-                    "searchType": "equals",
-                    "searchText": this.ApplicationId
-                }
-            });
+				{ paramKey: "MasterPincodeDtls.CityCd.CityName", depFieldID: "RD_CITY" },
+				{ paramKey: "MasterPincodeDtls.StateCd.StateName", depFieldID: "RD_STATE" },
+				{ paramKey: "MasterPincodeDtls.UDF1", depFieldID: "RD_REGION" },
+			]
+		},
+	}
 
-            inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-
-            this.services.http.fetchApi('/LoanDetails', 'GET', inputMap).subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-
-                    var res = httpResponse.body;
-                    console.log("res", res)
-                    var loopDataVar10 = [];
-                    var loopVar10 = res['LoanDetails'];
-                    if (loopVar10) {
-                        for (var i = 0; i < loopVar10.length; i++) {
-
-                            this.RD_REF_NAME.setValue(loopVar10[i].ReferrerName);
-                            this.RD_ISD_CODE.setValue(loopVar10[i].ISDCountryCode);
-                            this.RD_REF_NO.setValue(loopVar10[i].ReferrerPhoneNo);
-                            this.loanDetailsSeq=loopVar10[i].LoanDetailSeq;
-                        }
-                    }
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                    }
-                }
-            );
-            this.setDependencies();
-        }
-    }
-
-    setInputs(param: any) {
-        let params = this.services.http.mapToJson(param);
-        if (params['mode']) {
-            this.mode = params['mode'];
-        }
-    }
-    async submitForm(path, apiCode, serviceCode) {
-        this.submitData['formName'] = 'ReferralDetails';
-        await super.submit(path, apiCode, serviceCode);
-    }
-    getFieldInfo() {
-        this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        return this.additionalInfo;
-    }
-    getFieldValue() {
-        return this.value;
-    }
-    setValue(inputValue, inputDesc = undefined) {
-        this.setBasicFieldsValue(inputValue, inputDesc);
-        this.value = new ReferralDetailsFormModel();
-        this.value.setValue(inputValue);
-        this.setDependencies();
-        this.passNewValue(this.value);
-    }
-    ngOnInit() {
-        if (this.formCode == undefined) { this.formCode = 'ReferralDetailsForm'; }
-        if (this.formOnLoadError) { return; }
-        var styleElement = document.createElement('style');
-        styleElement.type = 'text/css';
-        styleElement.innerHTML = customCss;
-        styleElement.id = 'ReferralDetailsForm_customCss';
-        document.getElementsByTagName('head')[0].appendChild(styleElement);
-    }
-    ngOnDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-        var styleElement = document.getElementById('ReferralDetailsForm_customCss');
-        styleElement.parentNode.removeChild(styleElement);
-    }
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.subsBFldsValueUpdates();
-            this.onFormLoad(event);
-            this.checkForHTabOverFlow();
-        });
-    }
-    clearError() {
-        super.clearBasicFieldsError();
-        super.clearHTabErrors();
-        super.clearVTabErrors();
-        this.errors = 0;
-        this.errorMessage = [];
-    }
-    onReset() {
-        super.resetBasicFields();
-        this.clearHTabErrors();
-        this.clearVTabErrors();
-        this.errors = 0;
-        this.errorMessage = [];
-        this.additionalInfo = undefined;
-        this.dependencyMap.clear();
-        this.value = new ReferralDetailsFormModel();
-        this.passNewValue(this.value);
-        this.setReadOnly(false);
-        this.onFormLoad(event);
-    }
-    async RD_SAVE_click(event) {
-        let inputMap = new Map();
-        if (this.loanDetailsSeq == undefined) {
-            inputMap.clear();
-            inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
-            inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REF_NO.getFieldValue());
-            inputMap.set('Body.LoanDetails.ISDCountryCode', this.RD_ISD_CODE.getFieldValue());
-            inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
-
-            this.services.http.fetchApi('/LoanDetails', 'POST', inputMap).subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    // this.hideLoanSeq.setValue(res['LoanDetails']['LoanDetailSeq']);
-                    this.services.alert.showAlert(1, 'rlo.success.save.referral', 5000);
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                        if (err['ErrorElementPath'] == 'LoanDetails.ApplicationId') {
-                            this.loanApplicationSeq.setError(err['ErrorDescription']);
-                        }
-                        else if (err['ErrorElementPath'] == 'LoanDetails.ISDCountryCode') {
-                            this.RD_ISD_CODE.setError(err['ErrorDescription']);
-                        }
-                        else if (err['ErrorElementPath'] == 'LoanDetails.ReferrerPhoneNo') {
-                            this.RD_REF_NO.setError(err['ErrorDescription']);
-                        }
-                        else if (err['ErrorElementPath'] == 'LoanDetails.ReferrerName') {
-                            this.RD_REF_NAME.setError(err['ErrorDescription']);
-                        }
-                    }
-                    this.services.alert.showAlert(2, 'rlo.error.save.referral', -1);
-                }
-            );
-        }
-        else {
-            inputMap.clear();
-            inputMap.set('PathParam.LoanDetailSeq', this.loanDetailsSeq);
-            inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
-            inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
-            inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REF_NO.getFieldValue());
-            inputMap.set('Body.LoanDetails.ISDCountryCode', this.RD_ISD_CODE.getFieldValue());
-
-            this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap).subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.save.referral', 5000);
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                        if (err['ErrorElementPath'] == 'LoanDetails.ReferrerPhoneNo') {
-                            this.RD_REF_NO.setError(err['ErrorDescription']);
-                        }
-                        else if (err['ErrorElementPath'] == 'LoanDetails.ISDCountryCode') {
-                            this.RD_ISD_CODE.setError(err['ErrorDescription']);
-                        }
-                        else if (err['ErrorElementPath'] == 'LoanDetails.ReferrerName') {
-                            this.RD_REF_NAME.setError(err['ErrorDescription']);
-                        }
-                        else if (err['ErrorElementPath'] == 'LoanDetails.ApplicationId') {
-                            this.loanApplicationSeq.setError(err['ErrorDescription']);
-                        }
-                        // else if (err['ErrorElementPath'] == 'LoanDetailSeq') {
-                        //     this.loanDetailsSeq.setError(err['ErrorDescription']);
-                        // }
-                    }
-                    this.services.alert.showAlert(2, 'rlo.error.update.referral', -1);
-                }
-            );
-        }
-    }
-
-    RD_RESET_click(event){
-this.onReset();
-    }
-
-    fieldDependencies = {
-        RD_ISD_CODE : {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "RD_ISD_CODE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-    }
 }

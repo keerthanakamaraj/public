@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { VisitReportGridComponent } from '../VisitReportGrid/VisitReportGrid.component';
 import { VisitReportHandlerComponent } from '../VisitReportForm/visitreport-handler.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 
@@ -25,17 +26,17 @@ selector: 'app-VisitReportForm',
 templateUrl: './VisitReportForm.component.html'
 })
 export class VisitReportFormComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('VRF_ReportType', {static: false}) VRF_ReportType: ComboBoxComponent;
+@ViewChild('VRF_ReportType', {static: false}) VRF_ReportType: RLOUIRadioComponent;
 @ViewChild('VRF_DateOfVisit', {static: false}) VRF_DateOfVisit: DateComponent;
 @ViewChild('VRF_AddressofVisit', {static: false}) VRF_AddressofVisit: TextAreaComponent;
 @ViewChild('VRF_OfficialName', {static: false}) VRF_OfficialName: ComboBoxComponent;
 @ViewChild('VRF_NameofPersonMet', {static: false}) VRF_NameofPersonMet: TextBoxComponent;
 @ViewChild('VRF_Designation', {static: false}) VRF_Designation: TextBoxComponent;
-@ViewChild('VRF_OfficialId', {static: false}) VRF_OfficialId: ComboBoxComponent;
+//@ViewChild('VRF_OfficialId', {static: false}) VRF_OfficialId: ComboBoxComponent;
 @ViewChild('VRF_OfficialBusinessGroup', {static: false}) VRF_OfficialBusinessGroup: ComboBoxComponent;
 @ViewChild('VRF_PlaceOfVisit', {static: false}) VRF_PlaceOfVisit: TextAreaComponent;
-@ViewChild('VRF_Photograph', {static: false}) VRF_Photograph: ComboBoxComponent;
-@ViewChild('VRF_AdverseObservation', {static: false}) VRF_AdverseObservation: ComboBoxComponent;
+@ViewChild('VRF_Photograph', {static: false}) VRF_Photograph: RLOUIRadioComponent;
+@ViewChild('VRF_AdverseObservation', {static: false}) VRF_AdverseObservation: RLOUIRadioComponent;
 @ViewChild('VRF_Observations', {static: false}) VRF_Observations: TextAreaComponent;
 @ViewChild('VRF_Save', {static: false}) VRF_Save: ButtonComponent;
 @ViewChild('VRF_Reset', {static: false}) VRF_Reset: ButtonComponent;
@@ -45,10 +46,13 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 @ViewChild('HidAppid', {static: false}) HidAppid: HiddenComponent;
 @ViewChild('HidAttachPhoto', {static: false}) HidAttachPhoto: HiddenComponent;
 @ViewChild('HidOfficialBusGroup', {static: false}) HidOfficialBusGroup: HiddenComponent;
-@ViewChild('HidOfficialId', {static: false}) HidOfficialId: HiddenComponent;
+//@ViewChild('HidOfficialId', {static: false}) HidOfficialId: HiddenComponent;
 @ViewChild('HidOfficialName', {static: false}) HidOfficialName: HiddenComponent;
 @ViewChild('HidReportType', {static: false}) HidReportType: HiddenComponent;
 @ViewChild('HidVisitReportSeqId', {static: false}) HidVisitReportSeqId: HiddenComponent;
+
+@Input() ApplicationId: string = undefined;
+
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -59,7 +63,7 @@ this.revalidateBasicField('VRF_AddressofVisit'),
 this.revalidateBasicField('VRF_OfficialName'),
 this.revalidateBasicField('VRF_NameofPersonMet'),
 this.revalidateBasicField('VRF_Designation'),
-this.revalidateBasicField('VRF_OfficialId'),
+//this.revalidateBasicField('VRF_OfficialId'),
 this.revalidateBasicField('VRF_OfficialBusinessGroup'),
 this.revalidateBasicField('VRF_PlaceOfVisit'),
 this.revalidateBasicField('VRF_Photograph'),
@@ -88,12 +92,14 @@ this.HidAnyObservation.setValue('YES_NO');
 this.HidAppid.setValue('RLO');
 this.HidAttachPhoto.setValue('YES_NO');
 this.HidOfficialBusGroup.setValue('OFFICIAL_BUSINESS_GROUP');
-this.HidOfficialId.setValue('OFFICIAL_ID');
+//this.HidOfficialId.setValue('OFFICIAL_ID');
 this.HidOfficialName.setValue('OFFICIAL_NAME');
 this.HidReportType.setValue('REPORT_TYPE');
 let inputMap = new Map();
+this.VRF_Photograph.setDefault('N');
+this.VRF_AdverseObservation.setDefault('N');
 await this.Visit_Report_Grid.gridDataLoad({
-    'VisitReportSeqToGrid' :222,
+    'VisitReportSeqToGrid' :this.ApplicationId,
 });
  await this.Handler.onFormLoad({
  });
@@ -184,7 +190,7 @@ inputMap.set('Body.VisitReportDetails.OfficialBusiGroup', this.VRF_OfficialBusin
 inputMap.set('Body.VisitReportDetails.PlaceOfVisit', this.VRF_PlaceOfVisit.getFieldValue());
 inputMap.set('Body.VisitReportDetails.PhotoTaken', this.VRF_Photograph.getFieldValue());
 inputMap.set('Body.VisitReportDetails.AdverseObservations', this.VRF_AdverseObservation.getFieldValue());
-inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
+//inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
 inputMap.set('Body.VisitReportDetails.Observations', this.VRF_Observations.getFieldValue());
 this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'PUT', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
@@ -198,9 +204,9 @@ if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!
 if(err['ErrorElementPath'] == 'VisitReportDetails.Observations'){
 this.VRF_Observations.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'VisitReportDetails.OfficialId'){
-this.VRF_OfficialId.setError(err['ErrorDescription']);
-}
+// else if(err['ErrorElementPath'] == 'VisitReportDetails.OfficialId'){
+// this.VRF_OfficialId.setError(err['ErrorDescription']);
+// }
 else if(err['ErrorElementPath'] == 'VisitReportDetails.AdverseObservations'){
 this.VRF_AdverseObservation.setError(err['ErrorDescription']);
 }
@@ -246,7 +252,7 @@ inputMap.set('Body.VisitReportDetails.DateOfVisit', this.VRF_DateOfVisit.getFiel
 inputMap.set('Body.VisitReportDetails.AddressOfVisit', this.VRF_AddressofVisit.getFieldValue());
 inputMap.set('Body.VisitReportDetails.OfficialName', this.VRF_OfficialName.getFieldValue());
 inputMap.set('Body.VisitReportDetails.PersonMet', this.VRF_NameofPersonMet.getFieldValue());
-inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
+//inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
 inputMap.set('Body.VisitReportDetails.PersonMetDesgn', this.VRF_Designation.getFieldValue());
 inputMap.set('Body.VisitReportDetails.OfficialBusiGroup', this.VRF_OfficialBusinessGroup.getFieldValue());
 inputMap.set('Body.VisitReportDetails.PlaceOfVisit', this.VRF_PlaceOfVisit.getFieldValue());
@@ -280,9 +286,9 @@ this.VRF_OfficialBusinessGroup.setError(err['ErrorDescription']);
 else if(err['ErrorElementPath'] == 'VisitReportDetails.PersonMetDesgn'){
 this.VRF_Designation.setError(err['ErrorDescription']);
 }
-else if(err['ErrorElementPath'] == 'VisitReportDetails.OfficialId'){
-this.VRF_OfficialId.setError(err['ErrorDescription']);
-}
+// else if(err['ErrorElementPath'] == 'VisitReportDetails.OfficialId'){
+// this.VRF_OfficialId.setError(err['ErrorDescription']);
+// }
 else if(err['ErrorElementPath'] == 'VisitReportDetails.PersonMet'){
 this.VRF_NameofPersonMet.setError(err['ErrorDescription']);
 }
@@ -327,7 +333,7 @@ this.VRF_PlaceOfVisit.setValue(res['VisitReportDetails']['PlaceOfVisit']);
 this.VRF_Photograph.setValue(res['VisitReportDetails']['PhotoTaken']);
 this.VRF_AdverseObservation.setValue(res['VisitReportDetails']['AdverseObservations']);
 this.VRF_Observations.setValue(res['VisitReportDetails']['Observations']);
-this.VRF_OfficialId.setValue(res['VisitReportDetails']['OfficialId']);
+//this.VRF_OfficialId.setValue(res['VisitReportDetails']['OfficialId']);
 this.HidVisitReportSeqId.setValue(res['VisitReportDetails']['VisitReportSeq']);
 },
 async (httpError)=>{
@@ -359,15 +365,15 @@ inDep: [
 ],
 outDep: [
 ]},
-VRF_OfficialId: {
-inDep: [
+// VRF_OfficialId: {
+// inDep: [
 
-{paramKey: "VALUE1", depFieldID: "VRF_OfficialId", paramType:"PathParam"},
-{paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
-{paramKey: "KEY1", depFieldID: "HidOfficialId", paramType:"QueryParam"},
-],
-outDep: [
-]},
+// {paramKey: "VALUE1", depFieldID: "VRF_OfficialId", paramType:"PathParam"},
+// {paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
+// {paramKey: "KEY1", depFieldID: "HidOfficialId", paramType:"QueryParam"},
+// ],
+// outDep: [
+// ]},
 VRF_OfficialBusinessGroup: {
 inDep: [
 

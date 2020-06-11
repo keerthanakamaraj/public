@@ -18,37 +18,46 @@ import { OtherDeductionFormModule } from '../OtherDeductionForm/OtherDeductionFo
 import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.module';
 import { GoNoGoModule } from '../go-no-go/go-no-go.module';
 import { DDEHandlerModule } from '../DDE/DDE-handler.module';
+import { ScoreCardModule } from '../score-card/score-card.module';
+import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
+import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetailsForm.module';
+import { HeaderProgressModule } from '../header-progress/header-progress.module';
+
 @NgModule({
-imports: [
-CommonModule,
-DDERoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-VisitReportFormModule,
-HeaderModule,
-FamilyDetailsFormModule,
-LiabilityDtlsFormModule,
-NotepadDetailsFormModule,
-IncomeSummaryFormModule,
-CustomerDtlsModule,
-OtherDeductionFormModule,
-AssetDetailsFormModule,
-GoNoGoModule,
-DDEHandlerModule,
-],
-declarations: [
-DDEComponent,
-],
-exports:[
-DDEComponent,
-],
+    imports: [
+        CommonModule,
+        DDERoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        VisitReportFormModule,
+        HeaderModule,
+        FamilyDetailsFormModule,
+        LiabilityDtlsFormModule,
+        NotepadDetailsFormModule,
+        IncomeSummaryFormModule,
+        CustomerDtlsModule,
+        OtherDeductionFormModule,
+        AssetDetailsFormModule,
+        GoNoGoModule,
+        DDEHandlerModule,
+        ScoreCardModule,
+        HeaderProgressModule,
+        CustomerGridDTLSModule,
+        ReferralDetailsFormModule
+    ],
+    declarations: [
+        DDEComponent,
+    ],
+    exports: [
+        DDEComponent,
+    ],
 })
 export class DDEModule { }

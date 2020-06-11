@@ -1,147 +1,161 @@
 <form class="MakeRelative">
-<div class="ShowLoading " *ngIf="loadSpinner">
- <div class="lds-roller MakeItMiddle">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div>
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'AssetDetailsForm.FormTitle' | translate }}
-</h4>
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-label #AD_HEADING parentCompCode="AssetDetailsForm" fieldID="AD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_TYPE.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_TYPE.mandatory}">
-{{ 'AssetDetailsForm.AT_ASSET_TYPE' | translate}}
-</label>
-</div>
-<app-combo-box #AT_ASSET_TYPE category="2" fieldID="AT_ASSET_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_TYPE', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_SUBTYPE.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_SUBTYPE.mandatory}">
-{{ 'AssetDetailsForm.AT_ASSET_SUBTYPE' | translate}}
-</label>
-</div>
-<app-combo-box #AT_ASSET_SUBTYPE category="2" fieldID="AT_ASSET_SUBTYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_SUBTYPE', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_LOCATION.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_LOCATION.mandatory}">
-{{ 'AssetDetailsForm.AT_ASSET_LOCATION' | translate}}
-</label>
-</div>
-<app-text-box #AT_ASSET_LOCATION fieldID="AT_ASSET_LOCATION" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_LOCATION', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_STATUS.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_STATUS.mandatory}">
-{{ 'AssetDetailsForm.AT_ASSET_STATUS' | translate}}
-</label>
-</div>
-<app-text-box #AT_ASSET_STATUS fieldID="AT_ASSET_STATUS" [formCode]="formCode"  (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_VALUE.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AssetDetailsForm.AT_ASSET_VALUE' | translate}}
-</label>
-</div>
-<app-text-box #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_FAIR_MRKT_VALUE.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AssetDetailsForm.AT_FAIR_MRKT_VALUE' | translate}}
-</label>
-</div>
-<app-text-box #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_FAIR_MRKT_VALUE', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_CURRENCY.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AssetDetailsForm.AT_CURRENCY' | translate}}
-</label>
-</div>
-<app-text-box #AT_CURRENCY fieldID="AT_CURRENCY" [formCode]="formCode" (blur)="genericOnBlur('AT_CURRENCY', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_EQUIVALENT_AMOUNT.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AssetDetailsForm.AT_EQUIVALENT_AMOUNT' | translate}}
-</label>
-</div>
-<app-text-box #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_OWNED_BY.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AssetDetailsForm.AT_OWNED_BY' | translate}}
-</label>
-</div>
-<app-combo-box #AT_OWNED_BY category="2" fieldID="AT_OWNED_BY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_OWNED_BY', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_NAME.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'AssetDetailsForm.AT_NAME' | translate}}
-</label>
-</div>
-<app-combo-box #AT_NAME category="2" fieldID="AT_NAME" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_NAME', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_INCLUDE_IN_DBR.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': AT_INCLUDE_IN_DBR.mandatory}">
-{{ 'AssetDetailsForm.AT_INCLUDE_IN_DBR' | translate}}
-</label>
-</div>
-<app-combo-box #AT_INCLUDE_IN_DBR category="2" fieldID="AT_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_INCLUDE_IN_DBR', $event)"></app-combo-box>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
-<app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode"  imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="AT_SAVE_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
-    <app-button #clear fieldName="{{ 'AssetDetailsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode"  imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AssetDetailsGrid.isHidden()">
-<app-AssetDetailsGrid #AssetDetailsGrid fieldID="AssetDetailsGrid" [formCode]="formCode" (modifyAssetDetails)="AssetDetailsGrid_modifyAssetDetails($event)"></app-AssetDetailsGrid>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-assets-handler #Handler [MainComponent]="this"></app-assets-handler>
-</div>
-</div>
-<app-hidden #hideName fieldID="hideName"></app-hidden>
-<app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden>
-<app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
-<app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
-<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-<app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
-<app-hidden #hideAssetSubType fieldID="hideAssetSubType"></app-hidden>
-</div>
-</div>
-</div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="clearfix content">
+        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-5 col-md-5">
+                <!-- <h4 class="FormTitle">
+                    {{ 'AssetDetailsForm.FormTitle' | translate }}
+                </h4> -->
+            </div>
+            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+            </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-label #AD_HEADING parentCompCode="AssetDetailsForm" fieldID="AD_HEADING" [formCode]="formCode" fontFamily="sans-serif"
+                            fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
+                    </div> -->
+                    <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_TYPE.mandatory}">
+                                {{ 'AssetDetailsForm.AT_ASSET_TYPE' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AT_ASSET_TYPE category="2" placeholder="Select" fieldID="AT_ASSET_TYPE" [formCode]="formCode" domainObjectUrl="/MstAssetType/{AssetTypeCode}"
+                            doServerUrl="/masters" domainObjectCode="MstAssetType" (blur)="genericOnBlur('AT_ASSET_TYPE', $event)" (change)="AT_ASSET_TYPE_change('AT_ASSET_TYPE', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_SUBTYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_SUBTYPE.mandatory}">
+                                {{ 'AssetDetailsForm.AT_ASSET_SUBTYPE' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AT_ASSET_SUBTYPE category="2" placeholder="Select" fieldID="AT_ASSET_SUBTYPE" [formCode]="formCode" domainObjectUrl="/MstAssetSubType/{AssetSubTypeCode}"
+                            doServerUrl="/masters" domainObjectCode="MstAssetSubType" (blur)="genericOnBlur('AT_ASSET_SUBTYPE', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_LOCATION.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_LOCATION.mandatory}">
+                                {{ 'AssetDetailsForm.AT_ASSET_LOCATION' | translate}}
+                            </label>
+                        </div>
+                        <app-text-box #AT_ASSET_LOCATION fieldID="AT_ASSET_LOCATION" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_LOCATION', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_STATUS.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_STATUS.mandatory}">
+                                {{ 'AssetDetailsForm.AT_ASSET_STATUS' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AT_ASSET_STATUS category="2" placeholder="Select" fieldID="AT_ASSET_STATUS" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                        doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_ASSET_VALUE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_VALUE.mandatory}">
+                                {{ 'AssetDetailsForm.AT_ASSET_VALUE' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-amount>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_FAIR_MRKT_VALUE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_FAIR_MRKT_VALUE.mandatory}">
+                                {{ 'AssetDetailsForm.AT_FAIR_MRKT_VALUE' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [formCode]="formCode" (blur)="genericOnBlur('AT_FAIR_MRKT_VALUE', $event)"></app-amount>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_CURRENCY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_CURRENCY.mandatory}">
+                                {{ 'AssetDetailsForm.AT_CURRENCY' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AT_CURRENCY category="2" fieldID="AT_CURRENCY" [formCode]="formCode" domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}"
+                            doServerUrl="/masters" domainObjectCode="MstCurrencyDetails" placeholder="Select" (blur)="genericOnBlur('AT_CURRENCY', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_EQUIVALENT_AMOUNT.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'AssetDetailsForm.AT_EQUIVALENT_AMOUNT' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-amount>
+                    </div>
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_OWNED_BY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'AssetDetailsForm.AT_OWNED_BY' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AT_OWNED_BY category="2" placeholder="Select" fieldID="AT_OWNED_BY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_OWNED_BY', $event)"></app-combo-box>
+                    </div> -->
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_NAME.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'AssetDetailsForm.AT_NAME' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #AT_NAME category="2" fieldID="AT_NAME" placeholder="Select" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_NAME', $event)"></app-combo-box>
+                    </div> -->
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AT_INCLUDE_IN_DBR.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': AT_INCLUDE_IN_DBR.mandatory}">
+                                {{ 'AssetDetailsForm.AT_INCLUDE_IN_DBR' | translate}}
+                            </label>
+                        </div>
+                        <rlo-ui-radio #AT_INCLUDE_IN_DBR category="2" placeholder="Select" fieldID="AT_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_INCLUDE_IN_DBR', $event)"></rlo-ui-radio>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>                   
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
+                        <app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE" [formCode]="formCode" imagePath="./assets/icons/plus.svg"
+                            [type]="2" customClass="icon-button" (buttonClick)="AT_SAVE_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
+                        <app-button #clear fieldName="{{ 'AssetDetailsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg"
+                            [type]="2" customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AssetDetailsGrid.isHidden()">
+                        <app-AssetDetailsGrid #AssetDetailsGrid fieldID="AssetDetailsGrid" [formCode]="formCode" (modifyAssetDetails)="AssetDetailsGrid_modifyAssetDetails($event)"></app-AssetDetailsGrid>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-assets-handler #Handler [MainComponent]="this"></app-assets-handler>
+                    </div>
+                </div>
+                <!-- <app-hidden #hideName fieldID="hideName"></app-hidden>
+                <app-hidden #hideOwnedBy fieldID="hideOwnedBy"></app-hidden> -->
+                <app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
+                <app-hidden #ASSET_ID fieldID="ASSET_ID"></app-hidden>
+                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+                <app-hidden #hideAssetStatus fieldID="hideAssetStatus"></app-hidden>
+                <app-hidden #hideAssetType fieldID="hideAssetType"></app-hidden>
+                <app-hidden #hideAssetSubType fieldID="hideAssetSubType"></app-hidden>
+                <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
+                <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
+            </div>
+        </div>
+    </div>
 </form>

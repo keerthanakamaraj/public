@@ -21,6 +21,8 @@ import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtl
 import { CustomerHandlerComponent } from '../CustomerDtls/customer-handler.component';
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+import { Subject } from 'rxjs';
 
 const customCss = '';
 
@@ -50,7 +52,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_DOB', { static: false }) CD_DOB: DateComponent;
     @ViewChild('CD_GENDER', { static: false }) CD_GENDER: ComboBoxComponent;
     @ViewChild('CD_MARITAL_STATUS', { static: false }) CD_MARITAL_STATUS: ComboBoxComponent;
-    @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
+    //@ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: TextBoxComponent;
     @ViewChild('CD_EMAIL', { static: false }) CD_EMAIL: TextBoxComponent;
     @ViewChild('CD_NATIONALITY', { static: false }) CD_NATIONALITY: ComboBoxComponent;
     @ViewChild('CD_CITIZENSHIP', { static: false }) CD_CITIZENSHIP: ComboBoxComponent;
@@ -71,6 +73,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('CD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
     @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
     @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
+    @Output() passfullName: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('CUST_DTLS_GRID', { static: false }) CUST_DTLS_GRID: CustomerDtlsGridComponent;
     // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
     // @ViewChild('FieldId_30', { static: false }) FieldId_30: OccupationDtlsFormComponent;
@@ -88,10 +91,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
     @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
     @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
-    @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
+    //@ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
     @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
     @ViewChild('hideCitizenship', { static: false }) hideCitizenship: HiddenComponent;
 
+    @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: RloUiMobileComponent;
 
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
@@ -100,7 +104,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Input() ApplicationId: string = undefined;
     @Input() isLoanCategory = true;
     custGridArray : any;
+    @Input() Cust_FullName: string = undefined;
     appId: any;
+    fullName: any;
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
@@ -112,133 +118,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     custMinAge = 18;
     custMaxAge = 100;
 
-    fieldDependencies = {
-        CD_CUST_TYPE: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_CUST_TYPE', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hideCustomerType', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_EXISTING_CUST: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_EXISTING_CUST', paramType: 'PathParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidExistCust', paramType: 'QueryParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_STAFF: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_STAFF', paramType: 'PathParam' },
-                { paramKey: 'KEY1', depFieldID: 'hideStaffId', paramType: 'QueryParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_TITLE: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_TITLE', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidTitle', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_GENDER: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_GENDER', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidGender', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_MARITAL_STATUS: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_MARITAL_STATUS', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidMaritalStatus', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_NATIONALITY: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_NATIONALITY', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidNationality', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_CUST_SEGMENT: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_CUST_SEGMENT', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidCusSgmt', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_PREF_COM_CH: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_PREF_COM_CH', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidPrefCommCh', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_PREF_LANG: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_PREF_LANG', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hidPrefLanguage', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_COUNTRY_CODE: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_COUNTRY_CODE', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hideISDCode', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        },
-        CD_CITIZENSHIP: {
-            inDep: [
-
-                { paramKey: 'VALUE1', depFieldID: 'CD_CITIZENSHIP', paramType: 'PathParam' },
-                { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-                { paramKey: 'KEY1', depFieldID: 'hideCitizenship', paramType: 'QueryParam' },
-            ],
-            outDep: [
-            ]
-        }
-    };
+    
     async revalidate(): Promise<number> {
         let totalErrors = 0;
         super.beforeRevalidate();
-
-
+      
         await Promise.all([
             this.revalidateBasicField('CD_CUST_TYPE'),
             this.revalidateBasicField('CD_EXISTING_CUST'),
@@ -273,7 +157,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
             this.revalidateBasicField('CD_PREF_COM_CH'),
             this.revalidateBasicField('CD_PREF_LANG'),
-            this.revalidateBasicField('CD_COUNTRY_CODE'),
+            //this.revalidateBasicField('CD_COUNTRY_CODE'),
             // this.FieldId_29.revalidate(),
             // this.FieldId_30.revalidate(),
         ]).then((errorCounts) => {
@@ -326,7 +210,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         });
         this.setDependencies();
         // this.Handler.displayCustomerTag();
-
     }
 
     setInputs(param: any) {
@@ -375,6 +258,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         const styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
+       // this.services.rloCommonData.childToParentSubject.unsubscribe();
+      //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -456,6 +341,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         } else {
             return true;
         }
+    }
+    async family_addfullname(event) {
+        console.log("Calling this Emitter");
     }
 
 
@@ -585,7 +473,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
+
                 inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
@@ -609,16 +497,20 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 //  inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
 
+                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
+                inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
+
+                console.log(inputMap, this.CD_MOBILE_NO.countryCode);
 
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         const res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
-                        this.updateCustGrid.emit({
-                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        this.services.rloCommonData.childToParentSubject.next({
+                            action: 'updateCustGrid',
+                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
                         });
                         // this.onReset();
                     },
@@ -696,7 +588,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
@@ -719,7 +610,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
                 //    inputMap.set('Body.BorrowerDetails.PrimeUsage', this.CD_PRIME_USAGE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.CD_EMAIL.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_COUNTRY_CODE.getFieldValue());
+
+                inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
 
 
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
@@ -729,9 +622,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
-                        this.updateCustGrid.emit({
-                            'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        this.services.rloCommonData.childToParentSubject.next({
+                            action: 'updateCustGrid',
+                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
                         });
+                        // this.updateCustGrid.emit({
+                        //     'borrowerSeq': this.HidCustomerId.getFieldValue()
+                        // });
                         // this.onReset();
 
                     },
@@ -818,7 +715,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     clearQDEFields() {
         this.CD_MARITAL_STATUS.onReset();
-        this.CD_MOBILE_NO.onReset();
         this.CD_EMAIL.onReset();
         this.CD_NATIONALITY.onReset();
         this.CD_CITIZENSHIP.onReset();
@@ -835,7 +731,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_PMRY_EMBSR_NAME.onReset();
         this.CD_PREF_COM_CH.onReset();
         this.CD_PREF_LANG.onReset();
-        this.CD_COUNTRY_CODE.onReset();
+
+        this.CD_MOBILE_NO.onResetMobileNo();
+        //this.CD_MOBILE_NO.onReset();
+        //this.CD_COUNTRY_CODE.onReset();
     }
     async CUST_DTLS_GRID_custDtlsEdit(event) {
         const inputMap = new Map();
@@ -853,7 +752,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
                 this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
-                this.CD_MOBILE_NO.setValue(res['BorrowerDetails']['MobileNo']);
+
                 this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
                 this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
@@ -874,7 +773,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
-                this.CD_COUNTRY_CODE.setValue(res['BorrowerDetails']['ISDCountryCode']);
 
                 this.addseq = res['BorrowerDetails']['BorrowerSeq'];
                 // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
@@ -892,10 +790,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 });
 
                 this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
-             
-              
                 this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
+                this.passfullName.emit({
+                    'FullName': res['BorrowerDetails']['FullName'],
+                });
 
+                this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
+                this.setNonEditableFields(true);
             },
             async (httpError) => {
                 const err = httpError['error'];
@@ -922,10 +823,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_GENDER.setValue(customer.Gender);
         this.CD_DOB.setValue(customer.DOB);
         this.CD_TAX_ID.setValue(customer.TaxID);
-        this.CD_MOBILE_NO.setValue(customer.MobileNo);
         this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
         this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment);
-
+      
+        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
+        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
+      
         this.CD_PMRY_EMBSR_NAME.setValue(customer.PrimaryEmbosserName1);
         this.CD_NATIONALITY.setValue(customer.Nationality);
         this.CD_CITIZENSHIP.setValue(customer.CitizenShip);
@@ -939,24 +842,25 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_EMAIL.setValue(customer.Email);
         this.HidCustomerId.setValue(customer.BorrowerSeq);
         this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
-        this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
 
         this.addseq = customer.BorrowerSeq;
 
         this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
         this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
-        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
-        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
-
+        this.CD_STAFF.setValue(customer.IsStaff);
+        this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
         this.CD_CIF.setValue(customer.CIF);
-        // this.CD_CUST_ID.setValue(customer.ICIFNumber);
 
+        //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
+        this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
         this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
 
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
         });
-
+        this.passfullName.emit({
+            'FullName': customer.FullName,
+        });
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();
@@ -1013,6 +917,128 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             'fullName': fullName,
             'customerType': customerType
         });
+
+      fieldDependencies = {
+        CD_CUST_TYPE: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_EXISTING_CUST: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
+                { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_STAFF: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
+                { paramKey: "KEY1", depFieldID: "hideStaffId", paramType: "QueryParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_TITLE: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_TITLE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidTitle", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_GENDER: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_GENDER", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidGender", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_MARITAL_STATUS: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_MARITAL_STATUS", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidMaritalStatus", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_NATIONALITY: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_NATIONALITY", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidNationality", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_CUST_SEGMENT: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_COM_CH: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_PREF_COM_CH", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidPrefCommCh", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CD_PREF_LANG: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_PREF_LANG", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidPrefLanguage", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        // CD_COUNTRY_CODE: {
+        //     inDep: [
+
+        //         { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
+        CD_CITIZENSHIP: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideCitizenship", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        }
     }
     /* Write Custom Scripts Here */
 

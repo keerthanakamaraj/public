@@ -3,26 +3,26 @@
         "MANDATORY": "Nilai Tidak boleh kosong",
         "DUPLICATE": "Duplikasi Nilai",
         "GRID_MANDATORY": "Tambah Paling Sedikit Satu Baris",
-        "VIEW_RECORD" : "View the row to Approve or Reject",
-        "SELECT_RECORD" : "Select a row to Approve or Reject",
-        "SELECT_RECORD_TO_VIEW" : "Select a row to view",
-        "DOUBLE_CLICK_TO_VIEW" : "Double click a row to view",
-        "LOGOUT_SUCCESS" : "You have been successfully logged out",
-        "loginAgain" : "Click here to login again",
-		"NO_DOWNLOADS" : "Tidak Tersedia untuk di-Download",
-        "NO_NTNFS" : "Tidak Ada Notifikasi Baru",
-        "MATCH_PASSWORD" : "Does not match with New Password",
-        "OLD_PASSWORD" : "New password cannot be same as old password",
-        "PWD_MIN_CHAR" : "Password must contain atleast {{minChar}} Characters",
-        "PWD_MIN_ALPHA" : "Password must contain atleast {{minAlpha}} alphabets",
-        "PWD_MIN_NUM" : "Password must contain atleast {{minNumeric}} digits",
-        "PWD_MIN_SPECIAL" : "Password must contain atleast {{minSpecial}} special characters",
-        "AUTH_SUCCESS" : "Authorization Successful",
-        "AUTH_FAIL" : "Authorization Failed",
+        "VIEW_RECORD": "View the row to Approve or Reject",
+        "SELECT_RECORD": "Select a row to Approve or Reject",
+        "SELECT_RECORD_TO_VIEW": "Select a row to view",
+        "DOUBLE_CLICK_TO_VIEW": "Double click a row to view",
+        "LOGOUT_SUCCESS": "You have been successfully logged out",
+        "loginAgain": "Click here to login again",
+        "NO_DOWNLOADS": "Tidak Tersedia untuk di-Download",
+        "NO_NTNFS": "Tidak Ada Notifikasi Baru",
+        "MATCH_PASSWORD": "Does not match with New Password",
+        "OLD_PASSWORD": "New password cannot be same as old password",
+        "PWD_MIN_CHAR": "Password must contain atleast {{minChar}} Characters",
+        "PWD_MIN_ALPHA": "Password must contain atleast {{minAlpha}} alphabets",
+        "PWD_MIN_NUM": "Password must contain atleast {{minNumeric}} digits",
+        "PWD_MIN_SPECIAL": "Password must contain atleast {{minSpecial}} special characters",
+        "AUTH_SUCCESS": "Authorization Successful",
+        "AUTH_FAIL": "Authorization Failed",
         "REJECTED": "Rejected",
-        "REJECT_FAIL" : "Failed to Reject",
-        "SENDBACK_SUCCESS" : "Sent back for Repair Successfully",
-        "SENDBACK_FAILURE" : "Send back for Repair Failed",        
+        "REJECT_FAIL": "Failed to Reject",
+        "SENDBACK_SUCCESS": "Sent back for Repair Successfully",
+        "SENDBACK_FAILURE": "Send back for Repair Failed",
         "FLI000": "FLI000 - Permohonan",
         "FLI001": "FLI001 - Konfigurasi program tidak ada",
         "FLI002": "FLI002 - Waktu Pemakian Habis",
@@ -222,119 +222,132 @@
             "S02": "Libur Cabang"
         }
     },
-    "FluidForm" : {
-        "ReadOnlyGrid" : {
-            "loading" : "Loading...",
-            "NoData" : "No rows to Display"
+    "FluidForm": {
+        "ReadOnlyGrid": {
+            "loading": "Loading...",
+            "NoData": "No rows to Display"
         }
     },
-    "remarks" : {
-        "Remarks" : "Keterangan",
-        "Approve" : "Disetujui",
-        "Reject" : "Ditolak",
-        "SendBack" : "Kirim Kembali"
+    "remarks": {
+        "Remarks": "Keterangan",
+        "Approve": "Disetujui",
+        "Reject": "Ditolak",
+        "SendBack": "Kirim Kembali"
     },
-    "AUTHFORM" : {
-        "frDate" : "Dari Tanggal",
-        "toDate" : "Sampai Tanggal"
+    "AUTHFORM": {
+        "frDate": "Dari Tanggal",
+        "toDate": "Sampai Tanggal"
     },
-    "AUTHWB_GRID" : {
-        "SLT" : "Pilih",
-        "SRV_REF_NUM" : "Referensi #",
-        "SERVICE_NAME" : "Nama Layanan",
-        "REQUST_DATE" : "Initiated Pada",
-        "INIT_BY" : "Initiated Oleh",
-        "STAGE_DESCRIPTION" : "Tahap Saat Ini",
-        "REC_TYPE" : "RECTYPE",
-        "SERVICE_CODE" : "Stage ID"
+    "AUTHWB_GRID": {
+        "SLT": "Pilih",
+        "SRV_REF_NUM": "Referensi #",
+        "SERVICE_NAME": "Nama Layanan",
+        "REQUST_DATE": "Initiated Pada",
+        "INIT_BY": "Initiated Oleh",
+        "STAGE_DESCRIPTION": "Tahap Saat Ini",
+        "REC_TYPE": "RECTYPE",
+        "SERVICE_CODE": "Stage ID"
     },
-    "LOGIN" : {
-        "userName" : "Username",
-        "language" : "Pilih Bahasa",
-        "password" : "Password",
-        "logout" : "logout",
-        "myProfile" : "My Profile",
-        "changePassword" : "Change Password",
-        "downloads" : "Download",
-        "Notifications" : "Notifikasi",
-        "Unread" : "Belum Dibaca",
-        "All" : "All",
-        "LastLogin" : "Last Login"
+    "LOGIN": {
+        "userName": "Username",
+        "language": "Pilih Bahasa",
+        "password": "Password",
+        "logout": "logout",
+        "myProfile": "My Profile",
+        "changePassword": "Change Password",
+        "downloads": "Download",
+        "Notifications": "Notifikasi",
+        "Unread": "Belum Dibaca",
+        "All": "All",
+        "LastLogin": "Last Login"
     },
-    "MENU" : {
-        "ACCOUNTS" : "Accounts",
-        "AUTH" : "Authorization",
-        "CASH" : "Cash",
-        "CUSTODIAN" : "Custodian",
-        "CUSTOMER" : "Profile",
-        "HELPDESK" : "Helpdesk",
-        "HISTORY" : "Service History",
-        "OLC" : "Letter of Credit",
-        "SERVICES" : "Services",
-        "TRAN" : "Transactions"
+    "MENU": {
+        "ACCOUNTS": "Accounts",
+        "AUTH": "Authorization",
+        "CASH": "Cash",
+        "CUSTODIAN": "Custodian",
+        "CUSTOMER": "Profile",
+        "HELPDESK": "Helpdesk",
+        "HISTORY": "Service History",
+        "OLC": "Letter of Credit",
+        "SERVICES": "Services",
+        "TRAN": "Transactions"
     },
-    "MYPROFILE" : {
-        "profile" : "My Profile",
-        "Userid" : "User ID",
-        "UserName" : "User Name",
-        "ServiceBouquet" : "Service Bouquet",
-        "ServiceModel" : "Service Model",
-        "CustomerName" : "Customer Name",
-        "CustomerCode" : "Customer Code"
+    "MYPROFILE": {
+        "profile": "My Profile",
+        "Userid": "User ID",
+        "UserName": "User Name",
+        "ServiceBouquet": "Service Bouquet",
+        "ServiceModel": "Service Model",
+        "CustomerName": "Customer Name",
+        "CustomerCode": "Customer Code"
     },
-    "REPAIRQ" : {
-        "FormTitle" : "Perbaikan Antrian"
+    "REPAIRQ": {
+        "FormTitle": "Perbaikan Antrian"
     },
-    "REPAIRQ_GRID" : {
-        "select" : "Pilih",
-        "Reference" : "Referensi #",
-        "ServiceName" : "Nama Layanan",
-        "InitOn" : "Initiated Pada",
-        "Remarks" : "Keterangan"
+    "REPAIRQ_GRID": {
+        "select": "Pilih",
+        "Reference": "Referensi #",
+        "ServiceName": "Nama Layanan",
+        "InitOn": "Initiated Pada",
+        "Remarks": "Keterangan"
     },
-    "RESULT" : {
-        "application" : "Aplikasi Anda untuk ",
-        "success" : " Telah Berhasil Dikirim",
-        "fail" : " Telah Gagal",
-        "Reference #" : "Referensi #",
-        "ServiceReferenceNumber" : "Referensi #"
+    "RESULT": {
+        "application": "Aplikasi Anda untuk ",
+        "success": " Telah Berhasil Dikirim",
+        "fail": " Telah Gagal",
+        "Reference #": "Referensi #",
+        "ServiceReferenceNumber": "Referensi #"
     },
-    "HISTORY_FILTER" : {
-        "CODE" : "Nama Layanan",
-        "fromDate" : "Dari Tanggal",
-        "toDate" : "Sampai Tanggal"
+    "HISTORY_FILTER": {
+        "CODE": "Nama Layanan",
+        "fromDate": "Dari Tanggal",
+        "toDate": "Sampai Tanggal"
     },
-    "HISTORY_GRID" : {
-        "Select" : "Pilih",
-        "reference" : "Referensi #",
-        "serviceCode" : "Nama Layanan",
-        "InitOn" : "Initiated Pada",
-        "InitBy" : "Initiated Oleh",
-        "stage" : "Tahap Saat Ini",
-        "stageDesc" : "Deskripsi Tahap"
+    "HISTORY_GRID": {
+        "Select": "Pilih",
+        "reference": "Referensi #",
+        "serviceCode": "Nama Layanan",
+        "InitOn": "Initiated Pada",
+        "InitBy": "Initiated Oleh",
+        "stage": "Tahap Saat Ini",
+        "stageDesc": "Deskripsi Tahap"
     },
-    "SIDEBAR" : {
-        "Favorites" : "Favorit",
-        "setFav" : "Klik Disini untuk Mengatur Favorit",
-        "Announcements" : "Pengumuman",
-        "Download" : "Download"
+    "SIDEBAR": {
+        "Favorites": "Favorit",
+        "setFav": "Klik Disini untuk Mengatur Favorit",
+        "Announcements": "Pengumuman",
+        "Download": "Download"
     },
-    "VIEW_STAGES" : {
-        "FormTitle" : "Lihat Tahapan"
+    "VIEW_STAGES": {
+        "FormTitle": "Lihat Tahapan"
     },
-    "FAVORITES" : {
-        "FormTitle" : "Customize Favorites",
-        "Add" : "",
-        "Remove" : "",
-        "Services" : "",
-        "Favorites" : "",
-        "Confirm" : "Konfirmasi",
-        "Reset" : "Reset"
+    "FAVORITES": {
+        "FormTitle": "Customize Favorites",
+        "Add": "",
+        "Remove": "",
+        "Services": "",
+        "Favorites": "",
+        "Confirm": "Konfirmasi",
+        "Reset": "Reset"
     },
-	
-	"FORMTEST2" :{
-		"FieldId_2" : "Test button"
-	}
-	
-	
+    "FORMTEST2": {
+        "FieldId_2": "Test button"
+    },
+    "MyTrayGrid": {
+        "MT_SCHEME": "Scheme",
+        "MT_PRODUCT": "Product",
+        "MT_INITIATED_ON": "Initiated On",
+        "MT_LOAN_AMOUNT": "Loan Amount",
+        "MT_PENDING_WITH": "Pending With",
+        "MT_INITIATED_BY": "Initiated By",
+        "toolbar_MyTrayGrid": "null",
+        "MT_SUB_PRODUCT": "Sub Product",
+        "MT_PROPOSAL_ID": "Proposal ID",
+        "MT_ARN": "ARN1111",
+        "MT_CAM_TYPE": "CAM Type",
+        "MT_CAD_LOCATION": "Branch",
+        "MT_CUSTOMER": "Customer",
+        "MT_STAGE": "Stage"
+    }
 }
