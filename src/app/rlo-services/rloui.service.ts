@@ -46,7 +46,7 @@ export class RlouiService {
     this.http.fetchApi(this.tenantConfigAPI, 'GET', undefined, this.serviceContext).subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var tconfig = httpResponse.body ? httpResponse.body.TenantConfig : [];
-  
+
         tconfig.forEach(element => {
           this.tenantconfig[element["TCName"]] = element["TCValue"];
         });
@@ -185,7 +185,7 @@ export class RlouiService {
   convertToCamelCase(text: string) {
     return text.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
       return m.toUpperCase();
-   });
+    });
   }
 
   formatAmount(amount, languageCode: string, minFraction, currency: string) {
@@ -237,9 +237,15 @@ export class RlouiService {
     }
   }
 
-  async getAlertMessage(alertMsg: string) {
+  async getAlertMessage(alertMsg: string, customErrorMsg: string = "") {
     console.log(errorMap, alertMsg);
     var customeMsg = "";
+    if (customErrorMsg.length) {
+      return customErrorMsg;
+    } else {
+      getCode(alertMsg);
+      return customeMsg;
+    }
     function getCode(alertMsg) {
       if (errorMap[alertMsg]) {
         customeMsg = errorMap[alertMsg]
@@ -255,8 +261,6 @@ export class RlouiService {
         });
         getCode(newKey.slice(0, newKey.lastIndexOf(".")))
       }
-    }
-    getCode(alertMsg);
-    return customeMsg;
+    }  
   }
 }

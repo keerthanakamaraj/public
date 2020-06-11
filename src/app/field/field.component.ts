@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChange, KeyValueDiffers } from '@angular/core';
-import { errorMap, ProvidehttpService } from '../providehttp.service';
+import { errorMap } from '../rlo-services/rloui.service';
 import { ServiceStock } from '../service-stock.service';
 import { Subject, Observable } from 'rxjs';
 
