@@ -29,6 +29,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     let windowScroll = window.pageYOffset;
+    this.scrollPosition = windowScroll;
     if (this.headerCurrentState) {
       if (windowScroll >= 280) {
         this.headerExpandedView = false;
@@ -37,6 +38,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       }
     }
   }
+
+  @Input('showProgressBar') showProgressBar: boolean = false;
 
   @ViewChild('HD_CIF', { static: false }) HD_CIF: ReadOnlyComponent;
   @ViewChild('HD_CUST_ID', { static: false }) HD_CUST_ID: ReadOnlyComponent;
@@ -56,7 +59,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
+
   @Output() productCategoryFound: EventEmitter<any> = new EventEmitter<any>();
+  @Output() headerStateEvent: EventEmitter<any> = new EventEmitter<any>();
 
   PRODUCT_CATEGORY_IMG = '';
   CURRENCY_IMG = '';
@@ -74,6 +79,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   TENURE: string;
   SUB_PRODUCT: string;
   SCHEME: string;
+
+  scrollPosition: number = 0;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -285,5 +292,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     this.headerExpandedView = state;
     this.headerCurrentState = state;
     this.services.rloCommonData.headerState.next(state);
+    window.scrollBy(0, 5);
+    window.scrollTo(0, this.scrollPosition);
   }
 }

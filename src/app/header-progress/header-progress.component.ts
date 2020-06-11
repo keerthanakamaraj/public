@@ -1,12 +1,12 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 
 @Component({
-  selector: 'app-score-card',
-  templateUrl: './score-card.component.html',
-  styleUrls: ['./score-card.component.css']
+  selector: 'app-header-progress',
+  templateUrl: './header-progress.component.html',
+  styleUrls: ['./header-progress.component.css']
 })
-export class ScoreCardComponent implements OnInit {
+export class HeaderProgressComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -22,23 +22,10 @@ export class ScoreCardComponent implements OnInit {
     }
   }
 
+  @Input() progressPercentage: number = 0;
+
   showExpandedHeader: boolean = true; //expanded-1,collapsed-0
   showExpanded: boolean = false;
-
-  scoreCards = [
-    {
-      type: "Final DBR",
-      score: 54,
-    },
-    {
-      type: "Fire Policy",
-      score: 36,
-    },
-    {
-      type: "Application Score",
-      score: 75,
-    }
-  ];
 
   constructor(public services: ServiceStock) { }
 
@@ -47,6 +34,10 @@ export class ScoreCardComponent implements OnInit {
       this.showExpandedHeader = data;
       this.showExpanded = data;
     })
+  }
+
+  public update(count: number) {
+    this.progressPercentage = count;
   }
 
   ngOnDestroy() {

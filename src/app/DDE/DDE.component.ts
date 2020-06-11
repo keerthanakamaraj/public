@@ -29,6 +29,7 @@ import { DDEHandlerComponent } from '../DDE/DDE-handler.component';
 import { CustomerGridDTLSComponent } from '../CustomerGridDTLS/CustomerGridDTLS.component';
 import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGrid.component';
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+import { HeaderProgressComponent } from '../header-progress/header-progress.component';
 //import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 
 const customCss: string = '';
@@ -58,6 +59,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
 
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
+    @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
+
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
     Cust_FullName: string = undefined;
@@ -65,8 +68,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     ActiveCustomerDtls: {} = undefined;
     ActiveBorrowerSeq: String = undefined;
     isCustomerTab: boolean = true;
-    CustomerType:string=undefined;
-    isLoanCategory:boolean=false;
+    CustomerType: string = undefined;
+    isLoanCategory: boolean = false;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -137,6 +140,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     formsMenuList: Array<any> = [];
     showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+
+    progressStatus: any = {
+        manditorySection: 10,
+        completedSection: 9
+    };
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
@@ -423,16 +431,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async CUSTOMER_GRID_resetCustForm(event) {
-        this.ActiveCustomerDtls=undefined;
-        this.ActiveBorrowerSeq=undefined;
-        this.CustomerType=event.customerType;
+        this.ActiveCustomerDtls = undefined;
+        this.ActiveBorrowerSeq = undefined;
+        this.CustomerType = event.customerType;
         this.injectDynamicComponent('CustomDetails', 2, 0);
         //this.CUST_DTLS.setNewCustomerFrom(event);
     }
     async CUSTOMER_GRID_passArrayToCustomer(event) {
         this.ActiveCustomerDtls = event.CustomerArray;
         this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
-        this.CustomerType =event.CustomerArray.CustomerType;
+        this.CustomerType = event.CustomerArray.CustomerType;
+        console.error(event);
         this.injectDynamicComponent('CustomDetails', 2, 0);
     }
     async FAMILY_DTLS_familyBlur(event) {
@@ -458,7 +467,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
-      
+
         console.log(this.formMenuObject, this.formsMenuList);
         this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isActive = false;
         this.formsMenuList[ele1][ele2].isActive = true;
@@ -476,40 +485,40 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         const dynamicComponent = viewContainerRef.createComponent(componentFactory);
         var componentInstance = dynamicComponent.instance;
         componentInstance.ApplicationId = this.ApplicationId;
-        componentInstance.isLoanCategory=this.isLoanCategory;
+        componentInstance.isLoanCategory = this.isLoanCategory;
 
-            // on tab switched or section switched or passArray Emitter called
-            if (componentId == 'CustomDetails') {
-                if(this.ActiveCustomerDtls != undefined){
-                 //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
+        // on tab switched or section switched or passArray Emitter called
+        if (componentId == 'CustomDetails') {
+            if (this.ActiveCustomerDtls != undefined) {
+                //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
                 setTimeout(() => {
                     componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls)
-                }, 1000);              
-            }else if(this.CustomerType=='G' || this.CustomerType=='OP'){
-                 // method will be called for new customer form after section switch
-               //  console.log("shweta :: DDE section switch on new cust",this.CustomerType);
-                 let data={'customerType':this.CustomerType};
-                 setTimeout(() => {
-                 componentInstance.setNewCustomerFrom(data);
-                }, 1000);   
+                }, 1000);
+            } else if (this.CustomerType == 'G' || this.CustomerType == 'OP') {
+                // method will be called for new customer form after section switch
+                //  console.log("shweta :: DDE section switch on new cust",this.CustomerType);
+                let data = { 'customerType': this.CustomerType };
+                setTimeout(() => {
+                    componentInstance.setNewCustomerFrom(data);
+                }, 1000);
             }
-           
-            }else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
+
+        } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
         }
-       
+
         this.services.rloCommonData.childToParentSubject.subscribe((event) => {
-            switch(event.action){
+            switch (event.action) {
                 case 'updateCustGrid': // on customer update/save success
-                console.log("shweta :: grid update ", event.data);
-                this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
-                event.action=undefined;
-                break;            
+                    console.log("shweta :: grid update ", event.data);
+                    this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
+                    event.action = undefined;
+                    break;
             }
         });
- 
+
     }
-    
+
     getComponentClassRef(componentId: string): AddSpecificComponent {
         switch (componentId) {
             case 'CustomDetails':
@@ -540,7 +549,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             default:
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;
-                
+
         }
     }
 
@@ -638,7 +647,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     async brodcastProdCategory(event) {
         //  this.ProductCategory = event.isLoanCategory;
         this.isLoanCategory = event.isLoanCategory;
-        this.CUSTOMER_GRID.isLoanCategory=event.isLoanCategory;
+        this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+    }
+
+    updateProgressBar() {
+        let individualSectionScore = (1 / this.progressStatus.manditorySection) * 100;
+        let score = Math.round(individualSectionScore * this.progressStatus.completedSection);
+        this.headerProgressBar.update(score);
     }
 }
 

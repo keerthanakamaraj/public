@@ -219,4 +219,27 @@ export class RlouiService {
       return date;
     }
   }
+
+  async getAlertMessage(alertMsg: string) {
+    console.log(errorMap, alertMsg);
+    var customeMsg = "";
+    function getCode(alertMsg) {
+      if (errorMap[alertMsg]) {
+        customeMsg = errorMap[alertMsg]
+      }
+      else {
+        let keyArray = alertMsg.split(".");
+        keyArray.pop();
+        console.log(keyArray);
+        var newKey = "";
+        keyArray.forEach(ele => {
+          let node = ele + "."
+          newKey += node;
+        });
+        getCode(newKey.slice(0, newKey.lastIndexOf(".")))
+      }
+    }
+    getCode(alertMsg);
+    return customeMsg;
+  }
 }

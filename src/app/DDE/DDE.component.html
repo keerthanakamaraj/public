@@ -28,7 +28,10 @@
             <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
                 <div class="form-group pb10">
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
-                        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" (productCategoryFound)="brodcastProdCategory($event)" ></app-Header>
+                        <div (click)="updateProgressBar()">test</div>
+                        <app-header-progress #headerProgressBar></app-header-progress>
+                        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" [showProgressBar]="'true'"
+                            (productCategoryFound)="brodcastProdCategory($event)"></app-Header>
                         <app-score-card></app-score-card>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">

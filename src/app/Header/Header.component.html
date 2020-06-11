@@ -15,7 +15,8 @@
     <div class="clearfix content">
         <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
         <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="!headerExpandedView">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}"
+                [hidden]="!headerExpandedView">
                 <div class="form-group pb10 headerform border-top">
                     <div class="col-12  col-sm-12 col-md-12 mainheader row">
                         <div class='imageheader'>
@@ -171,9 +172,10 @@
                 </div>
             </div>
             <!-- /* shrink header */ -->
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="headerExpandedView">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}"
+                [hidden]="headerExpandedView">
                 <div class="form-group pb10">
-                    <div class="collapsedHeader">
+                    <div class="collapsedHeader" [ngClass]="showProgressBar?'progress-bar-visible':''">
                         <div class="arn"><span>ARN | </span>{{ ARN }}</div>
                         <div class="loan-amt">{{ LOAN_AMT }}</div>
                         <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY }}</div>
@@ -214,7 +216,7 @@
                           
                         </ul> -->
                     </div>
-                  
+
                 </div>
             </div>
 
