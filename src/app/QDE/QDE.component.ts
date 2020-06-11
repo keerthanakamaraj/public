@@ -41,6 +41,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
     @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
     @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
+    @ViewChild('Referrer_Grid', { static: false }) Referrer_Grid: ReferralDetailsFormComponent;
     @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
     @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
     @ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
@@ -134,7 +135,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         // await this.CUSTOMER_DETAILS.onFormLoad(event);
         this.FieldId_9.doAPIForCustomerList({});
-        this.FieldId_10.fetchReferalDetails();
+        // this.FieldId_10.fetchReferalDetails();
         this.APPLICATION_DETAILS.fetchApplicationDetails();
         await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
             'ApplicationId': this.ApplicationId
@@ -350,7 +351,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         });
         this.FieldId_5.occBorrowerSeq = event.BorrowerSeq;
+        await this.FieldId_10.ReferralDetailsGrid.gridDataLoad({
+            'ReferrerSeqToGrid': event.BorrowerSeq,
 
+        });
         // await this.FieldId_10.onFormLoad({})
         // await this.FieldId_10.onFormLoad({
         //     'passBorrowerSeqToRefGrid': event.BorrowerSeq
@@ -601,7 +605,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_DETAILS.ApplicationId = this.ApplicationId;
         this.FieldId_9.ApplicationId = this.ApplicationId;
         this.APPLICATION_DETAILS.ApplicationId = this.ApplicationId;
-        this.FieldId_10.ApplicationId = this.ApplicationId;
+        this.Referrer_Grid.ApplicationId = this.ApplicationId;
         this.NOTEPAD_DETAILS.ApplicationId = this.ApplicationId;
     }
 
