@@ -270,7 +270,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
 					async (httpResponse: HttpResponse<any>) => {
 						var res = httpResponse.body;
-						this.services.alert.showAlert(2, 'rlo.success.update.referrer', 5000);
+						this.services.alert.showAlert(1, 'rlo.success.update.referrer', 5000);
 						await this.ReferralDetailsGrid.gridDataLoad({
 							'passReferrerGrid': this.ApplicationId,
 						});
@@ -365,10 +365,15 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
 				inputMap.set('Body.ReferrerDetails.BorrowerSeq', this.activeBorrowerSeq);
 				inputMap.set('Body.ReferrerDetails.CustomerType', 'R');
+				if(this.RD_REF_NAME.getFieldValue() ==  undefined || this.RD_REF_NAME.getFieldValue() == null  ){
+					this.services.alert.showAlert(2, 'rlo.error.fillone.rdetailsform', -1);
+					return;
+				}
+				else{
 				this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap).subscribe(
 					async (httpResponse: HttpResponse<any>) => {
 						var res = httpResponse.body;
-						this.services.alert.showAlert(2, 'rlo.success.save.referrer', 5000);
+						this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
 						await this.ReferralDetailsGrid.gridDataLoad({
 							'passReferrerGrid': this.ApplicationId,
 						});
@@ -435,6 +440,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 						this.services.alert.showAlert(2, 'rlo.error.save.referrer', -1);
 					}
 				);
+				}
 			}
 		}
 		else {

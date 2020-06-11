@@ -33,5 +33,6 @@ import { ReferrerDetailsHandlerModule } from './referrer-handler.module';
     exports: [
         ReferralDetailsFormComponent,
     ],
+
 })
 export class ReferralDetailsFormModule { }

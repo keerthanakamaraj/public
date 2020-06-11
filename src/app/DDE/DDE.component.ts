@@ -686,6 +686,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         let individualSectionScore = (1 / this.progressStatus.manditorySection) * 100;
         let score = Math.round(individualSectionScore * this.progressStatus.completedSection);
         this.headerProgressBar.update(score);
+
     }
 
     async createMenuForCustomers() {
