@@ -204,7 +204,7 @@
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_RESET.isHidden()">
             <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" fieldID="RD_RESET"
-              [formCode]="formCode" iconClass="fas fa-undo fa-lg" (buttonClick)="RD_RESET_click($event)" [type]="4" customClass="icon-button"></app-button>
+              [formCode]="formCode" iconClass="fas fa-undo fa-lg" (buttonClick)="RD_RESET_click($event)" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"></app-button>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="ReferralDetailsGrid.isHidden()">
             <app-ReferralDetailsGrid #ReferralDetailsGrid fieldID="ReferralDetailsGrid" [formCode]="formCode"

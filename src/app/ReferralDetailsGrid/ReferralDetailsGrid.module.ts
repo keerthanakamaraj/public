@@ -28,5 +28,6 @@ import { ReferralDetailsGridComponent } from './ReferralDetailsGrid.component';
     exports: [
         ReferralDetailsGridComponent,
     ],
+
 })
 export class ReferralDetailsGridModule { }

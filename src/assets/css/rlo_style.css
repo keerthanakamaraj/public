@@ -701,7 +701,12 @@ li .a {
 .icon {
   color: white;
 }
-
+#clear{
+  border-color: dimgray;
+}
+#RD_RESET{
+  border-color: dimgray;
+}
 #MT_Proposal{
   margin-left: 250px;
   margin-top: 19px;
