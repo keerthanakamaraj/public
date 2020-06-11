@@ -7,26 +7,31 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { ReferralDetailsFormRoutingModule } from './ReferralDetailsForm-routing.module';
 import { ReferralDetailsFormComponent } from './ReferralDetailsForm.component';
+import { ReferralDetailsGridModule } from '../ReferralDetailsGrid/ReferralDetailsGrid.module';
+import { ReferrerDetailsHandlerModule } from './referrer-handler.module';
+
 @NgModule({
-imports: [
-CommonModule,
-ReferralDetailsFormRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-ReferralDetailsFormComponent,
-],
-exports:[
-ReferralDetailsFormComponent,
-],
+    imports: [
+        CommonModule,
+        ReferralDetailsFormRoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        ReferralDetailsGridModule,
+        ReferrerDetailsHandlerModule,
+    ],
+    declarations: [
+        ReferralDetailsFormComponent,
+    ],
+    exports: [
+        ReferralDetailsFormComponent,
+    ],
 })
 export class ReferralDetailsFormModule { }

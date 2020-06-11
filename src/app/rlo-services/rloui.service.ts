@@ -171,6 +171,23 @@ export class RlouiService {
     return this.tenantconfig[configName] ? this.tenantconfig[configName] : defaultValue;
   }
 
+  // TODO: Add optional parameter to format
+  formatText(text: string) {
+    const formatOption = this.getConfig('name.format.default', 'UPPER');
+
+    switch (formatOption) {
+      case 'UPPER': return text.toUpperCase();
+      case 'CAMEL': return this.convertToCamelCase(text);
+      default: return text;
+    }
+  }
+
+  convertToCamelCase(text: string) {
+    return text.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
+      return m.toUpperCase();
+   });
+  }
+
   formatAmount(amount, languageCode: string, minFraction, currency: string) {
     // console.log("Format Amount " , amount);
     let amt: number;

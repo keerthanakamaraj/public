@@ -51,7 +51,7 @@ import { HeaderProgressModule } from '../header-progress/header-progress.module'
         ScoreCardModule,
         HeaderProgressModule,
         CustomerGridDTLSModule,
-        ReferralDetailsFormModule,
+        ReferralDetailsFormModule
     ],
     declarations: [
         DDEComponent,

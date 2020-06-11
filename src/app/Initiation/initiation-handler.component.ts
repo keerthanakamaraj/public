@@ -47,10 +47,16 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_CUST_TYPE.setValue('B');
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
-    } else {
+      this.MainComponent.BAD_APP_PRPSE.mandatory =  false;
+      this.MainComponent.BAD_PRIME_USAGE.mandatory = true;
+      this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
+    } else if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC'){
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
+      this.MainComponent.BAD_APP_PRPSE.mandatory =  true;
+      this.MainComponent.BAD_PRIME_USAGE.mandatory = false;
+      this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
 
     }
   }
@@ -154,15 +160,16 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_LAST_NAME.onReset();
     this.MainComponent.CD_FULL_NAME.onReset();
     this.MainComponent.CD_GENDER.onReset();
-    this.MainComponent.CD_MOBILE.onReset();
+    // this.MainComponent.CD_MOBILE.onReset();
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
     this.MainComponent.CD_CUST_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.MainComponent.CD_EMAIL_ID.onReset();
-    this.MainComponent.CD_COUNTRY_CODE.onReset();
+    // this.MainComponent.CD_COUNTRY_CODE.onReset();
     this.MainComponent.CD_NAME_ON_CARD.onReset();
+    this.MainComponent.CD_MOBILE.onResetMobileNo();
 
     this.onProdCategoryChange({});
 
@@ -215,7 +222,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_GENDER.setValue(customer.gender.value, customer.gender.label);
     this.MainComponent.CD_DOB.setValue(customer.DOB);
     this.MainComponent.CD_TAX_ID.setValue(customer.taxId);
-    this.MainComponent.CD_MOBILE.setValue(customer.mobileNumber);
+    this.MainComponent.CD_MOBILE.setComponentSpecificValue(customer.mobileNumber,customer.countryCode);
     this.MainComponent.CD_DEBIT_SCORE.setValue(customer.debitScore);
     this.MainComponent.CD_CUST_SGMT.setValue(customer.customerSegment.value, customer.customerSegment.label);
     this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
@@ -223,7 +230,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
     this.MainComponent.CD_EMAIL_ID.setValue(customer.email);
-    this.MainComponent.CD_COUNTRY_CODE.setValue(customer.countryCode);
+    // this.MainComponent.CD_COUNTRY_CODE.setValue(customer.countryCode);
     this.MainComponent.CD_NAME_ON_CARD.setValue(customer.nameOnCard);
     this.tempId = customer.tempId
 
@@ -363,7 +370,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
     customer.email = this.MainComponent.CD_EMAIL_ID.getFieldValue();
-    customer.countryCode = this.MainComponent.CD_COUNTRY_CODE.getFieldValue();
+    customer.countryCode = this.MainComponent.CD_MOBILE.countryCode;
     customer.nameOnCard  = this.MainComponent.CD_NAME_ON_CARD.getFieldValue();
     customer.tempId = this.tempId;
 
@@ -440,9 +447,23 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['Email'] = this.customers[i].email;
         tempObj['ISDCountryCode'] = this.customers[i].countryCode;
         tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
-        CustData.push(tempObj);
-      }
+        // CustData.push(tempObj);
+      //  
+      CustData.push(tempObj);
+     
     }
+
+    }
+    if(this.MainComponent.RD_REFERRER_NAME.getFieldValue() !== undefined){
+      CustData.push({ 
+      CustomerType: 'R', 
+      FullName: this.MainComponent.RD_REFERRER_NAME.getFieldValue(),
+      MobileNo : this.MainComponent.RD_REFERRER_NO.getFieldValue(),
+      ISDCountryCode : this.MainComponent.RD_REFERRER_NO.countryCode
+    });
+    }
+
+
     return CustData;
   }
 

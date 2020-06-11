@@ -31,6 +31,8 @@ import { FamilyDetailsGridComponent } from '../FamilyDetailsGrid/FamilyDetailsGr
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
 import { HeaderProgressComponent } from '../header-progress/header-progress.component';
 //import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
+import { each } from '@amcharts/amcharts4/.internal/core/utils/Iterator';
+import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 
 const customCss: string = '';
 
@@ -44,7 +46,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
     @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
     @ViewChild('REFERRER_DTLS', { static: false }) REFERRER_DTLS: ReferralDetailsFormComponent;
-    //  @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
+     @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
@@ -63,10 +65,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
-    Cust_FullName: string = undefined;
+    fullName: string = undefined;
     Cust_DOB: string = undefined;
     ActiveCustomerDtls: {} = undefined;
     ActiveBorrowerSeq: String = undefined;
+    ActiveCustomerName: string = undefined;
+    ActiveCustomerDOB: string = undefined;
+    ActiveCustomerMobile: string = undefined;
     isCustomerTab: boolean = true;
     CustomerType: string = undefined;
     isLoanCategory: boolean = false;
@@ -405,20 +410,20 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
         return totalErrors;
     }
-    async CUSTOMER_DETAILS_passBorrowerSeq(event) {
-        let inputMap = new Map();
-        await this.FAMILY_DTLS.FAMILY_GRID.gridDataLoad({
-            'passFamilyGrid': event.BorrowerSeq,
+    // async CUSTOMER_DETAILS_passBorrowerSeq(event) {
+    //     let inputMap = new Map();
+    //     await this.FAMILY_DTLS.FAMILY_GRID.gridDataLoad({
+    //         'passFamilyGrid': event.BorrowerSeq,
 
-        });
-        // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
-        // this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
-        // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
-        //     'ReferrerSeqToGrid': event.BorrowerSeq,
+    //     });
+    //     // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
+    //     // this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+    //     // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
+    //     //     'ReferrerSeqToGrid': event.BorrowerSeq,
 
-        // });
-        // this.REFERRER_DTLS.familyBorrowerSeq = event.BorrowerSeq;
-    }
+    //     // });
+    //     // this.REFERRER_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+    // }
 
     async CUST_DTLS_updateCustGrid(event) {
         console.log("Calling update customer grid Emitter");
@@ -441,14 +446,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ActiveCustomerDtls = event.CustomerArray;
         this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
         this.CustomerType = event.CustomerArray.CustomerType;
-        console.error(event);
+        this.ActiveCustomerName = event.CustomerArray.FullName;
+        this.ActiveCustomerDOB = event.CustomerArray.DOB;
+        this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
         this.injectDynamicComponent('CustomDetails', 2, 0);
     }
-    async FAMILY_DTLS_familyBlur(event) {
-        console.log("Calling this Emitter", this.Cust_FullName);
-        this.Cust_FullName;
-        this.Cust_DOB;
-    }
+    // async FAMILY_DTLS_familyBlur(event) {
+    //     console.log("Calling this Emitter", this.Cust_FullName);
+    //     this.Cust_FullName;
+    //     this.Cust_DOB;
+    // }
 
     async Submit_click(event) {
         let inputMap = new Map();
@@ -505,6 +512,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
+
+
         }
 
         this.services.rloCommonData.childToParentSubject.subscribe((event) => {

@@ -22,6 +22,7 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
 import { isFulfilled } from 'q';
 import { ignoreElements } from 'rxjs/operators';
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 
 const customCss: string = '';
 
@@ -58,7 +59,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_FULL_NAME', { static: false }) CD_FULL_NAME: TextBoxComponent;
   @ViewChild('CD_GENDER', { static: false }) CD_GENDER: ComboBoxComponent;
   @ViewChild('CD_TAX_ID', { static: false }) CD_TAX_ID: TextBoxComponent;
-  @ViewChild('CD_MOBILE', { static: false }) CD_MOBILE: TextBoxComponent;
+  @ViewChild('CD_MOBILE', { static: false }) CD_MOBILE: RloUiMobileComponent;
   @ViewChild('CD_DOB', { static: false }) CD_DOB: DateComponent;
   @ViewChild('CD_CUST_SGMT', { static: false }) CD_CUST_SGMT: ComboBoxComponent;
 
@@ -81,10 +82,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: AmountComponent;
   @ViewChild('LD_LTV_DBR', { static: false }) LD_LTV_DBR: TextBoxComponent;
   @ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: AmountComponent;
+  @ViewChild('LD_NET_INTEREST_RATE', { static: false }) LD_NET_INTEREST_RATE: TextBoxComponent;
+  @ViewChild('LD_MARGIN_RATE', { static: false }) LD_MARGIN_RATE: TextBoxComponent;
   @ViewChild('CD_EMAIL_ID', { static: false }) CD_EMAIL_ID: TextBoxComponent;
   @ViewChild('RD_REFERRER_NAME', { static: false }) RD_REFERRER_NAME: TextBoxComponent;
-  @ViewChild('RD_REFERRER_NO', { static: false }) RD_REFERRER_NO: TextBoxComponent;
-  @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
+  @ViewChild('RD_REFERRER_NO', { static: false }) RD_REFERRER_NO: RloUiMobileComponent;
+  // @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('RD_COUNTRY_CODE', { static: false }) RD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('CD_NAME_ON_CARD', { static: false }) CD_NAME_ON_CARD: TextBoxComponent;
   @ViewChild('BAD_APP_PRPSE', { static: false }) BAD_APP_PRPSE: ComboBoxComponent;
@@ -149,6 +152,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_SUB_PROD'),
         this.revalidateBasicField('BAD_SCHEME'),
         this.revalidateBasicField('BAD_PROMOTION'),
+        this.revalidateBasicField('BAD_APP_PRPSE'),
       
         // this.revalidateBasicField('CD_CUST_TYPE'),
         // this.revalidateBasicField('CD_EXISTING_CUST'),
@@ -182,6 +186,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('LD_USR_RCMD_AMT'),
         this.revalidateBasicField('LD_LTV_DBR'),
         this.revalidateBasicField('LD_EMI_AMT'),
+        this.revalidateBasicField('LD_MARGIN_RATE'),
+        this.revalidateBasicField('LD_NET_INTEREST_RATE'),
         this.revalidateBasicField('RD_REFERRER_NAME'),
         this.revalidateBasicField('RD_COUNTRY_CODE'),
         this.revalidateBasicField('RD_REFERRER_NO'),
@@ -207,6 +213,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_PROMOTION'),
         this.revalidateBasicField('RD_REFERRER_NAME'),
         this.revalidateBasicField('RD_REFERRER_NO'),
+        this.revalidateBasicField('BAD_PRIME_USAGE')
       ]).then((errorCounts) => {
         errorCounts.forEach((errorCount) => {
           totalErrors += errorCount;
@@ -623,8 +630,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
         inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
         inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-        inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
-        inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
+        // inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
+        // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
+        inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
+        inputMap.set('Body.LoanDetails.NetInterestRate', this.LD_NET_INTEREST_RATE.getFieldValue());
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
         console.log("Params ", inputMap);
 

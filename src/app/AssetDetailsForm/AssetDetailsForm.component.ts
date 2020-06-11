@@ -227,9 +227,6 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.asset', 5000);
-                        await this.AssetDetailsGrid.gridDataLoad({
-                            'passBorrowerToAsset':this.activeBorrowerSeq
-                        });
                         this.onReset();
                         // this.AT_SAVE.setDisabled(false);
                         
@@ -298,9 +295,6 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.asset', 5000);
-                        await this.AssetDetailsGrid.gridDataLoad({
-                            'passBorrowerToAsset':this.activeBorrowerSeq
-                        });
                         this.onReset();
                         // this.AT_SAVE.setDisabled(false);
                         
