@@ -205,7 +205,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     genderCheck() {
         if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
-            this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+            this.services.alert.showAlert(2, '', -1, 'Please select gender according to title');
             return;
         }
     }
@@ -259,7 +259,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 }
             }
             if (this.cust_name == this.FD_FULL_NAME.getFieldValue() && this.cust_dob == this.FD_DOB.getFieldValue()) {
-                this.services.alert.showAlert(2, 'You Can not add Borrower/Co-Borrower as Family', -1);
+                this.services.alert.showAlert(2, '', -1, 'You Can not add Borrower/Co-Borrower as Family');
                 return;
             }
 

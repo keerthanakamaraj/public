@@ -53,20 +53,20 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        field:"Comment_Category",
-        width:25,
+        field: "Comment_Category",
+        width: 25,
         sortable: true,
         resizable: true,
-        cellStyle: {'text-align': 'left'},
+        cellStyle: { 'text-align': 'left' },
         filter: "agTextColumnFilter",
-        filterParams:{
-        suppressAndOrCondition : true,
-        applyButton: true,
-        clearButton: true,
-        filterOptions:["contains"] ,
-        caseSensitive:true,
+        filterParams: {
+            suppressAndOrCondition: true,
+            applyButton: true,
+            clearButton: true,
+            filterOptions: ["contains"],
+            caseSensitive: true,
         },
-        },
+    },
     {
         field: "ND_COMMENTS",
         width: 50,
@@ -140,68 +140,70 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
         let inputMap = new Map();
         inputMap.clear();
-        let ApplicationId:any = event.ApplicationId;
-        let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
-        if(ApplicationId){
-        criteriaJson.FilterCriteria.push({
-            "columnName": "ApplicationId",
-            "columnType": "String",
-            "conditions": {
-                "searchType": "equals",
-                "searchText": ApplicationId
-            }
-        });}
+        let ApplicationId: any = event.ApplicationId;
+        let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+        if (ApplicationId) {
+            criteriaJson.FilterCriteria.push({
+                "columnName": "ApplicationId",
+                "columnType": "String",
+                "conditions": {
+                    "searchType": "equals",
+                    "searchText": ApplicationId
+                }
+            });
+        }
         inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-        if(gridReqMap.get("FilterCriteria")){
-        var obj = gridReqMap.get("FilterCriteria");
-        for(var i=0;i<obj.length;i++){
-        switch (obj[i].columnName) {
-        case "Comment_Category":obj[i].columnName =  "CommentCategory";break;
-        case "ND_SR_NO":obj[i].columnName =  "NotepadSeq";break;
-        case "ND_COMMENTS":obj[i].columnName =  "Comments";break;
-        default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
+        if (gridReqMap.get("FilterCriteria")) {
+            var obj = gridReqMap.get("FilterCriteria");
+            for (var i = 0; i < obj.length; i++) {
+                switch (obj[i].columnName) {
+                    case "Comment_Category": obj[i].columnName = "CommentCategory"; break;
+                    case "ND_SR_NO": obj[i].columnName = "NotepadSeq"; break;
+                    case "ND_COMMENTS": obj[i].columnName = "Comments"; break;
+                    default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
+                }
+            }
         }
+        if (gridReqMap.get("OrderCriteria")) {
+            var obj = gridReqMap.get("OrderCriteria");
+            for (var i = 0; i < obj.length; i++) {
+                switch (obj[i].columnName) {
+                    case "Comment_Category": obj[i].columnName = "CommentCategory"; break;
+                    case "ND_SR_NO": obj[i].columnName = "NotepadSeq"; break;
+                    case "ND_COMMENTS": obj[i].columnName = "Comments"; break;
+                    default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
+                }
+            }
         }
-        }
-        if(gridReqMap.get("OrderCriteria")){
-        var obj = gridReqMap.get("OrderCriteria");
-        for(var i=0;i<obj.length;i++){
-        switch (obj[i].columnName) {
-        case "Comment_Category":obj[i].columnName =  "CommentCategory";break;
-        case "ND_SR_NO":obj[i].columnName =  "NotepadSeq";break;
-        case "ND_COMMENTS":obj[i].columnName =  "Comments";break;
-        default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
-        }
-        }
-        }
-       
+
         this.readonlyGrid.combineMaps(gridReqMap, inputMap);
         this.services.http.fetchApi('/NotepadDetails', 'GET', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        if(res!=null&&res!=undefined){
-        var loopDataVar9 = [];
-        var loopVar9 = res['NotepadDetails'];
-        if (loopVar9) {
-        for (var i = 0; i < loopVar9.length; i++) {
-        var tempObj = {};
-        tempObj['Comment_Category'] = loopVar9[i].CommentCategory;
-        //tempObj['ND_SR_NO'] = loopVar9[i].NotepadSeq;
-        tempObj['ND_SR_NO']=i+1;
-        tempObj['ND_COMMENTS'] = loopVar9[i].Comments;
-        loopDataVar9.push(tempObj);}
-        }
-        this.readonlyGrid.apiSuccessCallback(params, loopDataVar9);
-    }
-        },
-        async (httpError)=>{
-        var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        }
-        this.services.alert.showAlert(2, 'Failed to load grid!', -1);
-        }
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                if (res != null && res != undefined) {
+                    var loopDataVar9 = [];
+                    var loopVar9 = res['NotepadDetails'];
+                    if (loopVar9) {
+                        for (var i = 0; i < loopVar9.length; i++) {
+                            var tempObj = {};
+                            tempObj['Comment_Category'] = loopVar9[i].CommentCategory;
+                            //tempObj['ND_SR_NO'] = loopVar9[i].NotepadSeq;
+                            tempObj['ND_SR_NO'] = i + 1;
+                            tempObj['ND_COMMENTS'] = loopVar9[i].Comments;
+                            loopDataVar9.push(tempObj);
+                        }
+                    }
+                    this.readonlyGrid.apiSuccessCallback(params, loopDataVar9);
+                }
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                }
+                this.services.alert.showAlert(2, '', -1, 'Failed to load grid!');
+            }
         );
-        
+
     }
     loadSpinner = false;
     showSpinner() {

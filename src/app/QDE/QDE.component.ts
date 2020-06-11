@@ -490,7 +490,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.services.alert.showAlert(1, 'Proposal withdraw successfully', 5000);
+                this.services.alert.showAlert(1, '', 5000, 'Proposal withdraw successfully');
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -520,7 +520,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
                         this.HideProcessId.setError(err['ErrorDescription']);
                     }
                 }
-                this.services.alert.showAlert(2, 'Unable to withdraw proposal', -1);
+                this.services.alert.showAlert(2, '', -1, 'Unable to withdraw proposal');
             }
         );
 
@@ -547,7 +547,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'Successfully Submitted', 5000);
+                    this.services.alert.showAlert(1, '', 5000, 'Successfully Submitted');
                     // this.QDE_SUBMIT.setDisabled(false)
                     this.services.router.navigate(['home', 'LANDING']);
                 },
@@ -578,7 +578,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
                         else if (err['ErrorElementPath'] == 'ProcessId') {
                             this.HideProcessId.setError(err['ErrorDescription']);
                         }
-                        this.services.alert.showAlert(2, 'Fail to Submit', -1);
+                        this.services.alert.showAlert(2, '', -1, 'Fail to Submit');
                     }
                 }
             );
@@ -589,7 +589,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
             //   this.errorsList.forEach(eachError => {
             //     alertString=alertString+newLine+eachError;
             //   });
-            this.services.alert.showAlert(2, this.errorsList[0], -1);
+            this.services.alert.showAlert(2, '', -1, this.errorsList[0]);
         }
     }
 
@@ -747,7 +747,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
                     if (!entry[1].has('occupation')) {
                         isOccupationValid = false;
                         errorMessage = errorMessage != '' ? errorMessage + ' and ' : errorMessage;
-                        errorMessage = errorMessage + 'Cccupation details';
+                        errorMessage = errorMessage + 'Occupation details';
                     }
 
                 }

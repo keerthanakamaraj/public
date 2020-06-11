@@ -240,8 +240,8 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				this.services.alert.showAlert(2, 'rlo.error.phone.referrer', -1);
 				return;
 			}
-			if (this.cust_name == this.RD_REF_NAME.getFieldValue() && this.cust_dob == this.RD_REF_NO.getFieldValue())  {
-				this.services.alert.showAlert(2, 'You Can not add Borrower as Referrer', -1);
+			if (this.cust_name == this.RD_REF_NAME.getFieldValue() && this.cust_dob == this.RD_REF_NO.getFieldValue()) {
+				this.services.alert.showAlert(2, '', -1, 'You Can not add Borrower as Referrer');
 				return;
 			}
 
@@ -365,81 +365,81 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
 				inputMap.set('Body.ReferrerDetails.BorrowerSeq', this.activeBorrowerSeq);
 				inputMap.set('Body.ReferrerDetails.CustomerType', 'R');
-				if(this.RD_REF_NAME.getFieldValue() ==  undefined || this.RD_REF_NAME.getFieldValue() == null  ){
+				if (this.RD_REF_NAME.getFieldValue() == undefined || this.RD_REF_NAME.getFieldValue() == null) {
 					this.services.alert.showAlert(2, 'rlo.error.fillone.rdetailsform', -1);
 					return;
 				}
-				else{
-				this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap).subscribe(
-					async (httpResponse: HttpResponse<any>) => {
-						var res = httpResponse.body;
-						this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
-						await this.ReferralDetailsGrid.gridDataLoad({
-							'passReferrerGrid': this.ApplicationId,
-						});
-						this.onReset();
-					},
-					async (httpError) => {
-						var err = httpError['error']
-						if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-							if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AltMobileNo') {
-								this.RD_PHONE2.setError(err['ErrorDescription']);
+				else {
+					this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap).subscribe(
+						async (httpResponse: HttpResponse<any>) => {
+							var res = httpResponse.body;
+							this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
+							await this.ReferralDetailsGrid.gridDataLoad({
+								'passReferrerGrid': this.ApplicationId,
+							});
+							this.onReset();
+						},
+						async (httpError) => {
+							var err = httpError['error']
+							if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+								if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AltMobileNo') {
+									this.RD_PHONE2.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.MobileCountryCode') {
+									this.RD_COUNTRY_CODE2.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineNumber') {
+									this.RD_PHONE1.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineCountryCode') {
+									this.RD_COUNTRY_CODE1.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Landmark') {
+									this.RD_LANDMARK.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.State') {
+									this.RD_STATE.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.City') {
+									this.RD_CITY.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Region') {
+									this.RD_REGION.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.PinCode') {
+									this.RD_PINCODE.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine4') {
+									this.RD_ADDRESSLINE4.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine3') {
+									this.RD_ADDRESSLINE3.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine2') {
+									this.RD_ADDRESSLINE2.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine1') {
+									this.RD_ADDRESSLINE1.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerEmailID') {
+									this.RD_REFRRER_EMAILID.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerMobileNumber') {
+									this.RD_REF_NO.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.CountryCode') {
+									this.RD_ISD_CODE.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerRelation') {
+									this.RD_REFERRER_RELATION.setError(err['ErrorDescription']);
+								}
+								else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerName') {
+									this.RD_REF_NAME.setError(err['ErrorDescription']);
+								}
 							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.MobileCountryCode') {
-								this.RD_COUNTRY_CODE2.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineNumber') {
-								this.RD_PHONE1.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.LandlineCountryCode') {
-								this.RD_COUNTRY_CODE1.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Landmark') {
-								this.RD_LANDMARK.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.State') {
-								this.RD_STATE.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.City') {
-								this.RD_CITY.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.Region') {
-								this.RD_REGION.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.PinCode') {
-								this.RD_PINCODE.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine4') {
-								this.RD_ADDRESSLINE4.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine3') {
-								this.RD_ADDRESSLINE3.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine2') {
-								this.RD_ADDRESSLINE2.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.AddressDetails.AddressLine1') {
-								this.RD_ADDRESSLINE1.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerEmailID') {
-								this.RD_REFRRER_EMAILID.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerMobileNumber') {
-								this.RD_REF_NO.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.CountryCode') {
-								this.RD_ISD_CODE.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerRelation') {
-								this.RD_REFERRER_RELATION.setError(err['ErrorDescription']);
-							}
-							else if (err['ErrorElementPath'] == 'ReferrerDetails.ReferrerName') {
-								this.RD_REF_NAME.setError(err['ErrorDescription']);
-							}
+							this.services.alert.showAlert(2, 'rlo.error.save.referrer', -1);
 						}
-						this.services.alert.showAlert(2, 'rlo.error.save.referrer', -1);
-					}
-				);
+					);
 				}
 			}
 		}

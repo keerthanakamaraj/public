@@ -153,7 +153,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_SCHEME'),
         this.revalidateBasicField('BAD_PROMOTION'),
         this.revalidateBasicField('BAD_APP_PRPSE'),
-      
+
         // this.revalidateBasicField('CD_CUST_TYPE'),
         // this.revalidateBasicField('CD_EXISTING_CUST'),
         // this.revalidateBasicField('CD_STAFF'),
@@ -269,7 +269,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
-    
+
 
     this.CD_EXISTING_CUST.setDefault('N');
     this.Handler.existingCustomer({});
@@ -381,7 +381,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
       inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
       if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
-        this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
+        this.services.alert.showAlert(2, '', -1, 'Please fill atleaset one field');
       } else {
         setTimeout(() => {
           inputMap.set('component', 'SearchForm');
@@ -415,7 +415,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.searchbutton = '';
       }
     } else {
-      this.services.alert.showAlert(2, 'Please correct form errors', -1);
+      this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
 
 
@@ -462,7 +462,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   genderCheck() {
     if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
       //console.log("Please select gender according to tilte");
-      this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+      this.services.alert.showAlert(2, '', -1, 'Please select gender according to title');
     }
   }
 
@@ -614,12 +614,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
-        if(this.BAD_PROD_CAT.getFieldValue() == 'CC'){
+        if (this.BAD_PROD_CAT.getFieldValue() == 'CC') {
           inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_PRIME_USAGE.getFieldValue());
-        }else{
+        } else {
           inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_APP_PRPSE.getFieldValue());
         }
-       
+
         inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
         inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
         inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
@@ -737,7 +737,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         );
       }
       else {
-        this.services.alert.showAlert(2, 'Please Add Details for Borrower', 1000);
+        this.services.alert.showAlert(2, '', 1000, 'Please Add Details for Borrower');
         this.SUBMIT_MAIN_BTN.setDisabled(false);
 
       }
@@ -982,13 +982,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     CD_COUNTRY_CODE: {
       inDep: [
 
-          { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
-          { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-          { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+        { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
       ],
       outDep: [
       ]
-  },
+    },
   }
 
 }

@@ -254,8 +254,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
-       // this.services.rloCommonData.childToParentSubject.unsubscribe();
-      //  this.updateCustGridEmitter.unsubscribe();
+        // this.services.rloCommonData.childToParentSubject.unsubscribe();
+        //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -347,7 +347,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     genderCheck() {
         if ((this.CD_GENDER.getFieldValue() == 'M' && this.CD_TITLE.getFieldValue() != 'MR') || (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MRS') && (this.CD_GENDER.getFieldValue() == 'F' && this.CD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
-            this.services.alert.showAlert(2, 'Please select gender according to title', -1);
+            this.services.alert.showAlert(2, '', -1, 'Please select gender according to title');
         }
     }
 
@@ -490,7 +490,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.services.rloCommonData.childToParentSubject.next({
                             action: 'updateCustGrid',
-                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
+                            data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
                         // this.updateCustGrid.emit({
                         //     'borrowerSeq': this.HidCustomerId.getFieldValue()
@@ -637,7 +637,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.CD_FULL_NAME_change();
                         this.services.rloCommonData.childToParentSubject.next({
                             action: 'updateCustGrid',
-                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
+                            data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
                         // this.updateCustGrid.emit({
                         //     'borrowerSeq': this.HidCustomerId.getFieldValue()

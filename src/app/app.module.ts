@@ -91,7 +91,7 @@ const keycloakService = new KeycloakService();
     // LoginPageComponent,
     // PwdChangeComponent,
     GridWithFormComponent,
-    AlertsComponent,
+    AlertsComponent
     //MyTrayPageComponent
     // MyTrayGridComponent,
   ],

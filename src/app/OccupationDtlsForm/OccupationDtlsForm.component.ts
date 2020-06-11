@@ -276,23 +276,23 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   async OD_SAVE_BTN_click(event) {
     let inputMap = new Map();
-    let occupationGridData  : any = this.OCC_DTLS_GRID.getOccupationGridData();
-    
+    let occupationGridData: any = this.OCC_DTLS_GRID.getOccupationGridData();
+
     var nooferror: number = await this.revalidate();
     if (nooferror == 0) {
-      if(this.OD_COMP_NAME.getFieldValue() !== undefined){
-        if(occupationGridData){
-          for(let i = 0 ; i < occupationGridData.length; i++){
-           
-            if(occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue() && occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()){
-              this.services.alert.showAlert(2, 'occupation alreday addded for same company name', -1);
+      if (this.OD_COMP_NAME.getFieldValue() !== undefined) {
+        if (occupationGridData) {
+          for (let i = 0; i < occupationGridData.length; i++) {
+
+            if (occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue() && occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()) {
+              this.services.alert.showAlert(2, '', -1, 'occupation alreday addded for same company name');
               return;
             }
 
           }
         }
       }
-      
+
       // this.OD_SAVE_BTN.setDisabled(true);
       if (typeof (this.HidOccupationSeq.getFieldValue()) !== 'undefined') {
         inputMap.clear();
@@ -321,11 +321,11 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
         inputMap.set('Body.OccupationDetails.BorrowerSeq', this.occBorrowerSeq);
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
-        this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap,'/rlo-de').subscribe(
+        this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
-           
+
             this.occpOnBlur.emit({});
             // this.OD_SAVE_BTN.setDisabled(false);
 
@@ -446,7 +446,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.occupation', 5000);
-         
+
             this.occpOnBlur.emit({});
             // this.OD_SAVE_BTN.setDisabled(false);
             this.OD_OCCUPATION_change('OD_OCCUPATION', event);
@@ -455,7 +455,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             });
             this.onReset();
 
-           
+
             this.occpOnBlur.emit({});
 
           },
@@ -552,7 +552,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.OccupationSeq', event.OccupationSeq);
-    this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'GET', inputMap,'/rlo-de').subscribe(
+    this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']);
@@ -608,9 +608,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     });
   }
 
-  async loadOccupationGrid(event){
+  async loadOccupationGrid(event) {
     this.updateStageValidation.emit(event);
-    
+
   }
   fieldDependencies = {
     OD_OCCUPATION: {
