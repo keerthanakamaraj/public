@@ -900,8 +900,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.CD_DOB.setReadOnly(flag);
             this.CD_GENDER.setReadOnly(flag);
     }
+
     onCountrycodeChanged() {
-        console.log('country code changed ', this.CD_COUNTRY_CODE);
+      //console.log('country code changed ', this.CD_COUNTRY_CODE);
     }
 
     setNewCustomerFrom(event) {
@@ -917,6 +918,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             'fullName': fullName,
             'customerType': customerType
         });
+      }
 
       fieldDependencies = {
         CD_CUST_TYPE: {
@@ -1046,7 +1048,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.fieldArray = [];
         this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME,this.CD_LAST_NAME,this.CD_MIDDLE_NAME,
             this.CD_FULL_NAME,this.CD_DOB,this.CD_GENDER, this.CD_CIF,this.CD_CUST_ID
-        )
+        );
         return this.fieldArray;
       }
 

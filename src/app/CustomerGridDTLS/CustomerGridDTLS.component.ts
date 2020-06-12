@@ -43,6 +43,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @Input() isLoanCategory = true;
 
   customerDataArr: any[];
+  isFirstAPICall = true;
   fieldDependencies = {
   };
   CustomerDetailsMap = new Map<string, any>();
