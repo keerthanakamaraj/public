@@ -18,34 +18,36 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { each } from '@amcharts/amcharts4/.internal/core/utils/Iterator';
 
-const customCss: string = '';
+const customCss = '';
 
 @Component({
   selector: 'app-CustomerGridDTLS',
   templateUrl: './CustomerGridDTLS.component.html'
 })
 export class CustomerGridDTLSComponent extends FormComponent implements OnInit, AfterViewInit {
+  constructor(services: ServiceStock) {
+    super(services);
+    this.value = new CustomerGridDTLSModel();
+    this.componentCode = 'CustomerGridDTLS';
+  }
   customerTypeMap = new Map();
   // @ViewChild('"CD_CUSTOMER_TYPE"', { static: false }) CD_CUSTOMER_TYPE: ReadOnlyComponent;
   // @ViewChild('"CD_CUSTOMER_NAME"', { static: false }) CD_CUSTOMER_NAME: ReadOnlyComponent;
   //@Output() selectCustId: EventEmitter<any> = new EventEmitter<any>();
   @Output() resetCustForm: EventEmitter<any> = new EventEmitter<any>();
-  //@Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
+  // @Output() passApplicationId: EventEmitter<any> = new EventEmitter<any>();
   @Output() passArrayToCustomer: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() ApplicationId: string = undefined;
-  @Input() isLoanCategory: boolean = true;
+  @Input() isLoanCategory = true;
 
   customerDataArr: any[];
-  isFirstAPICall: boolean = true;
+  fieldDependencies = {
+  };
   CustomerDetailsMap = new Map<string, any>();
-
-  //activeCustomer:{}={};
-  //activeBorrowerSeq:string=undefined;
-
   async revalidate(): Promise<number> {
-    var totalErrors = 0;
+    let totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
     ]).then((errorCounts) => {
@@ -57,11 +59,6 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock) {
-    super(services);
-    this.value = new CustomerGridDTLSModel();
-    this.componentCode = 'CustomerGridDTLS';
-  }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
   }
@@ -70,7 +67,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     this.setDependencies();
   }
   setInputs(param: any) {
-    let params = this.services.http.mapToJson(param);
+    const params = this.services.http.mapToJson(param);
     if (params['mode']) {
       this.mode = params['mode'];
     }
@@ -96,9 +93,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     this.passNewValue(this.value);
   }
   ngOnInit() {
-    if (this.formCode == undefined) { this.formCode = 'CustomerGridDTLS'; }
+    if (this.formCode === undefined) { this.formCode = 'CustomerGridDTLS'; }
     if (this.formOnLoadError) { return; }
-    var styleElement = document.createElement('style');
+    const styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.innerHTML = customCss;
     styleElement.id = 'CustomerGridDTLS_customCss';
@@ -107,7 +104,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-    var styleElement = document.getElementById('CustomerGridDTLS_customCss');
+    const styleElement = document.getElementById('CustomerGridDTLS_customCss');
     styleElement.parentNode.removeChild(styleElement);
   }
   ngAfterViewInit() {
@@ -137,43 +134,37 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     this.setReadOnly(false);
     this.onFormLoad();
   }
-  fieldDependencies = {
-  }
   async doAPIForCustomerList(event) {
-    let inputMap = new Map();
-    //create promise
-    //debugger;
-
-
-    let borrowerSeq = undefined;
-    if (event != undefined) {
+    const inputMap = new Map();
+    let borrowerSeq;
+    if (event !== undefined) {
       borrowerSeq = event.borrowerSeq;
     }
-    if (this.ApplicationId != undefined) {
+    if (this.ApplicationId !== undefined) {
       inputMap.clear();
-      let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+      const criteriaJson: any = { 'Offset': 1, 'Count': 10, FilterCriteria: [] };
       if (this.ApplicationId) {
         criteriaJson.FilterCriteria.push({
-          "columnName": "ApplicationId",
-          "columnType": "String",
-          "conditions": {
-            "searchType": "equals",
-            "searchText": this.ApplicationId
+          'columnName': 'ApplicationId',
+          'columnType': 'String',
+          'conditions': {
+            'searchType': 'equals',
+            'searchText': this.ApplicationId
           }
         });
       }
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-      this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
+      this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/initiation').subscribe(
         async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
+          const res = httpResponse.body ? httpResponse.body : {};
+          const customerDataArr = [];
+          const BorrowerDetails = res['BorrowerDetails'];
           this.CustomerDetailsMap.clear();
-          var customerDataArr = [];
-          let BorrowerDetails = res['BorrowerDetails'];
           if (BorrowerDetails) {
 
             this.updateStageValidation.emit({
-              "name": "customerLoad",
-              "data": BorrowerDetails
+              'name': 'customerLoad',
+              'data': BorrowerDetails
             });
 
             //  if (this.isFirstAPICall) {
@@ -184,7 +175,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
             //    }
 
             BorrowerDetails.forEach(eachBorrower => {
-              let customer = {};
+              const customer = {};
               this.CustomerDetailsMap.set(eachBorrower.BorrowerSeq, eachBorrower);
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
@@ -194,7 +185,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != '' && eachBorrower.Relationship == undefined || eachBorrower.ReferrerRelation == undefined
                 ? eachBorrower.CustomerType : 'OP';
 
-              if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
+              if (customer['CD_CUSTOMER_TYPE'] === 'B' && this.isFirstAPICall) { // First Borrower
                 this.passArrayToCustomer.emit({
                   'actionName': 'gridUpdated',
                   'CustomerArray': eachBorrower
@@ -219,7 +210,6 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               }
 
               customerDataArr.push(customer);
-
             });
           }
           this.apiSuccessCallback(customerDataArr);
@@ -227,8 +217,8 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           // this.displayCustomerTag(customerDataArr);
         },
         async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          const err = httpError['error'];
+          if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
           }
           this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
@@ -241,7 +231,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     this.customerTypeMap.clear();
     //  let borrowerSeq = undefined;
     customerDataArr.forEach(customer => {
-      if (customer != null && customer != undefined && customer != '') {
+      if (customer != null && customer !== undefined && customer !== '') {
         this.categoriseCustomers(customer.CD_CUSTOMER_TYPE, customer);
         // if (customer.CD_CUSTOMER_TYPE == 'B') {
         //   borrowerSeq = customer.CustomerId;
@@ -306,9 +296,8 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     this.customerTypeMap.forEach(group => {
       console.log("group ", group);
       group.forEach(cust => {
-        cust["editing"] = false;
+        cust['editing'] = false;
       });
     });
   }
-
 }

@@ -511,7 +511,6 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		},
 		RD_COUNTRY_CODE2: {
 			inDep: [
-
 				{ paramKey: "VALUE1", depFieldID: "RD_COUNTRY_CODE2", paramType: "PathParam" },
 				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
 				{ paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
@@ -521,7 +520,6 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		},
 		RD_REFERRER_RELATION: {
 			inDep: [
-
 				{ paramKey: "VALUE1", depFieldID: "RD_REFERRER_RELATION", paramType: "PathParam" },
 				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
 				{ paramKey: "KEY1", depFieldID: "hidRelation", paramType: "QueryParam" },
@@ -531,7 +529,6 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		},
 		RD_PINCODE: {
 			inDep: [
-
 				{ paramKey: "PinCd", depFieldID: "RD_PINCODE", paramType: "PathParam" },
 			],
 			outDep: [

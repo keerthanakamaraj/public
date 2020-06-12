@@ -143,7 +143,6 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
             // if (result) {
             // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
             // }
-
             this.dropDownOptions.Options = this.dropDownOptions.Options = result;
            // this.isOptionsLoaded = true;
             if(!this.isOptionsLoaded){
@@ -174,7 +173,6 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
           this.dropDownOptions.loading = false;
         });
     }
-
   }
 
   setFocus(setFocus) {

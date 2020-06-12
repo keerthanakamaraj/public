@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AlertsService } from './AlertsService';
 import { RlouiService } from './rlo-services/rloui.service';
+import { RloUtilService } from './rlo-services/rloutil.service';
 import { RloCommonData } from './rlo-services/rloCommonData.service';
 
 @Injectable({
@@ -22,6 +23,7 @@ export class ServiceStock {
     public router: Router,
     public alert: AlertsService,
     public rloui: RlouiService,
+    public rloutil: RloUtilService,
     public rloCommonData: RloCommonData) { }
 
   formatAmount(number, languageCode, minFraction) {

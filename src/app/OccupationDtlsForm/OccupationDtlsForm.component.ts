@@ -212,25 +212,31 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     selectedDate = moment(selectedDate, 'DD-MM-YYYY');
     console.log("current date :: ", currentDate._d);
     console.log("selected date :: ", selectedDate._d);
-    if (selectedDate <= currentDate) {
+    if (selectedDate > currentDate) {
       return false;
     }
     return true;
   }
 
+ 
+
   async OD_DATE_OF_JOINING_blur(event) {
     let inputMap = new Map();
     if (!this.joinDate(this.OD_DATE_OF_JOINING.getFieldValue())) {
-      this.services.alert.showAlert(2, 'rlo.error.joiningdate.occupation', -1);
-      this.OD_DATE_OF_JOINING.onReset();
+      this.OD_DATE_OF_JOINING.setError('Please select correct date of joining');
+      return 1;
+      // this.services.alert.showAlert(2, 'rlo.error.joiningdate.occupation', -1);
+    
     }
   }
 
   async OD_DT_OF_INCPTN_blur(event) {
     let inputMap = new Map();
     if (!this.dt_Incptn(this.OD_DT_OF_INCPTN.getFieldValue())) {
-      this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
-      this.OD_DT_OF_INCPTN.onReset();
+      this.OD_DT_OF_INCPTN.setError('Please select correct date of inception')
+      return 1;
+      // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
+      // this.OD_DT_OF_INCPTN.onReset();
     }
   }
 
@@ -276,22 +282,27 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   async OD_SAVE_BTN_click(event) {
     let inputMap = new Map();
-    let occupationGridData: any = this.OCC_DTLS_GRID.getOccupationGridData();
-
+    let occupationGridData  : any = this.OCC_DTLS_GRID.getOccupationGridData();
+    console.log("shweta :: occupation grid :: ",occupationGridData);
     var nooferror: number = await this.revalidate();
     if (nooferror == 0) {
-      if (this.OD_COMP_NAME.getFieldValue() !== undefined) {
-        if (occupationGridData) {
-          for (let i = 0; i < occupationGridData.length; i++) {
+      //if(this.OD_COMP_NAME.getFieldValue() !== undefined){
+        if(occupationGridData){
+          for(let i = 0 ; i < occupationGridData.length; i++){
+           if(occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()){
+            if(this.OD_COMP_NAME.getFieldValue()!==undefined && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()){
 
-            if (occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue() && occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()) {
-              this.services.alert.showAlert(2, '', -1, 'occupation alreday addded for same company name');
+              this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);
+              return;
+            }else if(this.OD_INCOME_TYPE.getFieldValue()==='PRI' && occupationGridData[i].OD_INCOME_TYPE==='PRI'){
+              this.services.alert.showAlert(2, 'rlo.error.occupation.primaryIncome.exist', -1);
               return;
             }
-
+          }
           }
         }
-      }
+
+      //}
 
       // this.OD_SAVE_BTN.setDisabled(true);
       if (typeof (this.HidOccupationSeq.getFieldValue()) !== 'undefined') {
@@ -326,7 +337,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
 
-            this.occpOnBlur.emit({});
+            // this.occpOnBlur.emit({}); -- Sprint 3 Present, Dev missing
+            
             // this.OD_SAVE_BTN.setDisabled(false);
 
             await this.OCC_DTLS_GRID.gridDataLoad({
@@ -447,7 +459,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.occupation', 5000);
 
-            this.occpOnBlur.emit({});
             // this.OD_SAVE_BTN.setDisabled(false);
             this.OD_OCCUPATION_change('OD_OCCUPATION', event);
             await this.OCC_DTLS_GRID.gridDataLoad({
@@ -455,9 +466,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             });
             this.onReset();
 
-
             this.occpOnBlur.emit({});
-
           },
           async (httpError) => {
             var err = httpError['error']
@@ -610,7 +619,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
   async loadOccupationGrid(event) {
     this.updateStageValidation.emit(event);
-
   }
   fieldDependencies = {
     OD_OCCUPATION: {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { InitiationComponent } from './Initiation.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
@@ -11,6 +11,7 @@ import { RlouiService } from '../rlo-services/rloui.service';
 })
 export class InitiationHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: InitiationComponent;
+
   //isLoanCategory:boolean = true;
   customers = [];
   formName: string = "Initiation";
@@ -45,6 +46,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.isLoanCategory = false;
       this.MainComponent.CD_CUST_TYPE.setValue('B');
+      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.BAD_APP_PRPSE.mandatory = false;
@@ -183,20 +185,31 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name
   updateFullName(arg0: {}) {
-    let fullName = "";
-    if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_THIRD_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_LAST_NAME.getFieldValue() + " ";
-    }
-    fullName.trim();
+    // let fullName = "";
+    // if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_THIRD_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_LAST_NAME.getFieldValue().trim() + " ";
+    // }
+    // fullName.trim();
+    // this.MainComponent.CD_FULL_NAME.setValue(fullName);
+    let fullNameArr = [];
+    fullNameArr.push(this.MainComponent.CD_FIRST_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_MIDDLE_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_THIRD_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_LAST_NAME.getFieldValue());
+
+    let fullName = this.MainComponent.services.rloutil.concatenate(fullNameArr, " ") ;
+    
+    console.log("Full Name  ", fullNameArr, fullName);    
+
     this.MainComponent.CD_FULL_NAME.setValue(fullName);
   }
 
@@ -249,11 +262,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   }
 
   // Add Customer
-  onAddCustomer(arg0: {}) {
-
-    this.validateCustomerForm().then((errorCounts) => {
-      if (errorCounts > 0) {
+  async onAddCustomer(arg0: {}) {
+    var noofErrors: number = await this.MainComponent.revalidateCustomers();
+   
+      if (noofErrors > 0) {
         this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
+        //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
+        //  this.MainComponent.ACC_CUSTOMER.nativeElement.focus();
+
       } else {
         let customer = this.getFormCustomerDetails();
         customer.tempId = "ID-" + (this.counter++);
@@ -281,14 +297,18 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
         this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
         this.updateCustomerTags();
+        if(this.editId){
+          this.MainComponent.services.alert.showAlert(1, 'rlo.success.update.customer', 1000);
+        }else{
+          this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
 
-        this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
+        }
         this.resetCustomerDetails();
       }
 
 
 
-    });
+    
 
   }
 
@@ -373,8 +393,6 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.countryCode = this.MainComponent.CD_MOBILE.countryCode;
     customer.nameOnCard = this.MainComponent.CD_NAME_ON_CARD.getFieldValue();
     customer.tempId = this.tempId;
-
-
     return customer;
   }
 
@@ -497,6 +515,23 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.SRC_CIF_NO.onReset();
 
   }
+  aggregateLoanOwnerShip() {
+    var total = 0
+    for (let i = 0; i < this.customers.length; i++) {
+      if (this.customers[i].loanOwnership !== undefined && this.customers[i].loanOwnership !== "" && this.customers[i].tempId !== this.editId ) {
+        total += Number(this.customers[i].loanOwnership);
+      }
+    }
+    return total;
+  }
+
+  CustomerTypeOnChange() {
+    if (this.MainComponent.CD_CUST_TYPE.getFieldValue() == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
+      this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = true;
+    } else {
+      this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = false;
+    }
+  }
 }
 
 
@@ -538,5 +573,9 @@ class ValueLabel {
     this.value = value;
     this.label = label;
   }
+
+
+  CustomerType
+
 }
 

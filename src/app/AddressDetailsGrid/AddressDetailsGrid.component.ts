@@ -25,8 +25,8 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 	@Output() emitAddressDetails: EventEmitter<any> = new EventEmitter<any>();
-  @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
-  @Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
+	//@Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
+	@Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
 	@Input('formCode') formCode: string;
 	@Input('displayTitle') displayTitle: boolean = true;
 	@Input('displayToolbar') displayToolbar: boolean = true;
@@ -46,14 +46,14 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "AD_Address",
@@ -61,14 +61,14 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "AD_OCC_STATUS",
@@ -76,14 +76,14 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "AD_MAILING_ADDRESS",
@@ -91,14 +91,14 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "AD_Residence_Duration",
@@ -106,21 +106,21 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		width: 6,
 		field: "AD_EDIT_BTN",
 		sortable: false,
 		filter: false,
-		resizable: true,
+		resizable: false,
 		cellRenderer: 'buttonRenderer',
 		cellStyle: { 'text-align': 'left' },
 		cellRendererParams: {
@@ -137,7 +137,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		field: "AD_DELETE_BTN",
 		sortable: false,
 		filter: false,
-		resizable: true,
+		resizable: false,
 		cellRenderer: 'buttonRenderer',
 		cellStyle: { 'text-align': 'left' },
 		cellRendererParams: {
@@ -205,7 +205,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		return this.hidden;
 	}
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
-		this.showSpinner()
+		this.recordShow()
 		let inputMap = new Map();
 		inputMap.clear();
 		let borrowerSeq: any = event.passBorrowerSeqToGrid;
@@ -263,63 +263,72 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				this.addressDetails = [];
 				if (res !== null) {
 					this.addressRecord = true
-					var loopVar10 = res['AddressDetails'];
-					
-				}
-				else {
+					var address = res['AddressDetails'];
+				} else {
 					this.addressRecord = false;
-        }
-        
+				}
 
-				if (loopVar10) {
-          this.addressLoaded.emit({
-            "name" : "addressLoad",
-            "data": loopVar10
-          });
+				if (address) {
 
-					for (var i = 0; i < loopVar10.length; i++) {
+					this.addressLoaded.emit({
+						"name": "addressLoad",
+						"data": address,
+						"BorrowerSeq": borrowerSeq
+					});
+
+					for (var i = 0; i < address.length; i++) {
 
 						var tempObj = {};
-						tempObj['AD_ADD_ID'] = loopVar10[i].AddressDetailsSeq;
-						tempObj['AD_Address_Type'] = loopVar10[i].AddressType;
-						tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
-						tempObj['AD_OCCUP_TYPE'] = loopVar10[i].OccupancyType;
-						if (loopVar10[i].AddressLine2 == undefined && loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
-						}
-						else if (loopVar10[i].AddressLine3 == undefined && loopVar10[i].AddressLine4 == undefined) {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].AddressLine2 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
-						}
-						else if (loopVar10[i].AddressLine4 == undefined) {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].AddressLine2 + "," + " " + " " + loopVar10[i].AddressLine3 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
-						}
-						else {
-							tempObj['AD_Address'] = loopVar10[i].AddressLine1 + "," + " " + " " + loopVar10[i].AddressLine2 + "," + " " + " " + loopVar10[i].AddressLine3 + "," + " " + " " + loopVar10[i].AddressLine4 + "," + " " + " " + loopVar10[i].Region + "," + " " + " " + loopVar10[i].City + "," + " " + " " + loopVar10[i].State + "," + " " + " " + loopVar10[i].PinCode;
-						}
-						if (loopVar10[i].ResidenceDuration == undefined && loopVar10[i].Period == undefined) {
+						tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
+						tempObj['AD_Address_Type'] = address[i].AddressType;
+						tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress;
+						tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType;
+						tempObj['AD_OCC_STATUS'] = address[i].ResidenceType;
+
+						let fullAddressArr = [];
+						fullAddressArr.push(address[i].AddressLine1);
+						fullAddressArr.push(address[i].AddressLine2);
+						fullAddressArr.push(address[i].AddressLine3);
+						fullAddressArr.push(address[i].AddressLine4);
+						fullAddressArr.push(address[i].Region);
+						fullAddressArr.push(address[i].City);
+						fullAddressArr.push(address[i].State);
+						fullAddressArr.push(address[i].PinCode);
+
+						tempObj['AD_Address'] = this.services.rloutil.concatenate(fullAddressArr, ", ");
+
+						if (address[i].ResidenceDuration == undefined && address[i].Period == undefined) {
 							tempObj['AD_Residence_Duration'] = " ";
-						}// tempObj['AD_MAILING_ADDRESS'] = loopVar10[i].MailingAddress;
+						}// tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress;
 						else {
-							tempObj['AD_Residence_Duration'] = loopVar10[i].ResidenceDuration + " " + " " + " " + loopVar10[i].Period;
+							tempObj['AD_Residence_Duration'] = address[i].ResidenceDuration + " " + address[i].Period;
 						}
-						if (loopVar10[i].ResidenceType == undefined) {
-							tempObj['AD_OCC_STATUS'] = " "
-						}
-						else {
-							tempObj['AD_OCC_STATUS'] = loopVar10[i].ResidenceType;
-						}
-						
+						// if (address[i].ResidenceType == undefined) {
+						// 	tempObj['AD_OCC_STATUS'] = " "
+						// }
+						// else {
+						// 	tempObj['AD_OCC_STATUS'] = address[i].ResidenceType;
+						// }
+
 						this.addressDetails.push(tempObj);
-						console.log("loopVar10",this.addressDetails);
+						// console.log("address",this.addressDetails);
 					}
+				} else {
+					address = [];
+					this.addressLoaded.emit({
+						"name": "addressLoad",
+						"data": address,
+						"BorrowerSeq": borrowerSeq
+					});
 				}
+
 				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
-				this.hideSpinner();
+				this.recordHide();
 			},
 			async (httpError) => {
 				var err = httpError['error']
 				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-					this.hideSpinner();
+					this.recordHide();
 				}
 			}
 		);
@@ -327,39 +336,41 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	}
 	async AD_EDIT_BTN_click(event) {
 		let inputMap = new Map();
-		const selectedData0 = this.readonlyGrid.getSelectedData();
-		if (selectedData0) {
-			this.emitAddressDetails.emit({
-				'addSeq': selectedData0['AD_ADD_ID'],
-			});
-		}
+		// const selectedData0 = this.readonlyGrid.getSelectedData();
+		this.emitAddressDetails.emit({
+			'addSeq': event['AD_ADD_ID'],
+		});
+		// if (selectedData0) {
+
+		// }
 	}
 	async AD_DELETE_BTN_click(event) {
-		let inputMap = new Map();
-		inputMap.clear();
-		inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
-		this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-			async (httpResponse: HttpResponse<any>) => {
-				var res = httpResponse.body;
-				this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
-				this.readonlyGrid.refreshGrid();
 
-			},
-			async (httpError) => {
-				var err = httpError['error']
-				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+		if (confirm("Are you sure you want to delete this record")) {
+			let inputMap = new Map();
+			inputMap.clear();
+			inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
+			this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+				async (httpResponse: HttpResponse<any>) => {
+					var res = httpResponse.body;
+					this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
+					this.readonlyGrid.refreshGrid();
+				},
+				async (httpError) => {
+					var err = httpError['error']
+					if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+					}
+					this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
 				}
-				this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-			}
-		);
-
+			);
+		}
 	}
-	loadSpinner = false;
-	showSpinner() {
-		this.loadSpinner = true;
+	recordDisplay = false;
+	recordShow() {
+		this.recordDisplay = true;
 	}
-	hideSpinner() {
-		this.loadSpinner = false;
+	recordHide() {
+		this.recordDisplay = false;
 	}
 	getAddressGridData() {
 		//  this.addressDetails.push();
