@@ -46,7 +46,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
     @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
     @ViewChild('REFERRER_DTLS', { static: false }) REFERRER_DTLS: ReferralDetailsFormComponent;
-     @ViewChild('ReferralDetailsGrid',{static:false}) ReferralDetailsGrid: ReferralDetailsGridComponent;
+    @ViewChild('ReferralDetailsGrid', { static: false }) ReferralDetailsGrid: ReferralDetailsGridComponent;
     @ViewChild('FieldId_14', { static: false }) FieldId_14: AssetDetailsFormComponent;
     @ViewChild('FieldId_15', { static: false }) FieldId_15: LiabilityDtlsFormComponent;
     @ViewChild('FieldId_6', { static: false }) FieldId_6: OtherDeductionFormComponent;
@@ -59,7 +59,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('Handler', { static: false }) Handler: DDEHandlerComponent;
     @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
-
+    @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
+    @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
+    @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
+    @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
     @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
 
@@ -75,6 +78,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     isCustomerTab: boolean = true;
     CustomerType: string = undefined;
     isLoanCategory: boolean = false;
+    taskId: any;
+    instanceId: any;
+    userId: any;
+    appId: any;
 
     formMenuObject: {
         selectedMenuComponent: string,
@@ -105,12 +112,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         return totalErrors;
     }
 
+    getAllCustomerDetails(customerData) {
+        console.error("deep-", customerData);
+        let list = customerData.data;
+        list.forEach(customer => {
+            if (customer.CustomerType == "B" || customer.CustomerType == "CB") {
+                this.progressStatus.borrowers += 1;
+            }
+        });
+        this.createMenuForCustomers().then(() => {
+            this.formsMenuList = this.setMenuAccToCustomer('borrower');
+            console.error("deep ====", this.formsMenuList);
+            this.injectDynamicComponent('CustomDetails', 2, 0);
+        });
+    }
+
     customerMenu = [
         [
             { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
             { id: "AssetDetails", name: "Asset Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
             { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
         ],
         [
             { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
@@ -129,26 +151,28 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
             { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
             { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
+            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
         ],
         [
             { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
             { id: "LoanDetails", name: "Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: true, isOptional: false },
-            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
+            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: true, isOptional: true },
+            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
             { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
             { id: "Notes", name: "Notes", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
         ]
     ];
-
+    //contains list of menus depending upon customers(B,CB)
+    menuAccToCustomer = new Map();
     formsMenuList: Array<any> = [];
     showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
     progressStatus: any = {
         manditorySection: 10,
-        completedSection: 9
+        completedSection: 9,
+        borrowers: 0
     };
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
@@ -171,8 +195,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_GRID.setReadOnly(readOnly);
     }
     async onFormLoad() {
-        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal)); 
+        this.HideProcessId.setValue('RLO_Process');
+        this.HideServiceCode.setValue('ClaimTask');
+        this.HideTenantId.setValue('SB1'); 
+        
+		 this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+        this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+        this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+           
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
@@ -181,9 +213,55 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //this.openHTab('FieldId_10', 'GO_NO_GO');
         // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
 
-        this.HideProcessId.setValue('RLO_Process');
+        if (this.userId == undefined || this.userId == '') {
+            this.claimTask(this.taskId);
+        }
         this.setDependencies();
     }
+
+
+    async claimTask(taskId) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.TaskId', taskId);
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+
+                if (res.Status == "S") {
+                    this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+                } else {
+                    this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+                }
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    if (err['ErrorElementPath'] == 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    }
+                    else if (err['ErrorElementPath'] == 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+            }
+        );
+    }
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -239,6 +317,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value.setValue(inputValue);
         this.setDependencies();
         this.passNewValue(this.value);
+        
     }
     ngOnInit() {
         this.services.rloCommonData.headerState.subscribe((data) => {
@@ -254,8 +333,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         document.getElementsByTagName('head')[0].appendChild(styleElement);
         //this.onFormLoad();
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-        this.formsMenuList = this.customerMenu;
-        this.injectDynamicComponent('CustomDetails', 2, 0);
+        // this.formsMenuList = this.setMenuAccToCustomer('borrower');
+        // console.error("deep ====", this.formsMenuList);
+        // this.injectDynamicComponent('CustomDetails', 2, 0);
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -449,6 +529,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ActiveCustomerName = event.CustomerArray.FullName;
         this.ActiveCustomerDOB = event.CustomerArray.DOB;
         this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
+        console.log(event);
+
+        if (event.CustomerArray.CustomerType) {
+            
+        }
         this.injectDynamicComponent('CustomDetails', 2, 0);
     }
     // async FAMILY_DTLS_familyBlur(event) {
@@ -664,6 +749,19 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         let score = Math.round(individualSectionScore * this.progressStatus.completedSection);
         this.headerProgressBar.update(score);
 
+    }
+
+    async createMenuForCustomers() {
+        this.menuAccToCustomer.set("borrower", this.customerMenu);
+        if (this.progressStatus.borrowers > 1) {
+            this.menuAccToCustomer.set("coborrower", this.applicationMenu);
+        }
+        console.log(this.menuAccToCustomer);
+    }
+
+    setMenuAccToCustomer(type: string) {
+        console.warn("deep", type);
+        return this.menuAccToCustomer.get(type);
     }
 }
 

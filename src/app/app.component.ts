@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     // this.router.navigate(["login/elogin"]);
     this.services.alert.checkForAlerts.subscribe(
       (data) => {
-        this.appAlerts.showAlert(data["alertType"], data["alertMsg"], data["timeout"]);
+        this.appAlerts.showAlert(data["alertType"], data["alertMsg"], data["timeout"],data["customErrorMsg"]);
       }
     );
   }

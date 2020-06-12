@@ -201,7 +201,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
       }
     }
     this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-    this.services.http.fetchApi('/LiabilityDetails', 'GET', inputMap).subscribe(
+    this.services.http.fetchApi('/LiabilityDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         var loopDataVar4 = [];
@@ -248,7 +248,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.LiabilitySeq', event.LIABILITY_ID);
-    this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'DELETE', inputMap).subscribe(
+    if (confirm("Are you sure you want to delete?")) {      
+    this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.services.alert.showAlert(1, 'rlo.success.delete.liability', 5000);
@@ -261,6 +262,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
         this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
       }
     );
+  }
   }
 
   getLiabilityDetails(){

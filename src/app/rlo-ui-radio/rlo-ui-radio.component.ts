@@ -49,10 +49,14 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
   ngAfterViewInit() {
     if (this.emittedOptions.length > 0) {
-      console.log("shweta :: onetimeoption : ", this.emittedOptions);
+    //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
+       if(this.defaultValue!=undefined){
+        this.setValue(this.defaultValue);
+       }
     }
+    
     // setTimeout(async ()=>{
     //   if (this.category == '1') {
     //     if (this.doCustomScript) {
@@ -70,7 +74,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   // }
   async ngOnInit() {
     if (this.emittedOptions && this.emittedOptions.length > 0) {
-      console.log("shweta :: onetimeoption : ", this.emittedOptions);
+    //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
     }

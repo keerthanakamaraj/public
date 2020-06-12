@@ -41,7 +41,7 @@ export class AlertsComponent implements OnInit {
 
   ngOnInit() { }
 
-  async setAlertValues(alertType: number, alertMsg: string) {
+  async setAlertValues(alertType: number, alertMsg: string, customErrorMsg: string) {
     let tempObj = {
       displayAlert: true,
       alertType: alertType,
@@ -51,7 +51,7 @@ export class AlertsComponent implements OnInit {
       showCloseButton: false
     };
 
-    await this.rloService.getAlertMessage(alertMsg).then((data) => {
+    await this.rloService.getAlertMessage(alertMsg, customErrorMsg).then((data) => {
       console.log(data);
       tempObj.alertMsg = data;
     });
@@ -103,9 +103,9 @@ export class AlertsComponent implements OnInit {
   // }
 
   //this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
-  showAlert(alertType: number, alertMsg: string, timeout: number = 5000) {
+  showAlert(alertType: number, alertMsg: string, timeout: number = 5000, customErrorMsg: string = "") {
     var tempObj;
-    this.setAlertValues(alertType, alertMsg).then((data) => {
+    this.setAlertValues(alertType, alertMsg, customErrorMsg).then((data) => {
       console.log(data);
       tempObj = data;
 

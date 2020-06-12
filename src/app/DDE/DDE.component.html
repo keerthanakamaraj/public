@@ -48,6 +48,7 @@
                         <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
                             [hidden]="!isCustomerTab" (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
                             (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
+                            (updateStageValidation)="getAllCustomerDetails($event)"
                             (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
                         </app-CustomerGridDTLS>
                     </div>
@@ -214,6 +215,9 @@
                   </div> -->
                 </div>
                 <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+                <app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
+                <app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
+                
             </div>
         </div>
 

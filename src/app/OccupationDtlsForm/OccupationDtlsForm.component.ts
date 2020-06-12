@@ -282,7 +282,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   async OD_SAVE_BTN_click(event) {
     let inputMap = new Map();
-
     let occupationGridData  : any = this.OCC_DTLS_GRID.getOccupationGridData();
     console.log("shweta :: occupation grid :: ",occupationGridData);
     var nooferror: number = await this.revalidate();
@@ -304,7 +303,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         }
 
       //}
-      
 
       // this.OD_SAVE_BTN.setDisabled(true);
       if (typeof (this.HidOccupationSeq.getFieldValue()) !== 'undefined') {
@@ -339,6 +337,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
 
+            // this.occpOnBlur.emit({}); -- Sprint 3 Present, Dev missing
+            
             // this.OD_SAVE_BTN.setDisabled(false);
 
             await this.OCC_DTLS_GRID.gridDataLoad({
@@ -466,6 +466,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             });
             this.onReset();
 
+            this.occpOnBlur.emit({});
           },
           async (httpError) => {
             var err = httpError['error']

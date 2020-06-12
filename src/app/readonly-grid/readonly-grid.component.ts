@@ -93,11 +93,12 @@ export class ReadonlyGridComponent {
 
   columnsInitialized: Subject<any> = new Subject<any>();
   loadColums(colDefs) {
-    this.services.translate.get(['FluidForm']).toPromise().then(translations => {
+    this.services.translate.get('FluidForm').toPromise().then(translations => {
+      console.log(translations);
       this.overlayLoadingTemplate =
-        '<span class=\"ag-overlay-loading-center\">' + translations.FluidForm.ReadOnlyGrid.loading + '</span>';
+        '<span class=\"ag-overlay-loading-center\">' + translations.ReadOnlyGrid.loading + '</span>';
       this.overlayNoRowsTemplate =
-        '<span class=\"ag-overlay-loading-center\">' + translations.FluidForm.ReadOnlyGrid.NoData + '</span>';
+        '<span class=\"ag-overlay-loading-center\">' + translations.ReadOnlyGrid.NoData + '</span>';
     });
     this.services.translate.get([this.gridConsts.gridCode]).toPromise().then(translations => {
       this.columnDefs = [];

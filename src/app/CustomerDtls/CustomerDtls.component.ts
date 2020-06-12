@@ -258,8 +258,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         const styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
-       // this.services.rloCommonData.childToParentSubject.unsubscribe();
-      //  this.updateCustGridEmitter.unsubscribe();
+        // this.services.rloCommonData.childToParentSubject.unsubscribe();
+        //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -510,7 +510,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.CD_SAVE_BTN.setDisabled(false);
                         this.services.rloCommonData.childToParentSubject.next({
                             action: 'updateCustGrid',
-                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
+                            data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
                         // this.onReset();
                     },
@@ -624,7 +624,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
                         this.services.rloCommonData.childToParentSubject.next({
                             action: 'updateCustGrid',
-                            data:{'borrowerSeq': this.HidCustomerId.getFieldValue()}
+                            data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
                         // this.updateCustGrid.emit({
                         //     'borrowerSeq': this.HidCustomerId.getFieldValue()
