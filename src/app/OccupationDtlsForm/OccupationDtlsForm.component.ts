@@ -133,7 +133,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     this.HidNatureOfBusiness.setValue('NATURE_OF_BUSINESS');
     this.HidEmpStatus.setValue('EMPLOYMENT_STATUS');
     this.HidEmpType.setValue('EMPLOYMENT_TYPE');
-    this.HidIncomeFrequency.setValue('INCOME_FREQUENCY');
+    this.HidIncomeFrequency.setValue('FREQUENCY');
     this.HidIncomeType.setValue('INCOME_TYPE');
     this.HidCurrency.setValue('CURRENCY');
     let inputMap = new Map();

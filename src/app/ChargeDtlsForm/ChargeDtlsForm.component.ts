@@ -95,7 +95,7 @@ this.hidAppId.setValue('RLO');
 this.hidChargeType.setValue('CHARGE_TYPE');
 this.hidCurrency.setValue('CURRENCY');
 this.hidYesNo.setValue('YES_NO');
-this.hidFrequency.setValue('CHARGE_FREQ');
+this.hidFrequency.setValue('FREQUENCY');
 this.hidRateCharge.setValue('RATE_CHARGE_ON');
 this.hidChargeCollection.setValue('CHARGE_COLL');
 this.hidPartyType.setValue('PARTY_TYPE');

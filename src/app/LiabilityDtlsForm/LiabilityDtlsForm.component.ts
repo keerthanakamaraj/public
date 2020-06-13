@@ -117,7 +117,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.LD_OS_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         this.LD_EQUIVALENT_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.hideEmiFrequency.setValue('LOAN_EMI_FREQUENCY');
+        this.hideEmiFrequency.setValue('FREQUENCY');
         this.hideTypeOfLoan.setValue('LOAN_TYPE');
         this.hidAppId.setValue('RLO');
         this.hidLoanStatus.setValue('LOAN_STATUS');
