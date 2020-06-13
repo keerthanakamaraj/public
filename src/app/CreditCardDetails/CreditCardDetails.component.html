@@ -1,158 +1,154 @@
 <form class="MakeRelative">
-<div class="ShowLoading " *ngIf="loadSpinner">
- <div class="lds-roller MakeItMiddle">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div>
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-<h4 class="FormTitle">
-{{ 'CreditCardDetails.FormTitle' | translate }}
-</h4>
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Branch.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Branch' | translate}}
-</label>
-</div>
-<app-text-box #CCD_Branch fieldID="CCD_Branch" [formCode]="formCode" (blur)="genericOnBlur('CCD_Branch', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_CategoryOnPage.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_CategoryOnPage' | translate}}
-</label>
-</div>
-<app-combo-box #CCD_CategoryOnPage category="2" fieldID="CCD_CategoryOnPage" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CCD_CategoryOnPage', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Approved_Limit.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Approved_Limit' | translate}}
-</label>
-</div>
-<app-text-box #CCD_Approved_Limit fieldID="CCD_Approved_Limit" [formCode]="formCode" (blur)="genericOnBlur('CCD_Approved_Limit', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Name_on_Card.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Name_on_Card' | translate}}
-</label>
-</div>
-<app-text-box #CCD_Name_on_Card fieldID="CCD_Name_on_Card" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CCD_Name_on_Card', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Settlement_Account_Type.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Settlement_Account_Type' | translate}}
-</label>
-</div>
-<app-text-box #CCD_Settlement_Account_Type fieldID="CCD_Settlement_Account_Type" [formCode]="formCode" (blur)="genericOnBlur('CCD_Settlement_Account_Type', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Settle_Account_No.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Settle_Account_No' | translate}}
-</label>
-</div>
-<app-text-box #CCD_Settle_Account_No fieldID="CCD_Settle_Account_No" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('CCD_Settle_Account_No', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Payment_Option.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Payment_Option' | translate}}
-</label>
-</div>
-<app-combo-box #CCD_Payment_Option category="2" fieldID="CCD_Payment_Option" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CCD_Payment_Option', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Statement_Dispatch_Mode.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Statement_Dispatch_Mode' | translate}}
-</label>
-</div>
-<app-combo-box #CCD_Statement_Dispatch_Mode category="2" fieldID="CCD_Statement_Dispatch_Mode" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CCD_Statement_Dispatch_Mode', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Existing_Credit_Card.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Existing_Credit_Card' | translate}}
-</label>
-</div>
-<app-combo-box #CCD_Existing_Credit_Card category="2" fieldID="CCD_Existing_Credit_Card" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CCD_Existing_Credit_Card', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-<app-label #Add_On_Details parentCompCode="CreditCardDetails" fieldID="Add_On_Details" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="400"></app-label>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Add_On_Required.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Add_On_Required' | translate}}
-</label>
-</div>
-<app-combo-box #CCD_Add_On_Required category="2" fieldID="CCD_Add_On_Required" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CCD_Add_On_Required', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Name.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Name' | translate}}
-</label>
-</div>
-<app-text-box #CCD_Name fieldID="CCD_Name" [formCode]="formCode" (blur)="genericOnBlur('CCD_Name', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Date_Of_Birth.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Date_Of_Birth' | translate}}
-</label>
-</div>
-<app-date #CCD_Date_Of_Birth fieldID="CCD_Date_Of_Birth" [formCode]="formCode" (blur)="genericOnBlur('CCD_Date_Of_Birth', $event)"></app-date>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_CID_No.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_CID_No' | translate}}
-</label>
-</div>
-<app-text-box #CCD_CID_No fieldID="CCD_CID_No" [formCode]="formCode" (blur)="genericOnBlur('CCD_CID_No', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CCD_Relationship.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'CreditCardDetails.CCD_Relationship' | translate}}
-</label>
-</div>
-<app-combo-box #CCD_Relationship category="2" fieldID="CCD_Relationship" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CCD_Relationship', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Save.isHidden()">
-<app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save" [formCode]="formCode" customClass="btn btn-primary "></app-button>
-</div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Clear.isHidden()">
-<app-button #CCD_Clear fieldName="{{ 'CreditCardDetails.CCD_Clear' | translate}}" fieldID="CCD_Clear" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_31.isHidden()">
-<app-CreditCardDetailsGrid #FieldId_31 fieldID="FieldId_31" [formCode]="formCode"></app-CreditCardDetailsGrid>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <!-- <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-5 col-md-5">
+        <h4 class="FormTitle">
+          {{ 'CreditCardDetails.FormTitle' | translate }}
+        </h4>
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div> -->
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Branch.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Branch.mandatory}">
+                {{ 'CreditCardDetails.Branch' | translate}}
+              </label>
+            </div>
+            <app-text-box #Branch fieldID="Branch" [formCode]="formCode" (blur)="genericOnBlur('Branch', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FrontPageCategory.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': FrontPageCategory.mandatory}">
+                {{ 'CreditCardDetails.FrontPageCategory' | translate}}
+              </label>
+            </div>
+            <app-combo-box #FrontPageCategory category="2" fieldID="FrontPageCategory" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('FrontPageCategory', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaximumCardLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.MaximumCardLimit' | translate}}
+              </label>
+            </div>
+            <app-text-box #MaximumCardLimit fieldID="MaximumCardLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('MaximumCardLimit', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedLimit.mandatory}">
+                {{ 'CreditCardDetails.ApprovedLimit' | translate}}
+              </label>
+            </div>
+            <app-text-box #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('ApprovedLimit', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.SettlementAccountType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #SettlementAccountType category="2" fieldID="SettlementAccountType" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('SettlementAccountType', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SettlementAccountNo.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.SettlementAccountNo' | translate}}
+              </label>
+            </div>
+            <app-text-box #SettlementAccountNo fieldID="SettlementAccountNo" [formCode]="formCode"
+              (blur)="genericOnBlur('SettlementAccountNo', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.PaymentOption' | translate}}
+              </label>
+            </div>
+            <app-combo-box #PaymentOption category="2" fieldID="PaymentOption" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('PaymentOption', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="StmtDispatchMode.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': StmtDispatchMode.mandatory}">
+                {{ 'CreditCardDetails.StmtDispatchMode' | translate}}
+              </label>
+            </div>
+            <app-combo-box #StmtDispatchMode category="2" fieldID="StmtDispatchMode" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('StmtDispatchMode', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ExistingCreditCard.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.ExistingCreditCard' | translate}}
+              </label>
+            </div>
+            <app-combo-box #ExistingCreditCard category="2" fieldID="ExistingCreditCard" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('ExistingCreditCard', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardDispatchMode.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.CardDispatchMode' | translate}}
+              </label>
+            </div>
+            <app-combo-box #CardDispatchMode category="2" fieldID="CardDispatchMode" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('CardDispatchMode', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Save.isHidden()">
+            <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save"
+              [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Clear.isHidden()">
+            <app-button #CCD_Clear fieldName="{{ 'CreditCardDetails.CCD_Clear' | translate}}" fieldID="CCD_Clear"
+              [formCode]="formCode" (buttonClick)="CCD_Clear_click($event)" customClass="btn-warning-outline">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+            <app-creditcard-handler #Handler [MainComponent]="this"></app-creditcard-handler>
+          </div>
+        </div>
+        <app-hidden #hidCreditSeq fieldID="hidCreditSeq"></app-hidden>
+        <app-hidden #hidCatgory fieldID="hidCatgory"></app-hidden>
+        <app-hidden #hidAccType fieldID="hidAccType"></app-hidden>
+        <app-hidden #hidPaymentOption fieldID="hidPaymentOption"></app-hidden>
+        <app-hidden #hidStatementDispatch fieldID="hidStatementDispatch"></app-hidden>
+        <app-hidden #hidExisitingCard fieldID="hidExisitingCard"></app-hidden>
+        <app-hidden #hidCardDispatch fieldID="hidCardDispatch"></app-hidden>
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+      </div>
+    </div>
+  </div>
 </form>

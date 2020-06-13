@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreditCardHandlerComponent } from './creditcard-handler.component';
+import { CreditCardHandlerComponent } from '../CreditCardDetails/creditcard-handler.component';
 
 @NgModule({
   declarations: [CreditCardHandlerComponent],
