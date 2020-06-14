@@ -61,83 +61,84 @@
               title="{{ 'Initiation.BAD_LABEL' | translate}}">
               <div #BAD_GROUP id="BAD_GROUP">
                 <div class="form-group pb10 form-group-initiation">
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-                        <app-label #BAD_PROD_LBL parentCompCode="Initiation" fieldID="BAD_PROD_LBL" [formCode]="formCode"
-                          customClass="sub-section-header"></app-label>
-                      </div>
-                    <div class="col-12  col-sm-12 col-md-12 group-default">
-                        <div #PRDUCT_GROUP id="PRDUCT_GROUP">
-                          <div class="form-group pb10 PRDUCT_GROUP">
-                            <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
-                              <div class="clr-brown fieldLegend">
-                                <label class="clr-brown" [ngClass]="{'mandatory': BAD_PROD_CAT.mandatory}">
-                                  {{ 'Initiation.BAD_PROD_CAT' | translate}}
-                                </label>
-                              </div>
-                              <rlo-ui-radio #BAD_PROD_CAT fieldID="BAD_PROD_CAT" [formCode]="formCode"
-                                domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"
-                                (change)="BAD_PROD_CAT_change('BAD_PROD_CAT', $event)">
-                              </rlo-ui-radio>
-                            </div>
-                            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
-                              <div class="clr-brown fieldLegend">
-                                <label class="clr-brown" [ngClass]="{'mandatory': BAD_PRODUCT.mandatory}">
-                                  {{ 'Initiation.BAD_PRODUCT' | translate}}
-                                </label>
-                              </div>
-                              <app-combo-box #BAD_PRODUCT category="2" fieldID="BAD_PRODUCT" [formCode]="formCode"
-                                placeholder="Select" domainObjectUrl="/MstProductDetails/{ProductCd}" doServerUrl="/masters"
-                                customClass="Product_Group" domainObjectCode="MstProductDetails"
-                                (blur)="genericOnBlur('BAD_PRODUCT', $event)"
-                                (change)="BAD_PRODUCT_change('BAD_PRODUCT', $event)"></app-combo-box>
-                            </div>
-                            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
-                              <div class="clr-brown fieldLegend">
-                                <label class="clr-brown" [ngClass]="{'mandatory': BAD_SUB_PROD.mandatory}">
-                                  {{ 'Initiation.BAD_SUB_PROD' | translate}}
-                                </label>
-                              </div>
-                              <app-combo-box #BAD_SUB_PROD category="2" fieldID="BAD_SUB_PROD" [formCode]="formCode"
-                                placeholder="Select" domainObjectUrl="/MstSubProductDetails/{SubProductCd}"
-                                doServerUrl="/masters" domainObjectCode="MstSubProductDetails"
-                                (blur)="genericOnBlur('BAD_SUB_PROD', $event)"
-                                (change)="BAD_SUB_PROD_change('BAD_SUB_PROD', $event)"></app-combo-box>
-                            </div>
-                            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
-                              <div class="clr-brown fieldLegend">
-                                <label class="clr-brown" [ngClass]="{'mandatory': BAD_SCHEME.mandatory}">
-                                  {{ 'Initiation.BAD_SCHEME' | translate}}
-                                </label>
-                              </div>
-                              <app-combo-box #BAD_SCHEME category="2" fieldID="BAD_SCHEME" [formCode]="formCode"
-                                placeholder="Select" domainObjectUrl="/MstSchemeDetails/{SchemeCd}" doServerUrl="/masters"
-                                domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)">
-                              </app-combo-box>
-                            </div>
+                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                    <app-label #BAD_PROD_LBL parentCompCode="Initiation" fieldID="BAD_PROD_LBL" [formCode]="formCode"
+                      customClass="sub-section-header"></app-label>
+                  </div>
+                  <div class="col-12  col-sm-12 col-md-12 group-default">
+                    <div #PRDUCT_GROUP id="PRDUCT_GROUP">
+                      <div class="form-group pb10 PRDUCT_GROUP">
+                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': BAD_PROD_CAT.mandatory}">
+                              {{ 'Initiation.BAD_PROD_CAT' | translate}}
+                            </label>
                           </div>
-    
+                          <rlo-ui-radio #BAD_PROD_CAT fieldID="BAD_PROD_CAT" [formCode]="formCode"
+                            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PROD_CAT', $event)"
+                            (change)="BAD_PROD_CAT_change('BAD_PROD_CAT', $event)">
+                          </rlo-ui-radio>
+                        </div>
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PRODUCT.isHidden()">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': BAD_PRODUCT.mandatory}">
+                              {{ 'Initiation.BAD_PRODUCT' | translate}}
+                            </label>
+                          </div>
+                          <app-combo-box #BAD_PRODUCT category="2" fieldID="BAD_PRODUCT" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MstProductDetails/{ProductCd}" doServerUrl="/masters"
+                            customClass="Product_Group" domainObjectCode="MstProductDetails"
+                            (blur)="genericOnBlur('BAD_PRODUCT', $event)"
+                            (change)="BAD_PRODUCT_change('BAD_PRODUCT', $event)"></app-combo-box>
+                        </div>
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SUB_PROD.isHidden()">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': BAD_SUB_PROD.mandatory}">
+                              {{ 'Initiation.BAD_SUB_PROD' | translate}}
+                            </label>
+                          </div>
+                          <app-combo-box #BAD_SUB_PROD category="2" fieldID="BAD_SUB_PROD" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MstSubProductDetails/{SubProductCd}"
+                            doServerUrl="/masters" domainObjectCode="MstSubProductDetails"
+                            (blur)="genericOnBlur('BAD_SUB_PROD', $event)"
+                            (change)="BAD_SUB_PROD_change('BAD_SUB_PROD', $event)"></app-combo-box>
+                        </div>
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SCHEME.isHidden()">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': BAD_SCHEME.mandatory}">
+                              {{ 'Initiation.BAD_SCHEME' | translate}}
+                            </label>
+                          </div>
+                          <app-combo-box #BAD_SCHEME category="2" fieldID="BAD_SCHEME" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MstSchemeDetails/{SchemeCd}" doServerUrl="/masters"
+                            domainObjectCode="MstSchemeDetails" (blur)="genericOnBlur('BAD_SCHEME', $event)">
+                          </app-combo-box>
                         </div>
                       </div>
-                      <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 4px 15px 10px 15px;">
-                          <div #FieldId_73 id="FieldId_73">
-                            <div class="form-group pb10 PROMOTION_GROUP">
-                              <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
-                                <app-label #PROMOTION_LABEL parentCompCode="Initiation" legendAlign="text-center"
-                                  fieldID="PROMOTION_LABEL" [formCode]="formCode"></app-label>
-                              </div>
-                              <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PROMOTION.isHidden()">
-                                <app-combo-box #BAD_PROMOTION category="2" fieldID="BAD_PROMOTION" [formCode]="formCode"
-                                  placeholder="Select" valueAlign="center"
-                                  domainObjectUrl="/MstPromotionDetails/{PromotionCd}" doServerUrl="/masters"
-                                  domainObjectCode="MstPromotionDetails" (blur)="genericOnBlur('BAD_PROMOTION', $event)">
-                                </app-combo-box>
-                              </div>
-                            </div>
-      
-                          </div>
+
+                    </div>
+                  </div>
+                  <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 4px 15px 10px 15px;">
+                    <div #FieldId_73 id="FieldId_73">
+                      <div class="form-group pb10 PROMOTION_GROUP">
+                        <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
+                          <app-label #PROMOTION_LABEL parentCompCode="Initiation" legendAlign="text-center"
+                            fieldID="PROMOTION_LABEL" [formCode]="formCode"></app-label>
                         </div>
-                        <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                        <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="BAD_PROMOTION.isHidden()">
+                          <app-combo-box #BAD_PROMOTION category="2" fieldID="BAD_PROMOTION" [formCode]="formCode"
+                            placeholder="Select" valueAlign="center"
+                            domainObjectUrl="/MstPromotionDetails/{PromotionCd}" doServerUrl="/masters"
+                            domainObjectCode="MstPromotionDetails" (blur)="genericOnBlur('BAD_PROMOTION', $event)"
+                            (change)="BAD_PROMOTION_change('BAD_PROMOTION', $event)">
+                          </app-combo-box>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_PHYSICAL_FRM_NO.mandatory}">
@@ -188,26 +189,30 @@
                       domainObjectCode="MstBranchDetails" (blur)="genericOnBlur('BAD_BRANCH', $event)">
                     </app-combo-box>
                   </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_APP_PRPSE.isHidden() || !isLoanCategory">
-                        <div class="clr-brown fieldLegend">
-                          <label class="clr-brown" [ngClass]="{'mandatory': BAD_APP_PRPSE.mandatory}">
-                            {{ 'Initiation.BAD_APP_PRPSE' | translate}}
-                          </label>
-                        </div>
-                        <app-combo-box #BAD_APP_PRPSE category="2" fieldID="BAD_APP_PRPSE" [formCode]="formCode"
-                          placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                          domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_APP_PRPSE', $event)"></app-combo-box>
-                      </div>
-                      <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_APP_PRPSE.isHidden() || isLoanCategory">
-                      <div class="clr-brown fieldLegend">
-                        <label class="clr-brown" [ngClass]="{'mandatory': BAD_PRIME_USAGE.mandatory}">
-                          {{ 'Initiation.BAD_PRIME_USAGE' | translate}}
-                        </label>
-                      </div>
-                      <app-combo-box #BAD_PRIME_USAGE category="2" fieldID="BAD_PRIME_USAGE" [formCode]="formCode"
-                        placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                        domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)"></app-combo-box>
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+                    [hidden]="BAD_APP_PRPSE.isHidden() || !isLoanCategory">
+                    <div class="clr-brown fieldLegend">
+                      <label class="clr-brown" [ngClass]="{'mandatory': BAD_APP_PRPSE.mandatory}">
+                        {{ 'Initiation.BAD_APP_PRPSE' | translate}}
+                      </label>
                     </div>
+                    <app-combo-box #BAD_APP_PRPSE category="2" fieldID="BAD_APP_PRPSE" [formCode]="formCode"
+                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_APP_PRPSE', $event)">
+                    </app-combo-box>
+                  </div>
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+                    [hidden]="BAD_APP_PRPSE.isHidden() || isLoanCategory">
+                    <div class="clr-brown fieldLegend">
+                      <label class="clr-brown" [ngClass]="{'mandatory': BAD_PRIME_USAGE.mandatory}">
+                        {{ 'Initiation.BAD_PRIME_USAGE' | translate}}
+                      </label>
+                    </div>
+                    <app-combo-box #BAD_PRIME_USAGE category="2" fieldID="BAD_PRIME_USAGE" [formCode]="formCode"
+                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
+                    </app-combo-box>
+                  </div>
                   <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #BAD_PROD_LBL parentCompCode="Initiation" fieldID="BAD_PROD_LBL" [formCode]="formCode"
                       customClass="sub-section-header"></app-label>
@@ -326,7 +331,7 @@
                       (change)="CD_STAFF_change('CD_STAFF', $event)">
                     </rlo-ui-radio>
                   </div>
-                  
+
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #CD_INLINE_HEADER parentCompCode="Initiation" fieldID="CD_INLINE_HEADER"
                       [formCode]="formCode" customClass="sub-section-header"></app-label>
@@ -435,7 +440,7 @@
                     <app-text-box #CD_TAX_ID fieldID="CD_TAX_ID" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_TAX_ID', $event)"></app-text-box>
                   </div>
-                <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_COUNTRY_CODE.isHidden()">
+                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_COUNTRY_CODE.isHidden()">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown" [ngClass]="{'mandatory': CD_COUNTRY_CODE.mandatory}">
                             {{ 'Initiation.CD_COUNTRY_CODE' | translate}}
@@ -455,31 +460,32 @@
                   </div> -->
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE.isHidden()">
                     <div class="clr-brown fieldLegend">
-                        <label class="clr-brown" [ngClass]="{'mandatory': CD_MOBILE.mandatory}">
-                            {{ 'Initiation.CD_MOBILE' | translate}}
-                        </label>
+                      <label class="clr-brown" [ngClass]="{'mandatory': CD_MOBILE.mandatory}">
+                        {{ 'Initiation.CD_MOBILE' | translate}}
+                      </label>
                     </div>
                     <!-- deep test -->
                     <!-- <app-text-box #CD_MOBILE_NO fieldID="CD_MOBILE_NO" [formCode]="formCode" (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box> -->
                     <rlo-ui-mobile #CD_MOBILE fieldID="CD_MOBILE"
-                        (countryCodeChanged)="countryCodeChanged('CD_MOBILE',$event)"
-                        (blur)="genericOnBlur('CD_MOBILE', $event)"></rlo-ui-mobile>
-                </div>
+                      (countryCodeChanged)="countryCodeChanged('CD_MOBILE',$event)"
+                      (blur)="genericOnBlur('CD_MOBILE', $event)"></rlo-ui-mobile>
+                  </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EMAIL_ID.isHidden()">
                     <div class="clr-brown fieldLegend">
-                        <label class="clr-brown" [ngClass]="{'mandatory': CD_EMAIL_ID.mandatory}">
-                            {{ 'Initiation.CD_EMAIL_ID' | translate}}
-                        </label>
+                      <label class="clr-brown" [ngClass]="{'mandatory': CD_EMAIL_ID.mandatory}">
+                        {{ 'Initiation.CD_EMAIL_ID' | translate}}
+                      </label>
                     </div>
-                    <app-text-box #CD_EMAIL_ID fieldID="CD_EMAIL_ID" [formCode]="formCode" (blur)="genericOnBlur('CD_EMAIL_ID', $event)"></app-text-box>
-                </div>
+                    <app-text-box #CD_EMAIL_ID fieldID="CD_EMAIL_ID" [formCode]="formCode"
+                      (blur)="genericOnBlur('CD_EMAIL_ID', $event)"></app-text-box>
+                  </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
                         {{ 'Initiation.CD_DOB' | translate}}
                       </label>
                     </div>
-                    <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select"  
+                    <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select"
                       (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
@@ -513,14 +519,16 @@
                     <app-text-box #CD_LOAN_OWNERSHIP fieldID="CD_LOAN_OWNERSHIP" [formCode]="formCode"
                       placeholder="(Optional)" (blur)="genericOnBlur('CD_LOAN_OWNERSHIP', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_NAME_ON_CARD.isHidden()|| isLoanCategory">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+                    [hidden]="CD_NAME_ON_CARD.isHidden()|| isLoanCategory">
                     <div class="clr-brown fieldLegend">
-                        <label class="clr-brown"  [ngClass]="{'mandatory': CD_NAME_ON_CARD.mandatory}">
-                            {{ 'Initiation.CD_NAME_ON_CARD' | translate}}
-                        </label>
+                      <label class="clr-brown" [ngClass]="{'mandatory': CD_NAME_ON_CARD.mandatory}">
+                        {{ 'Initiation.CD_NAME_ON_CARD' | translate}}
+                      </label>
                     </div>
-                    <app-text-box #CD_NAME_ON_CARD fieldID="CD_NAME_ON_CARD" [formCode]="formCode" (blur)="genericOnBlur('CD_NAME_ON_CARD', $event)"></app-text-box>
-                </div>
+                    <app-text-box #CD_NAME_ON_CARD fieldID="CD_NAME_ON_CARD" [formCode]="formCode"
+                      (blur)="genericOnBlur('CD_NAME_ON_CARD', $event)"></app-text-box>
+                  </div>
                   <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CD_ADD.isHidden()">
                     <app-button #CD_ADD fieldName="{{ 'Initiation.CD_ADD' | translate}}" fieldID="CD_ADD"
                       [formCode]="formCode" iconClass="fa fa-plus" [type]="2" customClass="icon-button plus"
@@ -730,15 +738,15 @@
                   </div> -->
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NO.isHidden()">
                     <div class="clr-brown fieldLegend">
-                        <label class="clr-brown" [ngClass]="{'mandatory': RD_REFERRER_NO.mandatory}">
-                            {{ 'Initiation.RD_REFERRER_NO' | translate}}
-                        </label>
+                      <label class="clr-brown" [ngClass]="{'mandatory': RD_REFERRER_NO.mandatory}">
+                        {{ 'Initiation.RD_REFERRER_NO' | translate}}
+                      </label>
                     </div>
-                   
+
                     <rlo-ui-mobile #RD_REFERRER_NO fieldID="RD_REFERRER_NO"
-                        (countryCodeChanged)="countryCodeChanged('RD_REFERRER_NO',$event)"
-                        (blur)="genericOnBlur('RD_REFERRER_NO', $event)"></rlo-ui-mobile>
-                </div>
+                      (countryCodeChanged)="countryCodeChanged('RD_REFERRER_NO',$event)"
+                      (blur)="genericOnBlur('RD_REFERRER_NO', $event)"></rlo-ui-mobile>
+                  </div>
                 </div>
               </div>
               <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line">
@@ -766,6 +774,7 @@
         <app-hidden #hideTenurePeriod fieldID="hideTenurePeriod"></app-hidden>
         <app-hidden #hideAppPurpose fieldID="hideAppPurpose"></app-hidden>
         <app-hidden #hideISDCode fieldID="hideISDCode"></app-hidden>
+        <app-hidden #allowCoBorrower fieldID="allowCoBorrower"></app-hidden>
 
       </div>
     </div>

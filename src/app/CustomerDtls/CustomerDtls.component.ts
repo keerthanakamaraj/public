@@ -796,7 +796,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 });
 
                 this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
-                this.setNonEditableFields(true);
+                // this.setNonEditableFields(true);
             },
             async (httpError) => {
                 const err = httpError['error'];

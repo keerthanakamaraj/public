@@ -112,7 +112,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('hideTenurePeriod', { static: false }) hideTenurePeriod: HiddenComponent;
   @ViewChild('INIT_ACCORD', { static: false }) INIT_ACCORD: RloUiAccordionComponent;
   @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
-
+  @ViewChild('allowCoBorrower', { static: false }) allowCoBorrower: HiddenComponent;
+  disableLoanOwnership: boolean = true
   isLoanCategory: boolean;
   borrower: any;
   borrowericif: any;
@@ -143,17 +144,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('CD_TAX_ID'),
       this.revalidateBasicField('CD_DEBIT_SCORE'),
       this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
-   
+
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
-  ]).then((errorCounts) => {
+    ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
-          totalErrors += errorCount;
+        totalErrors += errorCount;
       });
-  });
-  this.errors = totalErrors;
-  super.afterRevalidate();
-  return totalErrors;
+    });
+    this.errors = totalErrors;
+    super.afterRevalidate();
+    return totalErrors;
   }
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -211,7 +212,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('LD_INTEREST_RATE'),
         this.revalidateBasicField('LD_TENURE'),
         this.revalidateBasicField('LD_TENURE_PERIOD'),
-        this.revalidateBasicField('LD_APP_PRPSE'),
+        // this.revalidateBasicField('LD_APP_PRPSE'),
         this.revalidateBasicField('LD_GROSS_INCOME'),
         this.revalidateBasicField('LD_EXST_LBLT_AMT'),
         this.revalidateBasicField('LD_OTH_DEDUCTIONS'),
@@ -223,7 +224,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('LD_MARGIN_RATE'),
         this.revalidateBasicField('LD_NET_INTEREST_RATE'),
         this.revalidateBasicField('RD_REFERRER_NAME'),
-        this.revalidateBasicField('RD_COUNTRY_CODE'),
+        // this.revalidateBasicField('RD_COUNTRY_CODE'),
         this.revalidateBasicField('RD_REFERRER_NO'),
       ]).then((errorCounts) => {
         errorCounts.forEach((errorCount) => {
@@ -392,6 +393,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.updateLoanTag();
     this.Handler.updateCustomerTags();
     this.Handler.updateAmountTags();
+
   }
 
   cancel() {
@@ -403,6 +405,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     let inputMap = new Map();
     this.cancel();
   }
+
 
 
   async SEARCH_CUST_BTN_click(event) {
@@ -467,9 +470,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_SUB_PROD.onReset();
     this.BAD_SCHEME.onReset();
     this.BAD_PROMOTION.onReset();
+
     // this.Handler.onResetCustomer({});
     this.Handler.resetLoanInformation();
     this.Handler.resetReferalInformation();
+    this.Handler.customers = [];
+    this.CUST_DTLS_GRID.setValue(Object.assign([], this.Handler.customers));
+    this.Handler.updateCustomerTags();
   }
 
 
@@ -484,22 +491,28 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_PROMOTION.onReset();
   }
 
-  // async BAD_SCHEME_change(fieldID, value) {
-  //   this.BAD_PROMOTION.onReset();
-  // }
-  async BAD_PROMOTION_change(fieldID, value) {
+  async BAD_SCHEME_blur(event) {
+    this.Handler.AllowLoanOwnership();
+  }
+  async BAD_PROMOTION_blur(event) {
+    this.Handler.AllowLoanOwnership();
     this.Handler.updateAmountTags();
 
   }
 
-   genderCheck() {
-      if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
-          // console.log("Please select gender according to tilte");
-          this.CD_GENDER.setError('Please select gender according to title');
-          return 1
-      }
+  async LD_MARGIN_RATE_blur(event) {
+    this.Handler.CalculateNetInterestRate();
+    // this.LD_NET_INTEREST_RATE.setValue(7.5)
+    // this.Handler.CalculateNetInterestRate();
   }
-   
+  genderCheck() {
+    if ((this.CD_GENDER.getFieldValue() === 'M' && this.CD_TITLE.getFieldValue() !== 'MR') || (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MRS') && (this.CD_GENDER.getFieldValue() === 'F' && this.CD_TITLE.getFieldValue() !== 'MS')) {
+      // console.log("Please select gender according to tilte");
+      this.CD_GENDER.setError('rlo.error.geneder.valid');
+      return 1
+    }
+  }
+
 
   async CD_EXISTING_CUST_change(fieldID, value) {
     this.Handler.existingCustomer({});
@@ -512,10 +525,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async CD_DOB_blur(event) {
     let inputMap = new Map();
     if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('Please select correct date of birth');
+      this.CD_DOB.setError('rlo.error.DOB.invalid');
       return 1;
     } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('age not valid');
+      this.CD_DOB.setError('rlo.error.Age.invalid');
       return 1
     }
   }
@@ -525,17 +538,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     let inputMap = new Map();
 
     if (!(this.isTodaysDate(this.BAD_DATE_OF_RCPT.getFieldValue()) || this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue()))) {
-      this.BAD_DATE_OF_RCPT.setError('Please select correct date of reciept ');
+      this.BAD_DATE_OF_RCPT.setError('rlo.error.DateOfRecipt.invalid');
       return 1;
     }
   }
 
 
-  async CD_GENDER_blur(event){
-      let inputMap = new Map();
-      let gendererror = this.genderCheck();
-      return gendererror
-      
+  async CD_GENDER_blur(event) {
+    let inputMap = new Map();
+    let gendererror = this.genderCheck();
+    return gendererror
+
   }
 
 
@@ -611,7 +624,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     //     return;
     //   }
     // }
-    
+
     await this.Handler.onAddCustomer({
     });
 
@@ -661,7 +674,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       if (this.borrower == true) {
         inputMap.set('HeaderParam.tenant-id', 'SB1');
         // inputMap.set('HeaderParam.user-id', 'Vishal');
-        inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId') );
+        inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
         inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
         inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
@@ -709,7 +722,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             if (confirm(alertMsg)) {
               this.services.router.navigate(['home', 'LANDING']);
             }
-            
+
             inputMap = new Map();
             this.onReset();
             this.SUBMIT_MAIN_BTN.setDisabled(false);
@@ -857,6 +870,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.CustomerTypeOnChange();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
       this.CD_LOAN_OWNERSHIP.setValue(100);
+
+    }
+    else {
+      this.CD_LOAN_OWNERSHIP.setValue(undefined);
+    }
+    if (this.allowCoBorrower.getFieldValue() == 'Y') {
+      if (this.CD_CUST_TYPE.getFieldValue() !== 'B' && this.disableLoanOwnership == true) {
+        this.CD_LOAN_OWNERSHIP.setReadOnly(true);
+      }
+      else {
+        this.CD_LOAN_OWNERSHIP.setReadOnly(false);
+      }
     }
 
   }
@@ -871,7 +896,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
       return 1
     }
-    
+
   }
 
 
@@ -941,6 +966,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
 
         { paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "MstSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     BAD_PROMOTION: {
@@ -953,6 +979,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
 
         { paramKey: "MstPromotionDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        { paramKey: "MstPromotionDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     CD_CUST_TYPE: {
