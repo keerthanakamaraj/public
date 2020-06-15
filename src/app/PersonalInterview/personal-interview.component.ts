@@ -7,8 +7,8 @@ import { IQuestion, IAnswerOption, IselectedAnswer,IFieldErrors } from './Person
 
 @Component({
   selector: 'app-personal-Interview',
-  templateUrl: './personal-Interview.component.html',
-  styleUrls: ['./personal-Interview.component.css']
+  templateUrl: './personal-interview.component.html',
+  styleUrls: ['./personal-interview.component.css']
 })
 
 export class PersonalInterviewComponent implements OnInit {
