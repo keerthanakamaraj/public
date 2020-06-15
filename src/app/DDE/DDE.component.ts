@@ -256,7 +256,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.HideProcessId.setValue('RLO_Process');
-        //this.HideServiceCode.setValue('ClaimTask');
+        //this.HideServiceCode.setValue('ClaimTask');// need to check 
         //this.HideTenantId.setValue('SB1');
 
         this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
