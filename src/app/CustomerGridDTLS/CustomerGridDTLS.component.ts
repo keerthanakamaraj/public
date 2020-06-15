@@ -36,9 +36,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   @Input() ApplicationId: string = undefined;
   @Input() isLoanCategory: boolean = true;
-  // loancatgory : boolean = false;
-  // public creditGrid:any = 'Show';
-  
+
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
   CustomerDetailsMap = new Map<string, any>();
@@ -238,15 +236,6 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     }
 
   }
-//   GridView(){
-//     this.loancatgory = !this.loancatgory;
-//     if(this.loancatgory){
-//       this.creditGrid = "Show";
-//     }
-//     else{
-//       this.creditGrid = "Hide";
-//   }
-//  }
 
   apiSuccessCallback(customerDataArr: any[]) {
     this.customerTypeMap.clear();
