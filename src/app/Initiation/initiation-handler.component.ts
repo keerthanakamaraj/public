@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { InitiationComponent } from './Initiation.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
@@ -11,6 +11,7 @@ import { RlouiService } from '../rlo-services/rloui.service';
 })
 export class InitiationHandlerComponent extends RLOUIHandlerComponent implements OnInit {
   @Input() MainComponent: InitiationComponent;
+
   //isLoanCategory:boolean = true;
   customers = [];
   formName: string = "Initiation";
@@ -21,9 +22,12 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
     "CD_MOBILE", "CD_DEBIT_SCORE", "CD_CUST_SGMT", "CD_STAFF", "CD_STAFF_ID", "CD_LOAN_OWNERSHIP"];
 
-  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID","CD_MOBILE","CD_LOAN_OWNERSHIP"];
+  customersFormMandatory = ["CD_CUST_TYPE", "CD_TITLE", "CD_FIRST_NAME", "CD_LAST_NAME", "CD_DOB", "CD_GENDER", "CD_TAX_ID", "CD_MOBILE", "CD_LOAN_OWNERSHIP"];
   editTempId: any;
   tempId: any;
+  fieldArray: any[];
+  // allowLoanOwnership: boolean;
+
 
   constructor(rloui: RlouiService) {
     super(rloui);
@@ -45,18 +49,21 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
       this.MainComponent.isLoanCategory = false;
       this.MainComponent.CD_CUST_TYPE.setValue('B');
+      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
-      this.MainComponent.BAD_APP_PRPSE.mandatory =  false;
+      this.MainComponent.BAD_APP_PRPSE.mandatory = false;
       this.MainComponent.BAD_PRIME_USAGE.mandatory = true;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
-    } else if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC'){
+    } else if (this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
-      this.MainComponent.BAD_APP_PRPSE.mandatory =  true;
+      this.MainComponent.BAD_APP_PRPSE.mandatory = true;
       this.MainComponent.BAD_PRIME_USAGE.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
+      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(undefined);
+
 
     }
   }
@@ -77,7 +84,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
     let liabityAndOtherDed = liability + otherDeduction;
     if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed > grossincome) {
-      this.MainComponent.LD_GROSS_INCOME.setError('Gross Income should be greater');
+      this.MainComponent.LD_GROSS_INCOME.setError('rlo.error.grossIncome.invalid');
     } else {
       let netIncome = grossincome - liability - otherDeduction;
       // let DBR = (liability + otherDeduction) / grossincome;
@@ -178,25 +185,36 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     this.MainComponent.CD_STAFF.setValue(this.MainComponent.CD_STAFF.getDefault());
     this.isStaff({});
-
+    this.DisableLoanOwnerShip();
   }
 
   // Add Full Name based on First Name, Middle Name, Third Name and Last Name
   updateFullName(arg0: {}) {
-    let fullName = "";
-    if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
-      fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_THIRD_NAME.getFieldValue() + " ";
-    }
-    if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
-      fullName = fullName + " " + this.MainComponent.CD_LAST_NAME.getFieldValue() + " ";
-    }
-    fullName.trim();
+    // let fullName = "";
+    // if (this.MainComponent.CD_FIRST_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_FIRST_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_MIDDLE_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_MIDDLE_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_THIRD_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_THIRD_NAME.getFieldValue().trim() + " ";
+    // }
+    // if (this.MainComponent.CD_LAST_NAME.getFieldValue()) {
+    //   fullName = fullName + this.MainComponent.CD_LAST_NAME.getFieldValue().trim() + " ";
+    // }
+    // fullName.trim();
+    // this.MainComponent.CD_FULL_NAME.setValue(fullName);
+    let fullNameArr = [];
+    fullNameArr.push(this.MainComponent.CD_FIRST_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_MIDDLE_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_THIRD_NAME.getFieldValue());
+    fullNameArr.push(this.MainComponent.CD_LAST_NAME.getFieldValue());
+
+    let fullName = this.MainComponent.services.rloutil.concatenate(fullNameArr, " ");
+
+    console.log("Full Name  ", fullNameArr, fullName);
+
     this.MainComponent.CD_FULL_NAME.setValue(fullName);
   }
 
@@ -222,7 +240,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_GENDER.setValue(customer.gender.value, customer.gender.label);
     this.MainComponent.CD_DOB.setValue(customer.DOB);
     this.MainComponent.CD_TAX_ID.setValue(customer.taxId);
-    this.MainComponent.CD_MOBILE.setComponentSpecificValue(customer.mobileNumber,customer.countryCode);
+    this.MainComponent.CD_MOBILE.setComponentSpecificValue(customer.mobileNumber, customer.countryCode);
     this.MainComponent.CD_DEBIT_SCORE.setValue(customer.debitScore);
     this.MainComponent.CD_CUST_SGMT.setValue(customer.customerSegment.value, customer.customerSegment.label);
     this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
@@ -232,7 +250,18 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_EMAIL_ID.setValue(customer.email);
     // this.MainComponent.CD_COUNTRY_CODE.setValue(customer.countryCode);
     this.MainComponent.CD_NAME_ON_CARD.setValue(customer.nameOnCard);
+
     this.tempId = customer.tempId
+    if (this.MainComponent.allowCoBorrower.getFieldValue() == 'Y') {
+      if ((this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue() == undefined && this.MainComponent.disableLoanOwnership == false)
+        || (this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined)) {
+        this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
+      }
+      else {
+        this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
+      }
+
+    }
 
   }
 
@@ -244,77 +273,70 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
     this.updateCustomerTags();
-
+    this.DisableLoanOwnerShip();
     this.MainComponent.services.alert.showAlert(1, 'rlo.success.delete.customer', 1000);
   }
 
   // Add Customer
-  onAddCustomer(arg0: {}) {
+  async onAddCustomer(arg0: {}) {
+    var noofErrors: number = await this.MainComponent.revalidateCustomers();
 
-    this.validateCustomerForm().then((errorCounts) => {
-      if (errorCounts > 0) {
-        this.MainComponent.services.alert.showAlert(2, 'Please correct form error(s)', 5000);
-      } else {
-        let customer = this.getFormCustomerDetails();
-        customer.tempId = "ID-" + (this.counter++);
-        console.log("this.customers before adding" , this.customers);
-        if (customer.customerType.value == 'B') {
-          for (let i = 0; i < this.customers.length; i++) {
+    if (noofErrors > 0) {
+      this.MainComponent.services.alert.showAlert(2, 'rlo.error.formdetails.invalid', 5000);
+      //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
+      //  this.MainComponent.ACC_CUSTOMER.nativeElement.focus();
+
+    } else {
+      if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == undefined) {
+        this.MainComponent.services.alert.showAlert(2, ' "rlo.error.ProductCategory.invalid"', 5000);
+        return;
+      } else if (this.MainComponent.BAD_SCHEME.getFieldValue() == undefined) {
+        this.MainComponent.services.alert.showAlert(2, 'rlo.error.Scheme.invalid', 5000);
+        return;
+      }
+      let customer = this.getFormCustomerDetails();
+      customer.tempId = "ID-" + (this.counter++);
+      console.log("this.customers before adding", this.customers);
+      if (customer.customerType.value == 'B') {
+        for (let i = 0; i < this.customers.length; i++) {
+          if (this.customers[i].tempId !== this.editId) {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, 'Borrower is Already Added Please select other type', -1);
+              this.MainComponent.services.alert.showAlert(2, '', -1, 'rlo.error.Borrower.exist');
+              return;
+            }
+            else if (this.customers[i].FULL_NAME == this.MainComponent.CD_FULL_NAME.getFieldValue() && this.customers[i].DOB == this.MainComponent.CD_DOB.getFieldValue()) {
+              this.MainComponent.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
               return;
             }
           }
         }
-        if (this.editId) {
-          let index = this.customers.findIndex(cust => cust.tempId === this.editId);
-          this.customers[index] = customer;
-          console.log("updating customers",this.customers);
-         
-        } else {
-         
-          this.customers.push(customer);
-          this.tempId = undefined;
+      }
+      if (this.editId) {
+        let index = this.customers.findIndex(cust => cust.tempId === this.editId);
+        this.customers[index] = customer;
+        console.log("updating customers", this.customers);
 
-          console.log("this.customers",this.customers);
-        }
+      } else {
 
-        this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
-        this.updateCustomerTags();
+        this.customers.push(customer);
 
+
+
+        this.tempId = undefined;
+
+        console.log("this.customers", this.customers);
+      }
+
+      this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
+      this.updateCustomerTags();
+      if (this.editId) {
+        this.MainComponent.services.alert.showAlert(1, 'rlo.success.update.customer', 1000);
+      } else {
         this.MainComponent.services.alert.showAlert(1, 'rlo.success.save.customer', 1000);
-        this.resetCustomerDetails();
+
       }
-
-
-
-    });
-
-  }
-  AllowLoanOwnership() {
-    if (this.MainComponent.allowCoBorrower.getFieldValue() == 'Y') {
-      this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
-      this.MainComponent.disableLoanOwnership = false;
-
-    } else {
-      this.MainComponent.disableLoanOwnership = true;
-      this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
-    }
-  }
-  CalculateNetInterestRate() {
-    let CalculateNetInterest;
-    if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {
-      //  let store : string ;
-      if (this.MainComponent.LD_MARGIN_RATE.getFieldValue().startsWith('+')) {
-        const storePositive = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("+").join(0);
-        CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(storePositive)
-      }
-      else {
-        const storeNegative = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("-").join(0);
-        CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) - Number(storeNegative)
-      }
-
-      this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest);
+      this.resetCustomerDetails();
+      this.DisableLoanOwnerShip();
     }
 
   }
@@ -398,10 +420,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
     customer.email = this.MainComponent.CD_EMAIL_ID.getFieldValue();
     customer.countryCode = this.MainComponent.CD_MOBILE.countryCode;
-    customer.nameOnCard  = this.MainComponent.CD_NAME_ON_CARD.getFieldValue();
+    customer.nameOnCard = this.MainComponent.CD_NAME_ON_CARD.getFieldValue();
     customer.tempId = this.tempId;
-
-
     return customer;
   }
 
@@ -416,32 +436,33 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.onResetCustomer({});
   }
 
-  async validateCustomerForm() {
-    var totalErrors = 0;
+  // async validateCustomerForm() {
+  //   var totalErrors = 0;
 
-    this.customersFormMandatory.forEach(element => {
-      let val = this.MainComponent[element].getFieldValue();
-      if (val == '' || val == undefined) {
-        totalErrors += 1;
-        this.MainComponent[element].setError("Value cannot be empty");
-      }
-    });
+  //   this.customersFormMandatory.forEach(element => {
+  //     let val = this.MainComponent[element].getFieldValue();
+  //     if (val == '' || val == undefined) {
+  //       totalErrors += 1;
+  //       this.MainComponent[element].setError("Value cannot be empty");
+  //     }
+  //   });
 
-    // OF Validation Breaks with error - Shifting to Local Validations
-    // await Promise.all([
-    //   this.MainComponent.revalidateBasicField('CD_CUST_TYPE'),
-    //   this.MainComponent.revalidateBasicField('CD_TITLE'),
-    //   this.MainComponent.revalidateBasicField('CD_FIRST_NAME'),
-    //   this.MainComponent.revalidateBasicField('CD_LAST_NAME'),
-    //   this.MainComponent.revalidateBasicField('CD_GENDER'),
-    //   this.MainComponent.revalidateBasicField('CD_DOB')
-    // ]).then((errorCounts) => {
-    // 	errorCounts.forEach((errorCount) => {
-    // 		totalErrors += errorCount;
-    // 	});
-    // });
-    return totalErrors;
-  }
+
+  //   // OF Validation Breaks with error - Shifting to Local Validations
+  //   // await Promise.all([
+  //   //   this.MainComponent.revalidateBasicField('CD_CUST_TYPE'),
+  //   //   this.MainComponent.revalidateBasicField('CD_TITLE'),
+  //   //   this.MainComponent.revalidateBasicField('CD_FIRST_NAME'),
+  //   //   this.MainComponent.revalidateBasicField('CD_LAST_NAME'),
+  //   //   this.MainComponent.revalidateBasicField('CD_GENDER'),
+  //   //   this.MainComponent.revalidateBasicField('CD_DOB')
+  //   // ]).then((errorCounts) => {
+  //   // 	errorCounts.forEach((errorCount) => {
+  //   // 		totalErrors += errorCount;
+  //   // 	});
+  //   // });
+  //   return totalErrors;
+  // }
 
   private getValueLabelFromDropdown(element: FieldComponent): ValueLabel {
     return new ValueLabel(element.getFieldValue(), element.getFieldInfo());
@@ -475,19 +496,19 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['ISDCountryCode'] = this.customers[i].countryCode;
         tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
         // CustData.push(tempObj);
-      //  
-      CustData.push(tempObj);
-     
-    }
+        //  
+        CustData.push(tempObj);
+
+      }
 
     }
-    if(this.MainComponent.RD_REFERRER_NAME.getFieldValue() !== undefined){
-      CustData.push({ 
-      CustomerType: 'R', 
-      FullName: this.MainComponent.RD_REFERRER_NAME.getFieldValue(),
-      MobileNo : this.MainComponent.RD_REFERRER_NO.getFieldValue(),
-      ISDCountryCode : this.MainComponent.RD_REFERRER_NO.countryCode
-    });
+    if (this.MainComponent.RD_REFERRER_NAME.getFieldValue() !== undefined) {
+      CustData.push({
+        CustomerType: 'R',
+        FullName: this.MainComponent.RD_REFERRER_NAME.getFieldValue(),
+        MobileNo: this.MainComponent.RD_REFERRER_NO.getFieldValue(),
+        ISDCountryCode: this.MainComponent.RD_REFERRER_NO.countryCode
+      });
     }
 
 
@@ -524,6 +545,83 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.SRC_CIF_NO.onReset();
 
   }
+  aggregateLoanOwnerShip() {
+    var total = 0
+    for (let i = 0; i < this.customers.length; i++) {
+      if (this.customers[i].loanOwnership !== undefined && this.customers[i].loanOwnership !== "" && this.customers[i].tempId !== this.editId) {
+        total += Number(this.customers[i].loanOwnership);
+      }
+    }
+    return total;
+  }
+
+  CustomerTypeOnChange() {
+    if (this.MainComponent.CD_CUST_TYPE.getFieldValue() == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
+      this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = true;
+    } else {
+      this.MainComponent.CD_LOAN_OWNERSHIP.mandatory = false;
+    }
+  }
+  AllowLoanOwnership() {
+    if (this.MainComponent.allowCoBorrower.getFieldValue() == 'Y') {
+      this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
+      this.MainComponent.disableLoanOwnership = false;
+
+    } else {
+      this.MainComponent.disableLoanOwnership = true;
+      this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
+    }
+  }
+
+  DisableLoanOwnerShip() {
+    for (let i = 0; i < this.customers.length; i++) {
+
+      if (this.customers[i].customerType.value == 'CB' && this.customers[i].loanOwnership !== undefined) {
+        this.MainComponent.disableLoanOwnership = true;
+
+        if (this.MainComponent.disableLoanOwnership == true) {
+          this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(true);
+        } else {
+          this.MainComponent.CD_LOAN_OWNERSHIP.setReadOnly(false);
+        }
+        return;
+      } else {
+        this.MainComponent.disableLoanOwnership = false;
+      }
+    }
+  }
+
+  CalculateNetInterestRate() {
+    let CalculateNetInterest;
+    if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {
+      //  let store : string ;
+      if (this.MainComponent.LD_MARGIN_RATE.getFieldValue().startsWith('+')) {
+        const storePositive = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("+").join(0);
+        CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(storePositive)
+      }
+      else {
+        const storeNegative = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("-").join(0);
+        CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) - Number(storeNegative)
+      }
+
+      this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest);
+    }
+
+  }
+
+
+  // fieldArrayFunction(){
+  //   this.fieldArray = []
+  //   this.fieldArray.push(this.MainComponent.LD_LOAN_AMOUNT,this.MainComponent.LD_INTEREST_RATE,
+  //   this.MainComponent.LD_MARGIN_RATE,this.MainComponent.LD_NET_INTEREST_RATE,this.MainComponent.LD_TENURE,
+  //   this.MainComponent.LD_TENURE_PERIOD,this.MainComponent.LD_GROSS_INCOME,this.MainComponent.LD_EXST_LBLT_AMT,
+  //   this.MainComponent.LD_OTH_DEDUCTIONS,this.MainComponent.LD_NET_INCOME,this.MainComponent.LD_SYS_AMT_RCMD,
+  //   this.MainComponent.LD_USR_RCMD_AMT,this.MainComponent.LD_LTV_DBR,this.MainComponent.LD_EMI_AMT,
+  //   this.MainComponent.BAD_PHYSICAL_FRM_NO,this.MainComponent.BAD_DATE_OF_RCPT,this.MainComponent.BAD_DSA_ID,
+  //   this.MainComponent.BAD_BRANCH,this.MainComponent.BAD_SRC_CHANNEL)
+
+  // }
+
 }
 
 
@@ -561,9 +659,14 @@ class ValueLabel {
   value: string;
   label: string;
 
+
   constructor(value: string, label: string) {
     this.value = value;
     this.label = label;
   }
+
+
+  CustomerType
+
 }
 

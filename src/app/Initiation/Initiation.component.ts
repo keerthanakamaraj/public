@@ -156,7 +156,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     super.afterRevalidate();
     return totalErrors;
   }
-
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -189,7 +188,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_SCHEME'),
         this.revalidateBasicField('BAD_PROMOTION'),
         this.revalidateBasicField('BAD_APP_PRPSE'),
-      
+
         // this.revalidateBasicField('CD_CUST_TYPE'),
         // this.revalidateBasicField('CD_EXISTING_CUST'),
         // this.revalidateBasicField('CD_STAFF'),
@@ -305,7 +304,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('TENURE_PERIOD');
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
-    
+
 
     this.CD_EXISTING_CUST.setDefault('N');
     this.Handler.existingCustomer({});
@@ -419,7 +418,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
       inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
       if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
-        this.services.alert.showAlert(2, 'Please fill atleaset one field', -1);
+        this.services.alert.showAlert(2, '', -1, 'Please fill at least one field');
       } else {
         setTimeout(() => {
           inputMap.set('component', 'SearchForm');
@@ -453,7 +452,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.searchbutton = '';
       }
     } else {
-      this.services.alert.showAlert(2, 'Please correct form errors', -1);
+      this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
 
 
@@ -515,7 +514,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
 
-
   async CD_EXISTING_CUST_change(fieldID, value) {
     this.Handler.existingCustomer({});
   }
@@ -532,7 +530,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
       this.CD_DOB.setError('rlo.error.Age.invalid');
       return 1
-
     }
   }
 
@@ -547,14 +544,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
 
-
   async CD_GENDER_blur(event) {
     let inputMap = new Map();
     let gendererror = this.genderCheck();
     return gendererror
 
   }
-
 
 
   async LD_LOAN_AMOUNT_blur(event) {
@@ -630,9 +625,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     //   }
     // }
 
-
     await this.Handler.onAddCustomer({
     });
+
+    this.loanTotal = 0
   }
   async CD_RESET_click(event) {
     let inputMap = new Map();
@@ -669,12 +665,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     }
     if (noofErrors == 0) {
+      let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
+      if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
+        this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
+        return;
+      }
       inputMap.clear();
       if (this.borrower == true) {
         inputMap.set('HeaderParam.tenant-id', 'SB1');
         // inputMap.set('HeaderParam.user-id', 'Vishal');
         inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
-
         inputMap.set('Body.ApplicationDetails.SourcingChannel', this.BAD_SRC_CHANNEL.getFieldValue());
         inputMap.set('Body.ApplicationDetails.DSACode', this.BAD_DSA_ID.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
@@ -682,12 +682,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
-        if(this.BAD_PROD_CAT.getFieldValue() == 'CC'){
+        if (this.BAD_PROD_CAT.getFieldValue() == 'CC') {
           inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_PRIME_USAGE.getFieldValue());
-        }else{
+        } else {
           inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_APP_PRPSE.getFieldValue());
         }
-       
+
         inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
         inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
         inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
@@ -722,6 +722,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             if (confirm(alertMsg)) {
               this.services.router.navigate(['home', 'LANDING']);
             }
+
             inputMap = new Map();
             this.onReset();
             this.SUBMIT_MAIN_BTN.setDisabled(false);
@@ -807,7 +808,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         );
       }
       else {
-        this.services.alert.showAlert(2, 'Please Add Details for Borrower', 1000);
+        this.services.alert.showAlert(2, '', 1000, 'Please Add Details for Borrower');
         this.SUBMIT_MAIN_BTN.setDisabled(false);
 
       }
@@ -866,8 +867,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async CD_CUST_TYPE_change(fieldID, value) {
+    this.Handler.CustomerTypeOnChange();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
-
       this.CD_LOAN_OWNERSHIP.setValue(100);
 
     }
@@ -886,9 +887,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async CD_LOAN_OWNERSHIP_blur() {
-    if (this.CD_CUST_TYPE.getFieldValue() == 'B' && this.CD_LOAN_OWNERSHIP.getFieldValue() > 100) {
-      this.CD_LOAN_OWNERSHIP.setError('More than 100% not allowed');
+
+    this.loanTotal = this.Handler.aggregateLoanOwnerShip();
+    if (this.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined) {
+      this.loanTotal = this.loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
     }
+    if (this.loanTotal > 100) {
+      this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
+      return 1
+    }
+
   }
 
 
@@ -1067,13 +1075,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     CD_COUNTRY_CODE: {
       inDep: [
 
-          { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
-          { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-          { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+        { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
       ],
       outDep: [
       ]
-  },
+    },
   }
 
 }

@@ -96,7 +96,7 @@
       </div>
     </div>
   </div>
-  <div class="cust-group col-12 col-sm-3 col-md-3">
+  <div class="cust-group col-12 col-sm-3 col-md-3"  *ngIf="isLoanCategory">
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.CoBorrowerTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.CoBorrowerLabel' | translate }}</span>
@@ -111,7 +111,7 @@
       </div>
     </div>
   </div>
-  <div class="cust-group col-12 col-sm-3 col-md-3">
+  <div class="cust-group col-12 col-sm-3 col-md-3" *ngIf="isLoanCategory">
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.GuarantorTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.GuarantorLabel' | translate }}</span>
@@ -126,7 +126,7 @@
       </div>
     </div>
   </div>
-  <div class="cust-group col-12 col-sm-3 col-md-3">
+  <div class="cust-group col-12 col-sm-3 col-md-3" *ngIf="isLoanCategory">
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.OtherPartyTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.OtherPartyLabel' | translate }}</span>
@@ -141,4 +141,19 @@
       </div>
     </div>
   </div>
+  <div class="cust-group col-12 col-sm-3 col-md-3" *ngIf="!isLoanCategory" >
+      <div class="cust-header">
+        <span class="cust-tag">{{ 'CustomerGridDTLS.AddOnDetails' | translate }}</span>
+        <span class="cust-label">{{ 'CustomerGridDTLS.AddOnDetailsLable' | translate }}</span>
+        <span class="cust-add"><img src="assets/icons/add_plus.png"/></span>
+      </div>
+      <div class="cust-list">
+        <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }"
+          class="customer">
+          <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <div class="cust-edit" (click)="editCustomer($event, customer)"><i class="fas fa-pen"></i></div>
+        </div>
+      </div>
+    </div>
 </div>
