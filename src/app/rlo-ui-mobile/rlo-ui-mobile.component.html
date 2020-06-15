@@ -2,7 +2,7 @@
 
     <div class="input-group-btn">
         <button type="button" name="CD_COUNTRY_CODE" class="btn btn-default btn-country-code dropdown-toggle"
-            data-toggle="dropdown" (blur)="onBlur('CD_COUNTRY_CODE', $event)"
+            data-toggle="dropdown" 
             (click)="open()" aria-haspopup="true" aria-expanded="false">+{{countryCode}}</button>
         <ul class="dropdown-menu country-code-list">
             <li *ngIf="showLoader" class="loading">Loading...</li>
@@ -12,8 +12,9 @@
 
     <input [attr.id]="fieldID" type="number" [placeholder]="placeholder"
         (input)="validateValue($event.target.value, $event)" [ngClass]="{'error' : error, 'input-readonly':readOnly}"
-        [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
-        [disabled]="readOnly" (change)="onChange()" [ngStyle]="{'text-align' : valueAlign}" />
+        [(ngModel)]="value" (focus)="onFocus()" 
+        (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
+        [disabled]="readOnly" (change)="onChange($event)" [ngStyle]="{'text-align' : valueAlign}" />
 
     <span class="errorMessagespan error-country-code" *ngIf="error">{{errorCode | translate}}</span>
 </div>
