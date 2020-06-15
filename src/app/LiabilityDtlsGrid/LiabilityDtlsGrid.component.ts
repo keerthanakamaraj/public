@@ -204,7 +204,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     this.services.http.fetchApi('/LiabilityDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        var loopDataVar4 = [];
+         this.loopDataVar4 = [];
         if(res !== null){
           this.liabilityRecord = true
           var loopVar4 = res['LiabilityDetails'];

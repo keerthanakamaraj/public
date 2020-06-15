@@ -242,7 +242,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         this.services.http.fetchApi('/AssetDetails', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                var loopDataVar4 = [];
+                this.loopDataVar4 = [];
                 if(res !== null){
                     this.assetRecord = true
                     var loopVar4 = res['AssetDetails'];
