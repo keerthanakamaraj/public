@@ -442,7 +442,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
-    this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
+    this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
     //  }, 20000);
   }
   async QDE_WITHDRAW_click(event) {

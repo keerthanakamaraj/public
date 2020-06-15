@@ -112,6 +112,7 @@ export class GoNoGoComponent implements OnInit {
       questionParam.IsNegative = eachElement["IsNegative"];
       questionParam.QuestionnaireSeq = eachElement["TxnQuestionairSeq"];
       questionParam.QuestionnaireCategory =eachElement["QuestionnaireCategory"];
+      questionParam.DeviationLevel =eachElement["DeviationLevel"];
 
       let AnswerOption: IAnswerOption = {};
       if (questionParam.AnswerOptionList == undefined) {
@@ -241,7 +242,7 @@ export class GoNoGoComponent implements OnInit {
 
   }
 
-  isDecisionsValid(){
+isDecisionsValid(){
 let isValid=true;
 this.fieldErrorList=[];
 this.QuestionnairMap.forEach(question => {
