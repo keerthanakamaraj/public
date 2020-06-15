@@ -24,6 +24,7 @@ import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetail
 import { HeaderProgressModule } from '../header-progress/header-progress.module';
 import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
+import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.module';
 
 @NgModule({
     imports: [
@@ -55,7 +56,8 @@ import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
         CustomerGridDTLSModule,
         OccupationDtlsFormModule,
         AddressDetailsModule,
-        ReferralDetailsFormModule
+        ReferralDetailsFormModule,
+        CreditCardDetailsModule
     ],
     declarations: [
         DDEComponent,
