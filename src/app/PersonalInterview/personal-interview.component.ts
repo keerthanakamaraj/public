@@ -3,27 +3,27 @@ import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { DropDown } from '../DropDownOptions';
-import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer,IFieldErrors } from './GoNoGoInterface';
+import { IQuestion, IAnswerOption, IselectedAnswer,IFieldErrors } from './PersonalInterviewInterface';
 
 @Component({
-  selector: 'app-go-no-go',
-  templateUrl: './go-no-go.component.html',
-  styleUrls: ['./go-no-go.component.css']
+  selector: 'app-personal-Interview',
+  templateUrl: './personal-Interview.component.html',
+  styleUrls: ['./personal-Interview.component.css']
 })
 
-export class GoNoGoComponent implements OnInit {
-  //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
+export class PersonalInterviewComponent implements OnInit {
+  //if (this.formCode == undefined) { this.formCode = 'PersonalInterviewDtls'; }
   //apiResponse: HttpResponse<any>;
   fieldErrorList:IFieldErrors[]=[];
-  ApplicationDetails: IGoNoGoQuestionnaire = {};
+  //ApplicationDetails: IPersonalInterviewQuestionnaire = {};
   //mstParamList: any[] = [];
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   // questionnaireCat: Map<Number, String> = new Map();
   //answerCollection: Array<String> = new Array();
   //prevDecisionsMap: Map<String, any> = new Map<String, any>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
-  //@ViewChild('GNG_PARAM_ANS', { static: false }) GNG_PARAM_ANS: RLOUIRadioComponent;
-  @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
+  //@ViewChild('PI_PARAM_ANS', { static: false }) PI_PARAM_ANS: RLOUIRadioComponent;
+  @ViewChildren(RLOUIRadioComponent) PI_PARAM_List: QueryList<ElementRef>;
 
 
 
@@ -41,8 +41,8 @@ export class GoNoGoComponent implements OnInit {
   //   if (this.mstParamList) {
   //     this.prevDecisionsMap.clear();
   //     let QuestionsMap: any[] = [];
-  //     if (this.mstParamList['GoNoGoDetails'] != undefined) {
-  //       this.mstParamList['GoNoGoDetails'].forEach((element) => {
+  //     if (this.mstParamList['PersonalInterviewDetails'] != undefined) {
+  //       this.mstParamList['PersonalInterviewDetails'].forEach((element) => {
   //         if (element.AnswerSeq)
   //           this.prevDecisionsMap.set(element.QustionSeq, element)
   //         console.log("shweta :: setting prevmap", this.prevDecisionsMap)
@@ -145,7 +145,7 @@ export class GoNoGoComponent implements OnInit {
       }
       this.QuestionnairMap.set(eachElement.QuestionSeq, questionParam);
     }
-    console.log("shweta :: gng Interface map", this.QuestionnairMap);
+    console.log("shweta :: PI Interface map", this.QuestionnairMap);
   }
 
   createSaveApiRequestBody(element, questionairemap, key) {
@@ -231,19 +231,18 @@ export class GoNoGoComponent implements OnInit {
   //   inputMap.set('Body.QuestionnaireDetails', questionnaireArray);
 
   //   this.services.http.fetchApi('/saveQuestionnaireDetails/{ApplicationId}', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-  //     this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
+  //     this.services.alert.showAlert(1, 'rlo.success.save.personal-Interview', 5000);
   //     this.loadQuestionnaireDtls();
   //   },
   //     (httpError) => {
   //       console.error(httpError);
-  //       this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
+  //       this.services.alert.showAlert(2, 'rlo.error.save.personal-Interview', -1);
   //     });
 
   }
 
   isDecisionsValid(){
 let isValid=true;
-this.fieldErrorList=[];
 this.QuestionnairMap.forEach(question => {
   let Decision:object={};
   if(question.selectedDecisionList[0].AnswerSeq==undefined){
@@ -284,16 +283,14 @@ this.QuestionnairMap.forEach(question => {
 
     console.log("shweta :: input map",inputMap);
      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-       this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
+       this.services.alert.showAlert(1, 'rlo.success.save.personal-Interview', 5000);
        this.loadQuestionnaireDtls();
      },
        (httpError) => {
          console.error(httpError);
-         this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
+         this.services.alert.showAlert(2, 'rlo.error.save.personal-Interview', -1);
        });
 
-  }else{
-    this.services.alert.showAlert(2, 'Decision for all questions is mandatory.', -1);
   }
 }
 
