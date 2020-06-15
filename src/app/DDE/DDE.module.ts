@@ -25,6 +25,7 @@ import { HeaderProgressModule } from '../header-progress/header-progress.module'
 import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
 import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.module';
+import { PersonalInterviewModule } from '../PersonalInterview/personal-interview.module'
 
 @NgModule({
     imports: [
@@ -57,7 +58,8 @@ import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.
         OccupationDtlsFormModule,
         AddressDetailsModule,
         ReferralDetailsFormModule,
-        CreditCardDetailsModule
+        CreditCardDetailsModule,
+        PersonalInterviewModule
     ],
     declarations: [
         DDEComponent,
