@@ -22,6 +22,8 @@ import { ScoreCardModule } from '../score-card/score-card.module';
 import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
 import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetailsForm.module';
 import { HeaderProgressModule } from '../header-progress/header-progress.module';
+import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
+import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
 
 @NgModule({
     imports: [
@@ -51,6 +53,8 @@ import { HeaderProgressModule } from '../header-progress/header-progress.module'
         ScoreCardModule,
         HeaderProgressModule,
         CustomerGridDTLSModule,
+        OccupationDtlsFormModule,
+        AddressDetailsModule,
         ReferralDetailsFormModule
     ],
     declarations: [

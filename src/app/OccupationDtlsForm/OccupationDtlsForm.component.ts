@@ -74,6 +74,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   fieldArray: any[];
+  activeBorrowerSeq: any;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -140,6 +141,14 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
     await this.Handler.onFormLoad({
     });
+    if(this.activeBorrowerSeq !== undefined){
+      this.occBorrowerSeq =  this.activeBorrowerSeq;
+      await this.OCC_DTLS_GRID.gridDataLoad({
+        'refNumToGrid': this.activeBorrowerSeq
+  
+      });
+    }
+  
 
     this.setDependencies();
   }

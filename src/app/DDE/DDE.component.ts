@@ -34,6 +34,8 @@ import { HeaderProgressComponent } from '../header-progress/header-progress.comp
 import { each } from '@amcharts/amcharts4/.internal/core/utils/Iterator';
 import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetails.component';
+import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
+import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 
 
 const customCss: string = '';
@@ -560,6 +562,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             case 'CreditCardDetails':
                 return new AddSpecificComponent(CreditCardDetailsComponent);
                 break;
+            case 'AddressDetails':
+                return new AddSpecificComponent(AddressDetailsComponent);
+                break;
+            case 'OccupationDetails':
+                    return new AddSpecificComponent(OccupationDtlsFormComponent);
+                    break;
             default:
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;

@@ -102,7 +102,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // @Input() ProductCategory: String;
     @Input() customer = true;
     @Input() ApplicationId: string = undefined;
-    @Input() isLoanCategory = true;
+     isLoanCategory : any
     custGridArray : any;
     @Input() Cust_FullName: string = undefined;
     appId: any;
@@ -812,6 +812,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         if (this.isLoanCategory === false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
+    
 
         //  if (customer.CustomerType) {
 
