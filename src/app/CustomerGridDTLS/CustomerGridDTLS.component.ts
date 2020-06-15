@@ -45,7 +45,6 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   //activeCustomer:{}={};
   //activeBorrowerSeq:string=undefined;
-
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
