@@ -46,25 +46,29 @@
                     <!-- {{question.key}}:{{question.value.IsNegative}} -->
                     <span>{{question.value.QuestionText }}</span>
                 </div>
-                <div class="param-answer col-12 col-sm-2 col-md-2"> </div>
+                <div class="param-answer col-12 col-sm-2 col-md-2">
+                    <div class="clr-brown fieldLegend">
+                        <label class="clr-brown"></label>
+                    </div>
+                    <label class="lbl-deviaton" *ngIf="question.value.IsDeviation==true">Deviation</label>
+                </div>
                 <div class="param-answer col-12 col-sm-2 col-md-2">
                     <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                         doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
-                        defaultValue="{{question.value.selectedDecisionList!=undefined?question.value.selectedDecisionList[0].AnswerSeq:undefined}}" (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>
+                        defaultValue="{{question.value.selectedDecisionList!=undefined?question.value.selectedDecisionList[0].AnswerSeq:undefined}}"
+                        (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>
                 </div>
                 <div class="param-remark col-12 col-sm-3 col-md-3">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
                     <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.value.QuestionSeq}}" placeholder="Remarks, If any" [formCode]="formCode"
-                        defaultValue="{{question.value.selectedDecisionList!=undefined?question.value.selectedDecisionList[0].Remark:undefined}}" (blur)="onRemarkBlur(question.value.QuestionSeq, $event)"></app-text-box>
+                        defaultValue="{{question.value.selectedDecisionList!=undefined?question.value.selectedDecisionList[0].Remark:undefined}}"
+                        (blur)="onRemarkBlur(question.value.QuestionSeq, $event)"></app-text-box>
                 </div>
             </div>
         </ng-container>
     </div>
 </div>
-
-
-
 
 <button class="btn btn-default" (click)="persistData()">Save</button>

@@ -3,7 +3,7 @@ import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { DropDown } from '../DropDownOptions';
-import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer,IFieldErrors } from './GoNoGoInterface';
+import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IFieldErrors } from './GoNoGoInterface';
 
 @Component({
   selector: 'app-go-no-go',
@@ -14,7 +14,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer,IFieldE
 export class GoNoGoComponent implements OnInit {
   //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
   //apiResponse: HttpResponse<any>;
-  fieldErrorList:IFieldErrors[]=[];
+  ErrorMap = new Map();
   ApplicationDetails: IGoNoGoQuestionnaire = {};
   //mstParamList: any[] = [];
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
@@ -80,10 +80,10 @@ export class GoNoGoComponent implements OnInit {
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-     // this.mstParamList = httpResponse.body;
+      // this.mstParamList = httpResponse.body;
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
-     // this.afterLoadQuestionnaireDtls();
+      // this.afterLoadQuestionnaireDtls();
     },
       (httpError) => {
         console.error(httpError);
@@ -97,9 +97,9 @@ export class GoNoGoComponent implements OnInit {
     console.log("shweta:: new json", questionnairDtlsResp);
     this.QuestionnairMap.clear();
 
-      // this.ApplicationDetails.ProductCode =questionnairDtlsResp[0].ProductCode;
-      // this.ApplicationDetails.QuestionnaireCategory =questionnairDtlsResp[0].QuestionnaireCategory;
-      // this.ApplicationDetails.CustTypeCode =questionnairDtlsResp[0].CustTypeCode;
+    // this.ApplicationDetails.ProductCode =questionnairDtlsResp[0].ProductCode;
+    // this.ApplicationDetails.QuestionnaireCategory =questionnairDtlsResp[0].QuestionnaireCategory;
+    // this.ApplicationDetails.CustTypeCode =questionnairDtlsResp[0].CustTypeCode;
 
     for (let eachElement of questionnairDtlsResp) {
       let questionParam: IQuestion = {};
@@ -111,8 +111,8 @@ export class GoNoGoComponent implements OnInit {
       questionParam.QuestionText = eachElement["QuestionText"];
       questionParam.IsNegative = eachElement["IsNegative"];
       questionParam.QuestionnaireSeq = eachElement["TxnQuestionairSeq"];
-      questionParam.QuestionnaireCategory =eachElement["QuestionnaireCategory"];
-      questionParam.DeviationLevel =eachElement["DeviationLevel"];
+      questionParam.QuestionnaireCategory = eachElement["QuestionnaireCategory"];
+      questionParam.DeviationLevel = eachElement["DeviationLevel"];
 
       let AnswerOption: IAnswerOption = {};
       if (questionParam.AnswerOptionList == undefined) {
@@ -169,134 +169,155 @@ export class GoNoGoComponent implements OnInit {
     return questionairemap;
   }
 
-  onDecisionChange(questionSeq,selectedAnswerSeq){
+  onDecisionChange(questionSeq, selectedAnswerSeq) {
 
-    console.log("shweta :: onBlur id: ",questionSeq," event ",selectedAnswerSeq);
-   let questionParam=this.QuestionnairMap.get(questionSeq);
-  // let AnswerOption=questionParam.AnswerOptionList.find(answer => answer.AnswerSeq == selectedAnswerSeq);
-   if(questionParam.selectedDecisionList==undefined){
-    questionParam.selectedDecisionList=[];
-   }
-     questionParam.selectedDecisionList[0].AnswerSeq=selectedAnswerSeq;  
-  }
-
-  onRemarkBlur(questionSeq,enteredRemark){
-    let questionParam=this.QuestionnairMap.get(questionSeq);
-    if(questionParam.selectedDecisionList==undefined){
-     questionParam.selectedDecisionList=[];
+    console.log("shweta :: onBlur id: ", questionSeq, " event ", selectedAnswerSeq);
+    let questionParam = this.QuestionnairMap.get(questionSeq);
+    // let AnswerOption=questionParam.AnswerOptionList.find(answer => answer.AnswerSeq == selectedAnswerSeq);
+    if (questionParam.selectedDecisionList == undefined) {
+      questionParam.selectedDecisionList = [];
     }
-      questionParam.selectedDecisionList[0].Remark=enteredRemark;  
+    questionParam.selectedDecisionList[0].AnswerSeq = selectedAnswerSeq;
   }
-   persistData() {
+
+  onRemarkBlur(questionSeq, enteredRemark) {
+    let questionParam = this.QuestionnairMap.get(questionSeq);
+    if (questionParam.selectedDecisionList == undefined) {
+      questionParam.selectedDecisionList = [];
+    }
+    questionParam.selectedDecisionList[0].Remark = enteredRemark;
+  }
+  persistData() {
     this.saveDecisions()
-  //   console.log('Saving...');
+    //   console.log('Saving...');
 
-  //   let temp = {};
-  //   const questionnaireArray = new Array();
-  //   let questionniareSaveReqMap = new Map<string, any>();
-  //   this.domRef.forEach(element => {
-  //     console.log("elemem id ", element['fieldID']);
-  //     let fieldId: string = "" + element['fieldID'];
-  //     let fieldSplitArr = fieldId.split("_");
-  //     let key = fieldSplitArr[0] + "_" + fieldSplitArr[fieldSplitArr.length - 1];
-  //     questionniareSaveReqMap = this.createSaveApiRequestBody(element, questionniareSaveReqMap, key);
-  //     // if (!this.isEmpty(temp) && 'AnswerSeq' in temp && 'Remarks' in temp) {
-  //     //  // questionnaireArray.push(temp);
-  //     // }
-  //   });
+    //   let temp = {};
+    //   const questionnaireArray = new Array();
+    //   let questionniareSaveReqMap = new Map<string, any>();
+    //   this.domRef.forEach(element => {
+    //     console.log("elemem id ", element['fieldID']);
+    //     let fieldId: string = "" + element['fieldID'];
+    //     let fieldSplitArr = fieldId.split("_");
+    //     let key = fieldSplitArr[0] + "_" + fieldSplitArr[fieldSplitArr.length - 1];
+    //     questionniareSaveReqMap = this.createSaveApiRequestBody(element, questionniareSaveReqMap, key);
+    //     // if (!this.isEmpty(temp) && 'AnswerSeq' in temp && 'Remarks' in temp) {
+    //     //  // questionnaireArray.push(temp);
+    //     // }
+    //   });
 
-  //   this.mstParamList['MstQuestionnaireDtls'].forEach(question => {
-  //     Array.from(questionniareSaveReqMap.values()).forEach(value => {
-  //       const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === value.AnswerSeq);
-  //       console.log(value);
-  //       if (answer != undefined) {
-  //         value['QuestionSeq'] = question.QuestionSeq;
-  //         value['ApplicationId'] = this.ApplicationId;
-  //         value['QuestionnaireCategory'] = question.QuestionnaireCategory;
-  //         value['CreatedBy'] = sessionStorage.getItem('userId');
-  //         value['UpdatedBy'] = sessionStorage.getItem('userId');
-  //         questionnaireArray.push(value);
-  //       }
-  //       else {
-  //         //here write code for manadatory field error
-  //       }
-  //     });
+    //   this.mstParamList['MstQuestionnaireDtls'].forEach(question => {
+    //     Array.from(questionniareSaveReqMap.values()).forEach(value => {
+    //       const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === value.AnswerSeq);
+    //       console.log(value);
+    //       if (answer != undefined) {
+    //         value['QuestionSeq'] = question.QuestionSeq;
+    //         value['ApplicationId'] = this.ApplicationId;
+    //         value['QuestionnaireCategory'] = question.QuestionnaireCategory;
+    //         value['CreatedBy'] = sessionStorage.getItem('userId');
+    //         value['UpdatedBy'] = sessionStorage.getItem('userId');
+    //         questionnaireArray.push(value);
+    //       }
+    //       else {
+    //         //here write code for manadatory field error
+    //       }
+    //     });
 
-  //   });
+    //   });
 
-  //   console.log('shweta:: req json Questionnaire Array : ', questionnaireArray);
+    //   console.log('shweta:: req json Questionnaire Array : ', questionnaireArray);
 
-  //   let inputMap = new Map();
-  //   inputMap.clear();
-  //   inputMap.set('PathParam.ApplicationId', this.ApplicationId);
-  //   inputMap.set('Body.QuestionnaireDetails', questionnaireArray);
+    //   let inputMap = new Map();
+    //   inputMap.clear();
+    //   inputMap.set('PathParam.ApplicationId', this.ApplicationId);
+    //   inputMap.set('Body.QuestionnaireDetails', questionnaireArray);
 
-  //   this.services.http.fetchApi('/saveQuestionnaireDetails/{ApplicationId}', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-  //     this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-  //     this.loadQuestionnaireDtls();
-  //   },
-  //     (httpError) => {
-  //       console.error(httpError);
-  //       this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
-  //     });
+    //   this.services.http.fetchApi('/saveQuestionnaireDetails/{ApplicationId}', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
+    //     this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
+    //     this.loadQuestionnaireDtls();
+    //   },
+    //     (httpError) => {
+    //       console.error(httpError);
+    //       this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
+    //     });
 
   }
 
-isDecisionsValid(){
-let isValid=true;
-this.fieldErrorList=[];
-this.QuestionnairMap.forEach(question => {
-  let Decision:object={};
-  if(question.selectedDecisionList[0].AnswerSeq==undefined){
-    this.fieldErrorList.push({QuestionSeq:question.QuestionSeq, errorText:'decision pending'});
-    isValid=false;
-  }});
+  isDecisionsValid() {
+    let isValid = true;
+    this.ErrorMap.clear();
+    this.QuestionnairMap.forEach(question => {
+      if (question.selectedDecisionList[0].AnswerSeq == undefined) {
+        //   this.ErrorMap.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
+        this.ErrorMap.set('DM', 'Decision for all questions');
+        isValid = false;
+      }
+      else if (question.selectedDecisionList[0].Remark == undefined) {
+        let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.selectedDecisionList[0].AnswerSeq)
+        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
+          question.IsDeviation = true;
+          this.ErrorMap.set('RM', 'Remarks for Deviation questions');
+          isValid = false;
+        } else {
+          question.IsDeviation = false;
+        }
+      }
+    });
 
-  return isValid;
+    return isValid;
   }
+
   saveDecisions() {
     console.log('Saving...');
 
-   let decisionsParamArray=[];
+    let decisionsParamArray = [];
 
-   if(this.isDecisionsValid()){
-   this.QuestionnairMap.forEach(question => {
-      let decision:object={};
-      if(question.QuestionnaireSeq!=undefined){
-      decision['QuestionnaireSeq']=question.QuestionnaireSeq
+    if (this.isDecisionsValid()) {
+      this.QuestionnairMap.forEach(question => {
+        let decision: object = {};
+        if (question.QuestionnaireSeq != undefined) {
+          decision['QuestionnaireSeq'] = question.QuestionnaireSeq
+        }
+        decision['QuestionSeq'] = question.QuestionSeq;
+        decision['ApplicationId'] = this.ApplicationId;
+        decision['AnswerSeq'] = question.selectedDecisionList[0].AnswerSeq;
+        decision['DeviationLevel'] = question.DeviationLevel;
+        decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
+        decision['Remarks'] = question.selectedDecisionList[0].Remark;
+        decision['CreatedBy'] = sessionStorage.getItem('userId');
+        decision['UpdatedBy'] = sessionStorage.getItem('userId');
+        decisionsParamArray.push(decision);
+      });
+
+      console.log('shweta:: req json decisionsParamArray : ', decisionsParamArray);
+
+      let inputMap = new Map();
+      inputMap.clear();
+      //inputMap.set('PathParam.ApplicationId', this.ApplicationId);
+      inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
+
+      console.log("shweta :: input map", inputMap);
+      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
+        this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
+        this.loadQuestionnaireDtls();
+      },
+        (httpError) => {
+          console.error(httpError);
+          this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
+        });
+
+    } else {
+      let errorText = undefined;
+      if (this.ErrorMap.has('DM')) {
+        errorText = this.ErrorMap.get('DM');
+      }
+      if (this.ErrorMap.has('RM')) {
+        errorText != undefined ? errorText = errorText + ' and ' : errorText;
+        errorText = errorText = this.ErrorMap.get('RM')
+      }
+
+      this.services.alert.showAlert(2, errorText + " is mandatory.", -1);
     }
-      decision['QuestionSeq']=question.QuestionSeq;
-      decision['ApplicationId']=this.ApplicationId;
-      decision['AnswerSeq']=question.selectedDecisionList[0].AnswerSeq;
-      decision['DeviationLevel']=question.DeviationLevel;
-      decision['QuestionnaireCategory']=question.QuestionnaireCategory;
-      decision['Remarks']=question.selectedDecisionList[0].Remark;
-      decision['CreatedBy']=sessionStorage.getItem('userId');
-      decision['UpdatedBy']=sessionStorage.getItem('userId');
-      decisionsParamArray.push(decision);
-   });
-
-   console.log('shweta:: req json decisionsParamArray : ', decisionsParamArray);
-
-    let inputMap = new Map();
-    inputMap.clear();
-    //inputMap.set('PathParam.ApplicationId', this.ApplicationId);
-    inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
-
-    console.log("shweta :: input map",inputMap);
-     this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-       this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-       this.loadQuestionnaireDtls();
-     },
-       (httpError) => {
-         console.error(httpError);
-         this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
-       });
-
-  }else{
-    this.services.alert.showAlert(2, 'Decision for all questions is mandatory.', -1);
   }
-}
 
   isEmpty(obj) {
     for (var prop in obj) {
