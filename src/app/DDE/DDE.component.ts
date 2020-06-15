@@ -36,6 +36,7 @@ import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDet
 import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetails.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
+import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component'
 
 
 const customCss: string = '';
@@ -93,12 +94,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-        {
-            selectedMenuId: "",
-            selectedMenuComponent: "",
-            firstArr: 0,
-            secondArr: 0
-        };
+    {
+        selectedMenuId: "",
+        selectedMenuComponent: "",
+        firstArr: 0,
+        secondArr: 0
+    };
 
     //list of section manditory for customer and application
     manditorySectionsInMenu = new Map();
@@ -750,8 +751,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 return new AddSpecificComponent(AddressDetailsComponent);
                 break;
             case 'OccupationDetails':
-                    return new AddSpecificComponent(OccupationDtlsFormComponent);
-                    break;
+                return new AddSpecificComponent(OccupationDtlsFormComponent);
+                break;
+            case 'PersonalInterviewDetails':
+                return new AddSpecificComponent(PersonalInterviewComponent);
+                break;
             default:
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;

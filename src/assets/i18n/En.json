@@ -1916,5 +1916,10 @@
     "OtherPartyLabel": "Other Party",
     "AddOnDetails" : "AD",
     "Editing": "Editing"
+  },
+  "GNGDtls":{
+    "GNG_SAVE_BTN":"SAVE",
+    "GNG_CLEAR_BTN":"CLEAR"
+
   }
 }

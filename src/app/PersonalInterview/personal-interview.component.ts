@@ -37,39 +37,6 @@ export class PersonalInterviewComponent implements OnInit {
     this.loadQuestionnaireDtls();
   }
 
-  // afterLoadQuestionnaireDtls() {
-  //   if (this.mstParamList) {
-  //     this.prevDecisionsMap.clear();
-  //     let QuestionsMap: any[] = [];
-  //     if (this.mstParamList['PersonalInterviewDetails'] != undefined) {
-  //       this.mstParamList['PersonalInterviewDetails'].forEach((element) => {
-  //         if (element.AnswerSeq)
-  //           this.prevDecisionsMap.set(element.QustionSeq, element)
-  //         console.log("shweta :: setting prevmap", this.prevDecisionsMap)
-  //         //  this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
-  //       });
-  //     }
-  //     if (this.mstParamList['MstQuestionnaireDtls']) {
-  //       this.mstParamList['MstQuestionnaireDtls'].map((question) => {
-  //         // let tempAnsSeq: String = null;
-  //         //shweta :: create dropdown objects array and bind to html
-  //         let dropDownOptions: any[] = [];
-  //         question['MstQuestionnaireAns'].some(answer => {
-  //           dropDownOptions.push({ id: answer.AnswerSeq, text: answer.AnswerText });
-  //         });
-  //         question['dropdownOptions'] = dropDownOptions;
-  //         if (this.prevDecisionsMap.has(question.QuestionSeq)) {
-  //           question['oldDecision'] = this.prevDecisionsMap.get(question.QuestionSeq).AnswerSeq;
-  //           question['oldRemark'] = this.prevDecisionsMap.get(question.QuestionSeq).Remarks;
-  //           //console.log("shweta :: old decision set",question['oldDecision']);
-  //         }
-  //         return question;
-  //       });
-  //     }
-  //     console.log("shweta :: ", this.mstParamList['MstQuestionnaireDtls']);
-  //   }
-  // }
-
   loadQuestionnaireDtls() {
     let inputMap = new Map();
     inputMap.clear();

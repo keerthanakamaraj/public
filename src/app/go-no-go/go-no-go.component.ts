@@ -187,8 +187,9 @@ export class GoNoGoComponent implements OnInit {
     }
     questionParam.selectedDecisionList[0].Remark = enteredRemark;
   }
+
   persistData() {
-    this.saveDecisions()
+    //this.saveDecisions()
     //   console.log('Saving...');
 
     //   let temp = {};
@@ -266,7 +267,7 @@ export class GoNoGoComponent implements OnInit {
     return isValid;
   }
 
-  saveDecisions() {
+  GNG_SAVE_BTN_click(event) {
     console.log('Saving...');
 
     let decisionsParamArray = [];
@@ -317,6 +318,15 @@ export class GoNoGoComponent implements OnInit {
 
       this.services.alert.showAlert(2, errorText + " is mandatory.", -1);
     }
+  }
+
+  GNG_CLEAR_BTN_click(event){
+      // this.QuestionnairMap.forEach(question => {
+      //   question.selectedDecisionList.forEach(decision => {
+      //     decision.AnswerSeq=undefined;
+      //     decision.Remark=undefined
+      //   });
+      // });
   }
 
   isEmpty(obj) {

@@ -1,50 +1,19 @@
-<!-- <div>
-    <div class="param-container col-12 col-sm-12 col-md-12">
-            <ng-container *ngIf="mstParamList != undefined">
-        <div class="param-row col-12 col-sm-12 col-md-12" *ngFor="let question of mstParamList['MstQuestionnaireDtls']; let i = index;">      
-          <div class="param-seq col-12 col-sm-1 col-md-1">
-                <div class="clr-brown fieldLegend">
-                        <label class="clr-brown"></label>
-                </div>
-                <span>{{ i + 1 }}</span>
-              </div>
-              <div class="param-Question col-12 col-sm-4 col-md-4"> 
-                    <div class="clr-brown fieldLegend">
-                            <label class="clr-brown"></label>
-                    </div>
-                    <span>{{question.QuestionText }}</span>            
-                </div>
-                <div class="param-answer col-12 col-sm-2 col-md-2"> </div>
-                <div class="param-answer col-12 col-sm-2 col-md-2">  
-                    <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                    doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question['dropdownOptions']" defaultValue="{{question['oldDecision']}}"></rlo-ui-radio>
-                    </div>
-                    <div class="param-remark col-12 col-sm-3 col-md-3"> 
-                            <div class="clr-brown fieldLegend">
-                                    <label class="clr-brown"></label>
-                            </div>   
-                            <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.QuestionSeq}}" placeholder="Remarks, If any"[formCode]="formCode" defaultValue="{{question['oldRemark']}}"></app-text-box>        
-                        </div>
-              </div>
-           </ng-container>
-        </div>
-</div> -->
 <div>
     <div class="param-container col-12 col-sm-12 col-md-12">
         <ng-container *ngIf="QuestionnairMap != undefined">
             <div class="param-row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
-                <div class="param-seq col-12 col-sm-1 col-md-1">
+                <!-- <div class="param-seq col-12 col-sm-1 col-md-1">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
                     <span>{{ i + 1 }}</span>
-                </div>
-                <div class="param-Question col-12 col-sm-4 col-md-4">
+                </div> -->
+                <div class="param-Question col-12 col-sm-5 col-md-5">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
-                    <!-- {{question.key}}:{{question.value.IsNegative}} -->
-                    <span>{{question.value.QuestionText }}</span>
+                    <!-- <span>{{question.value.QuestionText }}</span> -->
+                    <span>{{ i + 1 }}. {{question.value.QuestionText }}</span>
                 </div>
                 <div class="param-answer col-12 col-sm-2 col-md-2">
                     <div class="clr-brown fieldLegend">
@@ -69,6 +38,17 @@
             </div>
         </ng-container>
     </div>
+    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="GNG_SAVE_BTN.isHidden()">
+            <app-button #GNG_SAVE_BTN fieldName="{{ 'GNGDtls.GNG_SAVE_BTN' | translate}}"
+                fieldID="GNG_SAVE_BTN" [formCode]="formCode" customClass="btn btn-primary"
+                (buttonClick)="GNG_SAVE_BTN_click($event)"></app-button>
+        </div>
+        <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="GNG_CLEAR_BTN.isHidden()">
+            <app-button #GNG_CLEAR_BTN fieldName="{{ 'GNGDtls.GNG_CLEAR_BTN' | translate}}"
+                fieldID="GNG_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
+                (buttonClick)="GNG_CLEAR_BTN_click($event)"></app-button>
+        </div>
 </div>
 
-<button class="btn btn-default" (click)="persistData()">Save</button>
+
+<!-- <button class="btn btn-default" (click)="persistData()">Save</button> -->
