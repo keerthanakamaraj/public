@@ -180,7 +180,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     let header = res.Header;
 
                     this.Branch.setValue(header.ApplicationBranch);
-                    this.MaximumCardLimit.setValue(header.Scheme);
+                    this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
                 },
                 async (httpError) => {
                     var err = httpError['error']
