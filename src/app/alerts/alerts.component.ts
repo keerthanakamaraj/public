@@ -52,7 +52,6 @@ export class AlertsComponent implements OnInit {
     };
 
     await this.rloService.getAlertMessage(alertMsg, customErrorMsg).then((data) => {
-      console.log(data);
       tempObj.alertMsg = data;
     });
 
@@ -74,8 +73,6 @@ export class AlertsComponent implements OnInit {
         tempObj.textColor = "#56abe8";
         break;
     }
-
-    console.log(tempObj);
     return tempObj;
   }
 
@@ -106,7 +103,6 @@ export class AlertsComponent implements OnInit {
   showAlert(alertType: number, alertMsg: string, timeout: number = 5000, customErrorMsg: string = "") {
     var tempObj;
     this.setAlertValues(alertType, alertMsg, customErrorMsg).then((data) => {
-      console.log(data);
       tempObj = data;
 
       if (timeout <= -1) {
@@ -118,7 +114,6 @@ export class AlertsComponent implements OnInit {
       this.alertsInfo = [];
       clearTimeout(this.timer);
       this.alertsInfo.push(tempObj);
-      console.log(this.alertsInfo);
 
       if (timeout > -1) {
         this.timer = setTimeout(function () {

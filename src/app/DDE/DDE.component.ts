@@ -79,17 +79,35 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     isCustomerTab: boolean = true;
     CustomerType: string = undefined;
     isLoanCategory: boolean = false;
+    taskId: any;
+    instanceId: any;
+    userId: any;
+    appId: any;
+    initialLoadDone: boolean = false;
 
     formMenuObject: {
+        selectedMenuId: string,
         selectedMenuComponent: string,
+        customerId?: string,
+        validCoBorrowerId?: string,
         firstArr?: number,
         secondArr?: number
     } =
         {
+            selectedMenuId: "",
             selectedMenuComponent: "",
             firstArr: 0,
             secondArr: 0
         };
+
+    //list of section manditory for customer and application
+    manditorySectionsInMenu = new Map();
+
+    //list of selected customer menu section depending upon customers(b,cb,etc)
+    completedCustomerMenuSection = new Map();
+
+    //list of selected application menu sections
+    completedApplicationMenuSection = new Map();
 
 
     async revalidate(): Promise<number> {
@@ -109,41 +127,75 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         return totalErrors;
     }
 
+    //ON FIRST TIME LOAD get all customer details and set menu acc.
+    initGetAllCustomerDetails(customerData: any, customerType: string = '') {
+        if (!this.initialLoadDone) {
+            console.log("initGetAllCustomerDetails");
+            console.error("deep-", customerData);
+            let list = customerData.data;
+            list.forEach(customer => {
+                if (customer.CustomerType == "CB" && customer.LoanOwnership > 0) {
+                    this.progressStatus.manditorySection += 4;
+                    this.formMenuObject.validCoBorrowerId = this.getCustomerId(customer.CustomerType, customer.BorrowerSeq)
+                }
+            });
+            console.log("deep", this.progressStatus);
+            this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));;
+            console.log("deep ===", this.formsMenuList);
+            this.initialLoadDone = true;
+        }
+    }
+
+    // getAllCustomerDetails(customerData) {
+    //     console.error("deep-", customerData);
+    //     let list = customerData.data;
+    //     list.forEach(customer => {
+    //         if (customer.CustomerType == "B" || customer.CustomerType == "CB") {
+    //             this.progressStatus.borrowers += 1;
+    //         }
+    //     });
+    //     this.createMenuForCustomers().then(() => {
+    //         this.formsMenuList = this.setMenuAccToCustomer('borrower');
+    //         console.error("deep ====", this.formsMenuList);
+    //         this.injectDynamicComponent('CustomDetails', 2, 0);
+    //     });
+    // }
+
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
-            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
-            { id: "IncomeSummary", name: "Income Summary", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
+            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "Liability-Details.svg", isActive: false, isOptional: true },
+            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "Asset-Details.svg", isActive: false, isOptional: true },
+            { id: "IncomeSummary", name: "Income Summary", completed: false, icon: "Income-Summary.svg", isActive: false, isOptional: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "Collateral-Details.svg", isActive: false, isOptional: true }
         ],
         [
-            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
-            { id: "RmVisitDetails", name: "RM Visit Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
+            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "Personal-Interview-Details.svg", isActive: false, isOptional: true },
+            { id: "RmVisitDetails", name: "RM Visit Details", completed: false, icon: "RM-Visit-Details.svg", isActive: false, isOptional: true },
         ],
         [
-            { id: "CustomDetails", name: "Customer Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "AddressDetails", name: "Address Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "OccupationDetails", name: "Occupation Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "FamilyDetails", name: "Family Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
+            { id: "CustomDetails", name: "Customer Details", completed: false, icon: "Customer-Details.svg", isActive: false, isOptional: false },
+            { id: "AddressDetails", name: "Address Details", completed: false, icon: "Address-Details.svg", isActive: false, isOptional: false },
+            { id: "OccupationDetails", name: "Occupation Details", completed: false, icon: "Occupation-Details.svg", isActive: false, isOptional: true },
+            { id: "FamilyDetails", name: "Family Details", completed: false, icon: "Family-Details.svg", isActive: false, isOptional: false }
         ]
     ];
 
     applicationMenu = [
         [
-            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "ScorecardResults", name: "Scorecard Results", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false }
+            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "No-Go-Details.svg", isActive: false, isOptional: false },
+            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "Policy-Check-Results.svg", isActive: false, isOptional: false },
+            { id: "ScorecardResults", name: "Scorecard Results", completed: false, icon: "Scorecard-Results.svg", isActive: false, isOptional: false },
+            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "Interface-Results.svg", isActive: false, isOptional: false }
         ],
         [
-            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "LoanDetails", name: "Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: true, isOptional: false },
-            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: false },
-            { id: "ReferrerDetails", name: "Referrer Details", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true },
-            { id: "Notes", name: "Notes", completed: true, icon: "score_card_refresher.svg", isActive: false, isOptional: true }
+            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "Application-Details.svg", isActive: false, isOptional: false },
+            { id: "LoanDetails", name: "Loan Details", completed: false, icon: "Loan-Details.svg", isActive: false, isOptional: false },
+            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, icon: "Gold-Loan-Details.svg", isActive: true, isOptional: true },
+            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "Education-Loan-Details.svg", isActive: false, isOptional: true },
+            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, icon: "Vehicle-Loan-Details.svg", isActive: false, isOptional: true },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: false, icon: "Credit-Card-Details.svg", isActive: false, isOptional: true },
+            { id: "ReferrerDetails", name: "Referrer Details", completed: false, icon: "Referrer-Details.svg", isActive: false, isOptional: true },
+            { id: "Notes", name: "Notes", completed: false, icon: "Notes.svg", isActive: false, isOptional: true }
         ]
     ];
 
@@ -152,7 +204,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     progressStatus: any = {
         manditorySection: 10,
-        completedSection: 9
+        completedSection: 0,
+        borrowers: 0
     };
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
@@ -160,7 +213,33 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value = new DDEModel();
         this.componentCode = 'DDE';
         this.initHTabGroup('FieldId_10', ['BORROWER_TAB', 'VISIT_REF', 'COLATTERAL', 'GO_NO_GO', 'COMMENTS_TAB',], 'GO_NO_GO', 1);
+
+        this.manditorySectionsInMenu.set('customer', ['IncomeSummary', 'CustomDetails', 'AddressDetails', 'OccupationDetails']);
+        this.manditorySectionsInMenu.set('application', ['GoNoGoDetails', 'PolicyCheckResults', 'ScorecardResults', 'ApplicationDetails', 'LoanDetails', 'InterfaceResults']);
+
+
+        //only added for customerDTLS
+        this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+            this.addRemoveCompletedSectionsToMap('add');
+            switch (event.action) {
+                case 'updateCustGrid': // on customer update/save success
+                    console.log("shweta :: grid update ", event.data);
+                    this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
+                    event.action = undefined;
+                    break;
+            }
+        });
+
+        this.services.rloCommonData.updateDdeMenu.subscribe((event) => {
+            console.error("deep ===", event);
+            if (event == "add") {
+                this.addRemoveCompletedSectionsToMap('add');
+            } else {
+                this.addRemoveCompletedSectionsToMap('remove');
+            }
+        });
     }
+
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
         this.FieldId_1.setReadOnly(readOnly);
@@ -176,7 +255,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.HideProcessId.setValue('RLO_Process');
+        this.HideServiceCode.setValue('ClaimTask');
+        this.HideTenantId.setValue('SB1');
+
+        this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+        this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+        this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
@@ -243,6 +330,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.value.setValue(inputValue);
         this.setDependencies();
         this.passNewValue(this.value);
+
     }
     ngOnInit() {
         this.services.rloCommonData.headerState.subscribe((data) => {
@@ -446,15 +534,66 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.injectDynamicComponent('CustomDetails', 2, 0);
         //this.CUST_DTLS.setNewCustomerFrom(event);
     }
+
+    //triggered when clicked - edit btn(b,cb,etc) and when first time loaded and on form save success(customerDTLS)
     async CUSTOMER_GRID_passArrayToCustomer(event) {
+        console.log("CUSTOMER_GRID_passArrayToCustomer");
         this.ActiveCustomerDtls = event.CustomerArray;
         this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
         this.CustomerType = event.CustomerArray.CustomerType;
         this.ActiveCustomerName = event.CustomerArray.FullName;
         this.ActiveCustomerDOB = event.CustomerArray.DOB;
         this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
+        console.log(event);
+        if (this.formMenuObject.customerId == this.getCustomerId(this.CustomerType, this.ActiveBorrowerSeq)) {
+
+        } else {
+            this.formMenuObject.customerId = this.getCustomerId(this.CustomerType, this.ActiveBorrowerSeq);
+            this.reCalculateMenuSections(this.CustomerType, this.ActiveBorrowerSeq);
+        }
+
         this.injectDynamicComponent('CustomDetails', 2, 0);
     }
+
+    getCustomerId(customerType, borrowerSeq): string {
+        return customerType + "_" + borrowerSeq;
+    }
+
+    reCalculateMenuSections(customerType, borrowerSeq) {
+        let customer = this.getCustomerId(customerType, borrowerSeq);
+        console.warn("deep", customer);
+        var alreadyCompletedSections = [];
+        if (this.completedCustomerMenuSection.size) {
+            Array.from(this.completedCustomerMenuSection).forEach(entry => {
+                console.log("deep", entry);
+                if (entry[0] == customer) {
+                    entry[1].forEach(element => {
+                        alreadyCompletedSections.push(element);
+                    });
+                }
+            });
+        }
+        this.updateRoleBasedMenuData(alreadyCompletedSections);
+    }
+
+    updateRoleBasedMenuData(alreadyCompletedSections: any) {
+        this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));//refresh data
+        for (let i = 0; i < this.formsMenuList.length; i++) {
+            let subEle = this.formsMenuList[i];
+            for (let j = 0; j < subEle.length; j++) {
+                let element = subEle[j];
+                if (this.CustomerType == 'G' && element.id != "AddressDetails") {
+                    element.isOptional = true;
+                }
+                console.log(alreadyCompletedSections.includes(element.id))
+                if (alreadyCompletedSections.includes(element.id)) {
+                    element.completed = true;
+                }
+            }
+        }
+        console.log(this.formsMenuList);
+    }
+
     // async FAMILY_DTLS_familyBlur(event) {
     //     console.log("Calling this Emitter", this.Cust_FullName);
     //     this.Cust_FullName;
@@ -471,11 +610,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
 
         //   this.CUST_DTLS.ApplicationId = this.ApplicationId;
-
     }
 
-    fieldDependencies = {
-    }
 
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
 
@@ -485,7 +621,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         this.formMenuObject.firstArr = ele1;
         this.formMenuObject.secondArr = ele2;
-        this.formMenuObject.selectedMenuComponent = this.formsMenuList[ele1][ele2].name
+        this.formMenuObject.selectedMenuComponent = this.formsMenuList[ele1][ele2].name;
+        this.formMenuObject.selectedMenuId = this.formsMenuList[ele1][ele2].id;
 
         const componentRef = this.getComponentClassRef(componentId);
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
@@ -504,32 +641,79 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
                 setTimeout(() => {
                     componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls)
-                }, 1000);
+                }, 500);
             } else if (this.CustomerType == 'G' || this.CustomerType == 'OP') {
                 // method will be called for new customer form after section switch
                 //  console.log("shweta :: DDE section switch on new cust",this.CustomerType);
                 let data = { 'customerType': this.CustomerType };
                 setTimeout(() => {
                     componentInstance.setNewCustomerFrom(data);
-                }, 1000);
+                }, 500);
             }
 
         } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
-
-
         }
+    }
 
-        this.services.rloCommonData.childToParentSubject.subscribe((event) => {
-            switch (event.action) {
-                case 'updateCustGrid': // on customer update/save success
-                    console.log("shweta :: grid update ", event.data);
-                    this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
-                    event.action = undefined;
-                    break;
+    addRemoveCompletedSectionsToMap(action: string) {
+        console.log("deep", this.formMenuObject);
+        let updateScore = false;
+        if (action == "add") {
+            if (this.completedCustomerMenuSection.size) {
+                if (!this.completedCustomerMenuSection.has(this.getCustomerId(this.CustomerType, this.ActiveBorrowerSeq))) {
+                    this.completedCustomerMenuSection.set(this.getCustomerId(this.CustomerType, this.ActiveBorrowerSeq), [this.formMenuObject.selectedMenuId]);
+                    this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = true;
+                    updateScore = true;
+                }
+                else {
+                    Array.from(this.completedCustomerMenuSection).forEach(entry => {
+                        console.log("deep", entry);
+                        let entry_keys = entry[0].split("_")
+                        if (entry_keys[0] == this.CustomerType) {
+                            if (!entry[1].includes(this.formMenuObject.selectedMenuId)) {
+                                entry[1].push(this.formMenuObject.selectedMenuId);
+                                this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = true;
+                                updateScore = true;
+                            }
+                        }
+                    });
+                }
             }
-        });
+            else {
+                this.completedCustomerMenuSection.set(this.getCustomerId(this.CustomerType, this.ActiveBorrowerSeq), [this.formMenuObject.selectedMenuId]);
+                this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = true;
+                updateScore = true;
+            }
+        }
+        else {
+            Array.from(this.completedCustomerMenuSection).forEach(entry => {
+                console.log("deep", entry);
+                let entry_keys = entry[0].split("_")
+                if (entry_keys[0] == this.CustomerType) {
+                    for (let i = 0; i < entry[1].length; i++) {
+                        const element = entry[1][i];
+                        if (element == this.formMenuObject.selectedMenuId) {
+                            entry[1].splice(i, 1);
+                            this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = false;
+                            updateScore = true;
+                        }
+                    }
+                }
+            });
+        }
+        if (updateScore)
+            this.updateRoleBasedScore(action);
+    }
 
+    updateRoleBasedScore(action: string) {
+        if (this.CustomerType == "B") {
+            action == "add" ? this.calculateScore('add') : this.calculateScore('remove')
+        }
+        else if (this.CustomerType == "CB" && this.formMenuObject.validCoBorrowerId == this.formMenuObject.customerId) {
+            console.error("@@@@@@@@@@@@@@@@ CB with LO");
+            action == "add" ? this.calculateScore('add') : this.calculateScore('remove')
+        }
     }
 
     getComponentClassRef(componentId: string): AddSpecificComponent {
@@ -580,16 +764,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         let defaultSection: string = '';
         if (tabName == "customer") {
             this.isCustomerTab = true;
-            this.formsMenuList = this.customerMenu;
-            this.formsMenuList.forEach(element => {
-                element.forEach(ele => { ele.isActive = false })
-            });
+
+            this.reCalculateMenuSections(this.CustomerType, this.ActiveBorrowerSeq);
             this.updateSelectedTabIndex(2, 0);
             this.injectDynamicComponent('CustomDetails', 2, 0);
-            // this.services.rloCommonData.childToParentSubject.next({
-            //     action: 'passArrayToCustomer',
-            //     data: undefined
-            // });
         }
         else {
             this.isCustomerTab = false;
@@ -619,7 +797,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (loadDirection == 'nxt') {
             for (let j = 0; j < this.formsMenuList[firstArray].length; j++) {
                 const arrEle = this.formsMenuList[firstArray][j];
-                if (j >= secondArray && !arrEle.isActive && !arrEle.completed) {
+                if (j >= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
                     console.warn(arrEle);
                     this.injectDynamicComponent(arrEle.id, firstArray, j);
                     selectedIndex = j;
@@ -629,7 +807,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 let sIndex;
                 if (this.formsMenuList.length - 1 == firstArray) {
                     sIndex = 0;
-                    alert("No more unfilled sections");
+                    alert("reached last section");
                 } else {
                     sIndex = firstArray + 1;
                     this.loadForm('nxt', sIndex, 0);
@@ -639,7 +817,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         else {
             for (let j = this.formsMenuList[firstArray].length - 1; j >= 0; j--) {
                 const arrEle = this.formsMenuList[firstArray][j];
-                if (j <= secondArray && !arrEle.isActive && !arrEle.completed) {
+                if (j <= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
                     console.warn(arrEle);
                     this.injectDynamicComponent(arrEle.id, firstArray, j);
                     selectedIndex = j;
@@ -676,8 +854,33 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         let individualSectionScore = (1 / this.progressStatus.manditorySection) * 100;
         let score = Math.round(individualSectionScore * this.progressStatus.completedSection);
         this.headerProgressBar.update(score);
-
     }
+
+    calculateScore(action: string) {
+        let isSectionOptional = this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional;
+        console.log(this.progressStatus);
+        if (action == "add") {
+            if (!isSectionOptional)
+                this.progressStatus.completedSection += 1;
+        } else {
+            this.progressStatus.completedSection -= 1;
+        }
+
+        this.updateProgressBar();
+    }
+
+    // async createMenuForCustomers() {
+    //     this.menuAccToCustomer.set("borrower", this.customerMenu);
+    //     if (this.progressStatus.borrowers > 1) {
+    //         this.menuAccToCustomer.set("coborrower", this.applicationMenu);
+    //     }
+    //     console.log(this.menuAccToCustomer);
+    // }
+
+    // setMenuAccToCustomer(type: string) {
+    //     console.warn("deep", type);
+    //     return this.menuAccToCustomer.get(type);
+    // }
 }
 
 

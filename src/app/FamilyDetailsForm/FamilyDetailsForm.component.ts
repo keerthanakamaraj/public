@@ -367,6 +367,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             'passFamilyGrid': this.activeBorrowerSeq,
                         });
 
+                        this.services.rloCommonData.updateDdeMenu.next("add");
+
                         this.onReset();
                     },
                     async (httpError) => {
@@ -424,6 +426,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     }
     async FAMILY_GRID_onFamilyModify(event) {
         let inputMap = new Map();
+        //this.services.rloCommonData.updateDdeMenu.next("remove");
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.SeqKey);

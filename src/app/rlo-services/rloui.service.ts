@@ -238,7 +238,6 @@ export class RlouiService {
   }
 
   async getAlertMessage(alertMsg: string, customErrorMsg: string = "") {
-    console.log(errorMap, alertMsg);
     var customeMsg = "";
     if (customErrorMsg.length) {
       return customErrorMsg;
@@ -253,7 +252,6 @@ export class RlouiService {
       else {
         let keyArray = alertMsg.split(".");
         keyArray.pop();
-        console.log(keyArray);
         var newKey = "";
         keyArray.forEach(ele => {
           let node = ele + "."
@@ -261,6 +259,6 @@ export class RlouiService {
         });
         getCode(newKey.slice(0, newKey.lastIndexOf(".")))
       }
-    }  
+    }
   }
 }

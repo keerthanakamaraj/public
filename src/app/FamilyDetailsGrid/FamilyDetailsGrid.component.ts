@@ -249,6 +249,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);
                     this.readonlyGrid.refreshGrid();
+                    this.services.rloCommonData.updateDdeMenu.next("remove");
                 },
                 async (httpError) => {
                     var err = httpError['error']
