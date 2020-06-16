@@ -94,7 +94,7 @@ export class IncomeSummaryFormComponent extends FormComponent implements OnInit,
         inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
         
         }
-          this.services.http.fetchApi('/IncomeSummary', 'GET', inputMap).subscribe(
+          this.services.http.fetchApi('/IncomeSummary', 'GET', inputMap, 'rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
               var res = httpResponse.body;
               for (let i = 0; i < res.IncomeSummary.length; i++) {
