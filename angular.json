@@ -27,7 +27,8 @@
               "src/assets/css/rlo_style.css",
               "src/assets/css/ag-grid-rlo.scss",
               "src/assets/css/font-awesome.min.css",
-              "src/assets/css/font-awesome-5.min.css"
+              "src/assets/css/font-awesome-5.min.css",
+              "src/assets/css/fontastic.css"
             ],
             "scripts": []
           },
@@ -78,7 +79,8 @@
             "styles": [
               "src/assets/css/rlo-style.scss",
               "src/assets/css/ag-grid-rlo.scss",
-              "src/assets/css/rlo_style.css"
+              "src/assets/css/rlo_style.css",
+              "src/assets/css/fontastic.css"
             ],
             "scripts": [],
             "assets": [

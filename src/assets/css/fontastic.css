@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "rlo-icons";
+    src: url("../fonts/rlo-icons/icomoon.eot?xm541w");
+    src: url("../fonts/rlo-icons/icomoon.eot?xm541w#iefix") format("embedded-opentype"),
+        url("../fonts/rlo-icons/icomoon.woff?xm541w") format("woff"),
+        url("../fonts/rlo-icons/icomoon.ttf?xm541w") format("truetype"),
+        url("../fonts/rlo-icons/icomoon.svg?xm541w#icomoon") format("svg");
+
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+[data-icon]:before {
+    font-family: "rlo-icons" !important;
+    content: attr(data-icon);
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "rlo-icons" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.icon-Address-Details:before {
+    content: "\e900";
+
+}
+
+.icon-Application-Details:before {
+    content: "\e901";
+
+}
+
+.icon-Asset-Details:before {
+    content: "\e902";
+
+}
+
+.icon-Collateral-Details:before {
+    content: "\e903";
+}
+
+.icon-Credit-Card-Details:before {
+    content: "\e904";
+
+}
+
+.icon-Customer-Details:before {
+    content: "\e905";
+
+}
+
+.icon-Education-Loan-Details:before {
+    content: "\e906";
+
+}
+
+.icon-Family-Details:before {
+    content: "\e907";
+
+}
+
+.icon-Gold-Loan-Details:before {
+    content: "\e908";
+
+}
+
+.icon-Income-Summary:before {
+    content: "\e909";
+
+}
+
+.icon-Interface-Results:before {
+    content: "\e90a";
+
+}
+
+.icon-Liability-Details:before {
+    content: "\e90b";
+
+}
+
+.icon-Loan-Details:before {
+    content: "\e90c";
+
+}
+
+.icon-No-Go-Details:before {
+    content: "\e90d";
+
+}
+
+.icon-Notes:before {
+    content: "\e90e";
+
+}
+
+.icon-Occupation-Details:before {
+    content: "\e90f";
+
+}
+
+.icon-Personal-Interview-Details:before {
+    content: "\e910";
+
+}
+
+.icon-Policy-Check-Results:before {
+    content: "\e911";
+
+}
+
+.icon-Referrer-Details:before {
+    content: "\e912";
+
+}
+
+.icon-RM-Visit-Details:before {
+    content: "\e913";
+
+}
+
+.icon-Scorecard-Results:before {
+    content: "\e914";
+
+}
+
+.icon-Vehicle-Loan-Details:before {
+    content: "\e915";
+
+}

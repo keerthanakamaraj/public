@@ -85,6 +85,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     userId: any;
     appId: any;
     initialLoadDone: boolean = false;
+    mouseOvered: boolean = false;
 
     formMenuObject: {
         selectedMenuId: string,
@@ -164,39 +165,39 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "LiabilityDetails", name: "Liability Details", completed: false, icon: "Liability-Details.svg", isActive: false, isOptional: true },
-            { id: "AssetDetails", name: "Asset Details", completed: false, icon: "Asset-Details.svg", isActive: false, isOptional: true },
-            { id: "IncomeSummary", name: "Income Summary", completed: false, icon: "Income-Summary.svg", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, icon: "Collateral-Details.svg", isActive: false, isOptional: true }
+            { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
+            { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
+            { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: false },
+            { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
         ],
         [
-            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, icon: "Personal-Interview-Details.svg", isActive: false, isOptional: true },
-            { id: "RmVisitDetails", name: "RM Visit Details", completed: false, icon: "RM-Visit-Details.svg", isActive: false, isOptional: true },
+            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
+            { id: "RmVisitDetails", name: "RM Visit Details", completed: false, iconClass: "icon-RM-Visit-Details", isActive: false, isOptional: true },
         ],
         [
-            { id: "CustomDetails", name: "Customer Details", completed: false, icon: "Customer-Details.svg", isActive: false, isOptional: false },
-            { id: "AddressDetails", name: "Address Details", completed: false, icon: "Address-Details.svg", isActive: false, isOptional: false },
-            { id: "OccupationDetails", name: "Occupation Details", completed: false, icon: "Occupation-Details.svg", isActive: false, isOptional: true },
-            { id: "FamilyDetails", name: "Family Details", completed: false, icon: "Family-Details.svg", isActive: false, isOptional: false }
+            { id: "CustomDetails", name: "Customer Details", completed: true, iconClass: "icon-Customer-Details", isActive: false, isOptional: false },
+            { id: "AddressDetails", name: "Address Details", completed: false, iconClass: "icon-Address-Details", isActive: false, isOptional: false },
+            { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: true },
+            { id: "FamilyDetails", name: "Family Details", completed: false, iconClass: "icon-Family-Details", isActive: false, isOptional: false }
         ]
     ];
 
     applicationMenu = [
         [
-            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, icon: "No-Go-Details.svg", isActive: false, isOptional: false },
-            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, icon: "Policy-Check-Results.svg", isActive: false, isOptional: false },
-            { id: "ScorecardResults", name: "Scorecard Results", completed: false, icon: "Scorecard-Results.svg", isActive: false, isOptional: false },
-            { id: "InterfaceResults", name: "Interface Results", completed: false, icon: "Interface-Results.svg", isActive: false, isOptional: false }
+            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
+            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
+            { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
+            { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false }
         ],
         [
-            { id: "ApplicationDetails", name: "Application Details", completed: false, icon: "Application-Details.svg", isActive: false, isOptional: false },
-            { id: "LoanDetails", name: "Loan Details", completed: false, icon: "Loan-Details.svg", isActive: false, isOptional: false },
-            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, icon: "Gold-Loan-Details.svg", isActive: true, isOptional: true },
-            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, icon: "Education-Loan-Details.svg", isActive: false, isOptional: true },
-            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, icon: "Vehicle-Loan-Details.svg", isActive: false, isOptional: true },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: false, icon: "Credit-Card-Details.svg", isActive: false, isOptional: true },
-            { id: "ReferrerDetails", name: "Referrer Details", completed: false, icon: "Referrer-Details.svg", isActive: false, isOptional: true },
-            { id: "Notes", name: "Notes", completed: false, icon: "Notes.svg", isActive: false, isOptional: true }
+            { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
+            { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
+            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
+            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
+            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
+            { id: "ReferrerDetails", name: "Referrer Details", completed: false, iconClass: "icon-Referrer-Details", isActive: false, isOptional: true },
+            { id: "Notes", name: "Notes", completed: false, iconClass: "icon-Notes", isActive: false, isOptional: true }
         ]
     ];
 

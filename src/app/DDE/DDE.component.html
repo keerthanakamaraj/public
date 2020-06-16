@@ -224,13 +224,14 @@
         <!-- FORM MENU TABS [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': 'inactive-table'"-->
         <div class="row">
             <div class="col-sm-1 col-md-1 col-lg-1 wgt-form-menu">
-                <div class="main-container" >
+                <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
+                (mouseout)="mouseOvered=false">
                     <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
                         <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
                             *ngFor="let menu of section;let i= index"
                             [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
 
-                            <div class="small-menu" [ngStyle]="{'background-image':'url(assets/icons/'+menu.icon+')'}">
+                            <div class="small-menu" [ngClass]="menu.iconClass">
                             </div>
                             <!-- <div class="small-menu test-class" [ngStyle]="{'background-image':'url(assets/icons/'+menu.icon+')'}">
                             </div> -->

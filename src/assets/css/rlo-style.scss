@@ -922,7 +922,7 @@ a.back {
   margin-left: 1.25em;
 }
 
- // .btn-group-justified>.btn {
+// .btn-group-justified>.btn {
 //   display: table-cell;
 //   width: 254px;
 //   height: 45px;
@@ -1118,7 +1118,7 @@ a.back {
 
 .small-menu {
   .menu & {
-    margin: 10px 0 10px 14px !important;
+    margin: 4px 0 12px 12px !important
   }
 }
 
@@ -1146,13 +1146,12 @@ a.back {
       div {
         height: 25px;
         width: 25px;
-        content: "";
         display: inline-block;
         background-size: cover;
         background-repeat: no-repeat;
         display: block;
         margin: 7px auto;
-
+        font-size: 25px;
       }
 
       .txt {
@@ -1186,8 +1185,8 @@ a.back {
         background-color: $primary-color;
         border-radius: 50%;
         position: relative;
-        top: 35px;
-        left: 3px;
+        top: 24px;
+        left: 4px;
       }
 
       &:hover {
@@ -1240,9 +1239,7 @@ a.back {
   .main-container {
     border-radius: 5px;
     width: 64px;
-    //testing
-    //width: 26rem;
-    padding: 7px;
+    padding: 24px 7px;
     background: #f8f8f8;
     transition-property: width;
     transition-duration: .15s;
@@ -1479,15 +1476,15 @@ a.back {
 }
 
 .test-class {
-  // height: 25px;
-  // width: 25px;
-  // display: inline-block;
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // display: block;
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: block;
 
-  // &:before {
-  //   content: "\f058";
-  //   font-family: "Font Awesome 5 Free";
-  // }
+  &:before {
+    content: "\e900";
+    font-family: "rlo-icons";
+  }
 }
