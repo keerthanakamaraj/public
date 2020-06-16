@@ -13,23 +13,13 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 
 export class GoNoGoComponent implements OnInit {
   //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
-  //apiResponse: HttpResponse<any>;
   ErrorMap = new Map();
   ApplicationDetails: IGoNoGoQuestionnaire = {};
-  //mstParamList: any[] = [];
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
-  // questionnaireCat: Map<Number, String> = new Map();
-  //answerCollection: Array<String> = new Array();
-  //prevDecisionsMap: Map<String, any> = new Map<String, any>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
-  //@ViewChild('GNG_PARAM_ANS', { static: false }) GNG_PARAM_ANS: RLOUIRadioComponent;
   @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
 
-
-
   @Input() ApplicationId: string = undefined;
-
-  @Output() updateOptions: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private services: ServiceStock, private renderer2: Renderer2) { }
 
@@ -37,53 +27,17 @@ export class GoNoGoComponent implements OnInit {
     this.loadQuestionnaireDtls();
   }
 
-  // afterLoadQuestionnaireDtls() {
-  //   if (this.mstParamList) {
-  //     this.prevDecisionsMap.clear();
-  //     let QuestionsMap: any[] = [];
-  //     if (this.mstParamList['GoNoGoDetails'] != undefined) {
-  //       this.mstParamList['GoNoGoDetails'].forEach((element) => {
-  //         if (element.AnswerSeq)
-  //           this.prevDecisionsMap.set(element.QustionSeq, element)
-  //         console.log("shweta :: setting prevmap", this.prevDecisionsMap)
-  //         //  this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
-  //       });
-  //     }
-  //     if (this.mstParamList['MstQuestionnaireDtls']) {
-  //       this.mstParamList['MstQuestionnaireDtls'].map((question) => {
-  //         // let tempAnsSeq: String = null;
-  //         //shweta :: create dropdown objects array and bind to html
-  //         let dropDownOptions: any[] = [];
-  //         question['MstQuestionnaireAns'].some(answer => {
-  //           dropDownOptions.push({ id: answer.AnswerSeq, text: answer.AnswerText });
-  //         });
-  //         question['dropdownOptions'] = dropDownOptions;
-  //         if (this.prevDecisionsMap.has(question.QuestionSeq)) {
-  //           question['oldDecision'] = this.prevDecisionsMap.get(question.QuestionSeq).AnswerSeq;
-  //           question['oldRemark'] = this.prevDecisionsMap.get(question.QuestionSeq).Remarks;
-  //           //console.log("shweta :: old decision set",question['oldDecision']);
-  //         }
-  //         return question;
-  //       });
-  //     }
-  //     console.log("shweta :: ", this.mstParamList['MstQuestionnaireDtls']);
-  //   }
-  // }
-
   loadQuestionnaireDtls() {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'go_no_go');
     inputMap.set('QueryParam.Product', 'PROD1');
     // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
-    //inputMap.set('QueryParam.ApplicationId', '666');
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-      // this.mstParamList = httpResponse.body;
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
-      // this.afterLoadQuestionnaireDtls();
     },
       (httpError) => {
         console.error(httpError);
@@ -96,10 +50,6 @@ export class GoNoGoComponent implements OnInit {
   parseGetQuestionnairResp(questionnairDtlsResp) {
     console.log("shweta:: new json", questionnairDtlsResp);
     this.QuestionnairMap.clear();
-
-    // this.ApplicationDetails.ProductCode =questionnairDtlsResp[0].ProductCode;
-    // this.ApplicationDetails.QuestionnaireCategory =questionnairDtlsResp[0].QuestionnaireCategory;
-    // this.ApplicationDetails.CustTypeCode =questionnairDtlsResp[0].CustTypeCode;
 
     for (let eachElement of questionnairDtlsResp) {
       let questionParam: IQuestion = {};
@@ -131,19 +81,13 @@ export class GoNoGoComponent implements OnInit {
         questionParam.radioOptionFormatList.push({ id: eachElement["AnswerSeq"], text: eachElement["AnswerText"] });
       }
 
-      let prevDecision: IselectedAnswer = {}
-      if (questionParam.selectedDecisionList == undefined) {
-        questionParam.selectedDecisionList = [];
-      } else {
-        prevDecision = questionParam.selectedDecisionList.find(decision => decision.AnswerSeq == eachElement["TxnAnswerSeq"]);
-        if (prevDecision == undefined) { prevDecision = {} }
+      questionParam.SelectedDecision = {};
+      if (Object.keys(questionParam.SelectedDecision).length === 0) {
+        questionParam.SelectedDecision.QuestionnaireSeq = eachElement["TxnQuestionairSeq"];
+        questionParam.SelectedDecision.AnswerSeq = eachElement["TxnAnswerSeq"];
+        questionParam.SelectedDecision.Remark = (eachElement["TxnRemarks"] == '') ? undefined : eachElement["TxnRemarks"];
       }
-      if (Object.keys(prevDecision).length === 0) {
-        prevDecision.QuestionnaireSeq = eachElement["TxnQuestionairSeq"];
-        prevDecision.AnswerSeq = eachElement["TxnAnswerSeq"];
-        prevDecision.Remark = eachElement["TxnRemarks"];
-        questionParam.selectedDecisionList.push(prevDecision);
-      }
+
       this.QuestionnairMap.set(eachElement.QuestionSeq, questionParam);
     }
     console.log("shweta :: gng Interface map", this.QuestionnairMap);
@@ -173,87 +117,31 @@ export class GoNoGoComponent implements OnInit {
 
     console.log("shweta :: onBlur id: ", questionSeq, " event ", selectedAnswerSeq);
     let questionParam = this.QuestionnairMap.get(questionSeq);
-    // let AnswerOption=questionParam.AnswerOptionList.find(answer => answer.AnswerSeq == selectedAnswerSeq);
-    if (questionParam.selectedDecisionList == undefined) {
-      questionParam.selectedDecisionList = [];
+    if (questionParam.SelectedDecision == undefined) {
+      questionParam.SelectedDecision = {};
     }
-    questionParam.selectedDecisionList[0].AnswerSeq = selectedAnswerSeq;
+    questionParam.SelectedDecision.AnswerSeq = selectedAnswerSeq;
   }
 
   onRemarkBlur(questionSeq, enteredRemark) {
     let questionParam = this.QuestionnairMap.get(questionSeq);
-    if (questionParam.selectedDecisionList == undefined) {
-      questionParam.selectedDecisionList = [];
+    if (questionParam.SelectedDecision == undefined) {
+      questionParam.SelectedDecision = {};
     }
-    questionParam.selectedDecisionList[0].Remark = enteredRemark;
-  }
-
-  persistData() {
-    //this.saveDecisions()
-    //   console.log('Saving...');
-
-    //   let temp = {};
-    //   const questionnaireArray = new Array();
-    //   let questionniareSaveReqMap = new Map<string, any>();
-    //   this.domRef.forEach(element => {
-    //     console.log("elemem id ", element['fieldID']);
-    //     let fieldId: string = "" + element['fieldID'];
-    //     let fieldSplitArr = fieldId.split("_");
-    //     let key = fieldSplitArr[0] + "_" + fieldSplitArr[fieldSplitArr.length - 1];
-    //     questionniareSaveReqMap = this.createSaveApiRequestBody(element, questionniareSaveReqMap, key);
-    //     // if (!this.isEmpty(temp) && 'AnswerSeq' in temp && 'Remarks' in temp) {
-    //     //  // questionnaireArray.push(temp);
-    //     // }
-    //   });
-
-    //   this.mstParamList['MstQuestionnaireDtls'].forEach(question => {
-    //     Array.from(questionniareSaveReqMap.values()).forEach(value => {
-    //       const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === value.AnswerSeq);
-    //       console.log(value);
-    //       if (answer != undefined) {
-    //         value['QuestionSeq'] = question.QuestionSeq;
-    //         value['ApplicationId'] = this.ApplicationId;
-    //         value['QuestionnaireCategory'] = question.QuestionnaireCategory;
-    //         value['CreatedBy'] = sessionStorage.getItem('userId');
-    //         value['UpdatedBy'] = sessionStorage.getItem('userId');
-    //         questionnaireArray.push(value);
-    //       }
-    //       else {
-    //         //here write code for manadatory field error
-    //       }
-    //     });
-
-    //   });
-
-    //   console.log('shweta:: req json Questionnaire Array : ', questionnaireArray);
-
-    //   let inputMap = new Map();
-    //   inputMap.clear();
-    //   inputMap.set('PathParam.ApplicationId', this.ApplicationId);
-    //   inputMap.set('Body.QuestionnaireDetails', questionnaireArray);
-
-    //   this.services.http.fetchApi('/saveQuestionnaireDetails/{ApplicationId}', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-    //     this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-    //     this.loadQuestionnaireDtls();
-    //   },
-    //     (httpError) => {
-    //       console.error(httpError);
-    //       this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
-    //     });
-
+    questionParam.SelectedDecision.Remark = (enteredRemark == '') ? undefined : enteredRemark;
   }
 
   isDecisionsValid() {
     let isValid = true;
     this.ErrorMap.clear();
     this.QuestionnairMap.forEach(question => {
-      if (question.selectedDecisionList[0].AnswerSeq == undefined) {
+      if (question.SelectedDecision.AnswerSeq == undefined) {
         //   this.ErrorMap.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorMap.set('DM', 'Decision for all questions');
         isValid = false;
       }
-      else if (question.selectedDecisionList[0].Remark == undefined) {
-        let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.selectedDecisionList[0].AnswerSeq)
+      else if (question.SelectedDecision.Remark == undefined) {
+        let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
         if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
           question.IsDeviation = true;
           this.ErrorMap.set('RM', 'Remarks for Deviation questions');
@@ -280,10 +168,10 @@ export class GoNoGoComponent implements OnInit {
         }
         decision['QuestionSeq'] = question.QuestionSeq;
         decision['ApplicationId'] = this.ApplicationId;
-        decision['AnswerSeq'] = question.selectedDecisionList[0].AnswerSeq;
+        decision['AnswerSeq'] = question.SelectedDecision.AnswerSeq;
         decision['DeviationLevel'] = question.DeviationLevel;
         decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
-        decision['Remarks'] = question.selectedDecisionList[0].Remark;
+        decision['Remarks'] = (question.SelectedDecision.Remark == undefined) ? '' : question.SelectedDecision.Remark;
         decision['CreatedBy'] = sessionStorage.getItem('userId');
         decision['UpdatedBy'] = sessionStorage.getItem('userId');
         decisionsParamArray.push(decision);
@@ -293,7 +181,6 @@ export class GoNoGoComponent implements OnInit {
 
       let inputMap = new Map();
       inputMap.clear();
-      //inputMap.set('PathParam.ApplicationId', this.ApplicationId);
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
 
       console.log("shweta :: input map", inputMap);
@@ -316,16 +203,14 @@ export class GoNoGoComponent implements OnInit {
         errorText = errorText = this.ErrorMap.get('RM')
       }
 
-      this.services.alert.showAlert(2, errorText + " is mandatory.", -1);
+      this.services.alert.showAlert(2, '', -1, errorText + ' is mandatory.');
     }
   }
 
   GNG_CLEAR_BTN_click(event) {
     this.QuestionnairMap.forEach(question => {
-      question.selectedDecisionList.forEach(decision => {
-        decision.AnswerSeq = undefined;
-        decision.Remark = undefined
-      });
+      question.SelectedDecision.AnswerSeq = undefined;
+      question.SelectedDecision.Remark = undefined
     });
 
     this.domRef.forEach(element => {

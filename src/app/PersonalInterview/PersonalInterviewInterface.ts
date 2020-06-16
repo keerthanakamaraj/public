@@ -1,5 +1,5 @@
 export interface IGoNoGoQuestionnaire {
-    ProductCode?: string;   
+    ProductCode?: string;
     CustTypeCode?: string;
     Questions?: IQuestion[];
 }
@@ -9,12 +9,13 @@ export interface IQuestion {
     QuestionnaireSeq?: string;
     QuestionText?: string;
     IsNegative?: string;
-    DeviationLevel?:string;
+    DeviationLevel?: string;
     AnswerOptionList?: IAnswerOption[];
-    selectedDecisionList?: IselectedAnswer[];
+    SelectedDecision?: IselectedAnswer;
     radioOptionFormatList?: IRadioOptionFormat[];
     QuestionnaireCategory?: string;
-    
+    IsDeviation?: boolean;
+
 }
 
 export interface IAnswerOption {
@@ -27,7 +28,7 @@ export interface IAnswerOption {
 
 export interface IselectedAnswer {
     QuestionnaireSeq?: string;
-    QuestionSeq?:string;
+    QuestionSeq?: string;
     AnswerSeq?: string;
     Remark?: string;
 }
@@ -38,18 +39,6 @@ export interface IRadioOptionFormat {
 }
 
 export interface IFieldErrors {
-    QuestionSeq?: string;
+    ErrorCategory?: string;
     errorText?: string;
-}
-
-export interface SaveGoNoGoReqObject {
-    QuestionnaireSeq?: string;
-    QuestionSeq?: string;
-    ApplicationId?: string;
-    AnswerSeq?: string;
-    QuestionnaireCategory?: string;
-    Remarks?: string;
-    CreatedBy?: string;
-    UpdatedBy?: string;
-
 }

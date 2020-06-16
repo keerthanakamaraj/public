@@ -11,7 +11,7 @@ export interface IQuestion {
     IsNegative?: string;
     DeviationLevel?: string;
     AnswerOptionList?: IAnswerOption[];
-    selectedDecisionList?: IselectedAnswer[];
+    SelectedDecision?: IselectedAnswer;
     radioOptionFormatList?: IRadioOptionFormat[];
     QuestionnaireCategory?: string;
     IsDeviation?: boolean;

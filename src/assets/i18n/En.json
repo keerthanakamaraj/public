@@ -133,6 +133,8 @@
     "rlo.error.occupation.primaryIncome.exist" :"Primary Income already exist for Occupation",
     "rlo.error.duration.not.exist" : "Period is selected please select duration also",
     "rlo.error.period.not.exist":"Duration is selected please select Period also",
+    "rlo.success.save.personal-interview": "Records Saved Successfully",
+    "rlo.error.save.personal-interview": "Failed to Save Records",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
@@ -1922,5 +1924,9 @@
     "GNG_SAVE_BTN":"SAVE",
     "GNG_CLEAR_BTN":"CLEAR"
 
+  },
+  "PIDtls":{
+    "PI_SAVE_BTN":"SAVE",
+    "PI_CLEAR_BTN":"CLEAR"
   }
 }
