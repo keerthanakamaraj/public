@@ -37,18 +37,18 @@ const customCss: string = '';
   templateUrl: './QDE.component.html'
 })
 export class QDEComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
-    @ViewChild('FieldId_9', { static: false }) FieldId_9: CustomerGridDTLSComponent;
-    @ViewChild('CUSTOMER_DETAILS', { static: false }) CUSTOMER_DETAILS: CustomerDtlsComponent;
-    @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
-    @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
-    @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
-	@ViewChild('Referrer_Grid', { static: false }) Referrer_Grid: ReferralDetailsFormComponent;
-    @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
-	@ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
-	@ViewChild('QDE_WITHDRAW', { static: false }) QDE_WITHDRAW: ButtonComponent;
-  
-	@ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
+  @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
+  @ViewChild('FieldId_9', { static: false }) FieldId_9: CustomerGridDTLSComponent;
+  @ViewChild('CUSTOMER_DETAILS', { static: false }) CUSTOMER_DETAILS: CustomerDtlsComponent;
+  @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
+  @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
+  @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
+  // @ViewChild('Referrer_Grid', { static: false }) Referrer_Grid: ReferralDetailsFormComponent;
+  @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
+  @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
+  @ViewChild('QDE_WITHDRAW', { static: false }) QDE_WITHDRAW: ButtonComponent;
+
+  @ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
   @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
   @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
   @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
@@ -97,30 +97,30 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     super.afterRevalidate();
     return totalErrors;
   }
-  
+
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
-	constructor(services: ServiceStock) {
-		super(services);
-		this.value = new QDEModel();
-		this.componentCode = 'QDE';
-		this.displayBorder = false;
-	}
-	setReadOnly(readOnly) {
-		super.setBasicFieldsReadOnly(readOnly);
-		this.HEADER.setReadOnly(readOnly);
+  constructor(services: ServiceStock) {
+    super(services);
+    this.value = new QDEModel();
+    this.componentCode = 'QDE';
+    this.displayBorder = false;
+  }
+  setReadOnly(readOnly) {
+    super.setBasicFieldsReadOnly(readOnly);
+    this.HEADER.setReadOnly(readOnly);
 
-		this.CUSTOMER_DETAILS.setReadOnly(readOnly);
-		this.FieldId_9.setReadOnly(readOnly);
-		this.FieldId_6.setReadOnly(readOnly);
-		this.FieldId_5.setReadOnly(readOnly);
-		this.FieldId_10.setReadOnly(readOnly);
-		this.APPLICATION_DETAILS.setReadOnly(readOnly);
-		this.NOTEPAD_DETAILS.setReadOnly(readOnly);
+    this.CUSTOMER_DETAILS.setReadOnly(readOnly);
+    this.FieldId_9.setReadOnly(readOnly);
+    this.FieldId_6.setReadOnly(readOnly);
+    this.FieldId_5.setReadOnly(readOnly);
+    this.FieldId_10.setReadOnly(readOnly);
+    this.APPLICATION_DETAILS.setReadOnly(readOnly);
+    this.NOTEPAD_DETAILS.setReadOnly(readOnly);
 
-	}
-	
-	async onFormLoad() {
+  }
+
+  async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     this.HideProcessId.setValue('RLO_Process');
     this.HideServiceCode.setValue('ClaimTask');
@@ -394,23 +394,23 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
 
         // tslint:disable-next-line:max-line-length
-        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ' );
+        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
       }
     });
     this.QDE_ACCORD1.setTags('ADD_DETAILS', tags);
   }
-  
+
   addOccupationTags(event) {
     const tags = [];
     event.data.forEach(occupation => {
       switch (occupation.Occupation) {
-        case 'RT' : tags.push({ text: 'Retired' }); break;
-        case 'HW' : tags.push({ text: 'Housewife' }); break;
-        case 'ST' : tags.push({ text: 'Student' }); break;
-        case 'SL' : tags.push({ text: 'Salaried' }); break;
-        case 'SE' : tags.push({ text: 'Self Employed' }); break;
-        case 'OT' : tags.push({ text: 'Others' }); break;
+        case 'RT': tags.push({ text: 'Retired' }); break;
+        case 'HW': tags.push({ text: 'Housewife' }); break;
+        case 'ST': tags.push({ text: 'Student' }); break;
+        case 'SL': tags.push({ text: 'Salaried' }); break;
+        case 'SE': tags.push({ text: 'Self Employed' }); break;
+        case 'OT': tags.push({ text: 'Others' }); break;
         default: tags.push({ text: occupation.Occupation });
       }
     });
@@ -499,11 +499,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
         const alertMsg = ('WITHDRAW' === action) ? 'Application Withdrawn successfully' : 'Application Submitted Successfully';
         if (confirm(alertMsg)) {
-            // history.back();
-            this.services.router.navigate(['home', 'LANDING']);
-          }
-          this.QDE_SUBMIT.setDisabled(true);
-          this.QDE_WITHDRAW.setDisabled(true);
+          // history.back();
+          this.services.router.navigate(['home', 'LANDING']);
+        }
+        this.QDE_SUBMIT.setDisabled(true);
+        this.QDE_WITHDRAW.setDisabled(true);
         // this.services.alert.showAlert(1, alertMsg, 5000);
         // // this.QDE_SUBMIT.setDisabled(false)
         // this.services.router.navigate(['home', 'LANDING']);
@@ -533,7 +533,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       }
     );
   }
-  
+
   async brodcastProdCategory(event) {
     //  this.ProductCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
@@ -552,7 +552,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async CUSTOMER_DETAILS_onFullNameblur(event) {
     this.updateCustomerTags(event);
   }
-  
+
   updateCustomerTags(event) {
     const tags = [];
     if (event.fullName !== undefined && event.customerType !== undefined) {
@@ -563,7 +563,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // }
     this.QDE_ACCORD1.setTags('CUST_DETAILS', tags);
   }
-  
+
   fieldDependencies = {
   };
 
@@ -577,10 +577,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   updateStageValidation(event) {
 
-    if(event.name ==  'customerLoad'){
+    if (event.name == 'customerLoad') {
       this.CUSTOMER_DETAILS.custGridArray = event.data;
     }
-    
+
     this.categoriesCustomers(event);
 
     if (event && event.name === 'addressLoad') {
@@ -629,7 +629,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     //  console.log("shweta ::  map ", this.stageValidationMap);
   }
-  
+
   async isFormValid() {
     let isAppValidFlag = true;
     this.errorsList = [];

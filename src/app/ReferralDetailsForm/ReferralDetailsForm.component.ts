@@ -108,9 +108,11 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		this.hidAppId.setValue('RLO');
 		this.hideISDCode.setValue('ISD_COUNTRY_CODE');
 		this.hidRelation.setValue('REFERRER_RELATION');
-		await this.ReferralDetailsGrid.gridDataLoad({
-			'passReferrerGrid': this.ApplicationId,
-		});
+		if (this.ApplicationId) {
+			await this.ReferralDetailsGrid.gridDataLoad({
+				'passReferrerGrid': this.ApplicationId,
+			});
+		}
 		await this.Handler.onFormLoad({});
 		this.setDependencies();
 	}

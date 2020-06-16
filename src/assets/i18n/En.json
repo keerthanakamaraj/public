@@ -1902,7 +1902,8 @@
     "RD_ADDRESSLINE4": "Address Line 4",
     "RD_PHONE2": "Phone 2",
     "RD_REF_NO": "Referrer Mobile No.",
-    "RD_REFRRER_EMAILID": "Refrrer Email ID"
+    "RD_REFRRER_EMAILID": "Refrrer Email ID",
+    "RD_HEADING" : "Referrer Details"
   },
   "CustomerGridDTLS": {
     "BorrowerTag": "B",
