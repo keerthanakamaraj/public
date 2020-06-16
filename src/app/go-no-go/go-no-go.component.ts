@@ -320,15 +320,28 @@ export class GoNoGoComponent implements OnInit {
     }
   }
 
-  GNG_CLEAR_BTN_click(event){
-      // this.QuestionnairMap.forEach(question => {
-      //   question.selectedDecisionList.forEach(decision => {
-      //     decision.AnswerSeq=undefined;
-      //     decision.Remark=undefined
-      //   });
-      // });
+  GNG_CLEAR_BTN_click(event) {
+    this.QuestionnairMap.forEach(question => {
+      question.selectedDecisionList.forEach(decision => {
+        decision.AnswerSeq = undefined;
+        decision.Remark = undefined
+      });
+    });
+
+    this.domRef.forEach(element => {
+      this.ClearFormFields(element);
+    });
+
   }
 
+  ClearFormFields(element) {
+    if (element['value'] != undefined && element['componentName'] == 'RLOUIRadioComponent') {
+      element.onReset();
+    }
+    if (element.value != '' && element.inputType == 'text') {
+      element.onReset();
+    }
+  }
   isEmpty(obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) {
