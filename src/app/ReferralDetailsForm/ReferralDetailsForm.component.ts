@@ -72,7 +72,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 			this.revalidateBasicField('RD_ADDRESSLINE2'),
 			this.revalidateBasicField('RD_ADDRESSLINE3'),
 			this.revalidateBasicField('RD_ADDRESSLINE4'),
-			this.revalidateBasicField('RD_PINCODE'),
+			// this.revalidateBasicField('RD_PINCODE'),
 			this.revalidateBasicField('RD_REGION'),
 			this.revalidateBasicField('RD_CITY'),
 			this.revalidateBasicField('RD_STATE'),

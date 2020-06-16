@@ -205,8 +205,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     genderCheck() {
         if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
-            this.services.alert.showAlert(2, '', -1, 'Please select gender according to title');
-            return;
+            this.FD_GENDER.setError('rlo.error.geneder.valid');
+             return 1
         }
     }
     async FD_GENDER_blur(event) {
