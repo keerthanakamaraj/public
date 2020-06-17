@@ -757,8 +757,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             case 'PersonalInterviewDetails':
                 return new AddSpecificComponent(PersonalInterviewComponent);
                 break;
+                break;
+            case 'PersonalInterviewDetails':
+                return new AddSpecificComponent(PersonalInterviewComponent);
+                break;
             default:
-                return new AddSpecificComponent(NotepadDetailsFormComponent);
+                return new AddSpecificComponent(VisitReportFormComponent);
                 break;
 
         }
