@@ -111,7 +111,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         cellRendererParams: {
             gridCode: 'AssetDetailsGrid',
             columnId: 'AT_EDIT',
-            Type: '2',
+            Type: '1',
             CustomClass: 'btn-edit',
             IconClass: 'fas fa-edit fa-lg',
             onClick: this.AT_EDIT_click.bind(this),
@@ -128,7 +128,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         cellRendererParams: {
             gridCode: 'AssetDetailsGrid',
             columnId: 'AT_DELETE',
-            Type: '2',
+            Type: '1',
             CustomClass: 'btn-delete',
             IconClass: 'fa fa-trash fa-lg',
             onClick: this.AT_DELETE_click.bind(this),
@@ -278,11 +278,10 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     async AT_EDIT_click(event) {
         let inputMap = new Map();
         const selectedData0 = this.readonlyGrid.getSelectedData();
-        if (selectedData0) {
             this.modifyAssetDetails.emit({
-                'AssetKey': selectedData0['ASSET_ID'],
+                'AssetKey': event['ASSET_ID'],
             });
-        }
+       
     }
     async AT_DELETE_click(event) {
         let inputMap = new Map();

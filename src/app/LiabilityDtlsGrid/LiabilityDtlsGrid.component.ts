@@ -81,7 +81,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     cellRendererParams: {
       gridCode: 'LiabilityDtlsGrid',
       columnId: 'LD_EDIT_BTN',
-      Type: '2',
+      Type: '1',
       CustomClass: 'btn-edit',
       IconClass: 'fas fa-edit fa-lg',
       onClick: this.LD_EDIT_BTN_click.bind(this),
@@ -98,7 +98,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     cellRendererParams: {
       gridCode: 'LiabilityDtlsGrid',
       columnId: 'LD_DELETE',
-      Type: '2',
+      Type: '1',
       CustomClass: 'btn-delete',
       IconClass: 'fa fa-trash fa-lg',
       onClick: this.LD_DELETE_click.bind(this),
@@ -236,11 +236,11 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
   async LD_EDIT_BTN_click(event) {
     let inputMap = new Map();
     const selectedData0 = this.readonlyGrid.getSelectedData();
-    if (selectedData0) {
+    
       this.onModify.emit({
-        'SeqKey': selectedData0['LIABILITY_ID'],
+        'SeqKey': event['LIABILITY_ID'],
       });
-    }
+    
 
   }
 

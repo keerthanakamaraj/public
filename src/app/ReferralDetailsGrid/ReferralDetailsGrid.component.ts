@@ -40,7 +40,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	};
 	columnDefs: any[] = [{
 		field: "RD_REFERRER_NAME",
-		width: 20,
+		width: 26,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -55,7 +55,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	},
 	{
 		field: "RD_REFERRER_RELATION",
-		width: 20,
+		width: 25,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -70,7 +70,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	},
 	{
 		field: "RD_REFERRER_MOBILE_NO",
-		width: 20,
+		width: 25,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -84,7 +84,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		width: 15,
+		width: 12,
 		field: "",
 		sortable: false,
 		filter: false,
@@ -94,14 +94,14 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		cellRendererParams: {
 			gridCode: 'ReferralDetailsGrid',
 			columnId: 'RD_EDIT',
-			Type: '2',
+			Type: '1',
 			CustomClass: 'btn-edit',
 			IconClass: 'fas fa-edit fa-lg',
 			onClick: this.RD_EDIT_click.bind(this),
 		},
 	},
 	{
-		width: 15,
+		width: 12,
 		field: "",
 		sortable: false,
 		filter: false,
@@ -111,7 +111,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		cellRendererParams: {
 			gridCode: 'ReferralDetailsGrid',
 			columnId: 'RD_DELETE',
-			Type: '2',
+			Type: '1',
 			CustomClass: 'btn-delete',
 			IconClass: 'fa fa-trash fa-lg',
 			onClick: this.RD_DELETE_click.bind(this),
@@ -198,7 +198,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 			});
 		}
 		inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-		this.services.http.fetchApi('/ReferrerDetails', 'GET', inputMap).subscribe(
+		this.services.http.fetchApi('/ReferrerDetails', 'GET', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.referredetails = [];
@@ -229,18 +229,17 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	async RD_EDIT_click(event) {
 		let inputMap = new Map();
 		const selectedData0 = this.readonlyGrid.getSelectedData();
-		if (selectedData0) {
 			this.EditReferrerDetails.emit({
-				'SeqKey': selectedData0['Referrer_ID'],
+				'SeqKey': event['Referrer_ID'],
 			});
-		}
+	
 	}
 	async RD_DELETE_click(event) {
 		let inputMap = new Map();
 		inputMap.clear();
 		inputMap.set('PathParam.BorrowerSeq', event.Referrer_ID);
 		if (confirm("Are you sure you want to Delete?")) {
-			this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/initiation').subscribe(
+			this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
 				async (httpResponse: HttpResponse<any>) => {
 					var res = httpResponse.body;
 					this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);

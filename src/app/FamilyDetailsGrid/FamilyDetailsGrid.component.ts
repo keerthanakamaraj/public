@@ -82,7 +82,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         cellRendererParams: {
             gridCode: 'FamilyDetailsGrid',
             columnId: 'FD_MODIFY',
-            Type: '2',
+            Type: '1',
             CustomClass: 'btn-edit',
             IconClass: 'fas fa-edit fa-lg',
             onClick: this.FD_MODIFY_click.bind(this),
@@ -99,7 +99,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         cellRendererParams: {
             gridCode: 'FamilyDetailsGrid',
             columnId: 'FD_DELETE',
-            Type: '2',
+            Type: '1',
             CustomClass: 'btn-delete',
             IconClass: 'fa fa-trash fa-lg',
             onClick: this.FD_DELETE_click.bind(this),

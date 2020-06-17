@@ -269,7 +269,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				inputMap.set('Body.ReferrerDetails.AddressDetails.MobileCountryCode', this.RD_COUNTRY_CODE2.getFieldValue());
 				inputMap.set('Body.ReferrerDetails.AddressDetails.AltMobileNo', this.RD_PHONE2.getFieldValue());
 				inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
-				this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'PUT', inputMap).subscribe(
+				this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'PUT', inputMap,'/rlo-de').subscribe(
 					async (httpResponse: HttpResponse<any>) => {
 						var res = httpResponse.body;
 						this.services.alert.showAlert(1, 'rlo.success.update.referrer', 5000);
@@ -372,7 +372,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 					return;
 				}
 				else {
-					this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap).subscribe(
+					this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap,'/rlo-de').subscribe(
 						async (httpResponse: HttpResponse<any>) => {
 							var res = httpResponse.body;
 							this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
@@ -457,7 +457,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		this.showSpinner();
 		inputMap.clear();
 		inputMap.set('PathParam.BorrowerSeq', event.SeqKey);
-		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap).subscribe(
+		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap,'/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				// this.AddBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
