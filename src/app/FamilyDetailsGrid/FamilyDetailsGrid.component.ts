@@ -233,11 +233,10 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async FD_MODIFY_click(event) {
         let inputMap = new Map();
         const selectedData0 = this.readonlyGrid.getSelectedData();
-        if (selectedData0) {
             this.onFamilyModify.emit({
-                'SeqKey': selectedData0['Family_ID'],
+                'SeqKey': event['Family_ID'],
             });
-        }
+        
     }
     async FD_DELETE_click(event) {
         let inputMap = new Map();
