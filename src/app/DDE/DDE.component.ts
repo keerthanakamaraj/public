@@ -64,6 +64,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('Cancel', { static: false }) Cancel: ButtonComponent;
     @ViewChild('Handler', { static: false }) Handler: DDEHandlerComponent;
     @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
+    @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
+    @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
+    @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
+    @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
     @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
@@ -258,9 +262,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.HideProcessId.setValue('RLO_Process');
-        //this.HideServiceCode.setValue('ClaimTask');// need to check 
-        //this.HideTenantId.setValue('SB1');
-
+        this.HideServiceCode.setValue('ClaimTask');
+        this.HideTenantId.setValue('SB1');
         this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
         this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
         this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
@@ -273,10 +276,50 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         // await this.brodcastApplicationId();
         //this.openHTab('FieldId_10', 'GO_NO_GO');
         // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
-
-        this.HideProcessId.setValue('RLO_Process');
+        if (this.userId === undefined || this.userId == '') {
+            this.claimTask(this.taskId);
+          }
         this.setDependencies();
     }
+
+    async claimTask(taskId) {
+        const inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+        inputMap.set('Body.TaskId', taskId);
+        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            const res = httpResponse.body;
+    
+            if (res.Status == 'S') {
+              this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+            } else {
+              this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+            }
+          },
+          async (httpError) => {
+            const err = httpError['error'];
+            if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+              if (err['ErrorElementPath'] === 'ServiceCode') {
+                this.HideServiceCode.setError(err['ErrorDescription']);
+              } else if (err['ErrorElementPath'] === 'ProcessId') {
+                this.HideProcessId.setError(err['ErrorDescription']);
+              } else if (err['ErrorElementPath'] === 'TaskId') {
+                this.HideTaskId.setError(err['ErrorDescription']);
+              } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+                this.HideTenantId.setError(err['ErrorDescription']);
+              } else if (err['ErrorElementPath'] === 'UserId') {
+                this.HideUserId.setError(err['ErrorDescription']);
+              }
+            }
+            this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+          }
+        );
+      }
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
