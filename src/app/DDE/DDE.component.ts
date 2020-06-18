@@ -74,13 +74,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
-    fullName: string = undefined;
-    Cust_DOB: string = undefined;
-    ActiveCustomerDtls: {} = undefined;
     ActiveBorrowerSeq: String = undefined;
-    ActiveCustomerName: string = undefined;
-    ActiveCustomerDOB: string = undefined;
-    ActiveCustomerMobile: string = undefined;
+    ActiveCustomerDtls: {} = undefined;
+    // fullName: string = undefined;
+    // Cust_DOB: string = undefined;
+    // ActiveCustomerName: string = undefined;
+    // ActiveCustomerDOB: string = undefined;
+    // ActiveCustomerMobile: string = undefined;
     isCustomerTab: boolean = true;
     CustomerType: string = undefined;
     isLoanCategory: boolean = false;
@@ -586,9 +586,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ActiveCustomerDtls = event.CustomerArray;
         this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
         this.CustomerType = event.CustomerArray.CustomerType;
-        this.ActiveCustomerName = event.CustomerArray.FullName;
-        this.ActiveCustomerDOB = event.CustomerArray.DOB;
-        this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
+        // this.ActiveCustomerName = event.CustomerArray.FullName;
+        // this.ActiveCustomerDOB = event.CustomerArray.DOB;
+        // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
         console.log(event);
         if (this.formMenuObject.customerId == this.getCustomerId(this.CustomerType, this.ActiveBorrowerSeq)) {
 
@@ -698,6 +698,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
+        }
+
+        if (componentInstance.componentId != 'FamilyDetails' || componentInstance.componentId != 'ReferrerDetails') {
+            componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
         }
     }
 
