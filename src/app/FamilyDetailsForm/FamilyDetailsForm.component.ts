@@ -57,7 +57,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @Input() activeBorrowerSeq: string = undefined;
     @Input() activeCustomerName: string = undefined;
     @Input() activeCustomerDOB: string = undefined;
-
+    @Input() ActiveCustomerDtls: any = undefined;
     fullName: string;
     dob: Date;
     cust_name: string;
@@ -109,6 +109,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
+        console.log("shweta :: family", this.ActiveCustomerDtls);
+        console.log("shweta :: family dob", this.activeCustomerDOB);
         await this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -206,7 +208,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
             this.FD_GENDER.setError('rlo.error.geneder.valid');
-             return 1
+            return 1
         }
     }
     async FD_GENDER_blur(event) {
@@ -240,8 +242,11 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     Customer_data() {
         this.cust_name = this.activeCustomerName;
         this.cust_dob = this.activeCustomerDOB
+        console.log("shweta :: in customer_data", this.cust_name);
     }
     async Save_click(event) {
+        // by shweta :: check first if Customerdtls array is not undefined
+        console.log("shweta :: in customer_data", this.cust_name, "form cust name=", this.FD_FULL_NAME.getFieldValue());
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
@@ -258,7 +263,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                     }
                 }
             }
-            if (this.cust_name == this.FD_FULL_NAME.getFieldValue() && this.cust_dob == this.FD_DOB.getFieldValue()) {
+            if (this.ActiveCustomerDtls.FullName == this.FD_FULL_NAME.getFieldValue() && this.cust_dob == this.FD_DOB.getFieldValue()) {
                 this.services.alert.showAlert(2, '', -1, 'You Can not add Borrower/Co-Borrower as Family');
                 return;
             }
