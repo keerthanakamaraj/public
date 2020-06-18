@@ -37,6 +37,7 @@ import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetai
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component'
+import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
 
 
 const customCss: string = '';
@@ -99,12 +100,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-    {
-        selectedMenuId: "",
-        selectedMenuComponent: "",
-        firstArr: 0,
-        secondArr: 0
-    };
+        {
+            selectedMenuId: "",
+            selectedMenuComponent: "",
+            firstArr: 0,
+            secondArr: 0
+        };
 
     //list of section manditory for customer and application
     manditorySectionsInMenu = new Map();
@@ -278,7 +279,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
         if (this.userId === undefined || this.userId == '') {
             this.claimTask(this.taskId);
-          }
+        }
         this.setDependencies();
     }
 
@@ -291,34 +292,34 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
         inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
         this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            const res = httpResponse.body;
-    
-            if (res.Status == 'S') {
-              this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
-            } else {
-              this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+            async (httpResponse: HttpResponse<any>) => {
+                const res = httpResponse.body;
+
+                if (res.Status == 'S') {
+                    this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+                } else {
+                    this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+                }
+            },
+            async (httpError) => {
+                const err = httpError['error'];
+                if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+                    if (err['ErrorElementPath'] === 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    }
+                }
+                this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
             }
-          },
-          async (httpError) => {
-            const err = httpError['error'];
-            if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-              if (err['ErrorElementPath'] === 'ServiceCode') {
-                this.HideServiceCode.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'ProcessId') {
-                this.HideProcessId.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'TaskId') {
-                this.HideTaskId.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'TENANT_ID') {
-                this.HideTenantId.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'UserId') {
-                this.HideUserId.setError(err['ErrorDescription']);
-              }
-            }
-            this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
-          }
         );
-      }
+    }
 
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -800,6 +801,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 break;
             case 'OccupationDetails':
                 return new AddSpecificComponent(OccupationDtlsFormComponent);
+                break;
+            case 'LoanDetails':
+                return new AddSpecificComponent(LoanDetailsFormComponent);
                 break;
             case 'PersonalInterviewDetails':
                 return new AddSpecificComponent(PersonalInterviewComponent);

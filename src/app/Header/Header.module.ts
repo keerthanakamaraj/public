@@ -8,7 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { HeaderRoutingModule } from './Header-routing.module';
 import { HeaderComponent } from './Header.component';
 import { HeaderHandlerModule } from '../Header/header-handler.module';
-import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+// import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 
 @NgModule({
     imports: [
@@ -27,8 +27,7 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
         HeaderHandlerModule
     ],
     declarations: [
-        HeaderComponent,
-        ReadOnlyComponent
+        HeaderComponent
     ],
     exports: [
         HeaderComponent,

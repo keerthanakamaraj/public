@@ -844,6 +844,27 @@ width: 681px !important; */
     }
   }
 }
+.loan-container{
+  box-sizing: border-box;
+  height: 10.200em;
+  border: 1px solid #DFD7D7;
+  border-radius: 0.267em;
+  background-color: #FFFFFF;
+  margin:  1em;
+
+  .loan-group{
+    box-sizing: border-box;
+    height: 7.4em;
+    margin-top: 1.000em;
+    border-right: 1px solid #DFD7D7;
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+  
+}
+
 
 a.back {
   float: left;
@@ -1488,3 +1509,14 @@ a.back {
     font-family: "rlo-icons";
   }
 }
+#LD_FEES_CHARGE,#LD_COLL_UPFRONT_CHARGES,
+#LD_DISBURMENT_MONEY,#LD_GEN_AMOR_SCH{
+  box-sizing: border-box;
+  height: 60px;
+  width: 180px;
+  border: 1px solid #0079B8;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px 1px rgba(33,139,194,0.3);
+}
+ 

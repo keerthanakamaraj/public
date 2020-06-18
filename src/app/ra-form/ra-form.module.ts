@@ -30,6 +30,8 @@ import { NgModule } from '@angular/core';
 import { HttpLoaderFactory } from '../app.module';
 import { LabelComponent } from '../label/label.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+
 
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 
@@ -65,7 +67,9 @@ import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
     LabelComponent,
     // RLO
     RLOUIRadioComponent,
-    RloUiMobileComponent
+    RloUiMobileComponent,
+    ReadOnlyComponent
+    
   ],
   exports: [
     ComboBoxComponent,
@@ -83,7 +87,8 @@ import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
     LabelComponent,
     // RLO
     RLOUIRadioComponent,
-    RloUiMobileComponent
+    RloUiMobileComponent,
+    ReadOnlyComponent
   ]
 })
 export class RAFormModule { }
