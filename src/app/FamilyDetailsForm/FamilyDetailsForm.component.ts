@@ -55,8 +55,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     @Input() Cust_FullName: any;
     @Input() activeBorrowerSeq: string = undefined;
-    @Input() activeCustomerName: string = undefined;
-    @Input() activeCustomerDOB: string = undefined;
+    // @Input() activeCustomerName: string = undefined;
+    // @Input() activeCustomerDOB: string = undefined;
     @Input() ActiveCustomerDtls: any = undefined;
     fullName: string;
     dob: Date;
@@ -79,7 +79,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('FD_RELATIONSHIP'),
             this.revalidateBasicField('FD_NATIONAL_ID'),
             this.revalidateBasicField('FD_TAX_ID'),
-            this.revalidateBasicField('FD_ISD_Code'),
+            // this.revalidateBasicField('FD_ISD_Code'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -109,8 +109,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
-        console.log("shweta :: family", this.ActiveCustomerDtls);
-        console.log("shweta :: family dob", this.activeCustomerDOB);
+        // console.log("shweta :: family", this.ActiveCustomerDtls);
         await this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -208,7 +207,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
             this.FD_GENDER.setError('rlo.error.geneder.valid');
-            return 1
+            return 1;
         }
     }
     async FD_GENDER_blur(event) {
@@ -239,19 +238,19 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             return 1;
         }
     }
-    Customer_data() {
-        this.cust_name = this.activeCustomerName;
-        this.cust_dob = this.activeCustomerDOB
-        console.log("shweta :: in customer_data", this.cust_name);
-    }
+
+    
+  
     async Save_click(event) {
         // by shweta :: check first if Customerdtls array is not undefined
-        console.log("shweta :: in customer_data", this.cust_name, "form cust name=", this.FD_FULL_NAME.getFieldValue());
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
-
+        if (this.ActiveCustomerDtls.FullName == this.FD_FULL_NAME.getFieldValue() && this.ActiveCustomerDtls.DOB == this.FD_DOB.getFieldValue()) {
+            this.services.alert.showAlert(2, 'You Can not add Borrower/Co-Borrower as Family', -1);
+            return;
+        }
         if (noOfError == 0) {
             if (this.FD_FULL_NAME.getFieldValue() !== undefined) {
                 if (familyGridData) {
@@ -263,19 +262,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                     }
                 }
             }
-            if (this.ActiveCustomerDtls.FullName == this.FD_FULL_NAME.getFieldValue() && this.cust_dob == this.FD_DOB.getFieldValue()) {
-                this.services.alert.showAlert(2, '', -1, 'You Can not add Borrower/Co-Borrower as Family');
-                return;
-            }
-
-            if (this.FD_ISD_Code.getFieldValue() == undefined && this.FD_MOBILE.getFieldValue() != undefined) {
-                this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
-                return;
-            }
-            else if (this.FD_ISD_Code.getFieldValue() != undefined && this.FD_MOBILE.getFieldValue() == undefined) {
-                this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
-                return;
-            }
+           
             if (this.hiddenFamilySeq.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.BorrowerSeq', this.hiddenFamilySeq.getFieldValue());
@@ -290,7 +277,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Relationship', this.FD_RELATIONSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerRelated', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -341,9 +328,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             else if (err['ErrorElementPath'] == 'BorrowerSeq') {
                                 this.hiddenFamilySeq.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.ISDCountryCode') {
-                                this.FD_ISD_Code.setError(err['ErrorDescription']);
-                            }
+                            // else if (err['ErrorElementPath'] == 'BorrowerDetails.ISDCountryCode') {
+                            //     this.FD_ISD_Code.setError(err['ErrorDescription']);
+                            // }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.update.family', -1);
                     }
@@ -362,7 +349,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.DOB', this.FD_DOB.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerRelated', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -412,9 +399,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Relationship') {
                                 this.FD_RELATIONSHIP.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.ISDCountryCode') {
-                                this.FD_ISD_Code.setError(err['ErrorDescription']);
-                            }
+                            // else if (err['ErrorElementPath'] == 'BorrowerDetails.ISDCountryCode') {
+                            //     this.FD_ISD_Code.setError(err['ErrorDescription']);
+                            // }
                         }
                         this.services.alert.showAlert(2, 'rlo.error.save.family', -1);
                     }
@@ -447,7 +434,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 this.FD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.FD_MOBILE.setValue(res['BorrowerDetails']['MobileNo']);
                 this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']);
-                this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
+                // this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
                 this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['Nationality']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
                 this.hiddenFamilySeq.setValue(res['BorrowerDetails']['BorrowerSeq']);
@@ -493,16 +480,6 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 { paramKey: "VALUE1", depFieldID: "FD_RELATIONSHIP", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
                 { paramKey: "KEY1", depFieldID: "HidRelationship", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        FD_ISD_Code: {
-            inDep: [
-
-                { paramKey: "VALUE1", depFieldID: "FD_ISD_Code", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidISDCode", paramType: "QueryParam" },
             ],
             outDep: [
             ]

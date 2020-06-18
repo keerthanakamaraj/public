@@ -93,7 +93,7 @@
             <app-date #FD_DOB fieldID="FD_DOB" [formCode]="formCode" placeholder="Select"
               (blur)="genericOnBlur('FD_DOB', $event)"></app-date>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_ISD_Code.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_ISD_Code.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'FamilyDetailsForm.FD_ISD_Code' | translate}}
@@ -102,17 +102,17 @@
             <app-combo-box #FD_ISD_Code category="2" fieldID="FD_ISD_Code" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('FD_ISD_Code', $event)"></app-combo-box>
-          </div>
+          </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_MOBILE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'FamilyDetailsForm.FD_MOBILE' | translate}}
               </label>
             </div>
-            <app-text-box #FD_MOBILE fieldID="FD_MOBILE" [formCode]="formCode"
-              (blur)="genericOnBlur('FD_MOBILE', $event)"></app-text-box>
+            <rlo-ui-mobile #FD_MOBILE fieldID="FD_MOBILE"
+            (countryCodeChanged)="countryCodeChanged('FD_MOBILE',$event)"
+            (blur)="genericOnBlur('FD_MOBILE', $event)"></rlo-ui-mobile>
           </div>
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_RELATIONSHIP.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': FD_RELATIONSHIP.mandatory}">
@@ -123,6 +123,7 @@
               [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('FD_RELATIONSHIP', $event)"></app-combo-box>
           </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_NATIONAL_ID.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -142,7 +143,7 @@
               (blur)="genericOnBlur('FD_TAX_ID', $event)"></app-text-box>
           </div>
 
-
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Save.isHidden()">
             <app-button #Save fieldName="{{ 'FamilyDetailsForm.Save' | translate}}" fieldID="Save" [formCode]="formCode"
               imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"

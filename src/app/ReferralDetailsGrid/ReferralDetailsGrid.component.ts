@@ -32,6 +32,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	componentCode: string = 'ReferralDetailsGrid';
 	openedFilterForm: string = '';
 	hidden: boolean = false;
+	referrerRecord: boolean = false;
 	referredetails = [];
 	gridConsts: any = {
 		paginationPageSize: 10,
@@ -176,7 +177,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		let inputMap = new Map();
 		inputMap.clear();
 		let applicationId: any = event.passReferrerGrid;
-		let borrowerSeq :any = event.activeBorrowerSeq;
+		// let borrowerSeq :any = event.activeBorrowerSeq;
 		// let applicationId = '2221';
 		let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
 		if (applicationId) {
@@ -202,7 +203,14 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.referredetails = [];
-				var loopVar10 = res['ReferrerDetails'];
+                if(res !== null){
+                    this.referrerRecord = true
+					var loopVar10 = res['ReferrerDetails'];
+                }
+                else{
+                    this.referrerRecord = false
+                }
+				
 				if (loopVar10) {
 					for (var i = 0; i < loopVar10.length; i++) {
 						var tempObj = {};

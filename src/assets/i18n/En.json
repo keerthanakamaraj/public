@@ -137,6 +137,7 @@
     "rlo.error.period.not.exist":"Duration is selected please select Period also",
     "rlo.success.save.personal-interview": "Records Saved Successfully",
     "rlo.error.save.personal-interview": "Failed to Save Records",
+    "rlo.error.exist.breferrer":"You Can not add Borrower/Co-Borrower as Referrer",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
