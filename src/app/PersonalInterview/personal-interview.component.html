@@ -9,7 +9,7 @@
                         </div>
                         <span>{{ i + 1 }}. {{question.value.QuestionText }}</span>
                     </div>
-                    <div class="param-answer col-12 col-sm-7 col-md-7">
+                    <div class="flexible-container col-12 col-sm-7 col-md-7">
                         <rlo-ui-radio #tbData fieldID="{{'PI_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
                             defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"

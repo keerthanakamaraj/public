@@ -1520,3 +1520,10 @@ a.back {
   box-shadow: 0 2px 4px 1px rgba(33,139,194,0.3);
 }
  
+.flexible-container .rlo-ui-radio-container {
+  height: auto !important;
+  min-height: 42px !important;
+  .radio-item{
+    float: left;
+  }
+}
