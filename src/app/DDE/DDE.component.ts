@@ -701,7 +701,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
         }
 
-        if (componentInstance.componentId != 'FamilyDetails' || componentInstance.componentId != 'ReferrerDetails') {
+        if (componentInstance.componentId == 'FamilyDetails' || componentInstance.componentId == 'ReferrerDetails') {
             componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
         }
     }

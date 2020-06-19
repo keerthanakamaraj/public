@@ -50,8 +50,10 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     @ViewChild('HidOfficialName', { static: false }) HidOfficialName: HiddenComponent;
     @ViewChild('HidReportType', { static: false }) HidReportType: HiddenComponent;
     @ViewChild('HidVisitReportSeqId', { static: false }) HidVisitReportSeqId: HiddenComponent;
+    @ViewChild('HidPlaceOfVisit', { static: false }) HidPlaceOfVisit: HiddenComponent;
 
     @Input() ApplicationId: string = undefined;
+    @Input() activeBorrowerSeq: string = undefined;
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -95,11 +97,13 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         //this.HidOfficialId.setValue('OFFICIAL_ID');
         this.HidOfficialName.setValue('OFFICIAL_NAME');
         this.HidReportType.setValue('REPORT_TYPE');
+        this.HidPlaceOfVisit.setValue('PLACE_OF_VISIT');
         let inputMap = new Map();
         this.VRF_Photograph.setDefault('N');
         this.VRF_AdverseObservation.setDefault('N');
         await this.Visit_Report_Grid.gridDataLoad({
-            'VisitReportSeqToGrid': this.ApplicationId,
+            'ApplicationId': this.ApplicationId,
+            'BorrowerSeq':this.activeBorrowerSeq
         });
         await this.Handler.onFormLoad({
         });
@@ -179,21 +183,21 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         if (numberOfErrors == 0) {
             if (this.HidVisitReportSeqId.getFieldValue() != undefined) {
                 inputMap.clear();
-                inputMap.set('PathParam.VisitReportSeq', this.HidVisitReportSeqId.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.ApplicationId', this.ApplicationId);
-                inputMap.set('Body.VisitReportDetails.ReportType', this.VRF_ReportType.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.DateOfVisit', this.VRF_DateOfVisit.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.AddressOfVisit', this.VRF_AddressofVisit.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.OfficialName', this.VRF_OfficialName.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PersonMet', this.VRF_NameofPersonMet.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PersonMetDesgn', this.VRF_Designation.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.OfficialBusiGroup', this.VRF_OfficialBusinessGroup.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PlaceOfVisit', this.VRF_PlaceOfVisit.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PhotoTaken', this.VRF_Photograph.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.AdverseObservations', this.VRF_AdverseObservation.getFieldValue());
+                inputMap.set('PathParam.RMRADetails.Id', this.HidVisitReportSeqId.getFieldValue());
+                inputMap.set('Body.RMRADetails.ProposalId', this.ApplicationId);
+                inputMap.set('Body.RMRADetails.ReportType', this.VRF_ReportType.getFieldValue());
+                inputMap.set('Body.RMRADetails.DateOfVisit', this.VRF_DateOfVisit.getFieldValue());
+                inputMap.set('Body.RMRADetails.AddressOfVisit', this.VRF_AddressofVisit.getFieldValue());
+                inputMap.set('Body.RMRADetails.NameBankRep', this.VRF_OfficialName.getFieldValue());
+                inputMap.set('Body.RMRADetails.NameOfPerson', this.VRF_NameofPersonMet.getFieldValue());
+                inputMap.set('Body.RMRADetails.DesignationOfPerson', this.VRF_Designation.getFieldValue());
+                inputMap.set('Body.RMRADetails.BankRepVertical', this.VRF_OfficialBusinessGroup.getFieldValue());
+                inputMap.set('Body.RMRADetails.PlaceOfVisit', this.VRF_PlaceOfVisit.getFieldValue());
+                inputMap.set('Body.RMRADetails.AttVRPhoto', this.VRF_Photograph.getFieldValue());
+                inputMap.set('Body.RMRADetails.AdverseObservation', this.VRF_AdverseObservation.getFieldValue());
                 //inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.Observations', this.VRF_Observations.getFieldValue());
-                this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'PUT', inputMap).subscribe(
+                inputMap.set('Body.RMRADetails.GistofDiscussion', this.VRF_Observations.getFieldValue());
+                this.services.http.fetchApi('/v1/proposals/visit-details', 'POST', inputMap).subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
@@ -316,38 +320,63 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
     }
+    // async Visit_Report_Grid_modifyVisitReport(event) {
+    //     console.log("shweta :: visit report dtls for edit",event.VisitReort);
+    //     let inputMap = new Map();
+    //     this.showSpinner();
+    //     inputMap.clear();
+    //     inputMap.set('QueryParam.ProposalId', event.ApplicationId);
+	// 	inputMap.set('QueryParam.TrnDemographicId', event.BorrowerSeq);
+    //     inputMap.set('PathParam.VisitReportSeq', event.VisitReortKey);
+    //     //this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'GET', inputMap).subscribe(
+    //     this.services.http.fetchApi('/v1/proposals/visit-details', 'GET', inputMap).subscribe(
+    //     async (httpResponse: HttpResponse<any>) => {
+    //             var res = httpResponse.body;
+    //             this.VRF_ReportType.setValue(res['VisitReportDetails']['ReportType']);
+    //             this.VRF_DateOfVisit.setValue(res['VisitReportDetails']['DateOfVisit']);
+    //             this.VRF_AddressofVisit.setValue(res['VisitReportDetails']['AddressOfVisit']);
+    //             this.VRF_OfficialName.setValue(res['VisitReportDetails']['OfficialName']);
+    //             this.VRF_NameofPersonMet.setValue(res['VisitReportDetails']['PersonMet']);
+    //             this.VRF_Designation.setValue(res['VisitReportDetails']['PersonMetDesgn']);
+    //             this.VRF_OfficialBusinessGroup.setValue(res['VisitReportDetails']['OfficialBusiGroup']);
+    //             this.VRF_PlaceOfVisit.setValue(res['VisitReportDetails']['PlaceOfVisit']);
+    //             this.VRF_Photograph.setValue(res['VisitReportDetails']['PhotoTaken']);
+    //             this.VRF_AdverseObservation.setValue(res['VisitReportDetails']['AdverseObservations']);
+    //             this.VRF_Observations.setValue(res['VisitReportDetails']['Observations']);
+    //             //this.VRF_OfficialId.setValue(res['VisitReportDetails']['OfficialId']);
+    //             this.HidVisitReportSeqId.setValue(res['VisitReportDetails']['VisitReportSeq']);
+    //         },
+    //         async (httpError) => {
+    //             var err = httpError['error']
+    //             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+    //             }
+    //             this.hideSpinner();
+    //             this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+    //             this.hideSpinner();
+    //         }
+    //     );
+    // }
     async Visit_Report_Grid_modifyVisitReport(event) {
+        console.log("shweta :: visit report dtls for edit",event.VisitReort);
         let inputMap = new Map();
         this.showSpinner();
-        inputMap.clear();
-        inputMap.set('PathParam.VisitReportSeq', event.VisitReortKey);
-        this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'GET', inputMap).subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body;
-                this.VRF_ReportType.setValue(res['VisitReportDetails']['ReportType']);
-                this.VRF_DateOfVisit.setValue(res['VisitReportDetails']['DateOfVisit']);
-                this.VRF_AddressofVisit.setValue(res['VisitReportDetails']['AddressOfVisit']);
-                this.VRF_OfficialName.setValue(res['VisitReportDetails']['OfficialName']);
-                this.VRF_NameofPersonMet.setValue(res['VisitReportDetails']['PersonMet']);
-                this.VRF_Designation.setValue(res['VisitReportDetails']['PersonMetDesgn']);
-                this.VRF_OfficialBusinessGroup.setValue(res['VisitReportDetails']['OfficialBusiGroup']);
-                this.VRF_PlaceOfVisit.setValue(res['VisitReportDetails']['PlaceOfVisit']);
-                this.VRF_Photograph.setValue(res['VisitReportDetails']['PhotoTaken']);
-                this.VRF_AdverseObservation.setValue(res['VisitReportDetails']['AdverseObservations']);
-                this.VRF_Observations.setValue(res['VisitReportDetails']['Observations']);
-                //this.VRF_OfficialId.setValue(res['VisitReportDetails']['OfficialId']);
-                this.HidVisitReportSeqId.setValue(res['VisitReportDetails']['VisitReportSeq']);
-            },
-            async (httpError) => {
-                var err = httpError['error']
-                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                }
-                this.hideSpinner();
-                this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+                var visitReport = event.VisitReort;
+                this.VRF_ReportType.setValue(visitReport['VR_Type']);
+                this.VRF_DateOfVisit.setValue(visitReport['VR_DateofVisit']);
+                this.VRF_NameofPersonMet.setValue(visitReport['VR_NameOfPersonMet']);
+                this.VRF_PlaceOfVisit.setValue(visitReport['VR_PlaceOfVisit']);
+                this.VRF_Designation.setValue(visitReport['VR_Designation']);
+                this.VRF_AddressofVisit.setValue(visitReport['VR_AddressOfVisit']);
+                this.VRF_OfficialName.setValue(visitReport['VR_NameBankRep']);
+                this.VRF_OfficialBusinessGroup.setValue(visitReport['VR_BankRepVertical']);
+                this.VRF_Photograph.setValue(visitReport['VR_isPhotoAvailable']);
+                this.VRF_AdverseObservation.setValue(visitReport['VR_isAdvObservation']);
+                this.VRF_Observations.setValue(visitReport['VR_GistofDiscussion']);
+                this.HidVisitReportSeqId.setValue(visitReport['HidVisitReportId']);
                 this.hideSpinner();
             }
-        );
-    }
+       
+            
     fieldDependencies = {
         VRF_ReportType: {
             inDep: [
@@ -402,6 +431,16 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             inDep: [
 
                 { paramKey: "VALUE1", depFieldID: "VRF_AdverseObservation", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "HidAppid", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "HidAnyObservation", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        VRF_PlaceOfVisit: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "VRF_PlaceOfVisit", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "HidAppid", paramType: "QueryParam" },
                 { paramKey: "KEY1", depFieldID: "HidAnyObservation", paramType: "QueryParam" },
             ],

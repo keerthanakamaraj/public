@@ -30,6 +30,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 	@Input('displayToolbar') displayToolbar: boolean = true;
 	@Input('fieldID') fieldID: string;
 
+	VisitDtlsList=[];
 	componentCode: string = 'VisitReportGrid';
 	openedFilterForm: string = '';
 	hidden: boolean = false;
@@ -84,21 +85,6 @@ export class VisitReportGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		field: "VR_OfficialName",
-		width: 10,
-		sortable: true,
-		resizable: true,
-		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
-	},
-	{
 		field: "VR_NameOfPersonMet",
 		width: 10,
 		sortable: true,
@@ -129,52 +115,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		field: "VR_OficialBusiGroup",
-		width: 10,
-		sortable: true,
-		resizable: true,
-		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
-	},
-	{
 		field: "VR_PlaceOfVisit",
-		width: 10,
-		sortable: true,
-		resizable: true,
-		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
-	},
-	{
-		field: "VR_Photograph",
-		width: 10,
-		sortable: true,
-		resizable: true,
-		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
-	},
-	{
-		field: "VR_Observation",
 		width: 10,
 		sortable: true,
 		resizable: true,
@@ -277,87 +218,134 @@ export class VisitReportGridComponent implements AfterViewInit {
 	isHidden() {
 		return this.hidden;
 	}
+	// async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+	// 	let inputMap = new Map();
+	// 	inputMap.clear();
+	// 	let VisitReportId: any = event.VisitReportSeqToGrid;
+	// 	let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+	// 	if (VisitReportId) {
+	// 		criteriaJson.FilterCriteria.push({
+	// 			"columnName": "ApplicationId",
+	// 			"columnType": "String",
+	// 			"conditions": {
+	// 				"searchType": "equals",
+	// 				"searchText": VisitReportId
+	// 			}
+	// 		});
+	// 		inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+
+	// 	}
+
+	// 	if (gridReqMap.get("FilterCriteria")) {
+	// 		var obj = gridReqMap.get("FilterCriteria");
+	// 		for (var i = 0; i < obj.length; i++) {
+	// 			switch (obj[i].columnName) {
+	// 				case "VR_Type": obj[i].columnName = "ReportType"; break;
+	// 				case "VR_DateofVisit": obj[i].columnName = "DateOfVisit"; break;
+	// 				case "VR_AddressOfVisit": obj[i].columnName = "AddressOfVisit"; break;
+	// 				case "VR_OfficialName": obj[i].columnName = "OfficialName"; break;
+	// 				case "VR_NameOfPersonMet": obj[i].columnName = "PersonMet"; break;
+	// 				case "VR_Designation": obj[i].columnName = "PersonMetDesgn"; break;
+	// 				case "VR_OficialBusiGroup": obj[i].columnName = "OfficialBusiGroup"; break;
+	// 				case "VR_PlaceOfVisit": obj[i].columnName = "PlaceOfVisit"; break;
+	// 				case "VR_Photograph": obj[i].columnName = "PhotoTaken"; break;
+	// 				case "VR_Observation": obj[i].columnName = "AdverseObservations"; break;
+	// 				case "HidVisitReportId": obj[i].columnName = "VisitReportSeq"; break;
+	// 				default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
+	// 			}
+	// 		}
+	// 	}
+	// 	if (gridReqMap.get("OrderCriteria")) {
+	// 		var obj = gridReqMap.get("OrderCriteria");
+	// 		for (var i = 0; i < obj.length; i++) {
+	// 			switch (obj[i].columnName) {
+	// 				case "VR_Type": obj[i].columnName = "ReportType"; break;
+	// 				case "VR_DateofVisit": obj[i].columnName = "DateOfVisit"; break;
+	// 				case "VR_AddressOfVisit": obj[i].columnName = "AddressOfVisit"; break;
+	// 				case "VR_OfficialName": obj[i].columnName = "OfficialName"; break;
+	// 				case "VR_NameOfPersonMet": obj[i].columnName = "PersonMet"; break;
+	// 				case "VR_Designation": obj[i].columnName = "PersonMetDesgn"; break;
+	// 				case "VR_OficialBusiGroup": obj[i].columnName = "OfficialBusiGroup"; break;
+	// 				case "VR_PlaceOfVisit": obj[i].columnName = "PlaceOfVisit"; break;
+	// 				case "VR_Photograph": obj[i].columnName = "PhotoTaken"; break;
+	// 				case "VR_Observation": obj[i].columnName = "AdverseObservations"; break;
+	// 				case "HidVisitReportId": obj[i].columnName = "VisitReportSeq"; break;
+	// 				default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
+	// 			}
+	// 		}
+	// 	}
+	// 	this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+	// 	//this.services.http.fetchApi('/VisitReportDetails', 'GET', inputMap).subscribe(
+	// 		this.services.http.fetchApi('/VisitReportDetails', 'GET', inputMap).subscribe(
+	// 		async (httpResponse: HttpResponse<any>) => {
+	// 			var res = httpResponse.body;
+	// 			var loopDataVar10 = [];
+	// 			var loopVar10 = res['VisitReportDetails'];
+	// 			if (loopVar10) {
+	// 				for (var i = 0; i < loopVar10.length; i++) {
+	// 					var tempObj = {};
+	// 					tempObj['VR_Type'] = loopVar10[i].ReportType;
+	// 					tempObj['VR_DateofVisit'] = loopVar10[i].DateOfVisit;
+	// 					tempObj['VR_AddressOfVisit'] = loopVar10[i].AddressOfVisit;
+	// 					tempObj['VR_OfficialName'] = loopVar10[i].OfficialName;
+	// 					tempObj['VR_NameOfPersonMet'] = loopVar10[i].PersonMet;
+	// 					tempObj['VR_Designation'] = loopVar10[i].PersonMetDesgn;
+	// 					tempObj['VR_OficialBusiGroup'] = loopVar10[i].OfficialBusiGroup;
+	// 					tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceOfVisit;
+	// 					tempObj['VR_Photograph'] = loopVar10[i].PhotoTaken;
+	// 					tempObj['VR_Observation'] = loopVar10[i].AdverseObservations;
+	// 					tempObj['HidVisitReportId'] = loopVar10[i].VisitReportSeq;
+	// 					loopDataVar10.push(tempObj);
+	// 				}
+	// 			}
+	// 			this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+	// 		},
+	// 		async (httpError) => {
+	// 			var err = httpError['error']
+	// 			if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+	// 			}
+	// 			this.services.alert.showAlert(2, 'rlo.error.load.grid', -1);
+	// 		}
+	// 	);
+	// 	//}
+
+	// }
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
 		let inputMap = new Map();
-		//if(VisitReportId){
 		inputMap.clear();
 		let VisitReportId: any = event.VisitReportSeqToGrid;
-		let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-		if (VisitReportId) {
-			criteriaJson.FilterCriteria.push({
-				"columnName": "ApplicationId",
-				"columnType": "String",
-				"conditions": {
-					"searchType": "equals",
-					"searchText": VisitReportId
-				}
-			});
-			inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+		if(event.BorrowerSeq!=undefined){
 
-		}
-
-		if (gridReqMap.get("FilterCriteria")) {
-			var obj = gridReqMap.get("FilterCriteria");
-			for (var i = 0; i < obj.length; i++) {
-				switch (obj[i].columnName) {
-					case "VR_Type": obj[i].columnName = "ReportType"; break;
-					case "VR_DateofVisit": obj[i].columnName = "DateOfVisit"; break;
-					case "VR_AddressOfVisit": obj[i].columnName = "AddressOfVisit"; break;
-					case "VR_OfficialName": obj[i].columnName = "OfficialName"; break;
-					case "VR_NameOfPersonMet": obj[i].columnName = "PersonMet"; break;
-					case "VR_Designation": obj[i].columnName = "PersonMetDesgn"; break;
-					case "VR_OficialBusiGroup": obj[i].columnName = "OfficialBusiGroup"; break;
-					case "VR_PlaceOfVisit": obj[i].columnName = "PlaceOfVisit"; break;
-					case "VR_Photograph": obj[i].columnName = "PhotoTaken"; break;
-					case "VR_Observation": obj[i].columnName = "AdverseObservations"; break;
-					case "HidVisitReportId": obj[i].columnName = "VisitReportSeq"; break;
-					default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
-				}
-			}
-		}
-		if (gridReqMap.get("OrderCriteria")) {
-			var obj = gridReqMap.get("OrderCriteria");
-			for (var i = 0; i < obj.length; i++) {
-				switch (obj[i].columnName) {
-					case "VR_Type": obj[i].columnName = "ReportType"; break;
-					case "VR_DateofVisit": obj[i].columnName = "DateOfVisit"; break;
-					case "VR_AddressOfVisit": obj[i].columnName = "AddressOfVisit"; break;
-					case "VR_OfficialName": obj[i].columnName = "OfficialName"; break;
-					case "VR_NameOfPersonMet": obj[i].columnName = "PersonMet"; break;
-					case "VR_Designation": obj[i].columnName = "PersonMetDesgn"; break;
-					case "VR_OficialBusiGroup": obj[i].columnName = "OfficialBusiGroup"; break;
-					case "VR_PlaceOfVisit": obj[i].columnName = "PlaceOfVisit"; break;
-					case "VR_Photograph": obj[i].columnName = "PhotoTaken"; break;
-					case "VR_Observation": obj[i].columnName = "AdverseObservations"; break;
-					case "HidVisitReportId": obj[i].columnName = "VisitReportSeq"; break;
-					default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
-				}
-			}
-		}
-		this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-		this.services.http.fetchApi('/VisitReportDetails', 'GET', inputMap).subscribe(
+		inputMap.set('QueryParam.ProposalId', event.ApplicationId);
+		inputMap.set('QueryParam.TrnDemographicId', event.BorrowerSeq);
+		//this.services.http.fetchApi('/VisitReportDetails', 'GET', inputMap).subscribe(
+			this.services.http.fetchApi('/v1/proposals/visit-details', 'GET', inputMap).subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
-				var loopDataVar10 = [];
-				var loopVar10 = res['VisitReportDetails'];
+				//this.VisitDtlsMap.clear();
+				this.VisitDtlsList = [];
+				var loopVar10 = res['RMRADetails'];
 				if (loopVar10) {
 					for (var i = 0; i < loopVar10.length; i++) {
+						//this.VisitDtlsMap
 						var tempObj = {};
+
 						tempObj['VR_Type'] = loopVar10[i].ReportType;
 						tempObj['VR_DateofVisit'] = loopVar10[i].DateOfVisit;
+						tempObj['VR_NameOfPersonMet'] = loopVar10[i].NameOfPerson;
+						tempObj['VR_Designation'] = loopVar10[i].DesignationOfPerson;
+						tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceofVisit;
 						tempObj['VR_AddressOfVisit'] = loopVar10[i].AddressOfVisit;
-						tempObj['VR_OfficialName'] = loopVar10[i].OfficialName;
-						tempObj['VR_NameOfPersonMet'] = loopVar10[i].PersonMet;
-						tempObj['VR_Designation'] = loopVar10[i].PersonMetDesgn;
-						tempObj['VR_OficialBusiGroup'] = loopVar10[i].OfficialBusiGroup;
-						tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceOfVisit;
-						tempObj['VR_Photograph'] = loopVar10[i].PhotoTaken;
-						tempObj['VR_Observation'] = loopVar10[i].AdverseObservations;
-						tempObj['HidVisitReportId'] = loopVar10[i].VisitReportSeq;
-						loopDataVar10.push(tempObj);
+						tempObj['HidVisitReportId'] = loopVar10[i].Id;
+						tempObj['VR_NameBankRep'] = loopVar10[i].NameBankRep;
+						tempObj['VR_BankRepVertical'] = loopVar10[i].BankRepVertical;
+						tempObj['VR_isPhotoAvailable'] = loopVar10[i].AttVRPhoto;
+						tempObj['VR_isAdvObservation'] = loopVar10[i].AdverseObservation;
+						tempObj['VR_GistofDiscussion'] = loopVar10[i].GistofDiscussion;
+						this.VisitDtlsList.push(tempObj);
 					}
 				}
-				this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+				this.readonlyGrid.apiSuccessCallback(params, this.VisitDtlsList);
 			},
 			async (httpError) => {
 				var err = httpError['error']
@@ -366,20 +354,31 @@ export class VisitReportGridComponent implements AfterViewInit {
 				this.services.alert.showAlert(2, 'rlo.error.load.grid', -1);
 			}
 		);
-		//}
+	}
 
 	}
+	// async VR_Modify_click(event) {
+	// 	let inputMap = new Map();
+	// 	const selectedData0 = this.readonlyGrid.getSelectedData();
+	// 	if (selectedData0) {
+	// 		this.modifyVisitReport.emit({
+	// 			//'VisitReortKey': selectedData0['HidVisitReportId'],
+	// 			'VisitReortKey': event['HidVisitReportId']
+
+	// 		});
+	// 	}
+	// }
 	async VR_Modify_click(event) {
 		let inputMap = new Map();
-		const selectedData0 = this.readonlyGrid.getSelectedData();
-		if (selectedData0) {
+		//const selectedData0 = this.readonlyGrid.getSelectedData();
+		if (event['HidVisitReportId']) {
+			
 			this.modifyVisitReport.emit({
-				//'VisitReortKey': selectedData0['HidVisitReportId'],
-				'VisitReortKey': event['HidVisitReportId']
-
+				'VisitReort': event
 			});
 		}
 	}
+
 	async VR_Delete_click(event) {
 		let inputMap = new Map();
 		inputMap.clear();
