@@ -9,30 +9,30 @@ import { VisitReportFormRoutingModule } from './VisitReportForm-routing.module';
 import { VisitReportFormComponent } from './VisitReportForm.component';
 import { VisitReportGridModule } from '../VisitReportGrid/VisitReportGrid.module';
 //import { VisitReportModule } from '../VisitReportForm/visitreport-handler.module';
-import {VisitReportHandlerModule} from '../VisitReportForm/visitreport-handler.module'
+import { VisitReportHandlerModule } from '../VisitReportForm/visitreport-handler.module'
 @NgModule({
-imports: [
-CommonModule,
-VisitReportFormRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-VisitReportGridModule,
-//VisitReportModule,
-VisitReportHandlerModule,
-],
-declarations: [
-VisitReportFormComponent,
-],
-exports:[
-VisitReportFormComponent,
-],
+    imports: [
+        CommonModule,
+        VisitReportFormRoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        VisitReportGridModule,
+        //VisitReportModule,
+        VisitReportHandlerModule,
+    ],
+    declarations: [
+        VisitReportFormComponent,
+    ],
+    exports: [
+        VisitReportFormComponent,
+    ],
 })
 export class VisitReportFormModule { }

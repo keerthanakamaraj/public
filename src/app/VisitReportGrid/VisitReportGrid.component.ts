@@ -30,7 +30,6 @@ export class VisitReportGridComponent implements AfterViewInit {
 	@Input('displayToolbar') displayToolbar: boolean = true;
 	@Input('fieldID') fieldID: string;
 
-	VisitDtlsList=[];
 	componentCode: string = 'VisitReportGrid';
 	openedFilterForm: string = '';
 	hidden: boolean = false;
@@ -313,21 +312,32 @@ export class VisitReportGridComponent implements AfterViewInit {
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
 		let inputMap = new Map();
 		inputMap.clear();
-		let VisitReportId: any = event.VisitReportSeqToGrid;
-		if(event.BorrowerSeq!=undefined){
+		//let VisitReportId: any =event.BorrowerSeq;
+			let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+			if (event.BorrowerSeq!=undefined) {
+				criteriaJson.FilterCriteria.push({
+					"columnName": "TrnDemographicId",
+					"columnType": "String",
+					"conditions": {
+						"searchType": "equals",
+						"searchText": event.BorrowerSeq
+					}
+				});
+				inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+			//}
+		//if(event.BorrowerSeq!=undefined){
 
-		inputMap.set('QueryParam.ProposalId', event.ApplicationId);
-		inputMap.set('QueryParam.TrnDemographicId', event.BorrowerSeq);
+		//inputMap.set('QueryParam.ProposalId', event.ApplicationId);
+		//inputMap.set('QueryParam.TrnDemographicId', event.BorrowerSeq);
 		//this.services.http.fetchApi('/VisitReportDetails', 'GET', inputMap).subscribe(
-			this.services.http.fetchApi('/v1/proposals/visit-details', 'GET', inputMap).subscribe(
+			this.services.http.fetchApi('/RMRADetails', 'GET', inputMap).subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				//this.VisitDtlsMap.clear();
-				this.VisitDtlsList = [];
+				let VisitDtlsList = [];
 				var loopVar10 = res['RMRADetails'];
 				if (loopVar10) {
 					for (var i = 0; i < loopVar10.length; i++) {
-						//this.VisitDtlsMap
 						var tempObj = {};
 
 						tempObj['VR_Type'] = loopVar10[i].ReportType;
@@ -337,15 +347,15 @@ export class VisitReportGridComponent implements AfterViewInit {
 						tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceofVisit;
 						tempObj['VR_AddressOfVisit'] = loopVar10[i].AddressOfVisit;
 						tempObj['HidVisitReportId'] = loopVar10[i].Id;
-						tempObj['VR_NameBankRep'] = loopVar10[i].NameBankRep;
-						tempObj['VR_BankRepVertical'] = loopVar10[i].BankRepVertical;
-						tempObj['VR_isPhotoAvailable'] = loopVar10[i].AttVRPhoto;
-						tempObj['VR_isAdvObservation'] = loopVar10[i].AdverseObservation;
-						tempObj['VR_GistofDiscussion'] = loopVar10[i].GistofDiscussion;
-						this.VisitDtlsList.push(tempObj);
+						// tempObj['VR_NameBankRep'] = loopVar10[i].NameBankRep;
+						// tempObj['VR_BankRepVertical'] = loopVar10[i].BankRepVertical;
+						// tempObj['VR_isPhotoAvailable'] = loopVar10[i].AttVRPhoto;
+						// tempObj['VR_isAdvObservation'] = loopVar10[i].AdverseObservation;
+						// tempObj['VR_GistofDiscussion'] = loopVar10[i].GistofDiscussion;
+						VisitDtlsList.push(tempObj);
 					}
 				}
-				this.readonlyGrid.apiSuccessCallback(params, this.VisitDtlsList);
+				this.readonlyGrid.apiSuccessCallback(params, VisitDtlsList);
 			},
 			async (httpError) => {
 				var err = httpError['error']
@@ -357,33 +367,33 @@ export class VisitReportGridComponent implements AfterViewInit {
 	}
 
 	}
-	// async VR_Modify_click(event) {
-	// 	let inputMap = new Map();
-	// 	const selectedData0 = this.readonlyGrid.getSelectedData();
-	// 	if (selectedData0) {
-	// 		this.modifyVisitReport.emit({
-	// 			//'VisitReortKey': selectedData0['HidVisitReportId'],
-	// 			'VisitReortKey': event['HidVisitReportId']
-
-	// 		});
-	// 	}
-	// }
 	async VR_Modify_click(event) {
 		let inputMap = new Map();
 		//const selectedData0 = this.readonlyGrid.getSelectedData();
 		if (event['HidVisitReportId']) {
-			
 			this.modifyVisitReport.emit({
-				'VisitReort': event
+				//'VisitReortKey': selectedData0['HidVisitReportId'],
+				'VisitReportId': event['HidVisitReportId']
+
 			});
 		}
 	}
+	// async VR_Modify_click(event) {
+	// 	let inputMap = new Map();
+	// 	//const selectedData0 = this.readonlyGrid.getSelectedData();
+	// 	if (event['HidVisitReportId']) {
+			
+	// 		this.modifyVisitReport.emit({
+	// 			'VisitReort': event
+	// 		});
+	// 	}
+	// }
 
 	async VR_Delete_click(event) {
 		let inputMap = new Map();
 		inputMap.clear();
-		inputMap.set('PathParam.VisitReportSeq', event.HidVisitReportId);
-		this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'DELETE', inputMap).subscribe(
+		inputMap.set('PathParam.Id', event.HidVisitReportId);
+		this.services.http.fetchApi('/RMRADetails/{Id}', 'DELETE', inputMap).subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.services.alert.showAlert(1, 'rlo.success.delete.visitreport', 5000);

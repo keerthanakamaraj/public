@@ -34,7 +34,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     @ViewChild('VRF_Designation', { static: false }) VRF_Designation: TextBoxComponent;
     //@ViewChild('VRF_OfficialId', {static: false}) VRF_OfficialId: ComboBoxComponent;
     @ViewChild('VRF_OfficialBusinessGroup', { static: false }) VRF_OfficialBusinessGroup: ComboBoxComponent;
-    @ViewChild('VRF_PlaceOfVisit', { static: false }) VRF_PlaceOfVisit: TextAreaComponent;
+    @ViewChild('VRF_PlaceOfVisit', { static: false }) VRF_PlaceOfVisit: ComboBoxComponent;
     @ViewChild('VRF_Photograph', { static: false }) VRF_Photograph: RLOUIRadioComponent;
     @ViewChild('VRF_AdverseObservation', { static: false }) VRF_AdverseObservation: RLOUIRadioComponent;
     @ViewChild('VRF_Observations', { static: false }) VRF_Observations: TextAreaComponent;
@@ -51,10 +51,12 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     @ViewChild('HidReportType', { static: false }) HidReportType: HiddenComponent;
     @ViewChild('HidVisitReportSeqId', { static: false }) HidVisitReportSeqId: HiddenComponent;
     @ViewChild('HidPlaceOfVisit', { static: false }) HidPlaceOfVisit: HiddenComponent;
+    @ViewChild('VRF_UPLOAD_BTN', { static: false }) VRF_UPLOAD_BTN: ButtonComponent;
 
     @Input() ApplicationId: string = undefined;
     @Input() activeBorrowerSeq: string = undefined;
 
+    monthLimit: number = 1;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -99,11 +101,12 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.HidReportType.setValue('REPORT_TYPE');
         this.HidPlaceOfVisit.setValue('PLACE_OF_VISIT');
         let inputMap = new Map();
+        this.VRF_UPLOAD_BTN.setDisabled(true);
         this.VRF_Photograph.setDefault('N');
         this.VRF_AdverseObservation.setDefault('N');
+        this.VRF_Photograph.setReadOnly(true);
         await this.Visit_Report_Grid.gridDataLoad({
-            'ApplicationId': this.ApplicationId,
-            'BorrowerSeq':this.activeBorrowerSeq
+            'BorrowerSeq': this.activeBorrowerSeq
         });
         await this.Handler.onFormLoad({
         });
@@ -174,209 +177,213 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.dependencyMap.clear();
         this.value = new VisitReportFormModel();
         this.passNewValue(this.value);
-        this.setReadOnly(false);
+        //this.setReadOnly(false);
+        this.VRF_Photograph.setDefault('N');
+        this.VRF_AdverseObservation.setDefault('N');
         this.onFormLoad();
     }
     async VRF_Save_click(event) {
+        this.VRF_Save.setDisabled(true);
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
         if (numberOfErrors == 0) {
             if (this.HidVisitReportSeqId.getFieldValue() != undefined) {
-                inputMap.clear();
-                inputMap.set('PathParam.RMRADetails.Id', this.HidVisitReportSeqId.getFieldValue());
-                inputMap.set('Body.RMRADetails.ProposalId', this.ApplicationId);
-                inputMap.set('Body.RMRADetails.ReportType', this.VRF_ReportType.getFieldValue());
-                inputMap.set('Body.RMRADetails.DateOfVisit', this.VRF_DateOfVisit.getFieldValue());
-                inputMap.set('Body.RMRADetails.AddressOfVisit', this.VRF_AddressofVisit.getFieldValue());
-                inputMap.set('Body.RMRADetails.NameBankRep', this.VRF_OfficialName.getFieldValue());
-                inputMap.set('Body.RMRADetails.NameOfPerson', this.VRF_NameofPersonMet.getFieldValue());
-                inputMap.set('Body.RMRADetails.DesignationOfPerson', this.VRF_Designation.getFieldValue());
-                inputMap.set('Body.RMRADetails.BankRepVertical', this.VRF_OfficialBusinessGroup.getFieldValue());
-                inputMap.set('Body.RMRADetails.PlaceOfVisit', this.VRF_PlaceOfVisit.getFieldValue());
-                inputMap.set('Body.RMRADetails.AttVRPhoto', this.VRF_Photograph.getFieldValue());
-                inputMap.set('Body.RMRADetails.AdverseObservation', this.VRF_AdverseObservation.getFieldValue());
-                //inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
-                inputMap.set('Body.RMRADetails.GistofDiscussion', this.VRF_Observations.getFieldValue());
-                this.services.http.fetchApi('/v1/proposals/visit-details', 'POST', inputMap).subscribe(
+
+                inputMap = this.generateSaveUpdateRequestJson(inputMap);
+
+                this.services.http.fetchApi('/RMRADetails/{Id}', 'PUT', inputMap).subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
+                        this.Visit_Report_Grid.gridDataLoad({
+                            'BorrowerSeq': this.activeBorrowerSeq
+                        });
                         this.onReset();
+                        this.VRF_Save.setDisabled(false);
                     },
                     async (httpError) => {
-                        var err = httpError['error']
-                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'VisitReportDetails.Observations') {
-                                this.VRF_Observations.setError(err['ErrorDescription']);
-                            }
-                            // else if(err['ErrorElementPath'] == 'VisitReportDetails.OfficialId'){
-                            // this.VRF_OfficialId.setError(err['ErrorDescription']);
-                            // }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.AdverseObservations') {
-                                this.VRF_AdverseObservation.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PhotoTaken') {
-                                this.VRF_Photograph.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PlaceOfVisit') {
-                                this.VRF_PlaceOfVisit.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.OfficialBusiGroup') {
-                                this.VRF_OfficialBusinessGroup.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PersonMetDesgn') {
-                                this.VRF_Designation.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PersonMet') {
-                                this.VRF_NameofPersonMet.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.OfficialName') {
-                                this.VRF_OfficialName.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.AddressOfVisit') {
-                                this.VRF_AddressofVisit.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.DateOfVisit') {
-                                this.VRF_DateOfVisit.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.ReportType') {
-                                this.VRF_ReportType.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportSeq') {
-                                this.HidVisitReportSeqId.setError(err['ErrorDescription']);
-                            }
-                        }
+                        this.parseResponseError(httpError['error']);
                         this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
+                        this.VRF_Save.setDisabled(false);
                     }
                 );
             }
             else {
-                inputMap.clear();
-                inputMap.set('Body.VisitReportDetails.ApplicationId', this.ApplicationId);
-                inputMap.set('Body.VisitReportDetails.ReportType', this.VRF_ReportType.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.DateOfVisit', this.VRF_DateOfVisit.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.AddressOfVisit', this.VRF_AddressofVisit.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.OfficialName', this.VRF_OfficialName.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PersonMet', this.VRF_NameofPersonMet.getFieldValue());
-                //inputMap.set('Body.VisitReportDetails.OfficialId', this.VRF_OfficialId.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PersonMetDesgn', this.VRF_Designation.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.OfficialBusiGroup', this.VRF_OfficialBusinessGroup.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PlaceOfVisit', this.VRF_PlaceOfVisit.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.PhotoTaken', this.VRF_Photograph.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.AdverseObservations', this.VRF_AdverseObservation.getFieldValue());
-                inputMap.set('Body.VisitReportDetails.Observations', this.VRF_Observations.getFieldValue());
-                this.services.http.fetchApi('/VisitReportDetails', 'POST', inputMap).subscribe(
+                inputMap = this.generateSaveUpdateRequestJson(inputMap);
+                this.services.http.fetchApi('/RMRADetails', 'POST', inputMap).subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
+                        this.Visit_Report_Grid.gridDataLoad({
+                            'BorrowerSeq': this.activeBorrowerSeq
+                        });
                         this.onReset();
+                        this.VRF_Save.setDisabled(false);
                     },
                     async (httpError) => {
-                        var err = httpError['error']
-                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                            if (err['ErrorElementPath'] == 'VisitReportDetails.Observations') {
-                                this.VRF_Observations.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.AdverseObservations') {
-                                this.VRF_AdverseObservation.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PhotoTaken') {
-                                this.VRF_Photograph.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PlaceOfVisit') {
-                                this.VRF_PlaceOfVisit.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.OfficialBusiGroup') {
-                                this.VRF_OfficialBusinessGroup.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PersonMetDesgn') {
-                                this.VRF_Designation.setError(err['ErrorDescription']);
-                            }
-                            // else if(err['ErrorElementPath'] == 'VisitReportDetails.OfficialId'){
-                            // this.VRF_OfficialId.setError(err['ErrorDescription']);
-                            // }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.PersonMet') {
-                                this.VRF_NameofPersonMet.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.OfficialName') {
-                                this.VRF_OfficialName.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.AddressOfVisit') {
-                                this.VRF_AddressofVisit.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.DateOfVisit') {
-                                this.VRF_DateOfVisit.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'VisitReportDetails.ReportType') {
-                                this.VRF_ReportType.setError(err['ErrorDescription']);
-                            }
-                        }
+                        this.parseResponseError(httpError['error']);
                         this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
+                        this.VRF_Save.setDisabled(false);
                     }
                 );
             }
         }
         else {
             this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+            this.VRF_Save.setDisabled(false);
         }
     }
-    // async Visit_Report_Grid_modifyVisitReport(event) {
-    //     console.log("shweta :: visit report dtls for edit",event.VisitReort);
-    //     let inputMap = new Map();
-    //     this.showSpinner();
-    //     inputMap.clear();
-    //     inputMap.set('QueryParam.ProposalId', event.ApplicationId);
-	// 	inputMap.set('QueryParam.TrnDemographicId', event.BorrowerSeq);
-    //     inputMap.set('PathParam.VisitReportSeq', event.VisitReortKey);
-    //     //this.services.http.fetchApi('/VisitReportDetails/{VisitReportSeq}', 'GET', inputMap).subscribe(
-    //     this.services.http.fetchApi('/v1/proposals/visit-details', 'GET', inputMap).subscribe(
-    //     async (httpResponse: HttpResponse<any>) => {
-    //             var res = httpResponse.body;
-    //             this.VRF_ReportType.setValue(res['VisitReportDetails']['ReportType']);
-    //             this.VRF_DateOfVisit.setValue(res['VisitReportDetails']['DateOfVisit']);
-    //             this.VRF_AddressofVisit.setValue(res['VisitReportDetails']['AddressOfVisit']);
-    //             this.VRF_OfficialName.setValue(res['VisitReportDetails']['OfficialName']);
-    //             this.VRF_NameofPersonMet.setValue(res['VisitReportDetails']['PersonMet']);
-    //             this.VRF_Designation.setValue(res['VisitReportDetails']['PersonMetDesgn']);
-    //             this.VRF_OfficialBusinessGroup.setValue(res['VisitReportDetails']['OfficialBusiGroup']);
-    //             this.VRF_PlaceOfVisit.setValue(res['VisitReportDetails']['PlaceOfVisit']);
-    //             this.VRF_Photograph.setValue(res['VisitReportDetails']['PhotoTaken']);
-    //             this.VRF_AdverseObservation.setValue(res['VisitReportDetails']['AdverseObservations']);
-    //             this.VRF_Observations.setValue(res['VisitReportDetails']['Observations']);
-    //             //this.VRF_OfficialId.setValue(res['VisitReportDetails']['OfficialId']);
-    //             this.HidVisitReportSeqId.setValue(res['VisitReportDetails']['VisitReportSeq']);
-    //         },
-    //         async (httpError) => {
-    //             var err = httpError['error']
-    //             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-    //             }
-    //             this.hideSpinner();
-    //             this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-    //             this.hideSpinner();
-    //         }
-    //     );
-    // }
+
+    generateSaveUpdateRequestJson(inputMap) {
+        inputMap.clear();
+        if (this.HidVisitReportSeqId.getFieldValue() != undefined) {
+            inputMap.set('PathParam.Id', this.HidVisitReportSeqId.getFieldValue());
+        }
+        inputMap.set('Body.RMRADetails.ProposalId', this.ApplicationId);
+        inputMap.set('Body.RMRADetails.TrnDemographicId', this.activeBorrowerSeq);
+        inputMap.set('Body.RMRADetails.ReportType', this.VRF_ReportType.getFieldValue());
+        inputMap.set('Body.RMRADetails.DateOfVisit', this.VRF_DateOfVisit.getFieldValue());
+        inputMap.set('Body.RMRADetails.AddressOfVisit', this.VRF_AddressofVisit.getFieldValue());
+        inputMap.set('Body.RMRADetails.NameBankRep', this.VRF_OfficialName.getFieldValue());
+        inputMap.set('Body.RMRADetails.NameOfPerson', this.VRF_NameofPersonMet.getFieldValue());
+        inputMap.set('Body.RMRADetails.DesignationOfPerson', this.VRF_Designation.getFieldValue());
+        inputMap.set('Body.RMRADetails.BankRepVertical', this.VRF_OfficialBusinessGroup.getFieldValue());
+        inputMap.set('Body.RMRADetails.PlaceofVisit', this.VRF_PlaceOfVisit.getFieldValue());
+        inputMap.set('Body.RMRADetails.AttVRPhoto', this.VRF_Photograph.getFieldValue());
+        inputMap.set('Body.RMRADetails.AdverseObservation', this.VRF_AdverseObservation.getFieldValue());
+        inputMap.set('Body.RMRADetails.GistofDiscussion', this.VRF_Observations.getFieldValue());
+        return inputMap;
+    }
+
+    parseResponseError(err) {
+
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            if (err['ErrorElementPath'] == 'RMRADetails.GistofDiscussion') {
+                this.VRF_Observations.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.AdverseObservation') {
+                this.VRF_AdverseObservation.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.AttVRPhoto') {
+                this.VRF_Photograph.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.PlaceofVisit') {
+                this.VRF_PlaceOfVisit.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.BankRepVertical') {
+                this.VRF_OfficialBusinessGroup.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.DesignationOfPerson') {
+                this.VRF_Designation.setError(err['ErrorDescription']);
+            }
+
+            else if (err['ErrorElementPath'] == 'RMRADetails.NameOfPerson') {
+                this.VRF_NameofPersonMet.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.NameBankRep') {
+                this.VRF_OfficialName.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.AddressOfVisit') {
+                this.VRF_AddressofVisit.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.DateOfVisit') {
+                this.VRF_DateOfVisit.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'RMRADetails.ReportType') {
+                this.VRF_ReportType.setError(err['ErrorDescription']);
+            }
+        }
+    }
+
+
     async Visit_Report_Grid_modifyVisitReport(event) {
-        console.log("shweta :: visit report dtls for edit",event.VisitReort);
+        console.log("shweta :: visit report dtls for edit", event.VisitReportId);
         let inputMap = new Map();
         this.showSpinner();
-                var visitReport = event.VisitReort;
-                this.VRF_ReportType.setValue(visitReport['VR_Type']);
-                this.VRF_DateOfVisit.setValue(visitReport['VR_DateofVisit']);
-                this.VRF_NameofPersonMet.setValue(visitReport['VR_NameOfPersonMet']);
-                this.VRF_PlaceOfVisit.setValue(visitReport['VR_PlaceOfVisit']);
-                this.VRF_Designation.setValue(visitReport['VR_Designation']);
-                this.VRF_AddressofVisit.setValue(visitReport['VR_AddressOfVisit']);
-                this.VRF_OfficialName.setValue(visitReport['VR_NameBankRep']);
-                this.VRF_OfficialBusinessGroup.setValue(visitReport['VR_BankRepVertical']);
-                this.VRF_Photograph.setValue(visitReport['VR_isPhotoAvailable']);
-                this.VRF_AdverseObservation.setValue(visitReport['VR_isAdvObservation']);
-                this.VRF_Observations.setValue(visitReport['VR_GistofDiscussion']);
-                this.HidVisitReportSeqId.setValue(visitReport['HidVisitReportId']);
+        inputMap.clear();
+
+        inputMap.set('PathParam.Id', event.VisitReportId);
+
+        this.services.http.fetchApi('/RMRADetails/{Id}', 'GET', inputMap).subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body['RMRADetails'];
+                this.VRF_ReportType.setValue(res['ReportType']);
+                this.VRF_DateOfVisit.setValue(res['DateOfVisit']);
+                this.VRF_AddressofVisit.setValue(res['AddressOfVisit']);
+                this.VRF_OfficialName.setValue(res['NameBankRep']);
+                this.VRF_NameofPersonMet.setValue(res['NameOfPerson']);
+                this.VRF_Designation.setValue(res['DesignationOfPerson']);
+                this.VRF_OfficialBusinessGroup.setValue(res['BankRepVertical']);
+                this.VRF_PlaceOfVisit.setValue(res['PlaceofVisit']);
+                this.VRF_Photograph.setValue(res['AttVRPhoto']);
+                this.VRF_AdverseObservation.setValue(res['AdverseObservation']);
+                this.VRF_Observations.setValue(res['GistofDiscussion']);
+                this.HidVisitReportSeqId.setValue(res['Id']);
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                }
+                this.hideSpinner();
+                this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
                 this.hideSpinner();
             }
-       
-            
+        );
+    }
+
+    async VRF_DateOfVisit_blur(event) {
+        const inputMap = new Map();
+        if (!(this.isTodaysDate(this.VRF_DateOfVisit.getFieldValue()) || this.isPastDate(this.VRF_DateOfVisit.getFieldValue()))) {
+            this.VRF_DateOfVisit.setError('rlo.error.dob-invalid');
+            return 1;
+        } else if (!this.isMonthsLimitValid(this.VRF_DateOfVisit.getFieldValue())) {
+            this.VRF_DateOfVisit.setError('rlo.error.dob-invalid');
+            return 1;
+        }
+    }
+
+    isTodaysDate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        if (moment(currentDate).isSame(selectedDate)) {
+            return true;
+        }
+        return false;
+    }
+
+    isPastDate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate >= currentDate) {
+            return false;
+        }
+        return true;
+    }
+
+    isMonthsLimitValid(selectedDate) {
+        const moment = require('moment');
+        let currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        let months = currentDate.diff(selectedDate, 'months');
+        console.log("selected months count is:", months);
+        console.log("default months count is:", this.monthLimit);
+        if (months <= this.monthLimit) {
+            console.log("returning true", months);
+            return true;
+        }
+        else {
+            console.log("returning false", months);
+            return false;
+        }
+    }
+
     fieldDependencies = {
         VRF_ReportType: {
             inDep: [
@@ -398,15 +405,6 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             outDep: [
             ]
         },
-        // VRF_OfficialId: {
-        // inDep: [
-
-        // {paramKey: "VALUE1", depFieldID: "VRF_OfficialId", paramType:"PathParam"},
-        // {paramKey: "APPID", depFieldID: "HidAppid", paramType:"QueryParam"},
-        // {paramKey: "KEY1", depFieldID: "HidOfficialId", paramType:"QueryParam"},
-        // ],
-        // outDep: [
-        // ]},
         VRF_OfficialBusinessGroup: {
             inDep: [
 
@@ -442,7 +440,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 
                 { paramKey: "VALUE1", depFieldID: "VRF_PlaceOfVisit", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "HidAppid", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "HidAnyObservation", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "HidPlaceOfVisit", paramType: "QueryParam" },
             ],
             outDep: [
             ]

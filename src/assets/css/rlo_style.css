@@ -652,6 +652,15 @@ li .a {
 #GNG_CLEAR_BTN{
   margin-left: 210px;
 }
+
+ #VRF_Save{
+  margin-left: 60px;
+} 
+
+#VRF_Reset{
+  border-color: dimgray;
+}
+
 #AD_CLEAR_BTN
 {
 
