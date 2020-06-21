@@ -38,6 +38,7 @@ import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtl
 import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
 import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component'
 import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
+import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 
 
 const customCss: string = '';
@@ -72,11 +73,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
     @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
     @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
+    @ViewChild('LOAN_DTLS', { static: false }) LOAN_DTLS: LoanDetailsFormComponent;
+    @ViewChild('FieldId_26', { static: false }) LOAN_GRID: LoanDetailsGridComponent;
+
 
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
     ActiveBorrowerSeq: String = undefined;
     ActiveCustomerDtls: {} = undefined;
+    CustomerDetailsArray : any;
     // fullName: string = undefined;
     // Cust_DOB: string = undefined;
     // ActiveCustomerName: string = undefined;
@@ -136,6 +141,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     //ON FIRST TIME LOAD get all customer details and set menu acc.
     initGetAllCustomerDetails(customerData: any, customerType: string = '') {
+        this.CustomerDetailsArray = customerData.data;
         if (!this.initialLoadDone) {
             console.log("initGetAllCustomerDetails");
             console.error("deep-", customerData);
@@ -703,6 +709,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         if (componentInstance.componentId == 'FamilyDetails' || componentInstance.componentId == 'ReferrerDetails') {
             componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
+        }
+        if(componentInstance.componentCode ==  "LoanDetailsForm"){
+            componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
         }
     }
 

@@ -71,7 +71,7 @@
                                 {{ 'LoanDetailsForm.Tenure' | translate}}
                             </label>
                         </div>
-                        <app-text-box #Tenure inputType="number" fieldID="Tenure" [formCode]="formCode"
+                        <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode"
                             (blur)="genericOnBlur('Tenure', $event)"></app-text-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TenurePeriod.isHidden()">
@@ -81,7 +81,7 @@
                             </label>
                         </div>
                         <app-combo-box #TenurePeriod category="2" fieldID="TenurePeriod" [formCode]="formCode"
-                            placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                             domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('TenurePeriod', $event)">
                         </app-combo-box>
                     </div>
@@ -93,7 +93,7 @@
                             </label>
                         </div>
                         <app-combo-box #InterestRateType category="2" fieldID="InterestRateType" [formCode]="formCode"
-                            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                             domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('InterestRateType', $event)">
                         </app-combo-box>
                     </div>
@@ -124,8 +124,9 @@
                             </label>
                         </div>
                         <app-combo-box #RepaymentFrequency category="2" fieldID="RepaymentFrequency"
-                            [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RepaymentFrequency', $event)">
+                            placeholder="Select" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                            (blur)="genericOnBlur('RepaymentFrequency', $event)">
                         </app-combo-box>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentOption.isHidden()">
@@ -135,7 +136,7 @@
                             </label>
                         </div>
                         <app-combo-box #RepaymentOption category="2" fieldID="RepaymentOption" [formCode]="formCode"
-                            placeholder="Placeholder" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                             domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RepaymentOption', $event)">
                         </app-combo-box>
                     </div>
@@ -151,21 +152,30 @@
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_FEES_CHARGE.isHidden()">
                         <app-button #LD_FEES_CHARGE fieldName="{{ 'LoanDetailsForm.LD_FEES_CHARGE' | translate}}"
-                            fieldID="LD_FEES_CHARGE" [formCode]="formCode" [type]="3"></app-button>
+                            fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3">
+                        </app-button>
                     </div>
                     <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_COLL_UPFRONT_CHARGES.isHidden()">
                         <app-button #LD_COLL_UPFRONT_CHARGES
                             fieldName="{{ 'LoanDetailsForm.LD_COLL_UPFRONT_CHARGES' | translate}}"
-                            fieldID="LD_COLL_UPFRONT_CHARGES" [formCode]="formCode" [type]="3"></app-button>
+                            fieldID="LD_COLL_UPFRONT_CHARGES" customClass="btn-loan" [formCode]="formCode" [type]="3">
+                        </app-button>
+                    </div>
+                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_RECEIVE_MONEY.isHidden()">
+                        <app-button #LD_RECEIVE_MONEY fieldName="{{ 'LoanDetailsForm.LD_RECEIVE_MONEY' | translate}}"
+                            fieldID="LD_RECEIVE_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
+                        </app-button>
                     </div>
                     <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_DISBURMENT_MONEY.isHidden()">
                         <app-button #LD_DISBURMENT_MONEY
                             fieldName="{{ 'LoanDetailsForm.LD_DISBURMENT_MONEY' | translate}}"
-                            fieldID="LD_DISBURMENT_MONEY" [formCode]="formCode" [type]="3"></app-button>
+                            fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
+                        </app-button>
                     </div>
                     <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_GEN_AMOR_SCH.isHidden()">
                         <app-button #LD_GEN_AMOR_SCH fieldName="{{ 'LoanDetailsForm.LD_GEN_AMOR_SCH' | translate}}"
-                            fieldID="LD_GEN_AMOR_SCH" [formCode]="formCode" [type]="3"></app-button>
+                            fieldID="LD_GEN_AMOR_SCH" customClass="btn-loan" [formCode]="formCode" [type]="3"
+                            (buttonClick)="LD_GEN_AMOR_SCH_click($event)"></app-button>
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="loan-container col-9 col-sm-9 col-md-9">
@@ -175,16 +185,17 @@
                                     {{ 'LoanDetailsForm.MarginMoney' | translate}}
                                 </label>
                             </div>
-                            <rlo-ui-readonlyfield #MarginMoney fieldID="MarginMoney" 
+                            <rlo-ui-readonlyfield #MarginMoney fieldID="MarginMoney"
                                 (blur)="genericOnBlur('MarginMoney', $event)"></rlo-ui-readonlyfield>
                             <div class="clr-brown fieldLegend">
                                 <label class="clr-brown">
                                     {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
                                 </label>
                             </div>
+
                             <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt"
-                                 placeholder="Placeholder"
-                                (blur)="genericOnBlur('TotalInstallmentAmt', $event)"></rlo-ui-readonlyfield>
+                                placeholder="Placeholder" (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
+                            </rlo-ui-readonlyfield>
 
 
                         </div>
@@ -195,8 +206,8 @@
                                     {{ 'LoanDetailsForm.MoneyInstallment' | translate}}
                                 </label>
                             </div>
-                            <rlo-ui-readonlyfield #MoneyInstallment fieldID="MoneyInstallment"
-                                placeholder="Placeholder" (blur)="genericOnBlur('MoneyInstallment', $event)">
+                            <rlo-ui-readonlyfield #MoneyInstallment fieldID="MoneyInstallment" placeholder="Placeholder"
+                                (blur)="genericOnBlur('MoneyInstallment', $event)">
                             </rlo-ui-readonlyfield>
 
                         </div>
@@ -208,30 +219,33 @@
                                 </label>
                             </div>
                             <rlo-ui-readonlyfield #TotalInterestAmount fieldID="TotalInterestAmount"
-                                 (blur)="genericOnBlur('TotalInterestAmount', $event)">
+                                (blur)="genericOnBlur('TotalInterestAmount', $event)">
                             </rlo-ui-readonlyfield>
 
                         </div>
 
                     </div>
-                    <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoneyInstallment.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LoanDetailsForm.MoneyInstallment' | translate}}
-</label>
-</div>
-<app-text-box #MoneyInstallment fieldID="MoneyInstallment" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('MoneyInstallment', $event)"></app-text-box>
-</div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
+                        <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}"
+                            fieldID="LD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-primary"
+                            (buttonClick)="LD_SAVE_BTN_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
+                        <app-button #CD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}"
+                            fieldID="LD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
+                            (buttonClick)="LD_CLEAR_BTN_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                        <app-label #LD_HEADING parentCompCode="LoanDetailsForm" fieldID="LD_HEADING"
+                            [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
+                            fontSize="16px" fontWeight="bold"></app-label>
+                    </div>
 
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TotalInstallmentAmt.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
-</label>
-</div>
-<app-text-box #TotalInstallmentAmt fieldID="TotalInstallmentAmt" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('TotalInstallmentAmt', $event)"></app-text-box>
-</div> -->
-
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_26.isHidden()">
+                        <app-LoanDetailsGrid #FieldId_26 fieldID="FieldId_26" [formCode]="formCode">
+                        </app-LoanDetailsGrid>
+                    </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-loan-handler #Handler [MainComponent]="this"></app-loan-handler>
                     </div>
@@ -243,6 +257,7 @@
                 <app-hidden #hideInstRateType fieldID="hideInstRateType"></app-hidden>
                 <app-hidden #hideRepaymentOption fieldID="hideRepaymentOption"></app-hidden>
                 <app-hidden #hideRepaymentFreq fieldID="hideRepaymentFreq"></app-hidden>
+                <app-hidden #hideLoanSeq fieldID="hideLoanSeq"></app-hidden>
             </div>
         </div>
     </div>

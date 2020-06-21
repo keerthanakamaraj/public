@@ -62,7 +62,7 @@
     "rlo.error.save.liability": "Failed to Save liability Details",
     "rlo.error.load.liability": "Failed to Load liability Details",
     "rlo.success.delete.liability": "liability Details Successfully Deleted",
-    "rlo.success.save.loan": "Loan Details Saved Successfully",
+    
     "rlo.error.save.loan": "Failed to Save Loan Details",
     "rlo.success.claim.qde": "Proposal Claimed Successfully",
     "rlo.success.claim.dde": "Proposal Claimed Successfully",    
@@ -138,6 +138,9 @@
     "rlo.success.save.personal-interview": "Records Saved Successfully",
     "rlo.error.save.personal-interview": "Failed to Save Records",
     "rlo.error.exist.breferrer":"You Can not add Borrower/Co-Borrower as Referrer",
+    "rlo.success.save.loan" : "Loan Details Saved Successfully",
+    "rlo.mandatory.loan.field" :"Please Correct Form Error",
+    "rlo.error.tenure or tenureperiod.not.exist":"Tenure or Tenure period cannot be blank",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
@@ -1348,7 +1351,7 @@
     "MarginRate" : "Margin Rate",
     "RepaymentAccNo" : "Repayment Account No",
     "RepaymentOption" : "Repayment Option",
-    "LD_HEADING" : "Loan Details",
+    "LD_HEADING" : "Repayment Details",
     "LD_COLL_UPFRONT_CHARGES" : "Collect Upfront Charges",
     "NetInterestRate" : "Net Interest Rate",
     "InterestRateType" : "Interest Rate Type",
@@ -1366,7 +1369,11 @@
     "SystemRecommendedAmount" : "System Recommended Amount",
     "LD_GEN_AMOR_SCH" : "Generate Amortization Schedule",
     "InterestRate" : "Interest Rate",
-    "LD_DISBURMENT_MONEY" : "Disbursement Money"
+    "LD_DISBURMENT_MONEY" : "Disbursement Money",
+    "LD_RECEIVE_MONEY" : "Receive Initial Money",
+    "LD_SAVE_BTN" : "SAVE",
+    "LD_CLEAR_BTN" : "CLEAR"
+
     },
   "SearchCustomerGrid": {
     "AccNo": "Account No",
@@ -1944,5 +1951,13 @@
   "PIDtls":{
     "PI_SAVE_BTN":"SAVE",
     "PI_CLEAR_BTN":"CLEAR"
-  }
+  },
+  "LoanDetailsGrid" : {
+    "LD_EMI" : "EMI",
+    "LD_PRINCIPAL" : "Principal",
+    "LD_CUST_NAME" : "Customer Name",
+    "LD_CUST_TYPE" : "Customer Type",
+    "LD_LOAN_OWNERSHIP" : "Loan Ownership",
+    "toolbar_LoanDetailsGrid" : "null"
+    }
 }

@@ -1509,8 +1509,18 @@ a.back {
     font-family: "rlo-icons";
   }
 }
-#LD_FEES_CHARGE,#LD_COLL_UPFRONT_CHARGES,
-#LD_DISBURMENT_MONEY,#LD_GEN_AMOR_SCH{
+// #LD_FEES_CHARGE,#LD_COLL_UPFRONT_CHARGES,
+// #LD_DISBURMENT_MONEY,#LD_GEN_AMOR_SCH{
+//   box-sizing: border-box;
+//   height: 60px;
+//   width: 180px;
+//   border: 1px solid #0079B8;
+//   border-radius: 4px;
+//   background-color: #FFFFFF;
+//   box-shadow: 0 2px 4px 1px rgba(33,139,194,0.3);
+// }
+
+.btn-loan{
   box-sizing: border-box;
   height: 60px;
   width: 180px;
@@ -1518,6 +1528,12 @@ a.back {
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 1px rgba(33,139,194,0.3);
+  white-space: normal;
+  color: #0079B8;
+  font-family: "Open Sans";
+  font-size: 12px;
+  letter-spacing: 0;
+
 }
  
 .flexible-container .rlo-ui-radio-container {
