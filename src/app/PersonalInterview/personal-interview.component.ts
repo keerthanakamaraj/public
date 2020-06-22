@@ -147,6 +147,7 @@ export class PersonalInterviewComponent implements OnInit {
         }
         decision['QuestionSeq'] = question.QuestionSeq;
         decision['ApplicationId'] = this.ApplicationId;
+        decision['BorrowerSeq']=this.activeBorrowerSeq;
         decision['AnswerSeq'] = question.SelectedDecision.AnswerSeq;
         decision['DeviationLevel'] = question.DeviationLevel;
         decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
