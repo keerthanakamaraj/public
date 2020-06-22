@@ -583,7 +583,7 @@ export class FormComponent {
       if (totalErrors > 0) { return totalErrors }
     }
 
-    if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '' || value == 0 || value == 0.00)) {
+    if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '')) {
       this[fieldId].setError("Value cannot be empty");
       return ++totalErrors;
     }
