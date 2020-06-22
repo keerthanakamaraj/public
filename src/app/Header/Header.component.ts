@@ -184,7 +184,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.HD_PROD.setValue(header.Product);
         this.HD_SUB_PROD.setValue(this.SUB_PRODUCT);
         this.HD_SCHEME.setValue(this.SCHEME);
-        this.HD_PROMOTION.setValue(header.Promotion);
+        if(this.HD_PROMOTION.getFieldValue() == undefined && this.HD_PROMOTION.getFieldValue() == null ){
+          this.HD_PROMOTION.setValue("NA");
+          }
+          else{
+            this.HD_PROMOTION.setValue(header.Promotion);
+          }
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
         this.LD_INTEREST_RATE.setValue(this.INTEREST_RATE);
         this.LD_TENURE.setValue(header.Tenure);

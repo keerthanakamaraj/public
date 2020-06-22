@@ -660,10 +660,11 @@ li .a {
 #VRF_Reset{
   border-color: dimgray;
 }
-
+#ND_SAVE{
+  margin-left: 70px ;
+}
 #AD_CLEAR_BTN
 {
-
   border-color: gray;
 }
 #AD_SAVE_ADDRESS
