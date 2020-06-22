@@ -44,10 +44,12 @@
                     <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
                     <div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ND_SAVE.isHidden()">
-                        <app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" customClass="btn btn-primary" fieldID="ND_SAVE" [formCode]="formCode" (buttonClick)="ND_SAVE_click($event)"></app-button>
+                        <app-button #ND_SAVE fieldName="{{ 'NotepadDetailsForm.ND_SAVE' | translate}}" imagePath="./assets/icons/plus.svg" 
+						[type]="2" customClass="icon-button" fieldID="ND_SAVE" [formCode]="formCode" (buttonClick)="ND_SAVE_click($event)"></app-button>
                     </div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ND_CLEAR.isHidden()">
-                        <app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}"  customClass="btn-warning-outline" fieldID="ND_CLEAR" [formCode]="formCode"
+                        <app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}" 
+						 imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"  fieldID="ND_CLEAR" [formCode]="formCode"
                             (buttonClick)="ND_CLEAR_click($event)"></app-button>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">

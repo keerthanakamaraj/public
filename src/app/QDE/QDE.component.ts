@@ -105,6 +105,15 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.value = new QDEModel();
     this.componentCode = 'QDE';
     this.displayBorder = false;
+    this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+      switch (event.action) {
+        case 'updateCustGrid': // on customer update/save success
+          console.log("shweta :: in QDE grid update ", event.data);
+          this.FieldId_9.doAPIForCustomerList(event.data);
+          event.action = undefined;
+          break;
+      }
+    });
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
@@ -170,6 +179,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     this.setDependencies();
+
   }
 
   async claimTask(taskId) {
@@ -464,7 +474,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       this.submitQDE(requestParams);
     } else {
-      this.services.alert.showAlert(2, this.errorsList[0], -1);
+      this.services.alert.showAlert(2, '', -1, this.errorsList[0]);
     }
   }
 
@@ -655,7 +665,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (!entry[1].has('addressLoad')) {
           isAddressValid = false;
           errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
-          errorMessage = errorMessage + ' Add atleast one address';
+          errorMessage = errorMessage + ' Add address';
         } else {
           const addressList = entry[1].get('addressLoad');
           const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
