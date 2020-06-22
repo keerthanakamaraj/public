@@ -302,7 +302,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hidCustSeg.setValue('CUST_SEGMENT');
     this.hideExsCust.setValue('YES_NO');
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
-    this.hideTenurePeriod.setValue('TENURE_PERIOD');
+    this.hideTenurePeriod.setValue('PERIOD');
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
 
 
@@ -702,6 +702,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
         inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
         inputMap.set('Body.LoanDetails.NetInterestRate', this.LD_NET_INTEREST_RATE.getFieldValue());
+        // inputMap.set('Body.LoanDetails.Decision', 'Approve');
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
         console.log("Params ", inputMap);
 

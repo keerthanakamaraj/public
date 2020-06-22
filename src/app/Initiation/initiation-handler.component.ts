@@ -146,6 +146,13 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (this.MainComponent.LD_TENURE_PERIOD.getFieldValue() == 'YRS') {
       let years = this.MainComponent.LD_TENURE.getFieldValue() * 12;
       months = years;
+    } else if (this.MainComponent.LD_TENURE_PERIOD.getFieldValue() == 'WEEK') {
+      let weeks = this.MainComponent.LD_TENURE.getFieldValue() / 4.345;
+      months = weeks;
+    }
+    else if (this.MainComponent.LD_TENURE_PERIOD.getFieldValue() == 'DAY') {
+      let weeks = this.MainComponent.LD_TENURE.getFieldValue() / 30.417;
+      months = weeks;
     }
     let EMI = amount * rate / (1 - (Math.pow(1 / (1 + rate), months)));
     console.log("Loan EMI", EMI);
@@ -599,9 +606,12 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         const storePositive = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("+").join(0);
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(storePositive)
       }
-      else {
+    
+      else if (this.MainComponent.LD_MARGIN_RATE.getFieldValue().startsWith('-')) {
         const storeNegative = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("-").join(0);
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) - Number(storeNegative)
+      }else {
+        CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(this.MainComponent.LD_MARGIN_RATE.getFieldValue())
       }
 
       this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest);
