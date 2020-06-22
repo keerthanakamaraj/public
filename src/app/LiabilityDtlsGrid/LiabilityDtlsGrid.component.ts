@@ -61,14 +61,16 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
+    valueFormatter: this.formatAmount.bind(this),
+    
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    //   suppressAndOrCondition: true,
+    //   applyButton: true,
+    //   clearButton: true,
+    //   filterOptions: ["contains"],
+    //   caseSensitive: true,
+    // },
   },
   {
     width: 15,
@@ -267,6 +269,15 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
 
   getLiabilityDetails(){
     return this.loopDataVar4;
+  }
+
+  formatAmount(number) {
+    if (number.value) {
+      // Dirty Fix
+      return this.services.formatAmount(number.value, null, null).substr(1);
+    } else {
+      return '-';
+    }
   }
 
 }

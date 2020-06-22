@@ -22,7 +22,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REF_NAME.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_REF_NAME.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_REF_NAME' | translate}}
@@ -31,7 +31,7 @@
             <app-text-box #RD_REF_NAME fieldID="RD_REF_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('RD_REF_NAME', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_RELATION.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_REFERRER_RELATION.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_REFERRER_RELATION' | translate}}
@@ -41,9 +41,9 @@
             domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('RD_REFERRER_RELATION', $event)"></app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ISD_CODE.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_ISD_CODE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_ISD_CODE' | translate}}
@@ -53,7 +53,7 @@
             domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('RD_ISD_CODE', $event)"></app-combo-box>
           </div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REF_NO.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_REF_NO.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_REF_NO' | translate}}
@@ -63,7 +63,7 @@
                       (countryCodeChanged)="countryCodeChanged('RD_REF_NO',$event)"
                       (blur)="genericOnBlur('RD_REF_NO', $event)"></rlo-ui-mobile>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFRRER_EMAILID.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_REFRRER_EMAILID.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_REFRRER_EMAILID' | translate}}
@@ -72,7 +72,7 @@
             <app-text-box #RD_REFRRER_EMAILID fieldID="RD_REFRRER_EMAILID" [formCode]="formCode"
               (blur)="genericOnBlur('RD_REFRRER_EMAILID', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE1.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_ADDRESSLINE1.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE1' | translate}}
@@ -81,8 +81,8 @@
             <app-text-box #RD_ADDRESSLINE1 fieldID="RD_ADDRESSLINE1" [formCode]="formCode"
               (blur)="genericOnBlur('RD_ADDRESSLINE1', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE2.isHidden()">
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_ADDRESSLINE2.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE2' | translate}}
@@ -91,7 +91,7 @@
             <app-text-box #RD_ADDRESSLINE2 fieldID="RD_ADDRESSLINE2" [formCode]="formCode"
               (blur)="genericOnBlur('RD_ADDRESSLINE2', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE3.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_ADDRESSLINE3.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE3' | translate}}
@@ -100,7 +100,7 @@
             <app-text-box #RD_ADDRESSLINE3 fieldID="RD_ADDRESSLINE3" [formCode]="formCode"
               (blur)="genericOnBlur('RD_ADDRESSLINE3', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE4.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_ADDRESSLINE4.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE4' | translate}}
@@ -109,8 +109,8 @@
             <app-text-box #RD_ADDRESSLINE4 fieldID="RD_ADDRESSLINE4" [formCode]="formCode"
               (blur)="genericOnBlur('RD_ADDRESSLINE4', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PINCODE.isHidden()">
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_PINCODE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_PINCODE' | translate}}
@@ -119,7 +119,7 @@
             <app-text-box #RD_PINCODE fieldID="RD_PINCODE" [formCode]="formCode"
               (blur)="genericOnBlur('RD_PINCODE', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REGION.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_REGION.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_REGION' | translate}}
@@ -128,7 +128,7 @@
             <app-text-box #RD_REGION fieldID="RD_REGION" [formCode]="formCode"
               (blur)="genericOnBlur('RD_REGION', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_CITY.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_CITY.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_CITY' | translate}}
@@ -137,8 +137,8 @@
             <app-text-box #RD_CITY fieldID="RD_CITY" [formCode]="formCode" (blur)="genericOnBlur('RD_CITY', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_STATE.isHidden()">
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_STATE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_STATE' | translate}}
@@ -147,7 +147,7 @@
             <app-text-box #RD_STATE fieldID="RD_STATE" [formCode]="formCode" (blur)="genericOnBlur('RD_STATE', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_LANDMARK.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_LANDMARK.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_LANDMARK' | translate}}
@@ -156,7 +156,7 @@
             <app-text-box #RD_LANDMARK fieldID="RD_LANDMARK" [formCode]="formCode"
               (blur)="genericOnBlur('RD_LANDMARK', $event)"></app-text-box>
           </div>
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_COUNTRY_CODE1.isHidden()">
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_COUNTRY_CODE1.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_COUNTRY_CODE1' | translate}}
@@ -166,7 +166,7 @@
             domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('RD_COUNTRY_CODE1', $event)"></app-combo-box>
           </div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PHONE1.isHidden()">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_PHONE1.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_PHONE1' | translate}}
@@ -176,8 +176,8 @@
               (countryCodeChanged)="countryCodeChanged('RD_PHONE1',$event)"
               (blur)="genericOnBlur('RD_PHONE1', $event)"></rlo-ui-mobile>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PHONE2.isHidden()">
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RD_PHONE2.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_PHONE2' | translate}}
@@ -187,8 +187,8 @@
               (countryCodeChanged)="countryCodeChanged('RD_PHONE2',$event)"
               (blur)="genericOnBlur('RD_PHONE2', $event)"></rlo-ui-mobile>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_SAVE.isHidden()">
             <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" fieldID="RD_SAVE"
               [formCode]="formCode" iconClass="fa fa-plus fa-lg" [type]="4" customClass="icon-button"
