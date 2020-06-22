@@ -76,14 +76,16 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'right' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        valueFormatter: this.formatAmount.bind(this),
+        
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
      {
         field: "AT_INCLUDE_IN_DBR",
@@ -307,5 +309,14 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     getAssetDetails(){
         return this.loopDataVar4;
     }
+
+    formatAmount(number) {
+        if (number.value) {
+          // Dirty Fix
+          return this.services.formatAmount(number.value, null, null).substr(1);
+        } else {
+          return '-';
+        }
+      }
 
 }
