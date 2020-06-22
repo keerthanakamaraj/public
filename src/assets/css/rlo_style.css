@@ -732,6 +732,19 @@ li .a {
 #RD_RESET{
   border-color: dimgray;
 }
+#CCD_Save{
+  margin-top: 35px;
+  margin-left: 35px;
+}
+#CCD_Clear{
+  margin-top: 35px;
+}
+#Save{
+  margin-left: 50px;
+}
+#RD_SAVE{
+  margin-left: 60px;
+}
 #MT_Proposal{
   margin-left: 250px;
   margin-top: 19px;

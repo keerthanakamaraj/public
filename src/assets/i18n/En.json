@@ -1642,6 +1642,7 @@
     "CardDispatchMode":"Pickup Instruction"
   },
   "CustomerDtls": {
+    "CARD_DTLS_LBL":"Loan Details",
     "CD_EMAIL": "Email ID",
     "CD_MAIN_LABEL": "Customer",
     "CD_CUST_TYPE": "Customer Type",
@@ -1687,7 +1688,8 @@
     "CD_CIF": "CIF Number",
     "CD_FULL_NAME": "Full Name",
     "CD_LOAN_OWN": "Loan Ownership (in %)",
-    "CD_COUNTRY_CODE": "Country Code"
+    "CD_COUNTRY_CODE": "Country Code",
+    "CD_Add_CUST_TYPE": "Customer Type"
   },
   "QDE": {
     "FieldId_1": "null",
@@ -1935,12 +1937,12 @@
     "BorrowerLabel": "Borrower",
     "CoBorrowerTag": "CB",
     "CoBorrowerLabel": "Co-Borrower",
-    "AddOnDetailsLable": "Add On Details",
+    "AddOnDetailsLable": "Add On",
     "GuarantorTag": "G",
     "GuarantorLabel": "Guarantor",
     "OtherPartyTag": "OP",
     "OtherPartyLabel": "Other Party",
-    "AddOnDetails" : "AD",
+    "AddOnDetails" : "A",
     "Editing": "Editing"
   },
   "GNGDtls":{
