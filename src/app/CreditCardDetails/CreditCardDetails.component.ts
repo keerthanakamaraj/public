@@ -212,7 +212,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CreditCardDetailSeq', '123');
-                this.services.http.fetchApi('/CreditCardDetails', 'POST', inputMap).subscribe(
+                this.services.http.fetchApi('/CreditCardDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.card', 5000);
@@ -260,7 +260,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
-                this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap).subscribe(
+                this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap,'/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.error.update.card', 5000);

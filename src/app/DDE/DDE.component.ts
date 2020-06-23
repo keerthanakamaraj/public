@@ -81,7 +81,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     ApplicationId: string = undefined;
     ActiveBorrowerSeq: String = undefined;
     ActiveCustomerDtls: {} = undefined;
-    CustomerDetailsArray : any;
+    CustomerDetailsArray: any;
     // fullName: string = undefined;
     // Cust_DOB: string = undefined;
     // ActiveCustomerName: string = undefined;
@@ -707,10 +707,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
         }
 
-        if (componentInstance.componentId == 'FamilyDetails' || componentInstance.componentId == 'ReferrerDetails') {
+        if (componentId == 'FamilyDetails' || componentId == 'ReferrerDetails') {
             componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
         }
-        if(componentInstance.componentCode ==  "LoanDetailsForm"){
+        if (componentInstance.componentCode == "LoanDetailsForm") {
             componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
         }
     }
