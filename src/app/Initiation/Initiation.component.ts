@@ -31,6 +31,8 @@ const customCss: string = '';
   templateUrl: './Initiation.component.html'
 })
 export class InitiationComponent extends FormComponent implements OnInit, AfterViewInit {
+  gender: any;
+  age: any;
   // eligibilityData= [];
   EligibilityDecision: string;
   @ViewChild('SRC_MOBILE_NO', { static: false }) SRC_MOBILE_NO: TextBoxComponent;
@@ -657,19 +659,22 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     let inputMap = new Map();
     await this.Handler.onCheckEligibilityClick({}
     );
-
+    var borrowerData = this.Handler.getBorrowerPostData();
+    for (let i = 0; i < borrowerData.length; i++) {
+      if (borrowerData[i]['CustomerType'] == 'B') {
+        this.gender = borrowerData[i].Gender;
+      }
+    }
     inputMap.set('Body.interfaceId', 'INT003');
-    inputMap.set('Body.inputdata.AGE', 62);
-    inputMap.set('Body.inputdata.TENURE', 60);
-    inputMap.set('Body.inputdata.LOAN_AMT', 3200000);
-    inputMap.set('Body.inputdata.GENDER', 'M');
-    inputMap.set('Body.inputdata.NETINCOME', 600000);
-    inputMap.set('Body.inputdata.INTEREST_RATE', 8);
-    inputMap.set('Body.inputdata.DBR', 10);
-    inputMap.set('Body.inputdata.SCHEME_CD', '102');
-    inputMap.set('Body.inputdata.PROMOTION_CD', '102');
-    console.log("Params int ", inputMap);
-
+    inputMap.set('Body.inputdata.AGE', this.age);
+    inputMap.set('Body.inputdata.TENURE', this.LD_TENURE.getFieldValue());
+    inputMap.set('Body.inputdata.LOAN_AMT', this.LD_LOAN_AMOUNT.getFieldValue());
+    inputMap.set('Body.inputdata.GENDER', this.gender);
+    inputMap.set('Body.inputdata.NETINCOME', this.LD_NET_INCOME.getFieldValue());
+    inputMap.set('Body.inputdata.INTEREST_RATE', this.LD_INTEREST_RATE.getFieldValue());
+    inputMap.set('Body.inputdata.DBR', this.LD_LTV_DBR.getFieldValue());
+    inputMap.set('Body.inputdata.SCHEME_CD', this.BAD_SCHEME.getFieldValue());
+    inputMap.set('Body.inputdata.PROMOTION_CD', this.BAD_PROMOTION.getFieldValue());
     this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
@@ -898,11 +903,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     let currentDate = moment();
     currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-    let age = currentDate.diff(selectedDate, 'years');
-    console.log("age is:", age);
+    this.age = currentDate.diff(selectedDate, 'years');
+    console.log("age is:", this.age);
     console.log("cif min age is:", this.custMinAge);
     console.log("cif max age is:", this.custMaxAge);
-    if (age < this.custMinAge || age > this.custMaxAge) {
+    if (this.age < this.custMinAge || this.age > this.custMaxAge) {
       return false;
     }
     else {
@@ -910,6 +915,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
+  
   async CD_CUST_TYPE_change(fieldID, value) {
     this.Handler.CustomerTypeOnChange();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
