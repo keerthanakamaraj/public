@@ -18,12 +18,10 @@
 </ul>
 </div>
 </div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="!LoanRecord">
-    <app-label #LD_HEADING parentCompCode="LoanDetailsForm" fieldID="LD_HEADING"
+<div [hidden]="!LoanRecord">
+        <app-label #LD_HEADING parentCompCode="LoanDetailsForm" fieldID="LD_HEADING"
         [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
         fontSize="16px" fontWeight="bold"></app-label>
-</div>
-<div [hidden]="!LoanRecord">
 <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
 </div>
-</div>
+
