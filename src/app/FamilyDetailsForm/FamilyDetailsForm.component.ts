@@ -109,7 +109,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
-        // console.log("shweta :: family", this.ActiveCustomerDtls);
+        console.log("shweta :: family", this.ActiveCustomerDtls);
         await this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -422,7 +422,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.SeqKey);
-        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap,'/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.FD_TITLE.setValue(res['BorrowerDetails']['Title']);
