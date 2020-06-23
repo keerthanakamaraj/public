@@ -135,7 +135,7 @@
                     </div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="VRF_Reset.isHidden()">
                         <app-button #VRF_Reset fieldName="{{ 'VisitReportForm.VRF_Reset' | translate}}" fieldID="VRF_Reset" [formCode]="formCode"
-                            imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"></app-button>
+                            imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="VRF_Reset_click($event)"></app-button>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="Visit_Report_Grid.isHidden()">
                         <app-VisitReportGrid #Visit_Report_Grid fieldID="Visit_Report_Grid" [formCode]="formCode" (modifyVisitReport)="Visit_Report_Grid_modifyVisitReport($event)"></app-VisitReportGrid>
