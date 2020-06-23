@@ -655,6 +655,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       'id': event.clickId,
     });
   }
+
   async LD_CHK_ELGBTY_BTN_click(event) {
     let inputMap = new Map();
     await this.Handler.onCheckEligibilityClick({}
@@ -688,19 +689,19 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         if (this.EligibilityDecision == undefined || this.EligibilityDecision == '') {
           this.EligibilityDecision = 'Approve';
         }
+        inputMap.set('Checkvalue', this.eligeData);
+        inputMap.set('component', 'checkEligibilityForm');
+        const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+        var onModalClose = async (reason) => {
+          (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+        }
+        modalRef.result.then(onModalClose, onModalClose);
+        modalRef.componentInstance.rotueToComponent(inputMap);
+        this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
       },
-    );
-    inputMap.clear();
-    inputMap.set('Checkvalue', this.eligeData);
-    inputMap.set('component', 'checkEligibilityForm');
-    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason) => {
-      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-    }
-    modalRef.result.then(onModalClose, onModalClose);
-    modalRef.componentInstance.rotueToComponent(inputMap);
-    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+    ); 
   }
+
   async SUBMIT_MAIN_BTN_click(event) {
     this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
