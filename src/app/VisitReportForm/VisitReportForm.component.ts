@@ -178,8 +178,8 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.value = new VisitReportFormModel();
         this.passNewValue(this.value);
         //this.setReadOnly(false);
-        this.VRF_Photograph.setDefault('N');
-        this.VRF_AdverseObservation.setDefault('N');
+        this.VRF_Photograph.setValue(this.VRF_Photograph.getDefault());
+        this.VRF_AdverseObservation.setValue( this.VRF_AdverseObservation.getDefault());
         this.onFormLoad();
     }
     async VRF_Save_click(event) {
@@ -401,6 +401,10 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             }
         }
         return duplicateFound;
+    }
+
+    VRF_Reset_click(event){
+        this.onReset();
     }
     fieldDependencies = {
         VRF_ReportType: {
