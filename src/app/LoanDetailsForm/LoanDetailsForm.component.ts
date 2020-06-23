@@ -281,7 +281,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.Handler.SetValue();
 
   }
-  async CD_CLEAR_BTN_click(event) {
+  async LD_CLEAR_BTN_click(event) {
     let Array = this.Handler.FieldsArray();
     Array.forEach(function (arrayfalse) {
       arrayfalse.onReset()

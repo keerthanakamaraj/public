@@ -236,11 +236,7 @@
                             fieldID="LD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
                             (buttonClick)="LD_CLEAR_BTN_click($event)"></app-button>
                     </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-                        <app-label #LD_HEADING parentCompCode="LoanDetailsForm" fieldID="LD_HEADING"
-                            [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
-                            fontSize="16px" fontWeight="bold"></app-label>
-                    </div>
+                   
 
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_26.isHidden()">
                         <app-LoanDetailsGrid #FieldId_26 fieldID="FieldId_26" [formCode]="formCode">
