@@ -29,6 +29,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	@Input('displayToolbar') displayToolbar: boolean = true;
 	@Input('fieldID') fieldID: string;
 	@Input() activeBorrowerSeq: string = undefined;
+	@Output() referrerLoaded: EventEmitter<any> = new EventEmitter<any>();
 	componentCode: string = 'ReferralDetailsGrid';
 	openedFilterForm: string = '';
 	hidden: boolean = false;
@@ -212,6 +213,11 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
                 }
 				
 				if (loopVar10) {
+					this.referrerLoaded.emit({
+						"name": "referrerLoad",
+						"data": loopVar10,
+						// "BorrowerSeq": borrowerSeq
+					});
 					for (var i = 0; i < loopVar10.length; i++) {
 						var tempObj = {};
 						tempObj['Referrer_ID'] = loopVar10[i].BorrowerSeq;
@@ -220,6 +226,14 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 						tempObj['RD_REFERRER_MOBILE_NO'] = loopVar10[i].ReferrerMobileNumber;
 						this.referredetails.push(tempObj);
 					}
+				}
+				else {
+					loopVar10 = [];
+					this.referrerLoaded.emit({
+						"name": "referrerLoad",
+						"data": loopVar10,
+						// "BorrowerSeq": borrowerSeq
+					});
 				}
 				this.readonlyGrid.apiSuccessCallback(params, this.referredetails);
 				this.hideSpinner();

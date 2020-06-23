@@ -55,7 +55,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 	@ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
 	@Input() ApplicationId: string = undefined;
 	@Input() activeBorrowerSeq: string = undefined;
-	@Input() ActiveCustomerDtls: any = undefined;
+	@Input() CustomerDetailsArray: any = undefined;
 	cust_name: string;
 	cust_dob: string;
 	async revalidate(): Promise<number> {
@@ -112,7 +112,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				'passReferrerGrid': this.ApplicationId,
 			});
 		}
-		console.log("shweta :: referrer", this.ActiveCustomerDtls);
+		console.log("shweta :: referrer", this.CustomerDetailsArray);
 		await this.Handler.onFormLoad({});
 		this.setDependencies();
 	}
@@ -210,7 +210,10 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		let inputMap = new Map();
 		let referrerGridData: any = this.ReferralDetailsGrid.getReferrerGrid();
 		var noOfError: number = await this.revalidate();
-
+		// if (this.CustomerDetailsArray.FullName == this.RD_REF_NAME.getFieldValue() || this.CustomerDetailsArray.Email == this.RD_REFRRER_EMAILID.getFieldValue() || this.CustomerDetailsArray.MobileNo == this.RD_REF_NO.getFieldValue()) {
+		// 	this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);
+		// 	return;
+		// }
 		if (noOfError == 0) {
 			if (referrerGridData) {
 				for (var i = 0; i < referrerGridData.length; i++) {
@@ -222,10 +225,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 					}
 				}
 			}
-			if (this.ActiveCustomerDtls.FullName == this.RD_REF_NAME.getFieldValue() || this.ActiveCustomerDtls.Email == this.RD_REFRRER_EMAILID.getFieldValue() || this.ActiveCustomerDtls.MobileNo == this.RD_REF_NO.getFieldValue()) {
-				this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);
-				return;
-			}
+			
 
 			if (this.ReferrerBorrowerSeq.getFieldValue() != undefined) {
 				inputMap.clear();

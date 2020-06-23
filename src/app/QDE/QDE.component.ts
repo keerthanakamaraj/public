@@ -27,6 +27,7 @@ import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtl
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
+// import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -43,7 +44,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
   @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
   @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
-  // @ViewChild('Referrer_Grid', { static: false }) Referrer_Grid: ReferralDetailsFormComponent;
+  // @ViewChild('Referrer_Grid', { static: false }) Referrer_Grid:ReferralDetailsGridComponent ;
   @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
   @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
   @ViewChild('QDE_WITHDRAW', { static: false }) QDE_WITHDRAW: ButtonComponent;
@@ -70,11 +71,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   userId: any;
   appId: any;
   router: any;
-
+  CustomerDetailsArray: any;
   stageValidationMap = new Map<string, any>();
   errorsList = [];
   customerGridArray: any;
-
+  ActiveCustomerDtls: {} = undefined;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -151,6 +152,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //this.FieldId_10.fetchReferalDetails();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
     await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
+      'ApplicationId': this.ApplicationId
+    });
+    await this.FieldId_10.ReferralDetailsGrid.gridDataLoad({
       'ApplicationId': this.ApplicationId
     });
     //   this.NOTEPAD_GRID.gridDataAPI()
@@ -450,9 +454,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   //     this.CUSTOMER_DETAILS.onFormLoad(event);
   // }
 
+
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
+    this.CustomerDetailsArray = event.CustomerArray;
+    console.log("juhi pass", event.CustomerArray);
     //  }, 20000);
   }
   async QDE_WITHDRAW_click(event) {

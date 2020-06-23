@@ -203,7 +203,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             }
         }
         this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-        this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/initiation').subscribe(
+        this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
@@ -243,7 +243,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
         if (confirm("Are you sure you want to Delete?")) {
-            this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/initiation').subscribe(
+            this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
                     this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);

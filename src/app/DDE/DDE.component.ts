@@ -279,8 +279,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
-        //this.CUSTOMER_GRID.ParentCode = this.componentCode;
 
+        await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
+            'ApplicationId': this.ApplicationId
+        });
         // await this.brodcastApplicationId();
         //this.openHTab('FieldId_10', 'GO_NO_GO');
         // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
@@ -708,10 +710,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
         }
 
-        if (componentId == 'FamilyDetails' || componentId == 'ReferrerDetails') {
+        if (componentId == 'FamilyDetails') {
             componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
         }
-        if (componentInstance.componentCode == "LoanDetailsForm") {
+        if (componentInstance.componentCode == "LoanDetailsForm" || componentId == 'ReferrerDetails') {
             componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
         }
     }

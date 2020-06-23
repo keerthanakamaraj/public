@@ -82,7 +82,8 @@
                 <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS"
                   title="{{ 'ReferralDetailsForm.RD_HEADING' | translate}}">
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide refDtls " [hidden]="FieldId_10.isHidden()">
-                    <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" [formCode]="formCode">
+                    <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)"
+                     [formCode]="formCode">
                     </app-ReferralDetailsForm>
                   </div>
                 </rlo-ui-accordion-group>
