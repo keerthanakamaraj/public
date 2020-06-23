@@ -279,6 +279,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
+        //this.CUSTOMER_GRID.ParentCode = this.componentCode;
 
         // await this.brodcastApplicationId();
         //this.openHTab('FieldId_10', 'GO_NO_GO');

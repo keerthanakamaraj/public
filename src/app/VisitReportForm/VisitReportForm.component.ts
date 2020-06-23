@@ -187,45 +187,50 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         let inputMap = new Map();
         var numberOfErrors: number = await this.revalidate();
         if (numberOfErrors == 0) {
-            if (this.HidVisitReportSeqId.getFieldValue() != undefined) {
+            if (!this.isDuplicateEntrey()) {
+                if (this.HidVisitReportSeqId.getFieldValue() != undefined) {
 
-                inputMap = this.generateSaveUpdateRequestJson(inputMap);
+                    inputMap = this.generateSaveUpdateRequestJson(inputMap);
 
-                this.services.http.fetchApi('/RMRADetails/{Id}', 'PUT', inputMap).subscribe(
-                    async (httpResponse: HttpResponse<any>) => {
-                        var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
-                        this.Visit_Report_Grid.gridDataLoad({
-                            'BorrowerSeq': this.activeBorrowerSeq
-                        });
-                        this.onReset();
-                        this.VRF_Save.setDisabled(false);
-                    },
-                    async (httpError) => {
-                        this.parseResponseError(httpError['error']);
-                        this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
-                        this.VRF_Save.setDisabled(false);
-                    }
-                );
-            }
-            else {
-                inputMap = this.generateSaveUpdateRequestJson(inputMap);
-                this.services.http.fetchApi('/RMRADetails', 'POST', inputMap).subscribe(
-                    async (httpResponse: HttpResponse<any>) => {
-                        var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
-                        this.Visit_Report_Grid.gridDataLoad({
-                            'BorrowerSeq': this.activeBorrowerSeq
-                        });
-                        this.onReset();
-                        this.VRF_Save.setDisabled(false);
-                    },
-                    async (httpError) => {
-                        this.parseResponseError(httpError['error']);
-                        this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
-                        this.VRF_Save.setDisabled(false);
-                    }
-                );
+                    this.services.http.fetchApi('/RMRADetails/{Id}', 'PUT', inputMap, '/rlo-de').subscribe(
+                        async (httpResponse: HttpResponse<any>) => {
+                            var res = httpResponse.body;
+                            this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
+                            this.Visit_Report_Grid.gridDataLoad({
+                                'BorrowerSeq': this.activeBorrowerSeq
+                            });
+                            this.onReset();
+                            this.VRF_Save.setDisabled(false);
+                        },
+                        async (httpError) => {
+                            this.parseResponseError(httpError['error']);
+                            this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
+                            this.VRF_Save.setDisabled(false);
+                        }
+                    );
+                }
+                else {
+                    inputMap = this.generateSaveUpdateRequestJson(inputMap);
+                    this.services.http.fetchApi('/RMRADetails', 'POST', inputMap, '/rlo-de').subscribe(
+                        async (httpResponse: HttpResponse<any>) => {
+                            var res = httpResponse.body;
+                            this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
+                            this.Visit_Report_Grid.gridDataLoad({
+                                'BorrowerSeq': this.activeBorrowerSeq
+                            });
+                            this.onReset();
+                            this.VRF_Save.setDisabled(false);
+                        },
+                        async (httpError) => {
+                            this.parseResponseError(httpError['error']);
+                            this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
+                            this.VRF_Save.setDisabled(false);
+                        }
+                    );
+                }
+            } else {
+                this.services.alert.showAlert(2, 'rlo.error.duplicate-Record', -1);
+                this.VRF_Save.setDisabled(false);
             }
         }
         else {
@@ -304,7 +309,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 
         inputMap.set('PathParam.Id', event.VisitReportId);
 
-        this.services.http.fetchApi('/RMRADetails/{Id}', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/RMRADetails/{Id}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body['RMRADetails'];
                 this.VRF_ReportType.setValue(res['ReportType']);
@@ -384,6 +389,19 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         }
     }
 
+    isDuplicateEntrey() {
+        let duplicateFound = false;
+        let OldRecords = [];
+        OldRecords = this.Visit_Report_Grid.VisitRecordsList;
+        for (let eachRecord of OldRecords) {
+            if (this.HidVisitReportSeqId != eachRecord.Id && eachRecord.PlaceofVisit == this.VRF_PlaceOfVisit.getFieldValue() && eachRecord.NameOfPerson.replace(/\s/g, "").toUpperCase() == this.VRF_NameofPersonMet.getFieldValue().replace(/\s/g, "").toUpperCase() && eachRecord.DateOfVisit == this.VRF_DateOfVisit.getFieldValue()) {
+               // console.log("shweta : old rec ", eachRecord.NameOfPerson, "new record", this.VRF_NameofPersonMet.getFieldValue());
+                duplicateFound = true;
+                break;
+            }
+        }
+        return duplicateFound;
+    }
     fieldDependencies = {
         VRF_ReportType: {
             inDep: [
