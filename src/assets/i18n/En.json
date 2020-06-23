@@ -1961,5 +1961,20 @@
     "LD_CUST_TYPE" : "Customer Type",
     "LD_LOAN_OWNERSHIP" : "Loan Ownership",
     "toolbar_LoanDetailsGrid" : "null"
-    }
+    },
+    "CheckEligibilityGrid" : {
+      "Expected_Value" : "Expected Value",
+      "Rule_Name" : "Rule Name",
+      "Actual_Value" : "Actual Value",
+      "toolbar_CheckEligibilityGrid" : "null",
+      "GridTitle" : "Check Eligibility Grid",
+      "FieldId_4" : "Edit Legend",
+      "Decision" : "Decision",
+      "FieldId_2" : "Edit Legend",
+      "Result" : "Result"
+      },
+      "checkEligibilityForm" : {
+      "FieldId_1" : "null",
+      "FormTitle" : "check Eligibility Form"
+      }
 }

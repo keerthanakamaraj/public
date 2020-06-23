@@ -31,6 +31,8 @@ const customCss: string = '';
   templateUrl: './Initiation.component.html'
 })
 export class InitiationComponent extends FormComponent implements OnInit, AfterViewInit {
+  // eligibilityData= [];
+  EligibilityDecision: string;
   @ViewChild('SRC_MOBILE_NO', { static: false }) SRC_MOBILE_NO: TextBoxComponent;
   @ViewChild('SRC_TAX_ID', { static: false }) SRC_TAX_ID: TextBoxComponent;
   @ViewChild('SRC_CIF_NO', { static: false }) SRC_CIF_NO: TextBoxComponent;
@@ -114,6 +116,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
   @ViewChild('allowCoBorrower', { static: false }) allowCoBorrower: HiddenComponent;
   disableLoanOwnership: boolean = true
+  eligeData = [];
   isLoanCategory: boolean;
   borrower: any;
   borrowericif: any;
@@ -317,6 +320,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     await this.Handler.onFormLoad({
     });
     this.setDependencies();
+    this.EligibilityDecision = '';
+
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -652,6 +657,44 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     let inputMap = new Map();
     await this.Handler.onCheckEligibilityClick({}
     );
+
+    inputMap.set('Body.interfaceId', 'INT003');
+    inputMap.set('Body.inputdata.AGE', 62);
+    inputMap.set('Body.inputdata.TENURE', 60);
+    inputMap.set('Body.inputdata.LOAN_AMT', 3200000);
+    inputMap.set('Body.inputdata.GENDER', 'M');
+    inputMap.set('Body.inputdata.NETINCOME', 600000);
+    inputMap.set('Body.inputdata.INTEREST_RATE', 8);
+    inputMap.set('Body.inputdata.DBR', 10);
+    inputMap.set('Body.inputdata.SCHEME_CD', '102');
+    inputMap.set('Body.inputdata.PROMOTION_CD', '102');
+    console.log("Params int ", inputMap);
+
+    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
+        for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
+          const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
+          if (Data.DECISION == 'Reject') {
+            this.EligibilityDecision = 'Reject';
+          }
+        }
+        if (this.EligibilityDecision == undefined || this.EligibilityDecision == '') {
+          this.EligibilityDecision = 'Approve';
+        }
+      },
+    );
+    inputMap.clear();
+    inputMap.set('Checkvalue', this.eligeData);
+    inputMap.set('component', 'checkEligibilityForm');
+    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+    var onModalClose = async (reason) => {
+      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+    }
+    modalRef.result.then(onModalClose, onModalClose);
+    modalRef.componentInstance.rotueToComponent(inputMap);
+    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
   }
   async SUBMIT_MAIN_BTN_click(event) {
     this.SUBMIT_MAIN_BTN.setDisabled(true);
@@ -702,7 +745,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
         inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
         inputMap.set('Body.LoanDetails.NetInterestRate', this.LD_NET_INTEREST_RATE.getFieldValue());
-        // inputMap.set('Body.LoanDetails.Decision', 'Approve');
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
         console.log("Params ", inputMap);
 
@@ -820,6 +862,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     }
   }
+
 
   async Reset_click(event) {
     let inputMap = new Map();

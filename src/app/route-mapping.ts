@@ -95,6 +95,11 @@ export var componentRoutes: Routes = [
 		path: 'CreditCardDetails',
 		loadChildren: 'src/app/CreditCardDetails/CreditCardDetails.module#CreditCardDetailsModule'
 	},
+	{
+		path: 'checkEligibilityForm',
+		loadChildren: 'src/app/checkEligibilityForm/checkEligibilityForm.module#checkEligibilityFormModule'
+	}
+	,
 	
 ];
 export class AppRoutingModule { }
