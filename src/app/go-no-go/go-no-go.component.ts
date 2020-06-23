@@ -184,7 +184,7 @@ export class GoNoGoComponent implements OnInit {
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
 
       console.log("shweta :: input map", inputMap);
-      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
+      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap,'/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
         this.loadQuestionnaireDtls();
       },
