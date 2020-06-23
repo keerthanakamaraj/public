@@ -8,6 +8,8 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { LoanDetailsFormRoutingModule } from './LoanDetailsForm-routing.module';
 import { LoanDetailsFormComponent } from './LoanDetailsForm.component';
 import { LoanHandlerModule } from '../LoanDetailsForm/loan-handler.module';
+import { LoanDetailsGridModule } from '../LoanDetailsGrid/LoanDetailsGrid.module';
+// import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +25,7 @@ deps: [HttpClient]
 }
 }),
 LoanHandlerModule,
+LoanDetailsGridModule
 ],
 declarations: [
 LoanDetailsFormComponent,

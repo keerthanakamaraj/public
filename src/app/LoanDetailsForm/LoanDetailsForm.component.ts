@@ -16,213 +16,412 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { LoanHandlerComponent } from '../LoanDetailsForm/loan-handler.component';
+import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
+import { IfStmt } from '@angular/compiler';
+
 
 const customCss: string = '';
 
 @Component({
-selector: 'app-LoanDetailsForm',
-templateUrl: './LoanDetailsForm.component.html'
+  selector: 'app-LoanDetailsForm',
+  templateUrl: './LoanDetailsForm.component.html'
 })
 export class LoanDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
-@ViewChild('LD_LOAN_AMT', {static: false}) LD_LOAN_AMT: AmountComponent;
-@ViewChild('LD_INTEREST_RATE', {static: false}) LD_INTEREST_RATE: ComboBoxComponent;
-@ViewChild('LD_TENURE', {static: false}) LD_TENURE: TextBoxComponent;
-@ViewChild('LD_TENURE_PERIOD', {static: false}) LD_TENURE_PERIOD: ComboBoxComponent;
-@ViewChild('LD_APP_PRPSE', {static: false}) LD_APP_PRPSE: ComboBoxComponent;
-@ViewChild('LD_SYS_RCMD_AMT', {static: false}) LD_SYS_RCMD_AMT: AmountComponent;
-@ViewChild('LD_USR_RCMD_AMT', {static: false}) LD_USR_RCMD_AMT: AmountComponent;
-@ViewChild('LD_SAVE_SECTION', {static: false}) LD_SAVE_SECTION: ButtonComponent;
-@ViewChild('Handler', {static: false}) Handler: LoanHandlerComponent;
-@ViewChild('hidAppId', {static: false}) hidAppId: HiddenComponent;
-@ViewChild('hidInterestRate', {static: false}) hidInterestRate: HiddenComponent;
-@ViewChild('hidPeriod', {static: false}) hidPeriod: HiddenComponent;
-@ViewChild('hidAppPurpose', {static: false}) hidAppPurpose: HiddenComponent;
-async revalidate(): Promise<number> {
-var totalErrors = 0;
-super.beforeRevalidate();
-await Promise.all([
-this.revalidateBasicField('LD_LOAN_AMT'),
-this.revalidateBasicField('LD_INTEREST_RATE'),
-this.revalidateBasicField('LD_TENURE'),
-this.revalidateBasicField('LD_TENURE_PERIOD'),
-this.revalidateBasicField('LD_APP_PRPSE'),
-this.revalidateBasicField('LD_SYS_RCMD_AMT'),
-this.revalidateBasicField('LD_USR_RCMD_AMT'),
-]).then((errorCounts) => {
-errorCounts.forEach((errorCount)=>{
-totalErrors+=errorCount;
-});
-});
-this.errors = totalErrors;
-super.afterRevalidate();
-return totalErrors;
-}
-constructor(services: ServiceStock){
-super(services);
-this.value = new LoanDetailsFormModel();
-this.componentCode = 'LoanDetailsForm';
-}
-setReadOnly(readOnly){
-super.setBasicFieldsReadOnly(readOnly);
-}
-async onFormLoad(){
-this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.LD_LOAN_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_INTEREST_RATE.setValue(33.43);
-this.LD_TENURE_PERIOD.setValue('5 Years');
-this.LD_APP_PRPSE.setValue('Retail Loan');
-this.LD_SYS_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.LD_USR_RCMD_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.hidAppId.setValue('RLO');
-this.hidInterestRate.setValue('INTEREST_RATE');
-this.hidPeriod.setValue('PERIOD');
-this.hidAppPurpose.setValue('APPLICATION_PURPOSE');
-let inputMap = new Map();
-await this.Handler.onFormLoad({
-});
-this.setDependencies();
-}
-setInputs(param : any){
-let params = this.services.http.mapToJson(param);
-if(params['mode']){
-this.mode = params['mode'];
-}
-}
-async submitForm(path, apiCode, serviceCode){
-this.submitData['formName'] = 'Loan Details Main Form';
-await super.submit(path, apiCode, serviceCode);
-}
-getFieldInfo() {
-this.amountComponent.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.comboFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-this.fileUploadFields.forEach(field => {this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo();});
-return this.additionalInfo;
-}
-getFieldValue(){
-return this.value;
-}
-setValue(inputValue, inputDesc=undefined) {
-this.setBasicFieldsValue(inputValue, inputDesc);
-this.value = new LoanDetailsFormModel();
-this.value.setValue(inputValue);
-this.setDependencies();
-this.passNewValue(this.value);
-}
-ngOnInit(){
-if(this.formCode == undefined) {this.formCode = 'LoanDetailsForm';}
-if(this.formOnLoadError){return;}
-var styleElement = document.createElement('style');
-styleElement.type = 'text/css';
-styleElement.innerHTML = customCss;
-styleElement.id = 'LoanDetailsForm_customCss';
-document.getElementsByTagName('head')[0].appendChild(styleElement);
-}
-ngOnDestroy(){
-this.unsubscribe$.next();
-this.unsubscribe$.complete();
-var styleElement = document.getElementById('LoanDetailsForm_customCss');
-styleElement.parentNode.removeChild(styleElement);
-}
-ngAfterViewInit(){
-setTimeout(() => {
-this.subsBFldsValueUpdates();
-this.onFormLoad();
-this.checkForHTabOverFlow();
-});
-}
-clearError(){
-super.clearBasicFieldsError();
-super.clearHTabErrors();
-super.clearVTabErrors();
-this.errors = 0;
-this.errorMessage = [];
-}
-onReset(){
-super.resetBasicFields();
-this.clearHTabErrors();
-this.clearVTabErrors();
-this.errors = 0;
-this.errorMessage = [];
-this.additionalInfo = undefined;
-this.dependencyMap.clear();
-this.value = new LoanDetailsFormModel();
-this.passNewValue(this.value);
-this.setReadOnly(false);
-this.onFormLoad();
-}
-async LD_SAVE_SECTION_click(event){
-let inputMap = new Map();
-inputMap.clear();
-inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMT.getFieldValue());
-inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
-inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
-inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
-inputMap.set('Body.LoanDetails.ApplicationPurpose', this.LD_APP_PRPSE.getFieldValue());
-inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_RCMD_AMT.getFieldValue());
-inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.LD_USR_RCMD_AMT.getFieldValue());
-await this.services.http.fetchApi('/LoanDetails', 'POST', inputMap).toPromise()
-.then(
-async (httpResponse: HttpResponse<any>) => {
-var res = httpResponse.body;
-this.services.alert.showAlert(1, 'rlo.success.save.loan', 4000);
-},
-async (httpError)=>{
-var err = httpError['error']
-if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-if(err['ErrorElementPath'] == 'LoanDetails.UserRecommendedAmount'){
-this.LD_USR_RCMD_AMT.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount'){
-this.LD_SYS_RCMD_AMT.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.ApplicationPurpose'){
-this.LD_APP_PRPSE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.TenurePeriod'){
-this.LD_TENURE_PERIOD.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.Tenure'){
-this.LD_TENURE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.InterestRate'){
-this.LD_INTEREST_RATE.setError(err['ErrorDescription']);
-}
-else if(err['ErrorElementPath'] == 'LoanDetails.LoanAmount'){
-this.LD_LOAN_AMT.setError(err['ErrorDescription']);
-}
-}
-this.services.alert.showAlert(2, 'rlo.error.save.loan', 4000);
-}
-);
-}
-fieldDependencies = {
-LD_INTEREST_RATE: {
-inDep: [
+  @ViewChild('LoanAmount', { static: false }) LoanAmount: AmountComponent;
+  @ViewChild('InterestRate', { static: false }) InterestRate: TextBoxComponent;
+  @ViewChild('MarginRate', { static: false }) MarginRate: TextBoxComponent;
+  @ViewChild('NetInterestRate', { static: false }) NetInterestRate: TextBoxComponent;
+  @ViewChild('Tenure', { static: false }) Tenure: TextBoxComponent;
+  @ViewChild('TenurePeriod', { static: false }) TenurePeriod: ComboBoxComponent;
+  @ViewChild('InterestRateType', { static: false }) InterestRateType: ComboBoxComponent;
+  @ViewChild('SystemRecommendedAmount', { static: false }) SystemRecommendedAmount: AmountComponent;
+  @ViewChild('UserRecommendedAmount', { static: false }) UserRecommendedAmount: AmountComponent;
+  @ViewChild('RepaymentFrequency', { static: false }) RepaymentFrequency: ComboBoxComponent;
+  @ViewChild('RepaymentOption', { static: false }) RepaymentOption: ComboBoxComponent;
+  @ViewChild('RepaymentAccNo', { static: false }) RepaymentAccNo: TextBoxComponent;
+  @ViewChild('LD_FEES_CHARGE', { static: false }) LD_FEES_CHARGE: ButtonComponent;
+  @ViewChild('LD_COLL_UPFRONT_CHARGES', { static: false }) LD_COLL_UPFRONT_CHARGES: ButtonComponent;
+  @ViewChild('LD_DISBURMENT_MONEY', { static: false }) LD_DISBURMENT_MONEY: ButtonComponent;
+  @ViewChild('LD_RECEIVE_MONEY', { static: false }) LD_RECEIVE_MONEY: ButtonComponent;
+  @ViewChild('LD_GEN_AMOR_SCH', { static: false }) LD_GEN_AMOR_SCH: ButtonComponent;
+  @ViewChild('MoneyInstallment', { static: false }) MoneyInstallment: ReadOnlyComponent;
+  @ViewChild('TotalInterestAmount', { static: false }) TotalInterestAmount: ReadOnlyComponent;
+  @ViewChild('TotalInstallmentAmt', { static: false }) TotalInstallmentAmt: ReadOnlyComponent;
+  @ViewChild('MarginMoney', { static: false }) MarginMoney: ReadOnlyComponent;
+  @ViewChild('Handler', { static: false }) Handler: LoanHandlerComponent;
+  @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+  @ViewChild('hidInterestRate', { static: false }) hidInterestRate: HiddenComponent;
+  @ViewChild('hidPeriod', { static: false }) hidPeriod: HiddenComponent;
+  @ViewChild('hidAppPurpose', { static: false }) hidAppPurpose: HiddenComponent;
+  @ViewChild('hideInstRateType', { static: false }) hideInstRateType: HiddenComponent;
+  @ViewChild('hideRepaymentOption', { static: false }) hideRepaymentOption: HiddenComponent;
+  @ViewChild('hideRepaymentFreq', { static: false }) hideRepaymentFreq: HiddenComponent;
+  @ViewChild('hideLoanSeq', { static: false }) hideLoanSeq: HiddenComponent;
+  @ViewChild('FieldId_26', { static: false }) FieldId_26: LoanDetailsGridComponent;
+  @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
+  @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
+  ApplicationId: any
+  CustomerDetailsArray: any;
+  async revalidate(): Promise<number> {
+    var totalErrors = 0;
+    super.beforeRevalidate();
+    await Promise.all([
+      this.revalidateBasicField('LoanAmount'),
+      this.revalidateBasicField('InterestRate'),
+      this.revalidateBasicField('MarginRate'),
+      this.revalidateBasicField('NetInterestRate'),
+      this.revalidateBasicField('Tenure'),
+      this.revalidateBasicField('TenurePeriod'),
+      this.revalidateBasicField('InterestRateType'),
+      this.revalidateBasicField('SystemRecommendedAmount'),
+      this.revalidateBasicField('UserRecommendedAmount'),
+      this.revalidateBasicField('RepaymentFrequency'),
+      this.revalidateBasicField('RepaymentOption'),
+      this.revalidateBasicField('RepaymentAccNo'),
+      this.revalidateBasicField('MoneyInstallment'),
+      this.revalidateBasicField('TotalInterestAmount'),
+      this.revalidateBasicField('TotalInstallmentAmt'),
+      this.revalidateBasicField('MarginMoney'),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.errors = totalErrors;
+    super.afterRevalidate();
+    return totalErrors;
+  }
+  constructor(services: ServiceStock) {
+    super(services);
+    this.value = new LoanDetailsFormModel();
+    this.componentCode = 'LoanDetailsForm';
+  }
+  setReadOnly(readOnly) {
+    super.setBasicFieldsReadOnly(readOnly);
+  }
+  async onFormLoad() {
+    this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+    this.LoanAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.SystemRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.UserRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    this.hidAppId.setValue('RLO');
+    this.hidInterestRate.setValue('INTEREST_RATE');
+    this.hidPeriod.setValue('PERIOD');
+    this.hidAppPurpose.setValue('APPLICATION_PURPOSE');
+    this.hideInstRateType.setValue('INTEREST_RATE_TYPE');
+    this.hideRepaymentOption.setValue('REPAYMENT_OPTION');
+    this.hideRepaymentFreq.setValue('FREQUENCY');
+    this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
+    this.LD_DISBURMENT_MONEY.setDisabled(true);
+    this.LD_FEES_CHARGE.setDisabled(true);
+    this.LD_RECEIVE_MONEY.setDisabled(true);
+    let inputMap = new Map();
+    await this.Handler.onFormLoad({
+    });
+    this.OnLoanFormLoad()
 
-{paramKey: "VALUE1", depFieldID: "LD_INTEREST_RATE", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidInterestRate", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-LD_TENURE_PERIOD: {
-inDep: [
+    console.log('this.CustomerDetailsArray', this.CustomerDetailsArray);
 
-{paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidPeriod", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-LD_APP_PRPSE: {
-inDep: [
+    this.setDependencies();
+  }
+  setInputs(param: any) {
+    let params = this.services.http.mapToJson(param);
+    if (params['mode']) {
+      this.mode = params['mode'];
+    }
+  }
+  async submitForm(path, apiCode, serviceCode) {
+    this.submitData['formName'] = 'Loan Details Main Form';
+    await super.submit(path, apiCode, serviceCode);
+  }
+  getFieldInfo() {
+    this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    return this.additionalInfo;
+  }
+  getFieldValue() {
+    return this.value;
+  }
+  setValue(inputValue, inputDesc = undefined) {
+    this.setBasicFieldsValue(inputValue, inputDesc);
+    this.value = new LoanDetailsFormModel();
+    this.value.setValue(inputValue);
+    this.setDependencies();
+    this.passNewValue(this.value);
+  }
+  ngOnInit() {
+    if (this.formCode == undefined) { this.formCode = 'LoanDetailsForm'; }
+    if (this.formOnLoadError) { return; }
+    var styleElement = document.createElement('style');
+    styleElement.type = 'text/css';
+    styleElement.innerHTML = customCss;
+    styleElement.id = 'LoanDetailsForm_customCss';
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
+  }
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    var styleElement = document.getElementById('LoanDetailsForm_customCss');
+    styleElement.parentNode.removeChild(styleElement);
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.subsBFldsValueUpdates();
+      this.onFormLoad();
+      this.checkForHTabOverFlow();
+    });
+  }
+  clearError() {
+    super.clearBasicFieldsError();
+    super.clearHTabErrors();
+    super.clearVTabErrors();
+    this.errors = 0;
+    this.errorMessage = [];
+  }
+  onReset() {
+    super.resetBasicFields();
+    this.clearHTabErrors();
+    this.clearVTabErrors();
+    this.errors = 0;
+    this.errorMessage = [];
+    this.additionalInfo = undefined;
+    this.dependencyMap.clear();
+    this.value = new LoanDetailsFormModel();
+    this.passNewValue(this.value);
+    this.setReadOnly(false);
+    this.onFormLoad();
+  }
+  OnLoanFormLoad() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let applicationId: any = this.ApplicationId;
+    // let applicationId = '2221';
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (applicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": applicationId
+        }
+      });
 
-{paramKey: "VALUE1", depFieldID: "LD_APP_PRPSE", paramType:"PathParam"},
-{paramKey: "KEY1", depFieldID: "hidAppPurpose", paramType:"QueryParam"},
-{paramKey: "APPID", depFieldID: "hidAppId", paramType:"QueryParam"},
-],
-outDep: [
-]},
-}
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
 
+    this.services.http.fetchApi('/LoanDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        var LoanArray = res['LoanDetails'];
+        LoanArray.forEach(async LoanElement => {
+          this.LoanAmount.setValue(LoanElement['LoanAmount']);
+          this.InterestRate.setValue(LoanElement['InterestRate']);
+          this.MarginRate.setValue(LoanElement['MarginRate']);
+          this.NetInterestRate.setValue(LoanElement['NetInterestRate']);
+          this.Tenure.setValue(LoanElement['Tenure']);
+          this.TenurePeriod.setValue(LoanElement['TenurePeriod']);
+          this.InterestRateType.setValue(LoanElement['InterestRateType']);
+          this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
+          this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
+          this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']);
+          this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
+          this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
+          this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
+          this.MarginMoney.setValue(LoanElement['MarginMoney']);
+          this.MoneyInstallment.setValue(LoanElement['MoneyInstallment']);
+          this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
+          this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
+          this.Handler.SetValue();
+
+          this.LoanGridCalculation();
+
+        });
+
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
+  }
+  async LoanGridCalculation() {
+    var array = [];
+    this.CustomerDetailsArray.forEach(Customer => {
+
+      if (Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') {
+        var CalCulatepPrincipal = 0
+        CalCulatepPrincipal = Number(Customer.LoanOwnership) / 100 * Number(this.LoanAmount.getFieldValue());
+        let Emi = this.Handler.CalculateEMI();
+        let EMIShare = Number(Customer.LoanOwnership) / 100 * Number(Emi);
+        ;
+        var tempObj = {};
+        tempObj['CustomerType'] = Customer.CustomerType;
+        tempObj['CustomerName'] = Customer.FullName;
+        tempObj['Principle'] = CalCulatepPrincipal;
+        tempObj['LoanOwnership'] = Customer.LoanOwnership;
+        tempObj['EMI'] = EMIShare;
+        array.push(tempObj);
+      }
+    })
+    await this.FieldId_26.gridDataLoad({
+      'passLoanGrid': array,
+    });
+  }
+  async LD_GEN_AMOR_SCH_click(event) {
+    if (this.Tenure == undefined || this.TenurePeriod == undefined) {
+      this.services.alert.showAlert(2, 'rlo.error.tenure or tenureperiod.not.exist', -1);
+      return;
+    }
+    let ToatalEMI = this.Handler.CalculateEMI();
+    this.MoneyInstallment.setValue(ToatalEMI);
+    this.Handler.SetValue();
+
+  }
+  async LD_CLEAR_BTN_click(event) {
+    let Array = this.Handler.FieldsArray();
+    Array.forEach(function (arrayfalse) {
+      arrayfalse.onReset()
+    });
+  }
+  async LD_SAVE_BTN_click(event) {
+    let inputMap = new Map();
+    inputMap.clear();
+    var nooferror: number = await this.revalidate();
+    if (nooferror == 0) {
+      inputMap.set('PathParam.LoanDetailSeq', this.hideLoanSeq.getFieldValue());
+      inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getFieldValue());
+      inputMap.set('Body.LoanDetails.InterestRate', this.InterestRate.getFieldValue());
+      inputMap.set('Body.LoanDetails.MarginRate', this.MarginRate.getFieldValue());
+      inputMap.set('Body.LoanDetails.NetInterestRate', this.NetInterestRate.getFieldValue());
+      inputMap.set('Body.LoanDetails.Tenure', this.Tenure.getFieldValue());
+      inputMap.set('Body.LoanDetails.TenurePeriod', this.TenurePeriod.getFieldValue());
+      inputMap.set('Body.LoanDetails.InterestRateType', this.InterestRateType.getFieldValue());
+      inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.SystemRecommendedAmount.getFieldValue());
+      inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.UserRecommendedAmount.getFieldValue());
+      inputMap.set('Body.LoanDetails.RepaymentFrequency', this.RepaymentFrequency.getFieldValue());
+      inputMap.set('Body.LoanDetails.RepaymentOption', this.RepaymentOption.getFieldValue());
+      inputMap.set('Body.LoanDetails.RepaymentAccNo', this.RepaymentAccNo.getFieldValue());
+      inputMap.set('Body.LoanDetails.MoneyInstallment', this.MoneyInstallment.getFieldValue());
+      if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
+        inputMap.set('Body.LoanDetails.TotalInterestAmount', 0);
+      }
+      if (this.TotalInstallmentAmt.getFieldValue() == '-NA-') {
+        inputMap.set('Body.LoanDetails.TotalInstallmentAmt', 0);
+      }
+
+      inputMap.set('Body.LoanDetails.MarginMoney', this.MarginMoney.getFieldValue());
+      inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
+      this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          this.services.alert.showAlert(1, 'rlo.success.save.loan', 5000);
+          this.LoanGridCalculation();
+
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            if (err['ErrorElementPath'] == 'LoanDetails.MarginMoney') {
+              this.MarginMoney.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.TotalInstallmentAmt') {
+              this.TotalInstallmentAmt.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.TotalInterestAmount') {
+              this.TotalInterestAmount.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.MoneyInstallment') {
+              this.MoneyInstallment.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.RepaymentAccNo') {
+              this.RepaymentAccNo.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.RepaymentOption') {
+              this.RepaymentOption.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.RepaymentFrequency') {
+              this.RepaymentFrequency.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.UserRecommendedAmount') {
+              this.UserRecommendedAmount.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount') {
+              this.SystemRecommendedAmount.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.InterestRateType') {
+              this.InterestRateType.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.TenurePeriod') {
+              this.TenurePeriod.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.Tenure') {
+              this.Tenure.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.NetInterestRate') {
+              this.NetInterestRate.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.MarginRate') {
+              this.MarginRate.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.InterestRate') {
+              this.InterestRate.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'LoanDetails.LoanAmount') {
+              this.LoanAmount.setError(err['ErrorDescription']);
+            }
+          }
+          this.services.alert.showAlert(2, 'rlo.error.save.loan', -1);
+        }
+      );
+    } else {
+      this.services.alert.showAlert(2, 'rlo.mandatory.loan.field', -1);
+    }
+  }
+
+  fieldDependencies = {
+    TenurePeriod: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "LD_TENURE_PERIOD", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidPeriod", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    InterestRateType: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "InterestRateType", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideInstRateType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    RepaymentFrequency: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "RepaymentFrequency", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideRepaymentFreq", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    RepaymentOption: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "RepaymentOption", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideRepaymentOption", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+  }
 }

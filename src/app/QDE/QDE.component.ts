@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
 import { QDEModel } from './QDE.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
@@ -25,6 +27,7 @@ import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtl
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
+// import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -41,9 +44,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('FieldId_6', { static: false }) FieldId_6: AddressDetailsComponent;
   @ViewChild('FieldId_5', { static: false }) FieldId_5: OccupationDtlsFormComponent;
   @ViewChild('FieldId_10', { static: false }) FieldId_10: ReferralDetailsFormComponent;
+  // @ViewChild('Referrer_Grid', { static: false }) Referrer_Grid:ReferralDetailsGridComponent ;
   @ViewChild('QDE_SUBMIT', { static: false }) QDE_SUBMIT: ButtonComponent;
   @ViewChild('QDE_CANCEL', { static: false }) QDE_CANCEL: ButtonComponent;
   @ViewChild('QDE_WITHDRAW', { static: false }) QDE_WITHDRAW: ButtonComponent;
+
   @ViewChild('Handler', { static: false }) Handler: QDEHandlerComponent;
   @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
   @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
@@ -59,7 +64,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
 
-
   // public ProductCategory: String;
   ApplicationId: string = undefined;
   taskId: any;
@@ -67,11 +71,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   userId: any;
   appId: any;
   router: any;
-
+  CustomerDetailsArray: any;
   stageValidationMap = new Map<string, any>();
   errorsList = [];
   customerGridArray: any;
-
+  ActiveCustomerDtls: {} = undefined;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -94,11 +98,23 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     super.afterRevalidate();
     return totalErrors;
   }
+
+  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+
   constructor(services: ServiceStock) {
     super(services);
     this.value = new QDEModel();
     this.componentCode = 'QDE';
     this.displayBorder = false;
+    this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+      switch (event.action) {
+        case 'updateCustGrid': // on customer update/save success
+          console.log("shweta :: in QDE grid update ", event.data);
+          this.FieldId_9.doAPIForCustomerList(event.data);
+          event.action = undefined;
+          break;
+      }
+    });
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
@@ -133,9 +149,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     // await this.CUSTOMER_DETAILS.onFormLoad(event);
     this.FieldId_9.doAPIForCustomerList({});
-    this.FieldId_10.fetchReferalDetails();
+    //this.FieldId_10.fetchReferalDetails();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
     await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
+      'ApplicationId': this.ApplicationId
+    });
+    await this.FieldId_10.ReferralDetailsGrid.gridDataLoad({
       'ApplicationId': this.ApplicationId
     });
     //   this.NOTEPAD_GRID.gridDataAPI()
@@ -164,6 +183,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     this.setDependencies();
+
   }
 
   async claimTask(taskId) {
@@ -388,7 +408,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
 
         // tslint:disable-next-line:max-line-length
-        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ' );
+        tagText = tagText + this.services.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
       }
     });
@@ -399,12 +419,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     const tags = [];
     event.data.forEach(occupation => {
       switch (occupation.Occupation) {
-        case 'RT' : tags.push({ text: 'Retired' }); break;
-        case 'HW' : tags.push({ text: 'Housewife' }); break;
-        case 'ST' : tags.push({ text: 'Student' }); break;
-        case 'SL' : tags.push({ text: 'Salaried' }); break;
-        case 'SE' : tags.push({ text: 'Self Employed' }); break;
-        case 'OT' : tags.push({ text: 'Others' }); break;
+        case 'RT': tags.push({ text: 'Retired' }); break;
+        case 'HW': tags.push({ text: 'Housewife' }); break;
+        case 'ST': tags.push({ text: 'Student' }); break;
+        case 'SL': tags.push({ text: 'Salaried' }); break;
+        case 'SE': tags.push({ text: 'Self Employed' }); break;
+        case 'OT': tags.push({ text: 'Others' }); break;
         default: tags.push({ text: occupation.Occupation });
       }
     });
@@ -434,9 +454,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   //     this.CUSTOMER_DETAILS.onFormLoad(event);
   // }
 
+
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
-    this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event);
+    this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
+    this.CustomerDetailsArray = event.CustomerArray;
+    console.log("juhi pass", event.CustomerArray);
     //  }, 20000);
   }
   async QDE_WITHDRAW_click(event) {
@@ -458,7 +481,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       this.submitQDE(requestParams);
     } else {
-      this.services.alert.showAlert(2, this.errorsList[0], -1);
+      this.services.alert.showAlert(2, '', -1, this.errorsList[0]);
     }
   }
 
@@ -493,11 +516,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
         const alertMsg = ('WITHDRAW' === action) ? 'Application Withdrawn successfully' : 'Application Submitted Successfully';
         if (confirm(alertMsg)) {
-            // history.back();
-            this.services.router.navigate(['home', 'LANDING']);
-          }
-          this.QDE_SUBMIT.setDisabled(true);
-          this.QDE_WITHDRAW.setDisabled(true);
+          // history.back();
+          this.services.router.navigate(['home', 'LANDING']);
+        }
+        this.QDE_SUBMIT.setDisabled(true);
+        this.QDE_WITHDRAW.setDisabled(true);
         // this.services.alert.showAlert(1, alertMsg, 5000);
         // // this.QDE_SUBMIT.setDisabled(false)
         // this.services.router.navigate(['home', 'LANDING']);
@@ -571,10 +594,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   updateStageValidation(event) {
 
-    if(event.name ==  'customerLoad'){
+    if (event.name == 'customerLoad') {
       this.CUSTOMER_DETAILS.custGridArray = event.data;
     }
-    
+
     this.categoriesCustomers(event);
 
     if (event && event.name === 'addressLoad') {
@@ -624,7 +647,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //  console.log("shweta ::  map ", this.stageValidationMap);
   }
 
-
   async isFormValid() {
     let isAppValidFlag = true;
     this.errorsList = [];
@@ -650,7 +672,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (!entry[1].has('addressLoad')) {
           isAddressValid = false;
           errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
-          errorMessage = errorMessage + ' Add atleast one address';
+          errorMessage = errorMessage + ' Add address';
         } else {
           const addressList = entry[1].get('addressLoad');
           const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
@@ -732,5 +754,4 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     return (noOfErrors > 0) ? false : true;
   }
-
 }

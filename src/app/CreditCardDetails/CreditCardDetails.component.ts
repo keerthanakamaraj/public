@@ -1,0 +1,364 @@
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+import { CreditCardDetailsModel } from './CreditCardDetails.model';
+import { ComboBoxComponent } from '../combo-box/combo-box.component';
+import { TextBoxComponent } from '../text-box/text-box.component';
+import { TextAreaComponent } from '../text-area/text-area.component';
+import { CheckBoxComponent } from '../check-box/check-box.component';
+import { HiddenComponent } from '../hidden/hidden.component';
+import { FileuploadComponent } from '../fileupload/fileupload.component';
+import { DateComponent } from '../date/date.component';
+import { ButtonComponent } from '../button/button.component';
+import { AmountComponent } from '../amount/amount.component';
+import { FormComponent } from '../form/form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PopupModalComponent } from '../popup-modal/popup-modal.component';
+import { ServiceStock } from '../service-stock.service';
+import { LabelComponent } from '../label/label.component';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { CreditCardHandlerComponent } from '../CreditCardDetails/creditcard-handler.component';
+
+
+const customCss: string = '';
+
+@Component({
+    selector: 'app-CreditCardDetails',
+    templateUrl: './CreditCardDetails.component.html'
+})
+export class CreditCardDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
+    @ViewChild('Branch', { static: false }) Branch: TextBoxComponent;
+    @ViewChild('FrontPageCategory', { static: false }) FrontPageCategory: ComboBoxComponent;
+    @ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: TextBoxComponent;
+    @ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: TextBoxComponent;
+    @ViewChild('SettlementAccountType', { static: false }) SettlementAccountType: ComboBoxComponent;
+    @ViewChild('SettlementAccountNo', { static: false }) SettlementAccountNo: TextBoxComponent;
+    @ViewChild('PaymentOption', { static: false }) PaymentOption: ComboBoxComponent;
+    @ViewChild('StmtDispatchMode', { static: false }) StmtDispatchMode: ComboBoxComponent;
+    @ViewChild('ExistingCreditCard', { static: false }) ExistingCreditCard: ComboBoxComponent;
+    @ViewChild('CardDispatchMode', { static: false }) CardDispatchMode: ComboBoxComponent;
+    @ViewChild('CCD_Save', { static: false }) CCD_Save: ButtonComponent;
+    @ViewChild('CCD_Clear', { static: false }) CCD_Clear: ButtonComponent;
+    @ViewChild('hidCreditSeq', { static: false }) hidCreditSeq: HiddenComponent;
+    @ViewChild('Handler', { static: false }) Handler: CreditCardHandlerComponent;
+    @ViewChild('hidCatgory', { static: false }) hidCatgory: HiddenComponent;
+    @ViewChild('hidAccType', { static: false }) hidAccType: HiddenComponent;
+    @ViewChild('hidPaymentOption', { static: false }) hidPaymentOption: HiddenComponent;
+    @ViewChild('hidStatementDispatch', { static: false }) hidStatementDispatch: HiddenComponent;
+    @ViewChild('hidExisitingCard', { static: false }) hidExisitingCard: HiddenComponent;
+    @ViewChild('hidCardDispatch', { static: false }) hidCardDispatch: HiddenComponent;
+    @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+    @Input() ApplicationId: string = undefined;
+
+    async revalidate(): Promise<number> {
+        var totalErrors = 0;
+        super.beforeRevalidate();
+        await Promise.all([
+            this.revalidateBasicField('Branch'),
+            this.revalidateBasicField('FrontPageCategory'),
+            this.revalidateBasicField('MaximumCardLimit'),
+            // this.revalidateBasicField('ApprovedLimit'),
+            this.revalidateBasicField('SettlementAccountType'),
+            this.revalidateBasicField('SettlementAccountNo'),
+            this.revalidateBasicField('PaymentOption'),
+            this.revalidateBasicField('StmtDispatchMode'),
+            this.revalidateBasicField('ExistingCreditCard'),
+            this.revalidateBasicField('CardDispatchMode'),
+        ]).then((errorCounts) => {
+            errorCounts.forEach((errorCount) => {
+                totalErrors += errorCount;
+            });
+        });
+        this.errors = totalErrors;
+        super.afterRevalidate();
+        return totalErrors;
+    }
+    constructor(services: ServiceStock) {
+        super(services);
+        this.value = new CreditCardDetailsModel();
+        this.componentCode = 'CreditCardDetails';
+    }
+    setReadOnly(readOnly) {
+        super.setBasicFieldsReadOnly(readOnly);
+    }
+    async onFormLoad() {
+        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.Branch.setReadOnly(true);
+        this.MaximumCardLimit.setReadOnly(true);
+        this.ApprovedLimit.setReadOnly(true);
+        this.hidAppId.setValue('RLO');
+        this.hidCatgory.setValue('FRONT_PAGE_CATG');
+        this.hidPaymentOption.setValue('PAYMENT_OPTION');
+        this.hidStatementDispatch.setValue('STATE_DISPATACH');
+        this.hidExisitingCard.setValue('EXISITING_CARD');
+        this.hidCardDispatch.setValue('CARD_DISPATACH');
+        this.hidAccType.setValue('ACC_TYPE');
+        this.fetchCarditCardDetails();
+        await this.Handler.onFormLoad({
+        });
+        this.setDependencies();
+    }
+    setInputs(param: any) {
+        let params = this.services.http.mapToJson(param);
+        if (params['mode']) {
+            this.mode = params['mode'];
+        }
+    }
+    async submitForm(path, apiCode, serviceCode) {
+        this.submitData['formName'] = 'CreditCardDetails';
+        await super.submit(path, apiCode, serviceCode);
+    }
+    getFieldInfo() {
+        this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+        this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+        this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+        return this.additionalInfo;
+    }
+    getFieldValue() {
+        return this.value;
+    }
+    setValue(inputValue, inputDesc = undefined) {
+        this.setBasicFieldsValue(inputValue, inputDesc);
+        this.value = new CreditCardDetailsModel();
+        this.value.setValue(inputValue);
+        this.setDependencies();
+        this.passNewValue(this.value);
+    }
+    ngOnInit() {
+        if (this.formCode == undefined) { this.formCode = 'CreditCardDetails'; }
+        if (this.formOnLoadError) { return; }
+        var styleElement = document.createElement('style');
+        styleElement.type = 'text/css';
+        styleElement.innerHTML = customCss;
+        styleElement.id = 'CreditCardDetails_customCss';
+        document.getElementsByTagName('head')[0].appendChild(styleElement);
+    }
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+        var styleElement = document.getElementById('CreditCardDetails_customCss');
+        styleElement.parentNode.removeChild(styleElement);
+    }
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.subsBFldsValueUpdates();
+            this.onFormLoad();
+            this.checkForHTabOverFlow();
+        });
+    }
+    clearError() {
+        super.clearBasicFieldsError();
+        super.clearHTabErrors();
+        super.clearVTabErrors();
+        this.errors = 0;
+        this.errorMessage = [];
+    }
+    onReset() {
+        super.resetBasicFields();
+        this.clearHTabErrors();
+        this.clearVTabErrors();
+        this.errors = 0;
+        this.errorMessage = [];
+        this.additionalInfo = undefined;
+        this.dependencyMap.clear();
+        this.value = new CreditCardDetailsModel();
+        this.passNewValue(this.value);
+        this.setReadOnly(false);
+        this.onFormLoad();
+    }
+
+    fetchCarditCardDetails() {
+        let inputMap = new Map();
+        inputMap.clear();
+        if (this.ApplicationId) {
+            let inputMap = new Map();
+            inputMap.clear();
+            inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
+            console.log('inputmaap', inputMap);
+            this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    var res = httpResponse.body;
+
+                    let header = res.Header;
+
+                    this.Branch.setValue(header.ApplicationBranch);
+                    this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    }
+                    this.services.alert.showAlert(2, 'rlo.error.load.header', -1);
+                }
+            );
+
+            this.setDependencies();
+        }
+    }
+    CCD_Clear_click(event) {
+        this.onReset();
+    }
+
+    async CCD_Save_click(event) {
+        let inputMap = new Map();
+        var noOfError: number = await this.revalidate();
+        if (noOfError == 0) {
+            if (this.hidCreditSeq.getFieldValue() == undefined) {
+                inputMap.clear();
+                inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.SettlementAccountType', this.SettlementAccountType.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.SettlementAccountNo', this.SettlementAccountNo.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.PaymentOption', this.PaymentOption.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.CreditCardDetailSeq', '123');
+                this.services.http.fetchApi('/CreditCardDetails', 'POST', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.save.card', 5000);
+                        this.onReset();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                            if (err['ErrorElementPath'] == 'CreditCardDetails.CardDispatchMode') {
+                                this.CardDispatchMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.ExistingCreditCard') {
+                                this.ExistingCreditCard.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.StmtDispatchMode') {
+                                this.StmtDispatchMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.PaymentOption') {
+                                this.PaymentOption.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.SettlementAccountNo') {
+                                this.SettlementAccountNo.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.SettlementAccountType') {
+                                this.SettlementAccountType.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.ApprovedLimit') {
+                                this.ApprovedLimit.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.FrontPageCategory') {
+                                this.FrontPageCategory.setError(err['ErrorDescription']);
+                            }
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.save.card', -1);
+                    }
+                );
+            }
+            else {
+                inputMap.clear();
+                inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.SettlementAccountType', this.SettlementAccountType.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.SettlementAccountNo', this.SettlementAccountNo.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.PaymentOption', this.PaymentOption.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
+                this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap,'/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.error.update.card', 5000);
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                            if (err['ErrorElementPath'] == 'CreditCardDetails.CardDispatchMode') {
+                                this.CardDispatchMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.ExistingCreditCard') {
+                                this.ExistingCreditCard.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.StmtDispatchMode') {
+                                this.StmtDispatchMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.PaymentOption') {
+                                this.PaymentOption.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.SettlementAccountNo') {
+                                this.SettlementAccountNo.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.SettlementAccountType') {
+                                this.SettlementAccountType.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.ApprovedLimit') {
+                                this.ApprovedLimit.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'CreditCardDetails.FrontPageCategory') {
+                                this.FrontPageCategory.setError(err['ErrorDescription']);
+                            }
+                        }
+                        this.services.alert.showAlert(2, 'failed to update', -1);
+                    }
+                );
+            }
+        }
+        else {
+            this.services.alert.showAlert(2, 'Please fill mandatory details', -1);
+        }
+    }
+
+
+    fieldDependencies = {
+        FrontPageCategory: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "FrontPageCategory", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidCatgory", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        SettlementAccountType: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "SettlementAccountType", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidAccType", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        PaymentOption: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "PaymentOption", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidPaymentOption", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        StmtDispatchMode: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "StmtDispatchMode", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidStatementDispatch", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        ExistingCreditCard: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "ExistingCreditCard", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidExisitingCard", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        CardDispatchMode: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "CardDispatchMode", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidCardDispatch", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+    }
+
+}

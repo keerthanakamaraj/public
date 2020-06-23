@@ -23,7 +23,8 @@ export const environment = {
   //   "/ui" : "/olive/publisher",
   //   "/los-wf" : "/los-wf/",
   //   "/initiation": "/olive/publisher",
-  //   "/rlo-de" : "/olive/publisher"
+  //   "/rlo-de" : "/olive/publisher",
+  //  "/los-integrator":"/los-integrator"
   // }
 
   serviceMap : {
@@ -32,7 +33,9 @@ export const environment = {
     "/ui" : "/initiation/publisher",
     "/los-wf" : "/los-wf/rest",
     "/initiation": "/initiation/publisher",
-    "/rlo-de" : "/rlo-de/publisher"
+    "/rlo-de" : "/rlo-de/publisher",
+     "/los-integrator":"/los-integrator"
+
   }
 
   // serviceMap : {

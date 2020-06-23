@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter, Injectable } from '@angular/core';
 import { trigger, state, style, animate, transition, group } from '@angular/animations';
-import { errorMap } from '../providehttp.service';
+//import { errorMap } from '../providehttp.service';
+import { errorMap, RlouiService } from '../rlo-services/rloui.service';
 
 @Component({
   selector: 'app-alerts',
@@ -35,14 +36,12 @@ export class AlertsComponent implements OnInit {
   }[] = [];
 
   timer: any;
-  constructor() { }
 
-  ngOnInit() {
+  constructor(public rloService: RlouiService) { }
 
-  }
+  ngOnInit() { }
 
-  setAlertValues(alertType: number, alertMsg: string) {
-
+  async setAlertValues(alertType: number, alertMsg: string, customErrorMsg: string) {
     let tempObj = {
       displayAlert: true,
       alertType: alertType,
@@ -52,55 +51,76 @@ export class AlertsComponent implements OnInit {
       showCloseButton: false
     };
 
+    await this.rloService.getAlertMessage(alertMsg, customErrorMsg).then((data) => {
+      tempObj.alertMsg = data;
+    });
+
     switch (alertType) {
       case 1:
-        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "Success" : alertMsg);
         tempObj.alertIconClass = "fa-check-circle";
         tempObj.textColor = "#38d038";
         break;
       case 2:
-        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "Failed" : alertMsg);
         tempObj.alertIconClass = "fa-times-circle";
         tempObj.textColor = "#ec1919";
         break;
       case 3:
-        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "" : alertMsg);
         tempObj.alertIconClass = "fa-warning";
         tempObj.textColor = "#ead430";
         break;
       case 4:
-        tempObj.alertMsg = this.getAlertMessage((alertMsg == "" || alertMsg == undefined) ? "Info" : alertMsg);
         tempObj.alertIconClass = "fa-info-circle";
         tempObj.textColor = "#56abe8";
         break;
     }
-
     return tempObj;
   }
 
-  getAlertMessage(alertMsg: string) : string {
-    return errorMap[alertMsg] ? errorMap[alertMsg] : alertMsg;
-  }
+  // async getAlertMessage(alertMsg: string) {
+  //   console.log(errorMap, alertMsg);
+  //   var customeMsg = "";
+  //   function getCode(alertMsg) {
+  //     if (errorMap[alertMsg]) {
+  //       customeMsg = errorMap[alertMsg]
+  //     }
+  //     else {
+  //       let keyArray = alertMsg.split(".");
+  //       keyArray.pop();
+  //       console.log(keyArray);
+  //       var newKey = "";
+  //       keyArray.forEach(ele => {
+  //         let node = ele + "."
+  //         newKey += node;
+  //       });
+  //       getCode(newKey.slice(0, newKey.lastIndexOf(".")))
+  //     }
+  //   }
+  //   getCode(alertMsg);
+  //   return customeMsg;
+  // }
 
+  //this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
+  showAlert(alertType: number, alertMsg: string, timeout: number = 5000, customErrorMsg: string = "") {
+    var tempObj;
+    this.setAlertValues(alertType, alertMsg, customErrorMsg).then((data) => {
+      tempObj = data;
 
-  showAlert(alertType: number, alertMsg: string, timeout: number = 5000) {
-    var tempObj = this.setAlertValues(alertType, alertMsg);
-    if(timeout<=-1){
-      tempObj["showCloseButton"] = true;
-    }
-    
-    var thisObject = this;
+      if (timeout <= -1) {
+        tempObj["showCloseButton"] = true;
+      }
 
-    this.alertsInfo = [];
-    clearTimeout(this.timer);
-    this.alertsInfo.push(tempObj);
+      var thisObject = this;
 
-    if (timeout > -1) {
-      this.timer = setTimeout(function () {
-        thisObject.alertsInfo = [];
-      }, timeout);
-    }
+      this.alertsInfo = [];
+      clearTimeout(this.timer);
+      this.alertsInfo.push(tempObj);
 
+      if (timeout > -1) {
+        this.timer = setTimeout(function () {
+          thisObject.alertsInfo = [];
+        }, timeout);
+      }
+    });
   }
 
   closeAlert() {

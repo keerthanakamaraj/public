@@ -20,7 +20,7 @@ export class VisitReportHandlerComponent extends RLOUIHandlerComponent implement
     console.log("VisitReport.. On form load");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
     super.onFormLoad({});
-	}
- }
+  }
+}
 
 

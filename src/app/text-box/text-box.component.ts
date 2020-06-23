@@ -20,6 +20,10 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
   // RLO Additions
   @Input('regex') regex: string;
 
+  // RLO Additions
+  // Restrict Tenant level case formatting, default: true
+  @Input('allowFormat') allowFormat = true;
+
   constructor(services: ServiceStock) {
     super(services);
   }
@@ -29,6 +33,10 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
     //   this.textalign = ":" + this.align + ";";
     // }
   }
+
+  // ngAfterViewInit() {
+  //   console.log("textbox",this.fieldID);
+  // }
 
   getFieldInfo() {
     return (this.value == undefined) ? "" : this.value;
@@ -44,6 +52,10 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
 
     if(totalErrors == 0){ // Validate Regular Expression if Min Max are valid
       totalErrors += this.validateRegEx(value, event);
+    }
+
+    if (this.allowFormat && totalErrors === 0 ){ // format
+      this.value =  this.services.rloui.formatText( this.value + '' );
     }
 
     return totalErrors;

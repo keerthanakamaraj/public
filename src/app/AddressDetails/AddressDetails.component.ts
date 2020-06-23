@@ -28,6 +28,8 @@ const customCss = '';
   templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
+  
+  activeBorrowerSeq: any;
   constructor(services: ServiceStock) {
     super(services);
     this.value = new AddressDetailsModel();
@@ -238,8 +240,17 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.AD_MAILING_ADDRESS.setDefault('N');
     const inputMap = new Map();
+
     await this.Handler.onFormLoad({
     });
+    if(this.activeBorrowerSeq !== undefined){
+      this.addBorrowerSeq =  this.activeBorrowerSeq;
+      await this.AddressGrid.gridDataLoad({
+        'passBorrowerSeqToGrid': this.activeBorrowerSeq
+        // 'addBorrowerSeq' : event.BorrowerSeq
+      });
+    }
+  
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -339,12 +350,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         const res = httpResponse.body;
         // console.log("res", res);
         if (res == null) {
-          this.services.alert.showAlert(2, 'rlo.error.pincode.invalid', -1);
+          this.AD_PINCODE.setError('rlo.error.pincode.invalid');
           this.AD_REGION.onReset();
           this.AD_CITY.onReset();
           this.AD_STATE.onReset();
 
-          return false;
+          return 1;
 
         } else {
           this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1']);
@@ -469,7 +480,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.services.http.fetchApi(serviceName, method, requestdata, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           const res = httpResponse.body;
-          if (res !== undefined) {
+          if (this.AD_HIDE_ID.getFieldValue() == undefined) {
             this.services.alert.showAlert(1, 'rlo.success.save.address', 5000);
           } else {
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);

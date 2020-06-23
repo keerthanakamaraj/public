@@ -1,75 +1,80 @@
 <form class="MakeRelative">
-<div class="ShowLoading " *ngIf="loadSpinner">
- <div class="lds-roller MakeItMiddle">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div>
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-<app-label #IS_HEADING parentCompCode="IncomeSummaryForm" fieldID="IS_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
-</div>
-<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_TOTAL_INCOME.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': IS_TOTAL_INCOME.mandatory}">
-{{ 'IncomeSummaryForm.IS_TOTAL_INCOME' | translate}}
-</label>
-</div>
-<app-amount #IS_TOTAL_INCOME fieldID="IS_TOTAL_INCOME" [formCode]="formCode" (blur)="genericOnBlur('IS_TOTAL_INCOME', $event)"></app-amount>
-</div>
-<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_NET_INCOME.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': IS_NET_INCOME.mandatory}">
-{{ 'IncomeSummaryForm.IS_NET_INCOME' | translate}}
-</label>
-</div>
-<app-amount #IS_NET_INCOME fieldID="IS_NET_INCOME" [formCode]="formCode" (blur)="genericOnBlur('IS_NET_INCOME', $event)"></app-amount>
-</div>
-<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_TOTAL_OBLIGATION.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': IS_TOTAL_OBLIGATION.mandatory}">
-{{ 'IncomeSummaryForm.IS_TOTAL_OBLIGATION' | translate}}
-</label>
-</div>
-<app-amount #IS_TOTAL_OBLIGATION fieldID="IS_TOTAL_OBLIGATION" [formCode]="formCode" (blur)="genericOnBlur('IS_TOTAL_OBLIGATION', $event)"></app-amount>
-</div>
-<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_DBR.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': IS_DBR.mandatory}">
-{{ 'IncomeSummaryForm.IS_DBR' | translate}}
-</label>
-</div>
-<app-amount #IS_DBR fieldID="IS_DBR" [formCode]="formCode" (blur)="genericOnBlur('IS_DBR', $event)"></app-amount>
-</div>
-<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_TOTAL_LIABILITY.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': IS_TOTAL_LIABILITY.mandatory}">
-{{ 'IncomeSummaryForm.IS_TOTAL_LIABILITY' | translate}}
-</label>
-</div>
-<app-text-box #IS_TOTAL_LIABILITY fieldID="IS_TOTAL_LIABILITY" [formCode]="formCode" (blur)="genericOnBlur('IS_TOTAL_LIABILITY', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-incomesummary-handler #Handler [MainComponent]="this"></app-incomesummary-handler>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="clearfix content">
+        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-5 col-md-5">
+            </div>
+            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+            </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+                    <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                        <app-label #IS_HEADING parentCompCode="IncomeSummaryForm" fieldID="IS_HEADING" [formCode]="formCode" fontFamily="sans-serif"
+                            fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold" customClass="section-header"></app-label>
+                    </div> -->
+                    <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_TOTAL_INCOME.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': IS_TOTAL_INCOME.mandatory}">
+                                {{ 'IncomeSummaryForm.IS_TOTAL_INCOME' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #IS_TOTAL_INCOME fieldID="IS_TOTAL_INCOME" [formCode]="formCode" (blur)="genericOnBlur('IS_TOTAL_INCOME', $event)"></app-amount>
+                    </div>
+
+                    <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_TOTAL_OBLIGATION.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': IS_TOTAL_OBLIGATION.mandatory}">
+                                {{ 'IncomeSummaryForm.IS_TOTAL_OBLIGATION' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #IS_TOTAL_OBLIGATION fieldID="IS_TOTAL_OBLIGATION" [formCode]="formCode" (blur)="genericOnBlur('IS_TOTAL_OBLIGATION', $event)"></app-amount>
+                    </div>
+
+                    <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_TOTAL_LIABILITY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': IS_TOTAL_LIABILITY.mandatory}">
+                                {{ 'IncomeSummaryForm.IS_TOTAL_LIABILITY' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #IS_TOTAL_LIABILITY fieldID="IS_TOTAL_LIABILITY" [formCode]="formCode" (blur)="genericOnBlur('IS_TOTAL_LIABILITY', $event)"></app-amount>
+                    </div>
+                    <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_NET_INCOME.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': IS_NET_INCOME.mandatory}">
+                                {{ 'IncomeSummaryForm.IS_NET_INCOME' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #IS_NET_INCOME fieldID="IS_NET_INCOME" [formCode]="formCode" (blur)="genericOnBlur('IS_NET_INCOME', $event)"></app-amount>
+                    </div>
+                    
+                    <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="IS_DBR.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': IS_DBR.mandatory}">
+                                {{ 'IncomeSummaryForm.IS_DBR' | translate}}
+                            </label>
+                        </div>
+                        <app-text-box #IS_DBR fieldID="IS_DBR" [formCode]="formCode" (blur)="genericOnBlur('IS_DBR', $event)"></app-text-box>
+                    </div>
+                    
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-incomesummary-handler #Handler [MainComponent]="this"></app-incomesummary-handler>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

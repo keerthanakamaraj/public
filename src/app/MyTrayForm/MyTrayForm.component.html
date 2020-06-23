@@ -1,28 +1,36 @@
 <form class="MakeRelative">
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-12 col-md-12">
-<h4 class="FormTitle">
-{{ 'MyTrayForm.FormTitle' | translate }}
-</h4>
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10 row">
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MT_SLIDER.isHidden()" [ngClass]="'checkboxRight'">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'MyTrayForm.MT_SLIDER' | translate}}</label>
-</div>
-<app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)" (change)="MT_SLIDER_change($event)"></app-check-box>
-</div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
-<app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <div class="clearfix content">
+        <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-12 col-md-12">
+                <div class="FormTitle">                
+                    <span>{{ 'MyTrayForm.FormTitle' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10 row">
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MT_SLIDER.isHidden()" [ngClass]="'checkboxRight'">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'MyTrayForm.MT_SLIDER' | translate}}</label>
+                        </div>
+                        <app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)"
+                            (change)="MT_SLIDER_change($event)"></app-check-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-button #MT_Proposal fieldName="{{ 'MyTrayForm.MT_Proposal' | translate}}" (buttonClick)="MT_Proposal_click($event)"
+                            fieldID="MT_Proposal" [formCode]="formCode" customClass="btn btn-primary btn-lg"></app-button>
+                        <!-- <input type="button" class="proposal" value="NEW PROPOSAL" onClick="redirect()"> -->
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
+                        <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

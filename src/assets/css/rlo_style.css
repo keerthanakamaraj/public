@@ -563,7 +563,7 @@
 }
 
 .ag-cell {
-  color: #004d8a;
+  color: #4F4E4E;
 }
 /* .shirnkheader {
   float: left;
@@ -636,9 +636,35 @@ li .a {
 #CD_CLEAR_BTN{
   margin-left: 210px;
 }
+
+#PI_SAVE_BTN{
+  margin-left: 206px;
+}
+
+#PI_CLEAR_BTN{
+  margin-left: 210px;
+}
+
+#GNG_SAVE_BTN{
+  margin-left: 206px;
+}
+
+#GNG_CLEAR_BTN{
+  margin-left: 210px;
+}
+
+ #VRF_Save{
+  margin-left: 60px;
+} 
+
+#VRF_Reset{
+  border-color: dimgray;
+}
+#ND_SAVE{
+  margin-left: 70px ;
+}
 #AD_CLEAR_BTN
 {
-
   border-color: gray;
 }
 #AD_SAVE_ADDRESS
@@ -655,9 +681,9 @@ li .a {
 #RD_RESET{
   margin-left: 5px;
 }
-#ND_CLEAR{
+/* #ND_CLEAR{
   margin-left: 5px;
-}
+} */
 
 .AD_EMAIL1{
   margin-left: 10px;
@@ -701,7 +727,31 @@ li .a {
 .icon {
   color: white;
 }
-
+#clear{
+  border-color: dimgray;
+}
+#RD_RESET{
+  border-color: dimgray;
+}
+#CCD_Save{
+  margin-top: 35px;
+  margin-left: 35px;
+}
+#CCD_Clear{
+  margin-top: 35px;
+}
+#Save{
+  margin-left: 50px;
+}
+#RD_SAVE{
+  margin-left: 60px;
+}
+#MT_Proposal{
+  margin-left: 250px;
+  margin-top: 19px;
+  /* height: 36px; */
+  width: 165px !important
+}
 .fa.fa-trash.fa-lg {
   box-sizing: border-box;
   height: 22.8px;

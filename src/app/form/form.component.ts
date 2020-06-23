@@ -19,6 +19,8 @@ import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
 import * as toPromise from 'rxjs/add/operator/toPromise';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 //import { ModalComponent } from 'src/app/modal/modal.component';
 
 declare let addResizeListener: any;
@@ -50,6 +52,8 @@ export class FormComponent {
   @ViewChildren(LabelComponent) labelComponent: QueryList<LabelComponent>;
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
   @ViewChildren(RLOUIRadioComponent) radioFields: QueryList<RLOUIRadioComponent>;
+  @ViewChildren(RloUiMobileComponent) countryCodeMobile: QueryList<RloUiMobileComponent>;
+  @ViewChildren(ReadOnlyComponent) labelFields: QueryList<ReadOnlyComponent>;
 
   //formCode : string;
   errors = 0;
@@ -185,10 +189,10 @@ export class FormComponent {
       field.valueChangeUpdates()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
-        (value) => {
-          this.value[field.fieldID] = value;
-          this.setDependency(field.fieldID, value);
-        }
+          (value) => {
+            this.value[field.fieldID] = value;
+            this.setDependency(field.fieldID, value);
+          }
         );
     });
   }
@@ -204,6 +208,8 @@ export class FormComponent {
     this.labelComponent.forEach(fn);
     this.hiddenComponent.forEach(fn);
     this.radioFields.forEach(fn);
+    this.labelFields.forEach(fn)
+    this.countryCodeMobile.forEach(fn);
   }
 
   setBasicFieldsReadOnly(readOnly) {
@@ -577,12 +583,12 @@ export class FormComponent {
       if (totalErrors > 0) { return totalErrors }
     }
 
-    if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '' || value == 0 || value == 0.00)) {
+    if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '')) {
       this[fieldId].setError("Value cannot be empty");
       return ++totalErrors;
     }
 
-    if (value && this[fieldId].domainObjectCode) {
+    if (value && this[fieldId].domainObjectCode && this[fieldId].doValidate) {
       await (await this[fieldId].domainObjectValidation()).toPromise().then(
         (res) => {
           if (isOnBlur && this.fieldDependencies[fieldId]) {

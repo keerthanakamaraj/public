@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChange, KeyValueDiffers } from '@angular/core';
-import { errorMap, ProvidehttpService } from '../providehttp.service';
+import { errorMap } from '../rlo-services/rloui.service';
 import { ServiceStock } from '../service-stock.service';
 import { Subject, Observable } from 'rxjs';
 
@@ -18,7 +18,8 @@ export class FieldComponent{
   @Input('domainObjectUrl') domainObjectUrl: string;
   @Input('doServerUrl') doServerUrl: string;
   @Input('customClass') customClass: string = "";
-  
+  @Input('doValidate') doValidate: boolean = true;
+  @Input('defaultValue') defaultValue:string=undefined
 
   // @Input('readOnly') readOnly: boolean = false;
   //Cannot take readonly as input because on reset it has to be reinitialized to the original value
@@ -48,6 +49,12 @@ export class FieldComponent{
 
   isMandatory(): boolean {
     return this.mandatory;
+  }
+
+  ngAfterViewInit() {
+    if(this.defaultValue!=undefined){
+      this.setValue(this.defaultValue);
+     }
   }
 
   setDependency(key, value) {

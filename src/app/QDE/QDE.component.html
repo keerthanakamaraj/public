@@ -1,11 +1,11 @@
 <form class="MakeRelative">
   <div class="clearfix content">
-    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
       <div class="col-sm-12 col-md-12">
-        <h4 class="FormTitle">
+        <div class="FormTitle no-border">
           <a class="back" (click)="goBack()">Back</a>
           <span>{{ 'QDE.FormTitle' | translate }}</span>
-        </h4>
+        </div>
       </div>
     </div>
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
@@ -17,7 +17,7 @@
               (productCategoryFound)="brodcastProdCategory($event)"></app-Header>
           </div>
 
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div" [ngStyle]="{'margin-top' : showExpandedHeader ? '12px': '4.5rem'}">
             <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">
               <a href="#customer-panel" class="btn btn-default active" data-toggle="tab">
                 <input type="radio" />CUSTOMER
@@ -32,7 +32,7 @@
 
               <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_9.isHidden()">
                 <app-CustomerGridDTLS #FieldId_9 fieldID="FieldId_9" [formCode]="formCode"
-                  (selectCustId)="FieldId_9_selectCustId($event)" (resetCustForm)="FieldId_9_resetCustForm($event)"
+                  (resetCustForm)="FieldId_9_resetCustForm($event)"
                   (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"
                   (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)"
                   (updateStageValidation)="updateStageValidation($event)">
@@ -82,7 +82,8 @@
                 <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS"
                   title="{{ 'ReferralDetailsForm.RD_HEADING' | translate}}">
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide refDtls " [hidden]="FieldId_10.isHidden()">
-                    <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" [formCode]="formCode">
+                    <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)"
+                     [formCode]="formCode">
                     </app-ReferralDetailsForm>
                   </div>
                 </rlo-ui-accordion-group>
@@ -129,5 +130,6 @@
         <app-hidden #hideDirection fieldID="hideDirection"></app-hidden>
       </div>
     </div>
+
   </div>
 </form>

@@ -1,18 +1,25 @@
-import { Component, OnInit, ElementRef, Renderer2, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChildren, QueryList, AfterViewInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { DropDown } from '../DropDownOptions';
+import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IFieldErrors } from './GoNoGoInterface';
 
 @Component({
   selector: 'app-go-no-go',
   templateUrl: './go-no-go.component.html',
   styleUrls: ['./go-no-go.component.css']
 })
+
 export class GoNoGoComponent implements OnInit {
-  
-  apiResponse: HttpResponse<any>;
-  questionnaireCat: Map<Number, String> = new Map();
-  answerCollection: Array<String> = new Array();
+  //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
+  ErrorMap = new Map();
+  ApplicationDetails: IGoNoGoQuestionnaire = {};
+  QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
+  @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
+
+  @Input() ApplicationId: string = undefined;
 
   constructor(private services: ServiceStock, private renderer2: Renderer2) { }
 
@@ -20,47 +27,17 @@ export class GoNoGoComponent implements OnInit {
     this.loadQuestionnaireDtls();
   }
 
-  afterLoadQuestionnaireDtls() {
-    this.answerCollection = [];
-    if (this.apiResponse) {
-      this.apiResponse['GoNoGoDetails'].forEach((element) => {
-        if (element.AnswerSeq)
-          this.answerCollection.push(`${element.AnswerSeq}-${element.Remarks}`);
-      });
-
-      console.log('AnswerCollection: ', this.answerCollection);
-
-      this.apiResponse['MstQuestionnaireDtls'].map((element) => {
-        let tempAnsSeq: String = null;
-
-        element['MstQuestionnaireAns'].some(answer => {
-          tempAnsSeq = this.answerCollection.find(answers => answers.split('-')[0] === answer.AnswerSeq);
-          if(tempAnsSeq != undefined)
-            return answer.AnswerSeq == tempAnsSeq.split('-')[0];
-        });
-
-        if (tempAnsSeq != null && tempAnsSeq != undefined) {
-          element.AnswerSeq = tempAnsSeq.split('-')[0];
-          element.Remarks = tempAnsSeq.split('-')[1];
-        }
-
-        return element;
-      });
-    }
-    console.log(this.apiResponse['MstQuestionnaireDtls']);
-  }
-
   loadQuestionnaireDtls() {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'go_no_go');
     inputMap.set('QueryParam.Product', 'PROD1');
-    inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
-    inputMap.set('QueryParam.ApplicationId', '666');
+    // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
+    inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
-    this.services.http.fetchApi('/questionnaire', 'GET', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-      this.apiResponse = httpResponse.body;
-      this.afterLoadQuestionnaireDtls();
+    this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
+      this.parseGetQuestionnairResp(questionnairDtlsResp);
     },
       (httpError) => {
         console.error(httpError);
@@ -68,77 +45,194 @@ export class GoNoGoComponent implements OnInit {
       });
   }
 
-  createSaveApiRequestBody(element, temp) {
-    if(temp['Remarks'] != undefined)
-      temp = {};
 
-    if(element.value != 'Select' && element.nodeName == 'SELECT') {
-      temp['AnswerSeq'] = element.value;
-      if(element.selectedOptions)
-        temp['Result'] = element.selectedOptions[0].text;
+
+  parseGetQuestionnairResp(questionnairDtlsResp) {
+    console.log("shweta:: new json", questionnairDtlsResp);
+    this.QuestionnairMap.clear();
+
+    for (let eachElement of questionnairDtlsResp) {
+      let questionParam: IQuestion = {};
+      if (this.QuestionnairMap.has(eachElement.QuestionSeq)) {
+        questionParam = this.QuestionnairMap.get(eachElement.QuestionSeq)
+      }
+
+      questionParam.QuestionSeq = eachElement["QuestionSeq"];
+      questionParam.QuestionText = eachElement["QuestionText"];
+      questionParam.IsNegative = eachElement["IsNegative"];
+      questionParam.QuestionnaireSeq = eachElement["TxnQuestionairSeq"];
+      questionParam.QuestionnaireCategory = eachElement["QuestionnaireCategory"];
+      questionParam.DeviationLevel = eachElement["DeviationLevel"];
+
+      let AnswerOption: IAnswerOption = {};
+      if (questionParam.AnswerOptionList == undefined) {
+        questionParam.AnswerOptionList = [];
+        questionParam.radioOptionFormatList = [];
+      } else {
+        AnswerOption = questionParam.AnswerOptionList.find(answer => answer.AnswerSeq == eachElement["AnswerSeq"]);
+        if (AnswerOption == undefined) { AnswerOption = {} }
+      }
+      if (Object.keys(AnswerOption).length === 0) {
+        AnswerOption.AnswerSeq = eachElement["AnswerSeq"];
+        AnswerOption.AnswerValue = eachElement["AnswerValue"];
+        AnswerOption.AnswerScoreWeight = eachElement["AnswerScoreWeight"];
+        AnswerOption.AnswerText = eachElement["AnswerText"];
+        questionParam.AnswerOptionList.push(AnswerOption);
+        questionParam.radioOptionFormatList.push({ id: eachElement["AnswerSeq"], text: eachElement["AnswerText"] });
+      }
+
+      questionParam.SelectedDecision = {};
+      if (Object.keys(questionParam.SelectedDecision).length === 0) {
+        questionParam.SelectedDecision.QuestionnaireSeq = eachElement["TxnQuestionairSeq"];
+        questionParam.SelectedDecision.AnswerSeq = eachElement["TxnAnswerSeq"];
+        questionParam.SelectedDecision.Remark = (eachElement["TxnRemarks"] == '') ? undefined : eachElement["TxnRemarks"];
+      }
+
+      this.QuestionnairMap.set(eachElement.QuestionSeq, questionParam);
     }
-
-    if(element.value != '' && element.nodeName == 'TEXTAREA') {
-      temp['Remarks'] = element.value;
-    }
-
-    return temp;
+    console.log("shweta :: gng Interface map", this.QuestionnairMap);
   }
 
-  persistData() {
-    console.log('Saving...');
-    
-    let temp = {};
-    const questionnaireArray = new Array();
+  createSaveApiRequestBody(element, questionairemap, key) {
+    let quesParam = {} = {};
+    if (questionairemap.has(key)) {
+      quesParam = questionairemap.get(key);
+    }
 
-    this.domRef.forEach(element => {
-      temp = this.createSaveApiRequestBody(element.nativeElement, temp);
-      if(!this.isEmpty(temp) && 'AnswerSeq' in temp && 'Remarks' in temp) {
-          questionnaireArray.push(temp);
+    if (element.value != undefined && element.componentName == 'RLOUIRadioComponent') {
+      quesParam['AnswerSeq'] = element.value;
+      quesParam['Result'] = element.additionalInfo
+    }
+
+    if (element.value != '' && element.inputType == 'text') {
+      quesParam['Remarks'] = element.value;
+    }
+
+    questionairemap.set(key, quesParam);
+
+    return questionairemap;
+  }
+
+  onDecisionChange(questionSeq, selectedAnswerSeq) {
+
+    console.log("shweta :: onBlur id: ", questionSeq, " event ", selectedAnswerSeq);
+    let questionParam = this.QuestionnairMap.get(questionSeq);
+    if (questionParam.SelectedDecision == undefined) {
+      questionParam.SelectedDecision = {};
+    }
+    questionParam.SelectedDecision.AnswerSeq = selectedAnswerSeq;
+  }
+
+  onRemarkBlur(questionSeq, enteredRemark) {
+    let questionParam = this.QuestionnairMap.get(questionSeq);
+    if (questionParam.SelectedDecision == undefined) {
+      questionParam.SelectedDecision = {};
+    }
+    questionParam.SelectedDecision.Remark = (enteredRemark == '') ? undefined : enteredRemark;
+  }
+
+  isDecisionsValid() {
+    let isValid = true;
+    this.ErrorMap.clear();
+    this.QuestionnairMap.forEach(question => {
+      question.IsDeviation = false;
+      if (question.SelectedDecision.AnswerSeq == undefined) {
+        //   this.ErrorMap.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
+        this.ErrorMap.set('DM', 'Decision for all questions');
+        isValid = false;
+      }
+      else if (question.SelectedDecision.Remark == undefined) {
+        let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
+        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
+          question.IsDeviation = true;
+          this.ErrorMap.set('RM', 'Remarks for Deviation questions');
+          isValid = false;
+        } 
       }
     });
 
-    this.apiResponse['MstQuestionnaireDtls'].forEach(question => {
-      questionnaireArray.map(element => {
-        const answer = question['MstQuestionnaireAns'].find(answer => answer.AnswerSeq === element.AnswerSeq);
-
-        if(answer != undefined) {
-          element['QuestionSeq'] =  question.QuestionSeq;
-          element['ApplicationId'] =  '666';
-          element['QuestionnaireCategory'] =  question.QuestionnaireCategory;
-          element['CreatedBy'] =  sessionStorage.getItem('userId');
-          element['UpdatedBy'] =  sessionStorage.getItem('userId');
-        }
-        return element;
-      });
-
-    });
-
-    console.log('Questionnaire Array: ', questionnaireArray);
-    
-    let inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('PathParam.ApplicationId', '666');
-    inputMap.set('Body.QuestionnaireDetails', questionnaireArray);
-    
-    this.services.http.fetchApi('/saveQuestionnaireDetails/{ApplicationId}', 'POST', inputMap).subscribe((httpResponse: HttpResponse<any>) => {
-      this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-      this.loadQuestionnaireDtls();
-    },
-      (httpError) => {
-        console.error(httpError);
-        this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
-      });
-      
+    return isValid;
   }
 
+  GNG_SAVE_BTN_click(event) {
+    console.log('Saving...');
+
+    let decisionsParamArray = [];
+
+    if (this.isDecisionsValid()) {
+      this.QuestionnairMap.forEach(question => {
+        let decision: object = {};
+        if (question.QuestionnaireSeq != undefined) {
+          decision['QuestionnaireSeq'] = question.QuestionnaireSeq
+        }
+        decision['QuestionSeq'] = question.QuestionSeq;
+        decision['ApplicationId'] = this.ApplicationId;
+        decision['AnswerSeq'] = question.SelectedDecision.AnswerSeq;
+        decision['DeviationLevel'] = question.DeviationLevel;
+        decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
+        decision['Remarks'] = (question.SelectedDecision.Remark == undefined) ? '' : question.SelectedDecision.Remark;
+        decision['CreatedBy'] = sessionStorage.getItem('userId');
+        decision['UpdatedBy'] = sessionStorage.getItem('userId');
+        decisionsParamArray.push(decision);
+      });
+
+      console.log('shweta:: req json decisionsParamArray : ', decisionsParamArray);
+
+      let inputMap = new Map();
+      inputMap.clear();
+      inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
+
+      console.log("shweta :: input map", inputMap);
+      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap,'/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+        this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
+        this.loadQuestionnaireDtls();
+      },
+        (httpError) => {
+          console.error(httpError);
+          this.services.alert.showAlert(2, 'rlo.error.save.go-no-go', -1);
+        });
+
+    } else {
+      let errorText = undefined;
+      if (this.ErrorMap.has('DM')) {
+        errorText = this.ErrorMap.get('DM');
+      }
+      if (this.ErrorMap.has('RM')) {
+        errorText != undefined ? errorText = errorText + ' and ' : errorText;
+        errorText = errorText = this.ErrorMap.get('RM')
+      }
+
+      this.services.alert.showAlert(2, '', -1, errorText + ' is mandatory.');
+    }
+  }
+
+  GNG_CLEAR_BTN_click(event) {
+    this.QuestionnairMap.forEach(question => {
+      question.SelectedDecision.AnswerSeq = undefined;
+      question.SelectedDecision.Remark = undefined
+    });
+
+    this.domRef.forEach(element => {
+      this.ClearFormFields(element);
+    });
+
+  }
+
+  ClearFormFields(element) {
+    if (element['value'] != undefined && element['componentName'] == 'RLOUIRadioComponent') {
+      element.onReset();
+    }
+    if (element.value != '' && element.inputType == 'text') {
+      element.onReset();
+    }
+  }
   isEmpty(obj) {
-    for(var prop in obj) {
-      if(obj.hasOwnProperty(prop)) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
         return false;
       }
     }
-  
+
     return JSON.stringify(obj) === JSON.stringify({});
   }
 }

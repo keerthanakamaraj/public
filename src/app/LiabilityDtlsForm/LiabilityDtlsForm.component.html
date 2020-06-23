@@ -1,146 +1,204 @@
 <form class="MakeRelative">
-<div class="ShowLoading " *ngIf="loadSpinner">
- <div class="lds-roller MakeItMiddle">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div>
-<div class="clearfix content">
-<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-</div>
-<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-</div>
-</div>
-<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-<div *ngIf="!formOnLoadError">
-<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-<div class="form-group pb10">
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-label #FD_HEADING parentCompCode="LiabilityDtlsForm" fieldID="FD_HEADING" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_FINANCIER_NAME.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_FINANCIER_NAME.mandatory}">
-{{ 'LiabilityDtlsForm.LD_FINANCIER_NAME' | translate}}
-</label>
-</div>
-<app-text-box #LD_FINANCIER_NAME fieldID="LD_FINANCIER_NAME" [formCode]="formCode"  (blur)="genericOnBlur('LD_FINANCIER_NAME', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_STATUS.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_STATUS.mandatory}">
-{{ 'LiabilityDtlsForm.LD_LOAN_STATUS' | translate}}
-</label>
-</div>
-<app-combo-box #LD_LOAN_STATUS category="2" fieldID="LD_LOAN_STATUS" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_STATUS', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_TYPE_OF_LOAN.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_TYPE_OF_LOAN.mandatory}">
-{{ 'LiabilityDtlsForm.LD_TYPE_OF_LOAN' | translate}}
-</label>
-</div>
-<app-combo-box #LD_TYPE_OF_LOAN category="2" fieldID="LD_TYPE_OF_LOAN" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TYPE_OF_LOAN', $event)"></app-combo-box>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_AMOUNT.mandatory}">
-{{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}
-</label>
-</div>
-<app-text-box #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode"  (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_CLOSURE_DATE.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown">
-{{ 'LiabilityDtlsForm.LD_LOAN_CLOSURE_DATE' | translate}}
-</label>
-</div>
-<app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" [formCode]="formCode"  (blur)="genericOnBlur('LD_LOAN_CLOSURE_DATE', $event)"></app-date>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_EMI.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_EMI.mandatory}">
-{{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}
-</label>
-</div>
-<app-text-box #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-text-box>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_INCLUDE_IN_DBR.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_INCLUDE_IN_DBR.mandatory}">
-{{ 'LiabilityDtlsForm.LD_INCLUDE_IN_DBR' | translate}}
-</label>
-</div>
-<app-combo-box #LD_INCLUDE_IN_DBR category="2" fieldID="LD_INCLUDE_IN_DBR" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_INCLUDE_IN_DBR', $event)"></app-combo-box>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_OS_AMOUNT.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_OS_AMOUNT.mandatory}">
-{{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}
-</label>
-</div>
-<app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CURRENCY.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_CURRENCY.mandatory}">
-{{ 'LiabilityDtlsForm.LD_CURRENCY' | translate}}
-</label>
-</div>
-<app-text-box #LD_CURRENCY fieldID="LD_CURRENCY" [formCode]="formCode"  (blur)="genericOnBlur('LD_CURRENCY', $event)"></app-text-box>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EQUIVALENT_AMOUNT.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_EQUIVALENT_AMOUNT.mandatory}">
-{{ 'LiabilityDtlsForm.LD_EQUIVALENT_AMOUNT' | translate}}
-</label>
-</div>
-<app-amount #LD_EQUIVALENT_AMOUNT fieldID="LD_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_EQUIVALENT_AMOUNT', $event)"></app-amount>
-</div>
-<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_EMI_FREQUENCY.isHidden()">
-<div class="clr-brown fieldLegend">
-<label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_EMI_FREQUENCY.mandatory}">
-{{ 'LiabilityDtlsForm.LD_LOAN_EMI_FREQUENCY' | translate}}
-</label>
-</div>
-<app-combo-box #LD_LOAN_EMI_FREQUENCY category="2" fieldID="LD_LOAN_EMI_FREQUENCY" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_EMI_FREQUENCY', $event)"></app-combo-box>
-</div>
-<div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="LD_SAVE.isHidden()">
-<app-button #LD_SAVE fieldName="{{ 'LiabilityDtlsForm.LD_SAVE' | translate}}" fieldID="LD_SAVE" [formCode]="formCode"  imagePath = "./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="LD_SAVE_click($event)"></app-button>
-</div>
-<div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
-    <app-button #clear fieldName="{{ 'LiabilityDtlsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode"  imagePath = "./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
-</div>
-<div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
-<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LIABILITY_GRID.isHidden()">
-<app-LiabilityDtlsGrid #LIABILITY_GRID fieldID="LIABILITY_GRID" [formCode]="formCode" (onModify)="LIABILITY_GRID_onModify($event)"></app-LiabilityDtlsGrid>
-</div>
-<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-<app-liability-handler #Handler [MainComponent]="this"></app-liability-handler>
-</div>
-</div>
-<app-hidden #hideEmiFrequency fieldID="hideEmiFrequency"></app-hidden>
-<app-hidden #hideTypeOfLoan fieldID="hideTypeOfLoan"></app-hidden>
-<app-hidden #hiddenLiabilitySeq fieldID="hiddenLiabilitySeq"></app-hidden>
-<app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-<app-hidden #hidLoanStatus fieldID="hidLoanStatus"></app-hidden>
-<app-hidden #hideInculdeInDBR fieldID="hideInculdeInDBR"></app-hidden>
-</div>
-</div>
-</div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="clearfix content">
+        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+            <div class="col-sm-5 col-md-5">
+            </div>
+            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+            </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-label #FD_HEADING parentCompCode="LiabilityDtlsForm" fieldID="FD_HEADING" [formCode]="formCode" fontFamily="sans-serif"
+                            fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="bold"></app-label>
+                    </div> -->
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_LIABILITY_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_LIABILITY_TYPE.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_LIABILITY_TYPE' | translate}}
+                            </label>
+                        </div>
+                        <rlo-ui-radio #LD_LIABILITY_TYPE category="2" placeholder="Select" fieldID="LD_LIABILITY_TYPE" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LIABILITY_TYPE', $event)" (change)="LD_LIABILITY_TYPE_change('LD_LIABILITY_TYPE', $event)" ></rlo-ui-radio>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_OBLIGATION_HEAD.isHidden() || !!isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'LiabilityDtlsForm.LD_OBLIGATION_HEAD' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #LD_OBLIGATION_HEAD category="2" placeholder="Select" fieldID="LD_OBLIGATION_HEAD" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_OBLIGATION_HEAD', $event)"  (change)="LD_OBLIGATION_HEAD_change('LD_OBLIGATION_HEAD', $event)"></app-combo-box>
+                    </div>
+
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_FINANCIER_NAME.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_FINANCIER_NAME.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_FINANCIER_NAME' | translate}}
+                            </label>
+                        </div>
+                        <app-text-box #LD_FINANCIER_NAME fieldID="LD_FINANCIER_NAME" [formCode]="formCode" (blur)="genericOnBlur('LD_FINANCIER_NAME', $event)"></app-text-box>
+                    </div>
+                   
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_TYPE_OF_LOAN.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_TYPE_OF_LOAN.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_TYPE_OF_LOAN' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #LD_TYPE_OF_LOAN category="2" placeholder="Select" fieldID="LD_TYPE_OF_LOAN" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TYPE_OF_LOAN', $event)"></app-combo-box>
+                    </div>
+
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_LOAN_STATUS.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_STATUS.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_LOAN_STATUS' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #LD_LOAN_STATUS category="2" placeholder="Select" fieldID="LD_LOAN_STATUS" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_LOAN_STATUS', $event)"></app-combo-box>
+                    </div>
+
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_CURRENCY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_CURRENCY.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_CURRENCY' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #LD_CURRENCY category="2" fieldID="LD_CURRENCY" [formCode]="formCode" domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}"
+                            doServerUrl="/masters" domainObjectCode="MstCurrencyDetails" placeholder="Select" (blur)="genericOnBlur('LD_CURRENCY', $event)"></app-combo-box>
+                    </div>
+                   
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_AMOUNT.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-amount>
+                    </div>
+
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_EQUIVALENT_AMOUNT.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_EQUIVALENT_AMOUNT.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_EQUIVALENT_AMOUNT' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #LD_EQUIVALENT_AMOUNT fieldID="LD_EQUIVALENT_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_EQUIVALENT_AMOUNT', $event)"></app-amount>
+                    </div>
+
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>                    
+
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_LOAN_EMI.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_EMI.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-amount>
+                    </div>
+
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_LOAN_CLOSURE_DATE.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'LiabilityDtlsForm.LD_LOAN_CLOSURE_DATE' | translate}}
+                            </label>
+                        </div>
+                        <app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" placeholder="Select" [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_CLOSURE_DATE', $event)"></app-date>
+                    </div>
+                   
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_OS_AMOUNT.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_OS_AMOUNT.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}
+                            </label>
+                        </div>
+                        <app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode" (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount>
+                    </div>
+
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>                                        
+
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_INCLUDE_IN_DBR.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_INCLUDE_IN_DBR.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_INCLUDE_IN_DBR' | translate}}
+                            </label>
+                        </div>
+                        <rlo-ui-radio #LD_INCLUDE_IN_DBR category="2" placeholder="Select" fieldID="LD_INCLUDE_IN_DBR" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_INCLUDE_IN_DBR', $event)"></rlo-ui-radio>
+                    </div>
+                    
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_LOAN_EMI_FREQUENCY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_EMI_FREQUENCY.mandatory}">
+                                {{ 'LiabilityDtlsForm.LD_LOAN_EMI_FREQUENCY' | translate}}
+                            </label>
+                        </div>
+                        <app-combo-box #LD_LOAN_EMI_FREQUENCY category="2" placeholder="Select" fieldID="LD_LOAN_EMI_FREQUENCY" [formCode]="formCode"
+                            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                            (blur)="genericOnBlur('LD_LOAN_EMI_FREQUENCY', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LD_REMARKS.isHidden() || !isObligation">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'LiabilityDtlsForm.LD_REMARKS' | translate}}
+                            </label>
+                        </div>
+                        <app-text-box #LD_REMARKS fieldID="LD_REMARKS" [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('LD_REMARKS', $event)"></app-text-box>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>                    
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="LD_SAVE.isHidden()">
+                        <app-button #LD_SAVE fieldName="{{ 'LiabilityDtlsForm.LD_SAVE' | translate}}" fieldID="LD_SAVE" [formCode]="formCode" imagePath="./assets/icons/plus.svg"
+                            [type]="2" customClass="icon-button" (buttonClick)="LD_SAVE_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
+                        <app-button #clear fieldName="{{ 'LiabilityDtlsForm.clear' | translate}}" fieldID="clear" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg"
+                            [type]="2" customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
+                    </div>
+                    <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LIABILITY_GRID.isHidden()">
+                        <app-LiabilityDtlsGrid #LIABILITY_GRID fieldID="LIABILITY_GRID" [formCode]="formCode" (onModify)="LIABILITY_GRID_onModify($event)"></app-LiabilityDtlsGrid>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-liability-handler #Handler [MainComponent]="this"></app-liability-handler>
+                    </div>
+                </div>
+                <app-hidden #hideEmiFrequency fieldID="hideEmiFrequency"></app-hidden>
+                <app-hidden #hideTypeOfLoan fieldID="hideTypeOfLoan"></app-hidden>
+                <app-hidden #hiddenLiabilitySeq fieldID="hiddenLiabilitySeq"></app-hidden>
+                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+                <app-hidden #hidLoanStatus fieldID="hidLoanStatus"></app-hidden>
+                <app-hidden #hideInculdeInDBR fieldID="hideInculdeInDBR"></app-hidden>
+                <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
+                <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
+                <app-hidden #hideLiabilityType fieldID="hideLiabilityType"></app-hidden>
+                <app-hidden #hideObligationHead fieldID="hideObligationHead"></app-hidden>
+            </div>
+        </div>
+    </div>
 </form>
