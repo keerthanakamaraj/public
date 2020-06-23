@@ -339,10 +339,10 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     async VRF_DateOfVisit_blur(event) {
         const inputMap = new Map();
         if (!(this.isTodaysDate(this.VRF_DateOfVisit.getFieldValue()) || this.isPastDate(this.VRF_DateOfVisit.getFieldValue()))) {
-            this.VRF_DateOfVisit.setError('rlo.error.dob-invalid');
+            this.VRF_DateOfVisit.setError('rlo.error.dov-invalid');
             return 1;
         } else if (!this.isMonthsLimitValid(this.VRF_DateOfVisit.getFieldValue())) {
-            this.VRF_DateOfVisit.setError('rlo.error.dob-invalid');
+            this.VRF_DateOfVisit.setError('rlo.error.dov-expired');
             return 1;
         }
     }

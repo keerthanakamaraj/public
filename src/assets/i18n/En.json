@@ -142,6 +142,8 @@
     "rlo.mandatory.loan.field" :"Please Correct Form Error",
     "rlo.error.tenure or tenureperiod.not.exist":"Tenure or Tenure period cannot be blank",
     "rlo.error.duplicate-Record":"Record already present",
+    "rlo.error.dov-expired":"Visit date expired",
+    "rlo.error.dov-invalid":"Invalid date of visit",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",

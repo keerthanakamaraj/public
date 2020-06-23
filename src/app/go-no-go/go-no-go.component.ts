@@ -135,6 +135,7 @@ export class GoNoGoComponent implements OnInit {
     let isValid = true;
     this.ErrorMap.clear();
     this.QuestionnairMap.forEach(question => {
+      question.IsDeviation = false;
       if (question.SelectedDecision.AnswerSeq == undefined) {
         //   this.ErrorMap.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorMap.set('DM', 'Decision for all questions');
@@ -146,9 +147,7 @@ export class GoNoGoComponent implements OnInit {
           question.IsDeviation = true;
           this.ErrorMap.set('RM', 'Remarks for Deviation questions');
           isValid = false;
-        } else {
-          question.IsDeviation = false;
-        }
+        } 
       }
     });
 
