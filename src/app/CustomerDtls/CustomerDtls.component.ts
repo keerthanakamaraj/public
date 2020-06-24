@@ -180,6 +180,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
+        this.CD_EXISTING_CUST.setReadOnly(true);
+        this.CD_STAFF.setReadOnly(true);
         this.hidExistCust.setValue('Y_N');
         this.hideStaffId.setValue('Y_N');
         this.hidAppId.setValue('RLO');
