@@ -614,7 +614,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(this.MainComponent.LD_MARGIN_RATE.getFieldValue())
       }
 
-      this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest.toFixed(2));
+      this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest);
     }
 
   }

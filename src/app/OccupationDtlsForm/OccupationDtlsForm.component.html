@@ -1,286 +1,289 @@
 <form class="MakeRelative">
-  <div class="ShowLoading " *ngIf="loadSpinner">
-    <div class="lds-roller MakeItMiddle">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-  </div>
-  <div class="clearfix content">
-    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-    <div *ngIf="!formOnLoadError">
-      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-        <div class="form-group pb10">
-
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_OCCUPATION.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_OCCUPATION.mandatory}">
-                {{ 'OccupationDtlsForm.OD_OCCUPATION' | translate}}</label>
-            </div>
-            <app-combo-box #OD_OCCUPATION category="2" fieldID="OD_OCCUPATION" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_OCCUPATION', $event)"
-              (change)="OD_OCCUPATION_change('OD_OCCUPATION', $event)"></app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLT_TYPE.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_EMPLT_TYPE.mandatory}">
-                {{ 'OccupationDtlsForm.OD_EMPLT_TYPE' | translate}}</label>
-            </div>
-            <app-combo-box #OD_EMPLT_TYPE category="2" fieldID="OD_EMPLT_TYPE" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_EMPLT_TYPE', $event)">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_PROF.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_SELF_EMPLD_PROF' | translate}}</label>
-            </div>
-            <app-text-box #OD_SELF_EMPLD_PROF fieldID="OD_SELF_EMPLD_PROF" [formCode]="formCode"
-              placeholder="(Optional)" (blur)="genericOnBlur('OD_SELF_EMPLD_PROF', $event)">
-            </app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_TYPE.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_SELF_EMPLD_TYPE.mandatory}">
-                {{ 'OccupationDtlsForm.OD_SELF_EMPLD_TYPE' | translate}}</label>
-            </div>
-            <app-combo-box #OD_SELF_EMPLD_TYPE category="2" fieldID="OD_SELF_EMPLD_TYPE" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_SELF_EMPLD_TYPE', $event)"></app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLOYEE_ID.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_EMPLOYEE_ID' | translate}}</label>
-            </div>
-            <app-text-box #OD_EMPLOYEE_ID fieldID="OD_EMPLOYEE_ID" [formCode]="formCode" placeholder="(Optional)"
-              (blur)="genericOnBlur('OD_EMPLOYEE_ID', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DEPARTMENT.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_DEPARTMENT' | translate}}</label>
-            </div>
-            <app-text-box #OD_DEPARTMENT fieldID="OD_DEPARTMENT" [formCode]="formCode" placeholder="(Optional)"
-              (blur)="genericOnBlur('OD_DEPARTMENT', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DESIGNATION.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_DESIGNATION' | translate}}</label>
-            </div>
-            <app-text-box #OD_DESIGNATION fieldID="OD_DESIGNATION" [formCode]="formCode" placeholder="(Optional)"
-              (blur)="genericOnBlur('OD_DESIGNATION', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DATE_OF_JOINING.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_DATE_OF_JOINING' | translate}}</label>
-            </div>
-            <app-date #OD_DATE_OF_JOINING fieldID="OD_DATE_OF_JOINING" [formCode]="formCode" placeholder="Select"
-              (blur)="genericOnBlur('OD_DATE_OF_JOINING', $event)"></app-date>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DT_OF_INCPTN.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_DT_OF_INCPTN' | translate}}</label>
-            </div>
-            <app-date #OD_DT_OF_INCPTN fieldID="OD_DT_OF_INCPTN" [formCode]="formCode" placeholder="Select"
-              (blur)="genericOnBlur('OD_DT_OF_INCPTN', $event)"></app-date>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INDUSTRY.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_INDUSTRY.mandatory}">
-                {{ 'OccupationDtlsForm.OD_INDUSTRY' | translate}}</label>
-            </div>
-            <app-combo-box #OD_INDUSTRY category="2" fieldID="OD_INDUSTRY" [formCode]="formCode" placeholder="Select"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('OD_INDUSTRY', $event)">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NTR_OF_BUSS.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_NTR_OF_BUSS' | translate}}</label>
-            </div>
-            <app-combo-box #OD_NTR_OF_BUSS category="2" fieldID="OD_NTR_OF_BUSS" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_NTR_OF_BUSS', $event)">
-            </app-combo-box>
-          </div>
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMPANY_CODE.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_COMPANY_CODE.mandatory}">
-                {{ 'OccupationDtlsForm.OD_COMPANY_CODE' | translate}}</label>
-            </div>
-
-            <app-combo-box #OD_COMPANY_CODE category="2" fieldID="OD_COMPANY_CODE" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MstCompanyDetails/{CompanyCd}" doServerUrl="/masters"
-              domainObjectCode="MstCompanyDetails" (blur)="genericOnBlur('OD_COMPANY_CODE', $event)"
-              (change)="OD_COMPANY_CODE_change('OD_COMPANY_CODE', $event)"></app-combo-box>
-
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMP_CAT.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_COMP_CAT.mandatory}">
-                {{ 'OccupationDtlsForm.OD_COMP_CAT' | translate}}</label>
-            </div>
-            <app-text-box #OD_COMP_CAT fieldID="OD_COMP_CAT" [formCode]="formCode"
-              (blur)="genericOnBlur('OD_COMP_CAT', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMP_NAME.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':OD_COMP_NAME.mandatory}">
-                {{ 'OccupationDtlsForm.OD_COMP_NAME' | translate}}</label>
-            </div>
-            <app-text-box #OD_COMP_NAME fieldID="OD_COMP_NAME" [formCode]="formCode"
-              (blur)="genericOnBlur('OD_COMP_NAME', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LENGTH_OF_EXST.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_LENGTH_OF_EXST' | translate}}</label>
-            </div>
-            <app-text-box #OD_LENGTH_OF_EXST fieldID="OD_LENGTH_OF_EXST" [formCode]="formCode" placeholder="(Optional)"
-              (blur)="genericOnBlur('OD_LENGTH_OF_EXST', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INC_DOC_TYPE.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_INC_DOC_TYPE.mandatory}">
-                {{ 'OccupationDtlsForm.OD_INC_DOC_TYPE' | translate}}</label>
-            </div>
-            <app-combo-box #OD_INC_DOC_TYPE category="2" fieldID="OD_INC_DOC_TYPE" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_CURRENCY.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_CURRENCY.mandatory}">
-                {{ 'OccupationDtlsForm.OD_CURRENCY' | translate}}</label>
-            </div>
-            <app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select"
-              domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
-              domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('OD_CURRENCY', $event)">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
-                {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
-            </div>
-            <app-amount #OD_NET_INCOME fieldID="OD_NET_INCOME" [formCode]="formCode"
-              (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-amount>
-          </div>
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_FREQ.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_INCOME_FREQ.mandatory}">
-                {{ 'OccupationDtlsForm.OD_INCOME_FREQ' | translate}}</label>
-            </div>
-            <app-combo-box #OD_INCOME_FREQ category="2" fieldID="OD_INCOME_FREQ" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_FREQ', $event)">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LOC_CURR_EQ.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_LOC_CURR_EQ.mandatory}">
-                {{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}</label>
-            </div>
-            <app-amount #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select"
-              (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-amount>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMP_STATUS.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_EMP_STATUS' | translate}}</label>
-            </div>
-            <app-combo-box #OD_EMP_STATUS category="2" fieldID="OD_EMP_STATUS" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_EMP_STATUS', $event)">
-            </app-combo-box>
-          </div>
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_TYPE.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_INCOME_TYPE.mandatory}">
-                {{ 'OccupationDtlsForm.OD_INCOME_TYPE' | translate}}</label>
-            </div>
-            <app-combo-box #OD_INCOME_TYPE category="2" fieldID="OD_INCOME_TYPE" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_TYPE', $event)">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_TYPE.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_WRK_PERMIT_NO' | translate}}</label>
-            </div>
-
-            <app-text-box #OD_WRK_PERMIT_NO fieldID="OD_WRK_PERMIT_NO" [formCode]="formCode" placeholder="(Optional)"
-              (blur)="genericOnBlur('OD_WRK_PERMIT_NO', $event)"></app-text-box>
-          </div>
-
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_RES_PRT_NO.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'OccupationDtlsForm.OD_RES_PRT_NO' | translate}}</label>
-            </div>
-            <app-text-box #OD_RES_PRT_NO fieldID="OD_RES_PRT_NO" [formCode]="formCode" placeholder="(Optional)"
-              (blur)="genericOnBlur('OD_RES_PRT_NO', $event)"></app-text-box>
-          </div>
-
-
-
-
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE_BTN.isHidden()">
-            <app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN"
-              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
-              (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
-          </div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_CLEAR_BTN.isHidden()">
-            <app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}"
-              fieldID="OD_CLEAR_BTN" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2"
-              customClass="icon-button" (buttonClick)="OD_CLEAR_BTN_click($event)">
-            </app-button>
-          </div>
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
-            <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode"
-              (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)" (occupationLoaded)="loadOccupationGrid($event)">
-            </app-OccuptionDtlsGrid>
-          </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-            <app-occupation-handler #Handler [MainComponent]="this"></app-occupation-handler>
-          </div>
+    <div class="ShowLoading " *ngIf="loadSpinner">
+        <div class="lds-roller MakeItMiddle">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-        <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
-        <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
-        <app-hidden #HidOccupation fieldID="HidOccupation"></app-hidden>
-        <app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
-        <app-hidden #HidIncomeDocType fieldID="HidIncomeDocType"></app-hidden>
-        <app-hidden #HidDesignation fieldID="HidDesignation"></app-hidden>
-        <app-hidden #HidIndustry fieldID="HidIndustry"></app-hidden>
-        <app-hidden #hidBorrowerSeq fieldID="hidBorrowerSeq"></app-hidden>
-        <app-hidden #HidSelfEmpType fieldID="HidSelfEmpType"></app-hidden>
-        <app-hidden #HidNatureOfBusiness fieldID="HidNatureOfBusiness"></app-hidden>
-        <app-hidden #HidEmpStatus fieldID="HidEmpStatus"></app-hidden>
-        <app-hidden #HidEmpType fieldID="HidEmpType"></app-hidden>
-        <app-hidden #HidIncomeFrequency fieldID="HidIncomeFrequency"></app-hidden>
-        <app-hidden #HidIncomeType fieldID="HidIncomeType"></app-hidden>
-        <app-hidden #HidCurrency fieldID="HidCurrency"></app-hidden>
-        <app-hidden #HidOccupationSeq fieldID="HidOccupationSeq"></app-hidden>
-      </div>
     </div>
-  </div>
+    <div class="clearfix content">
+        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+        <div *ngIf="!formOnLoadError">
+            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+                <div class="form-group pb10">
+              
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_OCCUPATION.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_OCCUPATION.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_OCCUPATION' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_OCCUPATION category="2" fieldID="OD_OCCUPATION" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_OCCUPATION', $event)"
+                            (change)="OD_OCCUPATION_change('OD_OCCUPATION', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLT_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_EMPLT_TYPE.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_EMPLT_TYPE' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_EMPLT_TYPE category="2" fieldID="OD_EMPLT_TYPE" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_EMPLT_TYPE', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_PROF.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_SELF_EMPLD_PROF' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_SELF_EMPLD_PROF fieldID="OD_SELF_EMPLD_PROF" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_SELF_EMPLD_PROF', $event)">
+                        </app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_SELF_EMPLD_TYPE.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_SELF_EMPLD_TYPE' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_SELF_EMPLD_TYPE category="2" fieldID="OD_SELF_EMPLD_TYPE"
+                            [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                            (blur)="genericOnBlur('OD_SELF_EMPLD_TYPE', $event)"></app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLOYEE_ID.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_EMPLOYEE_ID' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_EMPLOYEE_ID fieldID="OD_EMPLOYEE_ID" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_EMPLOYEE_ID', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DEPARTMENT.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_DEPARTMENT' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_DEPARTMENT fieldID="OD_DEPARTMENT" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_DEPARTMENT', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DESIGNATION.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_DESIGNATION' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_DESIGNATION fieldID="OD_DESIGNATION" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_DESIGNATION', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DATE_OF_JOINING.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_DATE_OF_JOINING' | translate}}</label>
+                        </div>
+                        <app-date #OD_DATE_OF_JOINING fieldID="OD_DATE_OF_JOINING" [formCode]="formCode"
+                            placeholder="Select" (blur)="genericOnBlur('OD_DATE_OF_JOINING', $event)"></app-date>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DT_OF_INCPTN.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_DT_OF_INCPTN' | translate}}</label>
+                        </div>
+                        <app-date #OD_DT_OF_INCPTN fieldID="OD_DT_OF_INCPTN" [formCode]="formCode" placeholder="Select"
+                            (blur)="genericOnBlur('OD_DT_OF_INCPTN', $event)"></app-date>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INDUSTRY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_INDUSTRY.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_INDUSTRY' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_INDUSTRY category="2" fieldID="OD_INDUSTRY" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INDUSTRY', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NTR_OF_BUSS.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_NTR_OF_BUSS' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_NTR_OF_BUSS category="2" fieldID="OD_NTR_OF_BUSS" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_NTR_OF_BUSS', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMPANY_CODE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_COMPANY_CODE.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_COMPANY_CODE' | translate}}</label>
+                        </div>
+
+                        <app-combo-box #OD_COMPANY_CODE category="2" fieldID="OD_COMPANY_CODE" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MstCompanyDetails/{CompanyCd}" doServerUrl="/masters"
+                            domainObjectCode="MstCompanyDetails" (blur)="genericOnBlur('OD_COMPANY_CODE', $event)"
+                            (change)="OD_COMPANY_CODE_change('OD_COMPANY_CODE', $event)"></app-combo-box>
+                        
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMP_CAT.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_COMP_CAT.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_COMP_CAT' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_COMP_CAT fieldID="OD_COMP_CAT" [formCode]="formCode"
+                            (blur)="genericOnBlur('OD_COMP_CAT', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_COMP_NAME.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':OD_COMP_NAME.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_COMP_NAME' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_COMP_NAME fieldID="OD_COMP_NAME" [formCode]="formCode"
+                            (blur)="genericOnBlur('OD_COMP_NAME', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LENGTH_OF_EXST.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_LENGTH_OF_EXST' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_LENGTH_OF_EXST fieldID="OD_LENGTH_OF_EXST" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_LENGTH_OF_EXST', $event)"></app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INC_DOC_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': OD_INC_DOC_TYPE.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_INC_DOC_TYPE' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_INC_DOC_TYPE category="2" fieldID="OD_INC_DOC_TYPE" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_CURRENCY.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': OD_CURRENCY.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_CURRENCY' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
+                            domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('OD_CURRENCY', $event)" >
+                        </app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
+                        </div>
+                        <app-amount #OD_NET_INCOME  fieldID="OD_NET_INCOME" [formCode]="formCode"
+                            (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-amount>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_FREQ.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': OD_INCOME_FREQ.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_INCOME_FREQ' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_INCOME_FREQ category="2" fieldID="OD_INCOME_FREQ" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_FREQ', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LOC_CURR_EQ.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': OD_LOC_CURR_EQ.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}</label>
+                        </div>
+                        <app-amount #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode"
+                            placeholder="Select" (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-amount>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMP_STATUS.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_EMP_STATUS' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_EMP_STATUS category="2" fieldID="OD_EMP_STATUS" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_EMP_STATUS', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': OD_INCOME_TYPE.mandatory}">
+                                {{ 'OccupationDtlsForm.OD_INCOME_TYPE' | translate}}</label>
+                        </div>
+                        <app-combo-box #OD_INCOME_TYPE category="2" fieldID="OD_INCOME_TYPE" [formCode]="formCode"
+                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_TYPE', $event)">
+                        </app-combo-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_TYPE.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_WRK_PERMIT_NO' | translate}}</label>
+                        </div>
+
+                        <app-text-box #OD_WRK_PERMIT_NO fieldID="OD_WRK_PERMIT_NO" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_WRK_PERMIT_NO', $event)"></app-text-box>
+                    </div>
+                  
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_RES_PRT_NO.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                            <label class="clr-brown">
+                                {{ 'OccupationDtlsForm.OD_RES_PRT_NO' | translate}}</label>
+                        </div>
+                        <app-text-box #OD_RES_PRT_NO fieldID="OD_RES_PRT_NO" [formCode]="formCode"
+                            placeholder="(Optional)" (blur)="genericOnBlur('OD_RES_PRT_NO', $event)"></app-text-box>
+                    </div>
+                   
+                    
+                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE_BTN.isHidden()">
+                        <app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}"
+                            fieldID="OD_SAVE_BTN" [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2"
+                            customClass="icon-button" (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
+                    </div>
+                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_CLEAR_BTN.isHidden()">
+                        <app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}"
+                            fieldID="OD_CLEAR_BTN" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg"
+                            [type]="2" customClass="icon-button" (buttonClick)="OD_CLEAR_BTN_click($event)">
+                        </app-button>
+                    </div>
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
+                        <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode"
+                            (occDtlsEdit)="OCC_DTLS_GRID_occDtlsEdit($event)"
+                            (occupationLoaded)="loadOccupationGrid($event)"></app-OccuptionDtlsGrid>
+                    </div>
+                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                        <app-occupation-handler #Handler [MainComponent]="this"></app-occupation-handler>
+                    </div>
+                </div>
+<app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
+<app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
+                <app-hidden #HidOccupation fieldID="HidOccupation"></app-hidden>
+                <app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
+                <app-hidden #HidIncomeDocType fieldID="HidIncomeDocType"></app-hidden>
+                <app-hidden #HidDesignation fieldID="HidDesignation"></app-hidden>
+                <app-hidden #HidIndustry fieldID="HidIndustry"></app-hidden>
+                <app-hidden #hidBorrowerSeq fieldID="hidBorrowerSeq"></app-hidden>
+                <app-hidden #HidSelfEmpType fieldID="HidSelfEmpType"></app-hidden>
+                <app-hidden #HidNatureOfBusiness fieldID="HidNatureOfBusiness"></app-hidden>
+                <app-hidden #HidEmpStatus fieldID="HidEmpStatus"></app-hidden>
+                <app-hidden #HidEmpType fieldID="HidEmpType"></app-hidden>
+                <app-hidden #HidIncomeFrequency fieldID="HidIncomeFrequency"></app-hidden>
+                <app-hidden #HidIncomeType fieldID="HidIncomeType"></app-hidden>
+                <app-hidden #HidCurrency fieldID="HidCurrency"></app-hidden>
+                <app-hidden #HidOccupationSeq fieldID="HidOccupationSeq"></app-hidden>
+            </div>
+        </div>
+    </div>
 </form>

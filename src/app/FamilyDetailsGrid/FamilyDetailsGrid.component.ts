@@ -43,7 +43,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     };
     columnDefs: any[] = [{
         field: "FD_RELATIONSHIP",
-        width: 44,
+        width: 25,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -58,7 +58,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     },
     {
         field: "FD_NAME",
-        width: 44,
+        width: 25,
         sortable: true,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
@@ -72,7 +72,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        width: 6,
+        width: 25,
         field: " ",
         sortable: false,
         filter: false,
@@ -89,7 +89,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        width: 6,
+        width: 25,
         field: " ",
         sortable: false,
         filter: false,
