@@ -1,91 +1,8 @@
-<!-- 
-<div class="form-group pb10 customer">
-    <div class="cd-grid col-12  col-sm-12 col-md-12">
-          <div class="cd-col col-sm-12 col-md-12">
-                <div class="cd-col-row fieldLegend">
-                      <div class="cust-type-head">
-                            <label class="cust-type-code ">B</label>
-                            &nbsp;
-                            <label class="customer-type-label">Borrower</label>
-                            <img class="sub" type="submit" src="assets\icons\add_plus.png" />
-                        </div>
-                      <div class="cd-col-row fieldLegend">
-                            <ul class="cust-name-container">
-                                  <li class="customer-names-active" *ngFor="let customer of customerTypeMap.get('B')">
-                                        {{customer.CD_CUSTOMER_NAME}}
-                                        <button class="customer-edit-active"  (click)="editCustomer($event, customer)">Editing</button>
-                                  </li>
-                            </ul>
-                      </div>
-                </div>
-    
-          </div>
-          <div class="cd-col  col-sm-12 col-md-12">
-                <div class="cd-col-row fieldLegend">
-                      <div class="cust-type-head">
-                            <label class="cust-type-code ">CB</label>
-                            &nbsp;
-                            <label class="customer-type-label">Co-Borrower</label>
-                            <img class="sub" type="submit" src="assets\icons\add_plus.png"/>
-                      </div>
-                      <div class="cd-col-row fieldLegend">
-                            <ul class="cust-name-container">
-                                  <li class="customer-names" *ngFor="let customer of customerTypeMap.get('CB')">
-                                        {{customer.CD_CUSTOMER_NAME}}
-                                        <button class="fas fa-edit" (click)="editCustomer($event, customer)"></button>
-                                  </li>
-                            </ul>
-                      </div>
-                </div>
-          </div>
-    
-          <div class="cd-col col-sm-12 col-md-12">
-                <div class="cd-col-row fieldLegend">
-                      <div class="cust-type-head">
-                            <label class="cust-type-code ">G</label>
-                            &nbsp;
-                            <label class="customer-type-label"> Guarantor </label>
-                            <img class="sub" type="submit" (click)="doReset('G')" src="assets\icons\add_plus.png"/>
-                      </div>
-                      <div class="cd-col-row fieldLegend">
-                            <ul class="cust-name-container">
-                                  <li class="customer-names" *ngFor="let customer of customerTypeMap.get('G')">
-                                        {{customer.CD_CUSTOMER_NAME}}
-                                        <button class="fas fa-edit" (click)="editCustomer($event, customer)"></button>
-                                  </li>
-                            </ul>
-                      </div>
-                </div>
-          </div>
-          <div class="cd-col col-sm-12 col-md-12" id="op-container">
-                <div class="cd-col-row fieldLegend">
-                      <div class="cust-type-head">
-                            <label class="cust-type-code ">OP</label>
-                            &nbsp;
-                            <label class="customer-type-label"> Other Party</label>
-                                  <img class="sub" type="submit" (click)="doReset('OP')" src="assets\icons\add_plus.png"/>
-                      </div>
-                      <div class="cd-col-row fieldLegend">
-                            <ul class="cust-name-container">
-                                  <li class="customer-names" *ngFor="let customer of customerTypeMap.get('OP')">
-                                        {{customer.CD_CUSTOMER_NAME}}
-                                        <button type="submit" class="fas fa-edit" (click)="editCustomer($event, customer)">
-                                  </button>
-                                  
-                                  </li>
-                            </ul>
-                      </div>
-                </div>
-          </div>
-    </div>
-  </div> -->
-
-<div class="customer-container col-12 col-sm-12 col-md-12">
+<!-- <div class="customer-container col-12 col-sm-12 col-md-12">
   <div class="cust-group col-12 col-sm-3 col-md-3">
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.BorrowerTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
-      <!-- <span class="cust-add"><img src="assets/icons/add_plus.png"/></span> -->
     </div>
     <div class="cust-list">
       <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
@@ -101,8 +18,8 @@
       <span class="cust-tag">{{ 'CustomerGridDTLS.CoBorrowerTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.CoBorrowerLabel' | translate }}</span>
       <span class="cust-add" (click)="doReset('CB')" [hidden]="!PlusFlag"><img src="assets/icons/add_plus.png" /></span>
-      <!-- <span class="cust-add"><img src="assets/icons/add_plus.png"/></span> -->
-    </div>
+       <span class="cust-add"><img src="assets/icons/add_plus.png"/></span> -->
+<!-- </div>
     <div class="cust-list">
       <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }"
         class="customer">
@@ -142,4 +59,114 @@
       </div>
     </div>
   </div>
+</div>  -->
+
+<div class="customer-container col-12 col-sm-12 col-md-12" *ngIf="parentFormCode=='DDE' && !isLoanCategory;else loanCategoryStyle">
+  <div class="cust-group col-12 col-sm-3 col-md-3">
+    <div class="cust-header">
+      <span class="cust-tag">{{ 'CustomerGridDTLS.BorrowerTag' | translate }}</span>
+      <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
+    </div>
+    <div class="cust-list">
+      <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
+        <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <div class="cust-edit" (click)="editCustomer($event, customer)">
+          <i class="fas fa-pen"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cust-group col-12 col-sm-3 col-md-3">
+    <div class="cust-header">
+      <span class="cust-tag">{{ 'CustomerGridDTLS.AddOnDetails' | translate }}</span>
+      <span class="cust-label">{{ 'CustomerGridDTLS.AddOnDetailsLable' | translate }}</span>
+      <span class="cust-add" (click)="doReset('A')">
+        <img src="assets/icons/add_plus.png" />
+      </span>
+    </div>
+    <div class="cust-list">
+      <div *ngFor="let customer of customerTypeMap.get('A')" [ngClass]="{'active' : customer.editing }" class="customer">
+        <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <div class="cust-edit" (click)="editCustomer($event, customer)">
+          <i class="fas fa-pen"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #loanCategoryStyle>
+  <div class="customer-container col-12 col-sm-12 col-md-12">
+    <div class="cust-group col-12 col-sm-3 col-md-3">
+      <div class="cust-header">
+        <span class="cust-tag">{{ 'CustomerGridDTLS.BorrowerTag' | translate }}</span>
+        <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
+      </div>
+      <div class="cust-list">
+        <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
+          <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cust-group col-12 col-sm-3 col-md-3">
+      <div class="cust-header">
+        <span class="cust-tag">{{ 'CustomerGridDTLS.CoBorrowerTag' | translate }}</span>
+        <span class="cust-label">{{ 'CustomerGridDTLS.CoBorrowerLabel' | translate }}</span>
+        <span class="cust-add" (click)="doReset('CB')" [hidden]="!PlusFlag">
+          <img src="assets/icons/add_plus.png" />
+        </span>
+      </div>
+      <div class="cust-list">
+        <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }" class="customer">
+          <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cust-group col-12 col-sm-3 col-md-3">
+      <div class="cust-header">
+        <span class="cust-tag">{{ 'CustomerGridDTLS.GuarantorTag' | translate }}</span>
+        <span class="cust-label">{{ 'CustomerGridDTLS.GuarantorLabel' | translate }}</span>
+        <span class="cust-add" (click)="doReset('G')" [hidden]="!isLoanCategory">
+          <img src="assets/icons/add_plus.png" />
+        </span>
+      </div>
+      <div class="cust-list">
+        <div *ngFor="let customer of customerTypeMap.get('G')" [ngClass]="{'active' : customer.editing }" class="customer">
+          <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cust-group col-12 col-sm-3 col-md-3">
+      <div class="cust-header">
+        <span class="cust-tag">{{ 'CustomerGridDTLS.OtherPartyTag' | translate }}</span>
+        <span class="cust-label">{{ 'CustomerGridDTLS.OtherPartyLabel' | translate }}</span>
+        <span class="cust-add" (click)="doReset('OP')" [hidden]="!isLoanCategory">
+          <img src="assets/icons/add_plus.png" />
+        </span>
+      </div>
+      <div class="cust-list">
+        <div *ngFor="let customer of customerTypeMap.get('OP')" [ngClass]="{'active' : customer.editing }" class="customer">
+          <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
+          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

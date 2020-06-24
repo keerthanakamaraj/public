@@ -94,7 +94,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //@ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
     @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
     @ViewChild('hideCitizenship', { static: false }) hideCitizenship: HiddenComponent;
-
     @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: RloUiMobileComponent;
 
     @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
@@ -102,22 +101,23 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // @Input() ProductCategory: String;
     @Input() customer = true;
     @Input() ApplicationId: string = undefined;
-    isLoanCategory: any
-    custGridArray: any;
+    @Input() isLoanCategory: any = undefined;
     @Input() Cust_FullName: string = undefined;
+    @Input() parentFormCode: string = undefined;
+    showAddOn: boolean = false;
+    CustomerDetailsArray: any;
     appId: any;
     fullName: any;
     staffcheck: boolean;
     addseq: any;
     customerDetailMap: any;
 
-
     // customerDetailMap: {};
     // ApplicationId: void;
     // let customerDetailMap any;
     custMinAge = 18;
     custMaxAge = 100;
-    FormCode : any; 
+    // FormCode : any; 
 
 
     async revalidate(): Promise<number> {
@@ -125,7 +125,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         super.beforeRevalidate();
 
         await Promise.all([
-            this.revalidateBasicField('CD_CUST_TYPE'),
+            // this.revalidateBasicField('CD_CUST_TYPE'),
             this.revalidateBasicField('CD_EXISTING_CUST'),
             this.revalidateBasicField('CD_STAFF'),
             this.revalidateBasicField('CD_CIF'),
@@ -192,10 +192,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.hidNationality.setValue('NATIONALITY');
         this.hidPrefCommCh.setValue('PREF_COMM_CH');
         this.hidTitle.setValue('TITLE');
-        this.hideCustomerType.setValue('CUSTOMER_TYPE');
         this.hidPrefLanguage.setValue('PREF_LANGUAGE');
         this.hideISDCode.setValue('ISD_COUNTRY_CODE');
+
         this.hideCitizenship.setValue('CITIZENSHIP');
+        if (this.isLoanCategory !== undefined) {
+            this.hideCustomerType.setValue((!this.isLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+        }
 
         this.CD_EXISTING_CUST.setDefault('N');
         this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
@@ -203,12 +206,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_STAFF.setDefault('N');
         this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
 
-        // if(this.ProductCategory!=undefined){
-        //     console.log("shweta event found 1 :::",this.ProductCategory);
-        //     this.CD_PMRY_EMBSR_NAME.mandatory=(this.ProductCategory=='CC')?true:false;
-        //     this.CD_LOAN_OWN.mandatory=(this.ProductCategory=='CC')?false:true;
-        // }
-        // this.setNonEditableFields(false);
         this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -454,9 +451,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // }
 
         if (noOfErrors === 0) {
-            for (let i = 0; i < this.custGridArray.length; i++) {
-                if (this.custGridArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()) {
-                    if (this.custGridArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && this.custGridArray[i].DOB == this.CD_DOB.getFieldValue()) {
+            for (let i = 0; i < this.CustomerDetailsArray.length; i++) {
+                if (this.CustomerDetailsArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()) {
+                    if (this.CustomerDetailsArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && this.CustomerDetailsArray[i].DOB == this.CD_DOB.getFieldValue()) {
                         this.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
                         return;
                     }
@@ -493,6 +490,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
+
                 inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
@@ -631,10 +629,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                             action: 'updateCustGrid',
                             data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
-                        // this.updateCustGrid.emit({
-                        //     'borrowerSeq': this.HidCustomerId.getFieldValue()
-                        // });
-                        // this.onReset();
 
                     },
                     async (httpError) => {
@@ -692,9 +686,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                         }
                         this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
                         this.CD_SAVE_BTN.setDisabled(false);
-                        // this.updateCustGrid.emit({
-                        //     'custSeq': this.ApplicationId
-                        // })
                     }
                 );
             }
@@ -707,7 +698,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async CD_CLEAR_BTN_click(event) {
         let array = this.fieldArrayFunction();
         const inputMap = new Map();
-        if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.FormCode !== 'DDE') {
+        if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
             this.clearQDEFields();
         } else {
             this.clearQDEFields();
@@ -784,7 +775,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
-                if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.FormCode !== 'DDE') {
+                if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
                     this.setNonEditableFields(true);
                 }
                 else {
@@ -813,7 +804,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     LoadCustomerDetailsonFormLoad(customerDtlsObj) {
-        if(this.FormCode == 'DDE'){
+        if (this.parentFormCode == 'DDE') {
             this.setNonEditableFields(false)
         }
         const customer = customerDtlsObj;
@@ -852,6 +843,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
         this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
+
         this.CD_STAFF.setValue(customer.IsStaff);
         this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
         this.CD_CIF.setValue(customer.CIF);
@@ -925,17 +917,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         });
     }
 
-    fieldDependencies = {
-        CD_CUST_TYPE: {
-            inDep: [
+    async CD_Add_CUST_TYPE_blur(event) {
+        // if (this.CD_Add_CUST_TYPE.getFieldValue() == 'A') {
+        //     this.CD_Add_CUST_TYPE.readOnly == true;
+        // }
+    }
 
-                { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+    loanCategoryChanged(newLoanCategory) {
+        this.isLoanCategory = newLoanCategory;
+        this.hideCustomerType.setValue((!newLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+    }
+
+    fieldDependencies = {
         CD_EXISTING_CUST: {
             inDep: [
 
@@ -1045,7 +1038,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             ],
             outDep: [
             ]
-        }
+        },
+        CD_CUST_TYPE: {
+            inDep: [
+
+                { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
     }
     /* Write Custom Scripts Here */
 

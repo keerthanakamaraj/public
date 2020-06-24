@@ -36,11 +36,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   @Input() ApplicationId: string = undefined;
   @Input() isLoanCategory: boolean = true;
+  @Input() parentFormCode: string;
 
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
   CustomerDetailsMap = new Map<string, any>();
-  FormCode : any ;
   PlusFlag: boolean = false;
 
   //activeCustomer:{}={};
@@ -69,8 +69,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+    // this.stageValidate();
     this.setDependencies();
-  
+
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -172,7 +173,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         //     "searchText": "R,F"
         //   }
         // });
-        
+
       }
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
       this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
@@ -181,11 +182,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           this.CustomerDetailsMap.clear();
           var customerDataArr = [];
           let BorrowerDetail = res['BorrowerDetails'];
-          var BorrowerDetails =  BorrowerDetail.filter(function(BorrowerDetail) {
-            return BorrowerDetail.CustomerType !== 'R' && BorrowerDetail.CustomerType !== 'F'  ;
+          var BorrowerDetails = BorrowerDetail.filter(function (BorrowerDetail) {
+            return BorrowerDetail.CustomerType !== 'R' && BorrowerDetail.CustomerType !== 'F';
           });
-          console.log("BorrowerDetails",BorrowerDetails);
-          console.log("BorrowerDetails",BorrowerDetails);
+          console.log("BorrowerDetails", BorrowerDetails);
+          console.log("BorrowerDetails", BorrowerDetails);
           if (BorrowerDetails) {
 
             this.updateStageValidation.emit({
@@ -329,9 +330,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     });
   }
 
-  EnabledPlusIcon(){
-    if(this.formCode == 'DDE'){
-       this.PlusFlag = true;
+  EnabledPlusIcon() {
+    if (this.parentFormCode == 'DDE') {
+      this.PlusFlag = true;
     }
   }
 }

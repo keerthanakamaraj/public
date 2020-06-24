@@ -556,7 +556,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     //  this.ProductCategory = event.isLoanCategory;
-    this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+   // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+    this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
   }
 
@@ -598,7 +599,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   updateStageValidation(event) {
 
     if (event.name == 'customerLoad') {
-      this.CUSTOMER_DETAILS.custGridArray = event.data;
+      this.CUSTOMER_DETAILS.CustomerDetailsArray = event.data;
     }
 
     this.categoriesCustomers(event);
