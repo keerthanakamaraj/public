@@ -76,6 +76,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   errorsList = [];
   customerGridArray: any;
   ActiveCustomerDtls: {} = undefined;
+  
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -148,6 +149,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     await this.brodcastApplicationId();
 
     // await this.CUSTOMER_DETAILS.onFormLoad(event);
+    this.FieldId_9.FormCode = this.componentCode;
+    this.CUSTOMER_DETAILS.FormCode = this.componentCode;
     this.FieldId_9.doAPIForCustomerList({});
     //this.FieldId_10.fetchReferalDetails();
     this.APPLICATION_DETAILS.fetchApplicationDetails();

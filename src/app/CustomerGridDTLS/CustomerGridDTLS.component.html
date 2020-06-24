@@ -100,6 +100,7 @@
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.CoBorrowerTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.CoBorrowerLabel' | translate }}</span>
+      <span class="cust-add" (click)="doReset('CB')" [hidden]="!PlusFlag"><img src="assets/icons/add_plus.png" /></span>
       <!-- <span class="cust-add"><img src="assets/icons/add_plus.png"/></span> -->
     </div>
     <div class="cust-list">

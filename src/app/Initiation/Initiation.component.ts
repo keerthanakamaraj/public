@@ -149,6 +149,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('CD_TAX_ID'),
       this.revalidateBasicField('CD_DEBIT_SCORE'),
       this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
+      this.revalidateBasicField('CD_EMAIL_ID'),
+      this.revalidateBasicField('CD_NAME_ON_CARD'),
 
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),

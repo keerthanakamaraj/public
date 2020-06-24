@@ -278,6 +278,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
 
         this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+        this.CUSTOMER_GRID.FormCode = this.componentCode;
+        // this.CUST_DTLS.FormCode =  this.componentCode;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
 
         await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
@@ -692,12 +694,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         // on tab switched or section switched or passArray Emitter called
         if (componentId == 'CustomDetails') {
+            componentInstance.FormCode = this.componentCode;
             if (this.ActiveCustomerDtls != undefined) {
                 //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
                 setTimeout(() => {
                     componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls)
                 }, 500);
-            } else if (this.CustomerType == 'G' || this.CustomerType == 'OP') {
+            } else if (this.CustomerType !== 'B' ) {
                 // method will be called for new customer form after section switch
                 //  console.log("shweta :: DDE section switch on new cust",this.CustomerType);
                 let data = { 'customerType': this.CustomerType };

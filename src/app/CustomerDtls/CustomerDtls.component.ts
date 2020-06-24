@@ -117,6 +117,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // let customerDetailMap any;
     custMinAge = 18;
     custMaxAge = 100;
+    FormCode : any; 
 
 
     async revalidate(): Promise<number> {
@@ -706,7 +707,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async CD_CLEAR_BTN_click(event) {
         let array = this.fieldArrayFunction();
         const inputMap = new Map();
-        if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP') {
+        if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.FormCode !== 'DDE') {
             this.clearQDEFields();
         } else {
             this.clearQDEFields();
@@ -783,7 +784,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
                 this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
-                if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP') {
+                if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.FormCode !== 'DDE') {
                     this.setNonEditableFields(true);
                 }
                 else {
@@ -812,14 +813,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     LoadCustomerDetailsonFormLoad(customerDtlsObj) {
+        if(this.FormCode == 'DDE'){
+            this.setNonEditableFields(false)
+        }
         const customer = customerDtlsObj;
         if (this.isLoanCategory === false) {
             this.CD_PMRY_EMBSR_NAME.mandatory = true;
         }
-
-
-        //  if (customer.CustomerType) {
-
         this.CD_TITLE.setValue(customer.Title);
         this.CD_FIRST_NAME.setValue(customer.FirstName);
         this.CD_MIDDLE_NAME.setValue(customer.MiddleName);
