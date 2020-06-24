@@ -161,25 +161,25 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       outDep: [
       ]
     },
-    AD_LAND_COUNTRY_CODE: {
-      inDep: [
+    // AD_LAND_COUNTRY_CODE: {
+    //   inDep: [
 
-        { paramKey: 'VALUE1', depFieldID: 'AD_LAND_COUNTRY_CODE', paramType: 'PathParam' },
-        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-        { paramKey: 'KEY1', depFieldID: 'hidLandISDCode', paramType: 'QueryParam' },
-      ],
-      outDep: [
-      ]
-    },
-    AD_COUNTRY_CODE: {
-      inDep: [
-        { paramKey: 'VALUE1', depFieldID: 'AD_COUNTRY_CODE', paramType: 'PathParam' },
-        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-        { paramKey: 'KEY1', depFieldID: 'hidCountryCode', paramType: 'QueryParam' },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: 'VALUE1', depFieldID: 'AD_LAND_COUNTRY_CODE', paramType: 'PathParam' },
+    //     { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+    //     { paramKey: 'KEY1', depFieldID: 'hidLandISDCode', paramType: 'QueryParam' },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+    // AD_COUNTRY_CODE: {
+    //   inDep: [
+    //     { paramKey: 'VALUE1', depFieldID: 'AD_COUNTRY_CODE', paramType: 'PathParam' },
+    //     { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+    //     { paramKey: 'KEY1', depFieldID: 'hidCountryCode', paramType: 'QueryParam' },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
   };
   /* Write Custom Scripts Here */
 

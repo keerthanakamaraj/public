@@ -654,33 +654,41 @@ li .a {
 }
 
  #VRF_Save{
-  margin-left: 60px;
+  margin-left: 273px;
 } 
+#LD_SAVE{
+  margin-left: 55px;
+}
+#AT_SAVE{
+  margin-left: 55px;
+}
 
 #VRF_Reset{
   border-color: dimgray;
+  margin-left: 218px;
 }
 #ND_SAVE{
-  margin-left: 70px ;
+  margin-left: 65px ;
 }
 #AD_CLEAR_BTN
 {
   border-color: gray;
+  margin-left: 144px;
 }
 #AD_SAVE_ADDRESS
 {
-  margin-left:60px;
+  margin-left: 212px;
 }
 #OD_SAVE_BTN{
-  margin-left: 60px;
+  margin-left: 224px;
 }
 #OD_CLEAR_BTN{
   border-color: dimgray;
-
+  margin-left: 168px;
 }
-#RD_RESET{
+/* #RD_RESET{
   margin-left: 5px;
-}
+} */
 /* #ND_CLEAR{
   margin-left: 5px;
 } */
@@ -702,6 +710,7 @@ li .a {
   content:" *";
   color: red;
 }
+
 
 .corrBox {
   box-sizing: border-box;
@@ -732,19 +741,22 @@ li .a {
 }
 #RD_RESET{
   border-color: dimgray;
+  margin-left: 235px;
 }
 #CCD_Save{
   margin-top: 35px;
-  margin-left: 35px;
+  margin-left: 191px;
 }
 #CCD_Clear{
   margin-top: 35px;
+  margin-left: 199px;
 }
+
 #Save{
   margin-left: 50px;
 }
 #RD_SAVE{
-  margin-left: 60px;
+  margin-left: 297px;
 }
 #MT_Proposal{
   margin-left: 250px;
@@ -752,6 +764,10 @@ li .a {
   /* height: 36px; */
   width: 165px !important
 }
+/* .new_proposal{
+  background-image: url("./../icons/add.png");
+  background-size: cover;
+} */
 .fa.fa-trash.fa-lg {
   box-sizing: border-box;
   height: 22.8px;
@@ -943,8 +959,11 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
   margin-left: -14px !important;
 }
 
+#CD_ADD{
+  margin-left: 204px;
+}
 #CD_RESET {
-  margin-left: -111px !important;
+  margin-left: 137px !important;
   border: 1px solid #4F4E4E;
 
 }
