@@ -28,7 +28,7 @@ const customCss = '';
   templateUrl: './AddressDetails.component.html'
 })
 export class AddressDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
-  
+
   activeBorrowerSeq: any;
   constructor(services: ServiceStock) {
     super(services);
@@ -183,7 +183,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   };
   /* Write Custom Scripts Here */
 
-  addBorrowerSeq;
   async revalidate(): Promise<number> {
     let totalErrors = 0;
     super.beforeRevalidate();
@@ -243,14 +242,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
     await this.Handler.onFormLoad({
     });
+
     if(this.activeBorrowerSeq !== undefined){
-      this.addBorrowerSeq =  this.activeBorrowerSeq;
       await this.AddressGrid.gridDataLoad({
         'passBorrowerSeqToGrid': this.activeBorrowerSeq
-        // 'addBorrowerSeq' : event.BorrowerSeq
       });
     }
-  
+
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -400,7 +398,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
     inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
     inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.BorrowerSeq', this.addBorrowerSeq);
+    inputMap.set('Body.AddressDetails.BorrowerSeq', this.activeBorrowerSeq);
     inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
     return inputMap;
   }
@@ -485,9 +483,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           } else {
             this.services.alert.showAlert(1, 'rlo.success.update.address', 5000);
           }
-          await this.AddressGrid.gridDataLoad({
-            'passBorrowerSeqToGrid': this.addBorrowerSeq,
-          });
+          // await this.AddressGrid.gridDataLoad({
+          //   'passBorrowerSeqToGrid': this.addBorrowerSeq,
+          // });
           this.onReset();
           this.AD_SAVE_ADDRESS.setDisabled(false);
         },
@@ -620,8 +618,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     );
   }
 
-  AddressGrid_addressGridLoaded(event) {
-    // console.log("Address grid Loaded");
-    this.updateStageValidation.emit(event);
-  }
+  // AddressGrid_addressGridLoaded(event) {
+  //   // console.log("Address grid Loaded");
+  //   this.updateStageValidation.emit(event);
+  // }
 }

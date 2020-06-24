@@ -1521,6 +1521,50 @@ a.back {
     font-family: "rlo-icons";
   }
 }
+
+.wgt-alert-modal {
+  .modal-header {
+    display: block;
+    padding: 18px;
+    font-size: 18px;
+    background: #F4F4F4;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    border-bottom: 1px solid #CDCDCD;
+    color: #000000;
+
+    span {
+      position: absolute;
+      right: 22px;
+      top: 24px;
+      cursor: pointer;
+      color: #8E8E8E;
+    }
+  }
+
+  .modal-body {
+    span {
+      position: absolute;
+      right: 16px;
+      top: 17px;
+      cursor: pointer;
+      color: #8E8E8E;
+    }
+
+    padding-left: 18px;
+  }
+
+  .modal-footer {
+    border: none;
+
+    .btn+.btn {
+      margin-left: 14px;
+    }
+  }
+}
+
+/////
+
 // #LD_FEES_CHARGE,#LD_COLL_UPFRONT_CHARGES,
 // #LD_DISBURMENT_MONEY,#LD_GEN_AMOR_SCH{
 //   box-sizing: border-box;

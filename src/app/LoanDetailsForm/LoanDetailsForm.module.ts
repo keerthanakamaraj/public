@@ -11,27 +11,27 @@ import { LoanHandlerModule } from '../LoanDetailsForm/loan-handler.module';
 import { LoanDetailsGridModule } from '../LoanDetailsGrid/LoanDetailsGrid.module';
 // import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 @NgModule({
-imports: [
-CommonModule,
-LoanDetailsFormRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-LoanHandlerModule,
-LoanDetailsGridModule
-],
-declarations: [
-LoanDetailsFormComponent,
-],
-exports:[
-LoanDetailsFormComponent,
-],
+    imports: [
+        CommonModule,
+        LoanDetailsFormRoutingModule,
+        RAFormModule,
+        FormsModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        LoanHandlerModule,
+        LoanDetailsGridModule
+    ],
+    declarations: [
+        LoanDetailsFormComponent,
+    ],
+    exports: [
+        LoanDetailsFormComponent,
+    ],
 })
 export class LoanDetailsFormModule { }

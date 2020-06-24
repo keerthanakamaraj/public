@@ -141,14 +141,19 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
     await this.Handler.onFormLoad({
     });
+
     if(this.activeBorrowerSeq !== undefined){
-      this.occBorrowerSeq =  this.activeBorrowerSeq;
+      //this.occBorrowerSeq =  this.activeBorrowerSeq;
       await this.OCC_DTLS_GRID.gridDataLoad({
         'refNumToGrid': this.activeBorrowerSeq
-  
       });
     }
-  
+
+    // if (this.occBorrowerSeq !== undefined) {
+    //   await this.OCC_DTLS_GRID.gridDataLoad({
+    //     'refNumToGrid': this.occBorrowerSeq
+    //   });
+    // }
 
     this.setDependencies();
   }
@@ -227,7 +232,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     return true;
   }
 
- 
+
 
   async OD_DATE_OF_JOINING_blur(event) {
     let inputMap = new Map();
@@ -235,7 +240,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.OD_DATE_OF_JOINING.setError('Please select correct date of joining');
       return 1;
       // this.services.alert.showAlert(2, 'rlo.error.joiningdate.occupation', -1);
-    
+
     }
   }
 
@@ -291,25 +296,25 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   async OD_SAVE_BTN_click(event) {
     let inputMap = new Map();
-    let occupationGridData  : any = this.OCC_DTLS_GRID.getOccupationGridData();
-    console.log("shweta :: occupation grid :: ",occupationGridData);
+    let occupationGridData: any = this.OCC_DTLS_GRID.getOccupationGridData();
+    console.log("shweta :: occupation grid :: ", occupationGridData);
     var nooferror: number = await this.revalidate();
     if (nooferror == 0) {
       //if(this.OD_COMP_NAME.getFieldValue() !== undefined){
-        if(occupationGridData){
-          for(let i = 0 ; i < occupationGridData.length; i++){
-           if(occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()){
-            if(this.OD_COMP_NAME.getFieldValue()!==undefined && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()){
+      if (occupationGridData) {
+        for (let i = 0; i < occupationGridData.length; i++) {
+          if (occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()) {
+            if (this.OD_COMP_NAME.getFieldValue() !== undefined && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()) {
 
               this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);
               return;
-            }else if(this.OD_INCOME_TYPE.getFieldValue()==='PRI' && occupationGridData[i].OD_INCOME_TYPE==='PRI'){
+            } else if (this.OD_INCOME_TYPE.getFieldValue() === 'PRI' && occupationGridData[i].OD_INCOME_TYPE === 'PRI') {
               this.services.alert.showAlert(2, 'rlo.error.occupation.primaryIncome.exist', -1);
               return;
             }
           }
-          }
         }
+      }
 
       //}
 
@@ -339,7 +344,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
         inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
         inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
-        inputMap.set('Body.OccupationDetails.BorrowerSeq', this.occBorrowerSeq);
+        inputMap.set('Body.OccupationDetails.BorrowerSeq', this.activeBorrowerSeq);
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
         this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
@@ -347,12 +352,12 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             this.services.alert.showAlert(1, 'rlo.success.update.occupation', 5000);
 
             // this.occpOnBlur.emit({}); -- Sprint 3 Present, Dev missing
-            
+
             // this.OD_SAVE_BTN.setDisabled(false);
 
-            await this.OCC_DTLS_GRID.gridDataLoad({
-              'refNumToGrid': this.occBorrowerSeq,
-            });
+            // await this.OCC_DTLS_GRID.gridDataLoad({
+            //   'refNumToGrid': this.occBorrowerSeq,
+            // });
             this.onReset();
 
           },
@@ -461,7 +466,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
         inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
         inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
-        inputMap.set('Body.OccupationDetails.BorrowerSeq', this.occBorrowerSeq);
+        inputMap.set('Body.OccupationDetails.BorrowerSeq', this.activeBorrowerSeq);
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
         this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
@@ -470,9 +475,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
             // this.OD_SAVE_BTN.setDisabled(false);
             this.OD_OCCUPATION_change('OD_OCCUPATION', event);
-            await this.OCC_DTLS_GRID.gridDataLoad({
-              'refNumToGrid': this.occBorrowerSeq,
-            });
+            // await this.OCC_DTLS_GRID.gridDataLoad({
+            //   'refNumToGrid': this.occBorrowerSeq,
+            // });
             this.onReset();
 
             this.occpOnBlur.emit({});
@@ -626,9 +631,10 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     });
   }
 
-  async loadOccupationGrid(event) {
-    this.updateStageValidation.emit(event);
-  }
+  // async loadOccupationGrid(event) {
+  //   this.updateStageValidation.emit(event);
+  // }
+
   fieldDependencies = {
     OD_OCCUPATION: {
       inDep: [
@@ -758,6 +764,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   /* Write Custom Scripts Here */
 
 
-  occBorrowerSeq;
+  //occBorrowerSeq;
 
 }

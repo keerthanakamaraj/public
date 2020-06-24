@@ -22,7 +22,7 @@ const customCss: string = '';
 })
 export class LiabilityDtlsGridComponent implements AfterViewInit {
   loopDataVar4 = [];
-  liabilityRecord : boolean = false;
+  liabilityRecord: boolean = false;
   constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
   @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
@@ -165,19 +165,19 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     let inputMap = new Map();
     inputMap.clear();
 
-    let LiabilityId:any = event.passBorrowerToLiability;
-    let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
-    if(LiabilityId){
-    criteriaJson.FilterCriteria.push({
+    let LiabilityId: any = event.passBorrowerToLiability;
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (LiabilityId) {
+      criteriaJson.FilterCriteria.push({
         "columnName": "BorrowerSeq",
         "columnType": "String",
         "conditions": {
-            "searchType": "equals",
-            "searchText": LiabilityId
+          "searchType": "equals",
+          "searchText": LiabilityId
         }
-    });
-    inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
-    
+      });
+      inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+
     }
 
     if (gridReqMap.get("FilterCriteria")) {
@@ -206,14 +206,14 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     this.services.http.fetchApi('/LiabilityDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-         this.loopDataVar4 = [];
-        if(res !== null){
+        this.loopDataVar4 = [];
+        if (res !== null) {
           this.liabilityRecord = true
           var loopVar4 = res['LiabilityDetails'];
-      }
-      else{
+        }
+        else {
           this.liabilityRecord = false
-      }
+        }
         // var loopVar4 = res['LiabilityDetails'];
         if (loopVar4) {
           for (var i = 0; i < loopVar4.length; i++) {
@@ -250,24 +250,25 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.LiabilitySeq', event.LIABILITY_ID);
-    if (confirm("Are you sure you want to delete?")) {      
-    this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'rlo.success.delete.liability', 5000);
-        this.readonlyGrid.refreshGrid();
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+    if (confirm("Are you sure you want to delete?")) {
+      this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          this.services.alert.showAlert(1, 'rlo.success.delete.liability', 5000);
+
+          this.readonlyGrid.refreshGrid();
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
         }
-        this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-      }
-    );
-  }
+      );
+    }
   }
 
-  getLiabilityDetails(){
+  getLiabilityDetails() {
     return this.loopDataVar4;
   }
 

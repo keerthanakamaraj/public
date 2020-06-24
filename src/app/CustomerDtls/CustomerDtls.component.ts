@@ -258,7 +258,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.unsubscribe$.complete();
         const styleElement = document.getElementById('CustomerDtls_customCss');
         styleElement.parentNode.removeChild(styleElement);
-        // this.services.rloCommonData.childToParentSubject.unsubscribe();
         //  this.updateCustGridEmitter.unsubscribe();
     }
     ngAfterViewInit() {
@@ -513,6 +512,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                             action: 'updateCustGrid',
                             data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
+
+                        
                         // this.onReset();
                     },
                     async (httpError) => {
@@ -861,9 +862,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
         });
-        this.passfullName.emit({
-            'FullName': customer.FullName,
-        });
+        // this.passfullName.emit({
+        //     'FullName': customer.FullName,
+        // });
     }
     // async loadCustDtlsGrid(event) {
     //     let inputMap = new Map();

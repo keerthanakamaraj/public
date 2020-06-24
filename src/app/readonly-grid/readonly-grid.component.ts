@@ -264,6 +264,7 @@ export class ReadonlyGridComponent {
           gridReqMap.set("OrderCriteria", OrderCriteria);
         }
         this.showGridLoading();
+        console.log("deep ===","1")
         this.ngZone.run(() => { this.gridDataAPI(params, gridReqMap, this.formInputs); });
       }
     }

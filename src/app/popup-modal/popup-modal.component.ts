@@ -17,7 +17,7 @@ export class PopupModalComponent implements OnInit {
 
   name: string;
   closeReq: boolean = true;
-
+  
   //  @ViewChild("popupRouterOutlet", { read: ViewContainerRef }) private popupRouterOutlet: ViewContainerRef;
 
   constructor(public activeModal: NgbActiveModal, private services: ServiceStock) {
@@ -26,31 +26,24 @@ export class PopupModalComponent implements OnInit {
     // this.name = this.routing.currOutlet;
     this.createNewOutlet();
     this.name = this.services.routing.currOutlet;
- 
+    //this.modalType = this.services.rloui.modalType;
     // let outletJson = {};
     // outletJson[this.routing.currOutlet] = ['BLANK', 'popup'];
     // this.router.navigate([{ outlets: outletJson }], { skipLocationChange: true });
   }
 
+  ngOnInit() {}
 
-  ngOnInit() {
-    
+  async openmsg(map) {
+    this.message = map;
   }
-  
-async openmsg(map){
-  this.message = map;
-}
-
 
   async rotueToComponent(map: Map<string, string>) {
-
-  
-
     if (map) {
       let URL = map.get('component');
       map.delete("component");
       // this.dataStore.setData(this.routing.currModal, map);
-    this.services.dataStore.setRouteParams(this.services.routing.currModal, map);
+      this.services.dataStore.setRouteParams(this.services.routing.currModal, map);
       let mode = undefined;
       //this.router.navigate([{ outlets: { 'test': [URL] } }], { skipLocationChange: true });
       if (URL) {
@@ -67,11 +60,11 @@ async openmsg(map){
     }
   }
 
-  createNewOutlet(){
+  createNewOutlet() {
     let newOutlet = this.services.routing.setnewOutlet();
   }
 
-  async closeModal(): Promise<any>{
+  async closeModal(): Promise<any> {
     // await this.destroyOutlet();
     await this.services.routing.removeOutlet();
     this.activeModal.close();

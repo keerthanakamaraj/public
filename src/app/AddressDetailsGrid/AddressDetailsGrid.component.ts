@@ -26,7 +26,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	@ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 	@Output() emitAddressDetails: EventEmitter<any> = new EventEmitter<any>();
 	//@Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
-	@Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
+	//@Output() addressLoaded: EventEmitter<any> = new EventEmitter<any>();
 	@Input('formCode') formCode: string;
 	@Input('displayTitle') displayTitle: boolean = true;
 	@Input('displayToolbar') displayToolbar: boolean = true;
@@ -205,6 +205,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 		return this.hidden;
 	}
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+		console.log("deep ===", "2", params, gridReqMap, event)
 		this.recordShow()
 		let inputMap = new Map();
 		inputMap.clear();
@@ -270,12 +271,12 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
 				if (address) {
 
-					this.addressLoaded.emit({
-						"name": "addressLoad",
-						"data": address,
-						"BorrowerSeq": borrowerSeq
-					});
-
+					// this.addressLoaded.emit({
+					// 	"name": "addressLoad",
+					// 	"data": address,
+					// 	"BorrowerSeq": borrowerSeq
+					// });
+				
 					for (var i = 0; i < address.length; i++) {
 
 						var tempObj = {};
@@ -312,15 +313,26 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
 						this.addressDetails.push(tempObj);
 						// console.log("address",this.addressDetails);
+
+						// if (!i)
+						// 	this.services.rloCommonData.updateValuesFundLineGraph("add");
 					}
 				} else {
 					address = [];
-					this.addressLoaded.emit({
-						"name": "addressLoad",
-						"data": address,
-						"BorrowerSeq": borrowerSeq
-					});
+					// this.addressLoaded.emit({
+					// 	"name": "addressLoad",
+					// 	"data": address,
+					// 	"BorrowerSeq": borrowerSeq
+					// });
 				}
+
+				let obj = {
+					"name": "AddressDetails",
+					"data": this.addressDetails,
+					"BorrowerSeq": borrowerSeq
+				}
+				this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
 
 				this.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
 				this.recordHide();
@@ -354,6 +366,10 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 				async (httpResponse: HttpResponse<any>) => {
 					var res = httpResponse.body;
 					this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
+
+					// if (this.addressDetails.length == 1)
+					// 	this.services.rloCommonData.updateValuesFundLineGraph("remove");
+
 					this.readonlyGrid.refreshGrid();
 				},
 				async (httpError) => {
