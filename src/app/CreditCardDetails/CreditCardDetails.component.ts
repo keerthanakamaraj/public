@@ -299,7 +299,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             }
         }
         else {
-            this.services.alert.showAlert(2, 'Please fill mandatory details', -1);
+            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
     }
 

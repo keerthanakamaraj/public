@@ -148,13 +148,13 @@
           </div>
           <div class="col-12 col-sm-3 col-md-3"></div> 
           <div class="col-12 col-sm-3 col-md-3"></div> 
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="Save.isHidden()">
-            <app-button #Save fieldName="{{ 'FamilyDetailsForm.Save' | translate}}" fieldID="Save" [formCode]="formCode"
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="FD_Save.isHidden()">
+            <app-button #FD_Save fieldName="{{ 'FamilyDetailsForm.FD_Save' | translate}}" fieldID="FD_Save" [formCode]="formCode"
               imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button" 
               (buttonClick)="Save_click($event)"></app-button>
           </div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
-            <app-button #clear fieldName="{{ 'FamilyDetailsForm.clear' | translate}}" fieldID="clear"
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="FD_clear.isHidden()">
+            <app-button #FD_clear fieldName="{{ 'FamilyDetailsForm.FD_clear' | translate}}" fieldID="FD_clear"
               [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
               (buttonClick)="clear_click($event)"></app-button>
           </div>

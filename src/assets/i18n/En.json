@@ -1748,8 +1748,8 @@
     "FD_MIDDLE_NAME": "Middle Name",
     "FD_TAX_ID": "Tax ID",
     "FD_ISD_Code": "Country Code",
-    "Save": "Save",
-    "clear": "clear",
+    "FD_Save": "Save",
+    "FD_clear": "clear",
     "FD_NATIONAL_ID": "National ID",
     "FD_LAST_NAME": "Last Name"
   },

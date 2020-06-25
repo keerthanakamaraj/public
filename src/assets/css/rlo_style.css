@@ -654,33 +654,35 @@ li .a {
 }
 
  #VRF_Save{
-  margin-left: 60px;
+  margin-left: 273px;
 } 
 
 #VRF_Reset{
   border-color: dimgray;
+  margin-left: 218px;
 }
 #ND_SAVE{
-  margin-left: 70px ;
+  margin-left: 65px;
 }
 #AD_CLEAR_BTN
 {
   border-color: gray;
+  margin-left: 144px;
 }
 #AD_SAVE_ADDRESS
 {
-  margin-left:60px;
+  margin-left: 202px;
 }
 #OD_SAVE_BTN{
-  margin-left: 60px;
+  margin-left: 224px;
 }
 #OD_CLEAR_BTN{
   border-color: dimgray;
-
+  margin-left: 168px;
 }
-#RD_RESET{
+/* #RD_RESET{
   margin-left: 5px;
-}
+} */
 /* #ND_CLEAR{
   margin-left: 5px;
 } */
@@ -727,24 +729,39 @@ li .a {
 .icon {
   color: white;
 }
-#clear{
+#FD_clear{
   border-color: dimgray;
+  margin-left: 115px;
+}
+#FD_Save{
+  margin-left: 167px;
 }
 #RD_RESET{
   border-color: dimgray;
+  margin-left: 242px;
 }
 #CCD_Save{
   margin-top: 35px;
-  margin-left: 35px;
+  margin-left: 191px;
 }
 #CCD_Clear{
   margin-top: 35px;
+  margin-left: 199px;
 }
 #Save{
-  margin-left: 50px;
+  margin-left: 171px;
+}
+#CD_ADD{
+  margin-left: 204px;
 }
 #RD_SAVE{
-  margin-left: 60px;
+  margin-left: 297px;
+}
+#LD_SAVE{
+  margin-left: 55px;
+}
+#AT_SAVE{
+  margin-left: 55px;
 }
 #MT_Proposal{
   margin-left: 250px;
@@ -944,7 +961,7 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 }
 
 #CD_RESET {
-  margin-left: -111px !important;
+  margin-left: 137px !important;
   border: 1px solid #4F4E4E;
 
 }
