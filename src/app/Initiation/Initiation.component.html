@@ -120,7 +120,7 @@
 
                     </div>
                   </div>
-                  <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 4px 15px 10px 15px;">
+                  <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 4px 23px 10px 18px;">
                     <div #FieldId_73 id="FieldId_73">
                       <div class="form-group pb10 PROMOTION_GROUP">
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
@@ -609,8 +609,17 @@
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)">
                     </app-combo-box>
                   </div>
-                  <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
-                    style="padding: 5px 10x 5px 10px;"></div>
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EMI_AMT.isHidden()">
+                      <div class="clr-brown fieldLegend">
+                        <label class="clr-brown" [ngClass]="{'mandatory': LD_EMI_AMT.mandatory}">
+                          {{ 'Initiation.LD_EMI_AMT' | translate}}
+                        </label>
+                      </div>
+                      <app-amount #LD_EMI_AMT fieldID="LD_EMI_AMT" [formCode]="formCode"
+                        (blur)="genericOnBlur('LD_EMI_AMT', $event)"></app-amount>
+                    </div>
+                  <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
+                    style="padding: 5px 10x 5px 10px;"></div> -->
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_APP_PRPSE.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_APP_PRPSE.mandatory}">
@@ -695,15 +704,7 @@
                     <app-text-box #LD_LTV_DBR fieldID="LD_LTV_DBR" [formCode]="formCode"
                       (blur)="genericOnBlur('LD_LTV_DBR', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EMI_AMT.isHidden()">
-                    <div class="clr-brown fieldLegend">
-                      <label class="clr-brown" [ngClass]="{'mandatory': LD_EMI_AMT.mandatory}">
-                        {{ 'Initiation.LD_EMI_AMT' | translate}}
-                      </label>
-                    </div>
-                    <app-amount #LD_EMI_AMT fieldID="LD_EMI_AMT" [formCode]="formCode"
-                      (blur)="genericOnBlur('LD_EMI_AMT', $event)"></app-amount>
-                  </div>
+                 
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                 </div>
               </div>
