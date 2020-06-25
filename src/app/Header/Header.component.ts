@@ -156,23 +156,23 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.ARN = header.ApplicationRefernceNo;
         this.LOAN_AMT = this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
         this.LOAN_CATEGORY = header.TypeOfLoan;
-    
+
         this.INTEREST_RATE = header.InterestRate + "% pa";
-       
-      
+
+
 
         this.TENURE = '';
-        if(header.Tenure) {
+        if (header.Tenure) {
           this.TENURE = header.Tenure + ' ';
         }
-        if(header.TenurePeriod){
+        if (header.TenurePeriod) {
           this.TENURE = this.TENURE + header.TenurePeriod;
         }
         this.TENURE = this.TENURE.trim();
 
         this.SUB_PRODUCT = header.SubProduct;
         this.SCHEME = header.Scheme;
-               
+
         let isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
 
         this.productCategoryFound.emit({
@@ -184,12 +184,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.HD_PROD.setValue(header.Product);
         this.HD_SUB_PROD.setValue(this.SUB_PRODUCT);
         this.HD_SCHEME.setValue(this.SCHEME);
-        if(this.HD_PROMOTION.getFieldValue() == undefined && this.HD_PROMOTION.getFieldValue() == null ){
+        if (this.HD_PROMOTION.getFieldValue() == undefined && this.HD_PROMOTION.getFieldValue() == null) {
           this.HD_PROMOTION.setValue("NA");
-          }
-          else{
-            this.HD_PROMOTION.setValue(header.Promotion);
-          }
+        }
+        else {
+          this.HD_PROMOTION.setValue(header.Promotion);
+        }
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
         this.LD_INTEREST_RATE.setValue(this.INTEREST_RATE);
         this.LD_TENURE.setValue(header.Tenure);
@@ -308,7 +308,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   headerState(state: boolean) {
     this.headerExpandedView = state;
     this.headerCurrentState = state;
-    this.services.rloCommonData.headerState.next(state);
+    this.headerStateEvent.emit({
+      'headerState': state
+    });
     window.scrollBy(0, 5);
     window.scrollTo(0, this.scrollPosition);
   }

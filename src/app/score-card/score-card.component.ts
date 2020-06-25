@@ -42,15 +42,10 @@ export class ScoreCardComponent implements OnInit {
 
   constructor(public services: ServiceStock) { }
 
-  ngOnInit() {
-    this.services.rloCommonData.headerState.subscribe((data) => {
-      this.showExpandedHeader = data;
-      this.showExpanded = data;
-    })
-  }
+  ngOnInit() {}
 
-  ngOnDestroy() {
-    this.services.rloCommonData.headerState.unsubscribe();
+  headerChanges(data){
+    this.showExpandedHeader = data;
+    this.showExpanded = data;
   }
-
 }

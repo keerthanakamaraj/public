@@ -14,15 +14,19 @@
         <div class="form-group pb10 row">
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
             <app-Header #HEADER fieldID="HEADER" [formCode]="formCode"
-              (productCategoryFound)="brodcastProdCategory($event)"></app-Header>
+              (productCategoryFound)="brodcastProdCategory($event)"
+              (headerStateEvent)="headerState($event)"></app-Header>
           </div>
 
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div" [ngStyle]="{'margin-top' : showExpandedHeader ? '12px': '4.5rem'}">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div"
+            [ngClass]="showExpandedHeader ? '' : 'header-expanded-qde'">
             <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">
-              <a href="#customer-panel" class="btn btn-default active" data-toggle="tab">
+              <a href="#customer-panel" class="btn btn-default active" data-toggle="tab"
+                (click)="tabSwitched('customer')">
                 <input type="radio" />CUSTOMER
               </a>
-              <a href="#application-panel" class="btn btn-default" data-toggle="tab">
+              <a href="#application-panel" class="btn btn-default" data-toggle="tab"
+                (click)="tabSwitched('application')">
                 <input type="radio" />APPLICATION
               </a>
             </div>
@@ -34,8 +38,7 @@
                 <app-CustomerGridDTLS #FieldId_9 fieldID="FieldId_9" [formCode]="formCode"
                   (resetCustForm)="FieldId_9_resetCustForm($event)"
                   (updateCustGrid)="CUSTOMER_DETAILS_updateCustGrid($event)"
-                  (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)"
-                  (updateStageValidation)="updateStageValidation($event)">
+                  (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)">
                 </app-CustomerGridDTLS>
               </div>
               <rlo-ui-accordion #QDE_ACCORD1 class="col-12 col-sm-12 col-md-12 res-pr-hide">
@@ -52,8 +55,7 @@
                   title="{{ 'AddressDetails.AD_HEADING' | translate}}">
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_6.isHidden()">
                     <app-AddressDetails #FieldId_6 fieldID="FieldId_6" (addonblur)="FieldId_6_addonblur($event)"
-                      [formCode]="formCode" 
-                      (updateStageValidation)="updateStageValidation($event)" >
+                      [formCode]="formCode">
                     </app-AddressDetails>
                   </div>
                 </rlo-ui-accordion-group>
@@ -62,8 +64,7 @@
 
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide occp_st" [hidden]="FieldId_5.isHidden()">
                     <app-OccupationDtlsForm #FieldId_5 fieldID="FieldId_5" (occpOnBlur)="FieldId_5_occpOnBlur($event)"
-                      [formCode]="formCode"
-                      (updateStageValidation)="updateStageValidation($event)" >
+                      [formCode]="formCode">
                     </app-OccupationDtlsForm>
                   </div>
                 </rlo-ui-accordion-group>
@@ -82,8 +83,8 @@
                 <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS"
                   title="{{ 'ReferralDetailsForm.RD_HEADING' | translate}}">
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide refDtls " [hidden]="FieldId_10.isHidden()">
-                    <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10" (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)"
-                     [formCode]="formCode">
+                    <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10"
+                      (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)" [formCode]="formCode">
                     </app-ReferralDetailsForm>
                   </div>
                 </rlo-ui-accordion-group>
@@ -110,7 +111,7 @@
                     [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="QDE_WITHDRAW_click($event)">
                   </app-button>
                   <app-button #QDE_CANCEL fieldName="{{ 'QDE.QDE_CANCEL' | translate}}" fieldID="QDE_CANCEL"
-                  [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
+                    [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4"></div>
               </div>

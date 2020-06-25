@@ -509,9 +509,9 @@ export class MyTrayGridComponent implements AfterViewInit {
       inputMap.set('instanceId', selectedData2['hiddenInstanceId']);
       inputMap.set('userId', selectedData2['MT_PENDING_WITH']);
     } else {
-      console.warn("Selected data not found");
-      this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
-      return;
+      // console.warn("Selected data not found");
+      // this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
+      // return;
     }
     this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
     if (this.services.routing.currModal > 0) {

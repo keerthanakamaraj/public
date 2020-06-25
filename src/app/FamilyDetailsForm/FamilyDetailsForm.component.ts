@@ -283,9 +283,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.family', 5000);
-                        await this.FAMILY_GRID.gridDataLoad({
-                            'passFamilyGrid': this.activeBorrowerSeq,
-                        });
+                        // await this.FAMILY_GRID.gridDataLoad({
+                        //     'passFamilyGrid': this.activeBorrowerSeq,
+                        // });
 
                         this.onReset();
                     },
@@ -355,11 +355,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.family', 5000);
-                        await this.FAMILY_GRID.gridDataLoad({
-                            'passFamilyGrid': this.activeBorrowerSeq,
-                        });
-
-                        this.services.rloCommonData.updateDdeMenu.next("add");
+                        // await this.FAMILY_GRID.gridDataLoad({
+                        //     'passFamilyGrid': this.activeBorrowerSeq,
+                        // });
 
                         this.onReset();
                     },

@@ -8,25 +8,25 @@ import { ReadonlyGridModule } from '../readonly-grid/readonly-grid.module';
 import { GridPaginationModule } from '../grid-pagination/grid-pagination.module';
 import { LoanDetailsGridComponent } from './LoanDetailsGrid.component';
 @NgModule({
-imports: [
-CommonModule,
-ReadonlyGridModule,
-GridPaginationModule,
-RAFormModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-LoanDetailsGridComponent,
-],
-exports:[
-LoanDetailsGridComponent,
-],
+    imports: [
+        CommonModule,
+        ReadonlyGridModule,
+        GridPaginationModule,
+        RAFormModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+    ],
+    declarations: [
+        LoanDetailsGridComponent,
+    ],
+    exports: [
+        LoanDetailsGridComponent,
+    ],
 })
 export class LoanDetailsGridModule { }

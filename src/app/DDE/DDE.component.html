@@ -28,12 +28,14 @@
             <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
                 <div class="form-group pb10">
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
-                        <div (click)="updateProgressBar()">test</div>
                         <app-header-progress #headerProgressBar></app-header-progress>
-                        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" [showProgressBar]="'true'" (productCategoryFound)="brodcastProdCategory($event)"></app-Header>
-                        <app-score-card></app-score-card>
+                        <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" [showProgressBar]="'true'"
+                            (productCategoryFound)="brodcastProdCategory($event)"
+                            (headerStateEvent)="headerState($event)"></app-Header>
+                        <app-score-card #scorecard></app-score-card>
                     </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div"
+                        [ngClass]="showExpandedHeader ? '' : 'header-expanded-dde'">
                         <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
                             <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
                                 <input type="radio" />CUSTOMER
@@ -44,8 +46,10 @@
                         </div>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
-                        <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode" [hidden]="!isCustomerTab" (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
-                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)" (updateStageValidation)="initGetAllCustomerDetails($event)"
+                        <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
+                            [hidden]="!formMenuObject.isCustomerTabSelected"
+                            (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
+                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
                             (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
                         </app-CustomerGridDTLS>
                     </div>
@@ -221,7 +225,8 @@
         <!-- FORM MENU TABS [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': 'inactive-table'"-->
         <div class="row">
             <div class="col-sm-1 col-md-1 col-lg-1 wgt-form-menu">
-                <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true" (mouseout)="mouseOvered=false">
+                <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
+                    (mouseout)="mouseOvered=false">
                     <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
                         <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)" *ngFor="let menu of section;let i= index" [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
 

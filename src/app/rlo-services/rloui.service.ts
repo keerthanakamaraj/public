@@ -6,6 +6,9 @@ import { Subject, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from "rxjs/operators";
 import { Http } from '@angular/http';
+import { IModalData } from '../popup-alert/popup-interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
 
 export var errorMap;
 
@@ -25,7 +28,9 @@ export class RlouiService {
   private formFieldAPI: string = "/UiField";
   private formFields: any = {};
 
-  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http) {
+  modalObject: IModalData;//used when call a modal-> type=alert (initiation)
+
+  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal) {
     console.log("UI Service .. constructor --------------------------------");
 
     // this.getJSON().subscribe(data => {
@@ -260,5 +265,35 @@ export class RlouiService {
         getCode(newKey.slice(0, newKey.lastIndexOf(".")))
       }
     }
+  }
+
+  getCustomMsg(jsonMsg: string, customMsg: string = "") {
+    let promise = new Promise<any>((resolve, reject) => {
+
+    });
+    return promise;
+  }
+
+  confirmationModal(modalObj: IModalData) {
+    let promise = new Promise<any>((resolve, reject) => {
+      console.log(event);
+      var onSuccessOrFailure = async (response) => {
+        console.log(response);
+        if (response === 0) {
+          resolve(null);
+        } else {
+          resolve(response);
+        }
+      }
+
+      this.modalObject = modalObj;
+      const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
+      modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
+    });
+    return promise;
+  }
+
+  closeAllConfirmationModal(){
+    this.modal.dismissAll();
   }
 }

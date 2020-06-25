@@ -23,6 +23,7 @@ import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.co
 import { isFulfilled } from 'q';
 import { ignoreElements } from 'rxjs/operators';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+import { element } from 'protractor';
 
 const customCss: string = '';
 
@@ -274,11 +275,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.componentCode = 'Initiation';
     this.displayBorder = false;
     this.isLoanCategory = true;
-
   }
+
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
   }
+
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     // Moved readonly to RLO Config - to be removed in next commit
@@ -368,6 +370,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('Initiation_customCss');
     styleElement.parentNode.removeChild(styleElement);
+    this.services.rloui.closeAllConfirmationModal()
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -405,17 +408,36 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
 
-  cancel() {
-    // window.history.back()  
-    this.services.router.navigate(['home', 'LANDING']);
-  }
-
   async CANCEL_MAIN_BTN_click(event) {
-    let inputMap = new Map();
-    this.cancel();
+
+    var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    var button1 = this.services.rloui.getAlertMessage('', 'Okay');
+    var button2 = this.services.rloui.getAlertMessage('', 'Cancel');
+
+    Promise.all([title, mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: values[0],
+        mainMessage: values[1],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[2], type: "success", class: "btn-primary" },
+          { id: 2, text: values[3], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      console.log("deep ===", modalObj);
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
   }
-
-
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -456,6 +478,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           }
           modalRef.result.then(onModalClose, onModalClose);
           modalRef.componentInstance.rotueToComponent(inputMap);
+          console.log(modalRef, modalRef.componentInstance);
           this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
         }, 1500);
         this.searchbutton = '';
@@ -463,8 +486,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     } else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
-
-
   }
 
   async BAD_PROD_CAT_change(fieldID, value) {
@@ -723,6 +744,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
       inputMap.clear();
       if (this.borrower == true) {
+
         inputMap.set('HeaderParam.tenant-id', 'SB1');
         // inputMap.set('HeaderParam.user-id', 'Vishal');
         inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
@@ -767,12 +789,27 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
                 this.borrowericif = CustData.ICIFNumber
               }
               this.icif = CustData.ICIFNumber;
+            }
 
+            let modalObj = {
+              title: "Alert",
+              mainMessage: "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif,
+              buttons: [
+                { text: "Okay", type: "success" }
+              ]
             }
-            const alertMsg = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif;
-            if (confirm(alertMsg)) {
-              this.services.router.navigate(['home', 'LANDING']);
-            }
+
+            // this.services.rloui.confirmationModal(modalObj).then((response) => {
+            //   console.log(response);
+            //   if (response) {
+            //     this.services.router.navigate(['home', 'LANDING']);
+            //   }
+            // });
+
+            // const alertMsg = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif;
+            // if (confirm(alertMsg)) {
+            //   this.services.router.navigate(['home', 'LANDING']);
+            // }
 
             inputMap = new Map();
             this.onReset();
@@ -854,14 +891,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             }
             this.showMessage('Unable to save form!');
             this.SUBMIT_MAIN_BTN.setDisabled(false);
-
           }
         );
       }
       else {
         this.services.alert.showAlert(2, '', 1000, 'Please Add Details for Borrower');
         this.SUBMIT_MAIN_BTN.setDisabled(false);
-
       }
     }
     else {

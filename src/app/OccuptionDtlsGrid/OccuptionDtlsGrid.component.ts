@@ -77,8 +77,8 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		width: 22,
 		sortable: true,
 		resizable: true,
-    cellStyle: { 'text-align': 'right' },
-    valueFormatter: this.formatAmount.bind(this),
+		cellStyle: { 'text-align': 'right' },
+		valueFormatter: this.formatAmount.bind(this),
 		// filter: "agTextColumnFilter",
 		// filterParams: {
 		// 	suppressAndOrCondition: true,
@@ -202,6 +202,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 	}
 	ngOnInit(): void {
+		console.log("deep ===","onInit");
 		this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
 		var styleElement = document.createElement('style');
 		styleElement.type = 'text/css';
@@ -228,8 +229,8 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		return this.hidden;
 	}
 	async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+		console.log("deep ===", "2", params, gridReqMap, event)
 		this.recordShow()
-
 		let inputMap = new Map();
 		inputMap.clear();
 		let inputKey: any = event.refNumToGrid;
@@ -284,23 +285,22 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 				}
 				else {
 					this.occupationRecord = false;
-        }
-        
-        console.log("loopVar10 ", occupationDetails, this.occupation);
+				}
+
+				console.log("loopVar10 ", occupationDetails, this.occupation);
 
 				if (occupationDetails) {
-
-					this.occupationLoaded.emit({
-						"name": "occupationLoad",
-						"data": occupationDetails
-					});
+					// this.occupationLoaded.emit({
+					// 	"name": "occupationLoad",
+					// 	"data": occupationDetails
+					// });
 
 					for (var i = 0; i < occupationDetails.length; i++) {
 						var tempObj = {};
 						tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
-            tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation;
-            console.log("Occupation ", occupationDetails[i].Occupation);
-            
+						tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation;
+						console.log("Occupation ", occupationDetails[i].Occupation);
+
 
 						tempObj['OD_INCOME_TYPE'] = occupationDetails[i].IncomeType;
 						// tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
@@ -308,20 +308,30 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 						tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy;
 						tempObj['NET_INCOME'] = occupationDetails[i].NetIncome;
 						this.occupation.push(tempObj);
+
+						// if (!i)
+						// 	this.services.rloCommonData.updateValuesFundLineGraph("add");
 					}
 				} else {
-					this.occupation = [];
-					this.occupationLoaded.emit({
-						"name": "occupationLoad",
-						"borrowerSeq": inputKey,
-						"data": this.occupation
-					});
-        }
-        
-        console.log("params ", params, " data ", this.occupation);
-        
-        this.readonlyGrid.apiSuccessCallback(params, this.occupation);
-        
+					// this.occupation = [];
+					// this.occupationLoaded.emit({
+					// 	"name": "occupationLoad",
+					// 	"borrowerSeq": inputKey,
+					// 	"data": this.occupation
+					// });
+				}
+
+				let obj = {
+					"name": "OccupationDetails",
+					"data": this.occupation,
+					"BorrowerSeq": inputKey,
+				}
+				this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
+				console.log("params ", params, " data ", this.occupation);
+
+				this.readonlyGrid.apiSuccessCallback(params, this.occupation);
+
 				this.recordHide();
 			},
 			async (httpError) => {
@@ -346,29 +356,30 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 			'OccupationSeq': event['OCCUPATION_ID'],
 		});
 		// if (selectedData0) {
-			
+
 		// }
 	}
 	async OD_DELETE_click(event) {
 
-    if(confirm("Are you sure you want do delete this record")){
-      let inputMap = new Map();
-      inputMap.clear();
-      inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
-      this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
-          this.readonlyGrid.refreshGrid();
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          }
-          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-        }
-      );
-    }		
+		if (confirm("Are you sure you want do delete this record")) {
+			let inputMap = new Map();
+			inputMap.clear();
+			inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
+			this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+				async (httpResponse: HttpResponse<any>) => {
+					var res = httpResponse.body;
+					this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
+
+					this.readonlyGrid.refreshGrid();
+				},
+				async (httpError) => {
+					var err = httpError['error']
+					if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+					}
+					this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+				}
+			);
+		}
 	}
 	recordDisplay = false;
 	recordShow() {
@@ -380,15 +391,15 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
 	getOccupationGridData() {
 		return this.occupation;
-  }
-  
-  formatAmount(number) {
-    if (number.value) {
-      // Dirty Fix
-      return this.services.formatAmount(number.value, null, null).substr(1);
-    } else {
-      return '-';
-    }
-  }
+	}
+
+	formatAmount(number) {
+		if (number.value) {
+			// Dirty Fix
+			return this.services.formatAmount(number.value, null, null).substr(1);
+		} else {
+			return '-';
+		}
+	}
 
 }

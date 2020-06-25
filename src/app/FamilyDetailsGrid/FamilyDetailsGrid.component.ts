@@ -107,6 +107,8 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     },
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
+    updateDdeMenu: Subject<string> = new Subject<string>();
+
     ngAfterViewInit() {
         this.services.translate.onLangChange
             .pipe(takeUntil(this.unsubscribe$))
@@ -135,6 +137,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
     }
     ngOnInit(): void {
+        console.log("deep ===","onInit");
         this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
         var styleElement = document.createElement('style');
         styleElement.type = 'text/css';
@@ -161,6 +164,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         return this.hidden;
     }
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+        console.log("deep ===", params);
         let inputMap = new Map();
         inputMap.clear();
         let borrowerSeq: any = event.passFamilyGrid;
@@ -207,25 +211,31 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
-                if(res !== null){
-                    this.familyRecord = true
-                    var loopVar4 = res['BorrowerDetails'];
-                }
-                else{
-                    this.familyRecord = false
-                }
-               
-                if (loopVar4) {
-                    for (var i = 0; i < loopVar4.length; i++) {
-                        var tempObj = {};
-                        tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
-                        tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
-                        tempObj['FD_NAME'] = loopVar4[i].FullName;
-                        tempObj['FD_DOB'] = loopVar4[i].DOB;
-                        tempObj['Full_NAME'] = loopVar4[i].CustFullName;
-                        this.familyDetails.push(tempObj);
+
+                if(res != null){
+                    var loopVar4 = res['BorrowerDetails'];              
+
+                    if (loopVar4) {
+                        for (var i = 0; i < loopVar4.length; i++) {
+                            var tempObj = {};
+                            tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
+                            tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
+                            tempObj['FD_NAME'] = loopVar4[i].FullName;
+                            tempObj['FD_DOB'] = loopVar4[i].DOB;
+                            tempObj['Full_NAME'] = loopVar4[i].CustFullName;
+                            this.familyDetails.push(tempObj);
+                        }
+
                     }
                 }
+              
+                let obj = {
+                    "name": "FamilyDetails",
+                    "data": this.familyDetails,
+                    "BorrowerSeq": borrowerSeq
+                }
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                
                 this.readonlyGrid.apiSuccessCallback(params, this.familyDetails);
             },
             async (httpError) => {
@@ -253,9 +263,13 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
+                    console.error("deep ===", this.familyDetails);
                     this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);
+
+                    // if (this.familyDetails.length == 1)
+                    //     this.services.rloCommonData.updateValuesFundLineGraph("remove");
+
                     this.readonlyGrid.refreshGrid();
-                    this.services.rloCommonData.updateDdeMenu.next("remove");
                 },
                 async (httpError) => {
                     var err = httpError['error']

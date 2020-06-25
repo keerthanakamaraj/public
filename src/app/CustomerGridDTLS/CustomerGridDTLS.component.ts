@@ -189,10 +189,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           console.log("BorrowerDetails", BorrowerDetails);
           if (BorrowerDetails) {
 
-            this.updateStageValidation.emit({
-              "name": "customerLoad",
-              "data": BorrowerDetails
-            });
+            // this.updateStageValidation.emit({
+            //   "name": "customerLoad",
+            //   "data": BorrowerDetails
+            // });
+
 
             //  if (this.isFirstAPICall) {
             // this.passArrayToCustomer.emit({
@@ -202,6 +203,15 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
             //    }
 
             BorrowerDetails.forEach(eachBorrower => {
+              let array = [];
+              array.push(eachBorrower);
+              let obj = {
+                "name": "CustomerDetails",
+                "data": array,
+                "BorrowerSeq": eachBorrower.BorrowerSeq
+              }
+              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
               let customer = {};
               this.CustomerDetailsMap.set(eachBorrower.BorrowerSeq, eachBorrower);
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
@@ -217,18 +227,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                   'actionName': 'gridUpdated',
                   'CustomerArray': eachBorrower
                 });
-                //   this.services.rloCommonData.childToParentSubject.next({
-                //     action: 'passArrayToCustomer',
-                //     data:{'CustomerArray': eachBorrower}
-                // });
+
                 this.isFirstAPICall = false;
                 customer["editing"] = true;
               }
               else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
-                //   this.services.rloCommonData.childToParentSubject.next({
-                //     action: 'passArrayToCustomer',
-                //     data:{'CustomerArray': eachBorrower}
-                // });
                 this.passArrayToCustomer.emit({
                   'actionName': 'gridUpdated',
                   'CustomerArray': eachBorrower
@@ -292,10 +295,6 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       this.resetEditingFlag();
       selectedCustomer["editing"] = true;
       let activeCustomer = this.CustomerDetailsMap.get(selectedCustomer.CustomerId);
-      //   this.services.rloCommonData.childToParentSubject.next({
-      //     action: 'switchCustomer',
-      //     data:{'CustomerArray': activeCustomer}
-      // });
       this.passArrayToCustomer.emit({
         'actionName': 'toEditCustForm',
         'CustomerArray': activeCustomer
@@ -310,10 +309,6 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   doReset(customerType?: string) {
     this.resetEditingFlag();
-    //   this.services.rloCommonData.childToParentSubject.next({
-    //     action: 'openNewCustForm',
-    //     data:{'customerType': customerType}
-    // });
     this.resetCustForm.emit({
       'customerType': customerType
     });
