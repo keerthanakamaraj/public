@@ -119,7 +119,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.updateTags(data);
 
       if (data.name == 'customerDetails') {
-        this.CUSTOMER_DETAILS.custGridArray = event;
+        this.CUSTOMER_DETAILS.CustomerDetailsArray = event;
       }
     });
 
