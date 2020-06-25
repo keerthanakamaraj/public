@@ -38,26 +38,26 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	gridConsts: any = {
 		paginationPageSize: 10,
 		gridCode: "ReferralDetailsGrid",
-		paginationReq: true
+		paginationReq: false
 	};
 	columnDefs: any[] = [{
 		field: "RD_REFERRER_NAME",
 		width: 26,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "RD_REFERRER_RELATION",
-		width: 25,
+		width: 27,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -72,7 +72,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	},
 	{
 		field: "RD_REFERRER_MOBILE_NO",
-		width: 25,
+		width: 27,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -86,7 +86,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		width: 12,
+		width: 10,
 		field: "",
 		sortable: false,
 		filter: false,
@@ -103,7 +103,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		width: 12,
+		width: 10,
 		field: "",
 		sortable: false,
 		filter: false,

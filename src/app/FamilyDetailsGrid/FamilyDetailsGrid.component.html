@@ -18,5 +18,7 @@
 </ul>
 </div>
 </div>
+<div [hidden]="!familyRecord || recordDisplay">
 <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+</div>
 </div>
