@@ -39,40 +39,40 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     gridConsts: any = {
         paginationPageSize: 10,
         gridCode: "FamilyDetailsGrid",
-        paginationReq: true
+        paginationReq: false
     };
     columnDefs: any[] = [{
         field: "FD_RELATIONSHIP",
-        width: 25,
-        sortable: true,
+        width: 40,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
     {
         field: "FD_NAME",
-        width: 25,
-        sortable: true,
+        width: 40,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
     {
-        width: 25,
+        width: 10,
         field: " ",
         sortable: false,
         filter: false,
@@ -89,7 +89,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        width: 25,
+        width: 10,
         field: " ",
         sortable: false,
         filter: false,
@@ -225,6 +225,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                             tempObj['Full_NAME'] = loopVar4[i].CustFullName;
                             this.familyDetails.push(tempObj);
                         }
+
                     }
                 }
               

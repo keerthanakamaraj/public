@@ -228,17 +228,14 @@
                 <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
                     (mouseout)="mouseOvered=false">
                     <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
-                        <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
-                            *ngFor="let menu of section;let i= index"
-                            [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
+                        <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)" *ngFor="let menu of section;let i= index" [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
 
                             <div class="small-menu" [ngClass]="menu.iconClass">
                             </div>
                             <!-- <div class="small-menu test-class" [ngStyle]="{'background-image':'url(assets/icons/'+menu.icon+')'}">
                             </div> -->
                             <span *ngIf="menu.completed" class="status-flag"></span>
-                            <span class="txt" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
-                                (mouseout)="mouseOvered=false">
+                            <span class="txt" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true" (mouseout)="mouseOvered=false">
                                 {{menu.name}}
                                 <span *ngIf="menu.isOptional">(Optional)</span>
                             </span>

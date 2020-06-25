@@ -20,6 +20,8 @@
       </ul>
     </div>
   </div>
+  <div [hidden]="!referrerRecord || recordDisplay">
   <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode"
     [gridConsts]="gridConsts"></app-readonly-grid>
+  </div>
 </div>

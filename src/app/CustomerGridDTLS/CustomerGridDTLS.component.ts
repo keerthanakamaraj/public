@@ -36,10 +36,12 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
   @Input() ApplicationId: string = undefined;
   @Input() isLoanCategory: boolean = true;
+  @Input() parentFormCode: string;
 
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
   CustomerDetailsMap = new Map<string, any>();
+  PlusFlag: boolean = false;
 
   //activeCustomer:{}={};
   //activeBorrowerSeq:string=undefined;
@@ -67,7 +69,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+    // this.stageValidate();
     this.setDependencies();
+
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -161,6 +165,15 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
             "searchText": this.ApplicationId
           }
         });
+        // criteriaJson.FilterCriteria.push({
+        //   "columnName": "CustomerType",
+        //   "columnType": "String",
+        //   "conditions": {
+        //     "searchType": "equals",
+        //     "searchText": "R,F"
+        //   }
+        // });
+
       }
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
       this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
@@ -168,7 +181,12 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           var res = httpResponse.body;
           this.CustomerDetailsMap.clear();
           var customerDataArr = [];
-          let BorrowerDetails = res['BorrowerDetails'];
+          let BorrowerDetail = res['BorrowerDetails'];
+          var BorrowerDetails = BorrowerDetail.filter(function (BorrowerDetail) {
+            return BorrowerDetail.CustomerType !== 'R' && BorrowerDetail.CustomerType !== 'F';
+          });
+          console.log("BorrowerDetails", BorrowerDetails);
+          console.log("BorrowerDetails", BorrowerDetails);
           if (BorrowerDetails) {
 
             // this.updateStageValidation.emit({
@@ -226,6 +244,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
             });
           }
           this.apiSuccessCallback(customerDataArr);
+          this.EnabledPlusIcon();
           // return customerDataArr;
           // this.displayCustomerTag(customerDataArr);
         },
@@ -306,4 +325,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     });
   }
 
+  EnabledPlusIcon() {
+    if (this.parentFormCode == 'DDE') {
+      this.PlusFlag = true;
+    }
+  }
 }

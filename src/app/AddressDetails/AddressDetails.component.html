@@ -158,7 +158,7 @@
                         <app-label #FieldId_30 parentCompCode="AddressDetails" fieldID="FieldId_30" [formCode]="formCode" fontFamily="sans-serif"
                             fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"></app-label>
                     </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LAND_COUNTRY_CODE.isHidden()">
+                    <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LAND_COUNTRY_CODE.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AddressDetails.AD_LAND_COUNTRY_CODE' | translate}}
@@ -167,16 +167,18 @@
                         <app-combo-box #AD_LAND_COUNTRY_CODE category="2" fieldID="AD_LAND_COUNTRY_CODE" placeholder="Select" [formCode]="formCode"
                             domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
                             (blur)="genericOnBlur('AD_LAND_COUNTRY_CODE', $event)"></app-combo-box>
-                    </div>
+                    </div> -->
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_LANDLINE_NUMBER.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AddressDetails.AD_LANDLINE_NUMBER' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)"></app-text-box>
+                        <rlo-ui-mobile #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER"
+                        (countryCodeChanged)="countryCodeChanged('AD_LANDLINE_NUMBER',$event)"
+                        (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)"></rlo-ui-mobile>
                     </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_COUNTRY_CODE.isHidden()">
+                    <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_COUNTRY_CODE.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AddressDetails.AD_COUNTRY_CODE' | translate}}
@@ -184,14 +186,16 @@
                         </div>
                         <app-combo-box #AD_COUNTRY_CODE category="2" fieldID="AD_COUNTRY_CODE" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_COUNTRY_CODE', $event)"></app-combo-box>
-                    </div>
+                    </div> -->
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ALTERNATE_MOB_NO.isHidden()">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown">
                                 {{ 'AddressDetails.AD_ALTERNATE_MOB_NO' | translate}}
                             </label>
                         </div>
-                        <app-text-box #AD_ALTERNATE_MOB_NO fieldID="AD_ALTERNATE_MOB_NO" [formCode]="formCode" placeholder="(Optional)" (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></app-text-box>
+                        <rlo-ui-mobile #AD_ALTERNATE_MOB_NO fieldID="AD_ALTERNATE_MOB_NO"
+                        (countryCodeChanged)="countryCodeChanged('AD_ALTERNATE_MOB_NO',$event)"
+                        (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></rlo-ui-mobile>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL_ID2.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -240,7 +244,8 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
                     <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AD_SAVE_ADDRESS.isHidden()">
                         <app-button #AD_SAVE_ADDRESS fieldName="{{ 'AddressDetails.AD_SAVE_ADDRESS' | translate}}" fieldID="AD_SAVE_ADDRESS" [formCode]="formCode"
                             imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button" (buttonClick)="AD_SAVE_ADDRESS_click($event)"></app-button>

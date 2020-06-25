@@ -1602,10 +1602,6 @@ a.back {
   }
 }
 
-#LD_HEADING {
-  padding-bottom: 15px;
-  padding-top: 5px;
-}
 
 .header-expanded-dde {
   margin-top: 127px !important;
@@ -1613,4 +1609,13 @@ a.back {
 
 .header-expanded-qde {
   margin-top: 64px !important;
+}
+.form-group-initiation{
+  
+  .rlo-ui-radio-container Label {
+   
+    /* margin-right: 30px; */
+    margin-right: 24px;
+    margin-left :0px !important;
+  }
 }

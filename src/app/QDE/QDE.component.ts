@@ -76,6 +76,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   errorsList = [];
   customerGridArray: any;
   ActiveCustomerDtls: {} = undefined;
+  
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -189,6 +190,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     await this.brodcastApplicationId();
 
     // await this.CUSTOMER_DETAILS.onFormLoad(event);
+    this.FieldId_9.parentFormCode = this.componentCode;
+    this.CUSTOMER_DETAILS.parentFormCode = this.componentCode;
     this.FieldId_9.doAPIForCustomerList({});
     //this.FieldId_10.fetchReferalDetails();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
@@ -524,7 +527,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     //  this.ProductCategory = event.isLoanCategory;
-    this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+   // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+    this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
   }
 

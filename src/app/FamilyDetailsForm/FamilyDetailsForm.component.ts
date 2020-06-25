@@ -40,8 +40,8 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('FD_ISD_Code', { static: false }) FD_ISD_Code: ComboBoxComponent;
     @ViewChild('FD_NATIONAL_ID', { static: false }) FD_NATIONAL_ID: TextBoxComponent;
     @ViewChild('FD_TAX_ID', { static: false }) FD_TAX_ID: TextBoxComponent;
-    @ViewChild('Save', { static: false }) Save: ButtonComponent;
-    @ViewChild('clear', { static: false }) clear: ButtonComponent;
+    @ViewChild('FD_Save', { static: false }) FD_Save: ButtonComponent;
+    @ViewChild('FD_clear', { static: false }) FD_clear: ButtonComponent;
     @ViewChild('FAMILY_GRID', { static: false }) FAMILY_GRID: FamilyDetailsGridComponent;
     @ViewChild('Handler', { static: false }) Handler: FamilyHandlerComponent;
     @ViewChild('HidAppId', { static: false }) HidAppId: HiddenComponent;
