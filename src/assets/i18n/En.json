@@ -1926,13 +1926,13 @@
     "RD_ISD_CODE": "Country Code",
     "RD_STATE": "State",
     "RD_ADDRESSLINE3": "Address Line 3",
-    "RD_CITY": "Citty",
+    "RD_CITY": "City",
     "RD_PHONE1": "Phone 1",
     "FieldId_6": "null",
     "RD_ADDRESSLINE4": "Address Line 4",
     "RD_PHONE2": "Phone 2",
     "RD_REF_NO": "Referrer Mobile No.",
-    "RD_REFRRER_EMAILID": "Refrrer Email ID",
+    "RD_REFRRER_EMAILID": "Referrer Email ID",
     "RD_HEADING" : "Referrer Details"
   },
   "CustomerGridDTLS": {
