@@ -112,15 +112,15 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.displayBorder = false;
 
     //////////////////////////////
-    this.masterDataSubscription = this.services.rloCommonData.getComponentLvlData().subscribe(data => {
-      console.warn("deep === masterDataSubscription", data);
-      this.services.rloCommonData.updateMasterDataMap(data, this.isCustomerTabSelected);
+    this.masterDataSubscription = this.services.rloCommonData.getComponentLvlData().subscribe(event => {
+      console.warn("deep === masterDataSubscription", event);
+      this.services.rloCommonData.updateMasterDataMap(event, this.isCustomerTabSelected);
       console.log(this.services.rloCommonData.masterDataMap);
-      this.updateTags(data);
-
-      if (data.name == 'customerDetails') {
-        this.CUSTOMER_DETAILS.CustomerDetailsArray = event;
-      }
+      this.updateTags(event);
+      // if (event.name == 'CustomerDetails') {
+      //   console.log("shweta :: cust array in QDE ",event.data);
+      //   this.CUSTOMER_DETAILS.CustomerDetailsArray = event.data;
+      // }
     });
 
     this.services.rloCommonData.childToParentSubject.subscribe((event) => {
