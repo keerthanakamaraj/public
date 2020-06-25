@@ -825,6 +825,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             case 'RmVisitDetails':
                 return new AddSpecificComponent(VisitReportFormComponent);
                 break;
+            case 'Notes':
+                return new AddSpecificComponent(NotepadDetailsFormComponent);
+                break;
             default:
                 return new AddSpecificComponent(CustomerDtlsComponent);
                 break;
