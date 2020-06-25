@@ -23,7 +23,6 @@ export interface IComponentLvlData {
 export class RloCommonData {
 
     //used to define if the header should be expaneded or collapsed
-    headerState = new Subject<boolean>();
     childToParentSubject = new Subject<subjectParamsInterface>();
     updateDdeMenuSubject = new Subject<string>();//add or remove
 
@@ -86,6 +85,7 @@ export class RloCommonData {
             const occupationList = [];
             const familyList = [];
 
+            
             componentData.data.forEach(eventCustomer => {
                 const borSeq: string = componentData.BorrowerSeq;
                 let customerDetails = new Map();

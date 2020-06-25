@@ -30,10 +30,12 @@
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
                         <app-header-progress #headerProgressBar></app-header-progress>
                         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" [showProgressBar]="'true'"
-                            (productCategoryFound)="brodcastProdCategory($event)"></app-Header>
-                        <app-score-card></app-score-card>
+                            (productCategoryFound)="brodcastProdCategory($event)"
+                            (headerStateEvent)="headerState($event)"></app-Header>
+                        <app-score-card #scorecard></app-score-card>
                     </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
+                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div"
+                        [ngClass]="showExpandedHeader ? '' : 'header-expanded-dde'">
                         <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
                             <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
                                 <input type="radio" />CUSTOMER
@@ -45,8 +47,9 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
                         <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
-                            [hidden]="!formMenuObject.isCustomerTabSelected" (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
-                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"                        
+                            [hidden]="!formMenuObject.isCustomerTabSelected"
+                            (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
+                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
                             (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
                         </app-CustomerGridDTLS>
                     </div>
@@ -223,7 +226,7 @@
         <div class="row">
             <div class="col-sm-1 col-md-1 col-lg-1 wgt-form-menu">
                 <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
-                (mouseout)="mouseOvered=false">
+                    (mouseout)="mouseOvered=false">
                     <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
                         <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
                             *ngFor="let menu of section;let i= index"

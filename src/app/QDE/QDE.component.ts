@@ -121,7 +121,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_DETAILS.custGridArray = event;
       }
     });
-    
+
     this.services.rloCommonData.childToParentSubject.subscribe((event) => {
       switch (event.action) {
         case 'updateCustGrid': // on customer update/save success
@@ -526,6 +526,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //  this.ProductCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
+  }
+
+  async headerState(event) {
+    this.showExpandedHeader = event.headerState;
   }
 
   brodcastApplicationId() {

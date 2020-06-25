@@ -388,28 +388,28 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   //   background-size: cover;
   // }
 }
-.switch1 {
+
+.expand-header {
   position: absolute;
-  height: 30px;
-  width: 30px;
-  //background: red;
+  height: 19px;
+  width: 19px;
   z-index: 1;
   content: "";
-  right: 1.2rem;
-  top: 1.1rem;
+  right: 1.6rem;
+  top: 1.53rem;
   background-image: url("./../icons/collapse.svg");
   background-size: cover;
   cursor: pointer;
 }
-.switch {
+
+.contract-header {
   position: absolute;
-  height: 30px;
-  width: 30px;
-  //background: red;
+  height: 20px;
+  width: 20px;
   z-index: 1;
   content: "";
-  right: 1.2rem;
-  top: 1.1rem;
+  right: 1.5rem;
+  top: 1.5rem;
   background-image: url("./../icons/expand.svg");
   background-size: cover;
   cursor: pointer;
@@ -856,15 +856,16 @@ width: 681px !important; */
     }
   }
 }
-.loan-container{
+
+.loan-container {
   box-sizing: border-box;
   height: 10.200em;
   border: 1px solid #DFD7D7;
   border-radius: 0.267em;
   background-color: #FFFFFF;
-  margin:  1em;
+  margin: 1em;
 
-  .loan-group{
+  .loan-group {
     box-sizing: border-box;
     height: 7.4em;
     margin-top: 1.000em;
@@ -874,7 +875,7 @@ width: 681px !important; */
       border: none;
     }
   }
-  
+
 }
 
 
@@ -1159,7 +1160,7 @@ a.back {
   max-width: 98px !important;
   width: 98px !important;
   position: sticky;
-  top: 14rem;
+  top: 17.5rem;
   align-items: flex-start;
   z-index: 1;
 
@@ -1576,14 +1577,14 @@ a.back {
 //   box-shadow: 0 2px 4px 1px rgba(33,139,194,0.3);
 // }
 
-.btn-loan{
+.btn-loan {
   box-sizing: border-box;
   height: 60px;
   width: 180px;
   border: 1px solid #0079B8;
   border-radius: 4px;
   background-color: #FFFFFF;
-  box-shadow: 0 2px 4px 1px rgba(33,139,194,0.3);
+  box-shadow: 0 2px 4px 1px rgba(33, 139, 194, 0.3);
   white-space: normal;
   color: #0079B8;
   font-family: "Open Sans";
@@ -1591,16 +1592,25 @@ a.back {
   letter-spacing: 0;
 
 }
- 
+
 .flexible-container .rlo-ui-radio-container {
   height: auto !important;
   min-height: 42px !important;
-  .radio-item{
+
+  .radio-item {
     float: left;
   }
 }
 
-#LD_HEADING{
-  padding-bottom :15px;
-  padding-top: 5px; 
+#LD_HEADING {
+  padding-bottom: 15px;
+  padding-top: 5px;
+}
+
+.header-expanded-dde {
+  margin-top: 127px !important;
+}
+
+.header-expanded-qde {
+  margin-top: 64px !important;
 }

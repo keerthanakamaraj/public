@@ -368,6 +368,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('Initiation_customCss');
     styleElement.parentNode.removeChild(styleElement);
+    this.services.rloui.closeAllConfirmationModal()
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -428,7 +429,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.services.rloui.confirmationModal(modalObj).then((response) => {
         console.log(response);
         if (response != null) {
-          if (response.id) {
+          if (response.id === 1) {
             this.services.router.navigate(['home', 'LANDING']);
           }
         }

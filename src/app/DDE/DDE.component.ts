@@ -42,6 +42,7 @@ import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.com
 import { Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 import { IComponentLvlData } from '../rlo-services/rloCommonData.service';
+import { ScoreCardComponent } from '../score-card/score-card.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -79,7 +80,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
     @ViewChild('LOAN_DTLS', { static: false }) LOAN_DTLS: LoanDetailsFormComponent;
     @ViewChild('FieldId_26', { static: false }) LOAN_GRID: LoanDetailsGridComponent;
-
+    @ViewChild('scorecard', { static: false }) scoreCardComponent: ScoreCardComponent;
 
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
@@ -205,17 +206,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     applicationMenu = [
         [
-            { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
-            { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
-            { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
-            { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
+            // { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
+            // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
+            // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+            // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
             { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
             { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
         ],
         [
-            { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
-            { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
-            { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
+            // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+            // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
+            // { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
             { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
         ],
         [
@@ -228,7 +229,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
     progressStatusObject: any = {
-        manditorySection: 10,
+        manditorySection: 6,
         completedSection: 0,
         borrowers: 0
     };
@@ -403,10 +404,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     }
     ngOnInit() {
-        this.services.rloCommonData.headerState.subscribe((data) => {
-            console.log(data);
-            this.showExpandedHeader = data;
-        });
         if (this.formCode == undefined) { this.formCode = 'DDE'; }
         if (this.formOnLoadError) { return; }
         var styleElement = document.createElement('style');
@@ -424,7 +421,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('DDE_customCss');
         styleElement.parentNode.removeChild(styleElement);
-        this.services.rloCommonData.headerState.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -695,7 +691,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
 
         console.log(this.formMenuObject, this.formsMenuList);
-        this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isActive = false;
+        this.formsMenuList.forEach(element => { element.forEach(ele => { ele.isActive = false; }); });
         this.formsMenuList[ele1][ele2].isActive = true;
 
         this.formMenuObject.firstArr = ele1;
@@ -820,10 +816,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.formMenuObject.isCustomerTabSelected = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
-                element.forEach(ele => { ele.isActive = false })
+                for (let i = 0; i < element.length; i++) {
+                    const section = element[i];
+                    section.isActive = false;
+                    if (this.isLoanCategory && section.id == "CreditCardDetails") {//ie. loan type credit card
+                        element.splice(i, 1);
+                    }
+                }
             });
             this.updateSelectedTabIndex(1, 3);
-            this.injectDynamicComponent('GoNoGoDetails', 1, 3);
+            this.injectDynamicComponent('GoNoGoDetails', 1, 0);
         }
     }
 
@@ -892,9 +894,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     async brodcastProdCategory(event) {
-        //  this.ProductCategory = event.isLoanCategory;
+        //  event.isLoanCategory false when type is 'CC'
         this.isLoanCategory = event.isLoanCategory;
         this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+    }
+
+    async headerState(event) {
+        this.showExpandedHeader = event.headerState;
+        this.scoreCardComponent.headerChanges(event.headerState);
+        this.headerProgressBar.headerChanges(event.headerState);
     }
 
     updateProgressBar() {

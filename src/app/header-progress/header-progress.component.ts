@@ -29,19 +29,15 @@ export class HeaderProgressComponent implements OnInit {
 
   constructor(public services: ServiceStock) { }
 
-  ngOnInit() {
-    this.services.rloCommonData.headerState.subscribe((data) => {
-      this.showExpandedHeader = data;
-      this.showExpanded = data;
-    })
+  ngOnInit() {}
+
+  headerChanges(data){
+    this.showExpandedHeader = data;
+    this.showExpanded = data;
   }
 
   public update(count: number) {
     this.progressPercentage = count;
-  }
-
-  ngOnDestroy() {
-    this.services.rloCommonData.headerState.unsubscribe();
   }
 
 }

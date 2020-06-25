@@ -292,4 +292,8 @@ export class RlouiService {
     });
     return promise;
   }
+
+  closeAllConfirmationModal(){
+    this.modal.dismissAll();
+  }
 }
