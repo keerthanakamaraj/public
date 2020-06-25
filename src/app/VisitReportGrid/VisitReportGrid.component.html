@@ -11,13 +11,15 @@
 </div>
 </div>
 <div class="row reference-div">
-<div class="col-xs-12 col-sm-5">
+<!-- <div class="col-xs-12 col-sm-5">
 <h4 *ngIf="displayTitle">{{'VisitReportGrid.GridTitle' | translate}}</h4>
-</div>
+</div> -->
 <div *ngIf="displayToolbar" class="col-xs-12 col-sm-7 inside-micons pending-page">
 <ul class="list-inline list-unstyled handle-items text-right">
 </ul>
 </div>
 </div>
+<div [hidden]="!visitRecord">
 <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+</div>
 </div>

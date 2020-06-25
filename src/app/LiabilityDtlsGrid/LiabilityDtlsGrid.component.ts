@@ -38,31 +38,14 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
   gridConsts: any = {
     paginationPageSize: 5,
     gridCode: "LiabilityDtlsGrid",
-    paginationReq: true
+    paginationReq: false
   };
   columnDefs: any[] = [{
     field: "LD_LIABILITY_TYPE",
-    width: 35,
-    sortable: true,
+    width: 44,
+    sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
-  {
-    field: "LD_AMOUNT",
-    width: 35,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'right' },
-    valueFormatter: this.formatAmount.bind(this),
-    
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -73,7 +56,24 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     // },
   },
   {
-    width: 15,
+    field: "LD_AMOUNT",
+    width: 44,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    //   suppressAndOrCondition: true,
+    //   applyButton: true,
+    //   clearButton: true,
+    //   filterOptions: ["contains"],
+    //   caseSensitive: true,
+    // },
+  },
+  {
+    width: 6,
     field: "",
     sortable: false,
     filter: false,
@@ -90,7 +90,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     },
   },
   {
-    width: 15,
+    width: 6,
     field: "",
     sortable: false,
     filter: false,
@@ -238,11 +238,11 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
   async LD_EDIT_BTN_click(event) {
     let inputMap = new Map();
     const selectedData0 = this.readonlyGrid.getSelectedData();
-    
-      this.onModify.emit({
-        'SeqKey': event['LIABILITY_ID'],
-      });
-    
+
+    this.onModify.emit({
+      'SeqKey': event['LIABILITY_ID'],
+    });
+
 
   }
 
@@ -255,7 +255,6 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.delete.liability', 5000);
-
           this.readonlyGrid.refreshGrid();
         },
         async (httpError) => {

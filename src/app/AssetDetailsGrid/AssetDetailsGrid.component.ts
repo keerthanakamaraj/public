@@ -38,46 +38,14 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     gridConsts: any = {
         paginationPageSize: 5,
         gridCode: "AssetDetailsGrid",
-        paginationReq: true
+        paginationReq: false
     };
     columnDefs: any[] = [{
         field: "AT_Asset_Type",
-        width: 20,
-        sortable: true,
+        width: 22,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
-    },
-    {
-        field: "AT_Asset_Status",
-        width: 20,
-        sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
-    },
-    {
-        field: "AT_Asset_Value",
-        width: 20,
-        sortable: true,
-        resizable: true,
-        cellStyle: { 'text-align': 'right' },
-        valueFormatter: this.formatAmount.bind(this),
-        
         // filter: "agTextColumnFilter",
         // filterParams: {
         //     suppressAndOrCondition: true,
@@ -87,23 +55,55 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         //     caseSensitive: true,
         // },
     },
-     {
-        field: "AT_INCLUDE_IN_DBR",
-        width: 20,
-        sortable: true,
+    {
+        field: "AT_Asset_Status",
+        width: 22,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
     {
-        width: 10,
+        field: "AT_Asset_Value",
+        width: 22,
+        sortable: false,
+        resizable: true,
+        cellStyle: { 'text-align': 'right' },
+        valueFormatter: this.formatAmount.bind(this),
+
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
+    },
+    {
+        field: "AT_INCLUDE_IN_DBR",
+        width: 22,
+        sortable: false,
+        resizable: true,
+        cellStyle: { 'text-align': 'left' },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
+    },
+    {
+        width: 6,
         field: " ",
         sortable: false,
         filter: false,
@@ -120,7 +120,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         },
     },
     {
-        width: 10,
+        width: 6,
         field: " ",
         sortable: false,
         filter: false,
@@ -195,19 +195,19 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
 
-        let AssetId:any = event.passBorrowerToAsset;
-        let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
-        if(AssetId){
-        criteriaJson.FilterCriteria.push({
-            "columnName": "BorrowerSeq",
-            "columnType": "String",
-            "conditions": {
-                "searchType": "equals",
-                "searchText": AssetId
-            }
-        });
-        inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
-        
+        let AssetId: any = event.passBorrowerToAsset;
+        let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+        if (AssetId) {
+            criteriaJson.FilterCriteria.push({
+                "columnName": "BorrowerSeq",
+                "columnType": "String",
+                "conditions": {
+                    "searchType": "equals",
+                    "searchText": AssetId
+                }
+            });
+            inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+
         }
 
         if (gridReqMap.get("FilterCriteria")) {
@@ -245,11 +245,11 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.loopDataVar4 = [];
-                if(res !== null){
+                if (res !== null) {
                     this.assetRecord = true
                     var loopVar4 = res['AssetDetails'];
                 }
-                else{
+                else {
                     this.assetRecord = false
                 }
                 // var loopVar4 = res['AssetDetails'];
@@ -280,43 +280,43 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     async AT_EDIT_click(event) {
         let inputMap = new Map();
         const selectedData0 = this.readonlyGrid.getSelectedData();
-            this.modifyAssetDetails.emit({
-                'AssetKey': event['ASSET_ID'],
-            });
-       
+        this.modifyAssetDetails.emit({
+            'AssetKey': event['ASSET_ID'],
+        });
+
     }
     async AT_DELETE_click(event) {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.ASSET_ID);
-        if (confirm("Are you sure you want to delete?")) {            
-        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap,'/rlo-de').subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body;
-                this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
-                this.readonlyGrid.refreshGrid();
-            },
-            async (httpError) => {
-                var err = httpError['error']
-                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        if (confirm("Are you sure you want to delete?")) {
+            this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    var res = httpResponse.body;
+                    this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
+                    this.readonlyGrid.refreshGrid();
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    }
+                    this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
                 }
-                this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
-            }
-        );
-    }
+            );
+        }
     }
 
-    getAssetDetails(){
+    getAssetDetails() {
         return this.loopDataVar4;
     }
 
     formatAmount(number) {
         if (number.value) {
-          // Dirty Fix
-          return this.services.formatAmount(number.value, null, null).substr(1);
+            // Dirty Fix
+            return this.services.formatAmount(number.value, null, null).substr(1);
         } else {
-          return '-';
+            return '-';
         }
-      }
+    }
 
 }

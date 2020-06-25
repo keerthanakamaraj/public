@@ -38,12 +38,12 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	gridConsts: any = {
 		paginationPageSize: 10,
 		gridCode: "AddressDetailsGrid",
-		paginationReq: true
+		paginationReq: false
 	};
 	columnDefs: any[] = [{
 		field: "AD_Address_Type",
 		width: 10,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
@@ -58,7 +58,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	{
 		field: "AD_Address",
 		width: 33,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
@@ -73,7 +73,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	{
 		field: "AD_OCC_STATUS",
 		width: 15,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
@@ -88,7 +88,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	{
 		field: "AD_MAILING_ADDRESS",
 		width: 15,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
@@ -103,7 +103,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 	{
 		field: "AD_Residence_Duration",
 		width: 15,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",

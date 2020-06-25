@@ -37,7 +37,7 @@ export class CustDtlsGridComponent implements AfterViewInit {
   gridConsts: any = {
     paginationPageSize: 5,
     gridCode: "CustDtlsGrid",
-    paginationReq: true
+    paginationReq: false
   };
   columnDefs: any[] = [{
     field: "CUST_TYPE_LBL",

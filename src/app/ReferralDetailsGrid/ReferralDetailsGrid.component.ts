@@ -42,7 +42,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	};
 	columnDefs: any[] = [{
 		field: "RD_REFERRER_NAME",
-		width: 26,
+		width: 30,
 		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -57,7 +57,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	},
 	{
 		field: "RD_REFERRER_RELATION",
-		width: 27,
+		width: 30,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -72,7 +72,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	},
 	{
 		field: "RD_REFERRER_MOBILE_NO",
-		width: 27,
+		width: 28,
 		sortable: true,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
@@ -86,7 +86,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		width: 10,
+		width: 6,
 		field: "",
 		sortable: false,
 		filter: false,
@@ -103,7 +103,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 		},
 	},
 	{
-		width: 10,
+		width: 6,
 		field: "",
 		sortable: false,
 		filter: false,

@@ -7,6 +7,7 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { flush } from '@angular/core/testing';
 const customCss: string = '';
 @Component({
 	selector: 'app-VisitReportGrid',
@@ -29,7 +30,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 	@Input('displayTitle') displayTitle: boolean = true;
 	@Input('displayToolbar') displayToolbar: boolean = true;
 	@Input('fieldID') fieldID: string;
-
+	visitRecord: boolean = false;
 	VisitRecordsList = [];
 	componentCode: string = 'VisitReportGrid';
 	openedFilterForm: string = '';
@@ -37,100 +38,100 @@ export class VisitReportGridComponent implements AfterViewInit {
 	gridConsts: any = {
 		paginationPageSize: 10,
 		gridCode: "VisitReportGrid",
-		paginationReq: true
+		paginationReq: false
 	};
 	columnDefs: any[] = [{
 		field: "VR_Type",
-		width: 12,
-		sortable: true,
+		width: 14,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "VR_DateofVisit",
-		width: 12,
-		sortable: true,
+		width: 14,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agDateColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			caseSensitive: true,
-			filterOptions: ["inRange"],
-		},
+		// filter: "agDateColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	caseSensitive: true,
+		// 	filterOptions: ["inRange"],
+		// },
 	},
 	{
 		field: "VR_AddressOfVisit",
-		width: 12,
-		sortable: true,
+		width: 14,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "VR_NameOfPersonMet",
-		width: 17,
-		sortable: true,
+		width: 18,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "VR_Designation",
-		width: 12,
-		sortable: true,
+		width: 14,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
 		field: "VR_PlaceOfVisit",
-		width: 12,
-		sortable: true,
+		width: 14,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
-		filter: "agTextColumnFilter",
-		filterParams: {
-			suppressAndOrCondition: true,
-			applyButton: true,
-			clearButton: true,
-			filterOptions: ["contains"],
-			caseSensitive: true,
-		},
+		// filter: "agTextColumnFilter",
+		// filterParams: {
+		// 	suppressAndOrCondition: true,
+		// 	applyButton: true,
+		// 	clearButton: true,
+		// 	filterOptions: ["contains"],
+		// 	caseSensitive: true,
+		// },
 	},
 	{
-		width: 12,
+		width: 6,
 		field: "Edit",
 		sortable: false,
 		filter: false,
@@ -140,14 +141,14 @@ export class VisitReportGridComponent implements AfterViewInit {
 		cellRendererParams: {
 			gridCode: 'VisitReportGrid',
 			columnId: 'VR_Modify',
-			Type: '2',
+			Type: '1',
 			CustomClass: 'btn-edit',
 			IconClass: 'fa fa-edit fa-lg',
 			onClick: this.VR_Modify_click.bind(this)
 		},
 	},
 	{
-		width: 10,
+		width: 6,
 		field: "Delete",
 		sortable: false,
 		filter: false,
@@ -157,7 +158,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 		cellRendererParams: {
 			gridCode: 'VisitReportGrid',
 			columnId: 'VR_Delete',
-			Type: '2',
+			Type: '1',
 			CustomClass: 'btn-delete',
 			IconClass: 'fa fa-trash fa-lg',
 			onClick: this.VR_Delete_click.bind(this)
@@ -238,8 +239,13 @@ export class VisitReportGridComponent implements AfterViewInit {
 				async (httpResponse: HttpResponse<any>) => {
 					var res = httpResponse.body;
 					this.VisitRecordsList = [];
+					if (res !== null) {
+						this.visitRecord = true
+						var loopVar10 = res['RMRADetails'];
+					} else {
+						this.visitRecord = false;
+					}
 					let VisitDtlsList = [];
-					var loopVar10 = res['RMRADetails'];
 					this.VisitRecordsList = loopVar10;
 					if (loopVar10) {
 						for (var i = 0; i < loopVar10.length; i++) {

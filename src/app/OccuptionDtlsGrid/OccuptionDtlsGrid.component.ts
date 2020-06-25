@@ -40,12 +40,12 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 	gridConsts: any = {
 		paginationPageSize: 10,
 		gridCode: "OccuptionDtlsGrid",
-		paginationReq: true
+		paginationReq: false
 	};
 	columnDefs: any[] = [{
 		field: "OD_OCCUPATION",
 		width: 22,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
@@ -75,7 +75,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 	{
 		field: "NET_INCOME",
 		width: 22,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'right' },
 		valueFormatter: this.formatAmount.bind(this),
@@ -102,7 +102,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 	{
 		field: "INCOME_FREQ",
 		width: 22,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
@@ -128,7 +128,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 	{
 		field: "OD_COMPANY_NAME",
 		width: 22,
-		sortable: true,
+		sortable: false,
 		resizable: true,
 		cellStyle: { 'text-align': 'left' },
 		// filter: "agTextColumnFilter",
