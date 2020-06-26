@@ -219,7 +219,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 			CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
 			console.log("Shweta :: return from service", CustomerDetailsArray);
 			for (let i = 0; i < CustomerDetailsArray.length; i++) {
-				if (CustomerDetailsArray[i].FullName == this.RD_REF_NAME.getFieldValue() && CustomerDetailsArray[i].Email == this.RD_REFRRER_EMAILID.getFieldValue() && CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
+				if (CustomerDetailsArray[i].FullName == this.RD_REF_NAME.getFieldValue() || CustomerDetailsArray[i].Email == this.RD_REFRRER_EMAILID.getFieldValue() || CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
 					this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);
 					return;
 				}

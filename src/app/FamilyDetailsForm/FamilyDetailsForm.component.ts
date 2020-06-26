@@ -206,7 +206,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     genderCheck() {
         if ((this.FD_GENDER.getFieldValue() == 'M' && this.FD_TITLE.getFieldValue() != 'MR') || (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MRS') && (this.FD_GENDER.getFieldValue() == 'F' && this.FD_TITLE.getFieldValue() != 'MS')) {
             //console.log("Please select gender according to tilte");
-            this.FD_GENDER.setError('rlo.error.geneder.valid');
+            this.FD_GENDER.setError('rlo.error.geneder.invalid');
             return 1;
         }
     }
@@ -249,7 +249,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
-        if (ActiveCustomerDtls['FullName'] == this.FD_FULL_NAME.getFieldValue() && ActiveCustomerDtls['DOB'] === this.FD_DOB.getFieldValue()) {
+        if (ActiveCustomerDtls['FullName'] == this.FD_FULL_NAME.getFieldValue() && ActiveCustomerDtls['DOB'] == this.FD_DOB.getFieldValue()) {
             this.services.alert.showAlert(2, 'You Can not add Borrower/Co-Borrower as Family', -1);
             return;
         }
