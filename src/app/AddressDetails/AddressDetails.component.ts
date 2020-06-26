@@ -204,10 +204,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_RES_DUR'),
       this.revalidateBasicField('AD_RES_DUR_UNIT'),
-      this.revalidateBasicField('AD_LAND_COUNTRY_CODE'),
+      // this.revalidateBasicField('AD_LAND_COUNTRY_CODE'),
       this.revalidateBasicField('AD_LANDLINE_NUMBER'),
-      this.revalidateBasicField('AD_COUNTRY_CODE'),
-      this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
+      // this.revalidateBasicField('AD_COUNTRY_CODE'),
+      // this.revalidateBasicField('AD_ALTERNATE_MOB_NO'),
       this.revalidateBasicField('AD_EMAIL_ID2'),
       this.revalidateBasicField('AD_PREF_TIME'),
       this.revalidateBasicField('AD_EMAIL1_CHECKBOX'),
@@ -234,8 +234,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
-    this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
-    this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
+    // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
+    // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.AD_MAILING_ADDRESS.setDefault('N');
     const inputMap = new Map();
@@ -396,8 +396,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
     inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
     inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-    inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
+    // inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
+    // inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
     inputMap.set('Body.AddressDetails.BorrowerSeq', this.activeBorrowerSeq);
     inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
     return inputMap;
@@ -447,18 +447,18 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         }
 
         // tslint:disable-next-line:max-line-length
-        if ((this.AD_LANDLINE_NUMBER.getFieldValue() !== undefined && this.AD_LANDLINE_NUMBER.getFieldValue() !== '' && this.AD_LAND_COUNTRY_CODE.getFieldValue() === undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() !== undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== '' && this.AD_COUNTRY_CODE.getFieldValue() === undefined)) {
-          this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
-          return;
-          // tslint:disable-next-line:max-line-length
-        } else if ((this.AD_LANDLINE_NUMBER.getFieldValue() === undefined || this.AD_LANDLINE_NUMBER.getFieldValue() === '') && this.AD_LAND_COUNTRY_CODE.getFieldValue() !== undefined) {
-          this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
-          return;
-          // tslint:disable-next-line:max-line-length
-        } else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() === undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() === '') && this.AD_COUNTRY_CODE.getFieldValue() !== undefined) {
-          this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
-          return;
-        } else if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
+        // if ((this.AD_LANDLINE_NUMBER.getFieldValue() !== undefined && this.AD_LANDLINE_NUMBER.getFieldValue() !== '' && this.AD_LAND_COUNTRY_CODE.getFieldValue() === undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() !== undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== '' && this.AD_COUNTRY_CODE.getFieldValue() === undefined)) {
+        //   this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
+        //   return;
+        //   // tslint:disable-next-line:max-line-length
+        // } else if ((this.AD_LANDLINE_NUMBER.getFieldValue() === undefined || this.AD_LANDLINE_NUMBER.getFieldValue() === '') && this.AD_LAND_COUNTRY_CODE.getFieldValue() !== undefined) {
+        //   this.services.alert.showAlert(2, 'rlo.error.landline.address', -1);
+        //   return;
+        //   // tslint:disable-next-line:max-line-length
+        // } else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() === undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() === '') && this.AD_COUNTRY_CODE.getFieldValue() !== undefined) {
+        //   this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
+        //   return;
+       if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
           this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
           return;
         } else if (this.AD_EMAIL_ID2.getFieldValue() === undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() === true) {
@@ -494,9 +494,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
             if (err['ErrorElementPath'] === 'AddressDetails.PreferredEmailForCommunication') {
               this.AD_CORR_EMAIL.setError(err['ErrorDescription']);
-            } else if (err['ErrorElementPath'] === 'AddressDetails.LandlineCountryCode') {
-              this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
-            } else if (err['ErrorElementPath'] === 'AddressDetails.AltMobileNo') {
+            } 
+            // else if (err['ErrorElementPath'] === 'AddressDetails.LandlineCountryCode') {
+            //   this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
+            // } 
+            else if (err['ErrorElementPath'] === 'AddressDetails.AltMobileNo') {
               this.AD_ALTERNATE_MOB_NO.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.EmailId2') {
               this.AD_EMAIL_ID2.setError(err['ErrorDescription']);
@@ -538,9 +540,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.PreferredTime') {
               this.AD_PREF_TIME.setError(err['ErrorDescription']);
-            } else if (err['ErrorElementPath'] === 'AddressDetails.MobileCountryCode') {
-              this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
-            }
+            } 
+            // else if (err['ErrorElementPath'] === 'AddressDetails.MobileCountryCode') {
+            //   this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
+            // }
           }
           this.services.alert.showAlert(2, 'rlo.error.update.address', -1);
         }
@@ -587,8 +590,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
         this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
-        this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
-        this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
+        // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
+        // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
         this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
         const array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
         if (array[0] === 'true') {
