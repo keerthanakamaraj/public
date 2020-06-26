@@ -246,8 +246,8 @@ export class VisitReportGridComponent implements AfterViewInit {
 						this.visitRecord = false;
 					}
 					let VisitDtlsList = [];
-					this.VisitRecordsList = loopVar10;
 					if (loopVar10) {
+						this.VisitRecordsList = loopVar10;
 						for (var i = 0; i < loopVar10.length; i++) {
 							var tempObj = {};
 

@@ -196,9 +196,9 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
                         async (httpResponse: HttpResponse<any>) => {
                             var res = httpResponse.body;
                             this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
-                            this.Visit_Report_Grid.gridDataLoad({
-                                'BorrowerSeq': this.activeBorrowerSeq
-                            });
+                            // this.Visit_Report_Grid.gridDataLoad({
+                            //     'BorrowerSeq': this.activeBorrowerSeq
+                            // });
                             this.onReset();
                             this.VRF_Save.setDisabled(false);
                         },
@@ -215,9 +215,9 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
                         async (httpResponse: HttpResponse<any>) => {
                             var res = httpResponse.body;
                             this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
-                            this.Visit_Report_Grid.gridDataLoad({
-                                'BorrowerSeq': this.activeBorrowerSeq
-                            });
+                            // this.Visit_Report_Grid.gridDataLoad({
+                            //     'BorrowerSeq': this.activeBorrowerSeq
+                            // });
                             this.onReset();
                             this.VRF_Save.setDisabled(false);
                         },
