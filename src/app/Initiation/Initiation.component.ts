@@ -282,6 +282,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async onFormLoad() {
+  
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     // Moved readonly to RLO Config - to be removed in next commit
     // this.CD_FULL_NAME.setReadOnly(true);
@@ -316,7 +317,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
 
     this.CD_EXISTING_CUST.setDefault('N');
-    this.Handler.existingCustomer({});
+    // this.Handler.existingCustomer({});
 
     this.CD_STAFF.setDefault('N');
     this.Handler.isStaff({});
@@ -544,9 +545,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
 
-  async CD_EXISTING_CUST_change(fieldID, value) {
-    this.Handler.existingCustomer({});
-  }
+  // async CD_EXISTING_CUST_change(fieldID, value) {
+  //   this.Handler.existingCustomer({});
+  // }
 
   async CD_STAFF_change(fieldID, value) {
     this.Handler.isStaff({});
@@ -770,6 +771,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
         inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
         inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
+
+        inputMap.set('Body.LoanDetails.Decision', this.EligibilityDecision);
+        
         inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());

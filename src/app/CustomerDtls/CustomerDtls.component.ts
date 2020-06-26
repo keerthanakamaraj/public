@@ -181,8 +181,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
-        this.CD_EXISTING_CUST.setReadOnly(true);
-        this.CD_STAFF.setReadOnly(true);
         this.hidExistCust.setValue('Y_N');
         this.hideStaffId.setValue('Y_N');
         this.hidAppId.setValue('RLO');
@@ -201,7 +199,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         }
 
         this.CD_EXISTING_CUST.setDefault('N');
-        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
+        // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
 
         this.CD_STAFF.setDefault('N');
         this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
@@ -758,8 +756,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
                 this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
-                //  this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
-                this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
+                 this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
+                // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
                 this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
                 this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
@@ -825,10 +823,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.CD_TAX_ID.setValue(customer.TaxID);
         this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
         this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment);
-
-        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
-        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
-
+        this.CD_CUST_ID.setValue(customer.ICIFNumber);
+        this.CD_STAFF_ID.setValue(customer.StaffID);
+        // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
+        // this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
         this.CD_PMRY_EMBSR_NAME.setValue(customer.PrimaryEmbosserName1);
         this.CD_NATIONALITY.setValue(customer.Nationality);
         this.CD_CITIZENSHIP.setValue(customer.CitizenShip);
@@ -887,9 +885,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         }
     }
 
-    CD_EXISTING_CUST_change(fieldId, value) {
-        this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
-    }
+    // CD_EXISTING_CUST_change(fieldId, value) {
+    //     this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
+    // }
 
     setNonEditableFields(flag) {
         //  this.CD_CUST_TYPE.setReadOnly(flag);
