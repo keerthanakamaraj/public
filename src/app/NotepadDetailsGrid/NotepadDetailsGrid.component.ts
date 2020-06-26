@@ -28,59 +28,59 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
     @Input('displayTitle') displayTitle: boolean = true;
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
-
+    notepadRecord: boolean = false;
     componentCode: string = 'NotepadDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
     gridConsts: any = {
         paginationPageSize: 10,
         gridCode: "NotepadDetailsGrid",
-        paginationReq: true
+        paginationReq: false
     };
     columnDefs: any[] = [{
         field: "ND_SR_NO",
         width: 25,
-        sortable: true,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
     {
         field: "Comment_Category",
         width: 25,
-        sortable: true,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
     {
         field: "ND_COMMENTS",
         width: 50,
-        sortable: true,
+        sortable: false,
         resizable: true,
         cellStyle: { 'text-align': 'left' },
-        filter: "agTextColumnFilter",
-        filterParams: {
-            suppressAndOrCondition: true,
-            applyButton: true,
-            clearButton: true,
-            filterOptions: ["contains"],
-            caseSensitive: true,
-        },
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
     },
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
@@ -182,7 +182,13 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
                 var res = httpResponse.body;
                 if (res != null && res != undefined) {
                     var loopDataVar9 = [];
-                    var loopVar9 = res['NotepadDetails'];
+                    if (res !== null) {
+                        this.notepadRecord = true
+                        var loopVar9 = res['NotepadDetails'];
+                    } else {
+                        this.notepadRecord = false;
+                    }
+                   
                     if (loopVar9) {
                         for (var i = 0; i < loopVar9.length; i++) {
                             var tempObj = {};
