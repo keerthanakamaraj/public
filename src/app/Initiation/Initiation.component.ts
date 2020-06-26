@@ -795,17 +795,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.icif = CustData.ICIFNumber;
             }
            var successmessage =  "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif
-            // var title = this.services.rloui.getAlertMessage('');
+            //  var title = this.services.rloui.getAlertMessage('');
             var mainMessage = this.services.rloui.getAlertMessage('' , successmessage);
             var button1 = this.services.rloui.getAlertMessage('', 'OK');
             Promise.all([ mainMessage, button1]).then(values => {
               console.log(values);
               let modalObj = {
                 title: "Alert",
-                mainMessage: values[1],
+                mainMessage: values[0],
                 modalSize: "modal-width-sm",
                 buttons: [
-                  { id: 1, text: values[0], type: "success", class: "btn-primary" },
+                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
                 ]
               }
             
