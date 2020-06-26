@@ -29,12 +29,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     let windowScroll = window.pageYOffset;
-    this.scrollPosition = windowScroll;
-    if (this.headerCurrentState) {
+    if (this.headerExpandedView) {
       if (windowScroll >= 280) {
         this.headerExpandedView = false;
-      } else if (windowScroll < 60) {
-        this.headerExpandedView = true;
+        if (!this.scrollExceded)
+          this.scrollExceded = true
+        this.passScrollExceded();
       }
     }
   }
@@ -68,6 +68,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
   headerExpandedView: boolean = true;
   headerCurrentState: boolean = true; //expanded-1,collapsed-0
+  scrollExceded: boolean = false;
 
   elementPosition: any;
 
@@ -79,8 +80,6 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   TENURE: string;
   SUB_PRODUCT: string;
   SCHEME: string;
-
-  scrollPosition: number = 0;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -305,13 +304,22 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     }
   }
 
+  passScrollExceded() {
+    this.headerState(false);
+  }
+
   headerState(state: boolean) {
+    console.log(state);
     this.headerExpandedView = state;
-    this.headerCurrentState = state;
+    this.scrollExceded = !state;
+
+    if (state) {
+      window.scrollTo(0, 0);
+    }
+
     this.headerStateEvent.emit({
-      'headerState': state
+      'headerState': state,
+      'scrollExceded': this.scrollExceded
     });
-    window.scrollBy(0, 5);
-    window.scrollTo(0, this.scrollPosition);
   }
 }

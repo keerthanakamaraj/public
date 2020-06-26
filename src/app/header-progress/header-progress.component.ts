@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 
 @Component({
@@ -7,20 +7,6 @@ import { ServiceStock } from '../service-stock.service';
   styleUrls: ['./header-progress.component.css']
 })
 export class HeaderProgressComponent implements OnInit {
-
-  @HostListener('window:scroll', ['$event'])
-  handleScroll() {
-    let windowScroll = window.pageYOffset;
-    if (windowScroll >= 280) {
-      this.showExpanded = true;
-    } else if (windowScroll < 60) {
-      if (!this.showExpandedHeader) {
-        this.showExpanded = true;
-      } else {
-        this.showExpanded = false;
-      }
-    }
-  }
 
   @Input() progressPercentage: number = 0;
 
@@ -31,9 +17,14 @@ export class HeaderProgressComponent implements OnInit {
 
   ngOnInit() {}
 
-  headerChanges(data){
-    this.showExpandedHeader = data;
-    this.showExpanded = data;
+  headerChanges(data) {
+    console.log(data);
+    if (data.scrollExceded) {
+      this.showExpanded = data.scrollExceded;
+    }
+    else {
+      this.showExpanded = false;
+    }
   }
 
   public update(count: number) {

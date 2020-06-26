@@ -40,109 +40,100 @@
 
 .icon-Address-Details:before {
     content: "\e900";
-
 }
 
 .icon-Application-Details:before {
-    content: "\e901";
-
+    content: "\e902";
 }
 
 .icon-Asset-Details:before {
-    content: "\e902";
-
-}
-
-.icon-Collateral-Details:before {
     content: "\e903";
 }
 
-.icon-Credit-Card-Details:before {
+.icon-Collateral-Details:before {
     content: "\e904";
+}
 
+.icon-Credit-Card-Details:before {
+    content: "\e905";
 }
 
 .icon-Customer-Details:before {
-    content: "\e905";
-
+    content: "\e906";
 }
 
 .icon-Education-Loan-Details:before {
-    content: "\e906";
-
+    content: "\e907";
 }
 
 .icon-Family-Details:before {
-    content: "\e907";
-
+    content: "\e908";
 }
 
 .icon-Gold-Loan-Details:before {
-    content: "\e908";
-
+    content: "\e909";
 }
 
 .icon-Income-Summary:before {
-    content: "\e909";
-
+    content: "\e90a";
 }
 
 .icon-Interface-Results:before {
-    content: "\e90a";
-
+    content: "\e90b";
 }
 
 .icon-Liability-Details:before {
-    content: "\e90b";
-
+    content: "\e90c";
 }
 
 .icon-Loan-Details:before {
-    content: "\e90c";
-
+    content: "\e90d";
 }
 
 .icon-No-Go-Details:before {
-    content: "\e90d";
-
+    content: "\e916";
 }
 
 .icon-Notes:before {
     content: "\e90e";
-
 }
 
 .icon-Occupation-Details:before {
     content: "\e90f";
-
 }
 
 .icon-Personal-Interview-Details:before {
     content: "\e910";
-
 }
 
 .icon-Policy-Check-Results:before {
     content: "\e911";
-
 }
 
 .icon-Referrer-Details:before {
     content: "\e912";
-
 }
 
 .icon-RM-Visit-Details:before {
     content: "\e913";
-
 }
 
 .icon-Scorecard-Results:before {
     content: "\e914";
-
 }
 
 .icon-Vehicle-Loan-Details:before {
     content: "\e915";
+}
 
+.icon-mydpright:before {
+    content: "\e800";
+}
+
+.icon-mydpleft:before {
+    content: "\e801";
+}
+
+.icon-mydptoday:before {
+    content: "\e802";
 }

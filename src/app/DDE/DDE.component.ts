@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, HostListener } from '@angular/core';
 import { DDEModel, AddSpecificComponent } from './DDE.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -53,6 +53,15 @@ const customCss: string = '';
     templateUrl: './DDE.component.html'
 })
 export class DDEComponent extends FormComponent implements OnInit, AfterViewInit {
+
+    @HostListener('window:scroll', ['$event'])
+    handleScroll() {
+        let windowScroll = window.pageYOffset;
+        if (windowScroll >= 280) {
+            this.showExpandedHeader = false;
+        }
+    }
+
     @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
     @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
     @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
@@ -197,7 +206,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
             { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
             { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: false },
-            { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
+            // { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
         ],
         [
             { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
@@ -212,7 +221,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
             // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
             { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
+            { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
         ],
         [
             // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
@@ -812,14 +821,20 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.injectDynamicComponent('CustomerDetails', 0, 0);
         }
         else {
+            console.log(this.isLoanCategory);
             this.formMenuObject.isCustomerTabSelected = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
                 for (let i = 0; i < element.length; i++) {
                     const section = element[i];
                     section.isActive = false;
-                    if (this.isLoanCategory && section.id == "CreditCardDetails") {//ie. loan type credit card
-                        element.splice(i, 1);
+                    if (this.isLoanCategory) {//ie. loan type credit card
+                        if (section.id == "CreditCardDetails")
+                            element.splice(i, 1);
+                    }
+                    else {//CC type loan
+                        if (section.id == "LoanDetails")
+                            element.splice(i, 1);
                     }
                 }
             });
@@ -907,8 +922,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     async headerState(event) {
         this.showExpandedHeader = event.headerState;
-        this.scoreCardComponent.headerChanges(event.headerState);
-        this.headerProgressBar.headerChanges(event.headerState);
+        this.scoreCardComponent.headerChanges(event);
+        this.headerProgressBar.headerChanges(event);
     }
 
     updateProgressBar() {
@@ -985,8 +1000,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.log("setInitialObjectData", data.data[0]);
         console.error("deep-", data);
         let customerData = data.data[0];
-
-        if (customerData.CustomerType == "B" && customerData.LoanOwnership == 100) {
+        this.CustomerType = customerData.CustomerType;
+        //if (customerData.CustomerType == "B" && customerData.LoanOwnership == 100) loan ownership field not present in response JSON
+        if (customerData.CustomerType == "B") {
             this.initialLoadDone = true;
         }
         else {

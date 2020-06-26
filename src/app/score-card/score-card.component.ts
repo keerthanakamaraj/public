@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 
 @Component({
@@ -8,23 +8,7 @@ import { ServiceStock } from '../service-stock.service';
 })
 export class ScoreCardComponent implements OnInit {
 
-  @HostListener('window:scroll', ['$event'])
-  handleScroll() {
-    let windowScroll = window.pageYOffset;
-    if (windowScroll >= 280) {
-      this.showExpanded = true;
-    } else if (windowScroll < 60) {
-      if (!this.showExpandedHeader) {
-        this.showExpanded = true;
-      } else {
-        this.showExpanded = false;
-      }
-    }
-  }
-
-  showExpandedHeader: boolean = true; //expanded-1,collapsed-0
   showExpanded: boolean = false;
-
   scoreCards = [
     {
       type: "Final DBR",
@@ -42,10 +26,15 @@ export class ScoreCardComponent implements OnInit {
 
   constructor(public services: ServiceStock) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  headerChanges(data){
-    this.showExpandedHeader = data;
-    this.showExpanded = data;
+  headerChanges(data) {
+    console.log(data);
+    if (data.scrollExceded) {
+      this.showExpanded = data.scrollExceded;
+    }
+    else {
+      this.showExpanded = false;
+    }
   }
 }
