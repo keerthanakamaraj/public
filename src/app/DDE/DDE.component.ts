@@ -221,7 +221,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
         ],
         [
-            { id: "ReferrerDetails", name: "Referrer Details", completed: false, iconClass: "icon-Referrer-Details", isActive: false, isOptional: true },
+            { id: "ReferrerDetails", name: "Referral Details", completed: false, iconClass: "icon-Referrer-Details", isActive: false, isOptional: true },
             { id: "Notes", name: "Notes", completed: false, iconClass: "icon-Notes", isActive: false, isOptional: true }
         ]
     ];

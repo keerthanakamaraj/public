@@ -82,9 +82,9 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         const inputMap = new Map();
         await this.Handler.onFormLoad({
         });
-        //  await this.FieldId_7.gridDataLoad({
-        //      'ApplicationId':this.ApplicationId
-        //   });
+        await this.FieldId_7.gridDataLoad({
+            'ApplicationId': this.ApplicationId
+        });
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -171,10 +171,10 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
                     async (httpResponse: HttpResponse<any>) => {
                         const res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.notepad', 5000);
-                        this.FieldId_7.gridDataLoad({
-                            'ApplicationId': this.ApplicationId
-                        });
-                       this.onReset();
+                        // this.FieldId_7.gridDataLoad({
+                        //     'ApplicationId': this.ApplicationId
+                        // });
+                        this.onReset();
                     },
                     async (httpError) => {
                         const err = httpError['error'];
