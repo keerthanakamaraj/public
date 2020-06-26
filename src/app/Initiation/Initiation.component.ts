@@ -794,14 +794,37 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               }
               this.icif = CustData.ICIFNumber;
             }
-
-            let modalObj = {
-              title: "Alert",
-              mainMessage: "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif,
-              buttons: [
-                { text: "Okay", type: "success" }
-              ]
-            }
+           var successmessage =  "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif
+            // var title = this.services.rloui.getAlertMessage('');
+            var mainMessage = this.services.rloui.getAlertMessage('' , successmessage);
+            var button1 = this.services.rloui.getAlertMessage('', 'OK');
+            Promise.all([ mainMessage, button1]).then(values => {
+              console.log(values);
+              let modalObj = {
+                title: "Alert",
+                mainMessage: values[1],
+                modalSize: "modal-width-sm",
+                buttons: [
+                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                ]
+              }
+            
+              this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                  if (response.id === 1) {
+                    this.services.router.navigate(['home', 'LANDING']);
+                  }
+                }
+              });
+            });
+            // let modalObj = {
+            //   title: "Alert",
+            //   mainMessage: "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif,
+            //   buttons: [
+            //     { text: "Okay", type: "success" }
+            //   ]
+            // }
 
             // this.services.rloui.confirmationModal(modalObj).then((response) => {
             //   console.log(response);
@@ -1163,17 +1186,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
       ]
-    },
-    CD_COUNTRY_CODE: {
-      inDep: [
+    }
+    // CD_COUNTRY_CODE: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "CD_COUNTRY_CODE", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideISDCode", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
   }
 
 }
