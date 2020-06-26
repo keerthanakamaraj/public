@@ -805,7 +805,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
                 mainMessage: values[1],
                 modalSize: "modal-width-sm",
                 buttons: [
-                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                  { id: 1, text: values[0], type: "success", class: "btn-primary" },
                 ]
               }
             
