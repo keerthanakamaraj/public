@@ -26,7 +26,7 @@
                     </div>
                     <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.value.QuestionSeq}}" placeholder="Remarks, If any" [formCode]="formCode"
                         defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.Remark:undefined}}"
-                        (blur)="onRemarkBlur(question.value.QuestionSeq, $event)"></app-text-box>
+                        (blur)="onRemarkBlur(question.value.QuestionSeq, $event)" maxLength=500></app-text-box>
                 </div>
             </div>
         </ng-container>
