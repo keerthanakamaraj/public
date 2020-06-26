@@ -1,258 +1,260 @@
 <form class="MakeRelative">
-    <div class="ShowLoading " *ngIf="loadSpinner">
-        <div class="lds-roller MakeItMiddle">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <div class="clearfix content">
-        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-            <div class="col-sm-5 col-md-5">
-            </div>
-            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
-            </div>
-        </div>
-        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-        <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10">
-                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-5 col-md-5">
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-label #LD_HEADING parentCompCode="LoanDetailsForm" fieldID="LD_HEADING"
                             [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
                             fontSize="16px" fontWeight="bold"></app-label>
                     </div> -->
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAmount.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':LoanAmount.mandatory}">
-                                {{ 'LoanDetailsForm.LoanAmount' | translate}}
-                            </label>
-                        </div>
-                        <app-amount #LoanAmount fieldID="LoanAmount" [formCode]="formCode"
-                            (blur)="genericOnBlur('LoanAmount', $event)"></app-amount>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InterestRate.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'LoanDetailsForm.InterestRate' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #InterestRate fieldID="InterestRate" [formCode]="formCode"
-                            (blur)="genericOnBlur('InterestRate', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MarginRate.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':MarginRate.mandatory}">
-                                {{ 'LoanDetailsForm.MarginRate' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #MarginRate fieldID="MarginRate" [formCode]="formCode"
-                            (blur)="genericOnBlur('MarginRate', $event)"></app-text-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':NetInterestRate.mandatory}">
-                                {{ 'LoanDetailsForm.NetInterestRate' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #NetInterestRate fieldID="NetInterestRate" [formCode]="formCode"
-                            (blur)="genericOnBlur('NetInterestRate', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Tenure.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':Tenure.mandatory}">
-                                {{ 'LoanDetailsForm.Tenure' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode"
-                            (blur)="genericOnBlur('Tenure', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TenurePeriod.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':TenurePeriod.mandatory}">
-                                {{ 'LoanDetailsForm.TenurePeriod' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #TenurePeriod category="2" fieldID="TenurePeriod" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('TenurePeriod', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InterestRateType.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'LoanDetailsForm.InterestRateType' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #InterestRateType category="2" fieldID="InterestRateType" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('InterestRateType', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SystemRecommendedAmount.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'LoanDetailsForm.SystemRecommendedAmount' | translate}}
-                            </label>
-                        </div>
-                        <app-amount #SystemRecommendedAmount fieldID="SystemRecommendedAmount" [formCode]="formCode"
-                            (blur)="genericOnBlur('SystemRecommendedAmount', $event)"></app-amount>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="UserRecommendedAmount.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'LoanDetailsForm.UserRecommendedAmount' | translate}}
-                            </label>
-                        </div>
-                        <app-amount #UserRecommendedAmount fieldID="UserRecommendedAmount" [formCode]="formCode"
-                            (blur)="genericOnBlur('UserRecommendedAmount', $event)"></app-amount>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentFrequency.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':RepaymentFrequency.mandatory}">
-                                {{ 'LoanDetailsForm.RepaymentFrequency' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #RepaymentFrequency category="2" fieldID="RepaymentFrequency"
-                            placeholder="Select" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                            (blur)="genericOnBlur('RepaymentFrequency', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentOption.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':RepaymentOption.mandatory}">
-                                {{ 'LoanDetailsForm.RepaymentOption' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #RepaymentOption category="2" fieldID="RepaymentOption" [formCode]="formCode"
-                            placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                            domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RepaymentOption', $event)">
-                        </app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentAccNo.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory':RepaymentAccNo.mandatory}">
-                                {{ 'LoanDetailsForm.RepaymentAccNo' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #RepaymentAccNo fieldID="RepaymentAccNo" [formCode]="formCode"
-                            (blur)="genericOnBlur('RepaymentAccNo', $event)"></app-text-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_FEES_CHARGE.isHidden()">
-                        <app-button #LD_FEES_CHARGE fieldName="{{ 'LoanDetailsForm.LD_FEES_CHARGE' | translate}}"
-                            fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3">
-                        </app-button>
-                    </div>
-                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_COLL_UPFRONT_CHARGES.isHidden()">
-                        <app-button #LD_COLL_UPFRONT_CHARGES
-                            fieldName="{{ 'LoanDetailsForm.LD_COLL_UPFRONT_CHARGES' | translate}}"
-                            fieldID="LD_COLL_UPFRONT_CHARGES" customClass="btn-loan" [formCode]="formCode" [type]="3">
-                        </app-button>
-                    </div>
-                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_RECEIVE_MONEY.isHidden()">
-                        <app-button #LD_RECEIVE_MONEY fieldName="{{ 'LoanDetailsForm.LD_RECEIVE_MONEY' | translate}}"
-                            fieldID="LD_RECEIVE_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
-                        </app-button>
-                    </div>
-                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_DISBURMENT_MONEY.isHidden()">
-                        <app-button #LD_DISBURMENT_MONEY
-                            fieldName="{{ 'LoanDetailsForm.LD_DISBURMENT_MONEY' | translate}}"
-                            fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
-                        </app-button>
-                    </div>
-                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_GEN_AMOR_SCH.isHidden()">
-                        <app-button #LD_GEN_AMOR_SCH fieldName="{{ 'LoanDetailsForm.LD_GEN_AMOR_SCH' | translate}}"
-                            fieldID="LD_GEN_AMOR_SCH" customClass="btn-loan" [formCode]="formCode" [type]="3"
-                            (buttonClick)="LD_GEN_AMOR_SCH_click($event)"></app-button>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="loan-container col-9 col-sm-9 col-md-9">
-                        <div class="loan-group col-9 col-sm-4 col-md-4">
-                            <div class="clr-brown fieldLegend">
-                                <label class="clr-brown">
-                                    {{ 'LoanDetailsForm.MarginMoney' | translate}}
-                                </label>
-                            </div>
-                            <rlo-ui-readonlyfield #MarginMoney fieldID="MarginMoney"
-                                (blur)="genericOnBlur('MarginMoney', $event)"></rlo-ui-readonlyfield>
-                            <div class="clr-brown fieldLegend">
-                                <label class="clr-brown">
-                                    {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
-                                </label>
-                            </div>
-
-                            <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt"
-                                placeholder="Placeholder" (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
-                            </rlo-ui-readonlyfield>
-
-
-                        </div>
-                        <div class="loan-group col-9 col-sm-4 col-md-4">
-
-                            <div class="clr-brown fieldLegend">
-                                <label class="clr-brown">
-                                    {{ 'LoanDetailsForm.MoneyInstallment' | translate}}
-                                </label>
-                            </div>
-                            <rlo-ui-readonlyfield #MoneyInstallment fieldID="MoneyInstallment" placeholder="Placeholder"
-                                (blur)="genericOnBlur('MoneyInstallment', $event)">
-                            </rlo-ui-readonlyfield>
-
-                        </div>
-                        <div class="loan-group col-9 col-sm-4 col-md-4">
-
-                            <div class="clr-brown fieldLegend">
-                                <label class="clr-brown">
-                                    {{ 'LoanDetailsForm.TotalInterestAmount' | translate}}
-                                </label>
-                            </div>
-                            <rlo-ui-readonlyfield #TotalInterestAmount fieldID="TotalInterestAmount"
-                                (blur)="genericOnBlur('TotalInterestAmount', $event)">
-                            </rlo-ui-readonlyfield>
-
-                        </div>
-
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
-                        <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}"
-                            fieldID="LD_SAVE_BTN" [formCode]="formCode" customClass="btn btn-primary"
-                            (buttonClick)="LD_SAVE_BTN_click($event)"></app-button>
-                    </div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
-                        <app-button #CD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}"
-                            fieldID="LD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
-                            (buttonClick)="LD_CLEAR_BTN_click($event)"></app-button>
-                    </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_26.isHidden()">
-                        <app-LoanDetailsGrid #FieldId_26 fieldID="FieldId_26" [formCode]="formCode">
-                        </app-LoanDetailsGrid>
-                    </div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                        <app-loan-handler #Handler [MainComponent]="this"></app-loan-handler>
-                    </div>
-                </div>
-                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-                <app-hidden #hidInterestRate fieldID="hidInterestRate"></app-hidden>
-                <app-hidden #hidPeriod fieldID="hidPeriod"></app-hidden>
-                <app-hidden #hidAppPurpose fieldID="hidAppPurpose"></app-hidden>
-                <app-hidden #hideInstRateType fieldID="hideInstRateType"></app-hidden>
-                <app-hidden #hideRepaymentOption fieldID="hideRepaymentOption"></app-hidden>
-                <app-hidden #hideRepaymentFreq fieldID="hideRepaymentFreq"></app-hidden>
-                <app-hidden #hideLoanSeq fieldID="hideLoanSeq"></app-hidden>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':LoanAmount.mandatory}">
+                {{ 'LoanDetailsForm.LoanAmount' | translate}}
+              </label>
             </div>
+            <app-amount #LoanAmount fieldID="LoanAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('LoanAmount', $event)"></app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InterestRate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'LoanDetailsForm.InterestRate' | translate}}
+              </label>
+            </div>
+            <app-text-box #InterestRate fieldID="InterestRate" [formCode]="formCode"
+              (blur)="genericOnBlur('InterestRate', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MarginRate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':MarginRate.mandatory}">
+                {{ 'LoanDetailsForm.MarginRate' | translate}}
+              </label>
+            </div>
+            <app-text-box #MarginRate fieldID="MarginRate" [formCode]="formCode"
+              (blur)="genericOnBlur('MarginRate', $event)"></app-text-box>
+          </div>
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':NetInterestRate.mandatory}">
+                {{ 'LoanDetailsForm.NetInterestRate' | translate}}
+              </label>
+            </div>
+            <app-text-box #NetInterestRate fieldID="NetInterestRate" [formCode]="formCode"
+              (blur)="genericOnBlur('NetInterestRate', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Tenure.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':Tenure.mandatory}">
+                {{ 'LoanDetailsForm.Tenure' | translate}}
+              </label>
+            </div>
+            <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode" (blur)="genericOnBlur('Tenure', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TenurePeriod.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':TenurePeriod.mandatory}">
+                {{ 'LoanDetailsForm.TenurePeriod' | translate}}
+              </label>
+            </div>
+            <app-combo-box #TenurePeriod category="2" fieldID="TenurePeriod" [formCode]="formCode" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('TenurePeriod', $event)">
+            </app-combo-box>
+          </div>
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InterestRateType.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'LoanDetailsForm.InterestRateType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #InterestRateType category="2" fieldID="InterestRateType" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('InterestRateType', $event)">
+            </app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SystemRecommendedAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'LoanDetailsForm.SystemRecommendedAmount' | translate}}
+              </label>
+            </div>
+            <app-amount #SystemRecommendedAmount fieldID="SystemRecommendedAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('SystemRecommendedAmount', $event)"></app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="UserRecommendedAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'LoanDetailsForm.UserRecommendedAmount' | translate}}
+              </label>
+            </div>
+            <app-amount #UserRecommendedAmount fieldID="UserRecommendedAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('UserRecommendedAmount', $event)"></app-amount>
+          </div>
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentFrequency.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':RepaymentFrequency.mandatory}">
+                {{ 'LoanDetailsForm.RepaymentFrequency' | translate}}
+              </label>
+            </div>
+            <app-combo-box #RepaymentFrequency category="2" fieldID="RepaymentFrequency" placeholder="Select"
+              [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RepaymentFrequency', $event)">
+            </app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentOption.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':RepaymentOption.mandatory}">
+                {{ 'LoanDetailsForm.RepaymentOption' | translate}}
+              </label>
+            </div>
+            <app-combo-box #RepaymentOption category="2" fieldID="RepaymentOption" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RepaymentOption', $event)">
+            </app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentAccNo.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':RepaymentAccNo.mandatory}">
+                {{ 'LoanDetailsForm.RepaymentAccNo' | translate}}
+              </label>
+            </div>
+            <app-text-box #RepaymentAccNo fieldID="RepaymentAccNo" [formCode]="formCode"
+              (blur)="genericOnBlur('RepaymentAccNo', $event)"></app-text-box>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_FEES_CHARGE.isHidden()">
+            <app-button #LD_FEES_CHARGE fieldName="{{ 'LoanDetailsForm.LD_FEES_CHARGE' | translate}}"
+              fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_COLL_UPFRONT_CHARGES.isHidden()">
+            <app-button #LD_COLL_UPFRONT_CHARGES fieldName="{{ 'LoanDetailsForm.LD_COLL_UPFRONT_CHARGES' | translate}}"
+              fieldID="LD_COLL_UPFRONT_CHARGES" customClass="btn-loan" [formCode]="formCode" [type]="3">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_RECEIVE_MONEY.isHidden()">
+            <app-button #LD_RECEIVE_MONEY fieldName="{{ 'LoanDetailsForm.LD_RECEIVE_MONEY' | translate}}"
+              fieldID="LD_RECEIVE_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_DISBURMENT_MONEY.isHidden()">
+            <app-button #LD_DISBURMENT_MONEY fieldName="{{ 'LoanDetailsForm.LD_DISBURMENT_MONEY' | translate}}"
+              fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_GEN_AMOR_SCH.isHidden()">
+            <app-button #LD_GEN_AMOR_SCH fieldName="{{ 'LoanDetailsForm.LD_GEN_AMOR_SCH' | translate}}"
+              fieldID="LD_GEN_AMOR_SCH" customClass="btn-loan" [formCode]="formCode" [type]="3"
+              (buttonClick)="LD_GEN_AMOR_SCH_click($event)"></app-button>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="loan-container col-9 col-sm-9 col-md-9">
+            <div class="loan-group col-9 col-sm-4 col-md-4">
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.MarginMoney' | translate}}
+                </label>
+              </div>
+              <rlo-ui-readonlyfield #MarginMoney fieldID="MarginMoney" (blur)="genericOnBlur('MarginMoney', $event)">
+              </rlo-ui-readonlyfield>
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
+                </label>
+              </div>
+
+              <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt" placeholder="Placeholder"
+                (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
+              </rlo-ui-readonlyfield>
+
+
+            </div>
+            <div class="loan-group col-9 col-sm-4 col-md-4">
+
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.MoneyInstallment' | translate}}
+                </label>
+              </div>
+              <rlo-ui-readonlyfield #MoneyInstallment fieldID="MoneyInstallment" placeholder="Placeholder"
+                (blur)="genericOnBlur('MoneyInstallment', $event)">
+              </rlo-ui-readonlyfield>
+
+            </div>
+            <div class="loan-group col-9 col-sm-4 col-md-4">
+
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotalInterestAmount' | translate}}
+                </label>
+              </div>
+              <rlo-ui-readonlyfield #TotalInterestAmount fieldID="TotalInterestAmount"
+                (blur)="genericOnBlur('TotalInterestAmount', $event)">
+              </rlo-ui-readonlyfield>
+
+            </div>
+
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_26.isHidden()">
+            <app-LoanDetailsGrid #FieldId_26 fieldID="FieldId_26" [formCode]="formCode">
+            </app-LoanDetailsGrid>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12 col-sm-3 col-md-3"></div>
+          <div class="col-12 col-sm-3 col-md-3"></div>
+          <div class="col-12 col-sm-3 col-md-3"></div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
+            <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}" fieldID="LD_SAVE_BTN"
+              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="LD_SAVE_BTN_click($event)">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
+            <app-button #CD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}" fieldID="LD_CLEAR_BTN"
+              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="LD_CLEAR_BTN_click($event)">
+            </app-button>
+          </div>
+
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+            <app-loan-handler #Handler [MainComponent]="this"></app-loan-handler>
+          </div>
         </div>
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hidInterestRate fieldID="hidInterestRate"></app-hidden>
+        <app-hidden #hidPeriod fieldID="hidPeriod"></app-hidden>
+        <app-hidden #hidAppPurpose fieldID="hidAppPurpose"></app-hidden>
+        <app-hidden #hideInstRateType fieldID="hideInstRateType"></app-hidden>
+        <app-hidden #hideRepaymentOption fieldID="hideRepaymentOption"></app-hidden>
+        <app-hidden #hideRepaymentFreq fieldID="hideRepaymentFreq"></app-hidden>
+        <app-hidden #hideLoanSeq fieldID="hideLoanSeq"></app-hidden>
+      </div>
     </div>
+  </div>
 </form>

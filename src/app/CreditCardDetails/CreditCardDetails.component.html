@@ -53,7 +53,7 @@
             <app-text-box #MaximumCardLimit fieldID="MaximumCardLimit" [formCode]="formCode"
               (blur)="genericOnBlur('MaximumCardLimit', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': ApprovedLimit.mandatory}">
@@ -82,7 +82,7 @@
             <app-text-box #SettlementAccountNo fieldID="SettlementAccountNo" [formCode]="formCode"
               (blur)="genericOnBlur('SettlementAccountNo', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -113,7 +113,7 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('ExistingCreditCard', $event)"></app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardDispatchMode.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -127,12 +127,12 @@
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Save.isHidden()">
-            <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save" 
+            <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save"
               [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
             </app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Clear.isHidden()">
-            <app-button #CCD_Clear fieldName="{{ 'CreditCardDetails.CCD_Clear' | translate}}" fieldID="CCD_Clear" 
+            <app-button #CCD_Clear fieldName="{{ 'CreditCardDetails.CCD_Clear' | translate}}" fieldID="CCD_Clear"
               [formCode]="formCode" (buttonClick)="CCD_Clear_click($event)" customClass="btn-warning-outline">
             </app-button>
           </div>

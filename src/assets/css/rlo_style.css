@@ -638,11 +638,11 @@ li .a {
 }
 
 #PI_SAVE_BTN{
-  margin-left: 206px;
+  margin-left: 264px;
 }
 
 #PI_CLEAR_BTN{
-  margin-left: 210px;
+  margin-left: 277px;
 }
 
 #GNG_SAVE_BTN{
@@ -662,7 +662,7 @@ li .a {
   margin-left: 218px;
 }
 #ND_SAVE{
-  margin-left: 65px;
+  margin-left:57px;
 }
 #AD_CLEAR_BTN
 {
@@ -674,11 +674,11 @@ li .a {
   margin-left: 202px;
 }
 #OD_SAVE_BTN{
-  margin-left: 224px;
+  margin-left: 192px;
 }
 #OD_CLEAR_BTN{
   border-color: dimgray;
-  margin-left: 168px;
+  margin-left: 137px;
 }
 /* #RD_RESET{
   margin-left: 5px;
@@ -738,15 +738,15 @@ li .a {
 }
 #RD_RESET{
   border-color: dimgray;
-  margin-left: 242px;
+  margin-left: 123px;
 }
 #CCD_Save{
   margin-top: 35px;
-  margin-left: 191px;
+  margin-left: 98px;
 }
 #CCD_Clear{
   margin-top: 35px;
-  margin-left: 199px;
+  margin-left: 109px;
 }
 #Save{
   margin-left: 171px;
@@ -755,13 +755,19 @@ li .a {
   margin-left: 204px;
 }
 #RD_SAVE{
-  margin-left: 297px;
+  margin-left: 176px;
 }
 #LD_SAVE{
-  margin-left: 55px;
+  margin-left: 163px;
+}
+#clear{
+  margin-left: 108px;
 }
 #AT_SAVE{
-  margin-left: 55px;
+  margin-left: 160px;
+}
+#LD_SAVE_BTN{
+  MARGIN-LEFT: 35PX;
 }
 #MT_Proposal{
   margin-left: 250px;
