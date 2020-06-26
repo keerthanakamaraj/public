@@ -895,7 +895,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     async brodcastProdCategory(event) {
         //  event.isLoanCategory false when type is 'CC'
         this.isLoanCategory = event.isLoanCategory;
-        if (this.formMenuObject.selectedMenuId == 'CustomDetails') {
+        if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
             this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
             // this.services.rloCommonData.childToParentSubject.next({
             //     action: 'loanCategoryUpdated',
