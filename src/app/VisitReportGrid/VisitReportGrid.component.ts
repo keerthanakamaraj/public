@@ -266,6 +266,14 @@ export class VisitReportGridComponent implements AfterViewInit {
 							VisitDtlsList.push(tempObj);
 						}
 					}
+
+					let obj = {
+						"name": "RmVisitDetails",
+						"data": VisitDtlsList,
+						"BorrowerSeq": event.BorrowerSeq
+					}
+					this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+					
 					this.readonlyGrid.apiSuccessCallback(params, VisitDtlsList);
 				},
 				async (httpError) => {

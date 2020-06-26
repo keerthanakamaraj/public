@@ -28,16 +28,20 @@ export class RloCommonData {
 
     dataSavedSubject = new Subject<boolean>();//when a particular form section is saved successfully(save),subscribed in DDE
 
-
+    dynamicComponentInstance: any;
 
     /////////////////////////////////////////////////////////
     masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
     componentLvlDataSubject = new Subject<IComponentLvlData>();
 
     constructor(public rloutil: RloUtilService) {
+        this.resetMapData();
+        console.log(this.masterDataMap);
+    }
+
+    resetMapData(){
         this.masterDataMap.set("customerMap", new Map());
         this.masterDataMap.set("applicationMap", new Map());
-        console.log(this.masterDataMap);
     }
 
     // //action can be 'add' or 'remove'
@@ -69,8 +73,10 @@ export class RloCommonData {
 
     updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
         console.warn("deep ===", componentData, isCustomerTabSelected);
-
+        let customerDetails = new Map();
         let tempStoreMap = new Map();
+        const borSeq: string = componentData.BorrowerSeq;
+
         if (isCustomerTabSelected) {
             tempStoreMap.set("customerMap", this.masterDataMap.get("customerMap"))
         }
@@ -81,39 +87,46 @@ export class RloCommonData {
         console.warn(this.masterDataMap, tempStoreMap);
 
         if (componentData.data.length > 0) {
-            const addressList = [];
-            const occupationList = [];
-            const familyList = [];
+            if (tempStoreMap.get("customerMap")) {
+                if ((tempStoreMap.get("customerMap")).has(borSeq)) {
+                    customerDetails = tempStoreMap.get("customerMap").get(borSeq);
+                }
+            }
 
-            
-            componentData.data.forEach(eventCustomer => {
-                const borSeq: string = componentData.BorrowerSeq;
-                let customerDetails = new Map();
-                if (tempStoreMap.get("customerMap")) {
-                    // Array.from(this.stageValidationMap.keys()).forEach(key => console.log("sh key: ",key));
-                    if ((tempStoreMap.get("customerMap")).has(borSeq)) {
-                        customerDetails = tempStoreMap.get("customerMap").get(borSeq);
-                    }
-                }
-                switch (componentData.name) {
-                    case 'CustomerDetails':
-                        customerDetails.set('CustomerDetails', eventCustomer);
-                        break;
-                    case 'AddressDetails':
-                        addressList.push(eventCustomer);
-                        customerDetails.set('AddressDetails', addressList);
-                        break;
-                    case 'OccupationDetails':
-                        occupationList.push(eventCustomer);
-                        customerDetails.set('OccupationDetails', occupationList);
-                        break;
-                    case 'FamilyDetails':
-                        familyList.push(eventCustomer);
-                        customerDetails.set('FamilyDetails', familyList);
-                        break;
-                }
-                tempStoreMap.get("customerMap").set(borSeq, customerDetails);
-            });
+            switch (componentData.name) {
+                case 'CustomerDetails':
+                    customerDetails.set('CustomerDetails', componentData.data[0]);
+                    break;
+                case 'AddressDetails':
+                    customerDetails.set('AddressDetails', componentData.data);
+                    break;
+                case 'OccupationDetails':
+                    customerDetails.set('OccupationDetails', componentData.data);
+                    break;
+                case 'FamilyDetails':
+                    customerDetails.set('FamilyDetails', componentData.data);
+                    break;
+                case 'LiabilityDetails':
+                    customerDetails.set('LiabilityDetails', componentData.data);
+                    break;
+                case 'AssetDetails':
+                    customerDetails.set('AssetDetails', componentData.data);
+                    break;
+                case 'IncomeSummary':
+                    customerDetails.set('IncomeSummary', componentData.data);
+                    break;
+                case 'CollateralDetails':
+                    customerDetails.set('CollateralDetails', componentData.data);
+                    break;
+                case 'PersonalInterviewDetails':
+                    customerDetails.set('PersonalInterviewDetails', componentData.data);
+                    break;
+                case 'RmVisitDetails':
+                    customerDetails.set('RmVisitDetails', componentData.data);
+                    break;
+            }
+
+            tempStoreMap.get("customerMap").set(borSeq, customerDetails);
         }
         else if (componentData.name !== 'CustomerDetails') {
             const borSeq: string = componentData.BorrowerSeq;
@@ -272,5 +285,29 @@ export class RloCommonData {
     async validateCustomer(CUSTOMER_DETAILS: CustomerDtlsComponent) {
         const noOfErrors: number = await CUSTOMER_DETAILS.revalidate();
         return (noOfErrors > 0) ? false : true;
+    }
+
+    //all validation fn()
+    async validateCustomerDetailsSection(customerData) {
+        let dataObject = {
+            isAppValidFlag: true,
+            errorsList: []
+        }
+
+        let errorMessage;
+        let custFullName = customerData.FullName;
+        let isCustomerValid = await this.validateCustomer(this.dynamicComponentInstance);
+
+        if (!isCustomerValid) {
+            errorMessage = errorMessage + ' All mandatory fields for the customer';
+        }
+
+        if (!isCustomerValid) {
+            errorMessage = 'formalities of customer ' + custFullName + ' are pending. Please fill : ' + errorMessage;
+            dataObject.errorsList.push(errorMessage);
+            dataObject.isAppValidFlag = false;
+        }
+
+        return dataObject;
     }
 }

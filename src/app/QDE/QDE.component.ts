@@ -334,6 +334,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.unsubscribe$.complete();
     const styleElement = document.getElementById('QDE_customCss');
     styleElement.parentNode.removeChild(styleElement);
+    this.services.rloCommonData.resetMapData();
   }
   ngAfterViewInit() {
     setTimeout(() => {

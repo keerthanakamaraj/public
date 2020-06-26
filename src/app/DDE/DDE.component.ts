@@ -423,6 +423,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('DDE_customCss');
         styleElement.parentNode.removeChild(styleElement);
+        this.services.rloCommonData.resetMapData();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -739,6 +740,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (componentInstance.componentCode == "LoanDetailsForm" || componentId == 'ReferrerDetails' || componentId == 'CustomDetails') {
             componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
         }
+
+        this.services.rloCommonData.dynamicComponentInstance = componentInstance;
     }
 
     updateRoleBasedScore(action: string) {

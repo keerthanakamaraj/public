@@ -266,6 +266,14 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                         this.loopDataVar4.push(tempObj);
                     }
                 }
+           
+                let obj = {
+                    "name": "AssetDetails",
+                    "data": this.loopDataVar4,
+                    "BorrowerSeq": event.passBorrowerToAsset
+                }
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
             },
             async (httpError) => {
