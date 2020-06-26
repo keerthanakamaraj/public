@@ -57,7 +57,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @Input() activeBorrowerSeq: string = undefined;
     // @Input() activeCustomerName: string = undefined;
     // @Input() activeCustomerDOB: string = undefined;
-    @Input() ActiveCustomerDtls: any = undefined;
+  //  @Input() ActiveCustomerDtls: any = undefined;
     fullName: string;
     dob: Date;
     cust_name: string;
@@ -109,7 +109,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
-        console.log("shweta :: family", this.ActiveCustomerDtls);
+  //console.log("shweta :: family", this.ActiveCustomerDtls);
         await this.Handler.onFormLoad({
         });
         this.setDependencies();
@@ -242,12 +242,14 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     
   
     async Save_click(event) {
-        // by shweta :: check first if Customerdtls array is not undefined
+        let ActiveCustomerDtls={};
+         ActiveCustomerDtls=this.services.rloCommonData.getCustomerDetails(this.activeBorrowerSeq);
+       // console.log("shweta :: in family :: cust dtls service ",ActiveCustomerDtls);
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
-        if (this.ActiveCustomerDtls.FullName == this.FD_FULL_NAME.getFieldValue() && this.ActiveCustomerDtls.DOB == this.FD_DOB.getFieldValue()) {
+        if (ActiveCustomerDtls['FullName'] == this.FD_FULL_NAME.getFieldValue() && ActiveCustomerDtls['DOB'] === this.FD_DOB.getFieldValue()) {
             this.services.alert.showAlert(2, 'You Can not add Borrower/Co-Borrower as Family', -1);
             return;
         }

@@ -310,4 +310,31 @@ export class RloCommonData {
 
         return dataObject;
     }
+    
+    getCustomerList(){
+        let CustomerList=[];
+        if(this.masterDataMap.has('customerMap')){
+            const customerMap=this.masterDataMap.get('customerMap');
+        customerMap.forEach(entry => {
+            if (entry.has('CustomerDetails')) {
+                CustomerList.push(entry.get('CustomerDetails'));
+            }
+        });
+    }
+        return CustomerList;
+    }
+
+    getCustomerDetails(activeBorrowerSeq){
+        let CustomerDtls={};
+    if(this.masterDataMap.has('customerMap')){
+    const customerMap=this.masterDataMap.get('customerMap');
+        if(customerMap.has(activeBorrowerSeq)){
+        let customer=customerMap.get(activeBorrowerSeq);
+        CustomerDtls=customer.get('CustomerDetails');
+        }
+        }
+        return CustomerDtls;
+    }
+
+
 }

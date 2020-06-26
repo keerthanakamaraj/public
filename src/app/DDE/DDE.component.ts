@@ -119,13 +119,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-        {
-            selectedMenuId: "",
-            selectedMenuComponent: "",
-            isCustomerTabSelected: true,
-            firstArr: 0,
-            secondArr: 0
-        };
+    {
+        selectedMenuId: "",
+        selectedMenuComponent: "",
+        isCustomerTabSelected: true,
+        firstArr: 0,
+        secondArr: 0
+    };
 
 
     //list of selected customer and application sections
@@ -298,12 +298,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.CUSTOMER_GRID.parentFormCode = this.componentCode;
         this.CUSTOMER_GRID.doAPIForCustomerList({});
 
-        await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
-            'ApplicationId': this.ApplicationId
-        });
-        // await this.brodcastApplicationId();
-        //this.openHTab('FieldId_10', 'GO_NO_GO');
-        // this.activeCustomer=this.CUSTOMER_GRID.currentActiveCustomer
         if (this.userId === undefined || this.userId == '') {
             this.claimTask(this.taskId);
         }
@@ -733,13 +727,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
         }
-
-        if (componentId == 'FamilyDetails') {
-            componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
-        }
-        if (componentInstance.componentCode == "LoanDetailsForm" || componentId == 'ReferrerDetails' || componentId == 'CustomDetails') {
-            componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
-        }
+        // if (componentId == 'FamilyDetails') {
+        //     componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
+        // }
+        // if (componentInstance.componentCode == "LoanDetailsForm" || componentId == 'ReferrerDetails') {
+        //     componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
+        // }
 
         this.services.rloCommonData.dynamicComponentInstance = componentInstance;
     }

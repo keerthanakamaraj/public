@@ -1,15 +1,18 @@
 <form class="MakeRelative">
     <div class="clearfix content">
+            <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                    <label #PI_NOTE_LABEL fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"> hiiiii</label>
+                </div> -->
         <div class="param-container col-12 col-sm-12 col-md-12">
             <ng-container *ngIf="QuestionnairMap != undefined">
                 <div class="param-row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
-                    <div class="param-Question col-12 col-sm-5 col-md-5">
+                    <div class="param-Question col-12 col-sm-6 col-md-6">
                         <div class="clr-brown fieldLegend">
                             <label class="clr-brown"></label>
                         </div>
                         <span>{{ i + 1 }}. {{question.value.QuestionText }}</span>
                     </div>
-                    <div class="flexible-container col-12 col-sm-7 col-md-7">
+                    <div class="flexible-container col-12 col-sm-6 col-md-6">
                         <rlo-ui-radio #tbData fieldID="{{'PI_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
                             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
                             defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"

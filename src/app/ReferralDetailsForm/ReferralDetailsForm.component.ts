@@ -55,7 +55,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 	@ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
 	@Input() ApplicationId: string = undefined;
 	@Input() activeBorrowerSeq: string = undefined;
-	@Input() CustomerDetailsArray: any = undefined;
+	//@Input() CustomerDetailsArray: any = undefined;
 	cust_name: string;
 	cust_dob: string;
 	async revalidate(): Promise<number> {
@@ -112,7 +112,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				'passReferrerGrid': this.ApplicationId,
 			});
 		}
-		console.log("shweta :: referrer", this.CustomerDetailsArray);
+		//	console.log("shweta :: referrer", this.CustomerDetailsArray);
 		await this.Handler.onFormLoad({});
 		this.setDependencies();
 	}
@@ -198,13 +198,13 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 			},
 		);
 	}
-	async RD_REF_NAME_blur(event){
+	async RD_REF_NAME_blur(event) {
 		let fullName = "";
-    if (this.RD_REF_NAME.getFieldValue()) {
-      fullName = fullName + this.RD_REF_NAME.getFieldValue().trim() + " ";
-	}
-	fullName.trim();
-    this.RD_REF_NAME.setValue(fullName);
+		if (this.RD_REF_NAME.getFieldValue()) {
+			fullName = fullName + this.RD_REF_NAME.getFieldValue().trim() + " ";
+		}
+		fullName.trim();
+		this.RD_REF_NAME.setValue(fullName);
 	}
 	async RD_SAVE_click(event) {
 		let inputMap = new Map();
@@ -215,6 +215,15 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		// 	return;
 		// }
 		if (noOfError == 0) {
+			let CustomerDetailsArray = [];
+			CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
+			console.log("Shweta :: return from service", CustomerDetailsArray);
+			for (let i = 0; i < CustomerDetailsArray.length; i++) {
+				if (CustomerDetailsArray[i].FullName == this.RD_REF_NAME.getFieldValue() && CustomerDetailsArray[i].Email == this.RD_REFRRER_EMAILID.getFieldValue() && CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
+					this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);
+					return;
+				}
+			}
 			if (referrerGridData) {
 				for (var i = 0; i < referrerGridData.length; i++) {
 					if (referrerGridData[i].Referrer_ID != this.ReferrerBorrowerSeq.getFieldValue()) { // Check if Editing Existing referrer
@@ -225,7 +234,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 					}
 				}
 			}
-			
+
 
 			if (this.ReferrerBorrowerSeq.getFieldValue() != undefined) {
 				inputMap.clear();
@@ -254,7 +263,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 					this.services.alert.showAlert(2, 'rlo.error.fillone.rdetailsform', -1);
 					return;
 				}
-				this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'PUT', inputMap,'/rlo-de').subscribe(
+				this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
 					async (httpResponse: HttpResponse<any>) => {
 						var res = httpResponse.body;
 						this.services.alert.showAlert(1, 'rlo.success.update.referrer', 5000);
@@ -357,7 +366,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 					return;
 				}
 				else {
-					this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap,'/rlo-de').subscribe(
+					this.services.http.fetchApi('/ReferrerDetails', 'POST', inputMap, '/rlo-de').subscribe(
 						async (httpResponse: HttpResponse<any>) => {
 							var res = httpResponse.body;
 							this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
@@ -442,7 +451,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		this.showSpinner();
 		inputMap.clear();
 		inputMap.set('PathParam.BorrowerSeq', event.SeqKey);
-		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap,'/rlo-de').subscribe(
+		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				// this.AddBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);

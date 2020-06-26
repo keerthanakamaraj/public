@@ -62,7 +62,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
   ApplicationId: any
-  CustomerDetailsArray: any;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -120,8 +119,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     await this.Handler.onFormLoad({
     });
     this.OnLoanFormLoad()
-
-    console.log('this.CustomerDetailsArray', this.CustomerDetailsArray);
 
     this.setDependencies();
   }
@@ -249,8 +246,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     );
   }
   async LoanGridCalculation() {
+    let CustomerDetailsArray = [];
+    CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
     var array = [];
-    this.CustomerDetailsArray.forEach(Customer => {
+    CustomerDetailsArray.forEach(Customer => {
 
       if (Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') {
         var CalCulatepPrincipal = 0

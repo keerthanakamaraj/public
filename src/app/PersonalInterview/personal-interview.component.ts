@@ -25,7 +25,8 @@ export class PersonalInterviewComponent implements OnInit {
 
   // @Output() updateOptions: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private services: ServiceStock, private renderer2: Renderer2) { }
+  constructor(private services: ServiceStock, private renderer2: Renderer2) {
+   }
 
   ngOnInit() {
     this.loadQuestionnaireDtls();

@@ -105,7 +105,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Input() Cust_FullName: string = undefined;
     @Input() parentFormCode: string = undefined;
     showAddOn: boolean = false;
-    CustomerDetailsArray: any;
+    //CustomerDetailsArray: any;
     appId: any;
     fullName: any;
     staffcheck: boolean;
@@ -450,9 +450,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // }
 
         if (noOfErrors === 0) {
-            for (let i = 0; i < this.CustomerDetailsArray.length; i++) {
-                if (this.CustomerDetailsArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()) {
-                    if (this.CustomerDetailsArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && this.CustomerDetailsArray[i].DOB == this.CD_DOB.getFieldValue()) {
+            let CustomerDetailsArray = [];
+            CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
+            console.log("Shweta :: return from service", CustomerDetailsArray);
+            for (let i = 0; i < CustomerDetailsArray.length; i++) {
+                if (CustomerDetailsArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()) {
+                    if (CustomerDetailsArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && CustomerDetailsArray[i].DOB == this.CD_DOB.getFieldValue()) {
                         this.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
                         return;
                     }
@@ -514,7 +517,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                             data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
                         });
 
-                        
+
                         // this.onReset();
                     },
                     async (httpError) => {
