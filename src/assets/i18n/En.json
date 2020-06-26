@@ -456,7 +456,7 @@
     "Reference": "Reference #",
     "GridTitle": "INSURANCE GRID",
     "Amount": "Amount",
-    "NoofInstallments": "No of Installments",
+    "NoofInstallments": "No. of Installments",
     "Insurer": "Insurer"
   },
   "loanGrid": {
@@ -855,7 +855,7 @@
     "sector": "Sector"
   },
   "RefDetails": {
-    "ContactNo": "Contact No",
+    "ContactNo": "Contact No.",
     "Designation": "Designation",
     "FieldId_1": "Add",
     "toolbar_RefDetails": "null",
@@ -913,7 +913,7 @@
     "DOB": "Date Of Birth",
     "CIFNumber": "CIF No.",
     "MName": "Middle Name",
-    "NoOfDependent": "No Of Dependents",
+    "NoOfDependent": "No. Of Dependents",
     "SAVE": "Save",
     "RelatedPartyType": "Related Party Type",
     "Age": "Age",
@@ -951,7 +951,7 @@
     "FormTitle": "Family Details",
     "nameOfFamilyMember": "Name Of Family Member",
     "save": "Save",
-    "nic": "NIC No",
+    "nic": "NIC No.",
     "update": "Update",
     "relationship": "Relationship"
   },
@@ -1190,7 +1190,7 @@
     "SupplierVAT": "Supplier VAT",
     "NoofUpfrontPayments": "No. of Upfront Payments",
     "FormTitle": "LeaseDetails",
-    "DownpaymentAccno": "Down payment Account no",
+    "DownpaymentAccno": "Down payment Account no.",
     "DeductfromDisbursal": "Deduct from Disbursal",
     "FinancedAmount": "Financed Amount",
     "save": "Save",
@@ -1352,7 +1352,7 @@
   },
   "LoanDetailsForm" : {
     "MarginRate" : "Margin Rate",
-    "RepaymentAccNo" : "Repayment Account No",
+    "RepaymentAccNo" : "Repayment Account No.",
     "RepaymentOption" : "Repayment Option",
     "LD_HEADING" : "Repayment Details",
     "LD_COLL_UPFRONT_CHARGES" : "Collect Upfront Charges",
@@ -1379,7 +1379,7 @@
 
     },
   "SearchCustomerGrid": {
-    "AccNo": "Account No",
+    "AccNo": "Account No.",
     "Status": "Status",
     "toolbar_SearchCustomerGrid": "null",
     "Cif": "CIF",
@@ -1396,7 +1396,7 @@
     "SearchFormGrid": "null"
   },
   "ApplicationDtls": {
-    "AD_PHYSICAL_FORM_NO": "Physical Form No",
+    "AD_PHYSICAL_FORM_NO": "Physical Form No.",
     "APP_DTLS_HEAD": "Application Details",
     "AD_EXISTING_CUSTOMER": "Existing Customer",
     "AD_SOURCING_CHANNEL": "Sourcing Channel",
@@ -1523,7 +1523,7 @@
     "CD_STAFF": "Is the Customer an employee?",
     "LD_TENURE": "Tenure",
     "RD_REFERRER_NO": "Referrer Mobile No.",
-    "SRC_MOBILE_NO": "Mobile No",
+    "SRC_MOBILE_NO": "Mobile No.",
     "SRC_CIF_NO": "CIF",
     "CD_FIRST_NAME": "First Name",
     "SUBMIT_MAIN_BTN": "SUBMIT",
@@ -1547,7 +1547,7 @@
     "CD_CUST_TYPE": "Customer Type",
     "CD_CUSTOMER_ID": "Customer ID",
     "RD_HEAD_LBL": "Referral Information",
-    "CD_MOBILE": "Mobile No",
+    "CD_MOBILE": "Mobile No.",
     "BAD_PRODUCT": "Product",
     "LD_NET_INCOME": "Net Income",
     "LD_MARGIN_RATE": "Margin Rate",
@@ -1557,7 +1557,7 @@
     "BAD_PRIME_USAGE" : "Prime Usage",
     "BAD_APP_PRPSE" : "Application Purpose",
     "CD_INLINE_HEADER": "Please enter any of the following details you have to help identify the customer",
-    "BAD_PHYSICAL_FRM_NO": "Physical Form No",
+    "BAD_PHYSICAL_FRM_NO": "Physical Form No.",
     "CD_TAX_ID": "Tax ID",
     "BAD_PROD_LBL": "Product(s) Applied For",
     "CD_EXISTING_CUST": "Existing Customer?",
@@ -1629,7 +1629,7 @@
     "CCD_Name": "Name"
   },
   "CreditCardDetails": {
-    "SettlementAccountNo": "Settle Account No ",
+    "SettlementAccountNo": "Settle Account No.",
     "CCD_Save": "SAVE",
     "FormTitle": "Credit Card Details",
     "StmtDispatchMode": "Statement Dispatch Mode",
@@ -1792,7 +1792,7 @@
     "FAMILY_DTLS": "null"
   },
   "CustDtlsGrid": {
-    "CIF": "CIF NO",
+    "CIF": "CIF No.",
     "CD_EDIT_BTN_ButtonName": "Edit",
     "CD_EDIT_BTN": "Edit",
     "toolbar_CustDtlsGrid": "null",
@@ -1825,7 +1825,7 @@
     "MT_Proposal": "NEW PROPOSAL"
   },
   "NotepadDetailsGrid": {
-    "ND_SR_NO": "S No",
+    "ND_SR_NO": "S No.",
     "toolbar_NotepadDetailsGrid": "null",
     "ND_COMMENTS": "Comments"
   },
