@@ -137,7 +137,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
     }
     ngOnInit(): void {
-        console.log("deep ===","onInit");
+        console.log("deep ===", "onInit");
         this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
         var styleElement = document.createElement('style');
         styleElement.type = 'text/css';
@@ -211,31 +211,35 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
-
-                if(res != null){
-                    var loopVar4 = res['BorrowerDetails'];              
-
-                    if (loopVar4) {
-                        for (var i = 0; i < loopVar4.length; i++) {
-                            var tempObj = {};
-                            tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
-                            tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
-                            tempObj['FD_NAME'] = loopVar4[i].FullName;
-                            tempObj['FD_DOB'] = loopVar4[i].DOB;
-                            tempObj['Full_NAME'] = loopVar4[i].CustFullName;
-                            this.familyDetails.push(tempObj);
-                        }
-
-                    }
+                if (res !== null) {
+                    this.familyRecord = true
+                    var loopVar4 = res['BorrowerDetails'];
+                } else {
+                    this.familyRecord = false;
                 }
-              
+
+
+
+                if (loopVar4) {
+                    for (var i = 0; i < loopVar4.length; i++) {
+                        var tempObj = {};
+                        tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
+                        tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
+                        tempObj['FD_NAME'] = loopVar4[i].FullName;
+                        tempObj['FD_DOB'] = loopVar4[i].DOB;
+                        tempObj['Full_NAME'] = loopVar4[i].CustFullName;
+                        this.familyDetails.push(tempObj);
+                    }
+
+                }
+
                 let obj = {
                     "name": "FamilyDetails",
                     "data": this.familyDetails,
                     "BorrowerSeq": borrowerSeq
                 }
                 this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-                
+
                 this.readonlyGrid.apiSuccessCallback(params, this.familyDetails);
             },
             async (httpError) => {
@@ -250,10 +254,10 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
     async FD_MODIFY_click(event) {
         let inputMap = new Map();
         const selectedData0 = this.readonlyGrid.getSelectedData();
-            this.onFamilyModify.emit({
-                'SeqKey': event['Family_ID'],
-            });
-        
+        this.onFamilyModify.emit({
+            'SeqKey': event['Family_ID'],
+        });
+
     }
     async FD_DELETE_click(event) {
         let inputMap = new Map();
