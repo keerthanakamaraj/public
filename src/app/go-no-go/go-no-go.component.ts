@@ -204,14 +204,7 @@ export class GoNoGoComponent implements OnInit {
 
     } else {
       let errorText = undefined;
-      // if (this.ErrorSet.has('DM')) {
-      //   errorText = this.ErrorSet.get('DM');
-      // }
-      // if (this.ErrorSet.has('RM')) {
-      //   errorText != undefined ? errorText = errorText + ' and ' : errorText;
-      //   errorText = errorText = this.ErrorSet.get('RM')
-      // }
-      //console.log("shweta :: after Error ",Array.from(this.ErrorSet)[0]," set size is ",this.ErrorSet.size);
+     // console.log("shweta :: after Error ",Array.from(this.ErrorSet)[0]," set size is ",this.ErrorSet.size);
       this.services.alert.showAlert(2, this.ErrorSet.size == 2 ? 'rlo.error.questionnaire.decision-Remark-pending' : Array.from(this.ErrorSet)[0], -1);
     }
   }

@@ -1970,7 +1970,8 @@
   },
   "PIDtls":{
     "PI_SAVE_BTN":"SAVE",
-    "PI_CLEAR_BTN":"CLEAR"
+    "PI_CLEAR_BTN":"CLEAR",
+    "PI_SUBHEADER_NOTE":"Please select the appropriate responses to the following interview questions"
   },
   "LoanDetailsGrid" : {
     "LD_EMI" : "EMI",
