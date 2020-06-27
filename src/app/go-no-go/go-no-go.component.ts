@@ -13,7 +13,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 
 export class GoNoGoComponent implements OnInit {
   //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
-  ErrorMap = new Map();
+  ErrorSet = new Set();
   ApplicationDetails: IGoNoGoQuestionnaire = {};
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
@@ -39,15 +39,15 @@ export class GoNoGoComponent implements OnInit {
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
       //call validation method and render
-      if(this.isDecisionsValid){
-        console.log("shweta :: passing data from GNG to service",questionnairDtlsResp);
-      let obj = {
-        "name": "GoNoGoDetails",
-        "data": questionnairDtlsResp,
-        "sectionName": "GoNoGoDetails",
+      if (this.isDecisionsValid()) {
+        console.log("shweta :: passing data from GNG to service", questionnairDtlsResp);
+        let obj = {
+          "name": "GoNoGoDetails",
+          "data": questionnairDtlsResp,
+          "sectionName": "GoNoGoDetails",
+        }
+        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
-      this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-    }
     },
       (httpError) => {
         console.error(httpError);
@@ -143,21 +143,21 @@ export class GoNoGoComponent implements OnInit {
 
   isDecisionsValid() {
     let isValid = true;
-    this.ErrorMap.clear();
+    this.ErrorSet.clear();
     this.QuestionnairMap.forEach(question => {
       question.IsDeviation = false;
       if (question.SelectedDecision.AnswerSeq == undefined) {
-        //   this.ErrorMap.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
-        this.ErrorMap.set('DM', 'Decision for all questions');
+        //   this.ErrorSet.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
+        this.ErrorSet.add('rlo.error.questionnaire.decision-pending');
         isValid = false;
       }
       else if (question.SelectedDecision.Remark == undefined) {
         let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
         if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
           question.IsDeviation = true;
-          this.ErrorMap.set('RM', 'Remarks for Deviation questions');
+          this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
-        } 
+        }
       }
     });
 
@@ -193,7 +193,7 @@ export class GoNoGoComponent implements OnInit {
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
 
       console.log("shweta :: input map", inputMap);
-      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap,'/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
         this.loadQuestionnaireDtls();
       },
@@ -204,15 +204,15 @@ export class GoNoGoComponent implements OnInit {
 
     } else {
       let errorText = undefined;
-      if (this.ErrorMap.has('DM')) {
-        errorText = this.ErrorMap.get('DM');
-      }
-      if (this.ErrorMap.has('RM')) {
-        errorText != undefined ? errorText = errorText + ' and ' : errorText;
-        errorText = errorText = this.ErrorMap.get('RM')
-      }
-
-      this.services.alert.showAlert(2, '', -1, errorText + ' is mandatory.');
+      // if (this.ErrorSet.has('DM')) {
+      //   errorText = this.ErrorSet.get('DM');
+      // }
+      // if (this.ErrorSet.has('RM')) {
+      //   errorText != undefined ? errorText = errorText + ' and ' : errorText;
+      //   errorText = errorText = this.ErrorSet.get('RM')
+      // }
+      //console.log("shweta :: after Error ",Array.from(this.ErrorSet)[0]," set size is ",this.ErrorSet.size);
+      this.services.alert.showAlert(2, this.ErrorSet.size == 2 ? 'rlo.error.questionnaire.decision-Remark-pending' : Array.from(this.ErrorSet)[0], -1);
     }
   }
 

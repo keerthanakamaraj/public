@@ -12,7 +12,7 @@ import { IQuestion, IAnswerOption, IselectedAnswer, IFieldErrors } from './Perso
 })
 
 export class PersonalInterviewComponent implements OnInit {
-  ErrorMap = new Map();
+  ErrorMsg: String = undefined;
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
   @ViewChildren(RLOUIRadioComponent) PI_PARAM_List: QueryList<ElementRef>;
@@ -26,7 +26,7 @@ export class PersonalInterviewComponent implements OnInit {
   // @Output() updateOptions: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private services: ServiceStock, private renderer2: Renderer2) {
-   }
+  }
 
   ngOnInit() {
     this.loadQuestionnaireDtls();
@@ -125,10 +125,9 @@ export class PersonalInterviewComponent implements OnInit {
 
   isDecisionsValid() {
     let isValid = true;
-    this.ErrorMap.clear();
+    // this.ErrorMsg.clear();
     this.QuestionnairMap.forEach(question => {
       if (question.SelectedDecision.AnswerSeq == undefined) {
-        this.ErrorMap.set('DM', 'Decision for all questions');
         isValid = false;
       }
     });
@@ -148,7 +147,7 @@ export class PersonalInterviewComponent implements OnInit {
         }
         decision['QuestionSeq'] = question.QuestionSeq;
         decision['ApplicationId'] = this.ApplicationId;
-        decision['BorrowerSeq']=this.activeBorrowerSeq;
+        decision['BorrowerSeq'] = this.activeBorrowerSeq;
         decision['AnswerSeq'] = question.SelectedDecision.AnswerSeq;
         decision['DeviationLevel'] = question.DeviationLevel;
         decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
@@ -164,17 +163,17 @@ export class PersonalInterviewComponent implements OnInit {
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
 
       console.log("shweta :: input map", inputMap);
-      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap,'/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.personal-interview', 5000);
-        
+
         let obj = {
           "name": "PersonalInterviewDetails",
           "data": decisionsParamArray,
           "BorrowerSeq": this.activeBorrowerSeq
         }
-        
+
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-        
+
         this.loadQuestionnaireDtls();
       },
         (httpError) => {
@@ -184,11 +183,7 @@ export class PersonalInterviewComponent implements OnInit {
 
     } else {
       let errorText = undefined;
-      if (this.ErrorMap.has('DM')) {
-        errorText = this.ErrorMap.get('DM');
-      }
-      //this.services.alert.showAlert(2, errorText + " is mandatory.", -1);
-      this.services.alert.showAlert(2, '', -1, errorText + ' is mandatory.');
+      this.services.alert.showAlert(2, 'rlo.error.questionnaire.decision-pending', -1);
     }
   }
 
