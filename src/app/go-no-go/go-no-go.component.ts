@@ -38,12 +38,16 @@ export class GoNoGoComponent implements OnInit {
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
+      //call validation method and render
+      if(this.isDecisionsValid){
+        console.log("shweta :: passing data from GNG to service",questionnairDtlsResp);
       let obj = {
         "name": "GoNoGoDetails",
         "data": questionnairDtlsResp,
         "sectionName": "GoNoGoDetails",
       }
       this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+    }
     },
       (httpError) => {
         console.error(httpError);

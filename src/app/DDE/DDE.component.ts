@@ -257,7 +257,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.services.rloCommonData.childToParentSubject.subscribe((event) => {
             switch (event.action) {
                 case 'updateCustGrid': // on customer update/save success
-                    console.log("shweta :: grid update ", event.data);
+                  //  console.log("shweta :: grid update ", event.data);
                     this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
                     event.action = undefined;
                     break;
@@ -274,7 +274,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             console.error(clonedMasterDataMap);
 
             this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected);
-            console.log(this.services.rloCommonData.masterDataMap);
+            console.log("shweta :: in DDE constructor",this.services.rloCommonData.masterDataMap);
 
             this.addOrRemoveCompletedSection(clonedMasterDataMap, data);
         });

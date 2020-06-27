@@ -200,6 +200,8 @@ export class RloCommonData {
                     break;
                 case 'GoNoGoDetails': // for application tab
                     mapValue= componentData.data;
+                    console.log("in service switch case", mapValue);
+                   this.validateGONOGOSection();
                     break;
                 case 'Notes':
                     mapValue=componentData.data;
@@ -422,5 +424,13 @@ export class RloCommonData {
         return CustomerDtls;
     }
 
+    async validateGONOGOSection() {
+        let commonObj = {
+            isSectionValid: true,
+            errorMessage: ''
+        }
 
+        console.log("shweta :: in service validation",commonObj);
+        return commonObj;
+    }
 }
