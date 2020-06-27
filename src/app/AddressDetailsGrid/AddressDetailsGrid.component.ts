@@ -328,7 +328,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
 				let obj = {
 					"name": "AddressDetails",
-					"data": this.addressDetails,
+					"data": address,
 					"BorrowerSeq": borrowerSeq
 				}
 				this.services.rloCommonData.globalComponentLvlDataHandler(obj);

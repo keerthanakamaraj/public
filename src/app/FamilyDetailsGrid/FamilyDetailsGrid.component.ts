@@ -211,14 +211,13 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.familyDetails = [];
+                var loopVar4 = [];
                 if (res !== null) {
                     this.familyRecord = true
-                    var loopVar4 = res['BorrowerDetails'];
+                    loopVar4 = res['BorrowerDetails'];
                 } else {
                     this.familyRecord = false;
                 }
-
-
 
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
@@ -230,12 +229,11 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                         tempObj['Full_NAME'] = loopVar4[i].CustFullName;
                         this.familyDetails.push(tempObj);
                     }
-
                 }
 
                 let obj = {
                     "name": "FamilyDetails",
-                    "data": this.familyDetails,
+                    "data": loopVar4,
                     "BorrowerSeq": borrowerSeq
                 }
                 this.services.rloCommonData.globalComponentLvlDataHandler(obj);

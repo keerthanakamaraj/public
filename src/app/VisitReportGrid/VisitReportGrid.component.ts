@@ -269,7 +269,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 
 					let obj = {
 						"name": "RmVisitDetails",
-						"data": VisitDtlsList,
+						"data": this.VisitRecordsList,
 						"BorrowerSeq": event.BorrowerSeq
 					}
 					this.services.rloCommonData.globalComponentLvlDataHandler(obj);

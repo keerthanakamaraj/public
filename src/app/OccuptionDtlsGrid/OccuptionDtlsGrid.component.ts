@@ -202,7 +202,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 		return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 	}
 	ngOnInit(): void {
-		console.log("deep ===","onInit");
+		console.log("deep ===", "onInit");
 		this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
 		var styleElement = document.createElement('style');
 		styleElement.type = 'text/css';
@@ -279,9 +279,10 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.occupation = [];
+				var occupationDetails = [];
 				if (res !== null) {
 					this.occupationRecord = true;
-					var occupationDetails = res['OccupationDetails'];
+					occupationDetails = res['OccupationDetails'];
 				}
 				else {
 					this.occupationRecord = false;
@@ -323,7 +324,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
 				let obj = {
 					"name": "OccupationDetails",
-					"data": this.occupation,
+					"data": occupationDetails,
 					"BorrowerSeq": inputKey,
 				}
 				this.services.rloCommonData.globalComponentLvlDataHandler(obj);

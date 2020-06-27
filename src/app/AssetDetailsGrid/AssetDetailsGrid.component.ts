@@ -245,9 +245,10 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.loopDataVar4 = [];
+                var loopVar4 = [];
                 if (res !== null) {
                     this.assetRecord = true
-                    var loopVar4 = res['AssetDetails'];
+                    loopVar4 = res['AssetDetails'];
                 }
                 else {
                     this.assetRecord = false
@@ -266,10 +267,10 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                         this.loopDataVar4.push(tempObj);
                     }
                 }
-           
+
                 let obj = {
                     "name": "AssetDetails",
-                    "data": this.loopDataVar4,
+                    "data": loopVar4,
                     "BorrowerSeq": event.passBorrowerToAsset
                 }
                 this.services.rloCommonData.globalComponentLvlDataHandler(obj);

@@ -28,6 +28,7 @@ import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDet
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { Subscription } from 'rxjs';
+import { array } from '@amcharts/amcharts4/core';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -76,7 +77,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   errorsList = [];
   customerGridArray: any;
   ActiveCustomerDtls: {} = undefined;
-  
+
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -448,14 +449,18 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async QDE_SUBMIT_click(event) {
     this.services.rloCommonData.isFormValid("QDE", this.CUSTOMER_DETAILS).then((dataObj) => {
       console.warn(dataObj);
-      if (dataObj.isAppValidFlag) {
+      if (dataObj.isAppValid) {
         const requestParams = new Map();
         requestParams.set('Body.ApplicationStatus', 'Approve');
         requestParams.set('Body.direction', 'AP');
 
         this.submitQDE(requestParams);
       } else {
-        this.services.alert.showAlert(2, '', -1, dataObj.errorsList[0]);
+        let errorMsg = "";
+        dataObj.errorsList.forEach(element => {
+          errorMsg += element;
+        });
+        this.services.alert.showAlert(2, '', -1, errorMsg);
       }
     });
   }
@@ -528,7 +533,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     //  this.ProductCategory = event.isLoanCategory;
-   // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
+    // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
   }

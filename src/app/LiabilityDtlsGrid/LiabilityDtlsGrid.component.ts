@@ -207,9 +207,10 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.loopDataVar4 = [];
+        var loopVar4 = [];
         if (res !== null) {
           this.liabilityRecord = true
-          var loopVar4 = res['LiabilityDetails'];
+          loopVar4 = res['LiabilityDetails'];
         }
         else {
           this.liabilityRecord = false
@@ -224,10 +225,10 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
             this.loopDataVar4.push(tempObj);
           }
         }
-        
+
         let obj = {
           "name": "LiabilityDetails",
-          "data": this.loopDataVar4,
+          "data": loopVar4,
           "BorrowerSeq": event.passBorrowerToLiability
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);

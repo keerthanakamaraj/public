@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { RloUtilService } from './rloutil.service';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
+import { forkJoin } from 'rxjs';
 
 export interface subjectParamsInterface {
     action: string;
@@ -15,6 +16,11 @@ export interface IComponentLvlData {
     sectionName?: string;
 }
 
+
+export interface IComponentSectionValidationData {
+    isSectionValid: boolean,
+    errorMessage: string
+}
 
 @Injectable({
     providedIn: 'root'
@@ -144,18 +150,18 @@ export class RloCommonData {
         console.warn("deep ===", componentData, isCustomerTabSelected);
         let mapValue = new Map();
         let tempStoreMap = new Map();
-        let mapName= undefined;
+        let mapName = undefined;
         let mapKey = undefined;
-        
-                if(isCustomerTabSelected){
-                     mapName="customerMap";
-                     mapKey =componentData.BorrowerSeq;
-                }else{
-                     mapName="applicationMap";
-                     mapKey =componentData.sectionName;
-                }
-       
-                tempStoreMap.set(mapName, this.masterDataMap.get(mapName))
+
+        if (isCustomerTabSelected) {
+            mapName = "customerMap";
+            mapKey = componentData.BorrowerSeq;
+        } else {
+            mapName = "applicationMap";
+            mapKey = componentData.sectionName;
+        }
+
+        tempStoreMap.set(mapName, this.masterDataMap.get(mapName))
 
 
         console.warn(this.masterDataMap, tempStoreMap);
@@ -169,7 +175,7 @@ export class RloCommonData {
 
             switch (componentData.name) {
                 case 'CustomerDetails': // for customer tab
-                mapValue.set('CustomerDetails', componentData.data[0]);
+                    mapValue.set('CustomerDetails', componentData.data[0]);
                     break;
                 case 'AddressDetails':
                     mapValue.set('AddressDetails', componentData.data);
@@ -199,18 +205,18 @@ export class RloCommonData {
                     mapValue.set('RmVisitDetails', componentData.data);
                     break;
                 case 'GoNoGoDetails': // for application tab
-                    mapValue= componentData.data;
+                    mapValue = componentData.data;
                     console.log("in service switch case", mapValue);
-                   this.validateGONOGOSection();
+                    this.validateGONOGOSection();
                     break;
                 case 'Notes':
-                    mapValue=componentData.data;
+                    mapValue = componentData.data;
                     break;
                 case 'LoanDetails':
-                    mapValue=componentData.data;
+                    mapValue = componentData.data;
                     break;
                 case 'CreditCardDetails':
-                    mapValue=componentData.data;
+                    mapValue = componentData.data;
                     break;
             }
 
@@ -224,7 +230,7 @@ export class RloCommonData {
                 customerDetails.delete(componentData.name);
             }
         }
-        console.log("shweta :: in update services temp map",tempStoreMap);
+        console.log("shweta :: in update services temp map", tempStoreMap);
     }
 
     //TAGS
@@ -261,107 +267,6 @@ export class RloCommonData {
             }
         });
         return tags;
-    }
-
-    async isFormValid(page: string, CUSTOMER_DETAILS: CustomerDtlsComponent) {
-        let dataObject = {
-            isAppValidFlag: true,
-            errorsList: []
-        }
-        var dataToValidate: Map<any, any>;
-        if (page == "QDE") {
-            dataToValidate = this.masterDataMap.get("customerMap");
-        } else {
-
-        }
-
-        await this.asyncForEach(Array.from(dataToValidate.entries()), async (entry) => {
-            let isAddressValid = true;
-            let isOccupationValid = true;
-            let isCustomerValid = true;
-            let errorMessage = '';
-            let custFullName = '';
-            // const bottowerSeq: string = entry[0];
-            if (entry[1].has('CustomerDetails')) {
-                const customer = entry[1].get('CustomerDetails');
-                custFullName = customer.FullName;
-                isCustomerValid = await this.validateCustomer(CUSTOMER_DETAILS);
-
-                if (!isCustomerValid) {
-                    errorMessage = errorMessage + ' All mandatory fields for the customer';
-                }
-                const LoanOwnership = customer.LoanOwnership;
-                const custType = customer.CustomerType;
-
-                if (!entry[1].has('AddressDetails')) {
-                    isAddressValid = false;
-                    errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
-                    errorMessage = errorMessage + ' Add atleast one address';
-                } else {
-                    const addressList = entry[1].get('AddressDetails');
-                    const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
-                    const isMailing = true;
-                    for (const eachAddress of addressList) {
-                        if (eachAddress.MailingAddress && eachAddress.MailingAddress === 'Y') {
-                            addrValidationObj.isMailing = true;
-                        }
-                        if ('CR' === ('' + eachAddress.OccupancyType)) {
-                            addrValidationObj.isCurrent = true;
-                        }
-                        if ('PR' === ('' + eachAddress.OccupancyType)) {
-                            addrValidationObj.isPermenet = true;
-                        }
-                        if ('OF' === ('' + eachAddress.AddressType)) {
-                            addrValidationObj.isOffice = true;
-                        }
-                    }
-
-                    if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
-                        addrValidationObj.isOffice = true;
-                    }
-
-                    for (const flag in addrValidationObj) {
-                        if (!addrValidationObj[flag]) {
-                            isAddressValid = false;
-                        }
-                    }
-
-                    if (!isAddressValid) {
-                        errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
-                        errorMessage += (addrValidationObj.isOffice) ?
-                            'add one permanent residence, one current residence and select one of these as the correspondence address'
-                            // tslint:disable-next-line:max-line-length
-                            : 'add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address';
-                    }
-                }
-
-                if (LoanOwnership !== undefined) {
-                    isOccupationValid = false;
-                    if (entry[1].has('OccupationDetails')) {
-                        const occupationList = entry[1].get('OccupationDetails');
-
-                        for (const eachOccupation of occupationList) {
-                            if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
-                                isOccupationValid = true;
-                            }
-                        }
-                    }
-                    if (!isOccupationValid) {
-                        errorMessage = errorMessage !== '' ? errorMessage + '. ' : errorMessage;
-                        errorMessage = errorMessage + 'Customer\'s primary occupation is required.';
-
-                    }
-                }
-            }
-
-            if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
-                errorMessage = 'formalities of customer ' + custFullName + ' are pending. Please fill : ' + errorMessage;
-                dataObject.errorsList.push(errorMessage);
-                dataObject.isAppValidFlag = false;
-            }
-        });
-
-        return dataObject;
     }
 
     async asyncForEach(array, callback) {
@@ -412,16 +317,165 @@ export class RloCommonData {
         return CustomerList;
     }
 
-    getCustomerDetails(activeBorrowerSeq) {
-        let CustomerDtls = {};
-        if (this.masterDataMap.has('customerMap')) {
-            const customerMap = this.masterDataMap.get('customerMap');
-            if (customerMap.has(activeBorrowerSeq)) {
-                let customer = customerMap.get(activeBorrowerSeq);
-                CustomerDtls = customer.get('CustomerDetails');
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //88888888888888888888888888888888888888888888888888888888888888888888888888888
+
+    async isFormValid(page: string, CUSTOMER_DETAILS: CustomerDtlsComponent) {
+        let dataObject = {
+            isAppValid: true,
+            errorsList: []
+        }
+        var dataToValidate: Map<any, any>;
+        if (page == "QDE") {
+            dataToValidate = this.masterDataMap.get("customerMap");
+        }
+
+        await this.asyncForEach(Array.from(dataToValidate.entries()), async (entry) => {
+            let isAddressValid = true;
+            let isOccupationValid = true;
+            let isCustomerValid = true;
+            let errorMessage = '';
+            let custFullName = '';
+
+            if (entry[1].has('CustomerDetails')) {
+                const customer = entry[1].get('CustomerDetails');
+                custFullName = customer.FullName;
+                isCustomerValid = await this.validateCustomer(CUSTOMER_DETAILS);
+
+                if (!isCustomerValid) {
+                    errorMessage = errorMessage + ' All mandatory fields for the customer';
+                }
+
+                forkJoin(
+                    this.validateAddressDetailSection(entry[1]),
+                    this.validateOccupationDetailsSection(entry[1])
+                ).subscribe((data) => {
+                    console.error(data);
+                    isAddressValid = data[0].isSectionValid;
+                    isOccupationValid = data[1].isSectionValid;
+
+                    for (let i = 0; i < data.length; i++) {
+                        const element = data[i];
+                        if (!element.isSectionValid) {
+                            errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
+                        }
+                        errorMessage += element.errorMessage;
+                    }
+
+                    if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
+                        let msg = "Formalities of customer " + custFullName + " are pending kindly fill : " + errorMessage + "\r\n";
+                        dataObject.errorsList.push(msg);
+                        dataObject.isAppValid = false;
+                    }
+                });
+            }
+        });
+        console.warn(dataObject.errorsList);
+        return dataObject;
+    }
+
+    async validateOccupationDetailsSection(customerSectionData: Map<any, any>) {
+        let customerData = customerSectionData.get('CustomerDetails');
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: true,
+            errorMessage: ''
+        }
+
+        const LoanOwnership = customerData.LoanOwnership;
+
+        if (LoanOwnership !== undefined) {
+            commonObj.isSectionValid = false;
+            if (customerSectionData.has('OccupationDetails')) {
+                const occupationList = customerSectionData.get('OccupationDetails');
+
+                for (const eachOccupation of occupationList) {
+                    if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
+                        commonObj.isSectionValid = true;
+                    }
+                }
+            }
+            if (!commonObj.isSectionValid) {
+                commonObj.errorMessage += "customer's primary occupation is required.";
             }
         }
-        return CustomerDtls;
+        return commonObj;
+    }
+
+    async validateAddressDetailSection(sectionData: Map<any, any>) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: true,
+            errorMessage: ''
+        }
+        let customerData = sectionData.get('CustomerDetails');
+
+        const LoanOwnership = customerData.LoanOwnership;
+        const custType = customerData.CustomerType;
+
+        if (!sectionData.has('AddressDetails')) {
+            commonObj.isSectionValid = false;
+            commonObj.errorMessage += 'add atleast one address';
+        } else {
+            const addressList = sectionData.get('AddressDetails');
+            const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+            for (const eachAddress of addressList) {
+                if (eachAddress.MailingAddress && eachAddress.MailingAddress === 'Y') {
+                    addrValidationObj.isMailing = true;
+                }
+                if ('CR' === ('' + eachAddress.OccupancyType)) {
+                    addrValidationObj.isCurrent = true;
+                }
+                if ('PR' === ('' + eachAddress.OccupancyType)) {
+                    addrValidationObj.isPermenet = true;
+                }
+                if ('OF' === ('' + eachAddress.AddressType)) {
+                    addrValidationObj.isOffice = true;
+                }
+            }
+
+            if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
+                addrValidationObj.isOffice = true;
+            }
+
+            for (const flag in addrValidationObj) {
+                if (!addrValidationObj[flag]) {
+                    commonObj.isSectionValid = false;
+                }
+            }
+
+            if (!commonObj.isSectionValid) {
+                commonObj.errorMessage += (addrValidationObj.isOffice) ?
+                    'add one permanent residence, one current residence and select one of these as the correspondence address'
+                    : 'add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address';
+            }
+        }
+        return commonObj;
+    }
+
+    async getCustomerDetails(CUSTOMER_DETAILS) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: true,
+            errorMessage: ''
+        }
+
+        commonObj.isSectionValid = await this.validateCustomer(CUSTOMER_DETAILS);
+
+        if (!commonObj.isSectionValid) {
+            commonObj.errorMessage = ' All mandatory fields for the customer';
+        }
+
+        return commonObj;
     }
 
     async validateGONOGOSection() {
@@ -430,7 +484,7 @@ export class RloCommonData {
             errorMessage: ''
         }
 
-        console.log("shweta :: in service validation",commonObj);
+        console.log("shweta :: in service validation", commonObj);
         return commonObj;
     }
 }
