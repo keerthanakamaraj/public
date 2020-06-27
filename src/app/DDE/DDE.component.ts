@@ -129,13 +129,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-    {
-        selectedMenuId: "",
-        selectedMenuComponent: "",
-        isCustomerTabSelected: true,
-        firstArr: 0,
-        secondArr: 0
-    };
+        {
+            selectedMenuId: "",
+            selectedMenuComponent: "",
+            isCustomerTabSelected: true,
+            firstArr: 0,
+            secondArr: 0
+        };
 
 
     //list of selected customer and application sections
@@ -1023,36 +1023,36 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    
+
         Promise.all([mainMessage, button1, button2]).then(values => {
-          console.log(values);
-          let modalObj = {
-            title: "Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-              { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-            ]
-          }
-    
-          console.log("deep ===", modalObj);
-          this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
+            console.log(values);
+            let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                ]
             }
-          });
+
+            console.log("deep ===", modalObj);
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                    if (response.id === 1) {
+                        this.services.router.navigate(['home', 'LANDING']);
+                    }
+                }
+            });
         });
-      }
-    
+    }
+
     async DDE_SUBMIT_click(event) {
-            const requestParams = new Map();
-            requestParams.set('Body.ApplicationStatus', 'Approve');
-            requestParams.set('Body.direction', 'AP');
-            this.submitDDE(requestParams);
+        const requestParams = new Map();
+        requestParams.set('Body.ApplicationStatus', 'Approve');
+        requestParams.set('Body.direction', 'AP');
+        this.submitDDE(requestParams);
     }
 
     async DDE_WITHDRAW_click(event) {
@@ -1063,59 +1063,82 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    
+
         Promise.all([mainMessage, button1, button2]).then(values => {
-          console.log(values);
-          let modalObj = {
-            title:"Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-              { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-            ]
-          }
-    
-          console.log("deep ===", modalObj);
-          this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.rloui.closeAllConfirmationModal()
-                this.submitDDE(requestParams);
-              }
+            console.log(values);
+            let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                ]
             }
-          });
+
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                    if (response.id === 1) {
+                        this.services.rloui.closeAllConfirmationModal()
+                        this.submitDDE(requestParams);
+                    }
+                }
+            });
         });
 
-        
-      }
-      async DDE_REJECT_click(event) {
 
-       
-          // history.back();
-          const requestParams = new Map();
-          requestParams.set('Body.ApplicationStatus', 'Reject');
-          requestParams.set('Body.direction', 'RJ');
-          this.submitDDE(requestParams);
-          // this.services.router.navigate(['home', 'LANDING']);
-        
-      }
+    }
+    async DDE_REJECT_click(event) {
+        const requestParams = new Map();
+        requestParams.set('Body.ApplicationStatus', 'Reject');
+        requestParams.set('Body.direction', 'RJ');
+        var mainMessage = this.services.rloui.getAlertMessage('rlo.reject.comfirmation');
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
-      async DDE_REFER_click(event) {
+        Promise.all([mainMessage, button1, button2]).then(values => {
+            console.log(values);
+            let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                ]
+            }
 
-     
-          // history.back();
-          const requestParams = new Map();
-          requestParams.set('Body.ApplicationStatus', 'Refer');
-          requestParams.set('Body.direction', 'RE');
-          this.submitDDE(requestParams);
-          // this.services.router.navigate(['home', 'LANDING']);
-        
-      }
-      async submitDDE(requestParams) {
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                    if (response.id === 1) {
+                        this.services.rloui.closeAllConfirmationModal()
+                        this.submitDDE(requestParams);
+                    }
+                }
+            });
+        });
+
+
+        // this.services.router.navigate(['home', 'LANDING']);
+
+    }
+
+    async DDE_REFER_click(event) {
+
+
+        // history.back();
+        const requestParams = new Map();
+        requestParams.set('Body.ApplicationStatus', 'Refer');
+        requestParams.set('Body.direction', 'RE');
+        this.submitDDE(requestParams);
+        // this.services.router.navigate(['home', 'LANDING']);
+
+    }
+    async submitDDE(requestParams) {
         const inputMap = new Map();
-    
+
         inputMap.clear();
         inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
         inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
@@ -1126,79 +1149,79 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.set('Body.ApplicationId', this.ApplicationId);
         inputMap.set('Body.CreatedBy', this.userId);
 
-    
-        if (requestParams) {
-          requestParams.forEach((val, key) => {
-            inputMap.set(key, val);
-          });
-       
-        } else {
-          return;
-        }
-    
-        this.services.http.fetchApi('/acceptDDE', 'POST', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            const res = httpResponse.body;
-    
-             const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
 
-             const alertMsg = (('WITHDRAW' === action) ? 'Application Withdrawn Successfully' : (('REJECT' === action) ? 'Application Rejected Successfully': (('REFER' === action) ? 'Application Referred Successfully':'Application Saved Successfully') ));
-          
-            // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-            var mainMessage = this.services.rloui.getAlertMessage('',alertMsg);
-            var button1 = this.services.rloui.getAlertMessage('', 'OK');
-            // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-        
-            Promise.all([ mainMessage, button1]).then(values => {
-              console.log(values);
-              let modalObj = {
-                title: "Alert",
-                mainMessage: values[0],
-                modalSize: "modal-width-sm",
-                buttons: [
-                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-                ]
-              }
-        
-              console.log("deep ===", modalObj);
-              this.services.rloui.confirmationModal(modalObj).then((response) => {
-                console.log(response);
-                if (response != null) {
-                  if (response.id === 1) {
-                    this.services.router.navigate(['home', 'LANDING']);
-                  }
-                }
-              });
+        if (requestParams) {
+            requestParams.forEach((val, key) => {
+                inputMap.set(key, val);
             });
-            // this.QDE_SUBMIT.setDisabled(true);
-            // this.QDE_WITHDRAW.setDisabled(true);
-            // this.services.alert.showAlert(1, alertMsg, 5000);
-            // // this.QDE_SUBMIT.setDisabled(false)
-            // this.services.router.navigate(['home', 'LANDING']);
-          },
-          async (httpError) => {
-            const err = httpError['error'];
-            if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-               if (err['ErrorElementPath'] === 'CurrentStage') {
-                this.HideCurrentStage.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'UserId') {
-                this.HideUserId.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'TENANT_ID') {
-                this.HideTenantId.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'TaskId') {
-                this.HideTaskId.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'ServiceCode') {
-                this.HideServiceCode.setError(err['ErrorDescription']);
-              } else if (err['ErrorElementPath'] === 'ProcessId') {
-                this.HideProcessId.setError(err['ErrorDescription']);
-              }
-              this.services.alert.showAlert(2, 'Fail to Submit', -1);
+
+        } else {
+            return;
+        }
+
+        this.services.http.fetchApi('/acceptDDE', 'POST', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                const res = httpResponse.body;
+
+                const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+
+                const alertMsg = (('WITHDRAW' === action) ? 'Application Withdrawn Successfully' : (('REJECT' === action) ? 'Application Rejected Successfully' : (('REFER' === action) ? 'Application Referred Successfully' : 'Application Saved Successfully')));
+
+                // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+                var mainMessage = this.services.rloui.getAlertMessage('', alertMsg);
+                var button1 = this.services.rloui.getAlertMessage('', 'OK');
+                // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+                Promise.all([mainMessage, button1]).then(values => {
+                    console.log(values);
+                    let modalObj = {
+                        title: "Alert",
+                        mainMessage: values[0],
+                        modalSize: "modal-width-sm",
+                        buttons: [
+                            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                            //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                        ]
+                    }
+
+                    console.log("deep ===", modalObj);
+                    this.services.rloui.confirmationModal(modalObj).then((response) => {
+                        console.log(response);
+                        if (response != null) {
+                            if (response.id === 1) {
+                                this.services.router.navigate(['home', 'LANDING']);
+                            }
+                        }
+                    });
+                });
+                // this.QDE_SUBMIT.setDisabled(true);
+                // this.QDE_WITHDRAW.setDisabled(true);
+                // this.services.alert.showAlert(1, alertMsg, 5000);
+                // // this.QDE_SUBMIT.setDisabled(false)
+                // this.services.router.navigate(['home', 'LANDING']);
+            },
+            async (httpError) => {
+                const err = httpError['error'];
+                if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+                    if (err['ErrorElementPath'] === 'CurrentStage') {
+                        this.HideCurrentStage.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'UserId') {
+                        this.HideUserId.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+                        this.HideTenantId.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'TaskId') {
+                        this.HideTaskId.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'ServiceCode') {
+                        this.HideServiceCode.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'ProcessId') {
+                        this.HideProcessId.setError(err['ErrorDescription']);
+                    }
+                    this.services.alert.showAlert(2, 'Fail to Submit', -1);
+                }
             }
-          }
         );
-      }
-    
+    }
+
 
 }
 

@@ -242,6 +242,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     async CCD_Save_click(event) {
         let inputMap = new Map();
+        let decisionsParamArray = [];
         var noOfError: number = await this.revalidate();
         if (noOfError == 0) {
             if (this.hidCreditSeq.getFieldValue() == undefined) {
@@ -254,12 +255,20 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
+                decisionsParamArray.push(inputMap);
                 // inputMap.set('Body.CreditCardDetails.CreditCardDetailSeq', '123');
                 inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
                 this.services.http.fetchApi('/CreditCardDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.card', 5000);
+                        let obj = {
+                            "name": "CreditCardDetails",
+                            "data": decisionsParamArray,
+                            "BorrowerSeq": this.ApplicationId
+                          }
+                          this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+        
                         this.onReset();
                     },
                     async (httpError) => {
@@ -310,6 +319,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.card', 5000);
+                        let obj = {
+                            "name": "CreditCardDetails",
+                            "data": decisionsParamArray,
+                            "BorrowerSeq": this.ApplicationId
+                          }
+                          this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                     },
                     async (httpError) => {
                         var err = httpError['error']

@@ -147,6 +147,7 @@
     "rlo.error.dov-expired":"Visit date expired",
     "rlo.error.dov-invalid":"Invalid date of visit",
     "rlo.withdraw.comfirmation" :"Are you sure you want to withdraw?",
+    "rlo.reject.comfirmation" : "Are you sure you want to reject?",
     "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
