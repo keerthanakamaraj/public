@@ -12,6 +12,7 @@ export interface IComponentLvlData {
     name?: string;
     data: any;//eg:when used in grid(address) data contains list of added addressed
     BorrowerSeq?: string;
+    sectionName?: string;
 }
 
 
@@ -39,7 +40,7 @@ export class RloCommonData {
         console.log(this.masterDataMap);
     }
 
-    resetMapData(){
+    resetMapData() {
         this.masterDataMap.set("customerMap", new Map());
         this.masterDataMap.set("applicationMap", new Map());
     }
@@ -71,62 +72,147 @@ export class RloCommonData {
         return this.componentLvlDataSubject.asObservable();
     }
 
+    // updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
+    //     console.warn("deep ===", componentData, isCustomerTabSelected);
+    //     let customerDetails = new Map();
+    //     let tempStoreMap = new Map();
+    //     const borSeq: string = componentData.BorrowerSeq;
+
+    //     if (isCustomerTabSelected) {
+    //         tempStoreMap.set("customerMap", this.masterDataMap.get("customerMap"))
+    //     }
+    //     else {
+    //         tempStoreMap.set("applicationMap", this.masterDataMap.get("applicationMap"))
+    //     }
+
+    //     console.warn(this.masterDataMap, tempStoreMap);
+
+    //     if (componentData.data.length > 0) {
+    //         if (tempStoreMap.get("customerMap")) {
+    //             if ((tempStoreMap.get("customerMap")).has(borSeq)) {
+    //                 customerDetails = tempStoreMap.get("customerMap").get(borSeq);
+    //             }
+    //         }
+
+    //         switch (componentData.name) {
+    //             case 'CustomerDetails':
+    //                 customerDetails.set('CustomerDetails', componentData.data[0]);
+    //                 break;
+    //             case 'AddressDetails':
+    //                 customerDetails.set('AddressDetails', componentData.data);
+    //                 break;
+    //             case 'OccupationDetails':
+    //                 customerDetails.set('OccupationDetails', componentData.data);
+    //                 break;
+    //             case 'FamilyDetails':
+    //                 customerDetails.set('FamilyDetails', componentData.data);
+    //                 break;
+    //             case 'LiabilityDetails':
+    //                 customerDetails.set('LiabilityDetails', componentData.data);
+    //                 break;
+    //             case 'AssetDetails':
+    //                 customerDetails.set('AssetDetails', componentData.data);
+    //                 break;
+    //             case 'IncomeSummary':
+    //                 customerDetails.set('IncomeSummary', componentData.data);
+    //                 break;
+    //             case 'CollateralDetails':
+    //                 customerDetails.set('CollateralDetails', componentData.data);
+    //                 break;
+    //             case 'PersonalInterviewDetails':
+    //                 customerDetails.set('PersonalInterviewDetails', componentData.data);
+    //                 break;
+    //             case 'RmVisitDetails':
+    //                 customerDetails.set('RmVisitDetails', componentData.data);
+    //                 break;
+    //         }
+
+    //         tempStoreMap.get("customerMap").set(borSeq, customerDetails);
+    //     }
+    //     else if (componentData.name !== 'CustomerDetails') {
+    //         const borSeq: string = componentData.BorrowerSeq;
+    //         let customerDetails = new Map();
+    //         if (tempStoreMap.get("customerMap").has(borSeq)) {
+    //             customerDetails = tempStoreMap.get("customerMap").get(borSeq);
+    //             customerDetails.delete(componentData.name);
+    //         }
+    //     }
+    //     console.log(tempStoreMap);
+    // }
+
     updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
         console.warn("deep ===", componentData, isCustomerTabSelected);
-        let customerDetails = new Map();
+        let mapValue = new Map();
         let tempStoreMap = new Map();
-        const borSeq: string = componentData.BorrowerSeq;
+        let mapName= undefined;
+        let mapKey = undefined;
+        
+                if(isCustomerTabSelected){
+                     mapName="customerMap";
+                     mapKey =componentData.BorrowerSeq;
+                }else{
+                     mapName="applicationMap";
+                     mapKey =componentData.sectionName;
+                }
+       
+                tempStoreMap.set(mapName, this.masterDataMap.get(mapName))
 
-        if (isCustomerTabSelected) {
-            tempStoreMap.set("customerMap", this.masterDataMap.get("customerMap"))
-        }
-        else {
-            tempStoreMap.set("applicationMap", this.masterDataMap.get("applicationMap"))
-        }
 
         console.warn(this.masterDataMap, tempStoreMap);
 
         if (componentData.data.length > 0) {
-            if (tempStoreMap.get("customerMap")) {
-                if ((tempStoreMap.get("customerMap")).has(borSeq)) {
-                    customerDetails = tempStoreMap.get("customerMap").get(borSeq);
+            if (tempStoreMap.get(mapName)) {
+                if ((tempStoreMap.get(mapName)).has(mapKey)) {
+                    mapValue = tempStoreMap.get(mapName).get(mapKey);
                 }
             }
 
             switch (componentData.name) {
-                case 'CustomerDetails':
-                    customerDetails.set('CustomerDetails', componentData.data[0]);
+                case 'CustomerDetails': // for customer tab
+                mapValue.set('CustomerDetails', componentData.data[0]);
                     break;
                 case 'AddressDetails':
-                    customerDetails.set('AddressDetails', componentData.data);
+                    mapValue.set('AddressDetails', componentData.data);
                     break;
                 case 'OccupationDetails':
-                    customerDetails.set('OccupationDetails', componentData.data);
+                    mapValue.set('OccupationDetails', componentData.data);
                     break;
                 case 'FamilyDetails':
-                    customerDetails.set('FamilyDetails', componentData.data);
+                    mapValue.set('FamilyDetails', componentData.data);
                     break;
                 case 'LiabilityDetails':
-                    customerDetails.set('LiabilityDetails', componentData.data);
+                    mapValue.set('LiabilityDetails', componentData.data);
                     break;
                 case 'AssetDetails':
-                    customerDetails.set('AssetDetails', componentData.data);
+                    mapValue.set('AssetDetails', componentData.data);
                     break;
                 case 'IncomeSummary':
-                    customerDetails.set('IncomeSummary', componentData.data);
+                    mapValue.set('IncomeSummary', componentData.data);
                     break;
                 case 'CollateralDetails':
-                    customerDetails.set('CollateralDetails', componentData.data);
+                    mapValue.set('CollateralDetails', componentData.data);
                     break;
                 case 'PersonalInterviewDetails':
-                    customerDetails.set('PersonalInterviewDetails', componentData.data);
+                    mapValue.set('PersonalInterviewDetails', componentData.data);
                     break;
                 case 'RmVisitDetails':
-                    customerDetails.set('RmVisitDetails', componentData.data);
+                    mapValue.set('RmVisitDetails', componentData.data);
+                    break;
+                case 'GoNoGoDetails': // for application tab
+                    mapValue= componentData.data;
+                    break;
+                case 'Notes':
+                    mapValue=componentData.data;
+                    break;
+                case 'LoanDetails':
+                    mapValue=componentData.data;
+                    break;
+                case 'CreditCardDetails':
+                    mapValue=componentData.data;
                     break;
             }
 
-            tempStoreMap.get("customerMap").set(borSeq, customerDetails);
+            tempStoreMap.get(mapName).set(mapKey, mapValue);
         }
         else if (componentData.name !== 'CustomerDetails') {
             const borSeq: string = componentData.BorrowerSeq;
@@ -136,7 +222,7 @@ export class RloCommonData {
                 customerDetails.delete(componentData.name);
             }
         }
-        console.log(tempStoreMap);
+        console.log("shweta :: in update services temp map",tempStoreMap);
     }
 
     //TAGS
@@ -310,28 +396,28 @@ export class RloCommonData {
 
         return dataObject;
     }
-    
-    getCustomerList(){
-        let CustomerList=[];
-        if(this.masterDataMap.has('customerMap')){
-            const customerMap=this.masterDataMap.get('customerMap');
-        customerMap.forEach(entry => {
-            if (entry.has('CustomerDetails')) {
-                CustomerList.push(entry.get('CustomerDetails'));
-            }
-        });
-    }
+
+    getCustomerList() {
+        let CustomerList = [];
+        if (this.masterDataMap.has('customerMap')) {
+            const customerMap = this.masterDataMap.get('customerMap');
+            customerMap.forEach(entry => {
+                if (entry.has('CustomerDetails')) {
+                    CustomerList.push(entry.get('CustomerDetails'));
+                }
+            });
+        }
         return CustomerList;
     }
 
-    getCustomerDetails(activeBorrowerSeq){
-        let CustomerDtls={};
-    if(this.masterDataMap.has('customerMap')){
-    const customerMap=this.masterDataMap.get('customerMap');
-        if(customerMap.has(activeBorrowerSeq)){
-        let customer=customerMap.get(activeBorrowerSeq);
-        CustomerDtls=customer.get('CustomerDetails');
-        }
+    getCustomerDetails(activeBorrowerSeq) {
+        let CustomerDtls = {};
+        if (this.masterDataMap.has('customerMap')) {
+            const customerMap = this.masterDataMap.get('customerMap');
+            if (customerMap.has(activeBorrowerSeq)) {
+                let customer = customerMap.get(activeBorrowerSeq);
+                CustomerDtls = customer.get('CustomerDetails');
+            }
         }
         return CustomerDtls;
     }

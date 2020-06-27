@@ -38,6 +38,12 @@ export class GoNoGoComponent implements OnInit {
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
+      let obj = {
+        "name": "GoNoGoDetails",
+        "data": questionnairDtlsResp,
+        "sectionName": "GoNoGoDetails",
+      }
+      this.services.rloCommonData.globalComponentLvlDataHandler(obj);
     },
       (httpError) => {
         console.error(httpError);
