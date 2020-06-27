@@ -16,6 +16,8 @@
     "rlo.error.fill": "Please fill all the fields",
     "rlo.error": "Some error has occured",
     
+    "rlo.confirm.title": "Confirm",
+    "rlo.confirm.action.back": "Are you sure you want to cancel?",
     "rlo.error.invalid.regex": "Value does not match",
     "rlo.error.invalid.form": "Please Fill all Mandatory Fields",
     "rlo.error.wrong.form": "Something went Wrong",

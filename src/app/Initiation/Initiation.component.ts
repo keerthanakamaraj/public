@@ -411,8 +411,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async CANCEL_MAIN_BTN_click(event) {
 
-    var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-    var mainMessage = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    var title = this.services.rloui.getAlertMessage('rlo.confirm.title');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.confirm.action.back');
     var button1 = this.services.rloui.getAlertMessage('', 'Okay');
     var button2 = this.services.rloui.getAlertMessage('', 'Cancel');
 
