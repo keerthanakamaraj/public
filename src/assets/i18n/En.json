@@ -146,6 +146,8 @@
     "rlo.error.duplicate-Record":"Record already present",
     "rlo.error.dov-expired":"Visit date expired",
     "rlo.error.dov-invalid":"Invalid date of visit",
+    "rlo.withdraw.comfirmation" :"Are you sure you want to withdraw?",
+    "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
@@ -1791,7 +1793,12 @@
     "FieldId_6": "null",
     "FieldId_13": "null",
     "FieldId_14": "null",
-    "FAMILY_DTLS": "null"
+    "FAMILY_DTLS": "null",
+    "DDE_REJECT" : "REJECT",
+    "DDE_WITHDRAW" : "WITHDRAW",
+    "DDE_SUBMIT" : "SUBMIT",
+    "DDE_CANCEL" : "CANCEL",
+    "DDE_REFER" : "REFER"
   },
   "CustDtlsGrid": {
     "CIF": "CIF No.",
