@@ -120,6 +120,8 @@
     "rlo.error.phone.referrer": "Please Select Phone Number",
     "rlo.success.save.card":"Credit Card Details Saved Successfully",
     "rlo.error.save.card": "Failed to Save Credit Card Details",
+    "rlo.success.update.card":"Credit Card Deatils Updated Syccessfully",
+    "rlo.error.update.card":"Failed to Upadte Credit Card Details",
     "rlo.error.geneder.invalid":"Please select gender according to title",
     "rlo.error.DOB.invalid":"Please select correct date of birth",
     "rlo.error.Age.invalid":"age not valid",

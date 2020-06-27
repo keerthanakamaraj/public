@@ -94,6 +94,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.fetchCarditCardDetails();
         await this.Handler.onFormLoad({
         });
+        this.OnLoanFormLoad()
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -164,7 +165,49 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.setReadOnly(false);
         this.onFormLoad();
     }
+    OnLoanFormLoad() {
+        let inputMap = new Map();
+        inputMap.clear();
+        let applicationId: any = this.ApplicationId;
+        // let applicationId = '2221';
+        let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+        if (applicationId) {
+            criteriaJson.FilterCriteria.push({
+                "columnName": "ApplicationId",
+                "columnType": "String",
+                "conditions": {
+                    "searchType": "equals",
+                    "searchText": applicationId
+                }
+            });
 
+        }
+        inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+
+        this.services.http.fetchApi('/CreditCardDetails', 'GET', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                var CreditArray = res['CreditCardDetails'];
+                CreditArray.forEach(async CreditElement => {
+                    this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']);
+                    this.ApprovedLimit.setValue(CreditElement['ApprovedLimit']);
+                    this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']);
+                    this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
+                    this.PaymentOption.setValue(CreditElement['PaymentOption']);
+                    this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']);
+                    this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']);
+                    this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
+                    this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+                });
+
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                }
+            }
+        );
+    }
     fetchCarditCardDetails() {
         let inputMap = new Map();
         inputMap.clear();
@@ -211,7 +254,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
-                inputMap.set('Body.CreditCardDetails.CreditCardDetailSeq', '123');
+                // inputMap.set('Body.CreditCardDetails.CreditCardDetailSeq', '123');
+                inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
                 this.services.http.fetchApi('/CreditCardDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
@@ -252,6 +296,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             }
             else {
                 inputMap.clear();
+                inputMap.set('PathParam.CreditCardDetailSeq', this.hidCreditSeq.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.SettlementAccountType', this.SettlementAccountType.getFieldValue());
@@ -260,10 +305,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
-                this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap,'/rlo-de').subscribe(
+                inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
+                this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'rlo.error.update.card', 5000);
+                        this.services.alert.showAlert(1, 'rlo.success.update.card', 5000);
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -293,7 +339,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                                 this.FrontPageCategory.setError(err['ErrorDescription']);
                             }
                         }
-                        this.services.alert.showAlert(2, 'failed to update', -1);
+                        this.services.alert.showAlert(2, 'rlo.error.update.card', -1);
                     }
                 );
             }
