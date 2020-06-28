@@ -203,6 +203,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
             //    }
 
             BorrowerDetails.forEach(eachBorrower => {
+              let isValid = false;
+              if(eachBorrower.BorrowerSeq == borrowerSeq){
+                eachBorrower.isValid = true;
+              }
               let array = [];
               array.push(eachBorrower);
               let obj = {
@@ -210,6 +214,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 "data": array,
                 "BorrowerSeq": eachBorrower.BorrowerSeq
               }
+
               this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
               let customer = {};
@@ -230,8 +235,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
                 this.isFirstAPICall = false;
                 customer["editing"] = true;
-              }
-              else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
+              } else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
                 this.passArrayToCustomer.emit({
                   'actionName': 'gridUpdated',
                   'CustomerArray': eachBorrower

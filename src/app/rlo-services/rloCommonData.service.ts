@@ -147,7 +147,8 @@ export class RloCommonData {
     // }
 
     updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
-        console.warn("deep ===", componentData, isCustomerTabSelected);
+        console.warn("------------------------------ deep ===", componentData, isCustomerTabSelected);
+
         let mapValue = new Map();
         let tempStoreMap = new Map();
         let mapName = undefined;
@@ -161,10 +162,10 @@ export class RloCommonData {
             mapKey = componentData.sectionName;
         }
 
-        tempStoreMap.set(mapName, this.masterDataMap.get(mapName))
+        tempStoreMap.set(mapName, this.masterDataMap.get(mapName));
 
 
-        console.warn(this.masterDataMap, tempStoreMap);
+        console.warn('----------------------', this.masterDataMap, tempStoreMap);
 
         if (componentData.data.length > 0) {
             if (tempStoreMap.get(mapName)) {
@@ -175,7 +176,22 @@ export class RloCommonData {
 
             switch (componentData.name) {
                 case 'CustomerDetails': // for customer tab
-                    mapValue.set('CustomerDetails', componentData.data[0]);
+                    let oldCustomerDetails = mapValue.get('CustomerDetails');
+                    if ( oldCustomerDetails && oldCustomerDetails.isValid ) { // Check if old data has been validated and maintain the state
+                      componentData.data[0].isValid = true;
+                    }
+
+                    // Check if new data has basic details and then only replace old data
+                    if(componentData.data[0].BorrowerSeq != undefined || componentData.data[0].BorrowerSeq != null ) {
+                      mapValue.set('CustomerDetails', componentData.data[0]);
+                    } else if ( componentData.data[0].isValid ) {
+                      oldCustomerDetails.isValid = true;
+                      mapValue.set('CustomerDetails', oldCustomerDetails);
+                    }
+
+                    // if ( componentData.isValid ) {
+                    //   mapValue['CustomerDetails'].isValid = true;
+                    // }
                     break;
                 case 'AddressDetails':
                     mapValue.set('AddressDetails', componentData.data);
@@ -352,19 +368,21 @@ export class RloCommonData {
             if (entry[1].has('CustomerDetails')) {
                 const customer = entry[1].get('CustomerDetails');
                 custFullName = customer.FullName;
-                isCustomerValid = await this.validateCustomer(CUSTOMER_DETAILS);
+                //isCustomerValid = await this.validateCustomer(CUSTOMER_DETAILS);
 
-                if (!isCustomerValid) {
-                    errorMessage = errorMessage + ' All mandatory fields for the customer';
-                }
+                // if (!isCustomerValid) {
+                //     errorMessage = errorMessage + ' All mandatory fields for the customer';
+                // }
 
                 forkJoin(
-                    this.validateAddressDetailSection(entry[1]),
-                    this.validateOccupationDetailsSection(entry[1])
+                  this.validateCustomerDetailSection(entry[1]),
+                  this.validateAddressDetailSection(entry[1]),
+                  this.validateOccupationDetailsSection(entry[1])
                 ).subscribe((data) => {
                     console.error(data);
-                    isAddressValid = data[0].isSectionValid;
-                    isOccupationValid = data[1].isSectionValid;
+                    isCustomerValid = data[0].isSectionValid;
+                    isAddressValid = data[1].isSectionValid;
+                    isOccupationValid = data[2].isSectionValid;
 
                     for (let i = 0; i < data.length; i++) {
                         const element = data[i];
@@ -384,6 +402,23 @@ export class RloCommonData {
         });
         console.warn(dataObject.errorsList);
         return dataObject;
+    }
+
+    async validateCustomerDetailSection(sectionData: Map<any, any>){
+      let commonObj: IComponentSectionValidationData = {
+          isSectionValid: false,
+          errorMessage: ''
+      }
+      let customerData = sectionData.get('CustomerDetails');
+
+      console.log("-------- customerData ", customerData);
+      if(customerData.isValid){
+        commonObj.isSectionValid = true;
+      } else {
+        commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+      }
+
+      return commonObj;
     }
 
     async validateOccupationDetailsSection(customerSectionData: Map<any, any>) {

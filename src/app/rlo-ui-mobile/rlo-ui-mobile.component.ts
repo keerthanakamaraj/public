@@ -52,7 +52,7 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   ngAfterViewInit() {
     this.loadOptions();
     this.getFieldValue();
-    console.log(this.staticData);
+    // console.log(this.staticData);
 
     this.dependencyMap2.set("VALUE1", {
       paramType: "PathParam",
@@ -69,7 +69,7 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
       value: "ISD_COUNTRY_CODE"
     });
 
-    console.log(this.dependencyMap2);
+    // console.log(this.dependencyMap2);
   }
 
   //replaced generic 'setValue' fn used (in eg: CustomerDtls)

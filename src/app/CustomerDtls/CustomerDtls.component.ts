@@ -120,44 +120,44 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // FormCode : any; 
 
 
-    async revalidate(): Promise<number> {
+    async revalidate(showErrors: boolean = true): Promise<number> {
         let totalErrors = 0;
         super.beforeRevalidate();
 
         await Promise.all([
             // this.revalidateBasicField('CD_CUST_TYPE'),
-            this.revalidateBasicField('CD_EXISTING_CUST'),
-            this.revalidateBasicField('CD_STAFF'),
-            this.revalidateBasicField('CD_CIF'),
-            this.revalidateBasicField('CD_STAFF_ID'),
-            this.revalidateBasicField('CD_CUST_ID'),
-            this.revalidateBasicField('CD_TITLE'),
-            this.revalidateBasicField('CD_FIRST_NAME'),
-            this.revalidateBasicField('CD_MIDDLE_NAME'),
-            this.revalidateBasicField('CD_THIRD_NAME'),
-            this.revalidateBasicField('CD_LAST_NAME'),
-            this.revalidateBasicField('CD_FULL_NAME'),
-            this.revalidateBasicField('CD_DOB'),
-            this.revalidateBasicField('CD_GENDER'),
-            this.revalidateBasicField('CD_MARITAL_STATUS'),
-            this.revalidateBasicField('CD_MOBILE_NO'),
-            this.revalidateBasicField('CD_EMAIL'),
-            this.revalidateBasicField('CD_NATIONALITY'),
-            this.revalidateBasicField('CD_CITIZENSHIP'),
-            this.revalidateBasicField('CD_PASSPORT_EXPIRY'),
-            this.revalidateBasicField('CD_PASSPORT_NO'),
-            this.revalidateBasicField('CD_VISA_VALID'),
-            this.revalidateBasicField('CD_DRIVING_LICENSE'),
-            this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT'),
-            this.revalidateBasicField('CD_TAX_ID'),
-            this.revalidateBasicField('CD_DEBIT_SCORE'),
-            // this.revalidateBasicField('CD_NATIONAL_ID'),
-            this.revalidateBasicField('CD_CUST_SEGMENT'),
-            this.revalidateBasicField('CD_LOAN_OWN'),
-            //   this.revalidateBasicField('CD_PRIME_USAGE'),
-            this.revalidateBasicField('CD_PMRY_EMBSR_NAME'),
-            this.revalidateBasicField('CD_PREF_COM_CH'),
-            this.revalidateBasicField('CD_PREF_LANG'),
+            this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
+            this.revalidateBasicField('CD_STAFF', false, showErrors),
+            this.revalidateBasicField('CD_CIF', false, showErrors),
+            this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
+            this.revalidateBasicField('CD_CUST_ID', false, showErrors),
+            this.revalidateBasicField('CD_TITLE', false, showErrors),
+            this.revalidateBasicField('CD_FIRST_NAME', false, showErrors),
+            this.revalidateBasicField('CD_MIDDLE_NAME', false, showErrors),
+            this.revalidateBasicField('CD_THIRD_NAME', false, showErrors),
+            this.revalidateBasicField('CD_LAST_NAME', false, showErrors),
+            this.revalidateBasicField('CD_FULL_NAME', false, showErrors),
+            this.revalidateBasicField('CD_DOB', false, showErrors),
+            this.revalidateBasicField('CD_GENDER', false, showErrors),
+            this.revalidateBasicField('CD_MARITAL_STATUS', false, showErrors),
+            this.revalidateBasicField('CD_MOBILE_NO', false, showErrors),
+            this.revalidateBasicField('CD_EMAIL', false, showErrors),
+            this.revalidateBasicField('CD_NATIONALITY', false, showErrors),
+            this.revalidateBasicField('CD_CITIZENSHIP', false, showErrors),
+            this.revalidateBasicField('CD_PASSPORT_EXPIRY', false, showErrors),
+            this.revalidateBasicField('CD_PASSPORT_NO', false, showErrors),
+            this.revalidateBasicField('CD_VISA_VALID', false, showErrors),
+            this.revalidateBasicField('CD_DRIVING_LICENSE', false, showErrors),
+            this.revalidateBasicField('CD_DRVNG_LCNSE_EXP_DT', false, showErrors),
+            this.revalidateBasicField('CD_TAX_ID', false, showErrors),
+            this.revalidateBasicField('CD_DEBIT_SCORE', false, showErrors),
+            // this.revalidateBasicField('CD_NATIONAL_ID', false, showErrors),
+            this.revalidateBasicField('CD_CUST_SEGMENT', false, showErrors),
+            this.revalidateBasicField('CD_LOAN_OWN', false, showErrors),
+            //   this.revalidateBasicField('CD_PRIME_USAGE', false, showErrors),
+            this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
+            this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
+            this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
             //this.revalidateBasicField('CD_COUNTRY_CODE'),
             // this.FieldId_29.revalidate(),
             // this.FieldId_30.revalidate(),
@@ -779,8 +779,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
                 if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
                     this.setNonEditableFields(true);
-                }
-                else {
+                } else {
                     this.setNonEditableFields(false);
                 }
                 this.passBorrowerSeq.emit({
@@ -795,6 +794,21 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
                 this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
                 // this.setNonEditableFields(true);
+
+                this.revalidate(false).then((errors) => {
+                  if(errors === 0){
+                    let array = [];
+                    array.push({isValid: true});
+
+                    let obj = {
+                      "name": "CustomerDetails",
+                      "data": array,
+                      "BorrowerSeq": this.HidCustomerId.getFieldValue()
+                    };
+
+                    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                  }
+                });
             },
             async (httpError) => {
                 const err = httpError['error'];
@@ -856,6 +870,21 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         this.passBorrowerSeq.emit({
             'BorrowerSeq': customer.BorrowerSeq,
+        });
+
+        this.revalidate(false).then((errors) => {
+          if(errors === 0){
+            let array = [];
+            array.push({isValid: true});
+
+            let obj = {
+              "name": "CustomerDetails",
+              "data": array,
+              "BorrowerSeq": this.HidCustomerId.getFieldValue()
+            };
+
+            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+          }
         });
         // this.passfullName.emit({
         //     'FullName': customer.FullName,

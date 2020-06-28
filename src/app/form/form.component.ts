@@ -569,22 +569,28 @@ export class FormComponent {
     accNum&2 - Inside for loop and revalidate the field with id "accNum" and index 2
   */
 
-  async revalidateBasicField(fieldId: string, isOnBlur: boolean = false): Promise<number> {
+  async revalidateBasicField(fieldId: string, isOnBlur: boolean = false, showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
     this[fieldId].clearError();
     var formModelObject = this.value;
 
-
     var value = this[fieldId].componentName == 'RLOUIRadioComponent' ?
-      this[fieldId].getFieldValue() : formModelObject[fieldId];
+    this[fieldId].getFieldValue() : formModelObject[fieldId];
 
     if (value != undefined && value.toString() != "") {
-      await this[fieldId].validateValue(value).then((errors) => { totalErrors += errors });
+      await this[fieldId].validateValue(value).then((errors) => { 
+        totalErrors += errors ;
+        if(!showErrors){
+          this[fieldId].clearError();
+        }
+      });
       if (totalErrors > 0) { return totalErrors }
     }
 
     if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '')) {
-      this[fieldId].setError("Value cannot be empty");
+      if(showErrors){
+        this[fieldId].setError("Value cannot be empty");
+      }
       return ++totalErrors;
     }
 
@@ -629,6 +635,11 @@ export class FormComponent {
       var noOfErrors = await this[fieldId + "_blur"]({ fieldId: fieldId, value: value, isOnBlur: isOnBlur });
       totalErrors += (noOfErrors != undefined && typeof noOfErrors == 'number' ? noOfErrors : 0);
     }
+
+    // if(!showErrors){
+    //   console.log(fieldId + " showErrors inside if " + showErrors);
+    //   this[fieldId].clearError();
+    // }
 
     return totalErrors;
   }
