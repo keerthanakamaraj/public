@@ -193,7 +193,7 @@ export class RlouiService {
     });
   }
 
-  formatAmount(amount, languageCode: string, minFraction, currency: string) {
+  formatAmount(amount, languageCode?: string, minFraction?, currency?: string) {
     // console.log("Format Amount " , amount);
     let amt: number;
     if (typeof amount == "string") {

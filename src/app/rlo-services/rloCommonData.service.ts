@@ -3,6 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { RloUtilService } from './rloutil.service';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { forkJoin } from 'rxjs';
+import { RlouiService } from './rloui.service';
 
 export interface subjectParamsInterface {
     action: string;
@@ -41,7 +42,7 @@ export class RloCommonData {
     masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
     componentLvlDataSubject = new Subject<IComponentLvlData>();
 
-    constructor(public rloutil: RloUtilService) {
+    constructor(public rloutil: RloUtilService, public rloui: RlouiService) {
         this.resetMapData();
         console.log(this.masterDataMap);
     }
@@ -283,6 +284,28 @@ export class RloCommonData {
             }
         });
         return tags;
+    }
+
+    async getLiabilityTags(event){
+      const tags = [];
+      event.data.forEach(liability => {
+        // console.log('Liability ' , liability);
+
+        const formattedAmount = this.rloui.formatAmount(liability.LocalEquivalentAmt);
+        tags.push({ label: liability.LiabilityType, text: formattedAmount });
+      });
+      return tags;
+    }
+
+    async getAssetTags(event){
+      const tags = [];
+      event.data.forEach(asset => {
+        console.log('Asset ' , asset);
+
+        const formattedAmount = this.rloui.formatAmount(asset.EquivalentAmt);
+        tags.push({ label: asset.AssetType, text: formattedAmount });
+      });
+      return tags;
     }
 
     async asyncForEach(array, callback) {

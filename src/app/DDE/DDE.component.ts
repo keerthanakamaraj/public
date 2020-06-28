@@ -1264,7 +1264,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     // Seperate way for setting tags for customer
     setCustomerTags() {
-      console.log("Active Borrower ", this.ActiveCustomerDtls);
+      // console.log("Active Borrower ", this.ActiveCustomerDtls);
 
       if(this.ActiveCustomerDtls){
         const customerTags = [{label: this.ActiveCustomerDtls['CustomerType'],
@@ -1276,7 +1276,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     AddressDetails_SetTag(event){
-      console.log('update address Tags --- ', event);
+      // console.log('update address Tags --- ', event);
       this.services.rloCommonData.updateAddressTags(event).then(data => {
         // console.log(data);
         this.setTags(data);
@@ -1284,9 +1284,24 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     OccupationDetails_SetTag(event){
-      console.log('update Occupation Tags --- ', event);
+      // console.log('update Occupation Tags --- ', event);
       this.services.rloCommonData.UpdateOccupationTags(event).then(data => {
         // console.log(data);
+        this.setTags(data);
+      });
+    }
+
+    LiabilityDetails_SetTag(event){
+      // console.log('update Liability Tags --- ', event);
+      this.services.rloCommonData.getLiabilityTags(event).then(data => {
+        // console.log(data);
+        this.setTags(data);
+      });
+    }
+
+    AssetDetails_SetTag(event){
+      // console.log('update Asset Tags --- ', event);
+      this.services.rloCommonData.getAssetTags(event).then(data => {
         this.setTags(data);
       });
     }

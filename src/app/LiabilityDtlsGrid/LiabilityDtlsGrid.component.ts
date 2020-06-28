@@ -282,8 +282,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
 
   formatAmount(number) {
     if (number.value) {
-      // Dirty Fix
-      return this.services.formatAmount(number.value, null, null).substr(1);
+      return this.services.formatAmount(number.value, null, null);
     } else {
       return '-';
     }
