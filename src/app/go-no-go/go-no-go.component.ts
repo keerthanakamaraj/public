@@ -150,10 +150,10 @@ export class GoNoGoComponent implements OnInit {
         //   this.ErrorSet.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorSet.add('rlo.error.questionnaire.decision-pending');
         isValid = false;
-      }
-      else if (question.SelectedDecision.Remark == undefined) {
+      } else if (question.SelectedDecision.Remark == undefined) {
         let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
-        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
+        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || 
+            ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
           question.IsDeviation = true;
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
@@ -203,9 +203,11 @@ export class GoNoGoComponent implements OnInit {
         });
 
     } else {
-      let errorText = undefined;
-     // console.log("shweta :: after Error ",Array.from(this.ErrorSet)[0]," set size is ",this.ErrorSet.size);
-      this.services.alert.showAlert(2, this.ErrorSet.size == 2 ? 'rlo.error.questionnaire.decision-Remark-pending' : Array.from(this.ErrorSet)[0], -1);
+      let errorText = 'rlo.error.questionnaire.decision-Remark-pending'; // Default Both Errors
+      if (this.ErrorSet.size === 1) { // If only Single Error
+        errorText = Array.from(this.ErrorSet)[0] + '';
+      }
+      this.services.alert.showAlert(2, errorText, -1);
     }
   }
 

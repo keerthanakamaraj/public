@@ -252,9 +252,9 @@
                         <span class="form-title">{{formMenuObject.selectedMenuComponent}}</span>
                         <div class="info">
                             <ul class="tag-list">
-                                <li class="tag">
-                                    <span class="label">B</span>
-                                    <span class="txt">Vishal Karan Kotwal</span>
+                                <li *ngFor="let tag of tags;" class="tag">
+                                  <span class="label">{{ tag.label }}</span>
+                                  <span class="text">{{ tag.text }}</span>
                                 </li>
                             </ul>
                             <span class="menu-btn">

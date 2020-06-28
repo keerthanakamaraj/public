@@ -1,34 +1,35 @@
 <div class="row">
-     <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-                    <label id=PI_NOTE_LABEL> {{ 'PIDtls.PI_SUBHEADER_NOTE' | translate}}</label>
-                </div> 
-        <div class="row col-12 col-sm-12 col-md-12">
-            <ng-container *ngIf="QuestionnairMap != undefined">
-                <div class="row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
-                    <div class="param-Question col-12 col-sm-6 col-md-6">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown"></label>
-                        </div>
-                        <span>{{ i + 1 }}. {{question.value.QuestionText }}</span>
-                    </div>
-                    <div class="flexible-container col-12 col-sm-6 col-md-6">
-                        <rlo-ui-radio #tbData fieldID="{{'PI_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
-                            defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"
-                            (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>
-                    </div>
-                </div>
-            </ng-container>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+    <label id=PI_NOTE_LABEL> {{ 'PIDtls.PI_SUBHEADER_NOTE' | translate}}</label>
+  </div>
+  <div class="row">
+    <ng-container *ngIf="QuestionnairMap != undefined">
+      <div class="row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
+        <div class="param-Question col-12 col-sm-6 col-md-6">
+          <div class="clr-brown fieldLegend">
+            <label class="clr-brown"></label>
+          </div>
+          <span>{{ i + 1 }}. {{question.value.QuestionText }}</span>
         </div>
-        <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
-        <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
-        <div class="col-12  col-sm-7 col-md-7 res-pr-hide"></div>
-        <div class="col-12  col-sm-1 col-md-1 res-pr-hide savebtn" [hidden]="PI_SAVE_BTN.isHidden()">
-            <app-button #PI_SAVE_BTN fieldName="{{ 'PIDtls.PI_SAVE_BTN' | translate}}" fieldID="PI_SAVE_BTN" customClass="btn btn-primary"
-                (buttonClick)="PI_SAVE_BTN_click($event)"></app-button>
+        <div class="flexible-container col-12 col-sm-6 col-md-6">
+          <rlo-ui-radio #tbData fieldID="{{'PI_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+            [emittedOptions]="question.value.radioOptionFormatList"
+            defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"
+            (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>
         </div>
-        <div class="col-12  col-sm-1 col-md-1 res-pr-hide clearbtn" [hidden]="PI_CLEAR_BTN.isHidden()">
-            <app-button #PI_CLEAR_BTN fieldName="{{ 'PIDtls.PI_CLEAR_BTN' | translate}}" fieldID="PI_CLEAR_BTN" customClass="btn-warning-outline"
-                (buttonClick)="PI_CLEAR_BTN_click($event)"></app-button>
-        </div>
-    </div>
+      </div>
+    </ng-container>
+  </div>
+  <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
+  <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
+  <div class="col-12  col-sm-7 col-md-7 res-pr-hide"></div>
+  <div class="col-12  col-sm-1 col-md-1 res-pr-hide savebtn" [hidden]="PI_SAVE_BTN.isHidden()">
+    <app-button #PI_SAVE_BTN fieldName="{{ 'PIDtls.PI_SAVE_BTN' | translate}}" fieldID="PI_SAVE_BTN"
+      customClass="btn btn-primary" (buttonClick)="PI_SAVE_BTN_click($event)"></app-button>
+  </div>
+  <div class="col-12  col-sm-1 col-md-1 res-pr-hide clearbtn" [hidden]="PI_CLEAR_BTN.isHidden()">
+    <app-button #PI_CLEAR_BTN fieldName="{{ 'PIDtls.PI_CLEAR_BTN' | translate}}" fieldID="PI_CLEAR_BTN"
+      customClass="btn-warning-outline" (buttonClick)="PI_CLEAR_BTN_click($event)"></app-button>
+  </div>
+</div>

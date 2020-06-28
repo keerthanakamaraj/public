@@ -137,6 +137,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             secondArr: 0
         };
 
+    /**
+     * Tags
+     */
+    @Input() tags: {label: String, text: string}[];
+
 
     //list of selected customer and application sections
     completedMenuSectionList = {
@@ -268,15 +273,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.masterDataSubscription = this.services.rloCommonData.getComponentLvlData().subscribe(data => {
             console.warn("deep === masterDataSubscription", data);
             if (!this.initialLoadDone) {
-                this.setInitialObjectData(data)
+                this.setInitialObjectData(data);
             }
             var clonedMasterDataMap = cloneDeep(this.services.rloCommonData.masterDataMap);
             console.error(clonedMasterDataMap);
 
             this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected);
-            console.log("shweta :: in DDE constructor",this.services.rloCommonData.masterDataMap);
+            // console.log("shweta :: in DDE constructor",this.services.rloCommonData.masterDataMap);
 
             this.addOrRemoveCompletedSection(clonedMasterDataMap, data);
+            this.updateSectionWiseTags(data);
         });
     }
 
@@ -605,6 +611,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ActiveCustomerDtls = undefined;
         this.ActiveBorrowerSeq = undefined;
         this.CustomerType = event.customerType;
+
+        this.setTags([]);
+
         this.injectDynamicComponent('CustomerDetails', 0, 0);
         //this.CUST_DTLS.setNewCustomerFrom(event);
     }
@@ -620,6 +629,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         // this.ActiveCustomerName = event.CustomerArray.FullName;
         // this.ActiveCustomerDOB = event.CustomerArray.DOB;
         // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
+
         console.log(event);
         if (this.formMenuObject.activeBorrowerSeq == this.ActiveBorrowerSeq) {
 
@@ -719,6 +729,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         componentInstance.ApplicationId = this.ApplicationId;
         componentInstance.isLoanCategory = this.isLoanCategory;
 
+        // reset the tags
+        this.setTags([]);
+
         // on tab switched or section switched or passArray Emitter called
         if (componentId == 'CustomerDetails') {
             componentInstance.parentFormCode = this.componentCode;
@@ -735,6 +748,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                     componentInstance.setNewCustomerFrom(data);
                 }, 500);
             }
+
+            this.setCustomerTags();
+
         } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
             componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
         }
@@ -1222,6 +1238,58 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         );
     }
 
+
+    /**
+     *   Tag Related functions
+     */
+
+    setTags(tags: Array<any>){
+      this.tags = tags;
+    }
+
+    updateSectionWiseTags(event: any){
+      console.log('updateSectionWiseTags --- ', event);
+
+      if (event.name === 'CustomerDetails') { // Ignore for Customer Details Section
+        return;
+      }
+
+      if (this[event.name + '_SetTag']) {
+        this[event.name + '_SetTag'](event);
+      } else {
+        console.log('No Implementation Found for section ' + event.name + ' Resetting the tags' );
+        // this.setTags([]);
+      }
+    }
+
+    // Seperate way for setting tags for customer
+    setCustomerTags() {
+      console.log("Active Borrower ", this.ActiveCustomerDtls);
+
+      if(this.ActiveCustomerDtls){
+        const customerTags = [{label: this.ActiveCustomerDtls['CustomerType'],
+                              text: this.ActiveCustomerDtls['FullName']}];
+        this.setTags(customerTags);
+      } else {
+        this.setTags([]);
+      }
+    }
+
+    AddressDetails_SetTag(event){
+      console.log('update address Tags --- ', event);
+      this.services.rloCommonData.updateAddressTags(event).then(data => {
+        // console.log(data);
+        this.setTags(data);
+      });
+    }
+
+    OccupationDetails_SetTag(event){
+      console.log('update Occupation Tags --- ', event);
+      this.services.rloCommonData.UpdateOccupationTags(event).then(data => {
+        // console.log(data);
+        this.setTags(data);
+      });
+    }
 
 }
 

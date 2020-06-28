@@ -41,7 +41,7 @@
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RD_REFERRER_RELATION', $event)"></app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12 col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12 col-sm-3 col-md-3"></div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ISD_CODE.isHidden()">
@@ -72,6 +72,7 @@
             <app-text-box #RD_REFRRER_EMAILID fieldID="RD_REFRRER_EMAILID" [formCode]="formCode"
               (blur)="genericOnBlur('RD_REFRRER_EMAILID', $event)"></app-text-box>
           </div>
+          <div class="col-12 col-sm-6 col-md-6"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE1.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -185,8 +186,8 @@
             <rlo-ui-mobile #RD_PHONE2 fieldID="RD_PHONE2" (countryCodeChanged)="countryCodeChanged('RD_PHONE2',$event)"
               (blur)="genericOnBlur('RD_PHONE2', $event)"></rlo-ui-mobile>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_SAVE.isHidden()">
             <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" fieldID="RD_SAVE"
               [formCode]="formCode" iconClass="fa fa-plus fa-lg" [type]="4" customClass="icon-button"
