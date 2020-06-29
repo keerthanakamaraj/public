@@ -729,6 +729,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async SUBMIT_MAIN_BTN_click(event) {
     this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
+
+    if (this.EligibilityDecision != 'Reject') {
+      this.EligibilityDecision = 'Approve';
+    }
     var noofErrors: number = await this.revalidate();
     var borrowercheck = this.Handler.getBorrowerPostData();
     for (let i = 0; i < borrowercheck.length; i++) {
