@@ -132,7 +132,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 	},
 	{
 		width: 6,
-		field: "Edit",
+		field: "VR_EDIT_BTN",
 		sortable: false,
 		filter: false,
 		resizable: true,
@@ -149,7 +149,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 	},
 	{
 		width: 6,
-		field: "Delete",
+		field: "VR_DELETE_BTN",
 		sortable: false,
 		filter: false,
 		resizable: true,

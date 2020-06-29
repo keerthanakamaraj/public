@@ -1843,7 +1843,8 @@
   "NotepadDetailsGrid": {
     "ND_SR_NO": "S No.",
     "toolbar_NotepadDetailsGrid": "null",
-    "ND_COMMENTS": "Comments"
+    "ND_COMMENTS": "Comments",
+    "ND_COMMENT_CAT": "Comment Category"
   },
   "NotepadDetailsForm": {
     "ND_SAVE": "SAVE",
@@ -1876,8 +1877,7 @@
   },
   "VisitReportGrid": {
     "VR_DateofVisit": "Date of Visit",
-    "VR_EDIT_BTN_ButtonName": "Edit",
-    "VR_EDIT_BTN": "Edit",
+    "VR_EDIT_BTN": "",
     "toolbar_VisitReportGrid": "null",
     "VR_Designation": "Designation",
     "VR_OficialBusiGroup": "Official Business Group",
@@ -1887,10 +1887,9 @@
     "VR_Type": "Type",
     "VR_Photograph": "Photograph",
     "GridTitle": "Visit Report Grid",
-    "VR_Delete": "Delete",
+    "VR_DELETE_BTN": "",
     "VR_PlaceOfVisit": "Place of Visit",
-    "VR_OfficialName": "Official Name",
-    "VR_Delete_ButtonName": "Delete"
+    "VR_OfficialName": "Official Name"
   },
   "VisitReportForm": {
     "FormTitle": "Visit Report Form",
