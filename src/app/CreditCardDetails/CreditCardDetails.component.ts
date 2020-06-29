@@ -48,20 +48,20 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @Input() ApplicationId: string = undefined;
 
-    async revalidate(): Promise<number> {
+    async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
         await Promise.all([
-            this.revalidateBasicField('Branch'),
-            this.revalidateBasicField('FrontPageCategory'),
-            this.revalidateBasicField('MaximumCardLimit'),
-            // this.revalidateBasicField('ApprovedLimit'),
-            this.revalidateBasicField('SettlementAccountType'),
-            this.revalidateBasicField('SettlementAccountNo'),
-            this.revalidateBasicField('PaymentOption'),
-            this.revalidateBasicField('StmtDispatchMode'),
-            this.revalidateBasicField('ExistingCreditCard'),
-            this.revalidateBasicField('CardDispatchMode'),
+            this.revalidateBasicField('Branch', false, showErrors),
+            this.revalidateBasicField('FrontPageCategory', false, showErrors),
+            this.revalidateBasicField('MaximumCardLimit', false, showErrors),
+            // this.revalidateBasicField('ApprovedLimit',false,showErrors),
+            this.revalidateBasicField('SettlementAccountType', false, showErrors),
+            this.revalidateBasicField('SettlementAccountNo', false, showErrors),
+            this.revalidateBasicField('PaymentOption', false, showErrors),
+            this.revalidateBasicField('StmtDispatchMode', false, showErrors),
+            this.revalidateBasicField('ExistingCreditCard', false, showErrors),
+            this.revalidateBasicField('CardDispatchMode', false, showErrors)
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -187,19 +187,31 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.services.http.fetchApi('/CreditCardDetails', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                var CreditArray = res['CreditCardDetails'];
-                CreditArray.forEach(async CreditElement => {
-                    this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']);
-                    this.ApprovedLimit.setValue(CreditElement['ApprovedLimit']);
-                    this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']);
-                    this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
-                    this.PaymentOption.setValue(CreditElement['PaymentOption']);
-                    this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']);
-                    this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']);
-                    this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
-                    this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
-                });
+                if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
+                    var CreditArray = res['CreditCardDetails'];
+                    CreditArray.forEach(async CreditElement => {
+                        this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']);
+                        this.ApprovedLimit.setValue(CreditElement['ApprovedLimit']);
+                        this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']);
+                        this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
+                        this.PaymentOption.setValue(CreditElement['PaymentOption']);
+                        this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']);
+                        this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']);
+                        this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
+                        this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+                    });
 
+                    this.revalidate(false).then((errors) => {
+                        let array = [];
+                        array.push({ isValid: true, sectionData: this.getFieldValue() });
+                        let obj = {
+                            "name": "CreditCardDetails",
+                            "data": array,
+                            "BorrowerSeq": this.ApplicationId
+                        }
+                        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                    });
+                }
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -262,14 +274,15 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.card', 5000);
+                        let array = [];
+                        array.push({ isValid: true, sectionData: this.getFieldValue() });
                         let obj = {
                             "name": "CreditCardDetails",
-                            "data": decisionsParamArray,
+                            "data": array,
                             "BorrowerSeq": this.ApplicationId
-                          }
-                          this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-        
-                        this.onReset();
+                        }
+                        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -319,12 +332,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.card', 5000);
+                        let array = [];
+                        array.push({ isValid: true, sectionData: this.getFieldValue() });
                         let obj = {
                             "name": "CreditCardDetails",
-                            "data": decisionsParamArray,
+                            "data": array,
                             "BorrowerSeq": this.ApplicationId
-                          }
-                          this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                        }
+                        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                     },
                     async (httpError) => {
                         var err = httpError['error']

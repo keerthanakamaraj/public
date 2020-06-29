@@ -238,7 +238,7 @@ export class RloCommonData {
 
                 case 'GoNoGoDetails':
                     mapValue = componentData.data;
-                    console.log("in service switch case", mapValue);
+                    console.log(" shweta :: in service switch gng case", mapValue);
                     functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'Notes':
@@ -247,10 +247,13 @@ export class RloCommonData {
                     break;
                 case 'LoanDetails':
                     mapValue = componentData.data;
+                    console.log(" shweta :: in service switch Loan dtls case", mapValue);
                     functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'CreditCardDetails':
                     mapValue = componentData.data;
+                    console.log(" shweta :: in service switch ccd case", mapValue);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'ReferrerDetails':
                     mapValue = componentData.data;
@@ -448,7 +451,10 @@ export class RloCommonData {
                 forkJoin(
                     this.validateCustomerDetailSection(entry[1]),
                     this.validateAddressDetailSection(entry[1]),
-                    this.validateOccupationDetailsSection(entry[1])
+                    this.validateOccupationDetailsSection(entry[1]),
+                    this.validateGoNoGoSection(entry[1]),
+                    this.validateLoanDtlsSection(entry[1]),
+                    this.validateCreditCardSection(entry[1])
                 ).subscribe((data) => {
                     console.error(data);
                     isCustomerValid = data[0].isSectionValid;
@@ -569,28 +575,65 @@ export class RloCommonData {
         return commonObj;
     }
 
-    async getCustomerDetails(CUSTOMER_DETAILS) {
+    async getCustomerDetails(activeBorrowerSeq) {
+        let CustomerDtls = {};
+        if (this.masterDataMap.has('customerMap')) {
+            const customerMap = this.masterDataMap.get('customerMap');
+            if (customerMap.has(activeBorrowerSeq)) {
+                let customer = customerMap.get(activeBorrowerSeq);
+                CustomerDtls = customer.get('CustomerDetails');
+            }
+        }
+        return CustomerDtls;
+    }
+
+    async validateLoanDtlsSection(sectionData: Map<any, any>) {
         let commonObj: IComponentSectionValidationData = {
-            isSectionValid: true,
+            isSectionValid: false,
             errorMessage: ''
         }
+        let customerData = sectionData.get('LoanDetails');
 
-        commonObj.isSectionValid = await this.validateCustomer(CUSTOMER_DETAILS);
-
-        if (!commonObj.isSectionValid) {
-            commonObj.errorMessage = ' All mandatory fields for the customer';
+        console.log("-------- Loan data ", customerData);
+        if (customerData.isValid) {
+            commonObj.isSectionValid = true;
+        } else {
+            commonObj.errorMessage += 'Please fill all the mandatory fields of loan details';
         }
 
         return commonObj;
     }
-
-    async validateGONOGOSection() {
+    async validateCreditCardSection(sectionData: Map<any, any>) {
         let commonObj: IComponentSectionValidationData = {
-            isSectionValid: true,
+            isSectionValid: false,
             errorMessage: ''
         }
+        let customerData = sectionData.get('CreditCardDetails');
 
-        console.log("shweta :: in service validation", commonObj);
+        console.log("-------- credit data ", customerData);
+        if (customerData.isValid) {
+            commonObj.isSectionValid = true;
+        } else {
+            commonObj.errorMessage += 'Please fill all the mandatory fields of credit card details';
+        }
+
+        return commonObj;
+    }
+    async validateGoNoGoSection(sectionData: Map<any, any>) {
+
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: false,
+            errorMessage: ''
+        }
+        let customerData = sectionData.get('GoNoGoDetails');
+
+        console.log("-------- GNG data ", customerData);
+        if (customerData.isValid) {
+            commonObj.isSectionValid = true;
+        } else {
+            commonObj.errorMessage += 'Decisions for all questions is mandatory';
+        }
+
         return commonObj;
     }
 

@@ -40,10 +40,11 @@ export class GoNoGoComponent implements OnInit {
       this.parseGetQuestionnairResp(questionnairDtlsResp);
       //call validation method and render
       if (this.isDecisionsValid()) {
-        console.log("shweta :: passing data from GNG to service", questionnairDtlsResp);
+        let array = [];
+        array.push({ isValid: true, sectionData: this.QuestionnairMap });
         let obj = {
           "name": "GoNoGoDetails",
-          "data": questionnairDtlsResp,
+          "data": array,
           "sectionName": "GoNoGoDetails",
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
@@ -58,7 +59,7 @@ export class GoNoGoComponent implements OnInit {
 
 
   parseGetQuestionnairResp(questionnairDtlsResp) {
-    console.log("shweta:: new json", questionnairDtlsResp);
+    //console.log("shweta:: new json", questionnairDtlsResp);
     this.QuestionnairMap.clear();
 
     for (let eachElement of questionnairDtlsResp) {
@@ -100,7 +101,7 @@ export class GoNoGoComponent implements OnInit {
 
       this.QuestionnairMap.set(eachElement.QuestionSeq, questionParam);
     }
-    console.log("shweta :: gng Interface map", this.QuestionnairMap);
+    //console.log("shweta :: gng Interface map", this.QuestionnairMap);
   }
 
   createSaveApiRequestBody(element, questionairemap, key) {
@@ -152,8 +153,8 @@ export class GoNoGoComponent implements OnInit {
         isValid = false;
       } else if (question.SelectedDecision.Remark == undefined) {
         let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
-        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) || 
-            ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
+        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) ||
+          ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
           question.IsDeviation = true;
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
@@ -195,7 +196,15 @@ export class GoNoGoComponent implements OnInit {
       console.log("shweta :: input map", inputMap);
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-        this.loadQuestionnaireDtls();
+        let array = [];
+        array.push({ isValid: true, sectionData: this.QuestionnairMap });
+        let obj = {
+          "name": "GoNoGoDetails",
+          "data": array,
+          "sectionName": "GoNoGoDetails",
+        }
+        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+        //   this.loadQuestionnaireDtls();
       },
         (httpError) => {
           console.error(httpError);

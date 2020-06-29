@@ -393,13 +393,15 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         let duplicateFound = false;
         let OldRecords = [];
         OldRecords = this.Visit_Report_Grid.VisitRecordsList;
+        if(OldRecords!=undefined){
         for (let eachRecord of OldRecords) {
-            if (this.HidVisitReportSeqId != eachRecord.Id && eachRecord.PlaceofVisit == this.VRF_PlaceOfVisit.getFieldValue() && eachRecord.NameOfPerson.replace(/\s/g, "").toUpperCase() == this.VRF_NameofPersonMet.getFieldValue().replace(/\s/g, "").toUpperCase() && eachRecord.DateOfVisit == this.VRF_DateOfVisit.getFieldValue()) {
+            if (eachRecord.Id != this.HidVisitReportSeqId.getFieldValue() && eachRecord.PlaceofVisit == this.VRF_PlaceOfVisit.getFieldValue() && eachRecord.NameOfPerson.replace(/\s/g, "").toUpperCase() == this.VRF_NameofPersonMet.getFieldValue().replace(/\s/g, "").toUpperCase() && eachRecord.DateOfVisit == this.VRF_DateOfVisit.getFieldValue()) {
                // console.log("shweta : old rec ", eachRecord.NameOfPerson, "new record", this.VRF_NameofPersonMet.getFieldValue());
                 duplicateFound = true;
                 break;
             }
         }
+    }
         return duplicateFound;
     }
 

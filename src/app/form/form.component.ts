@@ -571,7 +571,9 @@ export class FormComponent {
 
   async revalidateBasicField(fieldId: string, isOnBlur: boolean = false, showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
+    console.log("shweta :: for cc clear error id1",fieldId ,"field is: ",this[fieldId]);
     this[fieldId].clearError();
+    //console.log("shweta :: for cc clear error id2",fieldId);
     var formModelObject = this.value;
 
     var value = this[fieldId].componentName == 'RLOUIRadioComponent' ?

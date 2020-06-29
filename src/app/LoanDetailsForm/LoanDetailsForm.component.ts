@@ -62,26 +62,29 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
   ApplicationId: any
-  async revalidate(): Promise<number> {
+  LoanArray = [];
+
+  async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('LoanAmount'),
-      this.revalidateBasicField('InterestRate'),
-      this.revalidateBasicField('MarginRate'),
-      this.revalidateBasicField('NetInterestRate'),
-      this.revalidateBasicField('Tenure'),
-      this.revalidateBasicField('TenurePeriod'),
-      this.revalidateBasicField('InterestRateType'),
-      this.revalidateBasicField('SystemRecommendedAmount'),
-      this.revalidateBasicField('UserRecommendedAmount'),
-      this.revalidateBasicField('RepaymentFrequency'),
-      this.revalidateBasicField('RepaymentOption'),
-      this.revalidateBasicField('RepaymentAccNo'),
-      this.revalidateBasicField('MoneyInstallment'),
-      this.revalidateBasicField('TotalInterestAmount'),
-      this.revalidateBasicField('TotalInstallmentAmt'),
-      this.revalidateBasicField('MarginMoney'),
+
+      this.revalidateBasicField('LoanAmount', false, showErrors),
+      this.revalidateBasicField('InterestRate', false, showErrors),
+      this.revalidateBasicField('MarginRate', false, showErrors),
+      this.revalidateBasicField('NetInterestRate', false, showErrors),
+      this.revalidateBasicField('Tenure', false, showErrors),
+      this.revalidateBasicField('TenurePeriod', false, showErrors),
+      this.revalidateBasicField('InterestRateType', false, showErrors),
+      this.revalidateBasicField('SystemRecommendedAmount', false, showErrors),
+      this.revalidateBasicField('UserRecommendedAmount', false, showErrors),
+      this.revalidateBasicField('RepaymentFrequency', false, showErrors),
+      this.revalidateBasicField('RepaymentOption', false, showErrors),
+      this.revalidateBasicField('RepaymentAccNo', false, showErrors),
+      this.revalidateBasicField('MoneyInstallment', false, showErrors),
+      this.revalidateBasicField('TotalInterestAmount', false, showErrors),
+      this.revalidateBasicField('TotalInstallmentAmt', false, showErrors),
+      this.revalidateBasicField('MarginMoney', false, showErrors),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -212,46 +215,50 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.services.http.fetchApi('/LoanDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        var LoanArray = res['LoanDetails'];
+        this.LoanArray = [];
 
         if (res !== null) {
-          LoanArray = res['LoanDetails'];
+          this.LoanArray = res['LoanDetails'];
+
+          this.LoanArray.forEach(async LoanElement => {
+            this.LoanAmount.setValue(LoanElement['LoanAmount']);
+            this.InterestRate.setValue(LoanElement['InterestRate']);
+            this.MarginRate.setValue(LoanElement['MarginRate']);
+            this.NetInterestRate.setValue(LoanElement['NetInterestRate']);
+            this.Tenure.setValue(LoanElement['Tenure']);
+            this.TenurePeriod.setValue(LoanElement['TenurePeriod']);
+            this.InterestRateType.setValue(LoanElement['InterestRateType']);
+            this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
+            this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
+            this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']);
+            this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
+            this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
+            this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
+            this.MarginMoney.setValue(LoanElement['MarginMoney']);
+            this.MoneyInstallment.setValue(LoanElement['MoneyInstallment']);
+            this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
+            this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
+            this.Handler.SetValue();
+
+            this.LoanGridCalculation();
+          });
+
+          this.revalidate(false).then((errors) => {
+            if (errors === 0) {
+              let array = [];
+
+              array.push({ isValid: true, sectionData: this.getFieldValue() });
+              console.log("shweta inside loan array", array);
+              let obj = {
+                "name": "LoanDetails",
+                "data": array,
+                "sectionName": "LoanDetails"
+              };
+
+              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+            }
+          });
         }
-        else {
-          LoanArray = [];
-        }
-
-        LoanArray.forEach(async LoanElement => {
-          this.LoanAmount.setValue(LoanElement['LoanAmount']);
-          this.InterestRate.setValue(LoanElement['InterestRate']);
-          this.MarginRate.setValue(LoanElement['MarginRate']);
-          this.NetInterestRate.setValue(LoanElement['NetInterestRate']);
-          this.Tenure.setValue(LoanElement['Tenure']);
-          this.TenurePeriod.setValue(LoanElement['TenurePeriod']);
-          this.InterestRateType.setValue(LoanElement['InterestRateType']);
-          this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
-          this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
-          this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']);
-          this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
-          this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
-          this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
-          this.MarginMoney.setValue(LoanElement['MarginMoney']);
-          this.MoneyInstallment.setValue(LoanElement['MoneyInstallment']);
-          this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
-          this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
-          this.Handler.SetValue();
-
-          this.LoanGridCalculation();
-
-        });
-
-        let obj = {
-          "name": "LoanDetails",
-          "data": LoanArray,
-          "sectionName": "LoanDetails"
-        };
-
-        //this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -343,11 +350,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           //   loanData = [];
           // }
 
+          let array = [];
+          array.push({ isValid: true, sectionData: this.getFieldValue() });
+          console.log("shweta inside loan array", array);
           let obj = {
             "name": "LoanDetails",
-            "data": loanData,
+            "data": array,
             "sectionName": "LoanDetails"
           };
+
           this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
         },

@@ -45,6 +45,16 @@ export class PersonalInterviewComponent implements OnInit {
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
+      if (this.isDecisionsValid()) {
+        let array = [];
+        array.push({ isValid: true, sectionData: this.QuestionnairMap });
+        let obj = {
+          "name": "PersonalInterviewDetails",
+          "data": array,
+          "BorrowerSeq": this.activeBorrowerSeq
+        }
+
+      }
     },
       (httpError) => {
         console.error(httpError);
@@ -55,7 +65,7 @@ export class PersonalInterviewComponent implements OnInit {
 
 
   parseGetQuestionnairResp(questionnairDtlsResp) {
-    console.log("shweta:: new json", questionnairDtlsResp);
+    //console.log("shweta:: new json", questionnairDtlsResp);
     this.QuestionnairMap.clear();
 
     for (let eachElement of questionnairDtlsResp) {
@@ -166,15 +176,17 @@ export class PersonalInterviewComponent implements OnInit {
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.personal-interview', 5000);
 
+        let array = [];
+        array.push({ isValid: true, sectionData: this.QuestionnairMap });
         let obj = {
           "name": "PersonalInterviewDetails",
-          "data": decisionsParamArray,
+          "data": array,
           "BorrowerSeq": this.activeBorrowerSeq
         }
 
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-        this.loadQuestionnaireDtls();
+        //  this.loadQuestionnaireDtls();
       },
         (httpError) => {
           console.error(httpError);
