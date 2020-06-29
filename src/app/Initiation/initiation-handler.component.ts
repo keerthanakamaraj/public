@@ -304,19 +304,21 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       let customer = this.getFormCustomerDetails();
       customer.tempId = "ID-" + (this.counter++);
       console.log("this.customers before adding", this.customers);
-      if (customer.customerType.value == 'B') {
+     
         for (let i = 0; i < this.customers.length; i++) {
+     
           if (this.customers[i].tempId !== this.editId) {
+            if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, '', -1, 'rlo.error.Borrower.exist');
-              return;
-            }
-            else if (this.customers[i].FULL_NAME == this.MainComponent.CD_FULL_NAME.getFieldValue() && this.customers[i].DOB == this.MainComponent.CD_DOB.getFieldValue()) {
-              this.MainComponent.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
+              this.MainComponent.services.alert.showAlert(2, 'rlo.error.Borrower.exist',-1);
               return;
             }
           }
-        }
+          if (this.customers[i].FULL_NAME == this.MainComponent.CD_FULL_NAME.getFieldValue() && this.customers[i].DOB == this.MainComponent.CD_DOB.getFieldValue()) {
+            this.MainComponent.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
+            return;
+          }
+        } 
       }
       if (this.editId) {
         let index = this.customers.findIndex(cust => cust.tempId === this.editId);

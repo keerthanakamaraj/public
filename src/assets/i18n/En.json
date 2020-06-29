@@ -154,6 +154,7 @@
     "rlo.error.questionnaire.decision-pending":"Decision for all questions are mandatory.",
     "rlo.error.questionnaire.Remark-pending":"Remarks for Deviation questions are mandatory.",
     "rlo.error.questionnaire.decision-Remark-pending":"Decision for all questions and Remarks for Deviation questions are mandatory.",
+    "rlo.error.customer.exist" : "Same Customer is Already Exist",
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
