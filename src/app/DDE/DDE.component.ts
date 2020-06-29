@@ -128,18 +128,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-        {
-            selectedMenuId: "",
-            selectedMenuComponent: "",
-            isCustomerTabSelected: true,
-            firstArr: 0,
-            secondArr: 0
-        };
+    {
+        selectedMenuId: "",
+        selectedMenuComponent: "",
+        isCustomerTabSelected: true,
+        firstArr: 0,
+        secondArr: 0
+    };
 
     /**
      * Tags
      */
-    @Input() tags: {label: String, text: string}[];
+    @Input() tags: { label: String, text: string }[];
 
 
     //list of selected customer and application sections
@@ -833,16 +833,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     tabSwitched(tabName: string) {
-        console.log(tabName);
-        let defaultSection: string = '';
+       // console.log(tabName);
+        let defaultSection: string;
         if (tabName == "customer") {
             this.formMenuObject.isCustomerTabSelected = true;
             this.reCalculateMenuSections(this.ActiveBorrowerSeq);
-            this.updateSelectedTabIndex(0, 0);
-            this.injectDynamicComponent('CustomerDetails', 0, 0);
+            //  this.updateSelectedTabIndex(0, 0);
+            // this.injectDynamicComponent('CustomerDetails', 0, 0);
         }
         else {
-            console.log(this.isLoanCategory);
+         //   console.log(this.isLoanCategory);
             this.formMenuObject.isCustomerTabSelected = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
@@ -852,16 +852,19 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                     if (this.isLoanCategory) {//ie. loan type credit card
                         if (section.id == "CreditCardDetails")
                             element.splice(i, 1);
+                        defaultSection = 'LoanDetails';
                     }
                     else {//CC type loan
                         if (section.id == "LoanDetails")
                             element.splice(i, 1);
+                        defaultSection = 'CreditCardDetails';
                     }
                 }
             });
-            this.updateSelectedTabIndex(1, 3);
-            this.injectDynamicComponent('GoNoGoDetails', 1, 0);
+
         }
+        this.updateSelectedTabIndex(0, 0);
+        this.injectDynamicComponent(defaultSection, 0, 0)
     }
 
     updateSelectedTabIndex(firstArrayIndex: number, secondArrayIndex: number): void {
@@ -1246,70 +1249,72 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
      *   Tag Related functions
      */
 
-    setTags(tags: Array<any>){
-      this.tags = tags;
+    setTags(tags: Array<any>) {
+        this.tags = tags;
     }
 
-    updateSectionWiseTags(event: any){
-      console.log('updateSectionWiseTags --- ', event);
+    updateSectionWiseTags(event: any) {
+        console.log('updateSectionWiseTags --- ', event);
 
-      if (event.name === 'CustomerDetails') { // Ignore for Customer Details Section
-        return;
-      }
+        if (event.name === 'CustomerDetails') { // Ignore for Customer Details Section
+            return;
+        }
 
-      if (this[event.name + '_SetTag']) {
-        this[event.name + '_SetTag'](event);
-      } else {
-        console.log('No Implementation Found for section ' + event.name + ' Resetting the tags' );
-        // this.setTags([]);
-      }
+        if (this[event.name + '_SetTag']) {
+            this[event.name + '_SetTag'](event);
+        } else {
+            console.log('No Implementation Found for section ' + event.name + ' Resetting the tags');
+            // this.setTags([]);
+        }
     }
 
     // Seperate way for setting tags for customer
     setCustomerTags() {
-      // console.log("Active Borrower ", this.ActiveCustomerDtls);
+        // console.log("Active Borrower ", this.ActiveCustomerDtls);
 
-      if(this.ActiveCustomerDtls){
-        const customerTags = [{label: this.ActiveCustomerDtls['CustomerType'],
-                              text: this.ActiveCustomerDtls['FullName']}];
-        this.setTags(customerTags);
-      } else {
-        this.setTags([]);
-      }
+        if (this.ActiveCustomerDtls) {
+            const customerTags = [{
+                label: this.ActiveCustomerDtls['CustomerType'],
+                text: this.ActiveCustomerDtls['FullName']
+            }];
+            this.setTags(customerTags);
+        } else {
+            this.setTags([]);
+        }
     }
 
-    AddressDetails_SetTag(event){
-      // console.log('update address Tags --- ', event);
-      this.services.rloCommonData.updateAddressTags(event).then(data => {
-        // console.log(data);
-        this.setTags(data);
-      });
+    AddressDetails_SetTag(event) {
+        // console.log('update address Tags --- ', event);
+        this.services.rloCommonData.updateAddressTags(event).then(data => {
+            // console.log(data);
+            this.setTags(data);
+        });
     }
 
-    OccupationDetails_SetTag(event){
-      // console.log('update Occupation Tags --- ', event);
-      this.services.rloCommonData.UpdateOccupationTags(event).then(data => {
-        // console.log(data);
-        this.setTags(data);
-      });
+    OccupationDetails_SetTag(event) {
+        // console.log('update Occupation Tags --- ', event);
+        this.services.rloCommonData.UpdateOccupationTags(event).then(data => {
+            // console.log(data);
+            this.setTags(data);
+        });
     }
 
-    LiabilityDetails_SetTag(event){
-      // console.log('update Liability Tags --- ', event);
-      this.services.rloCommonData.getLiabilityTags(event).then(data => {
-        // console.log(data);
-        this.setTags(data);
-      });
+    LiabilityDetails_SetTag(event) {
+        // console.log('update Liability Tags --- ', event);
+        this.services.rloCommonData.getLiabilityTags(event).then(data => {
+            // console.log(data);
+            this.setTags(data);
+        });
     }
 
-    AssetDetails_SetTag(event){
-      // console.log('update Asset Tags --- ', event);
-      this.services.rloCommonData.getAssetTags(event).then(data => {
-        this.setTags(data);
-      });
+    AssetDetails_SetTag(event) {
+        // console.log('update Asset Tags --- ', event);
+        this.services.rloCommonData.getAssetTags(event).then(data => {
+            this.setTags(data);
+        });
     }
 
-    
+
     addRemoveCompletedSection(sectionResponseObj: IComponentSectionValidationData, componentLvlData) {
         console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject);
         let data = [];
