@@ -683,9 +683,9 @@ li .a {
 /* #RD_RESET{
   margin-left: 5px;
 } */
-/* #ND_CLEAR{
-  margin-left: 5px;
-} */
+#ND_CLEAR{
+  border-color: dimgray;
+}
 
 .AD_EMAIL1{
   margin-left: 10px;
@@ -734,7 +734,7 @@ li .a {
   margin-left: 115px;
 }
 #FD_Save{
-  margin-left: 167px;
+  margin-left: 171px;
 }
 #RD_RESET{
   border-color: dimgray;
@@ -762,6 +762,7 @@ li .a {
 }
 #clear{
   margin-left: 127px;
+  border-color: dimgray;
 }
 #AT_SAVE{
   margin-left: 183px;
