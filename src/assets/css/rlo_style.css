@@ -975,7 +975,7 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 
 /* Go No Go Component CSS Start */
 
-.go-no-go-table {
+/* .go-no-go-table {
   border: 0.5px solid lightgray;
 }
 
@@ -1016,6 +1016,36 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 
 .go-no-go-tb-cell {
   color: #004d8a;
+} */
+
+.lbl-deviaton{
+  /*border: 2px solid blue;*/
+  background-color: rgb(93, 226, 15);
+  height: 38px;
+  width: 100%;
+  padding-top: 7px;
+  text-align: center;
+  border-radius: 4px;
 }
 
+.Questionnaire-subheader{
+  height: 22px;
+  /* width: 156px; */
+  color: #000000 !important;
+  font-family: "Open Sans";
+  font-size: 16px !important;
+  letter-spacing: 0;
+  line-height: 22px;
+}
+
+.questions-txt{
+  height: 17px;
+  /* width: 720px; */
+  color: #565656;
+  font-family: "Open Sans";
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 17px;
+  margin-left: 20px;
+}
 /* Go No Go Component CSS End */

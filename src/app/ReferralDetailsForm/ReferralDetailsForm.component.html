@@ -24,12 +24,11 @@
         <div class="form-group pb10">
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REF_NAME.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory':RD_REF_NAME.mandatory}">
                 {{ 'ReferralDetailsForm.RD_REF_NAME' | translate}}
               </label>
             </div>
-            <app-text-box #RD_REF_NAME fieldID="RD_REF_NAME" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_REF_NAME', $event)"></app-text-box>
+            <app-text-box #RD_REF_NAME fieldID="RD_REF_NAME" [formCode]="formCode" (blur)="genericOnBlur('RD_REF_NAME', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_RELATION.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -37,9 +36,8 @@
                 {{ 'ReferralDetailsForm.RD_REFERRER_RELATION' | translate}}
               </label>
             </div>
-            <app-combo-box #RD_REFERRER_RELATION category="2" fieldID="RD_REFERRER_RELATION" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RD_REFERRER_RELATION', $event)"></app-combo-box>
+            <app-combo-box #RD_REFERRER_RELATION category="2" fieldID="RD_REFERRER_RELATION" [formCode]="formCode" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('RD_REFERRER_RELATION', $event)"></app-combo-box>
           </div>
           <div class="col-12 col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12 col-sm-3 col-md-3"></div>
@@ -60,8 +58,7 @@
                 {{ 'ReferralDetailsForm.RD_REF_NO' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #RD_REF_NO fieldID="RD_REF_NO" (countryCodeChanged)="countryCodeChanged('RD_REF_NO',$event)"
-              (blur)="genericOnBlur('RD_REF_NO', $event)"></rlo-ui-mobile>
+            <rlo-ui-mobile #RD_REF_NO fieldID="RD_REF_NO" (countryCodeChanged)="countryCodeChanged('RD_REF_NO',$event)" (blur)="genericOnBlur('RD_REF_NO', $event)"></rlo-ui-mobile>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFRRER_EMAILID.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -69,8 +66,7 @@
                 {{ 'ReferralDetailsForm.RD_REFRRER_EMAILID' | translate}}
               </label>
             </div>
-            <app-text-box #RD_REFRRER_EMAILID fieldID="RD_REFRRER_EMAILID" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_REFRRER_EMAILID', $event)"></app-text-box>
+            <app-text-box #RD_REFRRER_EMAILID fieldID="RD_REFRRER_EMAILID" [formCode]="formCode" (blur)="genericOnBlur('RD_REFRRER_EMAILID', $event)"></app-text-box>
           </div>
           <!-- <div class="col-12 col-sm-6 col-md-6"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE1.isHidden()">
@@ -79,8 +75,7 @@
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE1' | translate}}
               </label>
             </div>
-            <app-text-box #RD_ADDRESSLINE1 fieldID="RD_ADDRESSLINE1" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_ADDRESSLINE1', $event)"></app-text-box>
+            <app-text-box #RD_ADDRESSLINE1 fieldID="RD_ADDRESSLINE1" [formCode]="formCode" (blur)="genericOnBlur('RD_ADDRESSLINE1', $event)"></app-text-box>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE2.isHidden()">
@@ -89,8 +84,7 @@
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE2' | translate}}
               </label>
             </div>
-            <app-text-box #RD_ADDRESSLINE2 fieldID="RD_ADDRESSLINE2" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_ADDRESSLINE2', $event)"></app-text-box>
+            <app-text-box #RD_ADDRESSLINE2 fieldID="RD_ADDRESSLINE2" [formCode]="formCode" (blur)="genericOnBlur('RD_ADDRESSLINE2', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE3.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -98,8 +92,7 @@
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE3' | translate}}
               </label>
             </div>
-            <app-text-box #RD_ADDRESSLINE3 fieldID="RD_ADDRESSLINE3" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_ADDRESSLINE3', $event)"></app-text-box>
+            <app-text-box #RD_ADDRESSLINE3 fieldID="RD_ADDRESSLINE3" [formCode]="formCode" (blur)="genericOnBlur('RD_ADDRESSLINE3', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_ADDRESSLINE4.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -107,8 +100,7 @@
                 {{ 'ReferralDetailsForm.RD_ADDRESSLINE4' | translate}}
               </label>
             </div>
-            <app-text-box #RD_ADDRESSLINE4 fieldID="RD_ADDRESSLINE4" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_ADDRESSLINE4', $event)"></app-text-box>
+            <app-text-box #RD_ADDRESSLINE4 fieldID="RD_ADDRESSLINE4" [formCode]="formCode" (blur)="genericOnBlur('RD_ADDRESSLINE4', $event)"></app-text-box>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PINCODE.isHidden()">
@@ -117,8 +109,7 @@
                 {{ 'ReferralDetailsForm.RD_PINCODE' | translate}}
               </label>
             </div>
-            <app-text-box #RD_PINCODE fieldID="RD_PINCODE" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_PINCODE', $event)"></app-text-box>
+            <app-text-box #RD_PINCODE fieldID="RD_PINCODE" [formCode]="formCode" (blur)="genericOnBlur('RD_PINCODE', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REGION.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -126,8 +117,7 @@
                 {{ 'ReferralDetailsForm.RD_REGION' | translate}}
               </label>
             </div>
-            <app-text-box #RD_REGION fieldID="RD_REGION" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_REGION', $event)"></app-text-box>
+            <app-text-box #RD_REGION fieldID="RD_REGION" [formCode]="formCode" (blur)="genericOnBlur('RD_REGION', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_CITY.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -154,8 +144,7 @@
                 {{ 'ReferralDetailsForm.RD_LANDMARK' | translate}}
               </label>
             </div>
-            <app-text-box #RD_LANDMARK fieldID="RD_LANDMARK" [formCode]="formCode"
-              (blur)="genericOnBlur('RD_LANDMARK', $event)"></app-text-box>
+            <app-text-box #RD_LANDMARK fieldID="RD_LANDMARK" [formCode]="formCode" (blur)="genericOnBlur('RD_LANDMARK', $event)"></app-text-box>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_COUNTRY_CODE1.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -169,12 +158,11 @@
           </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PHONE1.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory':RD_PHONE1.mandatory}">
                 {{ 'ReferralDetailsForm.RD_PHONE1' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #RD_PHONE1 fieldID="RD_PHONE1" (countryCodeChanged)="countryCodeChanged('RD_PHONE1',$event)"
-              (blur)="genericOnBlur('RD_PHONE1', $event)"></rlo-ui-mobile>
+            <rlo-ui-mobile #RD_PHONE1 fieldID="RD_PHONE1" (countryCodeChanged)="countryCodeChanged('RD_PHONE1',$event)" (blur)="genericOnBlur('RD_PHONE1', $event)"></rlo-ui-mobile>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PHONE2.isHidden()">
@@ -183,25 +171,22 @@
                 {{ 'ReferralDetailsForm.RD_PHONE2' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #RD_PHONE2 fieldID="RD_PHONE2" (countryCodeChanged)="countryCodeChanged('RD_PHONE2',$event)"
-              (blur)="genericOnBlur('RD_PHONE2', $event)"></rlo-ui-mobile>
+            <rlo-ui-mobile #RD_PHONE2 fieldID="RD_PHONE2" (countryCodeChanged)="countryCodeChanged('RD_PHONE2',$event)" (blur)="genericOnBlur('RD_PHONE2', $event)"></rlo-ui-mobile>
           </div>
           <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_SAVE.isHidden()">
-            <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" fieldID="RD_SAVE"
-              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
-              (buttonClick)="RD_SAVE_click($event)"></app-button>
+            <app-button #RD_SAVE fieldName="{{ 'ReferralDetailsForm.RD_SAVE' | translate}}" fieldID="RD_SAVE" [formCode]="formCode" imagePath="./assets/icons/plus.svg"
+              [type]="2" customClass="icon-button" (buttonClick)="RD_SAVE_click($event)"></app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="RD_RESET.isHidden()">
-            <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" fieldID="RD_RESET"
-              [formCode]="formCode" iconClass="fas fa-undo fa-lg" (buttonClick)="RD_RESET_click($event)"
-              imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"></app-button>
+            <app-button #RD_RESET fieldName="{{ 'ReferralDetailsForm.RD_RESET' | translate}}" fieldID="RD_RESET" [formCode]="formCode"
+              iconClass="fas fa-undo fa-lg" (buttonClick)="RD_RESET_click($event)" imagePath="./assets/icons/refresh-form.svg"
+              [type]="2" customClass="icon-button"></app-button>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="ReferralDetailsGrid.isHidden()">
-            <app-ReferralDetailsGrid #ReferralDetailsGrid fieldID="ReferralDetailsGrid" [formCode]="formCode"
-              (EditReferrerDetails)="FieldId_6_EditReferrerDetails($event)"></app-ReferralDetailsGrid>
+            <app-ReferralDetailsGrid #ReferralDetailsGrid fieldID="ReferralDetailsGrid" [formCode]="formCode" (EditReferrerDetails)="FieldId_6_EditReferrerDetails($event)"></app-ReferralDetailsGrid>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-referrer-handler #Handler [MainComponent]="this"></app-referrer-handler>

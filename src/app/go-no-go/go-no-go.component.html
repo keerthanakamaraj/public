@@ -1,4 +1,7 @@
 <div class="row">
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <label class=Questionnaire-subheader> {{ 'GNGDtls.GNG_MST_PARAMETERS' | translate}}</label>
+    </div>
     <div class="row">
         <ng-container *ngIf="QuestionnairMap != undefined">
             <div class="row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
@@ -6,13 +9,13 @@
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
-                    <span>{{ i + 1 }}. {{question.value.QuestionText }}</span>
+                    <span class="questions-txt">{{ i + 1 }}. {{question.value.QuestionText }}</span>
                 </div>
                 <div class="param-answer col-12 col-sm-2 col-md-2">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
-                    <label class="lbl-deviaton" *ngIf="question.value.IsDeviation==true">Deviation</label>
+                    <label class="lbl-deviaton" *ngIf="question.value.IsDeviation==true">{{question.value.DeviationLevel!=undefined?question.value.DeviationLevel:'Deviation'}}</label>
                 </div>
                 <div class="param-answer col-12 col-sm-2 col-md-2">
                     <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"

@@ -1965,7 +1965,8 @@
   },
   "GNGDtls":{
     "GNG_SAVE_BTN":"SAVE",
-    "GNG_CLEAR_BTN":"CLEAR"
+    "GNG_CLEAR_BTN":"CLEAR",
+    "GNG_MST_PARAMETERS":"Master Parameters"
 
   },
   "PIDtls":{
