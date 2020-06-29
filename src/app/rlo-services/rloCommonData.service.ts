@@ -386,7 +386,7 @@ export class RloCommonData {
         }
 
         if (!isCustomerValid) {
-            errorMessage = 'formalities of customer ' + custFullName + ' are pending. Please fill : ' + errorMessage;
+            errorMessage =  'Please fill all the pending Details for Customer' + custFullName + ' : ' + errorMessage;
             dataObject.errorsList.push(errorMessage);
             dataObject.isAppValidFlag = false;
         }
@@ -470,7 +470,7 @@ export class RloCommonData {
                     }
 
                     if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
-                        let msg = "Formalities of customer " + custFullName + " are pending kindly fill : " + errorMessage + "\r\n";
+                        let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName +' " '+ " : " + errorMessage + "\r\n";
                         dataObject.errorsList.push(msg);
                         dataObject.isAppValid = false;
                     }
@@ -519,7 +519,7 @@ export class RloCommonData {
                 }
             }
             if (!commonObj.isSectionValid) {
-                commonObj.errorMessage += "customer's primary occupation is required.";
+                commonObj.errorMessage += "Income Type required as Primary for Occupation";
             }
         }
         return commonObj;
@@ -537,7 +537,7 @@ export class RloCommonData {
 
         if (!sectionData.has('AddressDetails')) {
             commonObj.isSectionValid = false;
-            commonObj.errorMessage += 'add atleast one address';
+            commonObj.errorMessage += 'Please Add Address For Every Customers';
         } else {
             const addressList = sectionData.get('AddressDetails');
             const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
@@ -568,8 +568,8 @@ export class RloCommonData {
 
             if (!commonObj.isSectionValid) {
                 commonObj.errorMessage += (addrValidationObj.isOffice) ?
-                    'add one permanent residence, one current residence and select one of these as the correspondence address'
-                    : 'add one permanent residence, one current residence and at least one office address and select one of these as the correspondence address';
+                    'add one permanent, one current and select one of these as the correspondence address'
+                    : 'add one permanent, one current and at least one office address and select one of these as the correspondence address';
             }
         }
         return commonObj;

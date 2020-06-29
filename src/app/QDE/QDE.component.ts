@@ -436,15 +436,36 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //  }, 20000);
   }
   async QDE_WITHDRAW_click(event) {
-
-    if (confirm('Are you sure you want to withdraw?')) {
-      // history.back();
       const requestParams = new Map();
       requestParams.set('Body.ApplicationStatus', 'Withdraw');
       requestParams.set('Body.direction', 'W');
-      this.submitQDE(requestParams);
-      // this.services.router.navigate(['home', 'LANDING']);
-    }
+      var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+      var button1 = this.services.rloui.getAlertMessage('', 'OK');
+      var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+      Promise.all([mainMessage, button1, button2]).then(values => {
+          console.log(values);
+          let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                  { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+          }
+
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                  if (response.id === 1) {
+                      this.services.rloui.closeAllConfirmationModal()
+                      this.submitQDE(requestParams);
+                  }
+              }
+          });
+      });
+
   }
 
   async QDE_SUBMIT_click(event) {
@@ -461,7 +482,32 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         dataObj.errorsList.forEach(element => {
           errorMsg += element;
         });
-        this.services.alert.showAlert(2, '', -1, errorMsg);
+        // this.services.alert.showAlert(2, '', -1, errorMsg);
+           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+           var mainMessage = this.services.rloui.getAlertMessage('', errorMsg);
+           var button1 = this.services.rloui.getAlertMessage('', 'OK');
+           // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+           Promise.all([mainMessage, button1]).then(values => {
+               console.log(values);
+               let modalObj = {
+                   title: "Alert",
+                   mainMessage: values[0],
+                   modalSize: "modal-width-sm",
+                   buttons: [
+                       { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                       //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                   ]
+               }
+               this.services.rloui.confirmationModal(modalObj).then((response) => {
+                   console.log(response);
+                   if (response != null) {
+                       if (response.id === 1) {
+                        this.services.rloui.closeAllConfirmationModal();
+                       }
+                   }
+               });
+           });
       }
     });
   }
@@ -496,12 +542,35 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
         const alertMsg = ('WITHDRAW' === action) ? 'Application Withdrawn successfully' : 'Application Submitted Successfully';
-        if (confirm(alertMsg)) {
-          // history.back();
-          this.services.router.navigate(['home', 'LANDING']);
-        }
-        this.QDE_SUBMIT.setDisabled(true);
-        this.QDE_WITHDRAW.setDisabled(true);
+                       // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+                       var mainMessage = this.services.rloui.getAlertMessage('', alertMsg);
+                       var button1 = this.services.rloui.getAlertMessage('', 'OK');
+                       // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+       
+                       Promise.all([mainMessage, button1]).then(values => {
+                           console.log(values);
+                           let modalObj = {
+                               title: "Alert",
+                               mainMessage: values[0],
+                               modalSize: "modal-width-sm",
+                               buttons: [
+                                   { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                                   //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                               ]
+                           }
+       
+                           console.log("deep ===", modalObj);
+                           this.services.rloui.confirmationModal(modalObj).then((response) => {
+                               console.log(response);
+                               if (response != null) {
+                                   if (response.id === 1) {
+                                       this.services.router.navigate(['home', 'LANDING']);
+                                   }
+                               }
+                           });
+                       });
+        // this.QDE_SUBMIT.setDisabled(true);
+        // this.QDE_WITHDRAW.setDisabled(true);
         // this.services.alert.showAlert(1, alertMsg, 5000);
         // // this.QDE_SUBMIT.setDisabled(false)
         // this.services.router.navigate(['home', 'LANDING']);
