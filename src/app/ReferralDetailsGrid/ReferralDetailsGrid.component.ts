@@ -189,7 +189,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 					"searchType": "equals",
 					"searchText": applicationId
 				}
-			});	
+			});
 			criteriaJson.FilterCriteria.push({
 				"columnName": "CustomerType",
 				"columnType": "String",
@@ -204,14 +204,23 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
 				this.referredetails = [];
-                if(res !== null){
-                    this.referrerRecord = true
+
+				let obj = {
+					"name": "ReferrerDetails",
+					"data": null,
+					"sectionName": "ReferrerDetails",
+				}
+
+				if (res !== null) {
+					this.referrerRecord = true;
 					var loopVar10 = res['ReferrerDetails'];
-                }
-                else{
-                    this.referrerRecord = false
-                }
-				
+					obj.data = loopVar10;
+				}
+				else {
+					this.referrerRecord = false;
+					obj.data = [];
+				}
+
 				if (loopVar10) {
 					this.referrerLoaded.emit({
 						"name": "referrerLoad",
@@ -235,6 +244,9 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 						// "BorrowerSeq": borrowerSeq
 					});
 				}
+
+				this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
 				this.readonlyGrid.apiSuccessCallback(params, this.referredetails);
 				this.hideSpinner();
 			},
@@ -251,10 +263,10 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
 	async RD_EDIT_click(event) {
 		let inputMap = new Map();
 		const selectedData0 = this.readonlyGrid.getSelectedData();
-			this.EditReferrerDetails.emit({
-				'SeqKey': event['Referrer_ID'],
-			});
-	
+		this.EditReferrerDetails.emit({
+			'SeqKey': event['Referrer_ID'],
+		});
+
 	}
 	async RD_DELETE_click(event) {
 		let inputMap = new Map();

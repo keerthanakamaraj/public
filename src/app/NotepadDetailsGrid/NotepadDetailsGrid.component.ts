@@ -180,15 +180,19 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
         this.services.http.fetchApi('/NotepadDetails', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
+                var loopVar9;
+
                 if (res != null && res != undefined) {
                     var loopDataVar9 = [];
+
                     if (res !== null) {
                         this.notepadRecord = true
-                        var loopVar9 = res['NotepadDetails'];
+                        loopVar9 = res['NotepadDetails'];
                     } else {
                         this.notepadRecord = false;
+                        loopVar9 = [];
                     }
-                   
+
                     if (loopVar9) {
                         for (var i = 0; i < loopVar9.length; i++) {
                             var tempObj = {};
@@ -201,6 +205,16 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
                     }
                     this.readonlyGrid.apiSuccessCallback(params, loopDataVar9);
                 }
+                else {
+                    loopVar9 = [];
+                }
+
+                let obj = {
+                    "name": "Notes",
+                    "data": loopVar9,
+                    "sectionName": "Notes"
+                };
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             },
             async (httpError) => {
                 var err = httpError['error']

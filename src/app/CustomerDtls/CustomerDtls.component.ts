@@ -123,7 +123,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     async revalidate(showErrors: boolean = true): Promise<number> {
         let totalErrors = 0;
         super.beforeRevalidate();
-
         await Promise.all([
             // this.revalidateBasicField('CD_CUST_TYPE'),
             this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
@@ -756,7 +755,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
                 this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
-                 this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
+                this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
                 // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
                 this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
@@ -796,18 +795,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 // this.setNonEditableFields(true);
 
                 this.revalidate(false).then((errors) => {
-                  if(errors === 0){
-                    let array = [];
-                    array.push({isValid: true});
+                    if (errors === 0) {
+                        let array = [];
+                        array.push({ isValid: true });
 
-                    let obj = {
-                      "name": "CustomerDetails",
-                      "data": array,
-                      "BorrowerSeq": this.HidCustomerId.getFieldValue()
-                    };
+                        let obj = {
+                            "name": "CustomerDetails",
+                            "data": array,
+                            "BorrowerSeq": this.HidCustomerId.getFieldValue()
+                        };
 
-                    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-                  }
+                        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                    }
                 });
             },
             async (httpError) => {
@@ -873,18 +872,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         });
 
         this.revalidate(false).then((errors) => {
-          if(errors === 0){
-            let array = [];
-            array.push({isValid: true});
+            if (errors === 0) {
+                let array = [];
+                array.push({ isValid: true });
 
-            let obj = {
-              "name": "CustomerDetails",
-              "data": array,
-              "BorrowerSeq": this.HidCustomerId.getFieldValue()
-            };
+                let obj = {
+                    "name": "CustomerDetails",
+                    "data": array,
+                    "BorrowerSeq": this.HidCustomerId.getFieldValue()
+                };
 
-            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          }
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+            }
         });
         // this.passfullName.emit({
         //     'FullName': customer.FullName,

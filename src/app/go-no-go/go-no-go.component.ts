@@ -13,7 +13,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 
 export class GoNoGoComponent implements OnInit {
   //if (this.formCode == undefined) { this.formCode = 'GoNoGoDtls'; }
-  ErrorSet = new Set();
+  ErrorSet = new Set([]);
   ApplicationDetails: IGoNoGoQuestionnaire = {};
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;

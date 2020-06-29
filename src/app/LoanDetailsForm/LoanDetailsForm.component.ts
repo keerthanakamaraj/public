@@ -213,6 +213,14 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         var LoanArray = res['LoanDetails'];
+
+        if (res !== null) {
+          LoanArray = res['LoanDetails'];
+        }
+        else {
+          LoanArray = [];
+        }
+
         LoanArray.forEach(async LoanElement => {
           this.LoanAmount.setValue(LoanElement['LoanAmount']);
           this.InterestRate.setValue(LoanElement['InterestRate']);
@@ -237,6 +245,13 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
 
         });
 
+        let obj = {
+          "name": "LoanDetails",
+          "data": LoanArray,
+          "sectionName": "LoanDetails"
+        };
+
+        //this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -319,6 +334,21 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.save.loan', 5000);
           this.LoanGridCalculation();
+          var loanData = [""];
+
+          // if (res !== null) {
+          //   loanData = res['LoanDetails'];
+          // }
+          // else {
+          //   loanData = [];
+          // }
+
+          let obj = {
+            "name": "LoanDetails",
+            "data": loanData,
+            "sectionName": "LoanDetails"
+          };
+          this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
         },
         async (httpError) => {

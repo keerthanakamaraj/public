@@ -40,8 +40,7 @@ import { PersonalInterviewComponent } from '../PersonalInterview/personal-interv
 import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { Subscription } from 'rxjs';
-import cloneDeep from 'lodash/cloneDeep';
-import { IComponentLvlData } from '../rlo-services/rloCommonData.service';
+import { IComponentLvlData, IComponentSectionValidationData } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
@@ -262,7 +261,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.services.rloCommonData.childToParentSubject.subscribe((event) => {
             switch (event.action) {
                 case 'updateCustGrid': // on customer update/save success
-                  //  console.log("shweta :: grid update ", event.data);
+                    //  console.log("shweta :: grid update ", event.data);
                     this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
                     event.action = undefined;
                     break;
@@ -275,14 +274,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             if (!this.initialLoadDone) {
                 this.setInitialObjectData(data);
             }
-            var clonedMasterDataMap = cloneDeep(this.services.rloCommonData.masterDataMap);
-            console.error(clonedMasterDataMap);
+            // var clonedMasterDataMap = cloneDeep(this.services.rloCommonData.masterDataMap);
+            // console.error(clonedMasterDataMap);
 
-            this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected);
-            // console.log("shweta :: in DDE constructor",this.services.rloCommonData.masterDataMap);
+            this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected).then((sectionResponseObj) => {
+                console.log("$$$$$$$$$$", sectionResponseObj);
 
-            this.addOrRemoveCompletedSection(clonedMasterDataMap, data);
-            this.updateSectionWiseTags(data);
+                this.addRemoveCompletedSection(sectionResponseObj, data);
+            });
+            console.log("shweta :: in DDE constructor", this.services.rloCommonData.masterDataMap);
+
+            //this.addOrRemoveCompletedSection(clonedMasterDataMap, data);
         });
     }
 
@@ -428,6 +430,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
         this.injectDynamicComponent('CustomerDetails', 0, 0);
+        this.services.rloCommonData.getCurrentRoute();
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -966,53 +969,53 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     //after adding and removing section from map
-    updateMenu(action: string, menuList: any, componentLvlData: IComponentLvlData) {
+    updateMenu(action: string, menuList: any, componentLvlData: IComponentLvlData, selectedSection: string, mapKey: string) {
         let state = action == "add" ? true : false;
-        this.completedMenuSectionList.customerSection.set(componentLvlData.BorrowerSeq, menuList);
+        this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
         this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
 
         console.log("deep ===", this.formMenuObject);
+
         if (!this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional) {
             this.updateRoleBasedScore(action);
         }
-
     }
 
-    addOrRemoveCompletedSection(DataMap: any, componentLvlData: IComponentLvlData) {
-        let clonedMasterDataMap = new Map();
-        let data = [];
-        const masterDataMapComponent: Map<any, any> = this.services.rloCommonData.masterDataMap.get("customerMap").get(componentLvlData.BorrowerSeq);
+    // addOrRemoveCompletedSection(DataMap: any, componentLvlData: IComponentLvlData) {
+    //     let clonedMasterDataMap = new Map();
+    //     let data = [];
+    //     const masterDataMapComponent: Map<any, any> = this.services.rloCommonData.masterDataMap.get("customerMap").get(componentLvlData.BorrowerSeq);
 
-        //if (componentLvlData.BorrowerSeq === this.formMenuObject.activeBorrowerSeq) {
-        if (this.formMenuObject.isCustomerTabSelected) {
-            clonedMasterDataMap = DataMap.get("customerMap").get(componentLvlData.BorrowerSeq);
-            console.log(clonedMasterDataMap);
-            //first time loading data; customer not present
-            if (this.completedMenuSectionList.customerSection.get(componentLvlData.BorrowerSeq) === undefined) {
-                console.error("SECTION COMPLETED | CALCULATE SCORE");
-                data.push(componentLvlData.name);
-                this.updateMenu('add', data, componentLvlData);
-            }
-            else {
-                let dataList = this.completedMenuSectionList.customerSection.get(componentLvlData.BorrowerSeq);
-                if (clonedMasterDataMap.size < masterDataMapComponent.size) {
-                    console.error("SECTION COMPLETED | CALCULATE SCORE");
-                    dataList.push(componentLvlData.name);
-                    this.updateMenu('add', dataList, componentLvlData);
-                }
-                else if (clonedMasterDataMap.size > masterDataMapComponent.size) {
-                    console.error("SECTION REMOVED | CALCULATE SCORE");
-                    dataList.splice(dataList.indexOf(componentLvlData.BorrowerSeq), 1);
-                    this.updateMenu('remove', dataList, componentLvlData);
-                }
-            }
-        }
-        else {
-            clonedMasterDataMap = DataMap.get("applicationMap");
-        }
-        //}
-        console.warn(this.completedMenuSectionList, this.progressStatusObject);
-    }
+    //     //if (componentLvlData.BorrowerSeq === this.formMenuObject.activeBorrowerSeq) {
+    //     if (this.formMenuObject.isCustomerTabSelected) {
+    //         clonedMasterDataMap = DataMap.get("customerMap").get(componentLvlData.BorrowerSeq);
+    //         console.log(clonedMasterDataMap);
+    //         //first time loading data; customer not present
+    //         if (this.completedMenuSectionList.customerSection.get(componentLvlData.BorrowerSeq) === undefined) {
+    //             console.error("SECTION COMPLETED | CALCULATE SCORE");
+    //             data.push(componentLvlData.name);
+    //             this.updateMenu('add', data, componentLvlData);
+    //         }
+    //         else {
+    //             let dataList = this.completedMenuSectionList.customerSection.get(componentLvlData.BorrowerSeq);
+    //             if (clonedMasterDataMap.size < masterDataMapComponent.size) {
+    //                 console.error("SECTION COMPLETED | CALCULATE SCORE");
+    //                 dataList.push(componentLvlData.name);
+    //                 this.updateMenu('add', dataList, componentLvlData);
+    //             }
+    //             else if (clonedMasterDataMap.size > masterDataMapComponent.size) {
+    //                 console.error("SECTION REMOVED | CALCULATE SCORE");
+    //                 dataList.splice(dataList.indexOf(componentLvlData.BorrowerSeq), 1);
+    //                 this.updateMenu('remove', dataList, componentLvlData);
+    //             }
+    //         }
+    //     }
+    //     else {
+    //         clonedMasterDataMap = DataMap.get("applicationMap");
+    //     }
+    //     //}
+    //     console.warn(this.completedMenuSectionList, this.progressStatusObject);
+    // }
 
     setInitialObjectData(data) {
         console.log("setInitialObjectData", data.data[0]);
@@ -1024,7 +1027,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.initialLoadDone = true;
         }
         else {
-            if (customerData.CustomerType == "CB" && customerData.LoanOwnership > 0 && this.progressStatusObject.manditorySection < 11) {
+            if (customerData.CustomerType == "CB" && customerData.LoanOwnership > 0 && this.progressStatusObject.manditorySection < 6) {
                 this.progressStatusObject.manditorySection += 4;
                 this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
                 this.initialLoadDone = true;
@@ -1306,6 +1309,53 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       });
     }
 
+    
+    addRemoveCompletedSection(sectionResponseObj: IComponentSectionValidationData, componentLvlData) {
+        console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject);
+        let data = [];
+        let selectedSection, mapKey;
+
+        if (this.formMenuObject.isCustomerTabSelected) {
+            selectedSection = "customerSection";
+            mapKey = componentLvlData.BorrowerSeq;
+        } else {
+            selectedSection = "applicationSection";
+            mapKey = componentLvlData.sectionName;
+        }
+
+        if (sectionResponseObj.isSectionValid) {
+            //first time loading data; customer not present
+            if (this.completedMenuSectionList[selectedSection].get(mapKey) === undefined) {
+                console.error("SECTION COMPLETED | CALCULATE SCORE");
+                data.push(componentLvlData.name);
+                this.updateMenu('add', data, componentLvlData, selectedSection, mapKey);
+            }
+            else {
+                let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
+                if (!dataList.includes(componentLvlData.name)) {
+                    console.error("SECTION COMPLETED | CALCULATE SCORE");
+                    dataList.push(componentLvlData.name);
+                    this.updateMenu('add', dataList, componentLvlData, selectedSection, mapKey);
+                }
+            }
+        } else {
+            let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
+            if (dataList == undefined) {
+                return;
+            }
+            let sectionAlreadyCompleted = dataList.includes(componentLvlData.name);
+            if (sectionAlreadyCompleted) {
+                console.error("SECTION REMOVED | CALCULATE SCORE");
+                dataList.splice(dataList.indexOf(mapKey), 1);
+                this.updateMenu('remove', dataList, componentLvlData, selectedSection, mapKey);
+            }
+            else {
+                console.error("SECTION NOT FOUND");
+            }
+        }
+        console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        console.warn(this.completedMenuSectionList);
+    }
 }
 
 

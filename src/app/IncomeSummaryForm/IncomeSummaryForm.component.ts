@@ -80,43 +80,55 @@ export class IncomeSummaryFormComponent extends FormComponent implements OnInit,
     fetchIncomeSummaryDetails() {
         let inputMap = new Map();
         inputMap.clear();
-        let IncomeId:any = this.activeBorrowerSeq
-        let criteriaJson:any = {"Offset":1,"Count":10,FilterCriteria:[]};
-        if(IncomeId){
-        criteriaJson.FilterCriteria.push({
-            "columnName": "BorrowerSeq",
-            "columnType": "String",
-            "conditions": {
-                "searchType": "equals",
-                "searchText": IncomeId
-            }
-        });
-        inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
-        
+        let IncomeId: any = this.activeBorrowerSeq
+        let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+        if (IncomeId) {
+            criteriaJson.FilterCriteria.push({
+                "columnName": "BorrowerSeq",
+                "columnType": "String",
+                "conditions": {
+                    "searchType": "equals",
+                    "searchText": IncomeId
+                }
+            });
+            inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+
         }
-          this.services.http.fetchApi('/IncomeSummary', 'GET', inputMap, '/rlo-de').subscribe(
+        this.services.http.fetchApi('/IncomeSummary', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
-              var res = httpResponse.body;
-              for (let i = 0; i < res.IncomeSummary.length; i++) {
-                const incomeDtls = res.IncomeSummary[i];
-                if (incomeDtls) {
-                    this.IS_NET_INCOME.setValue(incomeDtls.NetIncomeMonthly);
-                    this.IS_TOTAL_INCOME.setValue(incomeDtls.TotalIncome);
-                    this.IS_TOTAL_LIABILITY.setValue(incomeDtls.TotalLiability);
-                    this.IS_TOTAL_OBLIGATION.setValue(incomeDtls.TotalObligation);
-                    this.IS_DBR.setValue(incomeDtls.DBR);
-                  }
-              } 
+                var res = httpResponse.body;
+                var obj = {
+                    "name": "IncomeSummary",
+                    "data": null,
+                    "BorrowerSeq": this.activeBorrowerSeq,
+                }
+                if (res != null) {
+                    for (let i = 0; i < res.IncomeSummary.length; i++) {
+                        const incomeDtls = res.IncomeSummary[i];
+                        if (incomeDtls) {
+                            this.IS_NET_INCOME.setValue(incomeDtls.NetIncomeMonthly);
+                            this.IS_TOTAL_INCOME.setValue(incomeDtls.TotalIncome);
+                            this.IS_TOTAL_LIABILITY.setValue(incomeDtls.TotalLiability);
+                            this.IS_TOTAL_OBLIGATION.setValue(incomeDtls.TotalObligation);
+                            this.IS_DBR.setValue(incomeDtls.DBR);
+                        }
+                    }
+                    obj.data = res.IncomeSummary;
+                }
+                else {
+                    obj.data = [];
+                }
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             },
             async (httpError) => {
-              var err = httpError['error']
-              if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-              }
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                }
             }
-          );
-          this.setDependencies();
-        
-      }
+        );
+        this.setDependencies();
+
+    }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {

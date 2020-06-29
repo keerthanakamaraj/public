@@ -267,9 +267,9 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 					async (httpResponse: HttpResponse<any>) => {
 						var res = httpResponse.body;
 						this.services.alert.showAlert(1, 'rlo.success.update.referrer', 5000);
-						await this.ReferralDetailsGrid.gridDataLoad({
-							'passReferrerGrid': this.ApplicationId,
-						});
+						// await this.ReferralDetailsGrid.gridDataLoad({
+						// 	'passReferrerGrid': this.ApplicationId,
+						// });
 						this.onReset();
 					},
 					async (httpError) => {
@@ -370,9 +370,9 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 						async (httpResponse: HttpResponse<any>) => {
 							var res = httpResponse.body;
 							this.services.alert.showAlert(1, 'rlo.success.save.referrer', 5000);
-							await this.ReferralDetailsGrid.gridDataLoad({
-								'passReferrerGrid': this.ApplicationId,
-							});
+							// await this.ReferralDetailsGrid.gridDataLoad({
+							// 	'passReferrerGrid': this.ApplicationId,
+							// });
 							this.onReset();
 						},
 						async (httpError) => {

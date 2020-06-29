@@ -14,12 +14,12 @@
 }
 
 [data-icon]:before {
-    font-family: "rlo-icons" !important;
+    font-family: "rlo-icons";
     content: attr(data-icon);
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-variant: normal !important;
-    text-transform: none !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -27,11 +27,11 @@
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-    font-family: "rlo-icons" !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-variant: normal !important;
-    text-transform: none !important;
+    font-family: "rlo-icons";
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -136,4 +136,12 @@
 
 .icon-mydptoday:before {
     content: "\e802";
+}
+
+.icon-mydpup:before {
+    content: "\e804";
+}
+
+.icon-mydpdown:before {
+    content: "\e805";
 }

@@ -4,6 +4,7 @@ import { RloUtilService } from './rloutil.service';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { forkJoin } from 'rxjs';
 import { RlouiService } from './rloui.service';
+import { Router } from '@angular/router';
 
 export interface subjectParamsInterface {
     action: string;
@@ -14,7 +15,7 @@ export interface IComponentLvlData {
     name?: string;
     data: any;//eg:when used in grid(address) data contains list of added addressed
     BorrowerSeq?: string;
-    sectionName?: string;
+    sectionName?: string;//used in components which comes under application section
 }
 
 
@@ -41,8 +42,9 @@ export class RloCommonData {
     /////////////////////////////////////////////////////////
     masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
     componentLvlDataSubject = new Subject<IComponentLvlData>();
+    currentRoute: string = "";
 
-    constructor(public rloutil: RloUtilService, public rloui: RlouiService) {
+    constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router) {
         this.resetMapData();
         console.log(this.masterDataMap);
     }
@@ -147,13 +149,15 @@ export class RloCommonData {
     //     console.log(tempStoreMap);
     // }
 
-    updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
+    async updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
         console.warn("------------------------------ deep ===", componentData, isCustomerTabSelected);
+        console.log(this.getCurrentRoute());
 
         let mapValue = new Map();
         let tempStoreMap = new Map();
         let mapName = undefined;
         let mapKey = undefined;
+        let functionalResponseObj: Promise<IComponentSectionValidationData>
 
         if (isCustomerTabSelected) {
             mapName = "customerMap";
@@ -164,7 +168,6 @@ export class RloCommonData {
         }
 
         tempStoreMap.set(mapName, this.masterDataMap.get(mapName));
-
 
         console.warn('----------------------', this.masterDataMap, tempStoreMap);
 
@@ -178,76 +181,121 @@ export class RloCommonData {
             switch (componentData.name) {
                 case 'CustomerDetails': // for customer tab
                     let oldCustomerDetails = mapValue.get('CustomerDetails');
-                    if ( oldCustomerDetails && oldCustomerDetails.isValid ) { // Check if old data has been validated and maintain the state
-                      componentData.data[0].isValid = true;
+                    if (oldCustomerDetails && oldCustomerDetails.isValid) { // Check if old data has been validated and maintain the state
+                        componentData.data[0].isValid = true;
                     }
 
                     // Check if new data has basic details and then only replace old data
-                    if(componentData.data[0].BorrowerSeq != undefined || componentData.data[0].BorrowerSeq != null ) {
-                      mapValue.set('CustomerDetails', componentData.data[0]);
-                    } else if ( componentData.data[0].isValid ) {
-                      oldCustomerDetails.isValid = true;
-                      mapValue.set('CustomerDetails', oldCustomerDetails);
+                    if (componentData.data[0].BorrowerSeq != undefined || componentData.data[0].BorrowerSeq != null) {
+                        mapValue.set('CustomerDetails', componentData.data[0]);
+                    } else if (componentData.data[0].isValid) {
+                        oldCustomerDetails.isValid = true;
+                        mapValue.set('CustomerDetails', oldCustomerDetails);
                     }
+                    if (this.currentRoute == "DDE")
+                        functionalResponseObj = this.validateCustomerDetailSection(mapValue).then(data => { return data });
 
-                    // if ( componentData.isValid ) {
-                    //   mapValue['CustomerDetails'].isValid = true;
-                    // }
                     break;
                 case 'AddressDetails':
                     mapValue.set('AddressDetails', componentData.data);
+                    if (this.currentRoute == "DDE")
+                        functionalResponseObj = this.validateAddressDetailSection(mapValue).then(data => { return data });
                     break;
                 case 'OccupationDetails':
                     mapValue.set('OccupationDetails', componentData.data);
+                    if (this.currentRoute == "DDE")
+                        functionalResponseObj = this.validateOccupationDetailsSection(mapValue).then(data => { return data });
                     break;
                 case 'FamilyDetails':
                     mapValue.set('FamilyDetails', componentData.data);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'LiabilityDetails':
                     mapValue.set('LiabilityDetails', componentData.data);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'AssetDetails':
                     mapValue.set('AssetDetails', componentData.data);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'IncomeSummary':
                     mapValue.set('IncomeSummary', componentData.data);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
-                case 'CollateralDetails':
-                    mapValue.set('CollateralDetails', componentData.data);
-                    break;
+                // case 'CollateralDetails':
+                //     mapValue.set('CollateralDetails', componentData.data);
+                //     break;
                 case 'PersonalInterviewDetails':
                     mapValue.set('PersonalInterviewDetails', componentData.data);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'RmVisitDetails':
                     mapValue.set('RmVisitDetails', componentData.data);
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
-                case 'GoNoGoDetails': // for application tab
+
+                ///APPLICATION SECTIONS
+
+                case 'GoNoGoDetails':
                     mapValue = componentData.data;
                     console.log("in service switch case", mapValue);
-                    this.validateGONOGOSection();
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'Notes':
                     mapValue = componentData.data;
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'LoanDetails':
                     mapValue = componentData.data;
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
                 case 'CreditCardDetails':
                     mapValue = componentData.data;
+                    break;
+                case 'ReferrerDetails':
+                    mapValue = componentData.data;
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
             }
 
             tempStoreMap.get(mapName).set(mapKey, mapValue);
         }
         else if (componentData.name !== 'CustomerDetails') {
-            const borSeq: string = componentData.BorrowerSeq;
             let customerDetails = new Map();
-            if (tempStoreMap.get("customerMap").has(borSeq)) {
-                customerDetails = tempStoreMap.get("customerMap").get(borSeq);
-                customerDetails.delete(componentData.name);
+            if (tempStoreMap.get(mapName).has(mapKey)) {
+
+
+                if (mapName == "customerMap") {
+                    customerDetails = tempStoreMap.get(mapName).get(mapKey);
+                    if (tempStoreMap.get(mapName).get(mapKey).get(componentData.name) != undefined) {
+                        customerDetails.delete(componentData.name);
+                        functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
+                    }
+                    else {
+                        // no data found in component ie. either tabular or no-tabular component
+                        functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
+                    }
+                }
+                else {
+                    customerDetails = tempStoreMap.get(mapName);
+                    if (tempStoreMap.get(mapName).get(mapKey) != undefined) {
+                        customerDetails.delete(componentData.name);
+                        functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
+                    }
+                    else {
+                        // no data found in component ie. either tabular or no-tabular component
+                        functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
+                    }
+                }
+            }
+            else {
+                functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
             }
         }
         console.log("shweta :: in update services temp map", tempStoreMap);
+        console.warn(functionalResponseObj);
+
+        return functionalResponseObj;
     }
 
     //TAGS
@@ -286,26 +334,26 @@ export class RloCommonData {
         return tags;
     }
 
-    async getLiabilityTags(event){
-      const tags = [];
-      event.data.forEach(liability => {
-        // console.log('Liability ' , liability);
+    async getLiabilityTags(event) {
+        const tags = [];
+        event.data.forEach(liability => {
+            // console.log('Liability ' , liability);
 
-        const formattedAmount = this.rloui.formatAmount(liability.LocalEquivalentAmt);
-        tags.push({ label: liability.LiabilityType, text: formattedAmount });
-      });
-      return tags;
+            const formattedAmount = this.rloui.formatAmount(liability.LocalEquivalentAmt);
+            tags.push({ label: liability.LiabilityType, text: formattedAmount });
+        });
+        return tags;
     }
 
-    async getAssetTags(event){
-      const tags = [];
-      event.data.forEach(asset => {
-        console.log('Asset ' , asset);
+    async getAssetTags(event) {
+        const tags = [];
+        event.data.forEach(asset => {
+            console.log('Asset ', asset);
 
-        const formattedAmount = this.rloui.formatAmount(asset.EquivalentAmt);
-        tags.push({ label: asset.AssetType, text: formattedAmount });
-      });
-      return tags;
+            const formattedAmount = this.rloui.formatAmount(asset.EquivalentAmt);
+            tags.push({ label: asset.AssetType, text: formattedAmount });
+        });
+        return tags;
     }
 
     async asyncForEach(array, callback) {
@@ -398,9 +446,9 @@ export class RloCommonData {
                 // }
 
                 forkJoin(
-                  this.validateCustomerDetailSection(entry[1]),
-                  this.validateAddressDetailSection(entry[1]),
-                  this.validateOccupationDetailsSection(entry[1])
+                    this.validateCustomerDetailSection(entry[1]),
+                    this.validateAddressDetailSection(entry[1]),
+                    this.validateOccupationDetailsSection(entry[1])
                 ).subscribe((data) => {
                     console.error(data);
                     isCustomerValid = data[0].isSectionValid;
@@ -427,21 +475,21 @@ export class RloCommonData {
         return dataObject;
     }
 
-    async validateCustomerDetailSection(sectionData: Map<any, any>){
-      let commonObj: IComponentSectionValidationData = {
-          isSectionValid: false,
-          errorMessage: ''
-      }
-      let customerData = sectionData.get('CustomerDetails');
+    async validateCustomerDetailSection(sectionData: Map<any, any>) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: false,
+            errorMessage: ''
+        }
+        let customerData = sectionData.get('CustomerDetails');
 
-      console.log("-------- customerData ", customerData);
-      if(customerData.isValid){
-        commonObj.isSectionValid = true;
-      } else {
-        commonObj.errorMessage += 'Fill all mandatory fields for the customer';
-      }
+        console.log("-------- customerData ", customerData);
+        if (customerData.isValid) {
+            commonObj.isSectionValid = true;
+        } else {
+            commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+        }
 
-      return commonObj;
+        return commonObj;
     }
 
     async validateOccupationDetailsSection(customerSectionData: Map<any, any>) {
@@ -537,7 +585,7 @@ export class RloCommonData {
     }
 
     async validateGONOGOSection() {
-        let commonObj = {
+        let commonObj: IComponentSectionValidationData = {
             isSectionValid: true,
             errorMessage: ''
         }
@@ -545,4 +593,19 @@ export class RloCommonData {
         console.log("shweta :: in service validation", commonObj);
         return commonObj;
     }
+
+    //used for non-manditory sections AND manditory section if all records gets deleted or if no record is added on component load
+    async tabularOrNonTabularSectionValidation(isValid: boolean = true) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: isValid,
+            errorMessage: ''
+        }
+
+        return commonObj;
+    }
+
+    getCurrentRoute() {
+        this.currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
+    }
+
 }

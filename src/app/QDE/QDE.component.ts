@@ -328,6 +328,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     styleElement.innerHTML = customCss;
     styleElement.id = 'QDE_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
+    this.services.rloCommonData.getCurrentRoute();
   }
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
