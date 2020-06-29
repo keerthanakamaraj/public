@@ -61,12 +61,12 @@ export class IncomeSummaryFormComponent extends FormComponent implements OnInit,
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        this.IS_TOTAL_INCOME.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.IS_TOTAL_INCOME.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         //this.IS_TOTAL_INCOME.setReadOnly(true);
-        this.IS_NET_INCOME.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.IS_NET_INCOME.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         //this.IS_NET_INCOME.setReadOnly(true);
-        this.IS_TOTAL_OBLIGATION.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.IS_TOTAL_LIABILITY.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.IS_TOTAL_OBLIGATION.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+        // this.IS_TOTAL_LIABILITY.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         //this.IS_TOTAL_OBLIGATION.setReadOnly(true);
         // this.IS_DBR.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         this.fetchIncomeSummaryDetails();

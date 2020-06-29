@@ -90,7 +90,7 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.CH_CHARGE_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+// this.CH_CHARGE_AMT.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.hidAppId.setValue('RLO');
 this.hidChargeType.setValue('CHARGE_TYPE');
 this.hidCurrency.setValue('CURRENCY');

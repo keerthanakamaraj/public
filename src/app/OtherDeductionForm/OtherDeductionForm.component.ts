@@ -59,8 +59,8 @@ super.setBasicFieldsReadOnly(readOnly);
 }
 async onFormLoad(){
 this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-this.OD_Amount.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
-this.OD_Equivalent_Amt.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+// this.OD_Amount.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
+// this.OD_Equivalent_Amt.setFormatOptions({currencyCode: 'INR', languageCode: 'en-US', });
 this.setDependencies();
 await this.Handler.onFormLoad({});
 }

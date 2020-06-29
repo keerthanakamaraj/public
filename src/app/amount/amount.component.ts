@@ -19,7 +19,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
   @Input('DecimalLength') DecimalLength :number=2;
  
   currencyCode='INR';
-  languageCode='en-US';
+  languageCode='en-IN';
   constructor(services : ServiceStock) {
     super(services);
   }

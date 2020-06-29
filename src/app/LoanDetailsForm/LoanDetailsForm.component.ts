@@ -101,9 +101,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.LoanAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-    this.SystemRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-    this.UserRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    // this.LoanAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    // this.SystemRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+    // this.UserRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     this.hidAppId.setValue('RLO');
     this.hidInterestRate.setValue('INTEREST_RATE');
     this.hidPeriod.setValue('PERIOD');
