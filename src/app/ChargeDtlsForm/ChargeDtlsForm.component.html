@@ -104,7 +104,7 @@
 {{ 'ChargeDtlsForm.CH_PRD_ST_DT' | translate}}
 </label>
 </div>
-<app-date #CH_PRD_ST_DT fieldID="CH_PRD_ST_DT" [formCode]="formCode" (blur)="genericOnBlur('CH_PRD_ST_DT', $event)"></app-date>
+<app-date #CH_PRD_ST_DT fieldID="CH_PRD_ST_DT" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('CH_PRD_ST_DT', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_PRD_END_DT.isHidden()">
 <div class="clr-brown fieldLegend">
@@ -112,7 +112,7 @@
 {{ 'ChargeDtlsForm.CH_PRD_END_DT' | translate}}
 </label>
 </div>
-<app-date #CH_PRD_END_DT fieldID="CH_PRD_END_DT" [formCode]="formCode" (blur)="genericOnBlur('CH_PRD_END_DT', $event)"></app-date>
+<app-date #CH_PRD_END_DT fieldID="CH_PRD_END_DT" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('CH_PRD_END_DT', $event)"></app-date>
 </div>
 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="CH_FREQ.isHidden()">
 <div class="clr-brown fieldLegend">

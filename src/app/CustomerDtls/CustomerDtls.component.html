@@ -130,7 +130,7 @@
                                 {{ 'CustomerDtls.CD_DOB' | translate}}
                             </label>
                         </div>
-                        <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
+                        <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_GENDER.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -204,7 +204,7 @@
                                 {{ 'CustomerDtls.CD_PASSPORT_EXPIRY' | translate}}
                             </label>
                         </div>
-                        <app-date #CD_PASSPORT_EXPIRY fieldID="CD_PASSPORT_EXPIRY" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_PASSPORT_EXPIRY', $event)"></app-date>
+                        <app-date #CD_PASSPORT_EXPIRY fieldID="CD_PASSPORT_EXPIRY" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('CD_PASSPORT_EXPIRY', $event)"></app-date>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_NO.isHidden()">
                         <div class="clr-brown fieldLegend">
@@ -223,7 +223,7 @@
                                 {{ 'CustomerDtls.CD_VISA_VALID' | translate}}
                             </label>
                         </div>
-                        <app-date #CD_VISA_VALID fieldID="CD_VISA_VALID" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_VISA_VALID', $event)"></app-date>
+                        <app-date #CD_VISA_VALID fieldID="CD_VISA_VALID" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('CD_VISA_VALID', $event)"></app-date>
                     </div>
                     <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DRIVING_LICENSE.isHidden()">
@@ -241,7 +241,7 @@
                                 {{ 'CustomerDtls.CD_DRVNG_LCNSE_EXP_DT' | translate}}
                             </label>
                         </div>
-                        <app-date #CD_DRVNG_LCNSE_EXP_DT fieldID="CD_DRVNG_LCNSE_EXP_DT" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('CD_DRVNG_LCNSE_EXP_DT', $event)"></app-date>
+                        <app-date #CD_DRVNG_LCNSE_EXP_DT fieldID="CD_DRVNG_LCNSE_EXP_DT" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('CD_DRVNG_LCNSE_EXP_DT', $event)"></app-date>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                         <app-label #OTHER_DTLS_LBL parentCompCode="CustomerDtls" fieldID="OTHER_DTLS_LBL" [formCode]="formCode" fontFamily="sans-serif"

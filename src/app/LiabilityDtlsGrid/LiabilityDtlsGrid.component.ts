@@ -221,7 +221,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['LIABILITY_ID'] = loopVar4[i].LiabilitySeq;
             tempObj['LD_LIABILITY_TYPE'] = loopVar4[i].LiabilityType;
-            tempObj['LD_AMOUNT'] = loopVar4[i].Amount;
+            tempObj['LD_AMOUNT'] = loopVar4[i].LocalEquivalentAmt;
             this.loopDataVar4.push(tempObj);
           }
         }

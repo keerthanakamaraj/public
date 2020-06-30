@@ -260,7 +260,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                         tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
                         tempObj['AT_Asset_Type'] = loopVar4[i].AssetType;
                         tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus;
-                        tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
+                        tempObj['AT_Asset_Value'] = loopVar4[i].EquivalentAmt;
                         tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
                         // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
                         tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR;

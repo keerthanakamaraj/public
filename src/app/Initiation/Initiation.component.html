@@ -154,7 +154,7 @@
                         {{ 'Initiation.BAD_DATE_OF_RCPT' | translate}}
                       </label>
                     </div>
-                    <app-date #BAD_DATE_OF_RCPT fieldID="BAD_DATE_OF_RCPT" [formCode]="formCode" placeholder="Select"
+                    <app-date #BAD_DATE_OF_RCPT fieldID="BAD_DATE_OF_RCPT" [formCode]="formCode" placeholder="dd-mm-yyyy"
                       (blur)="genericOnBlur('BAD_DATE_OF_RCPT', $event)"></app-date>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SRC_CHANNEL.isHidden()">
@@ -486,7 +486,7 @@
                         {{ 'Initiation.CD_DOB' | translate}}
                       </label>
                     </div>
-                    <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="Select"
+                    <app-date #CD_DOB fieldID="CD_DOB" [formCode]="formCode" placeholder="dd-mm-yyyy"
                       (blur)="genericOnBlur('CD_DOB', $event)"></app-date>
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">

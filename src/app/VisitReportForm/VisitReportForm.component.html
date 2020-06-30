@@ -26,7 +26,7 @@
                                 {{ 'VisitReportForm.VRF_DateOfVisit' | translate}}
                             </label>
                         </div>
-                        <app-date #VRF_DateOfVisit fieldID="VRF_DateOfVisit" [formCode]="formCode" (blur)="genericOnBlur('VRF_DateOfVisit', $event)"></app-date>
+                        <app-date #VRF_DateOfVisit fieldID="VRF_DateOfVisit" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('VRF_DateOfVisit', $event)"></app-date>
                     </div>
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VRF_AddressofVisit.isHidden()">
                         <div class="clr-brown fieldLegend">

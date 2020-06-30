@@ -139,7 +139,7 @@
                 {{ 'LiabilityDtlsForm.LD_LOAN_CLOSURE_DATE' | translate}}
               </label>
             </div>
-            <app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" placeholder="Select" [formCode]="formCode"
+            <app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" placeholder="dd-mm-yyyy" [formCode]="formCode"
               (blur)="genericOnBlur('LD_LOAN_CLOSURE_DATE', $event)"></app-date>
           </div>
 

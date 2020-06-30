@@ -85,7 +85,7 @@
               <label class="clr-brown">
                 {{ 'OccupationDtlsForm.OD_DATE_OF_JOINING' | translate}}</label>
             </div>
-            <app-date #OD_DATE_OF_JOINING fieldID="OD_DATE_OF_JOINING" [formCode]="formCode" placeholder="Select"
+            <app-date #OD_DATE_OF_JOINING fieldID="OD_DATE_OF_JOINING" [formCode]="formCode" placeholder="dd-mm-yyyy"
               (blur)="genericOnBlur('OD_DATE_OF_JOINING', $event)"></app-date>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DT_OF_INCPTN.isHidden()">
@@ -93,7 +93,7 @@
               <label class="clr-brown">
                 {{ 'OccupationDtlsForm.OD_DT_OF_INCPTN' | translate}}</label>
             </div>
-            <app-date #OD_DT_OF_INCPTN fieldID="OD_DT_OF_INCPTN" [formCode]="formCode" placeholder="Select"
+            <app-date #OD_DT_OF_INCPTN fieldID="OD_DT_OF_INCPTN" [formCode]="formCode" placeholder="dd-mm-yyyy"
               (blur)="genericOnBlur('OD_DT_OF_INCPTN', $event)"></app-date>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INDUSTRY.isHidden()">

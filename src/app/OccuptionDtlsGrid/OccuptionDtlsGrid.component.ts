@@ -307,7 +307,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
             // tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
             tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
             tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy;
-            tempObj['NET_INCOME'] = occupationDetails[i].NetIncome;
+            tempObj['NET_INCOME'] = occupationDetails[i].LocalCurrencyEquivalent;
             this.occupation.push(tempObj);
 
             // if (!i)
