@@ -40,7 +40,7 @@ import { PersonalInterviewComponent } from '../PersonalInterview/personal-interv
 import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { Subscription } from 'rxjs';
-import { IComponentLvlData, IComponentSectionValidationData } from '../rlo-services/rloCommonData.service';
+import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
@@ -203,7 +203,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     customerMenu = [
         [
-            { id: "CustomerDetails", name: "Customer Details", completed: true, iconClass: "icon-Customer-Details", isActive: false, isOptional: false },
+            { id: "CustomerDetails", name: "Customer Details", completed: false, iconClass: "icon-Customer-Details", isActive: false, isOptional: false },
             { id: "AddressDetails", name: "Address Details", completed: false, iconClass: "icon-Address-Details", isActive: false, isOptional: false },
             { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false },
             { id: "FamilyDetails", name: "Family Details", completed: false, iconClass: "icon-Family-Details", isActive: false, isOptional: true }
@@ -251,6 +251,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     };
 
     masterDataSubscription: Subscription;
+    customersList = new Map();
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
@@ -275,8 +276,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             if (!this.initialLoadDone) {
                 this.setInitialObjectData(data);
             }
-            // var clonedMasterDataMap = cloneDeep(this.services.rloCommonData.masterDataMap);
-            // console.error(clonedMasterDataMap);
+
+            this.addCustomersToMap(data)
 
             this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected).then((sectionResponseObj) => {
                 console.log("$$$$$$$$$$", sectionResponseObj);
@@ -285,9 +286,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 this.addRemoveCompletedSection(sectionResponseObj, data);
             });
             console.log("shweta :: in DDE constructor", this.services.rloCommonData.masterDataMap);
-
-            //this.addOrRemoveCompletedSection(clonedMasterDataMap, data);
         });
+    }
+
+    addCustomersToMap(sectionData) {
+        console.warn("addCustomersToMap", sectionData);
+        if (sectionData.name == "CustomerDetails" && (sectionData.data[0].CustomerType == "B" || sectionData.data[0].CustomerType == "CB")) {
+            this.customersList.set(sectionData.BorrowerSeq, sectionData.data[0]);
+        }
     }
 
     setReadOnly(readOnly) {
@@ -1076,23 +1082,43 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
     }
 
-    async DDE_SUBMIT_click(event) {
+    DDE_SUBMIT_click(event) {
         const requestParams = new Map();
 
-        this.services.rloCommonData.isDDEFormValid().then((data) => {
+        this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
             console.log("Deep ===", data);
-            // if (data.isAppValid) {
-            //     requestParams.set('Body.ApplicationStatus', 'Approve');
-            //     requestParams.set('Body.direction', 'AP');
-            //     //this.submitDDE(requestParams);
-            // }
-            // else {
-            //     let errorMsg = "";
-            //     data.errorsList.forEach(element => {
-            //         errorMsg += element;
-            //     });
-            //     this.services.alert.showAlert(2, '', -1, errorMsg);
-            // }
+            if (data.isAppValid) {
+                requestParams.set('Body.ApplicationStatus', 'Approve');
+                requestParams.set('Body.direction', 'AP');
+                this.submitDDE(requestParams);
+            }
+            else {
+                let errorMsg = "";
+                data.errorsList.forEach(element => {
+                    errorMsg += element;
+                });
+
+
+                Promise.all([this.services.rloui.getAlertMessage('', errorMsg), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+                    console.log(values);
+                    let modalObj = {
+                        title: "Alert",
+                        mainMessage: values[0],
+                        modalSize: "modal-width-sm",
+                        buttons: [
+                            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                        ]
+                    }
+                    this.services.rloui.confirmationModal(modalObj).then((response) => {
+                        console.log(response);
+                        if (response != null) {
+                            if (response.id === 1) {
+                                this.services.rloui.closeAllConfirmationModal();
+                            }
+                        }
+                    });
+                });
+            }
         })
     }
 

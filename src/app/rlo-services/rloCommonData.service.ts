@@ -25,6 +25,11 @@ export interface IComponentSectionValidationData {
     errorMessage: string
 }
 
+export interface IFormValidationData {
+    isAppValid: boolean,
+    errorsList: any
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -185,7 +190,7 @@ export class RloCommonData {
                 case 'CreditCardDetails':
                     mapValue = componentData.data;
                     console.log(" shweta :: in service switch ccd case", mapValue);
-                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
                     break;
                 case 'ReferrerDetails':
                     mapValue = componentData.data;
@@ -355,7 +360,7 @@ export class RloCommonData {
 
     //used in both QDE and DDE -> customer sections
     async isFormValid() {
-        let dataObject = {
+        let dataObject: IFormValidationData = {
             isAppValid: true,
             errorsList: []
         }
@@ -443,7 +448,7 @@ export class RloCommonData {
                 }
             }
             if (!commonObj.isSectionValid) {
-                commonObj.errorMessage += "Income Type required as Primary for Occupation";
+                commonObj.errorMessage = "Income Type required as Primary for Occupation. ";
             }
         }
         return commonObj;
@@ -511,55 +516,6 @@ export class RloCommonData {
         return CustomerDtls;
     }
 
-    async validateLoanDtlsSection(sectionData: Map<any, any>) {
-        let commonObj: IComponentSectionValidationData = {
-            isSectionValid: false,
-            errorMessage: ''
-        }
-        let customerData = sectionData.get('LoanDetails');
-
-        console.log("-------- Loan data ", customerData);
-        if (customerData.isValid) {
-            commonObj.isSectionValid = true;
-        } else {
-            commonObj.errorMessage += 'Please fill all the mandatory fields of loan details';
-        }
-
-        return commonObj;
-    }
-    async validateCreditCardSection(sectionData: Map<any, any>) {
-        let commonObj: IComponentSectionValidationData = {
-            isSectionValid: false,
-            errorMessage: ''
-        }
-        let customerData = sectionData.get('CreditCardDetails');
-
-        console.log("-------- credit data ", customerData);
-        if (customerData.isValid) {
-            commonObj.isSectionValid = true;
-        } else {
-            commonObj.errorMessage += 'Please fill all the mandatory fields of credit card details';
-        }
-
-        return commonObj;
-    }
-    async validateGoNoGoSection(sectionData: Map<any, any>) {
-
-        let commonObj: IComponentSectionValidationData = {
-            isSectionValid: false,
-            errorMessage: ''
-        }
-        let customerData = sectionData.get('GoNoGoDetails');
-
-        console.log("-------- GNG data ", customerData);
-        if (customerData.isValid) {
-            commonObj.isSectionValid = true;
-        } else {
-            commonObj.errorMessage += 'Decisions for all questions is mandatory';
-        }
-
-        return commonObj;
-    }
 
     //used for non-manditory sections AND manditory section if all records gets deleted or if no record is added on component load
     async tabularOrNonTabularSectionValidation(isValid: boolean = true) {
@@ -567,7 +523,6 @@ export class RloCommonData {
             isSectionValid: isValid,
             errorMessage: ''
         }
-
         return commonObj;
     }
 
@@ -575,29 +530,28 @@ export class RloCommonData {
         this.currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
     }
 
-    async validateApplicationSections(isLoanCategory: boolean) {
-        let dataObject = {
+    async validateApplicationSections(isCategoryTypeLoan: boolean) {
+        let dataObject: IFormValidationData = {
             isAppValid: true,
             errorsList: []
         }
         var dataToValidate: Map<any, any>;
         dataToValidate = this.masterDataMap.get("applicationMap");
 
-        let validationObj: any;
-        let isGoNoGoSectionValid = true;
-        let isLoadOrCreditCardValid = true;
-        let errorMessage = '';
+        if (dataToValidate.size) {
 
-        Array.from(dataToValidate).forEach(element => {
-            console.log(element);
+            let isGoNoGoSectionValid = true;
+            let isLoadOrCreditCardValid = true;
+            let errorMessage = '';
+
 
             forkJoin(
-                this.testValidation(element[1]),
-                this.testValidation(element[1])
+                this.validateGoNoGoSection(dataToValidate),
+                this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan)
             ).subscribe((data) => {
                 console.error(data);
                 isGoNoGoSectionValid = data[0].isSectionValid;
-                isLoadOrCreditCardValid = data[1].isSectionValid;
+                //isLoadOrCreditCardValid = data[1].isSectionValid;
 
                 for (let i = 0; i < data.length; i++) {
                     const element = data[i];
@@ -613,8 +567,14 @@ export class RloCommonData {
                     dataObject.isAppValid = false;
                 }
             });
-        });
-        console.log(validationObj);
+
+        }
+        else {
+            dataObject.isAppValid = false;
+            dataObject.errorsList.push('Kindly fill application section.');
+        }
+
+        console.log(dataObject);
         return dataObject;
     }
 
@@ -626,24 +586,82 @@ export class RloCommonData {
         return commonObj;
     }
 
-    async isDDEFormValid(isLoanCategory: boolean = false) {
-        let dataObject = {
-            isAppValid: true,
-            errorsList: []
-        }
+    isDdeFormValid(isCategoryTypeLoan: boolean = false) {
+        console.log(isCategoryTypeLoan);
+        const promise = new Promise((resolve, reject) => {
+            let dataObject: IFormValidationData = {
+                isAppValid: true,
+                errorsList: []
+            }
 
-        this.isFormValid().then((customerData) => {
-            this.validateApplicationSections(isLoanCategory).then((applicationData) => {
-                console.log(customerData, applicationData);
-                if (customerData.isAppValid && applicationData.isAppValid) {
-                    dataObject.isAppValid = true;
-                }
-                else {
-                    dataObject.isAppValid = false;
-                }
+            this.isFormValid().then((customerData) => {
+                dataObject.errorsList = customerData.errorsList;
+                this.validateApplicationSections(isCategoryTypeLoan).then((applicationData) => {
+                    console.log(customerData, applicationData);
+                    if (customerData.isAppValid && applicationData.isAppValid) {
+                        dataObject.isAppValid = true;
+                    }
+                    else {
+                        dataObject.isAppValid = false;
+                        applicationData.errorsList.forEach(element => {
+                            dataObject.errorsList.push(element)
+                        });
+                    }
+                    resolve(dataObject)
+                });
             });
         });
+        return promise;
+    }
 
+    async validateGoNoGoSection(applicationSectionData: Map<any, any>) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: false,
+            errorMessage: ''
+        }
+        console.log("-------- GNG data ", applicationSectionData.get("GoNoGoDetails"));
 
+        if (applicationSectionData.has("GoNoGoDetails")) {
+            let sectionData = applicationSectionData.get("GoNoGoDetails");
+            if (sectionData[0].isValid) {
+                commonObj.isSectionValid = true;
+            } else {
+                commonObj.errorMessage = 'Decisions for all questions in Go/No-Go section are mandatory.';
+            }
+        }
+        else {
+            commonObj.errorMessage = "Answer all questions in Go/No-Go section.";
+        }
+
+        return commonObj;
+    }
+
+    async validateLoanOrCreditCardSection(applicationData: Map<any, any>, isCategoryTypeLoan: boolean) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: false,
+            errorMessage: ''
+        }
+
+        if (isCategoryTypeLoan) {
+            commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
+            if (applicationData.has("LoanDetails")) {
+                let loanDetails = applicationData.get("LoanDetails");
+                if (loanDetails[0].isValid) {
+                    commonObj.errorMessage = "";
+                    commonObj.isSectionValid = true;
+                }
+            }
+        } else {
+            commonObj.errorMessage = 'Please fill all the mandatory fields of credit card details';
+            if (applicationData.has("CreditCardDetails")) {
+                let creditCardDetails = applicationData.get("CreditCardDetails");
+                if (creditCardDetails[0].isValid) {
+                    commonObj.errorMessage = "";
+                    commonObj.isSectionValid = true;
+                }
+            }
+        }
+
+        return commonObj;
     }
 }
