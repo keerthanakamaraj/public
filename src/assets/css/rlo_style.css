@@ -738,15 +738,15 @@ li .a {
 }
 #RD_RESET{
   border-color: dimgray;
-  margin-left: 123px;
+  margin-left: 131px;
 }
 #CCD_Save{
   margin-top: 35px;
-  margin-left: 45px;
+  margin-left: 36px;
 }
 #CCD_Clear{
   margin-top: 35px;
-  margin-left: 63px;
+  margin-left: 50px;
 }
 #Save{
   margin-left: 171px;
@@ -755,7 +755,7 @@ li .a {
   margin-left: 204px;
 }
 #RD_SAVE{
-  margin-left: 176px;
+  margin-left: 187px;
 }
 #LD_SAVE{
   margin-left: 183px;
@@ -935,7 +935,9 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 .btn-warning-outline {
   margin-inline-start: 50px;
 }
-
+.text1{
+color: #0079B8;
+}
 
 #BAD_PROMOTION {
   /* padding-right: 10px !important; */

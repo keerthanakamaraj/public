@@ -42,6 +42,7 @@ import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.com
 import { Subscription } from 'rxjs';
 import { IComponentLvlData, IComponentSectionValidationData } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
+import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -90,7 +91,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     @ViewChild('FieldId_26', { static: false }) LOAN_GRID: LoanDetailsGridComponent;
     @ViewChild('scorecard', { static: false }) scoreCardComponent: ScoreCardComponent;
     @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
-
+    @ViewChild('Application_Dtls', { static: false }) Application_Dtls: ApplicationDtlsComponent;
     @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
     ApplicationId: string = undefined;
     ActiveBorrowerSeq: string = undefined;
@@ -128,13 +129,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-    {
-        selectedMenuId: "",
-        selectedMenuComponent: "",
-        isCustomerTabSelected: true,
-        firstArr: 0,
-        secondArr: 0
-    };
+        {
+            selectedMenuId: "",
+            selectedMenuComponent: "",
+            isCustomerTabSelected: true,
+            firstArr: 0,
+            secondArr: 0
+        };
 
     /**
      * Tags
@@ -221,7 +222,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     applicationMenu = [
         [
-            // { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
+            { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
             // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
             // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
             // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
@@ -827,6 +828,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             case 'Notes':
                 return new AddSpecificComponent(NotepadDetailsFormComponent);
                 break;
+            case 'ApplicationDetails':
+                return new AddSpecificComponent(ApplicationDtlsComponent);
+                break;
             default:
                 return new AddSpecificComponent(CustomerDtlsComponent);
                 break;
@@ -835,7 +839,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     tabSwitched(tabName: string) {
-       // console.log(tabName);
+        // console.log(tabName);
         let defaultSection: string;
         if (tabName == "customer") {
             this.formMenuObject.isCustomerTabSelected = true;
@@ -844,7 +848,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             // this.injectDynamicComponent('CustomerDetails', 0, 0);
         }
         else {
-         //   console.log(this.isLoanCategory);
+            //   console.log(this.isLoanCategory);
             this.formMenuObject.isCustomerTabSelected = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
@@ -854,12 +858,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                     if (this.isLoanCategory) {//ie. loan type credit card
                         if (section.id == "CreditCardDetails")
                             element.splice(i, 1);
-                        defaultSection = 'LoanDetails';
+                        defaultSection = 'ApplicationDetails';
                     }
                     else {//CC type loan
                         if (section.id == "LoanDetails")
                             element.splice(i, 1);
-                        defaultSection = 'CreditCardDetails';
+                        defaultSection = 'ApplicationDetails';
                     }
                 }
             });
@@ -1265,6 +1269,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
      */
 
     setTags(tags: Array<any>) {
+
         this.tags = tags;
     }
 

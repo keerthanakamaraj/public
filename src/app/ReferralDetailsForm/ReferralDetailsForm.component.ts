@@ -217,9 +217,9 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		if (noOfError == 0) {
 			let CustomerDetailsArray = [];
 			CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
-			console.log("Shweta :: return from service", CustomerDetailsArray);
+			// console.log("Shweta :: return from service", CustomerDetailsArray);
 			for (let i = 0; i < CustomerDetailsArray.length; i++) {
-				if (CustomerDetailsArray[i].FullName == this.RD_REF_NAME.getFieldValue() || CustomerDetailsArray[i].Email == this.RD_REFRRER_EMAILID.getFieldValue() || CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
+				if (CustomerDetailsArray[i].FullName.replace(/\s/g, "").toUpperCase() == this.RD_REF_NAME.getFieldValue().replace(/\s/g, "").toUpperCase() &&  CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
 					this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);
 					return;
 				}
@@ -454,12 +454,15 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
+				
+			
 				// this.AddBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
 				this.RD_REF_NAME.setValue(res['ReferrerDetails']['ReferrerName']);
 				this.RD_REFERRER_RELATION.setValue(res['ReferrerDetails']['ReferrerRelation']);
 				// this.RD_ISD_CODE.setValue(res['ReferrerDetails']['CountryCode']);
 				this.RD_REF_NO.setValue(res['ReferrerDetails']['ReferrerMobileNumber']);
 				this.RD_REFRRER_EMAILID.setValue(res['ReferrerDetails']['ReferrerEmailID']);
+				if (('AddressDetails' in res['ReferrerDetails'])){
 				this.RD_ADDRESSLINE1.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine1']);
 				this.RD_ADDRESSLINE2.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine2']);
 				this.RD_ADDRESSLINE3.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine3']);
@@ -473,6 +476,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				this.RD_PHONE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineNumber']);
 				// this.RD_COUNTRY_CODE2.setValue(res['ReferrerDetails']['AddressDetails']['MobileCountryCode']);
 				this.RD_PHONE2.setValue(res['ReferrerDetails']['AddressDetails']['AltMobileNo']);
+				}
 				this.ReferrerBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
 				this.hideSpinner();
 			},

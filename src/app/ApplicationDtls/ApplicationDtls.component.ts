@@ -88,7 +88,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     if (this.ApplicationId) {
 
       inputMap.set('PathParam.ApplicationId', this.ApplicationId);
-      this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap).subscribe(
+      this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap,'/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
 
@@ -188,7 +188,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.AD_PHYSICAL_FORM_NO.getFieldValue());
     // inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
     inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
-    await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap, '/olive/publisher').toPromise()
+    await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap,'/rlo-de').toPromise()
       .then(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;

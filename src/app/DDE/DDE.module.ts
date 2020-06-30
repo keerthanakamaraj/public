@@ -28,6 +28,7 @@ import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.
 import { PersonalInterviewModule } from '../PersonalInterview/personal-interview.module'
 import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 
 @NgModule({
     imports: [
@@ -62,7 +63,8 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
         ReferralDetailsFormModule,
         CreditCardDetailsModule,
         PersonalInterviewModule,
-        LoanDetailsFormModule
+        LoanDetailsFormModule,
+        ApplicationDtlsModule
     ],
     declarations: [
         DDEComponent
