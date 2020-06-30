@@ -704,24 +704,30 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
-        for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
-          const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
-          if (Data.DECISION == 'Reject') {
-            this.EligibilityDecision = 'Reject';
+        if(res.status == 'F'){
+          this.services.alert.showAlert(2, '', 1000, 'Check Eligibility Failed');
+          return;
+        }
+        if(res.status == 'S'){
+          for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
+            const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
+            if (Data.DECISION == 'Reject') {
+              this.EligibilityDecision = 'Reject';
+            }else{
+              this.EligibilityDecision = 'Approve';
+            }
           }
+          inputMap.set('Checkvalue', this.eligeData);
+          inputMap.set('component', 'checkEligibilityForm');
+          const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+          var onModalClose = async (reason) => {
+            (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+          }
+          modalRef.result.then(onModalClose, onModalClose);
+          modalRef.componentInstance.rotueToComponent(inputMap);
+          this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
         }
-        if (this.EligibilityDecision == undefined || this.EligibilityDecision == '') {
-          this.EligibilityDecision = 'Approve';
-        }
-        inputMap.set('Checkvalue', this.eligeData);
-        inputMap.set('component', 'checkEligibilityForm');
-        const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-        var onModalClose = async (reason) => {
-          (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-        }
-        modalRef.result.then(onModalClose, onModalClose);
-        modalRef.componentInstance.rotueToComponent(inputMap);
-        this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+        
       },
     ); 
   }
@@ -730,9 +736,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
-    if (this.EligibilityDecision != 'Reject') {
-      this.EligibilityDecision = 'Approve';
-    }
+    // if (this.EligibilityDecision != 'Reject') {
+    //   this.EligibilityDecision = 'Approve';
+    // }
     var noofErrors: number = await this.revalidate();
     var borrowercheck = this.Handler.getBorrowerPostData();
     for (let i = 0; i < borrowercheck.length; i++) {
@@ -765,7 +771,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         } else {
           inputMap.set('Body.LoanDetails.ApplicationPurpose', this.BAD_APP_PRPSE.getFieldValue());
         }
-
         inputMap.set('Body.LoanDetails.Tenure', this.LD_TENURE.getFieldValue());
         inputMap.set('Body.LoanDetails.TenurePeriod', this.LD_TENURE_PERIOD.getFieldValue());
         inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.LD_SYS_AMT_RCMD.getFieldValue());
@@ -775,10 +780,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.ProductCategory', this.BAD_PROD_CAT.getFieldValue());
         inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
         inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
-
-        inputMap.set('Body.LoanDetails.Decision', this.EligibilityDecision);
-        
         inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
+        if (this.EligibilityDecision == '' || this.EligibilityDecision == undefined ) {
+          inputMap.set('Body.LoanDetails.Decision', 'Approve');  
+        } else {
+          inputMap.set('Body.LoanDetails.Decision', this.EligibilityDecision);          
+        }
         // inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
         inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
