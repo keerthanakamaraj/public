@@ -5,6 +5,7 @@ import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { forkJoin } from 'rxjs';
 import { RlouiService } from './rloui.service';
 import { Router } from '@angular/router';
+import { promise } from 'protractor';
 
 export interface subjectParamsInterface {
     action: string;
@@ -81,77 +82,8 @@ export class RloCommonData {
         return this.componentLvlDataSubject.asObservable();
     }
 
-    // updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
-    //     console.warn("deep ===", componentData, isCustomerTabSelected);
-    //     let customerDetails = new Map();
-    //     let tempStoreMap = new Map();
-    //     const borSeq: string = componentData.BorrowerSeq;
-
-    //     if (isCustomerTabSelected) {
-    //         tempStoreMap.set("customerMap", this.masterDataMap.get("customerMap"))
-    //     }
-    //     else {
-    //         tempStoreMap.set("applicationMap", this.masterDataMap.get("applicationMap"))
-    //     }
-
-    //     console.warn(this.masterDataMap, tempStoreMap);
-
-    //     if (componentData.data.length > 0) {
-    //         if (tempStoreMap.get("customerMap")) {
-    //             if ((tempStoreMap.get("customerMap")).has(borSeq)) {
-    //                 customerDetails = tempStoreMap.get("customerMap").get(borSeq);
-    //             }
-    //         }
-
-    //         switch (componentData.name) {
-    //             case 'CustomerDetails':
-    //                 customerDetails.set('CustomerDetails', componentData.data[0]);
-    //                 break;
-    //             case 'AddressDetails':
-    //                 customerDetails.set('AddressDetails', componentData.data);
-    //                 break;
-    //             case 'OccupationDetails':
-    //                 customerDetails.set('OccupationDetails', componentData.data);
-    //                 break;
-    //             case 'FamilyDetails':
-    //                 customerDetails.set('FamilyDetails', componentData.data);
-    //                 break;
-    //             case 'LiabilityDetails':
-    //                 customerDetails.set('LiabilityDetails', componentData.data);
-    //                 break;
-    //             case 'AssetDetails':
-    //                 customerDetails.set('AssetDetails', componentData.data);
-    //                 break;
-    //             case 'IncomeSummary':
-    //                 customerDetails.set('IncomeSummary', componentData.data);
-    //                 break;
-    //             case 'CollateralDetails':
-    //                 customerDetails.set('CollateralDetails', componentData.data);
-    //                 break;
-    //             case 'PersonalInterviewDetails':
-    //                 customerDetails.set('PersonalInterviewDetails', componentData.data);
-    //                 break;
-    //             case 'RmVisitDetails':
-    //                 customerDetails.set('RmVisitDetails', componentData.data);
-    //                 break;
-    //         }
-
-    //         tempStoreMap.get("customerMap").set(borSeq, customerDetails);
-    //     }
-    //     else if (componentData.name !== 'CustomerDetails') {
-    //         const borSeq: string = componentData.BorrowerSeq;
-    //         let customerDetails = new Map();
-    //         if (tempStoreMap.get("customerMap").has(borSeq)) {
-    //             customerDetails = tempStoreMap.get("customerMap").get(borSeq);
-    //             customerDetails.delete(componentData.name);
-    //         }
-    //     }
-    //     console.log(tempStoreMap);
-    // }
-
     async updateMasterDataMap(componentData: any, isCustomerTabSelected: boolean) {
         console.warn("------------------------------ deep ===", componentData, isCustomerTabSelected);
-        console.log(this.getCurrentRoute());
 
         let mapValue = new Map();
         let tempStoreMap = new Map();
@@ -227,7 +159,7 @@ export class RloCommonData {
                 //     break;
                 case 'PersonalInterviewDetails':
                     mapValue.set('PersonalInterviewDetails', componentData.data);
-                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation(componentData.data[0].isValid).then(data => { return data });
                     break;
                 case 'RmVisitDetails':
                     mapValue.set('RmVisitDetails', componentData.data);
@@ -239,7 +171,7 @@ export class RloCommonData {
                 case 'GoNoGoDetails':
                     mapValue = componentData.data;
                     console.log(" shweta :: in service switch gng case", mapValue);
-                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
                     break;
                 case 'Notes':
                     mapValue = componentData.data;
@@ -248,7 +180,7 @@ export class RloCommonData {
                 case 'LoanDetails':
                     mapValue = componentData.data;
                     console.log(" shweta :: in service switch Loan dtls case", mapValue);
-                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
                     break;
                 case 'CreditCardDetails':
                     mapValue = componentData.data;
@@ -296,7 +228,6 @@ export class RloCommonData {
             }
         }
         console.log("shweta :: in update services temp map", tempStoreMap);
-        console.warn(functionalResponseObj);
 
         return functionalResponseObj;
     }
@@ -386,7 +317,7 @@ export class RloCommonData {
         }
 
         if (!isCustomerValid) {
-            errorMessage =  'Please fill all the pending Details for Customer' + custFullName + ' : ' + errorMessage;
+            errorMessage = 'Please fill all the pending Details for Customer' + custFullName + ' : ' + errorMessage;
             dataObject.errorsList.push(errorMessage);
             dataObject.isAppValidFlag = false;
         }
@@ -422,15 +353,14 @@ export class RloCommonData {
 
     //88888888888888888888888888888888888888888888888888888888888888888888888888888
 
-    async isFormValid(page: string, CUSTOMER_DETAILS: CustomerDtlsComponent) {
+    //used in both QDE and DDE -> customer sections
+    async isFormValid() {
         let dataObject = {
             isAppValid: true,
             errorsList: []
         }
         var dataToValidate: Map<any, any>;
-        if (page == "QDE") {
-            dataToValidate = this.masterDataMap.get("customerMap");
-        }
+        dataToValidate = this.masterDataMap.get("customerMap");
 
         await this.asyncForEach(Array.from(dataToValidate.entries()), async (entry) => {
             let isAddressValid = true;
@@ -442,19 +372,11 @@ export class RloCommonData {
             if (entry[1].has('CustomerDetails')) {
                 const customer = entry[1].get('CustomerDetails');
                 custFullName = customer.FullName;
-                //isCustomerValid = await this.validateCustomer(CUSTOMER_DETAILS);
-
-                // if (!isCustomerValid) {
-                //     errorMessage = errorMessage + ' All mandatory fields for the customer';
-                // }
 
                 forkJoin(
                     this.validateCustomerDetailSection(entry[1]),
                     this.validateAddressDetailSection(entry[1]),
-                    this.validateOccupationDetailsSection(entry[1]),
-                    this.validateGoNoGoSection(entry[1]),
-                    this.validateLoanDtlsSection(entry[1]),
-                    this.validateCreditCardSection(entry[1])
+                    this.validateOccupationDetailsSection(entry[1])
                 ).subscribe((data) => {
                     console.error(data);
                     isCustomerValid = data[0].isSectionValid;
@@ -470,7 +392,7 @@ export class RloCommonData {
                     }
 
                     if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
-                        let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName +' " '+ " : " + errorMessage + "\r\n";
+                        let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
                         dataObject.errorsList.push(msg);
                         dataObject.isAppValid = false;
                     }
@@ -513,7 +435,9 @@ export class RloCommonData {
                 const occupationList = customerSectionData.get('OccupationDetails');
 
                 for (const eachOccupation of occupationList) {
-                    if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
+                    if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
+                        commonObj.isSectionValid = true;
+                    } else if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
                         commonObj.isSectionValid = true;
                     }
                 }
@@ -651,4 +575,75 @@ export class RloCommonData {
         this.currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
     }
 
+    async validateApplicationSections(isLoanCategory: boolean) {
+        let dataObject = {
+            isAppValid: true,
+            errorsList: []
+        }
+        var dataToValidate: Map<any, any>;
+        dataToValidate = this.masterDataMap.get("applicationMap");
+
+        let validationObj: any;
+        let isGoNoGoSectionValid = true;
+        let isLoadOrCreditCardValid = true;
+        let errorMessage = '';
+
+        Array.from(dataToValidate).forEach(element => {
+            console.log(element);
+
+            forkJoin(
+                this.testValidation(element[1]),
+                this.testValidation(element[1])
+            ).subscribe((data) => {
+                console.error(data);
+                isGoNoGoSectionValid = data[0].isSectionValid;
+                isLoadOrCreditCardValid = data[1].isSectionValid;
+
+                for (let i = 0; i < data.length; i++) {
+                    const element = data[i];
+                    if (!element.isSectionValid) {
+                        errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
+                    }
+                    errorMessage += element.errorMessage;
+                }
+
+                if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid)) {
+                    let msg = errorMessage + "\r\n";
+                    dataObject.errorsList.push(msg);
+                    dataObject.isAppValid = false;
+                }
+            });
+        });
+        console.log(validationObj);
+        return dataObject;
+    }
+
+    async testValidation(data) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: false,
+            errorMessage: ''
+        }
+        return commonObj;
+    }
+
+    async isDDEFormValid(isLoanCategory: boolean = false) {
+        let dataObject = {
+            isAppValid: true,
+            errorsList: []
+        }
+
+        this.isFormValid().then((customerData) => {
+            this.validateApplicationSections(isLoanCategory).then((applicationData) => {
+                console.log(customerData, applicationData);
+                if (customerData.isAppValid && applicationData.isAppValid) {
+                    dataObject.isAppValid = true;
+                }
+                else {
+                    dataObject.isAppValid = false;
+                }
+            });
+        });
+
+
+    }
 }

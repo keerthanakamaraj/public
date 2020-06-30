@@ -53,7 +53,7 @@ export class PersonalInterviewComponent implements OnInit {
           "data": array,
           "BorrowerSeq": this.activeBorrowerSeq
         }
-
+        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
     },
       (httpError) => {

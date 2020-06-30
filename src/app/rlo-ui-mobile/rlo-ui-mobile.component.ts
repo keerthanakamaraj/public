@@ -75,7 +75,6 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   //replaced generic 'setValue' fn used (in eg: CustomerDtls)
   setComponentSpecificValue(value, countryCode: string, additionalInfo = undefined) {
     this.setValue(value, additionalInfo = undefined);
-    console.log("deep//", countryCode);
     this.countryCode = countryCode == null || countryCode == undefined ? this.defaultCountryCode() : countryCode;
   }
 

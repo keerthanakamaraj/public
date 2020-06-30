@@ -279,6 +279,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
             this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected).then((sectionResponseObj) => {
                 console.log("$$$$$$$$$$", sectionResponseObj);
+                console.warn("###################################################", sectionResponseObj.errorMessage);
 
                 this.addRemoveCompletedSection(sectionResponseObj, data);
             });
@@ -438,6 +439,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         var styleElement = document.getElementById('DDE_customCss');
         styleElement.parentNode.removeChild(styleElement);
         this.services.rloCommonData.resetMapData();
+        this.masterDataSubscription.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -1072,9 +1074,22 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     async DDE_SUBMIT_click(event) {
         const requestParams = new Map();
-        requestParams.set('Body.ApplicationStatus', 'Approve');
-        requestParams.set('Body.direction', 'AP');
-        this.submitDDE(requestParams);
+
+        this.services.rloCommonData.isDDEFormValid().then((data) => {
+            console.log("Deep ===", data);
+            // if (data.isAppValid) {
+            //     requestParams.set('Body.ApplicationStatus', 'Approve');
+            //     requestParams.set('Body.direction', 'AP');
+            //     //this.submitDDE(requestParams);
+            // }
+            // else {
+            //     let errorMsg = "";
+            //     data.errorsList.forEach(element => {
+            //         errorMsg += element;
+            //     });
+            //     this.services.alert.showAlert(2, '', -1, errorMsg);
+            // }
+        })
     }
 
     async DDE_WITHDRAW_click(event) {
@@ -1360,6 +1375,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
         console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         console.warn(this.completedMenuSectionList);
+        console.warn(this.progressStatusObject);
     }
 }
 

@@ -302,8 +302,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
 
         selectedDate = moment(selectedDate, 'DD-MM-YYYY');
-        console.log('current date :: ', currentDate._d);
-        console.log('selected date :: ', selectedDate._d);
+        //console.log('current date :: ', currentDate._d);
+        //console.log('selected date :: ', selectedDate._d);
         if (selectedDate <= currentDate) {
             return false;
         }
