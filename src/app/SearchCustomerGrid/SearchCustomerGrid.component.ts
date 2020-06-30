@@ -299,6 +299,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               tempObj['LastName'] = loopVar7[i].LastName;
               tempObj['Title'] = loopVar7[i].Title;
               tempObj['Gender'] = loopVar7[i].Gender;
+              tempObj['EmailID'] = loopVar7[i].EmailID;
+              tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
               tempObj['ICIF'] = loopVar7[i].ICIF;
               loopDataVar7.push(tempObj);
             }
@@ -340,6 +342,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['dob'] = selectedData0['Dob'];
       tempVar['cif'] = selectedData0['Cif'];
       tempVar['icif'] = selectedData0['ICIF'];
+      tempVar['emailid'] = selectedData0['EmailID'];
+      tempVar['nameoncard'] = selectedData0['NameOnCard'];
+
       this.services.dataStore.setData('selectedData', tempVar);
       for (var i = this.services.routing.currModal; i > 0; i--) {
         await this.services.dataStore.getModalReference(i).componentInstance.closeModal();

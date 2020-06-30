@@ -470,7 +470,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_GENDER.setValue(tempVar['gender']);
               this.CD_TITLE.setValue(tempVar['title']);
               this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
-
+              this.CD_EMAIL_ID.setValue(tempVar['emailid']);
+              this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
               if (tempVar != '' || tempVar != undefined)
                 this.CD_EXISTING_CUST.setValue('Y');
               this.Handler.existingCustomer({});
