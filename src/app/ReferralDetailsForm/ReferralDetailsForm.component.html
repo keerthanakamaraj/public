@@ -54,7 +54,7 @@
           </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REF_NO.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory':RD_REF_NO.mandatory}">
                 {{ 'ReferralDetailsForm.RD_REF_NO' | translate}}
               </label>
             </div>
@@ -158,7 +158,7 @@
           </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PHONE1.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':RD_PHONE1.mandatory}">
+              <label class="clr-brown">
                 {{ 'ReferralDetailsForm.RD_PHONE1' | translate}}
               </label>
             </div>
