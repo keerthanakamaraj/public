@@ -59,6 +59,15 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
+  //Credt Card variables
+  @ViewChild('CC_CUST_TYPE', { static: false }) CC_CUST_TYPE: ReadOnlyComponent;
+  @ViewChild('CC_CHANNEL', { static: false }) CC_CHANNEL: ReadOnlyComponent;
+  @ViewChild('CC_CARD_TYPE', { static: false }) CC_CARD_TYPE: ReadOnlyComponent;
+  @ViewChild('CC_CARD_ASSOCIATION', { static: false }) CC_CARD_ASSOCIATION: ReadOnlyComponent;
+  @ViewChild('CC_PRIME_USAGE', { static: false }) CC_PRIME_USAGE: ReadOnlyComponent;
+
+  // @ViewChild('HD_PROD', { static: false }) HD_PROD: ReadOnlyComponent;
+
 
   @Output() productCategoryFound: EventEmitter<any> = new EventEmitter<any>();
   @Output() headerStateEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -80,6 +89,10 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   TENURE: string;
   SUB_PRODUCT: string;
   SCHEME: string;
+  isLoanCategory: boolean = false;
+  customerType: string;
+  channel: string;
+  primeUsage: string;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -95,13 +108,13 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       this.revalidateBasicField('HD_SUB_PROD'),
       this.revalidateBasicField('HD_SCHEME'),
       this.revalidateBasicField('HD_PROMOTION'),
-      this.revalidateBasicField('LD_LOAN_AMT'),
-      this.revalidateBasicField('LD_INTEREST_RATE'),
-      this.revalidateBasicField('LD_TENURE'),
-      this.revalidateBasicField('LD_TENURE_PERIOD'),
-      this.revalidateBasicField('LD_APP_PRPSE'),
-      this.revalidateBasicField('LD_SYS_RCMD_AMT'),
-      this.revalidateBasicField('LD_USR_RCMD_AMT'),
+      // this.revalidateBasicField('LD_LOAN_AMT'),
+      // this.revalidateBasicField('LD_INTEREST_RATE'),
+      // this.revalidateBasicField('LD_TENURE'),
+      // this.revalidateBasicField('LD_TENURE_PERIOD'),
+      // this.revalidateBasicField('LD_APP_PRPSE'),
+      // this.revalidateBasicField('LD_SYS_RCMD_AMT'),
+      // this.revalidateBasicField('LD_USR_RCMD_AMT'),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -153,8 +166,13 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         let header = res.Header;
 
         this.ARN = header.ApplicationRefernceNo;
-        this.LOAN_AMT = this.services.formatAmount(header.LoanAmount, null, null); // "₹ " + header.LoanAmount'];
         this.LOAN_CATEGORY = header.TypeOfLoan;
+        this.isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
+        this.productCategoryFound.emit({
+          'isLoanCategory': this.isLoanCategory
+        });
+
+        this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null); // "₹ " + header.LoanAmount'];
 
         this.INTEREST_RATE = header.InterestRate + "% pa";
 
@@ -172,11 +190,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.SUB_PRODUCT = header.SubProduct;
         this.SCHEME = header.Scheme;
 
-        let isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
 
-        this.productCategoryFound.emit({
-          'isLoanCategory': isLoanCategory
-        });
+
 
         this.HD_PROD_CAT.setValue(this.LOAN_CATEGORY);
         // this.HD_APP_REF_NUM.setValue(header.ApplicationRefernceNo);
@@ -190,17 +205,24 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.HD_PROMOTION.setValue(header.Promotion);
         }
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
-        this.LD_INTEREST_RATE.setValue(this.INTEREST_RATE);
-        this.LD_TENURE.setValue(header.Tenure);
-        this.LD_TENURE_PERIOD.setValue(header.TenurePeriod);
-        this.LD_APP_PRPSE.setValue(header.ApplicationPurpose);
-        // this.LD_SYS_RCMD_AMT.setValue(header.SystemRecommendedAmount);
-        // this.LD_USR_RCMD_AMT.setValue(header.UserRecommendedAmount);
-        this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null));
-        this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null));
-        // this.HD_APP_SUBMSN_DT.setValue(header.AppSubmissionDate);
-        // this.HD_CIF.setValue(header.CIF);
-        // this.HD_CUST_ID.setValue(header.CustomerId);
+        this.LD_APP_PRPSE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
+
+        if (this.isLoanCategory) {
+          this.LD_INTEREST_RATE.setValue(this.INTEREST_RATE);
+          this.LD_TENURE.setValue(header.Tenure);
+          this.LD_TENURE_PERIOD.setValue(header.TenurePeriod);
+          this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null));
+          this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null));
+        } else {
+          this.CC_CUST_TYPE.setValue(header.ExistingCustomer != undefined && header.ExistingCustomer == 'Y' ? 'Existing' : 'New');
+          this.customerType = this.CC_CUST_TYPE.getFieldValue();
+          this.CC_PRIME_USAGE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
+          this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
+          this.CC_CHANNEL.setValue('Offline');
+          this.channel = this.CC_CHANNEL.getFieldValue();
+          this.CC_CARD_TYPE.setValue('NA');
+          this.CC_CARD_ASSOCIATION.setValue('NA');
+        }
 
         this.apiSuccessCallback();
       },

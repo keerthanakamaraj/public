@@ -318,7 +318,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   // &.top {
   //   top: 55px;
   // }
-
+.active{
   div {
     font-size: 16px;
     padding: 0 16px;
@@ -374,6 +374,11 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       background-image: url("./../icons/creditcard-yellow.svg");
     }
   }
+}
+
+.inactive{
+  display:none;
+}
 
   // &::after {
   //   position: absolute;
@@ -454,13 +459,17 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   padding-bottom: 23px;
 }
 
-.rightheader {
+.mainheader{
+.active {
   float: left !important;
   /* height: 338px !important;
 width: 681px !important; */
   background-color: #ffffff;
 }
-
+.inactive{
+  display:none;
+}
+}
 .subrightheader1 {
   float: left;
   height: 292px !important;

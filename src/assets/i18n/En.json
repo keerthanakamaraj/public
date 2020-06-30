@@ -1732,7 +1732,14 @@
     "HD_CIF": "CIF",
     "HD_SCHEME": "Scheme",
     "HD_PROD_CAT": "Product Category",
-    "LD_INTEREST_RATE": "Net Interest Rate"
+    "LD_INTEREST_RATE": "Net Interest Rate",
+    "CC_CUST_TYPE":"Customer Type",
+    "CC_CHANNEL":"Channel",
+    "CC_PRIME_USAGE":"Prime Usage",
+    "CC_CARD_TYPE":"Type Of Card",
+    "CC_CARD_ASSOCIATION":" Card Association"
+
+
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",
