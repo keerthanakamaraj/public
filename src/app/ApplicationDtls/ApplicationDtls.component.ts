@@ -71,7 +71,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   async onFormLoad(event) {
     // this.ApplicationId = event.custSeq;
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    // this.fetchApplicationDetails();
+    this.fetchApplicationDetails();
     //   this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
     this.hidSourcingChannel.setValue('Branch');
