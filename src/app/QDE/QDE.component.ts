@@ -546,9 +546,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         const res = httpResponse.body;
 
         const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
-        const alertMsg = ('WITHDRAW' === action) ? 'Application Withdrawn successfully' : 'Application Submitted Successfully';
+        const alertMsg = ('WITHDRAW' === action) ? 'rlo.success.withdraw' : 'rlo.success.submit';
         // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-        var mainMessage = this.services.rloui.getAlertMessage('', alertMsg);
+        var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 

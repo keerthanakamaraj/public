@@ -254,11 +254,21 @@ export class RloCommonData {
                 tags.push({ text: tagText });
             }
         });
+        return this.trimTagsIfRequired(tags, 2);
+    }
+
+    trimTagsIfRequired(tags, maxAllowedTags){
+        if (tags.length > maxAllowedTags) {
+            const totalAddresses = tags.length;
+            tags.length = maxAllowedTags;
+            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more'} );
+        }
         return tags;
     }
 
     async UpdateOccupationTags(event) {
         const tags = [];
+        const maxAddress = 2;
         event.data.forEach(occupation => {
             switch (occupation.Occupation) {
                 case 'RT': tags.push({ text: 'Retired' }); break;
@@ -270,7 +280,7 @@ export class RloCommonData {
                 default: tags.push({ text: occupation.Occupation });
             }
         });
-        return tags;
+        return this.trimTagsIfRequired(tags, 4);
     }
 
     async getLiabilityTags(event) {
@@ -281,7 +291,7 @@ export class RloCommonData {
             const formattedAmount = this.rloui.formatAmount(liability.LocalEquivalentAmt);
             tags.push({ label: liability.LiabilityType, text: formattedAmount });
         });
-        return tags;
+        return this.trimTagsIfRequired(tags, 3);
     }
 
     async getAssetTags(event) {
@@ -292,7 +302,7 @@ export class RloCommonData {
             const formattedAmount = this.rloui.formatAmount(asset.EquivalentAmt);
             tags.push({ label: asset.AssetType, text: formattedAmount });
         });
-        return tags;
+        return this.trimTagsIfRequired(tags, 3);
     }
 
     async asyncForEach(array, callback) {

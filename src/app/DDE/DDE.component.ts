@@ -286,6 +286,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 this.addRemoveCompletedSection(sectionResponseObj, data);
             });
             console.log("shweta :: in DDE constructor", this.services.rloCommonData.masterDataMap);
+            this.updateSectionWiseTags(data);
         });
     }
 
@@ -1088,7 +1089,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
             console.log("Deep ===", data);
             if (data.isAppValid) {
-                requestParams.set('Body.ApplicationStatus', 'Approve');
+                requestParams.set('Body.ApplicationStatus', 'AP');
                 requestParams.set('Body.direction', 'AP');
                 this.submitDDE(requestParams);
             }
@@ -1232,10 +1233,24 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
                 const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
 
-                const alertMsg = (('WITHDRAW' === action) ? 'Application Withdrawn Successfully' : (('REJECT' === action) ? 'Application Rejected Successfully' : (('REFER' === action) ? 'Application Referred Successfully' : 'Application Saved Successfully')));
+                let alertMsg = 'rlo.success.submit';
+                switch (action) {
+                  case 'WITHDRAW':
+                    alertMsg = 'rlo.success.withdraw';
+                    break;
+                  case 'REJECT':
+                    alertMsg = 'rlo.success.reject';
+                    break;
+                  case 'REFER':
+                    alertMsg = 'rlo.success.refer';
+                    break;
+                  default:
+                    alertMsg = 'rlo.success.submit';
+                    break;
+                }
 
                 // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-                var mainMessage = this.services.rloui.getAlertMessage('', alertMsg);
+                var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
                 var button1 = this.services.rloui.getAlertMessage('', 'OK');
                 // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
