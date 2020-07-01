@@ -103,7 +103,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   masterDataSubscription: Subscription;
-
+  childToParentSubjectSubscription: Subscription;
   isCustomerTabSelected: boolean = true;
 
   constructor(services: ServiceStock) {
@@ -128,7 +128,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       // }
     });
 
-    this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+    this.childToParentSubjectSubscription = this.services.rloCommonData.childToParentSubject.subscribe((event) => {
       switch (event.action) {
         case 'updateCustGrid': // on customer update/save success
           this.FieldId_9.doAPIForCustomerList(event.data);
@@ -341,6 +341,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     styleElement.parentNode.removeChild(styleElement);
     this.services.rloCommonData.resetMapData();
     this.masterDataSubscription.unsubscribe();
+    this.childToParentSubjectSubscription.unsubscribe();
   }
   ngAfterViewInit() {
     setTimeout(() => {

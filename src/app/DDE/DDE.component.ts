@@ -251,6 +251,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     };
 
     masterDataSubscription: Subscription;
+    childToParentSubjectSubscription: Subscription;
     customersList = new Map();
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
@@ -260,7 +261,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.initHTabGroup('FieldId_10', ['BORROWER_TAB', 'VISIT_REF', 'COLATTERAL', 'GO_NO_GO', 'COMMENTS_TAB',], 'GO_NO_GO', 1);
 
         //only added for customerDTLS
-        this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+        this.childToParentSubjectSubscription = this.services.rloCommonData.childToParentSubject.subscribe((event) => {
             switch (event.action) {
                 case 'updateCustGrid':
                     this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
@@ -446,6 +447,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         styleElement.parentNode.removeChild(styleElement);
         this.services.rloCommonData.resetMapData();
         this.masterDataSubscription.unsubscribe();
+        this.childToParentSubjectSubscription.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {
