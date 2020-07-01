@@ -788,18 +788,18 @@
       <div #BUTTON_SECTION id="BUTTON_SECTION">
         <div class="form-group pb10 button-group">
           <div class="col-12  col-sm-4 col-md-4"></div>
-          <div class="col-12  col-sm-4 col-md-4 text-center" style="margin-left:53px;">
+          <div class="col-12  col-sm-4 col-md-4 text-center">
 
             <app-button #SUBMIT_MAIN_BTN fieldName="{{ 'Initiation.SUBMIT_MAIN_BTN' | translate}}"
               fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" customClass="btn btn-primary"
-              (buttonClick)="SUBMIT_MAIN_BTN_click($event)" style='float: left'></app-button>
+              (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
 
             <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}"
               (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
-              customClass="btn-warning-outline" style='float: left'></app-button>
+              customClass="btn-warning-outline" ></app-button>
 
             <app-button #Reset fieldName="{{ 'Initiation.Reset' | translate}}" fieldID="Reset" [formCode]="formCode"
-              customClass="btn-warning-outline" (buttonClick)="Reset_click($event)" style='float: left'></app-button>
+              customClass="btn-warning-outline" (buttonClick)="Reset_click($event)"></app-button>
 
           </div>
 

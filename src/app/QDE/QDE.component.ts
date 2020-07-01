@@ -103,7 +103,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   masterDataSubscription: Subscription;
-  childToParentSubjectSubscription: Subscription;
+
   isCustomerTabSelected: boolean = true;
 
   constructor(services: ServiceStock) {
@@ -128,7 +128,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       // }
     });
 
-    this.childToParentSubjectSubscription = this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+    this.services.rloCommonData.childToParentSubject.subscribe((event) => {
       switch (event.action) {
         case 'updateCustGrid': // on customer update/save success
           this.FieldId_9.doAPIForCustomerList(event.data);
@@ -189,7 +189,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ApplicationId = appId;
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+   
 
     await this.brodcastApplicationId();
 
@@ -248,6 +248,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         if (res.Status == 'S') {
           this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
+          this.userId = sessionStorage.getItem('userId');
         } else {
           this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
         }
@@ -341,7 +342,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     styleElement.parentNode.removeChild(styleElement);
     this.services.rloCommonData.resetMapData();
     this.masterDataSubscription.unsubscribe();
-    this.childToParentSubjectSubscription.unsubscribe();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -525,7 +525,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.UserId', this.userId);
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
 

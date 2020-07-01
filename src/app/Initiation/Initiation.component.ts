@@ -534,6 +534,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async LD_MARGIN_RATE_blur(event) {
     this.Handler.CalculateNetInterestRate();
+    this.Handler.updateAmountTags();
     // this.LD_NET_INTEREST_RATE.setValue(7.5)
     // this.Handler.CalculateNetInterestRate();
   }

@@ -363,8 +363,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       displayTag.push("₹" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
     }
 
-    if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined) {
-      displayTag.push(this.MainComponent.LD_INTEREST_RATE.getFieldValue() + "" + "%" + " " + "pa")
+    if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {
+      displayTag.push(this.MainComponent.LD_NET_INTEREST_RATE.getFieldValue() + "" + "%" + " " + "pa")
     }
     if (this.MainComponent.LD_TENURE.getFieldValue() !== undefined && this.MainComponent.LD_TENURE_PERIOD.getFieldValue() !== undefined) {
       displayTag.push(this.MainComponent.LD_TENURE.getFieldValue() + " " + this.MainComponent.LD_TENURE_PERIOD.getFieldInfo());
@@ -617,6 +617,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       }
 
       this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest.toFixed(2));
+      
     }
 
   }

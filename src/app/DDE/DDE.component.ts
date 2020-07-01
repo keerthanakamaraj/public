@@ -345,6 +345,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
                 if (res.Status == 'S') {
                     this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+                    this.userId = sessionStorage.getItem('userId')
                 } else {
                     this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
                 }
