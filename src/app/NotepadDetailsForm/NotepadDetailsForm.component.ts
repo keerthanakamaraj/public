@@ -158,7 +158,6 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         this.onFormLoad(event);
     }
     async ND_SAVE_click(event) {
-        console.log('shweta:: notepad app id ', this.ApplicationId);
         if (this.ApplicationId !== undefined) {
             const inputMap = new Map();
             const numberOfErrors: number = await this.revalidate();

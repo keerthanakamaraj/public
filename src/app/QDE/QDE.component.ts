@@ -131,7 +131,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.childToParentSubject.subscribe((event) => {
       switch (event.action) {
         case 'updateCustGrid': // on customer update/save success
-          console.log("shweta :: in QDE grid update ", event.data);
           this.FieldId_9.doAPIForCustomerList(event.data);
           event.action = undefined;
           break;

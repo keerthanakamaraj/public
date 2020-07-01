@@ -126,7 +126,6 @@ export class GoNoGoComponent implements OnInit {
 
   onDecisionChange(questionSeq, selectedAnswerSeq) {
 
-    console.log("shweta :: onBlur id: ", questionSeq, " event ", selectedAnswerSeq);
     let questionParam = this.QuestionnairMap.get(questionSeq);
     if (questionParam.SelectedDecision == undefined) {
       questionParam.SelectedDecision = {};
@@ -187,13 +186,11 @@ export class GoNoGoComponent implements OnInit {
         decisionsParamArray.push(decision);
       });
 
-      console.log('shweta:: req json decisionsParamArray : ', decisionsParamArray);
 
       let inputMap = new Map();
       inputMap.clear();
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
 
-      console.log("shweta :: input map", inputMap);
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
         let array = [];

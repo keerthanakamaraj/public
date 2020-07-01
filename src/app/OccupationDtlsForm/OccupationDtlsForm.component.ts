@@ -297,7 +297,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   async OD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     let occupationGridData: any = this.OCC_DTLS_GRID.getOccupationGridData();
-    console.log("shweta :: occupation grid :: ", occupationGridData);
     var nooferror: number = await this.revalidate();
     if (nooferror == 0) {
       //if(this.OD_COMP_NAME.getFieldValue() !== undefined){

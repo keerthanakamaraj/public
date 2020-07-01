@@ -104,7 +104,6 @@ export class PersonalInterviewComponent implements OnInit {
       }
       this.QuestionnairMap.set(eachElement.QuestionSeq, questionParam);
     }
-    console.log("shweta :: PI Interface map", this.QuestionnairMap);
   }
 
   createSaveApiRequestBody(element, questionairemap, key) {

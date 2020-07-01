@@ -262,8 +262,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //only added for customerDTLS
         this.services.rloCommonData.childToParentSubject.subscribe((event) => {
             switch (event.action) {
-                case 'updateCustGrid': // on customer update/save success
-                    //  console.log("shweta :: grid update ", event.data);
+                case 'updateCustGrid':
                     this.CUSTOMER_GRID.doAPIForCustomerList(event.data);
                     event.action = undefined;
                     break;
@@ -285,7 +284,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
                 this.addRemoveCompletedSection(sectionResponseObj, data);
             });
-            console.log("shweta :: in DDE constructor", this.services.rloCommonData.masterDataMap);
             this.updateSectionWiseTags(data);
         });
     }
@@ -713,10 +711,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         inputMap.clear();
     }
 
-    brodcastApplicationId() {
-        console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
-        this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
-    }
+    // brodcastApplicationId() {
+    //     console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
+    //     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+    // }
 
 
     injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
@@ -853,6 +851,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.reCalculateMenuSections(this.ActiveBorrowerSeq);
             //  this.updateSelectedTabIndex(0, 0);
             // this.injectDynamicComponent('CustomerDetails', 0, 0);
+            defaultSection = 'CustomerDetails';
         }
         else {
             //   console.log(this.isLoanCategory);

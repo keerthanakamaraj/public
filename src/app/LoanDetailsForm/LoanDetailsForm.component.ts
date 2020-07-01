@@ -248,7 +248,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
               let array = [];
 
               array.push({ isValid: true, sectionData: this.getFieldValue() });
-              console.log("shweta inside loan array", array);
               let obj = {
                 "name": "LoanDetails",
                 "data": array,
