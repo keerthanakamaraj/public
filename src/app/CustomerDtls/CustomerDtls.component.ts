@@ -178,7 +178,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         //    this.ApplicationId = event.custSeq
 
-        // this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+        this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.CD_FULL_NAME.setReadOnly(true);
         this.hidExistCust.setValue('Y_N');
         this.hideStaffId.setValue('Y_N');
@@ -195,6 +195,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         this.hideCitizenship.setValue('CITIZENSHIP');
         if (this.isLoanCategory !== undefined) {
             this.hideCustomerType.setValue((!this.isLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+            this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
         }
 
         this.CD_EXISTING_CUST.setDefault('N');
@@ -449,7 +450,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         if (noOfErrors === 0) {
             let CustomerDetailsArray = [];
             CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
-            console.log("Shweta :: return from service", CustomerDetailsArray);
+            //  console.log("Shweta :: return from service", CustomerDetailsArray);
             for (let i = 0; i < CustomerDetailsArray.length; i++) {
                 if (CustomerDetailsArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()) {
                     if (CustomerDetailsArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && CustomerDetailsArray[i].DOB == this.CD_DOB.getFieldValue()) {
@@ -595,7 +596,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName2', this.CD_PMRY_EMBSR_NAME.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName1', this.CD_PMRY_EMBSR_NAME.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MaritalStatus', this.CD_MARITAL_STATUS.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.CitizenID', this.CD_NATIONAL_ID.getFieldValue());
@@ -655,7 +656,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                                 this.CD_CITIZENSHIP.setError(err['ErrorDescription']);
                             } else if (err['ErrorElementPath'] === 'BorrowerDetails.Nationality') {
                                 this.CD_NATIONALITY.setError(err['ErrorDescription']);
-                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PrimaryEmbosserName2') {
+                            } else if (err['ErrorElementPath'] === 'BorrowerDetails.PrimaryEmbosserName1') {
                                 this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
                             } else if (err['ErrorElementPath'] === 'BorrowerDetails.StaffID') {
                                 this.CD_STAFF_ID.setError(err['ErrorDescription']);
@@ -757,7 +758,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
                 this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
                 // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
-                this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName2']);
+                this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
                 this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
                 this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
                 this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
@@ -823,9 +824,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.setNonEditableFields(false)
         }
         const customer = customerDtlsObj;
-        if (this.isLoanCategory === false) {
-            this.CD_PMRY_EMBSR_NAME.mandatory = true;
-        }
         this.CD_TITLE.setValue(customer.Title);
         this.CD_FIRST_NAME.setValue(customer.FirstName);
         this.CD_MIDDLE_NAME.setValue(customer.MiddleName);
@@ -956,6 +954,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     loanCategoryChanged(newLoanCategory) {
         this.isLoanCategory = newLoanCategory;
         this.hideCustomerType.setValue((!newLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+        this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
     fieldDependencies = {
