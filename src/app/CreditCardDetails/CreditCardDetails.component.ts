@@ -207,7 +207,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         let obj = {
                             "name": "CreditCardDetails",
                             "data": array,
-                            "BorrowerSeq": this.ApplicationId
+                            "sectionName": "CreditCardDetails"
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                     });
@@ -279,7 +279,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         let obj = {
                             "name": "CreditCardDetails",
                             "data": array,
-                            "BorrowerSeq": this.ApplicationId
+                            "sectionName": "CreditCardDetails"
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
@@ -337,7 +337,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         let obj = {
                             "name": "CreditCardDetails",
                             "data": array,
-                            "BorrowerSeq": this.ApplicationId
+                            "sectionName": "CreditCardDetails"
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                     },
