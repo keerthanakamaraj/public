@@ -652,40 +652,8 @@ li .a {
 #GNG_CLEAR_BTN{
   margin-left: 210px;
 }
+ 
 
- #VRF_Save{
-  margin-left: 273px;
-} 
-
-#VRF_Reset{
-  border-color: dimgray;
-  margin-left: 218px;
-}
-#ND_SAVE{
-  margin-left:57px;
-}
-#AD_CLEAR_BTN
-{
-  border-color: gray;
-  margin-left: 144px;
-}
-#AD_SAVE_ADDRESS
-{
-  margin-left: 202px;
-}
-#OD_SAVE_BTN{
-  margin-left: 192px;
-}
-#OD_CLEAR_BTN{
-  border-color: dimgray;
-  margin-left: 137px;
-}
-/* #RD_RESET{
-  margin-left: 5px;
-} */
-#ND_CLEAR{
-  border-color: dimgray;
-}
 
 .AD_EMAIL1{
   margin-left: 10px;
@@ -729,17 +697,11 @@ li .a {
 .icon {
   color: white;
 }
-#FD_clear{
-  border-color: dimgray;
-  margin-left: 115px;
-}
-#FD_Save{
-  margin-left: 171px;
-}
+/* 
 #RD_RESET{
   border-color: dimgray;
   margin-left: 131px;
-}
+} */
 #CCD_Save{
   margin-top: 35px;
   margin-left: 36px;
@@ -754,22 +716,13 @@ li .a {
 #CD_ADD{
   margin-left: 204px;
 }
-#RD_SAVE{
+/* #RD_SAVE{
   margin-left: 187px;
-}
-#LD_SAVE{
-  margin-left: 183px;
-}
-#clear{
-  margin-left: 127px;
-  border-color: dimgray;
-}
-#AT_SAVE{
-  margin-left: 183px;
-}
-#LD_SAVE_BTN{
+} */
+
+/* #LD_SAVE_BTN{
   MARGIN-LEFT: 35PX;
-}
+} */
 #MT_Proposal{
   margin-left: 250px;
   margin-top: 19px;

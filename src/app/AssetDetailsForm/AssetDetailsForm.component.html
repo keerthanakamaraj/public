@@ -141,17 +141,16 @@
           </div>
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AT_SAVE.isHidden()">
-            <app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE"
-              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
-              (buttonClick)="AT_SAVE_click($event)"></app-button>
-          </div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="clear.isHidden()">
+          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-button #clear fieldName="{{ 'AssetDetailsForm.clear' | translate}}" fieldID="clear"
               [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
               (buttonClick)="clear_click($event)"></app-button>
+
+            <app-button #AT_SAVE fieldName="{{ 'AssetDetailsForm.AT_SAVE' | translate}}" fieldID="AT_SAVE"
+              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
+              (buttonClick)="AT_SAVE_click($event)"></app-button>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AssetDetailsGrid.isHidden()">
             <app-AssetDetailsGrid #AssetDetailsGrid fieldID="AssetDetailsGrid" [formCode]="formCode"

@@ -241,16 +241,14 @@
               (blur)="genericOnBlur('OD_RES_PRT_NO', $event)"></app-text-box>
           </div>
 
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_SAVE_BTN.isHidden()">
-            <app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN"
-              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
-              (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
-          </div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="OD_CLEAR_BTN.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}"
               fieldID="OD_CLEAR_BTN" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2"
               customClass="icon-button" (buttonClick)="OD_CLEAR_BTN_click($event)">
             </app-button>
+            <app-button #OD_SAVE_BTN fieldName="{{ 'OccupationDtlsForm.OD_SAVE_BTN' | translate}}" fieldID="OD_SAVE_BTN"
+              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
+              (buttonClick)="OD_SAVE_BTN_click($event)"></app-button>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="OCC_DTLS_GRID.isHidden()">
             <app-OccuptionDtlsGrid #OCC_DTLS_GRID fieldID="OCC_DTLS_GRID" [formCode]="formCode"

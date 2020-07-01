@@ -93,6 +93,7 @@ body {
       margin-bottom: $default-spacing-bottom;
     }
   }
+ 
 
   // .res-pr-hide {
   //   padding: 0px 20px 10px 20px;
@@ -196,7 +197,20 @@ body {
 app-button[customclass="icon-button"] div {
   text-align: left !important;
 }
+#AD_CLEAR_BTN,#OD_CLEAR_BTN,#FD_clear,
+#clear,#VRF_Reset,#RD_RESET,#ND_CLEAR
+{
+  border-color: gray;
+  margin-left: 20px;
+  float: right;
+}
 
+#AD_SAVE_ADDRESS,#OD_SAVE_BTN,#FD_Save,
+#LD_SAVE,#AT_SAVE,#VRF_Save,#RD_SAVE,#ND_SAVE
+{
+  margin-left: 20px;
+  float: right;
+}
 // #SEARCH_CUST_BTN {
 //   background:url(./icons/search-lens.png);
 //   //background-image: url('search-lens.svg');
