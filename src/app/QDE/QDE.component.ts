@@ -525,7 +525,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-    inputMap.set('Body.UserId', this.userId);
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
 
