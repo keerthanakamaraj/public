@@ -161,6 +161,15 @@ body {
   margin-bottom: 0;
 }
 
+.PopUpFormTitle {
+  color: $primary-color;
+  font-size: 12px;
+  line-height: 17px;
+  text-align: left !important;
+  border-bottom: 1px solid #979797;
+  padding-bottom: 12px;
+  margin-bottom: 0;
+}
 .form-group-initiation-header {
   box-sizing: border-box;
   border: 1px solid #dddddd;
