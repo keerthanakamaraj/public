@@ -1020,7 +1020,7 @@
     "OD_EMPLOYEE_ID": "Employee ID",
     "OD_OCCUPATION": "Occupation",
     "OD_EMPLT_TYPE": "Employment Type",
-    "OD_LENGTH_OF_EXST": "Length Of Existence",
+    "OD_LENGTH_OF_EXST": "Length Of Existence (yrs.)",
     "OD_COMP_CAT": "Company Category",
     "OD_EMP_STATUS": "Employment Status",
     "OD_WRK_PERMIT_NO": "Work Permit No.",
