@@ -474,7 +474,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
               if (tempVar != '' || tempVar != undefined)
                 this.CD_EXISTING_CUST.setValue('Y');
-              this.Handler.existingCustomer({});
+              // this.Handler.existingCustomer({});
             }
             this.services.dataStore.setData('selectedData', undefined);
           }
@@ -715,9 +715,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
             if (Data.DECISION == 'Reject') {
               this.EligibilityDecision = 'Reject';
-            }else{
-              this.EligibilityDecision = 'Approve';
             }
+          }
+          if (this.EligibilityDecision != 'Reject') {
+            this.EligibilityDecision = 'Approve';
           }
           inputMap.set('Checkvalue', this.eligeData);
           inputMap.set('component', 'checkEligibilityForm');
