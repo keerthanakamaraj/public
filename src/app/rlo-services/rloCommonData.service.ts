@@ -196,6 +196,11 @@ export class RloCommonData {
                     mapValue = componentData.data;
                     functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
+                case 'ApplicationDetails':
+                    mapValue = componentData.data;
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+                    break;
+
             }
 
             tempStoreMap.get(mapName).set(mapKey, mapValue);
