@@ -257,11 +257,11 @@ export class RloCommonData {
         return this.trimTagsIfRequired(tags, 2);
     }
 
-    trimTagsIfRequired(tags, maxAllowedTags){
+    trimTagsIfRequired(tags, maxAllowedTags) {
         if (tags.length > maxAllowedTags) {
             const totalAddresses = tags.length;
             tags.length = maxAllowedTags;
-            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more'} );
+            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more' });
         }
         return tags;
     }
@@ -304,6 +304,26 @@ export class RloCommonData {
         });
         return this.trimTagsIfRequired(tags, 3);
     }
+
+    async UpdateRmVisitDetailsTags(event) {
+        const tags = [];
+        event.data.forEach(Visit => {
+            let tagText = '';
+            let vistPlace = '';
+            console.log("RM Visit Tags : ", Visit);
+            switch (Visit.PlaceofVisit) {
+                case 'OF': vistPlace = 'Office'; break;
+                case 'PL': vistPlace = 'Plant'; break;
+                case 'RS': vistPlace = 'Residence'; break;
+                case 'WH': vistPlace = 'Warehouse'; break;
+                default: vistPlace = Visit.PlaceofVisit;
+            }
+            tagText = tagText + this.rloutil.concatenate([Visit.NameOfPerson, vistPlace], '; ');
+            tags.push({ text: tagText });
+        });
+        return this.trimTagsIfRequired(tags, 3);
+    }
+
 
     async asyncForEach(array, callback) {
         for (let index = 0; index < array.length; index++) {

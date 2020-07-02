@@ -129,13 +129,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-        {
-            selectedMenuId: "",
-            selectedMenuComponent: "",
-            isCustomerTabSelected: true,
-            firstArr: 0,
-            secondArr: 0
-        };
+    {
+        selectedMenuId: "",
+        selectedMenuComponent: "",
+        isCustomerTabSelected: true,
+        firstArr: 0,
+        secondArr: 0
+    };
 
     /**
      * Tags
@@ -1237,18 +1237,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
                 let alertMsg = 'rlo.success.submit';
                 switch (action) {
-                  case 'WITHDRAW':
-                    alertMsg = 'rlo.success.withdraw';
-                    break;
-                  case 'REJECT':
-                    alertMsg = 'rlo.success.reject';
-                    break;
-                  case 'REFER':
-                    alertMsg = 'rlo.success.refer';
-                    break;
-                  default:
-                    alertMsg = 'rlo.success.submit';
-                    break;
+                    case 'WITHDRAW':
+                        alertMsg = 'rlo.success.withdraw';
+                        break;
+                    case 'REJECT':
+                        alertMsg = 'rlo.success.reject';
+                        break;
+                    case 'REFER':
+                        alertMsg = 'rlo.success.refer';
+                        break;
+                    default:
+                        alertMsg = 'rlo.success.submit';
+                        break;
                 }
 
                 // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
@@ -1373,6 +1373,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     AssetDetails_SetTag(event) {
         // console.log('update Asset Tags --- ', event);
         this.services.rloCommonData.getAssetTags(event).then(data => {
+            this.setTags(data);
+        });
+    }
+
+    RmVisitDetails_SetTag(event) {
+
+        this.services.rloCommonData.UpdateRmVisitDetailsTags(event).then(data => {
+            // console.log(data);
             this.setTags(data);
         });
     }
