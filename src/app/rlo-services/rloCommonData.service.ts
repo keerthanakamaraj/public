@@ -399,6 +399,7 @@ export class RloCommonData {
             isAppValid: true,
             errorsList: []
         }
+
         var dataToValidate: Map<any, any>;
         dataToValidate = this.masterDataMap.get("customerMap");
 
@@ -459,13 +460,13 @@ export class RloCommonData {
         let customerData = sectionData.get('CustomerDetails');
 
         console.log("-------- customerData ", customerData);
-        if(customerData.CustomerType != "G"){
+       // if(customerData.CustomerType != "G"){
             if (customerData.isValid) {
                 commonObj.isSectionValid = true;
             } else {
                 commonObj.errorMessage += 'Fill all mandatory fields for the customer';
             }
-        }
+      //  }
 
         return commonObj;
     }
@@ -479,7 +480,7 @@ export class RloCommonData {
 
         const LoanOwnership = customerData.LoanOwnership;
 
-        if (LoanOwnership !== undefined) {
+        if (LoanOwnership !== undefined && LoanOwnership!=0) {
             commonObj.isSectionValid = false;
             if (customerSectionData.has('OccupationDetails')) {
                 const occupationList = customerSectionData.get('OccupationDetails');
@@ -530,7 +531,7 @@ export class RloCommonData {
                 }
             }
 
-            if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
+            if ((LoanOwnership === undefined || LoanOwnership==0)&& custType !== 'B' && custType !== 'CB') {
                 addrValidationObj.isOffice = true;
             }
 
