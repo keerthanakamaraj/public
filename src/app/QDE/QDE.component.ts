@@ -189,6 +189,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ApplicationId = appId;
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
 
     await this.brodcastApplicationId();
