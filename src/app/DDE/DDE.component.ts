@@ -1089,7 +1089,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             if (data.isAppValid) {
                 requestParams.set('Body.ApplicationStatus', 'AP');
                 requestParams.set('Body.direction', 'AP');
-                //this.submitDDE(requestParams);
+                this.submitDDE(requestParams);
             }
             else {
                 let errorMsg = "";
