@@ -116,10 +116,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.masterDataSubscription = this.services.rloCommonData.getComponentLvlData().subscribe(event => {
       console.warn("deep === masterDataSubscription", event);
 
-      if (event.name != "Notes" && event.name != "ReferrerDetails") {
+      if (event.name != "Notes" && event.name != "ReferrerDetails" && event.name != "ApplicationDetails") {
         this.services.rloCommonData.updateMasterDataMap(event, this.isCustomerTabSelected);
       }
-      
+
       console.log(this.services.rloCommonData.masterDataMap);
       this.updateTags(event);
       // if (event.name == 'CustomerDetails') {
@@ -189,7 +189,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ApplicationId = appId;
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-   
+    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+
 
     await this.brodcastApplicationId();
 

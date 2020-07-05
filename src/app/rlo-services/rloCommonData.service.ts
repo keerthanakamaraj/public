@@ -196,6 +196,11 @@ export class RloCommonData {
                     mapValue = componentData.data;
                     functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
                     break;
+                case 'ApplicationDetails':
+                    mapValue = componentData.data;
+                    functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+                    break;
+
             }
 
             tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -257,11 +262,11 @@ export class RloCommonData {
         return this.trimTagsIfRequired(tags, 2);
     }
 
-    trimTagsIfRequired(tags, maxAllowedTags){
+    trimTagsIfRequired(tags, maxAllowedTags) {
         if (tags.length > maxAllowedTags) {
             const totalAddresses = tags.length;
             tags.length = maxAllowedTags;
-            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more'} );
+            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more' });
         }
         return tags;
     }
@@ -304,6 +309,26 @@ export class RloCommonData {
         });
         return this.trimTagsIfRequired(tags, 3);
     }
+
+    async UpdateRmVisitDetailsTags(event) {
+        const tags = [];
+        event.data.forEach(Visit => {
+            let tagText = '';
+            let vistPlace = '';
+            console.log("RM Visit Tags : ", Visit);
+            switch (Visit.PlaceofVisit) {
+                case 'OF': vistPlace = 'Office'; break;
+                case 'PL': vistPlace = 'Plant'; break;
+                case 'RS': vistPlace = 'Residence'; break;
+                case 'WH': vistPlace = 'Warehouse'; break;
+                default: vistPlace = Visit.PlaceofVisit;
+            }
+            tagText = tagText + this.rloutil.concatenate([Visit.NameOfPerson, vistPlace], '; ');
+            tags.push({ text: tagText });
+        });
+        return this.trimTagsIfRequired(tags, 3);
+    }
+
 
     async asyncForEach(array, callback) {
         for (let index = 0; index < array.length; index++) {
@@ -374,6 +399,7 @@ export class RloCommonData {
             isAppValid: true,
             errorsList: []
         }
+
         var dataToValidate: Map<any, any>;
         dataToValidate = this.masterDataMap.get("customerMap");
 
@@ -381,6 +407,7 @@ export class RloCommonData {
             let isAddressValid = true;
             let isOccupationValid = true;
             let isCustomerValid = true;
+            let isIncomeSummaryValid = true;
             let errorMessage = '';
             let custFullName = '';
 
@@ -391,22 +418,29 @@ export class RloCommonData {
                 forkJoin(
                     this.validateCustomerDetailSection(entry[1]),
                     this.validateAddressDetailSection(entry[1]),
-                    this.validateOccupationDetailsSection(entry[1])
+                    this.validateOccupationDetailsSection(entry[1]),
+                    this.validateIncomeSummary(entry[1])
                 ).subscribe((data) => {
                     console.error(data);
                     isCustomerValid = data[0].isSectionValid;
                     isAddressValid = data[1].isSectionValid;
                     isOccupationValid = data[2].isSectionValid;
+                    isIncomeSummaryValid = data[3].isSectionValid;
 
                     for (let i = 0; i < data.length; i++) {
                         const element = data[i];
                         if (!element.isSectionValid) {
-                            errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
+                            if (i == data.length - 1) {
+                                element.errorMessage = element.errorMessage + ".";
+                            }
+                            else {
+                                element.errorMessage = element.errorMessage + ", ";
+                            }
                         }
                         errorMessage += element.errorMessage;
                     }
 
-                    if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
+                    if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
                         let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
                         dataObject.errorsList.push(msg);
                         dataObject.isAppValid = false;
@@ -426,11 +460,13 @@ export class RloCommonData {
         let customerData = sectionData.get('CustomerDetails');
 
         console.log("-------- customerData ", customerData);
-        if (customerData.isValid) {
-            commonObj.isSectionValid = true;
-        } else {
-            commonObj.errorMessage += 'Fill all mandatory fields for the customer';
-        }
+       // if(customerData.CustomerType != "G"){
+            if (customerData.isValid) {
+                commonObj.isSectionValid = true;
+            } else {
+                commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+            }
+      //  }
 
         return commonObj;
     }
@@ -444,7 +480,7 @@ export class RloCommonData {
 
         const LoanOwnership = customerData.LoanOwnership;
 
-        if (LoanOwnership !== undefined) {
+        if (LoanOwnership !== undefined && LoanOwnership!=0) {
             commonObj.isSectionValid = false;
             if (customerSectionData.has('OccupationDetails')) {
                 const occupationList = customerSectionData.get('OccupationDetails');
@@ -458,7 +494,7 @@ export class RloCommonData {
                 }
             }
             if (!commonObj.isSectionValid) {
-                commonObj.errorMessage = "Income Type required as Primary for Occupation. ";
+                commonObj.errorMessage = "Income Type required as Primary for Occupation";
             }
         }
         return commonObj;
@@ -495,7 +531,7 @@ export class RloCommonData {
                 }
             }
 
-            if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
+            if ((LoanOwnership === undefined || LoanOwnership==0)&& custType !== 'B' && custType !== 'CB') {
                 addrValidationObj.isOffice = true;
             }
 
@@ -671,7 +707,25 @@ export class RloCommonData {
                 }
             }
         }
-
         return commonObj;
+    }
+
+    async validateIncomeSummary(customerTabSectionData: Map<any, any>) {
+        let commonObj: IComponentSectionValidationData = {
+            isSectionValid: true,
+            errorMessage: ''
+        }
+        let customerData = customerTabSectionData.get("CustomerDetails");
+
+        if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+            if (!customerTabSectionData.has('IncomeSummary')) {
+                commonObj.isSectionValid = false;
+                commonObj.errorMessage = "Details from income summary section required";
+            }
+            return commonObj;
+        }
+        else {
+            return commonObj;
+        }
     }
 }
