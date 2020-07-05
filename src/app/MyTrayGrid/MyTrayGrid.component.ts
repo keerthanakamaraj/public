@@ -498,10 +498,10 @@ export class MyTrayGridComponent implements AfterViewInit {
     if (selectedData2) {
       let stageId = selectedData2['hiddenStageId'];
 
-      // if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
-      //   this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
-      //   return;
-      // }
+      if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
+        this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
+        return;
+      }
 
       navPath.push(stageId);
       inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
