@@ -50,6 +50,7 @@ export class RloUiAccordionComponent implements AfterContentInit {
     // group.opened = true;
     if(group.disableAccordian){
       group.opened = false;
+      this.groups.toArray()[0].opened = true;
     }else{
       group.opened = true;
     }
