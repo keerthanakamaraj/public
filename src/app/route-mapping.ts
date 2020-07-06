@@ -104,6 +104,10 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/checkEligibilityForm/checkEligibilityForm.module#checkEligibilityFormModule'
 	}
 	,
+	{
+		path: 'FeesChargesDetails',
+		loadChildren: 'src/app/Fees&ChargesDetails/Fees&ChargesDetails.module#FeesChargesDetailsModule'
+	}
 	
 ];
 export class AppRoutingModule { }

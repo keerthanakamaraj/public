@@ -2007,5 +2007,23 @@
       "checkEligibilityForm" : {
       "FieldId_1" : "null",
       "FormTitle" : "check Eligibility Form"
-      }
+      },
+      "Fees&ChargesDetails" : {
+        "PeriodicStartDate" : "Periodic Start Date",
+        "ChargeDescription" : "Charge Description",
+        "ChargeRate" : "Charge Rate",
+        "FormTitle" : "Fees & Charges",
+        "ChargeBasis" : "Charge Basis",
+        "PeriodicEndDate" : "Periodic End Date",
+        "PartyName" : "Party Name",
+        "FC_SAVE_BTN" : "null",
+        "ChargeAmount" : "Charge Amount",
+        "FC_RESET_BTN" : "Edit",
+        "PeriodicCharge" : "Periodic Charge",
+        "ChargeType" : "Charge Type",
+        "Frequency" : "Frequency",
+        "RateChargeOn" : "Rate Charge On",
+        "ChargeCollection" : "Charge Collection",
+        "PartyType" : "Party Type"
+        }
 }

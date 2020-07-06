@@ -1,0 +1,144 @@
+<form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="">
+{{ 'Fees&ChargesDetails.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeDescription.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.ChargeDescription' | translate}}
+</label>
+</div>
+<app-combo-box #ChargeDescription category="2" fieldID="ChargeDescription" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('ChargeDescription', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeType.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.ChargeType' | translate}}
+</label>
+</div>
+<app-combo-box #ChargeType category="2" fieldID="ChargeType" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('ChargeType', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyType.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.PartyType' | translate}}
+</label>
+</div>
+<app-combo-box #PartyType category="2" fieldID="PartyType" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('PartyType', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyName.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.PartyName' | translate}}
+</label>
+</div>
+<app-combo-box #PartyName category="2" fieldID="PartyName" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('PartyName', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeBasis.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.ChargeBasis' | translate}}
+</label>
+</div>
+<app-amount #ChargeBasis fieldID="ChargeBasis" [formCode]="formCode" (blur)="genericOnBlur('ChargeBasis', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeRate.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.ChargeRate' | translate}}
+</label>
+</div>
+<app-text-box #ChargeRate fieldID="ChargeRate" [formCode]="formCode" (blur)="genericOnBlur('ChargeRate', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeAmount.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.ChargeAmount' | translate}}
+</label>
+</div>
+<app-amount #ChargeAmount fieldID="ChargeAmount" [formCode]="formCode" (blur)="genericOnBlur('ChargeAmount', $event)"></app-amount>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PeriodicCharge.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.PeriodicCharge' | translate}}
+</label>
+</div>
+<app-combo-box #PeriodicCharge category="2" fieldID="PeriodicCharge" [formCode]="formCode" (blur)="genericOnBlur('PeriodicCharge', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PeriodicStartDate.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.PeriodicStartDate' | translate}}
+</label>
+</div>
+<app-date #PeriodicStartDate fieldID="PeriodicStartDate" [formCode]="formCode" (blur)="genericOnBlur('PeriodicStartDate', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PeriodicEndDate.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.PeriodicEndDate' | translate}}
+</label>
+</div>
+<app-combo-box #PeriodicEndDate category="2" fieldID="PeriodicEndDate" [formCode]="formCode" (blur)="genericOnBlur('PeriodicEndDate', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Frequency.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.Frequency' | translate}}
+</label>
+</div>
+<app-date #Frequency fieldID="Frequency" [formCode]="formCode" (blur)="genericOnBlur('Frequency', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RateChargeOn.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.RateChargeOn' | translate}}
+</label>
+</div>
+<app-combo-box #RateChargeOn category="2" fieldID="RateChargeOn" [formCode]="formCode" (blur)="genericOnBlur('RateChargeOn', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeCollection.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'Fees&ChargesDetails.ChargeCollection' | translate}}
+</label>
+</div>
+<app-combo-box #ChargeCollection category="2" fieldID="ChargeCollection" [formCode]="formCode" (blur)="genericOnBlur('ChargeCollection', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FC_SAVE_BTN.isHidden()">
+<app-button #FC_SAVE_BTN fieldName="{{ 'Fees&ChargesDetails.FC_SAVE_BTN' | translate}}" 
+imagePath="./assets/icons/plus.svg" fieldID="FC_SAVE_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FC_RESET_BTN.isHidden()">
+<app-button #FC_RESET_BTN fieldName="{{ 'Fees&ChargesDetails.FC_RESET_BTN' | translate}}"
+ imagePath="./assets/icons/refresh-form.svg" fieldID="FC_RESET_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"></app-button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>

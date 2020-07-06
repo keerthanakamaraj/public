@@ -151,7 +151,7 @@
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_FEES_CHARGE.isHidden()">
             <app-button #LD_FEES_CHARGE fieldName="{{ 'LoanDetailsForm.LD_FEES_CHARGE' | translate}}"
-              fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3">
+              fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3" (buttonClick)="LD_FEES_CHARGE_click($event)">
             </app-button>
           </div>
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_COLL_UPFRONT_CHARGES.isHidden()">
