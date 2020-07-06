@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import{UWCustomerListComponent}from '../UWCustomerList/UWCustomerList.component';
 @Component({
   selector: 'app-under-writer',
   templateUrl: './under-writer.component.html',

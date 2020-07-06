@@ -1696,3 +1696,139 @@ a.back {
   }
 
 }
+
+/* underwriter customer list component*/
+.uw-cust-list-container{
+    box-sizing: border-box;
+    height: 48px;
+   // width: 1356px;
+    border-top: 1.5px solid #C8C8C8;
+    border-bottom: 1.5px solid #C8C8C8;
+    border-radius: 4px;
+    background-color: #FFFFFF; 
+    .cust-list-container{
+      height: 48px;
+      .active-customer{
+        padding-top: 11px;
+         background-color: #0079B8;
+         height: 48px;
+         border-right: 1.5px solid #C8C8C8;
+         .cust-tag {
+           height: 24px;
+           width: 24px;
+           border-radius: 2px;
+           background-color: #FFFFFF;
+           display: inline-block;
+           text-align: center;
+           line-height: 24px;
+           color: $primary-color;
+           font-size: 12px;
+           font-weight: 600;
+         }
+         .cust-name{
+           margin-left: 12px;
+           color:#FFFFFF;
+         }
+         
+      }
+      .cust-name-container {
+        padding-top: 11px;
+       // background-color: #0079B8;
+        height: 48px;
+        border-right: 1.5px solid #C8C8C8;
+        .cust-tag {
+          height: 24px;
+          width: 24px;
+          border-radius: 2px;
+          background-color: $primary-color;
+          display: inline-block;
+          text-align: center;
+          line-height: 24px;
+          color: #fff;
+          font-size: 12px;
+          font-weight: 600;
+        }
+        .cust-name{
+          margin-left: 12px;
+        }
+        
+      }
+    }
+    .cust-more-container{
+      //border: 1px solid #a7222d;
+      height: 48px;
+      padding-top: 6px;
+      .more-tag{
+        height: 34px;
+        width: 34px;
+        border-radius: 18px;
+        background-color: $primary-color;
+        display: inline-block;
+        text-align: center;
+        line-height: 24px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding-top: 5px;
+        
+      }
+      .shift-btn-container{
+        
+            display: -webkit-box;
+            float: right;
+        
+              .nxt-btn-active{
+            //    background-image: url(./../icons/right-arrow-selected.svg);
+            background-image: url(./../icons/right-shift-enabled.svg);
+                width: 10px;
+                height: 17px;
+                content: "";
+                background-repeat: no-repeat;
+                display: block;
+                background-position: center center;
+                margin: 5px 12px;
+                cursor: pointer;
+              }
+      
+              .nxt-btn-inactive{
+                background-image: url(./../icons/right-shift-disabled.svg);
+                width: 10px;
+                height: 17px;
+                content: "";
+                background-repeat: no-repeat;
+                display: block;
+                background-position: center center;
+                margin: 5px 12px;
+                cursor: pointer;
+              }
+      
+              .prev-btn-inactive{
+                background-image: url(./../icons/left-shift-disabled.svg);
+                width: 10px;
+                height: 17px;
+                content: "";
+                background-repeat: no-repeat;
+                display: block;
+                background-position: center center;
+                margin-top: 5px;
+                cursor: pointer;
+              }
+        
+              .prev-btn-active {
+           //     background-image: url(./../icons/left-arrow-deselected.svg);
+           background-image: url(./../icons/left-shift-enabled.svg);
+                width: 10px;
+                height: 17px;
+                content: "";
+                background-repeat: no-repeat;
+                display: block;
+                background-position: center center;
+                margin-top: 5px;
+                cursor: pointer;
+              }
+            }
+    }
+ 
+}
+
+   

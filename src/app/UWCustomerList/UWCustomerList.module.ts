@@ -5,17 +5,12 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
 import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
-
-import { UnderWriterComponent } from './under-writer.component';
-import { HeaderModule } from '../Header/Header.module';
-import { QDEHandlerModule } from '../QDE/QDE-handler.module';
-import { UnderWriterRoutingModule } from './under-writer-routing';
-import { CardModule } from '../card/card.module';
-import {UWCustomerListModule} from '../UWCustomerList/UWCustomerList.module'
+import { UWCustomerListRoutingModule } from './UWCustomerList-routing.module';
+import { UWCustomerListComponent } from './UWCustomerList.component';
 @NgModule({
     imports: [
         CommonModule,
-        UnderWriterRoutingModule,
+        UWCustomerListRoutingModule,
         RAFormModule,
         FormsModule,
         HttpClientModule,
@@ -26,16 +21,12 @@ import {UWCustomerListModule} from '../UWCustomerList/UWCustomerList.module'
                 deps: [HttpClient]
             }
         }),
-        HeaderModule,
-        QDEHandlerModule,
-        CardModule,
-        UWCustomerListModule
     ],
     declarations: [
-        UnderWriterComponent
+        UWCustomerListComponent,
     ],
     exports: [
-        UnderWriterComponent,
+        UWCustomerListComponent,
     ],
 })
-export class UnderWriterModule { }
+export class UWCustomerListModule { }
