@@ -705,12 +705,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
+        
         if(res.status == 'F'){
           this.services.alert.showAlert(2, '', 1000, 'Check Eligibility Failed');
           return;
         }
         if(res.status == 'S'){
+          this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
           for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
             const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
             if (Data.DECISION == 'Reject') {
