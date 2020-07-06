@@ -11,9 +11,9 @@
     </div>
 
     <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" [maxlength]="10"
-        (input)="validateValue($event.target.value, $event)" [ngClass]="{'error' : error, 'input-readonly':readOnly}"
+        [ngClass]="{'error' : error, 'input-readonly':readOnly}"
         [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
-        [disabled]="readOnly" (change)="onChange($event)" [ngStyle]="{'text-align' : valueAlign}" />
+        [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />
 
     <span class="errorMessagespan error-country-code" *ngIf="error">{{errorCode | translate}}</span>
 </div>

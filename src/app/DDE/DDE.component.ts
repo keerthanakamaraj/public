@@ -752,7 +752,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 }, 500);
             } else if (this.CustomerType !== 'B') {
                 // method will be called for new customer form after section switch
-                //  console.log("shweta :: DDE section switch on new cust",this.CustomerType);
+                // console.log("shweta :: DDE section switch on new cust",this.CustomerType);
                 let data = { 'customerType': this.CustomerType };
                 setTimeout(() => {
                     componentInstance.setNewCustomerFrom(data);
