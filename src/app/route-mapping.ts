@@ -88,6 +88,10 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/DDE/DDE.module#DDEModule'
 	},
 	{
+		path: 'Underwriter',
+		loadChildren: 'src/app/under-writer/under-writer.module#UnderWriterModule'
+	},
+	{
 		path: 'FamilyDetailsForm',
 		loadChildren: 'src/app/FamilyDetailsForm/FamilyDetailsForm.module#FamilyDetailsFormModule'
 	},

@@ -159,4 +159,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.navigateToHome();
     }
   }
+  
+  underWriter(){
+    this.router.navigate(['/home/Underwriter']);
+  }
 }

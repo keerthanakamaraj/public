@@ -24,7 +24,7 @@
                     <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                         <app-button #MT_Proposal fieldName="{{ 'MyTrayForm.MT_Proposal' | translate}}" (buttonClick)="MT_Proposal_click($event)"
                             fieldID="MT_Proposal" [formCode]="formCode" customClass="btn btn-primary btn-lg"></app-button>
-                        <!-- <input type="button" class="proposal" value="NEW PROPOSAL" onClick="redirect()"> -->
+                        <h4 (click)="underWriter()">Underwriter</h4>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
                         <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
