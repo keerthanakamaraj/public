@@ -107,6 +107,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   masterDataSubscription: Subscription;
 
   isCustomerTabSelected: boolean = true;
+  childToParentSubjectSubscription: Subscription;
 
   constructor(services: ServiceStock) {
     super(services);
@@ -130,7 +131,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       // }
     });
 
-    this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+    this.childToParentSubjectSubscription = this.services.rloCommonData.childToParentSubject.subscribe((event) => {
       this.disableAccordian = false;
       this.UpdateAccordian();
       switch (event.action) {
@@ -347,6 +348,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     styleElement.parentNode.removeChild(styleElement);
     this.services.rloCommonData.resetMapData();
     this.masterDataSubscription.unsubscribe();
+    this.childToParentSubjectSubscription.unsubscribe();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -411,7 +413,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async CUSTOMER_DETAILS_passBorrowerSeq(event) {
     console.log("deep === load address n occupation grid", event);
     const inputMap = new Map();
-    
+
     await this.FieldId_6.AddressGrid.gridDataLoad({
       'passBorrowerSeqToGrid': event.BorrowerSeq
     });
@@ -448,7 +450,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.FieldId_6.AddressGrid.setValue(Object.assign([], this.customers));
   }
 
- 
+
 
   //when clicked on edit
   async FieldId_9_passArrayToCustomer(event) {
@@ -667,34 +669,34 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   /* Cancel / Back button */
   goBack() {
     var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
-        var button1 = this.services.rloui.getAlertMessage('', 'OK');
-        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
-        Promise.all([mainMessage, button1, button2]).then(values => {
-            console.log(values);
-            let modalObj = {
-                title: "Alert",
-                mainMessage: values[0],
-                modalSize: "modal-width-sm",
-                buttons: [
-                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-                ]
-            }
-            this.services.rloui.confirmationModal(modalObj).then((response) => {
-                console.log(response);
-                if (response != null) {
-                    if (response.id === 1) {
-                        this.services.router.navigate(['home', 'LANDING']);
-                    }
-                }
-            });
-        });
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
   }
 
-  UpdateAccordian(){
-    this.QDE_ACCORD1.disableAccordian('ADD_DETAILS',this.disableAccordian);
-    this.QDE_ACCORD1.disableAccordian('OCC_DETAILS',this.disableAccordian);
+  UpdateAccordian() {
+    this.QDE_ACCORD1.disableAccordian('ADD_DETAILS', this.disableAccordian);
+    this.QDE_ACCORD1.disableAccordian('OCC_DETAILS', this.disableAccordian);
   }
 
 }
