@@ -50,6 +50,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 	@ViewChild('Handler', { static: false }) Handler: ReferralDetailsFormHandlerComponent;
 	@ViewChild('AddBorrowerSeq', { static: false }) AddBorrowerSeq: HiddenComponent;
 	@ViewChild('ReferrerBorrowerSeq', { static: false }) ReferrerBorrowerSeq: HiddenComponent;
+	@ViewChild('RefAddBorrowerSeq', { static: false }) RefAddBorrowerSeq: HiddenComponent;
 	@ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
 	@ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
 	@ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
@@ -239,6 +240,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 			if (this.ReferrerBorrowerSeq.getFieldValue() != undefined) {
 				inputMap.clear();
 				inputMap.set('PathParam.BorrowerSeq', this.ReferrerBorrowerSeq.getFieldValue());
+				inputMap.set('Body.ReferrerDetails.AddressDetails.AddressDetailsSeq', this.RefAddBorrowerSeq.getFieldValue());
 				inputMap.set('Body.ReferrerDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
 				inputMap.set('Body.ReferrerDetails.ReferrerRelation', this.RD_REFERRER_RELATION.getFieldValue());
 				// inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_ISD_CODE.getFieldValue());
@@ -359,6 +361,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				// inputMap.set('Body.ReferrerDetails.AddressDetails.MobileCountryCode', this.RD_COUNTRY_CODE2.getFieldValue());
 				inputMap.set('Body.ReferrerDetails.AddressDetails.AltMobileNo', this.RD_PHONE2.getFieldValue());
 				inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
+				
 				// inputMap.set('Body.ReferrerDetails.BorrowerSeq', this.activeBorrowerSeq);
 				inputMap.set('Body.ReferrerDetails.CustomerType', 'R');
 				if (this.RD_REF_NAME.getFieldValue() == undefined || this.RD_REF_NAME.getFieldValue() == null) {
@@ -476,8 +479,10 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 				this.RD_PHONE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineNumber']);
 				// this.RD_COUNTRY_CODE2.setValue(res['ReferrerDetails']['AddressDetails']['MobileCountryCode']);
 				this.RD_PHONE2.setValue(res['ReferrerDetails']['AddressDetails']['AltMobileNo']);
+				this.RefAddBorrowerSeq.setValue(res['ReferrerDetails']['AddressDetails']['AddressDetailsSeq']);
 				}
 				this.ReferrerBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
+	
 				this.hideSpinner();
 			},
 			async (httpError) => {
