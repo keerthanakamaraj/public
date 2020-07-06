@@ -129,13 +129,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         firstArr?: number,
         secondArr?: number
     } =
-    {
-        selectedMenuId: "",
-        selectedMenuComponent: "",
-        isCustomerTabSelected: true,
-        firstArr: 0,
-        secondArr: 0
-    };
+        {
+            selectedMenuId: "",
+            selectedMenuComponent: "",
+            isCustomerTabSelected: true,
+            firstArr: 0,
+            secondArr: 0
+        };
 
     /**
      * Tags
@@ -253,6 +253,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     masterDataSubscription: Subscription;
     childToParentSubjectSubscription: Subscription;
     customersList = new Map();
+
+    disableMenus: boolean = false;//when abt to add new user('+' btn clicked) 
 
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
@@ -434,7 +436,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         //this.onFormLoad();
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
         this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
-        this.injectDynamicComponent('CustomerDetails', 0, 0);
+        this.injectDynamicComponent('CustomerDetails', false, 0, 0);
         this.services.rloCommonData.getCurrentRoute();
     }
     ngOnDestroy() {
@@ -624,7 +626,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         this.setTags([]);
 
-        this.injectDynamicComponent('CustomerDetails', 0, 0);
+        this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
+
+        this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+        this.disableMenus = true;
         //this.CUST_DTLS.setNewCustomerFrom(event);
     }
 
@@ -640,9 +645,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         // this.ActiveCustomerDOB = event.CustomerArray.DOB;
         // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
 
-        console.log(event);
+        console.log(this.formMenuObject);
         if (this.formMenuObject.activeBorrowerSeq == this.ActiveBorrowerSeq) {
-
+            if (this.disableMenus) {
+                this.reCalculateMenuSections(this.ActiveBorrowerSeq);
+            }
         } else {
             this.formMenuObject.activeBorrowerSeq = this.ActiveBorrowerSeq;
             if (this.completedMenuSectionList.customerSection.size || this.completedMenuSectionList.applicationSection.size)
@@ -659,22 +666,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-        this.injectDynamicComponent('CustomerDetails', 0, 0);
+        this.disableMenus = false;
+        this.injectDynamicComponent('CustomerDetails', false, 0, 0);
     }
 
     getCustomerId(customerType, borrowerSeq): string {
         return customerType + "_" + borrowerSeq;
     }
 
-    reCalculateMenuSections(activeBorrowerSeq) {
+    reCalculateMenuSections(activeBorrowerSeq, addingNewUser: boolean = false) {
         console.warn("deep", activeBorrowerSeq, this.formMenuObject.isCustomerTabSelected);
         let alreadyCompletedSectionList;
 
-        if (this.formMenuObject.isCustomerTabSelected) {
-            alreadyCompletedSectionList = this.completedMenuSectionList.customerSection.get(activeBorrowerSeq);
-            this.updateRoleBasedMenuData(alreadyCompletedSectionList);
-        } else {
-
+        if (!addingNewUser) {
+            if (this.formMenuObject.isCustomerTabSelected) {
+                alreadyCompletedSectionList = this.completedMenuSectionList.customerSection.get(activeBorrowerSeq);
+                this.updateRoleBasedMenuData(alreadyCompletedSectionList);
+            }
+        }
+        else {
+            console.warn(this.CustomerType);
+            this.updateRoleBasedMenuData(undefined);
         }
     }
 
@@ -684,8 +696,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             let subEle = this.formsMenuList[i];
             for (let j = 0; j < subEle.length; j++) {
                 let element = subEle[j];
-                if (this.CustomerType == 'G' && element.id != "AddressDetails") {
-                    element.isOptional = true;
+                if (this.CustomerType == 'G') {
+                    if (element.id != "AddressDetails" && element.id != "CustomerDetails")
+                        element.isOptional = true;
+                } else if (this.CustomerType == 'OP') {
+                    if (element.id != "CustomerDetails")
+                        element.isOptional = true;
                 }
 
                 if (alreadyCompletedSections != undefined) {
@@ -716,7 +732,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     // }
 
 
-    injectDynamicComponent(componentId: string, ele1?: number, ele2?: number) {
+    injectDynamicComponent(componentId: string, isMenuDisabled: boolean, ele1?: number, ele2?: number) {
+
+        if (isMenuDisabled)
+            return;
 
         console.log(this.formMenuObject, this.formsMenuList);
         this.formsMenuList.forEach(element => { element.forEach(ele => { ele.isActive = false; }); });
@@ -848,17 +867,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     tabSwitched(tabName: string) {
-        // console.log(tabName);
         let defaultSection: string;
+        this.updateSelectedTabIndex(0, 0);
+
         if (tabName == "customer") {
             this.formMenuObject.isCustomerTabSelected = true;
             this.reCalculateMenuSections(this.ActiveBorrowerSeq);
-            //  this.updateSelectedTabIndex(0, 0);
-            // this.injectDynamicComponent('CustomerDetails', 0, 0);
             defaultSection = 'CustomerDetails';
+            this.injectDynamicComponent(defaultSection, false, 0, 0);
         }
         else {
-            //   console.log(this.isLoanCategory);
             this.formMenuObject.isCustomerTabSelected = false;
             this.formsMenuList = this.applicationMenu;
             this.formsMenuList.forEach(element => {
@@ -877,10 +895,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                     }
                 }
             });
-
+            this.injectDynamicComponent(defaultSection, false, 0, 0,);
         }
-        this.updateSelectedTabIndex(0, 0);
-        this.injectDynamicComponent(defaultSection, 0, 0)
+
     }
 
     updateSelectedTabIndex(firstArrayIndex: number, secondArrayIndex: number): void {
@@ -902,7 +919,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 const arrEle = this.formsMenuList[firstArray][j];
                 if (j >= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
                     console.warn(arrEle);
-                    this.injectDynamicComponent(arrEle.id, firstArray, j);
+                    this.injectDynamicComponent(arrEle.id, false, firstArray, j);
                     selectedIndex = j;
                 }
             }
@@ -935,7 +952,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 const arrEle = this.formsMenuList[firstArray][j];
                 if (j <= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
                     console.warn(arrEle);
-                    this.injectDynamicComponent(arrEle.id, firstArray, j);
+                    this.injectDynamicComponent(arrEle.id, false, firstArray, j);
                     selectedIndex = j;
                 }
             }
@@ -1050,7 +1067,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
                 this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
                 //this.initiallyCustomersAdded = true;
             }
-        } 
+        }
         console.log("deep", this.progressStatusObject);
     }
 
@@ -1428,6 +1445,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         console.warn(this.completedMenuSectionList);
         console.warn(this.progressStatusObject);
+    }
+
+    updateMenuSection(menuId: any, firstArrayEle: number, secondArrayEle: number) {
+        console.log(this.formMenuObject);
+        if (this.formMenuObject.isCustomerTabSelected) {
+            this.injectDynamicComponent(menuId, this.disableMenus, firstArrayEle, secondArrayEle);
+        }
+        else {
+            this.injectDynamicComponent(menuId, false, firstArrayEle, secondArrayEle);
+        }
+
     }
 }
 
