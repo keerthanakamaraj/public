@@ -411,33 +411,30 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async CANCEL_MAIN_BTN_click(event) {
 
-    var title = this.services.rloui.getAlertMessage('rlo.confirm.title');
-    var mainMessage = this.services.rloui.getAlertMessage('rlo.confirm.action.back');
-    var button1 = this.services.rloui.getAlertMessage('', 'Okay');
-    var button2 = this.services.rloui.getAlertMessage('', 'Cancel');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
-    Promise.all([title, mainMessage, button1, button2]).then(values => {
-      console.log(values);
-      let modalObj = {
-        title: values[0],
-        mainMessage: values[1],
-        modalSize: "modal-width-sm",
-        buttons: [
-          { id: 1, text: values[2], type: "success", class: "btn-primary" },
-          { id: 2, text: values[3], type: "failure", class: "btn-warning-outline" }
-        ]
-      }
-
-      console.log("deep ===", modalObj);
-      this.services.rloui.confirmationModal(modalObj).then((response) => {
-        console.log(response);
-        if (response != null) {
-          if (response.id === 1) {
-            this.services.router.navigate(['home', 'LANDING']);
-          }
+    Promise.all([mainMessage, button1, button2]).then(values => {
+        console.log(values);
+        let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
         }
-      });
-    });
+        this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+                if (response.id === 1) {
+                    this.services.router.navigate(['home', 'LANDING']);
+                }
+            }
+        });
+    });  
   }
 
   async SEARCH_CUST_BTN_click(event) {
@@ -951,7 +948,31 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async Reset_click(event) {
     let inputMap = new Map();
-    this.onReset();
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.reset.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+        console.log(values);
+        let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+        }
+        this.services.rloui.confirmationModal(modalObj).then(async (response) => {
+            console.log(response);
+            if (response != null) {
+                if (response.id === 1) {
+                  this.onReset();
+                }
+            }
+        });
+    });
+   
   }
 
   isPastDate(selectedDate) {

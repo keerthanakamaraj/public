@@ -666,10 +666,30 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   /* Cancel / Back button */
   goBack() {
-    if (confirm('Are you sure you want to cancel?')) {
-      // history.back();
-      this.services.router.navigate(['home', 'LANDING']);
-    }
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+        Promise.all([mainMessage, button1, button2]).then(values => {
+            console.log(values);
+            let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                ]
+            }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                    if (response.id === 1) {
+                        this.services.router.navigate(['home', 'LANDING']);
+                    }
+                }
+            });
+        });
   }
 
   UpdateAccordian(){

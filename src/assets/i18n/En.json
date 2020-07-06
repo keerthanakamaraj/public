@@ -155,6 +155,8 @@
     "rlo.withdraw.comfirmation" :"Are you sure you want to withdraw?",
     "rlo.reject.comfirmation" : "Are you sure you want to reject?",
     "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
+    "rlo.reset.comfirmation" : "Are you sure you want to reset the form",
+
     "rlo.error.questionnaire.decision-pending":"Decision for all questions are mandatory.",
     "rlo.error.questionnaire.Remark-pending":"Remarks for Deviation questions are mandatory.",
     "rlo.error.questionnaire.decision-Remark-pending":"Decision for all questions and Remarks for Deviation questions are mandatory.",
