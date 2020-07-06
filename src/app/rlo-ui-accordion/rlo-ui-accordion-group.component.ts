@@ -46,6 +46,8 @@ export class RloUiAccordionGroupComponent {
    * Tags
    */
   @Input() tags: {label: String, text: string}[];
+
+  @Input() disableAccordian : boolean = false;
   
   /**
    * Emitted when user clicks on group titlebar

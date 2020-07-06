@@ -77,6 +77,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   errorsList = [];
   customerGridArray: any;
   ActiveCustomerDtls: {} = undefined;
+  disableEnableAccordian: any;
+  disableAccordian: boolean = false;
 
 
   async revalidate(): Promise<number> {
@@ -129,6 +131,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     });
 
     this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+      this.disableAccordian = false;
+      this.UpdateAccordian();
       switch (event.action) {
         case 'updateCustGrid': // on customer update/save success
           this.FieldId_9.doAPIForCustomerList(event.data);
@@ -407,6 +411,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async CUSTOMER_DETAILS_passBorrowerSeq(event) {
     console.log("deep === load address n occupation grid", event);
     const inputMap = new Map();
+    
     await this.FieldId_6.AddressGrid.gridDataLoad({
       'passBorrowerSeqToGrid': event.BorrowerSeq
     });
@@ -417,6 +422,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     });
     this.FieldId_5.activeBorrowerSeq = event.BorrowerSeq;
   }
+  // async CUSTOMER_DETAILS_passNewCustomer(){
+  //   this.FieldId_6.AddressGrid.addressDetails = [];
+
+  //    this.FieldId_6.AddressGrid.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
+  // }
 
   async CUSTOMER_DETAILS_updateCustGrid(event) {
 
@@ -431,12 +441,21 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async FieldId_9_resetCustForm(event) {
     this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
+    this.disableAccordian = true;
+    this.UpdateAccordian();
+    // this.FieldId_6.AddressGrid.addressDetails = [];
+    // this.FieldId_6.onFormLoad();
+    // this.FieldId_6.AddressGrid.setValue(Object.assign([], this.customers));
   }
+
+ 
 
   //when clicked on edit
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
+    this.disableAccordian = false
+    this.UpdateAccordian();
     this.CustomerDetailsArray = event.CustomerArray;
     console.log("juhi pass", event.CustomerArray);
     //  }, 20000);
@@ -651,6 +670,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       // history.back();
       this.services.router.navigate(['home', 'LANDING']);
     }
+  }
+
+  UpdateAccordian(){
+    this.QDE_ACCORD1.disableAccordian('ADD_DETAILS',this.disableAccordian);
+    this.QDE_ACCORD1.disableAccordian('OCC_DETAILS',this.disableAccordian);
   }
 
 }
