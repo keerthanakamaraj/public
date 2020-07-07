@@ -21,6 +21,8 @@ import * as toPromise from 'rxjs/add/operator/toPromise';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
+
 //import { ModalComponent } from 'src/app/modal/modal.component';
 
 declare let addResizeListener: any;
@@ -54,6 +56,7 @@ export class FormComponent {
   @ViewChildren(RLOUIRadioComponent) radioFields: QueryList<RLOUIRadioComponent>;
   @ViewChildren(RloUiMobileComponent) countryCodeMobile: QueryList<RloUiMobileComponent>;
   @ViewChildren(ReadOnlyComponent) labelFields: QueryList<ReadOnlyComponent>;
+  @ViewChildren(RloUiCardFieldComponent) cardTile: QueryList<RloUiCardFieldComponent>;
 
   //formCode : string;
   errors = 0;

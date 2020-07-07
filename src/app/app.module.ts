@@ -41,6 +41,8 @@ import { KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
 import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 import { PopupAlertComponent } from './popup-alert/popup-alert.component';
+import { RloUiCardFieldModule } from './rlo-ui-card-field/rlo-ui-card-field.module';
+// import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
 // import { ReadonlyGridComponent } from './readonly-grid/readonly-grid.component';
@@ -93,7 +95,8 @@ const keycloakService = new KeycloakService();
     // PwdChangeComponent,
     GridWithFormComponent,
     AlertsComponent,
-    PopupAlertComponent
+    PopupAlertComponent,
+    // RloUiCardTileComponent
     //MyTrayPageComponent
     // MyTrayGridComponent,
   ],
@@ -110,6 +113,7 @@ const keycloakService = new KeycloakService();
     BrowserModule,
     NgbModalModule,
     MyTrayGridModule,
+    RloUiCardFieldModule,
     Ng4LoadingSpinnerModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
