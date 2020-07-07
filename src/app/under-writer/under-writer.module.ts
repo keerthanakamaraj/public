@@ -11,7 +11,7 @@ import { HeaderModule } from '../Header/Header.module';
 import { QDEHandlerModule } from '../QDE/QDE-handler.module';
 import { UnderWriterRoutingModule } from './under-writer-routing';
 import { CardModule } from '../card/card.module';
-import {UWCustomerListModule} from '../UWCustomerList/UWCustomerList.module'
+import {UWCustomerTabModule} from '../uw-cust-tab/uw-cust-tab.component.module'
 @NgModule({
     imports: [
         CommonModule,
@@ -29,7 +29,7 @@ import {UWCustomerListModule} from '../UWCustomerList/UWCustomerList.module'
         HeaderModule,
         QDEHandlerModule,
         CardModule,
-        UWCustomerListModule
+        UWCustomerTabModule
     ],
     declarations: [
         UnderWriterComponent

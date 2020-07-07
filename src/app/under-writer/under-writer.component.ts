@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import{UWCustomerListComponent}from '../UWCustomerList/UWCustomerList.component';
+import{UWCustomerTabComponent}from '../uw-cust-tab/uw-cust-tab.component';
 @Component({
   selector: 'app-under-writer',
   templateUrl: './under-writer.component.html',

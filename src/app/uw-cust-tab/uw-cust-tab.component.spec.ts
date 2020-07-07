@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UWCustomerListComponent } from './UWCustomerList.component';
+import { UWCustomerTabComponent } from './uw-cust-tab.component';
 
-describe('UWCustomerListComponent', () => {
-  let component: UWCustomerListComponent;
-  let fixture: ComponentFixture<UWCustomerListComponent>;
+describe('UWCustomerTabComponent', () => {
+  let component: UWCustomerTabComponent;
+  let fixture: ComponentFixture<UWCustomerTabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UWCustomerListComponent]
+      declarations: [UWCustomerTabComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UWCustomerListComponent);
+    fixture = TestBed.createComponent(UWCustomerTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

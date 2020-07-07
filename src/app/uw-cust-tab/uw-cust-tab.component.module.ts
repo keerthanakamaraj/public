@@ -5,12 +5,12 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from '../app.module';
 import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
-import { UWCustomerListRoutingModule } from './UWCustomerList-routing.module';
-import { UWCustomerListComponent } from './UWCustomerList.component';
+import { UWCustomerTabRoutingModule } from './uw-cust-tab-routing.module';
+import { UWCustomerTabComponent } from './uw-cust-tab.component';
 @NgModule({
     imports: [
         CommonModule,
-        UWCustomerListRoutingModule,
+        UWCustomerTabRoutingModule,
         RAFormModule,
         FormsModule,
         HttpClientModule,
@@ -23,10 +23,10 @@ import { UWCustomerListComponent } from './UWCustomerList.component';
         }),
     ],
     declarations: [
-        UWCustomerListComponent,
+        UWCustomerTabComponent,
     ],
     exports: [
-        UWCustomerListComponent,
+        UWCustomerTabComponent,
     ],
 })
-export class UWCustomerListModule { }
+export class UWCustomerTabModule { }

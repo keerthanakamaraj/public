@@ -1701,40 +1701,21 @@ a.back {
 .uw-cust-list-container{
     box-sizing: border-box;
     height: 48px;
-   // width: 1356px;
+    width: 100%;
     border-top: 1.5px solid #C8C8C8;
     border-bottom: 1.5px solid #C8C8C8;
     border-radius: 4px;
     background-color: #FFFFFF; 
     .cust-list-container{
       height: 48px;
-      .active-customer{
-        padding-top: 11px;
-         background-color: #0079B8;
-         height: 48px;
-         border-right: 1.5px solid #C8C8C8;
-         .cust-tag {
-           height: 24px;
-           width: 24px;
-           border-radius: 2px;
-           background-color: #FFFFFF;
-           display: inline-block;
-           text-align: center;
-           line-height: 24px;
-           color: $primary-color;
-           font-size: 12px;
-           font-weight: 600;
-         }
-         .cust-name{
-           margin-left: 12px;
-           color:#FFFFFF;
-         }
-         
-      }
+      width: 91%;
+      float: left;
       .cust-name-container {
-        padding-top: 11px;
-       // background-color: #0079B8;
-        height: 48px;
+       line-height: 41px;
+       float:left;
+       width: 25%;
+       padding-left: 2%;
+        height: 45px;
         border-right: 1.5px solid #C8C8C8;
         .cust-tag {
           height: 24px;
@@ -1753,11 +1734,45 @@ a.back {
         }
         
       }
+      .active-customer{
+        // padding-top: 11px;
+        line-height: 41px;
+        float:left;
+        width: 25%;
+        padding-left: 2%;
+          background-color: #0079B8;
+          height: 45px;
+          border-right: 1.5px solid #C8C8C8;
+          .cust-tag {
+            height: 24px;
+            width: 24px;
+            border-radius: 2px;
+            background-color: #FFFFFF;
+            display: inline-block;
+            text-align: center;
+            line-height: 24px;
+            color: $primary-color;
+            font-size: 12px;
+            font-weight: 600;
+          }
+          .cust-name{
+            margin-left: 12px;
+            color:#FFFFFF;
+          }
+          
+       }
+    }
+    .only-cust-list-container{
+      @extend .cust-list-container;
+      width:100%;
     }
     .cust-more-container{
       //border: 1px solid #a7222d;
-      height: 48px;
-      padding-top: 6px;
+      height: 45px;
+      line-height: 46px;
+      width: 8%;
+      padding-left: 2%;
+      float: left;
       .more-tag{
         height: 34px;
         width: 34px;
@@ -1765,18 +1780,20 @@ a.back {
         background-color: $primary-color;
         display: inline-block;
         text-align: center;
-        line-height: 24px;
+        line-height: 37px;
         color: #fff;
         font-size: 14px;
         font-weight: 600;
-        padding-top: 5px;
         
       }
       .shift-btn-container{
         
             display: -webkit-box;
             float: right;
-        
+           // line-height: 29px;
+           padding-top: 12px;
+          // margin-top: 11px;
+           //vertical-align: middle !important;
               .nxt-btn-active{
             //    background-image: url(./../icons/right-arrow-selected.svg);
             background-image: url(./../icons/right-shift-enabled.svg);
@@ -1786,7 +1803,7 @@ a.back {
                 background-repeat: no-repeat;
                 display: block;
                 background-position: center center;
-                margin: 5px 12px;
+                margin-left: 12px;
                 cursor: pointer;
               }
       
@@ -1798,7 +1815,7 @@ a.back {
                 background-repeat: no-repeat;
                 display: block;
                 background-position: center center;
-                margin: 5px 12px;
+               margin-left: 12px;
                 cursor: pointer;
               }
       
@@ -1810,7 +1827,7 @@ a.back {
                 background-repeat: no-repeat;
                 display: block;
                 background-position: center center;
-                margin-top: 5px;
+               // margin-top: 5px;
                 cursor: pointer;
               }
         
@@ -1823,7 +1840,7 @@ a.back {
                 background-repeat: no-repeat;
                 display: block;
                 background-position: center center;
-                margin-top: 5px;
+              //  margin-top: 5px;
                 cursor: pointer;
               }
             }

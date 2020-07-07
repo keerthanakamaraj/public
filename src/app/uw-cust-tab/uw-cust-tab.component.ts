@@ -14,10 +14,10 @@ export class ITag {
   isActive?: boolean = false;
 }
 @Component({
-  selector: 'app-UWCustomerList',
-  templateUrl: './UWCustomerList.component.html'
+  selector: 'app-uw-cust-tab',
+  templateUrl: './uw-cust-tab.component.html'
 })
-export class UWCustomerListComponent implements OnInit, AfterViewInit {
+export class UWCustomerTabComponent implements OnInit, AfterViewInit {
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
   tagsArr: ITag[] = [];
@@ -26,6 +26,7 @@ export class UWCustomerListComponent implements OnInit, AfterViewInit {
   lastIndex = 0;
   moreTag: any = {};
   isFirstLoad: boolean = false;
+  sliderLength: number = 4;
   constructor(private services: ServiceStock) { }
 
   ngOnInit() {
@@ -54,12 +55,12 @@ export class UWCustomerListComponent implements OnInit, AfterViewInit {
       "CustomerId": "26",
       "CD_CUSTOMER_NAME": "Ginny Weasley",
       "CD_CUSTOMER_TYPE": "G"
-    }//,
-      // {
-      //   "CustomerId":"9965",
-      //   "CD_CUSTOMER_NAME":"Molly Weasley",
-      //   "CD_CUSTOMER_TYPE":"CB"
-      // }
+    },
+    {
+      "CustomerId": "996",
+      "CD_CUSTOMER_NAME": "Remus Lupin",
+      "CD_CUSTOMER_TYPE": "CB"
+    }
     ];
     this.setCustomerList(customerList);
   }
@@ -70,7 +71,7 @@ export class UWCustomerListComponent implements OnInit, AfterViewInit {
 
   setCustomerList(customerList) {
     this.customerDataArr = customerList;
-    if (this.isFirstLoad) {
+    if (!this.isFirstLoad) {
       this.customerDataArr[0].isActive = true;
       this.isFirstLoad = true;
     }
@@ -78,24 +79,21 @@ export class UWCustomerListComponent implements OnInit, AfterViewInit {
   }
 
   trimTagsIfRequired(tags, maxAllowedTags) {
-    if (tags.length > maxAllowedTags) {
-      const totalLength = tags.length;
+    const totalLength = this.customerDataArr.length;
+    if (totalLength > maxAllowedTags) {
       tags.length = maxAllowedTags;
       this.moreTag = { label: '+ ' + (totalLength - maxAllowedTags) };
       this.isMore = true;
-    } else if (this.isMore && tags.length == maxAllowedTags) {
-      const totalLength = tags.length;
-      this.moreTag = { label: '+ ' + (totalLength - maxAllowedTags) };
     }
     return tags;
   }
 
   setCustomerTagList() {
     this.cloneCustomerArray();
-    this.tagsArr = this.trimTagsIfRequired(this.tagsArr, 3);
+    this.tagsArr = this.trimTagsIfRequired(this.tagsArr, this.sliderLength);
     this.firstIndex = 0;
-    this.lastIndex = 3;
-    this.tagsArr[0].isActive = true;
+    this.lastIndex = this.sliderLength;
+    //this.tagsArr[0].isActive = true;
   }
   cloneCustomerArray() {
     this.customerDataArr.forEach(eachCustomer => {
@@ -117,7 +115,7 @@ export class UWCustomerListComponent implements OnInit, AfterViewInit {
       this.firstIndex = this.firstIndex + 1;
 
       this.tagsArr = this.tagsArr.slice(this.firstIndex);
-      this.tagsArr = this.trimTagsIfRequired(this.tagsArr, 3);
+      this.tagsArr = this.trimTagsIfRequired(this.tagsArr, this.sliderLength);
     }
   }
 
@@ -130,12 +128,12 @@ export class UWCustomerListComponent implements OnInit, AfterViewInit {
       this.firstIndex = this.firstIndex - 1;
 
       this.tagsArr = this.tagsArr.slice(this.firstIndex);
-      this.tagsArr = this.trimTagsIfRequired(this.tagsArr, 3);
+      this.tagsArr = this.trimTagsIfRequired(this.tagsArr, this.sliderLength);
     }
   }
 
   showCustomer(selectedCustomerId) {
-    //alert("section clicked"+selectedCustomerId);
+    alert("section clicked" + selectedCustomerId);
 
     for (const eachCustomer of this.customerDataArr) {
       (eachCustomer.CustomerId == selectedCustomerId) ? eachCustomer.isActive = true : eachCustomer.isActive = false;

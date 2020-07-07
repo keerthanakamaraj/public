@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UWCustomerListComponent } from './UWCustomerList.component';
+import { UWCustomerTabComponent } from './uw-cust-tab.component';
 const routes: Routes = [
     {
         path: '',
-        component: UWCustomerListComponent,
+        component: UWCustomerTabComponent,
     }
 ];
 @NgModule({
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class UWCustomerListRoutingModule { }
+export class UWCustomerTabRoutingModule { }
