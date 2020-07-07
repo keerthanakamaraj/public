@@ -334,4 +334,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       this.PlusFlag = true;
     }
   }
+
+  deleteCustomer(event, selectedCustomer){
+    alert("deleting customer"+selectedCustomer.CustomerId);
+
+  }
 }

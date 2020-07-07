@@ -864,10 +864,15 @@ width: 681px !important; */
       .cust-editing {
         display: block;
       }
-
-      .cust-edit {
-        display: none;
-      }
+.action-container{
+  .cust-edit {
+    display: none;
+  }
+  .cust-delete {
+    display: none;
+  }
+}
+      
     }
 
     .cust-editing {
@@ -885,11 +890,19 @@ width: 681px !important; */
       // margin-top: 4px;
       display: none;
     }
-
-    .cust-edit {
-      float: right;
-      cursor: pointer;
-    }
+.action-container{
+  float: right;
+  .cust-edit {
+    cursor: pointer;
+    float: left;
+    padding-inline-end: 8px;
+  }
+  .cust-delete {
+    float: left;
+    cursor: pointer;
+  }
+}
+   
   }
 }
 
