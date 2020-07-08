@@ -212,7 +212,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     }
     async FD_GENDER_blur(event) {
         let inputMap = new Map();
-        this.genderCheck();
+        let gendererror = this.genderCheck();
+        return gendererror
+
     }
     //    iscustomer(event){
     //     let inputMap = new Map();

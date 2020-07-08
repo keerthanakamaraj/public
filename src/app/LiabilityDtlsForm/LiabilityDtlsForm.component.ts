@@ -244,6 +244,27 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.setReadOnly(false);
         this.onFormLoad();
     }
+    loanClosuredate(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate < currentDate) {
+          return false;
+        }
+        return true;
+      }
+      LD_LOAN_CLOSURE_DATE_blur(event){
+        let inputMap = new Map();
+        if (!this.loanClosuredate(this.LD_LOAN_CLOSURE_DATE.getFieldValue())) {
+          this.LD_LOAN_CLOSURE_DATE.setError('Loan Closure Date cannot be past date')
+          return 1;
+          // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
+          // this.OD_DT_OF_INCPTN.onReset();
+        }
+      }
     async LD_SAVE_click(event) {
         // this.LD_SAVE.setDisabled(true);
         let inputMap = new Map();
