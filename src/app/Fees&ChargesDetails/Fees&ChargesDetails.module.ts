@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { FeesChargesDetailsRoutingModule } from './Fees&ChargesDetails-routing.module';
 import { FeesChargesDetailsComponent } from './Fees&ChargesDetails.component';
+import { FeesChargesGridModule } from '../FeesChargesGrid/FeesChargesGrid.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -21,6 +22,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+FeesChargesGridModule,
 ],
 declarations: [
 FeesChargesDetailsComponent,

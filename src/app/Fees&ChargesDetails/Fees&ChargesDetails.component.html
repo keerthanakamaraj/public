@@ -13,9 +13,13 @@
 </div>
 <div class="clearfix content">
 <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-<div class="col-sm-5 col-md-5">
-<h4 class="">
+<div class="col-sm-12 col-md-12 feeChargesheader">
+<!-- <div class="modal-header">
 {{ 'Fees&ChargesDetails.FormTitle' | translate }}
+</div> -->
+<h4 class="main-header">
+        {{ 'Fees&ChargesDetails.FormTitle' | translate }}
+        <span class="fa fa-times" (click)="onClick(0)"></span>
 </h4>
 </div>
 <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
@@ -136,6 +140,14 @@ imagePath="./assets/icons/plus.svg" fieldID="FC_SAVE_BTN" [formCode]="formCode" 
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FC_RESET_BTN.isHidden()">
 <app-button #FC_RESET_BTN fieldName="{{ 'Fees&ChargesDetails.FC_RESET_BTN' | translate}}"
  imagePath="./assets/icons/refresh-form.svg" fieldID="FC_RESET_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"></app-button>
+ </div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<div
+ style=" width:100%; background:black;height:1px;" 
+></div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_2.isHidden()">
+<app-FeesChargesGrid #FieldId_2 fieldID="FieldId_2" [formCode]="formCode"></app-FeesChargesGrid>
 </div>
 </div>
 </div>

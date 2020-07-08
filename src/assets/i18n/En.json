@@ -2025,5 +2025,21 @@
         "RateChargeOn" : "Rate Charge On",
         "ChargeCollection" : "Charge Collection",
         "PartyType" : "Party Type"
-        }
+        },
+        "FeesChargesGrid" : {
+          "FC_Party_Name" : "Party Name",
+          "FC_Rate" : "Rate",
+          "FC_Edit" : "null",
+          "FC_Charge_Collection" : "Charge Collection",
+          "FC_Charge_Desc" : " Charge Desc",
+          "FC_Delete" : "null",
+          "FC_Amount" : "Amount",
+          "FC_Frequency" : "Frequency",
+          "FC_Rate_Charge_On" : "Rate Charge On",
+          "FC_Delete_ButtonName" : "null",
+          "FC_Edit_ButtonName" : "null",
+          "FC_Charge_Type" : "Charge Type",
+          "toolbar_FeesChargesGrid" : "null",
+          "FC_Effective_Amt" : "Effective Amount"
+          }
 }

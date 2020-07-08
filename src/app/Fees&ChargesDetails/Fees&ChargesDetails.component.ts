@@ -15,6 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { FeesChargesGridComponent } from '../FeesChargesGrid/FeesChargesGrid.component';
 
 const customCss: string = '';
 
@@ -38,6 +39,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
 @ViewChild('ChargeCollection', {static: false}) ChargeCollection: ComboBoxComponent;
 @ViewChild('FC_SAVE_BTN', {static: false}) FC_SAVE_BTN: ButtonComponent;
 @ViewChild('FC_RESET_BTN', {static: false}) FC_RESET_BTN: ButtonComponent;
+@ViewChild('FieldId_2', {static: false}) FieldId_2: FeesChargesGridComponent;
 async revalidate(): Promise<number> {
 var totalErrors = 0;
 super.beforeRevalidate();
@@ -99,6 +101,7 @@ return this.value;
 }
 setValue(inputValue, inputDesc=undefined) {
 this.setBasicFieldsValue(inputValue, inputDesc);
+this.FieldId_2.setValue(inputValue['FieldId_2']);
 this.value = new FeesChargesDetailsModel();
 this.value.setValue(inputValue);
 this.setDependencies();
