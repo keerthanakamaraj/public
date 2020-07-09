@@ -1859,7 +1859,8 @@
     "ND_SR_NO": "S No.",
     "toolbar_NotepadDetailsGrid": "null",
     "ND_COMMENTS": "Comments",
-    "ND_COMMENT_CAT": "Comment Category"
+    "ND_COMMENT_CAT": "Comment Category",
+    "Comment_Category":"Comment Category"
   },
   "NotepadDetailsForm": {
     "ND_SAVE": "SAVE",
