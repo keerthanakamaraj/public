@@ -16,9 +16,10 @@ class ICardConfig {
   styleUrls: ['./card.component.css']
 })
 export class CardComponent implements OnInit {
-
-  @Input('cardMetaData') cardMetaData: any;
-
+  @Input('cardMetaData') cardMetaData: ICardMetaData;
+  
+  primary_lable :string = "full name";
+  secondary_lable : string ="Juhi Patil";
   cardConfig = new Map();
   cardType: string = "basicCard";
 
@@ -45,7 +46,7 @@ export class CardComponent implements OnInit {
   ngAfterViewInit() {
     console.warn(this.cardMetaData);
     this.cardType = this.cardMetaData.type
-    console.log(this.cardMetaData.incomeSummary.getBorrowerSeq());
+    // console.log(this.cardMetaData.incomeSummary.getBorrowerSeq());
   }
 
   configureCard() {
