@@ -1523,6 +1523,7 @@
   },
   "LiabilityDtlsGrid": {
     "LD_AMOUNT": "Amount",
+    "LD_EQU_AMOUNT":"Amount",
     "LD_DELETE": "Delete",
     "toolbar_LiabilityDtlsGrid": "null",
     "LD_LIABILITY_TYPE": "Liability Type",
@@ -1622,6 +1623,7 @@
   },
   "AssetDetailsGrid": {
     "AT_Asset_Value": "Asset Value",
+    "AT_Local_Curr_Value":"Asset Value",
     "AT_EDIT": "Edit",
     "AT_Asset_Location": "Asset Location",
     "AT_Asset_Status": "Asset Status",

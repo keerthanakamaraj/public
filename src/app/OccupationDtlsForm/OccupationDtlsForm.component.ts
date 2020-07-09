@@ -614,6 +614,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.Handler.occupationOnchange();
         this.Handler.companyCodeChange();
         this.OD_OCCUPATION_change('OD_OCCUPATION', event);
+        this.revalidateBasicField('OD_CURRENCY', true)
+        
       },
       async (httpError) => {
         var err = httpError['error']

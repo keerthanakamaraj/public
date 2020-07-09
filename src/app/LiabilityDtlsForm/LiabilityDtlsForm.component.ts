@@ -175,7 +175,6 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.Handler.calculateLocalCurrEquv()
         // await this.Handler.onAddTypeChange();
       }
-
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -471,6 +470,9 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 this.hiddenLiabilitySeq.setValue(res['LiabilityDetails']['LiabilitySeq']);
                 this.hideSpinner();
                 this.Handler.hideObligationField({});
+                this.revalidateBasicField('LD_CURRENCY', true)
+                this.LD_OBLIGATION_HEAD_change('LD_OBLIGATION_HEAD', event);
+                
             },
             async (httpError) => {
                 var err = httpError['error']
