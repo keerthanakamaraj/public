@@ -1,3 +1,26 @@
+<!-- <div class="clearfix content">
+    <div class="wgt-top-navigator row">
+        <div class="col-sm-12 col-md-12">
+            <div class="FormTitle no-border">
+                <a class="back" (click)="rloCommonDataService.goBack()">Back</a>
+                <span>{{ 'DDE.FormTitle' | translate }}</span>
+            </div>
+        </div>
+        <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+        </div>
+    </div>
+    <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+            <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
+                    (productCategoryFound)="brodcastProdCategory($event)" (headerStateEvent)="headerState($event)">
+                </app-Header>
+                <app-score-card #scorecard></app-score-card>
+            </div>
+        </div>
+    </div>
+</div> -->
+
 <div class="row">
 
     <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
@@ -14,7 +37,7 @@
     <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
         <app-uw-cust-tab></app-uw-cust-tab>
     </div>
-    <app-card [cardMetaData]="customerCardSectionData"></app-card>
+    <app-card [cardMetaData]="customerMasterJsonData"></app-card>
     <!-- <app-card [cardMetaData]="interfaceCardSectionData"></app-card> -->
     <app-card [cardMetaData]="data" *ngFor="let data of basicCardSectionData.sectionList">
 

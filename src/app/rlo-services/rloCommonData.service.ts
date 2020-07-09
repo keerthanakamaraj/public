@@ -257,11 +257,11 @@ export class RloCommonData {
         return this.trimTagsIfRequired(tags, 2);
     }
 
-    trimTagsIfRequired(tags, maxAllowedTags){
+    trimTagsIfRequired(tags, maxAllowedTags) {
         if (tags.length > maxAllowedTags) {
             const totalAddresses = tags.length;
             tags.length = maxAllowedTags;
-            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more'} );
+            tags.push({ text: '+ ' + (totalAddresses - maxAllowedTags) + ' more' });
         }
         return tags;
     }
@@ -673,5 +673,12 @@ export class RloCommonData {
         }
 
         return commonObj;
+    }
+
+    goBack() {
+        console.log("BACK");
+        if (confirm("Are you sure you want to cancel?")) {
+            this.router.navigate(['home', 'LANDING']);
+        }
     }
 }

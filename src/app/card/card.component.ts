@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
 import { ICardMetaData } from '../Interface/masterInterface';
+import { CardModule } from './card.module';
 
 class ICardConfig {
   class: string;
@@ -16,7 +17,7 @@ class ICardConfig {
 })
 export class CardComponent implements OnInit {
 
-  @Input('cardMetaData') cardMetaData: ICardMetaData;
+  @Input('cardMetaData') cardMetaData: any;
 
   cardConfig = new Map();
   cardType: string = "basicCard";
@@ -44,6 +45,7 @@ export class CardComponent implements OnInit {
   ngAfterViewInit() {
     console.warn(this.cardMetaData);
     this.cardType = this.cardMetaData.type
+    console.log(this.cardMetaData.incomeSummary.getBorrowerSeq());
   }
 
   configureCard() {

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
 import { ICardMetaData } from '../Interface/masterInterface';
+import { RloCommonData } from '../rlo-services/rloCommonData.service';
+import { Customer } from './under-writer.model';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -166,66 +168,66 @@ export class UnderWriterComponent implements OnInit {
     ]
   };
 
-  customizedJsonData = [
-    {
-      sectionName: "customer",
-      data: {
-        id: 1,
-        fullName: "Sulaiman Neville",
-        existingCustomer: true,
-        dob: "23 Mar 1991"
-      }
-    },
-    {
-      sectionName: "interfaceResults",
-      data: {
-        customer: [
-          {
-            id: 1,
-            name: "Vishal karan Kotwal",
-            internalResults: [
-              { watchOut: true }, { PAN: true }
-            ],
-            externalResults: [
-              { watchOut: true }, { PAN: true }
-            ],
-          },
-          {
-            id: 2,
-            name: "Darshan karan Kotwal",
-            internalResults: [
-              { watchOut: true }, { PAN: true }
-            ],
-            externalResults: [
-              { watchOut: true }, { PAN: true }
-            ],
-          }
-        ]
-      }
-    },
-    {
-      sectionName: "financialSummary",
-      data: {
-        id: 1,
-        totalIncome: 10000,
-        totalLiability: 10000,
-        totalAsstValue: 20000
-      }
-    },
-    {
-      sectionName: "collateralDetails",
-      data: {
-        id: 1,
-        type: "house",
-        collateernalName: "",
-        amount: 20000
-      }
-    },
-    {
-      sectionName: "familyDetails",
-      data: null
-    }
-  ];
+  // customizedJsonData = [
+  //   {
+  //     sectionName: "customer",
+  //     data: {
+  //       id: 1,
+  //       fullName: "Sulaiman Neville",
+  //       existingCustomer: true,
+  //       dob: "23 Mar 1991"
+  //     }
+  //   },
+  //   {
+  //     sectionName: "interfaceResults",
+  //     data: {
+  //       customer: [
+  //         {
+  //           id: 1,
+  //           name: "Vishal karan Kotwal",
+  //           internalResults: [
+  //             { watchOut: true }, { PAN: true }
+  //           ],
+  //           externalResults: [
+  //             { watchOut: true }, { PAN: true }
+  //           ],
+  //         },
+  //         {
+  //           id: 2,
+  //           name: "Darshan karan Kotwal",
+  //           internalResults: [
+  //             { watchOut: true }, { PAN: true }
+  //           ],
+  //           externalResults: [
+  //             { watchOut: true }, { PAN: true }
+  //           ],
+  //         }
+  //       ]
+  //     }
+  //   },
+  //   {
+  //     sectionName: "financialSummary",
+  //     data: {
+  //       id: 1,
+  //       totalIncome: 10000,
+  //       totalLiability: 10000,
+  //       totalAsstValue: 20000
+  //     }
+  //   },
+  //   {
+  //     sectionName: "collateralDetails",
+  //     data: {
+  //       id: 1,
+  //       type: "house",
+  //       collateernalName: "",
+  //       amount: 20000
+  //     }
+  //   },
+  //   {
+  //     sectionName: "familyDetails",
+  //     data: null
+  //   }
+  // ];
 
   customerSectionsList = [
     { responseName: "UWIncomeSummary", name: "financialSummary", displayName: "Financial Summary" },
@@ -233,8 +235,18 @@ export class UnderWriterComponent implements OnInit {
     { responseName: "UWAddress", name: "addressDetails", displayName: "Address Details" }
   ];
 
-  constructor() {
-    console.log(this.customizedJsonData, this.customizedJsonData[0]);
+  customerMasterJsonData: Customer;
+
+  allCardsData = [
+    { className: "FinancialSummary", displayName: "Financial Summary" },
+    { className: "FamilyDetails", displayName: "Family Details" },
+    { className: "AddressDetails", displayName: "Address Details" },
+    { className: "CollateralDetails", displayName: "Collateral Details" }
+  ];
+
+  avaliableCardData = []
+
+  constructor(public rloCommonDataService: RloCommonData) {
 
     // this.customizedJsonData.forEach(element => {
     //   if (element.data != null) {
@@ -261,6 +273,7 @@ export class UnderWriterComponent implements OnInit {
     // });
 
     this.refactorData();
+    this.test();
   }
 
   ngOnInit() {
@@ -269,6 +282,15 @@ export class UnderWriterComponent implements OnInit {
   ngAfterViewInit() {
   }
 
+  //@Output
+  brodcastProdCategory() {
+
+  }
+
+  //@Output
+  headerState() {
+
+  }
 
   refactorData() {
     let obj;
@@ -316,4 +338,46 @@ export class UnderWriterComponent implements OnInit {
 
   }
 
+  //under-writer.component.ts
+  test() {
+    let obj = {
+      "ExistingCustomer": "N",
+      "UWIncomeSummary": {
+        "NetIncomeMonthly": 0,
+        "DBR": 0,
+        "IncomeSummarySeq": 101,
+        "TotalIncome": 0,
+        "TotalLiabiity": 0,
+        "BorrowerSeq": 2251,
+        "TotalObligation": 0
+      },
+      "DOB": "04-05-1995",
+      "FullName": "Juhi S Patil",
+      "UWFamily": [
+        {
+          "DOB": "1995-07-01 00:00:00.0",
+          "FullName": "YTRI YUTU UYTU ",
+          "Relationship": "BR",
+          "BorrowerSeq": 3291,
+          "CustomerRelated": 2251
+        },
+        {
+          "DOB": "0",
+          "FullName": "0",
+          "Relationship": "0",
+          "BorrowerSeq": 0,
+          "CustomerRelated": 0
+        }
+      ],
+    }
+
+    this.customerMasterJsonData = new Customer().deserialize(obj);
+    console.log(this.customerMasterJsonData);
+    console.error(this.customerMasterJsonData.FinancialSummary.IncomeSummarySeq, this.customerMasterJsonData.CollateralDetails, this.isJsonEmpty(this.customerMasterJsonData.CollateralDetails), this.isJsonEmpty(this.customerMasterJsonData.FinancialSummary));
+
+  }
+
+  isJsonEmpty(obj) {
+    return Object.keys(obj).length === 0;
+  }
 }

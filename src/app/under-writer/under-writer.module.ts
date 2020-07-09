@@ -12,6 +12,8 @@ import { QDEHandlerModule } from '../QDE/QDE-handler.module';
 import { UnderWriterRoutingModule } from './under-writer-routing';
 import { CardModule } from '../card/card.module';
 import {UWCustomerTabModule} from '../uw-cust-tab/uw-cust-tab.component.module'
+import { ScoreCardModule } from '../score-card/score-card.module';
+import { RloUiCardFieldModule } from '../rlo-ui-card-field/rlo-ui-card-field.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -27,9 +29,11 @@ import {UWCustomerTabModule} from '../uw-cust-tab/uw-cust-tab.component.module'
             }
         }),
         HeaderModule,
+        ScoreCardModule,
         QDEHandlerModule,
         CardModule,
-        UWCustomerTabModule
+        UWCustomerTabModule,
+        RloUiCardFieldModule
     ],
     declarations: [
         UnderWriterComponent
