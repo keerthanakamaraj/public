@@ -71,8 +71,10 @@
       <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
         <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-        <div class="cust-edit" (click)="editCustomer($event, customer)">
-          <i class="fas fa-pen"></i>
+        <div class="action-container">
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -93,8 +95,10 @@
           <div class="cust-edit" (click)="editCustomer($event, customer)">
             <i class="fas fa-pen"></i>
           </div>
-          <div class="cust-delete">
-            <i class="fas fa-trash"></i>
+          <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+            <span>
+              <img src="/assets/icons/delete.svg" />
+            </span>
           </div>
         </div>
       </div>
@@ -134,13 +138,16 @@
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
           <div class="action-container">
-          <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+            <div class="cust-edit" (click)="editCustomer($event, customer)">
+              <i class="fas fa-pen"></i>
+              <!-- <span><img src="/assets/icons/edit.svg"></span> -->
+            </div>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+              <span>
+                <img src="/assets/icons/delete.svg" />
+              </span>
+            </div>
           </div>
-          <div class="cust-delete"(click)="deleteCustomer($event, customer)">
-            <i class="fas fa-trash"></i>
-          </div>
-        </div>
         </div>
       </div>
     </div>
@@ -160,8 +167,10 @@
             <div class="cust-edit" (click)="editCustomer($event, customer)">
               <i class="fas fa-pen"></i>
             </div>
-            <div class="cust-delete">
-              <i class="fas fa-trash"></i>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+              <span>
+                <img src="/assets/icons/delete.svg" />
+              </span>
             </div>
           </div>
         </div>
@@ -183,8 +192,10 @@
             <div class="cust-edit" (click)="editCustomer($event, customer)">
               <i class="fas fa-pen"></i>
             </div>
-            <div class="cust-delete">
-              <i class="fas fa-trash"></i>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+              <span>
+                <img src="/assets/icons/delete.svg" />
+              </span>
             </div>
           </div>
         </div>
