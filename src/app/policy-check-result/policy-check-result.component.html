@@ -67,7 +67,7 @@
   </div>
   <div class="row">
     <ng-container *ngIf="tempPolicyResult != undefined">
-      <div class="policy-row row col-12 col-sm-12 col-md-12" *ngFor="let policy of tempPolicyResult; let i = index;">
+      <div class="policy-row row col-12 col-sm-12 col-md-12" *ngFor="let policy of PolicyResultList; let i = index;">
         <div class="desc-container col-12 col-sm-5 col-md-5">
           <span class="description-txt">{{ i + 1 }}. {{policy.RuleDescription }}</span>
         </div>

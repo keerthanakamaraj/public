@@ -743,13 +743,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.currentCompInstance = componentInstance;
     componentInstance.ApplicationId = this.ApplicationId;
     componentInstance.isLoanCategory = this.isLoanCategory;
+    componentInstance.parentFormCode = this.componentCode;
 
     // reset the tags
     this.setTags([]);
 
     // on tab switched or section switched or passArray Emitter called
     if (componentId == 'CustomerDetails') {
-      componentInstance.parentFormCode = this.componentCode;
       if (this.ActiveCustomerDtls != undefined) {
         //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
         setTimeout(() => {

@@ -16,74 +16,102 @@ export class PolicyCheckResultComponent implements OnInit {
   ErrorSet = new Set([]);
   //QuestionnairMap: Map<String, IPolicy> = new Map<String, IPolicy>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
-  PolicyResultMap = new Map<string, IPolicy>();
+  // PolicyResultMap = new Map<string, IPolicy>();
   @Input() ApplicationId: string = undefined;
-
+  parentFormCode: string = undefined;
+  PolicyResultList: IPolicy[] = undefined;
   constructor(private services: ServiceStock, private renderer2: Renderer2) { }
   tempPolicyResult = [];
   ngOnInit() {
     // this.loadQuestionnaireDtls();
-    this.tempPolicyResult = [{
-      "RuleDescription": "Borrower Credit score meets minimum Critera",
-      "RuleDecision": "deviation",
-      "PolicyResultSeq": 2,
-      "RuleSeq": 2,
-      "ActualValue": "60",
-      "ExpectedValue": "80",
-      "Stage": "DDE",
-      "RuleResult": "Fail",
-      "ApplicationId": 2061
-    },
-    {
-      "RuleDescription": "Rule Critera 3",
-      "RuleDecision": "approved",
-      "PolicyResultSeq": 3,
-      "RuleSeq": 38,
-      "ActualValue": "50",
-      "ExpectedValue": "50",
-      "Stage": "DDE",
-      "RuleResult": "Pass",
-      "ApplicationId": 2061
-    },
-    {
-      "RuleDescription": "DBR does not meet Policy Criteria",
-      "RuleDecision": "deviation",
-      "PolicyResultSeq": 1,
-      "RuleSeq": 1,
-      "ActualValue": "50",
-      "ExpectedValue": "40",
-      "Stage": "DDE",
-      "RuleResult": "Pass",
-      "ApplicationId": 2061
-    }
-    ];
-    // this.loadPolicyResult();
+    // this.tempPolicyResult = [{
+    //   "RuleDescription": "Borrower Credit score meets minimum Critera",
+    //   "RuleDecision": "deviation",
+    //   "PolicyResultSeq": 2,
+    //   "RuleSeq": 2,
+    //   "ActualValue": "60",
+    //   "ExpectedValue": "80",
+    //   "Stage": "DDE",
+    //   "RuleResult": "Fail",
+    //   "ApplicationId": 2061
+    // },
+    // {
+    //   "RuleDescription": "Rule Critera 3",
+    //   "RuleDecision": "approved",
+    //   "PolicyResultSeq": 3,
+    //   "RuleSeq": 38,
+    //   "ActualValue": "50",
+    //   "ExpectedValue": "50",
+    //   "Stage": "DDE",
+    //   "RuleResult": "Pass",
+    //   "ApplicationId": 2061
+    // },
+    // {
+    //   "RuleDescription": "DBR does not meet Policy Criteria",
+    //   "RuleDecision": "deviation",
+    //   "PolicyResultSeq": 1,
+    //   "RuleSeq": 1,
+    //   "ActualValue": "50",
+    //   "ExpectedValue": "40",
+    //   "Stage": "DDE",
+    //   "RuleResult": "Pass",
+    //   "ApplicationId": 2061
+    // }
+    // ];
+    this.loadPolicyResult();
   }
   loadPolicyResult() {
-    // let inputMap = new Map();
-    // inputMap.clear();
-    // inputMap.set('QueryParam.Product', 'PROD1');
-    // // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
-    // inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
+    let inputMap = new Map();
+    if (this.ApplicationId != undefined) {
+      inputMap.clear();
+      let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+      if (this.ApplicationId) {
+        criteriaJson.FilterCriteria.push({
+          "columnName": "ApplicationId",
+          "columnType": "String",
+          "conditions": {
+            "searchType": "equals",
+            "searchText": this.ApplicationId
+          }
+        });
 
-    // this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-    //   let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
-    //   this.parseGetQuestionnairResp(questionnairDtlsResp);
-    //   //call validation method and render
-    //   if (this.isDecisionsValid()) {
-    //     let array = [];
-    //     array.push({ isValid: true, sectionData: this.QuestionnairMap });
-    //     let obj = {
-    //       "name": "GoNoGoDetails",
-    //       "data": array,
-    //       "sectionName": "GoNoGoDetails",
-    //     }
-    //     this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-    //   }
-    // },
-    //   (httpError) => {
-    //     console.error(httpError);
-    //     this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
-    //   });
+        inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+        this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, "/rlo-de").subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            let res = httpResponse.body;
+            let tempPolicyResultList = res['PolicyResult'];
+            this.parsePolicyResultJson(tempPolicyResultList);
+          },
+          async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+          }
+        );
+      }
+    }
+  }
+  parsePolicyResultJson(tempPolicyResultList) {
+    this.PolicyResultList = [];
+    console.log("shweta :: policy Resp:", tempPolicyResultList);
+    tempPolicyResultList.forEach(eachPolicy => {
+      //let policy:IPolicy={};
+      if (this.parentFormCode == eachPolicy.Stage) {
+        let policy: IPolicy = eachPolicy;
+        // policy.RuleDescription=eachPolicy.RuleDescription;
+        // policy.RuleDecision=eachPolicy.RuleDecision;
+        // policy.PolicyResultSeq=eachPolicy.PolicyResultSeq;
+        // policy.RuleSeq=eachPolicy.RuleSeq;
+        // policy.ActualValue=eachPolicy.ActualValue;
+        // policy.ExpectedValue=eachPolicy.ExpectedValue;
+        // policy.Stage=eachPolicy.Stage;
+        // policy.RuleResult=eachPolicy.RuleResult;
+        // policy.ApplicationId=eachPolicy.ApplicationId;
+        this.PolicyResultList.push(policy);
+      }
+    });
+
+    console.log("shweta :: mstPolicy list", this.PolicyResultList);
   }
 }
