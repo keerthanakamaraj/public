@@ -859,7 +859,6 @@ a.back {
     font-family: "Font Awesome 5 Free";
     margin-right: 6px;
   }
-
 }
 
 #BUTTON_SECTION {
@@ -1743,17 +1742,22 @@ a.back {
 
 //policy result section css
 .policy-row {
-  height: 52px;
-  width: 1213px;
+  // height: 52px;
+  min-height: 52px;
+  max-height: 110px; // width: 1213px;
   border-radius: 4px;
-  background-color: #FAFAFA;
+  background-color: #FAFAFA; //line-height: 51px;
+  // max-height: 500px !important;
   .desc-container {
+    // max-height: 500px !important;
     .description-txt {
       height: 17px; //width: 250px;
+      //  max-height: 500px !important;
       color: #565656;
       font-family: "Open Sans";
       font-size: 12px;
-      letter-spacing: 0; // line-height: 17px;
+      letter-spacing: 0;
+      line-height: 17px;
     }
   }
   .value-container {
@@ -1762,14 +1766,16 @@ a.back {
       color: #8E8E8E;
       font-family: "Open Sans";
       font-size: 12px;
-      letter-spacing: 0; // line-height: 17px;
+      letter-spacing: 0;
+      line-height: 17px;
     }
     .value-txt {
       height: 17px; //  width: 21px;
       color: #000000;
       font-family: "Open Sans";
       font-size: 12px;
-      letter-spacing: 0; //   line-height: 17px;
+      letter-spacing: 0;
+      line-height: 17px;
     }
     .pass-txt {
       height: 17px; //   width: 27px;
@@ -1777,7 +1783,8 @@ a.back {
       font-family: "Open Sans";
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0; //  line-height: 17px;
+      letter-spacing: 0;
+      line-height: 17px;
     }
     .fail-txt {
       height: 17px; // width: 21px;
@@ -1785,7 +1792,31 @@ a.back {
       font-family: "Open Sans";
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0; // line-height: 17px;
+      letter-spacing: 0;
+      line-height: 17px;
     }
+  }
+}
+
+.total-container {
+  height: 52px; // width: 1213px;
+  border-radius: 4px;
+  background-color: #E4F0F9;
+  line-height: 51px;
+  .total-label {
+    height: 17px; //  width: 63px;
+    color: #000000;
+    font-family: "Open Sans";
+    font-size: 12px;
+    letter-spacing: 0; // line-height: 17px;
+    text-align: right;
+  }
+  .total-value {
+    height: 17px; //  width: 57px;
+    color: #00B500;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0; // line-height: 17px;
   }
 }
