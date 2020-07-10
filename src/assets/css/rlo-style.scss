@@ -93,7 +93,7 @@ body {
       margin-bottom: $default-spacing-bottom;
     }
   }
- 
+
 
   // .res-pr-hide {
   //   padding: 0px 20px 10px 20px;
@@ -170,6 +170,7 @@ body {
   padding-bottom: 12px;
   margin-bottom: 0;
 }
+
 .form-group-initiation-header {
   box-sizing: border-box;
   border: 1px solid #dddddd;
@@ -206,20 +207,31 @@ body {
 app-button[customclass="icon-button"] div {
   text-align: left !important;
 }
-#AD_CLEAR_BTN,#OD_CLEAR_BTN,#FD_clear,
-#clear,#VRF_Reset,#RD_RESET,#ND_CLEAR
-{
+
+#AD_CLEAR_BTN,
+#OD_CLEAR_BTN,
+#FD_clear,
+#clear,
+#VRF_Reset,
+#RD_RESET,
+#ND_CLEAR {
   border-color: gray;
   margin-left: 20px;
   float: right;
 }
 
-#AD_SAVE_ADDRESS,#OD_SAVE_BTN,#FD_Save,
-#LD_SAVE,#AT_SAVE,#VRF_Save,#RD_SAVE,#ND_SAVE
-{
+#AD_SAVE_ADDRESS,
+#OD_SAVE_BTN,
+#FD_Save,
+#LD_SAVE,
+#AT_SAVE,
+#VRF_Save,
+#RD_SAVE,
+#ND_SAVE {
   margin-left: 20px;
   float: right;
 }
+
 // #SEARCH_CUST_BTN {
 //   background:url(./icons/search-lens.png);
 //   //background-image: url('search-lens.svg');
@@ -341,67 +353,67 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   // &.top {
   //   top: 55px;
   // }
-.active{
-  div {
-    font-size: 16px;
-    padding: 0 16px;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 40px;
-    border-right: 1px solid #013653;
+  .active {
+    div {
+      font-size: 16px;
+      padding: 0 16px;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 40px;
+      border-right: 1px solid #013653;
 
-    &.arn {
-      background-color: #013653;
+      &.arn {
+        background-color: #013653;
 
-      span {
-        color: rgb(250, 246, 35);
+        span {
+          color: rgb(250, 246, 35);
+        }
+      }
+
+      &.loan-amt::before {
+        width: 41px;
+        height: 27px;
+        content: "";
+        background-image: url("./../icons/rupee-yellow.svg");
+        display: inline-block;
+        background-size: 41px 27px;
+        background-repeat: no-repeat;
+        padding: 0 20px;
+        vertical-align: middle;
+      }
+
+      &.loan-cat::before {
+        width: 20px;
+        height: 20px;
+        content: "";
+        display: inline-block;
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+        padding: 0 20px;
+        vertical-align: middle;
+      }
+
+      &.AL::before {
+        background-image: url("./../icons/autoloan-yellow.svg");
+      }
+
+      &.PL::before {
+        background-image: url("./../icons/personalloan-yellow.svg");
+      }
+
+      &.ML::before {
+        background-image: url("./../icons/mortgage-yellow.svg");
+      }
+
+      &.CC::before {
+        background-image: url("./../icons/creditcard-yellow.svg");
       }
     }
-
-    &.loan-amt::before {
-      width: 41px;
-      height: 27px;
-      content: "";
-      background-image: url("./../icons/rupee-yellow.svg");
-      display: inline-block;
-      background-size: 41px 27px;
-      background-repeat: no-repeat;
-      padding: 0 20px;
-      vertical-align: middle;
-    }
-
-    &.loan-cat::before {
-      width: 20px;
-      height: 20px;
-      content: "";
-      display: inline-block;
-      background-size: 20px 20px;
-      background-repeat: no-repeat;
-      padding: 0 20px;
-      vertical-align: middle;
-    }
-
-    &.AL::before {
-      background-image: url("./../icons/autoloan-yellow.svg");
-    }
-
-    &.PL::before {
-      background-image: url("./../icons/personalloan-yellow.svg");
-    }
-
-    &.ML::before {
-      background-image: url("./../icons/mortgage-yellow.svg");
-    }
-
-    &.CC::before {
-      background-image: url("./../icons/creditcard-yellow.svg");
-    }
   }
-}
 
-.inactive{
-  display:none;
-}
+  .inactive {
+    display: none;
+  }
 
   // &::after {
   //   position: absolute;
@@ -482,17 +494,19 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   padding-bottom: 23px;
 }
 
-.mainheader{
-.active {
-  float: left !important;
-  /* height: 338px !important;
+.mainheader {
+  .active {
+    float: left !important;
+    /* height: 338px !important;
 width: 681px !important; */
-  background-color: #ffffff;
+    background-color: #ffffff;
+  }
+
+  .inactive {
+    display: none;
+  }
 }
-.inactive{
-  display:none;
-}
-}
+
 .subrightheader1 {
   float: left;
   height: 292px !important;
@@ -1338,28 +1352,27 @@ a.back {
 
       .menu-btn {
         display: flex;
+        height: fit-content;
 
-        .nxt-btn {
-          background-image: url(./../icons/right-arrow-selected.svg);
-          width: 22px;
-          height: 21px;
-          content: "";
-          background-repeat: no-repeat;
-          display: block;
-          background-position: center center;
-          margin: 5px 12px;
-          cursor: pointer;
+        .icon-left-arrow {
+          color: #cccccc;
+          font-size: 16px;
+          margin-top: 6px;
+          width: 21px;
+          text-align: center;
+          margin-right: 6px;
         }
 
-        .prev-btn {
-          background-image: url(./../icons/left-arrow-deselected.svg);
-          width: 22px;
-          height: 21px;
-          content: "";
-          background-repeat: no-repeat;
-          display: block;
-          background-position: center center;
-          margin-top: 5px;
+        .icon-right-arrow {
+          color: #cccccc;
+          font-size: 16px;
+          margin-top: 6px;
+          width: 21px;
+          text-align: center;     
+        }
+
+        .enable-btn {
+          color: #565656;
           cursor: pointer;
         }
       }
@@ -1649,12 +1662,13 @@ a.back {
 .header-expanded-qde {
   margin-top: 64px !important;
 }
-.form-group-initiation{
-  
+
+.form-group-initiation {
+
   .rlo-ui-radio-container Label {
-   
+
     /* margin-right: 30px; */
     margin-right: 24px;
-    margin-left :0px !important;
+    margin-left: 0px !important;
   }
 }

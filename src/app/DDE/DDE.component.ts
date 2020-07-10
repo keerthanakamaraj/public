@@ -256,6 +256,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     disableMenus: boolean = false;//when abt to add new user('+' btn clicked) 
 
+    menuNavigationBtn = {
+        enableLeftArrow: false,
+        enableRightArrow: true
+    }
+
     constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
         super(services);
         this.value = new DDEModel();
@@ -791,6 +796,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         // }
 
         this.services.rloCommonData.dynamicComponentInstance = componentInstance;
+
+        this.validateMenuNavigation(ele1, ele2, this.formMenuObject.selectedMenuId);
     }
 
     updateRoleBasedScore(action: string) {
@@ -907,76 +914,84 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     //going back and forth via btns
 
-    loadForm(loadDirection: string, firstArrayIndex: number = -1, secondArrayIndex: number = -1) {
+    async loadForm(loadDirection: string, firstArrayIndex: number = -1, secondArrayIndex: number = -1) {
         console.log(this.formMenuObject, loadDirection);
         console.error(this.formsMenuList);
         let firstArray = firstArrayIndex == -1 ? this.formMenuObject.firstArr : firstArrayIndex;
         let secondArray = secondArrayIndex == -1 ? this.formMenuObject.secondArr : secondArrayIndex;
         let selectedIndex = -1;
 
+        if (this.disableMenus)
+            return;
+
         if (loadDirection == 'nxt') {
-            for (let j = 0; j < this.formsMenuList[firstArray].length; j++) {
-                const arrEle = this.formsMenuList[firstArray][j];
-                if (j >= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
-                    console.warn(arrEle);
-                    this.injectDynamicComponent(arrEle.id, false, firstArray, j);
-                    selectedIndex = j;
-                }
-            }
-            if (selectedIndex == -1) {
-                let sIndex;
-                if (this.formsMenuList.length - 1 == firstArray) {
-                    sIndex = 0;
-                    let modalObj = {
-                        title: "Alert",
-                        mainMessage: "No more section avaliable",
-                        modalSize: "modal-width-sm",
-                        buttons: [
-                            { id: 1, text: "Okay", type: "success", class: "btn-primary" },
-                        ]
+            if (this.menuNavigationBtn.enableRightArrow) {
+                for (let j = 0; j < this.formsMenuList[firstArray].length; j++) {
+                    const arrEle = this.formsMenuList[firstArray][j];
+                    if (j >= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
+                        console.warn(arrEle);
+                        this.injectDynamicComponent(arrEle.id, false, firstArray, j);
+                        selectedIndex = j;
                     }
-                    this.services.rloui.confirmationModal(modalObj).then((response) => {
-                        console.log(response);
-                        if (response != null) {
-                            this.services.rloui.closeAllConfirmationModal();
+                }
+                if (selectedIndex == -1) {
+                    let sIndex;
+                    if (this.formsMenuList.length - 1 == firstArray) {
+
+                        sIndex = 0;
+                        let modalObj = {
+                            title: "Alert",
+                            mainMessage: "No more section avaliable",
+                            modalSize: "modal-width-sm",
+                            buttons: [
+                                { id: 1, text: "Okay", type: "success", class: "btn-primary" },
+                            ]
                         }
-                    });
-                } else {
-                    sIndex = firstArray + 1;
-                    this.loadForm('nxt', sIndex, 0);
+                        this.services.rloui.confirmationModal(modalObj).then((response) => {
+                            console.log(response);
+                            if (response != null) {
+                                this.services.rloui.closeAllConfirmationModal();
+                            }
+                        });
+                    } else {
+                        sIndex = firstArray + 1;
+                        this.loadForm('nxt', sIndex, 0);
+                    }
                 }
             }
         }
         else {
-            for (let j = this.formsMenuList[firstArray].length - 1; j >= 0; j--) {
-                const arrEle = this.formsMenuList[firstArray][j];
-                if (j <= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
-                    console.warn(arrEle);
-                    this.injectDynamicComponent(arrEle.id, false, firstArray, j);
-                    selectedIndex = j;
-                }
-            }
-            if (selectedIndex == -1) {
-                let sIndex;
-                if (firstArray == 0) {
-                    sIndex = this.formsMenuList.length - 1;
-                    let modalObj = {
-                        title: "Alert",
-                        mainMessage: "No more section avaliable",
-                        modalSize: "modal-width-sm",
-                        buttons: [
-                            { id: 1, text: "Okay", type: "success", class: "btn-primary" },
-                        ]
+            if (this.menuNavigationBtn.enableLeftArrow) {
+                for (let j = this.formsMenuList[firstArray].length - 1; j >= 0; j--) {
+                    const arrEle = this.formsMenuList[firstArray][j];
+                    if (j <= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
+                        console.warn(arrEle);
+                        this.injectDynamicComponent(arrEle.id, false, firstArray, j);
+                        selectedIndex = j;
                     }
-                    this.services.rloui.confirmationModal(modalObj).then((response) => {
-                        console.log(response);
-                        if (response != null) {
-                            this.services.rloui.closeAllConfirmationModal();
+                }
+                if (selectedIndex == -1) {
+                    let sIndex;
+                    if (firstArray == 0) {
+                        sIndex = this.formsMenuList.length - 1;
+                        let modalObj = {
+                            title: "Alert",
+                            mainMessage: "No more section avaliable",
+                            modalSize: "modal-width-sm",
+                            buttons: [
+                                { id: 1, text: "Okay", type: "success", class: "btn-primary" },
+                            ]
                         }
-                    });
-                } else {
-                    sIndex = firstArray - 1;
-                    this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
+                        this.services.rloui.confirmationModal(modalObj).then((response) => {
+                            console.log(response);
+                            if (response != null) {
+                                this.services.rloui.closeAllConfirmationModal();
+                            }
+                        });
+                    } else {
+                        sIndex = firstArray - 1;
+                        this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
+                    }
                 }
             }
         }
@@ -1456,6 +1471,45 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             this.injectDynamicComponent(menuId, false, firstArrayEle, secondArrayEle);
         }
 
+    }
+
+    validateMenuNavigation(firstArrIndex: number, secondArrIndex: number, sectionId: string) {
+        let thrushold = 0;
+        let notFilledSection = { nextAvailFirstIndex: 0, nextAvailSecondIndex: 0 };
+        let canGoToPreviousMenu = false;
+        this.menuNavigationBtn.enableLeftArrow = false;
+
+        for (let j = 0; j < this.formsMenuList.length; j++) {
+            const menuSectionList = this.formsMenuList[j];
+            for (let i = 0; i < menuSectionList.length; i++) {
+                const element = menuSectionList[i];
+                if (!element.completed && !element.isActive) {
+                    notFilledSection.nextAvailFirstIndex = j;
+                    notFilledSection.nextAvailSecondIndex = i;
+                }
+                if (j <= firstArrIndex) {
+                    if (this.formsMenuList[firstArrIndex][secondArrIndex].id == element.id) {
+                        thrushold = 1
+                    }
+                    if (!element.completed && !element.isActive && !thrushold) {
+                        canGoToPreviousMenu = true;
+                        this.menuNavigationBtn.enableLeftArrow = true;
+                    }
+                }
+            }
+        }
+        if (notFilledSection.nextAvailFirstIndex == firstArrIndex) {
+            if (notFilledSection.nextAvailSecondIndex > secondArrIndex) {
+                this.menuNavigationBtn.enableRightArrow = true;
+            }
+            else {
+                this.menuNavigationBtn.enableRightArrow = false;
+            }
+        } else if (notFilledSection.nextAvailFirstIndex > firstArrIndex) {
+            this.menuNavigationBtn.enableRightArrow = true;
+        } else {
+            this.menuNavigationBtn.enableRightArrow = false;
+        }
     }
 }
 

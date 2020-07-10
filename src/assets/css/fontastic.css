@@ -145,3 +145,11 @@
 .icon-mydpdown:before {
     content: "\e805";
 }
+
+.icon-left-arrow:before {
+    content: "\e901";
+}
+
+.icon-right-arrow:before {
+    content: "\e917";
+}
