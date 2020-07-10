@@ -29,6 +29,7 @@ import { PersonalInterviewModule } from '../PersonalInterview/personal-interview
 import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
+import {PolicyCheckResultModule} from '../policy-check-result/policy-check-result.module';
 
 @NgModule({
     imports: [
@@ -64,7 +65,8 @@ import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module
         CreditCardDetailsModule,
         PersonalInterviewModule,
         LoanDetailsFormModule,
-        ApplicationDtlsModule
+        ApplicationDtlsModule,
+        PolicyCheckResultModule
     ],
     declarations: [
         DDEComponent

@@ -1740,3 +1740,52 @@ a.back {
     }
   }
 }
+
+//policy result section css
+.policy-row {
+  height: 52px;
+  width: 1213px;
+  border-radius: 4px;
+  background-color: #FAFAFA;
+  .desc-container {
+    .description-txt {
+      height: 17px; //width: 250px;
+      color: #565656;
+      font-family: "Open Sans";
+      font-size: 12px;
+      letter-spacing: 0; // line-height: 17px;
+    }
+  }
+  .value-container {
+    .col-header-txt {
+      height: 17px; // width: 86px;
+      color: #8E8E8E;
+      font-family: "Open Sans";
+      font-size: 12px;
+      letter-spacing: 0; // line-height: 17px;
+    }
+    .value-txt {
+      height: 17px; //  width: 21px;
+      color: #000000;
+      font-family: "Open Sans";
+      font-size: 12px;
+      letter-spacing: 0; //   line-height: 17px;
+    }
+    .pass-txt {
+      height: 17px; //   width: 27px;
+      color: #00B500;
+      font-family: "Open Sans";
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0; //  line-height: 17px;
+    }
+    .fail-txt {
+      height: 17px; // width: 21px;
+      color: #D0021B;
+      font-family: "Open Sans";
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0; // line-height: 17px;
+    }
+  }
+}
