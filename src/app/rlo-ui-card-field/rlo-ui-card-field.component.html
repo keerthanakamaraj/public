@@ -1,13 +1,17 @@
-  <div class="card-tile-body">
-    <div style="margin-top: 7px; margin-left: 12px;">
-      <span  class="primary_lable">{{primary_lable}}
-      </span>
-      <span  class="secondary_lable">{{secondary_lable}}
-      </span>
-      <div *ngIf="type === 'ICON'">
-        <button type="button" class="lable-icon" (click)="onIconClick($event)">
-        <i class="fa fa edit"></i>
-        </button>
-      </div>
+<div class="wgt-card-tile-body card-tile-body">
+  <div class="card-tile-container">
+    <span id="primary_lable" class="primary_lable">{{cardFieldMetaData.title}}</span>
+    <span id="secondary_lable" class="secondary_lable">{{cardFieldMetaData.subTitle}}</span>
+    <div>
+      <button type="button" class="lable-icon" *ngIf="cardFieldMetaData.showModalBtn" (click)="onButtonClick()">
+        <i class="fas fa-edit"></i>
+      </button>
     </div>
   </div>
+</div>
+
+<!-- <div *ngIf="type === 'ICON'">
+  <button type="button" class="lable-icon" (click)="onIconClick($event)">
+  <i class="fa fa edit"></i>
+  </button>
+</div> -->

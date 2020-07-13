@@ -22,24 +22,31 @@
 </div> -->
 
 <div class="row">
-
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
-    <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
-      <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
-        <input type="radio" />CUSTOMER
-      </a>
-      <a class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
-        <input type="radio" />APPLICATION
-      </a>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <app-uw-cust-tab></app-uw-cust-tab>
     </div>
-  </div>
 
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-    <app-uw-cust-tab></app-uw-cust-tab>
-  </div>
-  <app-card [cardMetaData]="customerMasterJsonData"></app-card>
-  <!-- <app-card [cardMetaData]="interfaceCardSectionData"></app-card> -->
-  <app-card [cardMetaData]="data" *ngFor="let data of basicCardSectionData.sectionList">
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
+        <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
+            <a href="#customer-panel" class="btn btn-default active" data-toggle="tab"
+                (click)="tabSwitched('customer')">
+                <input type="radio" />CUSTOMER
+            </a>
+            <a href="#application-panel" class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
+                <input type="radio" />APPLICATION
+            </a>
+        </div>
+    </div>
+  <!-- </div> -->
 
-  </app-card>
+    <div class="tab-content">
+        <div class="tab-pane active" id="customer-panel">
+            <app-card [cardMetaData]="customerMasterJsonData"></app-card>
+            <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
+        </div>
+        <div class="tab-pane" id="application-panel">
+            <!-- <app-card [cardMetaData]="interfaceCardSectionData"></app-card> -->
+        </div>
+    </div>
+
 </div>

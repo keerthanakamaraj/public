@@ -1296,69 +1296,69 @@ a.back {
   padding: 8px;
 }
 
-.card-tile-body {
-  width: 302px;
-  height: 55px;
-  position: relative;
-  display: -webkit-box; // display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-left: none;
-  border-right: none;
-  border-top: none; // border-top-right-radius: 4px;
-  // border-top-left-radius: 4px;
-  // border-bottom-right-radius: 4px;
-  // border-bottom-left-radius: 4px;
-}
+.wgt-card-tile-body {
+  &.card-tile-body {
+    min-height: 54px;
+    position: relative;
+    display: -webkit-box;
+    // display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    margin: 0 5px;
+    // border-top-right-radius: 4px;
+    // border-top-left-radius: 4px;
+    // border-bottom-right-radius: 4px;
+    // border-bottom-left-radius: 4px;
 
-.lable-icon {
-  float: right;
-  margin-top: -31px;
-  border: none;
-  color: skyblue;
-  background-color: white;
-  padding: 5px 5px;
-  font-size: 19px;
-  margin-right: 12px;
-  cursor: pointer;
-}
+    // &:last-of-type {
+    //   border: none;
+    // }
+  }
 
-.primary_lable {
-  height: 13px;
-  padding: 3px;
-  width: 123px;
-  color: #565656;
-  font-family: "Open Sans";
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 12px;
-}
+  .card-tile-container {
+    margin: 7px 0 9px 12px;
 
-.secondary_lable {
-  height: 12px;
-  padding: 3px;
-  width: 101px;
-  display: flex;
-  color: #000000;
-  font-family: "Open Sans";
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 12px;
-}
+    .lable-icon {
+      float: right;
+      margin-top: -36px;
+      border: none;
+      color: skyblue;
+      background-color: white;
+      // padding: 5px 5px;
+      font-size: 19px;
+      margin-right: 12px;
+      cursor: pointer;
+    }
 
-.secondary_lable {
-  height: 12px;
-  padding: 3px;
-  width: 101px;
-  display: flex;
-  color: #000000;
-  font-family: "Open Sans";
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 12px;
+    .primary_lable {
+      height: 13px;
+      padding: 3px;
+      width: 123px;
+      color: #565656;
+      font-family: "Open Sans";
+      font-size: 12px;
+      letter-spacing: 0;
+      line-height: 12px;
+    }
+
+    .secondary_lable {
+      // height: 12px;
+      padding: 3px;
+      // width: 101px;
+      display: flex;
+      color: #000000;
+      font-family: "Open Sans";
+      font-size: 13px;
+      letter-spacing: 0;
+      line-height: 12px;
+    }
+  }
 }
 
 //country code
@@ -1581,7 +1581,7 @@ a.back {
     font-size: 20px;
     line-height: 27px;
     color: #0079B8;
-    padding: 18px 18px 18px 25.5px;
+    padding: 18px 18px 18px 21px;
     border-bottom: 1px solid #EEEEEE;
     position: relative;
     .expand-icon {
@@ -1599,6 +1599,17 @@ a.back {
       right: 22px;
     }
   }
+
+  .cards-body {
+    rlo-ui-card-field {
+      &:last-of-type {
+        .card-tile-body {
+          border: none;
+        }
+      }
+    }
+  }
+
 }
 
 /* underwriter customer list component*/

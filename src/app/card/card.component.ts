@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
-import { ICardMetaData } from '../Interface/masterInterface';
+import { ICardMetaData, IGeneralCardData } from '../Interface/masterInterface';
 import { CardModule } from './card.module';
 
 class ICardConfig {
@@ -16,12 +16,12 @@ class ICardConfig {
   styleUrls: ['./card.component.css']
 })
 export class CardComponent implements OnInit {
-  @Input('cardMetaData') cardMetaData: ICardMetaData;
+  @Input('cardMetaData') cardMetaData: IGeneralCardData;
   
   primary_lable :string = "full name";
   secondary_lable : string ="Juhi Patil";
   cardConfig = new Map();
-  cardType: string = "basicCard";
+  cardName: string;
 
   customerConfig = {
     headerName: 'Customer 360 degrees',
@@ -45,8 +45,7 @@ export class CardComponent implements OnInit {
 
   ngAfterViewInit() {
     console.warn(this.cardMetaData);
-    this.cardType = this.cardMetaData.type
-    // console.log(this.cardMetaData.incomeSummary.getBorrowerSeq());
+    this.cardName = this.cardMetaData.name;
   }
 
   configureCard() {

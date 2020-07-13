@@ -1,6 +1,6 @@
 <div class="wgt-cards"
-    [ngClass]="{'col-sm-6 col-md-6 col-lg-6': cardType == 'customerCard', 'col-sm-3 col-md-3 col-lg-3': cardType == 'basicCard'}">
-    <ng-container *ngIf="cardType == 'customerCard'">
+    [ngClass]="{'col-sm-6 col-md-6 col-lg-6': cardName == 'Customer 360 degrees', 'col-sm-3 col-md-3 col-lg-3': cardName != 'Customer 360 degrees'}">
+    <ng-container *ngIf="cardName == 'Customer 360 degrees'">
         <div class="cards-header">
             <span>Customer 360 degrees</span>
             <span class="expand-icon"></span>
@@ -12,18 +12,13 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="cardType == 'basicCard'">
+    <ng-container *ngIf="cardName != 'Customer 360 degrees'">
         <div class="cards-header">
-            <span>{{cardMetaData.displayName}}</span>
-            <span class="expand-icon"></span>
+            <span>{{cardMetaData.name}}</span>
+            <span class="expand-icon" *ngIf="cardMetaData.showModalBtn"></span>
         </div>
         <div class="cards-body">
-            <rlo-ui-card-field [primary_lable]="primary_lable" [secondary_lable]="secondary_lable" type="ICON">
-            </rlo-ui-card-field>
-            <rlo-ui-card-field >
-            </rlo-ui-card-field> 
-            <rlo-ui-card-field >
-            </rlo-ui-card-field>
+            <rlo-ui-card-field [cardFieldMetaData]="list" *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
         </div>
     </ng-container>
 

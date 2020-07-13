@@ -3,7 +3,7 @@ import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
 import { ICardMetaData } from '../Interface/masterInterface';
 import { RloCommonData } from '../rlo-services/rloCommonData.service';
-import { Customer } from './under-writer.model';
+import { Master } from './under-writer.model';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -25,6 +25,8 @@ export class UnderWriterComponent implements OnInit {
     cardType: '',
     sectionList: []
   };
+
+  allSectionCard
 
   customerSectionData = [
     {
@@ -235,16 +237,26 @@ export class UnderWriterComponent implements OnInit {
     { responseName: "UWAddress", name: "addressDetails", displayName: "Address Details" }
   ];
 
-  customerMasterJsonData: Customer;
+  customerMasterJsonData: Master;
 
-  allCardsData = [
-    { className: "FinancialSummary", displayName: "Financial Summary" },
-    { className: "FamilyDetails", displayName: "Family Details" },
-    { className: "AddressDetails", displayName: "Address Details" },
-    { className: "CollateralDetails", displayName: "Collateral Details" }
+  allSectionsCardData = [
+    {
+      type: "customer",
+      cardList: [
+        { className: "Customer" },
+        { className: "FinancialSummary" },
+        // { className: "FamilyDetails", displayName: "Family Details" },
+        { className: "AddressDetails" },
+        { className: "FinancialDetails" },
+        { className: "CollateralDetails" }
+      ]
+    },
+    {
+      type: "application"
+    }
   ];
 
-  avaliableCardData = []
+  cardDataWithFields = [];
 
   constructor(public rloCommonDataService: RloCommonData) {
 
@@ -340,7 +352,7 @@ export class UnderWriterComponent implements OnInit {
 
   //under-writer.component.ts
   test() {
-    let obj = {
+    let obj = [{
       "ExistingCustomer": "N",
       "UWIncomeSummary": {
         "NetIncomeMonthly": 0,
@@ -353,6 +365,38 @@ export class UnderWriterComponent implements OnInit {
       },
       "DOB": "04-05-1995",
       "FullName": "Juhi S Patil",
+      "UWAddress": [
+        {
+          "State": "Maharashtra",
+          "AddressSeq": 829,
+          "Address1": "virar",
+          "BorrowerSeq": 2251,
+          "City": "Mumbai",
+          "AddressType": "OF",
+          "Pincode": 400060,
+          "test": "aaaaaa"
+        },
+        {
+          "State": "Maharashtra",
+          "AddressSeq": 728,
+          "Address1": "bncbv",
+          "BorrowerSeq": 2251,
+          "City": "Mumbai",
+          "AddressType": "RS",
+          "OccupationType": "OW",
+          "Pincode": 400060
+        },
+        {
+          "State": "Maharashtra",
+          "AddressSeq": 727,
+          "Address1": "virar",
+          "BorrowerSeq": 2251,
+          "City": "Mumbai",
+          "AddressType": "RS",
+          "OccupationType": "OW",
+          "Pincode": 400060
+        }
+      ],
       "UWFamily": [
         {
           "DOB": "1995-07-01 00:00:00.0",
@@ -369,15 +413,72 @@ export class UnderWriterComponent implements OnInit {
           "CustomerRelated": 0
         }
       ],
-    }
+      "UWIncomeDetails": {
+        "GrossIncome": "pending",
+        "ExistingLiabilities": "completed",
+        "IncomeVerification": "completed",
+        "PANVerification": "deviation",
+      }
+    },
+    {
+      "ExistingCustomer": "N",
+      "UWIncomeSummary": {
+        "NetIncomeMonthly": 0,
+        "DBR": 0,
+        "IncomeSummarySeq": 101,
+        "TotalIncome": 0,
+        "TotalLiabiity": 0,
+        "BorrowerSeq": 2251,
+        "TotalObligation": 0
+      },
+      "DOB": "04-05-1995",
+      "FullName": "Juhi S Patil"
+    }];
 
-    this.customerMasterJsonData = new Customer().deserialize(obj);
+    this.customerMasterJsonData = new Master().deserialize(obj);
     console.log(this.customerMasterJsonData);
-    console.error(this.customerMasterJsonData.FinancialSummary.IncomeSummarySeq, this.customerMasterJsonData.CollateralDetails, this.isJsonEmpty(this.customerMasterJsonData.CollateralDetails), this.isJsonEmpty(this.customerMasterJsonData.FinancialSummary));
 
+    let singleCustomer = this.customerMasterJsonData.CustomerDetails[0];
+    console.log(singleCustomer, singleCustomer.FamilyDetails, singleCustomer.FinancialSummary.getBorrowerSeq(), singleCustomer.FinancialSummary, singleCustomer.FinancialSummary.test);
+
+    this.selectedCustomerCardData()
   }
 
   isJsonEmpty(obj) {
     return Object.keys(obj).length === 0;
+  }
+
+  selectedCustomerCardData(menuIndex: number = 0, sectionType: string = "customer") {
+    let data;
+    if (sectionType == "customer") {
+      let singleCustomer = this.customerMasterJsonData.CustomerDetails[menuIndex];
+      this.allSectionsCardData[0].cardList.forEach(element => {
+        switch (element.className) {
+          case "FinancialSummary":
+            data = singleCustomer.FinancialSummary.getCardData();
+            this.cardDataWithFields.push(data);
+            break;
+
+          case "AddressDetails":
+            data = singleCustomer.AddressDetails.getCardData();
+            this.cardDataWithFields.push(data);
+            break;
+
+          case "FinancialDetails":
+            data = singleCustomer.FinancialDetails.getCardData();
+            this.cardDataWithFields.push(data);
+            break;
+
+          case "CollateralDetails":
+            data = singleCustomer.CollateralDetails.getCardData();
+            this.cardDataWithFields.push(data);
+            break;
+
+          default:
+            break;
+        }
+      });
+    }
+    console.error(this.cardDataWithFields);
   }
 }
