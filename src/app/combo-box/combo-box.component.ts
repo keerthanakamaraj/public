@@ -16,6 +16,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentVal
 export class ComboBoxComponent extends FieldComponent implements OnInit {
   // @Input('domainObjectCode') domainObjectCode: string;
   @Input('category') category: string;
+  @Input('emittedOptions') emittedOptions: any[] = [];
   // @Input('formCode') formCode : string;
 
   // @Input('formCode') private comboBoxConfig: {
