@@ -44,6 +44,7 @@ import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
+import {ScoreCardResultComponent} from '../score-card-result/score-card-result.component'
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -232,8 +233,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     ],
     [
       // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
-      // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
-      { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
+      { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
+      { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
       { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
     ],
     [
@@ -843,6 +844,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       case 'PolicyCheckResults':
         return new AddSpecificComponent(PolicyCheckResultComponent);
         break;
+        case 'ScorecardResults':
+        return new AddSpecificComponent(ScoreCardResultComponent);
+        break;        
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
         break;

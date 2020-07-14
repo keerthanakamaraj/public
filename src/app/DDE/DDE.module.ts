@@ -30,7 +30,7 @@ import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import {PolicyCheckResultModule} from '../policy-check-result/policy-check-result.module';
-
+import {ScoreCardResultModule} from '../score-card-result/score-card-result.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -66,7 +66,8 @@ import {PolicyCheckResultModule} from '../policy-check-result/policy-check-resul
         PersonalInterviewModule,
         LoanDetailsFormModule,
         ApplicationDtlsModule,
-        PolicyCheckResultModule
+        PolicyCheckResultModule,
+        ScoreCardResultModule
     ],
     declarations: [
         DDEComponent

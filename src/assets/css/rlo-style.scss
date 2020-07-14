@@ -1831,3 +1831,50 @@ a.back {
     letter-spacing: 0; // line-height: 17px;
   }
 }
+
+
+//score card result section css
+#SCR_DOWNLOAD_BTN{
+  width: 90% !important;
+}
+
+#SCR_RETRIGGER_BTN{
+  margin:0px !important;
+}
+.score-container{
+height:51px;
+.score-name{
+  height: 17px;
+ // width: 85px;
+  color: #565656;
+  font-family: "Open Sans";
+  font-size: 12px;
+  letter-spacing: 0.14px;
+  line-height: 17px;
+  text-align: right;
+}
+.progress {
+  margin: 0px 1.2rem 2px 2rem;
+  border-radius: 22px;
+  padding:0px !important;
+  //width: 47%;
+  display: inline-block;
+  height: 10px;
+  background-color: #F6F6F7;
+  .progress-bar {
+    //width: 70%;
+    background-color: #00B500;
+    border-radius: 22px;
+  }
+}
+.progress-count{
+  height: 27px;
+ // width: 23px;
+  color: #D0021B;
+  font-family: "Open Sans";
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 27px;
+  text-align: right;
+}
+}
