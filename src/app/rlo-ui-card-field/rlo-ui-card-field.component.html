@@ -3,12 +3,23 @@
     <span id="primary_lable" class="primary_lable">{{cardFieldMetaData.title}}</span>
     <span id="secondary_lable" class="secondary_lable">{{cardFieldMetaData.subTitle}}</span>
     <div>
-      <button type="button" class="lable-icon" *ngIf="cardFieldMetaData.showModalBtn" (click)="onButtonClick()">
-        <i class="fas fa-edit"></i>
+      <button type="button" class="lable-icon" *ngIf="cardFieldMetaData.modalSectionName.length"
+        (click)="onButtonClick()">
       </button>
     </div>
+    <!-- <div>
+      <button type="button" class="lable-icon" (click)="onButtonClick()">
+      </button>
+      <button type="button" class="iconStatus" (click)="onButtonClick()">
+        <i class="fa fa edit"></i>
+      </button>
+      <button type="button" class="iconCount" (click)="onButtonClick()">
+        <i class="fa fa edit"></i>
+      </button>
+    </div> -->
   </div>
 </div>
+
 
 <!-- <div *ngIf="type === 'ICON'">
   <button type="button" class="lable-icon" (click)="onIconClick($event)">

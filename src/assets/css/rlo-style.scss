@@ -1326,16 +1326,40 @@ a.back {
 
     .lable-icon {
       float: right;
-      margin-top: -36px;
+      margin-top: -25px;
       border: none;
       color: skyblue;
       background-color: white;
-      // padding: 5px 5px;
+      padding: 10px 17px;
       font-size: 19px;
-      margin-right: 12px;
       cursor: pointer;
+      background-image: url(./../icons/edit_button.png);
+      background-repeat: no-repeat;
     }
-
+    // .iconStatus{
+    //   float: right;
+    //   margin-top: -25px;
+    //   border: none;
+    //   color: skyblue;
+    //   background-color: white;
+    //   padding: 10px 17px;
+    //   font-size: 19px;
+    //   cursor: pointer;
+    //   background-image: url(./../icons/expand.svg);
+    //   background-repeat: no-repeat;
+    // }
+    // .iconCount{
+    //   float: right;
+    //   margin-top: -25px;
+    //   border: none;
+    //   color: skyblue;
+    //   background-color: white;
+    //   padding: 10px 17px;
+    //   font-size: 19px;
+    //   cursor: pointer;
+    //   background-image: url(./../icons/collapse.svg);
+    //   background-repeat: no-repeat;
+    // }
     .primary_lable {
       height: 13px;
       padding: 3px;
@@ -1585,7 +1609,7 @@ a.back {
     border-bottom: 1px solid #EEEEEE;
     position: relative;
     .expand-icon {
-      background-image: url(./../icons/left-arrow-deselected.svg);
+      background-image: url(./../icons/edit_button.png);
       width: 22px;
       height: 21px;
       content: "";

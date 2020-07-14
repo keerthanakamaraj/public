@@ -30,46 +30,46 @@ export class FinancialSummary implements IDeserializable {
     getCardData() {
         let fieldList: ICardListData[] = [
             {
-                title: "Total Income (Annuall)",
+                title: "Total Income (Annual)",
                 subTitle: this.TotalIncome,
-                type: "basic",
-                modalSectionName:"FamilyDetailsForm"
+                type: "icon",
+                modalSectionName: "OccupationDetails"
             },
             {
-                title: "Total Liability (Annuall)",
+                title: "Total Liability (Annual)",
                 subTitle: this.TotalLiabiity,
-                type: "basic",
-                modalSectionName:"FamilyDetailsForm"
+                type: "icon",
+                modalSectionName: "LiabilityDetails"
             },
             {
-                title: "Total Asset Value (Annuall)",
+                title: "Total Asset Value (Annual)",
                 subTitle: this.TotalIncome,
-                type: "basic",
-                modalSectionName:"FamilyDetailsForm"
+                type: "icon",
+                modalSectionName: "AssetDetails"
             },
             {
-                title: "Total Oblication (Annuall)",
+                title: "Total Obligation (Annual)",
                 subTitle: this.TotalObligation,
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
-                title: "Net Income Monthly (Annuall)",
+                title: "Net Income Monthly (Annual)",
                 subTitle: this.NetIncomeMonthly,
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "DBR",
                 subTitle: this.DBR,
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
         ];
         const returnObj: IGeneralCardData = {
             isEnabled: true,
             name: "Financial Summary",
-            modalSectionName:"",
+            modalSectionName: "",
             data: fieldList
         };
         return returnObj;
@@ -122,25 +122,25 @@ export class AddressDetails implements IDeserializable {
                 title: "Address Type",
                 subTitle: "",
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Mailing Address",
                 subTitle: "",
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Occupancy Type",
                 subTitle: "",
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Verification",
                 subTitle: "completed",
-                type: "icon",
-                modalSectionName:""
+                type: "iconStatus",
+                modalSectionName: ""
             }
         ];
 
@@ -158,7 +158,7 @@ export class AddressDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             isEnabled: true,
             name: "Address Details",
-            modalSectionName:"",
+            modalSectionName: "AddressDetails",
             data: fieldList
         };
         return returnObj;
@@ -185,25 +185,25 @@ export class CollateralDetails implements IDeserializable {
                 title: "Collateral Type",
                 subTitle: this.CollateralType,
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Name of Collateral",
                 subTitle: this.CollateralName,
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Amount",
                 subTitle: this.CollateralAmount,
                 type: "basic",
-                modalSectionName:""
+                modalSectionName: ""
             }
         ];
         const returnObj: IGeneralCardData = {
             isEnabled: true,
             name: "Collateral Details",
-            modalSectionName:"",
+            modalSectionName: "",
             data: fieldList
         };
         return returnObj;
@@ -229,32 +229,32 @@ export class FinancialDetails implements IDeserializable {
                 title: "Gross Income",
                 subTitle: this.Common.getSingleFieldValue(this.GrossIncome),
                 type: "iconStatus",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Existing Liabilities",
                 subTitle: this.Common.getSingleFieldValue(this.ExistingLiabilities),
                 type: "iconStatus",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "Income Verification",
                 subTitle: this.Common.getSingleFieldValue(this.IncomeVerification),
                 type: "iconStatus",
-                modalSectionName:""
+                modalSectionName: ""
             },
             {
                 title: "PAN Verification",
                 subTitle: this.Common.getSingleFieldValue(this.PANVerification),
                 type: "iconStatus",
-                modalSectionName:""
+                modalSectionName: ""
             }
         ];
 
         const returnObj: IGeneralCardData = {
             isEnabled: true,
             name: "Financial Details",
-            modalSectionName:"",
+            modalSectionName: "",
             data: fieldList
         };
         return returnObj;

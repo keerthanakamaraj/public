@@ -4,7 +4,11 @@ import { ServiceStock } from '../service-stock.service';
 import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { FormComponent } from '../form/form.component';
 import { FieldComponent } from '../field/field.component';
-import { ICardListData } from '../Interface/masterInterface';
+import { IDeserializable, IGeneralCardData, ICardListData } from "../Interface/masterInterface";
+import { reduce } from 'rxjs/operators';
+import { isContext } from 'vm';
+import { SelectControlValueAccessor } from '@angular/forms';
+import { SubjectSubscriber } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'rlo-ui-card-field',
@@ -13,12 +17,12 @@ import { ICardListData } from '../Interface/masterInterface';
 })
 export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   @Input() primary_lable: string;
-  @Input() secondary_lable : string;
+  @Input() secondary_lable: string;
   @Input() type: string;
   @Output() onIconClick = new EventEmitter<any>();
-  
-  @Input('cardFieldMetaData') cardFieldMetaData: ICardListData;
 
+  @Input('cardFieldMetaData') cardFieldMetaData: ICardListData;
+  myIcon: boolean;
   constructor(services: ServiceStock) {
     super(services);
   }
@@ -26,10 +30,25 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   ngOnInit() {
   }
 
+
+
   ngAfterViewInit() {
     console.log("deep ===");
     console.warn(this.cardFieldMetaData)
   }
+
+
+  // showIcon() {
+  //   if (this.cardFieldMetaData.type = 'icon') {
+  //     this.myIcon = `<fa-icon [icon]="fortAwesome"></fa-icon>`
+  //   }
+  //   // else if (this.cardFieldMetaData.type ='iconStatus') {
+  //   //   this.myIcon = `<fa-icon [icon]="fortAwesome"></fa-icon>`
+  //   // }
+  //   // else if (this.cardFieldMetaData.type = 'statusCount') {
+  //   //   this.myIcon = `<fa-icon [icon]="fortAwesome"></fa-icon>`
+  //   // }
+  // }
 
   onClickButton(event) {
     this.onIconClick.emit(event);
