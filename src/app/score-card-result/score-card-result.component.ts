@@ -5,7 +5,7 @@ import { ComboBoxComponent } from '../combo-box/combo-box.component';
 @Component({
   selector: 'app-score-card-result',
   templateUrl: './score-card-result.component.html',
- // styleUrls: ['./score-card-result.component.css']
+  // styleUrls: ['./score-card-result.component.css']
 })
 
 export class ScoreCardResultComponent implements OnInit {
@@ -13,7 +13,7 @@ export class ScoreCardResultComponent implements OnInit {
   @ViewChild('SCR_Filter', { static: false }) SCR_Filter: ComboBoxComponent;
   @Input() ApplicationId: string = undefined;
 
-  FilterOptions=[];
+  FilterOptions = [];
   showExpanded: boolean = false;
   scoreCards = [
     {
@@ -33,20 +33,25 @@ export class ScoreCardResultComponent implements OnInit {
   constructor(public services: ServiceStock) { }
 
   ngOnInit() {
-    let tempCustomerList=this.services.rloCommonData.getCustomerList();
-    console.log("shweta :: in score section",tempCustomerList);
-    this.setFilterbyOptions(tempCustomerList);
-   // questionParam.radioOptionFormatList.push({ id: eachElement["AnswerSeq"], text: eachElement["AnswerText"] });
-   }
+    this.setFilterbyOptions();
+    // questionParam.radioOptionFormatList.push({ id: eachElement["AnswerSeq"], text: eachElement["AnswerText"] });
+  }
 
-   setFilterbyOptions(tempCustomerList){
-     this.FilterOptions=[];
-     this.FilterOptions.push({ id:'AP_'+this.ApplicationId , text:'Application' });
-     tempCustomerList.forEach(element => {
-      this.FilterOptions.push({ id:'B_'+element , text: element["AnswerText"] });
-     });
+  setFilterbyOptions() {
+    let tempCustomerList = this.services.rloCommonData.getCustomerList();
+    console.log("shweta :: in score section", tempCustomerList);
+    this.FilterOptions = [];
+    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+    tempCustomerList.forEach(element => {
+      this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+    });
 
-   }
+    console.log("shweta :: score options list", this.FilterOptions);
+  }
+
+  SCR_Filter_Blur() {
+    console.log("shweta :: selected option", this.SCR_Filter.getFieldValue());
+  }
 
   headerChanges(data) {
     console.log(data);
