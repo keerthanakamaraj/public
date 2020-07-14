@@ -2,25 +2,25 @@
   <div *ngIf="category == '2'">
 
     <ng-select #select [placeholder]="placeholder" [ngClass]="{'error' : error, 'input-readonly':readOnly,
-  'valueRight': valueAlign=='right', 'valueCenter': valueAlign=='center'}"
-      [items]="dropDownOptions.Options" [id]="fieldID" bindValue="id" bindLabel="text" (open)="open()"
-      [loading]="dropDownOptions.loading" [typeahead]="searchText$" [(ngModel)]="value" (focus)="onFocus()" (blur)="comboBlur()"
-      (scrollToEnd)="scroll()" class="{{customClass}}" [name]="fieldID" (change)="onChange($event)" [disabled]="readOnly"></ng-select>
+  'valueRight': valueAlign=='right', 'valueCenter': valueAlign=='center'}" [items]="dropDownOptions.Options" [id]="fieldID"
+      bindValue="id" bindLabel="text" (open)="open()" [loading]="dropDownOptions.loading" [typeahead]="searchText$" [(ngModel)]="value"
+      (focus)="onFocus()" (blur)="comboBlur()" (scrollToEnd)="scroll()" class="{{customClass}}" [name]="fieldID" (change)="onChange($event)"
+      [disabled]="readOnly"></ng-select>
   </div>
 
   <div *ngIf="category == '3'">
- 
-    <ng-select #select [ngClass]="{'error' : error, 'input-readonly':readOnly}" [placeholder]="placeholder"
-      [items]="dropDownOptions.Options" [id]="fieldID" bindValue="id" bindLabel="text" (open)="open()"
-      [loading]="dropDownOptions.loading" [typeahead]="searchText$" [(ngModel)]="value" [multiple]="true" (focus)="onFocus()" (blur)="comboBlur()"
-      (scrollToEnd)="scroll()" class="{{customClass}}" [name]="fieldID" (change)="onChange($event)" [disabled]="readOnly">
+
+    <ng-select #select [ngClass]="{'error' : error, 'input-readonly':readOnly}" [placeholder]="placeholder" [items]="dropDownOptions.Options"
+      [id]="fieldID" bindValue="id" bindLabel="text" (open)="open()" [loading]="dropDownOptions.loading" [typeahead]="searchText$"
+      [(ngModel)]="value" [multiple]="true" (focus)="onFocus()" (blur)="comboBlur()" (scrollToEnd)="scroll()" class="{{customClass}}"
+      [name]="fieldID" (change)="onChange($event)" [disabled]="readOnly">
     </ng-select>
   </div>
 
   <div *ngIf="category == '1'">
 
-    <select [attr.id]="fieldID" (change)="onChange($event.target.value)" [name]="fieldID" (focus)="onFocus()"
-      (blur)="onBlur()" [disabled]="readOnly" class="form-control {{customClass}}" [ngClass]="{'error' : error}">
+    <select [attr.id]="fieldID" (change)="onChange($event.target.value)" [name]="fieldID" (focus)="onFocus()" (blur)="onBlur()"
+      [disabled]="readOnly" class="form-control {{customClass}}" [ngClass]="{'error' : error}">
 
       <!-- <option [hidden]="dropDownOptions.Options.length>1" [value]="undefined" disabled selected>{{placeholder}}</option>     -->
       <ng-container *ngFor="let opt of dropDownOptions.Options; let first = first;">
@@ -30,6 +30,16 @@
       </ng-container>
 
       <!-- <option *ngFor="let opt of dropDownOptions.Options" [value]="opt.id">{{opt.text}}</option> -->
+    </select>
+  </div>
+  <div *ngIf="category == '4'">
+
+    <select [attr.id]="fieldID" (change)="onChange($event.target.value)" [name]="fieldID" (focus)="onFocus()" (blur)="onBlur()"
+      [disabled]="readOnly" class="form-control {{customClass}}" [ngClass]="{'error' : error}">
+      <ng-container *ngFor="let opt of dropDownOptions.Options; let first = first;" (open)="open()">
+        <option [value]="opt.id" [disabled]="first && (value===undefined)" [selected]="value==opt.id">{{opt.text}}
+        </option>
+      </ng-container>
     </select>
   </div>
   <!--<span *ngIf="error">{{error}}</span>-->

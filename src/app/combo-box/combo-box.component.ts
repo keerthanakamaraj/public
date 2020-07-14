@@ -45,11 +45,11 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   }
 
   setDependency(key, value) {
-    if(this.dependencyMap.get(key)==undefined){return;}
+    if (this.dependencyMap.get(key) == undefined) { return; }
     var previousVal = this.getDependency(key);
     this.dependencyMap.get(key).value = value;
-    if (this.category == '1' && previousVal!=value) {
-      setTimeout(async ()=>{
+    if (this.category == '1' && previousVal != value) {
+      setTimeout(async () => {
         if (this.doCustomScript) {
           await this.doCustomScript();
         }
@@ -59,8 +59,16 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(async ()=>{
-      if (this.category == '1') {
+    setTimeout(async () => {
+      if (this.emittedOptions.length > 0) {
+        //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
+        this.dropDownOptions.Options = this.emittedOptions;
+        // this.isOptionsLoaded = true;
+        if (this.defaultValue != undefined) {
+          this.setValue(this.defaultValue);
+        }
+      }
+      else if (this.category == '1') {
         if (this.doCustomScript) {
           await this.doCustomScript();
         }
@@ -70,12 +78,17 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if (this.category != '1') {
+    if (this.emittedOptions && this.emittedOptions.length > 0) {
+      //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      this.dropDownOptions.Options = this.emittedOptions;
+      // this.isOptionsLoaded = true;
+    }
+    else if (this.category != '1') {
       this.searchText$.pipe(
         debounceTime(500),
         // distinctUntilChanged(),
         switchMap(searchText => {
-          if(searchText==null){
+          if (searchText == null) {
             this.select.open();
             return empty();
           }
@@ -87,18 +100,18 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
           return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl);
         }
         )).subscribe(
-          data => {
-            if (data) {
-              this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
-              if (data['Data']) {
-                this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
-              }
+        data => {
+          if (data) {
+            this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
+            if (data['Data']) {
+              this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
             }
-            this.dropDownOptions.loading = false;
-          },
-          err => {
-            this.dropDownOptions.loading = false;
           }
+          this.dropDownOptions.loading = false;
+        },
+        err => {
+          this.dropDownOptions.loading = false;
+        }
         );
     }
   }
@@ -114,7 +127,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     let count = 0;
     if (this.category != '1') {
       count = 20;
-    }else{
+    } else {
       this.dropDownOptions.Options = [{ id: undefined, text: 'Loading...' }];
       //In static combo-box, There will be always one element in option to show the placeholder
     }
@@ -134,13 +147,13 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
       err => { },
       () => {
 
-        if (this.category == '1' && ((this.value === undefined) 
-            || (this.dropDownOptions.Options.find(opt => opt.id === this.value) == undefined))){
-            this.value = undefined;
-            this.dropDownOptions.Options[0].text = this.placeholder;
+        if (this.category == '1' && ((this.value === undefined)
+          || (this.dropDownOptions.Options.find(opt => opt.id === this.value) == undefined))) {
+          this.value = undefined;
+          this.dropDownOptions.Options[0].text = this.placeholder;
         }
 
-        if(this.category == '1' && this.value !=undefined){
+        if (this.category == '1' && this.value != undefined) {
           this.dropDownOptions.Options[0].text = '';
         }
 
@@ -169,10 +182,18 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   async open() {
     this.dropDownOptions.Options = [];
     this.dropDownOptions.pageNo = 0;
-    if (this.doCustomScript) {
-      await this.doCustomScript();
+    if (this.category == '4') {
+      if (this.emittedOptions != undefined && this.emittedOptions.length > 0) {
+        this.dropDownOptions.Options = this.emittedOptions;
+      }
     }
-    this.loadOptions();
+    else if (this.doCustomScript) {
+      await this.doCustomScript();
+      this.loadOptions();
+    }
+    else {
+      this.loadOptions();
+    }
   }
 
   comboBlur() {
@@ -180,7 +201,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     super.onBlur();
   }
   onChange(event) {
-    if(event==undefined){return;}
+    if (event == undefined) { return; }
     if (this.category == '3') {
       this.additionalInfo = [];
       for (var i in event) {
@@ -192,7 +213,11 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
       this.dropDownOptions.selectedOption['id'] = event['id'];
       this.dropDownOptions.selectedOption['text'] = event['text'];
       this.additionalInfo = event['text'];
-    } else {
+    } else if (this.category == '4') {
+      console.log("shweta :: in combobox selected event", event);
+      this.setValue(event);
+    }
+    else {
       if (event === "undefined" || event === undefined) {
         this.dropDownOptions.Options[0].text = this.placeholder;
         this.value = undefined;
@@ -212,29 +237,29 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     }
   }
 
-  async getDescription(value){
-    if(value==undefined){
+  async getDescription(value) {
+    if (value == undefined) {
       return undefined;
     }
-    var description: any = (this.category=="3")?[]:undefined;
+    var description: any = (this.category == "3") ? [] : undefined;
 
-    if(this.doCustomScript){
+    if (this.doCustomScript) {
       await this.doCustomScript();
     }
 
-    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, 0, (this.category=="3"?undefined:value), 20, this.doServerUrl, true).toPromise().then(
+    await this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, 0, (this.category == "3" ? undefined : value), 20, this.doServerUrl, true).toPromise().then(
       data => {
         // this.http.checkForSession(data);
         if (data) {
           let result = data['Data'];
-          if(this.category=="3"){
+          if (this.category == "3") {
             for (let i = 0; i < value.length; i++) {
-              var opt = result.find((opt)=>{return (opt.id == value[i])});
+              var opt = result.find((opt) => { return (opt.id == value[i]) });
               if (opt) {
                 description.push(opt['text']);
               }
             }
-          }else{
+          } else {
             if (result && result[0] && result[0]["id"] == value) {
               description = result[0]['text'];
             }
@@ -247,14 +272,14 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
           }
         }
       });
-      return description;
+    return description;
   }
 
   setValue(value, description = undefined) {
     if (this.category == '3') {
-      if(description==undefined){
+      if (description == undefined) {
         this.getDescription(value).then(
-          (desc)=>{
+          (desc) => {
             this.value = [];
             this.dropDownOptions.Options = [];
             for (var i = 0; i < value.length; i++) {
@@ -266,7 +291,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
             this.additionalInfo = desc;
           }
         );
-      }else{
+      } else {
         this.value = [];
         this.dropDownOptions.Options = [];
         for (var i = 0; i < value.length; i++) {
@@ -277,18 +302,24 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
         }
         this.additionalInfo = description;
       }
+    } else if (this.category == '4') {
+      let selectedOpt = this.dropDownOptions.Options.find(eachOption => eachOption.id == value);
+      if (selectedOpt) {
+        this.value = value
+        this.additionalInfo = selectedOpt.text;
+      }
     } else {
-      if(description==undefined){
+      if (description == undefined) {
         this.getDescription(value).then(
-          (desc)=>{
-            if(this.category=="2"){
+          (desc) => {
+            if (this.category == "2") {
               this.dropDownOptions.Options = [{ 'id': value, 'text': desc }];
             }
             this.additionalInfo = desc;
           }
         );
-      }else{
-        if(this.category=="2"){
+      } else {
+        if (this.category == "2") {
           this.dropDownOptions.Options = [{ 'id': value, 'text': description }];
         }
         this.additionalInfo = description;
@@ -327,7 +358,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
 
   onReset() {
     if (!(this.getFieldValue() == null || this.getFieldValue() == undefined || this.getFieldValue() == '')) {
-        this.setValue(this.getFieldValue().clear);
+      this.setValue(this.getFieldValue().clear);
     }
     this.additionalInfo = undefined;
     this.error = false;
