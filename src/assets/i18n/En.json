@@ -156,6 +156,7 @@
     "rlo.reject.comfirmation" : "Are you sure you want to reject?",
     "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
     "rlo.reset.comfirmation" : "Are you sure you want to reset the form",
+    "rlo.error.relationship.invalid" : "Please select relationship according to gender",
 
     "rlo.error.questionnaire.decision-pending":"Decision for all questions are mandatory.",
     "rlo.error.questionnaire.Remark-pending":"Remarks for Deviation questions are mandatory.",
@@ -1664,7 +1665,7 @@
     "CardDispatchMode":"Pickup Instruction"
   },
   "CustomerDtls": {
-    "CARD_DTLS_LBL":"Loan Details",
+    "CARD_DTLS_LBL":"Card Details",
     "CD_EMAIL": "Email ID",
     "CD_MAIN_LABEL": "Customer",
     "CD_CUST_TYPE": "Customer Type",

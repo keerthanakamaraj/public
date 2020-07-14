@@ -297,6 +297,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 	}
 
 	async VR_Delete_click(event) {
+		if (confirm("Are you sure you want to delete this record")) {
 		let inputMap = new Map();
 		inputMap.clear();
 		inputMap.set('PathParam.Id', event.HidVisitReportId);
@@ -313,6 +314,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 				this.services.alert.showAlert(2, 'rlo.error.delete.visitreport', -1);
 			}
 		);
+		}
 	}
 	loadSpinner = false;
 	showSpinner() {
@@ -321,5 +323,4 @@ export class VisitReportGridComponent implements AfterViewInit {
 	hideSpinner() {
 		this.loadSpinner = false;
 	}
-
 }
