@@ -282,7 +282,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async onFormLoad() {
-  
+
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     // Moved readonly to RLO Config - to be removed in next commit
     // this.CD_FULL_NAME.setReadOnly(true);
@@ -416,25 +416,25 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
     Promise.all([mainMessage, button1, button2]).then(values => {
-        console.log(values);
-        let modalObj = {
-            title: "Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-                { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-            ]
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
         }
-        this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-                if (response.id === 1) {
-                    this.services.router.navigate(['home', 'LANDING']);
-                }
-            }
-        });
-    });  
+      });
+    });
   }
 
   async SEARCH_CUST_BTN_click(event) {
@@ -702,12 +702,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        
-        if(res.status == 'F'){
+
+        if (res.status == 'F') {
           this.services.alert.showAlert(2, '', 1000, 'Check Eligibility Failed');
           return;
         }
-        if(res.status == 'S'){
+        if (res.status == 'S') {
           this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
           for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
             const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
@@ -728,9 +728,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           modalRef.componentInstance.rotueToComponent(inputMap);
           this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
         }
-        
+
       },
-    ); 
+    );
   }
 
   async SUBMIT_MAIN_BTN_click(event) {
@@ -782,10 +782,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.SubProduct', this.BAD_SUB_PROD.getFieldValue());
         inputMap.set('Body.LoanDetails.Scheme', this.BAD_SCHEME.getFieldValue());
         inputMap.set('Body.LoanDetails.Promotion', this.BAD_PROMOTION.getFieldValue());
-        if (this.EligibilityDecision == '' || this.EligibilityDecision == undefined ) {
-          inputMap.set('Body.LoanDetails.Decision', 'Approve');  
+        if (this.EligibilityDecision == '' || this.EligibilityDecision == undefined) {
+          inputMap.set('Body.LoanDetails.Decision', 'Approve');
         } else {
-          inputMap.set('Body.LoanDetails.Decision', this.EligibilityDecision);          
+          inputMap.set('Body.LoanDetails.Decision', this.EligibilityDecision);
         }
         // inputMap.set('Body.LoanDetails.ReferrerName', this.RD_REFERRER_NAME.getFieldValue());
         // inputMap.set('Body.LoanDetails.ReferrerPhoneNo', this.RD_REFERRER_NO.getFieldValue());
@@ -806,11 +806,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               }
               this.icif = CustData.ICIFNumber;
             }
-           var successmessage =  "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif
+            var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif
             //  var title = this.services.rloui.getAlertMessage('');
-            var mainMessage = this.services.rloui.getAlertMessage('' , successmessage);
+            var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
             var button1 = this.services.rloui.getAlertMessage('', 'OK');
-            Promise.all([ mainMessage, button1]).then(values => {
+            Promise.all([mainMessage, button1]).then(values => {
               console.log(values);
               let modalObj = {
                 title: "Alert",
@@ -820,7 +820,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
                   { id: 1, text: values[1], type: "success", class: "btn-primary" },
                 ]
               }
-            
+
               this.services.rloui.confirmationModal(modalObj).then((response) => {
                 console.log(response);
                 if (response != null) {
@@ -953,26 +953,26 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
     Promise.all([mainMessage, button1, button2]).then(values => {
-        console.log(values);
-        let modalObj = {
-            title: "Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-                { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-            ]
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.services.rloui.confirmationModal(modalObj).then(async (response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.onReset();
+          }
         }
-        this.services.rloui.confirmationModal(modalObj).then(async (response) => {
-            console.log(response);
-            if (response != null) {
-                if (response.id === 1) {
-                  this.onReset();
-                }
-            }
-        });
+      });
     });
-   
+
   }
 
   isPastDate(selectedDate) {
@@ -1016,7 +1016,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-  
+
   async CD_CUST_TYPE_change(fieldID, value) {
     this.Handler.CustomerTypeOnChange();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
@@ -1044,7 +1044,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.loanTotal = this.loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
     }
     if (this.loanTotal > 100) {
-      this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
+      this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership-claculation');
       return 1
     }
 
