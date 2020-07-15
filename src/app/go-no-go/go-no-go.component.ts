@@ -8,7 +8,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 @Component({
   selector: 'app-go-no-go',
   templateUrl: './go-no-go.component.html',
-  styleUrls: ['./go-no-go.component.css']
+  //  styleUrls: ['./go-no-go.component.css']
 })
 
 export class GoNoGoComponent implements OnInit {
