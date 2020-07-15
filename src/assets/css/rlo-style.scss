@@ -1477,14 +1477,6 @@ a.back {
   letter-spacing: 0;
 }
 
-.flexible-container .rlo-ui-radio-container {
-  height: auto !important;
-  min-height: 42px !important;
-  .radio-item {
-    float: left;
-  }
-}
-
 .header-expanded-dde {
   margin-top: 127px !important;
 }
@@ -1537,7 +1529,6 @@ a.back {
           font-family: "Open Sans";
           font-size: 12px;
           letter-spacing: 0;
-          line-height: 17px;
           margin-left: 20px;
           line-height: 52px;
         }
@@ -1548,18 +1539,17 @@ a.back {
         .lbl-deviaton {
           background-color: $primary-color;
           color: #FFFFFF;
-          height: 52px;
-          height: 38px;
+          height: 36px;
           font-size: 12px;
           width: 100%;
-          line-height: 36px;
+          line-height: 37px;
           /* padding-top: 7px; */
           text-align: center;
-          border-radius: 17px;
+          border-radius: 24px;
         }
       }
       .answer-container {
-        padding: 9px 0px 0px 0px;
+        padding: 9px 0px 0px 40px;
         height: 52px;
         opacity: 0.8;
         border-radius: 4px;
@@ -1584,3 +1574,46 @@ a.back {
 }
 
 /*go no go css end*/
+
+/* personal-interview starts*/
+
+.pi-container {
+  .sub-header-container {
+    .Questionnaire-subheader {
+      height: 22px;
+      color: #000000 !important;
+      font-family: "Open Sans";
+      font-size: 16px !important;
+      letter-spacing: 0;
+      line-height: 22px;
+    }
+  }
+  .param-container {
+    height: auto !important;
+    min-height: 42px !important;
+    .param-Question {
+      height: 42px;
+      border-radius: 4px;
+      background-color: #FAFAFA;
+      margin-top: 1.25rem;
+      .questions-txt {
+        height: 17px;
+        color: #565656;
+        font-family: "Open Sans";
+        font-size: 12px;
+        letter-spacing: 0;
+        margin-left: 20px;
+        line-height: 17px;
+      }
+    }
+    .flexible-container .rlo-ui-radio-container {
+      height: auto !important;
+      min-height: 42px !important;
+      .radio-item {
+        float: left;
+      }
+    }
+  }
+}
+
+/*personal interview end*/
