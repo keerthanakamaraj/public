@@ -22,6 +22,8 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   @Output() onIconClick = new EventEmitter<any>();
 
   @Input('cardFieldMetaData') cardFieldMetaData: ICardListData;
+  @Input('parentCardName') parentCardName: string;
+
   myIcon: boolean;
   constructor(services: ServiceStock) {
     super(services);
@@ -33,8 +35,8 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
 
   ngAfterViewInit() {
-    console.log("deep ===");
-    console.warn(this.cardFieldMetaData)
+    //console.log("deep ===");
+    //console.warn(this.cardFieldMetaData)
   }
 
 

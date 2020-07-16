@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { IUwCustomerTab } from '../Interface/masterInterface';
 
 const customCss: string = '';
 export class ITag {
@@ -18,6 +19,10 @@ export class ITag {
   templateUrl: './uw-cust-tab.component.html'
 })
 export class UWCustomerTabComponent implements OnInit, AfterViewInit {
+  @Input() customerList: IUwCustomerTab[] = [];
+
+  @Output() customerChanged = new EventEmitter<any>();
+
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
   tagsArr: ITag[] = [];
@@ -27,47 +32,55 @@ export class UWCustomerTabComponent implements OnInit, AfterViewInit {
   moreTag: any = {};
   isFirstLoad: boolean = false;
   sliderLength: number = 4;
+
   constructor(private services: ServiceStock) { }
 
   ngOnInit() {
 
-    let customerList = [{
-      "CustomerId": "22",
-      "CD_CUSTOMER_NAME": "Ronald Weasley",
-      "CD_CUSTOMER_TYPE": "B"
-    },
-    {
-      "CustomerId": "23",
-      "CD_CUSTOMER_NAME": "Molly Weasley",
-      "CD_CUSTOMER_TYPE": "CB"
-    },
-    {
-      "CustomerId": "24",
-      "CD_CUSTOMER_NAME": "Arthur Weasley",
-      "CD_CUSTOMER_TYPE": "CB"
-    },
-    {
-      "CustomerId": "25",
-      "CD_CUSTOMER_NAME": "Willy Weasley",
-      "CD_CUSTOMER_TYPE": "OP"
-    },
-    {
-      "CustomerId": "26",
-      "CD_CUSTOMER_NAME": "Ginny Weasley",
-      "CD_CUSTOMER_TYPE": "G"
-    },
-    {
-      "CustomerId": "996",
-      "CD_CUSTOMER_NAME": "Remus Lupin",
-      "CD_CUSTOMER_TYPE": "CB"
-    }
-    ];
-    this.setCustomerList(customerList);
+    // const customerList = [{
+    //   "BorrowerSeq": "22",
+    //   "CD_CUSTOMER_NAME": "Ronald Weasley",
+    //   "CD_CUSTOMER_TYPE": "B"
+    // },
+    // {
+    //   "BorrowerSeq": "23",
+    //   "CD_CUSTOMER_NAME": "Molly Weasley",
+    //   "CD_CUSTOMER_TYPE": "CB"
+    // },
+    // {
+    //   "BorrowerSeq": "24",
+    //   "CD_CUSTOMER_NAME": "Arthur Weasley",
+    //   "CD_CUSTOMER_TYPE": "CB"
+    // },
+    // {
+    //   "BorrowerSeq": "25",
+    //   "CD_CUSTOMER_NAME": "Willy Weasley",
+    //   "CD_CUSTOMER_TYPE": "OP"
+    // },
+    // {
+    //   "BorrowerSeq": "26",
+    //   "CD_CUSTOMER_NAME": "Ginny Weasley",
+    //   "CD_CUSTOMER_TYPE": "G"
+    // },
+    // {
+    //   "BorrowerSeq": "996",
+    //   "CD_CUSTOMER_NAME": "Remus Lupin",
+    //   "CD_CUSTOMER_TYPE": "CB"
+    // }
+    // ];
+    //this.setCustomerList(customerList);
   }
+
   ngOnDestroy() {
   }
+
   ngAfterViewInit() {
+    this.setCustomerList(this.customerList);
   }
+
+  // onClickButton(event) {
+  //   this.onIconClick.emit(event);
+  // }
 
   setCustomerList(customerList) {
     this.customerDataArr = customerList;
@@ -95,18 +108,19 @@ export class UWCustomerTabComponent implements OnInit, AfterViewInit {
     this.lastIndex = this.sliderLength;
     //this.tagsArr[0].isActive = true;
   }
+
   cloneCustomerArray() {
     this.customerDataArr.forEach(eachCustomer => {
       const tag: ITag = {};
-      tag.custId = eachCustomer.CustomerId;
+      tag.custId = eachCustomer.BorrowerSeq;
       tag.label = eachCustomer.CD_CUSTOMER_TYPE;
       tag.text = eachCustomer.CD_CUSTOMER_NAME;
       tag.isActive = eachCustomer.isActive ? eachCustomer.isActive : false;
       this.tagsArr.push(tag);
     });
   }
-  shiftNext(direction) {
 
+  shiftNext(direction) {
     if (this.customerDataArr.length > this.lastIndex) {
       this.tagsArr = [];
       this.cloneCustomerArray();
@@ -132,15 +146,19 @@ export class UWCustomerTabComponent implements OnInit, AfterViewInit {
     }
   }
 
-  showCustomer(selectedCustomerId) {
-    alert("section clicked" + selectedCustomerId);
+  showCustomer(selectedBorrowerSeq, index) {
+    let obj = {
+      "selectedBorrowerSeq": selectedBorrowerSeq,
+      "index": index
+    }
+    this.customerChanged.emit(obj);
 
     for (const eachCustomer of this.customerDataArr) {
-      (eachCustomer.CustomerId == selectedCustomerId) ? eachCustomer.isActive = true : eachCustomer.isActive = false;
+      (eachCustomer.BorrowerSeq == selectedBorrowerSeq) ? eachCustomer.isActive = true : eachCustomer.isActive = false;
     }
 
     for (const eachTag of this.tagsArr) {
-      (eachTag.custId == selectedCustomerId) ? eachTag.isActive = true : eachTag.isActive = false;
+      (eachTag.custId == selectedBorrowerSeq) ? eachTag.isActive = true : eachTag.isActive = false;
     }
   }
 

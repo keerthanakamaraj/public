@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, HostListener, QueryList, ViewChildren } from '@angular/core';
 import { DDEModel, AddSpecificComponent } from './DDE.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -91,7 +91,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('headerProgressBar', { static: false }) headerProgressBar: HeaderProgressComponent;
   @ViewChild('LOAN_DTLS', { static: false }) LOAN_DTLS: LoanDetailsFormComponent;
   @ViewChild('FieldId_26', { static: false }) LOAN_GRID: LoanDetailsGridComponent;
-  @ViewChild('scorecard', { static: false }) scoreCardComponent: ScoreCardComponent;
+  @ViewChildren('scorecard') scoreCardComponent: QueryList<ScoreCardComponent>;
   @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
   @ViewChild('Application_Dtls', { static: false }) Application_Dtls: ApplicationDtlsComponent;
   @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
@@ -131,13 +131,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     firstArr?: number,
     secondArr?: number
   } =
-  {
-    selectedMenuId: "",
-    selectedMenuComponent: "",
-    isCustomerTabSelected: true,
-    firstArr: 0,
-    secondArr: 0
-  };
+    {
+      selectedMenuId: "",
+      selectedMenuComponent: "",
+      isCustomerTabSelected: true,
+      firstArr: 0,
+      secondArr: 0
+    };
 
   /**
    * Tags
@@ -255,6 +255,21 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   masterDataSubscription: Subscription;
   childToParentSubjectSubscription: Subscription;
   customersList = new Map();
+
+  headerScoreCard = [
+    {
+      type: "Final DBR",
+      score: 54,
+    },
+    {
+      type: "Fire Policy",
+      score: 36,
+    },
+    {
+      type: "Application Score",
+      score: 75,
+    }
+  ];
 
   constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
     super(services);
@@ -741,6 +756,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     const dynamicComponent = viewContainerRef.createComponent(componentFactory);
     var componentInstance = dynamicComponent.instance;
+    let view = dynamicComponent.hostView;
     this.currentCompInstance = componentInstance;
     componentInstance.ApplicationId = this.ApplicationId;
     componentInstance.isLoanCategory = this.isLoanCategory;
@@ -969,7 +985,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
-    this.scoreCardComponent.headerChanges(event);
+    // this.scoreCardComponent.headerChanges(event);
+    this.scoreCardComponent.forEach(element => {
+      element.headerChanges(event);
+    });
     this.headerProgressBar.headerChanges(event);
   }
 

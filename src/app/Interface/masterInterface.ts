@@ -9,9 +9,9 @@ export interface IGeneralCardData {
     isEnabled: boolean;
     name: string;
     modalSectionName: string;
-    data: ICardListData[];
+    data?: ICardListData[] | any;
     borrowerSeq?: number;
-    applicationId?:number;
+    applicationId?: number;
 }
 
 export interface ICardListData {
@@ -19,6 +19,12 @@ export interface ICardListData {
     subTitle: any;
     type: "basic" | "icon" | "iconStatus" | "statusCount";
     modalSectionName?: string;//name of the section to be opened IN MODAL.
+}
+
+export interface IUwCustomerTab {
+    BorrowerSeq: number,
+    CD_CUSTOMER_NAME: string;
+    CD_CUSTOMER_TYPE: string;
 }
 
 export interface IDeserializable {

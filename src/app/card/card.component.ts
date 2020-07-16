@@ -17,9 +17,7 @@ class ICardConfig {
 })
 export class CardComponent implements OnInit {
   @Input('cardMetaData') cardMetaData: IGeneralCardData;
-  
-  primary_lable :string = "full name";
-  secondary_lable : string ="Juhi Patil";
+
   cardConfig = new Map();
   cardName: string;
 
@@ -45,10 +43,31 @@ export class CardComponent implements OnInit {
 
   ngAfterViewInit() {
     console.warn(this.cardMetaData);
+    console.log(this.cardMetaData.modalSectionName, this.cardMetaData.name);
     this.cardName = this.cardMetaData.name;
   }
 
   configureCard() {
 
+  }
+
+  getClassByCardName() {
+    return {
+      'col-sm-6 col-md-6 col-lg-6': this.cardName == "Customer 360 degrees",
+      'col-sm-6 col-md-6 col-lg-6 t': this.cardName == "Loan Details",
+      'col-sm-6 col-md-6 col-lg-6 tt': this.cardName == "Interface Results",
+    };
+
+    console.log("&&&");
+    switch (this.cardName) {
+      case "Customer 360 degrees":
+      case "Loan Details":
+      case "Interface Results":
+        return 'col-sm-6 col-md-6 col-lg-6'
+
+      default:
+        return 'col-sm-3 col-md-3 col-lg-3'
+        break;
+    }
   }
 }

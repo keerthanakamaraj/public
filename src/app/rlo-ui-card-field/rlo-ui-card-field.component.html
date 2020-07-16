@@ -1,4 +1,6 @@
-<div class="wgt-card-tile-body card-tile-body">
+<div class="wgt-card-tile-body card-tile-body" 
+[ngClass]="[parentCardName == 'Customer 360 degrees'||parentCardName == 'Loan Details'?'col-sm-6 col-md-6 col-lg-6 special':'']">
+
   <div class="card-tile-container">
     <span id="primary_lable" class="primary_lable">{{cardFieldMetaData.title}}</span>
     <span id="secondary_lable" class="secondary_lable">{{cardFieldMetaData.subTitle}}</span>
@@ -18,6 +20,7 @@
       </button>
     </div> -->
   </div>
+
 </div>
 
 

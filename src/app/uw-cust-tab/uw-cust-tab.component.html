@@ -27,8 +27,8 @@
 
 <div class="uw-cust-list-container row" *ngIf="isMore;else onlyCustTemplate">
   <div class="cust-list-container">
-    <div [ngClass]="customer.isActive?'active-customer':'cust-name-container'" *ngFor="let customer of tagsArr;let last = last;let index = index"
-      (click)="showCustomer(customer.custId);">
+    <div [ngClass]="customer.isActive?'active-customer':'cust-name-container'"
+      *ngFor="let customer of tagsArr;let last = last;let index = index" (click)="showCustomer(customer.custId,index);">
       <span class="cust-tag">{{ customer.label }}</span>
       <span class="cust-name">{{ customer.text }}</span>
     </div>
@@ -36,15 +36,18 @@
   <div class="cust-more-container">
     <span class="more-tag">{{ moreTag.label }}</span>
     <span class="shift-btn-container">
-      <span class="prev-btn" [ngClass]="firstIndex>0?'prev-btn-active':'prev-btn-inactive'" (click)="firstIndex>0?shiftPrev('prev'):''"></span>
-      <span class="nxt-btn" [ngClass]="customerDataArr.length>lastIndex?'nxt-btn-active':'nxt-btn-inactive'" (click)="(customerDataArr.length>lastIndex)?shiftNext('nxt'):''"></span>
+      <span class="prev-btn" [ngClass]="firstIndex>0?'prev-btn-active':'prev-btn-inactive'"
+        (click)="firstIndex>0?shiftPrev('prev'):''"></span>
+      <span class="nxt-btn" [ngClass]="customerDataArr.length>lastIndex?'nxt-btn-active':'nxt-btn-inactive'"
+        (click)="(customerDataArr.length>lastIndex)?shiftNext('nxt'):''"></span>
     </span>
   </div>
 </div>
 <ng-template #onlyCustTemplate>
   <div class="uw-cust-list-container row">
     <div class="only-cust-list-container">
-      <div [ngClass]="customer.isActive?'active-customer':'cust-name-container'" *ngFor="let customer of tagsArr;" (click)="showCustomer(customer.custId);">
+      <div [ngClass]="customer.isActive?'active-customer':'cust-name-container'"
+        *ngFor="let customer of tagsArr;let index=index" (click)="showCustomer(customer.custId,index);">
         <span class="cust-tag">{{ customer.label }}</span>
         <span class="cust-name">{{ customer.text }}</span>
       </div>

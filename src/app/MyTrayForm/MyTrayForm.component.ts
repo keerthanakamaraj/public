@@ -159,8 +159,23 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.navigateToHome();
     }
   }
-  
-  underWriter(){
+
+  underWriter() {
+    let inputMap = new Map();
+
+
+    // if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
+    //   this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
+    //   return;
+    // }
+
+    //navPath.push(stageId);
+    inputMap.set('appId', 1486);
+    // inputMap.set('taskId', selectedData2['hiddenTaskId']);
+    // inputMap.set('instanceId', selectedData2['hiddenInstanceId']);
+    // inputMap.set('userId', selectedData2['MT_PENDING_WITH']);
+
+    this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
     this.router.navigate(['/home/Underwriter']);
   }
 }

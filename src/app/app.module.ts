@@ -8,7 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateLoader, MissingTranslationHandler } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { Data } from './DataService';
@@ -95,14 +95,13 @@ const keycloakService = new KeycloakService();
     // PwdChangeComponent,
     GridWithFormComponent,
     AlertsComponent,
-    PopupAlertComponent,
+    PopupAlertComponent
     // RloUiCardTileComponent
     //MyTrayPageComponent
     // MyTrayGridComponent,
   ],
   exports: [
     FooterComponent
-
   ],
   imports: [
     BrowserAnimationsModule,

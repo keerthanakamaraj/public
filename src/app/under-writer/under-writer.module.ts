@@ -11,9 +11,13 @@ import { HeaderModule } from '../Header/Header.module';
 import { QDEHandlerModule } from '../QDE/QDE-handler.module';
 import { UnderWriterRoutingModule } from './under-writer-routing';
 import { CardModule } from '../card/card.module';
-import {UWCustomerTabModule} from '../uw-cust-tab/uw-cust-tab.component.module'
+import { UWCustomerTabModule } from '../uw-cust-tab/uw-cust-tab.component.module'
 import { ScoreCardModule } from '../score-card/score-card.module';
 import { RloUiCardFieldModule } from '../rlo-ui-card-field/rlo-ui-card-field.module';
+import { BlankCardModule } from '../blank-card/blank-card.module';
+import { HeaderStatusCardModule } from '../header-status-card/header-status-card.module';
+import { NgxMasonryModule } from 'ngx-masonry';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -33,7 +37,10 @@ import { RloUiCardFieldModule } from '../rlo-ui-card-field/rlo-ui-card-field.mod
         QDEHandlerModule,
         CardModule,
         UWCustomerTabModule,
-        RloUiCardFieldModule
+        RloUiCardFieldModule,
+        BlankCardModule,
+        HeaderStatusCardModule,
+        NgxMasonryModule
     ],
     declarations: [
         UnderWriterComponent

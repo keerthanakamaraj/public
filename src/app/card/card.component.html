@@ -1,25 +1,91 @@
-<div class="wgt-cards"
-    [ngClass]="{'col-sm-6 col-md-6 col-lg-6': cardName == 'Customer 360 degrees', 'col-sm-3 col-md-3 col-lg-3': cardName != 'Customer 360 degrees'}">
+<!-- <div class="wgt-cards"
+    [ngClass]="[cardName == 'Customer 360 degrees'||cardName == 'Loan Details'||cardName == 'Interface Results'?'col-sm-6 col-md-6 col-lg-6':'col-sm-3 col-md-3 col-lg-3']">
     <ng-container *ngIf="cardName == 'Customer 360 degrees'">
         <div class="cards-header">
-            <span>Customer 360 degrees</span>
+            <span>{{cardMetaData.name}}</span>
             <span class="expand-icon"></span>
         </div>
-        <div class="cards-body">
-            <rlo-ui-card-field></rlo-ui-card-field>
-            <rlo-ui-card-field></rlo-ui-card-field>
-            <rlo-ui-card-field></rlo-ui-card-field>
+        <div class="cards-body row">
+            <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+                *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
         </div>
     </ng-container>
 
-    <ng-container *ngIf="cardName != 'Customer 360 degrees'">
+    <ng-container *ngIf="cardName == 'Loan Details'">
         <div class="cards-header">
             <span>{{cardMetaData.name}}</span>
-            <span class="expand-icon" *ngIf="cardMetaData.showModalBtn"></span>
+            <span class="expand-icon"></span>
         </div>
-        <div class="cards-body">
-            <rlo-ui-card-field [cardFieldMetaData]="list" *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+        <div class="cards-body row">
+            <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+                *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
         </div>
     </ng-container>
 
+    <ng-container *ngIf="cardName == 'Interface Results'">
+        <div class="cards-header">
+            <span>{{cardMetaData.name}}</span>
+            <span class="expand-icon"></span>
+        </div>
+        <div class="cards-body row">
+            No Data
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="cardName != 'Customer 360 degrees' && cardName != 'Loan Details' && cardName != 'Interface Results'">
+        <div class="cards-header">
+            <span>{{cardMetaData.name}}</span>
+            <span class="expand-icon" *ngIf="cardMetaData.modalSectionName.length"></span>
+        </div>
+        <div class="cards-body row">
+            <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+                *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+        </div>
+    </ng-container>
+
+</div> -->
+
+
+<div class="wgt-cards col-sm-6 col-md-6 col-lg-6" *ngIf="cardName == 'Customer 360 degrees'">
+    <div class="cards-header">
+        <span>{{cardMetaData.name}}</span>
+        <span class="expand-icon"></span>
+    </div>
+    <div class="cards-body row">
+        <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+            *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+    </div>
+</div>
+
+<div class="wgt-cards col-sm-6 col-md-6 col-lg-6" *ngIf="cardName == 'Loan Details'">
+    <div class="cards-header">
+        <span>{{cardMetaData.name}}</span>
+        <span class="expand-icon"></span>
+    </div>
+    <div class="cards-body row">
+        <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+            *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+    </div>
+</div>
+
+<div class="wgt-cards col-sm-6 col-md-6 col-lg-6" *ngIf="cardName == 'Interface Results'">
+    <div class="cards-header">
+        <span>{{cardMetaData.name}}</span>
+        <span class="expand-icon"></span>
+    </div>
+    <div class="cards-body row">
+        <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+            *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+    </div>
+</div>
+
+<div class="wgt-cards col-sm-3 col-md-3 col-lg-3" *ngIf="cardName != 'Customer 360 degrees' && cardName != 'Loan Details' && cardName != 'Interface Results'">
+    <div class="cards-header">
+        <span>{{cardMetaData.name}}</span>
+        <span class="expand-icon"></span>
+    </div>
+    <div class="cards-body row">
+        <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"
+            *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+    </div>
 </div>

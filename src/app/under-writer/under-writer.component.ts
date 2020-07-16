@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
-import { ICardMetaData } from '../Interface/masterInterface';
+import { ICardMetaData, IUwCustomerTab } from '../Interface/masterInterface';
 import { RloCommonData } from '../rlo-services/rloCommonData.service';
 import { Master } from './under-writer.model';
+import { HeaderComponent } from '../Header/Header.component';
+import { FormComponent } from '../form/form.component';
+import { ServiceStock } from '../service-stock.service';
+import { NgxMasonryOptions } from 'ngx-masonry';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -15,10 +19,12 @@ class IbasicCardSectionData {
   templateUrl: './under-writer.component.html',
   styleUrls: ['./under-writer.component.css']
 })
-export class UnderWriterComponent implements OnInit {
+export class UnderWriterComponent extends FormComponent implements OnInit {
+
+  @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
 
   customerCardSectionData: any;
-  interfaceCardSectionData: any;
+  //interfaceCardSectionData: any;
 
   commonBlankCardSectionData: Array<any> = [];
   basicCardSectionData: IbasicCardSectionData = {
@@ -28,89 +34,106 @@ export class UnderWriterComponent implements OnInit {
 
   allSectionCard
 
-  customerSectionData = [
-    {
-      "ExistingCustomer": "N",
-      "UWIncomeSummary": {
-        "NetIncomeMonthly": 0,
-        "DBR": 0,
-        "IncomeSummarySeq": 101,
-        "TotalIncome": 0,
-        "TotalLiabiity": 0,
-        "BorrowerSeq": 2251,
-        "TotalObligation": 0
-      },
-      "DOB": "04-05-1995",
-      "FullName": "Juhi S Patil",
-      "UWFamily": [
+  customerSectionData = {
+    "UWApplication": {
+      "UWCustomerDetails": [
         {
-          "DOB": "1995-07-01 00:00:00.0",
-          "FullName": "YTRI YUTU UYTU ",
-          "Relationship": "BR",
-          "BorrowerSeq": 3291,
-          "CustomerRelated": 2251
+          "ExistingCustomer": "N",
+          "UWIncomeSummary": {
+            "NetIncomeMonthly": 0,
+            "DBR": 0,
+            "IncomeSummarySeq": 101,
+            "TotalIncome": 0,
+            "TotalLiabiity": 0,
+            "BorrowerSeq": 2251,
+            "TotalObligation": 0
+          },
+          "DOB": "04-05-1995",
+          "FullName": "Juhi S Patil",
+          "UWFamily": [
+            {
+              "DOB": "1995-07-01 00:00:00.0",
+              "FullName": "YTRI YUTU UYTU ",
+              "Relationship": "BR",
+              "BorrowerSeq": 3291,
+              "CustomerRelated": 2251
+            }
+          ],
+          "BorrowerSeq": 2251,
+          "ApplicationId": 2061,
+          "CustomerType": "B",
+          "UWAddress": [
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 829,
+              "Address1": "virar",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "OF",
+              "Pincode": 400060
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 728,
+              "Address1": "bncbv",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400060
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 727,
+              "Address1": "virar",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400060
+            }
+          ]
+        },
+        {
+          "FullName": "JUHI ",
+          "BorrowerSeq": 3272,
+          "ApplicationId": 2061,
+          "CustomerType": "R",
+          "UWAddress": [
+            {
+              "State": "MAHARASHTRA",
+              "AddressSeq": 1288,
+              "Address1": "BHAYANDER",
+              "BorrowerSeq": 3272,
+              "City": "MUMBAI",
+              "Pincode": 400001
+            },
+            {
+              "State": "MAHARASHTRA",
+              "AddressSeq": 1289,
+              "Address1": "BHAYANDER",
+              "BorrowerSeq": 3272,
+              "City": "MUMBAI",
+              "Pincode": 400001
+            }
+          ]
         }
       ],
-      "BorrowerSeq": 2251,
-      "ApplicationId": 2061,
-      "CustomerType": "B",
-      "UWAddress": [
-        {
-          "State": "Maharashtra",
-          "AddressSeq": 829,
-          "Address1": "virar",
-          "BorrowerSeq": 2251,
-          "City": "Mumbai",
-          "AddressType": "OF",
-          "Pincode": 400060
-        },
-        {
-          "State": "Maharashtra",
-          "AddressSeq": 728,
-          "Address1": "bncbv",
-          "BorrowerSeq": 2251,
-          "City": "Mumbai",
-          "AddressType": "RS",
-          "OccupationType": "OW",
-          "Pincode": 400060
-        },
-        {
-          "State": "Maharashtra",
-          "AddressSeq": 727,
-          "Address1": "virar",
-          "BorrowerSeq": 2251,
-          "City": "Mumbai",
-          "AddressType": "RS",
-          "OccupationType": "OW",
-          "Pincode": 400060
-        }
-      ]
-    },
-    {
-      "FullName": "JUHI ",
-      "BorrowerSeq": 3272,
-      "ApplicationId": 2061,
-      "CustomerType": "R",
-      "UWAddress": [
-        {
-          "State": "MAHARASHTRA",
-          "AddressSeq": 1288,
-          "Address1": "BHAYANDER",
-          "BorrowerSeq": 3272,
-          "City": "MUMBAI",
-          "Pincode": 400001
-        },
-        {
-          "State": "MAHARASHTRA",
-          "AddressSeq": 1289,
-          "Address1": "BHAYANDER",
-          "BorrowerSeq": 3272,
-          "City": "MUMBAI",
-          "Pincode": 400001
-        }
-      ]
+      "UWApplicationInfo": {
+        "DateOfReceipt": "13-05-2020 00:00:00",
+        "ApplicationInfoId": 2082,
+        "ApplicationId": 2061
+      },
+      "Branch": "101",
+      "UWLoan": {
+        "LoanDetailsSeq": 702,
+        "ApplicationId": 2061
+      },
+      "DSAId": "USERS2",
+      "SourcingChannel": "MUM",
+      "ApplicationId": 2061
     }
-  ];
+  }
 
   singleCustomerData = {
     "ExistingCustomer": "N",
@@ -243,48 +266,74 @@ export class UnderWriterComponent implements OnInit {
     {
       type: "customer",
       cardList: [
-        { className: "Customer" },
+        { className: "CustomerDetails" },
         { className: "FinancialSummary" },
-        // { className: "FamilyDetails", displayName: "Family Details" },
         { className: "AddressDetails" },
         { className: "FinancialDetails" },
-        { className: "CollateralDetails" }
+        { className: "CollateralDetails" },
+
+        { className: "FamilyDetails" },
+        { className: "PersonalInterview" },
+        { className: "RmVisitDetails" }
       ]
     },
     {
-      type: "application"
+      type: "application",
+      cardList: [
+        { className: "LoanDetails" },
+        { className: "InterfaceResults" },
+        { className: "VehicalDetails" },
+        { className: "CardDetails" },
+        { className: "GoldDetails" },
+        { className: "EducationDetails" },
+        { className: "GoNoGoDetails" },
+        { className: "ApplicationDetails" },
+
+        { className: "ReferalDetails" },
+        { className: "Notes" },
+      ]
     }
   ];
 
-  cardDataWithFields = [];
+  headerStatusData = [
+    { name: "Investigation Results", status: "deviation" },
+    { name: "Dedupe Results", status: "pass" },
+    { name: "Verification Results", status: "Pending" }
+  ];
 
-  constructor(public rloCommonDataService: RloCommonData) {
+  cardDataWithFields = [];//used to iterate and pass data to ui-card-field
+  blankCardData = [];
+  customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
+  customerCardDataWithFields: any;//store customer related data
 
-    // this.customizedJsonData.forEach(element => {
-    //   if (element.data != null) {
-    //     switch (element.sectionName) {
-    //       case "customer":
-    //         this.customerCardSectionData = element;
-    //         this.customerCardSectionData["cardType"] = "customer";
-    //         break;
+  loanDetailsCardData: any//stores loan Details card data
+  interfaceResultCardData: any;
 
-    //       case "interfaceResults":
-    //         this.interfaceCardSectionData = element;
-    //         this.interfaceCardSectionData["cardType"] = "interfaceResult";
-    //         break;
+  selectedTab: string = "customer";
+  updateMasonryLayout: boolean;
 
-    //       default:
-    //         this.basicCardSectionData["sectionList"].push(element);
-    //         this.basicCardSectionData["cardType"] = "commonCard";
-    //         break;
-    //     }
-    //   }
-    //   else {
-    //     this.commonBlankCardSectionData.push(element);
-    //   }
-    // });
+  headerScoreCard = [
+    {
+      type: "Final DBR",
+      score: 54,
+    },
+    {
+      type: "Fire Policy",
+      score: 36,
+    },
+    {
+      type: "Application Score",
+      score: 75,
+    }
+  ];
 
-    this.refactorData();
+  myOptions: NgxMasonryOptions = {
+    gutter: 10,
+    columnWidth: 300
+  };
+
+  constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
+    super(services);
     this.test();
   }
 
@@ -304,37 +353,6 @@ export class UnderWriterComponent implements OnInit {
 
   }
 
-  refactorData() {
-    let obj;
-    this.customerSectionsList.forEach(section => {
-      if (this.singleCustomerData.hasOwnProperty(section.responseName)) {
-        switch (section.responseName) {
-          case "UWIncomeSummary":
-          case "UWFamily":
-          case "UWAddress":
-            const obj: ICardMetaData = {
-              id: section.name,
-              displayName: section.displayName,
-              data: this.singleCustomerData[section.responseName],
-              type: "basicCard"
-            }
-            this.basicCardSectionData["cardType"] = "basicCard";
-            this.basicCardSectionData["sectionList"].push(obj);
-            delete this.singleCustomerData[section.responseName];
-            break;
-
-          default:
-            break;
-        }
-      }
-    });
-
-    this.addCustomerData();
-
-    console.log(this.customerCardSectionData);
-    console.log(this.basicCardSectionData);
-  }
-
   addCustomerData() {
     const object: ICardMetaData = {
       id: "customer",
@@ -346,132 +364,205 @@ export class UnderWriterComponent implements OnInit {
     this.customerCardSectionData = object;
   }
 
-  tabSwitched() {
-
-  }
-
   //under-writer.component.ts
   test() {
-    let obj = [{
-      "ExistingCustomer": "N",
-      "UWIncomeSummary": {
-        "NetIncomeMonthly": 0,
-        "DBR": 0,
-        "IncomeSummarySeq": 101,
-        "TotalIncome": 0,
-        "TotalLiabiity": 0,
-        "BorrowerSeq": 2251,
-        "TotalObligation": 0
-      },
-      "DOB": "04-05-1995",
-      "FullName": "Juhi S Patil",
-      "UWAddress": [
+    let obj = {
+      "UWCustomerDetails": [
         {
-          "State": "Maharashtra",
-          "AddressSeq": 829,
-          "Address1": "virar",
-          "BorrowerSeq": 2251,
-          "City": "Mumbai",
-          "AddressType": "OF",
-          "Pincode": 400060,
-          "test": "aaaaaa"
+          "ExistingCustomer": "N",
+          "UWIncomeSummary": {
+            "NetIncomeMonthly": 120,
+            "DBR": 65,
+            "IncomeSummarySeq": 101,
+            "TotalIncome": 1500000,
+            "TotalLiabiity": 0,
+            "BorrowerSeq": 2251,
+            "TotalObligation": 100
+          },
+          "DOB": "04-05-1995",
+          "FullName": "Deepesh jain",
+          "BorrowerSeq": 1496,
+          "ApplicationId": 1486,
+          "CustomerType": "B",
+          "UWAddress": [
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 829,
+              "Address1": "virar",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "OF",
+              "Pincode": 400060,
+              "test": "aaaaaa"
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 728,
+              "Address1": "bncbv",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400060
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 727,
+              "Address1": "virar",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400060
+            }
+          ],
+          "UWFamily": [
+            {
+              "DOB": "1995-07-01 00:00:00.0",
+              "FullName": "YTRI YUTU UYTU ",
+              "Relationship": "BR",
+              "BorrowerSeq": 3291,
+              "CustomerRelated": 2251
+            },
+            {
+              "DOB": "0",
+              "FullName": "0",
+              "Relationship": "0",
+              "BorrowerSeq": 0,
+              "CustomerRelated": 0
+            }
+          ],
+          "UWIncomeDetails": {
+            "GrossIncome": "pending",
+            "ExistingLiabilities": "completed",
+            "IncomeVerification": "completed",
+            "PANVerification": "deviation",
+          }
         },
         {
-          "State": "Maharashtra",
-          "AddressSeq": 728,
-          "Address1": "bncbv",
-          "BorrowerSeq": 2251,
-          "City": "Mumbai",
-          "AddressType": "RS",
-          "OccupationType": "OW",
-          "Pincode": 400060
-        },
-        {
-          "State": "Maharashtra",
-          "AddressSeq": 727,
-          "Address1": "virar",
-          "BorrowerSeq": 2251,
-          "City": "Mumbai",
-          "AddressType": "RS",
-          "OccupationType": "OW",
-          "Pincode": 400060
+          "ExistingCustomer": "N",
+          "UWIncomeSummary": {
+            "NetIncomeMonthly": 0,
+            "DBR": 0,
+            "IncomeSummarySeq": 101,
+            "BorrowerSeq": 2251,
+            "TotalObligation": 0
+          },
+          "DOB": "04-05-1995",
+          "FullName": "Juhi S Patil",
+          "BorrowerSeq": 1495,
+          "ApplicationId": 1486,
+          "CustomerType": "CB"
         }
       ],
-      "UWFamily": [
-        {
-          "DOB": "1995-07-01 00:00:00.0",
-          "FullName": "YTRI YUTU UYTU ",
-          "Relationship": "BR",
-          "BorrowerSeq": 3291,
-          "CustomerRelated": 2251
-        },
-        {
-          "DOB": "0",
-          "FullName": "0",
-          "Relationship": "0",
-          "BorrowerSeq": 0,
-          "CustomerRelated": 0
-        }
-      ],
-      "UWIncomeDetails": {
-        "GrossIncome": "pending",
-        "ExistingLiabilities": "completed",
-        "IncomeVerification": "completed",
-        "PANVerification": "deviation",
-      }
-    },
-    {
-      "ExistingCustomer": "N",
-      "UWIncomeSummary": {
-        "NetIncomeMonthly": 0,
-        "DBR": 0,
-        "IncomeSummarySeq": 101,
-        "TotalIncome": 0,
-        "TotalLiabiity": 0,
-        "BorrowerSeq": 2251,
-        "TotalObligation": 0
+      "UWApplicationInfo": {
+        "DateOfReceipt": "13-05-2020 00:00:00",
+        "ApplicationInfoId": 2082,
+        "ApplicationId": 2061
       },
-      "DOB": "04-05-1995",
-      "FullName": "Juhi S Patil"
-    }];
+      "Branch": "101",
+      "UWLoan": {
+        "LoanDetailsSeq": 702,
+        "ApplicationId": 2061
+      },
+      "DSAId": "USERS2",
+      "SourcingChannel": "MUM",
+      "ApplicationId": 2061
+    };
 
+    //data for cust-tabs
+    obj["UWCustomerDetails"].forEach(element => {
+      const data: IUwCustomerTab = {
+        "BorrowerSeq": element.BorrowerSeq,
+        "CD_CUSTOMER_NAME": element.FullName,
+        "CD_CUSTOMER_TYPE": element.CustomerType
+      };
+      this.customerList.push(data);
+    });
+
+    //manager data for cards
     this.customerMasterJsonData = new Master().deserialize(obj);
     console.log(this.customerMasterJsonData);
 
     let singleCustomer = this.customerMasterJsonData.CustomerDetails[0];
     console.log(singleCustomer, singleCustomer.FamilyDetails, singleCustomer.FinancialSummary.getBorrowerSeq(), singleCustomer.FinancialSummary, singleCustomer.FinancialSummary.test);
 
-    this.selectedCustomerCardData()
+    this.selectedTabCardData(this.selectedTab);
   }
 
   isJsonEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
 
-  selectedCustomerCardData(menuIndex: number = 0, sectionType: string = "customer") {
+  selectedTabCardData(sectionType: string = "customer", menuIndex: number = 0) {
     let data;
+    this.cardDataWithFields = [];
+    this.blankCardData = [];
+
     if (sectionType == "customer") {
       let singleCustomer = this.customerMasterJsonData.CustomerDetails[menuIndex];
+      console.error(singleCustomer);
+
       this.allSectionsCardData[0].cardList.forEach(element => {
         switch (element.className) {
+          case "CustomerDetails":
+            this.customerCardDataWithFields = singleCustomer.getCardData();
+            console.error(this.customerCardDataWithFields);
+            break;
+
           case "FinancialSummary":
-            data = singleCustomer.FinancialSummary.getCardData();
-            this.cardDataWithFields.push(data);
-            break;
-
           case "AddressDetails":
-            data = singleCustomer.AddressDetails.getCardData();
-            this.cardDataWithFields.push(data);
-            break;
-
           case "FinancialDetails":
-            data = singleCustomer.FinancialDetails.getCardData();
+          case "CollateralDetails":
+            data = singleCustomer[element.className].getCardData();
             this.cardDataWithFields.push(data);
             break;
 
-          case "CollateralDetails":
-            data = singleCustomer.CollateralDetails.getCardData();
+          case "FamilyDetails":
+          case "PersonalInterview":
+          case "RmVisitDetails":
+            data = singleCustomer[element.className].getCardData();
+            this.blankCardData.push(data);
+            break;
+
+          default:
+            break;
+        }
+      });
+    }
+    else {
+      let application = this.customerMasterJsonData.ApplicationDetails;
+      this.allSectionsCardData[1].cardList.forEach(element => {
+        switch (element.className) {
+          case "LoanDetails":
+            this.loanDetailsCardData = application.LoanDetails.getCardData();
+            console.log(this.loanDetailsCardData);
+            break;
+
+          case "InterfaceResults":
+            this.interfaceResultCardData = application.InterfaceResults.getCardData();
+            console.log(this.interfaceResultCardData);
+            break;
+
+          case "ApplicationDetails":
+            data = application.getCardData();
             this.cardDataWithFields.push(data);
+            break;
+
+
+          case "VehicalDetails":
+          case "CardDetails":
+          case "GoldDetails":
+          case "EducationDetails":
+          case "GoNoGoDetails":
+            data = application[element.className].getCardData();
+            this.cardDataWithFields.push(data);
+            break;
+
+          case "ReferalDetails":
+          case "Notes":
+            data = application[element.className].getCardData();
+            this.blankCardData.push(data);
             break;
 
           default:
@@ -480,5 +571,46 @@ export class UnderWriterComponent implements OnInit {
       });
     }
     console.error(this.cardDataWithFields);
+    console.error(this.blankCardData);
+  }
+
+  //@output when tab selection changes
+  customerSelectionChanged(data) {
+    console.log(data);
+    this.selectedTabCardData(this.selectedTab, data.index);
+  }
+
+  tabSwitched(tab: string) {
+    console.log("tab switched", tab);
+    this.selectedTab = tab;
+    this.selectedTabCardData(this.selectedTab);
+  }
+
+  async revalidate(): Promise<number> {
+    var totalErrors = 0;
+    super.beforeRevalidate();
+    await Promise.all([
+      this.FieldId_1.revalidate(),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.errors = totalErrors;
+    super.afterRevalidate();
+    return totalErrors;
+  }
+
+  masonryItems = [
+    { title: 'item 1', width: '500px' },
+    { title: 'item 2', width: '500px' },
+    { title: 'item 3', width: '500px' },
+    { title: 'item 3', width: '500px' },
+    { title: 'item 3', width: '500px' },
+    { title: 'item 9', width: '500px' },
+  ];
+
+  click() {
+    this.updateMasonryLayout = true;
   }
 }

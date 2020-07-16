@@ -1,9 +1,10 @@
-<!-- <div class="clearfix content">
-    <div class="wgt-top-navigator row">
+<div class="clearfix content">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
         <div class="col-sm-12 col-md-12">
             <div class="FormTitle no-border">
-                <a class="back" (click)="rloCommonDataService.goBack()">Back</a>
-                <span>{{ 'DDE.FormTitle' | translate }}</span>
+                <a class="back" (click)="goBack()">Back</a>
+                <!-- <span>{{ 'DDE.FormTitle' | translate }}</span> -->
+                <span>Underwriter</span>
             </div>
         </div>
         <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
@@ -15,18 +16,23 @@
                 <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
                     (productCategoryFound)="brodcastProdCategory($event)" (headerStateEvent)="headerState($event)">
                 </app-Header>
-                <app-score-card #scorecard></app-score-card>
             </div>
         </div>
     </div>
-</div> -->
+</div>
+
+<div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section">
+    <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
+        <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" *ngFor="let data of headerScoreCard">
+        </app-score-card>
+    </div>
+    <div class="header-status-container col-sm-6 col-md-6 col-lg-6">
+        <app-header-status-card [statusData]="data" *ngFor="let data of headerStatusData"></app-header-status-card>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-        <app-uw-cust-tab></app-uw-cust-tab>
-    </div>
-
-    <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div">
+    <div class="col-12  col-sm-12 col-md-12 uw-tabs">
         <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
             <a href="#customer-panel" class="btn btn-default active" data-toggle="tab"
                 (click)="tabSwitched('customer')">
@@ -37,15 +43,30 @@
             </a>
         </div>
     </div>
-  <!-- </div> -->
 
     <div class="tab-content">
         <div class="tab-pane active" id="customer-panel">
-            <app-card [cardMetaData]="customerMasterJsonData"></app-card>
-            <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
+            <div class="col-12 col-sm-12 col-md-12 res-pr-hide">
+                <app-uw-cust-tab (customerChanged)="customerSelectionChanged($event)" [customerList]="customerList">
+                </app-uw-cust-tab>
+            </div>
+            <div class="cards-section">
+                <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
+                <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
+                <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+                    <app-blank-card [cardMetaData]="data" *ngFor="let data of blankCardData"></app-blank-card>
+                </div>
+            </div>
         </div>
-        <div class="tab-pane" id="application-panel">
-            <!-- <app-card [cardMetaData]="interfaceCardSectionData"></app-card> -->
+        <div class="tab-pane" id="application-panel" *ngIf="selectedTab == 'application'">
+            <div class="cards-section">
+                <app-card [cardMetaData]="loanDetailsCardData"></app-card>
+                <app-card [cardMetaData]="interfaceResultCardData"></app-card>
+                <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
+                <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+                    <app-blank-card [cardMetaData]="data" *ngFor="let data of blankCardData"></app-blank-card>
+                </div>
+            </div>
         </div>
     </div>
 
