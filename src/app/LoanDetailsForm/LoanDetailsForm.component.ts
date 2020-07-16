@@ -421,6 +421,11 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     }
   }
 
+  RepaymentOption_blur(event) {
+    console.log("selected loan", this.RepaymentOption.getFieldValue());
+    this.RepaymentAccNo.mandatory = ('cash' == this.RepaymentOption.getFieldValue()) ? false : true;
+  }
+
   fieldDependencies = {
     TenurePeriod: {
       inDep: [
