@@ -49,6 +49,9 @@ body {
   margin: auto;
 }
 
+.no-padding{
+  padding:0px !important;
+}
 .bi-reponsive {
   .form-control {
     box-sizing: border-box !important;
@@ -2066,6 +2069,7 @@ rlo-ui-card-field {
   margin: 0px !important;
 }
 
+/*score-card-result start*/
 .score-container {
   height: 51px;
 
@@ -2107,6 +2111,28 @@ rlo-ui-card-field {
     text-align: right;
   }
 }
+.graph-index-row{
+  .index-container{
+  height: 52px;
+  .index{
+    height: 17px;
+    color: #565656;
+    font-family: "Open Sans";
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 17px;
+    .favourable-sample{
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background-color: #00B500;
+    }
+  }
+  }
+  }
+  
+  
+/*score-card-result end*/
 
 .wgt-blank-card {
   border: 1px solid rgba(0, 121, 184, 0.25);
