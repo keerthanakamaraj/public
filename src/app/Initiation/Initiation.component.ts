@@ -1062,7 +1062,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.loanTotal = this.loanTotal + Number(this.CD_LOAN_OWNERSHIP.getFieldValue());
     }
     if (this.loanTotal > 100) {
-      this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership-claculation');
+      this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
       return 1
     }
 
