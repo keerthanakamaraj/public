@@ -928,7 +928,25 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
                 this.BAD_SRC_CHANNEL.setError(err['ErrorDescription']);
               }
             }
-            this.showMessage('Unable to save form!');
+            Promise.all([this.services.rloui.getAlertMessage('', 'Unable to save form!'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+              console.log(values);
+              let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                ]
+              }
+              this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                  if (response.id === 1) {
+                    this.services.rloui.closeAllConfirmationModal();
+                  }
+                }
+              });
+            });
             this.SUBMIT_MAIN_BTN.setDisabled(false);
           }
         );
