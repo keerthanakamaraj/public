@@ -16,7 +16,7 @@ import { ScoreCardModule } from '../score-card/score-card.module';
 import { RloUiCardFieldModule } from '../rlo-ui-card-field/rlo-ui-card-field.module';
 import { BlankCardModule } from '../blank-card/blank-card.module';
 import { HeaderStatusCardModule } from '../header-status-card/header-status-card.module';
-import { NgxMasonryModule } from 'ngx-masonry';
+//import { NgxMasonryModule } from 'ngx-masonry';
 
 @NgModule({
     imports: [
@@ -40,7 +40,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
         RloUiCardFieldModule,
         BlankCardModule,
         HeaderStatusCardModule,
-        NgxMasonryModule
+      //  NgxMasonryModule
     ],
     declarations: [
         UnderWriterComponent

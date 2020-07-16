@@ -1,24 +1,20 @@
-export interface IPolicy2 {
-  PolicySeq?: string;
-  PolicyResultSeq?: string;
-  PolicyText?: string;
-  RuleSeq?: string;
-  RuleResult?: string;
-  RuleDecision?: string;
-  ActualValue?: string;
-  ExpectedValue?: string;
-  Stage?: string;
-
+export interface IScoreCard {
+  Score?: number,
+  ScoreSection?: string,
+  ScorecardSeq?: string,
+  ScoreID?: string,
+  ApplicationId?: string,
+  BorrowerSeq?: string
+  MaxScore?: number,
+  MinGreenScore?: number,
+  MinOrangeScore?: number,
+  MinRedScore?: number,
+  colorCode: string;
 }
 
-export interface IPolicy {
-  RuleDescription?: string,
-  RuleDecision?: string,
-  PolicyResultSeq?: string,
-  RuleSeq?: string,
-  ActualValue?: string,
-  ExpectedValue?: string,
-  Stage?: string,
-  RuleResult?: string,
-  ApplicationId?: string
+export interface IScoreColor {
+  colorId?: string,
+  colorCode?: string,
+  description?: string
+
 }

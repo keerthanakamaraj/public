@@ -7,7 +7,7 @@ import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
 import { FormComponent } from '../form/form.component';
 import { ServiceStock } from '../service-stock.service';
-import { NgxMasonryOptions } from 'ngx-masonry';
+//import { NgxMasonryOptions } from 'ngx-masonry';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -327,10 +327,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   ];
 
-  myOptions: NgxMasonryOptions = {
-    gutter: 10,
-    columnWidth: 300
-  };
+  // myOptions: NgxMasonryOptions = {
+  //   gutter: 10,
+  //   columnWidth: 300
+  // };
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
