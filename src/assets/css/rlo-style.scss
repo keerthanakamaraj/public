@@ -1519,10 +1519,12 @@ a.back {
       }
     }
     .param-container {
+      margin-top: 10px;
       .param-Question {
         height: 52px;
         border-radius: 4px;
         background-color: #FAFAFA;
+        line-height: 52px;
         .questions-txt {
           height: 17px;
           color: #565656;
@@ -1530,22 +1532,22 @@ a.back {
           font-size: 12px;
           letter-spacing: 0;
           margin-left: 20px;
-          line-height: 52px;
+        
         }
       }
       .deviation-container {
-        padding-top: 9px;
-        padding-left: 0px;
+        height: 52px;
+        line-height: 52px;
         .lbl-deviaton {
           background-color: $primary-color;
           color: #FFFFFF;
-          height: 36px;
+          height: 30px;
           font-size: 12px;
           width: 100%;
-          line-height: 37px;
-          /* padding-top: 7px; */
+          line-height: 30px;
           text-align: center;
-          border-radius: 24px;
+          border-radius: 15px;
+          margin-bottom: 0px;
         }
       }
       .answer-container {
@@ -1596,6 +1598,7 @@ a.back {
       border-radius: 4px;
       background-color: #FAFAFA;
       margin-top: 1.25rem;
+      line-height: 42px;
       .questions-txt {
         height: 17px;
         color: #565656;
