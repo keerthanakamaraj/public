@@ -5,10 +5,10 @@
   <div class="row">
     <ng-container *ngIf="QuestionnairMap != undefined">
       <div class="param-container row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
-        <div class="param-Question col-12 col-sm-6 col-md-6">
+        <div class="param-Question col-12 col-sm-5 col-md-5">
           <span class="questions-txt">{{ i + 1 }}. {{question.value.QuestionText }}</span>
         </div>
-        <div class="flexible-container col-12 col-sm-6 col-md-6">
+        <div class="flexible-container col-12 col-sm-7 col-md-7">
           <rlo-ui-radio #tbData fieldID="{{'PI_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
             doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
             defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"
