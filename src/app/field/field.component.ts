@@ -105,6 +105,7 @@ export class FieldComponent{
     this.additionalInfo = undefined;
     this.error = false;
     this.errorCode = undefined;
+    this.passNewValue(this.value);
    // this.readOnly = false;
     this.dependencyMap.clear();
     this.fieldReset();

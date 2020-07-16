@@ -81,6 +81,7 @@ export class DateComponent extends FieldComponent implements OnInit {
     this.errorCode = undefined;
     this.dependencyMap.clear();
     this.fieldReset();
+    this.passNewValue(this.value);
   }
 
   getFieldInfo() {

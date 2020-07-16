@@ -294,6 +294,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     this.additionalInfo = undefined;
     this.error = false;
     this.errorCode = undefined;
+    this.passNewValue(this.value);
   }
 
   setReadOnly(flag) {
