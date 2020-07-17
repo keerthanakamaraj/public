@@ -349,6 +349,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.resetMapData();
     this.masterDataSubscription.unsubscribe();
     this.childToParentSubjectSubscription.unsubscribe();
+    this.services.rloui.closeAllConfirmationModal();
   }
   ngAfterViewInit() {
     setTimeout(() => {

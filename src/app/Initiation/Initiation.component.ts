@@ -371,7 +371,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('Initiation_customCss');
     styleElement.parentNode.removeChild(styleElement);
-    this.services.rloui.closeAllConfirmationModal()
+    this.services.rloui.closeAllConfirmationModal();
   }
   ngAfterViewInit() {
     setTimeout(() => {

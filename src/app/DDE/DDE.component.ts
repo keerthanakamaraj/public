@@ -452,6 +452,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.services.rloCommonData.resetMapData();
         this.masterDataSubscription.unsubscribe();
         this.childToParentSubjectSubscription.unsubscribe();
+        this.services.rloui.closeAllConfirmationModal();
     }
     ngAfterViewInit() {
         setTimeout(() => {
@@ -798,6 +799,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.services.rloCommonData.dynamicComponentInstance = componentInstance;
 
         this.validateMenuNavigation(ele1, ele2, this.formMenuObject.selectedMenuId);
+
+        setTimeout(() => {
+            const activePanel = document.getElementsByClassName("injected-component");
+            const firstInput = activePanel[0].getElementsByTagName('input')[0];
+            firstInput.focus();
+        }, 100);
+       
+
     }
 
     updateRoleBasedScore(action: string) {
@@ -1008,29 +1017,29 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    
+
         Promise.all([mainMessage, button1, button2]).then(values => {
-          console.log(values);
-          let modalObj = {
-            title: "Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-              { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-            ]
-          }
-          this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
+            console.log(values);
+            let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                ]
             }
-          });
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                    if (response.id === 1) {
+                        this.services.router.navigate(['home', 'LANDING']);
+                    }
+                }
+            });
         });
-      }
-    
+    }
+
 
     async brodcastProdCategory(event) {
         //  event.isLoanCategory false when type is 'CC'
