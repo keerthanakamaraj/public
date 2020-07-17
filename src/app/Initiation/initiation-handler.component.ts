@@ -287,7 +287,6 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // Add Customer
   async onAddCustomer(arg0: {}) {
     var noofErrors: number = await this.MainComponent.revalidateCustomers();
-
     if (noofErrors > 0) {
       this.MainComponent.services.alert.showAlert(2, 'rlo.error.formdetails.invalid', 5000);
       //  console.log( "NativeElement",this.MainComponent.ACC_CUSTOMER.nativeElement.value);
@@ -295,7 +294,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
     } else {
       if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == undefined) {
-        this.MainComponent.services.alert.showAlert(2, ' "rlo.error.ProductCategory.invalid"', 5000);
+        this.MainComponent.services.alert.showAlert(2, 'rlo.error.ProductCategory.invalid', 5000);
         return;
       } else if (this.MainComponent.BAD_SCHEME.getFieldValue() == undefined) {
         this.MainComponent.services.alert.showAlert(2, 'rlo.error.Scheme.invalid', 5000);
