@@ -51,6 +51,20 @@
                 </app-uw-cust-tab>
             </div>
             <div class="cards-section">
+                <!-- <ngx-masonry>
+                    <div ngxMasonryItem class="masonry-item" *ngFor="let data of cardDataWithFields">
+                        <app-card ngxMasonryItem class="masonry-item" [cardMetaData]="data"
+                            *ngFor="let data of cardDataWithFields"></app-card>
+                    </div>
+                </ngx-masonry> -->
+
+                <!-- <ngx-masonry [options]="myOptions">
+                    <div ngxMasonryItem class="masonry-item" *ngFor="let item of masonryItems"
+                        [ngStyle]="{'width':item.width,'height':item.height}">
+                        {{item.title}}
+                    </div>
+                </ngx-masonry> -->
+
                 <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
                 <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
                 <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">

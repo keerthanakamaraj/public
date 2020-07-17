@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
 import { ICardMetaData, IGeneralCardData } from '../Interface/masterInterface';
 import { CardModule } from './card.module';
@@ -33,7 +33,7 @@ export class CardComponent implements OnInit {
 
   commonCardSectionData: Array<ICardConfig>;
 
-  constructor() {
+  constructor(private changeDetector: ChangeDetectorRef) {
     this.cardConfig.set("customer", this.customerConfig);
     this.cardConfig.set("interfaceResults", this.interface);
   }
@@ -47,9 +47,7 @@ export class CardComponent implements OnInit {
     this.cardName = this.cardMetaData.name;
   }
 
-  configureCard() {
-
-  }
+  ngAfterViewChecked() { this.changeDetector.detectChanges(); }
 
   getClassByCardName() {
     return {

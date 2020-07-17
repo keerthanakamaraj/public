@@ -7,6 +7,7 @@ import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
 import { FormComponent } from '../form/form.component';
 import { ServiceStock } from '../service-stock.service';
+import { NgxMasonryOptions } from 'ngx-masonry';
 //import { NgxMasonryOptions } from 'ngx-masonry';
 
 class IbasicCardSectionData {
@@ -327,20 +328,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   ];
 
-  // myOptions: NgxMasonryOptions = {
-  //   gutter: 10,
-  //   columnWidth: 300
-  // };
+  myOptions: NgxMasonryOptions = {
+    gutter: 10
+  };
 
 
-  masonryItems = [
-    { title: 'item 1', width: '500px' },
-    { title: 'item 2', width: '500px' },
-    { title: 'item 3', width: '500px' },
-    { title: 'item 3', width: '500px' },
-    { title: 'item 3', width: '500px' },
-    { title: 'item 9', width: '500px' },
-  ];
+  // masonryItems = [
+  //   { title: 'item 1', width: '50%', height: '13em', class: "col-sm-6 col-md-6 col-lg-6", color: "red" },
+  //   { title: 'item 2', width: '25%', height: '11em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
+  //   { title: 'item 3', width: '25%', height: '11.3em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
+  //   { title: 'item 4', width: '50%', height: '13.2em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
+  //   { title: 'item 5', width: '25%', height: '5em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
+  // ];
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
