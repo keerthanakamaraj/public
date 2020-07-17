@@ -16,41 +16,24 @@ import { SubjectSubscriber } from 'rxjs/internal/Subject';
   styleUrls: ['./rlo-ui-card-field.component.css']
 })
 export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
-  @Input() primary_lable: string;
-  @Input() secondary_lable: string;
   @Input() type: string;
   @Output() onIconClick = new EventEmitter<any>();
+  subTitle: string = "";
 
   @Input('cardFieldMetaData') cardFieldMetaData: ICardListData;
   @Input('parentCardName') parentCardName: string;
 
   myIcon: boolean;
+
   constructor(services: ServiceStock) {
     super(services);
   }
 
-  ngOnInit() {
-  }
-
-
+  ngOnInit() { }
 
   ngAfterViewInit() {
-    //console.log("deep ===");
-    //console.warn(this.cardFieldMetaData)
+    this.subTitle = this.cardFieldMetaData.subTitle;
   }
-
-
-  // showIcon() {
-  //   if (this.cardFieldMetaData.type = 'icon') {
-  //     this.myIcon = `<fa-icon [icon]="fortAwesome"></fa-icon>`
-  //   }
-  //   // else if (this.cardFieldMetaData.type ='iconStatus') {
-  //   //   this.myIcon = `<fa-icon [icon]="fortAwesome"></fa-icon>`
-  //   // }
-  //   // else if (this.cardFieldMetaData.type = 'statusCount') {
-  //   //   this.myIcon = `<fa-icon [icon]="fortAwesome"></fa-icon>`
-  //   // }
-  // }
 
   onClickButton(event) {
     this.onIconClick.emit(event);

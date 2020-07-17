@@ -119,7 +119,7 @@ export class AddressDetails implements IDeserializable {
             },
             {
                 title: "Verification",
-                subTitle: "false",
+                subTitle: "completed",
                 type: "icon",
                 modalSectionName: ""
             }
@@ -131,7 +131,7 @@ export class AddressDetails implements IDeserializable {
                     fieldList[0].subTitle = "Residence";
                     fieldList[1].subTitle = this.getFullAddress(element);
                     fieldList[2].subTitle = this.Common.getFieldValueFromObj(element, "OccupationType")
-                    fieldList[3].subTitle = false;
+                    fieldList[3].subTitle = "completed";
                 }
             });
         }
@@ -152,7 +152,7 @@ export class AddressDetails implements IDeserializable {
             const element = array[i];
             let txt = this.Common.getFieldValueFromObj(data, element, true);
             if (i != array.length - 1) {
-                txt += " ,";
+                txt += ", ";
             }
             address += txt;
         }
@@ -217,25 +217,25 @@ export class FinancialDetails implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "Gross Income",
-                subTitle: this.Common.getSingleFieldValue(this.GrossIncome),
+                subTitle: this.GrossIncome,
                 type: "iconStatus",
                 modalSectionName: ""
             },
             {
                 title: "Existing Liabilities",
-                subTitle: this.Common.getSingleFieldValue(this.ExistingLiabilities),
+                subTitle: this.ExistingLiabilities,
                 type: "iconStatus",
                 modalSectionName: ""
             },
             {
                 title: "Income Verification",
-                subTitle: this.Common.getSingleFieldValue(this.IncomeVerification),
+                subTitle: this.IncomeVerification,
                 type: "iconStatus",
                 modalSectionName: ""
             },
             {
                 title: "PAN Verification",
-                subTitle: this.Common.getSingleFieldValue(this.PANVerification),
+                subTitle: this.PANVerification,
                 type: "iconStatus",
                 modalSectionName: ""
             }

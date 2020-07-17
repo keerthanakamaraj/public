@@ -16,7 +16,7 @@ export interface IGeneralCardData {
 
 export interface ICardListData {
     title: string;
-    subTitle: any;
+    subTitle: any; //completed|pending|deviation-> in case of type != basic AND text if type == basic
     type: "basic" | "icon" | "iconStatus" | "statusCount";
     modalSectionName?: string;//name of the section to be opened IN MODAL.
 }

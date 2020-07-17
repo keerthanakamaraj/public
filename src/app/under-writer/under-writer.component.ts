@@ -297,8 +297,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   headerStatusData = [
     { name: "Investigation Results", status: "deviation" },
-    { name: "Dedupe Results", status: "pass" },
-    { name: "Verification Results", status: "Pending" }
+    { name: "Dedupe Results", status: "complete" },
+    { name: "Verification Results", status: "pending" }
   ];
 
   cardDataWithFields = [];//used to iterate and pass data to ui-card-field
@@ -331,6 +331,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   //   gutter: 10,
   //   columnWidth: 300
   // };
+
+
+  masonryItems = [
+    { title: 'item 1', width: '500px' },
+    { title: 'item 2', width: '500px' },
+    { title: 'item 3', width: '500px' },
+    { title: 'item 3', width: '500px' },
+    { title: 'item 3', width: '500px' },
+    { title: 'item 9', width: '500px' },
+  ];
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -601,14 +611,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     return totalErrors;
   }
 
-  masonryItems = [
-    { title: 'item 1', width: '500px' },
-    { title: 'item 2', width: '500px' },
-    { title: 'item 3', width: '500px' },
-    { title: 'item 3', width: '500px' },
-    { title: 'item 3', width: '500px' },
-    { title: 'item 9', width: '500px' },
-  ];
 
   click() {
     this.updateMasonryLayout = true;

@@ -1437,6 +1437,30 @@ rlo-ui-card-field {
       font-size: 13px;
       letter-spacing: 0;
       line-height: 12px;
+
+      &.success {
+        color: green;
+      }
+
+      &.failure {
+        color: #D0021B;
+      }
+
+      &.pending {
+        color: #F5A623
+      }
+
+      &.icon-only {
+        padding-top: 16px;
+      }
+    }
+
+    &.icon-only {
+      padding-top: 16px;
+
+      .wgt-status-indicator {
+        margin-top: -16px;
+      }
     }
   }
 }
@@ -1992,6 +2016,40 @@ rlo-ui-card-field {
     color: #565656;
     height: 18px;
   }
+
+  .status {
+    color: #565656;
+    height: 18px;
+    position: absolute;
+    right: 104px;
+
+    &.success {
+      color: green;
+    }
+
+    &.failure {
+      color: #D0021B;
+    }
+
+    &.pending {
+      color: #F5A623
+    }
+
+    span {
+      font-size: 12px;
+    }
+
+    app-status-indicator {
+      margin-left: 13px;
+    }
+
+    .wgt-status-indicator {
+      margin-right: 0;
+      margin-top: 0px;
+      font-size: initial !important;
+    }
+  }
+
   .expand-icon {
     background-image: url(./../icons/edit_button.png);
     width: 22px;
@@ -2002,7 +2060,7 @@ rlo-ui-card-field {
     background-position: center center;
     cursor: pointer;
     position: absolute;
-    top: 18px;
+    top: 19px;
     right: 20px;
   }
 }
@@ -2145,5 +2203,24 @@ rlo-ui-card-field {
   margin-bottom: 18px;
   .btn-group {
     margin: auto;
+  }
+}
+
+.wgt-status-indicator {
+  float: right;
+  margin-top: -25px;
+  margin-right: 19px;
+  font-size: 15px;
+
+  &.success {
+    color: green;
+  }
+
+  &.failure {
+    color: #D0021B;
+  }
+
+  &.pending {
+    color: #F5A623
   }
 }
