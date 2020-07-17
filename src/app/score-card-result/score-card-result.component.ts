@@ -14,6 +14,7 @@ export class ScoreCardResultComponent implements OnInit {
   @ViewChild('SCR_Filter', { static: false }) SCR_Filter: ComboBoxComponent;
   @Input() ApplicationId: string = undefined;
 
+  MstScoreResultMap:Map<string,IScoreCard[]>=new Map();
   FilterOptions = [];
   showExpanded: boolean = false;
   parentFormCode: string = undefined;
@@ -116,6 +117,41 @@ export class ScoreCardResultComponent implements OnInit {
       }
     }
   }
+  // parseScoreCardResultJson(tempScoreCardResultList) {
+  //   let newScoreCardResultList = [];
+  //   console.log("shweta :: policy Resp:", tempScoreCardResultList);
+  //   tempScoreCardResultList.forEach(eachScore => {
+  //     if(eachScore.BorrowerSeq){
+  //       let newMapKey='C_' + eachScore.BorrowerSeq;
+  //       if(this.MstScoreResultMap.has(newMapKey)){
+  //         newScoreCardResultList=this.MstScoreResultMap.get(newMapKey);
+  //       }
+  //     }else{
+
+  //     }
+  //     let scoreCard: IScoreCard = eachScore;
+  //     scoreCard.MaxScore = 100;
+  //     scoreCard.MinGreenScore = 80;
+  //     scoreCard.MinOrangeScore = 60;
+  //     scoreCard.MinRedScore = 30;
+  //     let colorObj: IScoreColor = {};
+
+  //     if (scoreCard.Score >= scoreCard.MinGreenScore) {
+  //       colorObj = this.mstBarColorIndex.find(obj => 'FA' == obj.colorId);
+
+  //     } else if (scoreCard.Score >= scoreCard.MinOrangeScore) {
+  //       colorObj = this.mstBarColorIndex.find(obj => 'NU' == obj.colorId);
+
+  //     }
+  //     else {
+  //       colorObj = this.mstBarColorIndex.find(obj => 'NF' == obj.colorId);
+
+  //     }
+  //     scoreCard.colorCode = colorObj.colorCode;
+  //     newScoreCardResultList.push(scoreCard);
+
+  //   });
+  // }
   parseScoreCardResultJson(tempScoreCardResultList) {
     this.scoreCardResultList = [];
     console.log("shweta :: policy Resp:", tempScoreCardResultList);
