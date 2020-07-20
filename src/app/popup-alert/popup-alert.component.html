@@ -6,11 +6,19 @@
     <div class="modal-body">
         <span class="fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
         <h5>{{modalObject.mainMessage}}</h5>
+
+        <!-- components added here -->
+        <div class="menu-content">
+            <ng-template #appDDEFormDirective></ng-template>
+        </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn" [ngClass]="button.class" type="button" *ngFor="let button of modalObject.buttons"
-            (click)="onClick(button)">
-            {{button.text}}
-        </button>
-    </div>
+
+    <ng-container *ngIf="modalObject.buttons.length">
+        <div class="modal-footer">
+            <button class="btn" [ngClass]="button.class" type="button" *ngFor="let button of modalObject.buttons"
+                (click)="onClick(button)">
+                {{button.text}}
+            </button>
+        </div>
+    </ng-container>
 </div>

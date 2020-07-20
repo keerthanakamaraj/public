@@ -42,6 +42,9 @@ import { environment } from 'src/environments/environment';
 import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 import { PopupAlertComponent } from './popup-alert/popup-alert.component';
 import { RloUiCardFieldModule } from './rlo-ui-card-field/rlo-ui-card-field.module';
+import { NotepadDetailsFormComponent } from './NotepadDetailsForm/NotepadDetailsForm.component';
+import { NotepadDetailsFormModule } from './NotepadDetailsForm/NotepadDetailsForm.module';
+import { PopUpAlertModule } from './popup-alert/popup-alert-module';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
@@ -95,7 +98,6 @@ const keycloakService = new KeycloakService();
     // PwdChangeComponent,
     GridWithFormComponent,
     AlertsComponent,
-    PopupAlertComponent
     // RloUiCardTileComponent
     //MyTrayPageComponent
     // MyTrayGridComponent,
@@ -122,6 +124,7 @@ const keycloakService = new KeycloakService();
       }
     }),
     PopupModule,
+    PopUpAlertModule
   ],
   providers: [
     Data,
