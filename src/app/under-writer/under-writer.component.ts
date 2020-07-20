@@ -7,7 +7,7 @@ import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
 import { FormComponent } from '../form/form.component';
 import { ServiceStock } from '../service-stock.service';
-// import { NgxMasonryOptions } from 'ngx-masonry';
+
 // import { NgxMasonryOptions } from 'ngx-masonry';
 
 class IbasicCardSectionData {
