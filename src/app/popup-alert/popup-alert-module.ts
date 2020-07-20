@@ -5,13 +5,13 @@ import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsFo
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.module';
 import { HttpClient } from '@angular/common/http';
-import { PersonalInterviewModule } from '../PersonalInterview/personal-interview.module';
-
+import {AmortizationScheduleModule} from '../amortization-schedule/AmortizationSchedule.module'
 @NgModule({
     imports: [
         CommonModule,
-        NotepadDetailsFormModule,
-        PersonalInterviewModule
+         NotepadDetailsFormModule,
+        // PersonalInterviewModule,
+        AmortizationScheduleModule
     ],
     declarations: [
         PopupAlertComponent,

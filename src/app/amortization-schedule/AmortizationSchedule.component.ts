@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { AmortizationScheduleModel } from './AmortizationSchedule.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -26,10 +26,20 @@ const customCss: string = '';
 	templateUrl: './AmortizationSchedule.component.html'
 })
 export class AmortizationScheduleComponent extends FormComponent implements OnInit, AfterViewInit {
-//	@ViewChild('RD_REF_NAME', { static: false }) RD_REF_NAME: TextBoxComponent;
-	
-//	@ViewChild('RD_SAVE', { static: false }) RD_SAVE: ButtonComponent;
-//	@ViewChild('RD_RESET', { static: false }) RD_RESET: ButtonComponent;
+  @ViewChild('LoanAmountRequested', { static: false }) LoanAmountRequested: TextBoxComponent;
+  @ViewChild('NetInterestRate', { static: false }) NetInterestRate: TextBoxComponent;
+  @ViewChild('Tenure', { static: false }) Tenure: TextBoxComponent;
+  @ViewChild('BLoanOwnership', { static: false }) BLoanOwnership: TextBoxComponent;
+  @ViewChild('CBLoanOwnership', { static: false }) CBLoanOwnership: TextBoxComponent;
+  @ViewChild('BLoanAmtShare', { static: false })BLoanAmtShare: TextBoxComponent;
+  @ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: TextBoxComponent;
+  @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
+  @ViewChild('ScheduleType', { static: false }) ScheduleType: TextBoxComponent;
+  @ViewChild('RepaymentStartDate', { static: false }) RepaymentStartDate: DateComponent;
+  @ViewChild('NoOfInstallments', { static: false }) NoOfInstallments: TextBoxComponent;
+  @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: TextBoxComponent;
+	@ViewChild('Generate', { static: false }) Generate: ButtonComponent;
+	@ViewChild('Clear', { static: false }) Clear: ButtonComponent;
 	@ViewChild('AmortizationGrid', { static: false }) AmortizationGrid: AmortizationGridComponent;
 	@ViewChild('Handler', { static: false }) Handler: AmortizationScheduleHandlerComponent;
 
@@ -54,10 +64,10 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 		super.afterRevalidate();
 		return totalErrors;
 	}
-	constructor(services: ServiceStock) {
+	constructor(services: ServiceStock,private cdRef: ChangeDetectorRef) {
 		super(services);
 		this.value = new AmortizationScheduleModel();
-		this.componentCode = 'AmortizationSchedule';
+    this.componentCode = 'AmortizationSchedule';
 	}
 	setReadOnly(readOnly) {
 		super.setBasicFieldsReadOnly(readOnly);
@@ -119,10 +129,11 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 		styleElement.parentNode.removeChild(styleElement);
 	}
 	ngAfterViewInit() {
-		setTimeout(() => {
-			this.subsBFldsValueUpdates();
+    setTimeout(() => {
+      this.subsBFldsValueUpdates();
 			this.onFormLoad();
 			this.checkForHTabOverFlow();
+     // this.cdRef.detectChanges();
 		});
 	}
 	clearError() {

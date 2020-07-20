@@ -313,6 +313,32 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
     this.MoneyInstallment.setValue(ToatalEMI);
     this.Handler.SetValue();
 
+    //amortization modal code starts
+    var title = this.services.rloui.getAlertMessage('rlo.confirm.title');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.confirm.action.back');
+    
+    Promise.all([title, mainMessage]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: values[0],
+        mainMessage: values[1],
+        modalSize: "modal-width-sm",
+        buttons: [],
+        isComponent:true,
+        componentName: ''
+      }
+    
+      console.log("deep ===", modalObj);
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+
   }
   async LD_CLEAR_BTN_click(event) {
     let Array = this.Handler.FieldsArray();

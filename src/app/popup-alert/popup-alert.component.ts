@@ -1,12 +1,11 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IModalData, IButtonObj } from './popup-interface'
 import { AnyNaptrRecord } from 'dns';
 import { AddSpecificComponent } from './popup-alert.model';
-import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component';
-import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
-
+ import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
+import { AmortizationScheduleComponent } from '../amortization-schedule/AmortizationSchedule.component'
 
 @Component({
   selector: 'app-popup-alert',
@@ -19,7 +18,7 @@ export class PopupAlertComponent implements OnInit {
 
   modalObject: IModalData;
 
-  constructor(public activeModal: NgbActiveModal, private services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(public activeModal: NgbActiveModal, private services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver,private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.modalObject = this.services.rloui.modalObject;
@@ -36,10 +35,11 @@ export class PopupAlertComponent implements OnInit {
     if (this.modalObject.hasOwnProperty('componentName')) {
       this.injectDynamicComponent();
     }
+    this.cdRef.detectChanges();
   }
 
   injectDynamicComponent() {
-    const componentRef = this.getComponentClassRef('PersonalInterviewDetails');
+    const componentRef = this.getComponentClassRef('AmortizationScheduleComponent');
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
     const viewContainerRef = this.FormHost;
@@ -51,13 +51,12 @@ export class PopupAlertComponent implements OnInit {
 
   getComponentClassRef(componentId: string): AddSpecificComponent {
     switch (componentId) {
-      case 'PersonalInterviewDetails':
-        return new AddSpecificComponent(PersonalInterviewComponent);
-        break;
       case 'Notes':
         return new AddSpecificComponent(NotepadDetailsFormComponent);
         break;
-
+      case 'AmortizationScheduleComponent':
+        return new AddSpecificComponent(AmortizationScheduleComponent);
+        break;
     }
   }
 

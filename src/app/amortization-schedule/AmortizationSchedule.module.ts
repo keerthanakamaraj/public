@@ -35,4 +35,4 @@ import { AmortizationScheduleHandlerModule } from './AmortizationSchedule-handle
     ],
 
 })
-export class ReferralDetailsFormModule { }
+export class AmortizationScheduleModule { }

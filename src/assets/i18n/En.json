@@ -2045,5 +2045,19 @@
   "ScoreCardRslt":{
     "SCR_DOWNLOAD_BTN":"DOWNLOAD",
     "SCR_RETRIGGER_BTN":"RETRIGGER"
-  }
+  },
+  "Amortization":{
+    "LoanAmountRequested":"Loan Amount Requested",
+    "NetInterestRate":"Net Interest Rate",
+    "Tenure":"Tenure",
+    "BLoanOwnership":"Loan Ownership for Borrower",
+    "CBLoanOwnership":"Loan Ownership for Co-Borrower",
+    "BLoanAmtShare":"Share in Loan Amount for Borrower",
+    "CBLoanAmountShare":"Share in Loan Amount for Co-Borrower",
+  "DisbursalDate":"Disbursal Date",
+  "ScheduleType":"Schedule Type",
+  "RepaymentStartDate":"Repayment Start Date",
+"NoOfInstallments":"No. of Installments",  
+"RequiredEMIAmt":"Required EMI Amount"
+}
 }
