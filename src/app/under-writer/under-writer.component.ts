@@ -7,8 +7,8 @@ import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
 import { FormComponent } from '../form/form.component';
 import { ServiceStock } from '../service-stock.service';
-import { NgxMasonryOptions } from 'ngx-masonry';
-//import { NgxMasonryOptions } from 'ngx-masonry';
+// import { NgxMasonryOptions } from 'ngx-masonry';
+// import { NgxMasonryOptions } from 'ngx-masonry';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -328,9 +328,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   ];
 
-  myOptions: NgxMasonryOptions = {
-    gutter: 10
-  };
+  // myOptions: NgxMasonryOptions = {
+  //   gutter: 10
+  // };
 
 
   // masonryItems = [
@@ -614,4 +614,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   click() {
     this.updateMasonryLayout = true;
   }
+
+
+  fabopen() {
+    document.getElementById("fab-show").style.display = "block";
+    document.getElementById("fab-open").style.display = "none";
+  }
+
+  fabclose() {
+    document.getElementById("fab-show").style.display = "none";
+    document.getElementById("fab-open").style.display = "block";
+  }
+
 }
