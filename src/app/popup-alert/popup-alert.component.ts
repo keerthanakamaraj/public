@@ -24,7 +24,7 @@ export class PopupAlertComponent implements OnInit {
   ngOnInit() {
     this.modalObject = this.services.rloui.modalObject;
     console.error(this.modalObject);
-    console.warn(this.modalObject.buttons);
+    console.warn(this.modalObject.buttons, this.modalObject.componentName);
   }
 
   async onClick(buttonObj: AnyNaptrRecord): Promise<any> {
@@ -33,7 +33,9 @@ export class PopupAlertComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.injectDynamicComponent()
+    if (this.modalObject.hasOwnProperty('componentName')) {
+      this.injectDynamicComponent();
+    }
   }
 
   injectDynamicComponent() {
