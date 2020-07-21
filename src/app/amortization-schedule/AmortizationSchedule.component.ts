@@ -17,7 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AmortizationGridComponent } from '../AmortizationGrid/AmortizationGrid.component';
 import { AmortizationScheduleHandlerComponent } from './AmortizationSchedule-handler.component';
-
+import {IAmortizationForm} from './amortization-interface';
 
 const customCss: string = '';
 
@@ -26,25 +26,29 @@ const customCss: string = '';
 	templateUrl: './AmortizationSchedule.component.html'
 })
 export class AmortizationScheduleComponent extends FormComponent implements OnInit, AfterViewInit {
-  @ViewChild('LoanAmountRequested', { static: false }) LoanAmountRequested: TextBoxComponent;
+  @ViewChild('LoanAmountRequested', { static: false }) LoanAmountRequested: AmountComponent;
   @ViewChild('NetInterestRate', { static: false }) NetInterestRate: TextBoxComponent;
   @ViewChild('Tenure', { static: false }) Tenure: TextBoxComponent;
   @ViewChild('BLoanOwnership', { static: false }) BLoanOwnership: TextBoxComponent;
   @ViewChild('CBLoanOwnership', { static: false }) CBLoanOwnership: TextBoxComponent;
-  @ViewChild('BLoanAmtShare', { static: false })BLoanAmtShare: TextBoxComponent;
-  @ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: TextBoxComponent;
+  @ViewChild('BLoanAmtShare', { static: false })BLoanAmtShare: AmountComponent;
+  @ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: AmountComponent;
   @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
-  @ViewChild('ScheduleType', { static: false }) ScheduleType: TextBoxComponent;
+  @ViewChild('ScheduleType', { static: false }) ScheduleType: ComboBoxComponent;
   @ViewChild('RepaymentStartDate', { static: false }) RepaymentStartDate: DateComponent;
   @ViewChild('NoOfInstallments', { static: false }) NoOfInstallments: TextBoxComponent;
-  @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: TextBoxComponent;
+  @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: AmountComponent;
 	@ViewChild('Generate', { static: false }) Generate: ButtonComponent;
 	@ViewChild('Clear', { static: false }) Clear: ButtonComponent;
 	@ViewChild('AmortizationGrid', { static: false }) AmortizationGrid: AmortizationGridComponent;
 	@ViewChild('Handler', { static: false }) Handler: AmortizationScheduleHandlerComponent;
-
-//	@ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
-	@Input() ApplicationId: string = undefined;
+  @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+	@ViewChild('hidScheduleType', { static: false }) hidScheduleType: HiddenComponent;
+  @ViewChild('AMS_GENERATE_BTN', { static: false }) AMS_GENERATE_BTN: ButtonComponent;
+  @ViewChild('AMS_CLEAR_BTN', { static: false }) AMS_CLEAR_BTN: ButtonComponent;
+  
+  @Input() parentData:IAmortizationForm=undefined;
+  @Input() ApplicationId: string = undefined;
 	@Input() activeBorrowerSeq: string = undefined;
 	//@Input() CustomerDetailsArray: any = undefined;
 	cust_name: string;
@@ -76,14 +80,14 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 		// this.ApplicationId = '2221';
 		this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 		let inputMap = new Map();
-	//	this.hidAppId.setValue('RLO');
-		
-		if (this.ApplicationId) {
-			await this.AmortizationGrid.gridDataLoad({
-				'ApplicationId': this.ApplicationId,
-			});
-		}
-		//	console.log("shweta :: referrer", this.CustomerDetailsArray);
+		this.hidAppId.setValue('RLO');
+  this.hidScheduleType.setValue('ScheduleType');
+  this.parseParentDataObj();
+		// if (this.ApplicationId) {
+		// 	await this.AmortizationGrid.gridDataLoad({
+		// 		'ApplicationId': this.ApplicationId,
+		// 	});
+		// }
 		await this.Handler.onFormLoad({});
 		this.setDependencies();
 	}
@@ -161,17 +165,30 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 	RD_RESET_click(event) {
 		this.onReset();
 	}
-	
+	parseParentDataObj(){
+    this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested),
+    this.NetInterestRate.setValue(this.parentData.NetInterestRate),
+    this.Tenure.setValue(this.parentData.Tenure),
+    this.BLoanOwnership.setValue(this.parentData.BLoanOwnership),
+    this.CBLoanOwnership.setValue(this.parentData.CBLoanOwnership),
+    this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare),
+    this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare),
+    this.DisbursalDate.setValue(this.parentData.DisbursalDate),
+    this.ScheduleType.setValue(this.parentData.ScheduleType),
+    this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate),
+    this.NoOfInstallments.setValue(this.parentData.NoOfInstallments),
+    this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt)
+  }
 	fieldDependencies = {
-		// RD_REFERRER_RELATION: {
-		// 	inDep: [
-		// 		{ paramKey: "VALUE1", depFieldID: "RD_REFERRER_RELATION", paramType: "PathParam" },
-		// 		{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-		// 		{ paramKey: "KEY1", depFieldID: "hidRelation", paramType: "QueryParam" },
-		// 	],
-		// 	outDep: [
-		// 	]
-		// }
+		ScheduleType: {
+			inDep: [
+				{ paramKey: "VALUE1", depFieldID: "ScheduleType", paramType: "PathParam" },
+				{ paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+				{ paramKey: "KEY1", depFieldID: "hidScheduleType", paramType: "QueryParam" },
+			],
+			outDep: [
+			]
+		}
 	}
 
 }

@@ -4,6 +4,7 @@ export interface IModalData {
   buttons: Array<IButtonObj>;//contains list of buttons to be shown @ footer. Send [] array if no btns required
   modalSize: string;
   componentName?: string;
+  data?:any;
 }
 
 export interface IButtonObj {

@@ -2058,6 +2058,8 @@
   "ScheduleType":"Schedule Type",
   "RepaymentStartDate":"Repayment Start Date",
 "NoOfInstallments":"No. of Installments",  
-"RequiredEMIAmt":"Required EMI Amount"
+"RequiredEMIAmt":"Required EMI Amount",
+"AMS_GENERATE_BTN":"GENERATE",
+"AMS_CLEAR_BTN":"CLEAR"
 }
 }

@@ -39,7 +39,7 @@ export class PopupAlertComponent implements OnInit {
   }
 
   injectDynamicComponent() {
-    const componentRef = this.getComponentClassRef('AmortizationScheduleComponent');
+    const componentRef = this.getComponentClassRef(this.modalObject.componentName);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
     const viewContainerRef = this.FormHost;
@@ -47,6 +47,7 @@ export class PopupAlertComponent implements OnInit {
 
     const dynamicComponent = viewContainerRef.createComponent(componentFactory);
     var componentInstance = dynamicComponent.instance;
+    componentInstance.parentData = this.modalObject.data;
   }
 
   getComponentClassRef(componentId: string): AddSpecificComponent {

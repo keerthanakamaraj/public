@@ -19,6 +19,8 @@ import { LoanHandlerComponent } from '../LoanDetailsForm/loan-handler.component'
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { IfStmt } from '@angular/compiler';
+import { IModalData } from '../popup-alert/popup-interface';
+import {IAmortizationForm} from '../amortization-schedule/amortization-interface';
 
 
 const customCss: string = '';
@@ -314,26 +316,46 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
     this.Handler.SetValue();
 
     //amortization modal code starts
-    var title = this.services.rloui.getAlertMessage('rlo.confirm.title');
-    var mainMessage = this.services.rloui.getAlertMessage('rlo.confirm.action.back');
+    // var title = this.services.rloui.getAlertMessage('rlo.confirm.title');
+    // var mainMessage = this.services.rloui.getAlertMessage('rlo.confirm.action.back');
     
-    Promise.all([title, mainMessage]).then(values => {
+    // Promise.all([title, mainMessage]).then(values => {
+    //   console.log(values);
+    //   let modalObj = {
+    //     title: values[0],
+    //     mainMessage: values[1],
+    //     modalSize: "modal-width-sm",
+    //     buttons: [],
+    //     isComponent:true,
+    //     componentName: ''
+    //   }
+    
+    //   console.log("deep ===", modalObj);
+    //   this.services.rloui.confirmationModal(modalObj).then((response) => {
+    //     console.log(response);
+    //     if (response != null) {
+    //       if (response.id === 1) {
+    //         this.services.router.navigate(['home', 'LANDING']);
+    //       }
+    //     }
+    //   });
+    // });
+let dataObj=this.generateAmortizationDataList();
+    Promise.all([this.services.rloui.getAlertMessage('', 'test'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
       console.log(values);
-      let modalObj = {
-        title: values[0],
-        mainMessage: values[1],
-        modalSize: "modal-width-sm",
+      let modalObj: IModalData = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-lg",
         buttons: [],
-        isComponent:true,
-        componentName: ''
+        componentName: 'AmortizationScheduleComponent',
+        data:dataObj
       }
-    
-      console.log("deep ===", modalObj);
       this.services.rloui.confirmationModal(modalObj).then((response) => {
         console.log(response);
         if (response != null) {
           if (response.id === 1) {
-            this.services.router.navigate(['home', 'LANDING']);
+            this.services.rloui.closeAllConfirmationModal();
           }
         }
       });
@@ -458,6 +480,26 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
     } else {
       this.services.alert.showAlert(2, 'rlo.mandatory.loan.field', -1);
     }
+  }
+
+  generateAmortizationDataList(){
+    //let CustomerDetailsArray = this.FieldId_26.LoanGridArray;
+    let dataObj:IAmortizationForm={};
+    dataObj.LoanAmountRequested=this.LoanAmount.getFieldValue();
+    dataObj.NetInterestRate=this.NetInterestRate.getFieldValue();
+    dataObj.Tenure=this.Tenure.getFieldValue();
+    this.FieldId_26.LoanGridArray.forEach(element => {
+      if(element.CustomerType=='B'){
+        dataObj.BLoanOwnership=element.LoanOwnership;
+        dataObj.BLoanAmtShare=element.Principle;
+      }else if(element.CustomerType=='CB'&&element.LoanOwnership > 0){
+        dataObj.CBLoanOwnership=element.LoanOwnership;
+         dataObj.CBLoanAmountShare=element.Principle;
+      }
+    });
+    dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
+
+    return dataObj;
   }
 
   fieldDependencies = {
