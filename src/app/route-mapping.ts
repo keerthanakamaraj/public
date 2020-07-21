@@ -107,6 +107,10 @@ export var componentRoutes: Routes = [
 	{
 		path: 'FeesChargesDetails',
 		loadChildren: 'src/app/Fees&ChargesDetails/Fees&ChargesDetails.module#FeesChargesDetailsModule'
+	},
+	{
+		path: 'Operation',
+		loadChildren: 'src/app/Operation/Operation.module#OperationModule'
 	}
 	
 ];

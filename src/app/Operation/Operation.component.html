@@ -1,0 +1,125 @@
+<form class="MakeRelative">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-12 col-md-12">
+        <div class="FormTitle no-border">
+          <a class="back" (click)="goBack()">Back</a>
+          <span>{{ 'Operation.FormTitle' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+            <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
+              (productCategoryFound)="brodcastProdCategory($event)" (headerStateEvent)="headerState($event)">
+            </app-Header>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
+    <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE" [formCode]="formCode">
+    </app-button>
+  </div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+    <app-label #FieldId_1 parentCompCode="Operation" fieldID="FieldId_1" [formCode]="formCode" fontFamily="sans-serif"
+      fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+  </div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+    <div style=" width:100%; background:skyblue;height:1px;">
+    </div>
+  </div>
+  <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
+  </app-ApplicationDtls>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+    <app-label #FieldId_2 parentCompCode="Operation" fieldID="FieldId_2" [formCode]="formCode" fontFamily="sans-serif"
+      fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+  </div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+    <div style=" width:100%; background:skyblue;height:1px;">
+    </div>
+  </div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_3.isHidden()">
+    <app-CustGrid #FieldId_3 fieldID="FieldId_3" [formCode]="formCode"></app-CustGrid>
+  </div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+    <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode" fontFamily="sans-serif"
+      fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+  </div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+    <div style=" width:100%; background:skyblue;height:1px;">
+    </div>
+  </div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+  <div>
+    <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+      <app-label #Loan_AMT parentCompCode="Operation" fieldID="Loan_AMT" [formCode]="formCode" fontFamily="sans-serif"
+        fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+    </div>
+    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FieldId_5.isHidden()">
+      <app-text-box #FieldId_5 fieldID="FieldId_5" [formCode]="formCode" (blur)="genericOnBlur('FieldId_5', $event)">
+      </app-text-box>
+    </div>
+    <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+      <app-label #Loan_DBR parentCompCode="Operation" fieldID="Loan_DBR" [formCode]="Loan_DBR" fontFamily="sans-serif"
+        fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+    </div>
+    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FieldId_5.isHidden()">
+      <app-text-box #FieldId_5 fieldID="FieldId_5" [formCode]="formCode" (blur)="genericOnBlur('FieldId_5', $event)">
+      </app-text-box>
+    </div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+      <app-label #Installment_AMT parentCompCode="Operation" fieldID="Installment_AMT" [formCode]="formCode"
+        fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+    </div>
+    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FieldId_5.isHidden()">
+      <app-text-box #FieldId_5 fieldID="FieldId_5" [formCode]="formCode" (blur)="genericOnBlur('FieldId_5', $event)">
+      </app-text-box>
+    </div>
+  </div>
+
+  <!-- <div class="col-12  col-sm-8 col-md-8 text-center">
+    <app-button  #Approve fieldName="{{ 'Operation.Approve' | translate}}" fieldID="Approve"
+        [formCode]="formCode" customClass="btn btn-primary">
+    </app-button>
+    <app-button #Withdraw fieldName="{{ 'Operation.Withdraw' | translate}}" fieldID="Withdraw"
+        [formCode]="formCode" customClass="btn-warning-outline">
+    </app-button>
+</div> -->
+</form>
