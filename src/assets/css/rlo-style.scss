@@ -1536,6 +1536,8 @@ a.back {
         }
       }
       .deviation-container {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
         height: 52px;
         line-height: 52px;
         .lbl-deviaton {
@@ -1551,7 +1553,7 @@ a.back {
         }
       }
       .answer-container {
-        padding: 9px 0px 0px 40px;
+        padding: 9px 0px 0px 0px;
         height: 52px;
         opacity: 0.8;
         border-radius: 4px;
@@ -1568,7 +1570,7 @@ a.back {
           }
         }
         .param-remark {
-          padding: 0px;
+          padding: 0px 18px 0px 0px;
         }
       }
     }

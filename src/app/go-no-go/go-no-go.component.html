@@ -5,11 +5,11 @@
   <div class="mst-params-container row">
     <ng-container *ngIf="QuestionnairMap != undefined">
       <div class="header-container row col-12 col-sm-12 col-md-12">
-        <div class="col-12 col-sm-7 col-md-7"></div>
+        <div class="col-12 col-sm-8 col-md-8"></div>
         <div class="decision-header col-12 col-sm-2 col-md-2">{{ 'GNGDtls.GNG_DECISION_HEADER' | translate}}</div>
       </div>
       <div class="param-container row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
-        <div class="param-Question col-12 col-sm-6 col-md-6">
+        <div class="param-Question col-12 col-sm-7 col-md-7">
 
           <span class="questions-txt">{{ i + 1 }}. {{question.value.QuestionText }}</span>
         </div>
@@ -17,14 +17,14 @@
 
           <label class="lbl-deviaton" *ngIf="question.value.IsDeviation==true">{{question.value.DeviationLevel!=undefined?question.value.DeviationLevel:'Deviation'}}</label>
         </div>
-        <div class="answer-container col-12 col-sm-5 col-md-5">
-          <div class="param-answer col-12 col-sm-4 col-md-4">
+        <div class="answer-container col-12 col-sm-4 col-md-4">
+          <div class="param-answer col-12 col-sm-5 col-md-5">
             <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
               doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
               defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"
               (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>
           </div>
-          <div class="param-remark col-12 col-sm-8 col-md-8">
+          <div class="param-remark col-12 col-sm-7 col-md-7">
 
             <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.value.QuestionSeq}}" placeholder="Remarks, If any" [formCode]="formCode"
               defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.Remark:undefined}}"
