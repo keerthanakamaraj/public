@@ -49,22 +49,68 @@
         <app-uw-cust-tab (customerChanged)="customerSelectionChanged($event)" [customerList]="customerList">
         </app-uw-cust-tab>
       </div>
-      <div class="cards-section">
-        <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
-        <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
-        <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
-          <app-blank-card [cardMetaData]="data" *ngFor="let data of blankCardData"></app-blank-card>
-        </div>
+
+      <div class="cards-section" style="width:100% !important;height:100% !important;">
+
+        <ngx-masonry [options]="myOptions" [ordered]="true">
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of cCardDataWithFields">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="data"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto">
+            <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+              <div class="blank-container">
+                <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>
+              </div>
+            </div>
+          </div>
+        </ngx-masonry>
+
       </div>
     </div>
-    <div class="tab-pane" id="application-panel" *ngIf="selectedTab == 'application'">
-      <div class="cards-section">
-        <app-card [cardMetaData]="loanDetailsCardData"></app-card>
-        <app-card [cardMetaData]="interfaceResultCardData"></app-card>
-        <app-card [cardMetaData]="data" *ngFor="let data of cardDataWithFields"></app-card>
-        <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
-          <app-blank-card [cardMetaData]="data" *ngFor="let data of blankCardData"></app-blank-card>
-        </div>
+    <div class="tab-pane" id="application-panel">
+      <div class="cards-section" style="width:100% !important;height:100% !important;">
+
+        <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='application'">
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto"
+            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="loanDetailsCardData"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto"
+            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="interfaceResultCardData"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of aCardDataWithFields"
+            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
+            <div class="card-layout-container">
+              <app-card [cardMetaData]="data"></app-card>
+            </div>
+          </div>
+
+          <div ngxMasonryItem class="p-0 w-25" style="height:auto"
+            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
+            <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+              <div class="blank-container">
+                <app-blank-card [cardMetaData]="data" *ngFor="let data of aBlankCardData"></app-blank-card>
+              </div>
+            </div>
+          </div>
+        </ngx-masonry>
+
       </div>
     </div>
   </div>

@@ -7,8 +7,8 @@ import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
 import { FormComponent } from '../form/form.component';
 import { ServiceStock } from '../service-stock.service';
-
 // import { NgxMasonryOptions } from 'ngx-masonry';
+import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -23,6 +23,7 @@ class IbasicCardSectionData {
 export class UnderWriterComponent extends FormComponent implements OnInit {
 
   @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
+  @ViewChild(NgxMasonryComponent, { static: false }) masonry: NgxMasonryComponent;
 
   customerCardSectionData: any;
   //interfaceCardSectionData: any;
@@ -302,8 +303,12 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     { name: "Verification Results", status: "pending" }
   ];
 
-  cardDataWithFields = [];//used to iterate and pass data to ui-card-field
-  blankCardData = [];
+  cCardDataWithFields = [];//used to iterate and pass data to ui-card-field
+  cBlankCardData = [];
+
+  aCardDataWithFields = [];//used to iterate and pass data to ui-card-field
+  aBlankCardData = [];
+
   customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
   customerCardDataWithFields: any;//store customer related data
 
@@ -311,7 +316,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   interfaceResultCardData: any;
 
   selectedTab: string = "customer";
-  updateMasonryLayout: boolean;
+  updateMasonryLayout: boolean = false;
 
   headerScoreCard = [
     {
@@ -328,28 +333,46 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   ];
 
-  // myOptions: NgxMasonryOptions = {
-  //   gutter: 10
-  // };
+  public myOptions: NgxMasonryOptions = {
+    gutter: 10,
+    // originTop: true,
+    // originLeft: true,
+    // itemSelector: '.w-25'
+  };
 
-
-  // masonryItems = [
-  //   { title: 'item 1', width: '50%', height: '13em', class: "col-sm-6 col-md-6 col-lg-6", color: "red" },
-  //   { title: 'item 2', width: '25%', height: '11em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
-  //   { title: 'item 3', width: '25%', height: '11.3em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
-  //   { title: 'item 4', width: '50%', height: '13.2em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
-  //   { title: 'item 5', width: '25%', height: '5em', class: "col-sm-3 col-md-3 col-lg-3", color: "red" },
-  // ];
+  masonryItems = [
+    { title: 'item 1', width: '50%', height: '50em', height2: 'auto', class: "col-sm-6 col-md-6 col-lg-6", color: "red", class2: "w-25" },
+    { title: 'item 2', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+    { title: 'item 3', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+    { title: 'item 4', width: '50%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+    { title: 'item 5', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+    { title: 'item 6', width: '25%', height: '50.3em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+    { title: 'item 7', width: '50%', height: '50.2em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+    { title: 'item 8', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
+  ];
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
-    this.test();
+    setTimeout(() => {
+      this.test();
+    }, 500);
+
+  }
+
+  reloadCardGrid() {
+    //this.updateMasonryLayout = true;
+    console.log(this.updateMasonryLayout);
+    this.masonry.reloadItems();
+    this.masonry.layout();
   }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
+    setTimeout(() => {
+      this.reloadCardGrid();
+    }, 10);
   }
 
   //@Output
@@ -497,6 +520,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     console.log(singleCustomer, singleCustomer.FamilyDetails, singleCustomer.FinancialSummary.getBorrowerSeq(), singleCustomer.FinancialSummary, singleCustomer.FinancialSummary.test);
 
     this.selectedTabCardData(this.selectedTab);
+
+    //this.getAllData();
   }
 
   isJsonEmpty(obj) {
@@ -505,10 +530,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   selectedTabCardData(sectionType: string = "customer", menuIndex: number = 0) {
     let data;
-    this.cardDataWithFields = [];
-    this.blankCardData = [];
 
     if (sectionType == "customer") {
+      this.cCardDataWithFields = [];
+      this.cBlankCardData = [];
+
       let singleCustomer = this.customerMasterJsonData.CustomerDetails[menuIndex];
       console.error(singleCustomer);
 
@@ -524,14 +550,14 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "FinancialDetails":
           case "CollateralDetails":
             data = singleCustomer[element.className].getCardData();
-            this.cardDataWithFields.push(data);
+            this.cCardDataWithFields.push(data);
             break;
 
           case "FamilyDetails":
           case "PersonalInterview":
           case "RmVisitDetails":
             data = singleCustomer[element.className].getCardData();
-            this.blankCardData.push(data);
+            this.cBlankCardData.push(data);
             break;
 
           default:
@@ -540,6 +566,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       });
     }
     else {
+      this.aCardDataWithFields = [];
+      this.aBlankCardData = [];
+
       let application = this.customerMasterJsonData.ApplicationDetails;
       this.allSectionsCardData[1].cardList.forEach(element => {
         switch (element.className) {
@@ -555,7 +584,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
           case "ApplicationDetails":
             data = application.getCardData();
-            this.cardDataWithFields.push(data);
+            this.aCardDataWithFields.push(data);
             break;
 
 
@@ -565,13 +594,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "EducationDetails":
           case "GoNoGoDetails":
             data = application[element.className].getCardData();
-            this.cardDataWithFields.push(data);
+            this.aCardDataWithFields.push(data);
             break;
 
           case "ReferalDetails":
           case "Notes":
             data = application[element.className].getCardData();
-            this.blankCardData.push(data);
+            this.aBlankCardData.push(data);
             break;
 
           default:
@@ -579,20 +608,126 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         }
       });
     }
-    console.error(this.cardDataWithFields);
-    console.error(this.blankCardData);
   }
 
+  // getAllData() {
+  //   let data;
+  //   this.cCardDataWithFields = [];
+  //   this.cBlankCardData = [];
+
+  //   this.aCardDataWithFields = [];
+  //   this.aBlankCardData = [];
+
+  //   let singleCustomer = this.customerMasterJsonData.CustomerDetails[0];
+  //   console.error(singleCustomer);
+
+  //   this.allSectionsCardData[0].cardList.forEach(element => {
+  //     switch (element.className) {
+  //       case "CustomerDetails":
+  //         this.customerCardDataWithFields = singleCustomer.getCardData();
+  //         console.error(this.customerCardDataWithFields);
+  //         break;
+
+  //       case "FinancialSummary":
+  //       case "AddressDetails":
+  //       case "FinancialDetails":
+  //       case "CollateralDetails":
+  //         data = singleCustomer[element.className].getCardData();
+  //         this.cCardDataWithFields.push(data);
+  //         break;
+
+  //       case "FamilyDetails":
+  //       case "PersonalInterview":
+  //       case "RmVisitDetails":
+  //         data = singleCustomer[element.className].getCardData();
+  //         this.cBlankCardData.push(data);
+  //         break;
+
+  //       default:
+  //         break;
+  //     }
+  //   });
+
+  //   let application = this.customerMasterJsonData.ApplicationDetails;
+  //   this.allSectionsCardData[1].cardList.forEach(element => {
+  //     switch (element.className) {
+  //       case "LoanDetails":
+  //         this.loanDetailsCardData = application.LoanDetails.getCardData();
+  //         console.log(this.loanDetailsCardData);
+  //         break;
+
+  //       case "InterfaceResults":
+  //         this.interfaceResultCardData = application.InterfaceResults.getCardData();
+  //         console.log(this.interfaceResultCardData);
+  //         break;
+
+  //       case "ApplicationDetails":
+  //         data = application.getCardData();
+  //         this.aCardDataWithFields.push(data);
+  //         break;
+
+
+  //       case "VehicalDetails":
+  //       case "CardDetails":
+  //       case "GoldDetails":
+  //       case "EducationDetails":
+  //       case "GoNoGoDetails":
+  //         data = application[element.className].getCardData();
+  //         this.aCardDataWithFields.push(data);
+  //         break;
+
+  //       case "ReferalDetails":
+  //       case "Notes":
+  //         data = application[element.className].getCardData();
+  //         this.aBlankCardData.push(data);
+  //         break;
+
+  //       default:
+  //         break;
+  //     }
+  //   });
+
+  //   console.error(this.cCardDataWithFields, this.aCardDataWithFields);
+  //   console.error(this.cBlankCardData, this.aBlankCardData);
+  // }
+
   //@output when tab selection changes
+
   customerSelectionChanged(data) {
     console.log(data);
     this.selectedTabCardData(this.selectedTab, data.index);
+    setTimeout(() => {
+      this.reloadCardGrid();
+    }, 10);
   }
 
   tabSwitched(tab: string) {
     console.log("tab switched", tab);
     this.selectedTab = tab;
+
     this.selectedTabCardData(this.selectedTab);
+    setTimeout(() => {
+      this.reloadCardGrid();
+    }, 500);
+
+    // if (tab == "customer") {
+
+    // }
+    // else {
+    //   setTimeout(() => {
+    //     this.selectedTabCardData(this.selectedTab);
+    //     this.reloadCardGrid();
+    //   }, 3000);
+    // }
+
+    // if (tab == "application") {
+    //   this.getAllData();
+    // }
+
+    // setTimeout(() => {
+    //   this.reloadCardGrid();
+    // }, 10);
+
   }
 
   async revalidate(): Promise<number> {

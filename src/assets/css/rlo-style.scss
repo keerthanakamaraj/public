@@ -38,6 +38,7 @@ $mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 /* Class Definitions */
 
 $card-field-margin:5px;
+
 body {
   font-family: $default-font-family !important;
   color: $default-text-color;
@@ -61,13 +62,16 @@ body {
     border-radius: 4px !important;
     background-color: $input-bg-color !important;
     margin-top: $default-spacing; // margin-bottom: $default-spacing-bottom;
+
     .input-readonly {
       background-color: $input-bg-disbl-color !important;
     }
+
     &:disabled {
       background-color: $input-bg-disbl-color !important;
     }
   }
+
   .form-group {
     label {
       color: $input-lbl-color;
@@ -75,6 +79,7 @@ body {
       line-height: 12px;
       letter-spacing: 0;
       margin: 2px 0;
+
       &.sub-section-header {
         // margin: 16px 0;
         height: 1.25rem;
@@ -84,10 +89,13 @@ body {
         font-weight: 500;
       }
     }
+
     .res-pr-hide {
       margin-bottom: $default-spacing-bottom;
     }
-  } // .res-pr-hide {
+  }
+
+  // .res-pr-hide {
   //   padding: 0px 20px 10px 20px;
   // }
   .ng-select {
@@ -96,14 +104,17 @@ body {
     border: 1px solid $border-light;
     font-size: 13px;
     margin-top: $default-spacing; // margin-bottom: $default-spacing-bottom;
+
     .ng-select-container {
       background-color: transparent !important;
       border-radius: 4px !important;
       min-height: 20px;
       font-size: 0.9rem;
+
       .ng-input {
         font-size: 0.9rem;
       }
+
       &.ng-select-single {
         .ng-select-container {
           height: 36px;
@@ -111,19 +122,23 @@ body {
         }
       }
     }
+
     &.ng-select-disabled>.ng-select-container {
       background-color: #f9f9f9 !important;
     }
   }
+
   my-date-picker {
     border-radius: 4px;
     margin-top: $default-spacing;
   }
+
   .mydp .icon-mydpcalendar:before {
     //  content: "\f073";
     content: url("./../icons/calendar-line.svg"); //  content:url("data:calendar-line/svg+xml");
     // font-family: "Font Awesome 5 Free";
   }
+
   .res-pr-hide-line {
     box-sizing: border-box;
     height: 1px;
@@ -237,6 +252,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   height: 200px;
   background-color: transparent;
   border: none;
+
   .radio-item {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -246,6 +262,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     height: 180px;
     vertical-align: middle;
     cursor: pointer;
+
     .checkmark {
       height: 96px;
       width: 96px;
@@ -257,8 +274,10 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       background-position: center;
       background-size: 64px 64px;
     }
+
     input:checked~.checkmark {
       border: 1px solid $primary-color !important;
+
       &::after {
         content: "\f058";
         font-family: "Font Awesome 5 Free";
@@ -269,6 +288,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         color: #00b500;
       }
     }
+
     .radio-text {
       display: inline-block;
       width: 100%;
@@ -278,18 +298,23 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       font-size: 16px;
       color: #595959;
     }
+
     input:checked~.radio-text {
       color: $primary-color;
     }
+
     &.AL .checkmark {
       background-image: url("./../icons/autoloan.png");
     }
+
     &.PL .checkmark {
       background-image: url("./../icons/personalloan.png");
     }
+
     &.ML .checkmark {
       background-image: url("./../icons/mortgageloan.png");
     }
+
     &.CC .checkmark {
       background-image: url("./../icons/creditcard.png");
     }
@@ -306,6 +331,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   z-index: 10; //top: 56px;
   top: 88px;
   left: 15px; // &.top {
+
   //   top: 55px;
   // }
   .active {
@@ -316,12 +342,15 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       vertical-align: middle;
       line-height: 40px;
       border-right: 1px solid #013653;
+
       &.arn {
         background-color: #013653;
+
         span {
           color: rgb(250, 246, 35);
         }
       }
+
       &.loan-amt::before {
         width: 41px;
         height: 27px;
@@ -333,6 +362,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         padding: 0 20px;
         vertical-align: middle;
       }
+
       &.loan-cat::before {
         width: 20px;
         height: 20px;
@@ -343,23 +373,30 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         padding: 0 20px;
         vertical-align: middle;
       }
+
       &.AL::before {
         background-image: url("./../icons/autoloan-yellow.svg");
       }
+
       &.PL::before {
         background-image: url("./../icons/personalloan-yellow.svg");
       }
+
       &.ML::before {
         background-image: url("./../icons/mortgage-yellow.svg");
       }
+
       &.CC::before {
         background-image: url("./../icons/creditcard-yellow.svg");
       }
     }
   }
+
   .inactive {
     display: none;
-  } // &::after {
+  }
+
+  // &::after {
   //   position: absolute;
   //   height: 30px;
   //   width: 30px;
@@ -443,6 +480,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
 width: 681px !important; */
     background-color: #ffffff;
   }
+
   .inactive {
     display: none;
   }
@@ -480,11 +518,13 @@ width: 681px !important; */
   width: 301px;
   background-color: #013653;
   text-align: center;
+
   .arn {
     line-height: 54px;
     vertical-align: middle;
     color: #fff;
     font-size: 16px;
+
     span {
       color: rgb(250, 246, 35);
     }
@@ -569,6 +609,7 @@ width: 681px !important; */
   margin-left: -7px !important;
   margin-right: -7px !important;
   border-top: none;
+
   &.border-top {
     border-top: 1px solid #979797;
   }
@@ -741,17 +782,21 @@ width: 681px !important; */
   border-radius: 8px;
   border: 1px solid #8fc3e0;
   display: flex;
+
   .cust-group {
     margin: 24px 0;
     border-right: 1px solid #ccc;
+
     &:last-of-type {
       border: none;
     }
+
     .cust-add {
       float: right;
       cursor: pointer;
     }
   }
+
   .cust-tag {
     height: 24px;
     width: 24px;
@@ -764,6 +809,7 @@ width: 681px !important; */
     font-size: 12px;
     font-weight: 600;
   }
+
   .cust-label {
     color: $primary-color;
     margin-left: 12px;
@@ -772,15 +818,19 @@ width: 681px !important; */
     line-height: 24px;
     vertical-align: middle;
   }
+
   .cust-list {
     margin-top: 24px; // margin-bottom: 24px;
+
     .customer {
       padding: 10px 0;
       border-bottom: 1px solid #ccc;
+
       &:last-of-type {
         border: none;
       }
     }
+
     .name {
       color: #565656;
       font-size: 16px;
@@ -788,23 +838,28 @@ width: 681px !important; */
       line-height: 22px;
       display: inline-block;
     }
+
     .active {
       .name {
         color: $primary-color;
         font-style: italic;
       }
+
       .cust-editing {
         display: block;
       }
+
       .action-container {
         .cust-edit {
           display: none;
         }
+
         .cust-delete {
           display: none;
         }
       }
     }
+
     .cust-editing {
       float: right;
       border: 1px solid #16bbae;
@@ -819,13 +874,16 @@ width: 681px !important; */
       padding: 3px 12px; // margin-top: 4px;
       display: none;
     }
+
     .action-container {
       float: right;
+
       .cust-edit {
         cursor: pointer;
         float: left;
         padding-inline-end: 8px;
       }
+
       .cust-delete {
         float: left;
         cursor: pointer;
@@ -841,11 +899,13 @@ width: 681px !important; */
   border-radius: 0.267em;
   background-color: #FFFFFF;
   margin: 1em;
+
   .loan-group {
     box-sizing: border-box;
     height: 7.4em;
     margin-top: 1.000em;
     border-right: 1px solid #DFD7D7;
+
     &:last-of-type {
       border: none;
     }
@@ -857,9 +917,11 @@ a.back {
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+
   &:hover {
     text-decoration: none;
   }
+
   &::before {
     content: "\f104"; // vertical-align: middle;
     font-family: "Font Awesome 5 Free";
@@ -874,6 +936,7 @@ a.back {
   left: 0px;
   width: 100%;
   z-index: 10;
+
   .ng-star-inserted {
     display: inline-block;
   }
@@ -1003,6 +1066,7 @@ a.back {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -1024,6 +1088,7 @@ a.back {
   border-bottom: 2px solid #EEEEEE;
   position: relative;
   background: white;
+
   .expand-icon {
     background-image: url(./../icons/edit_button.png);
     width: 22px;
@@ -1052,6 +1117,22 @@ a.back {
   display: flex !important;
 }
 
+.opacity-0 {
+  opacity: 0 !important;
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
 .wgt-scores {
   // top: 116px;
   position: relative;
@@ -1060,18 +1141,22 @@ a.back {
   margin-right: 0;
   z-index: 10;
   height: auto; // border: 1px solid #ccc;
+
   // border-top: 0;
   // border-bottom-left-radius: 8px;
   // border-bottom-right-radius: 8px;
   .cards {
     padding: 0.938rem 1.563rem 0.938rem 2.625rem;
     background-color: #f8f8f8;
+
     &:first-child {
       border-bottom-left-radius: 8px;
     }
+
     &:nth-last-child(2) {
       border-bottom-right-radius: 8px;
     }
+
     span:first-child {
       font-size: 1rem;
       display: inline-block;
@@ -1083,10 +1168,13 @@ a.back {
       top: 3px;
       line-height: 16px;
     }
+
     span:last-child {
       color: black; // margin-left: 1rem;
       font-weight: bold;
-    } // &:after {
+    }
+
+    // &:after {
     //   width: 1px;
     //   height: 25px;
     //   content: "";
@@ -1098,6 +1186,7 @@ a.back {
     //   display: none;
     // }
   }
+
   .progress {
     margin: 0px 1.2rem 2px 2rem;
     border-radius: 22px;
@@ -1105,12 +1194,14 @@ a.back {
     display: inline-block;
     height: 0.35rem;
     background: #E2E2E2;
+
     div {
       width: 70%;
       background-color: black;
       border-radius: 22px;
     }
   }
+
   .open-modal {
     background-image: url(./../icons/edit_button.png);
     width: 22px;
@@ -1123,7 +1214,9 @@ a.back {
     position: absolute;
     top: 18px;
     right: 25px;
-  } // &.expanded {
+  }
+
+  // &.expanded {
   //   width: calc(100% - 30px) !important;
   //   top: 165px;
   //   position: fixed;
@@ -1158,9 +1251,11 @@ a.back {
   top: 17.5rem;
   align-items: flex-start;
   z-index: 1;
+
   .form-element {
     background-color: #f8f8f8; //padding: 5px;
     border-bottom: 2px solid $light-color;
+
     .form-details {
       margin: 4px 0;
       display: flex;
@@ -1168,6 +1263,7 @@ a.back {
       position: relative;
       border-radius: 4px;
       color: #8e8e8e;
+
       div {
         height: 25px;
         width: 25px;
@@ -1178,6 +1274,7 @@ a.back {
         margin: 7px auto;
         font-size: 25px;
       }
+
       .txt {
         display: block;
         visibility: hidden;
@@ -1187,17 +1284,20 @@ a.back {
         visibility: hidden;
         opacity: 0;
         transition: opacity 0.33s ease-in; //testing
+
         // visibility: visible;
         // opacity: 1;
         span {
           color: #B7B7B7;
           font-size: 12px;
         }
+
         &.menu-open {
           visibility: visible;
           opacity: 1;
         }
       }
+
       .status-flag {
         display: block;
         height: 0.5rem;
@@ -1208,42 +1308,54 @@ a.back {
         top: 24px;
         left: 4px;
       }
+
       &:hover {
         &.inactive-table {
           color: white !important;
+
           &.complete {
             background-color: $primary-color;
           }
+
           &.incomplete {
             background-color: #8e8e8e;
           }
+
           span {
             color: white !important;
           }
         }
+
         &.completed-table {
           background-color: $primary-color;
         }
       }
     }
+
     &:last-child {
       border: none;
     }
   }
+
   .completed-table {
     background-color: $primary-color;
     color: white !important;
+
     .txt span {
       color: white !important
     }
   }
+
   .incompleted-table {
     background-color: #8e8e8e;
     color: white !important;
+
     .txt span {
       color: white !important
     }
-  } //HOVER
+  }
+
+  //HOVER
   .main-container {
     border-radius: 5px;
     width: 64px;
@@ -1253,6 +1365,7 @@ a.back {
     transition-duration: .15s;
     transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
   }
+
   .main-container:hover {
     width: 26rem;
   }
@@ -1263,13 +1376,16 @@ a.back {
     border-bottom: 1px solid $light-color;
     /* border-color: red; */
     padding: 0.8rem 1.7rem;
+
     .info {
       position: absolute;
       right: 23px;
       top: 11px;
       display: flex;
+
       .menu-btn {
         display: flex;
+
         .nxt-btn {
           background-image: url(./../icons/right-arrow-selected.svg);
           width: 22px;
@@ -1281,6 +1397,7 @@ a.back {
           margin: 5px 12px;
           cursor: pointer;
         }
+
         .prev-btn {
           background-image: url(./../icons/left-arrow-deselected.svg);
           width: 22px;
@@ -1294,11 +1411,13 @@ a.back {
         }
       }
     }
+
     .form-title {
       font-size: 20px;
       line-height: 27px;
       color: $primary-color;
     }
+
     .tag {
       padding: 9px 10px;
       display: inline-block;
@@ -1309,6 +1428,7 @@ a.back {
       font-size: 12px;
       font-weight: 600;
       line-height: 12px;
+
       .label {
         background-color: $primary-color;
         font-size: 9px;
@@ -1316,6 +1436,7 @@ a.back {
         color: #fff;
         margin: 0 8px 0 3px;
       }
+
       .txt {
         color: $primary-color;
         font-size: 12px;
@@ -1324,6 +1445,7 @@ a.back {
       }
     }
   }
+
   .menu-content {
     padding: 0.9rem 1.25rem;
   }
@@ -1349,6 +1471,7 @@ rlo-ui-card-field {
       }
     }
   }
+
   &:nth-child(even) {
     .special {
       .card-tile-container {
@@ -1361,7 +1484,7 @@ rlo-ui-card-field {
 
 .wgt-card-tile-body {
   &.card-tile-body {
-    min-height: 54px;
+    // min-height: 54px;
     position: relative;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -1369,8 +1492,10 @@ rlo-ui-card-field {
     flex-direction: column;
     background-color: #fff;
     padding: 0 !important;
+
     &.special {
       border-right: 1px solid #ddd;
+
       .card-tile-container {
         padding: 7px 0 9px 18px;
         margin: 0;
@@ -1378,11 +1503,13 @@ rlo-ui-card-field {
       }
     }
   }
+
   .card-tile-container {
     padding: 7px 0 9px 14px;
     margin-right: $card-field-margin;
     margin-left: $card-field-margin;
     border-bottom: 1px solid #ddd;
+
     .lable-icon {
       float: right;
       margin-top: -25px;
@@ -1394,7 +1521,9 @@ rlo-ui-card-field {
       cursor: pointer;
       background-image: url(./../icons/edit_button.png);
       background-repeat: no-repeat;
-    } // .iconStatus{
+    }
+
+    // .iconStatus{
     //   float: right;
     //   margin-top: -25px;
     //   border: none;
@@ -1428,6 +1557,7 @@ rlo-ui-card-field {
       letter-spacing: 0;
       line-height: 12px;
     }
+
     .secondary_lable {
       // height: 12px;
       padding: 3px; // width: 101px;
@@ -1474,16 +1604,20 @@ rlo-ui-card-field {
     border-top-right-radius: 4px !important;
     z-index: 0 !important;
   }
+
   .input-group-btn {
     padding-top: 1.3rem; // padding-bottom: 1.5rem;
+
     .dropdown-menu {
       box-shadow: none;
       border-top: 0;
     }
   }
+
   .input-group-code {
     padding-top: 17px;
   }
+
   .btn-country-code {
     height: 36px !important;
     width: auto !important;
@@ -1495,12 +1629,14 @@ rlo-ui-card-field {
     background-color: #EEEEEE;
     outline: none !important;
   }
+
   .error-country-code {
     position: absolute;
     bottom: 0;
     left: 0;
     bottom: -1.4rem;
   }
+
   .dropdown-menu li {
     background-color: #fff;
     color: rgba(0, 0, 0, .87);
@@ -1512,20 +1648,25 @@ rlo-ui-card-field {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 13px;
+
     &:hover {
       background-color: #f5faff;
     }
   }
+
   .country-code-list {
     margin: 0 !important;
     padding: 0 !important;
+
     li:first-child {
       margin: 14px 0 0 0;
     }
+
     li.loading {
       margin: 0 !important;
       color: #ccc;
     }
+
     .selected-code {
       font-weight: 600;
       background-color: #ebf5ff;
@@ -1541,9 +1682,11 @@ rlo-ui-card-field {
   align-items: flex-start;
   z-index: 9;
   background: white;
+
   .FormTitle {
     padding: 7px 0;
     border-bottom: 1px solid #979797;
+
     &.no-border {
       border-bottom: none;
     }
@@ -1557,11 +1700,13 @@ rlo-ui-card-field {
   border-radius: 0;
   background: #EEEEEE;
   box-shadow: none;
+
   .progress-bar {
     background: #00B500;
     font-size: 10px;
     line-height: 14px;
   }
+
   &.expanded {
     width: calc(100% - 30px) !important;
     top: 89px;
@@ -1583,6 +1728,7 @@ rlo-ui-card-field {
   background-size: cover;
   background-repeat: no-repeat;
   display: block;
+
   &:before {
     content: "\e900";
     font-family: "rlo-icons";
@@ -1599,6 +1745,7 @@ rlo-ui-card-field {
     border-top-left-radius: 6px;
     border-bottom: 1px solid #CDCDCD;
     color: #000000;
+
     span {
       position: absolute;
       right: 22px;
@@ -1607,6 +1754,7 @@ rlo-ui-card-field {
       color: #8E8E8E;
     }
   }
+
   .modal-body {
     span {
       position: absolute;
@@ -1615,10 +1763,13 @@ rlo-ui-card-field {
       cursor: pointer;
       color: #8E8E8E;
     }
+
     padding-left: 18px;
   }
+
   .modal-footer {
     border: none;
+
     .btn+.btn {
       margin-left: 14px;
     }
@@ -1654,6 +1805,7 @@ rlo-ui-card-field {
 .flexible-container .rlo-ui-radio-container {
   height: auto !important;
   min-height: 42px !important;
+
   .radio-item {
     float: left;
   }
@@ -1677,16 +1829,47 @@ rlo-ui-card-field {
 
 // card component
 .wgt-cards {
-  border: 1px solid rgba(0, 121, 184, 0.25);
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
-  padding: 0 !important;
+
+  // border: 1px solid rgba(0, 121, 184, 0.25);
+  // border-radius: 5px;
+  // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+  // padding: 0 !important;
+  padding: 0em !important;
+  // width: auto;
+  width: 100% !important;
+
   .cards-header {
-    @include card-header()
+    // @include card-header()
+    font-size: 20px;
+    line-height: 27px;
+    color: #0079B8;
+    padding: 18px 18px 18px 21px;
+    border-bottom: 2px solid #EEEEEE;
+    position: relative;
+    background: white;
+    border: 1px solid rgba(0, 121, 184, 0.25);
+    /* border-radius: 5px; */
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
   }
+
   .cards-body {
+    // margin: 0 !important;
+    // background-color: white;
+
+    //temp
+    //min-height: 25em;
+
     margin: 0 !important;
     background-color: white;
+    // min-height: 25em;
+    border: 1px solid rgba(0, 121, 184, 0.25);
+    /* border-radius: 5px; */
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
     rlo-ui-card-field {
       &:last-of-type {
         .card-tile-container {
@@ -1706,10 +1889,12 @@ rlo-ui-card-field {
   border-bottom: 1.5px solid #C8C8C8;
   border-radius: 4px;
   background-color: #FFFFFF;
+
   .cust-list-container {
     height: 48px;
     width: 91%;
     float: left;
+
     .cust-name-container {
       line-height: 41px;
       float: left;
@@ -1717,6 +1902,7 @@ rlo-ui-card-field {
       padding-left: 2%;
       height: 45px;
       border-right: 1.5px solid #C8C8C8;
+
       .cust-tag {
         height: 24px;
         width: 24px;
@@ -1729,10 +1915,12 @@ rlo-ui-card-field {
         font-size: 12px;
         font-weight: 600;
       }
+
       .cust-name {
         margin-left: 12px;
       }
     }
+
     .active-customer {
       // padding-top: 11px;
       line-height: 41px;
@@ -1742,6 +1930,7 @@ rlo-ui-card-field {
       background-color: #0079B8;
       height: 45px;
       border-right: 1.5px solid #C8C8C8;
+
       .cust-tag {
         height: 24px;
         width: 24px;
@@ -1754,16 +1943,19 @@ rlo-ui-card-field {
         font-size: 12px;
         font-weight: 600;
       }
+
       .cust-name {
         margin-left: 12px;
         color: #FFFFFF;
       }
     }
   }
+
   .only-cust-list-container {
     @extend .cust-list-container;
     width: 100%;
   }
+
   .cust-more-container {
     //border: 1px solid #a7222d;
     height: 45px;
@@ -1771,6 +1963,7 @@ rlo-ui-card-field {
     width: 8%;
     padding-left: 2%;
     float: left;
+
     .more-tag {
       height: 34px;
       width: 34px;
@@ -1783,10 +1976,12 @@ rlo-ui-card-field {
       font-size: 14px;
       font-weight: 600;
     }
+
     .shift-btn-container {
       display: -webkit-box;
       float: right; // line-height: 29px;
       padding-top: 12px; // margin-top: 11px;
+
       //vertical-align: middle !important;
       .nxt-btn-active {
         //    background-image: url(./../icons/right-arrow-selected.svg);
@@ -1800,6 +1995,7 @@ rlo-ui-card-field {
         margin-left: 12px;
         cursor: pointer;
       }
+
       .nxt-btn-inactive {
         background-image: url(./../icons/right-shift-disabled.svg);
         width: 10px;
@@ -1811,6 +2007,7 @@ rlo-ui-card-field {
         margin-left: 12px;
         cursor: pointer;
       }
+
       .prev-btn-inactive {
         background-image: url(./../icons/left-shift-disabled.svg);
         width: 10px;
@@ -1821,6 +2018,7 @@ rlo-ui-card-field {
         background-position: center center; // margin-top: 5px;
         cursor: pointer;
       }
+
       .prev-btn-active {
         //     background-image: url(./../icons/left-arrow-deselected.svg);
         background-image: url(./../icons/left-shift-enabled.svg);
@@ -1843,8 +2041,10 @@ rlo-ui-card-field {
   max-height: 110px; // width: 1213px;
   border-radius: 4px;
   background-color: #FAFAFA; //line-height: 51px;
+
   // max-height: 500px !important;
   .desc-container {
+
     // max-height: 500px !important;
     .description-txt {
       height: 17px; //width: 250px;
@@ -1856,6 +2056,7 @@ rlo-ui-card-field {
       line-height: 17px;
     }
   }
+
   .value-container {
     .col-header-txt {
       height: 17px; // width: 86px;
@@ -1865,6 +2066,7 @@ rlo-ui-card-field {
       letter-spacing: 0;
       line-height: 17px;
     }
+
     .value-txt {
       height: 17px; //  width: 21px;
       color: #000000;
@@ -1873,6 +2075,7 @@ rlo-ui-card-field {
       letter-spacing: 0;
       line-height: 17px;
     }
+
     .pass-txt {
       height: 17px; //   width: 27px;
       color: #00B500;
@@ -1882,6 +2085,7 @@ rlo-ui-card-field {
       letter-spacing: 0;
       line-height: 17px;
     }
+
     .fail-txt {
       height: 17px; // width: 21px;
       color: #D0021B;
@@ -1899,6 +2103,7 @@ rlo-ui-card-field {
   border-radius: 4px;
   background-color: #E4F0F9;
   line-height: 51px;
+
   .total-label {
     height: 17px; //  width: 63px;
     color: #000000;
@@ -1907,6 +2112,7 @@ rlo-ui-card-field {
     letter-spacing: 0; // line-height: 17px;
     text-align: right;
   }
+
   .total-value {
     height: 17px; //  width: 57px;
     color: #00B500;
@@ -1938,6 +2144,7 @@ rlo-ui-card-field {
 // }
 .score-container {
   height: 51px;
+
   .score-name {
     height: 17px; // width: 85px;
     color: #565656;
@@ -1947,6 +2154,7 @@ rlo-ui-card-field {
     line-height: 17px;
     text-align: right;
   }
+
   .progress {
     margin: 0px 1.2rem 2px 2rem;
     border-radius: 22px;
@@ -1954,12 +2162,14 @@ rlo-ui-card-field {
     display: inline-block;
     height: 10px;
     background-color: #F6F6F7;
+
     .progress-bar {
       //width: 70%;
       // background-color: #00B500;
       border-radius: 22px;
     }
   }
+
   .progress-count {
     height: 27px; // width: 23px;
     //color: #D0021B;
@@ -1974,6 +2184,7 @@ rlo-ui-card-field {
 .graph-index-row {
   .index-container {
     height: 52px;
+
     .index {
       height: 17px;
       color: #565656;
@@ -1981,12 +2192,14 @@ rlo-ui-card-field {
       font-size: 12px;
       letter-spacing: 0;
       line-height: 17px;
+
       .favourable-sample {
         height: 16px;
         width: 16px;
         border-radius: 50%;
         float: left
       }
+
       .index-label {
         padding-left: 8px;
       }
@@ -1997,12 +2210,32 @@ rlo-ui-card-field {
 /*score-card-result end*/
 
 .wgt-blank-card {
-  border: 1px solid rgba(0, 121, 184, 0.25);
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
-  padding: 0 !important;
+  // border: 1px solid rgba(0, 121, 184, 0.25);
+  // border-radius: 5px;
+  // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+  // padding: 0 !important;
+
+  padding: 1em 0 0 0 !important;
+  width: 100%;
+
   .blank-card-header {
-    @include card-header()
+    @include card-header();
+    margin: 0 5px;
+  }
+
+  .blank-container {
+    border: 1px solid rgba(0, 121, 184, 0.25);
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+    background: white;
+
+    app-blank-card {
+      &:last-of-type {
+        .blank-card-header {
+          border: none;
+        }
+      }
+    }
   }
 }
 
@@ -2012,6 +2245,7 @@ rlo-ui-card-field {
   border-bottom: 1px solid #EEEEEE;
   margin: 0 6px;
   position: relative;
+
   .name {
     color: #565656;
     height: 18px;
@@ -2070,12 +2304,16 @@ rlo-ui-card-field {
   border: 1px solid #E4F0F9;
   border-radius: 8px;
   margin: 0 auto;
+
   &:first-child {
     margin-right: 10px;
   }
+
   &:last-child {
     margin-left: 10px;
-  } //two types of layouts for header-vertical-layoute & horizontal-layout
+  }
+
+  //two types of layouts for header-vertical-layoute & horizontal-layout
   &.vertical-layout {
     app-score-card {
       &:first-child {
@@ -2084,28 +2322,34 @@ rlo-ui-card-field {
           border-top-right-radius: 8px !important;
         }
       }
+
       &:last-child {
         .wgt-scores {
           border-bottom-left-radius: 8px !important;
           border-bottom-right-radius: 8px !important;
         }
       }
+
       .wgt-scores {
         z-index: 1;
         background: #f8f8f8;
+
         .progress {
           width: 25%;
           margin: 0px 36px 2px 32px;
         }
+
         .cards {
           &:first-child {
             border-bottom-left-radius: 0px;
           }
+
           span:first-child {
             width: 40%;
           }
         }
       }
+
       .cards {
         padding: 20px 33px;
         margin: 0 6px;
@@ -2113,6 +2357,7 @@ rlo-ui-card-field {
       }
     }
   }
+
   app-header-status-card {
     &:last-child {
       .wgt-header-status-card {
@@ -2120,6 +2365,7 @@ rlo-ui-card-field {
       }
     }
   }
+
   .refresher {
     position: absolute;
     background-image: url(./../icons/score_card_refresher.svg);
@@ -2133,10 +2379,11 @@ rlo-ui-card-field {
 }
 
 .masonry-item {
-  // width: 200px;
+  width: 50%;
 }
 
 .scorecard-container {
+
   //two types of layouts for header-vertical-layoute & horizontal-layout
   &.horizontal-layout {
     margin: 0 !important;
@@ -2144,6 +2391,7 @@ rlo-ui-card-field {
     border-top: 0;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+
     app-score-card {
       &:after {
         width: 1px;
@@ -2155,20 +2403,24 @@ rlo-ui-card-field {
         top: 11px;
         z-index: 99;
       }
+
       &:nth-last-child(2):after {
         display: none;
       }
+
       &:first-child {
         .cards {
           border-bottom-left-radius: 8px;
         }
       }
+
       &:nth-last-child(2) {
         .cards {
           border-bottom-right-radius: 8px;
         }
       }
     }
+
     .refresher {
       position: absolute;
       background-image: url(./../icons/score_card_refresher.svg);
@@ -2180,6 +2432,7 @@ rlo-ui-card-field {
       margin-top: 0.65rem;
       z-index: 99;
     }
+
     &.expanded {
       top: 165px;
       position: fixed;
@@ -2193,14 +2446,19 @@ rlo-ui-card-field {
 
 .cards-section {
   background-color: #EEEEEE;
-  padding: 1rem;
   display: inline-block;
+  padding: 27px 11px 0 11px;
+
+  .card-layout-container {
+    padding-top: 1em;
+  }
 }
 
 .uw-tabs {
   display: flex;
   margin-top: 30px;
   margin-bottom: 18px;
+
   .btn-group {
     margin: auto;
   }
@@ -2224,221 +2482,263 @@ rlo-ui-card-field {
     color: #F5A623
   }
 }
+
 // fab button
 #fab-action {
-              &:checked {
-                + {
-                  .fab-row {
-                    opacity: 1;
-                    visibility: visible;
-                  }
-                }
-              }
-            }
-            .fab {
-              position: fixed;
-              width: 56px;
-              right: 5%;
-              bottom: 5%;
-              margin-left: -28px;
-              .fab-buttons {
-                opacity: 1;
-                visibility: visible;
-              }
-              .fab-row {
-                opacity: 1;
-                visibility: visible;
-              }
-              .fab-buttons__link {
-                transform: scaleY(1) scaleX(1) translateY(-16px) translateX(0px);
-                i {
-                  padding-top: 35px;
-                  color: #0079b8;
-                  font-size: 11px;
-                  font-family: sans-serif !important;
-                }
-              }
-              .fab-action-icon {
-                background-color: #ffffff;
-                background: url(".././icons/collapse.svg") center no-repeat;
-              }
-            }
-            .fab-action-button_icon {
-              .fab-row {
-                opacity: 0;
-                visibility: visible;
-              }
-            }
-            .fab-action-button {
-              &:hover {
-                .fab-buttons {
-                  .fab-buttons__link {
-                    visibility: visible;
-                    opacity: 1;
-                    transform: scale(1);
-                    transform-origin: right center 0;
-                    transition-delay: 0.3s;
-                  }
-                }
-              }
-              position: absolute;
-              bottom: 0;
-              width: 56px;
-              height: 56px;
-              background-color: white;
-              -webkit-transition: -webkit-transform .4s ease-in-out;
-              transition: transform .4s ease-in-out;
-              position: fixed;
-              bottom: 5%;
-              right: 5%;
-              // border: 1px solid #1b223e;
-              box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-              border-radius: 50px;
-              .fab-row {
-                display: block;
-              }
-            }
-            .fab-action-button_2 {
-              position: absolute;
-              bottom: 0;
-              width: 56px;
-              height: 56px;
-              background-color: #0079B8;
-              box-shadow: 4px -4px 2px #0079B8;
-              position: fixed;
-              bottom: 5%;
-              right: 5%;
-              border: 1px solid #0079B8;
-              box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-              border-radius: 50px;
-            }
-            .fab-buttons {
-              position: absolute;
-              opacity: 0;
-              visibility: hidden;
-              right: 0;
-              bottom: 50px;
-              list-style: none;
-              box-shadow: 2px 4px 8px #F2F8FD;
-              background-color: #F2F8FD;
-              border: 1px solid #55C5FF;
-              border-top-left-radius: 25px;
-              border-top-right-radius: 25px;
-              border-bottom-right-radius: 25px;
-              margin-bottom: -20px;
-              padding: 10px;
-              width: 69px;
-              transition: 0.2s;
-              padding-bottom: 25px;
-            }
-            .fab-row {
-              box-shadow: 2px 4px 8px #0079B8;
-              display: flex;
-              align-items: stretch;
-              position: fixed;
-              opacity: 1;
-              visibility: hidden;
-              background-color: #0079B8;
-              bottom: 4.5%;
-              right: 4.5%;
-              height: 65px;
-              border-radius: 50px;
-              transition: 0.2s;
-              transition: transform .4s ease-in-out;
-              div {
-                padding: 10px;
-                flex: 1;
-                width: 5%;
-              }
-              .border-left {
-                border-right: 2px solid black;
-              }
-            }
-            .row-border {
-              border-right: 2px solid white;
-              i {
-                padding-top: 10px;
-                padding-bottom: 10px;
-              }
-            }
-            .fab-action-button__icon_2 {
-              position: absolute;
-              display: inline-block;
-              width: 56px;
-              height: 56px;
-              background: url("https://img.icons8.com/material-outlined/24/ffffff/open-envelope-stamp.png") center no-repeat;
-            }
-            .fab-action-button__icon {
-              position: absolute;
-              display: inline-block;
-              width: 56px;
-              height: 56px;
-              background: url(".././icons/collapse.svg") center no-repeat;
-              // transform: rotate(45deg);
-            }
-            .fab-buttons__item {
-              display: block;
-              text-align: center;
-              margin: 12px 0;
-              padding-top: 15px;
-            }
-            .fab-buttons__link {
-              display: inline-block;
-              width: 40px;
-              height: 40px;
-              text-decoration: none;
-              transform: scaleY(0.5) scaleX(0.5) translateY(0px) translateX(0px);
-              -moz-transition: .3s;
-              -webkit-transition: .3s;
-              -o-transition: .3s;
-              transition: .3s;
-            }
-            [data-tooltip] {
-              &:before {
-                top: 50%;
-                margin-top: -11px;
-                font-weight: 600;
-                border-radius: 2px;
-                background: #585858;
-                color: #fff;
-                content: attr(data-tooltip);
-                font-size: 12px;
-                text-decoration: none;
-                visibility: hidden;
-                opacity: 0;
-                padding: 4px 7px;
-                margin-right: 12px;
-                position: absolute;
-                transform: scale(0);
-                right: 100%;
-                white-space: nowrap;
-                transform-origin: top right;
-                transition: all .3s cubic-bezier(.25, .8, .25, 1);
-              }
-              &:hover {
-                &:before {
-                  visibility: visible;
-                  opacity: 1;
-                  transform: scale(1);
-                  transform-origin: right center 0;
-                }
-              }
-            }
-            .icon-material {
-              display: inline-block;
-              width: 40px;
-              height: 40px;
-            }
-              .icon-material_fb {
-                          background: url(".././icons/Income-Summary.svg") center no-repeat;
-                        }
-                        .icon-material_gp {
-                          background: url(".././icons/Income-Summary.svg") center no-repeat;
-                        }
-                        .icon-material_tw {
-                          background: url(".././icons/Customer-Details.svg") center no-repeat;
-                        }
-                        .icon-material_li {
-                          background: url(".././icons/Family-Details.svg") center no-repeat;
-                        }
-            
+  &:checked {
+    + {
+      .fab-row {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.fab {
+  position: fixed;
+  width: 56px;
+  right: 5%;
+  bottom: 5%;
+  margin-left: -28px;
+
+  .fab-buttons {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .fab-row {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .fab-buttons__link {
+    transform: scaleY(1) scaleX(1) translateY(-16px) translateX(0px);
+
+    i {
+      padding-top: 35px;
+      color: #0079b8;
+      font-size: 11px;
+      font-family: sans-serif !important;
+    }
+  }
+
+  .fab-action-icon {
+    background-color: #ffffff;
+    background: url(".././icons/collapse.svg") center no-repeat;
+  }
+}
+
+.fab-action-button_icon {
+  .fab-row {
+    opacity: 0;
+    visibility: visible;
+  }
+}
+
+.fab-action-button {
+  &:hover {
+    .fab-buttons {
+      .fab-buttons__link {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1);
+        transform-origin: right center 0;
+        transition-delay: 0.3s;
+      }
+    }
+  }
+
+  position: absolute;
+  bottom: 0;
+  width: 56px;
+  height: 56px;
+  background-color: white;
+  -webkit-transition: -webkit-transform .4s ease-in-out;
+  transition: transform .4s ease-in-out;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  // border: 1px solid #1b223e;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12),
+  0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+
+  .fab-row {
+    display: block;
+  }
+}
+
+.fab-action-button_2 {
+  position: absolute;
+  bottom: 0;
+  width: 56px;
+  height: 56px;
+  background-color: #0079B8;
+  box-shadow: 4px -4px 2px #0079B8;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  border: 1px solid #0079B8;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+}
+
+.fab-buttons {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  right: 0;
+  bottom: 50px;
+  list-style: none;
+  box-shadow: 2px 4px 8px #F2F8FD;
+  background-color: #F2F8FD;
+  border: 1px solid #55C5FF;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  margin-bottom: -20px;
+  padding: 10px;
+  width: 69px;
+  transition: 0.2s;
+  padding-bottom: 25px;
+}
+
+.fab-row {
+  box-shadow: 2px 4px 8px #0079B8;
+  display: flex;
+  align-items: stretch;
+  position: fixed;
+  opacity: 1;
+  visibility: hidden;
+  background-color: #0079B8;
+  bottom: 4.5%;
+  right: 4.5%;
+  height: 65px;
+  border-radius: 50px;
+  transition: 0.2s;
+  transition: transform .4s ease-in-out;
+
+  div {
+    padding: 10px;
+    flex: 1;
+    width: 5%;
+  }
+
+  .border-left {
+    border-right: 2px solid black;
+  }
+}
+
+.row-border {
+  border-right: 2px solid white;
+
+  i {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.fab-action-button__icon_2 {
+  position: absolute;
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  background: url("https://img.icons8.com/material-outlined/24/ffffff/open-envelope-stamp.png") center no-repeat;
+}
+
+.fab-action-button__icon {
+  position: absolute;
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  background: url(".././icons/collapse.svg") center no-repeat;
+  // transform: rotate(45deg);
+}
+
+.fab-buttons__item {
+  display: block;
+  text-align: center;
+  margin: 12px 0;
+  padding-top: 15px;
+}
+
+.fab-buttons__link {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  text-decoration: none;
+  transform: scaleY(0.5) scaleX(0.5) translateY(0px) translateX(0px);
+  -moz-transition: .3s;
+  -webkit-transition: .3s;
+  -o-transition: .3s;
+  transition: .3s;
+}
+
+[data-tooltip] {
+  &:before {
+    top: 50%;
+    margin-top: -11px;
+    font-weight: 600;
+    border-radius: 2px;
+    background: #585858;
+    color: #fff;
+    content: attr(data-tooltip);
+    font-size: 12px;
+    text-decoration: none;
+    visibility: hidden;
+    opacity: 0;
+    padding: 4px 7px;
+    margin-right: 12px;
+    position: absolute;
+    transform: scale(0);
+    right: 100%;
+    white-space: nowrap;
+    transform-origin: top right;
+    transition: all .3s cubic-bezier(.25, .8, .25, 1);
+  }
+
+  &:hover {
+    &:before {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+      transform-origin: right center 0;
+    }
+  }
+}
+
+.icon-material {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+
+.icon-material_fb {
+  background: url(".././icons/Income-Summary.svg") center no-repeat;
+}
+
+.icon-material_gp {
+  background: url(".././icons/Income-Summary.svg") center no-repeat;
+}
+
+.icon-material_tw {
+  background: url(".././icons/Customer-Details.svg") center no-repeat;
+}
+
+.icon-material_li {
+  background: url(".././icons/Family-Details.svg") center no-repeat;
+}
+
+.red {
+  background-color: red;
+}
+
+.w-50 {
+  width: 32em;
+}
+
+.w-25 {
+  width: 32em;
+}
