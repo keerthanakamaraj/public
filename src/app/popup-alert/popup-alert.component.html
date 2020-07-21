@@ -4,7 +4,7 @@
         <span class="fa fa-times" (click)="onClick(0)"></span>
     </div>
     <div class="modal-body">
-        <span class="fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
+        <span class="msg-span fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
         <h5>{{modalObject.mainMessage}}</h5>
 
         <!-- components added here -->
@@ -22,3 +22,10 @@
         </div>
     </ng-container>
 </div>
+<!-- .wgt-alert-modal .modal-body span {
+  /* position: absolute; */
+  /* right: 16px; */
+  /* top: 17px; */
+  /* cursor: pointer; */
+  /* color: #8E8E8E; */
+} -->

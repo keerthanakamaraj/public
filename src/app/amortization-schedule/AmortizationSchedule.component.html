@@ -142,8 +142,7 @@
                 customClass="btn-warning-outline" (buttonClick)="AMS_CLEAR_BTN_click($event)"></app-button>
         </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AmortizationGrid.isHidden()">
-            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode"
-              (EditReferrerDetails)="FieldId_6_EditReferrerDetails($event)"></app-AmortizationGrid>
+            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode"></app-AmortizationGrid>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-amortization-schedule-handler #Handler [MainComponent]="this"></app-amortization-schedule-handler>

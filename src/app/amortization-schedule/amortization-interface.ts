@@ -13,3 +13,14 @@ export interface IAmortizationForm{
   RequiredEMIAmt?:any
 
 }
+
+export interface IRepaymentSchedule{
+  installmentDate:string,
+  closingPrincipalBalance:string,
+  installmentAmount:string,
+  openPrincipalBalance:string,
+  interestAmount:string,
+  installmentNo:string,
+  principalAmount:string,
+  others:string
+}

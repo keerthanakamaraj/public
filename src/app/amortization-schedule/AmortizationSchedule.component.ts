@@ -179,6 +179,43 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.NoOfInstallments.setValue(this.parentData.NoOfInstallments),
     this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt)
   }
+
+  AMS_GENERATE_BTN_click(event){
+      let RepaymentScheduleResp: [
+        {
+          "installmentDate": "JAN-2020",
+          "closingPrincipalBalance": 531448,
+          "installmentAmount": 11052,
+          "openPrincipalBalance": 500000,
+          "interestAmount": 42500,
+          "installmentNo": 1,
+          "principalAmount": -31448
+        },
+        {
+          "installmentDate": "FEB-2020",
+          "closingPrincipalBalance": 524160.42,
+          "installmentAmount": 11052,
+          "openPrincipalBalance": 531448,
+          "interestAmount": 3764.42,
+          "installmentNo": 2,
+          "principalAmount": 7287.58
+        },
+        {
+          "installmentDate": "MAR-2020",
+          "closingPrincipalBalance": 516821.22,
+          "installmentAmount": 11052,
+          "openPrincipalBalance": 524160.42,
+          "interestAmount": 3712.8,
+          "installmentNo": 3,
+          "principalAmount": 7339.2
+        }]
+
+         this.AmortizationGrid.gridDataLoad({
+          'requestParams': 'requestParamsArray',
+          'hardCodedResp':RepaymentScheduleResp
+        });
+  }
+
 	fieldDependencies = {
 		ScheduleType: {
 			inDep: [

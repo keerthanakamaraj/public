@@ -7,6 +7,8 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import {IRepaymentSchedule} from '../amortization-schedule/amortization-interface'
+
 const customCss: string = '';
 @Component({
   selector: 'app-AmortizationGrid',
@@ -32,6 +34,8 @@ export class AmortizationGridComponent implements AfterViewInit {
   componentCode: string = 'AmortizationGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
+  RepaymentList:IRepaymentSchedule[]=[];
+  isRecord:boolean=false;
   gridConsts: any = {
     paginationPageSize: 10,
     gridCode: "AmortizationGrid",
@@ -113,7 +117,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     // },
   },
   {
-    field: "Installment",
+    field: "Others",
     width: 10,
     sortable: true,
     resizable: true,
@@ -143,7 +147,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     // },
   },
   {
-    field: "Prin_O/S",
+    field: "Prin_OS",
     width: 10,
     sortable: true,
     resizable: true,
@@ -230,8 +234,35 @@ export class AmortizationGridComponent implements AfterViewInit {
   //   this.loadSpinner = false;
   // }
   async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+    // 'requestParams': 'requestParamsArray',
+    // 'hardCodedResp':RepaymentScheduleResp
+    let inputMap = new Map();
+    inputMap.clear();
+   let LoanGridDetails = [];
+    this.RepaymentList = event.RepaymentScheduleResp
 
-  }
+    if (this.RepaymentList) {
+      this.isRecord = true;
+      //let counter=1;
+        for (let eachRecord of this.RepaymentList) {
+            
+            let tempObj = {};
+            tempObj['No']= eachRecord.installmentNo;
+            tempObj['Date'] = eachRecord.installmentDate;
+            tempObj['Principal'] = eachRecord.principalAmount;
+            tempObj['Interest'] =eachRecord.interestAmount;
+            tempObj['Installment']=eachRecord.installmentAmount;
+            tempObj['Others'] = eachRecord.others!=undefined?eachRecord.others: '0.00';
+            tempObj['Total_Due'] =eachRecord.closingPrincipalBalance;
+            tempObj['Prin_OS']= eachRecord.openPrincipalBalance;
+            LoanGridDetails.push(tempObj);
+        }
+    }
+    this.readonlyGrid.apiSuccessCallback(params, LoanGridDetails);
+
+
+    // this.services.alert.showAlert(2, 'Fail', -1);
+}
   recordDisplay = false;
 	recordShow() {
 		this.recordDisplay = true;

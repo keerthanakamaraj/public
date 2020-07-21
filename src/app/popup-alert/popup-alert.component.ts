@@ -52,7 +52,7 @@ export class PopupAlertComponent implements OnInit {
 
   getComponentClassRef(componentId: string): AddSpecificComponent {
     switch (componentId) {
-      case 'Notes':
+      case 'NotepadDetailsFormComponent':
         return new AddSpecificComponent(NotepadDetailsFormComponent);
         break;
       case 'AmortizationScheduleComponent':

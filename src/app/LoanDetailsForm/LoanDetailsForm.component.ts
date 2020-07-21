@@ -341,11 +341,11 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
     //   });
     // });
 let dataObj=this.generateAmortizationDataList();
-    Promise.all([this.services.rloui.getAlertMessage('', 'test'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+    Promise.all([this.services.rloui.getAlertMessage('', 'Generate Amortization Schedule')]).then(values => {
       console.log(values);
       let modalObj: IModalData = {
-        title: "Alert",
-        mainMessage: values[0],
+        title: values[0],
+        mainMessage: undefined,
         modalSize: "modal-width-lg",
         buttons: [],
         componentName: 'AmortizationScheduleComponent',
