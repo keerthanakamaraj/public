@@ -1131,6 +1131,11 @@ a.back {
 
 .d-block {
   display: block !important;
+} 
+
+//used to add space for every page in layout for form btns
+.page-layout-padding {
+  padding-bottom: 5rem;
 }
 
 .wgt-scores {
@@ -2447,7 +2452,7 @@ rlo-ui-card-field {
 .cards-section {
   background-color: #EEEEEE;
   display: inline-block;
-  padding: 27px 11px 0 11px;
+  padding: 28px 11px 27px 11px;
 
   .card-layout-container {
     padding-top: 1em;
@@ -2736,9 +2741,13 @@ rlo-ui-card-field {
 }
 
 .w-50 {
-  width: 32em;
+  width: 50em;
 }
 
 .w-25 {
   width: 32em;
+}
+
+.w-64 {
+  width: 64em;
 }

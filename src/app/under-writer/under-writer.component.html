@@ -3,7 +3,6 @@
     <div class="col-sm-12 col-md-12">
       <div class="FormTitle no-border">
         <a class="back" (click)="goBack()">Back</a>
-        <!-- <span>{{ 'DDE.FormTitle' | translate }}</span> -->
         <span>Underwriter</span>
       </div>
     </div>
@@ -19,148 +18,148 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section">
-  <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
-    <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" *ngFor="let data of headerScoreCard">
-    </app-score-card>
-  </div>
-  <div class="header-status-container col-sm-6 col-md-6 col-lg-6">
-    <app-header-status-card [statusData]="data" *ngFor="let data of headerStatusData"></app-header-status-card>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-12  col-sm-12 col-md-12 uw-tabs">
-    <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
-      <a href="#customer-panel" class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
-        <input type="radio" />CUSTOMER
-      </a>
-      <a href="#application-panel" class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
-        <input type="radio" />APPLICATION
-      </a>
+  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section">
+    <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
+      <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" *ngFor="let data of headerScoreCard">
+      </app-score-card>
+    </div>
+    <div class="header-status-container col-sm-6 col-md-6 col-lg-6">
+      <app-header-status-card [statusData]="data" *ngFor="let data of headerStatusData"></app-header-status-card>
     </div>
   </div>
 
-  <div class="tab-content">
-    <div class="tab-pane active" id="customer-panel">
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide">
-        <app-uw-cust-tab (customerChanged)="customerSelectionChanged($event)" [customerList]="customerList">
-        </app-uw-cust-tab>
+  <div class="row">
+    <div class="col-12  col-sm-12 col-md-12 uw-tabs">
+      <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
+        <a href="#customer-panel" class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
+          <input type="radio" />CUSTOMER
+        </a>
+        <a href="#application-panel" class="btn btn-default" data-toggle="tab" (click)="tabSwitched('application')">
+          <input type="radio" />APPLICATION
+        </a>
       </div>
+    </div>
 
-      <div class="cards-section" style="width:100% !important;height:100% !important;">
+    <div class="tab-content">
+      <div class="tab-pane active" id="customer-panel">
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide">
+          <app-uw-cust-tab (customerChanged)="customerSelectionChanged($event)" [customerList]="customerList">
+          </app-uw-cust-tab>
+        </div>
 
-        <ngx-masonry [options]="myOptions" [ordered]="true">
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto">
-            <div class="card-layout-container">
-              <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
-            </div>
-          </div>
+        <div class="cards-section" style="width:100% !important;height:100% !important;">
 
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of cCardDataWithFields">
-            <div class="card-layout-container">
-              <app-card [cardMetaData]="data"></app-card>
-            </div>
-          </div>
-
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto">
-            <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
-              <div class="blank-container">
-                <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>
+          <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='customer'">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : customerSectionLoaded}">
+              <div class="card-layout-container">
+                <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
               </div>
             </div>
-          </div>
-        </ngx-masonry>
 
-      </div>
-    </div>
-    <div class="tab-pane" id="application-panel">
-      <div class="cards-section" style="width:100% !important;height:100% !important;">
-
-        <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='application'">
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto"
-            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
-            <div class="card-layout-container">
-              <app-card [cardMetaData]="loanDetailsCardData"></app-card>
-            </div>
-          </div>
-
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto"
-            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
-            <div class="card-layout-container">
-              <app-card [cardMetaData]="interfaceResultCardData"></app-card>
-            </div>
-          </div>
-
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of aCardDataWithFields"
-            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
-            <div class="card-layout-container">
-              <app-card [cardMetaData]="data"></app-card>
-            </div>
-          </div>
-
-          <div ngxMasonryItem class="p-0 w-25" style="height:auto"
-            [ngClass]="selectedTab == 'application'?'d-block':'d-none'">
-            <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
-              <div class="blank-container">
-                <app-blank-card [cardMetaData]="data" *ngFor="let data of aBlankCardData"></app-blank-card>
+            <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of cCardDataWithFields">
+              <div class="card-layout-container">
+                <app-card [cardMetaData]="data"></app-card>
               </div>
             </div>
-          </div>
-        </ngx-masonry>
 
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : customerSectionLoaded}">
+              <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+                <div class="blank-container" *ngIf="cBlankCardData.length">
+                  <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>
+                </div>
+              </div>
+            </div>
+          </ngx-masonry>
+
+        </div>
+      </div>
+      <div class="tab-pane" id="application-panel">
+        <div class="cards-section" style="width:100% !important;height:100% !important;">
+
+          <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='application'">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : applicationSectionLoaded}">
+              <div class="card-layout-container">
+                <app-card [cardMetaData]="loanDetailsCardData"></app-card>
+              </div>
+            </div>
+
+            <div ngxMasonryItem class="p-0 w-25" style="height:auto">
+              <div class="card-layout-container">
+                <app-card [cardMetaData]="interfaceResultCardData"></app-card>
+              </div>
+            </div>
+
+            <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of aCardDataWithFields">
+              <div class="card-layout-container">
+                <app-card [cardMetaData]="data"></app-card>
+              </div>
+            </div>
+
+            <div ngxMasonryItem class="p-0 w-25" style="height:auto">
+              <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
+                <div class="blank-container">
+                  <app-blank-card [cardMetaData]="data" *ngFor="let data of aBlankCardData"></app-blank-card>
+                </div>
+              </div>
+            </div>
+          </ngx-masonry>
+
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- fab button -->
-<div class="fab" id="fab-show" style="display:none;">
-  <ul class="fab-buttons ">
-    <li class="fab-buttons__item">
-      <a href="#" class="fab-buttons__link">
-        <i class="icon-material icon-material_tw">Cancel</i>
-      </a>
-    </li>
-    <li class="fab-buttons__item">
-      <a href="#" class="fab-buttons__link">
-        <i class="icon-material icon-material_tw">Widthdraw </i>
-      </a>
-    </li>
-    <li class="fab-buttons__item">
-      <a href="#" class="fab-buttons__link">
-        <i class="icon-material icon-material_li">Sent Back</i>
-      </a>
-    </li>
-    <li class="fab-buttons__item mb-4">
-      <a href="#" class="fab-buttons__link">
-        <i class="icon-material icon-material_gp">Refer/ Review</i>
-      </a>
-    </li>
-  </ul>
-  <div class="fab-row ">
-    <!-- <div class="mr-4"> -->
-    <div class="fab-buttons__item" style="padding-left: 25px;">
-      <a href="#" class="fab-buttons__link">
-        <i class="icon-material icon-material_fb" style="color: white;">Reject</i>
-      </a>
-    </div>
-    <div class="fab-buttons__item mr-5" style="padding-right: 75px; padding-left: 20px;">
-      <a href="#" class="fab-buttons__link">
-        <i class="icon-material icon-material_gp" style="color: white;">Approve</i>
-      </a>
-    </div>
+  <!-- fab button -->
+  <div class="fab" id="fab-show" style="display:none;">
+    <ul class="fab-buttons ">
+      <li class="fab-buttons__item">
+        <a href="#" class="fab-buttons__link">
+          <i class="icon-material icon-material_tw">Cancel</i>
+        </a>
+      </li>
+      <li class="fab-buttons__item">
+        <a href="#" class="fab-buttons__link">
+          <i class="icon-material icon-material_tw">Widthdraw </i>
+        </a>
+      </li>
+      <li class="fab-buttons__item">
+        <a href="#" class="fab-buttons__link">
+          <i class="icon-material icon-material_li">Sent Back</i>
+        </a>
+      </li>
+      <li class="fab-buttons__item mb-4">
+        <a href="#" class="fab-buttons__link">
+          <i class="icon-material icon-material_gp">Refer/ Review</i>
+        </a>
+      </li>
+    </ul>
+    <div class="fab-row ">
+      <!-- <div class="mr-4"> -->
+      <div class="fab-buttons__item" style="padding-left: 25px;">
+        <a href="#" class="fab-buttons__link">
+          <i class="icon-material icon-material_fb" style="color: white;">Reject</i>
+        </a>
+      </div>
+      <div class="fab-buttons__item mr-5" style="padding-right: 75px; padding-left: 20px;">
+        <a href="#" class="fab-buttons__link">
+          <i class="icon-material icon-material_gp" style="color: white;">Approve</i>
+        </a>
+      </div>
 
+    </div>
+    <span class="fab-action-button shadow-sm" (click)="fabclose()">
+      <i class="fab-action-button__icon"></i>
+    </span>
   </div>
-  <span class="fab-action-button shadow-sm" (click)="fabclose()">
-    <i class="fab-action-button__icon"></i>
-  </span>
-</div>
 
 
-<div class="fab" id="fab-open">
-  <span class="fab-action-button_2 shadow-sm" (click)="fabopen()">
-    <i class="fab-action-button__icon_2"></i>
-  </span>
+  <div class="fab" id="fab-open">
+    <span class="fab-action-button_2 shadow-sm" (click)="fabopen()">
+      <i class="fab-action-button__icon_2"></i>
+    </span>
+  </div>
 </div>

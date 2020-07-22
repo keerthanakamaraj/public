@@ -9,6 +9,7 @@ import { FormComponent } from '../form/form.component';
 import { ServiceStock } from '../service-stock.service';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
+import { HttpResponse } from '@angular/common/http';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -303,7 +304,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     { name: "Verification Results", status: "pending" }
   ];
 
-  cCardDataWithFields = [];//used to iterate and pass data to ui-card-field
+  //used to iterate and pass data to ui-card-field
+  cCardDataWithFields = [
+    {
+      "isEnabled": true,
+      "name": "Financial Summary",
+      "modalSectionName": "",
+      "data": []
+    }
+  ];
   cBlankCardData = [];
 
   aCardDataWithFields = [];//used to iterate and pass data to ui-card-field
@@ -340,6 +349,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     // itemSelector: '.w-25'
   };
 
+  public myOptions2: NgxMasonryOptions = {
+    gutter: 10,
+    // originTop: true,
+    // originLeft: true,
+    // itemSelector: '.w-25'
+  };
+
   masonryItems = [
     { title: 'item 1', width: '50%', height: '50em', height2: 'auto', class: "col-sm-6 col-md-6 col-lg-6", color: "red", class2: "w-25" },
     { title: 'item 2', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
@@ -351,12 +367,130 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     { title: 'item 8', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
   ];
 
+  applicationSectionLoaded: boolean = false;
+  customerSectionLoaded: boolean = false;
+
+  workingJsonObj = {
+    "UWCustomerDetails": [
+      {
+        "ExistingCustomer": "N",
+        "UWIncomeSummary": {
+          "NetIncomeMonthly": 120,
+          "DBR": 65,
+          "IncomeSummarySeq": 101,
+          "TotalIncome": 1500000,
+          "TotalLiabiity": 0,
+          "BorrowerSeq": 2251,
+          "TotalObligation": 100
+        },
+        "DOB": "04-05-1995",
+        "FullName": "Deepesh jain",
+        "BorrowerSeq": 1496,
+        "ApplicationId": 1486,
+        "CustomerType": "B",
+        "UWAddress": [
+          {
+            "State": "Maharashtra",
+            "AddressSeq": 829,
+            "Address1": "virar",
+            "BorrowerSeq": 2251,
+            "City": "Mumbai",
+            "AddressType": "OF",
+            "Pincode": 400060,
+            "test": "aaaaaa"
+          },
+          {
+            "State": "Maharashtra",
+            "AddressSeq": 728,
+            "Address1": "bncbv",
+            "BorrowerSeq": 2251,
+            "City": "Mumbai",
+            "AddressType": "RS",
+            "OccupationType": "OW",
+            "Pincode": 400060
+          },
+          {
+            "State": "Maharashtra",
+            "AddressSeq": 727,
+            "Address1": "virar",
+            "BorrowerSeq": 2251,
+            "City": "Mumbai",
+            "AddressType": "RS",
+            "OccupationType": "OW",
+            "Pincode": 400060
+          }
+        ],
+        "UWFamily": [
+          {
+            "DOB": "1995-07-01 00:00:00.0",
+            "FullName": "YTRI YUTU UYTU ",
+            "Relationship": "BR",
+            "BorrowerSeq": 3291,
+            "CustomerRelated": 2251
+          },
+          {
+            "DOB": "0",
+            "FullName": "0",
+            "Relationship": "0",
+            "BorrowerSeq": 0,
+            "CustomerRelated": 0
+          }
+        ],
+        "UWIncomeDetails": {
+          "GrossIncome": "pending",
+          "ExistingLiabilities": "completed",
+          "IncomeVerification": "completed",
+          "PANVerification": "deviation",
+        }
+      },
+      {
+        "ExistingCustomer": "N",
+        "UWIncomeSummary": {
+          "NetIncomeMonthly": 0,
+          "DBR": 0,
+          "IncomeSummarySeq": 101,
+          "BorrowerSeq": 2251,
+          "TotalObligation": 0
+        },
+        "DOB": "04-05-1995",
+        "FullName": "Juhi S Patil",
+        "BorrowerSeq": 1495,
+        "ApplicationId": 1486,
+        "CustomerType": "CB"
+      }
+    ],
+    "UWApplicationInfo": {
+      "DateOfReceipt": "13-05-2020 00:00:00",
+      "ApplicationInfoId": 2082,
+      "ApplicationId": 2061
+    },
+    "Branch": "101",
+    "UWLoan": {
+      "LoanDetailsSeq": 702,
+      "ApplicationId": 2061
+    },
+    "DSAId": "USERS2",
+    "SourcingChannel": "MUM",
+    "ApplicationId": 2061
+  };
+
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
-    setTimeout(() => {
-      this.test();
-    }, 500);
+    this.getUnderWriterData();
+    //this.generateModelJson({});
+  }
 
+  getUnderWriterData() {
+    this.services.http.fetchApi('/UWApplication/1497', 'GET', new Map(), '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+        console.warn(res);
+        this.generateModelJson(res);
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+      }
+    );
   }
 
   reloadCardGrid() {
@@ -366,8 +500,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.masonry.layout();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -376,14 +509,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   //@Output
-  brodcastProdCategory() {
-
-  }
+  brodcastProdCategory() { }
 
   //@Output
-  headerState() {
-
-  }
+  headerState() { }
 
   addCustomerData() {
     const object: ICardMetaData = {
@@ -397,110 +526,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   //under-writer.component.ts
-  test() {
-    let obj = {
-      "UWCustomerDetails": [
-        {
-          "ExistingCustomer": "N",
-          "UWIncomeSummary": {
-            "NetIncomeMonthly": 120,
-            "DBR": 65,
-            "IncomeSummarySeq": 101,
-            "TotalIncome": 1500000,
-            "TotalLiabiity": 0,
-            "BorrowerSeq": 2251,
-            "TotalObligation": 100
-          },
-          "DOB": "04-05-1995",
-          "FullName": "Deepesh jain",
-          "BorrowerSeq": 1496,
-          "ApplicationId": 1486,
-          "CustomerType": "B",
-          "UWAddress": [
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 829,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "OF",
-              "Pincode": 400060,
-              "test": "aaaaaa"
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 728,
-              "Address1": "bncbv",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 727,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
-            }
-          ],
-          "UWFamily": [
-            {
-              "DOB": "1995-07-01 00:00:00.0",
-              "FullName": "YTRI YUTU UYTU ",
-              "Relationship": "BR",
-              "BorrowerSeq": 3291,
-              "CustomerRelated": 2251
-            },
-            {
-              "DOB": "0",
-              "FullName": "0",
-              "Relationship": "0",
-              "BorrowerSeq": 0,
-              "CustomerRelated": 0
-            }
-          ],
-          "UWIncomeDetails": {
-            "GrossIncome": "pending",
-            "ExistingLiabilities": "completed",
-            "IncomeVerification": "completed",
-            "PANVerification": "deviation",
-          }
-        },
-        {
-          "ExistingCustomer": "N",
-          "UWIncomeSummary": {
-            "NetIncomeMonthly": 0,
-            "DBR": 0,
-            "IncomeSummarySeq": 101,
-            "BorrowerSeq": 2251,
-            "TotalObligation": 0
-          },
-          "DOB": "04-05-1995",
-          "FullName": "Juhi S Patil",
-          "BorrowerSeq": 1495,
-          "ApplicationId": 1486,
-          "CustomerType": "CB"
-        }
-      ],
-      "UWApplicationInfo": {
-        "DateOfReceipt": "13-05-2020 00:00:00",
-        "ApplicationInfoId": 2082,
-        "ApplicationId": 2061
-      },
-      "Branch": "101",
-      "UWLoan": {
-        "LoanDetailsSeq": 702,
-        "ApplicationId": 2061
-      },
-      "DSAId": "USERS2",
-      "SourcingChannel": "MUM",
-      "ApplicationId": 2061
-    };
+  generateModelJson(jsonData) {
+    //let obj = jsonData;
+    let obj = this.workingJsonObj;
 
     //data for cust-tabs
     obj["UWCustomerDetails"].forEach(element => {
@@ -564,6 +592,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
         }
       });
+
+      console.warn(this.cCardDataWithFields, this.cBlankCardData);
+      console.warn(JSON.stringify(this.cCardDataWithFields));
+      console.warn(JSON.stringify(this.cBlankCardData));
+      setTimeout(() => {
+        this.customerSectionLoaded = true;
+        console.warn("****");
+        this.reloadCardGrid();
+      }, 500);
     }
     else {
       this.aCardDataWithFields = [];
@@ -607,91 +644,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
         }
       });
+
+      console.warn(this.aCardDataWithFields, this.aBlankCardData);
+      console.warn(JSON.stringify(this.aCardDataWithFields));
+      console.warn(JSON.stringify(this.aBlankCardData));
+      setTimeout(() => {
+        this.applicationSectionLoaded = true;
+        console.warn("****");
+        this.reloadCardGrid();
+      }, 500);
+
     }
   }
-
-  // getAllData() {
-  //   let data;
-  //   this.cCardDataWithFields = [];
-  //   this.cBlankCardData = [];
-
-  //   this.aCardDataWithFields = [];
-  //   this.aBlankCardData = [];
-
-  //   let singleCustomer = this.customerMasterJsonData.CustomerDetails[0];
-  //   console.error(singleCustomer);
-
-  //   this.allSectionsCardData[0].cardList.forEach(element => {
-  //     switch (element.className) {
-  //       case "CustomerDetails":
-  //         this.customerCardDataWithFields = singleCustomer.getCardData();
-  //         console.error(this.customerCardDataWithFields);
-  //         break;
-
-  //       case "FinancialSummary":
-  //       case "AddressDetails":
-  //       case "FinancialDetails":
-  //       case "CollateralDetails":
-  //         data = singleCustomer[element.className].getCardData();
-  //         this.cCardDataWithFields.push(data);
-  //         break;
-
-  //       case "FamilyDetails":
-  //       case "PersonalInterview":
-  //       case "RmVisitDetails":
-  //         data = singleCustomer[element.className].getCardData();
-  //         this.cBlankCardData.push(data);
-  //         break;
-
-  //       default:
-  //         break;
-  //     }
-  //   });
-
-  //   let application = this.customerMasterJsonData.ApplicationDetails;
-  //   this.allSectionsCardData[1].cardList.forEach(element => {
-  //     switch (element.className) {
-  //       case "LoanDetails":
-  //         this.loanDetailsCardData = application.LoanDetails.getCardData();
-  //         console.log(this.loanDetailsCardData);
-  //         break;
-
-  //       case "InterfaceResults":
-  //         this.interfaceResultCardData = application.InterfaceResults.getCardData();
-  //         console.log(this.interfaceResultCardData);
-  //         break;
-
-  //       case "ApplicationDetails":
-  //         data = application.getCardData();
-  //         this.aCardDataWithFields.push(data);
-  //         break;
-
-
-  //       case "VehicalDetails":
-  //       case "CardDetails":
-  //       case "GoldDetails":
-  //       case "EducationDetails":
-  //       case "GoNoGoDetails":
-  //         data = application[element.className].getCardData();
-  //         this.aCardDataWithFields.push(data);
-  //         break;
-
-  //       case "ReferalDetails":
-  //       case "Notes":
-  //         data = application[element.className].getCardData();
-  //         this.aBlankCardData.push(data);
-  //         break;
-
-  //       default:
-  //         break;
-  //     }
-  //   });
-
-  //   console.error(this.cCardDataWithFields, this.aCardDataWithFields);
-  //   console.error(this.cBlankCardData, this.aBlankCardData);
-  // }
-
-  //@output when tab selection changes
 
   customerSelectionChanged(data) {
     console.log(data);
@@ -706,28 +670,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.selectedTab = tab;
 
     this.selectedTabCardData(this.selectedTab);
-    setTimeout(() => {
-      this.reloadCardGrid();
-    }, 500);
+
+    tab == "customer" ? this.applicationSectionLoaded = false : this.customerSectionLoaded = false;
 
     // if (tab == "customer") {
-
+    //   this.applicationSectionLoaded = false;
     // }
     // else {
-    //   setTimeout(() => {
-    //     this.selectedTabCardData(this.selectedTab);
-    //     this.reloadCardGrid();
-    //   }, 3000);
+    //   this.customerSectionLoaded = false;
     // }
-
-    // if (tab == "application") {
-    //   this.getAllData();
-    // }
-
-    // setTimeout(() => {
-    //   this.reloadCardGrid();
-    // }, 10);
-
   }
 
   async revalidate(): Promise<number> {
