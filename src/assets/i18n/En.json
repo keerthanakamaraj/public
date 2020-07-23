@@ -2042,46 +2042,63 @@
     "toolbar_FeesChargesGrid": "null",
     "FC_Effective_Amt": "Effective Amount"
   },
-  "ScoreCardRslt":{
-    "SCR_DOWNLOAD_BTN":"DOWNLOAD",
-    "SCR_RETRIGGER_BTN":"RETRIGGER"
+  "ScoreCardRslt": {
+    "SCR_DOWNLOAD_BTN": "DOWNLOAD",
+    "SCR_RETRIGGER_BTN": "RETRIGGER"
   },
-  "Amortization":{
-    "LoanAmountRequested":"Loan Amount Requested",
-    "NetInterestRate":"Net Interest Rate",
-    "Tenure":"Tenure",
-    "BLoanOwnership":"Loan Ownership for Borrower",
-    "CBLoanOwnership":"Loan Ownership for Co-Borrower",
-    "BLoanAmtShare":"Share in Loan Amount for Borrower",
-    "CBLoanAmountShare":"Share in Loan Amount for Co-Borrower",
-  "DisbursalDate":"Disbursal Date",
-  "ScheduleType":"Schedule Type",
-  "RepaymentStartDate":"Repayment Start Date",
-"NoOfInstallments":"No. of Installments",  
-"RequiredEMIAmt":"Required EMI Amount",
-"AMS_GENERATE_BTN":"GENERATE",
-"AMS_CLEAR_BTN":"CLEAR"
-},
-
-  "Operation" : {
-    "FieldId_1" : "Application Information",
-    "FormTitle" : "Operation",
-    "VIEW_DDE" : "View DDE",
-    "FieldId_2" : "Customer Infomation",
-    "FieldId_3" : "Loan Information",
-    "Approve":"Approve",
-    "Withdraw":"Withdraw",
-    "Loan_AMT":"Final Amount to be Disbursed",
-    "Loan_DBR" : "DBR",
-    "Installment_AMT":"Installment Amount"
-    },
-    "CustGrid" : {
-      "Cust_Type" : "Customer Type",
-      "toolbar_CustGrid" : "null",
-      "Cust_ID" : "Customer ID",
-      "GridTitle" : "CustGrid",
-      "Cust_Name" : "Customer Name",
-      "Cust_DOB" : "Date Of Birth"
-      }
+  "Amortization": {
+    "LoanAmountRequested": "Loan Amount Requested",
+    "NetInterestRate": "Net Interest Rate",
+    "Tenure": "Tenure",
+    "BLoanOwnership": "Loan Ownership for Borrower",
+    "CBLoanOwnership": "Loan Ownership for Co-Borrower",
+    "BLoanAmtShare": "Share in Loan Amount for Borrower",
+    "CBLoanAmountShare": "Share in Loan Amount for Co-Borrower",
+    "DisbursalDate": "Disbursal Date",
+    "ScheduleType": "Schedule Type",
+    "RepaymentStartDate": "Repayment Start Date",
+    "NoOfInstallments": "No. of Installments",
+    "RequiredEMIAmt": "Required EMI Amount",
+    "AMS_GENERATE_BTN": "GENERATE",
+    "AMS_CLEAR_BTN": "CLEAR",
+    "Product":"Product",
+    "SubProduct":" Sub Product",
+    "loanCalculationDate":"Loan Calculation Date",
+    "RepaymentScheduleType": "Repayment Schedule Type",
+    "MaturityDate":"Maturity Date"
+  },
+  "AmortizationGrid": {
+    "Interest": "Interest",
+    "Prin_OS": "Prin O/S",
+    "No": "No",
+    "Installment": "Installment",
+    "Others": "Others",
+    "vvc": "",
+    "Total_Due": "Total Due",
+    "GridTitle": "Amortization  Schedule Grid",
+    "toolbar_AmortizationGrid": "",
+    "Date": "Date",
+    "Principal": "Principal"
+  },
+  "Operation": {
+    "FieldId_1": "Application Information",
+    "FormTitle": "Operation",
+    "VIEW_DDE": "View DDE",
+    "FieldId_2": "Customer Infomation",
+    "FieldId_3": "Loan Information",
+    "Approve": "Approve",
+    "Withdraw": "Withdraw",
+    "Loan_AMT": "Final Amount to be Disbursed",
+    "Loan_DBR": "DBR",
+    "Installment_AMT": "Installment Amount"
+  },
+  "CustGrid": {
+    "Cust_Type": "Customer Type",
+    "toolbar_CustGrid": "null",
+    "Cust_ID": "Customer ID",
+    "GridTitle": "CustGrid",
+    "Cust_Name": "Customer Name",
+    "Cust_DOB": "Date Of Birth"
+  }
 
 }

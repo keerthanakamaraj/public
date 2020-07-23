@@ -17,7 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AmortizationGridComponent } from '../AmortizationGrid/AmortizationGrid.component';
 import { AmortizationScheduleHandlerComponent } from './AmortizationSchedule-handler.component';
-import {IAmortizationForm} from './amortization-interface';
+import {IAmortizationForm,IRepaymentSchedule} from './amortization-interface';
 
 const customCss: string = '';
 
@@ -50,9 +50,13 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   @Input() parentData:IAmortizationForm=undefined;
   @Input() ApplicationId: string = undefined;
 	@Input() activeBorrowerSeq: string = undefined;
-	//@Input() CustomerDetailsArray: any = undefined;
+  //@Input() CustomerDetailsArray: any = undefined;
+  editableFlag:boolean=true;
 	cust_name: string;
-	cust_dob: string;
+  cust_dob: string;
+  //tenurePeriod:string=undefined;
+
+  repaymentFormData:IRepaymentSchedule={};
 	async revalidate(): Promise<number> {
 		var totalErrors = 0;
 		super.beforeRevalidate();
@@ -77,12 +81,14 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 		super.setBasicFieldsReadOnly(readOnly);
 	}
 	async onFormLoad() {
-		// this.ApplicationId = '2221';
+    // this.ApplicationId = '2221';
+    this.editableFlag=true;
 		this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 		let inputMap = new Map();
 		this.hidAppId.setValue('RLO');
   this.hidScheduleType.setValue('ScheduleType');
   this.parseParentDataObj();
+ 
 		// if (this.ApplicationId) {
 		// 	await this.AmortizationGrid.gridDataLoad({
 		// 		'ApplicationId': this.ApplicationId,
@@ -166,22 +172,24 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 		this.onReset();
 	}
 	parseParentDataObj(){
-    this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested),
-    this.NetInterestRate.setValue(this.parentData.NetInterestRate),
-    this.Tenure.setValue(this.parentData.Tenure),
-    this.BLoanOwnership.setValue(this.parentData.BLoanOwnership),
-    this.CBLoanOwnership.setValue(this.parentData.CBLoanOwnership),
-    this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare),
-    this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare),
-    this.DisbursalDate.setValue(this.parentData.DisbursalDate),
-    this.ScheduleType.setValue(this.parentData.ScheduleType),
-    this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate),
-    this.NoOfInstallments.setValue(this.parentData.NoOfInstallments),
-    this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt)
+    this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested);
+    this.NetInterestRate.setValue(this.parentData.NetInterestRate);
+    this.Tenure.setValue(this.parentData.Tenure);
+    this.BLoanOwnership.setValue(this.parentData.BLoanOwnership);
+    this.CBLoanOwnership.setValue(this.parentData.CBLoanOwnership);
+    this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare);
+    this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare);
+    this.DisbursalDate.setValue(this.parentData.DisbursalDate);
+    this.ScheduleType.setValue(this.parentData.ScheduleType);
+    this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate);
+    this.NoOfInstallments.setValue(this.parentData.NoOfInstallments);
+    this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt);
+    //this.tenurePeriod=this.parentData.TenurePeriod;
+    //console.log("shweta :: ",this.tenurePeriod);
   }
 
-  AMS_GENERATE_BTN_click(event){
-      let RepaymentScheduleResp: [
+   AMS_GENERATE_BTN_click(event){
+      let RepaymentScheduleResp= [
         {
           "installmentDate": "JAN-2020",
           "closingPrincipalBalance": 531448,
@@ -210,12 +218,30 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
           "principalAmount": 7339.2
         }]
 
+         this.repaymentFormData={};
+        this.repaymentFormData.loanAmount=this.LoanAmountRequested.getFieldValue();
+        this.repaymentFormData.noOfInstallments=this.NoOfInstallments.getFieldValue();
+        this.repaymentFormData.installmentFrequency='1';
+        this.repaymentFormData.interestRate=this.NetInterestRate.getFieldValue();
+        this.repaymentFormData.disbursalDate=this.DisbursalDate.getFieldValue();
+        this.repaymentFormData.firstInstallmentDate=this.RepaymentStartDate.getFieldValue();
+        this.repaymentFormData.productCode="PROD1";
+        this.repaymentFormData.subProductCode="SUBPROD1";
+
          this.AmortizationGrid.gridDataLoad({
-          'requestParams': 'requestParamsArray',
+          'requestParams': this.repaymentFormData,
           'hardCodedResp':RepaymentScheduleResp
         });
-  }
+       // this.generateRepaymentForm(requestParams);
 
+        this.editableFlag=false;
+  }
+  generateRepaymentForm(requestedParams){
+    //this.repaymentFormData=requestParams;
+    this.repaymentFormData.maturityDate=requestedParams.maturityDate;
+    this.repaymentFormData.loanCalculationDate=this.RepaymentStartDate.getFieldValue();
+    this.repaymentFormData.repaymentScheduleType=this.ScheduleType.getFieldValue();
+  }
 	fieldDependencies = {
 		ScheduleType: {
 			inDep: [

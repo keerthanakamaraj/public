@@ -487,7 +487,8 @@ let dataObj=this.generateAmortizationDataList();
     let dataObj:IAmortizationForm={};
     dataObj.LoanAmountRequested=this.LoanAmount.getFieldValue();
     dataObj.NetInterestRate=this.NetInterestRate.getFieldValue();
-    dataObj.Tenure=this.Tenure.getFieldValue();
+    dataObj.Tenure=this.Tenure.getFieldValue()+" "+(this.TenurePeriod.getFieldInfo()!=undefined?this.TenurePeriod.getFieldInfo():this.TenurePeriod.getFieldValue());
+    //dataObj.TenurePeriod=this.TenurePeriod.getFieldValue();
     this.FieldId_26.LoanGridArray.forEach(element => {
       if(element.CustomerType=='B'){
         dataObj.BLoanOwnership=element.LoanOwnership;

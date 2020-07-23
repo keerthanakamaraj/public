@@ -7,7 +7,7 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import {IRepaymentSchedule} from '../amortization-schedule/amortization-interface'
+import {IRepaymentScheduleResp,IRepaymentSchedule} from '../amortization-schedule/amortization-interface'
 
 const customCss: string = '';
 @Component({
@@ -30,11 +30,12 @@ export class AmortizationGridComponent implements AfterViewInit {
   @Input('displayTitle') displayTitle: boolean = true;
   @Input('displayToolbar') displayToolbar: boolean = true;
   @Input('fieldID') fieldID: string;
+  @Output() triggerRepaymentForm: EventEmitter<any> = new EventEmitter<any>();
 
   componentCode: string = 'AmortizationGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
-  RepaymentList:IRepaymentSchedule[]=[];
+  maturityDate:string=undefined;
   isRecord:boolean=false;
   gridConsts: any = {
     paginationPageSize: 10,
@@ -198,7 +199,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
   }
   ngOnInit(): void {
-    //this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
+    this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
     var styleElement = document.createElement('style');
     styleElement.type = 'text/css';
     styleElement.innerHTML = customCss;
@@ -234,17 +235,41 @@ export class AmortizationGridComponent implements AfterViewInit {
   //   this.loadSpinner = false;
   // }
   async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
-    // 'requestParams': 'requestParamsArray',
-    // 'hardCodedResp':RepaymentScheduleResp
-    let inputMap = new Map();
-    inputMap.clear();
-   let LoanGridDetails = [];
-    this.RepaymentList = event.RepaymentScheduleResp
+    let RepaymentList:IRepaymentScheduleResp[]=[];
+    let LoanGridDetails = [];
 
-    if (this.RepaymentList) {
+     let inputMap = new Map();
+     inputMap.clear();
+    let requestParams:IRepaymentSchedule=event.requestParams;
+    inputMap.set('QueryParam.loan-amount', requestParams.loanAmount);
+    inputMap.set('QueryParam.no-of-installments',requestParams.noOfInstallments);
+    inputMap.set('QueryParam.installment-frequency',requestParams.installmentFrequency);
+    inputMap.set('QueryParam.interest-rate', requestParams.interestRate);
+    inputMap.set('QueryParam.disbursal-date', requestParams.disbursalDate);
+    inputMap.set('QueryParam.first-installment-date',requestParams.firstInstallmentDate);
+    inputMap.set('QueryParam.interest-numerator', '360C');//optional
+    inputMap.set('QueryParam.interest-denominator', '360');//optional
+    inputMap.set('QueryParam.product-code', '360');//optional
+    inputMap.set('QueryParam.sub-product-code', '360');//optional
+    
+
+    this.services.http.fetchApi('/repayment-schedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+       RepaymentList = httpResponse.body.Record;
+      
+    },
+      (httpError) => {
+        console.error(httpError);
+        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+      });
+
+   if(RepaymentList.length<=0){
+   RepaymentList = event.hardCodedResp;
+   }
+    if (RepaymentList) {
       this.isRecord = true;
-      //let counter=1;
-        for (let eachRecord of this.RepaymentList) {
+      let largeNo:number=0;
+      let maturityDate:string=undefined;
+        for (let eachRecord of RepaymentList) {
             
             let tempObj = {};
             tempObj['No']= eachRecord.installmentNo;
@@ -256,18 +281,20 @@ export class AmortizationGridComponent implements AfterViewInit {
             tempObj['Total_Due'] =eachRecord.closingPrincipalBalance;
             tempObj['Prin_OS']= eachRecord.openPrincipalBalance;
             LoanGridDetails.push(tempObj);
+
+            
+            if(parseInt(eachRecord.installmentNo)>largeNo){
+              maturityDate=eachRecord.installmentDate;
+               largeNo=parseInt(eachRecord.installmentNo);
+            }
         }
+        this.triggerRepaymentForm.emit({
+            'maturityDate': maturityDate
+          });
     }
     this.readonlyGrid.apiSuccessCallback(params, LoanGridDetails);
 
 
     // this.services.alert.showAlert(2, 'Fail', -1);
 }
-  recordDisplay = false;
-	recordShow() {
-		this.recordDisplay = true;
-	}
-	recordHide() {
-		this.recordDisplay = false;
-	}
 }

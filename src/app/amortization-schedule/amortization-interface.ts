@@ -10,11 +10,12 @@ export interface IAmortizationForm{
   ScheduleType?:any,
   RepaymentStartDate?:any,
   NoOfInstallments?:any,
-  RequiredEMIAmt?:any
+  RequiredEMIAmt?:any,
+ // TenurePeriod?:any
 
 }
 
-export interface IRepaymentSchedule{
+export interface IRepaymentScheduleResp{
   installmentDate:string,
   closingPrincipalBalance:string,
   installmentAmount:string,
@@ -23,4 +24,20 @@ export interface IRepaymentSchedule{
   installmentNo:string,
   principalAmount:string,
   others:string
+}
+
+export interface IRepaymentSchedule{
+     loanAmount?:string,
+     noOfInstallments?:string,
+     installmentFrequency?:string,
+     interestRate?:string,
+     disbursalDate?:string,
+     firstInstallmentDate?:string,
+     interestNumerator?:string,
+     interestDenominator?:string,
+     productCode?:string,
+     subProductCode?:string,
+     maturityDate?:string,
+     loanCalculationDate?:string
+     repaymentScheduleType?:string
 }

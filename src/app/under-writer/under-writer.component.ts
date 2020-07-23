@@ -24,7 +24,7 @@ class IbasicCardSectionData {
 export class UnderWriterComponent extends FormComponent implements OnInit {
 
   @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
-  @ViewChild(NgxMasonryComponent, { static: false }) masonry: NgxMasonryComponent;
+  //@ViewChild(NgxMasonryComponent, { static: false }) masonry: NgxMasonryComponent;
 
   customerCardSectionData: any;
   //interfaceCardSectionData: any;
@@ -342,12 +342,12 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   ];
 
-  public myOptions: NgxMasonryOptions = {
-    gutter: 10,
-    // originTop: true,
-    // originLeft: true,
-    // itemSelector: '.w-25'
-  };
+  // public myOptions: NgxMasonryOptions = {
+  //   gutter: 10,
+  //   // originTop: true,
+  //   // originLeft: true,
+  //   // itemSelector: '.w-25'
+  // };
 
   public myOptions2: NgxMasonryOptions = {
     gutter: 10,
@@ -496,8 +496,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   reloadCardGrid() {
     //this.updateMasonryLayout = true;
     console.log(this.updateMasonryLayout);
-    this.masonry.reloadItems();
-    this.masonry.layout();
+    // this.masonry.reloadItems();
+    // this.masonry.layout();
   }
 
   ngOnInit() { }
