@@ -78,6 +78,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.error = false
     if (this.emittedOptions && this.emittedOptions.length > 0) {
       //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
       this.dropDownOptions.Options = this.emittedOptions;

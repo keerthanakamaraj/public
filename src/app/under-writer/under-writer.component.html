@@ -45,7 +45,7 @@
     <div class="tab-content">
       <div class="tab-pane active" id="customer-panel">
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide">
-          <app-uw-cust-tab (customerChanged)="customerSelectionChanged($event)" [customerList]="customerList">
+          <app-uw-cust-tab #UWTabs (customerChanged)="customerSelectionChanged($event)">
           </app-uw-cust-tab>
         </div>
 
@@ -77,6 +77,7 @@
 
         </div>
       </div>
+      
       <div class="tab-pane" id="application-panel">
         <div class="cards-section" style="width:100% !important;height:100% !important;">
 

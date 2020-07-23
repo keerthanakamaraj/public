@@ -6,12 +6,13 @@ export interface ICardMetaData {
 }
 
 export interface IGeneralCardData {
-    isEnabled: boolean;
+    isEnabled?: boolean;
     name: string;
-    modalSectionName: string;
+    modalSectionName: string;//name of the component to be loaded
     data?: ICardListData[] | any;
     borrowerSeq?: number;
     applicationId?: number;
+    componentCode?: string;
 }
 
 export interface ICardListData {

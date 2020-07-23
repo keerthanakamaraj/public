@@ -13,10 +13,10 @@ export class Common {
 
 //customer section
 export class FinancialSummary implements IDeserializable {
-    public NetIncomeMonthly: string = "NA";
+    public NetIncomeMonthly: any = "NA";
     public IncomeSummarySeq: string = "NA";
     public BorrowerSeq: string = "NA";
-    public TotalIncome: string = "NA";
+    public TotalIncome: any = "NA";
     public TotalLiabiity: any = "NA";
     public TotalObligation: any = "NA";
     public TotalAssetValue: any = "NA";
@@ -34,19 +34,19 @@ export class FinancialSummary implements IDeserializable {
                 title: "Total Income (Annual)",
                 subTitle: this.TotalIncome,
                 type: "basic",
-                modalSectionName: "FamilyDetailsForm"
+                modalSectionName: this.TotalIncome > 0 ? "FamilyDetails" : ""
             },
             {
                 title: "Total Liability (Annual)",
                 subTitle: this.TotalLiabiity,
                 type: "basic",
-                modalSectionName: "FamilyDetailsForm"
+                modalSectionName: this.TotalLiabiity > 0 ? "FamilyDetails" : ""
             },
             {
-                title: "Total Asset Value (Annuall)",
+                title: "Total Asset Value",
                 subTitle: this.TotalAssetValue,
                 type: "basic",
-                modalSectionName: "FamilyDetailsForm"
+                modalSectionName: this.TotalAssetValue > 0 ? "FamilyDetails" : ""
             },
             {
                 title: "Total Obligation (Annual)",
@@ -68,7 +68,6 @@ export class FinancialSummary implements IDeserializable {
             },
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Financial Summary",
             modalSectionName: "",
             data: fieldList
@@ -137,9 +136,8 @@ export class AddressDetails implements IDeserializable {
         }
 
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Address Details",
-            modalSectionName: "",
+            modalSectionName: this.addressesList.length ? "AddressDetails" : "",
             data: fieldList
         };
         return returnObj;
@@ -191,7 +189,6 @@ export class CollateralDetails implements IDeserializable {
             }
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Collateral Details",
             modalSectionName: "",
             data: fieldList
@@ -242,7 +239,6 @@ export class FinancialDetails implements IDeserializable {
         ];
 
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Financial Details",
             modalSectionName: "",
             data: fieldList
@@ -252,15 +248,17 @@ export class FinancialDetails implements IDeserializable {
 }
 
 export class FamilyDetails implements IDeserializable {
+    public familyList: any = [];
+
     deserialize(input: any): this {
+        this.familyList = input;
         return Object.assign(this, input);
     }
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
-            name: "Family Details",
-            modalSectionName: "",
+            name: `Family Details (${this.familyList.length})`,
+            modalSectionName: this.familyList.length ? "FamilyDetails" : "",
             data: ""
         };
         return returnObj;
@@ -268,15 +266,17 @@ export class FamilyDetails implements IDeserializable {
 }
 
 export class PersonalInterview implements IDeserializable {
+    public personalInterviewList: any = [];
+
     deserialize(input: any): this {
+        this.personalInterviewList = input;
         return Object.assign(this, input);
     }
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
-            name: "Personal Interview",
-            modalSectionName: "",
+            name: `Personal Interview (${this.personalInterviewList.length})`,
+            modalSectionName: this.personalInterviewList.length ? "PersonalInterviewDetails" : "",
             data: ""
         };
         return returnObj;
@@ -284,15 +284,17 @@ export class PersonalInterview implements IDeserializable {
 }
 
 export class RmVisitDetails implements IDeserializable {
+    public rmVisitListList = [];
+
     deserialize(input: any): this {
+        this.rmVisitListList = input;
         return Object.assign(this, input);
     }
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
-            name: "RM Visit Details",
-            modalSectionName: "",
+            name: `RM Visit Details (${this.rmVisitListList.length})`,
+            modalSectionName: this.rmVisitListList.length ? "RmVisitDetails" : "",
             data: ""
         };
         return returnObj;
@@ -375,9 +377,8 @@ export class LoanDetails implements IDeserializable {
             }
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Loan Details",
-            modalSectionName: "",
+            modalSectionName: "LoanDetails",
             data: fieldList
         };
         return returnObj;
@@ -431,7 +432,6 @@ export class VehicalDetails implements IDeserializable {
         ];
 
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Vehical Details",
             modalSectionName: "",
             data: fieldList
@@ -479,9 +479,8 @@ export class CardDetails implements IDeserializable {
             }
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Card Details",
-            modalSectionName: "",
+            modalSectionName: "CreditCardDetails",
             data: fieldList
         };
         return returnObj;
@@ -513,8 +512,7 @@ export class GoldDetails implements IDeserializable {
             }
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
-            name: "Financial Summary",
+            name: "Gold Details",
             modalSectionName: "",
             data: fieldList
         };
@@ -583,7 +581,6 @@ export class EducationDetails implements IDeserializable {
 
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Education Details",
             modalSectionName: "",
             data: fieldList
@@ -617,9 +614,8 @@ export class GoNoGoDetails implements IDeserializable {
             }
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Go/ No-Go Results",
-            modalSectionName: "",
+            modalSectionName: "GoNoGoDetails",
             data: fieldList
         };
         return returnObj;
@@ -633,9 +629,8 @@ export class ReferalDetails implements IDeserializable {
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Referal Details",
-            modalSectionName: "",
+            modalSectionName: "ReferrerDetails",
             data: ""
         };
         return returnObj;
@@ -649,9 +644,8 @@ export class Notes implements IDeserializable {
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Notes",
-            modalSectionName: "",
+            modalSectionName: "Notes",
             data: ""
         };
         return returnObj;
@@ -683,7 +677,6 @@ export class InterfaceResults implements IDeserializable {
             }
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Interface Results",
             modalSectionName: "",
             data: []
@@ -729,13 +722,24 @@ export class CustomerDetails implements IDeserializable {
             this.AddressDetails = new AddressDetails().deserialize([]);
         }
 
+        if (input.hasOwnProperty("UWRmVisitDetails")) {
+            this.RmVisitDetails = new RmVisitDetails().deserialize(input.UWRmVisitDetails);
+        }
+        else {
+            this.RmVisitDetails = new RmVisitDetails().deserialize([]);
+        }
+
+        if (input.hasOwnProperty("UWPersonalInterview")) {
+            this.PersonalInterview = new PersonalInterview().deserialize(input.UWPersonalInterview);
+        } else {
+            this.PersonalInterview = new PersonalInterview().deserialize([]);
+        }
+
         //obj
         this.FinancialSummary = new FinancialSummary().deserialize(input.UWIncomeSummary);
         this.CollateralDetails = new CollateralDetails().deserialize(input.UWCollateralDetails);
         this.FinancialDetails = new FinancialDetails().deserialize(input.UWIncomeDetails);
 
-        this.PersonalInterview = new PersonalInterview().deserialize(input.UWPersonalInterview);
-        this.RmVisitDetails = new RmVisitDetails().deserialize(input.UWRmVisitDetails);
         return this;
     }
 
@@ -780,7 +784,6 @@ export class CustomerDetails implements IDeserializable {
 
         ];
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Customer 360 degrees",
             modalSectionName: "",
             data: fieldList
@@ -859,9 +862,8 @@ export class ApplicationDetails implements IDeserializable {
         ];
 
         const returnObj: IGeneralCardData = {
-            isEnabled: true,
             name: "Application Details",
-            modalSectionName: "",
+            modalSectionName: "ApplicationDetails",
             data: fieldList
         };
         return returnObj;

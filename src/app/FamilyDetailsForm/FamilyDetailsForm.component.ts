@@ -57,7 +57,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @Input() activeBorrowerSeq: string = undefined;
     // @Input() activeCustomerName: string = undefined;
     // @Input() activeCustomerDOB: string = undefined;
-  //  @Input() ActiveCustomerDtls: any = undefined;
+    //  @Input() ActiveCustomerDtls: any = undefined;
     fullName: string;
     dob: Date;
     cust_name: string;
@@ -109,9 +109,13 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
-  //console.log("shweta :: family", this.ActiveCustomerDtls);
+        //console.log("shweta :: family", this.ActiveCustomerDtls);
         await this.Handler.onFormLoad({
         });
+
+        //UW
+        //this.setReadOnly(true);
+
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -239,17 +243,17 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         }
     }
 
-    
-  
+
+
     async Save_click(event) {
-        let ActiveCustomerDtls={};
-         ActiveCustomerDtls=this.services.rloCommonData.getCustomerDetails(this.activeBorrowerSeq);
+        let ActiveCustomerDtls = {};
+        ActiveCustomerDtls = this.services.rloCommonData.getCustomerDetails(this.activeBorrowerSeq);
         // console.log("shweta :: in family :: cust dtls service ",ActiveCustomerDtls);
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);
         let familyGridData: any = this.FAMILY_GRID.getFamilyDetails();
-       
+
         if (noOfError == 0) {
             if (this.FD_FULL_NAME.getFieldValue() !== undefined) {
                 if (familyGridData) {
@@ -422,7 +426,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.SeqKey);
-        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap,'/rlo-de').subscribe(
+        this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.FD_TITLE.setValue(res['BorrowerDetails']['Title']);

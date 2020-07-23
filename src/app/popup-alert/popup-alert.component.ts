@@ -4,8 +4,17 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IModalData, IButtonObj } from './popup-interface'
 import { AnyNaptrRecord } from 'dns';
 import { AddSpecificComponent } from './popup-alert.model';
- import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
+import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { AmortizationScheduleComponent } from '../amortization-schedule/AmortizationSchedule.component'
+import { FamilyDetailsFormComponent } from '../FamilyDetailsForm/FamilyDetailsForm.component';
+import { GoNoGoComponent } from '../go-no-go/go-no-go.component';
+import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
+import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetails.component';
+import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.component';
+import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
+import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component';
+import { VisitReportFormComponent } from '../VisitReportForm/VisitReportForm.component';
+import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -15,10 +24,11 @@ import { AmortizationScheduleComponent } from '../amortization-schedule/Amortiza
 export class PopupAlertComponent implements OnInit {
 
   @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
+  @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
 
   modalObject: IModalData;
 
-  constructor(public activeModal: NgbActiveModal, private services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver,private cdRef: ChangeDetectorRef) { }
+  constructor(public activeModal: NgbActiveModal, private services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.modalObject = this.services.rloui.modalObject;
@@ -40,6 +50,7 @@ export class PopupAlertComponent implements OnInit {
 
   injectDynamicComponent() {
     const componentRef = this.getComponentClassRef(this.modalObject.componentName);
+    console.log("______", this.modalObject);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
     const viewContainerRef = this.FormHost;
@@ -48,6 +59,15 @@ export class PopupAlertComponent implements OnInit {
     const dynamicComponent = viewContainerRef.createComponent(componentFactory);
     var componentInstance = dynamicComponent.instance;
     componentInstance.parentData = this.modalObject.data;
+
+    if (this.modalObject.componentName != 'AmortizationScheduleComponent') {
+
+      componentInstance.isLoanCategory = true;
+      componentInstance.parentFormCode = this.modalObject.componentCode;
+      componentInstance.ApplicationId = this.modalObject.applicationId;
+      componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
+
+    }
   }
 
   getComponentClassRef(componentId: string): AddSpecificComponent {
@@ -57,6 +77,39 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'AmortizationScheduleComponent':
         return new AddSpecificComponent(AmortizationScheduleComponent);
+        break;
+      case 'FamilyDetails':
+        return new AddSpecificComponent(FamilyDetailsFormComponent);
+        break;
+      // case 'CustomerDetails':
+      //   return new AddSpecificComponent(CustomerDtlsComponent);
+      //   break;
+      case 'GoNoGoDetails':
+        return new AddSpecificComponent(GoNoGoComponent);
+        break;
+      case 'ReferrerDetails':
+        return new AddSpecificComponent(ReferralDetailsFormComponent);
+        break;
+      case 'CreditCardDetails':
+        return new AddSpecificComponent(CreditCardDetailsComponent);
+        break;
+      case 'AddressDetails':
+        return new AddSpecificComponent(AddressDetailsComponent);
+        break;
+      case 'LoanDetails':
+        return new AddSpecificComponent(LoanDetailsFormComponent);
+        break;
+      case 'PersonalInterviewDetails':
+        return new AddSpecificComponent(PersonalInterviewComponent);
+        break;
+      case 'RmVisitDetails':
+        return new AddSpecificComponent(VisitReportFormComponent);
+        break;
+      case 'Notes':
+        return new AddSpecificComponent(NotepadDetailsFormComponent);
+        break;
+      case 'ApplicationDetails':
+        return new AddSpecificComponent(ApplicationDtlsComponent);
         break;
     }
   }

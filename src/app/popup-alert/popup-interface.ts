@@ -4,7 +4,11 @@ export interface IModalData {
   buttons: Array<IButtonObj>;//contains list of buttons to be shown @ footer. Send [] array if no btns required
   modalSize: string;
   componentName?: string;
-  data?:any;
+  data?: any;
+  iconClass?: any;
+  applicationId?: number;//while passing to modal(cards)
+  borrowerSeq?: number;//while passing to modal(cards)
+  componentCode?: string;
 }
 
 export interface IButtonObj {

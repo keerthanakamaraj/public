@@ -9,6 +9,7 @@ import { Http } from '@angular/http';
 import { IModalData } from '../popup-alert/popup-interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
+import { IGeneralCardData } from '../Interface/masterInterface';
 
 export var errorMap;
 
@@ -29,6 +30,20 @@ export class RlouiService {
   private formFields: any = {};
 
   modalObject: IModalData;//used when call a modal-> type=alert (initiation)
+
+  modalIconList = [
+    { componentName: "FamilyDetails", iconClass: "icon-Family-Details" },
+    { componentName: "GoNoGoDetails", iconClass: "icon-No-Go-Details" },
+    { componentName: "ReferrerDetails", iconClass: "icon-Referrer-Details" },
+    { componentName: "CreditCardDetails", iconClass: "icon-Credit-Card-Details" },
+    { componentName: "AddressDetails", iconClass: "icon-Address-Details" },
+    { componentName: "LoanDetails", iconClass: "icon-Loan-Details" },
+    { componentName: "PersonalInterviewDetails", iconClass: "icon-Personal-Interview-Details" },
+    { componentName: "RmVisitDetails", iconClass: "icon-RM-Visit-Details" },
+    { componentName: "Notes", iconClass: "icon-Notes" },
+    { componentName: "ApplicationDetails", iconClass: "icon-Application-Details" },
+    { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" }
+  ]
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal) {
     console.log("UI Service .. constructor --------------------------------");
@@ -276,7 +291,7 @@ export class RlouiService {
 
   confirmationModal(modalObj: IModalData) {
     let promise = new Promise<any>((resolve, reject) => {
-      console.log(event);
+      console.log(modalObj);
       var onSuccessOrFailure = async (response) => {
         console.log(response);
         if (response === 0) {
@@ -286,14 +301,47 @@ export class RlouiService {
         }
       }
 
-      this.modalObject = modalObj;
+      this.modalObject = modalObj;//obj consumed in PopupAlertComponent
+      if (modalObj.hasOwnProperty('componentName')) {
+        this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
+      }
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });
     return promise;
   }
 
-  closeAllConfirmationModal(){
+  closeAllConfirmationModal() {
     this.modal.dismissAll();
+  }
+
+
+  //used to open a modal containing component(underwriter -> card)
+  openComponentModal(cardMetaData: IGeneralCardData) {
+    if (!cardMetaData.modalSectionName.length)
+      return
+
+    Promise.all([this.getAlertMessage('', cardMetaData.name)]).then(values => {
+      console.log(values);
+      let modalObj: IModalData = {
+        title: values[0].includes("(") ? values[0].slice(0, values[0].lastIndexOf("(")) : values[0],
+        mainMessage: undefined,
+        modalSize: "modal-width-lg",
+        buttons: [],
+        componentName: cardMetaData.modalSectionName,
+        data: "",
+        applicationId: cardMetaData.applicationId,
+        borrowerSeq: cardMetaData.borrowerSeq,
+        componentCode: cardMetaData.componentCode
+      }
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+        }
+      });
+    });
   }
 }

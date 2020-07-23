@@ -1089,20 +1089,20 @@ a.back {
   position: relative;
   background: white;
 
-  .expand-icon {
-    background-image: url(./../icons/edit_button.png);
-    width: 22px;
-    height: 22px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    display: block;
-    background-position: center center;
-    margin-top: 5px;
-    cursor: pointer;
-    position: absolute;
-    top: 18px;
-    right: 22px;
-  }
+  // .expand-icon {
+  //   background-image: url(./../icons/edit_button.png);
+  //   width: 22px;
+  //   height: 22px;
+  //   background-size: contain;
+  //   background-repeat: no-repeat;
+  //   display: block;
+  //   background-position: center center;
+  //   margin-top: 5px;
+  //   cursor: pointer;
+  //   position: absolute;
+  //   top: 18px;
+  //   right: 22px;
+  // }
 }
 
 .p-0 {
@@ -1131,7 +1131,7 @@ a.back {
 
 .d-block {
   display: block !important;
-} 
+}
 
 //used to add space for every page in layout for form btns
 .page-layout-padding {
@@ -1743,18 +1743,27 @@ rlo-ui-card-field {
 .wgt-alert-modal {
   .modal-header {
     display: block;
-    padding: 18px;
-    font-size: 18px;
+    padding: 18px 24px;
     background: #F4F4F4;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     border-bottom: 1px solid #CDCDCD;
-    color: #000000;
 
-    span {
+    .header-icon {
+      font-size: 29px;
+      color: #000000;
       position: absolute;
-      right: 22px;
-      top: 24px;
+      top: 9px;
+    }
+
+    .header-icon+.modal-header-name {
+      margin-left: 45px;
+    }
+
+    .fa {
+      position: absolute;
+      right: 26px;
+      top: 23px;
       cursor: pointer;
       color: #8E8E8E;
     }
@@ -1834,43 +1843,30 @@ rlo-ui-card-field {
 
 // card component
 .wgt-cards {
-
-  // border: 1px solid rgba(0, 121, 184, 0.25);
-  // border-radius: 5px;
-  // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
-  // padding: 0 !important;
   padding: 0em !important;
-  // width: auto;
   width: 100% !important;
 
   .cards-header {
-    // @include card-header()
-    font-size: 20px;
-    line-height: 27px;
-    color: #0079B8;
-    padding: 18px 18px 18px 21px;
-    border-bottom: 2px solid #EEEEEE;
-    position: relative;
-    background: white;
+    @include card-header();
+
+    .icon-link {
+      font-size: 30px;
+      cursor: pointer;
+      position: absolute;
+      top: 18px;
+      right: 16px;
+    }
+
     border: 1px solid rgba(0, 121, 184, 0.25);
-    /* border-radius: 5px; */
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
   }
 
   .cards-body {
-    // margin: 0 !important;
-    // background-color: white;
-
-    //temp
-    //min-height: 25em;
-
     margin: 0 !important;
     background-color: white;
-    // min-height: 25em;
     border: 1px solid rgba(0, 121, 184, 0.25);
-    /* border-radius: 5px; */
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -2225,7 +2221,14 @@ rlo-ui-card-field {
 
   .blank-card-header {
     @include card-header();
-    margin: 0 5px;
+
+    .icon-link {
+      font-size: 30px;
+      cursor: pointer;
+      position: absolute;
+      top: 18px;
+      right: 16px;
+    }
   }
 
   .blank-container {
@@ -2751,38 +2754,45 @@ rlo-ui-card-field {
 .w-64 {
   width: 64em;
 }
+
 /*amortization css start*/
-.deactivate-amortization{
-  display:none;
+.deactivate-amortization {
+  display: none;
 }
-.last-section{
-  border:none !important;
+
+.last-section {
+  border: none !important;
 }
-.repayment-form{
+
+.repayment-form {
   box-sizing: border-box;
- // height: 205px;
- padding-top: 22px;
- padding-bottom: 22px;
+  // height: 205px;
+  padding-top: 22px;
+  padding-bottom: 22px;
   border: 1px solid #DFD7D7;
   border-radius: 4px;
   background-color: #FFFFFF;
-  .section{
-  border-right: 1px solid #DFD7D7;
-  .field-container{
-    margin-bottom: 10px;
-    .field-text{
-      margin-top: 12px;
-      height: 14px;
-      color: #000000;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0;
-      line-height: 14px;
-      display:block;
+
+  .section {
+    border-right: 1px solid #DFD7D7;
+
+    .field-container {
+      margin-bottom: 10px;
+
+      .field-text {
+        margin-top: 12px;
+        height: 14px;
+        color: #000000;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 14px;
+        display: block;
+      }
     }
   }
 }
-}
+
 // .field-container__text{
 //   height: 14px;
 //   //width: 135px;
@@ -2794,3 +2804,8 @@ rlo-ui-card-field {
 //   line-height: 14px;
 //   display:block;
 // }
+
+.disable-card {
+  color: #979797 !important;
+  cursor: default !important;
+}

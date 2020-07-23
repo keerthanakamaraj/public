@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
-import { ICardMetaData, IUwCustomerTab } from '../Interface/masterInterface';
+import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 import { RloCommonData } from '../rlo-services/rloCommonData.service';
 import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
@@ -24,7 +24,9 @@ class IbasicCardSectionData {
 export class UnderWriterComponent extends FormComponent implements OnInit {
 
   @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
-  //@ViewChild(NgxMasonryComponent, { static: false }) masonry: NgxMasonryComponent;
+  @ViewChild(NgxMasonryComponent, { static: false }) masonry: NgxMasonryComponent;
+
+  @ViewChild('UWTabs', { static: false }) UWTabs: UWCustomerTabComponent;
 
   customerCardSectionData: any;
   //interfaceCardSectionData: any;
@@ -34,8 +36,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     cardType: '',
     sectionList: []
   };
-
-  allSectionCard
 
   customerSectionData = {
     "UWApplication": {
@@ -305,24 +305,17 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   ];
 
   //used to iterate and pass data to ui-card-field
-  cCardDataWithFields = [
-    {
-      "isEnabled": true,
-      "name": "Financial Summary",
-      "modalSectionName": "",
-      "data": []
-    }
-  ];
+  cCardDataWithFields: IGeneralCardData[] = [];
   cBlankCardData = [];
 
   aCardDataWithFields = [];//used to iterate and pass data to ui-card-field
   aBlankCardData = [];
 
   customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
-  customerCardDataWithFields: any;//store customer related data
+  customerCardDataWithFields: IGeneralCardData;//store customer related data
 
-  loanDetailsCardData: any//stores loan Details card data
-  interfaceResultCardData: any;
+  loanDetailsCardData: IGeneralCardData//stores loan Details card data
+  interfaceResultCardData: IGeneralCardData;
 
   selectedTab: string = "customer";
   updateMasonryLayout: boolean = false;
@@ -342,17 +335,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   ];
 
-  // public myOptions: NgxMasonryOptions = {
-  //   gutter: 10,
-  //   // originTop: true,
-  //   // originLeft: true,
-  //   // itemSelector: '.w-25'
-  // };
-
-  public myOptions2: NgxMasonryOptions = {
+  public myOptions: NgxMasonryOptions = {
     gutter: 10,
-    // originTop: true,
-    // originLeft: true,
+    originTop: true,
+    originLeft: true,
     // itemSelector: '.w-25'
   };
 
@@ -474,6 +460,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     "ApplicationId": 2061
   };
 
+  applicationId: number;
+  borrowerSeq: number;
+  componentCode = 'UnderWriter';
+
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
     this.getUnderWriterData();
@@ -481,11 +471,14 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    this.services.http.fetchApi('/UWApplication/1497', 'GET', new Map(), '/rlo-de').subscribe(
+    //valid application id - 1675 1937
+    let appId = "1675";
+    this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
         console.warn(res);
-        this.generateModelJson(res);
+        this.applicationId = res.UWApplication.ApplicationId;
+        this.generateModelJson(res.UWApplication);
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -496,16 +489,17 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   reloadCardGrid() {
     //this.updateMasonryLayout = true;
     console.log(this.updateMasonryLayout);
-    // this.masonry.reloadItems();
-    // this.masonry.layout();
+    this.masonry.reloadItems();
+    this.masonry.layout();
   }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.reloadCardGrid();
-    }, 10);
+    // setTimeout(() => {
+    //   this.reloadCardGrid();
+    // }, 10);
+    //withdraw  reject  pre-cpv
   }
 
   //@Output
@@ -527,8 +521,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //under-writer.component.ts
   generateModelJson(jsonData) {
-    //let obj = jsonData;
-    let obj = this.workingJsonObj;
+    let obj = jsonData;
+    //let obj = this.workingJsonObj;
 
     //data for cust-tabs
     obj["UWCustomerDetails"].forEach(element => {
@@ -540,16 +534,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       this.customerList.push(data);
     });
 
+    this.UWTabs.setCustomerList(this.customerList);//pass customer list to component
+    this.borrowerSeq = this.customerList[0].BorrowerSeq;
+
     //manager data for cards
     this.customerMasterJsonData = new Master().deserialize(obj);
     console.log(this.customerMasterJsonData);
 
     let singleCustomer = this.customerMasterJsonData.CustomerDetails[0];
-    console.log(singleCustomer, singleCustomer.FamilyDetails, singleCustomer.FinancialSummary.getBorrowerSeq(), singleCustomer.FinancialSummary, singleCustomer.FinancialSummary.test);
 
     this.selectedTabCardData(this.selectedTab);
-
-    //this.getAllData();
   }
 
   isJsonEmpty(obj) {
@@ -557,7 +551,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   selectedTabCardData(sectionType: string = "customer", menuIndex: number = 0) {
-    let data;
+    let data: IGeneralCardData;
 
     if (sectionType == "customer") {
       this.cCardDataWithFields = [];
@@ -570,6 +564,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         switch (element.className) {
           case "CustomerDetails":
             this.customerCardDataWithFields = singleCustomer.getCardData();
+            this.customerCardDataWithFields.applicationId = this.applicationId;
+            this.customerCardDataWithFields.borrowerSeq = this.borrowerSeq;
+            this.customerCardDataWithFields.componentCode = this.componentCode;
             console.error(this.customerCardDataWithFields);
             break;
 
@@ -578,6 +575,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "FinancialDetails":
           case "CollateralDetails":
             data = singleCustomer[element.className].getCardData();
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
             this.cCardDataWithFields.push(data);
             break;
 
@@ -585,6 +585,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "PersonalInterview":
           case "RmVisitDetails":
             data = singleCustomer[element.className].getCardData();
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
             this.cBlankCardData.push(data);
             break;
 
@@ -593,9 +596,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         }
       });
 
-      console.warn(this.cCardDataWithFields, this.cBlankCardData);
-      console.warn(JSON.stringify(this.cCardDataWithFields));
-      console.warn(JSON.stringify(this.cBlankCardData));
       setTimeout(() => {
         this.customerSectionLoaded = true;
         console.warn("****");
@@ -611,19 +611,27 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         switch (element.className) {
           case "LoanDetails":
             this.loanDetailsCardData = application.LoanDetails.getCardData();
+            this.loanDetailsCardData.applicationId = this.applicationId;
+            this.loanDetailsCardData.borrowerSeq = this.borrowerSeq;
+            this.loanDetailsCardData.componentCode = this.componentCode;
             console.log(this.loanDetailsCardData);
             break;
 
           case "InterfaceResults":
             this.interfaceResultCardData = application.InterfaceResults.getCardData();
+            this.interfaceResultCardData.applicationId = this.applicationId;
+            this.interfaceResultCardData.borrowerSeq = this.borrowerSeq;
+            this.interfaceResultCardData.componentCode = this.componentCode;
             console.log(this.interfaceResultCardData);
             break;
 
           case "ApplicationDetails":
             data = application.getCardData();
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
             this.aCardDataWithFields.push(data);
             break;
-
 
           case "VehicalDetails":
           case "CardDetails":
@@ -631,12 +639,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "EducationDetails":
           case "GoNoGoDetails":
             data = application[element.className].getCardData();
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
             this.aCardDataWithFields.push(data);
             break;
 
           case "ReferalDetails":
           case "Notes":
             data = application[element.className].getCardData();
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
             this.aBlankCardData.push(data);
             break;
 
@@ -659,6 +673,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   customerSelectionChanged(data) {
     console.log(data);
+    this.borrowerSeq = data.selectedBorrowerSeq;
     this.selectedTabCardData(this.selectedTab, data.index);
     setTimeout(() => {
       this.reloadCardGrid();
@@ -668,17 +683,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   tabSwitched(tab: string) {
     console.log("tab switched", tab);
     this.selectedTab = tab;
-
     this.selectedTabCardData(this.selectedTab);
 
     tab == "customer" ? this.applicationSectionLoaded = false : this.customerSectionLoaded = false;
-
-    // if (tab == "customer") {
-    //   this.applicationSectionLoaded = false;
-    // }
-    // else {
-    //   this.customerSectionLoaded = false;
-    // }
   }
 
   async revalidate(): Promise<number> {

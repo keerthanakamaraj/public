@@ -157,3 +157,27 @@
 .icon-check-circle:before {
     content: "\e918";
 }
+
+.icon-link:before {
+    content: "\e919";
+}
+
+.icon-collect-upfront:before {
+    content: "\e91a";
+}
+
+.icon-disbursement-details:before {
+    content: "\e91b";
+}
+
+.icon-fees-charges:before {
+    content: "\e91c";
+}
+
+.icon-generate-amortization:before {
+    content: "\e90d";
+}
+
+.icon-receive-initial-money:before {
+    content: "\e91e";
+}

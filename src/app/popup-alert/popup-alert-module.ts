@@ -5,13 +5,30 @@ import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsFo
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.module';
 import { HttpClient } from '@angular/common/http';
-import {AmortizationScheduleModule} from '../amortization-schedule/AmortizationSchedule.module'
+import { AmortizationScheduleModule } from '../amortization-schedule/AmortizationSchedule.module'
+import { FamilyDetailsFormModule } from '../FamilyDetailsForm/FamilyDetailsForm.module';
+import { GoNoGoModule } from '../go-no-go/go-no-go.module';
+import { ReferralDetailsFormModule } from '../ReferralDetailsForm/ReferralDetailsForm.module';
+import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.module';
+import { AddressDetailsModule } from '../AddressDetails/AddressDetails.module';
+import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module';
+import { PersonalInterviewModule } from '../PersonalInterview/personal-interview.module';
+import { VisitReportFormModule } from '../VisitReportForm/VisitReportForm.module';
+import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 @NgModule({
     imports: [
         CommonModule,
-         NotepadDetailsFormModule,
-        // PersonalInterviewModule,
-        AmortizationScheduleModule
+        NotepadDetailsFormModule,
+        AmortizationScheduleModule,
+        FamilyDetailsFormModule,
+        GoNoGoModule,
+        ReferralDetailsFormModule,
+        CreditCardDetailsModule,
+        AddressDetailsModule,
+        LoanDetailsFormModule,
+        PersonalInterviewModule,
+        VisitReportFormModule,
+        ApplicationDtlsModule
     ],
     declarations: [
         PopupAlertComponent,
