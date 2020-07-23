@@ -18,7 +18,7 @@ export class ScoreCardResultComponent implements OnInit {
   FilterOptions = [];
   showExpanded: boolean = false;
   parentFormCode: string = undefined;
-  scoreCardResultList: IScoreCard[] = undefined;
+  activeScoreCardResultList: IScoreCard[] = undefined;
   mstBarColorIndex: IScoreColor[] = [
     {
       colorId: 'FA',
@@ -73,6 +73,7 @@ export class ScoreCardResultComponent implements OnInit {
 
   SCR_Filter_Blur() {
     console.log("shweta :: selected option", this.SCR_Filter.getFieldValue());
+    this.activeScoreCardResultList=this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
   }
 
   headerChanges(data) {
@@ -117,46 +118,22 @@ export class ScoreCardResultComponent implements OnInit {
       }
     }
   }
-  // parseScoreCardResultJson(tempScoreCardResultList) {
-  //   let newScoreCardResultList = [];
-  //   console.log("shweta :: policy Resp:", tempScoreCardResultList);
-  //   tempScoreCardResultList.forEach(eachScore => {
-  //     if(eachScore.BorrowerSeq){
-  //       let newMapKey='C_' + eachScore.BorrowerSeq;
-  //       if(this.MstScoreResultMap.has(newMapKey)){
-  //         newScoreCardResultList=this.MstScoreResultMap.get(newMapKey);
-  //       }
-  //     }else{
 
-  //     }
-  //     let scoreCard: IScoreCard = eachScore;
-  //     scoreCard.MaxScore = 100;
-  //     scoreCard.MinGreenScore = 80;
-  //     scoreCard.MinOrangeScore = 60;
-  //     scoreCard.MinRedScore = 30;
-  //     let colorObj: IScoreColor = {};
-
-  //     if (scoreCard.Score >= scoreCard.MinGreenScore) {
-  //       colorObj = this.mstBarColorIndex.find(obj => 'FA' == obj.colorId);
-
-  //     } else if (scoreCard.Score >= scoreCard.MinOrangeScore) {
-  //       colorObj = this.mstBarColorIndex.find(obj => 'NU' == obj.colorId);
-
-  //     }
-  //     else {
-  //       colorObj = this.mstBarColorIndex.find(obj => 'NF' == obj.colorId);
-
-  //     }
-  //     scoreCard.colorCode = colorObj.colorCode;
-  //     newScoreCardResultList.push(scoreCard);
-
-  //   });
-  // }
   parseScoreCardResultJson(tempScoreCardResultList) {
-    this.scoreCardResultList = [];
+    let newScoreCardResultList = [];
     console.log("shweta :: policy Resp:", tempScoreCardResultList);
     tempScoreCardResultList.forEach(eachScore => {
-
+      let newMapKey=undefined;
+      if(eachScore.BorrowerSeq){
+         newMapKey='C_' + eachScore.BorrowerSeq;
+      }else{
+        newMapKey='A_' + eachScore.ApplicationId;
+      }
+      if(this.MstScoreResultMap.has(newMapKey)){
+        newScoreCardResultList=this.MstScoreResultMap.get(newMapKey);
+      }else{
+        newScoreCardResultList=[];
+      }
       let scoreCard: IScoreCard = eachScore;
       scoreCard.MaxScore = 100;
       scoreCard.MinGreenScore = 80;
@@ -176,8 +153,38 @@ export class ScoreCardResultComponent implements OnInit {
 
       }
       scoreCard.colorCode = colorObj.colorCode;
-      this.scoreCardResultList.push(scoreCard);
-
+      newScoreCardResultList.push(scoreCard);
+      this.MstScoreResultMap.set(newMapKey,newScoreCardResultList);
     });
+     console.log("shweta :: score result master map",this.MstScoreResultMap);
   }
+
+  // parseScoreCardResultJson(tempScoreCardResultList) {
+  //   this.scoreCardResultList = [];
+  //   console.log("shweta :: policy Resp:", tempScoreCardResultList);
+  //   tempScoreCardResultList.forEach(eachScore => {
+
+  //     let scoreCard: IScoreCard = eachScore;
+  //     scoreCard.MaxScore = 100;
+  //     scoreCard.MinGreenScore = 80;
+  //     scoreCard.MinOrangeScore = 60;
+  //     scoreCard.MinRedScore = 30;
+  //     let colorObj: IScoreColor = {};
+
+  //     if (scoreCard.Score >= scoreCard.MinGreenScore) {
+  //       colorObj = this.mstBarColorIndex.find(obj => 'FA' == obj.colorId);
+
+  //     } else if (scoreCard.Score >= scoreCard.MinOrangeScore) {
+  //       colorObj = this.mstBarColorIndex.find(obj => 'NU' == obj.colorId);
+
+  //     }
+  //     else {
+  //       colorObj = this.mstBarColorIndex.find(obj => 'NF' == obj.colorId);
+
+  //     }
+  //     scoreCard.colorCode = colorObj.colorCode;
+  //     this.scoreCardResultList.push(scoreCard);
+
+  //   });
+  // }
 }
