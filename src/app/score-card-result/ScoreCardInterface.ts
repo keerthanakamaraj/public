@@ -1,15 +1,16 @@
 export interface IScoreCard {
   Score?: number,
   ScoreSection?: string,
- // ScorecardSeq?: string,
- // ScoreID?: string,
- // ApplicationId?: string,
+  // ScorecardSeq?: string,
+  // ScoreID?: string,
+  // ApplicationId?: string,
   BorrowerSeq?: string
-  MaxScore?: number,
+  MaxSectionScore?: number,
   MinGreenScore?: number,
   MinOrangeScore?: number,
   MinRedScore?: number,
-  colorCode: string;
+  colorCode: string,
+  Weightage?: number
 }
 
 export interface IScoreColor {
