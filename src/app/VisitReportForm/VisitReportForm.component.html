@@ -146,7 +146,7 @@
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('VRF_OfficialBusinessGroup', $event)">
             </app-combo-box>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" *ngIf="!readOnly">
             <app-button #VRF_Reset fieldName="{{ 'VisitReportForm.VRF_Reset' | translate}}" fieldID="VRF_Reset"
               [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
               (buttonClick)="VRF_Reset_click($event)"></app-button>

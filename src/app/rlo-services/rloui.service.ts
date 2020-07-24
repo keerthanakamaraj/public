@@ -302,9 +302,11 @@ export class RlouiService {
       }
 
       this.modalObject = modalObj;//obj consumed in PopupAlertComponent
-      if (modalObj.hasOwnProperty('componentName')) {
-        this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
-      }
+      // if (modalObj.hasOwnProperty('componentName')) {
+      //   this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
+      // }
+      //FOR TESTING
+      this.modalObject.iconClass = "icon-Family-Details";
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });
@@ -318,8 +320,8 @@ export class RlouiService {
 
   //used to open a modal containing component(underwriter -> card)
   openComponentModal(cardMetaData: IGeneralCardData) {
-    if (!cardMetaData.modalSectionName.length)
-      return
+    // if (!cardMetaData.modalSectionName.length)
+    //   return
 
     Promise.all([this.getAlertMessage('', cardMetaData.name)]).then(values => {
       console.log(values);

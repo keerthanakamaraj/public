@@ -45,7 +45,7 @@
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
             <app-button #ND_CLEAR fieldName="{{ 'NotepadDetailsForm.ND_CLEAR' | translate}}"
               imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button" fieldID="ND_CLEAR"
               [formCode]="formCode" (buttonClick)="ND_CLEAR_click($event)"></app-button>

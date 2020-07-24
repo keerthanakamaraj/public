@@ -55,6 +55,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 	@ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
 	@Input() ApplicationId: string = undefined;
 	@Input() activeBorrowerSeq: string = undefined;
+	@Input('readOnly') readOnly: boolean = false;
 	//@Input() CustomerDetailsArray: any = undefined;
 	cust_name: string;
 	cust_dob: string;
@@ -114,6 +115,13 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		}
 		//	console.log("shweta :: referrer", this.CustomerDetailsArray);
 		await this.Handler.onFormLoad({});
+		console.log(this.ReferralDetailsGrid.columnDefs);
+		if (this.readOnly) {
+			this.ReferralDetailsGrid.columnDefs = this.ReferralDetailsGrid.columnDefs.slice(0, 5);
+			this.ReferralDetailsGrid.columnDefs[4].width = 12;
+			this.ReferralDetailsGrid.columnDefs[4].CustomClass = "btn-views";
+			this.ReferralDetailsGrid.columnDefs[4].IconClass = 'fas fa-eye fa-lg';
+		}
 		this.setDependencies();
 	}
 	setInputs(param: any) {
@@ -163,6 +171,11 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 			this.onFormLoad();
 			this.checkForHTabOverFlow();
 		});
+		console.log(this.readOnly);
+
+		if (this.readOnly) {
+			this.setReadOnly(this.readOnly);
+		}
 	}
 	clearError() {
 		super.clearBasicFieldsError();
@@ -219,7 +232,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 			CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
 			// console.log("Shweta :: return from service", CustomerDetailsArray);
 			for (let i = 0; i < CustomerDetailsArray.length; i++) {
-				if (CustomerDetailsArray[i].FullName.replace(/\s/g, "").toUpperCase() == this.RD_REF_NAME.getFieldValue().replace(/\s/g, "").toUpperCase() &&  CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
+				if (CustomerDetailsArray[i].FullName.replace(/\s/g, "").toUpperCase() == this.RD_REF_NAME.getFieldValue().replace(/\s/g, "").toUpperCase() && CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
 					this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);
 					return;
 				}
@@ -454,28 +467,28 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		this.services.http.fetchApi('/ReferrerDetails/{BorrowerSeq}', 'GET', inputMap, '/rlo-de').subscribe(
 			async (httpResponse: HttpResponse<any>) => {
 				var res = httpResponse.body;
-				
-			
+
+
 				// this.AddBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
 				this.RD_REF_NAME.setValue(res['ReferrerDetails']['ReferrerName']);
 				this.RD_REFERRER_RELATION.setValue(res['ReferrerDetails']['ReferrerRelation']);
 				// this.RD_ISD_CODE.setValue(res['ReferrerDetails']['CountryCode']);
 				this.RD_REF_NO.setValue(res['ReferrerDetails']['ReferrerMobileNumber']);
 				this.RD_REFRRER_EMAILID.setValue(res['ReferrerDetails']['ReferrerEmailID']);
-				if (('AddressDetails' in res['ReferrerDetails'])){
-				this.RD_ADDRESSLINE1.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine1']);
-				this.RD_ADDRESSLINE2.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine2']);
-				this.RD_ADDRESSLINE3.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine3']);
-				this.RD_ADDRESSLINE4.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine4']);
-				this.RD_PINCODE.setValue(res['ReferrerDetails']['AddressDetails']['PinCode']);
-				this.RD_REGION.setValue(res['ReferrerDetails']['AddressDetails']['Region']);
-				this.RD_CITY.setValue(res['ReferrerDetails']['AddressDetails']['City']);
-				this.RD_STATE.setValue(res['ReferrerDetails']['AddressDetails']['State']);
-				this.RD_LANDMARK.setValue(res['ReferrerDetails']['AddressDetails']['Landmark']);
-				// this.RD_COUNTRY_CODE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineCountryCode']);
-				this.RD_PHONE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineNumber']);
-				// this.RD_COUNTRY_CODE2.setValue(res['ReferrerDetails']['AddressDetails']['MobileCountryCode']);
-				this.RD_PHONE2.setValue(res['ReferrerDetails']['AddressDetails']['AltMobileNo']);
+				if (('AddressDetails' in res['ReferrerDetails'])) {
+					this.RD_ADDRESSLINE1.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine1']);
+					this.RD_ADDRESSLINE2.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine2']);
+					this.RD_ADDRESSLINE3.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine3']);
+					this.RD_ADDRESSLINE4.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine4']);
+					this.RD_PINCODE.setValue(res['ReferrerDetails']['AddressDetails']['PinCode']);
+					this.RD_REGION.setValue(res['ReferrerDetails']['AddressDetails']['Region']);
+					this.RD_CITY.setValue(res['ReferrerDetails']['AddressDetails']['City']);
+					this.RD_STATE.setValue(res['ReferrerDetails']['AddressDetails']['State']);
+					this.RD_LANDMARK.setValue(res['ReferrerDetails']['AddressDetails']['Landmark']);
+					// this.RD_COUNTRY_CODE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineCountryCode']);
+					this.RD_PHONE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineNumber']);
+					// this.RD_COUNTRY_CODE2.setValue(res['ReferrerDetails']['AddressDetails']['MobileCountryCode']);
+					this.RD_PHONE2.setValue(res['ReferrerDetails']['AddressDetails']['AltMobileNo']);
 				}
 				this.ReferrerBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
 				this.hideSpinner();

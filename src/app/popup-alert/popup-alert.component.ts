@@ -16,6 +16,7 @@ import { PersonalInterviewComponent } from '../PersonalInterview/personal-interv
 import { VisitReportFormComponent } from '../VisitReportForm/VisitReportForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { FormComponent } from '../form/form.component';
+import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -26,6 +27,7 @@ export class PopupAlertComponent implements OnInit {
 
   @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
   @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
+  @ViewChild('OCCUPATION_DTLS', { static: false }) OCCUPATION_DTLS: OccupationDtlsFormComponent;
 
   modalObject: IModalData;
 
@@ -67,7 +69,7 @@ export class PopupAlertComponent implements OnInit {
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
-      componentInstance.readOnly = true; 
+      componentInstance.readOnly = true;
     }
   }
 
@@ -111,6 +113,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'ApplicationDetails':
         return new AddSpecificComponent(ApplicationDtlsComponent);
+        break;
+      case 'OccupationDetails':
+        return new AddSpecificComponent(OccupationDtlsFormComponent);
         break;
     }
   }

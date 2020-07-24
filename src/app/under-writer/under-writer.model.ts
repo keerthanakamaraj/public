@@ -44,7 +44,7 @@ export class FinancialSummary implements IDeserializable {
                 title: "Total Income (Annual)",
                 subTitle: this.TotalIncome,
                 type: "basic",
-                modalSectionName: this.TotalIncome > 0 ? "FamilyDetails" : ""
+                modalSectionName: this.TotalIncome > 0 ? "OccupationDetails" : ""
             },
             {
                 title: "Total Liability (Annual)",
@@ -79,7 +79,7 @@ export class FinancialSummary implements IDeserializable {
         ];
         const returnObj: IGeneralCardData = {
             name: "Financial Summary",
-            modalSectionName: "",
+            modalSectionName: "OccupationDetails",
             data: fieldList
         };
         return returnObj;
@@ -304,7 +304,7 @@ export class RmVisitDetails implements IDeserializable {
     getCardData() {
         const returnObj: IGeneralCardData = {
             name: `RM Visit Details (${this.rmVisitListList.length})`,
-            modalSectionName: this.rmVisitListList.length ? "RmVisitDetails" : "",
+            modalSectionName: "RmVisitDetails",
             data: ""
         };
         return returnObj;
@@ -642,7 +642,7 @@ export class ReferalDetails implements IDeserializable {
     getCardData() {
         const returnObj: IGeneralCardData = {
             name: `Referal Details (${this.referalDetailsList.length})`,
-            modalSectionName: this.referalDetailsList.length ? "ReferrerDetails" : "",
+            modalSectionName: "ReferrerDetails",
             data: ""
         };
         return returnObj;

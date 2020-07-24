@@ -40,7 +40,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     @ViewChild('hiddenAppId', { static: false }) hiddenAppId: HiddenComponent;
     @ViewChild('hiddenKey', { static: false }) hiddenKey: HiddenComponent;
     @Input() ApplicationId: string = undefined;
-
+    @Input('readOnly') readOnly: boolean = false;
     fieldDependencies = {
         ND_COMMENT_CAT: {
             inDep: [
@@ -85,6 +85,13 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         await this.FieldId_7.gridDataLoad({
             'ApplicationId': this.ApplicationId
         });
+        console.log(this.FieldId_7.columnDefs);
+        if (this.readOnly) {
+            // this.FieldId_7.columnDefs = this.FieldId_7.columnDefs.slice(0, 3);
+            // this.FieldId_7.columnDefs[2].width = 12;
+            this.FieldId_7.columnDefs[2].CustomClass = "btn-views";
+            this.FieldId_7.columnDefs[2].IconClass = 'fas fa-eye fa-lg';
+        }
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -136,6 +143,11 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
             this.onFormLoad(event);
             this.checkForHTabOverFlow();
         });
+        console.log(this.readOnly);
+
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+        }
     }
     clearError() {
         super.clearBasicFieldsError();

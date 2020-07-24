@@ -15,6 +15,7 @@ import { LoanDetailsFormModule } from '../LoanDetailsForm/LoanDetailsForm.module
 import { PersonalInterviewModule } from '../PersonalInterview/personal-interview.module';
 import { VisitReportFormModule } from '../VisitReportForm/VisitReportForm.module';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
+import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -28,7 +29,8 @@ import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module
         LoanDetailsFormModule,
         PersonalInterviewModule,
         VisitReportFormModule,
-        ApplicationDtlsModule
+        ApplicationDtlsModule,
+        OccupationDtlsFormModule
     ],
     declarations: [
         PopupAlertComponent,
