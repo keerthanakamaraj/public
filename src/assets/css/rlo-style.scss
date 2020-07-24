@@ -2527,13 +2527,6 @@ rlo-ui-card-field {
 
   .fab-buttons__link {
     transform: scaleY(1) scaleX(1) translateY(-16px) translateX(0px);
-
-    i {
-      padding-top: 35px;
-      color: #0079b8;
-      font-size: 11px;
-      font-family: sans-serif !important;
-    }
   }
 
   .fab-action-icon {
@@ -2601,21 +2594,20 @@ rlo-ui-card-field {
 .fab-buttons {
   position: absolute;
   opacity: 0;
-  visibility: hidden;
-  right: 0;
-  bottom: 50px;
-  list-style: none;
-  box-shadow: 2px 4px 8px #F2F8FD;
-  background-color: #F2F8FD;
-  border: 1px solid #55C5FF;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  margin-bottom: -20px;
-  padding: 10px;
-  width: 69px;
-  transition: 0.2s;
-  padding-bottom: 25px;
+ visibility: hidden;  
+ right: 0;
+ bottom: 50px;
+ list-style: none;
+ box-shadow: 2px 4px 8px #F2F8FD;
+ background-color: #F2F8FD;
+ border: 1px solid #55C5FF;
+ border-radius: 50px;
+ border-bottom-right-radius: 25px;
+ margin-bottom: -20px;
+ padding: 10px;
+ width: 73px;
+ transition: 0.2s;
+ padding-bottom: 25px;
 }
 
 .fab-row {
@@ -2726,10 +2718,15 @@ rlo-ui-card-field {
   display: inline-block;
   width: 40px;
   height: 40px;
+  padding-top: 35px;
+  color: #0079b8;
+  font-size: 12px;
+  font-family: Open Sans Regular !important;
 }
 
 .icon-material_fb {
   background: url(".././icons/Income-Summary.svg") center no-repeat;
+  
 }
 
 .icon-material_gp {
