@@ -71,6 +71,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
   }
 
     async validateValue(value, event=undefined): Promise<number> {
+      console.log("shweta ::  amount",value);
       var totalErrors: number = 0;
       totalErrors+=this.onNumberInput(value, event);
       return totalErrors;
@@ -101,6 +102,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
       return totalErrors;
     }
   countDecimals(value) {
+    
       if(Math.floor(value) === value) return 0;
       return value.toString().split(".")[1].length || 0; 
   }

@@ -1,9 +1,9 @@
 export interface IScoreCard {
   Score?: number,
   ScoreSection?: string,
-  ScorecardSeq?: string,
-  ScoreID?: string,
-  ApplicationId?: string,
+ // ScorecardSeq?: string,
+ // ScoreID?: string,
+ // ApplicationId?: string,
   BorrowerSeq?: string
   MaxScore?: number,
   MinGreenScore?: number,

@@ -38,8 +38,6 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   @ViewChild('RepaymentStartDate', { static: false }) RepaymentStartDate: DateComponent;
   @ViewChild('NoOfInstallments', { static: false }) NoOfInstallments: TextBoxComponent;
   @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: AmountComponent;
-	@ViewChild('Generate', { static: false }) Generate: ButtonComponent;
-	@ViewChild('Clear', { static: false }) Clear: ButtonComponent;
 	@ViewChild('AmortizationGrid', { static: false }) AmortizationGrid: AmortizationGridComponent;
 	@ViewChild('Handler', { static: false }) Handler: AmortizationScheduleHandlerComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
@@ -61,7 +59,20 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 		var totalErrors = 0;
 		super.beforeRevalidate();
 		await Promise.all([
-			//this.revalidateBasicField('RD_REF_NAME'),
+
+      this.revalidateBasicField('LoanAmountRequested'),
+      this.revalidateBasicField('NetInterestRate'),
+      this.revalidateBasicField('Tenure'),
+      this.revalidateBasicField('BLoanOwnership'),
+      this.revalidateBasicField('CBLoanOwnership'),
+      this.revalidateBasicField('BLoanAmtShare'),
+      this.revalidateBasicField('CBLoanAmountShare'),
+      this.revalidateBasicField('DisbursalDate'),
+      this.revalidateBasicField('ScheduleType'),
+      this.revalidateBasicField('RepaymentStartDate'),
+      this.revalidateBasicField('NoOfInstallments'),
+      this.revalidateBasicField('RequiredEMIAmt')
+
 			
 		]).then((errorCounts) => {
 			errorCounts.forEach((errorCount) => {
@@ -183,12 +194,12 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.ScheduleType.setValue(this.parentData.ScheduleType);
     this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate);
     this.NoOfInstallments.setValue(this.parentData.NoOfInstallments);
-    this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt);
+   // this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt);
     //this.tenurePeriod=this.parentData.TenurePeriod;
     //console.log("shweta :: ",this.tenurePeriod);
   }
 
-   AMS_GENERATE_BTN_click(event){
+  async AMS_GENERATE_BTN_click(event){
       let RepaymentScheduleResp= [
         {
           "installmentDate": "JAN-2020",
@@ -218,6 +229,9 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
           "principalAmount": 7339.2
         }]
 
+        const noOfErrors: number = await this.revalidate();
+        if (noOfErrors === 0) {
+
          this.repaymentFormData={};
         this.repaymentFormData.loanAmount=this.LoanAmountRequested.getFieldValue();
         this.repaymentFormData.noOfInstallments=this.NoOfInstallments.getFieldValue();
@@ -232,15 +246,25 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
           'requestParams': this.repaymentFormData,
           'hardCodedResp':RepaymentScheduleResp
         });
-       // this.generateRepaymentForm(requestParams);
-
+      
         this.editableFlag=false;
+      }else {
+        this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+    }
   }
   generateRepaymentForm(requestedParams){
     //this.repaymentFormData=requestParams;
     this.repaymentFormData.maturityDate=requestedParams.maturityDate;
     this.repaymentFormData.loanCalculationDate=this.RepaymentStartDate.getFieldValue();
     this.repaymentFormData.repaymentScheduleType=this.ScheduleType.getFieldValue();
+  }
+
+  AMS_CLEAR_BTN_click(event){
+    this.DisbursalDate.onReset();
+    this.ScheduleType.onReset();
+    this.RepaymentStartDate.onReset();
+    this.NoOfInstallments.onReset();
+    this.RequiredEMIAmt.onReset();
   }
 	fieldDependencies = {
 		ScheduleType: {

@@ -498,7 +498,7 @@ let dataObj=this.generateAmortizationDataList();
          dataObj.CBLoanAmountShare=element.Principle;
       }
     });
-    dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
+   // dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
 
     return dataObj;
   }

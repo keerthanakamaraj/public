@@ -19,6 +19,7 @@ export class ScoreCardResultComponent implements OnInit {
   showExpanded: boolean = false;
   parentFormCode: string = undefined;
   activeScoreCardResultList: IScoreCard[] = undefined;
+  mainBorrower:string=undefined;
   mstBarColorIndex: IScoreColor[] = [
     {
       colorId: 'FA',
@@ -61,11 +62,16 @@ export class ScoreCardResultComponent implements OnInit {
 
   setFilterbyOptions() {
     let tempCustomerList = this.services.rloCommonData.getCustomerList();
+
     console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+    //this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
     tempCustomerList.forEach(element => {
       this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+    if(element.CustomerType=='B'){
+      this.FilterOptions.push({ id: 'A_' + element.BorrowerSeq, text: 'Application'});
+      this.mainBorrower=element.BorrowerSeq;
+    }
     });
 
     console.log("shweta :: score options list", this.FilterOptions);
@@ -90,19 +96,20 @@ export class ScoreCardResultComponent implements OnInit {
     let inputMap = new Map();
     if (this.ApplicationId != undefined) {
       inputMap.clear();
-      let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+     // let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
       if (this.ApplicationId) {
-        criteriaJson.FilterCriteria.push({
-          "columnName": "ApplicationId",
-          "columnType": "String",
-          "conditions": {
-            "searchType": "equals",
-            "searchText": this.ApplicationId
-          }
-        });
+        // criteriaJson.FilterCriteria.push({
+        //   "columnName": "ApplicationId",
+        //   "columnType": "String",
+        //   "conditions": {
+        //     "searchType": "equals",
+        //     "searchText": this.ApplicationId
+        //   }
+        // });
 
-        inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-        this.services.http.fetchApi('/ScoreCardDetails', 'GET', inputMap, "/rlo-de").subscribe(
+        inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
+        //inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+        this.services.http.fetchApi('/ScoreCardDtls?', 'GET', inputMap, "/rlo-de").subscribe(
           async (httpResponse: HttpResponse<any>) => {
             let res = httpResponse.body;
             let tempScoreCardResultList = res['ScoreCardDetails'];
@@ -126,16 +133,17 @@ export class ScoreCardResultComponent implements OnInit {
       let newMapKey=undefined;
       if(eachScore.BorrowerSeq){
          newMapKey='C_' + eachScore.BorrowerSeq;
-      }else{
-        newMapKey='A_' + eachScore.ApplicationId;
       }
+      // else{
+      //   newMapKey='A_' + eachScore.ApplicationId;
+      // }
       if(this.MstScoreResultMap.has(newMapKey)){
         newScoreCardResultList=this.MstScoreResultMap.get(newMapKey);
       }else{
         newScoreCardResultList=[];
       }
       let scoreCard: IScoreCard = eachScore;
-      scoreCard.MaxScore = 100;
+      scoreCard.MaxScore = 200;
       scoreCard.MinGreenScore = 80;
       scoreCard.MinOrangeScore = 60;
       scoreCard.MinRedScore = 30;
@@ -155,7 +163,12 @@ export class ScoreCardResultComponent implements OnInit {
       scoreCard.colorCode = colorObj.colorCode;
       newScoreCardResultList.push(scoreCard);
       this.MstScoreResultMap.set(newMapKey,newScoreCardResultList);
+      if(this.mainBorrower==eachScore.BorrowerSeq){
+        newMapKey='A_' + eachScore.ApplicationId;
+        this.MstScoreResultMap.set(newMapKey,newScoreCardResultList);
+      }
     });
+    this.activeScoreCardResultList=this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
      console.log("shweta :: score result master map",this.MstScoreResultMap);
   }
 

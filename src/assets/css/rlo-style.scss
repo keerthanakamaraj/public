@@ -2758,8 +2758,11 @@ rlo-ui-card-field {
 }
 
 /*amortization css start*/
-.deactivate-amortization {
-  display: none;
+.horizontal-line{
+  border-bottom: 1px solid #E9E9E9;
+}
+.deactivate-amortization{
+  display:none;
 }
 
 .last-section {
