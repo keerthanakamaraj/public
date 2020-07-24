@@ -15,6 +15,7 @@ import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.com
 import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component';
 import { VisitReportFormComponent } from '../VisitReportForm/VisitReportForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
+import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -28,7 +29,8 @@ export class PopupAlertComponent implements OnInit {
 
   modalObject: IModalData;
 
-  constructor(public activeModal: NgbActiveModal, private services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private cdRef: ChangeDetectorRef) { }
+  constructor(public activeModal: NgbActiveModal, public services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private cdRef: ChangeDetectorRef) {
+  }
 
   ngOnInit() {
     this.modalObject = this.services.rloui.modalObject;
@@ -61,12 +63,11 @@ export class PopupAlertComponent implements OnInit {
     componentInstance.parentData = this.modalObject.data;
 
     if (this.modalObject.componentName != 'AmortizationScheduleComponent') {
-
       componentInstance.isLoanCategory = true;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
-
+      componentInstance.readOnly = true; 
     }
   }
 

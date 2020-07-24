@@ -284,7 +284,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       type: "application",
       cardList: [
         { className: "LoanDetails" },
-        { className: "InterfaceResults" },
+        // { className: "InterfaceResults" },
         { className: "VehicalDetails" },
         { className: "CardDetails" },
         { className: "GoldDetails" },
@@ -541,7 +541,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.customerMasterJsonData = new Master().deserialize(obj);
     console.log(this.customerMasterJsonData);
 
-    let singleCustomer = this.customerMasterJsonData.CustomerDetails[0];
+    let productCategory = this.customerMasterJsonData.productCategory;
+    
+    for (let i = 0; i < this.allSectionsCardData[1].cardList.length; i++) {
+      const element = this.allSectionsCardData[1].cardList[i];
+      if(productCategory == "CC"){
+        if(element.className == "VehicalDetails" || element.className == "GoldDetails"){
+          this.allSectionsCardData[1].cardList.splice(i, 1);
+        }
+      }else if(productCategory == "AL"){
+        if(element.className == "CardDetails" || element.className == "GoldDetails"){
+          this.allSectionsCardData[1].cardList.splice(i, 1);
+        }
+      }
+    }
+    console.log(this.allSectionsCardData[1].cardList);
+
 
     this.selectedTabCardData(this.selectedTab);
   }
@@ -682,6 +697,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   tabSwitched(tab: string) {
     console.log("tab switched", tab);
+    if (this.selectedTab == tab)
+      return;
+      
     this.selectedTab = tab;
     this.selectedTabCardData(this.selectedTab);
 

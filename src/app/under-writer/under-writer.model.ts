@@ -2,12 +2,22 @@
 import { IDeserializable, IGeneralCardData, ICardListData } from "../Interface/masterInterface";
 
 export class Common {
+    public branchCode: string;
+
     getFieldValueFromObj(data: any, propertyName: string, returnBlank: boolean = false) {
         return data[propertyName] == undefined ? returnBlank ? "" : "NA" : data[propertyName];
     }
 
     getSingleFieldValue(propertyName: string) {
         return propertyName == undefined;
+    }
+
+    setBranch(code: any) {
+        this.branchCode = code;
+    }
+
+    getBranch() {
+        return this.branchCode;
     }
 }
 
@@ -118,7 +128,7 @@ export class AddressDetails implements IDeserializable {
             },
             {
                 title: "Verification",
-                subTitle: "completed",
+                subTitle: "pending",
                 type: "icon",
                 modalSectionName: ""
             }
@@ -130,7 +140,7 @@ export class AddressDetails implements IDeserializable {
                     fieldList[0].subTitle = "Residence";
                     fieldList[1].subTitle = this.getFullAddress(element);
                     fieldList[2].subTitle = this.Common.getFieldValueFromObj(element, "OccupationType")
-                    fieldList[3].subTitle = "completed";
+                    fieldList[3].subTitle = "pending";
                 }
             });
         }
@@ -440,12 +450,11 @@ export class VehicalDetails implements IDeserializable {
     }
 }
 
-export class CardDetails implements IDeserializable {
+export class CardDetails extends Common implements IDeserializable {
     public Branch: string = "NA";
-    public Category: string = "NA";
+    public FrontPageCategory: string = "NA";
     public MaxCardLimit: string = "NA";
     public ApprovedLimit: string = "NA";
-    public common: Common;
 
     deserialize(input: any): this {
         return Object.assign(this, input);
@@ -455,13 +464,13 @@ export class CardDetails implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "Branch",
-                subTitle: this.Branch,
+                subTitle: this.branchCode,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Category on the front page",
-                subTitle: this.Category,
+                subTitle: this.FrontPageCategory,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -623,14 +632,17 @@ export class GoNoGoDetails implements IDeserializable {
 }
 
 export class ReferalDetails implements IDeserializable {
+    public referalDetailsList: any = [];
+
     deserialize(input: any): this {
+        this.referalDetailsList = input;
         return Object.assign(this, input);
     }
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            name: "Referal Details",
-            modalSectionName: "ReferrerDetails",
+            name: `Referal Details (${this.referalDetailsList.length})`,
+            modalSectionName: this.referalDetailsList.length ? "ReferrerDetails" : "",
             data: ""
         };
         return returnObj;
@@ -638,14 +650,17 @@ export class ReferalDetails implements IDeserializable {
 }
 
 export class Notes implements IDeserializable {
+    public notesList: any = [];
+
     deserialize(input: any): this {
+        this.notesList = input;
         return Object.assign(this, input);
     }
 
     getCardData() {
         const returnObj: IGeneralCardData = {
-            name: "Notes",
-            modalSectionName: "Notes",
+            name: `Notes (${this.notesList.length})`,
+            modalSectionName: this.notesList.length ? "Notes" : "",
             data: ""
         };
         return returnObj;
@@ -792,7 +807,7 @@ export class CustomerDetails implements IDeserializable {
     }
 }
 
-export class ApplicationDetails implements IDeserializable {
+export class ApplicationDetails extends Common implements IDeserializable {
     public LoanDetails: LoanDetails;
     public InterfaceResults: InterfaceResults;
     public VehicalDetails: VehicalDetails;
@@ -807,23 +822,37 @@ export class ApplicationDetails implements IDeserializable {
     public PhysicalFormNumber: string = "NA";
     // public DateOfReceipt: string = "NA";
     // public SourcingChannel: string = "NA";
-    // public DSAID: string = "NA";
-    // public Branch: string = "NA";
+    public DSAId: string = "NA";
+    public Branch: string = "NA";
 
     deserialize(input: any): this {
         Object.assign(this, input);
+
+        super.setBranch(this.Branch);
+
+        if (input.hasOwnProperty("UWNotepad")) {
+            this.Notes = new Notes().deserialize(input.UWNotepad);
+        }
+        else {
+            this.Notes = new Notes().deserialize([]);
+        }
+
+        if (input.hasOwnProperty("UWReferalDetails")) {
+            this.ReferalDetails = new ReferalDetails().deserialize(input.UWReferalDetails);
+        }
+        else {
+            this.ReferalDetails = new ReferalDetails().deserialize([]);
+        }
 
         //obj
         this.LoanDetails = new LoanDetails().deserialize(input.UWIncomeSummary);
         this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
-        this.CardDetails = new CardDetails().deserialize(input.UWIncomeSummary);
+        this.CardDetails = new CardDetails().deserialize(input.UWCreditCard);
         this.GoldDetails = new GoldDetails().deserialize(input.UWIncomeSummary);
         this.EducationDetails = new EducationDetails().deserialize(input.UWIncomeSummary);
         this.GoNoGoDetails = new GoNoGoDetails().deserialize(input.UWIncomeSummary);
 
-        this.ReferalDetails = new ReferalDetails().deserialize(input.UWIncomeSummary);
-        this.Notes = new Notes().deserialize(input.UWIncomeSummary);
         return this;
     }
 
@@ -872,7 +901,9 @@ export class ApplicationDetails implements IDeserializable {
 
 //creates list of Customer class with the below classes as objects
 export class Master implements IDeserializable {
-    public BorrowerSeq: number;
+    public borrowerSeq: number;
+    public productCategory: string;
+
     public CustomerDetails: CustomerDetails;
     public ApplicationDetails: ApplicationDetails;
 
@@ -891,6 +922,7 @@ export class Master implements IDeserializable {
 
         delete input["UWCustomerDetails"];// IMP:deleting the key coz it was getting added in ApplicationDetails Class Obj
         this.ApplicationDetails = new ApplicationDetails().deserialize(input);
+        this.productCategory = input["UWLoan"].ProductCategory;
         return this;
     }
 }

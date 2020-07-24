@@ -2814,3 +2814,15 @@ rlo-ui-card-field {
   color: #979797 !important;
   cursor: default !important;
 }
+
+.btn-views {
+  background-image: url("./../icons/eye-outline.svg");
+  white-space: nowrap;
+  text-indent: -9999px;
+  width: 49px;
+  background-repeat: no-repeat;
+  position: relative;
+  background-color: transparent;
+  border: none;
+  background-position: center center;
+}

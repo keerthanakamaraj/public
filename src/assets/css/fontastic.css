@@ -181,3 +181,7 @@
 .icon-receive-initial-money:before {
     content: "\e91e";
 }
+
+.icon_eye_visibility:before {
+    content: "\e91f"
+}

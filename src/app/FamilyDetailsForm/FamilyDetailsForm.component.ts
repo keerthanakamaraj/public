@@ -55,6 +55,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     @Input() Cust_FullName: any;
     @Input() activeBorrowerSeq: string = undefined;
+    @Input() parentFormCode: string;
     // @Input() activeCustomerName: string = undefined;
     // @Input() activeCustomerDOB: string = undefined;
     //  @Input() ActiveCustomerDtls: any = undefined;
@@ -114,7 +115,13 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         });
 
         //UW
-        //this.setReadOnly(true);
+        console.log(this.FAMILY_GRID.columnDefs);
+        if (this.readOnly) {
+            this.FAMILY_GRID.columnDefs = this.FAMILY_GRID.columnDefs.slice(0, 3);
+            this.FAMILY_GRID.columnDefs[2].width = 12;
+            this.FAMILY_GRID.columnDefs[2].cellRendererParams.CustomClass = "btn-views";
+            this.FAMILY_GRID.columnDefs[2].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+        }
 
         this.setDependencies();
     }
@@ -165,6 +172,11 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
+        console.log(this.readOnly);
+
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+        }
     }
     clearError() {
         super.clearBasicFieldsError();
