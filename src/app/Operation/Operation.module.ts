@@ -10,6 +10,7 @@ import { OperationComponent } from './Operation.component';
 import { HeaderModule } from '../Header/Header.module';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import { CustGridModule } from '../CustGrid/CustGrid.module';
+import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -20,6 +21,7 @@ HttpClientModule,
 HeaderModule,
 ApplicationDtlsModule,
 CustGridModule,
+CreditCardDetailsModule,
 TranslateModule.forChild({
 loader: {
 provide: TranslateLoader,

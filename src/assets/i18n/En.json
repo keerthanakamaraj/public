@@ -2080,25 +2080,28 @@
     "Date": "Date",
     "Principal": "Principal"
   },
-  "Operation": {
-    "FieldId_1": "Application Information",
-    "FormTitle": "Operation",
-    "VIEW_DDE": "View DDE",
-    "FieldId_2": "Customer Infomation",
-    "FieldId_3": "Loan Information",
-    "Approve": "Approve",
-    "Withdraw": "Withdraw",
-    "Loan_AMT": "Final Amount to be Disbursed",
-    "Loan_DBR": "DBR",
-    "Installment_AMT": "Installment Amount"
-  },
-  "CustGrid": {
-    "Cust_Type": "Customer Type",
-    "toolbar_CustGrid": "null",
-    "Cust_ID": "Customer ID",
-    "GridTitle": "CustGrid",
-    "Cust_Name": "Customer Name",
-    "Cust_DOB": "Date Of Birth"
-  }
-
+  "Operation" : {
+    "FieldId_1" : "Application Information",
+    "FormTitle" : "Operation",
+    "VIEW_DDE" : "View DDE",
+    "FieldId_2" : "Customer Infomation",
+    "FieldId_3" : "Loan Information",
+    "OPERATION_APPROVE":"Approve",
+    "OPERATION_WITHDRAW":"Withdraw",
+    "Loan_AMT":"Final Amount to be Disbursed",
+    "Loan_DBR" : "DBR",
+    "Installment_AMT":"Installment Amount",
+    "G_LETTER":"Generate Letters",
+    "FieldId_8":"Card Information",
+  "Approved_limit":"Approved Limit",
+  "C_DBR":"DBR"
+    },
+    "CustGrid" : {
+      "Cust_Type" : "Customer Type",
+      "toolbar_CustGrid" : "null",
+      "Cust_ID" : "Customer ID",
+      "GridTitle" : "CustGrid",
+      "Cust_Name" : "Customer Name",
+      "Cust_DOB" : "Date Of Birth"
+      }
 }

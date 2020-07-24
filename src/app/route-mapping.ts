@@ -109,7 +109,7 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/Fees&ChargesDetails/Fees&ChargesDetails.module#FeesChargesDetailsModule'
 	},
 	{
-		path: 'Operation',
+		path: 'withdraw',
 		loadChildren: 'src/app/Operation/Operation.module#OperationModule'
 	}
 	

@@ -28,7 +28,8 @@ export class CustGridComponent implements AfterViewInit {
   @Input('displayTitle') displayTitle: boolean = true;
   @Input('displayToolbar') displayToolbar: boolean = true;
   @Input('fieldID') fieldID: string;
-  
+  @Input() ApplicationId: string = undefined;
+
   componentCode: string = 'CustGrid';
   openedFilterForm:string = '';
   hidden:boolean = false;
@@ -122,31 +123,21 @@ export class CustGridComponent implements AfterViewInit {
   }
   async gridDataAPI(params, gridReqMap: Map<string, any>, event){
     let inputMap = new Map();
-    inputMap.clear();
-    if(gridReqMap.get("FilterCriteria")){
-      var obj = gridReqMap.get("FilterCriteria");
-      for(var i=0;i<obj.length;i++){
-        switch (obj[i].columnName) {
-          case "Cust_Name":obj[i].columnName =  "FullName";break;
-          case "Cust_DOB":obj[i].columnName =  "DOB";break;
-          case "Cust_Type":obj[i].columnName =  "CustomerType";break;
-          default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
-        }
-      }
-    }
-    if(gridReqMap.get("OrderCriteria")){
-      var obj = gridReqMap.get("OrderCriteria");
-      for(var i=0;i<obj.length;i++){
-        switch (obj[i].columnName) {
-          case "Cust_Name":obj[i].columnName =  "FullName";break;
-          case "Cust_DOB":obj[i].columnName =  "DOB";break;
-          case "Cust_Type":obj[i].columnName =  "CustomerType";break;
-          default:console.error("Column ID '"+obj[i].columnName+"' not mapped with any key");
-        }
-      }
-    }
-    this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-    this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap).subscribe(
+		inputMap.clear();
+		let custId:any = event.passCustGrid;
+		let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+		if (custId) {
+			criteriaJson.FilterCriteria.push({
+				"columnName": "ApplicationId",
+				"columnType": "String",
+				"conditions": {
+					"searchType": "equals",
+					"searchText": custId
+				}
+			});
+		}
+		inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+    this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
     async (httpResponse: HttpResponse<any>) => {
       var res = httpResponse.body;
       var loopDataVar4 = [];
@@ -156,6 +147,7 @@ export class CustGridComponent implements AfterViewInit {
           var tempObj = {};
           tempObj['Cust_Name'] = loopVar4[i].FullName;
           tempObj['Cust_DOB'] = loopVar4[i].DOB;
+          tempObj['Cust_ID'] = loopVar4[i].ICIFNumber; 
           tempObj['Cust_Type'] = loopVar4[i].CustomerType;
         loopDataVar4.push(tempObj);}
       }
