@@ -78,7 +78,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
     }
-
+    //this.error = false;
     // if (this.category != '1') {
     //   this.searchText$.pipe(
     //     debounceTime(500),

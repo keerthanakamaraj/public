@@ -164,12 +164,12 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   }
 
   setFocus(setFocus) {
-    if (this.category == '2' || this.category == '3') {
-      setFocus ? this.select.focus() : this.select.close();
-    }
-    else {
-      setFocus ? document.getElementById(this.fieldID).focus() : document.getElementById(this.fieldID).blur();
-    }
+    // if (this.category == '2' || this.category == '3') {
+    //   setFocus ? this.select.focus() : this.select.close();
+    // }
+    // else {
+    //   setFocus ? document.getElementById(this.fieldID).focus() : document.getElementById(this.fieldID).blur();
+    // }
   }
 
   search(term) {

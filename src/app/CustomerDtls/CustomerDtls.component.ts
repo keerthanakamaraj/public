@@ -104,6 +104,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     @Input() isLoanCategory: any = undefined;
     @Input() Cust_FullName: string = undefined;
     @Input() parentFormCode: string = undefined;
+    @Input() readOnly: boolean = false;
+    @Input() activeBorrowerSeq: any;//used when dynamically loading component in modal ie:UW
     showAddOn: boolean = false;
     //CustomerDetailsArray: any;
     appId: any;
@@ -267,6 +269,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             // this.FieldId_30.valueChangeUpdates().subscribe((value) => { this.value.FieldId_30 = value; });
             this.onFormLoad(event);
             this.checkForHTabOverFlow();
+
+            //when opened in modal ie:UW
+            if (this.readOnly) {
+                let obj = {
+                    selectedCustId: this.activeBorrowerSeq
+                }
+                this.CUST_DTLS_GRID_custDtlsEdit(obj).then((response)=>{
+                    setTimeout(() => {
+                       this.setReadOnly(true); 
+                    }, 1000);                   
+                });
+            }
         });
     }
     clearError() {
@@ -754,7 +768,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
                 this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
                 this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
                 this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
-                this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
+                //this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
                 this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
                 this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
                 // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
@@ -1088,6 +1102,5 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         );
         return this.fieldArray;
     }
-
 
 }

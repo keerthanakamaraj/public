@@ -200,10 +200,19 @@ export class CollateralDetails implements IDeserializable {
         ];
         const returnObj: IGeneralCardData = {
             name: "Collateral Details",
-            modalSectionName: "",
+            modalSectionName: "AssetDetails",
+            //modalSectionName: this.isSectionAvaliable(),
             data: fieldList
         };
         return returnObj;
+    }
+
+    isSectionAvaliable() {
+        if (this.CollateralType == 'NA' && this.CollateralName == 'NA' && this.CollateralAmount == 'NA') {
+            return ""
+        } else {
+            return "AssetDetails";
+        }
     }
 }
 
@@ -286,7 +295,8 @@ export class PersonalInterview implements IDeserializable {
     getCardData() {
         const returnObj: IGeneralCardData = {
             name: `Personal Interview (${this.personalInterviewList.length})`,
-            modalSectionName: this.personalInterviewList.length ? "PersonalInterviewDetails" : "",
+            //modalSectionName: this.personalInterviewList.length ? "PersonalInterviewDetails" : "",
+            modalSectionName: "PersonalInterviewDetails",
             data: ""
         };
         return returnObj;
@@ -304,6 +314,7 @@ export class RmVisitDetails implements IDeserializable {
     getCardData() {
         const returnObj: IGeneralCardData = {
             name: `RM Visit Details (${this.rmVisitListList.length})`,
+            //modalSectionName: this.rmVisitListList.length ? "RmVisitDetails" : "",
             modalSectionName: "RmVisitDetails",
             data: ""
         };
@@ -800,10 +811,19 @@ export class CustomerDetails implements IDeserializable {
         ];
         const returnObj: IGeneralCardData = {
             name: "Customer 360 degrees",
-            modalSectionName: "",
+            modalSectionName: "CustomerDetails",
+            //modalSectionName: this.isSectionAvaliable(),
             data: fieldList
         };
         return returnObj;
+    }
+
+    isSectionAvaliable() {
+        if (this.FullName == 'NA' && this.ExistingCustomer == 'NA' && this.DOB == 'NA' && this.CIF == 'NA' && this.CustomerType == 'NA' && this.CustomerSince == 'NA') {
+            return ""
+        } else {
+            return "CustomerDetails";
+        }
     }
 }
 

@@ -30,7 +30,7 @@ export class FieldComponent{
   constructor(public services: ServiceStock) {}
 
   value: any;
-  error: any;
+  error: any=false;
   errorCode: string;
   additionalInfo: any;
   private hidden: boolean = false;

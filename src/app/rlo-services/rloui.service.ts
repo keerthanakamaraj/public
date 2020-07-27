@@ -32,6 +32,7 @@ export class RlouiService {
   modalObject: IModalData;//used when call a modal-> type=alert (initiation)
 
   modalIconList = [
+    { componentName: "CustomerDetails", iconClass: "icon-Customer-Details" },
     { componentName: "FamilyDetails", iconClass: "icon-Family-Details" },
     { componentName: "GoNoGoDetails", iconClass: "icon-No-Go-Details" },
     { componentName: "ReferrerDetails", iconClass: "icon-Referrer-Details" },
@@ -302,11 +303,13 @@ export class RlouiService {
       }
 
       this.modalObject = modalObj;//obj consumed in PopupAlertComponent
+     
+      //FOR TESTING
+      this.modalObject.iconClass = "icon-Family-Details";
+
       // if (modalObj.hasOwnProperty('componentName')) {
       //   this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
       // }
-      //FOR TESTING
-      this.modalObject.iconClass = "icon-Family-Details";
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });

@@ -272,7 +272,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "CustomerDetails" },
         { className: "FinancialSummary" },
         { className: "AddressDetails" },
-        { className: "FinancialDetails" },
+        // { className: "FinancialDetails" },
         { className: "CollateralDetails" },
 
         { className: "FamilyDetails" },
@@ -288,8 +288,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "VehicalDetails" },
         { className: "CardDetails" },
         { className: "GoldDetails" },
-        { className: "EducationDetails" },
-        { className: "GoNoGoDetails" },
+        // { className: "EducationDetails" },
+        // { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
         { className: "ReferalDetails" },
@@ -471,8 +471,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937
-    let appId = "1675";
+    //valid application id - 1675 1937 1678 1673(RM visit)
+    let appId = "1678";
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
@@ -531,7 +531,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         "CD_CUSTOMER_NAME": element.FullName,
         "CD_CUSTOMER_TYPE": element.CustomerType
       };
-      this.customerList.push(data);
+      
+      if (element.CustomerType != "R")
+        this.customerList.push(data);
     });
 
     this.UWTabs.setCustomerList(this.customerList);//pass customer list to component
@@ -542,21 +544,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     console.log(this.customerMasterJsonData);
 
     let productCategory = this.customerMasterJsonData.productCategory;
-    
+    let validSectionList = [];
+
     for (let i = 0; i < this.allSectionsCardData[1].cardList.length; i++) {
       const element = this.allSectionsCardData[1].cardList[i];
-      if(productCategory == "CC"){
-        if(element.className == "VehicalDetails" || element.className == "GoldDetails"){
-          this.allSectionsCardData[1].cardList.splice(i, 1);
+      if (productCategory == "CC") {
+        if (element.className != "VehicalDetails" && element.className != "GoldDetails") {
+          validSectionList.push(element);
         }
-      }else if(productCategory == "AL"){
-        if(element.className == "CardDetails" || element.className == "GoldDetails"){
-          this.allSectionsCardData[1].cardList.splice(i, 1);
+      } else if (productCategory == "AL") {
+        if (element.className != "CardDetails" && element.className != "GoldDetails") {
+          validSectionList.push(element);
         }
       }
     }
+    this.allSectionsCardData[1].cardList = validSectionList;
     console.log(this.allSectionsCardData[1].cardList);
-
 
     this.selectedTabCardData(this.selectedTab);
   }
@@ -699,7 +702,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     console.log("tab switched", tab);
     if (this.selectedTab == tab)
       return;
-      
+
     this.selectedTab = tab;
     this.selectedTabCardData(this.selectedTab);
 

@@ -17,6 +17,8 @@ import { VisitReportFormComponent } from '../VisitReportForm/VisitReportForm.com
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { FormComponent } from '../form/form.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
+import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
+import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -84,9 +86,9 @@ export class PopupAlertComponent implements OnInit {
       case 'FamilyDetails':
         return new AddSpecificComponent(FamilyDetailsFormComponent);
         break;
-      // case 'CustomerDetails':
-      //   return new AddSpecificComponent(CustomerDtlsComponent);
-      //   break;
+      case 'CustomerDetails':
+        return new AddSpecificComponent(CustomerDtlsComponent);
+        break;
       case 'GoNoGoDetails':
         return new AddSpecificComponent(GoNoGoComponent);
         break;
@@ -116,6 +118,8 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'OccupationDetails':
         return new AddSpecificComponent(OccupationDtlsFormComponent);
+      case 'AssetDetails':
+        return new AddSpecificComponent(AssetDetailsFormComponent);
         break;
     }
   }

@@ -17,11 +17,10 @@ export class PersonalInterviewComponent implements OnInit {
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
   @ViewChildren(RLOUIRadioComponent) PI_PARAM_List: QueryList<ElementRef>;
 
-
-
   @Input() ApplicationId: string = undefined;
   @Input() activeBorrowerSeq: string = undefined;
-
+  @Input() readOnly: boolean = false;
+  @ViewChildren(RLOUIRadioComponent) radioComponents: QueryList<RLOUIRadioComponent>
 
   // @Output() updateOptions: EventEmitter<any> = new EventEmitter<any>();
 
@@ -54,6 +53,14 @@ export class PersonalInterviewComponent implements OnInit {
           "BorrowerSeq": this.activeBorrowerSeq
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+      }
+      if (this.readOnly) {
+        console.log(this.radioComponents);
+        setTimeout(() => {
+          this.domRef.forEach((element: any) => {
+            element.setReadOnly(true);
+          });
+        }, 500);
       }
     },
       (httpError) => {

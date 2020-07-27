@@ -2284,7 +2284,8 @@ rlo-ui-card-field {
     app-status-indicator {
       margin-left: 13px;
     }
-    #G_LETTER{
+
+    #G_LETTER {
       width: 180px !important;
     }
 
@@ -2294,9 +2295,11 @@ rlo-ui-card-field {
       font-size: initial !important;
     }
   }
-.letter_gen{
-  width: 180px !important;
-}
+
+  .letter_gen {
+    width: 180px !important;
+  }
+
   .expand-icon {
     background-image: url(./../icons/edit_button.png);
     width: 22px;
@@ -2825,4 +2828,5 @@ rlo-ui-card-field {
   background-color: transparent;
   border: none;
   background-position: center center;
+  background-size: 25px;
 }
