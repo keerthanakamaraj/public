@@ -1,5 +1,6 @@
 
 import { IDeserializable, IGeneralCardData, ICardListData } from "../Interface/masterInterface";
+import { Input } from "@angular/core";
 
 export class Common {
     public branchCode: string;
@@ -461,7 +462,7 @@ export class VehicalDetails implements IDeserializable {
     }
 }
 
-export class CardDetails extends Common implements IDeserializable {
+export class CardDetails implements IDeserializable {
     public Branch: string = "NA";
     public FrontPageCategory: string = "NA";
     public MaxCardLimit: string = "NA";
@@ -475,7 +476,7 @@ export class CardDetails extends Common implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "Branch",
-                subTitle: this.branchCode,
+                subTitle: this.Branch,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -610,27 +611,21 @@ export class EducationDetails implements IDeserializable {
 }
 
 export class GoNoGoDetails implements IDeserializable {
-    public PolicyDeviations: string = "NA";
-    public MasterParameters: string = "NA";
+    public goNoGoDetails: any = [];
     public common: Common;
 
     deserialize(input: any): this {
+        this.goNoGoDetails = input;
         return Object.assign(this, input);
     }
 
     getCardData() {
         let fieldList: ICardListData[] = [
             {
-                title: "Policy Deviations",
-                subTitle: this.PolicyDeviations,
-                type: "basic",
-                modalSectionName: "FamilyDetailsForm"
-            },
-            {
                 title: "Master Parameters",
-                subTitle: this.MasterParameters,
-                type: "basic",
-                modalSectionName: "FamilyDetailsForm"
+                subTitle: this.getStatusAndCount(),
+                type: "statusCount",
+                modalSectionName: ""
             }
         ];
         const returnObj: IGeneralCardData = {
@@ -639,6 +634,25 @@ export class GoNoGoDetails implements IDeserializable {
             data: fieldList
         };
         return returnObj;
+    }
+
+    getStatusAndCount() {
+        let data = {
+            success: 0,
+            failure: 0
+        }
+
+        this.goNoGoDetails.forEach(element => {
+            if (element.QuestionnaireCategory == "go_no_go") {
+                if (element.hasOwnProperty('DeviationLevel')) {
+                    data.failure += 1;
+                }
+                else {
+                    data.success += 1;
+                }
+            }
+        });
+        return data;
     }
 }
 
@@ -840,15 +854,16 @@ export class ApplicationDetails extends Common implements IDeserializable {
     public Notes: Notes;
 
     public PhysicalFormNumber: string = "NA";
-    // public DateOfReceipt: string = "NA";
-    // public SourcingChannel: string = "NA";
+    public DateOfReceipt: string = "NA";
+    public SourcingChannel: string = "NA";
     public DSAId: string = "NA";
     public Branch: string = "NA";
 
     deserialize(input: any): this {
         Object.assign(this, input);
 
-        super.setBranch(this.Branch);
+        this.PhysicalFormNumber = input.UWApplicationInfo.PhysicalFormNo;
+        this.DateOfReceipt = input.UWApplicationInfo.DateOfReceipt
 
         if (input.hasOwnProperty("UWNotepad")) {
             this.Notes = new Notes().deserialize(input.UWNotepad);
@@ -864,14 +879,23 @@ export class ApplicationDetails extends Common implements IDeserializable {
             this.ReferalDetails = new ReferalDetails().deserialize([]);
         }
 
+        if (input.hasOwnProperty("UWGoNoGo")) {
+            this.GoNoGoDetails = new GoNoGoDetails().deserialize(input.UWGoNoGo);
+        }
+        else {
+            this.GoNoGoDetails = new GoNoGoDetails().deserialize([]);
+        }
+
         //obj
         this.LoanDetails = new LoanDetails().deserialize(input.UWIncomeSummary);
         this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
+
         this.CardDetails = new CardDetails().deserialize(input.UWCreditCard);
+        this.CardDetails.Branch = this.Branch;
+
         this.GoldDetails = new GoldDetails().deserialize(input.UWIncomeSummary);
         this.EducationDetails = new EducationDetails().deserialize(input.UWIncomeSummary);
-        this.GoNoGoDetails = new GoNoGoDetails().deserialize(input.UWIncomeSummary);
 
         return this;
     }
@@ -886,25 +910,25 @@ export class ApplicationDetails extends Common implements IDeserializable {
             },
             {
                 title: "Date Of Receipt",
-                subTitle: "NA",
+                subTitle: this.DateOfReceipt,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Sourcing Channel",
-                subTitle: "NA",
+                subTitle: this.SourcingChannel,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "DSA ID",
-                subTitle: "NA",
+                subTitle: this.DSAId,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Branch",
-                subTitle: "NA",
+                subTitle: this.Branch,
                 type: "basic",
                 modalSectionName: ""
             },

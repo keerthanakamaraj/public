@@ -272,8 +272,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "CustomerDetails" },
         { className: "FinancialSummary" },
         { className: "AddressDetails" },
-        // { className: "FinancialDetails" },
-        { className: "CollateralDetails" },
+        { className: "FinancialDetails" },
+        // { className: "CollateralDetails" },
 
         { className: "FamilyDetails" },
         { className: "PersonalInterview" },
@@ -285,11 +285,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       cardList: [
         { className: "LoanDetails" },
         // { className: "InterfaceResults" },
-        { className: "VehicalDetails" },
+        // { className: "VehicalDetails" },
         { className: "CardDetails" },
         { className: "GoldDetails" },
         // { className: "EducationDetails" },
-        // { className: "GoNoGoDetails" },
+        { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
         { className: "ReferalDetails" },
@@ -471,9 +471,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit) 
-    let appId = "1678";
-
+    //valid application id - 1675 1937 1678 1673(RM visit)
+    let appId = "1675";
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
@@ -532,7 +531,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         "CD_CUSTOMER_NAME": element.FullName,
         "CD_CUSTOMER_TYPE": element.CustomerType
       };
-      
+
       if (element.CustomerType != "R")
         this.customerList.push(data);
     });

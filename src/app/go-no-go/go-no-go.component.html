@@ -4,7 +4,8 @@
     </div>
     <div class="row">
         <ng-container *ngIf="QuestionnairMap != undefined">
-            <div class="row col-12 col-sm-12 col-md-12" *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
+            <div class="row col-12 col-sm-12 col-md-12"
+                *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
                 <div class="param-Question col-12 col-sm-5 col-md-5">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
@@ -15,11 +16,13 @@
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
-                    <label class="lbl-deviaton" *ngIf="question.value.IsDeviation==true">{{question.value.DeviationLevel!=undefined?question.value.DeviationLevel:'Deviation'}}</label>
+                    <label class="lbl-deviaton"
+                        *ngIf="question.value.IsDeviation==true">{{question.value.DeviationLevel!=undefined?question.value.DeviationLevel:'Deviation'}}</label>
                 </div>
                 <div class="param-answer col-12 col-sm-2 col-md-2">
-                    <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                        doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
+                    <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode"
+                        domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                        domainObjectCode="MSTGENERALPARAM" [emittedOptions]="question.value.radioOptionFormatList"
                         defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"
                         (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>
                 </div>
@@ -27,7 +30,8 @@
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown"></label>
                     </div>
-                    <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.value.QuestionSeq}}" placeholder="Remarks, If any" [formCode]="formCode"
+                    <app-text-box #tbData fieldID="{{'GNG_REMARK_'+question.value.QuestionSeq}}"
+                        placeholder="Remarks, If any" [formCode]="formCode"
                         defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.Remark:undefined}}"
                         (blur)="onRemarkBlur(question.value.QuestionSeq, $event)" maxLength=500></app-text-box>
                 </div>
@@ -37,12 +41,14 @@
     <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
     <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
     <div class="col-12  col-sm-7 col-md-7 res-pr-hide"></div>
-    <div class="col-12  col-sm-1 col-md-1 res-pr-hide savebtn" [hidden]="GNG_SAVE_BTN.isHidden()">
-        <app-button #GNG_SAVE_BTN fieldName="{{ 'GNGDtls.GNG_SAVE_BTN' | translate}}" fieldID="GNG_SAVE_BTN" customClass="btn btn-primary"
-            (buttonClick)="GNG_SAVE_BTN_click($event)"></app-button>
-    </div>
-    <div class="col-12  col-sm-1 col-md-1 res-pr-hide clearbtn" [hidden]="GNG_CLEAR_BTN.isHidden()">
-        <app-button #GNG_CLEAR_BTN fieldName="{{ 'GNGDtls.GNG_CLEAR_BTN' | translate}}" fieldID="GNG_CLEAR_BTN" customClass="btn-warning-outline"
-            (buttonClick)="GNG_CLEAR_BTN_click($event)"></app-button>
-    </div>
+    <ng-container *ngIf="!readOnly">
+        <div class="col-12  col-sm-1 col-md-1 res-pr-hide savebtn" [hidden]="GNG_SAVE_BTN.isHidden()">
+            <app-button #GNG_SAVE_BTN fieldName="{{ 'GNGDtls.GNG_SAVE_BTN' | translate}}" fieldID="GNG_SAVE_BTN"
+                customClass="btn btn-primary" (buttonClick)="GNG_SAVE_BTN_click($event)"></app-button>
+        </div>
+        <div class="col-12  col-sm-1 col-md-1 res-pr-hide clearbtn" [hidden]="GNG_CLEAR_BTN.isHidden()">
+            <app-button #GNG_CLEAR_BTN fieldName="{{ 'GNGDtls.GNG_CLEAR_BTN' | translate}}" fieldID="GNG_CLEAR_BTN"
+                customClass="btn-warning-outline" (buttonClick)="GNG_CLEAR_BTN_click($event)"></app-button>
+        </div>
+    </ng-container>
 </div>

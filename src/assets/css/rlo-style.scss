@@ -1133,6 +1133,10 @@ a.back {
   display: block !important;
 }
 
+.d-flex {
+  display: flex !important;
+}
+
 //used to add space for every page in layout for form btns
 .page-layout-padding {
   padding-bottom: 5rem;
@@ -2597,20 +2601,20 @@ rlo-ui-card-field {
 .fab-buttons {
   position: absolute;
   opacity: 0;
- visibility: hidden;  
- right: 0;
- bottom: 50px;
- list-style: none;
- box-shadow: 2px 4px 8px #F2F8FD;
- background-color: #F2F8FD;
- border: 1px solid #55C5FF;
- border-radius: 50px;
- border-bottom-right-radius: 25px;
- margin-bottom: -20px;
- padding: 10px;
- width: 73px;
- transition: 0.2s;
- padding-bottom: 25px;
+  visibility: hidden;
+  right: 0;
+  bottom: 50px;
+  list-style: none;
+  box-shadow: 2px 4px 8px #F2F8FD;
+  background-color: #F2F8FD;
+  border: 1px solid #55C5FF;
+  border-radius: 50px;
+  border-bottom-right-radius: 25px;
+  margin-bottom: -20px;
+  padding: 10px;
+  width: 73px;
+  transition: 0.2s;
+  padding-bottom: 25px;
 }
 
 .fab-row {
@@ -2729,7 +2733,7 @@ rlo-ui-card-field {
 
 .icon-material_fb {
   background: url(".././icons/Income-Summary.svg") center no-repeat;
-  
+
 }
 
 .icon-material_gp {
@@ -2761,11 +2765,12 @@ rlo-ui-card-field {
 }
 
 /*amortization css start*/
-.horizontal-line{
+.horizontal-line {
   border-bottom: 1px solid #E9E9E9;
 }
-.deactivate-amortization{
-  display:none;
+
+.deactivate-amortization {
+  display: none;
 }
 
 .last-section {
@@ -2829,4 +2834,32 @@ rlo-ui-card-field {
   border: none;
   background-position: center center;
   background-size: 25px;
+}
+
+.status-count-container {
+  right: 0;
+  position: absolute;
+
+  .wgt-status-indicator {
+    float: none;
+    margin: auto;
+  }
+
+  .count {
+    margin-right: 21px;
+
+    .number {
+      margin-left: 5px;
+    }
+  }
+}
+
+.go-no-go-status-card {
+  padding: 0;
+  margin: 17px 0 17px 21px;
+  padding: 1px 0 4px 14px !important;
+
+  .primary_lable {
+    height: auto;
+  }
 }

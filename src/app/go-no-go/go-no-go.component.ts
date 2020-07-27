@@ -20,6 +20,7 @@ export class GoNoGoComponent implements OnInit {
   @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
 
   @Input() ApplicationId: string = undefined;
+  @Input() readOnly: boolean = false;
 
   constructor(private services: ServiceStock, private renderer2: Renderer2) { }
 
@@ -48,6 +49,14 @@ export class GoNoGoComponent implements OnInit {
           "sectionName": "GoNoGoDetails",
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+      }
+
+      if(this.readOnly){
+        setTimeout(() => {
+          this.domRef.forEach((element: any) => {
+            element.setReadOnly(true);
+          });
+        }, 500);
       }
     },
       (httpError) => {
