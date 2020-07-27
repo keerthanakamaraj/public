@@ -112,10 +112,10 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         });
         console.log(this.Visit_Report_Grid.columnDefs);
         if (this.readOnly) {
-            this.Visit_Report_Grid.columnDefs = this.Visit_Report_Grid.columnDefs.slice(0, 8);
-            this.Visit_Report_Grid.columnDefs[7].width = 12;
-            this.Visit_Report_Grid.columnDefs[7].CustomClass = "btn-views";
-            this.Visit_Report_Grid.columnDefs[7].IconClass = 'fas fa-eye fa-lg';
+            this.Visit_Report_Grid.columnDefs = this.Visit_Report_Grid.columnDefs.slice(0, 7);
+            this.Visit_Report_Grid.columnDefs[6].width = 12;
+            this.Visit_Report_Grid.columnDefs[6].cellRendererParams.CustomClass = "btn-views";
+            this.Visit_Report_Grid.columnDefs[6].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
         }
         this.setDependencies();
     }

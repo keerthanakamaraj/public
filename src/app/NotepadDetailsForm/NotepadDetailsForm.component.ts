@@ -89,8 +89,8 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         if (this.readOnly) {
             // this.FieldId_7.columnDefs = this.FieldId_7.columnDefs.slice(0, 3);
             // this.FieldId_7.columnDefs[2].width = 12;
-            this.FieldId_7.columnDefs[2].CustomClass = "btn-views";
-            this.FieldId_7.columnDefs[2].IconClass = 'fas fa-eye fa-lg';
+            this.FieldId_7.columnDefs[2].cellRendererParams.CustomClass = "btn-views";
+            this.FieldId_7.columnDefs[2].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
         }
         this.setDependencies();
     }

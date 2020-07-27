@@ -117,10 +117,10 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 		await this.Handler.onFormLoad({});
 		console.log(this.ReferralDetailsGrid.columnDefs);
 		if (this.readOnly) {
-			this.ReferralDetailsGrid.columnDefs = this.ReferralDetailsGrid.columnDefs.slice(0, 5);
-			this.ReferralDetailsGrid.columnDefs[4].width = 12;
-			this.ReferralDetailsGrid.columnDefs[4].CustomClass = "btn-views";
-			this.ReferralDetailsGrid.columnDefs[4].IconClass = 'fas fa-eye fa-lg';
+			this.ReferralDetailsGrid.columnDefs = this.ReferralDetailsGrid.columnDefs.slice(0, 4);
+			this.ReferralDetailsGrid.columnDefs[3].width = 12;
+			this.ReferralDetailsGrid.columnDefs[3].cellRendererParams.CustomClass = "btn-views";
+			this.ReferralDetailsGrid.columnDefs[3].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
 		}
 		this.setDependencies();
 	}
