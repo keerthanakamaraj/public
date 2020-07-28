@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, HostListener, QueryList, ViewChildren } from '@angular/core';
 import { DDEModel, AddSpecificComponent } from './DDE.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -43,23 +43,24 @@ import { Subscription } from 'rxjs';
 import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
+import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
+import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component'
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
 const customCss: string = '';
 
 @Component({
-    selector: 'app-DDE',
-    templateUrl: './DDE.component.html'
+  selector: 'app-DDE',
+  templateUrl: './DDE.component.html'
 })
 export class DDEComponent extends FormComponent implements OnInit, AfterViewInit {
 
-    @HostListener('window:scroll', ['$event'])
-    handleScroll() {
-        let windowScroll = window.pageYOffset;
-        if (windowScroll >= 280) {
-            this.showExpandedHeader = false;
-        }
+  @HostListener('window:scroll', ['$event'])
+  handleScroll() {
+    let windowScroll = window.pageYOffset;
+    if (windowScroll >= 280) {
+      this.showExpandedHeader = false;
     }
 
     @ViewChild('FieldId_1', { static: false }) FieldId_1: HeaderComponent;
@@ -149,22 +150,109 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         applicationSection: new Map()
     };
 
-    async revalidate(): Promise<number> {
-        var totalErrors = 0;
-        super.beforeRevalidate();
-        await Promise.all([
-            this.FieldId_1.revalidate(),
-            this.FieldId_10_revalidate(),
-            // this.CUSTOMER_GRID.revalidate(),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.errors = totalErrors;
-        super.afterRevalidate();
-        return totalErrors;
+  /**
+   * Tags
+   */
+  @Input() tags: { label: String, text: string }[];
+
+
+  //list of selected customer and application sections
+  completedMenuSectionList = {
+    customerSection: new Map(),
+    applicationSection: new Map()
+  };
+
+  async revalidate(): Promise<number> {
+    var totalErrors = 0;
+    super.beforeRevalidate();
+    await Promise.all([
+      this.FieldId_1.revalidate(),
+      this.FieldId_10_revalidate(),
+      // this.CUSTOMER_GRID.revalidate(),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.errors = totalErrors;
+    super.afterRevalidate();
+    return totalErrors;
+  }
+
+  customerMenu = [
+    [
+      { id: "CustomerDetails", name: "Customer Details", completed: false, iconClass: "icon-Customer-Details", isActive: false, isOptional: false },
+      { id: "AddressDetails", name: "Address Details", completed: false, iconClass: "icon-Address-Details", isActive: false, isOptional: false },
+      { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false },
+      { id: "FamilyDetails", name: "Family Details", completed: false, iconClass: "icon-Family-Details", isActive: false, isOptional: true }
+    ],
+    [
+      { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
+      { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
+      { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: false },
+      // { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
+    ],
+    [
+      { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
+      { id: "RmVisitDetails", name: "RM Visit Details", completed: false, iconClass: "icon-RM-Visit-Details", isActive: false, isOptional: true },
+    ]
+  ];
+
+  applicationMenu = [
+    [
+      { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
+      // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
+      // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
+      { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
+      { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
+    ],
+    [
+      // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+      { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
+      { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
+      { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
+    ],
+    [
+      { id: "ReferrerDetails", name: "Referral Details", completed: false, iconClass: "icon-Referrer-Details", isActive: false, isOptional: true },
+      { id: "Notes", name: "Notes", completed: false, iconClass: "icon-Notes", isActive: false, isOptional: true }
+    ]
+  ];
+
+  formsMenuList: Array<any> = [];
+  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+
+  progressStatusObject: any = {
+    manditorySection: 6,
+    completedSection: 0,
+    borrowers: 0
+  };
+
+  masterDataSubscription: Subscription;
+  childToParentSubjectSubscription: Subscription;
+  customersList = new Map();
+
+  headerScoreCard = [
+    {
+      type: "Final DBR",
+      score: 54,
+    },
+    {
+      type: "Fire Policy",
+      score: 36,
+    },
+    {
+      type: "Application Score",
+      score: 75,
     }
+  ];
+
+  addCustomersToMap(sectionData) {
+    console.warn("addCustomersToMap", sectionData);
+    if (sectionData.name == "CustomerDetails" && (sectionData.data[0].CustomerType == "B" || sectionData.data[0].CustomerType == "CB")) {
+      this.customersList.set(sectionData.BorrowerSeq, sectionData.data[0]);
+    }
+  }
 
     //ON FIRST TIME LOAD get all customer details and set menu acc.
     // initGetAllCustomerDetails(customerData: any, customerType: string = '') {
@@ -200,46 +288,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //         this.injectDynamicComponent('CustomDetails', 2, 0);
     //     });
     // }
-
-    customerMenu = [
-        [
-            { id: "CustomerDetails", name: "Customer Details", completed: false, iconClass: "icon-Customer-Details", isActive: false, isOptional: false },
-            { id: "AddressDetails", name: "Address Details", completed: false, iconClass: "icon-Address-Details", isActive: false, isOptional: false },
-            { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false },
-            { id: "FamilyDetails", name: "Family Details", completed: false, iconClass: "icon-Family-Details", isActive: false, isOptional: true }
-        ],
-        [
-            { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
-            { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
-            { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: false },
-            // { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
-        ],
-        [
-            { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
-            { id: "RmVisitDetails", name: "RM Visit Details", completed: false, iconClass: "icon-RM-Visit-Details", isActive: false, isOptional: true },
-        ]
-    ];
-
-    applicationMenu = [
-        [
-            { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: true },
-            // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
-            // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
-            // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
-            { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
-            { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
-        ],
-        [
-            // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
-            // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
-            // { id: "PolicyCheckResults", name: "Poicy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
-            { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
-        ],
-        [
-            { id: "ReferrerDetails", name: "Referral Details", completed: false, iconClass: "icon-Referrer-Details", isActive: false, isOptional: true },
-            { id: "Notes", name: "Notes", completed: false, iconClass: "icon-Notes", isActive: false, isOptional: true }
-        ]
-    ];
 
     formsMenuList: Array<any> = [];
     showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
@@ -331,412 +379,389 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (this.userId === undefined || this.userId == '') {
             this.claimTask(this.taskId);
         }
-        this.setDependencies();
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCode.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TaskId') {
+            this.HideTaskId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+      }
+    );
+  }
+
+  setInputs(param: any) {
+    let params = this.services.http.mapToJson(param);
+    if (params['mode']) {
+      this.mode = params['mode'];
+    }
+  }
+  async submitForm(path, apiCode, serviceCode) {
+    this.submitData['formName'] = 'Details Data Entry';
+    await super.submit(path, apiCode, serviceCode);
+  }
+  getFieldInfo() {
+    this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
+    this.additionalInfo['FieldId_1_desc'] = this.FieldId_1.getFieldInfo();
+    this.additionalInfo['CUST_DTLS_desc'] = this.CUST_DTLS.getFieldInfo();
+    this.additionalInfo['FAMILY_DTLS_desc'] = this.FAMILY_DTLS.getFieldInfo();
+    this.additionalInfo['FieldId_14_desc'] = this.FieldId_14.getFieldInfo();
+    this.additionalInfo['FieldId_15_desc'] = this.FieldId_15.getFieldInfo();
+    this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
+    this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
+    this.additionalInfo['FieldId_16_desc'] = this.FieldId_16.getFieldInfo();
+    this.additionalInfo['FieldId_13_desc'] = this.FieldId_13.getFieldInfo();
+    this.additionalInfo['CUSTOMER_GRID_desc'] = this.CUSTOMER_GRID.getFieldInfo();
+    return this.additionalInfo;
+  }
+  getFieldValue() {
+    this.value.FieldId_1 = this.FieldId_1.getFieldValue();
+    this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
+    this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
+    this.value.FieldId_14 = this.FieldId_14.getFieldValue();
+    this.value.FieldId_15 = this.FieldId_15.getFieldValue();
+    this.value.FieldId_6 = this.FieldId_6.getFieldValue();
+    this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+    this.value.FieldId_16 = this.FieldId_16.getFieldValue();
+    this.value.FieldId_13 = this.FieldId_13.getFieldValue();
+    this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
+    return this.value;
+  }
+  setValue(inputValue, inputDesc = undefined) {
+    this.setBasicFieldsValue(inputValue, inputDesc);
+    this.FieldId_1.setValue(inputValue['FieldId_1'], inputDesc['FieldId_1_desc']);
+    this.CUST_DTLS.setValue(inputValue['CUST_DTLS'], inputDesc['CUST_DTLS_desc']);
+    this.FAMILY_DTLS.setValue(inputValue['FAMILY_DTLS'], inputDesc['FAMILY_DTLS_desc']);
+    this.FieldId_14.setValue(inputValue['FieldId_14'], inputDesc['FieldId_14_desc']);
+    this.FieldId_15.setValue(inputValue['FieldId_15'], inputDesc['FieldId_15_desc']);
+    this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
+    this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
+    this.FieldId_16.setValue(inputValue['FieldId_16'], inputDesc['FieldId_16_desc']);
+    this.FieldId_13.setValue(inputValue['FieldId_13'], inputDesc['FieldId_13_desc']);
+    this.CUSTOMER_GRID.setValue(inputValue['CUSTOMER_GRID'], inputDesc['CUSTOMER_GRID_desc']);
+    this.value = new DDEModel();
+    this.value.setValue(inputValue);
+    this.setDependencies();
+    this.passNewValue(this.value);
+
+  }
+  ngOnInit() {
+    if (this.formCode == undefined) { this.formCode = 'DDE'; }
+    if (this.formOnLoadError) { return; }
+    var styleElement = document.createElement('style');
+    styleElement.type = 'text/css';
+    styleElement.innerHTML = customCss;
+    styleElement.id = 'DDE_customCss';
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
+    //this.onFormLoad();
+    this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
+    this.injectDynamicComponent('CustomerDetails', 0, 0);
+    this.services.rloCommonData.getCurrentRoute();
+  }
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+    var styleElement = document.getElementById('DDE_customCss');
+    styleElement.parentNode.removeChild(styleElement);
+    this.services.rloCommonData.resetMapData();
+    this.masterDataSubscription.unsubscribe();
+    this.childToParentSubjectSubscription.unsubscribe();
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.subsBFldsValueUpdates();
+      this.value.FieldId_1 = this.FieldId_1.getFieldValue();
+      this.FieldId_1.valueChangeUpdates().subscribe((value) => { this.value.FieldId_1 = value; });
+      //  this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
+      //  this.CUST_DTLS.valueChangeUpdates().subscribe((value) => { this.value.CUST_DTLS = value; });
+      // this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
+      // this.FAMILY_DTLS.valueChangeUpdates().subscribe((value) => { this.value.FAMILY_DTLS = value; });
+      // this.value.FieldId_14 = this.FieldId_14.getFieldValue();
+      // this.FieldId_14.valueChangeUpdates().subscribe((value) => { this.value.FieldId_14 = value; });
+      // this.value.FieldId_15 = this.FieldId_15.getFieldValue();
+      // this.FieldId_15.valueChangeUpdates().subscribe((value) => { this.value.FieldId_15 = value; });
+      // this.value.FieldId_6 = this.FieldId_6.getFieldValue();
+      // this.FieldId_6.valueChangeUpdates().subscribe((value) => { this.value.FieldId_6 = value; });
+      // this.value.FieldId_9 = this.FieldId_9.getFieldValue();
+      // this.FieldId_9.valueChangeUpdates().subscribe((value) => { this.value.FieldId_9 = value; });
+      // this.value.FieldId_16 = this.FieldId_16.getFieldValue();
+      // this.FieldId_16.valueChangeUpdates().subscribe((value) => { this.value.FieldId_16 = value; });
+      // this.value.FieldId_13 = this.FieldId_13.getFieldValue();
+      // this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
+      this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
+      this.CUSTOMER_GRID.valueChangeUpdates().subscribe((value) => { this.value.CUSTOMER_GRID = value; });
+      // this.onFormLoad();
+      // this.checkForHTabOverFlow();
+    });
+    this.onFormLoad();
+  }
+  clearError() {
+    super.clearBasicFieldsError();
+    super.clearHTabErrors();
+    super.clearVTabErrors();
+    this.FieldId_1.clearError();
+    this.CUST_DTLS.clearError();
+    this.FAMILY_DTLS.clearError();
+    this.FieldId_14.clearError();
+    this.FieldId_15.clearError();
+    this.FieldId_6.clearError();
+    this.FieldId_9.clearError();
+    this.CUSTOMER_GRID.clearError();
+    this.FieldId_16.clearError();
+    this.FieldId_13.clearError();
+    this.errors = 0;
+    this.errorMessage = [];
+  }
+  onReset() {
+    super.resetBasicFields();
+    this.FieldId_1.onReset();
+    this.CUST_DTLS.onReset();
+    this.FAMILY_DTLS.onReset();
+    this.FieldId_14.onReset();
+    this.FieldId_15.onReset();
+    this.FieldId_6.onReset();
+    this.FieldId_9.onReset();
+    this.FieldId_16.onReset();
+    this.FieldId_13.onReset();
+    // this.CUSTOMER_GRID.onReset();
+    this.clearHTabErrors();
+    this.clearVTabErrors();
+    this.errors = 0;
+    this.errorMessage = [];
+    this.additionalInfo = undefined;
+    this.dependencyMap.clear();
+    this.value = new DDEModel();
+    this.passNewValue(this.value);
+    this.setReadOnly(false);
+    this.onFormLoad();
+  }
+  async BORROWER_TAB_revalidate(): Promise<number> {
+    var totalErrors = 0;
+    await Promise.all([
+      this.CUST_DTLS.revalidate(),
+      this.FAMILY_DTLS.revalidate(),
+      this.FieldId_14.revalidate(),
+      this.FieldId_15.revalidate(),
+      this.FieldId_6.revalidate(),
+      this.FieldId_9.revalidate(),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.hTabGroups['FieldId_10'].tabs['BORROWER_TAB'].errorCount = totalErrors;
+    return totalErrors;
+  }
+  async VISIT_REF_revalidate(): Promise<number> {
+    var totalErrors = 0;
+    await Promise.all([
+      this.FieldId_16.revalidate(),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.hTabGroups['FieldId_10'].tabs['VISIT_REF'].errorCount = totalErrors;
+    return totalErrors;
+  }
+  async COLATTERAL_revalidate(): Promise<number> {
+    var totalErrors = 0;
+    await Promise.all([
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.hTabGroups['FieldId_10'].tabs['COLATTERAL'].errorCount = totalErrors;
+    return totalErrors;
+  }
+  async GO_NO_GO_revalidate(): Promise<number> {
+    var totalErrors = 0;
+    await Promise.all([
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.hTabGroups['FieldId_10'].tabs['GO_NO_GO'].errorCount = totalErrors;
+    return totalErrors;
+  }
+  async COMMENTS_TAB_revalidate(): Promise<number> {
+    var totalErrors = 0;
+    await Promise.all([
+      this.FieldId_13.revalidate(),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    this.hTabGroups['FieldId_10'].tabs['COMMENTS_TAB'].errorCount = totalErrors;
+    return totalErrors;
+  }
+  async FieldId_10_revalidate(): Promise<number> {
+    var totalErrors = 0;
+    await Promise.all([
+      this.BORROWER_TAB_revalidate(),
+      this.VISIT_REF_revalidate(),
+      this.COLATTERAL_revalidate(),
+      this.GO_NO_GO_revalidate(),
+      this.COMMENTS_TAB_revalidate(),
+    ]).then((errorCounts) => {
+      errorCounts.forEach((errorCount) => {
+        totalErrors += errorCount;
+      });
+    });
+    return totalErrors;
+  }
+  // async CUSTOMER_DETAILS_passBorrowerSeq(event) {
+  //     let inputMap = new Map();
+  //     await this.FAMILY_DTLS.FAMILY_GRID.gridDataLoad({
+  //         'passFamilyGrid': event.BorrowerSeq,
+
+  //     });
+  //     // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
+  //     // this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+  //     // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
+  //     //     'ReferrerSeqToGrid': event.BorrowerSeq,
+
+  //     // });
+  //     // this.REFERRER_DTLS.familyBorrowerSeq = event.BorrowerSeq;
+  // }
+
+  async CUST_DTLS_updateCustGrid(event) {
+    console.log("Calling update customer grid Emitter");
+    this.CUSTOMER_GRID.doAPIForCustomerList(event);
+    // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
+  }
+  async CUSTOMER_GRID_selectCustId(event) {
+    let inputMap = new Map();
+    this.CUST_DTLS.CUST_DTLS_GRID_custDtlsEdit(event);
+  }
+
+  async CUSTOMER_GRID_resetCustForm(event) {
+    this.ActiveCustomerDtls = undefined;
+    this.ActiveBorrowerSeq = undefined;
+    this.CustomerType = event.customerType;
+
+    this.setTags([]);
+
+    this.injectDynamicComponent('CustomerDetails', 0, 0);
+    //this.CUST_DTLS.setNewCustomerFrom(event);
+  }
+
+  
+
+//triggered when clicked - edit btn(b,cb,etc) and when first time loaded and on form save success(customerDTLS)
+async CUSTOMER_GRID_passArrayToCustomer(event) {
+    console.log("CUSTOMER_GRID_passArrayToCustomer");
+    console.log(event);
+    let singleCustomer = [];
+    this.ActiveCustomerDtls = event.CustomerArray;
+    this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
+    this.CustomerType = event.CustomerArray.CustomerType;
+    // this.ActiveCustomerName = event.CustomerArray.FullName;
+    // this.ActiveCustomerDOB = event.CustomerArray.DOB;
+    // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
+
+    console.log(this.formMenuObject);
+    if (this.formMenuObject.activeBorrowerSeq == this.ActiveBorrowerSeq) {
+        if (this.disableMenus) {
+            this.reCalculateMenuSections(this.ActiveBorrowerSeq);
+        }
+    } else {
+        this.formMenuObject.activeBorrowerSeq = this.ActiveBorrowerSeq;
+        if (this.completedMenuSectionList.customerSection.size || this.completedMenuSectionList.applicationSection.size)
+            this.reCalculateMenuSections(this.ActiveBorrowerSeq);
     }
 
-    async claimTask(taskId) {
-        const inputMap = new Map();
-        inputMap.clear();
-        inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
-        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-        inputMap.set('Body.TaskId', taskId);
-        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
-        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
-        this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                const res = httpResponse.body;
+    //passes customer data
+    singleCustomer.push(event.CustomerArray);
 
-                if (res.Status == 'S') {
-                    this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
-                    this.userId = sessionStorage.getItem('userId')
-                } else {
-                    this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
-                }
-            },
-            async (httpError) => {
-                const err = httpError['error'];
-                if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-                    if (err['ErrorElementPath'] === 'ServiceCode') {
-                        this.HideServiceCode.setError(err['ErrorDescription']);
-                    } else if (err['ErrorElementPath'] === 'ProcessId') {
-                        this.HideProcessId.setError(err['ErrorDescription']);
-                    } else if (err['ErrorElementPath'] === 'TaskId') {
-                        this.HideTaskId.setError(err['ErrorDescription']);
-                    } else if (err['ErrorElementPath'] === 'TENANT_ID') {
-                        this.HideTenantId.setError(err['ErrorDescription']);
-                    } else if (err['ErrorElementPath'] === 'UserId') {
-                        this.HideUserId.setError(err['ErrorDescription']);
-                    }
-                }
-                this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+    let obj = {
+        "name": "CustomerDetails",
+        "data": singleCustomer,
+        "BorrowerSeq": event.CustomerArray.BorrowerSeq,
+    }
+    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
+    this.disableMenus = false;
+    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+}
+
+getCustomerId(customerType, borrowerSeq): string {
+    return customerType + "_" + borrowerSeq;
+}
+
+reCalculateMenuSections(activeBorrowerSeq, addingNewUser: boolean = false) {
+    console.warn("deep", activeBorrowerSeq, this.formMenuObject.isCustomerTabSelected);
+    let alreadyCompletedSectionList;
+
+    if (!addingNewUser) {
+        if (this.formMenuObject.isCustomerTabSelected) {
+            alreadyCompletedSectionList = this.completedMenuSectionList.customerSection.get(activeBorrowerSeq);
+            this.updateRoleBasedMenuData(alreadyCompletedSectionList);
+        }
+    }
+    else {
+        console.warn(this.CustomerType);
+        this.updateRoleBasedMenuData(undefined);
+    }
+}
+
+updateRoleBasedMenuData(alreadyCompletedSections: any) {
+    this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));//refresh data
+    for (let i = 0; i < this.formsMenuList.length; i++) {
+        let subEle = this.formsMenuList[i];
+        for (let j = 0; j < subEle.length; j++) {
+            let element = subEle[j];
+            if (this.CustomerType == 'G') {
+                if (element.id != "AddressDetails" && element.id != "CustomerDetails")
+                    element.isOptional = true;
+            } else if (this.CustomerType == 'OP') {
+                if (element.id != "CustomerDetails")
+                    element.isOptional = true;
             }
-        );
-    }
 
-    setInputs(param: any) {
-        let params = this.services.http.mapToJson(param);
-        if (params['mode']) {
-            this.mode = params['mode'];
-        }
-    }
-    async submitForm(path, apiCode, serviceCode) {
-        this.submitData['formName'] = 'Details Data Entry';
-        await super.submit(path, apiCode, serviceCode);
-    }
-    getFieldInfo() {
-        this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.additionalInfo['FieldId_1_desc'] = this.FieldId_1.getFieldInfo();
-        this.additionalInfo['CUST_DTLS_desc'] = this.CUST_DTLS.getFieldInfo();
-        this.additionalInfo['FAMILY_DTLS_desc'] = this.FAMILY_DTLS.getFieldInfo();
-        this.additionalInfo['FieldId_14_desc'] = this.FieldId_14.getFieldInfo();
-        this.additionalInfo['FieldId_15_desc'] = this.FieldId_15.getFieldInfo();
-        this.additionalInfo['FieldId_6_desc'] = this.FieldId_6.getFieldInfo();
-        this.additionalInfo['FieldId_9_desc'] = this.FieldId_9.getFieldInfo();
-        this.additionalInfo['FieldId_16_desc'] = this.FieldId_16.getFieldInfo();
-        this.additionalInfo['FieldId_13_desc'] = this.FieldId_13.getFieldInfo();
-        this.additionalInfo['CUSTOMER_GRID_desc'] = this.CUSTOMER_GRID.getFieldInfo();
-        return this.additionalInfo;
-    }
-    getFieldValue() {
-        this.value.FieldId_1 = this.FieldId_1.getFieldValue();
-        this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
-        this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
-        this.value.FieldId_14 = this.FieldId_14.getFieldValue();
-        this.value.FieldId_15 = this.FieldId_15.getFieldValue();
-        this.value.FieldId_6 = this.FieldId_6.getFieldValue();
-        this.value.FieldId_9 = this.FieldId_9.getFieldValue();
-        this.value.FieldId_16 = this.FieldId_16.getFieldValue();
-        this.value.FieldId_13 = this.FieldId_13.getFieldValue();
-        this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
-        return this.value;
-    }
-    setValue(inputValue, inputDesc = undefined) {
-        this.setBasicFieldsValue(inputValue, inputDesc);
-        this.FieldId_1.setValue(inputValue['FieldId_1'], inputDesc['FieldId_1_desc']);
-        this.CUST_DTLS.setValue(inputValue['CUST_DTLS'], inputDesc['CUST_DTLS_desc']);
-        this.FAMILY_DTLS.setValue(inputValue['FAMILY_DTLS'], inputDesc['FAMILY_DTLS_desc']);
-        this.FieldId_14.setValue(inputValue['FieldId_14'], inputDesc['FieldId_14_desc']);
-        this.FieldId_15.setValue(inputValue['FieldId_15'], inputDesc['FieldId_15_desc']);
-        this.FieldId_6.setValue(inputValue['FieldId_6'], inputDesc['FieldId_6_desc']);
-        this.FieldId_9.setValue(inputValue['FieldId_9'], inputDesc['FieldId_9_desc']);
-        this.FieldId_16.setValue(inputValue['FieldId_16'], inputDesc['FieldId_16_desc']);
-        this.FieldId_13.setValue(inputValue['FieldId_13'], inputDesc['FieldId_13_desc']);
-        this.CUSTOMER_GRID.setValue(inputValue['CUSTOMER_GRID'], inputDesc['CUSTOMER_GRID_desc']);
-        this.value = new DDEModel();
-        this.value.setValue(inputValue);
-        this.setDependencies();
-        this.passNewValue(this.value);
-
-    }
-    ngOnInit() {
-        if (this.formCode == undefined) { this.formCode = 'DDE'; }
-        if (this.formOnLoadError) { return; }
-        var styleElement = document.createElement('style');
-        styleElement.type = 'text/css';
-        styleElement.innerHTML = customCss;
-        styleElement.id = 'DDE_customCss';
-        document.getElementsByTagName('head')[0].appendChild(styleElement);
-        //this.onFormLoad();
-        this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-        this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
-        this.injectDynamicComponent('CustomerDetails', false, 0, 0);
-        this.services.rloCommonData.getCurrentRoute();
-    }
-    ngOnDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-        var styleElement = document.getElementById('DDE_customCss');
-        styleElement.parentNode.removeChild(styleElement);
-        this.services.rloCommonData.resetMapData();
-        this.masterDataSubscription.unsubscribe();
-        this.childToParentSubjectSubscription.unsubscribe();
-        this.services.rloui.closeAllConfirmationModal();
-    }
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.subsBFldsValueUpdates();
-            this.value.FieldId_1 = this.FieldId_1.getFieldValue();
-            this.FieldId_1.valueChangeUpdates().subscribe((value) => { this.value.FieldId_1 = value; });
-            //  this.value.CUST_DTLS = this.CUST_DTLS.getFieldValue();
-            //  this.CUST_DTLS.valueChangeUpdates().subscribe((value) => { this.value.CUST_DTLS = value; });
-            // this.value.FAMILY_DTLS = this.FAMILY_DTLS.getFieldValue();
-            // this.FAMILY_DTLS.valueChangeUpdates().subscribe((value) => { this.value.FAMILY_DTLS = value; });
-            // this.value.FieldId_14 = this.FieldId_14.getFieldValue();
-            // this.FieldId_14.valueChangeUpdates().subscribe((value) => { this.value.FieldId_14 = value; });
-            // this.value.FieldId_15 = this.FieldId_15.getFieldValue();
-            // this.FieldId_15.valueChangeUpdates().subscribe((value) => { this.value.FieldId_15 = value; });
-            // this.value.FieldId_6 = this.FieldId_6.getFieldValue();
-            // this.FieldId_6.valueChangeUpdates().subscribe((value) => { this.value.FieldId_6 = value; });
-            // this.value.FieldId_9 = this.FieldId_9.getFieldValue();
-            // this.FieldId_9.valueChangeUpdates().subscribe((value) => { this.value.FieldId_9 = value; });
-            // this.value.FieldId_16 = this.FieldId_16.getFieldValue();
-            // this.FieldId_16.valueChangeUpdates().subscribe((value) => { this.value.FieldId_16 = value; });
-            // this.value.FieldId_13 = this.FieldId_13.getFieldValue();
-            // this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
-            this.value.CUSTOMER_GRID = this.CUSTOMER_GRID.getFieldValue();
-            this.CUSTOMER_GRID.valueChangeUpdates().subscribe((value) => { this.value.CUSTOMER_GRID = value; });
-            // this.onFormLoad();
-            // this.checkForHTabOverFlow();
-        });
-        this.onFormLoad();
-    }
-    clearError() {
-        super.clearBasicFieldsError();
-        super.clearHTabErrors();
-        super.clearVTabErrors();
-        this.FieldId_1.clearError();
-        this.CUST_DTLS.clearError();
-        this.FAMILY_DTLS.clearError();
-        this.FieldId_14.clearError();
-        this.FieldId_15.clearError();
-        this.FieldId_6.clearError();
-        this.FieldId_9.clearError();
-        this.CUSTOMER_GRID.clearError();
-        this.FieldId_16.clearError();
-        this.FieldId_13.clearError();
-        this.errors = 0;
-        this.errorMessage = [];
-    }
-    onReset() {
-        super.resetBasicFields();
-        this.FieldId_1.onReset();
-        this.CUST_DTLS.onReset();
-        this.FAMILY_DTLS.onReset();
-        this.FieldId_14.onReset();
-        this.FieldId_15.onReset();
-        this.FieldId_6.onReset();
-        this.FieldId_9.onReset();
-        this.FieldId_16.onReset();
-        this.FieldId_13.onReset();
-        // this.CUSTOMER_GRID.onReset();
-        this.clearHTabErrors();
-        this.clearVTabErrors();
-        this.errors = 0;
-        this.errorMessage = [];
-        this.additionalInfo = undefined;
-        this.dependencyMap.clear();
-        this.value = new DDEModel();
-        this.passNewValue(this.value);
-        this.setReadOnly(false);
-        this.onFormLoad();
-    }
-    async BORROWER_TAB_revalidate(): Promise<number> {
-        var totalErrors = 0;
-        await Promise.all([
-            this.CUST_DTLS.revalidate(),
-            this.FAMILY_DTLS.revalidate(),
-            this.FieldId_14.revalidate(),
-            this.FieldId_15.revalidate(),
-            this.FieldId_6.revalidate(),
-            this.FieldId_9.revalidate(),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.hTabGroups['FieldId_10'].tabs['BORROWER_TAB'].errorCount = totalErrors;
-        return totalErrors;
-    }
-    async VISIT_REF_revalidate(): Promise<number> {
-        var totalErrors = 0;
-        await Promise.all([
-            this.FieldId_16.revalidate(),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.hTabGroups['FieldId_10'].tabs['VISIT_REF'].errorCount = totalErrors;
-        return totalErrors;
-    }
-    async COLATTERAL_revalidate(): Promise<number> {
-        var totalErrors = 0;
-        await Promise.all([
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.hTabGroups['FieldId_10'].tabs['COLATTERAL'].errorCount = totalErrors;
-        return totalErrors;
-    }
-    async GO_NO_GO_revalidate(): Promise<number> {
-        var totalErrors = 0;
-        await Promise.all([
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.hTabGroups['FieldId_10'].tabs['GO_NO_GO'].errorCount = totalErrors;
-        return totalErrors;
-    }
-    async COMMENTS_TAB_revalidate(): Promise<number> {
-        var totalErrors = 0;
-        await Promise.all([
-            this.FieldId_13.revalidate(),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        this.hTabGroups['FieldId_10'].tabs['COMMENTS_TAB'].errorCount = totalErrors;
-        return totalErrors;
-    }
-    async FieldId_10_revalidate(): Promise<number> {
-        var totalErrors = 0;
-        await Promise.all([
-            this.BORROWER_TAB_revalidate(),
-            this.VISIT_REF_revalidate(),
-            this.COLATTERAL_revalidate(),
-            this.GO_NO_GO_revalidate(),
-            this.COMMENTS_TAB_revalidate(),
-        ]).then((errorCounts) => {
-            errorCounts.forEach((errorCount) => {
-                totalErrors += errorCount;
-            });
-        });
-        return totalErrors;
-    }
-    // async CUSTOMER_DETAILS_passBorrowerSeq(event) {
-    //     let inputMap = new Map();
-    //     await this.FAMILY_DTLS.FAMILY_GRID.gridDataLoad({
-    //         'passFamilyGrid': event.BorrowerSeq,
-
-    //     });
-    //     // this.FAMILY_DTLS.Cust_FullName = event.CustomerArray.FullName;
-    //     // this.FAMILY_DTLS.familyBorrowerSeq = event.BorrowerSeq;
-    //     // await this.REFERRER_DTLS.ReferralDetailsGrid.gridDataLoad({
-    //     //     'ReferrerSeqToGrid': event.BorrowerSeq,
-
-    //     // });
-    //     // this.REFERRER_DTLS.familyBorrowerSeq = event.BorrowerSeq;
-    // }
-
-    async CUST_DTLS_updateCustGrid(event) {
-        console.log("Calling update customer grid Emitter", event);
-        this.CUSTOMER_GRID.doAPIForCustomerList(event);
-        // this.CUSTOMER_DETAILS.customerDetailMap = this.FieldId_9.doAPIForCustomerList(event)
-    }
-    async CUSTOMER_GRID_selectCustId(event) {
-        let inputMap = new Map();
-        this.CUST_DTLS.CUST_DTLS_GRID_custDtlsEdit(event);
-    }
-
-    async CUSTOMER_GRID_resetCustForm(event) {
-        this.ActiveCustomerDtls = undefined;
-        this.ActiveBorrowerSeq = undefined;
-        this.CustomerType = event.customerType;
-
-        this.setTags([]);
-
-        this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
-
-        this.injectDynamicComponent('CustomerDetails', false, 0, 0);
-        this.disableMenus = true;
-        //this.CUST_DTLS.setNewCustomerFrom(event);
-    }
-
-    //triggered when clicked - edit btn(b,cb,etc) and when first time loaded and on form save success(customerDTLS)
-    async CUSTOMER_GRID_passArrayToCustomer(event) {
-        console.log("CUSTOMER_GRID_passArrayToCustomer");
-        console.log(event);
-        let singleCustomer = [];
-        this.ActiveCustomerDtls = event.CustomerArray;
-        this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
-        this.CustomerType = event.CustomerArray.CustomerType;
-        // this.ActiveCustomerName = event.CustomerArray.FullName;
-        // this.ActiveCustomerDOB = event.CustomerArray.DOB;
-        // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
-
-        console.log(this.formMenuObject);
-        if (this.formMenuObject.activeBorrowerSeq == this.ActiveBorrowerSeq) {
-            if (this.disableMenus) {
-                this.reCalculateMenuSections(this.ActiveBorrowerSeq);
-            }
-        } else {
-            this.formMenuObject.activeBorrowerSeq = this.ActiveBorrowerSeq;
-            if (this.completedMenuSectionList.customerSection.size || this.completedMenuSectionList.applicationSection.size)
-                this.reCalculateMenuSections(this.ActiveBorrowerSeq);
-        }
-
-        //passes customer data
-        singleCustomer.push(event.CustomerArray);
-
-        let obj = {
-            "name": "CustomerDetails",
-            "data": singleCustomer,
-            "BorrowerSeq": event.CustomerArray.BorrowerSeq,
-        }
-        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-
-        this.disableMenus = false;
-        this.injectDynamicComponent('CustomerDetails', false, 0, 0);
-    }
-
-    getCustomerId(customerType, borrowerSeq): string {
-        return customerType + "_" + borrowerSeq;
-    }
-
-    reCalculateMenuSections(activeBorrowerSeq, addingNewUser: boolean = false) {
-        console.warn("deep", activeBorrowerSeq, this.formMenuObject.isCustomerTabSelected);
-        let alreadyCompletedSectionList;
-
-        if (!addingNewUser) {
-            if (this.formMenuObject.isCustomerTabSelected) {
-                alreadyCompletedSectionList = this.completedMenuSectionList.customerSection.get(activeBorrowerSeq);
-                this.updateRoleBasedMenuData(alreadyCompletedSectionList);
-            }
-        }
-        else {
-            console.warn(this.CustomerType);
-            this.updateRoleBasedMenuData(undefined);
-        }
-    }
-
-    updateRoleBasedMenuData(alreadyCompletedSections: any) {
-        this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));//refresh data
-        for (let i = 0; i < this.formsMenuList.length; i++) {
-            let subEle = this.formsMenuList[i];
-            for (let j = 0; j < subEle.length; j++) {
-                let element = subEle[j];
-                if (this.CustomerType == 'G') {
-                    if (element.id != "AddressDetails" && element.id != "CustomerDetails")
-                        element.isOptional = true;
-                } else if (this.CustomerType == 'OP') {
-                    if (element.id != "CustomerDetails")
-                        element.isOptional = true;
-                }
-
-                if (alreadyCompletedSections != undefined) {
-                    console.log(alreadyCompletedSections.includes(element.id))
-                    if (alreadyCompletedSections.includes(element.id)) {
-                        element.completed = true;
-                    }
+            if (alreadyCompletedSections != undefined) {
+                console.log(alreadyCompletedSections.includes(element.id))
+                if (alreadyCompletedSections.includes(element.id)) {
+                    element.completed = true;
                 }
             }
         }
-        console.log(this.formsMenuList);
     }
+    console.log(this.formsMenuList);
+  }
 
-    // async FAMILY_DTLS_familyBlur(event) {
-    //     console.log("Calling this Emitter", this.Cust_FullName);
-    //     this.Cust_FullName;
-    //     this.Cust_DOB;
-    // }
 
-    async Submit_click(event) {
-        let inputMap = new Map();
-        inputMap.clear();
-    }
+  // async FAMILY_DTLS_familyBlur(event) {
+  //     console.log("Calling this Emitter", this.Cust_FullName);
+  //     this.Cust_FullName;
+  //     this.Cust_DOB;
+  // }
 
-    // brodcastApplicationId() {
-    //     console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
-    //     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
-    // }
+  async Submit_click(event) {
+    let inputMap = new Map();
+    inputMap.clear();
+  }
 
+  // brodcastApplicationId() {
+  //     console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
+  //     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
+  // }
 
     injectDynamicComponent(componentId: string, isMenuDisabled: boolean, ele1?: number, ele2?: number) {
 
@@ -763,13 +788,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.currentCompInstance = componentInstance;
         componentInstance.ApplicationId = this.ApplicationId;
         componentInstance.isLoanCategory = this.isLoanCategory;
-
+            componentInstance.parentFormCode = this.componentCode;
+      
         // reset the tags
         this.setTags([]);
 
         // on tab switched or section switched or passArray Emitter called
         if (componentId == 'CustomerDetails') {
-            componentInstance.parentFormCode = this.componentCode;
+            
             if (this.ActiveCustomerDtls != undefined) {
                 //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
                 setTimeout(() => {
@@ -825,186 +851,187 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
     getComponentClassRef(componentId: string): AddSpecificComponent {
-        switch (componentId) {
-            case 'CustomerDetails':
-                return new AddSpecificComponent(CustomerDtlsComponent);
-                break;
+    switch (componentId) {
+        case 'CustomerDetails':
+            return new AddSpecificComponent(CustomerDtlsComponent);
+            break;
 
-            case 'FamilyDetails':
-                return new AddSpecificComponent(FamilyDetailsFormComponent);
-                break;
+        case 'FamilyDetails':
+            return new AddSpecificComponent(FamilyDetailsFormComponent);
+            break;
 
-            case 'LiabilityDetails':
-                return new AddSpecificComponent(LiabilityDtlsFormComponent);
-                break;
+        case 'LiabilityDetails':
+            return new AddSpecificComponent(LiabilityDtlsFormComponent);
+            break;
 
-            case 'AssetDetails':
-                return new AddSpecificComponent(AssetDetailsFormComponent);
-                break;
+        case 'AssetDetails':
+            return new AddSpecificComponent(AssetDetailsFormComponent);
+            break;
 
-            case 'IncomeSummary':
-                return new AddSpecificComponent(IncomeSummaryFormComponent);
-                break;
-            case 'GoNoGoDetails':
-                return new AddSpecificComponent(GoNoGoComponent);
-                break;
-            case 'ReferrerDetails':
-                return new AddSpecificComponent(ReferralDetailsFormComponent);
-                break;
-            case 'CreditCardDetails':
-                return new AddSpecificComponent(CreditCardDetailsComponent);
-                break;
-            case 'AddressDetails':
-                return new AddSpecificComponent(AddressDetailsComponent);
-                break;
-            case 'OccupationDetails':
-                return new AddSpecificComponent(OccupationDtlsFormComponent);
-                break;
-            case 'LoanDetails':
-                return new AddSpecificComponent(LoanDetailsFormComponent);
-                break;
-            case 'PersonalInterviewDetails':
-                return new AddSpecificComponent(PersonalInterviewComponent);
-                break;
-            case 'RmVisitDetails':
-                return new AddSpecificComponent(VisitReportFormComponent);
-                break;
-            case 'Notes':
-                return new AddSpecificComponent(NotepadDetailsFormComponent);
-                break;
-            case 'ApplicationDetails':
-                return new AddSpecificComponent(ApplicationDtlsComponent);
-                break;
-            default:
-                return new AddSpecificComponent(CustomerDtlsComponent);
-                break;
+        case 'IncomeSummary':
+            return new AddSpecificComponent(IncomeSummaryFormComponent);
+            break;
+        case 'GoNoGoDetails':
+            return new AddSpecificComponent(GoNoGoComponent);
+            break;
+        case 'ReferrerDetails':
+            return new AddSpecificComponent(ReferralDetailsFormComponent);
+            break;
+        case 'CreditCardDetails':
+            return new AddSpecificComponent(CreditCardDetailsComponent);
+            break;
+        case 'AddressDetails':
+            return new AddSpecificComponent(AddressDetailsComponent);
+            break;
+        case 'OccupationDetails':
+            return new AddSpecificComponent(OccupationDtlsFormComponent);
+            break;
+        case 'LoanDetails':
+            return new AddSpecificComponent(LoanDetailsFormComponent);
+            break;
+        case 'PersonalInterviewDetails':
+            return new AddSpecificComponent(PersonalInterviewComponent);
+            break;
+        case 'RmVisitDetails':
+            return new AddSpecificComponent(VisitReportFormComponent);
+            break;
+        case 'Notes':
+            return new AddSpecificComponent(NotepadDetailsFormComponent);
+            break;
+        case 'ApplicationDetails':
+            return new AddSpecificComponent(ApplicationDtlsComponent);
+            break;
+        default:
+            return new AddSpecificComponent(CustomerDtlsComponent);
+            break;
 
-        }
     }
+}
 
-    tabSwitched(tabName: string) {
-        let defaultSection: string;
-        this.updateSelectedTabIndex(0, 0);
+tabSwitched(tabName: string) {
+    let defaultSection: string;
+    this.updateSelectedTabIndex(0, 0);
 
-        if (tabName == "customer") {
-            this.formMenuObject.isCustomerTabSelected = true;
-            this.reCalculateMenuSections(this.ActiveBorrowerSeq);
-            defaultSection = 'CustomerDetails';
-            this.injectDynamicComponent(defaultSection, false, 0, 0);
-        }
-        else {
-            this.formMenuObject.isCustomerTabSelected = false;
-            this.formsMenuList = this.applicationMenu;
-            this.formsMenuList.forEach(element => {
-                for (let i = 0; i < element.length; i++) {
-                    const section = element[i];
-                    section.isActive = false;
-                    if (this.isLoanCategory) {//ie. loan type credit card
-                        if (section.id == "CreditCardDetails")
-                            element.splice(i, 1);
-                        defaultSection = 'ApplicationDetails';
-                    }
-                    else {//CC type loan
-                        if (section.id == "LoanDetails")
-                            element.splice(i, 1);
-                        defaultSection = 'ApplicationDetails';
-                    }
+    if (tabName == "customer") {
+        this.formMenuObject.isCustomerTabSelected = true;
+        this.reCalculateMenuSections(this.ActiveBorrowerSeq);
+        defaultSection = 'CustomerDetails';
+        this.injectDynamicComponent(defaultSection, false, 0, 0);
+    }
+    else {
+        this.formMenuObject.isCustomerTabSelected = false;
+        this.formsMenuList = this.applicationMenu;
+        this.formsMenuList.forEach(element => {
+            for (let i = 0; i < element.length; i++) {
+                const section = element[i];
+                section.isActive = false;
+                if (this.isLoanCategory) {//ie. loan type credit card
+                    if (section.id == "CreditCardDetails")
+                        element.splice(i, 1);
+                    defaultSection = 'ApplicationDetails';
                 }
-            });
-            this.injectDynamicComponent(defaultSection, false, 0, 0,);
-        }
-
-    }
-
-    updateSelectedTabIndex(firstArrayIndex: number, secondArrayIndex: number): void {
-        this.formMenuObject.firstArr = firstArrayIndex;
-        this.formMenuObject.secondArr = secondArrayIndex;
-    }
-
-    //going back and forth via btns
-
-    async loadForm(loadDirection: string, firstArrayIndex: number = -1, secondArrayIndex: number = -1) {
-        console.log(this.formMenuObject, loadDirection);
-        console.error(this.formsMenuList);
-        let firstArray = firstArrayIndex == -1 ? this.formMenuObject.firstArr : firstArrayIndex;
-        let secondArray = secondArrayIndex == -1 ? this.formMenuObject.secondArr : secondArrayIndex;
-        let selectedIndex = -1;
-
-        if (this.disableMenus)
-            return;
-
-        if (loadDirection == 'nxt') {
-            if (this.menuNavigationBtn.enableRightArrow) {
-                for (let j = 0; j < this.formsMenuList[firstArray].length; j++) {
-                    const arrEle = this.formsMenuList[firstArray][j];
-                    if (j >= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
-                        console.warn(arrEle);
-                        this.injectDynamicComponent(arrEle.id, false, firstArray, j);
-                        selectedIndex = j;
-                    }
-                }
-                if (selectedIndex == -1) {
-                    let sIndex;
-                    if (this.formsMenuList.length - 1 == firstArray) {
-
-                        sIndex = 0;
-                        let modalObj = {
-                            title: "Alert",
-                            mainMessage: "No more section avaliable",
-                            modalSize: "modal-width-sm",
-                            buttons: [
-                                { id: 1, text: "Okay", type: "success", class: "btn-primary" },
-                            ]
-                        }
-                        this.services.rloui.confirmationModal(modalObj).then((response) => {
-                            console.log(response);
-                            if (response != null) {
-                                this.services.rloui.closeAllConfirmationModal();
-                            }
-                        });
-                    } else {
-                        sIndex = firstArray + 1;
-                        this.loadForm('nxt', sIndex, 0);
-                    }
+                else {//CC type loan
+                    if (section.id == "LoanDetails")
+                        element.splice(i, 1);
+                    defaultSection = 'ApplicationDetails';
                 }
             }
-        }
-        else {
-            if (this.menuNavigationBtn.enableLeftArrow) {
-                for (let j = this.formsMenuList[firstArray].length - 1; j >= 0; j--) {
-                    const arrEle = this.formsMenuList[firstArray][j];
-                    if (j <= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
-                        console.warn(arrEle);
-                        this.injectDynamicComponent(arrEle.id, false, firstArray, j);
-                        selectedIndex = j;
-                    }
+        });
+        this.injectDynamicComponent(defaultSection, false, 0, 0,);
+    }
+
+}
+
+updateSelectedTabIndex(firstArrayIndex: number, secondArrayIndex: number): void {
+    this.formMenuObject.firstArr = firstArrayIndex;
+    this.formMenuObject.secondArr = secondArrayIndex;
+}
+
+
+//going back and forth via btns
+
+async loadForm(loadDirection: string, firstArrayIndex: number = -1, secondArrayIndex: number = -1) {
+    console.log(this.formMenuObject, loadDirection);
+    console.error(this.formsMenuList);
+    let firstArray = firstArrayIndex == -1 ? this.formMenuObject.firstArr : firstArrayIndex;
+    let secondArray = secondArrayIndex == -1 ? this.formMenuObject.secondArr : secondArrayIndex;
+    let selectedIndex = -1;
+
+    if (this.disableMenus)
+        return;
+
+    if (loadDirection == 'nxt') {
+        if (this.menuNavigationBtn.enableRightArrow) {
+            for (let j = 0; j < this.formsMenuList[firstArray].length; j++) {
+                const arrEle = this.formsMenuList[firstArray][j];
+                if (j >= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
+                    console.warn(arrEle);
+                    this.injectDynamicComponent(arrEle.id, false, firstArray, j);
+                    selectedIndex = j;
                 }
-                if (selectedIndex == -1) {
-                    let sIndex;
-                    if (firstArray == 0) {
-                        sIndex = this.formsMenuList.length - 1;
-                        let modalObj = {
-                            title: "Alert",
-                            mainMessage: "No more section avaliable",
-                            modalSize: "modal-width-sm",
-                            buttons: [
-                                { id: 1, text: "Okay", type: "success", class: "btn-primary" },
-                            ]
-                        }
-                        this.services.rloui.confirmationModal(modalObj).then((response) => {
-                            console.log(response);
-                            if (response != null) {
-                                this.services.rloui.closeAllConfirmationModal();
-                            }
-                        });
-                    } else {
-                        sIndex = firstArray - 1;
-                        this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
+            }
+            if (selectedIndex == -1) {
+                let sIndex;
+                if (this.formsMenuList.length - 1 == firstArray) {
+
+                    sIndex = 0;
+                    let modalObj = {
+                        title: "Alert",
+                        mainMessage: "No more section avaliable",
+                        modalSize: "modal-width-sm",
+                        buttons: [
+                            { id: 1, text: "Okay", type: "success", class: "btn-primary" },
+                        ]
                     }
+                    this.services.rloui.confirmationModal(modalObj).then((response) => {
+                        console.log(response);
+                        if (response != null) {
+                            this.services.rloui.closeAllConfirmationModal();
+                        }
+                    });
+                } else {
+                    sIndex = firstArray + 1;
+                    this.loadForm('nxt', sIndex, 0);
                 }
             }
         }
     }
+    else {
+        if (this.menuNavigationBtn.enableLeftArrow) {
+            for (let j = this.formsMenuList[firstArray].length - 1; j >= 0; j--) {
+                const arrEle = this.formsMenuList[firstArray][j];
+                if (j <= secondArray && !arrEle.isActive && !arrEle.completed && selectedIndex == -1) {
+                    console.warn(arrEle);
+                    this.injectDynamicComponent(arrEle.id, false, firstArray, j);
+                    selectedIndex = j;
+                }
+            }
+            if (selectedIndex == -1) {
+                let sIndex;
+                if (firstArray == 0) {
+                    sIndex = this.formsMenuList.length - 1;
+                    let modalObj = {
+                        title: "Alert",
+                        mainMessage: "No more section avaliable",
+                        modalSize: "modal-width-sm",
+                        buttons: [
+                            { id: 1, text: "Okay", type: "success", class: "btn-primary" },
+                        ]
+                    }
+                    this.services.rloui.confirmationModal(modalObj).then((response) => {
+                        console.log(response);
+                        if (response != null) {
+                            this.services.rloui.closeAllConfirmationModal();
+                        }
+                    });
+                } else {
+                    sIndex = firstArray - 1;
+                    this.loadForm('prev', sIndex, this.formsMenuList[sIndex].length - 1);
+                }
+            }
+        }
+    }
+}
 
     /* Cancel / Back button */
     // goBack() {
@@ -1041,257 +1068,272 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
 
 
-    async brodcastProdCategory(event) {
-        //  event.isLoanCategory false when type is 'CC'
-        this.isLoanCategory = event.isLoanCategory;
-        if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
-            this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
-            // this.services.rloCommonData.childToParentSubject.next({
-            //     action: 'loanCategoryUpdated',
-            //     data: { 'isLoanCategory':  event.isLoanCategory }
-            // });
-        }
-        this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+  async brodcastProdCategory(event) {
+    //  event.isLoanCategory false when type is 'CC'
+    this.services.rloCommonData.globalApplicationDtls = {
+      isLoanCategory: event.isLoanCategory,
+      ProductCode: event.ProductCode,
+      SubProductCode: event.SubProductCode,
+      SchemeCode: event.SchemeCode,
+    };
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    this.isLoanCategory = event.isLoanCategory;
+    if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
+      this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
+      // this.services.rloCommonData.childToParentSubject.next({
+      //     action: 'loanCategoryUpdated',
+      //     data: { 'isLoanCategory':  event.isLoanCategory }
+      // });
     }
+    this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+  }
 
-    async headerState(event) {
-        this.showExpandedHeader = event.headerState;
-        this.scoreCardComponent.headerChanges(event);
-        this.headerProgressBar.headerChanges(event);
+
+  async headerState(event) {
+    this.showExpandedHeader = event.headerState;
+    // this.scoreCardComponent.headerChanges(event);
+    this.scoreCardComponent.forEach(element => {
+      element.headerChanges(event);
+    });
+    this.headerProgressBar.headerChanges(event);
+  }
+
+  updateProgressBar() {
+    if (this.initialLoadDone) {
+      let individualSectionScore = (1 / this.progressStatusObject.manditorySection) * 100;
+      let score = Math.round(individualSectionScore * this.progressStatusObject.completedSection);
+      this.headerProgressBar.update(score);
     }
+  }
 
-    updateProgressBar() {
-        if (this.initiallyCustomersAdded) {
-            let individualSectionScore = (1 / this.progressStatusObject.manditorySection) * 100;
-            let score = Math.round(individualSectionScore * this.progressStatusObject.completedSection);
-            this.headerProgressBar.update(score);
-        }
-    }
-
-    calculateScore(action: string) {
-        let isSectionOptional = this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional;
-        console.log(this.progressStatusObject);
-        if (!isSectionOptional) {
-            if (action == "add") {
-                this.progressStatusObject.completedSection += 1;
-            } else {
-                this.progressStatusObject.completedSection -= 1;
-            }
-        }
-        this.updateProgressBar();
-    }
-
-    //after adding and removing section from map
-    updateMenu(action: string, menuList: any, componentLvlData: IComponentLvlData, selectedSection: string, mapKey: string) {
-        let state = action == "add" ? true : false;
-        this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
-        this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
-
-        console.log("deep ===", this.formMenuObject);
-
-        if (!this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional) {
-            this.updateRoleBasedScore(action);
-        }
-    }
-
-    setInitialObjectData(data) {
-        console.log("setInitialObjectData", data.data[0]);
-        let customerData = data.data[0];
-
-        if (customerData.hasOwnProperty('isValid')) {
-            //this.CustomerType = customerData.CustomerType;
-            this.initiallyCustomersAdded = true;
-            this.CustomerType = "B";
-            return;
-        }
-
-
-        this.CustomerType = customerData.CustomerType;
-
-        if (customerData.CustomerType == "B") {
-            if (customerData.LoanOwnership == 100)
-                this.initiallyCustomersAdded = true;
-        }
-        else if (customerData.CustomerType == "CB") {
-            if (customerData.LoanOwnership > 0 && this.progressStatusObject.manditorySection == 6) {
-                this.progressStatusObject.manditorySection += 4;
-                this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
-                //this.initiallyCustomersAdded = true;
-            }
-        }
-        console.log("deep", this.progressStatusObject);
-    }
-
-    async DDE_CANCEL_click(event) {
-        var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
-        var button1 = this.services.rloui.getAlertMessage('', 'OK');
-        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
-        Promise.all([mainMessage, button1, button2]).then(values => {
-            console.log(values);
-            let modalObj = {
-                title: "Alert",
-                mainMessage: values[0],
-                modalSize: "modal-width-sm",
-                buttons: [
-                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-                ]
-            }
-            this.services.rloui.confirmationModal(modalObj).then((response) => {
-                console.log(response);
-                if (response != null) {
-                    if (response.id === 1) {
-                        this.services.router.navigate(['home', 'LANDING']);
-                    }
-                }
-            });
-        });
-    }
-
-    DDE_SUBMIT_click(event) {
-        const requestParams = new Map();
-
-        this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
-            console.log("Deep ===", data);
-            if (data.isAppValid) {
-                requestParams.set('Body.ApplicationStatus', 'AP');
-                requestParams.set('Body.direction', 'AP');
-                this.submitDDE(requestParams);
-            }
-            else {
-                let errorMsg = "";
-                data.errorsList.forEach(element => {
-                    errorMsg += element;
-                });
-
-
-                Promise.all([this.services.rloui.getAlertMessage('', errorMsg), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
-                    console.log(values);
-                    let modalObj = {
-                        title: "Alert",
-                        mainMessage: values[0],
-                        modalSize: "modal-width-sm",
-                        buttons: [
-                            { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                        ]
-                    }
-                    this.services.rloui.confirmationModal(modalObj).then((response) => {
-                        console.log(response);
-                        if (response != null) {
-                            if (response.id === 1) {
-                                this.services.rloui.closeAllConfirmationModal();
-                            }
-                        }
-                    });
-                });
-            }
-        })
-    }
-
-    async DDE_WITHDRAW_click(event) {
-        // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-        const requestParams = new Map();
-        requestParams.set('Body.ApplicationStatus', 'Withdraw');
-        requestParams.set('Body.direction', 'W');
-        var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
-        var button1 = this.services.rloui.getAlertMessage('', 'OK');
-        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
-        Promise.all([mainMessage, button1, button2]).then(values => {
-            console.log(values);
-            let modalObj = {
-                title: "Alert",
-                mainMessage: values[0],
-                modalSize: "modal-width-sm",
-                buttons: [
-                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-                ]
-            }
-
-            this.services.rloui.confirmationModal(modalObj).then((response) => {
-                console.log(response);
-                if (response != null) {
-                    if (response.id === 1) {
-                        this.services.rloui.closeAllConfirmationModal()
-                        this.submitDDE(requestParams);
-                    }
-                }
-            });
-        });
-
-
-    }
-    async DDE_REJECT_click(event) {
-        const requestParams = new Map();
-        requestParams.set('Body.ApplicationStatus', 'Reject');
-        requestParams.set('Body.direction', 'RJ');
-        var mainMessage = this.services.rloui.getAlertMessage('rlo.reject.comfirmation');
-        var button1 = this.services.rloui.getAlertMessage('', 'OK');
-        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
-        Promise.all([mainMessage, button1, button2]).then(values => {
-            console.log(values);
-            let modalObj = {
-                title: "Alert",
-                mainMessage: values[0],
-                modalSize: "modal-width-sm",
-                buttons: [
-                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-                ]
-            }
-
-            this.services.rloui.confirmationModal(modalObj).then((response) => {
-                console.log(response);
-                if (response != null) {
-                    if (response.id === 1) {
-                        this.services.rloui.closeAllConfirmationModal()
-                        this.submitDDE(requestParams);
-                    }
-                }
-            });
-        });
-
-
-        // this.services.router.navigate(['home', 'LANDING']);
-
-    }
-
-    async DDE_REFER_click(event) {
-
-
-        // history.back();
-        const requestParams = new Map();
-        requestParams.set('Body.ApplicationStatus', 'Refer');
-        requestParams.set('Body.direction', 'RE');
-        this.submitDDE(requestParams);
-        // this.services.router.navigate(['home', 'LANDING']);
-
-    }
-    async submitDDE(requestParams) {
-        const inputMap = new Map();
-
-        inputMap.clear();
-        inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
-        inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
-        inputMap.set('Body.TaskId', this.taskId);
-        inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
-        inputMap.set('Body.UserId', this.userId);
-        inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
-        inputMap.set('Body.ApplicationId', this.ApplicationId);
-        inputMap.set('Body.CreatedBy', this.userId);
-
-
-        if (requestParams) {
-            requestParams.forEach((val, key) => {
-                inputMap.set(key, val);
-            });
-
+  calculateScore(action: string) {
+    let isSectionOptional = this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional;
+    console.log(this.progressStatusObject);
+    if (!isSectionOptional) {
+        if (action == "add") {
+            this.progressStatusObject.completedSection += 1;
         } else {
-            return;
+            this.progressStatusObject.completedSection -= 1;
         }
+    }
+    this.updateProgressBar();
+}
+
+
+//after adding and removing section from map
+updateMenu(action: string, menuList: any, componentLvlData: IComponentLvlData, selectedSection: string, mapKey: string) {
+    let state = action == "add" ? true : false;
+    this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
+    this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
+
+    console.log("deep ===", this.formMenuObject);
+
+    if (!this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional) {
+        this.updateRoleBasedScore(action);
+    }
+}
+
+setInitialObjectData(data) {
+    console.log("setInitialObjectData", data.data[0]);
+    let customerData = data.data[0];
+
+    if (customerData.hasOwnProperty('isValid')) {
+        //this.CustomerType = customerData.CustomerType;
+        this.initiallyCustomersAdded = true;
+        this.CustomerType = "B";
+        return;
+    }
+
+
+    this.CustomerType = customerData.CustomerType;
+
+    if (customerData.CustomerType == "B") {
+        if (customerData.LoanOwnership == 100)
+            this.initiallyCustomersAdded = true;
+    }
+    else if (customerData.CustomerType == "CB") {
+        if (customerData.LoanOwnership > 0 && this.progressStatusObject.manditorySection == 6) {
+            this.progressStatusObject.manditorySection += 4;
+            this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
+            //this.initiallyCustomersAdded = true;
+        }
+    }
+    console.log("deep", this.progressStatusObject);
+}   
+
+  async DDE_CANCEL_click(event) {
+
+    // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      console.log("deep ===", modalObj);
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+
+  DDE_SUBMIT_click(event) {
+    const requestParams = new Map();
+
+    this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
+      console.log("Deep ===", data);
+      if (data.isAppValid) {
+        requestParams.set('Body.ApplicationStatus', 'AP');
+        requestParams.set('Body.direction', 'AP');
+        this.submitDDE(requestParams);
+      }
+      else {
+        let errorMsg = "";
+        data.errorsList.forEach(element => {
+          errorMsg += element;
+        });
+
+
+        Promise.all([this.services.rloui.getAlertMessage('', errorMsg), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+            ]
+          }
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.rloui.closeAllConfirmationModal();
+              }
+            }
+          });
+        });
+      }
+    })
+  }
+
+  async DDE_WITHDRAW_click(event) {
+    // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Withdraw');
+    requestParams.set('Body.direction', 'W');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
+          }
+        }
+      });
+    });
+
+
+  }
+  async DDE_REJECT_click(event) {
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Reject');
+    requestParams.set('Body.direction', 'RJ');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.reject.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
+          }
+        }
+      });
+    });
+
+
+    // this.services.router.navigate(['home', 'LANDING']);
+
+  }
+
+  async DDE_REFER_click(event) {
+
+
+    // history.back();
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Refer');
+    requestParams.set('Body.direction', 'RE');
+    this.submitDDE(requestParams);
+    // this.services.router.navigate(['home', 'LANDING']);
+
+  }
+  async submitDDE(requestParams) {
+    const inputMap = new Map();
+
+    inputMap.clear();
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.UserId', this.userId);
+    inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
+    inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.CreatedBy', this.userId);
+
+
+    if (requestParams) {
+      requestParams.forEach((val, key) => {
+        inputMap.set(key, val);
+      });
+    } else {
+      return;
+    }
 
         this.services.http.fetchApi('/acceptDDE', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
@@ -1370,183 +1412,173 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         );
     }
 
+  /**
+   *   Tag Related functions
+   */
 
-    /**
-     *   Tag Related functions
-     */
+  setTags(tags: Array<any>) {
 
-    setTags(tags: Array<any>) {
+    this.tags = tags;
+  }
 
-        this.tags = tags;
+  updateSectionWiseTags(event: any) {
+    console.log('updateSectionWiseTags --- ', event);
+
+    if (event.name === 'CustomerDetails') { // Ignore for Customer Details Section
+      return;
     }
 
-    updateSectionWiseTags(event: any) {
-        console.log('updateSectionWiseTags --- ', event);
-
-        if (event.name === 'CustomerDetails') { // Ignore for Customer Details Section
-            return;
-        }
-
-        if (this[event.name + '_SetTag']) {
-            this[event.name + '_SetTag'](event);
-        } else {
-            console.log('No Implementation Found for section ' + event.name + ' Resetting the tags');
-            // this.setTags([]);
-        }
+    if (this[event.name + '_SetTag']) {
+      this[event.name + '_SetTag'](event);
+    } else {
+      console.log('No Implementation Found for section ' + event.name + ' Resetting the tags');
+      // this.setTags([]);
     }
+  }
 
-    // Seperate way for setting tags for customer
-    setCustomerTags() {
-        // console.log("Active Borrower ", this.ActiveCustomerDtls);
+  // Seperate way for setting tags for customer
+  setCustomerTags() {
+    // console.log("Active Borrower ", this.ActiveCustomerDtls);
 
-        if (this.ActiveCustomerDtls) {
-            const customerTags = [{
-                label: this.ActiveCustomerDtls['CustomerType'],
-                text: this.ActiveCustomerDtls['FullName']
-            }];
-            this.setTags(customerTags);
-        } else {
-            this.setTags([]);
-        }
+    if (this.ActiveCustomerDtls) {
+      const customerTags = [{
+        label: this.ActiveCustomerDtls['CustomerType'],
+        text: this.ActiveCustomerDtls['FullName']
+      }];
+      this.setTags(customerTags);
+    } else {
+      this.setTags([]);
     }
+  }
 
-    AddressDetails_SetTag(event) {
-        // console.log('update address Tags --- ', event);
-        this.services.rloCommonData.updateAddressTags(event).then(data => {
-            // console.log(data);
-            this.setTags(data);
-        });
-    }
+  AddressDetails_SetTag(event) {
+    // console.log('update address Tags --- ', event);
+    this.services.rloCommonData.updateAddressTags(event).then(data => {
+      // console.log(data);
+      this.setTags(data);
+    });
+  }
 
-    OccupationDetails_SetTag(event) {
-        // console.log('update Occupation Tags --- ', event);
-        this.services.rloCommonData.UpdateOccupationTags(event).then(data => {
-            // console.log(data);
-            this.setTags(data);
-        });
-    }
+  OccupationDetails_SetTag(event) {
+    // console.log('update Occupation Tags --- ', event);
+    this.services.rloCommonData.UpdateOccupationTags(event).then(data => {
+      // console.log(data);
+      this.setTags(data);
+    });
+  }
 
-    LiabilityDetails_SetTag(event) {
-        // console.log('update Liability Tags --- ', event);
-        this.services.rloCommonData.getLiabilityTags(event).then(data => {
-            // console.log(data);
-            this.setTags(data);
-        });
-    }
+  LiabilityDetails_SetTag(event) {
+    // console.log('update Liability Tags --- ', event);
+    this.services.rloCommonData.getLiabilityTags(event).then(data => {
+      // console.log(data);
+      this.setTags(data);
+    });
+  }
 
-    AssetDetails_SetTag(event) {
-        // console.log('update Asset Tags --- ', event);
-        this.services.rloCommonData.getAssetTags(event).then(data => {
-            this.setTags(data);
-        });
-    }
-
-    RmVisitDetails_SetTag(event) {
-
-        this.services.rloCommonData.UpdateRmVisitDetailsTags(event).then(data => {
-            // console.log(data);
-            this.setTags(data);
-        });
-    }
-
+  AssetDetails_SetTag(event) {
+    // console.log('update Asset Tags --- ', event);
+    this.services.rloCommonData.getAssetTags(event).then(data => {
+      this.setTags(data);
+    });
+  }
 
     addRemoveCompletedSection(sectionResponseObj: IComponentSectionValidationData, componentLvlData) {
-        console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject);
-        let data = [];
-        let selectedSection, mapKey;
+    console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject);
+    let data = [];
+    let selectedSection, mapKey;
 
-        if (this.formMenuObject.isCustomerTabSelected) {
-            selectedSection = "customerSection";
-            mapKey = componentLvlData.BorrowerSeq;
-        } else {
-            selectedSection = "applicationSection";
-            mapKey = componentLvlData.sectionName;
-        }
-
-        if (sectionResponseObj.isSectionValid) {
-            //first time loading data; customer not present
-            if (this.completedMenuSectionList[selectedSection].get(mapKey) === undefined) {
-                console.error("SECTION COMPLETED | CALCULATE SCORE");
-                data.push(componentLvlData.name);
-                this.updateMenu('add', data, componentLvlData, selectedSection, mapKey);
-            }
-            else {
-                let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
-                if (!dataList.includes(componentLvlData.name)) {
-                    console.error("SECTION COMPLETED | CALCULATE SCORE");
-                    dataList.push(componentLvlData.name);
-                    this.updateMenu('add', dataList, componentLvlData, selectedSection, mapKey);
-                }
-            }
-        } else {
-            let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
-            if (dataList == undefined) {
-                return;
-            }
-            let sectionAlreadyCompleted = dataList.includes(componentLvlData.name);
-            if (sectionAlreadyCompleted) {
-                console.error("SECTION REMOVED | CALCULATE SCORE");
-                dataList.splice(dataList.indexOf(mapKey), 1);
-                this.updateMenu('remove', dataList, componentLvlData, selectedSection, mapKey);
-            }
-            else {
-                console.error("SECTION NOT FOUND");
-            }
-        }
-        console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        console.warn(this.completedMenuSectionList);
-        console.warn(this.progressStatusObject);
+    if (this.formMenuObject.isCustomerTabSelected) {
+        selectedSection = "customerSection";
+        mapKey = componentLvlData.BorrowerSeq;
+    } else {
+        selectedSection = "applicationSection";
+        mapKey = componentLvlData.sectionName;
     }
 
-    updateMenuSection(menuId: any, firstArrayEle: number, secondArrayEle: number) {
-        console.log(this.formMenuObject);
-        if (this.formMenuObject.isCustomerTabSelected) {
-            this.injectDynamicComponent(menuId, this.disableMenus, firstArrayEle, secondArrayEle);
+    if (sectionResponseObj.isSectionValid) {
+        //first time loading data; customer not present
+        if (this.completedMenuSectionList[selectedSection].get(mapKey) === undefined) {
+            console.error("SECTION COMPLETED | CALCULATE SCORE");
+            data.push(componentLvlData.name);
+            this.updateMenu('add', data, componentLvlData, selectedSection, mapKey);
         }
         else {
-            this.injectDynamicComponent(menuId, false, firstArrayEle, secondArrayEle);
+            let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
+            if (!dataList.includes(componentLvlData.name)) {
+                console.error("SECTION COMPLETED | CALCULATE SCORE");
+                dataList.push(componentLvlData.name);
+                this.updateMenu('add', dataList, componentLvlData, selectedSection, mapKey);
+            }
         }
+    } else {
+        let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
+        if (dataList == undefined) {
+            return;
+        }
+        let sectionAlreadyCompleted = dataList.includes(componentLvlData.name);
+        if (sectionAlreadyCompleted) {
+            console.error("SECTION REMOVED | CALCULATE SCORE");
+            dataList.splice(dataList.indexOf(mapKey), 1);
+            this.updateMenu('remove', dataList, componentLvlData, selectedSection, mapKey);
+        }
+        else {
+            console.error("SECTION NOT FOUND");
+        }
+    }
+    console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.warn(this.completedMenuSectionList);
+    console.warn(this.progressStatusObject);
+}
 
+updateMenuSection(menuId: any, firstArrayEle: number, secondArrayEle: number) {
+    console.log(this.formMenuObject);
+    if (this.formMenuObject.isCustomerTabSelected) {
+        this.injectDynamicComponent(menuId, this.disableMenus, firstArrayEle, secondArrayEle);
+    }
+    else {
+        this.injectDynamicComponent(menuId, false, firstArrayEle, secondArrayEle);
     }
 
-    validateMenuNavigation(firstArrIndex: number, secondArrIndex: number, sectionId: string) {
-        let thrushold = 0;
-        let notFilledSection = { nextAvailFirstIndex: 0, nextAvailSecondIndex: 0 };
-        let canGoToPreviousMenu = false;
-        this.menuNavigationBtn.enableLeftArrow = false;
+}
 
-        for (let j = 0; j < this.formsMenuList.length; j++) {
-            const menuSectionList = this.formsMenuList[j];
-            for (let i = 0; i < menuSectionList.length; i++) {
-                const element = menuSectionList[i];
-                if (!element.completed && !element.isActive) {
-                    notFilledSection.nextAvailFirstIndex = j;
-                    notFilledSection.nextAvailSecondIndex = i;
+validateMenuNavigation(firstArrIndex: number, secondArrIndex: number, sectionId: string) {
+    let thrushold = 0;
+    let notFilledSection = { nextAvailFirstIndex: 0, nextAvailSecondIndex: 0 };
+    let canGoToPreviousMenu = false;
+    this.menuNavigationBtn.enableLeftArrow = false;
+
+    for (let j = 0; j < this.formsMenuList.length; j++) {
+        const menuSectionList = this.formsMenuList[j];
+        for (let i = 0; i < menuSectionList.length; i++) {
+            const element = menuSectionList[i];
+            if (!element.completed && !element.isActive) {
+                notFilledSection.nextAvailFirstIndex = j;
+                notFilledSection.nextAvailSecondIndex = i;
+            }
+            if (j <= firstArrIndex) {
+                if (this.formsMenuList[firstArrIndex][secondArrIndex].id == element.id) {
+                    thrushold = 1
                 }
-                if (j <= firstArrIndex) {
-                    if (this.formsMenuList[firstArrIndex][secondArrIndex].id == element.id) {
-                        thrushold = 1
-                    }
-                    if (!element.completed && !element.isActive && !thrushold) {
-                        canGoToPreviousMenu = true;
-                        this.menuNavigationBtn.enableLeftArrow = true;
-                    }
+                if (!element.completed && !element.isActive && !thrushold) {
+                    canGoToPreviousMenu = true;
+                    this.menuNavigationBtn.enableLeftArrow = true;
                 }
             }
         }
-        if (notFilledSection.nextAvailFirstIndex == firstArrIndex) {
-            if (notFilledSection.nextAvailSecondIndex > secondArrIndex) {
-                this.menuNavigationBtn.enableRightArrow = true;
-            }
-            else {
-                this.menuNavigationBtn.enableRightArrow = false;
-            }
-        } else if (notFilledSection.nextAvailFirstIndex > firstArrIndex) {
+    }
+    if (notFilledSection.nextAvailFirstIndex == firstArrIndex) {
+        if (notFilledSection.nextAvailSecondIndex > secondArrIndex) {
             this.menuNavigationBtn.enableRightArrow = true;
-        } else {
+        }
+        else {
             this.menuNavigationBtn.enableRightArrow = false;
         }
+    } else if (notFilledSection.nextAvailFirstIndex > firstArrIndex) {
+        this.menuNavigationBtn.enableRightArrow = true;
+    } else {
+        this.menuNavigationBtn.enableRightArrow = false;
     }
+}
 }
 
 

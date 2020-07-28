@@ -56,6 +56,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
   @ViewChild('hidRelation', { static: false }) hidRelation: HiddenComponent;
   @Input() ApplicationId: string = undefined;
   @Input() activeBorrowerSeq: string = undefined;
+  @Input('readOnly') readOnly: boolean = false;
   //@Input() CustomerDetailsArray: any = undefined;
   cust_name: string;
   cust_dob: string;
@@ -163,7 +164,12 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
+      
+      		if (this.readOnly) {
+			this.setReadOnly(this.readOnly);
+		}
     });
+  
   }
   clearError() {
     super.clearBasicFieldsError();
@@ -235,7 +241,6 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
           }
         }
       }
-
 
       if (this.ReferrerBorrowerSeq.getFieldValue() != undefined) {
         inputMap.clear();
@@ -336,7 +341,6 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
           }
         );
       }
-
       else {
         inputMap.clear();
         inputMap.set('Body.ReferrerDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
@@ -358,7 +362,6 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         // inputMap.set('Body.ReferrerDetails.AddressDetails.MobileCountryCode', this.RD_COUNTRY_CODE2.getFieldValue());
         inputMap.set('Body.ReferrerDetails.AddressDetails.AltMobileNo', this.RD_PHONE2.getFieldValue());
         inputMap.set('Body.ReferrerDetails.ApplicationId', this.ApplicationId);
-
         // inputMap.set('Body.ReferrerDetails.BorrowerSeq', this.activeBorrowerSeq);
         inputMap.set('Body.ReferrerDetails.CustomerType', 'R');
         if (this.RD_REF_NAME.getFieldValue() == undefined || this.RD_REF_NAME.getFieldValue() == null) {

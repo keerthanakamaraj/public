@@ -1,3 +1,4 @@
+
 <div class="pi-container row">
   <div class="sub-header-container col-12  col-sm-12 col-md-12 res-pr-hide">
     <label class="Questionnaire-subheader"> {{ 'PIDtls.PI_SUBHEADER_NOTE' | translate}}</label>
@@ -20,12 +21,13 @@
   <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
   <div style="min-height: 0px;height: 20px;" class="col-12 col-sm-12 col-md-12"></div>
   <div class="col-12  col-sm-7 col-md-7 res-pr-hide"></div>
-  <div class="col-12  col-sm-1 col-md-1 res-pr-hide savebtn" [hidden]="PI_SAVE_BTN.isHidden()">
+  <div class="col-12  col-sm-1 col-md-1 res-pr-hide savebtn" [hidden]="PI_SAVE_BTN.isHidden()" *ngIf="!readOnly">
     <app-button #PI_SAVE_BTN fieldName="{{ 'PIDtls.PI_SAVE_BTN' | translate}}" fieldID="PI_SAVE_BTN" customClass="btn btn-primary"
       (buttonClick)="PI_SAVE_BTN_click($event)"></app-button>
   </div>
-  <div class="col-12  col-sm-1 col-md-1 res-pr-hide clearbtn" [hidden]="PI_CLEAR_BTN.isHidden()">
+  <div class="col-12  col-sm-1 col-md-1 res-pr-hide clearbtn" [hidden]="PI_CLEAR_BTN.isHidden()" *ngIf="!readOnly">
     <app-button #PI_CLEAR_BTN fieldName="{{ 'PIDtls.PI_CLEAR_BTN' | translate}}" fieldID="PI_CLEAR_BTN" customClass="btn-warning-outline"
       (buttonClick)="PI_CLEAR_BTN_click($event)"></app-button>
   </div>
 </div>
+

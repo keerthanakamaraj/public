@@ -82,6 +82,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
+  @Input() readOnly: boolean = false;
 
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
@@ -243,13 +244,29 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     await this.Handler.onFormLoad({
     });
 
-    if(this.activeBorrowerSeq !== undefined){
+    if (this.activeBorrowerSeq !== undefined) {
       await this.AddressGrid.gridDataLoad({
         'passBorrowerSeqToGrid': this.activeBorrowerSeq
       });
     }
 
     this.setDependencies();
+
+    //UW
+    console.log(this.AddressGrid.columnDefs);
+    if (this.readOnly) {
+      setTimeout(() => {
+        this.setReadOnly(this.readOnly);
+      }, 1000);
+      let totalGridColumns = this.AddressGrid.columnDefs.length;
+      if (totalGridColumns == 6)
+        return;
+
+      this.AddressGrid.columnDefs = this.AddressGrid.columnDefs.slice(0, totalGridColumns - 1);
+      this.AddressGrid.columnDefs[totalGridColumns - 2].width = 12;
+      this.AddressGrid.columnDefs[totalGridColumns - 2].cellRendererParams.CustomClass = "btn-views";
+      this.AddressGrid.columnDefs[totalGridColumns - 2].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+    }
   }
   setInputs(param: any) {
     const params = this.services.http.mapToJson(param);
@@ -318,7 +335,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.dependencyMap.clear();
     this.value = new AddressDetailsModel();
     this.passNewValue(this.value);
-    this.setReadOnly(false);
+    this.setReadOnly(this.readOnly);
     this.onFormLoad();
     this.AD_MAILING_ADDRESS.isOptionsLoaded = false;
     
@@ -460,7 +477,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         // } else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() === undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() === '') && this.AD_COUNTRY_CODE.getFieldValue() !== undefined) {
         //   this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
         //   return;
-       if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
+        if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
           this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
           return;
         } else if (this.AD_EMAIL_ID2.getFieldValue() === undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() === true) {
@@ -496,7 +513,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
             if (err['ErrorElementPath'] === 'AddressDetails.PreferredEmailForCommunication') {
               this.AD_CORR_EMAIL.setError(err['ErrorDescription']);
-            } 
+            }
             // else if (err['ErrorElementPath'] === 'AddressDetails.LandlineCountryCode') {
             //   this.AD_LAND_COUNTRY_CODE.setError(err['ErrorDescription']);
             // } 
@@ -542,7 +559,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.AD_OCCUPANCY_TYPE.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.PreferredTime') {
               this.AD_PREF_TIME.setError(err['ErrorDescription']);
-            } 
+            }
             // else if (err['ErrorElementPath'] === 'AddressDetails.MobileCountryCode') {
             //   this.AD_COUNTRY_CODE.setError(err['ErrorDescription']);
             // }

@@ -1,0 +1,212 @@
+<form class="MakeRelative">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-12 col-md-12">
+        <div class="FormTitle no-border">
+          <a class="back" (click)="goBack()">Back</a>
+          <span>{{ 'Operation.FormTitle' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError"></div>
+    </div>
+    <app-hidden #HideCurrentStage fieldID="HideCurrentStage"></app-hidden>
+  </div>
+  <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+  <div *ngIf="!formOnLoadError">
+    <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+      <div class="form-group pb10">
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+          <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)">
+          </app-Header>
+        </div>
+      </div>
+    </div>
+    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
+      <i class="fa fa edit"></i>
+    </div>
+    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
+      <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
+        customClass="btn btn-primary" [formCode]="formCode">
+      </app-button>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+      <app-label #FieldId_1 parentCompCode="Operation" fieldID="FieldId_1" [formCode]="formCode" fontFamily="sans-serif"
+        fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+    </div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+      <div style=" width:100%; background:skyblue;height:1px;">
+      </div>
+    </div>
+    <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
+    </app-ApplicationDtls>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+      <app-label #FieldId_2 parentCompCode="Operation" fieldID="FieldId_2" [formCode]="formCode" fontFamily="sans-serif"
+        fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+    </div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+      <div style=" width:100%; background:skyblue;height:1px;">
+      </div>
+    </div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_GRID.isHidden()">
+      <app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode"></app-CustGrid>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="LoanCat" *ngIf="isLoanCategory">
+      <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+        <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"
+          fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+      </div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <div style=" width:100%; background:skyblue;height:1px;">
+        </div>
+      </div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #Loan_AMT parentCompCode="Operation" fieldID="Loan_AMT" [formCode]="formCode"
+            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbustAmt.isHidden()">
+          <app-text-box #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode"
+            (blur)="genericOnBlur('DisbustAmt', $event)">
+          </app-text-box>
+        </div>
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #Loan_DBR parentCompCode="Operation" fieldID="Loan_DBR" [formCode]="Loan_DBR"
+            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="L_DBR.isHidden()">
+          <app-text-box #L_DBR fieldID="L_DBR" [formCode]="formCode" (blur)="genericOnBlur('L_DBR', $event)">
+          </app-text-box>
+        </div>
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #Installment_AMT parentCompCode="Operation" fieldID="Installment_AMT" [formCode]="formCode"
+            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EMI_Amt.isHidden()">
+          <app-text-box #EMI_Amt fieldID="FieldId_7" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
+          </app-text-box>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+        <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="G_LETTER.isHidden()"> -->
+        <app-button class="letter_gen" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}" fieldID="G_LETTER"
+          (click)="onLetterClick()" customClass="btn btn-primary" [formCode]="formCode">
+        </app-button>
+        <!-- </div> -->
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div *ngIf="show">
+          <span><a href="#">Mortage Deed</a></span><br>
+          <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+          <span><a href="#">Agrement letter</a></span><br>
+          <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+          <span><a href="#">Final Sanction letter</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="CreditCat" *ngIf="!isLoanCategory">
+      <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+        <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"
+          fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+      </div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <div style=" width:100%; background:skyblue;height:1px;">
+        </div>
+      </div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #Approved_limit parentCompCode="Operation" fieldID="Approved_limit" [formCode]="formCode"
+            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Apved_Limit.isHidden()">
+          <app-text-box #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
+            (blur)="genericOnBlur('Apved_Limit', $event)">
+          </app-text-box>
+        </div>
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #C_DBR parentCompCode="Operation" fieldID="C_DBR" [formCode]="C_DBR" fontFamily="sans-serif"
+            fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Card_DBR.isHidden()">
+          <app-text-box #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
+          </app-text-box>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="G_LETTER.isHidden()"> -->
+        <app-button class="letter_gen" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}" fieldID="G_LETTER"
+          customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
+        </app-button>
+        <!-- </div> -->
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div *ngIf="show">
+          <a href="#">Mortage Deed</a><br>
+          <a href="#">Agrement letter</a><br>
+          <a href="#">Final Sanction letter</a>
+        </div>
+      </div>
+      <!-- <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div> -->
+    </div>
+    <div #BUTTON_SECTION id="BUTTON_SECTION">
+      <div class="form-group pb10 button-group">
+        <div class="col-12  col-sm-4 col-md-4"></div>
+        <div class="col-12  col-sm-4 col-md-4 text-center">
+          <app-button #OPERATION_APPROVE fieldName="{{ 'Operation.OPERATION_APPROVE' | translate}}" fieldID="QDE_SUBMIT"
+            [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="QDE_SUBMIT_click($event)"
+            style="width: 150px !important;">
+          </app-button>
+          <app-button #OPERATION_WITHDRAW fieldName="{{ 'Operation.OPERATION_WITHDRAW' | translate}}"
+            fieldID="QDE_WITHDRAW" [formCode]="formCode" customClass="btn-warning-outline"
+            (buttonClick)="QDE_WITHDRAW_click($event)" style="width: 150px !important;">
+          </app-button>
+        </div>
+        <div class="col-12  col-sm-4 col-md-4"></div>
+      </div>
+    </div>
+  </div>
+</form>

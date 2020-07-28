@@ -55,7 +55,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 
     @Input() ApplicationId: string = undefined;
     @Input() activeBorrowerSeq: string = undefined;
-
+    @Input('readOnly') readOnly: boolean = false;
     monthLimit: number = 1;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -110,6 +110,13 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         });
         await this.Handler.onFormLoad({
         });
+        console.log(this.Visit_Report_Grid.columnDefs);
+        if (this.readOnly) {
+            this.Visit_Report_Grid.columnDefs = this.Visit_Report_Grid.columnDefs.slice(0, 7);
+            this.Visit_Report_Grid.columnDefs[6].width = 12;
+            this.Visit_Report_Grid.columnDefs[6].cellRendererParams.CustomClass = "btn-views";
+            this.Visit_Report_Grid.columnDefs[6].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+        }
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -159,6 +166,11 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
+        console.log(this.readOnly);
+
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+        }
     }
     clearError() {
         super.clearBasicFieldsError();
@@ -179,7 +191,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.passNewValue(this.value);
         //this.setReadOnly(false);
         this.VRF_Photograph.setValue(this.VRF_Photograph.getDefault());
-        this.VRF_AdverseObservation.setValue( this.VRF_AdverseObservation.getDefault());
+        this.VRF_AdverseObservation.setValue(this.VRF_AdverseObservation.getDefault());
         this.onFormLoad();
     }
     async VRF_Save_click(event) {
@@ -393,19 +405,19 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         let duplicateFound = false;
         let OldRecords = [];
         OldRecords = this.Visit_Report_Grid.VisitRecordsList;
-        if(OldRecords!=undefined){
-        for (let eachRecord of OldRecords) {
-            if (eachRecord.Id != this.HidVisitReportSeqId.getFieldValue() && eachRecord.PlaceofVisit == this.VRF_PlaceOfVisit.getFieldValue() && eachRecord.NameOfPerson.replace(/\s/g, "").toUpperCase() == this.VRF_NameofPersonMet.getFieldValue().replace(/\s/g, "").toUpperCase() && eachRecord.DateOfVisit == this.VRF_DateOfVisit.getFieldValue()) {
-               // console.log("shweta : old rec ", eachRecord.NameOfPerson, "new record", this.VRF_NameofPersonMet.getFieldValue());
-                duplicateFound = true;
-                break;
+        if (OldRecords != undefined) {
+            for (let eachRecord of OldRecords) {
+                if (eachRecord.Id != this.HidVisitReportSeqId.getFieldValue() && eachRecord.PlaceofVisit == this.VRF_PlaceOfVisit.getFieldValue() && eachRecord.NameOfPerson.replace(/\s/g, "").toUpperCase() == this.VRF_NameofPersonMet.getFieldValue().replace(/\s/g, "").toUpperCase() && eachRecord.DateOfVisit == this.VRF_DateOfVisit.getFieldValue()) {
+                    // console.log("shweta : old rec ", eachRecord.NameOfPerson, "new record", this.VRF_NameofPersonMet.getFieldValue());
+                    duplicateFound = true;
+                    break;
+                }
             }
         }
-    }
         return duplicateFound;
     }
 
-    VRF_Reset_click(event){
+    VRF_Reset_click(event) {
         this.onReset();
     }
     fieldDependencies = {

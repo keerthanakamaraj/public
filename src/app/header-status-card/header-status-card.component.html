@@ -1,0 +1,8 @@
+<div class="wgt-header-status-card">
+    <div class="name">{{statusData.name}}</div>
+    <div class="status" [ngClass]="{'success': statusData.status == 'completed', 'failure': statusData.status == 'pending', 'pending': statusData.status == 'deviation'}">
+        <span>{{statusData.status | titlecase}}</span>
+        <app-status-indicator [iconType]="'icon'" [status]="statusData.status"></app-status-indicator>
+    </div>
+    <span class="expand-icon"></span>
+</div>

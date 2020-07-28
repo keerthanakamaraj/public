@@ -20,6 +20,7 @@ export class GoNoGoComponent implements OnInit {
   @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
 
   @Input() ApplicationId: string = undefined;
+  @Input() readOnly: boolean = false;
 
   constructor(private services: ServiceStock, private renderer2: Renderer2) { }
 
@@ -48,6 +49,14 @@ export class GoNoGoComponent implements OnInit {
           "sectionName": "GoNoGoDetails",
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+      }
+
+      if(this.readOnly){
+        setTimeout(() => {
+          this.domRef.forEach((element: any) => {
+            element.setReadOnly(true);
+          });
+        }, 500);
       }
     },
       (httpError) => {
@@ -150,7 +159,7 @@ export class GoNoGoComponent implements OnInit {
         //   this.ErrorSet.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorSet.add('rlo.error.questionnaire.decision-pending');
         isValid = false;
-      } else if (question.SelectedDecision.Remark == undefined) {
+      } //else if (question.SelectedDecision.Remark == undefined) {
         let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
         if (('N' == question.IsNegative && 'N' == answerParams.AnswerValue) ||
           ('Y' == question.IsNegative && 'Y' == answerParams.AnswerValue)) {
@@ -158,7 +167,7 @@ export class GoNoGoComponent implements OnInit {
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
         }
-      }
+     // }
     });
 
     return isValid;

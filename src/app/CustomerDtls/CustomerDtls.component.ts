@@ -104,6 +104,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @Input() isLoanCategory: any = undefined;
   @Input() Cust_FullName: string = undefined;
   @Input() parentFormCode: string = undefined;
+  @Input() readOnly: boolean = false;
+  @Input() activeBorrowerSeq: any;//used when dynamically loading component in modal ie:UW
   showAddOn: boolean = false;
   //CustomerDetailsArray: any;
   appId: any;
@@ -267,6 +269,19 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // this.FieldId_30.valueChangeUpdates().subscribe((value) => { this.value.FieldId_30 = value; });
       this.onFormLoad(event);
       this.checkForHTabOverFlow();
+      
+      
+            //when opened in modal ie:UW
+            if (this.readOnly) {
+                let obj = {
+                    selectedCustId: this.activeBorrowerSeq
+                }
+                this.CUST_DTLS_GRID_custDtlsEdit(obj).then((response)=>{
+                    setTimeout(() => {
+                       this.setReadOnly(true); 
+                    }, 1000);                   
+                });
+            }
     });
   }
   clearError() {
@@ -1089,6 +1104,5 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     );
     return this.fieldArray;
   }
-
 
 }

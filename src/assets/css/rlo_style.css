@@ -653,7 +653,13 @@ li .a {
   margin-left: 210px;
 }
  
+#AMS_GENERATE_BTN{
+  margin-left: 0px;
+}
 
+#AMS_CLEAR_BTN{
+  margin-left: 10px;
+}
 
 .AD_EMAIL1{
   margin-left: 10px;

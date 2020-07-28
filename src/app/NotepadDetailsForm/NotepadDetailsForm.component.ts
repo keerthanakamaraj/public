@@ -40,7 +40,7 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     @ViewChild('hiddenAppId', { static: false }) hiddenAppId: HiddenComponent;
     @ViewChild('hiddenKey', { static: false }) hiddenKey: HiddenComponent;
     @Input() ApplicationId: string = undefined;
-
+    @Input('readOnly') readOnly: boolean = false;
     fieldDependencies = {
         ND_COMMENT_CAT: {
             inDep: [
@@ -85,6 +85,35 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         await this.FieldId_7.gridDataLoad({
             'ApplicationId': this.ApplicationId
         });
+        console.log(this.FieldId_7.columnDefs);
+        if (this.readOnly) {
+            let gridObj = this.FieldId_7.columnDefs;
+
+            let customObj = {
+                width: 12,
+                field: "",
+                sortable: false,
+                filter: false,
+                resizable: false,
+                cellRenderer: 'buttonRenderer',
+                cellStyle: { 'text-align': 'left' },
+                cellRendererParams: {
+                    gridCode: 'FamilyDetailsGrid',
+                    columnId: 'FD_DELETE',
+                    Type: '1',
+                    CustomClass: 'btn-views',
+                    IconClass: 'fa fa-eye fa-lg',
+                    onClick: '',
+                },
+            }
+            // customObj.field = "";
+            // customObj.width = 25;
+            // customObj.CustomClass = "btn-views";
+            // customObj.IconClass = 'fas fa-eye fa-lg';
+
+            gridObj[gridObj.length - 1].width = 38;
+            gridObj.push(customObj);
+        }
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -136,6 +165,11 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
             this.onFormLoad(event);
             this.checkForHTabOverFlow();
         });
+        console.log(this.readOnly);
+
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+        }
     }
     clearError() {
         super.clearBasicFieldsError();
@@ -195,6 +229,12 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     async ND_CLEAR_click(event) {
         const inputMap = new Map();
         this.onReset();
+    }
+
+    setDataInFields(event) {
+        console.log(event);
+        this.ND_COMMENT_CAT.setValue(event.Comment_Category);
+        this.ND_COMMENTS.setValue(event.ND_COMMENTS);
     }
 
 }

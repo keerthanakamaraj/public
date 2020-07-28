@@ -8,7 +8,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateModule, TranslateLoader, MissingTranslationHandler } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { Data } from './DataService';
@@ -41,6 +41,11 @@ import { KeycloakService } from 'keycloak-angular';
 import { environment } from 'src/environments/environment';
 import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 import { PopupAlertComponent } from './popup-alert/popup-alert.component';
+import { RloUiCardFieldModule } from './rlo-ui-card-field/rlo-ui-card-field.module';
+import { NotepadDetailsFormComponent } from './NotepadDetailsForm/NotepadDetailsForm.component';
+import { NotepadDetailsFormModule } from './NotepadDetailsForm/NotepadDetailsForm.module';
+import { PopUpAlertModule } from './popup-alert/popup-alert-module';
+// import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
 // import { ReadonlyGridComponent } from './readonly-grid/readonly-grid.component';
@@ -93,13 +98,12 @@ const keycloakService = new KeycloakService();
     // PwdChangeComponent,
     GridWithFormComponent,
     AlertsComponent,
-    PopupAlertComponent
+    // RloUiCardTileComponent
     //MyTrayPageComponent
     // MyTrayGridComponent,
   ],
   exports: [
     FooterComponent
-
   ],
   imports: [
     BrowserAnimationsModule,
@@ -110,6 +114,7 @@ const keycloakService = new KeycloakService();
     BrowserModule,
     NgbModalModule,
     MyTrayGridModule,
+    RloUiCardFieldModule,
     Ng4LoadingSpinnerModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -119,6 +124,7 @@ const keycloakService = new KeycloakService();
       }
     }),
     PopupModule,
+    PopUpAlertModule
   ],
   providers: [
     Data,

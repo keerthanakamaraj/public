@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { MyTrayGridComponent } from '../MyTrayGrid/MyTrayGrid.component';
 import { Router } from "@angular/router";
+import { IModalData } from '../popup-alert/popup-interface';
 
 const customCss: string = '';
 
@@ -158,5 +159,35 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     } else {
       this.navigateToHome();
     }
+  }
+
+  underWriter() {
+    let inputMap = new Map();
+    inputMap.set('appId', 1675);
+
+    this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
+    this.router.navigate(['/home/Underwriter']);
+  }
+
+  testModal() {
+
+    Promise.all([this.services.rloui.getAlertMessage('', 'test'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+      console.log(values);
+      let modalObj: IModalData = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-lg",
+        buttons: [],
+        componentName: 'NotepadDetailsFormComponent'
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal();
+          }
+        }
+      });
+    });
   }
 }

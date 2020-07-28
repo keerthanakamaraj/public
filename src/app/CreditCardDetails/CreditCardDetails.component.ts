@@ -47,6 +47,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('hidCardDispatch', { static: false }) hidCardDispatch: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @Input() ApplicationId: string = undefined;
+    @Input() readOnly: boolean = false;
 
     async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
@@ -143,6 +144,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.subsBFldsValueUpdates();
             this.onFormLoad();
             this.checkForHTabOverFlow();
+
+            if (this.readOnly)
+                this.setReadOnly(this.readOnly);
         });
     }
     clearError() {

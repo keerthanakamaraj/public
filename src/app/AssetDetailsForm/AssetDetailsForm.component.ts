@@ -51,7 +51,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('hideCurrencyDesc', { static: false }) hideCurrencyDesc: HiddenComponent;
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
     @ViewChild('hideAssetStatus', { static: false }) hideAssetStatus: HiddenComponent;
-    
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -88,7 +88,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     async clear_click(event) {
         let inputMap = new Map();
         this.onReset();
-      }
+    }
 
     async onFormLoad() {
         // this.activeBorrowerSeq = 2;
@@ -104,11 +104,22 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.setDependencies();
         await this.Handler.onFormLoad({});
         await this.AssetDetailsGrid.gridDataLoad({
-                'passBorrowerToAsset' :this.activeBorrowerSeq
+            'passBorrowerToAsset': this.activeBorrowerSeq
         });
+
+        //UW
+        console.log(this.AssetDetailsGrid.columnDefs);
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+            let totalGridColumns = this.AssetDetailsGrid.columnDefs.length;
+            this.AssetDetailsGrid.columnDefs = this.AssetDetailsGrid.columnDefs.slice(0, totalGridColumns - 1);
+            this.AssetDetailsGrid.columnDefs[totalGridColumns - 2].width = 12;
+            this.AssetDetailsGrid.columnDefs[totalGridColumns - 2].cellRendererParams.CustomClass = "btn-views";
+            this.AssetDetailsGrid.columnDefs[totalGridColumns - 2].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+        }
     }
 
-   
+
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -181,16 +192,16 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     async AT_CURRENCY_blur(event) {
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
-      }
-      async AT_FAIR_MRKT_VALUE_blur(event) {
+    }
+    async AT_FAIR_MRKT_VALUE_blur(event) {
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
         // await this.Handler.onAddTypeChange();
-      }  
+    }
 
-      async AT_ASSET_TYPE_change(fieldID, value){
-          this.AT_ASSET_SUBTYPE.onReset();
-      }
+    async AT_ASSET_TYPE_change(fieldID, value) {
+        this.AT_ASSET_SUBTYPE.onReset();
+    }
 
     async AT_SAVE_click(event) {
         // this.AT_SAVE.setDisabled(true);
@@ -207,7 +218,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                         }
                     }
                 }
-                }
+            }
             if (this.ASSET_ID.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.AssetSeq', this.ASSET_ID.getFieldValue());
@@ -222,14 +233,14 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
                 // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
-                inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
+                inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.asset', 5000);
                         this.onReset();
                         // this.AT_SAVE.setDisabled(false);
-                        
+
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -273,7 +284,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                         }
                         this.services.alert.showAlert(2, 'rlo.error.update.asset', -1);
                         // this.AT_SAVE.setDisabled(false);
-                        
+
                     }
                 );
             }
@@ -290,14 +301,14 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
                 // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
-                inputMap.set('Body.AssetDetails.BorrowerSeq',this.activeBorrowerSeq);
-                this.services.http.fetchApi('/AssetDetails', 'POST', inputMap,'/rlo-de').subscribe(
+                inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
+                this.services.http.fetchApi('/AssetDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.asset', 5000);
                         this.onReset();
                         // this.AT_SAVE.setDisabled(false);
-                        
+
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -338,7 +349,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                         }
                         this.services.alert.showAlert(2, 'rlo.error.save.asset', -1);
                         // this.AT_SAVE.setDisabled(false);
-                        
+
                     }
                 );
             }
@@ -352,7 +363,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.AssetKey);
-        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap,'/rlo-de').subscribe(
+        this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']);
@@ -383,22 +394,22 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     fieldDependencies = {
         AT_ASSET_TYPE: {
             inDep: [
-      
-              { paramKey: "AssetTypeCode", depFieldID: "AT_ASSET_TYPE", paramType: "PathParam" },
+
+                { paramKey: "AssetTypeCode", depFieldID: "AT_ASSET_TYPE", paramType: "PathParam" },
             ],
             outDep: [
             ]
-          },
+        },
 
         AT_ASSET_SUBTYPE: {
             inDep: [
-      
-              { paramKey: "AssetSubTypeCode", depFieldID: "AT_ASSET_SUBTYPE", paramType: "PathParam" },
-              { paramKey: "AT_ASSET_TYPE", depFieldID: "AT_ASSET_TYPE", paramType: "QueryParam" },
+
+                { paramKey: "AssetSubTypeCode", depFieldID: "AT_ASSET_SUBTYPE", paramType: "PathParam" },
+                { paramKey: "AT_ASSET_TYPE", depFieldID: "AT_ASSET_TYPE", paramType: "QueryParam" },
             ],
             outDep: [
             ]
-          },
+        },
         // AT_OWNED_BY: {
         //     inDep: [
 

@@ -1,4 +1,4 @@
-<form class="MakeRelative">
+<form class="MakeRelative page-layout-padding">
     <div class="ShowLoading " *ngIf="loadSpinner">
         <div class="lds-roller MakeItMiddle">
             <div></div>
@@ -32,7 +32,13 @@
                         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" [showProgressBar]="'true'"
                             (productCategoryFound)="brodcastProdCategory($event)"
                             (headerStateEvent)="headerState($event)"></app-Header>
-                        <app-score-card #scorecard></app-score-card>
+                        <!-- <app-score-card #scorecard></app-score-card> -->
+                        <div class="scorecard-container row horizontal-layout" [ngClass]="{'expanded':!showExpandedHeader}">
+                            <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data"
+                                *ngFor="let data of headerScoreCard">
+                            </app-score-card>
+                            <span class="refresher"></span>
+                        </div>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div"
                         [ngClass]="showExpandedHeader ? '' : 'header-expanded-dde'">
@@ -229,6 +235,8 @@
                 <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
                     (mouseout)="mouseOvered=false">
                     <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
+
+
                         <div class="form-details menu" (click)="updateMenuSection(menu.id,j,i)"
                             *ngFor="let menu of section;let i= index"
                             [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">

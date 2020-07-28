@@ -34,6 +34,7 @@ import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.co
 
 
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+// import { RloUiCardTileComponent } from '../rlo-ui-card-tile/rlo-ui-card-tile.component';
 
 @NgModule({
   imports: [
@@ -68,8 +69,8 @@ import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
     // RLO
     RLOUIRadioComponent,
     RloUiMobileComponent,
-    ReadOnlyComponent
-    
+    ReadOnlyComponent,
+    // RloUiCardTileComponent
   ],
   exports: [
     ComboBoxComponent,
@@ -88,7 +89,8 @@ import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
     // RLO
     RLOUIRadioComponent,
     RloUiMobileComponent,
-    ReadOnlyComponent
+    ReadOnlyComponent,
+    // RloUiCardTileComponent
   ]
 })
 export class RAFormModule { }

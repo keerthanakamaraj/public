@@ -71,8 +71,10 @@
       <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
         <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-        <div class="cust-edit" (click)="editCustomer($event, customer)">
-          <i class="fas fa-pen"></i>
+        <div class="action-container">
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -89,8 +91,15 @@
       <div *ngFor="let customer of customerTypeMap.get('A')" [ngClass]="{'active' : customer.editing }" class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
         <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-        <div class="cust-edit" (click)="editCustomer($event, customer)">
-          <i class="fas fa-pen"></i>
+        <div class="action-container">
+          <div class="cust-edit" (click)="editCustomer($event, customer)">
+            <i class="fas fa-pen"></i>
+          </div>
+          <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+            <span>
+              <img src="/assets/icons/delete.svg" />
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -108,8 +117,10 @@
         <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-          <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+          <div class="action-container">
+            <div class="cust-edit" (click)="editCustomer($event, customer)">
+              <i class="fas fa-pen"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -126,8 +137,16 @@
         <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }" class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-          <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+          <div class="action-container">
+            <div class="cust-edit" (click)="editCustomer($event, customer)">
+              <i class="fas fa-pen"></i>
+              <!-- <span><img src="/assets/icons/edit.svg"></span> -->
+            </div>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+              <span>
+                <img src="/assets/icons/delete.svg" />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -144,8 +163,15 @@
         <div *ngFor="let customer of customerTypeMap.get('G')" [ngClass]="{'active' : customer.editing }" class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-          <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+          <div class="action-container">
+            <div class="cust-edit" (click)="editCustomer($event, customer)">
+              <i class="fas fa-pen"></i>
+            </div>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+              <span>
+                <img src="/assets/icons/delete.svg" />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -162,8 +188,15 @@
         <div *ngFor="let customer of customerTypeMap.get('OP')" [ngClass]="{'active' : customer.editing }" class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
-          <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+          <div class="action-container">
+            <div class="cust-edit" (click)="editCustomer($event, customer)">
+              <i class="fas fa-pen"></i>
+            </div>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
+              <span>
+                <img src="/assets/icons/delete.svg" />
+              </span>
+            </div>
           </div>
         </div>
       </div>

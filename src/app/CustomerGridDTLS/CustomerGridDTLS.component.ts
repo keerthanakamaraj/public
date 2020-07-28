@@ -332,4 +332,32 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       this.PlusFlag = true;
     }
   }
+
+  deleteCustomer(event, selectedCustomer){
+    alert("deleting customer"+selectedCustomer.CustomerId);
+    if (confirm("Are you sure you want to delete this record")) {
+			let inputMap = new Map();
+			inputMap.clear();
+			inputMap.set('PathParam.BorrowerSeq', selectedCustomer.CustomerId);
+			this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+				async (httpResponse: HttpResponse<any>) => {
+					var res = httpResponse.body;
+					this.services.alert.showAlert(1, 'rlo.success.delete.customer', 5000);
+          this.isFirstAPICall=true;
+          this.doAPIForCustomerList({});
+					// if (this.addressDetails.length == 1)
+					// 	this.services.rloCommonData.updateValuesFundLineGraph("remove");
+
+					//this.readonlyGrid.refreshGrid();
+				},
+				async (httpError) => {
+					var err = httpError['error']
+					if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+					}
+					this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+				}
+			);
+		}
+
+  }
 }

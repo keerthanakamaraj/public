@@ -1,0 +1,42 @@
+<div class="wgt-card-tile-body card-tile-body"
+  [ngClass]="[parentCardName == 'Customer 360 degrees'||parentCardName == 'Loan Details'?'col-sm-6 col-md-6 col-lg-6 special':'']">
+
+  <div class="card-tile-container"
+    [ngClass]="{'icon-only': cardFieldMetaData.type =='icon','d-flex go-no-go-status-card':cardFieldMetaData.type =='statusCount'}">
+    <span id="primary_lable" class="primary_lable">{{cardFieldMetaData.title}}</span>
+
+    <ng-container *ngIf="cardFieldMetaData.type =='iconStatus'">
+      <span id="secondary_lable" class="secondary_lable"
+        [ngClass]="{'success': subTitle == 'completed', 'failure': subTitle == 'pending', 'pending': subTitle == 'deviation'}">{{cardFieldMetaData.subTitle}}
+      </span>
+    </ng-container>
+
+    <ng-container *ngIf="cardFieldMetaData.type =='basic'">
+      <span id="secondary_lable" class="secondary_lable">{{cardFieldMetaData.subTitle}}</span>
+    </ng-container>
+
+    <div>
+      <button type="button" class="lable-icon" *ngIf="cardFieldMetaData.modalSectionName.length"
+        (click)="onButtonClick()">
+      </button>
+    </div>
+
+    <app-status-indicator *ngIf="cardFieldMetaData.type =='icon' || cardFieldMetaData.type =='iconStatus'"
+      [iconType]="cardFieldMetaData.type" [status]="cardFieldMetaData.subTitle"></app-status-indicator>
+
+    <div class="status-count-container" *ngIf="cardFieldMetaData.type =='statusCount'">
+      <span class="count">
+        <app-status-indicator [iconType]="'completed'" [status]="'completed'">
+        </app-status-indicator>
+        <span class="number">{{cardFieldMetaData.subTitle.success}}</span>
+      </span>
+      <span class="count">
+        <app-status-indicator [iconType]="'pending'" [status]="'pending'">
+        </app-status-indicator>
+        <span class="number">{{cardFieldMetaData.subTitle.failure}}</span>
+      </span>
+    </div>
+
+  </div>
+
+</div>

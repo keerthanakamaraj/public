@@ -88,6 +88,10 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/DDE/DDE.module#DDEModule'
 	},
 	{
+		path: 'Underwriter',
+		loadChildren: 'src/app/under-writer/under-writer.module#UnderWriterModule'
+	},
+	{
 		path: 'FamilyDetailsForm',
 		loadChildren: 'src/app/FamilyDetailsForm/FamilyDetailsForm.module#FamilyDetailsFormModule'
 	},
@@ -100,6 +104,14 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/checkEligibilityForm/checkEligibilityForm.module#checkEligibilityFormModule'
 	}
 	,
+	{
+		path: 'FeesChargesDetails',
+		loadChildren: 'src/app/Fees&ChargesDetails/Fees&ChargesDetails.module#FeesChargesDetailsModule'
+	},
+	{
+		path: 'withdraw',
+		loadChildren: 'src/app/Operation/Operation.module#OperationModule'
+	}
 	
 ];
 export class AppRoutingModule { }

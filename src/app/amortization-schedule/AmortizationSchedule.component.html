@@ -1,0 +1,218 @@
+<form class="MakeRelative">
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-5 col-md-5">
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10" [ngClass]="editableFlag?'':'deactivate-amortization'">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAmountRequested.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':LoanAmountRequested.mandatory}">
+                {{ 'Amortization.LoanAmountRequested' | translate}}
+              </label>
+            </div>
+            <app-amount #LoanAmountRequested fieldID="LoanAmountRequested" [formCode]="formCode" (blur)="genericOnBlur('LoanAmountRequested', $event)"></app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':NetInterestRate.mandatory}">
+                {{ 'Amortization.NetInterestRate' | translate}}
+              </label>
+            </div>
+            <app-text-box #NetInterestRate fieldID="NetInterestRate" [formCode]="formCode" (blur)="genericOnBlur('NetInterestRate', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Tenure.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':Tenure.mandatory}">
+                {{ 'Amortization.Tenure' | translate}}
+              </label>
+            </div>
+            <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode" (blur)="genericOnBlur('Tenure', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanOwnership.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':BLoanOwnership.mandatory}">
+                {{ 'Amortization.BLoanOwnership' | translate}}
+              </label>
+            </div>
+            <app-text-box #BLoanOwnership fieldID="BLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('BLoanOwnership', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':BLoanAmtShare.mandatory}">
+                {{ 'Amortization.BLoanAmtShare' | translate}}
+              </label>
+            </div>
+            <app-amount #BLoanAmtShare fieldID="BLoanAmtShare" [formCode]="formCode" (blur)="genericOnBlur('BLoanAmtShare', $event)"></app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanOwnership.isHidden() || !isCBOwnership">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':CBLoanOwnership.mandatory}">
+                {{ 'Amortization.CBLoanOwnership' | translate}}
+              </label>
+            </div>
+            <app-text-box #CBLoanOwnership fieldID="CBLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('CBLoanOwnership', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanAmountShare.isHidden() || !isCBOwnership">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':CBLoanAmountShare.mandatory}">
+                {{ 'Amortization.CBLoanAmountShare' | translate}}
+              </label>
+            </div>
+            <app-text-box #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode" (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3"></div>
+          <div class="horizontal-line col-12 col-sm-12 col-md-12 "></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalDate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':DisbursalDate.mandatory}">
+                {{ 'Amortization.DisbursalDate' | translate}}
+              </label>
+            </div>
+            <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ScheduleType.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':ScheduleType.mandatory}">
+                {{ 'Amortization.ScheduleType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #ScheduleType category="2" fieldID="ScheduleType" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+              doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ScheduleType', $event)">
+            </app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentStartDate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':RepaymentStartDate.mandatory}">
+                {{ 'Amortization.RepaymentStartDate' | translate}}
+              </label>
+            </div>
+            <app-date #RepaymentStartDate fieldID="RepaymentStartDate" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('RepaymentStartDate', $event)"></app-date>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NoOfInstallments.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':NoOfInstallments.mandatory}">
+                {{ 'Amortization.NoOfInstallments' | translate}}
+              </label>
+            </div>
+            <app-text-box #NoOfInstallments fieldID="NoOfInstallments" [formCode]="formCode" (blur)="genericOnBlur('NoOfInstallments', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequiredEMIAmt.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':RequiredEMIAmt.mandatory}">
+                {{ 'Amortization.RequiredEMIAmt' | translate}}
+              </label>
+            </div>
+            <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode" (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
+          </div>
+
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AMS_GENERATE_BTN.isHidden()">
+            <app-button #AMS_GENERATE_BTN fieldName="{{ 'Amortization.AMS_GENERATE_BTN' | translate}}" fieldID="AMS_GENERATE_BTN" [formCode]="formCode"
+              customClass="btn btn-primary" (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
+          </div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AMS_CLEAR_BTN.isHidden()">
+            <app-button #AMS_CLEAR_BTN fieldName="{{ 'Amortization.AMS_CLEAR_BTN' | translate}}" fieldID="AMS_CLEAR_BTN" [formCode]="formCode"
+              customClass="btn-warning-outline" (buttonClick)="AMS_CLEAR_BTN_click($event)"></app-button>
+          </div>
+        </div>
+        <div class="form-group pb10" [ngClass]="editableFlag?'deactivate-amortization':''">
+          <div class="repayment-form col-12  col-sm-12 col-md-12">
+            <div class="section col-12  col-sm-6 col-md-6">
+              <div class="field-container col-12 col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.LoanAmountRequested' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.loanAmount}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.Product' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.productCode}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.NoOfInstallments' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.noOfInstallments}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.RepaymentScheduleType' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.loanCalculationDate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>
+              </div>
+
+            </div>
+            <div class="section last-section col-12  col-sm-6 col-md-6">
+              <div class="field-container col-12 col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.SubProduct' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.subProductCode}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.NetInterestRate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.interestRate}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.DisbursalDate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.disbursalDate}}</span>
+              </div>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.MaturityDate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.maturityDate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AmortizationGrid.isHidden()">
+            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode" (triggerRepaymentForm)="generateRepaymentForm($event)"></app-AmortizationGrid>
+          </div>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+          <app-amortization-schedule-handler #Handler [MainComponent]="this"></app-amortization-schedule-handler>
+        </div>
+        <!-- </div> -->
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hidScheduleType fieldID="hidScheduleType"></app-hidden>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 
 @Component({
@@ -7,6 +7,9 @@ import { ServiceStock } from '../service-stock.service';
   styleUrls: ['./score-card.component.css']
 })
 export class ScoreCardComponent implements OnInit {
+
+  @Input("scoreData") scoreData: any;
+  @Input("layoutType") layoutType?: string = "horizontal";
 
   showExpanded: boolean = false;
   scoreCards = [
@@ -27,6 +30,10 @@ export class ScoreCardComponent implements OnInit {
   constructor(public services: ServiceStock) { }
 
   ngOnInit() { }
+
+  ngAfterViewInit() {
+    console.log(this.scoreData);
+  }
 
   headerChanges(data) {
     console.log(data);

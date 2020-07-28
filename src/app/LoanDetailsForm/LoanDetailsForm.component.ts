@@ -19,7 +19,9 @@ import { LoanHandlerComponent } from '../LoanDetailsForm/loan-handler.component'
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { IfStmt } from '@angular/compiler';
-
+import { IModalData } from '../popup-alert/popup-interface';
+import { IAmortizationForm} from '../amortization-schedule/amortization-interface';
+import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 
 const customCss: string = '';
 
@@ -61,6 +63,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('FieldId_26', { static: false }) FieldId_26: LoanDetailsGridComponent;
   @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
+  @Input() readOnly: boolean = false;
+
   ApplicationId: any
   LoanArray = [];
 
@@ -116,7 +120,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.hideRepaymentFreq.setValue('FREQUENCY');
     this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
     this.LD_DISBURMENT_MONEY.setDisabled(true);
-    this.LD_FEES_CHARGE.setDisabled(true);
+    // this.LD_FEES_CHARGE.setDisabled(true);
     this.LD_RECEIVE_MONEY.setDisabled(true);
     let inputMap = new Map();
     await this.Handler.onFormLoad({
@@ -146,6 +150,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
+    this.FieldId_26.setValue(inputValue['FieldId_26']);
     this.value = new LoanDetailsFormModel();
     this.value.setValue(inputValue);
     this.setDependencies();
@@ -171,6 +176,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
+
+      if (this.readOnly)
+        this.setReadOnly(this.readOnly);
     });
   }
   clearError() {
@@ -272,7 +280,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     var array = [];
     CustomerDetailsArray.forEach(Customer => {
 
-      if (Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') {
+      if ((Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') && Customer.LoanOwnership>0) {
         var CalCulatepPrincipal = 0
         CalCulatepPrincipal = Number(Customer.LoanOwnership) / 100 * Number(this.LoanAmount.getFieldValue());
         let Emi = this.Handler.CalculateEMI();
@@ -291,14 +299,55 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       'passLoanGrid': array,
     });
   }
+  async LD_FEES_CHARGE_click(event) {
+    // if (this.readOnly)
+    //   return
+
+    let inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('component', 'FeesChargesDetails');
+    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+    var onModalClose = async (reason) => {
+      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+    }
+    modalRef.result.then(onModalClose, onModalClose);
+    modalRef.componentInstance.rotueToComponent(inputMap);
+    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+  }
   async LD_GEN_AMOR_SCH_click(event) {
+    if (this.readOnly)
+      return
+
     if (this.Tenure == undefined || this.TenurePeriod == undefined) {
       this.services.alert.showAlert(2, 'rlo.error.tenure or tenureperiod.not.exist', -1);
       return;
     }
-    let ToatalEMI = this.Handler.CalculateEMI();
-    this.MoneyInstallment.setValue(ToatalEMI);
-    this.Handler.SetValue();
+    // let ToatalEMI = this.Handler.CalculateEMI();
+    // this.MoneyInstallment.setValue(ToatalEMI);
+    // this.Handler.SetValue();
+
+    //amortization modal code starts
+   
+    let dataObj=this.generateAmortizationDataList();
+    Promise.all([this.services.rloui.getAlertMessage('', 'Generate Amortization Schedule')]).then(values => {
+      console.log(values);
+      let modalObj: IModalData = {
+        title: values[0],
+        mainMessage: undefined,
+        modalSize: "modal-width-lg",
+        buttons: [],
+        componentName: 'AmortizationScheduleComponent',
+        data: dataObj
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal();
+          }
+        }
+      });
+    });
 
   }
   async LD_CLEAR_BTN_click(event) {
@@ -419,6 +468,27 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     } else {
       this.services.alert.showAlert(2, 'rlo.mandatory.loan.field', -1);
     }
+  }
+
+  generateAmortizationDataList() {
+    //let CustomerDetailsArray = this.FieldId_26.LoanGridArray;
+    let dataObj: IAmortizationForm = {};
+    dataObj.LoanAmountRequested = this.LoanAmount.getFieldValue();
+    dataObj.NetInterestRate = this.NetInterestRate.getFieldValue();
+    dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
+    //dataObj.TenurePeriod=this.TenurePeriod.getFieldValue();
+    this.FieldId_26.LoanGridArray.forEach(element => {
+      if (element.CustomerType == 'B') {
+        dataObj.BLoanOwnership = element.LoanOwnership;
+        dataObj.BLoanAmtShare = element.Principle;
+      } else if (element.CustomerType == 'CB' && element.LoanOwnership > 0) {
+        dataObj.CBLoanOwnership = element.LoanOwnership;
+        dataObj.CBLoanAmountShare = element.Principle;
+      }
+    });
+    // dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
+
+    return dataObj;
   }
 
   RepaymentOption_blur(event) {

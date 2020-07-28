@@ -147,7 +147,7 @@
           </div>
           <!-- <div class="col-12 col-sm-3 col-md-3"></div>  -->
           <div class="col-12 col-sm-3 col-md-3"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
             <app-button #FD_clear fieldName="{{ 'FamilyDetailsForm.FD_clear' | translate}}" fieldID="FD_clear"
               [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
               (buttonClick)="clear_click($event)"></app-button>

@@ -73,6 +73,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
   @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
+  @Input() parentFormCode: string;
+  @Input('readOnly') readOnly: boolean = false;
   fieldArray: any[];
   activeBorrowerSeq: any;
 
@@ -142,7 +144,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     await this.Handler.onFormLoad({
     });
 
-    if(this.activeBorrowerSeq !== undefined){
+    if (this.activeBorrowerSeq !== undefined) {
       //this.occBorrowerSeq =  this.activeBorrowerSeq;
       await this.OCC_DTLS_GRID.gridDataLoad({
         'refNumToGrid': this.activeBorrowerSeq
@@ -154,7 +156,13 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     //     'refNumToGrid': this.occBorrowerSeq
     //   });
     // }
-
+    console.log(this.OCC_DTLS_GRID.columnDefs);
+    if (this.readOnly) {
+      this.OCC_DTLS_GRID.columnDefs = this.OCC_DTLS_GRID.columnDefs.slice(0, 5);
+      this.OCC_DTLS_GRID.columnDefs[4].width = 12;
+      this.OCC_DTLS_GRID.columnDefs[4].cellRendererParams.CustomClass = "btn-views";
+      this.OCC_DTLS_GRID.columnDefs[4].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+    }
     this.setDependencies();
   }
   setInputs(param: any) {
@@ -204,6 +212,11 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+    console.log(this.readOnly);
+
+    if (this.readOnly) {
+      this.setReadOnly(this.readOnly);
+    }
   }
   joinDate(selectedDate) {
     const moment = require('moment');
