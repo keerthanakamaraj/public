@@ -145,20 +145,27 @@
     "rlo.error.period.not.exist": "Duration is selected please select Period also",
     "rlo.success.save.personal-interview": "Records Saved Successfully",
     "rlo.error.save.personal-interview": "Failed to Save Records",
-    "rlo.error.exist.breferrer": "You Can not add Borrower / Co-Borrower as Referrer",
-    "rlo.success.save.loan": "Loan Details Saved Successfully",
-    "rlo.mandatory.loan.field": "Please Correct Form Error",
-    "rlo.error.tenure or tenureperiod.not.exist": "Tenure or Tenure period cannot be blank",
-    "rlo.error.duplicate-Record": "Record already present",
-    "rlo.error.dov-expired": "Visit date expired",
-    "rlo.error.dov-invalid": "Invalid date of visit",
-    "rlo.withdraw.comfirmation": "Are you sure you want to withdraw?",
-    "rlo.reject.comfirmation": "Are you sure you want to reject?",
-    "rlo.cancel.comfirmation": "Are you sure you want to cancel?",
-    "rlo.error.questionnaire.decision-pending": "Decision for all questions are mandatory.",
-    "rlo.error.questionnaire.Remark-pending": "Remarks for Deviation questions are mandatory.",
-    "rlo.error.questionnaire.decision-Remark-pending": "Decision for all questions and Remarks for Deviation questions are mandatory.",
-    "rlo.error.customer.exist": "Same Customer is Already Exist",
+    "rlo.error.exist.breferrer":"You Can not add Borrower / Co-Borrower as Referrer",
+    "rlo.success.save.loan" : "Loan Details Saved Successfully",
+    "rlo.mandatory.loan.field" :"Please Correct Form Error",
+    "rlo.error.tenure or tenureperiod.not.exist":"Tenure or Tenure period cannot be blank",
+    "rlo.error.duplicate-Record":"Record already present",
+    "rlo.error.dov-expired":"Visit date expired",
+    "rlo.error.dov-invalid":"Invalid date of visit",
+    "rlo.withdraw.comfirmation" :"Are you sure you want to withdraw?",
+    "rlo.reject.comfirmation" : "Are you sure you want to reject?",
+    "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
+    
+    "rlo.reset.comfirmation" : "Are you sure you want to reset the form",
+    "rlo.error.relationship.invalid" : "Please select relationship according to gender",
+
+    "rlo.error.questionnaire.decision-pending":"Decision for all questions are mandatory.",
+    "rlo.error.questionnaire.Remark-pending":"Remarks for Deviation questions are mandatory.",
+    "rlo.error.questionnaire.decision-Remark-pending":"Decision for all questions and Remarks for Deviation questions are mandatory.",
+    "rlo.error.customer.exist" : "Same Customer is Already Exist",
+    "rlo.error.loanownership.invalid" : "Total LoanOwnership Cannot be less than 100%",
+    "rlo.error.loanownership.onblur" : "LoanwOwnership Cannot be more than 100%",
+
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",
     "DUPLICATE": "Duplicate Value",
@@ -1020,7 +1027,7 @@
     "OD_EMPLOYEE_ID": "Employee ID",
     "OD_OCCUPATION": "Occupation",
     "OD_EMPLT_TYPE": "Employment Type",
-    "OD_LENGTH_OF_EXST": "Length Of Existence",
+    "OD_LENGTH_OF_EXST": "Length Of Existence (yrs.)",
     "OD_COMP_CAT": "Company Category",
     "OD_EMP_STATUS": "Employment Status",
     "OD_WRK_PERMIT_NO": "Work Permit No.",
@@ -1521,6 +1528,7 @@
   },
   "LiabilityDtlsGrid": {
     "LD_AMOUNT": "Amount",
+    "LD_EQU_AMOUNT":"Amount",
     "LD_DELETE": "Delete",
     "toolbar_LiabilityDtlsGrid": "null",
     "LD_LIABILITY_TYPE": "Liability Type",
@@ -1620,6 +1628,7 @@
   },
   "AssetDetailsGrid": {
     "AT_Asset_Value": "Asset Value",
+    "AT_Local_Curr_Value":"Asset Value",
     "AT_EDIT": "Edit",
     "AT_Asset_Location": "Asset Location",
     "AT_Asset_Status": "Asset Status",
@@ -1660,7 +1669,7 @@
     "CardDispatchMode": "Pickup Instruction"
   },
   "CustomerDtls": {
-    "CARD_DTLS_LBL": "Loan Details",
+    "CARD_DTLS_LBL":"Card Details",
     "CD_EMAIL": "Email ID",
     "CD_MAIN_LABEL": "Customer",
     "CD_CUST_TYPE": "Customer Type",
@@ -1855,7 +1864,8 @@
     "ND_SR_NO": "S No.",
     "toolbar_NotepadDetailsGrid": "null",
     "ND_COMMENTS": "Comments",
-    "ND_COMMENT_CAT": "Comment Category"
+    "ND_COMMENT_CAT": "Comment Category",
+    "Comment_Category":"Comment Category"
   },
   "NotepadDetailsForm": {
     "ND_SAVE": "SAVE",
@@ -1974,11 +1984,11 @@
     "AddOnDetails": "A",
     "Editing": "Editing"
   },
-  "GNGDtls": {
-    "GNG_SAVE_BTN": "SAVE",
-    "GNG_CLEAR_BTN": "CLEAR",
-    "GNG_MST_PARAMETERS": "Master Parameters"
-
+  "GNGDtls":{
+    "GNG_SAVE_BTN":"SAVE",
+    "GNG_CLEAR_BTN":"CLEAR",
+    "GNG_MST_PARAMETERS":"Master Parameters",
+    "GNG_DECISION_HEADER":"Decision on Parameters"
   },
   "PIDtls": {
     "PI_SAVE_BTN": "SAVE",

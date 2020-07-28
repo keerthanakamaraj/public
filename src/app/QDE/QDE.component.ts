@@ -77,6 +77,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   errorsList = [];
   customerGridArray: any;
   ActiveCustomerDtls: {} = undefined;
+  disableEnableAccordian: any;
+  disableAccordian: boolean = false;
 
 
   async revalidate(): Promise<number> {
@@ -105,6 +107,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   masterDataSubscription: Subscription;
 
   isCustomerTabSelected: boolean = true;
+  childToParentSubjectSubscription: Subscription;
 
   constructor(services: ServiceStock) {
     super(services);
@@ -116,10 +119,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.masterDataSubscription = this.services.rloCommonData.getComponentLvlData().subscribe(event => {
       console.warn("deep === masterDataSubscription", event);
 
-      if (event.name != "Notes" && event.name != "ReferrerDetails") {
+      if (event.name != "Notes" && event.name != "ReferrerDetails" && event.name != "ApplicationDetails") {
         this.services.rloCommonData.updateMasterDataMap(event, this.isCustomerTabSelected);
       }
-      
+
       console.log(this.services.rloCommonData.masterDataMap);
       this.updateTags(event);
       // if (event.name == 'CustomerDetails') {
@@ -128,7 +131,9 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       // }
     });
 
-    this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+    this.childToParentSubjectSubscription = this.services.rloCommonData.childToParentSubject.subscribe((event) => {
+      this.disableAccordian = false;
+      this.UpdateAccordian();
       switch (event.action) {
         case 'updateCustGrid': // on customer update/save success
           this.FieldId_9.doAPIForCustomerList(event.data);
@@ -189,7 +194,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ApplicationId = appId;
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
-   
+    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+
 
     await this.brodcastApplicationId();
 
@@ -342,6 +348,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     styleElement.parentNode.removeChild(styleElement);
     this.services.rloCommonData.resetMapData();
     this.masterDataSubscription.unsubscribe();
+    this.childToParentSubjectSubscription.unsubscribe();
+    this.services.rloui.closeAllConfirmationModal();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -406,6 +414,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async CUSTOMER_DETAILS_passBorrowerSeq(event) {
     console.log("deep === load address n occupation grid", event);
     const inputMap = new Map();
+
     await this.FieldId_6.AddressGrid.gridDataLoad({
       'passBorrowerSeqToGrid': event.BorrowerSeq
     });
@@ -416,6 +425,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     });
     this.FieldId_5.activeBorrowerSeq = event.BorrowerSeq;
   }
+  // async CUSTOMER_DETAILS_passNewCustomer(){
+  //   this.FieldId_6.AddressGrid.addressDetails = [];
+
+  //    this.FieldId_6.AddressGrid.readonlyGrid.apiSuccessCallback(params, this.addressDetails);
+  // }
 
   async CUSTOMER_DETAILS_updateCustGrid(event) {
 
@@ -430,12 +444,21 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async FieldId_9_resetCustForm(event) {
     this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
+    this.disableAccordian = true;
+    this.UpdateAccordian();
+    // this.FieldId_6.AddressGrid.addressDetails = [];
+    // this.FieldId_6.onFormLoad();
+    // this.FieldId_6.AddressGrid.setValue(Object.assign([], this.customers));
   }
+
+
 
   //when clicked on edit
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
+    this.disableAccordian = false
+    this.UpdateAccordian();
     this.CustomerDetailsArray = event.CustomerArray;
     console.log("juhi pass", event.CustomerArray);
     //  }, 20000);
@@ -646,10 +669,35 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   /* Cancel / Back button */
   goBack() {
-    if (confirm('Are you sure you want to cancel?')) {
-      // history.back();
-      this.services.router.navigate(['home', 'LANDING']);
-    }
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+
+  UpdateAccordian() {
+    this.QDE_ACCORD1.disableAccordian('ADD_DETAILS', this.disableAccordian);
+    this.QDE_ACCORD1.disableAccordian('OCC_DETAILS', this.disableAccordian);
   }
 
 }

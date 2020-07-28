@@ -8,7 +8,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 @Component({
   selector: 'app-go-no-go',
   templateUrl: './go-no-go.component.html',
-  styleUrls: ['./go-no-go.component.css']
+  //  styleUrls: ['./go-no-go.component.css']
 })
 
 export class GoNoGoComponent implements OnInit {
@@ -161,8 +161,8 @@ export class GoNoGoComponent implements OnInit {
         isValid = false;
       } //else if (question.SelectedDecision.Remark == undefined) {
         let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
-        if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) ||
-          ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
+        if (('N' == question.IsNegative && 'N' == answerParams.AnswerValue) ||
+          ('Y' == question.IsNegative && 'Y' == answerParams.AnswerValue)) {
           question.IsDeviation = true;
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;

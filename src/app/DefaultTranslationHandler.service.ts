@@ -9,7 +9,6 @@ export class DefaultTranslationHandler implements MissingTranslationHandler {
         console.log("deep 123456879")
     }
     handle(params: MissingTranslationHandlerParams) {
-        debugger;
         console.log(params);
     }
 }

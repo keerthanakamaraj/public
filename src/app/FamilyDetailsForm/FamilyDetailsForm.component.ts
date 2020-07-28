@@ -226,9 +226,25 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             return 1;
         }
     }
+
+    relationshipCheck() {
+        if ((this.FD_GENDER.getFieldValue() == 'M'  && (this.FD_RELATIONSHIP.getFieldValue() == 'DR' || this.FD_RELATIONSHIP.getFieldValue() == 'MR')) || (this.FD_GENDER.getFieldValue() == 'F' && (this.FD_RELATIONSHIP.getFieldValue() == 'FR' || this.FD_RELATIONSHIP.getFieldValue() == 'BR' )))
+        {
+            this.FD_RELATIONSHIP.setError('rlo.error.relationship.invalid');
+            return 1;
+        }
+    }
     async FD_GENDER_blur(event) {
         let inputMap = new Map();
-        this.genderCheck();
+        let gendererror = this.genderCheck();
+        return gendererror
+
+    }
+    async FD_RELATIONSHIP_blur(event) {
+        let inputMap = new Map();
+        let relationshiperror = this.relationshipCheck();
+        return relationshiperror;
+
     }
     //    iscustomer(event){
     //     let inputMap = new Map();

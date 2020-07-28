@@ -59,6 +59,24 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     field: "LD_AMOUNT",
     width: 44,
     sortable: false,
+    hide : true,
+    resizable: true,
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    //   suppressAndOrCondition: true,
+    //   applyButton: true,
+    //   clearButton: true,
+    //   filterOptions: ["contains"],
+    //   caseSensitive: true,
+    // },
+  },
+  {
+    field: "LD_EQU_AMOUNT",
+    width: 44,
+    sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
     valueFormatter: this.formatAmount.bind(this),
@@ -187,6 +205,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
           case "LIABILITY_ID": obj[i].columnName = "LiabilitySeq"; break;
           case "LD_LIABILITY_TYPE": obj[i].columnName = "LiabilityType"; break;
           case "LD_AMOUNT": obj[i].columnName = "Amount"; break;
+          case "LD_EQU_AMOUNT": obj[i].columnName = "LocalEquivalentAmt"; break;
+          
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -198,6 +218,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
           case "LIABILITY_ID": obj[i].columnName = "LiabilitySeq"; break;
           case "LD_LIABILITY_TYPE": obj[i].columnName = "LiabilityType"; break;
           case "LD_AMOUNT": obj[i].columnName = "Amount"; break;
+          case "LD_EQU_AMOUNT": obj[i].columnName = "LocalEquivalentAmt"; break;
+          
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -221,7 +243,8 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['LIABILITY_ID'] = loopVar4[i].LiabilitySeq;
             tempObj['LD_LIABILITY_TYPE'] = loopVar4[i].LiabilityType;
-            tempObj['LD_AMOUNT'] = loopVar4[i].LocalEquivalentAmt;
+            tempObj['LD_AMOUNT'] = loopVar4[i].Amount;
+            tempObj['LD_EQU_AMOUNT'] = loopVar4[i].LocalEquivalentAmt;            
             this.loopDataVar4.push(tempObj);
           }
         }

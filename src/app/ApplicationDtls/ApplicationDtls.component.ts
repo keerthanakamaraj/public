@@ -41,16 +41,16 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   @Input() ApplicationId: string = undefined;
 
 
-  async revalidate(): Promise<number> {
+  async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('AD_PHYSICAL_FORM_NO'),
-      this.revalidateBasicField('AD_DATE_OF_RECIEPT'),
-      //  this.revalidateBasicField('AD_EXISTING_CUSTOMER'),
-      this.revalidateBasicField('AD_SOURCING_CHANNEL'),
-      this.revalidateBasicField('AD_DSA_ID'),
-      this.revalidateBasicField('AD_BRANCH'),
+      this.revalidateBasicField('AD_PHYSICAL_FORM_NO', false, showErrors),
+      this.revalidateBasicField('AD_DATE_OF_RECIEPT', false, showErrors),
+      //  this.revalidateBasicField('AD_EXISTING_CUSTOMER', false, showErrors),
+      this.revalidateBasicField('AD_SOURCING_CHANNEL', false, showErrors),
+      this.revalidateBasicField('AD_DSA_ID', false, showErrors),
+      this.revalidateBasicField('AD_BRANCH', false, showErrors),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -88,7 +88,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     if (this.ApplicationId) {
 
       inputMap.set('PathParam.ApplicationId', this.ApplicationId);
-      this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap,'/rlo-de').subscribe(
+      this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
 
@@ -101,6 +101,15 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
+            let array = [];
+            array.push({ isValid: true, sectionData: this.getFieldValue() });
+            let obj = {
+              "name": "ApplicationDetails",
+              "data": array,
+              "sectionName": "ApplicationDetails"
+            }
+            console.log("shweta ::: in application section", array);
+            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
           }
         },
         async (httpError) => {
@@ -180,43 +189,43 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     this.setReadOnly(false);
     this.onFormLoad(event);
   }
-  async AD_Save_click(event) {
-    let inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('Body.ApplicationDetails.SourcingChannel', this.AD_SOURCING_CHANNEL.getFieldValue());
-    inputMap.set('Body.ApplicationDetails.DSACode', this.AD_DSA_ID.getFieldValue());
-    inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.AD_PHYSICAL_FORM_NO.getFieldValue());
-    // inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
-    inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
-    await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap,'/rlo-de').toPromise()
-      .then(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'rlo.success.save.application', 5000);
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationBranch') {
-            this.AD_BRANCH.setError(err['ErrorDescription']);
-          }
-          // else if (err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer') {
-          //   this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
-          // }
-          else if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationInfo.PhysicalFormNo') {
-            this.AD_PHYSICAL_FORM_NO.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'ApplicationDetails.DSACode') {
-            this.AD_DSA_ID.setError(err['ErrorDescription']);
-          }
-          else if (err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel') {
-            this.AD_SOURCING_CHANNEL.setError(err['ErrorDescription']);
-          }
-        }
-        this.services.alert.showAlert(2, 'rlo.error.save.application', -1);
-      }
-      );
-  }
+  // async AD_Save_click(event) {
+  //   let inputMap = new Map();
+  //   inputMap.clear();
+  //   inputMap.set('Body.ApplicationDetails.SourcingChannel', this.AD_SOURCING_CHANNEL.getFieldValue());
+  //   inputMap.set('Body.ApplicationDetails.DSACode', this.AD_DSA_ID.getFieldValue());
+  //   inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.AD_PHYSICAL_FORM_NO.getFieldValue());
+  //   // inputMap.set('Body.ApplicationDetails.ExistingCustomer', this.AD_EXISTING_CUSTOMER.getFieldValue());
+  //   inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.AD_BRANCH.getFieldValue());
+  //   await this.services.http.fetchApi('/ApplicationDetails', 'POST', inputMap,'/rlo-de').toPromise()
+  //     .then(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       var res = httpResponse.body;
+  //       this.services.alert.showAlert(1, 'rlo.success.save.application', 5000);
+  //     },
+  //     async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //         if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationBranch') {
+  //           this.AD_BRANCH.setError(err['ErrorDescription']);
+  //         }
+  //         // else if (err['ErrorElementPath'] == 'ApplicationDetails.ExistingCustomer') {
+  //         //   this.AD_EXISTING_CUSTOMER.setError(err['ErrorDescription']);
+  //         // }
+  //         else if (err['ErrorElementPath'] == 'ApplicationDetails.ApplicationInfo.PhysicalFormNo') {
+  //           this.AD_PHYSICAL_FORM_NO.setError(err['ErrorDescription']);
+  //         }
+  //         else if (err['ErrorElementPath'] == 'ApplicationDetails.DSACode') {
+  //           this.AD_DSA_ID.setError(err['ErrorDescription']);
+  //         }
+  //         else if (err['ErrorElementPath'] == 'ApplicationDetails.SourcingChannel') {
+  //           this.AD_SOURCING_CHANNEL.setError(err['ErrorDescription']);
+  //         }
+  //       }
+  //       this.services.alert.showAlert(2, 'rlo.error.save.application', -1);
+  //     }
+  //     );
+  // }
 
   fieldDependencies = {
     // AD_EXISTING_CUSTOMER: {
@@ -251,7 +260,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     },
     AD_BRANCH: {
       inDep: [
-        {paramKey: "BranchCd", depFieldID: "AD_BRANCH", paramType:"PathParam"},
+        { paramKey: "BranchCd", depFieldID: "AD_BRANCH", paramType: "PathParam" },
         // { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
         // { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
         // { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },

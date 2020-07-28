@@ -337,6 +337,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.passNewValue(this.value);
     this.setReadOnly(this.readOnly);
     this.onFormLoad();
+    this.AD_MAILING_ADDRESS.isOptionsLoaded = false;
+    
   }
 
   async AD_ADD_TYPE_change(fieldID, value) {

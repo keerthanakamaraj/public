@@ -307,9 +307,9 @@
                             [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
                             fontSize="12px" fontWeight="400" customClass="sub-section-header"
                             [hidden]="CD_LOAN_OWN.isHidden() || !isLoanCategory"></app-label>
-                        <app-label #LOAN_DTLS_LBL parentCompCode="CustomerDtls" fieldID="CARD_DTLS_LBL"
-                            [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
-                            fontSize="12px" fontWeight="400" customClass="sub-section-header"
+                      
+                        <app-label #CARD_DTLS_LBL parentCompCode="CustomerDtls" fieldID="CARD_DTLS_LBL" [formCode]="formCode" fontFamily="sans-serif"
+                            fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400" customClass="sub-section-header"
                             [hidden]="CD_PMRY_EMBSR_NAME.isHidden()|| isLoanCategory"></app-label>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SEGMENT.isHidden()">

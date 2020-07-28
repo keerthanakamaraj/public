@@ -362,7 +362,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   }
   async OD_DELETE_click(event) {
 
-    if (confirm("Are you sure you want do delete this record")) {
+    if (confirm("Are you sure you want to delete this record")) {
       let inputMap = new Map();
       inputMap.clear();
       inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);

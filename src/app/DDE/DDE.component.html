@@ -235,7 +235,9 @@
                 <div class="main-container" [class.menu-open]="mouseOvered" (mouseover)="mouseOvered=true"
                     (mouseout)="mouseOvered=false">
                     <div class="form-element" *ngFor="let section of formsMenuList;let j= index">
-                        <div class="form-details menu" (click)="injectDynamicComponent(menu.id,j,i)"
+
+
+                        <div class="form-details menu" (click)="updateMenuSection(menu.id,j,i)"
                             *ngFor="let menu of section;let i= index"
                             [ngClass]="menu.isActive ? menu.completed ?'completed-table':'incompleted-table': menu.completed?'inactive-table complete':'inactive-table incomplete'">
 
@@ -267,14 +269,18 @@
                                 </li>
                             </ul>
                             <span class="menu-btn">
-                                <span class="prev-btn" (click)="loadForm('prev')"></span>
-                                <span class="nxt-btn" (click)="loadForm('nxt')"></span>
+                                <span id="LeftMenuSectionArrow" class="icon-left-arrow"
+                                    [ngClass]="menuNavigationBtn.enableLeftArrow?'enable-btn':''"
+                                    (click)="loadForm('prev')"></span>
+                                <span id="RightMenuSectionArrow" class="icon-right-arrow"
+                                    [ngClass]="menuNavigationBtn.enableRightArrow?'enable-btn':''"
+                                    (click)="loadForm('nxt')"></span>
                             </span>
                         </div>
                     </div>
 
                     <!-- components added here -->
-                    <div class="menu-content">
+                    <div class="menu-content injected-component">
                         <ng-template #appDDEFormDirective></ng-template>
                     </div>
                 </div>

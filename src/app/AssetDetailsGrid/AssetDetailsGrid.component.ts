@@ -75,6 +75,24 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         width: 22,
         sortable: false,
         resizable: true,
+        hide: true,        
+        cellStyle: { 'text-align': 'right' },
+        valueFormatter: this.formatAmount.bind(this),
+
+        // filter: "agTextColumnFilter",
+        // filterParams: {
+        //     suppressAndOrCondition: true,
+        //     applyButton: true,
+        //     clearButton: true,
+        //     filterOptions: ["contains"],
+        //     caseSensitive: true,
+        // },
+    },
+    {
+        field: "AT_Local_Curr_Value",
+        width: 22,
+        sortable: false,
+        resizable: true,
         cellStyle: { 'text-align': 'right' },
         valueFormatter: this.formatAmount.bind(this),
 
@@ -218,6 +236,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                     case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
                     case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
                     case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
+                    case "AT_Local_Curr_Value": obj[i].columnName = "EquivalentAmt"; break;                    
                     case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
                     // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
                     case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
@@ -233,6 +252,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                     case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
                     case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
                     case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
+                    case "AT_Local_Curr_Value": obj[i].columnName = "EquivalentAmt"; break;
                     case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
                     // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
                     case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
@@ -260,7 +280,8 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                         tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
                         tempObj['AT_Asset_Type'] = loopVar4[i].AssetType;
                         tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus;
-                        tempObj['AT_Asset_Value'] = loopVar4[i].EquivalentAmt;
+                        tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
+                        tempObj['AT_Local_Curr_Value'] = loopVar4[i].EquivalentAmt;
                         tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
                         // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
                         tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR;

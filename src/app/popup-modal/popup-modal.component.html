@@ -1,62 +1,46 @@
-<div class="modal-header">
-  <!-- <button type="button" class="close" style=" position: fixed;
-  position: fixed;
-  right: 10px;
-  top: 5px;
-  z-index: 10;" data-dismiss="modal" (click)="closeModal()" aria-label="Close">    
-      <span aria-hidden="true">&times;</span>
-  </button> -->
-</div>
-
 <div class="modal-body">
-
-  {{message}}
- <!-- <button type="button" class="close" style=" position: fixed;
+  <button type="button" class="close" style=" position: fixed;
     position: fixed;
     right: 10px;
     top: 5px;
     z-index: 10;" data-dismiss="modal" (click)="closeModal()" aria-label="Close">
     <span aria-hidden="true">&times;</span>
-  </button>  -->
+  </button>
 
   <!-- <a [routerLink]="[{ outlets: { primary: ['home'] }},{ outlets: { popUp1: ['ECYMBNKREQPICUP'] }}]" > Open Popup </a> -->
   <div *ngIf="name == 'popUp1'">
-    <router-outlet name="popUp1" #popupRouterOutlet></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp1"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp2'">
-    <router-outlet name="popUp2"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp2"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp3'">
-    <router-outlet name="popUp3"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp3"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp4'">
-    <router-outlet name="popUp4"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp4"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp5'">
-    <router-outlet name="popUp5"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp5"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp6'">
-    <router-outlet name="popUp6"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp6"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp7'">
-    <router-outlet name="popUp7"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp7"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp8'">
-    <router-outlet name="popUp8"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp8"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp9'">
-    <router-outlet name="popUp9"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp9"></router-outlet>
   </div>
   <div *ngIf="name == 'popUp10'">
-    <router-outlet name="popUp10"></router-outlet>
+    <router-outlet  #popupRouterOutlet name="popUp10"></router-outlet>
   </div>
 </div>
-
-<div class="modal-footer" style="padding: 5px 15px 5px 15px;">
-    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
-  </div>
-<!-- <div *ngIf="false">
+<!-- <div *ngIf="false"> -->
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
   </div>
-</div> -->
+<!-- </div> -->
