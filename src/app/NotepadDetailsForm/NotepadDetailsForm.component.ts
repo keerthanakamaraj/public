@@ -87,10 +87,32 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
         });
         console.log(this.FieldId_7.columnDefs);
         if (this.readOnly) {
-            // this.FieldId_7.columnDefs = this.FieldId_7.columnDefs.slice(0, 3);
-            // this.FieldId_7.columnDefs[2].width = 12;
-            this.FieldId_7.columnDefs[2].cellRendererParams.CustomClass = "btn-views";
-            this.FieldId_7.columnDefs[2].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+            let gridObj = this.FieldId_7.columnDefs;
+
+            let customObj = {
+                width: 12,
+                field: "",
+                sortable: false,
+                filter: false,
+                resizable: false,
+                cellRenderer: 'buttonRenderer',
+                cellStyle: { 'text-align': 'left' },
+                cellRendererParams: {
+                    gridCode: 'FamilyDetailsGrid',
+                    columnId: 'FD_DELETE',
+                    Type: '1',
+                    CustomClass: 'btn-views',
+                    IconClass: 'fa fa-eye fa-lg',
+                    onClick: '',
+                },
+            }
+            // customObj.field = "";
+            // customObj.width = 25;
+            // customObj.CustomClass = "btn-views";
+            // customObj.IconClass = 'fas fa-eye fa-lg';
+
+            gridObj[gridObj.length - 1].width = 38;
+            gridObj.push(customObj);
         }
         this.setDependencies();
     }
@@ -207,6 +229,12 @@ export class NotepadDetailsFormComponent extends FormComponent implements OnInit
     async ND_CLEAR_click(event) {
         const inputMap = new Map();
         this.onReset();
+    }
+
+    setDataInFields(event) {
+        console.log(event);
+        this.ND_COMMENT_CAT.setValue(event.Comment_Category);
+        this.ND_COMMENTS.setValue(event.ND_COMMENTS);
     }
 
 }

@@ -22,6 +22,9 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
   @Input('cardFieldMetaData') cardFieldMetaData: ICardListData;
   @Input('parentCardName') parentCardName: string;
+  @Input('applicationId') applicationId: any;
+  @Input('borrowerSeq') borrowerSeq: any;
+  @Input('componentCode') componentCode: any;
 
   myIcon: boolean;
 
@@ -33,7 +36,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
   ngAfterViewInit() {
     this.subTitle = this.cardFieldMetaData.subTitle;
-    console.log(this.cardFieldMetaData);
+    console.log(this.cardFieldMetaData, this.applicationId, this.borrowerSeq, this.componentCode);
     if (this.cardFieldMetaData.subTitle != "NA")
       switch (this.cardFieldMetaData.title) {
         case "Total Income (Annual)":
@@ -51,25 +54,33 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   }
 
   onButtonClick() {
-    let inputMap = new Map();
-    inputMap.set('component', 'FamilyDetailsForm');
-    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason) => {
-      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+    console.log(this.cardFieldMetaData);
+
+    const obj: IGeneralCardData = {
+      name: '',
+      modalSectionName: this.cardFieldMetaData.modalSectionName,
+      borrowerSeq: this.borrowerSeq,
+      applicationId: this.applicationId,
+      componentCode: this.componentCode
     }
-    modalRef.result.then(onModalClose, onModalClose);
-    modalRef.componentInstance.rotueToComponent(inputMap);
-    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+
+    switch (this.cardFieldMetaData.modalSectionName) {
+      case "FeesAndCharges":
+        obj.name = "Fees & Charges"
+        break;
+
+      case "Total Investment Amount":
+        obj.name = "Loan Details"
+        break;
+
+      case "OccupationDetails": 
+        obj.name = "Financial Summary"
+        break;
+
+      default:
+        break;
+    }
+
+    this.services.rloui.openComponentModal(obj);
   }
-  // onButtonClick() {
-  //   let inputMap = new Map();
-  //   inputMap.set('component', 'FamilyDetailsForm');
-  //   const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-  //   var onModalClose = async (reason) => {
-  //     (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-  //   }
-  //   modalRef.result.then(onModalClose, onModalClose);
-  //   modalRef.componentInstance.rotueToComponent(inputMap);
-  //   this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-  // }
 }

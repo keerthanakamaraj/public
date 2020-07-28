@@ -19,6 +19,7 @@ import { FormComponent } from '../form/form.component';
 import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtlsForm.component';
 import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
+import { FeesChargesDetailsComponent } from '../Fees&ChargesDetails/Fees&ChargesDetails.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -72,6 +73,19 @@ export class PopupAlertComponent implements OnInit {
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
       componentInstance.readOnly = true;
+
+      // async brodcastProdCategory(event) {
+      //   //  event.isLoanCategory false when type is 'CC'
+      //   this.isLoanCategory = event.isLoanCategory;
+      //   if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
+      //   componentInstance.loanCategoryChanged(event.isLoanCategory);
+      //     // this.services.rloCommonData.childToParentSubject.next({
+      //     //     action: 'loanCategoryUpdated',
+      //     //     data: { 'isLoanCategory':  event.isLoanCategory }
+      //     // });
+      //   }
+      //   this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+      // }
     }
   }
 
@@ -120,6 +134,9 @@ export class PopupAlertComponent implements OnInit {
         return new AddSpecificComponent(OccupationDtlsFormComponent);
       case 'AssetDetails':
         return new AddSpecificComponent(AssetDetailsFormComponent);
+        break;
+      case 'FeesAndCharges':
+        return new AddSpecificComponent(FeesChargesDetailsComponent);
         break;
     }
   }

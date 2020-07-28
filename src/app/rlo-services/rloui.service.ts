@@ -43,7 +43,8 @@ export class RlouiService {
     { componentName: "RmVisitDetails", iconClass: "icon-RM-Visit-Details" },
     { componentName: "Notes", iconClass: "icon-Notes" },
     { componentName: "ApplicationDetails", iconClass: "icon-Application-Details" },
-    { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" }
+    { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" },
+    { componentName: "FeesAndCharges", iconClass: "icon-generate-amortization" },
   ]
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal) {

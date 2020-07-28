@@ -28,6 +28,9 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
     @Input('displayTitle') displayTitle: boolean = true;
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
+
+    @Output() onNotePadModify: EventEmitter<any> = new EventEmitter<any>();
+
     notepadRecord: boolean = false;
     componentCode: string = 'NotepadDetailsGrid';
     openedFilterForm: string = '';
@@ -81,7 +84,7 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
         //     filterOptions: ["contains"],
         //     caseSensitive: true,
         // },
-    },
+    }
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
     ngAfterViewInit() {
@@ -224,6 +227,10 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
             }
         );
 
+        //when view btn is added in grid
+        if (this.columnDefs.length == 4) {
+            this.columnDefs[3].cellRendererParams.onClick = this.FD_VIEW_click.bind(this);
+        }
     }
     loadSpinner = false;
     showSpinner() {
@@ -231,6 +238,10 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
     }
     hideSpinner() {
         this.loadSpinner = false;
+    }
+
+    FD_VIEW_click(event) {
+        this.onNotePadModify.emit(event);
     }
 
 }

@@ -51,13 +51,13 @@ export class FinancialSummary implements IDeserializable {
                 title: "Total Liability (Annual)",
                 subTitle: this.TotalLiabiity,
                 type: "basic",
-                modalSectionName: this.TotalLiabiity > 0 ? "FamilyDetails" : ""
+                modalSectionName: this.TotalLiabiity > 0 ? "OccupationDetails" : ""
             },
             {
                 title: "Total Asset Value",
                 subTitle: this.TotalAssetValue,
                 type: "basic",
-                modalSectionName: this.TotalAssetValue > 0 ? "FamilyDetails" : ""
+                modalSectionName: this.TotalAssetValue > 0 ? "OccupationDetails" : ""
             },
             {
                 title: "Total Obligation (Annual)",
@@ -353,7 +353,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Investment Amount",
                 subTitle: this.TotalInvestmentAmount,
                 type: "basic",
-                modalSectionName: ""
+                //modalSectionName: this.TotalInvestmentAmount == 'NA' ? '' : 'LoanDetails'
+                modalSectionName: "LoanDetails"
             },
             {
                 title: "Repayment Start Date",
@@ -377,7 +378,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Fees & Charges",
                 subTitle: this.FeesAndCharges,
                 type: "basic",
-                modalSectionName: ""
+                //modalSectionName: this.FeesAndCharges == 'NA' ? '' : 'FeesAndCharges'
+                modalSectionName:'FeesAndCharges'
             },
             {
                 title: "Amoritization Amount",

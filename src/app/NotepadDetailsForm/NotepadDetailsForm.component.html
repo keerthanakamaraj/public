@@ -56,7 +56,7 @@
 
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_7.isHidden()">
-            <app-NotepadDetailsGrid #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-NotepadDetailsGrid>
+            <app-NotepadDetailsGrid (onNotePadModify)="setDataInFields($event)" #FieldId_7 fieldID="FieldId_7" [formCode]="formCode"></app-NotepadDetailsGrid>
           </div>
           <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
             <app-notepad-handler #Handler [MainComponent]="this"></app-notepad-handler>

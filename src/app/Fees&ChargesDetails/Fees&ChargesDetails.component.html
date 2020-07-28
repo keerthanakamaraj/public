@@ -133,6 +133,8 @@
 </div>
 <app-combo-box #ChargeCollection category="2" fieldID="ChargeCollection" [formCode]="formCode" (blur)="genericOnBlur('ChargeCollection', $event)"></app-combo-box>
 </div>
+
+<ng-container *ngIf="!readOnly">
 <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FC_SAVE_BTN.isHidden()">
 <app-button #FC_SAVE_BTN fieldName="{{ 'Fees&ChargesDetails.FC_SAVE_BTN' | translate}}" 
 imagePath="./assets/icons/plus.svg" fieldID="FC_SAVE_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"></app-button>
@@ -141,6 +143,8 @@ imagePath="./assets/icons/plus.svg" fieldID="FC_SAVE_BTN" [formCode]="formCode" 
 <app-button #FC_RESET_BTN fieldName="{{ 'Fees&ChargesDetails.FC_RESET_BTN' | translate}}"
  imagePath="./assets/icons/refresh-form.svg" fieldID="FC_RESET_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"></app-button>
  </div>
+</ng-container>
+
 <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
 <div
  style=" width:100%; background:black;height:1px;" 

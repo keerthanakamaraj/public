@@ -1,8 +1,8 @@
 export interface IModalData {
-  title?: string;
-  mainMessage: string;
+  title?: string;//title to be displayed for modal
+  mainMessage: string; //set main msg as undefined while showing component in modal
   buttons: Array<IButtonObj>;//contains list of buttons to be shown @ footer. Send [] array if no btns required
-  modalSize: string;
+  modalSize: string;//bootstap classes modal-width-sm|modal-width-md|modal-width-lg 
   componentName?: string;
   data?: any;
   iconClass?: any;

@@ -31,3 +31,11 @@ export interface IUwCustomerTab {
 export interface IDeserializable {
     deserialize(input: any): this;
 }
+
+//used in cards
+export interface ICardInfo {
+    cardName: string;
+    applicationId: number;
+    borrowerSeq: number;
+    componentCode: string;
+}

@@ -18,6 +18,7 @@ import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module
 import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsForm.module';
 import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
+import { FeesChargesDetailsModule } from '../Fees&ChargesDetails/Fees&ChargesDetails.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -34,6 +35,7 @@ import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
         ApplicationDtlsModule,
         OccupationDtlsFormModule,
         AssetDetailsFormModule,
+        FeesChargesDetailsModule,
         CustomerDtlsModule
     ],
     declarations: [

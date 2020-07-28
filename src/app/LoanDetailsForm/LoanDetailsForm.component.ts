@@ -20,7 +20,7 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { IfStmt } from '@angular/compiler';
 import { IModalData } from '../popup-alert/popup-interface';
-import {IAmortizationForm} from '../amortization-schedule/amortization-interface';
+import { IAmortizationForm} from '../amortization-schedule/amortization-interface';
 import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 
 const customCss: string = '';
@@ -63,6 +63,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('FieldId_26', { static: false }) FieldId_26: LoanDetailsGridComponent;
   @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
+  @Input() readOnly: boolean = false;
+
   ApplicationId: any
   LoanArray = [];
 
@@ -148,7 +150,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
-this.FieldId_26.setValue(inputValue['FieldId_26']);
+    this.FieldId_26.setValue(inputValue['FieldId_26']);
     this.value = new LoanDetailsFormModel();
     this.value.setValue(inputValue);
     this.setDependencies();
@@ -174,6 +176,9 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
+
+      if (this.readOnly)
+        this.setReadOnly(this.readOnly);
     });
   }
   clearError() {
@@ -294,19 +299,25 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
       'passLoanGrid': array,
     });
   }
-  async LD_FEES_CHARGE_click(event){
+  async LD_FEES_CHARGE_click(event) {
+    // if (this.readOnly)
+    //   return
+
     let inputMap = new Map();
     inputMap.clear();
-    inputMap.set('component','FeesChargesDetails');
+    inputMap.set('component', 'FeesChargesDetails');
     const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason)=>{
-      (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
+    var onModalClose = async (reason) => {
+      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
     }
     modalRef.result.then(onModalClose, onModalClose);
     modalRef.componentInstance.rotueToComponent(inputMap);
     this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
   }
   async LD_GEN_AMOR_SCH_click(event) {
+    if (this.readOnly)
+      return
+
     if (this.Tenure == undefined || this.TenurePeriod == undefined) {
       this.services.alert.showAlert(2, 'rlo.error.tenure or tenureperiod.not.exist', -1);
       return;
@@ -317,7 +328,7 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
 
     //amortization modal code starts
    
-let dataObj=this.generateAmortizationDataList();
+    let dataObj=this.generateAmortizationDataList();
     Promise.all([this.services.rloui.getAlertMessage('', 'Generate Amortization Schedule')]).then(values => {
       console.log(values);
       let modalObj: IModalData = {
@@ -326,7 +337,7 @@ let dataObj=this.generateAmortizationDataList();
         modalSize: "modal-width-lg",
         buttons: [],
         componentName: 'AmortizationScheduleComponent',
-        data:dataObj
+        data: dataObj
       }
       this.services.rloui.confirmationModal(modalObj).then((response) => {
         console.log(response);
@@ -459,23 +470,23 @@ let dataObj=this.generateAmortizationDataList();
     }
   }
 
-  generateAmortizationDataList(){
+  generateAmortizationDataList() {
     //let CustomerDetailsArray = this.FieldId_26.LoanGridArray;
-    let dataObj:IAmortizationForm={};
-    dataObj.LoanAmountRequested=this.LoanAmount.getFieldValue();
-    dataObj.NetInterestRate=this.NetInterestRate.getFieldValue();
-    dataObj.Tenure=this.Tenure.getFieldValue()+" "+(this.TenurePeriod.getFieldInfo()!=undefined?this.TenurePeriod.getFieldInfo():this.TenurePeriod.getFieldValue());
+    let dataObj: IAmortizationForm = {};
+    dataObj.LoanAmountRequested = this.LoanAmount.getFieldValue();
+    dataObj.NetInterestRate = this.NetInterestRate.getFieldValue();
+    dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
     //dataObj.TenurePeriod=this.TenurePeriod.getFieldValue();
     this.FieldId_26.LoanGridArray.forEach(element => {
-      if(element.CustomerType=='B'){
-        dataObj.BLoanOwnership=element.LoanOwnership;
-        dataObj.BLoanAmtShare=element.Principle;
-      }else if(element.CustomerType=='CB'&&element.LoanOwnership > 0){
-        dataObj.CBLoanOwnership=element.LoanOwnership;
-         dataObj.CBLoanAmountShare=element.Principle;
+      if (element.CustomerType == 'B') {
+        dataObj.BLoanOwnership = element.LoanOwnership;
+        dataObj.BLoanAmtShare = element.Principle;
+      } else if (element.CustomerType == 'CB' && element.LoanOwnership > 0) {
+        dataObj.CBLoanOwnership = element.LoanOwnership;
+        dataObj.CBLoanAmountShare = element.Principle;
       }
     });
-   // dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
+    // dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
 
     return dataObj;
   }

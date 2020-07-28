@@ -231,6 +231,7 @@
           <div class="col-12 col-sm-3 col-md-3"></div>
           <div class="col-12 col-sm-3 col-md-3"></div>
           <div class="col-12 col-sm-3 col-md-3"></div>
+          <ng-container *ngIf="!readOnly">
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
             <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}" fieldID="LD_SAVE_BTN"
               [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="LD_SAVE_BTN_click($event)">
@@ -241,7 +242,7 @@
               [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="LD_CLEAR_BTN_click($event)">
             </app-button>
           </div>
-
+         </ng-container>
           <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
             <app-loan-handler #Handler [MainComponent]="this"></app-loan-handler>
           </div>
