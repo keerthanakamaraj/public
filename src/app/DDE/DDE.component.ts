@@ -44,7 +44,7 @@ import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
-import {ScoreCardResultComponent} from '../score-card-result/score-card-result.component'
+import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component'
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -860,9 +860,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       case 'PolicyCheckResults':
         return new AddSpecificComponent(PolicyCheckResultComponent);
         break;
-        case 'ScorecardResults':
+      case 'ScorecardResults':
         return new AddSpecificComponent(ScoreCardResultComponent);
-        break;        
+        break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
         break;
@@ -972,6 +972,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     //  event.isLoanCategory false when type is 'CC'
+    this.services.rloCommonData.globalApplicationDtls = {
+      isLoanCategory: event.isLoanCategory,
+      ProductCode: event.ProductCode,
+      SubProductCode: event.SubProductCode,
+      SchemeCode: event.SchemeCode,
+    };
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);

@@ -21,7 +21,7 @@ import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.com
 import { IfStmt } from '@angular/compiler';
 import { IModalData } from '../popup-alert/popup-interface';
 import {IAmortizationForm} from '../amortization-schedule/amortization-interface';
-
+import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 
 const customCss: string = '';
 
@@ -275,7 +275,7 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
     var array = [];
     CustomerDetailsArray.forEach(Customer => {
 
-      if (Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') {
+      if ((Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') && Customer.LoanOwnership>0) {
         var CalCulatepPrincipal = 0
         CalCulatepPrincipal = Number(Customer.LoanOwnership) / 100 * Number(this.LoanAmount.getFieldValue());
         let Emi = this.Handler.CalculateEMI();
@@ -311,35 +311,12 @@ this.FieldId_26.setValue(inputValue['FieldId_26']);
       this.services.alert.showAlert(2, 'rlo.error.tenure or tenureperiod.not.exist', -1);
       return;
     }
-    let ToatalEMI = this.Handler.CalculateEMI();
-    this.MoneyInstallment.setValue(ToatalEMI);
-    this.Handler.SetValue();
+    // let ToatalEMI = this.Handler.CalculateEMI();
+    // this.MoneyInstallment.setValue(ToatalEMI);
+    // this.Handler.SetValue();
 
     //amortization modal code starts
-    // var title = this.services.rloui.getAlertMessage('rlo.confirm.title');
-    // var mainMessage = this.services.rloui.getAlertMessage('rlo.confirm.action.back');
-    
-    // Promise.all([title, mainMessage]).then(values => {
-    //   console.log(values);
-    //   let modalObj = {
-    //     title: values[0],
-    //     mainMessage: values[1],
-    //     modalSize: "modal-width-sm",
-    //     buttons: [],
-    //     isComponent:true,
-    //     componentName: ''
-    //   }
-    
-    //   console.log("deep ===", modalObj);
-    //   this.services.rloui.confirmationModal(modalObj).then((response) => {
-    //     console.log(response);
-    //     if (response != null) {
-    //       if (response.id === 1) {
-    //         this.services.router.navigate(['home', 'LANDING']);
-    //       }
-    //     }
-    //   });
-    // });
+   
 let dataObj=this.generateAmortizationDataList();
     Promise.all([this.services.rloui.getAlertMessage('', 'Generate Amortization Schedule')]).then(values => {
       console.log(values);

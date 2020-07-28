@@ -159,7 +159,7 @@ export class GoNoGoComponent implements OnInit {
         //   this.ErrorSet.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorSet.add('rlo.error.questionnaire.decision-pending');
         isValid = false;
-      } else if (question.SelectedDecision.Remark == undefined) {
+      } //else if (question.SelectedDecision.Remark == undefined) {
         let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
         if (('N' == question.IsNegative && 'No' == answerParams.AnswerText) ||
           ('Y' == question.IsNegative && 'Yes' == answerParams.AnswerText)) {
@@ -167,7 +167,7 @@ export class GoNoGoComponent implements OnInit {
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
         }
-      }
+     // }
     });
 
     return isValid;

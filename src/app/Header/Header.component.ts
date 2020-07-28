@@ -168,8 +168,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.ARN = header.ApplicationRefernceNo;
         this.LOAN_CATEGORY = header.TypeOfLoan;
         this.isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
+
         this.productCategoryFound.emit({
-          'isLoanCategory': this.isLoanCategory
+          'isLoanCategory': this.isLoanCategory,
+          'ProductCode': header["Product"],
+          'SubProductCode': header["SubProduct"],
+          'SchemeCode': header["Scheme"]
         });
 
         this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null); // "₹ " + header.LoanAmount'];

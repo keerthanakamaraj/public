@@ -42,14 +42,6 @@
             </div>
             <app-text-box #BLoanOwnership fieldID="BLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('BLoanOwnership', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanOwnership.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':CBLoanOwnership.mandatory}">
-                {{ 'Amortization.CBLoanOwnership' | translate}}
-              </label>
-            </div>
-            <app-text-box #CBLoanOwnership fieldID="CBLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('CBLoanOwnership', $event)"></app-text-box>
-          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':BLoanAmtShare.mandatory}">
@@ -58,7 +50,15 @@
             </div>
             <app-amount #BLoanAmtShare fieldID="BLoanAmtShare" [formCode]="formCode" (blur)="genericOnBlur('BLoanAmtShare', $event)"></app-amount>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanAmountShare.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanOwnership.isHidden() || !isCBOwnership">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':CBLoanOwnership.mandatory}">
+                {{ 'Amortization.CBLoanOwnership' | translate}}
+              </label>
+            </div>
+            <app-text-box #CBLoanOwnership fieldID="CBLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('CBLoanOwnership', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanAmountShare.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':CBLoanAmountShare.mandatory}">
                 {{ 'Amortization.CBLoanAmountShare' | translate}}
@@ -111,9 +111,8 @@
             <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode" (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
           </div>
 
-          <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AMS_GENERATE_BTN.isHidden()">
             <app-button #AMS_GENERATE_BTN fieldName="{{ 'Amortization.AMS_GENERATE_BTN' | translate}}" fieldID="AMS_GENERATE_BTN" [formCode]="formCode"
               customClass="btn btn-primary" (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
@@ -124,88 +123,87 @@
           </div>
         </div>
         <div class="form-group pb10" [ngClass]="editableFlag?'deactivate-amortization':''">
-         <div class="repayment-form col-12  col-sm-12 col-md-12">
-          <div class="section col-12  col-sm-6 col-md-6">
-            <div class="field-container col-12 col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.LoanAmountRequested' | translate}}
-                </label>
+          <div class="repayment-form col-12  col-sm-12 col-md-12">
+            <div class="section col-12  col-sm-6 col-md-6">
+              <div class="field-container col-12 col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.LoanAmountRequested' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.loanAmount}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.loanAmount}}</span>
-            </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.Product' | translate}}
-                </label>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.Product' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.productCode}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.productCode}}</span>
-            </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.NoOfInstallments' | translate}}
-                </label>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.NoOfInstallments' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.noOfInstallments}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.noOfInstallments}}</span>
-            </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.RepaymentScheduleType' | translate}}
-                </label>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.RepaymentScheduleType' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>
-            </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.loanCalculationDate' | translate}}
-                </label>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.loanCalculationDate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>
-            </div>
 
-          </div>
-          <div class="section last-section col-12  col-sm-6 col-md-6">
-            <div class="field-container col-12 col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.SubProduct' | translate}}
-                </label>
-              </div>
-              <span class="field-text">{{repaymentFormData.subProductCode}}</span>
             </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.NetInterestRate' | translate}}
-                </label>
+            <div class="section last-section col-12  col-sm-6 col-md-6">
+              <div class="field-container col-12 col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.SubProduct' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.subProductCode}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.interestRate}}</span>
-            </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.DisbursalDate' | translate}}
-                </label>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.NetInterestRate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.interestRate}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.disbursalDate}}</span>
-            </div>
-            <div class="field-container col-12  col-sm-6 col-md-6">
-              <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'Amortization.MaturityDate' | translate}}
-                </label>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.DisbursalDate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.disbursalDate}}</span>
               </div>
-              <span class="field-text">{{repaymentFormData.maturityDate}}</span>
+              <div class="field-container col-12  col-sm-6 col-md-6">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown">
+                    {{ 'Amortization.MaturityDate' | translate}}
+                  </label>
+                </div>
+                <span class="field-text">{{repaymentFormData.maturityDate}}</span>
+              </div>
             </div>
-          </div>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AmortizationGrid.isHidden()">
-            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode" 
-            (triggerRepaymentForm)="generateRepaymentForm($event)"></app-AmortizationGrid>
+            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode" (triggerRepaymentForm)="generateRepaymentForm($event)"></app-AmortizationGrid>
           </div>
         </div>
         <div class="col-12  col-sm-3 col-md-3 res-pr-hide">

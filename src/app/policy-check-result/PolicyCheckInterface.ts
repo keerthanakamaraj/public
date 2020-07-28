@@ -1,17 +1,4 @@
-export interface IPolicy2 {
-  PolicySeq?: string;
-  PolicyResultSeq?: string;
-  PolicyText?: string;
-  RuleSeq?: string;
-  RuleResult?: string;
-  RuleDecision?: string;
-  ActualValue?: string;
-  ExpectedValue?: string;
-  Stage?: string;
-
-}
-
-export interface IPolicy {
+export interface IPolicy_old {
   RuleDescription?: string,
   RuleDecision?: string,
   PolicyResultSeq?: string,
@@ -21,4 +8,15 @@ export interface IPolicy {
   Stage?: string,
   RuleResult?: string,
   ApplicationId?: string
+}
+export interface IPolicy {
+  RuleDescription: string,
+  RuleDecision: string,
+  PolicyResultSeq: string,
+  ActualValue: string,
+  ExpectedValue: string,
+  Stage: string,
+  RuleResult: string,
+  ApplicationId: string,
+  CustSeq: string
 }

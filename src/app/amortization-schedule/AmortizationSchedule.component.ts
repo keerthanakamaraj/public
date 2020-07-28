@@ -53,7 +53,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 	cust_name: string;
   cust_dob: string;
   //tenurePeriod:string=undefined;
-
+  isCBOwnership:boolean=false;
   repaymentFormData:IRepaymentSchedule={};
 	async revalidate(): Promise<number> {
 		var totalErrors = 0;
@@ -187,9 +187,13 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.NetInterestRate.setValue(this.parentData.NetInterestRate);
     this.Tenure.setValue(this.parentData.Tenure);
     this.BLoanOwnership.setValue(this.parentData.BLoanOwnership);
-    this.CBLoanOwnership.setValue(this.parentData.CBLoanOwnership);
     this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare);
-    this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare);
+    
+    this.isCBOwnership= (this.parentData.CBLoanOwnership!=undefined && this.parentData.CBLoanOwnership!=0)?true:false;
+      this.CBLoanOwnership.setValue(this.parentData.CBLoanOwnership);
+      this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare);
+    
+   
     this.DisbursalDate.setValue(this.parentData.DisbursalDate);
     this.ScheduleType.setValue(this.parentData.ScheduleType);
     this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate);

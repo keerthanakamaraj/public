@@ -42,7 +42,7 @@ export class ScoreCardResultComponent implements OnInit {
 
   ngOnInit() {
     this.setFilterbyOptions();
-    //this.loadScoreResult();
+    // this.loadScoreResult();
     this.retriggerScoreResult();
 
   }
@@ -52,10 +52,10 @@ export class ScoreCardResultComponent implements OnInit {
 
     console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-    //this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+     this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
     tempCustomerList.forEach(element => {
+      // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
       if (element.CustomerType == 'B') {
-        this.FilterOptions.push({ id: 'A_' + element.BorrowerSeq, text: 'Application' });
         this.mainBorrower = element.BorrowerSeq;
       }
       this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
@@ -85,7 +85,7 @@ export class ScoreCardResultComponent implements OnInit {
       inputMap.clear();
       if (this.ApplicationId) {
         inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
-        //inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+        // inputMap.set('QueryParam.criteriaDetails', criteriaJson);
         this.services.http.fetchApi('/ScoreCardDtls', 'GET', inputMap, "/rlo-de").subscribe(
           async (httpResponse: HttpResponse<any>) => {
             let res = httpResponse.body;
@@ -111,9 +111,9 @@ export class ScoreCardResultComponent implements OnInit {
       if (eachScore.BorrowerSeq) {
         newMapKey = 'C_' + eachScore.BorrowerSeq;
       }
-      // else{
-      //   newMapKey='A_' + eachScore.ApplicationId;
-      // }
+      else{
+        newMapKey='A_' + this.ApplicationId;
+      }
       if (this.MstScoreResultMap.has(newMapKey)) {
         newScoreCardResultList = this.MstScoreResultMap.get(newMapKey);
       } else {
@@ -139,14 +139,41 @@ export class ScoreCardResultComponent implements OnInit {
       }
       scoreCard.colorCode = colorObj.colorCode;
       newScoreCardResultList.push(scoreCard);
+      if(newMapKey!=undefined){
       this.MstScoreResultMap.set(newMapKey, newScoreCardResultList);
-      if (this.mainBorrower == eachScore.BorrowerSeq) {
-        newMapKey = 'A_' + eachScore.BorrowerSeq;
-        this.MstScoreResultMap.set(newMapKey, newScoreCardResultList);
       }
+      // if (this.mainBorrower == eachScore.BorrowerSeq) {
+      //   newMapKey = 'A_' + this.ApplicationId;
+      //   this.MstScoreResultMap.set(newMapKey, newScoreCardResultList);
+      // }
     });
+    this.mergeBorAndAppRecords();
+    this.removeEmptyOptions();
     this.activeScoreCardResultList = this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
     console.log("shweta :: score result master map", this.MstScoreResultMap);
+  }
+
+  mergeBorAndAppRecords() {
+    let appScoreResultList=[];
+    if(this.MstScoreResultMap.has('A_'+this.ApplicationId)){
+     appScoreResultList = this.MstScoreResultMap.get('A_' + this.ApplicationId).concat(
+      this.MstScoreResultMap.get('C_' + this.mainBorrower));
+    }
+    else{
+      appScoreResultList= this.MstScoreResultMap.get('C_' + this.mainBorrower);
+    }
+    this.MstScoreResultMap.set('A_' + this.ApplicationId, appScoreResultList);
+  }
+  removeEmptyOptions(){
+    this.FilterOptions.forEach(element=>{
+      console.log('shweta :: reducer method', element.id);
+       if(!this.MstScoreResultMap.has(element.id)) {
+        const index =  this.FilterOptions.indexOf(element);
+        if (index > -1) {
+          this.FilterOptions.splice(index, 1);
+        }
+       }
+    });
   }
   retriggerScoreResult() {
     this.MstScoreResultMap.clear();
@@ -169,7 +196,7 @@ export class ScoreCardResultComponent implements OnInit {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT008');
     inputMap.set('Body.prposalid', this.ApplicationId);
-    inputMap.set('Body.inputdata.SCHEME_CD', '104');
+    inputMap.set('Body.inputdata.SCHEME_CD',this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     return inputMap;
   }
 
