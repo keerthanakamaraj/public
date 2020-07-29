@@ -45,6 +45,7 @@ export class RloCommonData {
   //used to define if the header should be expaneded or collapsed
   childToParentSubject = new Subject<subjectParamsInterface>();
   updateDdeMenuSubject = new Subject<string>();//add or remove
+  modalDataSubject = new Subject<subjectParamsInterface>();//modal to invoking component data passing
 
   dataSavedSubject = new Subject<boolean>();//when a particular form section is saved successfully(save),subscribed in DDE
 

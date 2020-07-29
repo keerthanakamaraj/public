@@ -20,9 +20,9 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { IfStmt } from '@angular/compiler';
 import { IModalData } from '../popup-alert/popup-interface';
-import { IAmortizationForm} from '../amortization-schedule/amortization-interface';
+import { IAmortizationForm } from '../amortization-schedule/amortization-interface';
 import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
-
+import { Subscription } from 'rxjs';
 const customCss: string = '';
 
 @Component({
@@ -67,6 +67,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
 
   ApplicationId: any
   LoanArray = [];
+  modalDataSubjectSubscription: Subscription;
+  DisbursalDate: string = undefined;
+  RepaymentStartDate: string = undefined;
 
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -102,6 +105,14 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     super(services);
     this.value = new LoanDetailsFormModel();
     this.componentCode = 'LoanDetailsForm';
+    this.modalDataSubjectSubscription = this.services.rloCommonData.modalDataSubject.subscribe((event) => {
+      //this.services.rloCommonData.modalDataSubject.subscribe((event) => {
+      console.log("Amortr :::: ", event);
+      if ('passAmortizationDtls' == event.action) {
+        this.populateAmortizationReturnedData(event.data);
+        event.action = undefined;
+      }
+    });
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
@@ -164,12 +175,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     styleElement.innerHTML = customCss;
     styleElement.id = 'LoanDetailsForm_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
+
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('LoanDetailsForm_customCss');
     styleElement.parentNode.removeChild(styleElement);
+    this.modalDataSubjectSubscription.unsubscribe();
+    //this.services.rloCommonData.modalDataSubject.unsubscribe();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -246,6 +260,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.MoneyInstallment.setValue(LoanElement['MoneyInstallment']);
             this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
+            this.DisbursalDate = LoanElement['DisbursalDate'];
+            this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.Handler.SetValue();
 
             this.LoanGridCalculation();
@@ -274,16 +290,16 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       }
     );
   }
-  async LoanGridCalculation() {
+  async LoanGridCalculation(EMIAmount?: Number) {
     let CustomerDetailsArray = [];
     CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
     var array = [];
     CustomerDetailsArray.forEach(Customer => {
 
-      if ((Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') && Customer.LoanOwnership>0) {
+      if ((Customer.CustomerType == 'B' || Customer.CustomerType == 'CB') && Customer.LoanOwnership > 0) {
         var CalCulatepPrincipal = 0
         CalCulatepPrincipal = Number(Customer.LoanOwnership) / 100 * Number(this.LoanAmount.getFieldValue());
-        let Emi = this.Handler.CalculateEMI();
+        let Emi = EMIAmount ? EMIAmount : this.Handler.CalculateEMI();
         let EMIShare = Number(Customer.LoanOwnership) / 100 * Number(Emi);
         ;
         var tempObj = {};
@@ -300,9 +316,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     });
   }
   async LD_FEES_CHARGE_click(event) {
-    // if (this.readOnly)
-    //   return
-
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('component', 'FeesChargesDetails');
@@ -322,13 +335,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       this.services.alert.showAlert(2, 'rlo.error.tenure or tenureperiod.not.exist', -1);
       return;
     }
-    // let ToatalEMI = this.Handler.CalculateEMI();
-    // this.MoneyInstallment.setValue(ToatalEMI);
-    // this.Handler.SetValue();
 
     //amortization modal code starts
-   
-    let dataObj=this.generateAmortizationDataList();
+
+    let dataObj = this.generateAmortizationDataList();
     Promise.all([this.services.rloui.getAlertMessage('', 'Generate Amortization Schedule')]).then(values => {
       console.log(values);
       let modalObj: IModalData = {
@@ -348,7 +358,25 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         }
       });
     });
-
+    // this.modalDataSubjectSubscription=this.services.rloCommonData.modalDataSubject.subscribe((event) => {
+    //     //this.services.rloCommonData.modalDataSubject.subscribe((event) => {
+    //       console.log("Amortr :::: ",event);
+    //     if ('passAmortizationDtls' == event.action) {
+    //       this.populateAmortizationReturnedData(event.data);
+    //       event.action = undefined;
+    //     }
+    //   });
+  }
+  populateAmortizationReturnedData(updatedData) {
+    console.log("shweta :: in loandtls amort returned data", updatedData);
+    //let ToatalEMI = this.Handler.CalculateEMI();
+    this.DisbursalDate = updatedData.disbursalDate;
+    this.RepaymentStartDate = updatedData.repaymentStartDate
+    let ToatalEMI = updatedData.monthlyinstallmentAmt != undefined ?
+      updatedData.monthlyinstallmentAmt : this.Handler.CalculateEMI();
+    this.MoneyInstallment.setValue(ToatalEMI);
+    this.Handler.SetValue();
+    this.LoanGridCalculation(ToatalEMI);
   }
   async LD_CLEAR_BTN_click(event) {
     let Array = this.Handler.FieldsArray();
@@ -375,6 +403,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       inputMap.set('Body.LoanDetails.RepaymentOption', this.RepaymentOption.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentAccNo', this.RepaymentAccNo.getFieldValue());
       inputMap.set('Body.LoanDetails.MoneyInstallment', this.MoneyInstallment.getFieldValue());
+      inputMap.set('Body.LoanDetails.DisbursalDate', this.DisbursalDate);
+      inputMap.set('Body.LoanDetails.RepaymentStartDate', this.RepaymentStartDate);
       if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
         inputMap.set('Body.LoanDetails.TotalInterestAmount', 0);
       }
@@ -471,12 +501,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
   generateAmortizationDataList() {
-    //let CustomerDetailsArray = this.FieldId_26.LoanGridArray;
     let dataObj: IAmortizationForm = {};
     dataObj.LoanAmountRequested = this.LoanAmount.getFieldValue();
     dataObj.NetInterestRate = this.NetInterestRate.getFieldValue();
     dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
-    //dataObj.TenurePeriod=this.TenurePeriod.getFieldValue();
     this.FieldId_26.LoanGridArray.forEach(element => {
       if (element.CustomerType == 'B') {
         dataObj.BLoanOwnership = element.LoanOwnership;
@@ -486,7 +514,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         dataObj.CBLoanAmountShare = element.Principle;
       }
     });
-    // dataObj.RequiredEMIAmt=this.Handler.CalculateEMI();
 
     return dataObj;
   }

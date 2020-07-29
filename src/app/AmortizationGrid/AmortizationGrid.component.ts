@@ -241,19 +241,19 @@ export class AmortizationGridComponent implements AfterViewInit {
      let inputMap = new Map();
      inputMap.clear();
     let requestParams:IRepaymentSchedule=event.requestParams;
-    inputMap.set('QueryParam.loan-amount', requestParams.loanAmount);
-    inputMap.set('QueryParam.no-of-installments',requestParams.noOfInstallments);
-    inputMap.set('QueryParam.installment-frequency',requestParams.installmentFrequency);
-    inputMap.set('QueryParam.interest-rate', requestParams.interestRate);
-    inputMap.set('QueryParam.disbursal-date', requestParams.disbursalDate);
-    inputMap.set('QueryParam.first-installment-date',requestParams.firstInstallmentDate);
-    inputMap.set('QueryParam.interest-numerator', '360C');//optional
-    inputMap.set('QueryParam.interest-denominator', '360');//optional
-    inputMap.set('QueryParam.product-code', '360');//optional
-    inputMap.set('QueryParam.sub-product-code', '360');//optional
+    inputMap.set('QueryParam.loanamount', requestParams.loanAmount);
+    inputMap.set('QueryParam.noofinstallments',requestParams.noOfInstallments);
+    inputMap.set('QueryParam.installmentfrequency',requestParams.installmentFrequency);
+    inputMap.set('QueryParam.interestrate', requestParams.interestRate);
+    inputMap.set('QueryParam.disbursaldate', requestParams.disbursalDate);
+    inputMap.set('QueryParam.firstinstallment-date',requestParams.firstInstallmentDate);
+    inputMap.set('QueryParam.interestnumerator', '');//optional
+    inputMap.set('QueryParam.interestdenominator', '');//optional
+  //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
+  //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional
     
 
-    this.services.http.fetchApi('/repayment-schedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+    this.services.http.fetchApi('/RepaymentSchedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
        RepaymentList = httpResponse.body.Record;
       
     },

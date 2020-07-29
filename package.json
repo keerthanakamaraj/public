@@ -47,7 +47,7 @@
     "ng2-pdf-viewer": "^5.3.2",
     "ng4-loading-spinner": "^1.2.3",
     "ngx-image-viewer": "^1.0.13",
-    "ngx-masonry": "^10.0.3",
+    "ngx-masonry": "^10.0.4",
     "print-js": "^1.0.61",
     "rxjs": "^6.5.2",
     "sha.js": "^2.4.11",

@@ -82,6 +82,7 @@
                 {{ 'Amortization.ScheduleType' | translate}}
               </label>
             </div>
+            <!-- <app-text-box #ScheduleType fieldID="ScheduleType" [formCode]="formCode"></app-text-box> -->
             <app-combo-box #ScheduleType category="2" fieldID="ScheduleType" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
               doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ScheduleType', $event)">
             </app-combo-box>

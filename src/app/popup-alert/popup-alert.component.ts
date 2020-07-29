@@ -140,5 +140,7 @@ export class PopupAlertComponent implements OnInit {
         break;
     }
   }
-
+  // ngOnDestroy() {
+  //   this.services.rloCommonData.modalDataSubject.unsubscribe();
+  // }
 }
