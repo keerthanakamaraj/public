@@ -36,26 +36,24 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('OPERATION_WITHDRAW', { static: false }) OPERATION_WITHDRAW: ButtonComponent;
   @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
   @ViewChild('DisbustAmt', { static: false }) DisbustAmt: TextBoxComponent;
-  @ViewChild('L_DBR', { static: false }) L_DBR: TextBoxComponent;
+  @ViewChild('LOAN_DBR', { static: false }) LOAN_DBR: TextBoxComponent;
   @ViewChild('EMI_Amt', { static: false }) EMI_Amt: TextBoxComponent;
   @ViewChild('Apved_Limit', { static: false }) Apved_Limit: TextBoxComponent;
   @ViewChild('Card_DBR', { static: false }) Card_DBR: TextBoxComponent;
-  @Input() isLoanCategory: boolean = true;
-  @HostListener('window:scroll', ['$event'])
-  handleScroll() {
-    let windowScroll = window.pageYOffset;
-    if (windowScroll >= 280) {
-      this.showExpandedHeader = false;
-    }
-  }
+  @Input() isLoanCategory: any = undefined;
+
+
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
-  ApplicationId:any;
-  show:boolean = false;
-  buttonName:any = 'Show';
-  passApplicationId :any;
+  ApplicationId: any;
+  show: boolean = false;
+  buttonName: any = 'Show';
+  passApplicationId: any;
+  LoanCat: any;
+  // isLoanCategory: any = undefined;
   LoanArray = [];
   CardArray = [];
-   async revalidate(): Promise<number> {
+  appArray = [];
+  async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
@@ -79,6 +77,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.HEADER.setReadOnly(readOnly);
   }
   async onFormLoad() {
+    this.isLoan();
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     this.setDependencies();
     let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
@@ -89,17 +88,6 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-    if(this.isLoanCategory){
-      this.DisbustAmt.setReadOnly(true);
-      this.L_DBR.setReadOnly(true);
-      this.EMI_Amt.setReadOnly(true);
-      this.fetchLoanDetails();
-      }
-      else{
-      this.Apved_Limit.setReadOnly(true);
-      this.Card_DBR.setReadOnly(true);
-      this.fetchCardDetails();
-      }
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -151,6 +139,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+    this.isLoan();
   }
   clearError() {
     this.HEADER.clearError();
@@ -180,16 +169,36 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.services.router.navigate(['home', 'LANDING']);
     }
   }
+  viewDDE(){
+    this.services.router.navigate(['home', 'DDE']);
+  }
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
   }
   brodcastApplicationId() {
     this.APPLICATION_DETAILS.ApplicationId = this.ApplicationId;
     this.CUST_GRID.ApplicationId = this.ApplicationId;
-    this.passApplicationId = this.ApplicationId
-    console.log("juhi::",this.passApplicationId);
+    this.passApplicationId = this.ApplicationId;
+    console.log("juhi::", this.passApplicationId);
   }
- 
+  brodcastProdCategory(event) {
+    //  event.isLoanCategory false when type is 'CC'
+    this.isLoanCategory = event.isLoanCategory;
+    console.log("Loan type", this.isLoanCategory);
+  }
+  isLoan() {
+    if (!this.isLoanCategory) {//ie. loan type credit card
+      this.Apved_Limit.setReadOnly(true);
+      this.Card_DBR.setReadOnly(true);
+      this.fetchCardDetails();
+    }
+    else {//CC type loan
+      this.DisbustAmt.setReadOnly(true);
+      this.LOAN_DBR.setReadOnly(true);
+      this.EMI_Amt.setReadOnly(true);
+      this.fetchLoanDetails();
+    }
+  }
   fetchLoanDetails() {
     let inputMap = new Map();
     inputMap.clear();
@@ -218,7 +227,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
           this.LoanArray.forEach(async LoanElement => {
             this.DisbustAmt.setValue(LoanElement['SystemRecommendedAmount']);
-            // this.L_DBR.setValue(loanDtls['InterestRate']);
+            // this.LOAN_DBR.setValue(loanDtls['InterestRate']);
             this.EMI_Amt.setValue(LoanElement['EMIAmount']);
           });
         }
@@ -229,8 +238,28 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         }
       }
     );
+    this.services.http.fetchApi('/ApplicationScoreDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.appArray = [];
+
+        if (res !== null) {
+          this.appArray = res['ApplicationScoreDetails'];
+          this.appArray.forEach(async AppElement => {
+            if(AppElement.Score = 'DBR'){
+            this.LOAN_DBR.setValue(AppElement['Score']);
+            }
+          });
+        }
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
   }
-  
+
   fetchCardDetails() {
     let inputMap = new Map();
     inputMap.clear();
@@ -268,10 +297,30 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         }
       }
     );
+    this.services.http.fetchApi('/ApplicationScoreDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.appArray = [];
+
+        if (res !== null) {
+          this.appArray = res['ApplicationScoreDetails'];
+          this.appArray.forEach(async AppElement => {
+            if(AppElement.Score = 'DBR'){
+              this.LOAN_DBR.setValue(AppElement['Score']);
+              }
+          });
+        }
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
   }
   onLetterClick() {
     this.show = !this.show;
-    if(this.show)  
+    if (this.show)
       this.buttonName = "show";
   }
   fieldDependencies = {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>x-square</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.000000 0 0 0 0 0.474510 0 0 0 0 0.721569 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Underwiter&gt;dashboard&gt;Floating-Menu-1" transform="translate(-1140.000000, -1416.000000)">
+            <g id="x-square-2" transform="translate(928.000000, 1382.000000)" filter="url(#filter-1)">
+                <g transform="translate(213.000000, 35.000000)" id="x-square" stroke="#FFFFFF" stroke-width="1.5">
+                    <rect id="Rectangle" x="0" y="0" width="22" height="22" rx="2"></rect>
+                    <line x1="7.33333333" y1="7.33333333" x2="14.6666667" y2="14.6666667" id="Path"></line>
+                    <line x1="14.6666667" y1="7.33333333" x2="7.33333333" y2="14.6666667" id="Path"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

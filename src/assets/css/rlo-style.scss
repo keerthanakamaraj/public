@@ -2725,7 +2725,7 @@ rlo-ui-card-field {
   display: inline-block;
   width: 56px;
   height: 56px;
-  background: url("https://img.icons8.com/material-outlined/24/ffffff/open-envelope-stamp.png") center no-repeat;
+  background: url(".././icons/float-menu.svg") center no-repeat;
 }
 
 .fab-action-button__icon {
@@ -2733,7 +2733,7 @@ rlo-ui-card-field {
   display: inline-block;
   width: 56px;
   height: 56px;
-  background: url(".././icons/collapse.svg") center no-repeat;
+  background: url(".././icons/float-minimize.svg") center no-repeat;
   // transform: rotate(45deg);
 }
 
@@ -2799,21 +2799,27 @@ rlo-ui-card-field {
   font-family: Open Sans Regular !important;
 }
 
-.icon-material_fb {
-  background: url(".././icons/Income-Summary.svg") center no-repeat;
+.icon-material_widthdraw {
+  background: url(".././icons/float-withdraw.svg") center no-repeat;
 
 }
-
-.icon-material_gp {
-  background: url(".././icons/Income-Summary.svg") center no-repeat;
+.icon-material_sentback {
+  background: url(".././icons/float-send-back.svg") center no-repeat;
 }
 
-.icon-material_tw {
-  background: url(".././icons/Customer-Details.svg") center no-repeat;
+.icon-material_cancel{
+  background: url(".././icons/float-cancel.svg") center no-repeat;
 }
 
-.icon-material_li {
+.icon-material_refer {
   background: url(".././icons/Family-Details.svg") center no-repeat;
+}
+.icon-material_reject{
+  background: url(".././icons/float-reject.svg") center no-repeat;
+}
+
+.icon-material_approve {
+  background: url(".././icons/float-approve.svg") center no-repeat;
 }
 
 .red {
@@ -3074,4 +3080,5 @@ rlo-ui-card-field {
   .primary_lable {
     height: auto;
   }
+  
 }
