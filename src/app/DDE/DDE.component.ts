@@ -904,6 +904,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       case 'ApplicationDetails':
         return new AddSpecificComponent(ApplicationDtlsComponent);
         break;
+      case 'ScorecardResults':
+        return new AddSpecificComponent(ScoreCardResultComponent);
+        break;
+      case 'PolicyCheckResults':
+        return new AddSpecificComponent(PolicyCheckResultComponent);
+        break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
         break;
