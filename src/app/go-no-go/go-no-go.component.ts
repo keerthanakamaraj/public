@@ -7,8 +7,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 
 @Component({
   selector: 'app-go-no-go',
-  templateUrl: './go-no-go.component.html',
-  //  styleUrls: ['./go-no-go.component.css']
+  templateUrl: './go-no-go.component.html'
 })
 
 export class GoNoGoComponent implements OnInit {
@@ -51,7 +50,7 @@ export class GoNoGoComponent implements OnInit {
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
 
-      if(this.readOnly){
+      if (this.readOnly) {
         setTimeout(() => {
           this.domRef.forEach((element: any) => {
             element.setReadOnly(true);
@@ -155,19 +154,18 @@ export class GoNoGoComponent implements OnInit {
     this.ErrorSet.clear();
     this.QuestionnairMap.forEach(question => {
       question.IsDeviation = false;
+      let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
       if (question.SelectedDecision.AnswerSeq == undefined) {
         //   this.ErrorSet.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorSet.add('rlo.error.questionnaire.decision-pending');
         isValid = false;
-      } //else if (question.SelectedDecision.Remark == undefined) {
-        let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
-        if (('N' == question.IsNegative && 'N' == answerParams.AnswerValue) ||
-          ('Y' == question.IsNegative && 'Y' == answerParams.AnswerValue)) {
-          question.IsDeviation = true;
+      } else if (('N' == question.IsNegative && 'N' == answerParams.AnswerValue) || ('Y' == question.IsNegative && 'Y' == answerParams.AnswerValue)) {
+        if (question.SelectedDecision.Remark == undefined) {
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
         }
-     // }
+        question.IsDeviation = true;
+      }
     });
 
     return isValid;
@@ -187,7 +185,7 @@ export class GoNoGoComponent implements OnInit {
         decision['QuestionSeq'] = question.QuestionSeq;
         decision['ApplicationId'] = this.ApplicationId;
         decision['AnswerSeq'] = question.SelectedDecision.AnswerSeq;
-        decision['DeviationLevel'] = question.DeviationLevel;
+        decision['DeviationLevel'] = question.IsDeviation ? question.DeviationLevel : '';
         decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
         decision['Remarks'] = (question.SelectedDecision.Remark == undefined) ? '' : question.SelectedDecision.Remark;
         decision['CreatedBy'] = sessionStorage.getItem('userId');

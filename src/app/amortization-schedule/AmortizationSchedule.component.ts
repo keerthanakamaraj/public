@@ -63,7 +63,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       this.revalidateBasicField('Tenure'),
       this.revalidateBasicField('BLoanOwnership'),
       this.revalidateBasicField('CBLoanOwnership'),
-   //   this.revalidateBasicField('BLoanAmtShare'),
+      //   this.revalidateBasicField('BLoanAmtShare'),
       this.revalidateBasicField('CBLoanAmountShare'),
       this.revalidateBasicField('DisbursalDate'),
       this.revalidateBasicField('ScheduleType'),
@@ -146,7 +146,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('AmortizationSchedule_customCss');
     styleElement.parentNode.removeChild(styleElement);
-   // this.services.rloCommonData.modalDataSubject.unsubscribe();
+    // this.services.rloCommonData.modalDataSubject.unsubscribe();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -260,14 +260,22 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.repaymentFormData.maturityDate = requestedParams.maturityDate;
     this.repaymentFormData.loanCalculationDate = this.RepaymentStartDate.getFieldValue();
     this.repaymentFormData.repaymentScheduleType = this.ScheduleType.getFieldValue();
-    console.log("shweta ::: installment amount", Number(this.RequiredEMIAmt)>0,Number(this.RequiredEMIAmt));
+    console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
+    console.log("installment Amt from grid", requestedParams.installmentAmt);
+    let instAmt = this.RequiredEMIAmt.getFieldValue();
+    if (instAmt != undefined && instAmt != 0) {
+      instAmt = parseFloat(this.RequiredEMIAmt.getFieldValue()).toFixed(2);
+    } else if (requestedParams.installmentAmt != undefined) {
+      instAmt = parseFloat(requestedParams.installmentAmount).toFixed(2);
+    }
     this.services.rloCommonData.modalDataSubject.next({
       action: 'passAmortizationDtls',
-      data: { 'disbursalDate': this.DisbursalDate.getFieldValue(), 
-      'repaymentStartDate':this.RepaymentStartDate.getFieldValue(),
-      'monthlyinstallmentAmt':this.RequiredEMIAmt.getFieldValue().toFixed(2)
-     }
-  });
+      data: {
+        'disbursalDate': this.DisbursalDate.getFieldValue(),
+        'repaymentStartDate': this.RepaymentStartDate.getFieldValue(),
+        'monthlyinstallmentAmt': instAmt
+      }
+    });
   }
 
   AMS_CLEAR_BTN_click(event) {
@@ -283,7 +291,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     return moment(selectedDate, oldDateFormat).format(newDateFormat).toUpperCase();
   }
 
-   fieldDependencies = {
+  fieldDependencies = {
     ScheduleType: {
       inDep: [
         { paramKey: "VALUE1", depFieldID: "ScheduleType", paramType: "PathParam" },

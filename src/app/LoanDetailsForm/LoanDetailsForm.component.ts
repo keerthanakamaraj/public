@@ -106,7 +106,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.value = new LoanDetailsFormModel();
     this.componentCode = 'LoanDetailsForm';
     this.modalDataSubjectSubscription = this.services.rloCommonData.modalDataSubject.subscribe((event) => {
-      //this.services.rloCommonData.modalDataSubject.subscribe((event) => {
       console.log("Amortr :::: ", event);
       if ('passAmortizationDtls' == event.action) {
         this.populateAmortizationReturnedData(event.data);
@@ -264,7 +263,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.Handler.SetValue();
 
-            this.LoanGridCalculation();
+            this.LoanGridCalculation(this.MoneyInstallment.getFieldValue());
           });
 
           this.revalidate(false).then((errors) => {
@@ -358,14 +357,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         }
       });
     });
-    // this.modalDataSubjectSubscription=this.services.rloCommonData.modalDataSubject.subscribe((event) => {
-    //     //this.services.rloCommonData.modalDataSubject.subscribe((event) => {
-    //       console.log("Amortr :::: ",event);
-    //     if ('passAmortizationDtls' == event.action) {
-    //       this.populateAmortizationReturnedData(event.data);
-    //       event.action = undefined;
-    //     }
-    //   });
   }
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
@@ -418,8 +409,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.save.loan', 5000);
-          this.LoanGridCalculation();
-          var loanData = [""];
+          //  this.LoanGridCalculation();  //method call comented as there is no need for this
+          //   var loanData = [""]; // comented can't see the use of this.
 
           // if (res !== null) {
           //   loanData = res['LoanDetails'];
