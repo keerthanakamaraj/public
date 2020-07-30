@@ -481,6 +481,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.resetMapData();
     this.masterDataSubscription.unsubscribe();
     this.childToParentSubjectSubscription.unsubscribe();
+    this.services.rloui.closeAllConfirmationModal();
   }
 
   ngAfterViewInit() {
@@ -661,7 +662,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.setTags([]);
 
+    this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
+
     this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+    this.disableMenus = true;
     //this.CUST_DTLS.setNewCustomerFrom(event);
   }
 
@@ -804,7 +808,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         setTimeout(() => {
           componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls);
         }, 500);
-      } else if (this.CustomerType !== 'B') {
+      } else if (this.CustomerType !== 'B' && this.ActiveCustomerDtls != undefined) {
         // method will be called for new customer form after section switch
         // console.log("shweta :: DDE section switch on new cust",this.CustomerType);
         let data = { 'customerType': this.CustomerType };
@@ -832,9 +836,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     setTimeout(() => {
       const activePanel = document.getElementsByClassName("injected-component");
       const firstInput = activePanel[0].getElementsByTagName('input')[0];
-      firstInput.focus();
+      if (firstInput != undefined)
+        firstInput.focus();
     }, 100);
-
 
   }
 
@@ -1042,40 +1046,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
   }
 
-  /* Cancel / Back button */
-  // goBack() {
-  //     if (confirm("Are you sure you want to cancel?")) {
-  //         // history.back();
-  //         this.services.router.navigate(['home', 'LANDING']);
-  //     }
-  // }
   goBack() {
-    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
-    var button1 = this.services.rloui.getAlertMessage('', 'OK');
-    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
-    Promise.all([mainMessage, button1, button2]).then(values => {
-      console.log(values);
-      let modalObj = {
-        title: "Alert",
-        mainMessage: values[0],
-        modalSize: "modal-width-sm",
-        buttons: [
-          { id: 1, text: values[1], type: "success", class: "btn-primary" },
-          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-        ]
-      }
-      this.services.rloui.confirmationModal(modalObj).then((response) => {
-        console.log(response);
-        if (response != null) {
-          if (response.id === 1) {
-            this.services.router.navigate(['home', 'LANDING']);
-          }
-        }
-      });
-    });
+    this.services.rloui.goBack();
   }
-
 
   async brodcastProdCategory(event) {
     //  event.isLoanCategory false when type is 'CC'
@@ -1101,7 +1074,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
     this.scoreCardComponent.headerChanges(event);
-    
+
     //TO IMPLEMENT
     // this.scoreCardComponent.forEach(element => {
     //   element.headerChanges(event);

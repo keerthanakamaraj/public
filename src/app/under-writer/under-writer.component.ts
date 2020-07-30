@@ -28,234 +28,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   @ViewChild('UWTabs', { static: false }) UWTabs: UWCustomerTabComponent;
 
-  customerCardSectionData: any;
-  //interfaceCardSectionData: any;
-
   commonBlankCardSectionData: Array<any> = [];
   basicCardSectionData: IbasicCardSectionData = {
     cardType: '',
     sectionList: []
   };
-
-  customerSectionData = {
-    "UWApplication": {
-      "UWCustomerDetails": [
-        {
-          "ExistingCustomer": "N",
-          "UWIncomeSummary": {
-            "NetIncomeMonthly": 0,
-            "DBR": 0,
-            "IncomeSummarySeq": 101,
-            "TotalIncome": 0,
-            "TotalLiabiity": 0,
-            "BorrowerSeq": 2251,
-            "TotalObligation": 0
-          },
-          "DOB": "04-05-1995",
-          "FullName": "Juhi S Patil",
-          "UWFamily": [
-            {
-              "DOB": "1995-07-01 00:00:00.0",
-              "FullName": "YTRI YUTU UYTU ",
-              "Relationship": "BR",
-              "BorrowerSeq": 3291,
-              "CustomerRelated": 2251
-            }
-          ],
-          "BorrowerSeq": 2251,
-          "ApplicationId": 2061,
-          "CustomerType": "B",
-          "UWAddress": [
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 829,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "OF",
-              "Pincode": 400060
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 728,
-              "Address1": "bncbv",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 727,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
-            }
-          ]
-        },
-        {
-          "FullName": "JUHI ",
-          "BorrowerSeq": 3272,
-          "ApplicationId": 2061,
-          "CustomerType": "R",
-          "UWAddress": [
-            {
-              "State": "MAHARASHTRA",
-              "AddressSeq": 1288,
-              "Address1": "BHAYANDER",
-              "BorrowerSeq": 3272,
-              "City": "MUMBAI",
-              "Pincode": 400001
-            },
-            {
-              "State": "MAHARASHTRA",
-              "AddressSeq": 1289,
-              "Address1": "BHAYANDER",
-              "BorrowerSeq": 3272,
-              "City": "MUMBAI",
-              "Pincode": 400001
-            }
-          ]
-        }
-      ],
-      "UWApplicationInfo": {
-        "DateOfReceipt": "13-05-2020 00:00:00",
-        "ApplicationInfoId": 2082,
-        "ApplicationId": 2061
-      },
-      "Branch": "101",
-      "UWLoan": {
-        "LoanDetailsSeq": 702,
-        "ApplicationId": 2061
-      },
-      "DSAId": "USERS2",
-      "SourcingChannel": "MUM",
-      "ApplicationId": 2061
-    }
-  }
-
-  singleCustomerData = {
-    "ExistingCustomer": "N",
-    "UWIncomeSummary": {
-      "NetIncomeMonthly": 0,
-      "DBR": 0,
-      "IncomeSummarySeq": 101,
-      "TotalIncome": 0,
-      "TotalLiabiity": 0,
-      "BorrowerSeq": 2251,
-      "TotalObligation": 0
-    },
-    "DOB": "04-05-1995",
-    "FullName": "Juhi S Patil",
-    "UWFamily": [
-      {
-        "DOB": "1995-07-01 00:00:00.0",
-        "FullName": "YTRI YUTU UYTU ",
-        "Relationship": "BR",
-        "BorrowerSeq": 3291,
-        "CustomerRelated": 2251
-      }
-    ],
-    "BorrowerSeq": 2251,
-    "ApplicationId": 2061,
-    "CustomerType": "B",
-    "UWAddress": [
-      {
-        "State": "Maharashtra",
-        "AddressSeq": 829,
-        "Address1": "virar",
-        "BorrowerSeq": 2251,
-        "City": "Mumbai",
-        "AddressType": "OF",
-        "Pincode": 400060
-      },
-      {
-        "State": "Maharashtra",
-        "AddressSeq": 728,
-        "Address1": "bncbv",
-        "BorrowerSeq": 2251,
-        "City": "Mumbai",
-        "AddressType": "RS",
-        "OccupationType": "OW",
-        "Pincode": 400060
-      },
-      {
-        "State": "Maharashtra",
-        "AddressSeq": 727,
-        "Address1": "virar",
-        "BorrowerSeq": 2251,
-        "City": "Mumbai",
-        "AddressType": "RS",
-        "OccupationType": "OW",
-        "Pincode": 400060
-      }
-    ]
-  };
-
-  // customizedJsonData = [
-  //   {
-  //     sectionName: "customer",
-  //     data: {
-  //       id: 1,
-  //       fullName: "Sulaiman Neville",
-  //       existingCustomer: true,
-  //       dob: "23 Mar 1991"
-  //     }
-  //   },
-  //   {
-  //     sectionName: "interfaceResults",
-  //     data: {
-  //       customer: [
-  //         {
-  //           id: 1,
-  //           name: "Vishal karan Kotwal",
-  //           internalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //           externalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //         },
-  //         {
-  //           id: 2,
-  //           name: "Darshan karan Kotwal",
-  //           internalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //           externalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //         }
-  //       ]
-  //     }
-  //   },
-  //   {
-  //     sectionName: "financialSummary",
-  //     data: {
-  //       id: 1,
-  //       totalIncome: 10000,
-  //       totalLiability: 10000,
-  //       totalAsstValue: 20000
-  //     }
-  //   },
-  //   {
-  //     sectionName: "collateralDetails",
-  //     data: {
-  //       id: 1,
-  //       type: "house",
-  //       collateernalName: "",
-  //       amount: 20000
-  //     }
-  //   },
-  //   {
-  //     sectionName: "familyDetails",
-  //     data: null
-  //   }
-  // ];
 
   customerSectionsList = [
     { responseName: "UWIncomeSummary", name: "financialSummary", displayName: "Financial Summary" },
@@ -460,8 +237,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     "ApplicationId": 2061
   };
 
-  applicationId: number;
-  borrowerSeq: number;
+  applicationId: number = 0;
+  borrowerSeq: number = 0;
+  isDataAvaliableFlag: number = -1;
+
   componentCode = 'UnderWriter';
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
@@ -472,13 +251,21 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   getUnderWriterData() {
     //valid application id - 1675 1937 1678 1673(RM visit)
-    let appId = "2061";
+    let appId = "1678";
+
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
         console.warn(res);
-        this.applicationId = res.UWApplication.ApplicationId;
-        this.generateModelJson(res.UWApplication);
+
+        if (res != null) {
+          this.isDataAvaliableFlag = 1;
+          this.applicationId = res.UWApplication.ApplicationId;
+          this.generateModelJson(res.UWApplication);
+        }
+        else {
+          this.isDataAvaliableFlag = 0;
+        }
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -495,6 +282,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   ngOnInit() { }
 
+  ngOnDestroy() {
+    this.services.rloui.closeAllConfirmationModal();
+  }
+
   ngAfterViewInit() {
     // setTimeout(() => {
     //   this.reloadCardGrid();
@@ -507,17 +298,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //@Output
   headerState() { }
-
-  addCustomerData() {
-    const object: ICardMetaData = {
-      id: "customer",
-      displayName: "Customer 360 degrees",
-      data: this.singleCustomerData,
-      type: "customerCard"
-    };
-
-    this.customerCardSectionData = object;
-  }
 
   //under-writer.component.ts
   generateModelJson(jsonData) {
@@ -738,6 +518,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   fabclose() {
     document.getElementById("fab-show").style.display = "none";
     document.getElementById("fab-open").style.display = "block";
+  }
+
+  goBack() {
+    this.services.rloui.goBack();
   }
 
 }

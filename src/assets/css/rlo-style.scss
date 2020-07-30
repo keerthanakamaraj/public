@@ -1845,11 +1845,12 @@ rlo-ui-card-field {
       color: #8E8E8E;
     }
 
-    padding-left: 18px;
+    padding: 15px 24px 15px 24px;
   }
 
   .modal-footer {
     border: none;
+    padding: 15px 24px;
 
     .btn+.btn {
       margin-left: 14px;
@@ -2803,18 +2804,20 @@ rlo-ui-card-field {
   background: url(".././icons/float-withdraw.svg") center no-repeat;
 
 }
+
 .icon-material_sentback {
   background: url(".././icons/float-send-back.svg") center no-repeat;
 }
 
-.icon-material_cancel{
+.icon-material_cancel {
   background: url(".././icons/float-cancel.svg") center no-repeat;
 }
 
 .icon-material_refer {
   background: url(".././icons/Family-Details.svg") center no-repeat;
 }
-.icon-material_reject{
+
+.icon-material_reject {
   background: url(".././icons/float-reject.svg") center no-repeat;
 }
 
@@ -3080,5 +3083,12 @@ rlo-ui-card-field {
   .primary_lable {
     height: auto;
   }
-  
+
+}
+
+.lyt-underwriter {
+
+  .no-data {
+    margin: 2em 2rem 2em 3em;
+  }
 }

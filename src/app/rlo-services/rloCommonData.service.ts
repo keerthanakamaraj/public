@@ -200,6 +200,10 @@ export class RloCommonData {
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
+        case 'ApplicationDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -417,14 +421,14 @@ export class RloCommonData {
         forkJoin(
           this.validateCustomerDetailSection(entry[1]),
           this.validateAddressDetailSection(entry[1]),
-          this.validateOccupationDetailsSection(entry[1])
-          //this.validateIncomeSummary(entry[1])
+          this.validateOccupationDetailsSection(entry[1]),
+          this.validateIncomeSummary(entry[1])
         ).subscribe((data) => {
           console.error(data);
           isCustomerValid = data[0].isSectionValid;
           isAddressValid = data[1].isSectionValid;
           isOccupationValid = data[2].isSectionValid;
-          //isIncomeSummaryValid = data[3].isSectionValid;
+          isIncomeSummaryValid = data[3].isSectionValid;
 
           for (let i = 0; i < data.length; i++) {
             const element = data[i];
@@ -439,17 +443,11 @@ export class RloCommonData {
             errorMessage += element.errorMessage;
           }
 
-          if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
+          if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
             let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
             dataObject.errorsList.push(msg);
             dataObject.isAppValid = false;
           }
-
-          // if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
-          //   let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
-          //   dataObject.errorsList.push(msg);
-          //   dataObject.isAppValid = false;
-          // }
         });
       }
     });
@@ -466,10 +464,12 @@ export class RloCommonData {
     let customerData = sectionData.get('CustomerDetails');
 
     console.log("-------- customerData ", customerData);
-    if (customerData.isValid) {
-      commonObj.isSectionValid = true;
-    } else {
-      commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+    if (customerData.CustomerType != "G") {
+      if (customerData.isValid) {
+        commonObj.isSectionValid = true;
+      } else {
+        commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+      }
     }
     return commonObj;
   }
@@ -739,10 +739,4 @@ export class RloCommonData {
     }
   }
 
-  goBack() {
-    console.log("BACK");
-    if (confirm("Are you sure you want to cancel?")) {
-      this.router.navigate(['home', 'LANDING']);
-    }
-  }
 }

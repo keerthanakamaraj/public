@@ -10,6 +10,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
 import { IGeneralCardData } from '../Interface/masterInterface';
+import { Router } from '@angular/router';
 
 export var errorMap;
 
@@ -47,7 +48,7 @@ export class RlouiService {
     { componentName: "FeesAndCharges", iconClass: "icon-generate-amortization" },
   ]
 
-  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal) {
+  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {
     console.log("UI Service .. constructor --------------------------------");
 
     // this.getJSON().subscribe(data => {
@@ -304,13 +305,13 @@ export class RlouiService {
       }
 
       this.modalObject = modalObj;//obj consumed in PopupAlertComponent
-     
-      //FOR TESTING
-      this.modalObject.iconClass = "icon-Family-Details";
 
-      // if (modalObj.hasOwnProperty('componentName')) {
-      //   this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
-      // }
+      //FOR TESTING
+      //this.modalObject.iconClass = "icon-Family-Details";
+
+      if (modalObj.hasOwnProperty('componentName')) {
+        this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
+      }
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });
@@ -350,4 +351,34 @@ export class RlouiService {
       });
     });
   }
+
+
+  //called when user click on " < back " above header component
+  goBack() {
+    var mainMessage = this.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.getAlertMessage('', 'OK');
+    var button2 = this.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+  
 }

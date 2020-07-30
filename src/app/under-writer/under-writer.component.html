@@ -1,4 +1,4 @@
-<div class="clearfix content">
+<div class="lyt-underwriter clearfix content">
   <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
     <div class="col-sm-12 col-md-12">
       <div class="FormTitle no-border">
@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" *ngIf="customerList.length else invalidUser">
     <div class="col-12  col-sm-12 col-md-12 uw-tabs">
       <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
         <a href="#customer-panel" class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
@@ -114,6 +114,12 @@
       </div>
     </div>
   </div>
+
+  <ng-template #invalidUser>
+    <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section no-data"
+      *ngIf="isDataAvaliableFlag=='0' || isDataAvaliableFlag=='-1'">No data found</div>
+  </ng-template>
+
   <!-- fab button -->
   <div class="fab" id="fab-show" style="display:none;">
     <ul class="fab-buttons ">
@@ -160,8 +166,8 @@
   </div>
 
 
-  <div class="fab" id="fab-open">
-    <span class="fab-action-button_2 shadow-sm" (click)="fabopen()">
+  <div class="fab" id="fab-open" *ngIf="customerList.length">
+    <span class="fab-action-button_2 shadow-sm"  (click)="fabopen()">
       <i class="fab-action-button__icon_2"></i>
     </span>
   </div>
