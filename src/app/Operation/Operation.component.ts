@@ -164,12 +164,6 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.setReadOnly(false);
     this.onFormLoad();
   }
-  goBack() {
-    if (confirm("Are you sure you want to cancel?")) {
-      // history.back();
-      this.services.router.navigate(['home', 'LANDING']);
-    }
-  }
   viewDDE() {
     this.services.router.navigate(['home', 'DDE']);
   }
@@ -330,6 +324,10 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.buttonName = "show";
   }
   fieldDependencies = {
+  }
+
+  goBack() {
+    this.services.rloui.goBack();
   }
 
 }

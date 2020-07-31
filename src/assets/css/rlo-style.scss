@@ -213,7 +213,7 @@ app-button[customclass="icon-button"] div {
 #VRF_Reset,
 #RD_RESET,
 #ND_CLEAR,
-#FC_RESET_BTN{
+#FC_RESET_BTN {
   border-color: gray;
   margin-left: 20px;
   float: right;
@@ -654,17 +654,21 @@ width: 681px !important; */
   border-radius: 8px;
   border: 1px solid #8fc3e0;
   display: flex;
+
   .cust-group {
     margin: 24px 0;
     border-right: 1px solid #ccc;
+
     &:last-of-type {
       border: none;
     }
+
     .cust-add {
       float: right;
       cursor: pointer;
     }
   }
+
   .cust-tag {
     height: 24px;
     width: 24px;
@@ -677,6 +681,7 @@ width: 681px !important; */
     font-size: 12px;
     font-weight: 600;
   }
+
   .cust-label {
     color: $primary-color;
     margin-left: 12px;
@@ -685,15 +690,19 @@ width: 681px !important; */
     line-height: 24px;
     vertical-align: middle;
   }
+
   .cust-list {
     margin-top: 24px; // margin-bottom: 24px;
+
     .customer {
       padding: 10px 0;
       border-bottom: 1px solid #ccc;
+
       &:last-of-type {
         border: none;
       }
     }
+
     .name {
       color: #565656;
       font-size: 16px;
@@ -701,23 +710,28 @@ width: 681px !important; */
       line-height: 22px;
       display: inline-block;
     }
+
     .active {
       .name {
         color: $primary-color;
         font-style: italic;
       }
+
       .cust-editing {
         display: block;
       }
+
       .action-container {
         .cust-edit {
           display: none;
         }
+
         .cust-delete {
           display: none;
         }
       }
     }
+
     .cust-editing {
       float: right;
       border: 1px solid #16bbae;
@@ -732,13 +746,16 @@ width: 681px !important; */
       padding: 3px 12px; // margin-top: 4px;
       display: none;
     }
+
     .action-container {
       float: right;
+
       .cust-edit {
         cursor: pointer;
         float: left;
         padding-inline-end: 8px;
       }
+
       .cust-delete {
         float: left;
         cursor: pointer;
@@ -2181,18 +2198,10 @@ rlo-ui-card-field {
       margin-left: 13px;
     }
 
-   
-
     .wgt-status-indicator {
       margin-right: 0;
       margin-top: 0px;
       font-size: initial !important;
-    }
-  }
-  
-  .generate_letter{
-    button{
-    width: 180px !important;
     }
   }
 
@@ -2910,26 +2919,34 @@ rlo-ui-card-field {
 }
 
 .lyt-underwriter {
-
   .no-data {
     margin: 2em 2rem 2em 3em;
   }
 }
-  
+
 .carousel-indicators li {
   background-color: #999;
-  background-color: rgba(70,70,70,.25);
+  background-color: rgba(70, 70, 70, .25);
   margin-bottom: -57px;
   margin-left: 5px;
   margin-right: 5px;
   width: 14px;
   height: 14px;
 }
-.carousel-indicators .active{
+
+.carousel-indicators .active {
   background-color: #0079B8;
   margin-bottom: -57px;
   margin-left: 5px;
   margin-right: 5px;
   width: 14px;
   height: 14px;
+}
+
+.lyt-operation-queue {
+  .generate_letter {
+    button {
+      width: 180px !important;
+    }
+  }
 }
