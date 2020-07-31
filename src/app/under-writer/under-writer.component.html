@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="customerList.length else invalidUser">
+  <div class="row">
     <div class="col-12  col-sm-12 col-md-12 uw-tabs">
       <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
         <a href="#customer-panel" class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
@@ -115,10 +115,10 @@
     </div>
   </div>
 
-  <ng-template #invalidUser>
+  <!-- <ng-template #invalidUser>
     <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section no-data"
       *ngIf="isDataAvaliableFlag=='0' || isDataAvaliableFlag=='-1'">No data found</div>
-  </ng-template>
+  </ng-template> -->
 
   <!-- fab button -->
   <div class="fab" id="fab-show" style="display:none;">

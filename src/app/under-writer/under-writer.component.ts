@@ -66,6 +66,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "CardDetails" },
         { className: "GoldDetails" },
         // { className: "EducationDetails" },
+        // { className: "PropertyDetails" },
         { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
@@ -134,107 +135,114 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   customerSectionLoaded: boolean = false;
 
   workingJsonObj = {
-    "UWCustomerDetails": [
-      {
-        "ExistingCustomer": "N",
-        "UWIncomeSummary": {
-          "NetIncomeMonthly": 120,
-          "DBR": 65,
-          "IncomeSummarySeq": 101,
-          "TotalIncome": 1500000,
-          "TotalLiabiity": 0,
+    "UWApplication": {
+      "UWCustomerDetails": [
+        {
+          "ExistingCustomer": "N",
+          "UWIncomeSummary": {
+            "NetIncomeMonthly": 0,
+            "DBR": 0,
+            "IncomeSummarySeq": 101,
+            "TotalIncome": 0,
+            "TotalLiabiity": 88,
+            "BorrowerSeq": 2251,
+            "TotalObligation": 0
+          },
+          "DOB": "04-05-1995",
+          "FullName": "JUHI  S PATIL",
+          "UWFamily": [
+            {
+              "DOB": "1995-07-01 00:00:00.0",
+              "FullName": "YTRI YUTU  UYTU ",
+              "Relationship": "BR",
+              "BorrowerSeq": 3291,
+              "CustomerRelated": 2251
+            }
+          ],
           "BorrowerSeq": 2251,
-          "TotalObligation": 100
-        },
-        "DOB": "04-05-1995",
-        "FullName": "Deepesh jain",
-        "BorrowerSeq": 1496,
-        "ApplicationId": 1486,
-        "CustomerType": "B",
-        "UWAddress": [
-          {
-            "State": "Maharashtra",
-            "AddressSeq": 829,
-            "Address1": "virar",
-            "BorrowerSeq": 2251,
-            "City": "Mumbai",
-            "AddressType": "OF",
-            "Pincode": 400060,
-            "test": "aaaaaa"
-          },
-          {
-            "State": "Maharashtra",
-            "AddressSeq": 728,
-            "Address1": "bncbv",
-            "BorrowerSeq": 2251,
-            "City": "Mumbai",
-            "AddressType": "RS",
-            "OccupationType": "OW",
-            "Pincode": 400060
-          },
-          {
-            "State": "Maharashtra",
-            "AddressSeq": 727,
-            "Address1": "virar",
-            "BorrowerSeq": 2251,
-            "City": "Mumbai",
-            "AddressType": "RS",
-            "OccupationType": "OW",
-            "Pincode": 400060
-          }
-        ],
-        "UWFamily": [
-          {
-            "DOB": "1995-07-01 00:00:00.0",
-            "FullName": "YTRI YUTU UYTU ",
-            "Relationship": "BR",
-            "BorrowerSeq": 3291,
-            "CustomerRelated": 2251
-          },
-          {
-            "DOB": "0",
-            "FullName": "0",
-            "Relationship": "0",
-            "BorrowerSeq": 0,
-            "CustomerRelated": 0
-          }
-        ],
-        "UWIncomeDetails": {
-          "GrossIncome": "pending",
-          "ExistingLiabilities": "completed",
-          "IncomeVerification": "completed",
-          "PANVerification": "deviation",
+          "ApplicationId": 2061,
+          "CustomerType": "B",
+          "UWAddress": [
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 829,
+              "Address1": "virar",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "OF",
+              "Pincode": 400060
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 728,
+              "Address1": "bncbv",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400060
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 727,
+              "Address1": "virar",
+              "BorrowerSeq": 2251,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400060
+            }
+          ]
         }
+      ],
+      "UWApplicationInfo": {
+        "DateOfReceipt": "13-05-2020 00:00:00",
+        "ApplicationInfoId": 2082,
+        "ApplicationId": 2061
       },
-      {
-        "ExistingCustomer": "N",
-        "UWIncomeSummary": {
-          "NetIncomeMonthly": 0,
-          "DBR": 0,
-          "IncomeSummarySeq": 101,
-          "BorrowerSeq": 2251,
-          "TotalObligation": 0
-        },
-        "DOB": "04-05-1995",
-        "FullName": "Juhi S Patil",
-        "BorrowerSeq": 1495,
-        "ApplicationId": 1486,
-        "CustomerType": "CB"
-      }
-    ],
-    "UWApplicationInfo": {
-      "DateOfReceipt": "13-05-2020 00:00:00",
-      "ApplicationInfoId": 2082,
-      "ApplicationId": 2061
-    },
-    "Branch": "101",
-    "UWLoan": {
-      "LoanDetailsSeq": 702,
-      "ApplicationId": 2061
-    },
-    "DSAId": "USERS2",
-    "SourcingChannel": "MUM",
-    "ApplicationId": 2061
+      "UWLoan": {
+        "AmortizationAmount": 194667.62,
+        "ProductCategory": "AL",
+        "LoanDetailsSeq": 702,
+        "ApplicationId": 2061
+      },
+      "DSAId": "USERS2",
+      "SourcingChannel": "MUM",
+      "UWDisbursal": {
+        "DisbursalAmount": 768768675657,
+        "DisbursalSeq": 47,
+        "ApplicationId": 2061,
+        "DisbursalDate": "09-07-2020"
+      },
+      "UWCreditCard": {
+        "CreditCardSeq": ""
+      },
+      "Branch": "101",
+      "UWQuestionnaire": {
+        "DeviationLevel": "L1",
+        "QuestionnaireCategory": "go_no_go",
+        "QuestionnaireSeq": 301,
+        "ApplicationId": 2061
+      },
+      "ApplicationId": 2061,
+      "UWFeeCharges": {
+        "ChargeType": "PAYABLE",
+        "ChargeSeq": 15,
+        "ApplicationId": 2061,
+        "ChargeDes": "DEALER"
+      },
+      "UWRMVisit": {
+        "VisitSeq": ""
+      },
+      "UWNotepad": [
+        {
+          "NotepadSeq": 69,
+          "CommentCategory": "BORWR_PRF_DTL",
+          "Comments": "jhfhgdhgddh",
+          "ApplicationId": 2061
+        }
+      ]
+    }
   };
 
   applicationId: number = 0;
@@ -246,12 +254,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
     this.getUnderWriterData();
-    //this.generateModelJson({});
+    setTimeout(() => {
+      this.generateModelJson(this.workingJsonObj.UWApplication);
+    }, 1000);
+    
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit)
-    let appId = "1678";
+    //valid application id - 1675 1937 1678 1673(RM visit) 2061
+    let appId = "2061";
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -261,7 +272,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (res != null) {
           this.isDataAvaliableFlag = 1;
           this.applicationId = res.UWApplication.ApplicationId;
-          this.generateModelJson(res.UWApplication);
+          //this.generateModelJson(res.UWApplication);
         }
         else {
           this.isDataAvaliableFlag = 0;
@@ -302,7 +313,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   //under-writer.component.ts
   generateModelJson(jsonData) {
     let obj = jsonData;
-    //let obj = this.workingJsonObj;
 
     //data for cust-tabs
     obj["UWCustomerDetails"].forEach(element => {
@@ -436,6 +446,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "GoldDetails":
           case "EducationDetails":
           case "GoNoGoDetails":
+          case "PropertyDetails":
             data = application[element.className].getCardData();
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;
