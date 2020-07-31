@@ -16,7 +16,7 @@ export class GoNoGoComponent implements OnInit {
   ApplicationDetails: IGoNoGoQuestionnaire = {};
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
-  @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
+ // @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
 
   @Input() ApplicationId: string = undefined;
   @Input() readOnly: boolean = false;
@@ -208,7 +208,6 @@ export class GoNoGoComponent implements OnInit {
           "sectionName": "GoNoGoDetails",
         }
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-        //   this.loadQuestionnaireDtls();
       },
         (httpError) => {
           console.error(httpError);

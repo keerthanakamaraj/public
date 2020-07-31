@@ -22,7 +22,6 @@
         <div class="answer-container col-12 col-sm-4 col-md-4">
           <div class="param-answer col-12 col-sm-5 col-md-5">
             <rlo-ui-radio #tbData fieldID="{{'GNG_RADIO_'+question.value.QuestionSeq}}" [formCode]="formCode"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               [emittedOptions]="question.value.radioOptionFormatList"
               defaultValue="{{question.value.SelectedDecision!=undefined?question.value.SelectedDecision.AnswerSeq:undefined}}"
               (change)="onDecisionChange(question.value.QuestionSeq, $event)"></rlo-ui-radio>

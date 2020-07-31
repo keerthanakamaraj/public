@@ -49,6 +49,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   buttonName: any = 'Show';
   passApplicationId: any;
   LoanCat: any;
+  LETTERMGMTFORMAT=undefined;
+  MyFunction(){
+    
+    this.LETTERMGMTFORMAT= "Ref_no: 20200730093231022213</p>\r\n\r\n\r\n</p>\r\n\r\nDear Jonas Brandt ,</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nRe: Invoice no : 0111000154199 in respect of your purchase from OTTO.de</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis is to inform you that there will be a debit of 215.01 EUR on 17-JUL-2020 from your bank account with number DE000000111000154199</p>\r\n\r\nbasis mandate id : 20200624121109014765</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis payment will appear in your bank statement as Hanseatic Bank GmbH + Co.</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nSincerely yours,</p>\r\n\r\n\r\n</p>\r\n\r\nOTTO Customer Service</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nPlease do not reply to this email as this is an auto generated intimation.</p>";
+  }
+
+
   // isLoanCategory: any = undefined;
   LoanArray = [];
   CardArray = [];

@@ -45,8 +45,8 @@ export class AmortizationGridComponent implements AfterViewInit {
   };
   columnDefs: any[] = [{
     field: "No",
-    width: 10,
-    sortable: true,
+    width: 11,
+   // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
     // filter: "agTextColumnFilter",
@@ -60,7 +60,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Date",
-    width: 10,
+    width: 12,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -75,7 +75,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Principal",
-    width: 10,
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -90,7 +90,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Interest",
-    width: 10,
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -105,7 +105,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Installment",
-    width: 10,
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -120,7 +120,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Others",
-    width: 10,
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -135,7 +135,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Total_Due",
-    width: 10,
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -150,7 +150,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Prin_OS",
-    width: 10,
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -165,7 +165,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "vvc",
-    width: 10,
+    width: 11,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
     filter: false,
@@ -255,17 +255,8 @@ export class AmortizationGridComponent implements AfterViewInit {
 
 
     this.services.http.fetchApi('/repayment', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-      RepaymentList = httpResponse.body.Record;
-
-    },
-      (httpError) => {
-        console.error(httpError);
-        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
-      });
-
-    if (RepaymentList.length <= 0) {
-      RepaymentList = event.hardCodedResp;
-    }
+    
+    RepaymentList = httpResponse.body.Record;
     if (RepaymentList) {
       this.isRecord = true;
       let largeNo: number = 0;
@@ -274,7 +265,8 @@ export class AmortizationGridComponent implements AfterViewInit {
       for (let eachRecord of RepaymentList) {
 
         let tempObj = {};
-        tempObj['No'] = eachRecord.installmentNo;
+        let SNo=Number(eachRecord.installmentNo);
+        tempObj['No'] = SNo;
         tempObj['Date'] = eachRecord.installmentDate;
         tempObj['Principal'] = eachRecord.principalAmount;
         tempObj['Interest'] = eachRecord.interestAmount;
@@ -282,6 +274,7 @@ export class AmortizationGridComponent implements AfterViewInit {
         tempObj['Others'] = eachRecord.others != undefined ? eachRecord.others : '0.00';
         tempObj['Total_Due'] = eachRecord.closingPrincipalBalance;
         tempObj['Prin_OS'] = eachRecord.openPrincipalBalance;
+        tempObj['vvc']='VVC';
         LoanGridDetails.push(tempObj);
 
         if (1 == parseInt(eachRecord.installmentNo) && parseInt(requestParams.noOfInstallments) > 0) {
@@ -298,6 +291,22 @@ export class AmortizationGridComponent implements AfterViewInit {
       });
     }
     this.readonlyGrid.apiSuccessCallback(params, LoanGridDetails);
+    },
+      (httpError) => {
+        console.error(httpError);
+        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+      });
+    // //this.http.get("https://smartbankone.intellectfabric.io/loan-inquiry/v1/simulators/repayment-schedule?loan-amount=1200000&no-of-installments=7&installment-frequency=1&interest-rate=12&disbursal-date=03-JUL-2020&first-installment-date=03-AUG-2020&interest-numerator=&interest-denominator=")
+    // this.http.get("https://rlfc.intellectseecapps.com/rlo-de/publisher/repayment?loanAmount=1000000&noOfInstallments=11&installmentFrequency=1&interestRate=8.5&disbursalDate=07-JUL-2020&firstInstallmentDate=18-JUL-2020")
+    // .toPromise()
+    //     .then(response => {
+    //  console.log(response);
+    // });
+
+    // if (RepaymentList.length <= 0) {
+    //   RepaymentList = event.hardCodedResp;
+    // }
+   
 
 
     // this.services.alert.showAlert(2, 'Fail', -1);

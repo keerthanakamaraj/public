@@ -186,8 +186,9 @@
           <div *ngIf="show">
             <a href="#">Mortage Deed</a><br>
             <a href="#">Agrement letter</a><br>
-            <a href="#">Final Sanction letter</a>
+            <a (click)="MyFunction()">Final Sanction letter</a>
           </div>
+          <div [innerHTML]="LETTERMGMTFORMAT"></div>
         </div>
       </div>
       <div class="col-12  col-sm-12 col-md-12 group-default">
