@@ -264,6 +264,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.Handler.SetValue();
 
             this.LoanGridCalculation(this.MoneyInstallment.getFieldValue());
+            this.setTotalInterestAmount();
           });
 
           this.revalidate(false).then((errors) => {
@@ -512,6 +513,17 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   RepaymentOption_blur(event) {
     console.log("selected loan", this.RepaymentOption.getFieldValue());
     this.RepaymentAccNo.mandatory = ('cash' == this.RepaymentOption.getFieldValue()) ? false : true;
+  }
+
+  setTotalInterestAmount() {
+    if (this.LoanAmount.getFieldValue() && this.NetInterestRate.getFieldValue()) {
+      this.TotalInterestAmount.setValue((parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2));
+      this.TotalInstallmentAmt.setValue((parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.TotalInterestAmount.getFieldValue())).toFixed(2));
+    } else {
+      this.TotalInterestAmount.setValue('-NA-');
+      this.TotalInstallmentAmt.setValue('-NA-');
+    }
+    console.log("shweta ::calculated tot interest", this.TotalInterestAmount.getFieldValue(), " :: tot installment ::", this.TotalInstallmentAmt.getFieldValue());
   }
 
   fieldDependencies = {

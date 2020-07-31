@@ -37,7 +37,7 @@
             <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode" (blur)="genericOnBlur('Tenure', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanOwnership.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanOwnership.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':BLoanOwnership.mandatory}">
                 {{ 'Amortization.BLoanOwnership' | translate}}
@@ -46,7 +46,7 @@
             <app-text-box #BLoanOwnership fieldID="BLoanOwnership" [formCode]="formCode"
               (blur)="genericOnBlur('BLoanOwnership', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':BLoanAmtShare.mandatory}">
                 {{ 'Amortization.BLoanAmtShare' | translate}}
