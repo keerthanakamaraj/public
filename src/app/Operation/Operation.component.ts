@@ -77,7 +77,6 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.HEADER.setReadOnly(readOnly);
   }
   async onFormLoad() {
-    this.isLoan();
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     this.setDependencies();
     let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
@@ -88,6 +87,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
+
+
+
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -139,7 +141,6 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
-    this.isLoan();
   }
   clearError() {
     this.HEADER.clearError();
@@ -169,7 +170,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.services.router.navigate(['home', 'LANDING']);
     }
   }
-  viewDDE(){
+  viewDDE() {
     this.services.router.navigate(['home', 'DDE']);
   }
   async headerState(event) {
@@ -185,18 +186,23 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     //  event.isLoanCategory false when type is 'CC'
     this.isLoanCategory = event.isLoanCategory;
     console.log("Loan type", this.isLoanCategory);
+    setTimeout(() => {
+      this.isLoan();
+    }, 2000);
   }
   isLoan() {
     if (!this.isLoanCategory) {//ie. loan type credit card
       this.Apved_Limit.setReadOnly(true);
       this.Card_DBR.setReadOnly(true);
       this.fetchCardDetails();
+      console.log("Card is working");
     }
     else {//CC type loan
       this.DisbustAmt.setReadOnly(true);
       this.LOAN_DBR.setReadOnly(true);
       this.EMI_Amt.setReadOnly(true);
       this.fetchLoanDetails();
+      console.log("loan is working");
     }
   }
   fetchLoanDetails() {
@@ -246,8 +252,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (res !== null) {
           this.appArray = res['ApplicationScoreDetails'];
           this.appArray.forEach(async AppElement => {
-            if(AppElement.Score = 'DBR'){
-            this.LOAN_DBR.setValue(AppElement['Score']);
+            if (AppElement.Score = 'DBR') {
+              this.LOAN_DBR.setValue(AppElement['Score']);
             }
           });
         }
@@ -305,9 +311,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (res !== null) {
           this.appArray = res['ApplicationScoreDetails'];
           this.appArray.forEach(async AppElement => {
-            if(AppElement.Score = 'DBR'){
+            if (AppElement.Score = 'DBR') {
               this.LOAN_DBR.setValue(AppElement['Score']);
-              }
+            }
           });
         }
       },

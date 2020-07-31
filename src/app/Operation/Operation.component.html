@@ -28,7 +28,8 @@
     <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
       <div class="form-group pb10">
         <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
-          <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)" (productCategoryFound)="brodcastProdCategory($event)">
+          <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
+            (productCategoryFound)="brodcastProdCategory($event)">
           </app-Header>
         </div>
       </div>
@@ -116,10 +117,10 @@
         </div>
         <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
         <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" > -->
-          <app-button class="letter_gen" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}" fieldID="G_LETTER"
-            customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
-          </app-button>
-          <!-- </div> -->
+        <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
+          fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
+        </app-button>
+        <!-- </div> -->
         <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -134,61 +135,61 @@
         </div>
       </div>
     </div>
- <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
- <div class="CardCat" *ngIf="!isLoanCategory">
-  <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-    <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"
-      fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
-  </div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-    <div style=" width:100%; background:skyblue;height:1px;">
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="CardCat" *ngIf="!isLoanCategory">
+      <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+        <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"
+          fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+      </div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <div style=" width:100%; background:skyblue;height:1px;">
+        </div>
+      </div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #Approved_limit parentCompCode="Operation" fieldID="Approved_limit" [formCode]="formCode"
+            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Apved_Limit.isHidden()">
+          <app-text-box #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
+            (blur)="genericOnBlur('Apved_Limit', $event)">
+          </app-text-box>
+        </div>
+        <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
+          <app-label #C_DBR parentCompCode="Operation" fieldID="C_DBR" [formCode]="C_DBR" fontFamily="sans-serif"
+            fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
+        </div>
+        <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Card_DBR.isHidden()">
+          <app-text-box #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
+          </app-text-box>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" > -->
+        <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
+          fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
+        </app-button>
+        <!-- </div> -->
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+        <div *ngIf="show">
+          <a href="#">Mortage Deed</a><br>
+          <a href="#">Agrement letter</a><br>
+          <a href="#">Final Sanction letter</a>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-  <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-    <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
-      <app-label #Approved_limit parentCompCode="Operation" fieldID="Approved_limit" [formCode]="formCode"
-        fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
-    </div>
-    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Apved_Limit.isHidden()">
-      <app-text-box #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
-        (blur)="genericOnBlur('Apved_Limit', $event)">
-      </app-text-box>
-    </div>
-    <div class="col-12  col-sm-2 col-md-2 res-pr-hide">
-      <app-label #C_DBR parentCompCode="Operation" fieldID="C_DBR" [formCode]="C_DBR" fontFamily="sans-serif"
-        fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"></app-label>
-    </div>
-    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Card_DBR.isHidden()">
-      <app-text-box #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
-      </app-text-box>
-    </div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" > -->
-    <app-button class="letter_gen" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}" fieldID="G_LETTER"
-      customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
-    </app-button>
-    <!-- </div> -->
-    <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-    <div *ngIf="show">
-      <a href="#">Mortage Deed</a><br>
-      <a href="#">Agrement letter</a><br>
-      <a href="#">Final Sanction letter</a>
-    </div>
-  </div>
-</div>
     <div class="col-12  col-sm-12 col-md-12 group-default">
       <div #BUTTON_SECTION id="BUTTON_SECTION">
         <div class="form-group pb10 button-group">

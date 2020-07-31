@@ -2198,9 +2198,7 @@ rlo-ui-card-field {
       margin-left: 13px;
     }
 
-    #G_LETTER {
-      width: 180px !important;
-    }
+   
 
     .wgt-status-indicator {
       margin-right: 0;
@@ -2208,9 +2206,11 @@ rlo-ui-card-field {
       font-size: initial !important;
     }
   }
-
-  .letter_gen {
+  
+  .generate_letter{
+    button{
     width: 180px !important;
+    }
   }
 
   .expand-icon {
@@ -2922,4 +2922,21 @@ rlo-ui-card-field {
     height: auto;
   }
   
+}
+.carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+  margin-bottom: -57px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 14px;
+  height: 14px;
+}
+.carousel-indicators .active{
+  background-color: #0079B8;
+  margin-bottom: -57px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 14px;
+  height: 14px;
 }
