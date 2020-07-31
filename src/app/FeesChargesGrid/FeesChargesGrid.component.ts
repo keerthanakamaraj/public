@@ -21,6 +21,9 @@ transition('false => true', animate('300ms ease-in'))
 ],
 })
 export class FeesChargesGridComponent implements AfterViewInit {
+    FeeChargeDetails: any[];
+    feeChargeDetails: any[];
+    feeChargeRecord: boolean;
 constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @ViewChild('readonlyGrid', {static: true}) readonlyGrid: ReadonlyGridComponent;
 
@@ -28,6 +31,7 @@ constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) {}
 @Input('displayTitle') displayTitle: boolean = true;
 @Input('displayToolbar') displayToolbar: boolean = true;
 @Input('fieldID') fieldID: string;
+@Output() EditFeeChargesDetails: EventEmitter<any> = new EventEmitter<any>();
 
 componentCode: string = 'FeesChargesGrid';
 openedFilterForm:string = '';
@@ -112,7 +116,8 @@ cellRendererParams: {
 gridCode: 'FeesChargesGrid',
 columnId: 'FC_Edit',
 Type: '1',
-CustomClass: 'btn-edit'
+CustomClass: 'btn-edit',
+onClick: this.FC_EDIT_click.bind(this),
 },
 },
 {
@@ -126,7 +131,8 @@ cellRendererParams: {
 gridCode: 'FeesChargesGrid',
 columnId: 'FC_Delete',
 Type: '1',
-CustomClass: 'btn-delete'
+CustomClass: 'btn-delete',
+onClick: this.FC_DELETE_click.bind(this),
 },
 },
 ];
@@ -159,6 +165,7 @@ isColumnHidden(columnId) {
 return !this.readonlyGrid.gridColumnApi.getColumn(columnId).isVisible();
 }
 ngOnInit(): void {
+	this.readonlyGrid.setGridDataAPI(this.gridDataAPI.bind(this));
 var styleElement = document.createElement('style');
 styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
@@ -170,6 +177,12 @@ this.unsubscribe$.next();
 this.unsubscribe$.complete();
 var styleElement = document.getElementById('FeesChargesGrid_customCss');
 styleElement.parentNode.removeChild(styleElement);
+}
+gridDataLoad(formInputs) {
+    this.readonlyGrid.setFormInputs(formInputs);
+}
+refreshGrid() {
+    this.readonlyGrid.refreshGrid();
 }
 setValue(rowData) {
 this.readonlyGrid.setRowData(rowData);
@@ -186,6 +199,127 @@ this.loadSpinner=true;
 }
 hideSpinner(){
 this.loadSpinner=false;
+}
+async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+    let inputMap = new Map();
+    inputMap.clear();
+    let ApplicationId: any = event.passFeeChargeGrid;
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (ApplicationId) {
+        criteriaJson.FilterCriteria.push({
+            "columnName": "ApplicationId",
+            "columnType": "String",
+            "conditions": {
+                "searchType": "equals",
+                "searchText": ApplicationId
+            }
+        });
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+    if (gridReqMap.get("FilterCriteria")) {
+        var obj = gridReqMap.get("FilterCriteria");
+        for (var i = 0; i < obj.length; i++) {
+            switch (obj[i].columnName) {
+                case "FC_Charge_Desc": obj[i].columnName = "ChargeDescription"; break;
+                case "FC_Party_Name": obj[i].columnName = "PartyName"; break;
+                case "FC_Charge_Type": obj[i].columnName = "ChargeType"; break;
+                case "FC_Rate": obj[i].columnName = "ChargeRate"; break;
+                case "FC_Amount": obj[i].columnName = "LocalAmount"; break;
+                case "FC_Effective_Amt": obj[i].columnName = "EffectiveAmount"; break;
+                case "FC_Frequency": obj[i].columnName = "Frequency"; break; 
+                case "FC_Rate_Charge_On": obj[i].columnName = "RateOnCharge"; break;
+                case "FC_Charge_Collection": obj[i].columnName = "ChargeCollection"; break; 
+                default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
+            }
+        }
+    }
+    if (gridReqMap.get("OrderCriteria")) {
+        var obj = gridReqMap.get("OrderCriteria");
+        for (var i = 0; i < obj.length; i++) {
+            switch (obj[i].columnName) {
+                case "FC_Charge_Desc": obj[i].columnName = "ChargeDescription"; break;
+                case "FC_Party_Name": obj[i].columnName = "PartyName"; break;
+                case "FC_Charge_Type": obj[i].columnName = "ChargeType"; break;
+                case "FC_Rate": obj[i].columnName = "ChargeRate"; break;
+                case "FC_Amount": obj[i].columnName = "LocalAmount"; break;
+                case "FC_Effective_Amt": obj[i].columnName = "EffectiveAmount"; break;
+                case "FC_Frequency": obj[i].columnName = "Frequency"; break; 
+                case "FC_Rate_Charge_On": obj[i].columnName = "RateOnCharge"; break;
+                case "FC_Charge_Collection": obj[i].columnName = "ChargeCollection"; break; 
+                default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
+            }
+        }
+    }
+
+    this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+    this.services.http.fetchApi('/ChargeDetails', 'GET', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+           
+            this.feeChargeDetails = [];     
+
+                if (res !== null) {
+                    this.feeChargeRecord = true
+                    var loopVar9 = res['ChargeDetails'];
+                } else {
+                    this.feeChargeRecord = false;
+                   
+                }
+
+                if (loopVar9) {
+                    for (var i = 0; i < loopVar9.length; i++) {
+                        var tempObj = {};
+                        tempObj['FC_ID'] = loopVar9[i].ChargeDtlSeq;
+                        tempObj['FC_Charge_Desc'] = loopVar9[i].ChargeDescription;
+                        tempObj['FC_Party_Name'] = loopVar9[i].PartyName;
+                        tempObj['FC_Charge_Type'] = loopVar9[i].ChargeType;
+                        tempObj['FC_Rate'] = loopVar9[i].ChargeRate;
+                        tempObj['FC_Amount'] = loopVar9[i].LocalAmount;
+                        tempObj['FC_Effective_Amt'] = loopVar9[i].EffectiveAmount;
+                        tempObj['FC_Frequency'] = loopVar9[i].Frequency;
+                        tempObj['FC_Rate_Charge_On'] = loopVar9[i].RateOnCharge;
+                        tempObj['FC_Charge_Collection'] = loopVar9[i].ChargeCollection;
+                       
+                        this.feeChargeDetails.push(tempObj);
+                    }
+                }
+                this.readonlyGrid.apiSuccessCallback(params, this.feeChargeDetails);
+        },
+        async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, '', -1, 'Failed to load grid!');
+        }
+    );
+}
+async FC_EDIT_click(event) {
+    let inputMap = new Map();
+    const selectedData0 = this.readonlyGrid.getSelectedData();
+    this.EditFeeChargesDetails.emit({
+        'SeqKey': event['FC_ID'],
+    });
+
+}
+async FC_DELETE_click(event) {
+    let inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('PathParam.ChargeDtlSeq', event.FC_ID);
+    if (confirm("Are you sure you want to Delete?")) {
+        this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);
+                this.readonlyGrid.refreshGrid();
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                }
+                this.services.alert.showAlert(2, 'rlo.error.delete.referrer', -1);
+            }
+        );
+    }
 }
 
 }

@@ -1,0 +1,79 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { FeesChargesDetailsComponent } from './Fees&ChargesDetails.component';
+import { FieldComponent } from '../field/field.component';
+import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
+
+@Component({
+  selector: 'app-feescharges-handler',
+  template: `<div style="display:none;"></div>`,
+  styles: []
+})
+export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent implements OnInit {
+	@Input() MainComponent: FeesChargesDetailsComponent;
+	formName: string = "ChargeDetails";
+	  ngOnInit() {
+    // ngOnInit
+  }
+
+  // OnFormLoad
+  onFormLoad(arg0: {}) {
+    console.log("fees and charges  .. On form load");
+    //this.MainComponent.CD_THIRD_NAME.setHidden(true);
+    super.onFormLoad({});
+	}
+
+  hideShowFieldBasedOnChargeBasis(){
+    if(this.MainComponent.ChargeBasis.getDefault() == "RATE" || this.MainComponent.ChargeBasis.getFieldValue() == "RATE"){
+      this.MainComponent.Currency.setHidden(true);
+      this.MainComponent.ChargeAmt.setHidden(true);
+      this.MainComponent.LocalAmount.setHidden(true);
+      this.MainComponent.ChargeRate.setHidden(false);
+      this.MainComponent.RateOnCharge.setHidden(false);
+      this.MainComponent.EffectiveAmount.setHidden(false);
+    }
+     if((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE") )
+    {
+      this.MainComponent.Currency.setHidden(false);
+      this.MainComponent.ChargeAmt.setHidden(false);
+      this.MainComponent.LocalAmount.setHidden(false);
+      this.MainComponent.ChargeRate.setHidden(true);
+      this.MainComponent.RateOnCharge.setHidden(true);
+      this.MainComponent.EffectiveAmount.setHidden(true);
+    }
+  }
+
+  hideFieldBasedOnPeriodicCharge(){
+    if(this.MainComponent.PeriodicCharge.getFieldValue() == 'N'){
+      this.MainComponent.PeriodicStDt.setHidden(true);
+      this.MainComponent.PeriodicEnDt.setHidden(true);
+    }
+    else{
+      this.MainComponent.PeriodicStDt.setHidden(false);
+      this.MainComponent.PeriodicEnDt.setHidden(false);
+    }
+  }
+  chargeAmountcharOnblur(){
+    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.ChargeAmt.getFieldValue() !== undefined){
+      let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.ChargeAmt.getFieldValue();
+      this.MainComponent.LocalAmount.setValue(CurrenyExchangeValue.toFixed(2));
+    }
+  }
+  calculateEffectiveAmount(){
+   
+    if(this.MainComponent.ChargeRate.getFieldValue() !== undefined && this.MainComponent.RateOnCharge.getFieldValue() !== undefined ){
+      var CalcEffectiveAmount ;
+      if(this.MainComponent.RateOnCharge.getFieldValue() == 'INTEREST'){
+        CalcEffectiveAmount = this.MainComponent.NetInterestRate * this.MainComponent.LoanAmount * this.MainComponent.ChargeRate.getFieldValue();
+      }
+      else if(this.MainComponent.RateOnCharge.getFieldValue() == 'PRINCIPAL'){
+        CalcEffectiveAmount = this.MainComponent.LoanAmount*this.MainComponent.ChargeRate.getFieldValue();
+      }
+      else if(this.MainComponent.RateOnCharge.getFieldValue() == 'CATM'){
+        CalcEffectiveAmount = this.MainComponent.LoanAmount*this.MainComponent.ChargeRate.getFieldValue()*this.MainComponent.InterestRate;
+      }
+      this.MainComponent.EffectiveAmount.setValue(CalcEffectiveAmount);
+    }
+   
+  }
+ }
+

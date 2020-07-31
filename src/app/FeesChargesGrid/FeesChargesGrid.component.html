@@ -9,5 +9,8 @@
 <div></div>
 <div></div>
 </div>
-</div><app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+</div>
+<div [hidden] = "!feeChargeRecord">
+<app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+</div>
 </div>

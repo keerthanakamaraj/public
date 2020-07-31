@@ -14,7 +14,8 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { AmortizationGridComponent } from '../AmortizationGrid/AmortizationGrid.component';
 import { AmortizationScheduleHandlerComponent } from './AmortizationSchedule-handler.component';
-import { IAmortizationForm, IRepaymentSchedule } from './amortization-interface';
+// import { IAmortizationForm, IRepaymentSchedule } from './amortization-interface';
+import {IAmortizationForm,IRepaymentSchedule} from '../Interface/masterInterface';
 import { ConsoleService } from '@ng-select/ng-select/lib/console.service';
 
 const customCss: string = '';

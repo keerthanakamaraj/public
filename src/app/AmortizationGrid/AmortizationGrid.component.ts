@@ -7,7 +7,8 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { IRepaymentScheduleResp, IRepaymentSchedule } from '../amortization-schedule/amortization-interface'
+import {IRepaymentScheduleResp} from '../amortization-schedule/amortization-interface'
+import {IRepaymentSchedule} from '../Interface/masterInterface';
 
 const customCss: string = '';
 @Component({
