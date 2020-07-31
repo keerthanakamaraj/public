@@ -212,7 +212,8 @@ app-button[customclass="icon-button"] div {
 #clear,
 #VRF_Reset,
 #RD_RESET,
-#ND_CLEAR {
+#ND_CLEAR,
+#FC_RESET_BTN{
   border-color: gray;
   margin-left: 20px;
   float: right;
@@ -225,7 +226,8 @@ app-button[customclass="icon-button"] div {
 #AT_SAVE,
 #VRF_Save,
 #RD_SAVE,
-#ND_SAVE {
+#ND_SAVE,
+#FC_SAVE_BTN {
   margin-left: 20px;
   float: right;
 }
