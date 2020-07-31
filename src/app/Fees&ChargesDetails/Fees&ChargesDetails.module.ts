@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { FeesChargesDetailsRoutingModule } from './Fees&ChargesDetails-routing.module';
 import { FeesChargesDetailsComponent } from './Fees&ChargesDetails.component';
 import { FeesChargesGridModule } from '../FeesChargesGrid/FeesChargesGrid.module';
+import { FeesChargesDetailsHandlerModule } from './FeesChargesDetails-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -23,6 +24,7 @@ deps: [HttpClient]
 }
 }),
 FeesChargesGridModule,
+FeesChargesDetailsHandlerModule
 ],
 declarations: [
 FeesChargesDetailsComponent,

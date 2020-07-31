@@ -7,7 +7,8 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import {IRepaymentScheduleResp,IRepaymentSchedule} from '../amortization-schedule/amortization-interface'
+import {IRepaymentScheduleResp} from '../amortization-schedule/amortization-interface'
+import {IRepaymentSchedule} from '../Interface/masterInterface';
 
 const customCss: string = '';
 @Component({
@@ -35,8 +36,8 @@ export class AmortizationGridComponent implements AfterViewInit {
   componentCode: string = 'AmortizationGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
-  maturityDate:string=undefined;
-  isRecord:boolean=false;
+  maturityDate: string = undefined;
+  isRecord: boolean = false;
   gridConsts: any = {
     paginationPageSize: 10,
     gridCode: "AmortizationGrid",
@@ -123,15 +124,15 @@ export class AmortizationGridComponent implements AfterViewInit {
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-   },
+    //   filter: "agTextColumnFilter",
+    //   filterParams: {
+    //     suppressAndOrCondition: true,
+    //     applyButton: true,
+    //     clearButton: true,
+    //     filterOptions: ["contains"],
+    //     caseSensitive: true,
+    //   },
+  },
   {
     field: "Total_Due",
     width: 10,
@@ -213,11 +214,11 @@ export class AmortizationGridComponent implements AfterViewInit {
     styleElement.parentNode.removeChild(styleElement);
   }
   gridDataLoad(formInputs) {
-		this.readonlyGrid.setFormInputs(formInputs);
+    this.readonlyGrid.setFormInputs(formInputs);
   }
   refreshGrid() {
-		this.readonlyGrid.refreshGrid();
-	}
+    this.readonlyGrid.refreshGrid();
+  }
   // setValue(rowData) {
   //   this.readonlyGrid.setRowData(rowData);
   // }
@@ -235,66 +236,70 @@ export class AmortizationGridComponent implements AfterViewInit {
   //   this.loadSpinner = false;
   // }
   async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
-    let RepaymentList:IRepaymentScheduleResp[]=[];
+    let RepaymentList: IRepaymentScheduleResp[] = [];
     let LoanGridDetails = [];
 
-     let inputMap = new Map();
-     inputMap.clear();
-    let requestParams:IRepaymentSchedule=event.requestParams;
-    inputMap.set('QueryParam.loanamount', requestParams.loanAmount);
-    inputMap.set('QueryParam.noofinstallments',requestParams.noOfInstallments);
-    inputMap.set('QueryParam.installmentfrequency',requestParams.installmentFrequency);
-    inputMap.set('QueryParam.interestrate', requestParams.interestRate);
-    inputMap.set('QueryParam.disbursaldate', requestParams.disbursalDate);
-    inputMap.set('QueryParam.firstinstallment-date',requestParams.firstInstallmentDate);
-    inputMap.set('QueryParam.interestnumerator', '');//optional
-    inputMap.set('QueryParam.interestdenominator', '');//optional
-  //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
-  //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional
-    
+    let inputMap = new Map();
+    inputMap.clear();
+    let requestParams: IRepaymentSchedule = event.requestParams;
+    inputMap.set('QueryParam.loanAmount', requestParams.loanAmount);
+    inputMap.set('QueryParam.noOfInstallments', requestParams.noOfInstallments);
+    inputMap.set('QueryParam.installmentFrequency', requestParams.installmentFrequency);
+    inputMap.set('QueryParam.interestRate', requestParams.interestRate);
+    inputMap.set('QueryParam.disbursalDate', requestParams.disbursalDate);
+    inputMap.set('QueryParam.firstInstallmentDate', requestParams.firstInstallmentDate);
+    inputMap.set('QueryParam.interestNumerator', '');//optional
+    inputMap.set('QueryParam.interestDenominator', '');//optional
+    //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
+    //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional
 
-    this.services.http.fetchApi('/RepaymentSchedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-       RepaymentList = httpResponse.body.Record;
-      
+
+    this.services.http.fetchApi('/repayment', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      RepaymentList = httpResponse.body.Record;
+
     },
       (httpError) => {
         console.error(httpError);
         this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
       });
 
-   if(RepaymentList.length<=0){
-   RepaymentList = event.hardCodedResp;
-   }
+    if (RepaymentList.length <= 0) {
+      RepaymentList = event.hardCodedResp;
+    }
     if (RepaymentList) {
       this.isRecord = true;
-      let largeNo:number=0;
-      let maturityDate:string=undefined;
-        for (let eachRecord of RepaymentList) {
-            
-            let tempObj = {};
-            tempObj['No']= eachRecord.installmentNo;
-            tempObj['Date'] = eachRecord.installmentDate;
-            tempObj['Principal'] = eachRecord.principalAmount;
-            tempObj['Interest'] =eachRecord.interestAmount;
-            tempObj['Installment']=eachRecord.installmentAmount;
-            tempObj['Others'] = eachRecord.others!=undefined?eachRecord.others: '0.00';
-            tempObj['Total_Due'] =eachRecord.closingPrincipalBalance;
-            tempObj['Prin_OS']= eachRecord.openPrincipalBalance;
-            LoanGridDetails.push(tempObj);
+      let largeNo: number = 0;
+      let maturityDate: string = undefined;
+      let installmentAmt = undefined;
+      for (let eachRecord of RepaymentList) {
 
-            
-            if(parseInt(eachRecord.installmentNo)>largeNo){
-              maturityDate=eachRecord.installmentDate;
-               largeNo=parseInt(eachRecord.installmentNo);
-            }
+        let tempObj = {};
+        tempObj['No'] = eachRecord.installmentNo;
+        tempObj['Date'] = eachRecord.installmentDate;
+        tempObj['Principal'] = eachRecord.principalAmount;
+        tempObj['Interest'] = eachRecord.interestAmount;
+        tempObj['Installment'] = eachRecord.installmentAmount;
+        tempObj['Others'] = eachRecord.others != undefined ? eachRecord.others : '0.00';
+        tempObj['Total_Due'] = eachRecord.closingPrincipalBalance;
+        tempObj['Prin_OS'] = eachRecord.openPrincipalBalance;
+        LoanGridDetails.push(tempObj);
+
+        if (1 == parseInt(eachRecord.installmentNo) && parseInt(requestParams.noOfInstallments) > 0) {
+          installmentAmt = eachRecord.installmentAmount;
         }
-        this.triggerRepaymentForm.emit({
-            'maturityDate': maturityDate
-          });
+        if (parseInt(eachRecord.installmentNo) > largeNo) {
+          maturityDate = eachRecord.installmentDate;
+          largeNo = parseInt(eachRecord.installmentNo);
+        }
+      }
+      this.triggerRepaymentForm.emit({
+        'maturityDate': maturityDate,
+        'installmentAmt': installmentAmt
+      });
     }
     this.readonlyGrid.apiSuccessCallback(params, LoanGridDetails);
 
 
     // this.services.alert.showAlert(2, 'Fail', -1);
-}
+  }
 }

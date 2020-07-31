@@ -20,7 +20,7 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { IfStmt } from '@angular/compiler';
 import { IModalData } from '../popup-alert/popup-interface';
-import { IAmortizationForm } from '../amortization-schedule/amortization-interface';
+import {IAmortizationForm} from '../Interface/masterInterface';
 import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 import { Subscription } from 'rxjs';
 const customCss: string = '';
@@ -106,7 +106,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.value = new LoanDetailsFormModel();
     this.componentCode = 'LoanDetailsForm';
     this.modalDataSubjectSubscription = this.services.rloCommonData.modalDataSubject.subscribe((event) => {
-      //this.services.rloCommonData.modalDataSubject.subscribe((event) => {
       console.log("Amortr :::: ", event);
       if ('passAmortizationDtls' == event.action) {
         this.populateAmortizationReturnedData(event.data);
@@ -264,7 +263,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.Handler.SetValue();
 
-            this.LoanGridCalculation();
+            this.LoanGridCalculation(this.MoneyInstallment.getFieldValue());
+            this.setTotalInterestAmount();
           });
 
           this.revalidate(false).then((errors) => {
@@ -316,17 +316,39 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     });
   }
   async LD_FEES_CHARGE_click(event) {
-    let inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('component', 'FeesChargesDetails');
-    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason) => {
-      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-    }
-    modalRef.result.then(onModalClose, onModalClose);
-    modalRef.componentInstance.rotueToComponent(inputMap);
-    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-  }
+     // let inputMap = new Map();
+    // inputMap.clear();
+    // inputMap.set('component','FeesChargesDetails');
+    // const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+    // var onModalClose = async (reason)=>{
+    //   (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
+    // }
+    // modalRef.result.then(onModalClose, onModalClose);
+    // modalRef.componentInstance.rotueToComponent(inputMap);
+    // this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef)
+    let dataObj=this.generateAmortizationDataList();
+    Promise.all([this.services.rloui.getAlertMessage('', 'Fees & Charges Details')]).then(values => {
+      console.log(values);
+      let modalObj: IModalData = {
+        title: values[0],
+        mainMessage: undefined,
+        modalSize: "modal-width-lg",
+        buttons: [],
+        componentName: 'FeesChargesDetailsComponent',
+        data : dataObj
+        
+       
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal();
+          }
+        }
+      });
+    });
+   }
   async LD_GEN_AMOR_SCH_click(event) {
     if (this.readOnly)
       return
@@ -358,14 +380,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         }
       });
     });
-    // this.modalDataSubjectSubscription=this.services.rloCommonData.modalDataSubject.subscribe((event) => {
-    //     //this.services.rloCommonData.modalDataSubject.subscribe((event) => {
-    //       console.log("Amortr :::: ",event);
-    //     if ('passAmortizationDtls' == event.action) {
-    //       this.populateAmortizationReturnedData(event.data);
-    //       event.action = undefined;
-    //     }
-    //   });
   }
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
@@ -418,8 +432,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.save.loan', 5000);
-          this.LoanGridCalculation();
-          var loanData = [""];
+          //  this.LoanGridCalculation();  //method call comented as there is no need for this
+          //   var loanData = [""]; // comented can't see the use of this.
 
           // if (res !== null) {
           //   loanData = res['LoanDetails'];
@@ -504,6 +518,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     let dataObj: IAmortizationForm = {};
     dataObj.LoanAmountRequested = this.LoanAmount.getFieldValue();
     dataObj.NetInterestRate = this.NetInterestRate.getFieldValue();
+    dataObj.InterestRate = this.InterestRate.getFieldValue();
+    dataObj.ApplicationId = this.ApplicationId;
     dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
     this.FieldId_26.LoanGridArray.forEach(element => {
       if (element.CustomerType == 'B') {
@@ -521,6 +537,17 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   RepaymentOption_blur(event) {
     console.log("selected loan", this.RepaymentOption.getFieldValue());
     this.RepaymentAccNo.mandatory = ('cash' == this.RepaymentOption.getFieldValue()) ? false : true;
+  }
+
+  setTotalInterestAmount() {
+    if (this.LoanAmount.getFieldValue() && this.NetInterestRate.getFieldValue()) {
+      this.TotalInterestAmount.setValue((parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2));
+      this.TotalInstallmentAmt.setValue((parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.TotalInterestAmount.getFieldValue())).toFixed(2));
+    } else {
+      this.TotalInterestAmount.setValue('-NA-');
+      this.TotalInstallmentAmt.setValue('-NA-');
+    }
+    console.log("shweta ::calculated tot interest", this.TotalInterestAmount.getFieldValue(), " :: tot installment ::", this.TotalInstallmentAmt.getFieldValue());
   }
 
   fieldDependencies = {

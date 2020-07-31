@@ -67,7 +67,7 @@ export class PopupAlertComponent implements OnInit {
     var componentInstance = dynamicComponent.instance;
     componentInstance.parentData = this.modalObject.data;
 
-    if (this.modalObject.componentName != 'AmortizationScheduleComponent') {
+    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent' ) {
       componentInstance.isLoanCategory = true;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
@@ -97,6 +97,10 @@ export class PopupAlertComponent implements OnInit {
       case 'AmortizationScheduleComponent':
         return new AddSpecificComponent(AmortizationScheduleComponent);
         break;
+        case 'FeesChargesDetailsComponent':
+        return new AddSpecificComponent(FeesChargesDetailsComponent);
+        break;
+        
       case 'FamilyDetails':
         return new AddSpecificComponent(FamilyDetailsFormComponent);
         break;

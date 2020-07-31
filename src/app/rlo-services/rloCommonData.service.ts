@@ -739,4 +739,20 @@ export class RloCommonData {
     }
   }
 
+  goBack() {
+    console.log("BACK");
+    if (confirm("Are you sure you want to cancel?")) {
+      this.router.navigate(['home', 'LANDING']);
+    }
+  }
+  
+  removeCustomerFromMap(deletedCustomer) {
+    if (this.masterDataMap.has("customerMap")) {
+      if (this.masterDataMap.get("customerMap").has(deletedCustomer)) {
+        this.masterDataMap.get("customerMap").delete(deletedCustomer);
+         console.log("shweta :: customer deleted from map",this.masterDataMap );
+      }
+    }
+  }
+
 }

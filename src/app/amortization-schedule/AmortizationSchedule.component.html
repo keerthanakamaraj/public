@@ -16,7 +16,8 @@
                 {{ 'Amortization.LoanAmountRequested' | translate}}
               </label>
             </div>
-            <app-amount #LoanAmountRequested fieldID="LoanAmountRequested" [formCode]="formCode" (blur)="genericOnBlur('LoanAmountRequested', $event)"></app-amount>
+            <app-amount #LoanAmountRequested fieldID="LoanAmountRequested" [formCode]="formCode"
+              (blur)="genericOnBlur('LoanAmountRequested', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -24,7 +25,8 @@
                 {{ 'Amortization.NetInterestRate' | translate}}
               </label>
             </div>
-            <app-text-box #NetInterestRate fieldID="NetInterestRate" [formCode]="formCode" (blur)="genericOnBlur('NetInterestRate', $event)"></app-text-box>
+            <app-text-box #NetInterestRate fieldID="NetInterestRate" [formCode]="formCode"
+              (blur)="genericOnBlur('NetInterestRate', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Tenure.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -32,23 +34,26 @@
                 {{ 'Amortization.Tenure' | translate}}
               </label>
             </div>
-            <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode" (blur)="genericOnBlur('Tenure', $event)"></app-text-box>
+            <app-text-box #Tenure fieldID="Tenure" [formCode]="formCode" (blur)="genericOnBlur('Tenure', $event)">
+            </app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanOwnership.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanOwnership.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':BLoanOwnership.mandatory}">
                 {{ 'Amortization.BLoanOwnership' | translate}}
               </label>
             </div>
-            <app-text-box #BLoanOwnership fieldID="BLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('BLoanOwnership', $event)"></app-text-box>
+            <app-text-box #BLoanOwnership fieldID="BLoanOwnership" [formCode]="formCode"
+              (blur)="genericOnBlur('BLoanOwnership', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':BLoanAmtShare.mandatory}">
                 {{ 'Amortization.BLoanAmtShare' | translate}}
               </label>
             </div>
-            <app-amount #BLoanAmtShare fieldID="BLoanAmtShare" [formCode]="formCode" (blur)="genericOnBlur('BLoanAmtShare', $event)"></app-amount>
+            <app-amount #BLoanAmtShare fieldID="BLoanAmtShare" [formCode]="formCode"
+              (blur)="genericOnBlur('BLoanAmtShare', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanOwnership.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
@@ -56,7 +61,8 @@
                 {{ 'Amortization.CBLoanOwnership' | translate}}
               </label>
             </div>
-            <app-text-box #CBLoanOwnership fieldID="CBLoanOwnership" [formCode]="formCode" (blur)="genericOnBlur('CBLoanOwnership', $event)"></app-text-box>
+            <app-text-box #CBLoanOwnership fieldID="CBLoanOwnership" [formCode]="formCode"
+              (blur)="genericOnBlur('CBLoanOwnership', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanAmountShare.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
@@ -64,7 +70,8 @@
                 {{ 'Amortization.CBLoanAmountShare' | translate}}
               </label>
             </div>
-            <app-text-box #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode" (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-text-box>
+            <app-text-box #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode"
+              (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3"></div>
           <div class="horizontal-line col-12 col-sm-12 col-md-12 "></div>
@@ -74,7 +81,8 @@
                 {{ 'Amortization.DisbursalDate' | translate}}
               </label>
             </div>
-            <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
+            <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode" placeholder="dd-mm-yyyy"
+              (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ScheduleType.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -83,8 +91,9 @@
               </label>
             </div>
             <!-- <app-text-box #ScheduleType fieldID="ScheduleType" [formCode]="formCode"></app-text-box> -->
-            <app-combo-box #ScheduleType category="2" fieldID="ScheduleType" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-              doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ScheduleType', $event)">
+            <app-combo-box #ScheduleType category="2" fieldID="ScheduleType" [formCode]="formCode" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('ScheduleType', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RepaymentStartDate.isHidden()">
@@ -93,7 +102,8 @@
                 {{ 'Amortization.RepaymentStartDate' | translate}}
               </label>
             </div>
-            <app-date #RepaymentStartDate fieldID="RepaymentStartDate" [formCode]="formCode" placeholder="dd-mm-yyyy" (blur)="genericOnBlur('RepaymentStartDate', $event)"></app-date>
+            <app-date #RepaymentStartDate fieldID="RepaymentStartDate" [formCode]="formCode" placeholder="dd-mm-yyyy"
+              (blur)="genericOnBlur('RepaymentStartDate', $event)"></app-date>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NoOfInstallments.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -101,7 +111,8 @@
                 {{ 'Amortization.NoOfInstallments' | translate}}
               </label>
             </div>
-            <app-text-box #NoOfInstallments fieldID="NoOfInstallments" [formCode]="formCode" (blur)="genericOnBlur('NoOfInstallments', $event)"></app-text-box>
+            <app-text-box #NoOfInstallments fieldID="NoOfInstallments" [formCode]="formCode"
+              (blur)="genericOnBlur('NoOfInstallments', $event)"></app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequiredEMIAmt.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -109,18 +120,21 @@
                 {{ 'Amortization.RequiredEMIAmt' | translate}}
               </label>
             </div>
-            <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode" (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
+            <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode"
+              (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
           </div>
 
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
-           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AMS_GENERATE_BTN.isHidden()">
-            <app-button #AMS_GENERATE_BTN fieldName="{{ 'Amortization.AMS_GENERATE_BTN' | translate}}" fieldID="AMS_GENERATE_BTN" [formCode]="formCode"
-              customClass="btn btn-primary" (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
+            <app-button #AMS_GENERATE_BTN fieldName="{{ 'Amortization.AMS_GENERATE_BTN' | translate}}"
+              fieldID="AMS_GENERATE_BTN" [formCode]="formCode" customClass="btn btn-primary"
+              (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="AMS_CLEAR_BTN.isHidden()">
-            <app-button #AMS_CLEAR_BTN fieldName="{{ 'Amortization.AMS_CLEAR_BTN' | translate}}" fieldID="AMS_CLEAR_BTN" [formCode]="formCode"
-              customClass="btn-warning-outline" (buttonClick)="AMS_CLEAR_BTN_click($event)"></app-button>
+            <app-button #AMS_CLEAR_BTN fieldName="{{ 'Amortization.AMS_CLEAR_BTN' | translate}}" fieldID="AMS_CLEAR_BTN"
+              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="AMS_CLEAR_BTN_click($event)">
+            </app-button>
           </div>
         </div>
         <div class="form-group pb10" [ngClass]="editableFlag?'deactivate-amortization':''">
@@ -204,7 +218,8 @@
             </div>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="AmortizationGrid.isHidden()">
-            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode" (triggerRepaymentForm)="generateRepaymentForm($event)"></app-AmortizationGrid>
+            <app-AmortizationGrid #AmortizationGrid fieldID="AmortizationGrid" [formCode]="formCode"
+              (triggerRepaymentForm)="generateRepaymentForm($event)"></app-AmortizationGrid>
           </div>
         </div>
         <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
