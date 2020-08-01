@@ -111,6 +111,10 @@ export var componentRoutes: Routes = [
 	{
 		path: 'withdraw',
 		loadChildren: 'src/app/Operation/Operation.module#OperationModule'
+	},
+	{
+		path: 'DisbursementDetails',
+		loadChildren: 'src/app/DisbursementDetails/DisbursementDetails.module#DisbursementDetailsModule'
 	}
 	
 ];

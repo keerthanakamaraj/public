@@ -166,7 +166,8 @@
           </div>
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_DISBURMENT_MONEY.isHidden()">
             <app-button #LD_DISBURMENT_MONEY fieldName="{{ 'LoanDetailsForm.LD_DISBURMENT_MONEY' | translate}}"
-              fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3">
+              fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3" 
+              (buttonClick)= "LD_DISBURMENT_MONEY_click($event)">
             </app-button>
           </div>
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_GEN_AMOR_SCH.isHidden()">

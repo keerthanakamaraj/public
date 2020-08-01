@@ -2120,5 +2120,35 @@
       "GridTitle" : "CustGrid",
       "Cust_Name" : "Customer Name",
       "Cust_DOB" : "Date Of Birth"
-      }
+      },
+      "DisbursementGrid" : {
+        "Delete" : "Edit Legend",
+        "toolbar_DisbursementGrid" : "null",
+        "GridTitle" : "Disbursement Grid",
+        "Amount" : "Amount",
+        "Edit" : "Edit Legend",
+        "DisbursalTo" : "Disbursal To",
+        "DisbursalNo" : "Disbursal No.",
+        "Edit_ButtonName" : "Edit",
+        "DisbursalDate" : "Disbursal Date",
+        "PaymentMode" : "Payment Mode",
+        "Delete_ButtonName" : "Delete"
+        },
+        "DisbursementDetails" : {
+        "InFavorOf" : "In favor of",
+        "FormTitle" : "Disbursement Details",
+        "IFSCCode" : "IFSC Code",
+        "Amount" : "Amount",
+        "LocalCurrencyEquivalent" : "Local Currency Equivalent",
+        "FieldId_18" : "null",
+        "DisbursalDate" : "Disbursal Date",
+        "Account" : "Account",
+        "DD_Add" : "Add",
+        "Remarks" : "Remarks",
+        "Currency" : "Currency",
+        "DD_Reset" : "Reset",
+        "FundTransferMode" : "Fund Transfer Mode",
+        "DisbursalTo" : "Disbursal To",
+        "PaymentMode" : "Payment Mode"
+        }
 }

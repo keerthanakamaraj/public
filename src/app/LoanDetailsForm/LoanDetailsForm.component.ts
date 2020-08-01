@@ -129,7 +129,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.hideRepaymentOption.setValue('REPAYMENT_OPTION');
     this.hideRepaymentFreq.setValue('FREQUENCY');
     this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
-    this.LD_DISBURMENT_MONEY.setDisabled(true);
+    // this.LD_DISBURMENT_MONEY.setDisabled(true);
     // this.LD_FEES_CHARGE.setDisabled(true);
     this.LD_RECEIVE_MONEY.setDisabled(true);
     let inputMap = new Map();
@@ -314,6 +314,19 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     await this.FieldId_26.gridDataLoad({
       'passLoanGrid': array,
     });
+  }
+  async LD_DISBURMENT_MONEY_click(event){
+    let inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('ApplicationId', this.ApplicationId);
+    inputMap.set('component','DisbursementDetails');
+    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+    var onModalClose = async (reason)=>{
+      (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
+    }
+    modalRef.result.then(onModalClose, onModalClose);
+    modalRef.componentInstance.rotueToComponent(inputMap);
+    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
   }
   async LD_FEES_CHARGE_click(event) {
      // let inputMap = new Map();

@@ -7,9 +7,7 @@
     <div class="modal-body">
         <span class="msg-span fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
         <h5>{{modalObject.mainMessage}}</h5>
-        <div *ngIf="modalObject.rawHtml.length">
         <div [innerHTML]="modalObject.rawHtml">
-        </div>
         </div>
 
         <!-- components added here -->
