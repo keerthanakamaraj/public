@@ -254,15 +254,17 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
     this.getUnderWriterData();
-    setTimeout(() => {
-      this.generateModelJson(this.workingJsonObj.UWApplication);
-    }, 1000);
-    
+    // setTimeout(() => {
+    //   this.generateModelJson(this.workingJsonObj.UWApplication);
+    // }, 1000);
+
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit) 2061
-    let appId = "1673";
+    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530
+    let ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    console.error("*******", ApplicationId);
+    let appId = ApplicationId;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -272,7 +274,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (res != null) {
           this.isDataAvaliableFlag = 1;
           this.applicationId = res.UWApplication.ApplicationId;
-          //this.generateModelJson(res.UWApplication);
+          this.generateModelJson(res.UWApplication);
         }
         else {
           this.isDataAvaliableFlag = 0;
@@ -305,10 +307,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   //@Output
-  brodcastProdCategory() { }
+  brodcastProdCategory(event) { }
 
   //@Output
-  headerState() { }
+  headerState(event) { }
 
   //under-writer.component.ts
   generateModelJson(jsonData) {

@@ -503,6 +503,10 @@ export class MyTrayGridComponent implements AfterViewInit {
       //   return;
       // }
 
+      if (stageId == "PRE-CPV") {
+        stageId = "Underwriter";
+      }
+
       navPath.push(stageId);
       inputMap.set('appId', selectedData2['MT_PROPOSAL_ID']);
       inputMap.set('taskId', selectedData2['hiddenTaskId']);
