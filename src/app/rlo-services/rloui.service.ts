@@ -46,6 +46,7 @@ export class RlouiService {
     { componentName: "ApplicationDetails", iconClass: "icon-Application-Details" },
     { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" },
     { componentName: "FeesChargesDetailsComponent", iconClass: "icon-generate-amortization" },
+    { componentName: "OccupationDetails", iconClass: "icon-Asset-Details" },
   ]
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {
