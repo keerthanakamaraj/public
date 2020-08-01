@@ -61,7 +61,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Date",
     width: 12,
-    sortable: true,
+   // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
     // filter: "agTextColumnFilter",
@@ -76,9 +76,9 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Principal",
     width: 11,
-    sortable: true,
+   // sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -91,9 +91,9 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Interest",
     width: 11,
-    sortable: true,
+    //sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -106,9 +106,9 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Installment",
     width: 11,
-    sortable: true,
+    //sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -121,9 +121,9 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Others",
     width: 11,
-    sortable: true,
+    //sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     //   filter: "agTextColumnFilter",
     //   filterParams: {
     //     suppressAndOrCondition: true,
@@ -136,9 +136,9 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Total_Due",
     width: 11,
-    sortable: true,
+    //sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -151,9 +151,9 @@ export class AmortizationGridComponent implements AfterViewInit {
   {
     field: "Prin_OS",
     width: 11,
-    sortable: true,
+    //sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -167,7 +167,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     field: "vvc",
     width: 11,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
     filter: false,
   },
   ];
@@ -263,21 +263,21 @@ export class AmortizationGridComponent implements AfterViewInit {
       let maturityDate: string = undefined;
       let installmentAmt = undefined;
       for (let eachRecord of RepaymentList) {
-
+        let tempinstallmentNo=parseInt(eachRecord.installmentNo);
+        if(tempinstallmentNo>0){
         let tempObj = {};
-        let SNo=Number(eachRecord.installmentNo);
-        tempObj['No'] = SNo;
+        tempObj['No'] = tempinstallmentNo;
         tempObj['Date'] = eachRecord.installmentDate;
-        tempObj['Principal'] = eachRecord.principalAmount;
-        tempObj['Interest'] = eachRecord.interestAmount;
-        tempObj['Installment'] = eachRecord.installmentAmount;
+        tempObj['Principal'] = parseFloat(eachRecord.principalAmount).toFixed(2);
+        tempObj['Interest'] = parseFloat(eachRecord.interestAmount).toFixed(2);
+        tempObj['Installment'] = parseFloat(eachRecord.installmentAmount).toFixed(2);
         tempObj['Others'] = eachRecord.others != undefined ? eachRecord.others : '0.00';
-        tempObj['Total_Due'] = eachRecord.closingPrincipalBalance;
-        tempObj['Prin_OS'] = eachRecord.openPrincipalBalance;
+        tempObj['Total_Due'] = parseFloat(eachRecord.closingPrincipalBalance).toFixed(2);
+        tempObj['Prin_OS'] = parseFloat(eachRecord.openPrincipalBalance).toFixed(2);
         tempObj['vvc']='VVC';
         LoanGridDetails.push(tempObj);
 
-        if (1 == parseInt(eachRecord.installmentNo) && parseInt(requestParams.noOfInstallments) > 0) {
+        if (tempinstallmentNo==1) {
           installmentAmt = eachRecord.installmentAmount;
         }
         if (parseInt(eachRecord.installmentNo) > largeNo) {
@@ -285,12 +285,15 @@ export class AmortizationGridComponent implements AfterViewInit {
           largeNo = parseInt(eachRecord.installmentNo);
         }
       }
+      }
       this.triggerRepaymentForm.emit({
         'maturityDate': maturityDate,
         'installmentAmt': installmentAmt
       });
     }
-    this.readonlyGrid.apiSuccessCallback(params, LoanGridDetails);
+
+    let LoanGridDetailsCopy= LoanGridDetails.sort((a,b) => (a.No > b.No) ? 1 : ((b.No > a.No) ? -1 : 0));
+    this.readonlyGrid.apiSuccessCallback(params, LoanGridDetailsCopy);
     },
       (httpError) => {
         console.error(httpError);

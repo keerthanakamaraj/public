@@ -204,35 +204,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
 
   async AMS_GENERATE_BTN_click(event) {
-    let RepaymentScheduleResp = [
-      {
-        "installmentDate": "JAN-2020",
-        "closingPrincipalBalance": 531448,
-        "installmentAmount": 11052,
-        "openPrincipalBalance": 500000,
-        "interestAmount": 42500,
-        "installmentNo": 1,
-        "principalAmount": -31448
-      },
-      {
-        "installmentDate": "FEB-2020",
-        "closingPrincipalBalance": 524160.42,
-        "installmentAmount": 11052,
-        "openPrincipalBalance": 531448,
-        "interestAmount": 3764.42,
-        "installmentNo": 2,
-        "principalAmount": 7287.58
-      },
-      {
-        "installmentDate": "MAR-2020",
-        "closingPrincipalBalance": 516821.22,
-        "installmentAmount": 11052,
-        "openPrincipalBalance": 524160.42,
-        "interestAmount": 3712.8,
-        "installmentNo": 3,
-        "principalAmount": 7339.2
-      }];
-
+    
     const noOfErrors: number = await this.revalidate();
     if (noOfErrors === 0) {
 
@@ -247,8 +219,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       this.repaymentFormData.subProductCode = this.services.rloCommonData.globalApplicationDtls.SubProductCode;
 
       this.AmortizationGrid.gridDataLoad({
-        'requestParams': this.repaymentFormData,
-        'hardCodedResp': RepaymentScheduleResp
+        'requestParams': this.repaymentFormData
       });
 
       this.editableFlag = false;
@@ -267,7 +238,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     if (instAmt != undefined && instAmt != 0) {
       instAmt = parseFloat(this.RequiredEMIAmt.getFieldValue()).toFixed(2);
     } else if (requestedParams.installmentAmt != undefined) {
-      instAmt = parseFloat(requestedParams.installmentAmount).toFixed(2);
+      instAmt = parseFloat(requestedParams.installmentAmt).toFixed(2);
     }
     this.services.rloCommonData.modalDataSubject.next({
       action: 'passAmortizationDtls',
