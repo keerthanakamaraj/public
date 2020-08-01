@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
     <app-combo-box #SCR_Filter category="4" fieldID="SCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
-      defaultValue="{{FilterOptions[0].id}}" (blur)="SCR_Filter_Blur('SCR_Filter', $event)">
+      defaultValue="{{FilterOptions[0].id}}" (blur)="SCR_Filter_Blur()">
     </app-combo-box>
 
   </div>

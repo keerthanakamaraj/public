@@ -1,7 +1,7 @@
 <div class="policy-section-conatoner row">
     <div class="col-12 col-sm-3 col-md-3">
         <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
-          defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur('PCR_Filter', $event)">
+          defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur()">
         </app-combo-box> 
       </div>
   <div class="row header-container">
