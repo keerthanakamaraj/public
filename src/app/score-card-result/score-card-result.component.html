@@ -1,19 +1,19 @@
 <div class="row">
   <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
-    <app-combo-box #SCR_Filter category="4" fieldID="SCR_Filter" [formCode]="formCode" placeholder="Select" [emittedOptions]="FilterOptions"
+    <app-combo-box #SCR_Filter category="4" fieldID="SCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
       defaultValue="{{FilterOptions[0].id}}" (blur)="SCR_Filter_Blur('SCR_Filter', $event)">
     </app-combo-box>
 
   </div>
   <div class="col-12  col-sm-5 col-md-5 res-pr-hide"></div>
   <div class=" button-container col-12  col-sm-2 col-md-2 res-pr-hide">
-    <app-button #SCR_DOWNLOAD_BTN fieldName="{{ 'ScoreCardRslt.SCR_DOWNLOAD_BTN' | translate}}" fieldID="SCR_DOWNLOAD_BTN" [formCode]="formCode"
-      customClass="btn btn-primary" (buttonClick)="SCR_DOWNLOAD_BTN_click($event)"></app-button>
+    <app-button #SCR_DOWNLOAD_BTN fieldName="{{ 'ScoreCardRslt.SCR_DOWNLOAD_BTN' | translate}}" fieldID="SCR_DOWNLOAD_BTN" 
+      customClass="btn btn-primary"></app-button>
 
   </div>
   <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
     <app-button #SCR_RETRIGGER_BTN fieldName="{{ 'ScoreCardRslt.SCR_RETRIGGER_BTN' | translate}}" fieldID="SCR_RETRIGGER_BTN"
-      [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="retriggerScoreResult()"></app-button>
+       customClass="btn-warning-outline" (buttonClick)="retriggerScoreResult()"></app-button>
   </div>
 </div>
 <div style="min-height: 0px;height: 40px;" class="col-12 col-sm-12 col-md-12"></div>
