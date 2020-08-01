@@ -262,7 +262,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   getUnderWriterData() {
     //valid application id - 1675 1937 1678 1673(RM visit) 2061
-    let appId = "2061";
+    let appId = "1673";
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {

@@ -183,5 +183,9 @@
 }
 
 .icon_eye_visibility:before {
-    content: "\e91f"
+    content: "\e91f";
+}
+
+.icon-time:before {
+    content: "\e920";
 }

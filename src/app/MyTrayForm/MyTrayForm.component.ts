@@ -29,7 +29,42 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('MT_SLIDER', { static: false }) MT_SLIDER: CheckBoxComponent;
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
   @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
+
   menuList = [];
+  promotionLists = [
+    {
+      title: "August Special",
+      txt: `Make you month special by sending gifts to loved one's. Get Myntra vouchers worth Rs 3000on purchase
+      of any Life Benifit Plans.`,
+      bgColor: "#9013fe"
+    },
+    {
+      title: "Diwali Dhamaka",
+      txt: `Limited period offer. Get upto 25% off on selected plan.`,
+      bgColor: "#17afbd"
+    },
+    {
+      title: "Mega Sale",
+      txt: `Limited period offer. Get upto 25% off on selected plan.`,
+      bgColor: "#fd83e3"
+    }
+  ];
+
+  broadcastLists = [
+    {
+      msg: "New changes added in our current plan(PLAN_04_456136). Kindly all your sub-products accordingly.",
+      dateTime: "27 Mon, 11:00 AM"
+    },
+    {
+      msg: "All the newly joined staff need to update their policies by the end of September.Submit the required documents to the Admin in .PDF format.",
+      dateTime: "29 Wed, 03:36 PM"
+    },
+    {
+      msg: "New offers for the month of August will be rolled out soon. Those who are intersted can contact Aishwarya or Jai. For any queries contact HR.",
+      dateTime: "29 Wed, 6:05 PM"
+    }
+  ];
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();

@@ -974,6 +974,19 @@ a.back {
   }
 }
 
+@mixin dashboard-card {
+  box-shadow: 0px 0px 7px 0px rgb(198 198 198 / 75%);
+
+  .title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 15px;
+    color: #565656;
+  }
+}
+
 .p-0 {
   padding: 0;
 }
@@ -2924,29 +2937,101 @@ rlo-ui-card-field {
   }
 }
 
-.carousel-indicators li {
-  background-color: #999;
-  background-color: rgba(70, 70, 70, .25);
-  margin-bottom: -57px;
-  margin-left: 5px;
-  margin-right: 5px;
-  width: 14px;
-  height: 14px;
-}
-
-.carousel-indicators .active {
-  background-color: #0079B8;
-  margin-bottom: -57px;
-  margin-left: 5px;
-  margin-right: 5px;
-  width: 14px;
-  height: 14px;
-}
-
 .lyt-operation-queue {
   .generate_letter {
     button {
       width: 180px !important;
+    }
+  }
+}
+
+.lyt-mytray {
+  .carousel-indicators {
+    z-index: -1;
+
+    li {
+      background-color: #999;
+      background-color: rgba(70, 70, 70, .25);
+      margin-bottom: -57px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .carousel-indicators .active {
+    background-color: #0079B8;
+    margin-bottom: -57px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 14px;
+    height: 14px;
+  }
+
+
+  .broadcast-card {
+    @include dashboard-card;
+    padding: 15px;
+    background: #f8f8f8;
+
+    .broadcast-container {
+      background-color: white;
+      max-height: 216px;
+      min-height: 216px;
+      overflow-y: scroll;
+
+      .broadcast-section {
+        margin: 9px;
+        border-bottom: 2px solid #f8f8f8;
+
+        .msg {
+          font-size: 14px;
+          line-height: 15px;
+          color: #565656;
+        }
+
+        .date-time {
+          text-align: right;
+          margin-bottom: 5px;
+          font-size: 11px;
+          line-height: 13px;
+          color: #919191;
+        }
+
+        .icon-time::before {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .promo-card {
+    @include dashboard-card;
+    padding: 15px;
+
+    .promo-container {
+      max-height: 216px;
+      min-height: 216px;
+      overflow-y: scroll;
+
+      .promo-section {
+        padding: 22px 15px;
+        background: #9013fe;
+        color: white;
+        margin-bottom: 15px;
+
+        .promo-title {
+          font-size: 18px;
+          line-height: 1;
+          margin-bottom: 14px;
+        }
+
+        .promo-message {
+          font-size: 12px;
+          line-height: 13px;
+        }
+      }
     }
   }
 }
