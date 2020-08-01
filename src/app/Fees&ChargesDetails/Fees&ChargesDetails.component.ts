@@ -257,6 +257,7 @@ requestParameterForFeeChargesDetails() {
   }
   FC_RESET_click($event){
       this.onReset();
+      this.ChargeBasis.setDefault("RATE");
   }
   async FC_SAVE_click(event) {
     let serviceName;

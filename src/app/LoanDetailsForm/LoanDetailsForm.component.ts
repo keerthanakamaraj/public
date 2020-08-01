@@ -327,7 +327,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     // modalRef.componentInstance.rotueToComponent(inputMap);
     // this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef)
     let dataObj=this.generateAmortizationDataList();
-    Promise.all([this.services.rloui.getAlertMessage('', 'Fees & Charges Details')]).then(values => {
+    Promise.all([this.services.rloui.getAlertMessage('', 'Fees & Charges')]).then(values => {
       console.log(values);
       let modalObj: IModalData = {
         title: values[0],
