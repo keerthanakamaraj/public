@@ -122,68 +122,18 @@
           </div>
 
 
-          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PeriodicCharge.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': PeriodicCharge.mandatory}">
-                {{ 'Fees&ChargesDetails.PeriodicCharge' | translate}}
-              </label>
-            </div>
-            <app-combo-box #PeriodicCharge category="2" fieldID="PeriodicCharge" [formCode]="formCode"
-              (blur)="genericOnBlur('PeriodicCharge', $event)"
-              (change)="PeriodicCharge_change('PeriodicCharge', $event)" placeholder="Select"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PeriodicStDt.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'Fees&ChargesDetails.PeriodicStDt' | translate}}
-              </label>
-            </div>
-            <app-date #PeriodicStDt fieldID="PeriodicStDt" [formCode]="formCode"
-              (blur)="genericOnBlur('PeriodicStDt', $event)"></app-date>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PeriodicEnDt.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'Fees&ChargesDetails.PeriodicEnDt' | translate}}
-              </label>
-            </div>
-            <app-date #PeriodicEnDt fieldID="PeriodicEnDt" [formCode]="formCode"
-              (blur)="genericOnBlur('PeriodicEnDt', $event)"></app-date>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Frequency.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': Frequency.mandatory}">
-                {{ 'Fees&ChargesDetails.Frequency' | translate}}
-              </label>
-            </div>
-            <app-combo-box #Frequency category="2" fieldID="Frequency" [formCode]="formCode"
-              (blur)="genericOnBlur('Frequency', $event)" placeholder="Select"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
-            </app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RateOnCharge.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': RateOnCharge.mandatory}">
-                {{ 'Fees&ChargesDetails.RateOnCharge' | translate}}
-              </label>
-            </div>
-            <app-combo-box #RateOnCharge category="2" fieldID="RateOnCharge" [formCode]="formCode"
-              (blur)="genericOnBlur('RateOnCharge', $event)" (change)="RateOnCharge_change('RateOnCharge', $event)"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM"></app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EffectiveAmount.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': EffectiveAmount.mandatory}">
-                {{ 'Fees&ChargesDetails.EffectiveAmount' | translate}}
-              </label>
-            </div>
-            <app-amount #EffectiveAmount fieldID="EffectiveAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('EffectiveAmount', $event)"></app-amount>
-          </div>
+<ng-container *ngIf="!readOnly">
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FC_SAVE_BTN.isHidden()">
+<app-button #FC_SAVE_BTN fieldName="{{ 'Fees&ChargesDetails.FC_SAVE_BTN' | translate}}" 
+imagePath="./assets/icons/plus.svg" fieldID="FC_SAVE_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"
+(buttonClick)="FC_SAVE_click($event)"></app-button>
+</div>
+<div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="FC_RESET_BTN.isHidden()">
+<app-button #FC_RESET_BTN fieldName="{{ 'Fees&ChargesDetails.FC_RESET_BTN' | translate}}"
+ imagePath="./assets/icons/refresh-form.svg" fieldID="FC_RESET_BTN" [formCode]="formCode" [type]="2" customClass="icon-button"
+ (buttonClick)="FC_RESET_click($event)"></app-button>
+ </div>
+</ng-container>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeCollection.isHidden()">
             <div class="clr-brown fieldLegend">

@@ -30,6 +30,11 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.ChargeRate.setHidden(false);
       this.MainComponent.RateOnCharge.setHidden(false);
       this.MainComponent.EffectiveAmount.setHidden(false);
+      this.MainComponent.Currency.setValue(undefined);
+      this.MainComponent.ChargeAmt.setValue(undefined);
+      this.MainComponent.LocalAmount.setValue(undefined);
+      this.MainComponent.EffectiveAmount.mandatory= true;
+      this.MainComponent.RateOnCharge.mandatory = true;
     }
      if((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE") )
     {
@@ -39,6 +44,12 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.ChargeRate.setHidden(true);
       this.MainComponent.RateOnCharge.setHidden(true);
       this.MainComponent.EffectiveAmount.setHidden(true);
+      this.MainComponent.ChargeRate.setValue(undefined);
+      this.MainComponent.RateOnCharge.setValue(undefined);
+      this.MainComponent.EffectiveAmount.mandatory= false;
+      this.MainComponent.RateOnCharge.mandatory = false;
+
+
     }
   }
 
@@ -46,6 +57,10 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
     if(this.MainComponent.PeriodicCharge.getFieldValue() == 'N'){
       this.MainComponent.PeriodicStDt.setHidden(true);
       this.MainComponent.PeriodicEnDt.setHidden(true);
+      this.MainComponent.PeriodicStDt.setValue(undefined);
+    this.MainComponent.PeriodicEnDt.setValue(undefined);
+      
+
     }
     else{
       this.MainComponent.PeriodicStDt.setHidden(false);

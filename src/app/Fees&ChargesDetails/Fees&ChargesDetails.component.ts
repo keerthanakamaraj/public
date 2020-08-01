@@ -255,6 +255,9 @@ requestParameterForFeeChargesDetails() {
     inputMap.set('Body.ChargeDetails.EffectiveAmount', this.EffectiveAmount.getFieldValue());
     return inputMap;
   }
+  FC_RESET_click($event){
+      this.onReset();
+  }
   async FC_SAVE_click(event) {
     let serviceName;
     let method
@@ -355,6 +358,8 @@ requestParameterForFeeChargesDetails() {
         this.EffectiveAmount.setValue(res['ChargeDetails']['EffectiveAmount']);
         this.LocalAmount.setValue(res['ChargeDetails']['LocalAmount']);
         this.AD_HIDE_ID.setValue(res['ChargeDetails']['ChargeDtlSeq']);
+        this.Handler.hideShowFieldBasedOnChargeBasis();
+        this.Handler.hideFieldBasedOnPeriodicCharge();
      
       },
       async (httpError) => {
@@ -363,8 +368,7 @@ requestParameterForFeeChargesDetails() {
         }
         this.services.alert.showAlert(2, 'rlo.error.load.address', -1);
         this.hideSpinner();
-        this.Handler.hideShowFieldBasedOnChargeBasis();
-        this.Handler.hideFieldBasedOnPeriodicCharge();
+      
 
       }
     );
