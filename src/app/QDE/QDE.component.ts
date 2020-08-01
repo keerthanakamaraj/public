@@ -551,6 +551,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.UserId', this.userId);
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.SchemeId', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
+
 
     if (requestParams) {
       requestParams.forEach((val, key) => {
@@ -634,6 +636,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
+    this.services.rloCommonData.globalApplicationDtls = {
+      isLoanCategory: event.isLoanCategory,
+      ProductCode: event.ProductCode,
+      SubProductCode: event.SubProductCode,
+      SchemeCode: event.SchemeCode,
+    };
   }
 
   async headerState(event) {
@@ -668,10 +676,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   };
 
   /* Cancel / Back button */
-  goBack() {
+goBack() {
     this.services.rloui.goBack();
   }
-
+  
   UpdateAccordian() {
     this.QDE_ACCORD1.disableAccordian('ADD_DETAILS', this.disableAccordian);
     this.QDE_ACCORD1.disableAccordian('OCC_DETAILS', this.disableAccordian);
