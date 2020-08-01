@@ -20,6 +20,8 @@ import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.com
 import { CustGridComponent } from '../CustGrid/CustGrid.component';
 import { from } from 'rxjs';
 import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetails.component';
+import { IModalData } from '../popup-alert/popup-interface';
+import { string } from '@amcharts/amcharts4/core';
 const customCss: string = '';
 
 @Component({
@@ -49,17 +51,16 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   buttonName: any = 'Show';
   passApplicationId: any;
   LoanCat: any;
-  LETTERMGMTFORMAT=undefined;
-  MyFunction(){
-    
-    this.LETTERMGMTFORMAT= "Ref_no: 20200730093231022213</p>\r\n\r\n\r\n</p>\r\n\r\nDear Jonas Brandt ,</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nRe: Invoice no : 0111000154199 in respect of your purchase from OTTO.de</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis is to inform you that there will be a debit of 215.01 EUR on 17-JUL-2020 from your bank account with number DE000000111000154199</p>\r\n\r\nbasis mandate id : 20200624121109014765</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis payment will appear in your bank statement as Hanseatic Bank GmbH + Co.</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nSincerely yours,</p>\r\n\r\n\r\n</p>\r\n\r\nOTTO Customer Service</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nPlease do not reply to this email as this is an auto generated intimation.</p>";
-  }
+  LETTERMGMTFORMAT = "Ref_no: 20200730093231022213</p>\r\n\r\n\r\n</p>\r\n\r\nDear Jonas Brandt ,</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nRe: Invoice no : 0111000154199 in respect of your purchase from OTTO.de</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis is to inform you that there will be a debit of 215.01 EUR on 17-JUL-2020 from your bank account with number DE000000111000154199</p>\r\n\r\nbasis mandate id : 20200624121109014765</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis payment will appear in your bank statement as Hanseatic Bank GmbH + Co.</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nSincerely yours,</p>\r\n\r\n\r\n</p>\r\n\r\nOTTO Customer Service</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nPlease do not reply to this email as this is an auto generated intimation.</p>";
+
 
 
   // isLoanCategory: any = undefined;
   LoanArray = [];
   CardArray = [];
   appArray = [];
+  LetterArray;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -190,6 +191,55 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     setTimeout(() => {
       this.isLoan();
     }, 2000);
+  }
+
+  MyFunction() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let requestParams;
+    inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-1");
+    inputMap.set('QueryParam.sourceType', "Sanction Letter");
+    inputMap.set('QueryParam.sourceCd', "APPROVAL");
+
+    this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.LetterArray;
+        if (res) {
+          this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
+          let errorMsg = "";
+          var mainMessage = this.LetterArray;
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+          Promise.all([mainMessage, button1]).then(values => {
+            console.log(values);
+            const modalObj: IModalData = {
+              title: "Sanction Letter",
+              // mainMessage: values[0],
+              rawHtml: values[0],
+              modalSize: "modal-width-lg",
+              buttons: [
+                // { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+            }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.rloui.closeAllConfirmationModal();
+                }
+              }
+            });
+          });
+
+        }
+      },
+      (httpError) => {
+        console.error(httpError);
+        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+      });
   }
   isLoan() {
     if (!this.isLoanCategory) {//ie. loan type credit card

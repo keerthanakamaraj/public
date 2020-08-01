@@ -34,9 +34,9 @@
           </div>
         </div>
       </div>
-      <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
+      <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <i class="fa fa edit"></i>
-      </div>
+      </div> -->
       <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
           customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode">
@@ -127,12 +127,13 @@
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <div *ngIf="show">
-            <span><a href="#">Mortage Deed</a></span><br>
+            <!-- <span><a href="#">Mortage Deed</a></span><br>
             <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
             <span><a href="#">Agrement letter</a></span><br>
-            <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-            <span><a href="#">Final Sanction letter</a></span>
+            <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div> -->
+            <span><a (click)="MyFunction()">Final Sanction letter</a></span>
           </div>
+          <!-- <div [innerHTML]="LETTERMGMTFORMAT"></div> -->
         </div>
       </div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -184,11 +185,11 @@
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <div *ngIf="show">
-            <a href="#">Mortage Deed</a><br>
-            <a href="#">Agrement letter</a><br>
+            <!-- <a href="#">Mortage Deed</a><br>
+            <a href="#">Agrement letter</a><br> -->
             <a (click)="MyFunction()">Final Sanction letter</a>
           </div>
-          <div [innerHTML]="LETTERMGMTFORMAT"></div>
+          <!-- <div [innerHTML]="LETTERMGMTFORMAT"></div> -->
         </div>
       </div>
       <div class="col-12  col-sm-12 col-md-12 group-default">
@@ -197,11 +198,11 @@
             <div class="col-12  col-sm-4 col-md-4"></div>
             <div class="col-12  col-sm-4 col-md-4 text-center">
               <app-button #OPERATION_APPROVE fieldName="{{ 'Operation.OPERATION_APPROVE' | translate}}"
-                fieldID="QDE_SUBMIT" [formCode]="formCode" customClass="btn btn-primary"
+                fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn btn-primary"
                 style="width: 150px !important;">
               </app-button>
               <app-button #OPERATION_WITHDRAW fieldName="{{ 'Operation.OPERATION_WITHDRAW' | translate}}"
-                fieldID="QDE_WITHDRAW" [formCode]="formCode" customClass="btn-warning-outline"
+                fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn-warning-outline"
                 style="width: 150px !important;">
               </app-button>
             </div>
