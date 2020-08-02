@@ -12,6 +12,7 @@ import { ServiceStock } from '../service-stock.service';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { string } from '@amcharts/amcharts4/core';
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 const customCss: string = '';
 @Component({
 selector: 'app-DisbursInputGrid',
@@ -20,6 +21,7 @@ templateUrl: './DisbursInputGrid.component.html'
 export class DisbursInputGridComponent extends GridComponent implements OnInit {
 @ViewChildren('ProjectCompletion')ProjectCompletion : QueryList<TextAreaComponent>;
 @ViewChildren('DisbursementAmount')DisbursementAmount : QueryList<AmountComponent>;
+s : string = undefined;
 constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
 super(services, cdRef);
 this.value = new DisbursInputGridModel();
@@ -27,6 +29,7 @@ this.componentCode = 'DisbursInputGrid';
 this.initRowCount = 1;
 this.uniqueColumns = [];
 this.primaryColumns = [];
+ 
 }
 ngOnInit(){
 if(this.gridType==1){this.initRows();}
@@ -35,7 +38,7 @@ styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
 styleElement.id = 'DisbursInputGrid_customCss';
 document.getElementsByTagName('head')[0].appendChild(styleElement);
- s : string;
+
 }
 ngOnDestroy(){
 for(var i=0;i<this.unsubscribeRow$.length;i++){
