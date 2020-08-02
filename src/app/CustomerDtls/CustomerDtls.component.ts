@@ -269,19 +269,19 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // this.FieldId_30.valueChangeUpdates().subscribe((value) => { this.value.FieldId_30 = value; });
       this.onFormLoad(event);
       this.checkForHTabOverFlow();
-      
-      
-            //when opened in modal ie:UW
-            if (this.readOnly) {
-                let obj = {
-                    selectedCustId: this.activeBorrowerSeq
-                }
-                this.CUST_DTLS_GRID_custDtlsEdit(obj).then((response)=>{
-                    setTimeout(() => {
-                       this.setReadOnly(true); 
-                    }, 1000);                   
-                });
-            }
+
+
+      //when opened in modal ie:UW
+      if (this.readOnly) {
+        let obj = {
+          selectedCustId: this.activeBorrowerSeq
+        }
+        this.CUST_DTLS_GRID_custDtlsEdit(obj).then((response) => {
+          setTimeout(() => {
+            this.setReadOnly(true);
+          }, 1000);
+        });
+      }
     });
   }
   clearError() {
@@ -791,12 +791,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
         // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
         this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
+
+        //set customer type
         this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
         if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
           this.setNonEditableFields(true);
         } else {
           this.setNonEditableFields(false);
         }
+
         this.passBorrowerSeq.emit({
           'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
         });

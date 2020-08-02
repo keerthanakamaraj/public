@@ -1146,7 +1146,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async DDE_CANCEL_click(event) {
-
     // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
     var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
     var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -1247,9 +1246,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
       });
     });
-
-
   }
+
   async DDE_REJECT_click(event) {
     const requestParams = new Map();
     requestParams.set('Body.ApplicationStatus', 'Reject');
@@ -1280,23 +1278,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
       });
     });
-
-
-    // this.services.router.navigate(['home', 'LANDING']);
-
   }
 
   async DDE_REFER_click(event) {
-
-
-    // history.back();
     const requestParams = new Map();
     requestParams.set('Body.ApplicationStatus', 'Refer');
     requestParams.set('Body.direction', 'RE');
     this.submitDDE(requestParams);
-    // this.services.router.navigate(['home', 'LANDING']);
-
   }
+
   async submitDDE(requestParams) {
     const inputMap = new Map();
 

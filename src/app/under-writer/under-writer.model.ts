@@ -371,8 +371,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Investment Amount",
                 subTitle: this.TotalInvestmentAmount,
                 type: "basic",
-                //modalSectionName: this.TotalInvestmentAmount == 'NA' ? '' : 'LoanDetails'
-                modalSectionName: "LoanDetails"
+                modalSectionName: this.TotalInvestmentAmount == 'NA' ? '' : 'LoanDetails'
+                //modalSectionName: "LoanDetails"
             },
             {
                 title: "Repayment Start Date",
@@ -396,8 +396,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Fees & Charges",
                 subTitle: this.FeesAndCharges,
                 type: "basic",
-                //modalSectionName: this.FeesAndCharges == 'NA' ? '' : 'FeesAndCharges'
-                modalSectionName: 'FeesAndCharges'
+                modalSectionName: this.FeesAndCharges == 'NA' ? '' : 'FeesAndCharges'
+                //modalSectionName: 'FeesAndCharges'
             },
             {
                 title: "Amoritization Amount",
@@ -420,7 +420,8 @@ export class LoanDetails implements IDeserializable {
         ];
         const returnObj: IGeneralCardData = {
             name: "Loan Details",
-            modalSectionName: this.isSectionAvaliable(),
+            // modalSectionName: this.isSectionAvaliable(),
+            modalSectionName:"LoanDetails",
             data: fieldList
         };
         return returnObj;

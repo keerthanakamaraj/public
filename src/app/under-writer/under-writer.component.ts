@@ -245,11 +245,19 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
   };
 
-  applicationId: number = 0;
   borrowerSeq: number = 0;
   isDataAvaliableFlag: number = -1;
 
   componentCode = 'UnderWriter';
+
+  //getting data from route(mytray -> UW)
+  applicationId: number = 0;
+  taskId: any;
+  instanceId: any;
+  userId: any;
+  tenantId: string = "SB1";
+  serviceCode: string = "ClaimTask";
+  processId: string = "RLO_Process";
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -257,14 +265,17 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     // setTimeout(() => {
     //   this.generateModelJson(this.workingJsonObj.UWApplication);
     // }, 1000);
-
   }
 
   getUnderWriterData() {
     //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530
-    let ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-    console.error("*******", ApplicationId);
-    let appId = ApplicationId;
+    this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+    this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+
+    console.error("*******", this.applicationId);
+    let appId = this.applicationId;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -535,6 +546,207 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   goBack() {
     this.services.rloui.goBack();
+  }
+
+  cancelForm() {
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      console.log("deep ===", modalObj);
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+
+  withdrawForm() {
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Withdraw');
+    requestParams.set('Body.direction', 'W');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
+          }
+        }
+      });
+    });
+  }
+
+  reviewForm() {
+
+  }
+
+  rejectForm() {
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Reject');
+    requestParams.set('Body.direction', 'RJ');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.reject.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
+          }
+        }
+      });
+    });
+  }
+
+  approveForm() {
+    const requestParams = new Map();
+
+    requestParams.set('Body.ApplicationStatus', 'AP');
+    requestParams.set('Body.direction', 'AP');
+    this.submitDDE(requestParams);
+  }
+
+  async submitDDE(requestParams) {
+    const inputMap = new Map();
+
+    inputMap.clear();
+    inputMap.set('HeaderParam.ProcessId', this.processId);
+    inputMap.set('HeaderParam.ServiceCode', this.serviceCode);
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('Body.TENANT_ID', this.tenantId);
+    inputMap.set('Body.UserId', this.userId);
+    inputMap.set('Body.CurrentStage', "UW");
+    inputMap.set('Body.ApplicationId', this.applicationId);
+    inputMap.set('Body.CreatedBy', this.userId);
+
+    if (requestParams) {
+      requestParams.forEach((val, key) => {
+        inputMap.set(key, val);
+      });
+    } else {
+      return;
+    }
+
+    this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+
+        let alertMsg = 'rlo.success.submit';
+        switch (action) {
+          case 'WITHDRAW':
+            alertMsg = 'rlo.success.withdraw';
+            break;
+          case 'REJECT':
+            alertMsg = 'rlo.success.reject';
+            break;
+          case 'REFER':
+            alertMsg = 'rlo.success.refer';
+            break;
+          default:
+            alertMsg = 'rlo.success.submit';
+            break;
+        }
+
+        var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+      
+        Promise.all([mainMessage, button1]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+          }
+
+          console.log("deep ===", modalObj);
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.router.navigate(['home', 'LANDING']);
+              }
+            }
+          });
+        });
+        // this.QDE_SUBMIT.setDisabled(true);
+        // this.QDE_WITHDRAW.setDisabled(true);
+        // this.services.alert.showAlert(1, alertMsg, 5000);
+        // // this.QDE_SUBMIT.setDisabled(false)
+        // this.services.router.navigate(['home', 'LANDING']);
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        // if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+        //   if (err['ErrorElementPath'] === 'CurrentStage') {
+        //     this.HideCurrentStage.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'UserId') {
+        //     this.HideUserId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+        //     this.HideTenantId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TaskId') {
+        //     this.HideTaskId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'ServiceCode') {
+        //     this.HideServiceCode.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'ProcessId') {
+        //     this.HideProcessId.setError(err['ErrorDescription']);
+        //   }
+        //   this.services.alert.showAlert(2, 'Fail to Submit', -1);
+        // }
+      }
+    );
   }
 
 }

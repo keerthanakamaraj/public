@@ -20,7 +20,7 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { IfStmt } from '@angular/compiler';
 import { IModalData } from '../popup-alert/popup-interface';
-import {IAmortizationForm} from '../Interface/masterInterface';
+import { IAmortizationForm } from '../Interface/masterInterface';
 import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 import { Subscription } from 'rxjs';
 const customCss: string = '';
@@ -315,21 +315,24 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       'passLoanGrid': array,
     });
   }
-  async LD_DISBURMENT_MONEY_click(event){
+  async LD_DISBURMENT_MONEY_click(event) {
+    if (this.readOnly)
+      return
+
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('ApplicationId', this.ApplicationId);
-    inputMap.set('component','DisbursementDetails');
+    inputMap.set('component', 'DisbursementDetails');
     const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason)=>{
-      (reason==0 || reason==1)?await this.services.routing.removeOutlet():undefined;
+    var onModalClose = async (reason) => {
+      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
     }
     modalRef.result.then(onModalClose, onModalClose);
     modalRef.componentInstance.rotueToComponent(inputMap);
     this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
   }
   async LD_FEES_CHARGE_click(event) {
-     // let inputMap = new Map();
+    // let inputMap = new Map();
     // inputMap.clear();
     // inputMap.set('component','FeesChargesDetails');
     // const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
@@ -339,7 +342,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     // modalRef.result.then(onModalClose, onModalClose);
     // modalRef.componentInstance.rotueToComponent(inputMap);
     // this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef)
-    let dataObj=this.generateAmortizationDataList();
+    if (this.readOnly)
+      return
+
+    let dataObj = this.generateAmortizationDataList();
     Promise.all([this.services.rloui.getAlertMessage('', 'Fees & Charges')]).then(values => {
       console.log(values);
       let modalObj: IModalData = {
@@ -348,9 +354,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         modalSize: "modal-width-lg",
         buttons: [],
         componentName: 'FeesChargesDetailsComponent',
-        data : dataObj
-        
-       
+        data: dataObj
+
+
       }
       this.services.rloui.confirmationModal(modalObj).then((response) => {
         console.log(response);
@@ -361,7 +367,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         }
       });
     });
-   }
+  }
   async LD_GEN_AMOR_SCH_click(event) {
     if (this.readOnly)
       return
