@@ -18,6 +18,8 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { MyTrayGridComponent } from '../MyTrayGrid/MyTrayGrid.component';
 import { Router } from "@angular/router";
 import { IModalData } from '../popup-alert/popup-interface';
+import { Label, MultiDataSet, SingleDataSet } from 'ng2-charts';
+import { ChartType, ChartOptions } from 'chart.js';
 
 const customCss: string = '';
 
@@ -34,18 +36,20 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   promotionLists = [
     {
       title: "August Special",
-      txt: `Make you month special by sending gifts to loved one's. Get Myntra vouchers worth Rs 3000on purchase
-      of any Life Benifit Plans.`,
+      txt: `Enjoy promotional interest rates on personal loans (unsecured) from as low as 7% p.a. with
+      no processing fee for new to bank customers. Offer valid till 3rd September 2020.`,
       bgColor: "#9013fe"
     },
     {
       title: "Diwali Dhamaka",
-      txt: `Limited period offer. Get upto 25% off on selected plan.`,
+      txt: `Enjoy stability by fixing the interest rate on housing loans for the initial 3 years of the loan
+      (minimum tenure of 10 years required). Offer valid till 31st December 2020.`,
       bgColor: "#17afbd"
     },
     {
       title: "Mega Sale",
-      txt: `Limited period offer. Get upto 25% off on selected plan.`,
+      txt: `Enjoy a reduction of 1% p.a. on all personal loans (secured) for the month of August. Offer
+      valid till 31st August 2020.`,
       bgColor: "#fd83e3"
     }
   ];
@@ -62,6 +66,42 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     {
       msg: "New offers for the month of August will be rolled out soon. Those who are intersted can contact Aishwarya or Jai. For any queries contact HR.",
       dateTime: "29 Wed, 6:05 PM"
+    }
+  ];
+
+  // Doughnut
+  public doughnutChartLabels: Label[] = ['Quick Data Entry', 'Detailed Data Entry', 'CPV', 'Credit Underwriting'];
+  public doughnutChartData: SingleDataSet = [
+    5, 10, 10, 2
+  ];
+  public doughnutChartType: ChartType = 'doughnut';
+
+  public chartOptions: any = {
+    pieceLabel: {
+      render: function (args) {
+        console.log(args);
+        return args.value;
+      }
+    },
+    cutoutPercentage: 80,
+    spanGaps: false,
+    legend: {
+      position: "bottom",
+      labels: {
+        fontSize: 10,
+        usePointStyle: true
+      }
+    },
+  }
+
+  private donutColors = [
+    {
+      backgroundColor: [
+        '#012438',
+        '#037cb1',
+        '#54a8d4',
+        '#560d28'
+      ]
     }
   ];
 

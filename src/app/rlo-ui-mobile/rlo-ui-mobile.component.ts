@@ -119,7 +119,6 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   }
 
   async validateValue(value, event = undefined): Promise<number> {
-    //debugger;
     var totalErrors: number = 0;
     if (this.inputType == 'text') {
       totalErrors += this.onTextInput(value, event);

@@ -2981,34 +2981,77 @@ rlo-ui-card-field {
     height: 14px;
   }
 
+  .proposal-card {
+    @include dashboard-card;
+    padding: 15px;
+    min-height: 296px;
+    background: white;
+    border-radius: 17px;
+
+    .icon-calendar-line {
+      content: "\e921";
+      position: absolute;
+      right: 33px;
+      font-size: 18px;
+      font-weight: bold;
+      top: 10px;
+      color: #037cb1;
+    }
+
+    .filter-container {
+      text-align: center;
+      color: #037cb1;
+      font-weight: bold;
+      margin-bottom: 15px;
+
+      span {
+        font-size: 15px;
+        cursor: pointer;
+      }
+    }
+
+    // .proposal-container {
+    //   max-height: 216px;
+    //   min-height: 216px;
+    // }
+  }
 
   .broadcast-card {
     @include dashboard-card;
-    padding: 15px;
-    background: #f8f8f8;
+    padding: 15px 0 0 0;
+    min-height: 296px;
+    border-radius: 17px;
+    // background: #f8f8f8;
 
     .broadcast-container {
       background-color: white;
-      max-height: 216px;
-      min-height: 216px;
-      overflow-y: scroll;
+      max-height: 246px;
+      min-height: 227px;
+      // overflow-y: scroll;
 
       .broadcast-section {
-        margin: 9px;
+        padding: 12px 0;
         border-bottom: 2px solid #f8f8f8;
 
+        .type {
+          margin: 5px 15px;
+          font-size: 13px;
+          font-weight: bold;
+        }
+
         .msg {
-          font-size: 14px;
-          line-height: 15px;
+          font-size: 12px;
+          line-height: 13px;
           color: #565656;
+          margin: 0 15px;
         }
 
         .date-time {
-          text-align: right;
-          margin-bottom: 5px;
           font-size: 11px;
           line-height: 13px;
           color: #919191;
+          margin: 1px 0 0 15px;
+          position: absolute;
         }
 
         .icon-time::before {
@@ -3020,7 +3063,9 @@ rlo-ui-card-field {
 
   .promo-card {
     @include dashboard-card;
-    padding: 15px;
+    min-height: 296px;
+    padding: 15px 0;
+    border-radius: 17px;
 
     .promo-container {
       max-height: 216px;
@@ -3028,20 +3073,22 @@ rlo-ui-card-field {
       overflow-y: scroll;
 
       .promo-section {
-        padding: 22px 15px;
-        background: #9013fe;
-        color: white;
-        margin-bottom: 15px;
+        border-bottom: 2px solid #f8f8f8;
+        padding: 14px 15px;
+        color: black;
 
         .promo-title {
-          font-size: 18px;
+          font-size: 14px;
           line-height: 1;
-          margin-bottom: 14px;
+          margin-bottom: 5px;
+          font-weight: bold;
+          color: #037cb1;
         }
 
         .promo-message {
           font-size: 12px;
           line-height: 13px;
+          color: #565656;
         }
       }
     }

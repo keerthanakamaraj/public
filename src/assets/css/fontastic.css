@@ -189,3 +189,7 @@
 .icon-time:before {
     content: "\e920";
 }
+
+.icon-calendar-line:before {
+    content: "\e921";
+}

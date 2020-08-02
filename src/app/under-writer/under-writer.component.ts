@@ -259,6 +259,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   serviceCode: string = "ClaimTask";
   processId: string = "RLO_Process";
   applicationStatus: string = "AP";
+  ///
+
+  isLoanCategory: boolean = false;
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -268,7 +271,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     // }, 1000);
   }
 
-  claimTask(taskId){
+  async claimTask(taskId) {
     const inputMap = new Map();
     inputMap.clear();
     inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
@@ -308,7 +311,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530
+    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530 2141(Loan details), 1675
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
@@ -362,7 +365,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   //@Output
-  brodcastProdCategory(event) { }
+  broadcastProdCategory(event) {
+    this.services.rloCommonData.globalApplicationDtls = {
+      isLoanCategory: event.isLoanCategory,
+      ProductCode: event.ProductCode,
+      SubProductCode: event.SubProductCode,
+      SchemeCode: event.SchemeCode,
+    };
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    this.isLoanCategory = event.isLoanCategory;
+  }
 
   //@Output
   headerState(event) { }
@@ -395,6 +407,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     for (let i = 0; i < this.allSectionsCardData[1].cardList.length; i++) {
       const element = this.allSectionsCardData[1].cardList[i];
+      if (this.isLoanCategory && element.className == "LoanDetails") {
+        validSectionList.push(element);
+      }
+
       if (productCategory == "CC") {
         if (element.className != "VehicalDetails" && element.className != "GoldDetails") {
           validSectionList.push(element);
@@ -404,6 +420,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           validSectionList.push(element);
         }
       }
+
     }
     this.allSectionsCardData[1].cardList = validSectionList;
     console.log(this.allSectionsCardData[1].cardList);

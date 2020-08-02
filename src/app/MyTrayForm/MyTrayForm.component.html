@@ -10,16 +10,46 @@
 
     <div class="row" style="margin-top:30px;">
 
-      <div class="col-lg-4 col-sm-4 col-md-4"></div>
+      <div class="col-lg-4 col-sm-4 col-md-4">
+        <div class="proposal-card">
+          <span class="icon-calendar-line"></span>
+          <div class="filter-container">
+            <span>All | 1Y | 6M | 3M | 1M | 1W </span>
+          </div>
+          <div class="title">Pending Proposal Overview</div>
+          <div class="proposal-container">
+            <div style="display: block;">
+              <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType" [options]="chartOptions" [colors]="donutColors">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="col-lg-4 col-sm-4 col-md-4">
         <div class="broadcast-card">
-          <div class="title">Broadcast</div>
+          <div class="title">Notifications</div>
           <div class="broadcast-container">
-            <div class="broadcast-section" *ngFor="let promo of broadcastLists">
-              <div class="msg">{{promo.msg}}</div>
-              <div class="date-time icon-time">{{promo.dateTime}}</div>
+
+            <div class="broadcast-section">
+              <div class="type">New</div>
+              <div class="msg">
+                Customer ID: S04312244561234 has been blacklisted. Kindly ensure all
+                applications with this ID No.
+                <span class="date-time icon-time">27 Mon, 11:00 AM</span>
+              </div>
             </div>
+
+            <div class="broadcast-section">
+              <div class="type">Recent</div>
+              <div class="msg">
+                From 3rd August 2020, branch trading hours will be back to normal (9:00 - 16:00).
+                Safety measures will be followed and respected throughout.
+                <span class="date-time icon-time">27 Mon, 11:00 AM</span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -28,7 +58,7 @@
         <div class="promo-card">
           <div class="title">Promotion</div>
           <div class="promo-container">
-            <div class="promo-section" [ngStyle]="{'background':promo.bgColor}" *ngFor="let promo of promotionLists">
+            <div class="promo-section" *ngFor="let promo of promotionLists">
               <div class="promo-title">{{promo.title}}</div>
               <div class="promo-message">{{promo.txt}}</div>
             </div>
