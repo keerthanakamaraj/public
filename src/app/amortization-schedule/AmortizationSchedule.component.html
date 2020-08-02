@@ -12,7 +12,7 @@
         <div class="form-group pb10" [ngClass]="editableFlag?'':'deactivate-amortization'">
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAmountRequested.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':LoanAmountRequested.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.LoanAmountRequested' | translate}}
               </label>
             </div>
@@ -21,7 +21,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':NetInterestRate.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.NetInterestRate' | translate}}
               </label>
             </div>
@@ -30,7 +30,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Tenure.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':Tenure.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.Tenure' | translate}}
               </label>
             </div>
@@ -39,7 +39,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanOwnership.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':BLoanOwnership.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.BLoanOwnership' | translate}}
               </label>
             </div>
@@ -48,7 +48,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BLoanAmtShare.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':BLoanAmtShare.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.BLoanAmtShare' | translate}}
               </label>
             </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanOwnership.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':CBLoanOwnership.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.CBLoanOwnership' | translate}}
               </label>
             </div>
@@ -66,7 +66,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanAmountShare.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':CBLoanAmountShare.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.CBLoanAmountShare' | translate}}
               </label>
             </div>
@@ -116,7 +116,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequiredEMIAmt.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory':RequiredEMIAmt.mandatory}">
+              <label class="clr-brown">
                 {{ 'Amortization.RequiredEMIAmt' | translate}}
               </label>
             </div>
