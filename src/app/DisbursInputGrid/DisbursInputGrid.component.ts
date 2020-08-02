@@ -11,6 +11,7 @@ import { GridComponent } from '../grid/grid.component';
 import { ServiceStock } from '../service-stock.service';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { string } from '@amcharts/amcharts4/core';
 const customCss: string = '';
 @Component({
 selector: 'app-DisbursInputGrid',
@@ -34,6 +35,7 @@ styleElement.type = 'text/css';
 styleElement.innerHTML = customCss;
 styleElement.id = 'DisbursInputGrid_customCss';
 document.getElementsByTagName('head')[0].appendChild(styleElement);
+ s : string;
 }
 ngOnDestroy(){
 for(var i=0;i<this.unsubscribeRow$.length;i++){
