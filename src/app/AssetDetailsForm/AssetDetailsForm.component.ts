@@ -100,7 +100,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.hideIncludeInDBR.setValue('Y_N');
         // this.hideName.setValue('NAME');
         // this.hideOwnedBy.setValue('OWNED_BY');
-        this.hideCurrencyDesc.setValue('INR');
+        this.hideCurrencyDesc.setValue('NUR');
         this.setDependencies();
         await this.Handler.onFormLoad({});
         await this.AssetDetailsGrid.gridDataLoad({
