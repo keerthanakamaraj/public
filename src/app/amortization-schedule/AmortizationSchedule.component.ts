@@ -232,8 +232,8 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.repaymentFormData.maturityDate = requestedParams.maturityDate;
     this.repaymentFormData.loanCalculationDate = this.RepaymentStartDate.getFieldValue();
     this.repaymentFormData.repaymentScheduleType = this.ScheduleType.getFieldValue();
-    console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
-    console.log("installment Amt from grid", requestedParams.installmentAmt);
+   // console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
+   // console.log("installment Amt from grid", requestedParams.installmentAmt);
     //let instAmt = this.RequiredEMIAmt.getFieldValue();
     let instAmt = undefined;
     // if (instAmt != undefined && instAmt != 0) {
