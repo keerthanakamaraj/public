@@ -91,9 +91,9 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     async onFormLoad() {
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'ApplicationId');        
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-        this.Amount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
-        this.hideCurrencyDesc.setValue('INR');
+        this.Amount.setFormatOptions({ currencyCode: 'MUR', languageCode: 'en-US', });
+        this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'MUR', languageCode: 'en-US', });
+        this.hideCurrencyDesc.setValue('MUR');
         this.hidAppId.setValue('RLO');        
         this.hideFundTransferMode.setValue('FUND_TRANSFER_MODE');
         this.hidePaymentMode.setValue('PAYMENT_MODE');
