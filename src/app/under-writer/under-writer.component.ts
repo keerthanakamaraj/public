@@ -258,6 +258,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   tenantId: string = "SB1";
   serviceCode: string = "ClaimTask";
   processId: string = "RLO_Process";
+  applicationStatus: string = "AP";
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -267,12 +268,55 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     // }, 1000);
   }
 
+  claimTask(taskId){
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.tenantId);
+    inputMap.set('Body.TaskId', taskId);
+    inputMap.set('HeaderParam.ProcessId', this.processId);
+    inputMap.set('HeaderParam.ServiceCode', this.serviceCode);
+    this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+          this.userId = sessionStorage.getItem('userId')
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        // if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+        //   if (err['ErrorElementPath'] === 'ServiceCode') {
+        //     this.HideServiceCode.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'ProcessId') {
+        //     this.HideProcessId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TaskId') {
+        //     this.HideTaskId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+        //     this.HideTenantId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'UserId') {
+        //     this.HideUserId.setError(err['ErrorDescription']);
+        //   }
+        // }
+        this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+      }
+    );
+  }
+
   getUnderWriterData() {
     //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+
+    if (this.userId === undefined || this.userId == '') {
+      this.claimTask(this.taskId);
+    }
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
@@ -648,8 +692,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   approveForm() {
     const requestParams = new Map();
 
-    requestParams.set('Body.ApplicationStatus', 'AP');
-    requestParams.set('Body.direction', 'AP');
+    requestParams.set('Body.ApplicationStatus', this.applicationStatus);
+    requestParams.set('Body.direction', this.applicationStatus);
     this.submitDDE(requestParams);
   }
 
@@ -664,6 +708,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     inputMap.set('Body.UserId', this.userId);
     inputMap.set('Body.CurrentStage', "UW");
     inputMap.set('Body.ApplicationId', this.applicationId);
+    inputMap.set('Body.ApplicationStatus', this.applicationStatus);
     inputMap.set('Body.CreatedBy', this.userId);
 
     if (requestParams) {
@@ -698,7 +743,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
         var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
-      
+
         Promise.all([mainMessage, button1]).then(values => {
           console.log(values);
           let modalObj = {
