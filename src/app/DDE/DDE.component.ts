@@ -45,6 +45,7 @@ import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component'
+import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -191,7 +192,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   applicationMenu = [
     [
       { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
-      // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
+      { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
       // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
       // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
@@ -913,6 +914,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'PolicyCheckResults':
         return new AddSpecificComponent(PolicyCheckResultComponent);
+        break;
+      case 'PropertyDetails':
+        return new AddSpecificComponent(PropertyDetailsComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);

@@ -137,7 +137,7 @@ export class CustGridComponent implements AfterViewInit {
 			});
 		}
 		inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-    this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap).subscribe(
+    this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/rlo-de').subscribe(
     async (httpResponse: HttpResponse<any>) => {
       var res = httpResponse.body;
       var loopDataVar4 = [];
