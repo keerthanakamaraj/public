@@ -86,7 +86,7 @@ export class ScoreCardResultComponent implements OnInit {
       if (this.ApplicationId) {
         inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
         // inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-        this.services.http.fetchApi('/ScoreCardDtls', 'GET', inputMap, "/rlo-de").subscribe(
+        this.services.http.fetchApi('/ScoreCardDtls', 'GET', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             let res = httpResponse.body;
             let tempScoreCardResultList = res['ScoreCardDetails'];
@@ -179,7 +179,7 @@ export class ScoreCardResultComponent implements OnInit {
     this.MstScoreResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
 
-    this.services.http.fetchApi('/ScoreCard', 'POST', inputMap).subscribe(
+    this.services.http.fetchApi('/ScoreCard', 'POST', inputMap,'/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body;
         this.loadScoreResult();

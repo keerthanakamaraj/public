@@ -65,7 +65,7 @@ export class PolicyCheckResultComponent implements OnInit {
         });
         // inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
         inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-        this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, "/rlo-de").subscribe(
+        this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             let res = httpResponse.body;
             let tempPolicyResultList = res['PolicyResult'];
@@ -137,7 +137,7 @@ export class PolicyCheckResultComponent implements OnInit {
     this.MstPolicyResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
 
-    this.services.http.fetchApi('/policyCheck', 'POST', inputMap).subscribe(
+    this.services.http.fetchApi('/policyCheck', 'POST', inputMap,'/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body;
         this.loadPolicyResult();
