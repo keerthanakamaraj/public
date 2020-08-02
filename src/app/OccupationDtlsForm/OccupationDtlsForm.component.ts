@@ -126,7 +126,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.hideCurrencyDesc.setValue('NUR');
+    this.hideCurrencyDesc.setValue('MUR');
     this.HidOccupation.setValue('OCCUPATION');
     this.HidAppId.setValue('RLO');
     this.HidIncomeDocType.setValue('INCOME_DOC_TYPE');

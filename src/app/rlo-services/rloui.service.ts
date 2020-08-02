@@ -229,7 +229,7 @@ export class RlouiService {
     }
 
     if (!languageCode) { languageCode = this.getConfig("language.default", "en-IN"); }
-    if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
+    if (!currency) { currency = this.getConfig("currency.code.default", "MUR"); }
 
     // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
     return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');

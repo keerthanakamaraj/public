@@ -122,7 +122,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.hidAppId.setValue('RLO');
         this.hidLoanStatus.setValue('LOAN_STATUS');
         this.hideInculdeInDBR.setValue('Y_N');
-        this.hideCurrencyDesc.setValue('NUR');
+        this.hideCurrencyDesc.setValue('MUR');
         this.hideLiabilityType.setValue('LIABILITY_TYPE');
         this.hideObligationHead.setValue('OBLIGATION_HEAD');
         this.setDependencies();
