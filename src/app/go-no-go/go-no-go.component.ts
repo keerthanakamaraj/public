@@ -31,7 +31,8 @@ export class GoNoGoComponent implements OnInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'go_no_go');
-    inputMap.set('QueryParam.Product', 'PROD1');
+   // inputMap.set('QueryParam.Product', 'PROD1');
+    inputMap.set('QueryParam.Product', this.services.rloCommonData.globalApplicationDtls.ProductCode);
     // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 

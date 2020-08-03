@@ -976,7 +976,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   loanCategoryChanged(newLoanCategory) {
     this.isLoanCategory = newLoanCategory;
-    this.hideCustomerType.setValue((!newLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode=='UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
     this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
   }
 

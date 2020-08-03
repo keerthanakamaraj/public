@@ -24,6 +24,7 @@ import { isFulfilled } from 'q';
 import { ignoreElements } from 'rxjs/operators';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { element } from 'protractor';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 const customCss: string = '';
 
@@ -553,7 +554,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
   async CD_DOB_blur(event) {
-    let inputMap = new Map();
     if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
       this.CD_DOB.setError('rlo.error.DOB.invalid');
       return 1;
@@ -562,7 +562,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return 1
     }
   }
-
 
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
@@ -765,6 +764,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
+        inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp())
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
         if (this.BAD_PROD_CAT.getFieldValue() == 'CC') {
@@ -1068,6 +1068,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
 
+  getTimeStamp(){
+    const moment = require('moment');
+    let currentDate=moment().format('DD-MM-YY hh:mm:ss A');
+   // console.log("shweta :: current date test ",currentDate);
+    return currentDate;
+  }
 
   fieldDependencies = {
     BAD_SRC_CHANNEL: {

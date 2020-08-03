@@ -55,7 +55,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
   }
 
   onBlur(){
-    return;
+   // return;
     this.isOnFocus = false;
     if (this.value) {
       this.additionalInfo = this.formatAmount(+this.value , this.languageCode , this.DecimalLength);
