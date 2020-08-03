@@ -113,7 +113,7 @@ this.ChargeAmt.setFormatOptions({languageCode: 'en-US', });
 this.LocalAmount.setFormatOptions({languageCode: 'en-US', });
 this.EffectiveAmount.setFormatOptions({languageCode: 'en-US', });
 this.setDependencies();
-this.hideCurrencyDesc.setValue('INR');
+this.hideCurrencyDesc.setValue('MUR');
 this.hidAppId.setValue('RLO');
 this.hideChargeBasis.setValue('CHARGE_BASIS');
 this.hideChargeType.setValue('CHARGE_TYPE');
@@ -232,6 +232,51 @@ async PeriodicCharge_change(fieldID, value){
         this.Handler.calculateEffectiveAmount()
         // await this.Handler.onAddTypeChange();
       }
+
+      periodic_start_date(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate < currentDate) {
+          return false;
+        }
+        return true;
+      }
+      periodic_end_date(selectedDate) {
+        const moment = require('moment');
+        const currentDate = moment();
+        currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+        console.log("current date :: ", currentDate._d);
+        console.log("selected date :: ", selectedDate._d);
+        if (selectedDate <= currentDate) {
+          return false;
+        }
+        return true;
+      }
+      async PeriodicStDt_blur(event) {
+        let inputMap = new Map();
+        if (!this.periodic_start_date(this.PeriodicStDt.getFieldValue())) {
+          this.PeriodicStDt.setError('Please select correct periodic start date')
+          return 1;
+          // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
+          // this.OD_DT_OF_INCPTN.onReset();
+        }
+      }
+
+      async PeriodicEnDt_blur(event) {
+        let inputMap = new Map();
+        if (!this.periodic_end_date(this.PeriodicEnDt.getFieldValue())) {
+          this.PeriodicEnDt.setError('Please select correct periodic end date')
+          return 1;
+          // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
+          // this.OD_DT_OF_INCPTN.onReset();
+        }
+      }
+    
 requestParameterForFeeChargesDetails() {
     const inputMap = new Map();
     inputMap.clear();

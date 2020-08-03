@@ -38,7 +38,7 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   countryCode: string = this.defaultCountryCode();//default val
 
   defaultCountryCode() {
-    return "91";
+    return "230";
   }
 
   constructor(services: ServiceStock, private cdRef: ChangeDetectorRef) {

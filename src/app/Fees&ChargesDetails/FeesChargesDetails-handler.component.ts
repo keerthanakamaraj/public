@@ -78,13 +78,13 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
     if(this.MainComponent.ChargeRate.getFieldValue() !== undefined && this.MainComponent.RateOnCharge.getFieldValue() !== undefined ){
       var CalcEffectiveAmount ;
       if(this.MainComponent.RateOnCharge.getFieldValue() == 'INTEREST'){
-        CalcEffectiveAmount = this.MainComponent.NetInterestRate * this.MainComponent.LoanAmount * this.MainComponent.ChargeRate.getFieldValue();
+        CalcEffectiveAmount = (this.MainComponent.NetInterestRate / 100) * this.MainComponent.LoanAmount * (this.MainComponent.ChargeRate.getFieldValue()/100);
       }
       else if(this.MainComponent.RateOnCharge.getFieldValue() == 'PRINCIPAL'){
-        CalcEffectiveAmount = this.MainComponent.LoanAmount*this.MainComponent.ChargeRate.getFieldValue();
+        CalcEffectiveAmount = this.MainComponent.LoanAmount*(this.MainComponent.ChargeRate.getFieldValue()/100);
       }
       else if(this.MainComponent.RateOnCharge.getFieldValue() == 'CATM'){
-        CalcEffectiveAmount = this.MainComponent.LoanAmount*this.MainComponent.ChargeRate.getFieldValue()*this.MainComponent.InterestRate;
+        CalcEffectiveAmount = this.MainComponent.LoanAmount*(this.MainComponent.ChargeRate.getFieldValue()/100)*(this.MainComponent.InterestRate/100);
       }
       this.MainComponent.EffectiveAmount.setValue(CalcEffectiveAmount);
     }
