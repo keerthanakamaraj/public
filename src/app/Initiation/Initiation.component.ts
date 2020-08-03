@@ -764,7 +764,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
-        inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp())
+       // inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
         if (this.BAD_PROD_CAT.getFieldValue() == 'CC') {
