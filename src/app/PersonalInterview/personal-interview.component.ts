@@ -35,7 +35,7 @@ export class PersonalInterviewComponent implements OnInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'per_int');
-    inputMap.set('QueryParam.Product', 'PROD1');
+    inputMap.set('QueryParam.Product', this.services.rloCommonData.globalApplicationDtls.ProductCode);
     inputMap.set('QueryParam.BorrowerSeq', this.activeBorrowerSeq);
     // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
