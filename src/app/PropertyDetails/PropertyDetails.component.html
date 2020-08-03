@@ -317,10 +317,9 @@
                                 </div>
                                 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NameOfSeller.isHidden()">
-                                    <div class="clr-brown fieldLegend" [ngClass]="{'mandatory': NameOfSeller.mandatory}">
-                                        <label class="clr-brown">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown" [ngClass]="{'mandatory': NameOfSeller.mandatory}">
                                             {{ 'PropertyDetails.NameOfSeller' | translate}}
-                                         
                                         </label>
                                     </div>
                                     <app-text-box #NameOfSeller fieldID="NameOfSeller" [formCode]="formCode" (blur)="genericOnBlur('NameOfSeller', $event)"></app-text-box>
