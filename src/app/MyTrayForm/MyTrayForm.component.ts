@@ -77,12 +77,6 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   public doughnutChartType: ChartType = 'doughnut';
 
   public chartOptions: any = {
-    pieceLabel: {
-      render: function (args) {
-        console.log(args);
-        return args.value;
-      }
-    },
     cutoutPercentage: 80,
     spanGaps: false,
     legend: {
@@ -94,7 +88,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     },
   }
 
-  private donutColors = [
+  public donutColors = [
     {
       backgroundColor: [
         '#012438',

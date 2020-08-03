@@ -64,7 +64,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // { className: "InterfaceResults" },
         // { className: "VehicalDetails" },
         { className: "CardDetails" },
-        { className: "GoldDetails" },
+        // { className: "GoldDetails" },
         // { className: "EducationDetails" },
         // { className: "PropertyDetails" },
         { className: "GoNoGoDetails" },
@@ -136,114 +136,93 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   workingJsonObj = {
     "UWApplication": {
+      "UWDisbursal": {
+        "DisbursalSeq": ""
+      },
+      "UWCreditCard": {
+        "CreditCardSeq": ""
+      },
       "UWCustomerDetails": [
         {
           "ExistingCustomer": "N",
           "UWIncomeSummary": {
-            "NetIncomeMonthly": 0,
+            "NetIncomeMonthly": 32958,
             "DBR": 0,
-            "IncomeSummarySeq": 101,
-            "TotalIncome": 0,
-            "TotalLiabiity": 88,
-            "BorrowerSeq": 2251,
+            "IncomeSummarySeq": 261,
+            "TotalIncome": 395500,
+            "TotalLiabiity": 0,
+            "BorrowerSeq": 3573,
             "TotalObligation": 0
           },
-          "DOB": "04-05-1995",
-          "FullName": "JUHI  S PATIL",
-          "UWFamily": [
-            {
-              "DOB": "1995-07-01 00:00:00.0",
-              "FullName": "YTRI YUTU  UYTU ",
-              "Relationship": "BR",
-              "BorrowerSeq": 3291,
-              "CustomerRelated": 2251
-            }
-          ],
-          "BorrowerSeq": 2251,
-          "ApplicationId": 2061,
+          "DOB": "02-07-1997",
+          "FullName": "TEJ PATIL",
+          "BorrowerSeq": 3573,
+          "ApplicationId": 2822,
           "CustomerType": "B",
           "UWAddress": [
             {
               "State": "Maharashtra",
-              "AddressSeq": 829,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
+              "AddressSeq": 1466,
+              "Address1": "BHAYANDER",
+              "BorrowerSeq": 3573,
               "City": "Mumbai",
               "AddressType": "OF",
               "Pincode": 400060
             },
             {
               "State": "Maharashtra",
-              "AddressSeq": 728,
-              "Address1": "bncbv",
-              "BorrowerSeq": 2251,
+              "AddressSeq": 1467,
+              "Address1": "GOREGOAN",
+              "BorrowerSeq": 3573,
               "City": "Mumbai",
               "AddressType": "RS",
               "OccupationType": "OW",
-              "Pincode": 400060
+              "Pincode": 400001
             },
             {
-              "State": "Maharashtra",
-              "AddressSeq": 727,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
+              "State": "MAHARASHTRA",
+              "AddressSeq": 1468,
+              "Address1": "VIRAR",
+              "BorrowerSeq": 3573,
+              "City": "MUMBAI",
               "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
+              "OccupationType": "RN",
+              "Pincode": 400002
             }
           ]
         }
       ],
       "UWApplicationInfo": {
-        "DateOfReceipt": "13-05-2020 00:00:00",
-        "ApplicationInfoId": 2082,
-        "ApplicationId": 2061
+        "DateOfReceipt": "03-07-1996 00:00:00",
+        "ApplicationInfoId": 2843,
+        "ApplicationId": 2822
       },
+      "Branch": "103",
       "UWLoan": {
-        "AmortizationAmount": 194667.62,
-        "ProductCategory": "AL",
-        "LoanDetailsSeq": 702,
-        "ApplicationId": 2061
+        "RepaymentFrequency": "A",
+        "AmortizationAmount": 33806.67,
+        "ProductCategory": "ML",
+        "LoanDetailsSeq": 862,
+        "ApplicationId": 2822,
+        "MargineMoney": 0
       },
-      "DSAId": "USERS2",
-      "SourcingChannel": "MUM",
-      "UWDisbursal": {
-        "DisbursalAmount": 768768675657,
-        "DisbursalSeq": 47,
-        "ApplicationId": 2061,
-        "DisbursalDate": "09-07-2020"
-      },
-      "UWCreditCard": {
-        "CreditCardSeq": ""
-      },
-      "Branch": "101",
+      "DSAId": "USERS1",
+      "SourcingChannel": "DSA",
       "UWQuestionnaire": {
         "DeviationLevel": "L1",
         "QuestionnaireCategory": "go_no_go",
-        "QuestionnaireSeq": 301,
-        "ApplicationId": 2061
+        "QuestionnaireSeq": 369,
+        "ApplicationId": 2822
       },
-      "ApplicationId": 2061,
+      "ApplicationId": 2822,
       "UWFeeCharges": {
-        "ChargeType": "PAYABLE",
-        "ChargeSeq": 15,
-        "ApplicationId": 2061,
-        "ChargeDes": "DEALER"
+        "ChargeSeq": ""
       },
       "UWRMVisit": {
         "VisitSeq": ""
-      },
-      "UWNotepad": [
-        {
-          "NotepadSeq": 69,
-          "CommentCategory": "BORWR_PRF_DTL",
-          "Comments": "jhfhgdhgddh",
-          "ApplicationId": 2061
-        }
-      ]
+      }
     }
-  };
+  }
 
   borrowerSeq: number = 0;
   isDataAvaliableFlag: number = -1;
@@ -327,6 +306,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
+        //const res = this.workingJsonObj //testing
         console.warn(res);
 
         if (res != null) {
@@ -411,14 +391,34 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         validSectionList.push(element);
       }
 
-      if (productCategory == "CC") {
-        if (element.className != "VehicalDetails" && element.className != "GoldDetails") {
-          validSectionList.push(element);
-        }
-      } else if (productCategory == "AL") {
-        if (element.className != "CardDetails" && element.className != "GoldDetails") {
-          validSectionList.push(element);
-        }
+      switch (productCategory) {
+        case "CC":
+          if (element.className != "VehicalDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        case "AL":
+          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        case "ML":
+          if (element.className != "CardDetails" &&  element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        case "PL":
+          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        default:
+          // validSectionList.push(element);
+          break;
       }
 
     }
@@ -489,6 +489,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       this.aBlankCardData = [];
 
       let application = this.customerMasterJsonData.ApplicationDetails;
+      console.log("----", application);
+
       this.allSectionsCardData[1].cardList.forEach(element => {
         switch (element.className) {
           case "LoanDetails":

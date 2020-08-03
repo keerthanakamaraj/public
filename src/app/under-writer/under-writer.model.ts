@@ -421,7 +421,7 @@ export class LoanDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Loan Details",
             // modalSectionName: this.isSectionAvaliable(),
-            modalSectionName:"LoanDetails",
+            modalSectionName: "LoanDetails",
             data: fieldList
         };
         return returnObj;
@@ -972,8 +972,8 @@ export class ApplicationDetails implements IDeserializable {
     deserialize(input: any): this {
         Object.assign(this, input);
 
-        this.PhysicalFormNumber = input.UWApplicationInfo.PhysicalFormNo;
-        this.DateOfReceipt = this.Common.getDateFormated(input.UWApplicationInfo.DateOfReceipt)
+        this.PhysicalFormNumber = input.UWApplicationInfo.PhysicalFormNo == undefined ? "NA" : input.UWApplicationInfo.PhysicalFormNo;
+        this.DateOfReceipt = input.UWApplicationInfo.PhysicalFormNo == undefined ? "NA" : this.Common.getDateFormated(input.UWApplicationInfo.DateOfReceipt)
 
         if (input.hasOwnProperty("UWNotepad")) {
             this.Notes = new Notes().deserialize(input.UWNotepad);
