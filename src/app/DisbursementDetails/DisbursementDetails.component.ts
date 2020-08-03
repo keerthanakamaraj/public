@@ -18,6 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { DisbursementsHandlerComponent } from 'src/app/DisbursementDetails/disbursement-handler.component';
 import { LoanDetailsFormComponent } from 'src/app/LoanDetailsForm/LoanDetailsForm.component';
 import { DisbursementGridComponent } from '../DisbursementGrid/DisbursementGrid.component';
+import { IAmortizationForm } from 'src/app/Interface/masterInterface';
 
 const customCss: string = '';
 
@@ -28,7 +29,7 @@ const customCss: string = '';
 export class DisbursementDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
     AplicationId: any;
     @Input() ApplicationId: string = undefined;
-    
+    @Input() parentData:IAmortizationForm=undefined;
     mainBorrower: string = undefined;
       MstScoreResultMap:any;
       activeScoreCardResultList:any;      
@@ -101,7 +102,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.FundTransferMode.setHidden(true);
         this.Account.setHidden(true);
         this.IFSCCode.setHidden(true);
-
+        this.getLoanFieldValue();        
         await this.Handler.onFormLoad({});
         await this.FieldId_18.gridDataLoad({
             'DisbursalSeqToGrid': this.ApplicationId
@@ -111,6 +112,10 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
 
         
     }
+
+    getLoanFieldValue(){
+        this.ApplicationId = this.parentData.ApplicationId
+     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {

@@ -19,6 +19,7 @@ import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsFo
 import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { FeesChargesDetailsModule } from '../Fees&ChargesDetails/Fees&ChargesDetails.module';
+import { DisbursementDetailsModule } from '../DisbursementDetails/DisbursementDetails.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -36,7 +37,8 @@ import { FeesChargesDetailsModule } from '../Fees&ChargesDetails/Fees&ChargesDet
         OccupationDtlsFormModule,
         AssetDetailsFormModule,
         FeesChargesDetailsModule,
-        CustomerDtlsModule
+        CustomerDtlsModule,
+        DisbursementDetailsModule
     ],
     declarations: [
         PopupAlertComponent,

@@ -317,20 +317,32 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   async LD_DISBURMENT_MONEY_click(event) {
     if (this.readOnly)
-      return
+    return
 
-    let inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('ApplicationId', this.ApplicationId);
-    inputMap.set('component', 'DisbursementDetails');
-    const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-    var onModalClose = async (reason) => {
-      (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+  let dataObj = this.generateAmortizationDataList();
+  Promise.all([this.services.rloui.getAlertMessage('', 'Disbursement Details')]).then(values => {
+    console.log(values);
+    let modalObj: IModalData = {
+      title: values[0],
+      mainMessage: undefined,
+      modalSize: "modal-width-lg",
+      buttons: [],
+      componentName: 'DisbursementDetailsComponent',
+      data: dataObj
+
+
     }
-    modalRef.result.then(onModalClose, onModalClose);
-    modalRef.componentInstance.rotueToComponent(inputMap);
-    this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-  }
+    this.services.rloui.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.services.rloui.closeAllConfirmationModal();
+        }
+      }
+    });
+  });
+}
+  
   async LD_FEES_CHARGE_click(event) {
     // let inputMap = new Map();
     // inputMap.clear();
