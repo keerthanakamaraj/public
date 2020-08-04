@@ -22,6 +22,7 @@ import { FeesChargesDetailsModule } from '../Fees&ChargesDetails/Fees&ChargesDet
 import { DisbursementDetailsModule } from '../DisbursementDetails/DisbursementDetails.module';
 import { IncomeSummaryFormModule } from '../IncomeSummaryForm/IncomeSummaryForm.module';
 import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.module';
+import { DocumentUploadModule } from '../document-upload/document-upload.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -42,7 +43,8 @@ import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.
         CustomerDtlsModule,
         DisbursementDetailsModule,
         IncomeSummaryFormModule,
-        LiabilityDtlsFormModule
+        LiabilityDtlsFormModule,
+        DocumentUploadModule
     ],
     declarations: [
         PopupAlertComponent,

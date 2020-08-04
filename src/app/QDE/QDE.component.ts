@@ -29,6 +29,7 @@ import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.com
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { Subscription } from 'rxjs';
 import { array } from '@amcharts/amcharts4/core';
+import { IModalData } from '../popup-alert/popup-interface';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -670,6 +671,25 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     //   tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });
     // }
     this.QDE_ACCORD1.setTags('CUST_DETAILS', tags);
+  }
+
+  openFileUpload(){
+    let modalObj: IModalData = {
+      title: 'Document Upload',
+      mainMessage: undefined,
+      modalSize: 'modal-width-lg',
+      buttons: [],
+      componentName: 'FileUpload',
+      data: ''
+    };
+    this.services.rloui.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.services.rloui.closeAllConfirmationModal();
+        }
+      }
+    });
   }
 
   fieldDependencies = {

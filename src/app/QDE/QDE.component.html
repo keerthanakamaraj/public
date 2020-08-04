@@ -18,6 +18,10 @@
               (headerStateEvent)="headerState($event)"></app-Header>
           </div>
 
+          <a href="javascript:void(0);" class="btn btn-default" (click)="openFileUpload()">
+            Upload Document
+          </a>
+
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div"
             [ngClass]="showExpandedHeader ? '' : 'header-expanded-qde'">
             <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">

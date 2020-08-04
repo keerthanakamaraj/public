@@ -23,6 +23,7 @@ import { FeesChargesDetailsComponent } from '../Fees&ChargesDetails/Fees&Charges
 import { DisbursementDetailsComponent } from '../DisbursementDetails/DisbursementDetails.component';
 import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
+import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -155,6 +156,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'LiabilityDetails':
         return new AddSpecificComponent(LiabilityDtlsFormComponent);
+        break;
+      case 'FileUpload':
+        return new AddSpecificComponent(DocumentUploadComponent);
         break;
     }
   }

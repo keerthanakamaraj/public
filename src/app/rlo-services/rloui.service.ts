@@ -50,7 +50,8 @@ export class RlouiService {
     { componentName: "OccupationDetails", iconClass: "icon-Asset-Details" },
     { componentName: "IncomeSummary", iconClass: "icon-Income-Summary" },
     { componentName: "LiabilityDetails", iconClass: "icon-Liability-Details" },
-    { componentName: "AssetDetails", iconClass: "icon-Asset-Details" }
+    { componentName: "AssetDetails", iconClass: "icon-Asset-Details" },
+    { componentName: "FileUpload", iconClass: "icon-Asset-Details" }
   ]
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {
