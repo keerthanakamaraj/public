@@ -20,6 +20,8 @@ import { AssetDetailsFormModule } from '../AssetDetailsForm/AssetDetailsForm.mod
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { FeesChargesDetailsModule } from '../Fees&ChargesDetails/Fees&ChargesDetails.module';
 import { DisbursementDetailsModule } from '../DisbursementDetails/DisbursementDetails.module';
+import { IncomeSummaryFormModule } from '../IncomeSummaryForm/IncomeSummaryForm.module';
+import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -38,7 +40,9 @@ import { DisbursementDetailsModule } from '../DisbursementDetails/DisbursementDe
         AssetDetailsFormModule,
         FeesChargesDetailsModule,
         CustomerDtlsModule,
-        DisbursementDetailsModule
+        DisbursementDetailsModule,
+        IncomeSummaryFormModule,
+        LiabilityDtlsFormModule
     ],
     declarations: [
         PopupAlertComponent,

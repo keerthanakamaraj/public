@@ -45,9 +45,12 @@ export class RlouiService {
     { componentName: "Notes", iconClass: "icon-Notes" },
     { componentName: "ApplicationDetails", iconClass: "icon-Application-Details" },
     { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" },
-    { componentName: "FeesChargesDetailsComponent", iconClass: "icon-generate-amortization" },
-    { componentName: "DisbursementDetailsComponent", iconClass: "icon-generate-amortization" },
+    { componentName: "FeesChargesDetailsComponent", iconClass: "icon-fees-charges" },
+    { componentName: "DisbursementDetailsComponent", iconClass: "icon-disbursement-details" },
     { componentName: "OccupationDetails", iconClass: "icon-Asset-Details" },
+    { componentName: "IncomeSummary", iconClass: "icon-Income-Summary" },
+    { componentName: "LiabilityDetails", iconClass: "icon-Liability-Details" },
+    { componentName: "AssetDetails", iconClass: "icon-Asset-Details" }
   ]
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {

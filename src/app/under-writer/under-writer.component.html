@@ -83,9 +83,9 @@
         <div class="cards-section" style="width:100% !important;height:100% !important;">
 
           <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='application'">
-            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
-              [ngClass]="{'d-block' : applicationSectionLoaded}">
-              <div class="card-layout-container">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngStyle]="{}"
+              [ngClass]="{'d-block' : applicationSectionLoaded }">
+              <div class="card-layout-container" [ngClass]="{'p-0' : loanDetailsCardData==null}">
                 <app-card [cardMetaData]="loanDetailsCardData"></app-card>
               </div>
             </div>

@@ -92,7 +92,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
   customerCardDataWithFields: IGeneralCardData;//store customer related data
 
-  loanDetailsCardData: IGeneralCardData//stores loan Details card data
+  loanDetailsCardData: IGeneralCardData = null//stores loan Details card data
   interfaceResultCardData: IGeneralCardData;
 
   selectedTab: string = "customer";
@@ -244,11 +244,37 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
-    this.getUnderWriterData();
-    // setTimeout(() => {
-    //   this.generateModelJson(this.workingJsonObj.UWApplication);
-    // }, 1000);
+    // this.getUnderWriterData();
   }
+
+  ngOnInit() { }
+
+  ngOnDestroy() {
+    this.services.rloui.closeAllConfirmationModal();
+  }
+
+  ngAfterViewInit() {
+    // setTimeout(() => {
+    //   this.reloadCardGrid();
+    // }, 10);
+    //withdraw  reject  pre-cpv
+  }
+
+  //@Output
+  broadcastProdCategory(event) {
+    this.services.rloCommonData.globalApplicationDtls = {
+      isLoanCategory: event.isLoanCategory,
+      ProductCode: event.ProductCode,
+      SubProductCode: event.SubProductCode,
+      SchemeCode: event.SchemeCode,
+    };
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    this.isLoanCategory = event.isLoanCategory;
+    this.getUnderWriterData();
+  }
+
+  //@Output
+  headerState(event) { }
 
   async claimTask(taskId) {
     const inputMap = new Map();
@@ -331,34 +357,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.masonry.layout();
   }
 
-  ngOnInit() { }
-
-  ngOnDestroy() {
-    this.services.rloui.closeAllConfirmationModal();
-  }
-
-  ngAfterViewInit() {
-    // setTimeout(() => {
-    //   this.reloadCardGrid();
-    // }, 10);
-    //withdraw  reject  pre-cpv
-  }
-
-  //@Output
-  broadcastProdCategory(event) {
-    this.services.rloCommonData.globalApplicationDtls = {
-      isLoanCategory: event.isLoanCategory,
-      ProductCode: event.ProductCode,
-      SubProductCode: event.SubProductCode,
-      SchemeCode: event.SchemeCode,
-    };
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
-    this.isLoanCategory = event.isLoanCategory;
-  }
-
-  //@Output
-  headerState(event) { }
-
   //under-writer.component.ts
   generateModelJson(jsonData) {
     let obj = jsonData;
@@ -405,7 +403,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           break;
 
         case "ML":
-          if (element.className != "CardDetails" &&  element.className != "LoanDetails") {
+          if (element.className != "CardDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
@@ -547,6 +545,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       console.warn(this.aCardDataWithFields, this.aBlankCardData);
       console.warn(JSON.stringify(this.aCardDataWithFields));
       console.warn(JSON.stringify(this.aBlankCardData));
+      console.log("loanDetailsCardData",this.loanDetailsCardData);
       setTimeout(() => {
         this.applicationSectionLoaded = true;
         console.warn("****");

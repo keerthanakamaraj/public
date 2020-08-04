@@ -46,6 +46,15 @@ export class FinancialSummary implements IDeserializable {
     public common: Common;
 
     deserialize(input: any): this {
+        console.log(input);
+        if (input == undefined) {
+            return Object.assign(this, input);
+        }
+        input.TotalIncome = input.TotalIncome != undefined ? input.TotalIncome ? input.TotalIncome : 'NA' : 'NA';
+        input.TotalLiabiity = input.TotalLiabiity != undefined ? input.TotalLiabiity ? input.TotalLiabiity : 'NA' : 'NA';
+        input.TotalAssetValue = input.TotalAssetValue != undefined ? input.TotalAssetValue ? input.TotalAssetValue : 'NA' : 'NA';
+        input.TotalObligation = input.TotalObligation != undefined ? input.TotalObligation ? input.TotalObligation : 'NA' : 'NA';
+        input.NetIncomeMonthly = input.NetIncomeMonthly != undefined ? input.NetIncomeMonthly ? input.NetIncomeMonthly : 'NA' : 'NA';
         return Object.assign(this, input);
     }
 
@@ -55,19 +64,19 @@ export class FinancialSummary implements IDeserializable {
                 title: "Total Income (Annual)",
                 subTitle: this.TotalIncome,
                 type: "basic",
-                modalSectionName: this.TotalIncome != 'NA' ? "OccupationDetails" : ""
+                modalSectionName: "OccupationDetails"
             },
             {
                 title: "Total Liability (Annual)",
                 subTitle: this.TotalLiabiity,
                 type: "basic",
-                modalSectionName: this.TotalLiabiity != 'NA' ? "OccupationDetails" : ""
+                modalSectionName: this.TotalLiabiity != 'NA' ? "LiabilityDetails" : ""
             },
             {
                 title: "Total Asset Value",
                 subTitle: this.TotalAssetValue,
                 type: "basic",
-                modalSectionName: this.TotalAssetValue != 'NA' ? "OccupationDetails" : ""
+                modalSectionName: this.TotalAssetValue != 'NA' ? "AssetDetails" : ""
             },
             {
                 title: "Total Obligation (Annual)",
@@ -90,7 +99,7 @@ export class FinancialSummary implements IDeserializable {
         ];
         const returnObj: IGeneralCardData = {
             name: "Financial Summary",
-            modalSectionName: this.isSectionAvaliable(),
+            modalSectionName: "IncomeSummary",
             data: fieldList
         };
         return returnObj;
@@ -346,7 +355,7 @@ export class RmVisitDetails implements IDeserializable {
 export class LoanDetails implements IDeserializable {
     public DisbursementDate: string = "NA";
     public TotalInvestmentAmount: string = "NA";
-    public RepaymentDate: string = "NA";
+    public RepaymentStartDate: string = "NA";
     public Disbursals: string = "NA";
     public RepaymentFrequency: string = "NA";
     public FeesAndCharges: string = "NA";
@@ -376,7 +385,7 @@ export class LoanDetails implements IDeserializable {
             },
             {
                 title: "Repayment Start Date",
-                subTitle: this.RepaymentDate,
+                subTitle: this.RepaymentStartDate,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -428,7 +437,7 @@ export class LoanDetails implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.DisbursementDate == 'NA' && this.TotalInvestmentAmount == 'NA' && this.RepaymentDate == 'NA' && this.Disbursals == 'NA' && this.RepaymentFrequency == 'NA' && this.FeesAndCharges == 'NA' && this.AmoritizationAmount == 'NA' && this.MarginMoney == 'NA' && this.TotalInterestAmount == 'NA') {
+        if (this.DisbursementDate == 'NA' && this.TotalInvestmentAmount == 'NA' && this.RepaymentStartDate == 'NA' && this.Disbursals == 'NA' && this.RepaymentFrequency == 'NA' && this.FeesAndCharges == 'NA' && this.AmoritizationAmount == 'NA' && this.MarginMoney == 'NA' && this.TotalInterestAmount == 'NA') {
             return ""
         } else {
             return "LoanDetails";
@@ -973,7 +982,7 @@ export class ApplicationDetails implements IDeserializable {
         Object.assign(this, input);
 
         this.PhysicalFormNumber = input.UWApplicationInfo.PhysicalFormNo == undefined ? "NA" : input.UWApplicationInfo.PhysicalFormNo;
-        this.DateOfReceipt = input.UWApplicationInfo.PhysicalFormNo == undefined ? "NA" : this.Common.getDateFormated(input.UWApplicationInfo.DateOfReceipt)
+        this.DateOfReceipt = input.UWApplicationInfo.DateOfReceipt == undefined ? "NA" : this.Common.getDateFormated(input.UWApplicationInfo.DateOfReceipt)
 
         if (input.hasOwnProperty("UWNotepad")) {
             this.Notes = new Notes().deserialize(input.UWNotepad);
@@ -998,6 +1007,15 @@ export class ApplicationDetails implements IDeserializable {
 
         //obj
         this.LoanDetails = new LoanDetails().deserialize(input.UWIncomeSummary);
+        this.LoanDetails.DisbursementDate = input.UWDisbursal.DisbursalDate;
+        this.LoanDetails.TotalInvestmentAmount = input.UWLoan.TotalInstallmentAmount;
+        this.LoanDetails.RepaymentStartDate = input.UWLoan.RepaymentStartDate;
+        this.LoanDetails.Disbursals = "0";
+        this.LoanDetails.RepaymentFrequency = input.UWLoan.RepaymentFrequency;
+        this.LoanDetails.FeesAndCharges = "0";
+        this.LoanDetails.AmoritizationAmount = input.UWLoan.AmortizationAmount;
+        this.LoanDetails.MarginMoney = input.UWLoan.MargineMoney;
+
         this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
 

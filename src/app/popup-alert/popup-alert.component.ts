@@ -21,6 +21,8 @@ import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { FeesChargesDetailsComponent } from '../Fees&ChargesDetails/Fees&ChargesDetails.component';
 import { DisbursementDetailsComponent } from '../DisbursementDetails/DisbursementDetails.component';
+import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
+import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -68,7 +70,7 @@ export class PopupAlertComponent implements OnInit {
     var componentInstance = dynamicComponent.instance;
     componentInstance.parentData = this.modalObject.data;
 
-    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent' &&  this.modalObject.componentName != 'DisbursementDetailsComponent'  ) {
+    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent') {
       componentInstance.isLoanCategory = true;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
@@ -98,13 +100,12 @@ export class PopupAlertComponent implements OnInit {
       case 'AmortizationScheduleComponent':
         return new AddSpecificComponent(AmortizationScheduleComponent);
         break;
-        case 'FeesChargesDetailsComponent':
+      case 'FeesChargesDetailsComponent':
         return new AddSpecificComponent(FeesChargesDetailsComponent);
         break;
-        case 'DisbursementDetailsComponent':
+      case 'DisbursementDetailsComponent':
         return new AddSpecificComponent(DisbursementDetailsComponent);
         break;
-        
       case 'FamilyDetails':
         return new AddSpecificComponent(FamilyDetailsFormComponent);
         break;
@@ -146,10 +147,15 @@ export class PopupAlertComponent implements OnInit {
       case 'FeesAndCharges':
         return new AddSpecificComponent(FeesChargesDetailsComponent);
         break;
-        case 'DisbursementDetails':
+      case 'DisbursementDetails':
         return new AddSpecificComponent(DisbursementDetailsComponent);
         break;
-        
+      case 'IncomeSummary':
+        return new AddSpecificComponent(IncomeSummaryFormComponent);
+        break;
+      case 'LiabilityDetails':
+        return new AddSpecificComponent(LiabilityDtlsFormComponent);
+        break;
     }
   }
   // ngOnDestroy() {
