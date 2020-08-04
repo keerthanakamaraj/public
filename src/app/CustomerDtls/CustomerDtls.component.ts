@@ -196,7 +196,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
-      this.hideCustomerType.setValue((!this.isLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+      this.hideCustomerType.setValue((!this.isLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
       this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
@@ -209,6 +209,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.Handler.onFormLoad({
     });
     this.setDependencies();
+    if ('DDE' == this.parentFormCode) {
+      this.CD_LOAN_OWN.setReadOnly(false)
+    }
     // this.Handler.displayCustomerTag();
   }
 
@@ -976,10 +979,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   loanCategoryChanged(newLoanCategory) {
     this.isLoanCategory = newLoanCategory;
-    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode=='UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
     this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
   }
 
+  CD_LOAN_OWN_blur(fieldName, event) {
+    let totLoanOwnership = parseFloat(this.CD_LOAN_OWN.getFieldValue()) + this.services.rloCommonData.calculateLoanOwnership();
+    if (totLoanOwnership > 100) {
+      this.CD_LOAN_OWN.setError('rlo.error.loanownership.onblur');
+      return 1;
+    }
+  }
   fieldDependencies = {
     CD_EXISTING_CUST: {
       inDep: [

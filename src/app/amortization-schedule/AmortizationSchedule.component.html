@@ -70,8 +70,8 @@
                 {{ 'Amortization.CBLoanAmountShare' | translate}}
               </label>
             </div>
-            <app-text-box #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode"
-              (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-text-box>
+            <app-amount #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode"
+              (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3"></div>
           <div class="horizontal-line col-12 col-sm-12 col-md-12 "></div>

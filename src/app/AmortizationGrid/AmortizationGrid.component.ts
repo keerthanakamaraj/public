@@ -79,6 +79,7 @@ export class AmortizationGridComponent implements AfterViewInit {
    // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -94,6 +95,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -109,6 +111,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -124,6 +127,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     //   filter: "agTextColumnFilter",
     //   filterParams: {
     //     suppressAndOrCondition: true,
@@ -139,6 +143,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -154,6 +159,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     //   suppressAndOrCondition: true,
@@ -255,8 +261,7 @@ export class AmortizationGridComponent implements AfterViewInit {
 
 
     this.services.http.fetchApi('/repayment', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-    
-    RepaymentList = httpResponse.body.Record;
+      RepaymentList = httpResponse.body.Record;
     if (RepaymentList) {
       this.isRecord = true;
       let largeNo: number = 0;
@@ -299,19 +304,12 @@ export class AmortizationGridComponent implements AfterViewInit {
         console.error(httpError);
         this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
       });
-    // //this.http.get("https://smartbankone.intellectfabric.io/loan-inquiry/v1/simulators/repayment-schedule?loan-amount=1200000&no-of-installments=7&installment-frequency=1&interest-rate=12&disbursal-date=03-JUL-2020&first-installment-date=03-AUG-2020&interest-numerator=&interest-denominator=")
-    // this.http.get("https://rlfc.intellectseecapps.com/rlo-de/publisher/repayment?loanAmount=1000000&noOfInstallments=11&installmentFrequency=1&interestRate=8.5&disbursalDate=07-JUL-2020&firstInstallmentDate=18-JUL-2020")
-    // .toPromise()
-    //     .then(response => {
-    //  console.log(response);
-    // });
-
-    // if (RepaymentList.length <= 0) {
-    //   RepaymentList = event.hardCodedResp;
-    // }
-   
-
-
-    // this.services.alert.showAlert(2, 'Fail', -1);
+  }
+  formatAmount(number) {
+    if (number.value) {
+      return this.services.formatAmount(number.value, null, null);
+    } else {
+      return '-';
+    }
   }
 }

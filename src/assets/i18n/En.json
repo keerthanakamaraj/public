@@ -169,6 +169,8 @@
     "rlo.success.update.feesCharges" :"Fees & Charges Details Saved Succesfully",
     "rlo.error.update.feesCharges" : "Failed to Save fees & Charges Details",
     "rlo.delete-customer.comfirmation" :"Are you sure you want to detete customer?",
+    "rlo.error.invalid-repaymentDt":"Date should be after disbursal date",
+    "rlo.error.invalid-disbarsalDt":"Invalid date",
     
     "999": "Unspecified error",
     "MANDATORY": "Value Cannot be empty",

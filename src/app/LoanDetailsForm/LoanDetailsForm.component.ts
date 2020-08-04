@@ -317,32 +317,32 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   async LD_DISBURMENT_MONEY_click(event) {
     if (this.readOnly)
-    return
+      return
 
-  let dataObj = this.generateAmortizationDataList();
-  Promise.all([this.services.rloui.getAlertMessage('', 'Disbursement Details')]).then(values => {
-    console.log(values);
-    let modalObj: IModalData = {
-      title: values[0],
-      mainMessage: undefined,
-      modalSize: "modal-width-lg",
-      buttons: [],
-      componentName: 'DisbursementDetailsComponent',
-      data: dataObj
+    let dataObj = this.generateAmortizationDataList();
+    Promise.all([this.services.rloui.getAlertMessage('', 'Disbursement Details')]).then(values => {
+      console.log(values);
+      let modalObj: IModalData = {
+        title: values[0],
+        mainMessage: undefined,
+        modalSize: "modal-width-lg",
+        buttons: [],
+        componentName: 'DisbursementDetailsComponent',
+        data: dataObj
 
 
-    }
-    this.services.rloui.confirmationModal(modalObj).then((response) => {
-      console.log(response);
-      if (response != null) {
-        if (response.id === 1) {
-          this.services.rloui.closeAllConfirmationModal();
-        }
       }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal();
+          }
+        }
+      });
     });
-  });
-}
-  
+  }
+
   async LD_FEES_CHARGE_click(event) {
     // let inputMap = new Map();
     // inputMap.clear();
@@ -555,10 +555,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.FieldId_26.LoanGridArray.forEach(element => {
       if (element.CustomerType == 'B') {
         dataObj.BLoanOwnership = element.LoanOwnership;
-        dataObj.BLoanAmtShare = element.Principle;
+        dataObj.BLoanAmtShare = element.Principle.toFixed(2);
       } else if (element.CustomerType == 'CB' && element.LoanOwnership > 0) {
         dataObj.CBLoanOwnership = element.LoanOwnership;
-        dataObj.CBLoanAmountShare = element.Principle;
+        dataObj.CBLoanAmountShare = element.Principle.toFixed(2);
       }
     });
 

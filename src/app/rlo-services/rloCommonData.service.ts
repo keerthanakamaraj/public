@@ -648,7 +648,14 @@ export class RloCommonData {
         isAppValid: true,
         errorsList: []
       }
-
+      let totalLoanOwnership: number = this.calculateLoanOwnership();
+      if (100 == totalLoanOwnership) {
+        dataObject.isAppValid = false;
+        dataObject.errorsList.push("Total Loan ownership should be 100%");
+        console.log("shweta :: error list", dataObject.errorsList);
+        resolve(dataObject);
+        return promise;
+      }
       this.isFormValid().then((customerData) => {
         dataObject.errorsList = customerData.errorsList;
         this.validateApplicationSections(isCategoryTypeLoan).then((applicationData) => {
@@ -745,14 +752,31 @@ export class RloCommonData {
       this.router.navigate(['home', 'LANDING']);
     }
   }
-  
+
   removeCustomerFromMap(deletedCustomer) {
     if (this.masterDataMap.has("customerMap")) {
       if (this.masterDataMap.get("customerMap").has(deletedCustomer)) {
         this.masterDataMap.get("customerMap").delete(deletedCustomer);
-         console.log("shweta :: customer deleted from map",this.masterDataMap );
+        // console.log("shweta :: customer deleted from map", this.masterDataMap);
       }
     }
+  }
+
+  calculateLoanOwnership() {
+    let totalLoanOwnership: number = 0;
+    if (this.masterDataMap.has("customerMap")) {
+      const customerMap = this.masterDataMap.get("customerMap");
+      this.asyncForEach(Array.from(customerMap.entries()), async (entry) => {
+        if (entry[1].has('CustomerDetails')) {
+          let customer = entry[1].get('CustomerDetails');
+          if (customer.LoanOwnership) {
+            totalLoanOwnership += parseFloat(customer.LoanOwnership);
+            console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+          }
+        }
+      });
+    }
+    return totalLoanOwnership;
   }
 
 }

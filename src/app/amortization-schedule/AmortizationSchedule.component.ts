@@ -64,7 +64,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       this.revalidateBasicField('Tenure'),
       this.revalidateBasicField('BLoanOwnership'),
       this.revalidateBasicField('CBLoanOwnership'),
-      //   this.revalidateBasicField('BLoanAmtShare'),
+      this.revalidateBasicField('BLoanAmtShare'),
       this.revalidateBasicField('CBLoanAmountShare'),
       this.revalidateBasicField('DisbursalDate'),
       this.revalidateBasicField('ScheduleType'),
@@ -263,6 +263,39 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   formatDate(selectedDate, newDateFormat, oldDateFormat: string = 'DD-MM-YYYY') {
     const moment = require('moment');
     return moment(selectedDate, oldDateFormat).format(newDateFormat).toUpperCase();
+  }
+
+  DisbursalDate_blur(){
+    if (!this.isFutureDate(this.DisbursalDate.getFieldValue())) {
+      this.DisbursalDate.setError('rlo.error.invalid-disbarsalDt');
+      return 1;
+    }
+  }
+
+  RepaymentStartDate_blur(){
+    if (!this.isFutureDate(this.RepaymentStartDate.getFieldValue(),this.DisbursalDate.getFieldValue())) {
+      this.RepaymentStartDate.setError('rlo.error.invalid-repaymentDt');
+      return 1;
+    }
+
+    }
+
+
+  isFutureDate(selectedDate, comaringDate?:any) {
+    const moment = require('moment');
+    let currentDate:any;
+    if(comaringDate!=undefined && comaringDate!=''){
+      currentDate=moment(comaringDate,'DD-MM-YYYY');
+    }
+    else{
+      currentDate = moment();
+      currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    }
+    selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+    if (selectedDate <= currentDate) {
+      return false;
+    }
+    return true;
   }
 
   fieldDependencies = {
