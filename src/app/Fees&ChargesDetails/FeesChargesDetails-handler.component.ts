@@ -59,12 +59,16 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.PeriodicEnDt.setHidden(true);
       this.MainComponent.PeriodicStDt.setValue(undefined);
     this.MainComponent.PeriodicEnDt.setValue(undefined);
+    this.MainComponent.Frequency.setReadOnly(true);
+    this.MainComponent.Frequency.mandatory = false;
       
 
     }
     else{
       this.MainComponent.PeriodicStDt.setHidden(false);
       this.MainComponent.PeriodicEnDt.setHidden(false);
+      this.MainComponent.Frequency.setReadOnly(false);
+      this.MainComponent.Frequency.mandatory = true;
     }
   }
   chargeAmountcharOnblur(){
