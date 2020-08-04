@@ -10,17 +10,17 @@ import { ServiceStock } from '../service-stock.service';
 })
 export class AmountComponent extends FieldComponent implements OnInit {
 
-  @Input('displayCurrCode') displayCurrCode : boolean = false;
+  @Input('displayCurrCode') displayCurrCode: boolean = false;
 
   @Input('minValue') minValue: number;
   @Input('maxValue') maxValue: number;
   @Input('maxLength') maxLength: number;
   @Input('minLength') minLength: number;
-  @Input('DecimalLength') DecimalLength :number=2;
- 
-  currencyCode='INR';
-  languageCode='en-IN';
-  constructor(services : ServiceStock) {
+  @Input('DecimalLength') DecimalLength: number = 2;
+
+  currencyCode = 'INR';
+  languageCode = 'en-IN';
+  constructor(services: ServiceStock) {
     super(services);
   }
 
@@ -34,77 +34,92 @@ export class AmountComponent extends FieldComponent implements OnInit {
   }
 
 
-  setFormatOptions(Json){ 
-    if(Json.currencyCode)
-    this.currencyCode=Json.currencyCode;
-    if(Json.languageCode)
-    this.languageCode=Json.languageCode;
-    if(Json.DecimalLength)
-    this.DecimalLength=Json.DecimalLength;
+  setFormatOptions(Json) {
+    if (Json.currencyCode)
+      this.currencyCode = Json.currencyCode;
+    if (Json.languageCode)
+      this.languageCode = Json.languageCode;
+    if (Json.DecimalLength)
+      this.DecimalLength = Json.DecimalLength;
     if (this.value) {
       this.isOnFocus = false;
       this.value = this.additionalInfo;
-      this.additionalInfo = this.formatAmount(+this.value , this.languageCode , this.DecimalLength);
+      this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength);
     }
   }
 
-  formatAmount(number , languageCode , minFraction) {
+  //OG
+  // formatAmount(number, languageCode, minFraction) {
+  //   // return this.services.formatAmount(number, languageCode, minFraction);
+  //   // Dirty Fix
+  //   return this.services.formatAmount(number, languageCode, minFraction).substr(1);
+  // }
+
+
+  formatAmount(number, languageCode, minFraction, hideSymbol?: boolean) {
     // return this.services.formatAmount(number, languageCode, minFraction);
     // Dirty Fix
-    return this.services.formatAmount(number, languageCode, minFraction).substr(1);
+    // return this.services.formatAmount(number, languageCode, minFraction, hideSymbol).substr(1);
+    return this.services.formatAmount(number, languageCode, minFraction);
   }
 
-  onBlur(){
-   // return;
+  onBlur() {
     this.isOnFocus = false;
+    this.languageCode = "en-MU";
+
     if (this.value) {
-      this.additionalInfo = this.formatAmount(+this.value , this.languageCode , this.DecimalLength);
+      this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength, true);
+      //this.additionalInfo = this.formatAmount(+this.value , this.languageCode , this.DecimalLength);
+
+      //this.additionalInfo=this.value;
     }
     this.blur.emit(this.value);
   }
 
   onChange() {
     this.value = this.additionalInfo;
+    this.languageCode = "en-MU";
     this.change.emit();
+
     if (this.value) {
-      this.additionalInfo = this.formatAmount(+this.value , this.languageCode , this.DecimalLength);
+      this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength, true);
     }
   }
 
-    async validateValue(value, event=undefined): Promise<number> {
-      var totalErrors: number = 0;
-      totalErrors+=this.onNumberInput(value, event);
-      return totalErrors;
-    }
-  
-    onNumberInput(value: number, event?): number{
-      var totalErrors: number = 0;
-      value = +value;
-      if(this.minValue && value<this.minValue){
-        this.setError("Value should be greater than "+ this.minValue);
+  async validateValue(value, event = undefined): Promise<number> {
+    var totalErrors: number = 0;
+    totalErrors += this.onNumberInput(value, event);
+    return totalErrors;
+  }
+
+  onNumberInput(value: number, event?): number {
+    var totalErrors: number = 0;
+    value = +value;
+    if (this.minValue && value < this.minValue) {
+      this.setError("Value should be greater than " + this.minValue);
+      totalErrors++;
+    } else if (this.maxValue && value > this.maxValue) {
+      this.setError("Value should be less than " + this.maxValue);
+      totalErrors++;
+    } else if ((this.DecimalLength && this.countDecimals(value) > this.DecimalLength)) {
+      if (event) {
+        event.target.value = value.toFixed(+this.DecimalLength);
+        this.additionalInfo = value.toFixed(+this.DecimalLength);
+        this.value = value.toFixed(+this.DecimalLength);
+      } else {
+        this.setError("Maximum " + this.DecimalLength + " decimal are allowed");
         totalErrors++;
-      }else if(this.maxValue && value>this.maxValue){
-          this.setError("Value should be less than "+ this.maxValue);
-          totalErrors++;
-      }else if((this.DecimalLength && this.countDecimals(value)>this.DecimalLength)){
-        if(event){
-          event.target.value = value.toFixed(+this.DecimalLength); 
-          this.additionalInfo = value.toFixed(+this.DecimalLength);
-          this.value = value.toFixed(+this.DecimalLength);
-        }else{
-          this.setError("Maximum "+ this.DecimalLength + " decimal are allowed");
-          totalErrors++;
-        }
       }
-      else{
-        this.clearError();
-      }
-      return totalErrors;
     }
+    else {
+      this.clearError();
+    }
+    return totalErrors;
+  }
   countDecimals(value) {
-    
-      if(Math.floor(value) === value) return 0;
-      return value.toString().split(".")[1].length || 0; 
+
+    if (Math.floor(value) === value) return 0;
+    return value.toString().split(".")[1].length || 0;
   }
   isNumberKey(event) {
     var charCode = event.keyCode;
@@ -121,7 +136,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
       if (additionalInfo) {
         this.additionalInfo = additionalInfo;
       } else {
-          this.additionalInfo =this.formatAmount(+this.value , this.languageCode , this.countDecimals(+value)==0?this.DecimalLength:this.countDecimals(+value) );
+        this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.countDecimals(+value) == 0 ? this.DecimalLength : this.countDecimals(+value));
       }
     }
     this.passNewValue(this.value);
@@ -132,7 +147,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
     this.clearError();
   }
   getFieldValue() {
-    return this.value==undefined ?  this.value : +this.value;
+    return this.value == undefined ? this.value : +this.value;
   }
 
   ngOnInit() { }

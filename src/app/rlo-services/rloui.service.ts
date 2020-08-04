@@ -46,7 +46,7 @@ export class RlouiService {
     { componentName: "ApplicationDetails", iconClass: "icon-Application-Details" },
     { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" },
     { componentName: "FeesChargesDetailsComponent", iconClass: "icon-generate-amortization" },
-    { componentName: "DisbursementDetailsComponent", iconClass: "icon-generate-amortization" },    
+    { componentName: "DisbursementDetailsComponent", iconClass: "icon-generate-amortization" },
     { componentName: "OccupationDetails", iconClass: "icon-Asset-Details" },
   ]
 
@@ -229,11 +229,19 @@ export class RlouiService {
       return amount;
     }
 
+    //OG
+    // if (!languageCode) { languageCode = this.getConfig("language.default", "en-MU"); }
+    // if (!currency) { currency = this.getConfig("currency.code.default", "MUR"); }
+
+    // // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
+    // return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+
     if (!languageCode) { languageCode = this.getConfig("language.default", "en-MU"); }
     if (!currency) { currency = this.getConfig("currency.code.default", "MUR"); }
 
-    // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
-    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+    let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+    return val;
+
   }
 
   // TODO: Check Type of date and format accordingly
@@ -382,5 +390,5 @@ export class RlouiService {
       });
     });
   }
-  
+
 }

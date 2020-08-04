@@ -35,19 +35,19 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   menuList = [];
   promotionLists = [
     {
-      title: "August Special",
+      title: "New to Bank Promotion",
       txt: `Enjoy promotional interest rates on personal loans (unsecured) from as low as 7% p.a. with
       no processing fee for new to bank customers. Offer valid till 3rd September 2020.`,
       bgColor: "#9013fe"
     },
     {
-      title: "Diwali Dhamaka",
+      title: "Fixed Rate Promotion",
       txt: `Enjoy stability by fixing the interest rate on housing loans for the initial 3 years of the loan
       (minimum tenure of 10 years required). Offer valid till 31st December 2020.`,
       bgColor: "#17afbd"
     },
     {
-      title: "Mega Sale",
+      title: "August Special",
       txt: `Enjoy a reduction of 1% p.a. on all personal loans (secured) for the month of August. Offer
       valid till 31st August 2020.`,
       bgColor: "#fd83e3"
