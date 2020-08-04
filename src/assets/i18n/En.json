@@ -2105,13 +2105,14 @@
     "FieldId_3" : "Loan Information",
     "OPERATION_APPROVE":"Approve",
     "OPERATION_WITHDRAW":"Withdraw",
-    "Loan_AMT":"Final Amount to be Disbursed",
-    "Loan_DBR" : "DBR",
-    "Installment_AMT":"Installment Amount",
+    "DisbustAmt":"Final Amount to be Disbursed",
+    "LOAN_DBR" : "DBR",
+    "EMI_Amt":"Installment Amount",
     "G_LETTER":"Generate Letters",
     "FieldId_8":"Card Information",
-  "Approved_limit":"Approved Limit",
-  "C_DBR":"DBR"
+    "Apved_Limit":"Approved Limit",
+    "Card_DBR":"DBR",
+    "Document_Information" : "Document Checklist"
     },
     "CustGrid" : {
       "Cust_Type" : "Customer Type",

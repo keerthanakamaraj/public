@@ -9,7 +9,7 @@
     <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
     </div>
   </div>
-  
+
   <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
     <div class="form-group pb10">
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
@@ -126,12 +126,15 @@
     <ul class="fab-buttons ">
       <li class="fab-buttons__item">
         <span class="fab-buttons__link" (click)="cancelForm()">
-          <span class="icon-material icon-material_cancel">Cancel</span>
+          <span class="icon-material icon-material_cancel"></span>
+          <span style="margin-left: -8px;  color: #0079b8; font-size: 12px;">Cancel</span>
         </span>
       </li>
       <li class="fab-buttons__item">
         <span class="fab-buttons__link" (click)="withdrawForm()">
-          <span class="icon-material icon-material_widthdraw">Widthdraw </span>
+          <span class="icon-material icon-material_widthdraw">
+          </span>
+          <span style="margin-left: -8px;  color: #0079b8;font-size: 12px;">Withdraw</span>
         </span>
       </li>
       <!-- <li class="fab-buttons__item">
@@ -149,7 +152,9 @@
       <!-- <div class="mr-4"> -->
       <div class="fab-buttons__item" style="padding-left: 25px;">
         <span class="fab-buttons__link" (click)="rejectForm()">
-          <span class="icon-material icon-material_reject" style="color: white;">Reject</span>
+          <span class="icon-material icon-material_reject">
+          </span>
+          <span style="color: white;font-size: 12px;">Reject</span>
         </span>
       </div>
       <!-- <div class="fab-buttons__item" style="color:white;">
@@ -157,7 +162,8 @@
       </div> -->
       <div class="fab-buttons__item " style="padding-right: 75px;">
         <span class="fab-buttons__link" (click)="approveForm()">
-          <span class="icon-material icon-material_approve" style="color: white;">Approve</span>
+          <span class="icon-material icon-material_approve" style="color: white;"></span>
+          <span style="color: white; font-size: 12px;">Approve</span>
         </span>
       </div>
     </div>
@@ -168,7 +174,7 @@
 
 
   <div class="fab" id="fab-open" *ngIf="customerList.length">
-    <span class="fab-action-button_2 shadow-sm"  (click)="fabopen()">
+    <span class="fab-action-button_2 shadow-sm" (click)="fabopen()">
       <i class="fab-action-button__icon_2"></i>
     </span>
   </div>

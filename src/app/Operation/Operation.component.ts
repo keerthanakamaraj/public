@@ -36,13 +36,23 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('G_LETTER', { static: false }) G_LETTER: ButtonComponent;
   @ViewChild('OPERATION_APPROVE', { static: false }) OPERATION_APPROVE: ButtonComponent;
   @ViewChild('OPERATION_WITHDRAW', { static: false }) OPERATION_WITHDRAW: ButtonComponent;
-  @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
   @ViewChild('DisbustAmt', { static: false }) DisbustAmt: TextBoxComponent;
   @ViewChild('LOAN_DBR', { static: false }) LOAN_DBR: TextBoxComponent;
   @ViewChild('EMI_Amt', { static: false }) EMI_Amt: TextBoxComponent;
   @ViewChild('Apved_Limit', { static: false }) Apved_Limit: TextBoxComponent;
   @ViewChild('Card_DBR', { static: false }) Card_DBR: TextBoxComponent;
+  @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
+  @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
+  @ViewChild('HideServiceCodeComplete', { static: false }) HideServiceCodeComplete: HiddenComponent;
+  @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
+  @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
+  @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
+  @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
+  @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
+  @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
+
   @Input() isLoanCategory: any = undefined;
+  @Input() ProductCode: any = undefined;
 
 
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
@@ -51,10 +61,15 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   buttonName: any = 'Show';
   passApplicationId: any;
   LoanCat: any;
-  LETTERMGMTFORMAT = "Ref_no: 20200730093231022213</p>\r\n\r\n\r\n</p>\r\n\r\nDear Jonas Brandt ,</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nRe: Invoice no : 0111000154199 in respect of your purchase from OTTO.de</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis is to inform you that there will be a debit of 215.01 EUR on 17-JUL-2020 from your bank account with number DE000000111000154199</p>\r\n\r\nbasis mandate id : 20200624121109014765</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis payment will appear in your bank statement as Hanseatic Bank GmbH + Co.</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nSincerely yours,</p>\r\n\r\n\r\n</p>\r\n\r\nOTTO Customer Service</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nPlease do not reply to this email as this is an auto generated intimation.</p>";
-
-
-
+  // LETTERMGMTFORMAT = "Ref_no: 20200730093231022213</p>\r\n\r\n\r\n</p>\r\n\r\nDear Jonas Brandt ,</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nRe: Invoice no : 0111000154199 in respect of your purchase from OTTO.de</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis is to inform you that there will be a debit of 215.01 EUR on 17-JUL-2020 from your bank account with number DE000000111000154199</p>\r\n\r\nbasis mandate id : 20200624121109014765</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis payment will appear in your bank statement as Hanseatic Bank GmbH + Co.</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nSincerely yours,</p>\r\n\r\n\r\n</p>\r\n\r\nOTTO Customer Service</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nPlease do not reply to this email as this is an auto generated intimation.</p>";
+  userId: any;
+  taskId: any;
+  instanceId: any;
+  // tenantId: string = "SB1";
+  // serviceCode: string = "ClaimTask";
+  // serviceCodeN: string = "CompleteTask";
+  // processId: string = "RLO_Process";
+  applicationStatus: string = "AP";
   // isLoanCategory: any = undefined;
   LoanArray = [];
   CardArray = [];
@@ -86,18 +101,26 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
+    this.HideProcessId.setValue('RLO_Process');
+    this.HideServiceCode.setValue('ClaimTask');
+    this.HideServiceCodeComplete.setValue('CompleteTask');
+    this.HideTenantId.setValue('SB1');
+    this.HideAppId.setValue('RLO');
+    this.HideCurrentStage.setValue('Operation');
     this.setDependencies();
     let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+    this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.ApplicationId = appId;
     await this.brodcastApplicationId();
-    this.HideCurrentStage.setValue('Operation');
     this.APPLICATION_DETAILS.fetchApplicationDetails();
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-
-
-
+    if (this.userId === undefined || this.userId == '') {
+      this.claimTask(this.taskId);
+    }
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -187,13 +210,15 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   brodcastProdCategory(event) {
     //  event.isLoanCategory false when type is 'CC'
     this.isLoanCategory = event.isLoanCategory;
+    this.ProductCode = event.ProductCode;
     console.log("Loan type", this.isLoanCategory);
+    console.log("Juhi", event.ProductCode);
     setTimeout(() => {
       this.isLoan();
     }, 2000);
   }
 
-  MyFunction() {
+  fetchLetter() {
     let inputMap = new Map();
     inputMap.clear();
     let requestParams;
@@ -253,6 +278,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.LOAN_DBR.setReadOnly(true);
       this.EMI_Amt.setReadOnly(true);
       this.fetchLoanDetails();
+
       console.log("loan is working");
     }
   }
@@ -302,11 +328,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
         if (res !== null) {
           this.appArray = res['ApplicationScoreDetails'];
-          this.appArray.forEach(async AppElement => {
-            if (AppElement.Score = 'DBR') {
-              this.LOAN_DBR.setValue(AppElement['Score']);
-            }
-          });
+          this.LOAN_DBR.setValue(res['DBR']);
         }
       },
       async (httpError) => {
@@ -361,11 +383,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
         if (res !== null) {
           this.appArray = res['ApplicationScoreDetails'];
-          this.appArray.forEach(async AppElement => {
-            if (AppElement.Score = 'DBR') {
-              this.LOAN_DBR.setValue(AppElement['Score']);
-            }
-          });
+          this.LOAN_DBR.setValue(res['DBR']);
         }
       },
       async (httpError) => {
@@ -387,4 +405,165 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.services.rloui.goBack();
   }
 
+  async claimTask(taskId) {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.TaskId', taskId);
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCode.getFieldValue());
+    this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+        if (res.Status == 'S') {
+          this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
+          this.userId = sessionStorage.getItem('userId');
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCode.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TaskId') {
+            this.HideTaskId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+      }
+    );
+  }
+
+  async OPERATION_SUBMIT_click(event) {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('Body.direction', 'AP');
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
+    this.services.http.fetchApi('/CompleteTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+          var mainMessage = this.services.rloui.getAlertMessage('rlo.success.submit');
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+          Promise.all([mainMessage, button1]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+            }
+
+            console.log("deep ===", modalObj);
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.router.navigate(['home', 'LANDING']);
+                }
+              }
+            });
+          });
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCodeComplete.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TaskId') {
+            this.HideTaskId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+      }
+    );
+  }
+  async OPERATION_WITHDRAW_click(event) {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('Body.direction', 'W');
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
+    this.services.http.fetchApi('/CompleteTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+          var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+          Promise.all([mainMessage, button1, button2]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+            }
+
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.router.navigate(['home', 'LANDING']);
+                }
+              }
+            });
+          });
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCodeComplete.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TaskId') {
+            this.HideTaskId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+      }
+    );
+  }
 }
