@@ -1,0 +1,134 @@
+<!-- <div class="container-fluid" [fieldset-viewconfig]="(!userAccessEntitle.isEntitled('EditData') && !userAccessEntitle.isEntitled('AddData')) || appService.viewMode"> -->
+<div class="container-fluid">
+    <div class="row blueboxshadow container-fluid panel panel-default" id="colldetailstop">
+        <div class="col-md-2 collateral-panel collateral-tabs">
+            <p class="section-head">
+                {{getLabel('ADD_SEC_COLL')}}
+            </p>
+            <div *ngFor="let programOpt of collateralsDtlsType" id="CollateralsDtlsTypeContainer">
+                <div [ngClass]="{'btn-primary': selectedItemId === programOpt.subTypeCode,'btn': selectedItemId !== programOpt.subTypeCode}"
+                    (click)="showPanel(programOpt)" id="{{programOpt.subTypeCode}}">
+                    {{programOpt.subTypeDescription}}
+                </div>
+            </div>
+        </div>
+        <div id="common-section" class="col-md-10 collateral-panel">
+            <p class="section-head">{{getLabel('COMMON_COLLATERAL_FIELDS')}}</p>
+            <div class="row fluid-row">
+                <div class="col-md-3 form-group">
+                    <label for="collateralCode" [ngClass]="{ 'mandatory': isMandatory('collateralCode' , true)}">{{getLabel("COLL_CODE")}}</label>
+                    <input type="text" class="form-control" id="collateralCode" disabled="disabled" [(ngModel)]="collateralCommonFields.collateralCode"
+                        name="collateralCode">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="collateralStatus" [ngClass]="{ 'mandatory': isMandatory('collateralStatus' , true)}">{{getLabel("STATUS")}}</label>
+                    <input type="text" class="form-control" id="collateralStatus" [(ngModel)]="collateralCommonFields.collateralStatus"
+                        name="collateralStatus" disabled="disabled" (blur)="validateField(collateralCommonFields.collateralStatus, 'collateralStatus')">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="email" name="scope" [ngClass]="{ 'mandatory': isMandatory('scope' , true)}">{{getLabel("SCOPE")}}</label>
+                    <div class="radio-wrapper">
+                        <label class="radio-container">{{getLabel('SPECIFIC')}}
+                            <input type="radio" [(ngModel)]="collateralCommonFields.scope" value="S" (blur)="validateField(collateralCommonFields.scope, 'scope')" />
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">{{getLabel('UMBRELLA')}}
+                            <input type="radio" [(ngModel)]="collateralCommonFields.scope" value="U" (blur)="validateField(collateralCommonFields.scope, 'scope')" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="collateralCurrency" [ngClass]="{ 'mandatory': isMandatory('collateralCurrency' , true)}">{{getLabel("CURRENCY")}}</label>
+                    <ng-select [(ngModel)]="collateralCommonFields.collateralCurrency" [selectOnTab]="true" [items]="lookupVariableOptions['Currency']"
+                        bindValue="id" bindLabel="text" name="collateralCurrency" id="collateralCurrency"
+                        (blur)="validateField(collateralCommonFields.collateralCurrency, 'collateralCurrency')"></ng-select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label [ngClass]="{ 'mandatory': isMandatory('originalValue' , true)}">{{getLabel("ORIGINAL_VALUE")}}
+                    </label>
+                    <input type="text" amountformatter class="form-control" id="originalValue" [(ngModel)]="collateralCommonFields.originalValue"
+                        name="originalValue" (blur)="validateField(collateralCommonFields.originalValue, 'originalValue')">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="fairMarketValue" [ngClass]="{ 'mandatory': isMandatory('fairMarketValue' , true)}">{{getLabel("FAIR_MARKET_VALUE")}}</label>
+                    <input type="text" class="form-control" amountformatter id="fairMarketValue" [(ngModel)]="collateralCommonFields.fairMarketValue"
+                        name="fairMarketValue" (blur)="validateField(collateralCommonFields.fairMarketValue, 'fairMarketValue')">
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label [ngClass]="{ 'mandatory': isMandatory('maximumLoanableValue' , true)}">{{getLabel("MAX_LOANABLE_VALUE")}}</label>
+                    <input type="text" amountformatter class="form-control" id="maximumLoanableValue" [(ngModel)]="collateralCommonFields.maximumLoanableValue"
+                        name="maximumLoanableValue" (blur)="validateField(collateralCommonFields.maximumLoanableValue, 'maximumLoanableValue')">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="collateralType" [ngClass]="{ 'mandatory': isMandatory('collateralType' , true)}">{{getLabel("COLLATERAL_TYPE")}}
+                    </label>
+                    <input type="hidden" class="form-control" id="collateralType" [(ngModel)]="collateralCommonFields.collateralType"
+                        name="collateralType">
+                    <input type="text" class="form-control" id="collateralType" disabled="disabled" [(ngModel)]="collateralCommonFields.collateralTypeDesc"
+                        name="collateralType">
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label for="collateralSubtype" [ngClass]="{ 'mandatory': isMandatory('collateralSubtype' , true)}">{{getLabel("COLLATERAL_SUB_TYPE")}}</label>
+                    <input type="hidden" class="form-control" id="collateralSubtype" [(ngModel)]="collateralCommonFields.collateralSubtype"
+                        name="collateralSubtype">
+                    <input type="text" class="form-control" id="collateralSubtype" disabled="disabled" [(ngModel)]="collateralCommonFields.collateralSubtypeDesc"
+                        name="collateralSubtype">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="customerNumber" [ngClass]="{ 'mandatory': isMandatory('customerNumber' , true)}">{{getLabel("ASSO_CUSTOMER")}}</label>
+                    <input type="text" class="form-control" disabled="disabled" id="customerNumber" [(ngModel)]="collateralCommonFields.customerNumber"
+                        name="customerNumber">
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="restricted" [ngClass]="{ 'mandatory': isMandatory('restricted' , true)}">{{getLabel("RESTRICTED")}}</label>
+                    <div class="radio-wrapper">
+                        <label class="radio-container">{{getLabel('YES')}}
+                            <input type="radio" [(ngModel)]="collateralCommonFields.restricted" name="restricted" value="Y"
+                                (blur)="validateField(collateralCommonFields.restricted, 'restricted')" />
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radio-container">{{getLabel('NO')}}
+                            <input type="radio" [(ngModel)]="collateralCommonFields.restricted" name="restricted" value="N"
+                                (blur)="validateField(collateralCommonFields.restricted, 'restricted')" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <!-- <div class="col-md-3 form-group" [fieldset-viewconfig]="true"> -->
+                <div class="col-md-3 form-group">
+                    <label [ngClass]="{ 'mandatory': isMandatory('inputDate' , true)}">{{getLabel('INPUT_DATE')}}</label>
+                    <fieldset class='DisableDt' [disabled]="true" id='inputDate'>
+                        <igcb-datepicker [(ngModel)]="collateralCommonFields.inputDate" [maxDate]="maxInputDate"
+                            dateFormat="dd-MMM-yyyy" name="inputDate" id='inputDate' [disabled]="true" (blur)="validateDateField(collateralCommonFields.inputDate, 'inputDate', null, maxInputDate)">
+                        </igcb-datepicker>
+                    </fieldset>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label [ngClass]="{ 'mandatory': isMandatory('expiryDate' , true)}">{{getLabel('EXPIRY_DATE')}}</label>
+                    <igcb-datepicker [(ngModel)]="collateralCommonFields.expiryDate" [minDate]="minExpDate" dateFormat="dd-MMM-yyyy"
+                        name="expiryDate" (blur)="validateDateField(collateralCommonFields.expiryDate, 'expiryDate', minExpDate, null)">
+                    </igcb-datepicker>
+                </div>
+            </div>
+            <div class="row">
+                <app-generate-udf-fields #udfFields [config]="config" [(modelObject)]="collateralCommonFields.specificFieldInformation"
+                    ></app-generate-udf-fields>
+            </div>
+            <div class="row">
+                <!-- <app-load-secured-facilities #facilityLinkage></app-load-secured-facilities> -->
+            </div>
+            <br>
+            <div class="row">
+                <div class="btn-group-right col-md-12">
+                    <!-- <button class="btn-secondary" (click)="onSubmit()" *ngIf="userAccessEntitle.isEntitled('DeleteData')  && !appService.viewMode">{{getLabel('ADD')}}</button>
+                    <button class="btn-warning-outline" (click)="clearCollateraldetails(collateralCommonFields)" *ngIf="userAccessEntitle.isEntitled('DeleteData')  && !appService.viewMode">{{getLabel('CLEAR')}}</button> -->
+                    <button class="btn-secondary" (click)="onSubmit()" *ngIf="!appService.viewMode">{{getLabel('ADD')}}</button>
+                    <button class="btn-warning-outline" (click)="clearCollateraldetails(collateralCommonFields)" *ngIf="!appService.viewMode">{{getLabel('CLEAR')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

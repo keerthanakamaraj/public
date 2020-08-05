@@ -11,7 +11,7 @@ import { Component, ElementRef, EventEmitter, forwardRef, Injectable, Injector, 
 import { ControlValueAccessor, FormControl, NgControl, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDatepickerConfig, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 // import { UtilityService } from '../services/utility.service';
-import { Tenant } from '../form-common/tenant.model';
+// import { Tenant } from '../form-common/tenant.model';
 
 export function createCustomInputControlValueAccessor(extendedInputComponent: any) {
     return {
@@ -29,16 +29,19 @@ export function createCustomInputControlValueAccessor(extendedInputComponent: an
 @Injectable()
 export class IGCBDatepickerI18n extends NgbDatepickerI18n {
 
-    constructor(private tenant: Tenant) {
+    // constructor(private tenant: Tenant) {
+    constructor() {
         super();
     }
 
     getWeekdayShortName(weekday: number): string {
-        let dateFormat = getLocaleDayNames(this.tenant.defaultLanguage, FormStyle.Standalone, TranslationWidth.Narrow);
+        //let dateFormat = getLocaleDayNames(this.tenant.defaultLanguage, FormStyle.Standalone, TranslationWidth.Narrow);
+        let dateFormat = getLocaleDayNames('en-IN', FormStyle.Standalone, TranslationWidth.Narrow);
         return dateFormat[weekday - 1];
     }
     getMonthShortName(month: number): string {
-        let monthNames = getLocaleMonthNames(this.tenant.defaultLanguage, FormStyle.Standalone, TranslationWidth.Wide);
+        //let monthNames = getLocaleMonthNames(this.tenant.defaultLanguage, FormStyle.Standalone, TranslationWidth.Wide);
+        let monthNames = getLocaleMonthNames('en-IN', FormStyle.Standalone, TranslationWidth.Wide);
         return monthNames[month - 1];
     }
 
@@ -90,7 +93,7 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
 
     // @CLO-RLO-Merge - 
     // constructor(private tenant: Tenant, private injector: Injector, private datePipe: DatePipe, private dpConfig: NgbDatepickerConfig, private utility: UtilityService) {
-    constructor(private tenant: Tenant, private injector: Injector, private datePipe: DatePipe, private dpConfig: NgbDatepickerConfig) {
+    constructor(private injector: Injector, private datePipe: DatePipe, private dpConfig: NgbDatepickerConfig) {
 
     }
 
@@ -169,7 +172,9 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
         if (!this.minDate) {
             this.minDate = new IGCBMinMaxOffsetModel(new Date("January 01, 1900"), 0);
         }
-        this.dpConfig.firstDayOfWeek = getLocaleFirstDayOfWeek(this.tenant.defaultLanguage) + 1;
+        // @CLO-RLO-Merge - Date format based on tenant
+        //this.dpConfig.firstDayOfWeek = getLocaleFirstDayOfWeek(this.tenant.defaultLanguage) + 1;
+        this.dpConfig.firstDayOfWeek = getLocaleFirstDayOfWeek('en-IN') + 1;
         this.allowedDateFormats = [this.dateFormat, "YYYY-MM-DDTHH:mm:ss.SSSSZ", "YYYY-MM-DDTHH:mm:ssZ", "YYYY-MM-DD HH:mm:SS.s", "YYYYMMDD", "DDMMYYYY"];
         control.valueChanges.subscribe(newValue => {
             this.momentDate = null;
@@ -196,7 +201,9 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
                         tooltiperror.tooltiperrorshow('hiddenValue', 'Invalid date');
                         this.innerValue = '';
                     }*/
-                    const dateTrans = this.datePipe.transform(date._d, this.tenant.dateFormat, this.tenant.timeZone, this.tenant.defaultLanguage);
+                    // @CLO-RLO-Merge - 
+                    // const dateTrans = this.datePipe.transform(date._d, this.tenant.dateFormat, this.tenant.timeZone, this.tenant.defaultLanguage);
+                    const dateTrans = this.datePipe.transform(date._d, 'DDMMMYYYY', '0530', 'en-IN');
                     this.innerValue = dateTrans;
                     this.hiddenValue = date._d;
                 } else {

@@ -9,20 +9,19 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { IGCBDatepickerComponent } from '../igcb-datepicker/igcb-datepicker.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module';
 
 
 @NgModule({
   declarations: [
-    DocumentUploadComponent,
-    // FormCommonModule
-    IGCBDatepickerComponent
+    DocumentUploadComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     NgSelectModule,
     FileUploadModule,
-    NgbModule,
+    IgcbDatepickerModule,
     DocumentUploadRoutingModule,
   ],
   exports: [

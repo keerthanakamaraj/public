@@ -4,7 +4,7 @@ import { Injectable, Injector, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { appDataProvider } from './appDataProvider.service';
 import { CLOCommonService } from '../core-rest/clo-common';
-// import { CLOEnrichService } from '../core-rest/clo-enrich';
+import { CLOEnrichService } from '../core-rest/clo-enrich';
 // import { CLOInitiationsService } from '../core-rest/clo-init';
 // import { CLOUnderwritingService } from '../core-rest/clo-underwriting';
 // import { Tenant } from '../form-common/tenant.model';
@@ -36,7 +36,7 @@ export class UtilityService {
     // private httpService: ProvidehttpService, 
     private common: CLOCommonService,
     // private initiate: CLOInitiationsService, 
-    // private enrichment: CLOEnrichService,
+    private enrichment: CLOEnrichService,
     // private underwrite: CLOUnderwritingService, 
     // private iam: IamService,
     // private spinner: SpinnerVisibilityService, 
@@ -88,9 +88,9 @@ export class UtilityService {
   //   return this.initiate;
   // }
 
-  // public getEnrichmentService(): CLOEnrichService {
-  //   return this.enrichment;
-  // }
+  public getEnrichmentService(): CLOEnrichService {
+    return this.enrichment;
+  }
 
   // public getUnderwriteService(): CLOUnderwritingService {
   //   return this.underwrite;
