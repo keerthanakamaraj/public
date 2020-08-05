@@ -198,6 +198,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
               customer['editing'] = false;
+              customer['loanOwnerFlag']=false;
+              if(eachBorrower.LoanOwnership!=undefined && eachBorrower.LoanOwnership!=0){
+                customer['loanOwnerFlag']=true;
+              }
 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != '' && eachBorrower.Relationship == undefined || eachBorrower.ReferrerRelation == undefined

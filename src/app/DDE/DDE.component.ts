@@ -820,7 +820,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       this.setCustomerTags();
 
-    } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
+    } 
+    if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
       componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
     }
     // if (componentId == 'FamilyDetails') {

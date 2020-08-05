@@ -762,20 +762,21 @@ export class RloCommonData {
     }
   }
 
-  calculateLoanOwnership() {
+  calculateLoanOwnership(activeBorSeq?:string) {
     let totalLoanOwnership: number = 0;
+    console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
     if (this.masterDataMap.has("customerMap")) {
       const customerMap = this.masterDataMap.get("customerMap");
-      this.asyncForEach(Array.from(customerMap.entries()), async (entry) => {
-        if (entry[1].has('CustomerDetails')) {
-          let customer = entry[1].get('CustomerDetails');
-          if (customer.LoanOwnership) {
-            totalLoanOwnership += parseFloat(customer.LoanOwnership);
-            console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+      customerMap.forEach(entry => {
+        if (entry.has('CustomerDetails')) {
+          let customer = entry.get('CustomerDetails');
+          if (customer.BorrowerSeq!=activeBorSeq && customer.LoanOwnership) {
+            totalLoanOwnership += parseFloat(customer.LoanOwnership);         
           }
         }
       });
     }
+    console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
     return totalLoanOwnership;
   }
 
