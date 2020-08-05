@@ -397,7 +397,8 @@
                                             {{ 'PropertyDetails.SellerMobileNo' | translate}}
                                         </label>
                                     </div>
-                                    <app-text-box #SellerMobileNo fieldID="SellerMobileNo" [formCode]="formCode" (blur)="genericOnBlur('SellerMobileNo', $event)"></app-text-box>
+                                    <rlo-ui-mobile #SellerMobileNo fieldID="SellerMobileNo" (countryCodeChanged)="countryCodeChanged('SellerMobileNo',$event)"
+                                    (blur)="genericOnBlur('SellerMobileNo', $event)"></rlo-ui-mobile>
                                 </div>
                             </div>
 
@@ -444,7 +445,7 @@
                                         </label>
                                     </div>
                                     <app-combo-box #MoratoriumPeriod category="2" fieldID="MoratoriumPeriod" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                    domainObjectCode="MSTGENERALPARAM"Placeholder = "Select" (blur)="genericOnBlur('MoratoriumPeriod', $event)"></app-combo-box>
+                                    domainObjectCode="MSTGENERALPARAM"  placeholder="Select"  (blur)="genericOnBlur('MoratoriumPeriod', $event)"></app-combo-box>
                                 </div>
                                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoratoriamPeriodCheck.isHidden()" [ngClass]="'checkboxLeft'">
                                     <div class="clr-brown fieldLegend">
@@ -488,7 +489,7 @@
                         <app-button #PD_Save fieldName="{{ 'PropertyDetails.PD_Save' | translate}}" fieldID="PD_Save" [formCode]="formCode" (buttonClick)="PD_Save_click($event)" customClass="btn btn-primary btn-sm"></app-button>
                     </div>
                     <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="PD_Clear.isHidden()">
-                        <app-button #PD_Clear fieldName="{{ 'PropertyDetails.PD_Clear' | translate}}" fieldID="PD_Clear" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
+                        <app-button #PD_Clear fieldName="{{ 'PropertyDetails.PD_Clear' | translate}}" fieldID="PD_Clear" [formCode]="formCode" (buttonClick)="Clear_click($event)" customClass="btn-warning-outline"></app-button>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
                             <app-property-handler #Handler [MainComponent]="this"></app-property-handler>

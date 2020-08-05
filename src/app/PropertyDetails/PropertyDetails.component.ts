@@ -105,7 +105,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.revalidateBasicField('Architect'),
             this.revalidateBasicField('Contractor'),
             this.revalidateBasicField('PerOfProjectCompletion'),
-            this.revalidateBasicField('ExpDateOfCompletion'),
+            // this.revalidateBasicField('ExpDateOfCompletion'),
             this.revalidateBasicField('PropoertyPurchaseNameOf'),
             this.revalidateBasicField('CostOfProperty'),
             this.revalidateBasicField('PropertyInsuranceCost'),
@@ -816,6 +816,9 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
       }
+      Clear_click(event) {
+        this.onReset();
+    }
 
 
     fieldDependencies = {

@@ -155,7 +155,8 @@
     "rlo.withdraw.comfirmation" :"Are you sure you want to withdraw?",
     "rlo.reject.comfirmation" : "Are you sure you want to reject?",
     "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
-    
+    "rlo.success.save.property":"Property Details Saved Successfully",
+    "rlo.success.update.property":"Property Details Updated Successfully",
     "rlo.reset.comfirmation" : "Are you sure you want to reset the form",
     "rlo.error.relationship.invalid" : "Please select relationship according to gender",
     
@@ -2208,7 +2209,7 @@
           "NoOfMilestones":"No. of Milestones",
           "BlockNo" : "Block No.",
           "SellerMobileNo" : "Seller Landline / Mobile No.",
-          "MoratoriamPeriodCheck" : "Moratoriam Period Check"
+          "MoratoriamPeriodCheck" : "Select if Intrest will be capitipalized during Moratorian Period"
           },
           "DisbursInputGrid" : {
             "ProjectCompletion" : "% of Project Completion",

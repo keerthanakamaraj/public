@@ -2649,17 +2649,24 @@ rlo-ui-card-field {
 
 .icon-material {
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 22px;
+  height: 22px;
   padding-top: 35px;
   color: #0079b8;
   font-size: 12px;
   font-family: Open Sans Regular !important;
 }
 
+.icon-material-row {
+  display: inline-block;
+  width: 48px;
+  padding-top: 39px;
+  color: #0079b8;
+  font-size: 12px;
+  font-family: Open Sans Regular !important;
+}
 .icon-material_widthdraw {
-  background: url(".././icons/float-withdraw.svg") center no-repeat;
-
+  background: url(".././icons/Withdraw-icon.svg") center no-repeat;
 }
 
 .icon-material_sentback {
@@ -2667,7 +2674,7 @@ rlo-ui-card-field {
 }
 
 .icon-material_cancel {
-  background: url(".././icons/float-cancel.svg") center no-repeat;
+  background: url(".././icons/Cancel-icon.svg") center no-repeat;
 }
 
 .icon-material_refer {
