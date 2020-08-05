@@ -235,10 +235,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
+
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.AD_MAILING_ADDRESS.setDefault('N');
+    this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
     await this.Handler.onFormLoad({

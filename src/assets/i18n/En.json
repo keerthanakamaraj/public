@@ -2044,7 +2044,7 @@
     "PartyType": "Party Type",
     "EffectiveAmount" :"Effective Amount",
     "Currency" : "Currency",
-    "LocalAmount" : "Local Equivalent Amoun"
+    "LocalAmount" : "Local Currency Equivalent"
   },
   "FeesChargesGrid": {
     "FC_Party_Name": "Party Name",
