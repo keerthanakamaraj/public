@@ -2390,7 +2390,7 @@ rlo-ui-card-field {
 }
 
 .cards-section {
-  background-color: #EEEEEE;
+  background-color: #F8F8F8;
   display: inline-block;
   padding: 28px 11px 27px 11px;
 
@@ -3092,5 +3092,23 @@ rlo-ui-card-field {
         }
       }
     }
+  }
+
+  .donut-inner {
+    margin-top: -100px;
+    margin-bottom: 100px;
+  }
+
+  .donut-inner h5 {
+    margin-bottom: 5px;
+    margin-top: 0;
+  }
+
+  .donut-inner span {
+    font-size: 12px;
+  }
+
+  .doughnut-txt {
+
   }
 }

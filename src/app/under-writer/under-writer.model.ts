@@ -354,7 +354,7 @@ export class RmVisitDetails implements IDeserializable {
 
 export class LoanDetails implements IDeserializable {
     public DisbursementDate: string = "NA";
-    public TotalInvestmentAmount: string = "NA";
+    public TotalInstallmentAmount: string = "NA";
     public RepaymentStartDate: string = "NA";
     public Disbursals: string = "NA";
     public RepaymentFrequency: string = "NA";
@@ -377,11 +377,11 @@ export class LoanDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "Total Investment Amount",
-                subTitle: this.TotalInvestmentAmount,
+                title: "Total Installment Amount",
+                subTitle: this.TotalInstallmentAmount,
                 type: "basic",
-                modalSectionName: this.TotalInvestmentAmount == 'NA' ? '' : 'LoanDetails'
-                //modalSectionName: "LoanDetails"
+                modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'AmortizationScheduleComponent'
+                //modalSectionName: "AmortizationScheduleComponent"
             },
             {
                 title: "Repayment Start Date",
@@ -429,15 +429,15 @@ export class LoanDetails implements IDeserializable {
         ];
         const returnObj: IGeneralCardData = {
             name: "Loan Details",
-            // modalSectionName: this.isSectionAvaliable(),
-            modalSectionName: "LoanDetails",
+            modalSectionName: this.isSectionAvaliable(),
+            // modalSectionName: "LoanDetails",
             data: fieldList
         };
         return returnObj;
     }
 
     isSectionAvaliable() {
-        if (this.DisbursementDate == 'NA' && this.TotalInvestmentAmount == 'NA' && this.RepaymentStartDate == 'NA' && this.Disbursals == 'NA' && this.RepaymentFrequency == 'NA' && this.FeesAndCharges == 'NA' && this.AmoritizationAmount == 'NA' && this.MarginMoney == 'NA' && this.TotalInterestAmount == 'NA') {
+        if (this.DisbursementDate == 'NA' && this.TotalInstallmentAmount == 'NA' && this.RepaymentStartDate == 'NA' && this.Disbursals == 'NA' && this.RepaymentFrequency == 'NA' && this.FeesAndCharges == 'NA' && this.AmoritizationAmount == 'NA' && this.MarginMoney == 'NA' && this.TotalInterestAmount == 'NA') {
             return ""
         } else {
             return "LoanDetails";
@@ -998,8 +998,8 @@ export class ApplicationDetails implements IDeserializable {
             this.ReferalDetails = new ReferalDetails().deserialize([]);
         }
 
-        if (input.hasOwnProperty("UWGoNoGo")) {
-            this.GoNoGoDetails = new GoNoGoDetails().deserialize(input.UWGoNoGo);
+        if (input.hasOwnProperty("UWQuestionnaire")) {
+            this.GoNoGoDetails = new GoNoGoDetails().deserialize(input.UWQuestionnaire);
         }
         else {
             this.GoNoGoDetails = new GoNoGoDetails().deserialize([]);
@@ -1007,14 +1007,51 @@ export class ApplicationDetails implements IDeserializable {
 
         //obj
         this.LoanDetails = new LoanDetails().deserialize(input.UWIncomeSummary);
-        this.LoanDetails.DisbursementDate = input.UWDisbursal.DisbursalDate;
-        this.LoanDetails.TotalInvestmentAmount = input.UWLoan.TotalInstallmentAmount;
-        this.LoanDetails.RepaymentStartDate = input.UWLoan.RepaymentStartDate;
-        this.LoanDetails.Disbursals = "0";
-        this.LoanDetails.RepaymentFrequency = input.UWLoan.RepaymentFrequency;
-        this.LoanDetails.FeesAndCharges = "0";
-        this.LoanDetails.AmoritizationAmount = input.UWLoan.AmortizationAmount;
-        this.LoanDetails.MarginMoney = input.UWLoan.MargineMoney;
+
+        if (input.UWDisbursal != undefined && input.UWDisbursal.DisbursalDate != undefined) {
+            this.LoanDetails.DisbursementDate = input.UWDisbursal.DisbursalDate;
+        }
+        else {
+            this.LoanDetails.DisbursementDate = "NA";
+        }
+
+        if (input.UWLoan != undefined && input.UWLoan.TotalInstallmentAmount != undefined) {
+            this.LoanDetails.TotalInstallmentAmount = input.UWLoan.TotalInstallmentAmount;
+        }
+        else {
+            this.LoanDetails.TotalInstallmentAmount = "NA";
+        }
+
+        if (input.UWLoan != undefined && input.UWLoan.RepaymentStartDate != undefined) {
+            this.LoanDetails.RepaymentStartDate = input.UWLoan.RepaymentStartDate
+        }
+        else {
+            this.LoanDetails.RepaymentStartDate = "NA";
+        }
+
+        if (input.UWLoan != undefined && input.UWLoan.RepaymentFrequency != undefined) {
+            this.LoanDetails.RepaymentFrequency = input.UWLoan.RepaymentFrequency
+        }
+        else {
+            this.LoanDetails.RepaymentFrequency = "NA";
+        }
+
+        if (input.UWLoan != undefined && input.UWLoan.AmoritizationAmount != undefined) {
+            this.LoanDetails.AmoritizationAmount = input.UWLoan.AmoritizationAmount
+        }
+        else {
+            this.LoanDetails.AmoritizationAmount = "NA";
+        }
+
+        if (input.UWLoan != undefined && input.UWLoan.MargineMoney != undefined) {
+            this.LoanDetails.MarginMoney = input.UWLoan.MargineMoney
+        }
+        else {
+            this.LoanDetails.MarginMoney = "NA";
+        }
+
+        this.LoanDetails.Disbursals = "NA";
+        this.LoanDetails.FeesAndCharges = "NA";
 
         this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);

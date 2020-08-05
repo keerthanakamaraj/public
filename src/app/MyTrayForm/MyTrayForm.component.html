@@ -18,10 +18,11 @@
           </div>
           <div class="title">Proposals</div>
           <div class="proposal-container">
-            <div style="display: block;">
-              <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+            <div style="display: block;position: relative;">
+              <canvas #doughnutChartInnerTxt id="text" class="doughnut-txt" height="174" width="350"></canvas>
+              <!-- <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
                 [chartType]="doughnutChartType" [options]="chartOptions" [colors]="donutColors">
-              </canvas>
+              </canvas> -->
             </div>
           </div>
         </div>

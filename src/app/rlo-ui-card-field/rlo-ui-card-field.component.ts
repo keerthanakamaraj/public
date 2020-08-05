@@ -73,8 +73,12 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
         obj.name = "Loan Details"
         break;
 
-      case "OccupationDetails": 
+      case "OccupationDetails":
         obj.name = "Financial Summary"
+        break;
+
+      case "AmortizationScheduleComponent":
+        obj.name = "Amortization Schedule"
         break;
 
       default:
