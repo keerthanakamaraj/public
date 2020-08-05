@@ -45,7 +45,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   };
   columnDefs: any[] = [{
     field: "No",
-    width: 11,
+    width: 9,
    // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -60,7 +60,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Date",
-    width: 12,
+    width: 13,
    // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -75,7 +75,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Principal",
-    width: 11,
+    width: 13,
    // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -91,7 +91,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Interest",
-    width: 11,
+    width: 13,
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -107,7 +107,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Installment",
-    width: 11,
+    width: 13,
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -123,7 +123,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Others",
-    width: 11,
+    width: 13,
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -139,7 +139,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Total_Due",
-    width: 11,
+    width: 13,
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -155,7 +155,7 @@ export class AmortizationGridComponent implements AfterViewInit {
   },
   {
     field: "Prin_OS",
-    width: 11,
+    width: 13,
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -169,13 +169,13 @@ export class AmortizationGridComponent implements AfterViewInit {
     //   caseSensitive: true,
     // },
   },
-  {
-    field: "vvc",
-    width: 11,
-    resizable: true,
-    cellStyle: { 'text-align': 'right' },
-    filter: false,
-  },
+  // {
+  //   field: "vvc",
+  //   width: 13,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'right' },
+  //   filter: false,
+  // },
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
   ngAfterViewInit() {
@@ -279,7 +279,7 @@ export class AmortizationGridComponent implements AfterViewInit {
         tempObj['Others'] = eachRecord.others != undefined ? eachRecord.others : '0.00';
         tempObj['Total_Due'] = parseFloat(eachRecord.closingPrincipalBalance).toFixed(2);
         tempObj['Prin_OS'] = parseFloat(eachRecord.openPrincipalBalance).toFixed(2);
-        tempObj['vvc']='VVC';
+      //  tempObj['vvc']='VVC';
         LoanGridDetails.push(tempObj);
 
         if (tempinstallmentNo==1) {

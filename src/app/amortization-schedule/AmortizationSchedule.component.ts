@@ -15,7 +15,7 @@ import { LabelComponent } from '../label/label.component';
 import { AmortizationGridComponent } from '../AmortizationGrid/AmortizationGrid.component';
 import { AmortizationScheduleHandlerComponent } from './AmortizationSchedule-handler.component';
 // import { IAmortizationForm, IRepaymentSchedule } from './amortization-interface';
-import {IAmortizationForm,IRepaymentSchedule} from '../Interface/masterInterface';
+import { IAmortizationForm, IRepaymentSchedule } from '../Interface/masterInterface';
 import { ConsoleService } from '@ng-select/ng-select/lib/console.service';
 
 const customCss: string = '';
@@ -204,7 +204,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
 
   async AMS_GENERATE_BTN_click(event) {
-    
+
     const noOfErrors: number = await this.revalidate();
     if (noOfErrors === 0) {
 
@@ -229,11 +229,12 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
   generateRepaymentForm(requestedParams) {
     //this.repaymentFormData=requestParams;
+    this.repaymentFormData.loanAmount = this.services.formatAmount(this.repaymentFormData.loanAmount, null, null);
     this.repaymentFormData.maturityDate = requestedParams.maturityDate;
-    this.repaymentFormData.loanCalculationDate = this.RepaymentStartDate.getFieldValue();
-    this.repaymentFormData.repaymentScheduleType = this.ScheduleType.getFieldValue();
-   // console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
-   // console.log("installment Amt from grid", requestedParams.installmentAmt);
+    this.repaymentFormData.loanCalculationDate = this.getTimeStamp();
+    this.repaymentFormData.repaymentScheduleType = this.ScheduleType.getFieldInfo();
+    // console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
+    // console.log("installment Amt from grid", requestedParams.installmentAmt);
     //let instAmt = this.RequiredEMIAmt.getFieldValue();
     let instAmt = undefined;
     // if (instAmt != undefined && instAmt != 0) {
@@ -265,29 +266,29 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     return moment(selectedDate, oldDateFormat).format(newDateFormat).toUpperCase();
   }
 
-  DisbursalDate_blur(){
+  DisbursalDate_blur() {
     if (!this.isFutureDate(this.DisbursalDate.getFieldValue())) {
       this.DisbursalDate.setError('rlo.error.invalid-disbarsalDt');
       return 1;
     }
   }
 
-  RepaymentStartDate_blur(){
-    if (!this.isFutureDate(this.RepaymentStartDate.getFieldValue(),this.DisbursalDate.getFieldValue())) {
+  RepaymentStartDate_blur() {
+    if (!this.isFutureDate(this.RepaymentStartDate.getFieldValue(), this.DisbursalDate.getFieldValue())) {
       this.RepaymentStartDate.setError('rlo.error.invalid-repaymentDt');
       return 1;
     }
 
-    }
+  }
 
 
-  isFutureDate(selectedDate, comaringDate?:any) {
+  isFutureDate(selectedDate, comaringDate?: any) {
     const moment = require('moment');
-    let currentDate:any;
-    if(comaringDate!=undefined && comaringDate!=''){
-      currentDate=moment(comaringDate,'DD-MM-YYYY');
+    let currentDate: any;
+    if (comaringDate != undefined && comaringDate != '') {
+      currentDate = moment(comaringDate, 'DD-MM-YYYY');
     }
-    else{
+    else {
       currentDate = moment();
       currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     }
@@ -296,6 +297,13 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       return false;
     }
     return true;
+  }
+
+  getTimeStamp() {
+    const moment = require('moment');
+    let currentDate = moment().format('DD-MMM-YYYY');
+    // console.log("shweta :: current date test ",currentDate);
+    return currentDate;
   }
 
   fieldDependencies = {

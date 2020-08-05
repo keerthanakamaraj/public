@@ -70,6 +70,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   modalDataSubjectSubscription: Subscription;
   DisbursalDate: string = undefined;
   RepaymentStartDate: string = undefined;
+  totInterestAmt: any;
+  totInstallmentAmt: any;
+  monthlyinstallmentAmt: any;
 
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -256,14 +259,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
             this.MarginMoney.setValue(LoanElement['MarginMoney']);
-            this.MoneyInstallment.setValue(LoanElement['MoneyInstallment']);
+            this.monthlyinstallmentAmt = LoanElement['MoneyInstallment'];
+            this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
             this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
             this.DisbursalDate = LoanElement['DisbursalDate'];
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.Handler.SetValue();
 
-            this.LoanGridCalculation(this.MoneyInstallment.getFieldValue());
+            this.LoanGridCalculation(this.monthlyinstallmentAmt);
             this.setTotalInterestAmount();
           });
 
@@ -414,14 +418,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
-    //let ToatalEMI = this.Handler.CalculateEMI();
+
+    this.monthlyinstallmentAmt = undefined;
     this.DisbursalDate = updatedData.disbursalDate;
     this.RepaymentStartDate = updatedData.repaymentStartDate
-    let ToatalEMI = updatedData.monthlyinstallmentAmt != undefined ?
+    this.monthlyinstallmentAmt = updatedData.monthlyinstallmentAmt != undefined ?
       updatedData.monthlyinstallmentAmt : this.Handler.CalculateEMI();
-    this.MoneyInstallment.setValue(ToatalEMI);
+    this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
     this.Handler.SetValue();
-    this.LoanGridCalculation(ToatalEMI);
+    this.LoanGridCalculation(this.monthlyinstallmentAmt);
   }
   async LD_CLEAR_BTN_click(event) {
     let Array = this.Handler.FieldsArray();
@@ -447,7 +452,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       inputMap.set('Body.LoanDetails.RepaymentFrequency', this.RepaymentFrequency.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentOption', this.RepaymentOption.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentAccNo', this.RepaymentAccNo.getFieldValue());
-      inputMap.set('Body.LoanDetails.MoneyInstallment', this.MoneyInstallment.getFieldValue());
+      inputMap.set('Body.LoanDetails.MoneyInstallment', this.monthlyinstallmentAmt);
       inputMap.set('Body.LoanDetails.DisbursalDate', this.DisbursalDate);
       inputMap.set('Body.LoanDetails.RepaymentStartDate', this.RepaymentStartDate);
       if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
@@ -571,9 +576,13 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
   setTotalInterestAmount() {
+    this.totInterestAmt = undefined;
+    this.totInstallmentAmt = undefined;
     if (this.LoanAmount.getFieldValue() && this.NetInterestRate.getFieldValue()) {
-      this.TotalInterestAmount.setValue((parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2));
-      this.TotalInstallmentAmt.setValue((parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.TotalInterestAmount.getFieldValue())).toFixed(2));
+      this.totInterestAmt = (parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2);
+      this.totInstallmentAmt = (parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.totInterestAmt)).toFixed(2);
+      this.TotalInterestAmount.setValue(this.services.formatAmount(this.totInterestAmt, null, null));
+      this.TotalInstallmentAmt.setValue(this.services.formatAmount(this.totInstallmentAmt, null, null));
     } else {
       this.TotalInterestAmount.setValue('-NA-');
       this.TotalInstallmentAmt.setValue('-NA-');
