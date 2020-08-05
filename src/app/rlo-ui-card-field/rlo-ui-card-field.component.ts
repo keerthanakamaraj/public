@@ -44,6 +44,8 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
         case "Total Asset Value":
         case "Total Obligation (Annual)":
         case "Net Income Monthly (Annual)":
+        case "Amoritization Amount":
+        case "Total Installment Amount":
           this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
           break;
       }

@@ -66,7 +66,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "CardDetails" },
         // { className: "GoldDetails" },
         // { className: "EducationDetails" },
-        // { className: "PropertyDetails" },
+        { className: "PropertyDetails" },
         { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
@@ -241,6 +241,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   ///
 
   isLoanCategory: boolean = false;
+  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -274,7 +275,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   //@Output
-  headerState(event) { }
+  async headerState(event) {
+    this.showExpandedHeader = event.headerState;
+    console.log("header ---", this.showExpandedHeader);
+    // if (!this.showExpandedHeader) {
+    //   setTimeout(() => {
+    //     window.scroll(0, 0);
+    //   }, 100);
+    // }
+  }
 
   async claimTask(taskId) {
     const inputMap = new Map();
@@ -391,13 +400,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
       switch (productCategory) {
         case "CC":
-          if (element.className != "VehicalDetails" && element.className != "LoanDetails") {
+          if (element.className != "VehicalDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
 
         case "AL":
-          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+          if (element.className != "CardDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
@@ -409,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           break;
 
         case "PL":
-          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+          if (element.className != "CardDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
@@ -545,7 +554,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       console.warn(this.aCardDataWithFields, this.aBlankCardData);
       console.warn(JSON.stringify(this.aCardDataWithFields));
       console.warn(JSON.stringify(this.aBlankCardData));
-      console.log("loanDetailsCardData",this.loanDetailsCardData);
+      console.log("loanDetailsCardData", this.loanDetailsCardData);
       setTimeout(() => {
         this.applicationSectionLoaded = true;
         console.warn("****");

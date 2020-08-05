@@ -2954,6 +2954,10 @@ rlo-ui-card-field {
   .no-data {
     margin: 2em 2rem 2em 3em;
   }
+
+  .scroll-margin {
+    margin-top: 4.5rem;
+  }
 }
 
 .lyt-operation-queue {
@@ -3115,7 +3119,5 @@ rlo-ui-card-field {
     font-size: 12px;
   }
 
-  .doughnut-txt {
-
-  }
+  .doughnut-txt {}
 }
