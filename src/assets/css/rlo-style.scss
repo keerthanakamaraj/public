@@ -603,7 +603,7 @@ width: 681px !important; */
   padding-bottom: 10px;
 }
 
-#HD_PROD_CAT {
+#HD_PROD_CAT_NAME {
   height: 12px !important; // width: 93px !important;
   color: #ffffff !important;
   font-family: "Open Sans" !important;
@@ -874,9 +874,11 @@ a.back {
 //   height: 45px;
 // }
 .dde-tab-btn-div {
-  margin-top: 12px;
-  margin-bottom: 30px !important;
-  margin-left: 431px;
+ // margin-top: 12px;
+ // margin-bottom: 30px !important;
+ margin-left: 34%;
+ padding-top: 20px;
+ padding-bottom: 20px;
 }
 
 .qde-tab-btn-div {
@@ -886,16 +888,17 @@ a.back {
 }
 
 .btn-group {
-  width: 253px;
+  width: 201px;
+  border-radius: 4px 4px 4px 4px;
 }
 
 .btn.btn-default.active {
   box-sizing: border-box;
-  height: 45px;
-  width: 254px;
-  border: 1px solid #004467;
-  border-radius: 4px 0 0 4px;
-  background-color: #004467;
+  height: 33px;
+  border-radius: 4px 4px 4px 4px;
+  width: 201px;
+  border: 1px solid #0079B8;
+  background-color: #0079B8;
   color: #ffffff;
   font-family: "Open Sans";
   font-size: 16px;
@@ -907,12 +910,13 @@ a.back {
 
 .btn.btn-default {
   box-sizing: border-box;
-  height: 45px;
-  width: 254px;
-  border: 1px solid #004467;
-  border-radius: 4px 0 0 4px;
+  height: 33px;
+  border-radius: 4px 4px 4px 4px;
+  width: 201px;
+  border: 1px solid #0079B8;
+ //border-radius: 4px 0 0 4px;
   background-color: #ffffff;
-  color: #004467;
+  color: #0079B8;
   font-family: "Open Sans";
   font-size: 16px;
   font-weight: 600;

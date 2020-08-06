@@ -39,44 +39,44 @@
                                     <img class='loanimage' src="{{PRODUCT_CATEGORY_IMG}}" />
                                 </div>
 
-                                <rlo-ui-readonlyfield #HD_PROD_CAT fieldID="HD_PROD_CAT" [formCode]="formCode" (blur)="genericOnBlur('HD_PROD_CAT', $event)"></rlo-ui-readonlyfield>
+                                <rlo-ui-readonlyfield #HD_PROD_CAT_NAME fieldID="HD_PROD_CAT_NAME" [formCode]="formCode" (blur)="genericOnBlur('HD_PROD_CAT_NAME', $event)"></rlo-ui-readonlyfield>
 
                             </div>
 
                         </div>
                         <div class='leftheader'>
                             <div class='subleftheader'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_PROD.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_PROD_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.HD_PROD' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #HD_PROD fieldID="HD_PROD" [formCode]="formCode" (blur)="genericOnBlur('HD_PROD', $event)"></rlo-ui-readonlyfield>
+                                    <rlo-ui-readonlyfield #HD_PROD_NAME fieldID="HD_PROD_NAME" [formCode]="formCode" (blur)="genericOnBlur('HD_PROD_NAME', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_SUB_PROD.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_SUB_PROD_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.HD_SUB_PROD' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #HD_SUB_PROD fieldID="HD_SUB_PROD" [formCode]="formCode" (blur)="genericOnBlur('HD_SUB_PROD', $event)"></rlo-ui-readonlyfield>
+                                    <rlo-ui-readonlyfield #HD_SUB_PROD_NAME fieldID="HD_SUB_PROD_NAME" [formCode]="formCode" (blur)="genericOnBlur('HD_SUB_PROD_NAME', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_SCHEME.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_SCHEME_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.HD_SCHEME' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #HD_SCHEME fieldID="HD_SCHEME" [formCode]="formCode" (blur)="genericOnBlur('HD_SCHEME', $event)"></rlo-ui-readonlyfield>
+                                    <rlo-ui-readonlyfield #HD_SCHEME_NAME fieldID="HD_SCHEME_NAME" [formCode]="formCode" (blur)="genericOnBlur('HD_SCHEME_NAME', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_PROMOTION.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HD_PROMOTION_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.HD_PROMOTION' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #HD_PROMOTION fieldID="HD_PROMOTION" [formCode]="formCode" (blur)="genericOnBlur('HD_PROMOTION', $event)"></rlo-ui-readonlyfield>
+                                    <rlo-ui-readonlyfield #HD_PROMOTION_NAME fieldID="HD_PROMOTION_NAME" [formCode]="formCode" (blur)="genericOnBlur('HD_PROMOTION_NAME', $event)"></rlo-ui-readonlyfield>
                                 </div>
                             </div>
                         </div>
@@ -99,22 +99,22 @@
                                     </div>
                                     <rlo-ui-readonlyfield #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_TENURE_PERIOD.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_TENURE_PERIOD_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_TENURE_PERIOD' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #LD_TENURE_PERIOD fieldID="LD_TENURE_PERIOD" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE_PERIOD', $event)">
+                                    <rlo-ui-readonlyfield #LD_TENURE_PERIOD_NAME fieldID="LD_TENURE_PERIOD_NAME" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE_PERIOD_NAME', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_APP_PRPSE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_APP_PRPSE_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_APP_PRPSE' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #LD_APP_PRPSE fieldID="LD_APP_PRPSE" [formCode]="formCode" (blur)="genericOnBlur('LD_APP_PRPSE', $event)"></rlo-ui-readonlyfield>
+                                    <rlo-ui-readonlyfield #LD_APP_PRPSE_NAME fieldID="LD_APP_PRPSE_NAME" [formCode]="formCode" (blur)="genericOnBlur('LD_APP_PRPSE_NAME', $event)"></rlo-ui-readonlyfield>
                                 </div>
                             </div>
                             <div class='subrightheader2'>
@@ -217,22 +217,22 @@
                             <div class="arn">
                                 <span>ARN | </span>{{ ARN }}</div>
                             <div class="loan-amt">{{ LOAN_AMT }}</div>
-                            <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY }}</div>
+                            <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY_NAME }}</div>
                             <div>{{ INTEREST_RATE }}</div>
                             <div>{{ TENURE }}</div>
-                            <div>{{ SUB_PRODUCT }}</div>
-                            <div>{{ SCHEME }}</div>
+                            <div>{{ SUB_PRODUCT_NAME }}</div>
+                            <div>{{ SCHEME_NAME }}</div>
                             <span class="expand-header" (click)="headerState(true)"></span>
                         </div>
                         <div [ngClass]="!isLoanCategory?'active':'inactive'">
                             <div class="arn">
                                 <span>ARN | </span>{{ ARN }}</div>
                             <div class="loan-amt">{{ LOAN_AMT }}</div>
-                            <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY }}</div>
+                            <div class="loan-cat {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY_NAME }}</div>
                             <div>{{ customerType }}</div>
                             <div>{{ channel }}</div>
                             <div>{{ primeUsage }}</div>
-                            <div>{{ SCHEME }}</div>
+                            <div>{{ SCHEME_NAME }}</div>
                             <span class="expand-header" (click)="headerState(true)"></span>
                         </div>
                     </div>
@@ -242,5 +242,12 @@
 
         </div>
     </div>
-    
+    <app-hidden #HD_PROD_CAT fieldID="HD_PROD_CAT"></app-hidden>
+  <app-hidden #HD_PROD fieldID="HD_PROD"></app-hidden>
+  <app-hidden #HD_SUB_PROD fieldID="HD_SUB_PROD"></app-hidden>
+  <app-hidden #HD_SCHEME fieldID="HD_SCHEME"></app-hidden>
+  <app-hidden #HD_PROMOTION fieldID="HD_PROMOTION"></app-hidden>
+  <app-hidden #LD_TENURE_PERIOD fieldID="LD_TENURE_PERIOD"></app-hidden>
+  <app-hidden #LD_APP_PRPSE fieldID="LD_APP_PRPSE"></app-hidden>
+  
 </form>

@@ -30,10 +30,20 @@ export interface IFormValidationData {
   errorsList: any
 }
 export interface IGlobalApllicationDtls {
-  isLoanCategory?: string,
-  ProductCode?: string,
-  SubProductCode?: string,
-  SchemeCode?: string
+  isLoanCategory?:boolean,
+  TypeOfLoanCode?:string,
+  TypeOfLoanName?:string,
+  ProductCode?:string,
+  ProductName?:string,
+  SubProductCode?:string,
+  SubProductName?:string,
+  SchemeCode?:string,
+  SchemeName?:string,
+  PromotionCode?:string,
+  PromotionName?:string,
+  LoanTenure?:string,
+  LoanTenurePeriodCode?:string,
+  LoanTenurePeriodName?:string
 }
 @Injectable({
   providedIn: 'root'

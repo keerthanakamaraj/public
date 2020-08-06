@@ -46,16 +46,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('HD_APP_REF_NUM', { static: false }) HD_APP_REF_NUM: ReadOnlyComponent;
   @ViewChild('HD_APP_SUBMSN_DT', { static: false }) HD_APP_SUBMSN_DT: DateComponent;
   @ViewChild('HD_TTL_TAT_PRPSL', { static: false }) HD_TTL_TAT_PRPSL: ReadOnlyComponent;
-  @ViewChild('HD_PROD_CAT', { static: false }) HD_PROD_CAT: ReadOnlyComponent;
-  @ViewChild('HD_PROD', { static: false }) HD_PROD: ReadOnlyComponent;
-  @ViewChild('HD_SUB_PROD', { static: false }) HD_SUB_PROD: ReadOnlyComponent;
-  @ViewChild('HD_SCHEME', { static: false }) HD_SCHEME: ReadOnlyComponent;
-  @ViewChild('HD_PROMOTION', { static: false }) HD_PROMOTION: ReadOnlyComponent;
+  @ViewChild('HD_PROD_CAT', { static: false }) HD_PROD_CAT: HiddenComponent;
+  @ViewChild('HD_PROD', { static: false }) HD_PROD: HiddenComponent;
+  @ViewChild('HD_SUB_PROD', { static: false }) HD_SUB_PROD: HiddenComponent;
+  @ViewChild('HD_SCHEME', { static: false }) HD_SCHEME: HiddenComponent;
+  @ViewChild('HD_PROMOTION', { static: false }) HD_PROMOTION: HiddenComponent;
+  @ViewChild('LD_TENURE_PERIOD', { static: false }) LD_TENURE_PERIOD: HiddenComponent;
+  @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: HiddenComponent;
   @ViewChild('LD_LOAN_AMT', { static: false }) LD_LOAN_AMT: ReadOnlyComponent;
   @ViewChild('LD_INTEREST_RATE', { static: false }) LD_INTEREST_RATE: ReadOnlyComponent;
   @ViewChild('LD_TENURE', { static: false }) LD_TENURE: ReadOnlyComponent;
-  @ViewChild('LD_TENURE_PERIOD', { static: false }) LD_TENURE_PERIOD: ReadOnlyComponent;
-  @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: ReadOnlyComponent;
   @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
@@ -65,6 +65,15 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('CC_CARD_TYPE', { static: false }) CC_CARD_TYPE: ReadOnlyComponent;
   @ViewChild('CC_CARD_ASSOCIATION', { static: false }) CC_CARD_ASSOCIATION: ReadOnlyComponent;
   @ViewChild('CC_PRIME_USAGE', { static: false }) CC_PRIME_USAGE: ReadOnlyComponent;
+
+
+  @ViewChild('HD_PROD_CAT_NAME', { static: false }) HD_PROD_CAT_NAME: ReadOnlyComponent;
+  @ViewChild('HD_PROD_NAME', { static: false }) HD_PROD_NAME: ReadOnlyComponent;
+  @ViewChild('HD_SUB_PROD_NAME', { static: false }) HD_SUB_PROD_NAME: ReadOnlyComponent;
+  @ViewChild('HD_SCHEME_NAME', { static: false }) HD_SCHEME_NAME: ReadOnlyComponent;
+  @ViewChild('HD_PROMOTION_NAME', { static: false }) HD_PROMOTION_NAME: ReadOnlyComponent;
+  @ViewChild('LD_TENURE_PERIOD_NAME', { static: false }) LD_TENURE_PERIOD_NAME: ReadOnlyComponent;
+  @ViewChild('LD_APP_PRPSE_NAME', { static: false }) LD_APP_PRPSE_NAME: ReadOnlyComponent;
 
   // @ViewChild('HD_PROD', { static: false }) HD_PROD: ReadOnlyComponent;
 
@@ -94,20 +103,24 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   channel: string;
   primeUsage: string;
 
+  LOAN_CATEGORY_NAME: string;
+  SCHEME_NAME: string;
+  SUB_PRODUCT_NAME: string
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('HD_CIF'),
-      this.revalidateBasicField('HD_CUST_ID'),
-      this.revalidateBasicField('HD_APP_REF_NUM'),
-      this.revalidateBasicField('HD_APP_SUBMSN_DT'),
-      this.revalidateBasicField('HD_TTL_TAT_PRPSL'),
-      this.revalidateBasicField('HD_PROD_CAT'),
-      this.revalidateBasicField('HD_PROD'),
-      this.revalidateBasicField('HD_SUB_PROD'),
-      this.revalidateBasicField('HD_SCHEME'),
-      this.revalidateBasicField('HD_PROMOTION'),
+      // this.revalidateBasicField('HD_CIF'),
+      // this.revalidateBasicField('HD_CUST_ID'),
+      // this.revalidateBasicField('HD_APP_REF_NUM'),
+      // this.revalidateBasicField('HD_APP_SUBMSN_DT'),
+      // this.revalidateBasicField('HD_TTL_TAT_PRPSL'),
+      // this.revalidateBasicField('HD_PROD_CAT'),
+      // this.revalidateBasicField('HD_PROD'),
+      // this.revalidateBasicField('HD_SUB_PROD'),
+      // this.revalidateBasicField('HD_SCHEME'),
+      // this.revalidateBasicField('HD_PROMOTION'),
       // this.revalidateBasicField('LD_LOAN_AMT'),
       // this.revalidateBasicField('LD_INTEREST_RATE'),
       // this.revalidateBasicField('LD_TENURE'),
@@ -186,7 +199,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         if (header.Tenure) {
           this.TENURE = header.Tenure + ' ';
         }
-        if (header.TenurePeriod) {
+        if (header.TenurePeriodName) {
           this.TENURE = this.TENURE + header.TenurePeriod;
         }
         this.TENURE = this.TENURE.trim();
@@ -195,9 +208,10 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.SCHEME = header.Scheme;
 
 
+        this.initializeExpandableHeaderData(header);
+        this.initializeShrinkedHeaderData(header);
 
-
-        this.HD_PROD_CAT.setValue(this.LOAN_CATEGORY);
+        this.HD_PROD_CAT.setValue(header.TypeOfLoan);
         // this.HD_APP_REF_NUM.setValue(header.ApplicationRefernceNo);
         this.HD_PROD.setValue(header.Product);
         this.HD_SUB_PROD.setValue(this.SUB_PRODUCT);
@@ -227,7 +241,6 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.CC_CARD_TYPE.setValue('NA');
           this.CC_CARD_ASSOCIATION.setValue('NA');
         }
-
         this.apiSuccessCallback();
       },
       async (httpError) => {
@@ -316,16 +329,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     // this.CURRENCY_IMG = './assets/icons/Mauritius Rs Icon.svg';
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
-        this.HD_PROD_CAT.setValue('Auto Loan');
+        // this.HD_PROD_CAT_NAME.setValue('Auto Loan');
         break;
       case 'PL': this.PRODUCT_CATEGORY_IMG = './assets/icons/personalloan-yellow.svg';
-        this.HD_PROD_CAT.setValue('Personal Loan');
+        //   this.HD_PROD_CAT_NAME.setValue('Personal Loan');
         break;
       case 'ML': this.PRODUCT_CATEGORY_IMG = './assets/icons/mortgage-yellow.svg';
-        this.HD_PROD_CAT.setValue('Mortgage Loan');
+        //    this.HD_PROD_CAT_NAME.setValue('Mortgage Loan');
         break;
       case 'CC': this.PRODUCT_CATEGORY_IMG = './assets/icons/creditcard-yellow.svg';
-        this.HD_PROD_CAT.setValue('Credit Card');
+        //    this.HD_PROD_CAT_NAME.setValue('Credit Card');
         break;
     }
   }
@@ -347,5 +360,38 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       'headerState': state,
       'scrollExceded': this.scrollExceded
     });
+  }
+
+  initializeExpandableHeaderData(header) {
+    this.HD_PROD_CAT_NAME.setValue(header.TypeOfLoanName);
+    this.HD_PROD_NAME.setValue(header.ProductName);
+    this.HD_SUB_PROD_NAME.setValue(header.SubProductName);
+    this.HD_SCHEME_NAME.setValue(header.SchemeName);
+    this.HD_PROMOTION_NAME.setValue(header.PromotionName);
+    this.LD_TENURE_PERIOD_NAME.setValue(header.TenurePeriodName);
+    this.LD_APP_PRPSE_NAME.setValue(header.ApplicationPurposeName);
+    if (this.HD_PROMOTION_NAME.getFieldValue() == undefined && this.HD_PROMOTION_NAME.getFieldValue() == null) {
+      this.HD_PROMOTION_NAME.setValue("NA");
+    }
+    else {
+      this.HD_PROMOTION_NAME.setValue(header.PromotionName);
+    }
+
+    this.TENURE = '';
+    if (header.Tenure) {
+      this.TENURE = header.Tenure + ' ';
+    }
+    if (header.TenurePeriodName) {
+      this.TENURE = this.TENURE + header.TenurePeriodName;
+    }
+    this.TENURE = this.TENURE.trim();
+
+  }
+
+  initializeShrinkedHeaderData(header) {
+    this.LOAN_CATEGORY_NAME = header.TypeOfLoanName;
+    this.SCHEME_NAME = header.SchemeName;
+    this.SUB_PRODUCT_NAME = header.SubProductName;
+
   }
 }
