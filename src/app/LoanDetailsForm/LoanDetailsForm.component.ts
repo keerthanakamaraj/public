@@ -131,10 +131,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.hideInstRateType.setValue('INTEREST_RATE_TYPE');
     this.hideRepaymentOption.setValue('REPAYMENT_OPTION');
     this.hideRepaymentFreq.setValue('FREQUENCY');
-    this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
+    // this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
     // this.LD_DISBURMENT_MONEY.setDisabled(true);
     // this.LD_FEES_CHARGE.setDisabled(true);
-    this.LD_RECEIVE_MONEY.setDisabled(true);
+    // this.LD_RECEIVE_MONEY.setDisabled(true);
     let inputMap = new Map();
     await this.Handler.onFormLoad({
     });
