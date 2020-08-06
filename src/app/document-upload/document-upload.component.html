@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
-                    <ng-select class="ngselect" [(ngModel)]="docUploadObject.trnDemographicId" [items]="ownersName"
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.trnDemographicId" [items]="ownersName"
                         bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
                         (change)="getDocumentTypes(docUploadObject.trnDemographicId)"
                         (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')"></ng-select>
@@ -19,7 +19,7 @@
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label [ngClass]="{ 'mandatory': isMandatory('DocType')}">{{getLabel('DOC_DOC_TYPE')}}</label>
-                    <ng-select class="ngselect" [(ngModel)]="docDetailsObject.DocType" [items]="docTypes"
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType" [items]="docTypes"
                         bindValue="DocType" bindLabel="DocDesc" name="DocType"
                         (blur)="validateField(docDetailsObject.DocType, 'DocType')" (change)="getDocuments()">
                     </ng-select>
@@ -28,7 +28,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label [ngClass]="{ 'mandatory': isMandatory('entityDocumentId')}">{{getLabel('DOCUMENT')}}</label>
-                    <ng-select class="ngselect" [(ngModel)]="docDetailsObject.entityDocumentId" [items]="documents"
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.entityDocumentId" [items]="documents"
                         bindValue="entityDocumentId" bindLabel="docDesc" name="entityDocumentId"
                         (blur)="validateField(docDetailsObject.entityDocumentId, 'entityDocumentId')"></ng-select>
                 </div>
@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('relationshipToBorrower')}">{{getLabel('DOC_REL_TO_BORR')}}</label>
-                    <ng-select class="ngselect" [(ngModel)]="docUploadObject.relationshipToBorrower"
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.relationshipToBorrower"
                         [items]="lookupVariableOptions['RELATION_BORROWER']" bindValue="id" bindLabel="text"
                         name="relationshipToBorrower"
                         (blur)="validateField(docUploadObject.relationshipToBorrower, 'relationshipToBorrower')">
@@ -50,7 +50,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label [ngClass]="{ 'mandatory': isMandatory('status')}">{{getLabel('DOC_STATUS')}}</label>
-                    <ng-select class="ngselect" [(ngModel)]="docUploadObject.status" name="status"
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.status" name="status"
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
                         (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')">
                     </ng-select>

@@ -880,9 +880,14 @@ a.back {
 }
 
 .qde-tab-btn-div {
-  margin-top: 12px;
+  // margin-top: 12px;
   margin-bottom: 64px !important;
-  margin-left: 431px;
+  // margin-left: 431px;
+  display: flex;
+
+  .qde-tab {
+    margin: auto;
+  }
 }
 
 .btn-group {
@@ -1019,6 +1024,10 @@ a.back {
 
 .d-flex {
   display: flex !important;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 //used to add space for every page in layout for form btns
@@ -3094,3 +3103,26 @@ rlo-ui-card-field {
     }
   }
 }
+
+// seperate doc. upload component 
+.wgt-doc-upload {
+  position: absolute;
+  width: 7rem;
+  height: 3rem;
+  border-top-right-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+  background-color: #565656;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.24);
+
+  .icon-folder-open {
+    font-size: 20px;
+    color: white;
+    right: 22px;
+    position: absolute;
+    top: 8px;
+    outline: none;
+    text-decoration: none;
+  }
+}
+
+// seperate doc. upload component 

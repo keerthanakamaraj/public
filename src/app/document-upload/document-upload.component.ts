@@ -44,6 +44,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     @Output() uploaded = new EventEmitter<Map<string, string>>();
     cfsNum: any;
     checkStatus: boolean;
+    @Input() ApplicationId: any;
     public showMessage(msg) {
         this.modalMessage = msg;
         jQuery(this.myModal.nativeElement).modal('show');
@@ -57,7 +58,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
 
     constructor(private location: PlatformLocation, public utility: UtilityService, services: ServiceStock) {
-    // constructor(private location: PlatformLocation, services: ServiceStock) {
+        // constructor(private location: PlatformLocation, services: ServiceStock) {
         // super(utility);
         super(utility, services);
 
@@ -87,7 +88,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.fileUploadErrorFlag = false;
         this.count = 0;
         this.fileUploadErrorMsg = '';
-        this.documentUploadObject.InputterId = sessionStorage.getItem('USERID');
+        this.documentUploadObject.InputterId = sessionStorage.getItem('userId');
+        console.log('this.documentUploadObject', this.documentUploadObject, this.ApplicationId);
 
         // @CLO-RLO-Merge - Inputter Id 
         // if (!this.documentUploadObject.InputterId) {
@@ -114,12 +116,32 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // this.userAccessEntitle = UserAccessEntitlement.getInstance(this.taskName);
 
         // this.tooltipError.tooltipdestroy();
-        this.reLodeGrid();
+
+        let tempCustomerList = this.services.rloCommonData.getCustomerList();
+
+        console.log("shweta :: in score section", tempCustomerList);
+        let FilterOptions = [];
+        let mainBorrower;
+        FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+        tempCustomerList.forEach(element => {
+          // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+          if (element.CustomerType == 'B') {
+            mainBorrower = element.BorrowerSeq;
+          }
+          FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+        });
+    
+        console.log("shweta :: score options list", FilterOptions);
+
+        setTimeout(() => {
+            this.reLodeGrid();
+        }, 500);
+
     }
     // This method is to get the document types
     getDocumentTypes(demographicId) {
-        this.docDetailsObject.DocType='';
-        this.docDetailsObject.entityDocumentId='';
+        this.docDetailsObject.DocType = '';
+        this.docDetailsObject.entityDocumentId = '';
         if (this.ownersName) {
             this.customer = this.ownersName.filter(customerData => {
                 if (customerData.ID === demographicId) {
@@ -140,7 +162,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This methos is to get the documents
     getDocuments() {
-        this.docDetailsObject.entityDocumentId='';
+        this.docDetailsObject.entityDocumentId = '';
         const formData = new Map<string, string>();
         formData.set('proposalId', this.documentUploadObject.ProposalId);
         formData.set('docType', this.docDetailsObject.DocType);
@@ -252,11 +274,11 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                 }
             }
             if (!isValidfile) {
-              // @CLO-RLO-Merge - 
+                // @CLO-RLO-Merge - 
                 // this.tooltipError.tooltiperrorshow('DocName', this.getLabel('INVALID_FILE_FORMAT'));
                 return;
             } else {
-              // @CLO-RLO-Merge - 
+                // @CLO-RLO-Merge - 
                 // this.tooltipError.tooltiperrorhide('DocName');
             }
         }
@@ -324,7 +346,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // @CLO-RLO-Merge - 
         // this.tooltipError.tooltipdestroy();
         // @CLO-RLO-Merge - Reload Grid After Change
-        this.utility.getCommonService().getDocumentUploadDtls(this.documentUploadObject.ProposalId).subscribe(
+        this.utility.getCommonService().getDocumentUploadDtls(this.ApplicationId).subscribe(
             data => {
                 if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
                     // this.utility.getAppService().error(this.getLabel('ERROR_DOCUMENT_UPLOAD'));
@@ -342,12 +364,12 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This method is to download file
     downloadFile(inventoryNumber) {
-      // @CLO-RLO-Merge - Download Document
+        // @CLO-RLO-Merge - Download Document
         // this.utility.getCommonService().download(inventoryNumber);
     }
     // This method is called when we click on delete icon
     confirmDelete(id) {
-      // @CLO-RLO-Merge - 
+        // @CLO-RLO-Merge - 
         // Alert Service - Confirmation
         // this.utility.getAppService().delete(this.getLabel('WARNING_DELETE'),
         //     () => this.onDeleteConfirm(id));

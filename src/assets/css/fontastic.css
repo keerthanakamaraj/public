@@ -193,3 +193,7 @@
 .icon-calendar-line:before {
     content: "\e921";
 }
+
+.icon-folder-open:before {
+    content: "\e922";
+}

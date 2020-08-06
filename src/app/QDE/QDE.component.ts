@@ -673,14 +673,15 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.QDE_ACCORD1.setTags('CUST_DETAILS', tags);
   }
 
-  openFileUpload(){
+  openFileUpload() {
     let modalObj: IModalData = {
       title: 'Document Upload',
       mainMessage: undefined,
       modalSize: 'modal-width-lg',
       buttons: [],
       componentName: 'FileUpload',
-      data: ''
+      data: '',
+      applicationId: Number(this.ApplicationId)
     };
     this.services.rloui.confirmationModal(modalObj).then((response) => {
       console.log(response);
@@ -696,10 +697,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   };
 
   /* Cancel / Back button */
-goBack() {
+  goBack() {
     this.services.rloui.goBack();
   }
-  
+
   UpdateAccordian() {
     this.QDE_ACCORD1.disableAccordian('ADD_DETAILS', this.disableAccordian);
     this.QDE_ACCORD1.disableAccordian('OCC_DETAILS', this.disableAccordian);
