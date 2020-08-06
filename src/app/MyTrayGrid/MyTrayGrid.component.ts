@@ -168,6 +168,14 @@ export class MyTrayGridComponent implements AfterViewInit {
     sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",    
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    }
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -200,6 +208,14 @@ export class MyTrayGridComponent implements AfterViewInit {
     resizable: true,
     cellStyle: { 'text-align': 'left' },
     valueFormatter: this.formatDate.bind(this),
+    filter: "agTextColumnFilter",    
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    }
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
