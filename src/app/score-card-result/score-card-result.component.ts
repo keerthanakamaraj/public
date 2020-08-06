@@ -43,7 +43,8 @@ export class ScoreCardResultComponent implements OnInit {
   ngOnInit() {
     this.setFilterbyOptions();
     // this.loadScoreResult();
-    this.retriggerScoreResult();
+    this.invokeInterface();
+    //this.retriggerScoreResult();
 
   }
 
@@ -52,7 +53,7 @@ export class ScoreCardResultComponent implements OnInit {
 
     console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-     this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
     tempCustomerList.forEach(element => {
       // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
       if (element.CustomerType == 'B') {
@@ -111,8 +112,8 @@ export class ScoreCardResultComponent implements OnInit {
       if (eachScore.BorrowerSeq) {
         newMapKey = 'C_' + eachScore.BorrowerSeq;
       }
-      else{
-        newMapKey='A_' + this.ApplicationId;
+      else {
+        newMapKey = 'A_' + this.ApplicationId;
       }
       if (this.MstScoreResultMap.has(newMapKey)) {
         newScoreCardResultList = this.MstScoreResultMap.get(newMapKey);
@@ -139,8 +140,8 @@ export class ScoreCardResultComponent implements OnInit {
       }
       scoreCard.colorCode = colorObj.colorCode;
       newScoreCardResultList.push(scoreCard);
-      if(newMapKey!=undefined){
-      this.MstScoreResultMap.set(newMapKey, newScoreCardResultList);
+      if (newMapKey != undefined) {
+        this.MstScoreResultMap.set(newMapKey, newScoreCardResultList);
       }
       // if (this.mainBorrower == eachScore.BorrowerSeq) {
       //   newMapKey = 'A_' + this.ApplicationId;
@@ -154,32 +155,32 @@ export class ScoreCardResultComponent implements OnInit {
   }
 
   mergeBorAndAppRecords() {
-    let appScoreResultList=[];
-    if(this.MstScoreResultMap.has('A_'+this.ApplicationId)){
-     appScoreResultList = this.MstScoreResultMap.get('A_' + this.ApplicationId).concat(
-      this.MstScoreResultMap.get('C_' + this.mainBorrower));
+    let appScoreResultList = [];
+    if (this.MstScoreResultMap.has('A_' + this.ApplicationId)) {
+      appScoreResultList = this.MstScoreResultMap.get('A_' + this.ApplicationId).concat(
+        this.MstScoreResultMap.get('C_' + this.mainBorrower));
     }
-    else{
-      appScoreResultList= this.MstScoreResultMap.get('C_' + this.mainBorrower);
+    else {
+      appScoreResultList = this.MstScoreResultMap.get('C_' + this.mainBorrower);
     }
     this.MstScoreResultMap.set('A_' + this.ApplicationId, appScoreResultList);
   }
-  removeEmptyOptions(){
-    this.FilterOptions.forEach(element=>{
+  removeEmptyOptions() {
+    this.FilterOptions.forEach(element => {
       console.log('shweta :: reducer method', element.id);
-       if(!this.MstScoreResultMap.has(element.id)) {
-        const index =  this.FilterOptions.indexOf(element);
+      if (!this.MstScoreResultMap.has(element.id)) {
+        const index = this.FilterOptions.indexOf(element);
         if (index > -1) {
           this.FilterOptions.splice(index, 1);
         }
-       }
+      }
     });
   }
-  retriggerScoreResult() {
-    this.MstScoreResultMap.clear();
-    let inputMap = this.generateRetriggerRequestJson();
+  retriggerScoreResult(res) {
+    // this.MstScoreResultMap.clear();
+    let inputMap = this.generateScoreCheckReq(res);
 
-    this.services.http.fetchApi('/ScoreCard', 'POST', inputMap,'/initiation').subscribe(
+    this.services.http.fetchApi('/ScoreCard', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body;
         this.loadScoreResult();
@@ -192,12 +193,38 @@ export class ScoreCardResultComponent implements OnInit {
       }
     );
   }
+
+  generateScoreCheckReq(res) {
+    let inputMap = new Map();
+    inputMap.set('Body.prposalid', res['prposalid']);
+    inputMap.set('Body.interfaceId', res['interfaceId']);
+    inputMap.set('Body.ouputdata', res['ouputdata']);
+
+    return inputMap;
+  }
   generateRetriggerRequestJson() {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT008');
     inputMap.set('Body.prposalid', this.ApplicationId);
-    inputMap.set('Body.inputdata.SCHEME_CD',this.services.rloCommonData.globalApplicationDtls.SchemeCode);
+    inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
+    // inputMap.set('Body.inputdata.SCHEME_CD',this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     return inputMap;
+  }
+
+  invokeInterface() {
+    this.MstScoreResultMap.clear();
+    let inputMap = this.generateRetriggerRequestJson();
+    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        let res = httpResponse.body;
+        this.retriggerScoreResult(res);
+      }, async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+      }
+    );
   }
 
 }

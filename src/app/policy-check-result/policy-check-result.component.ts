@@ -183,7 +183,6 @@ export class PolicyCheckResultComponent implements OnInit {
     inputMap.set('Body.interfaceId', 'INT007');
     inputMap.set('Body.prposalid', this.ApplicationId);
     inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
-
     // inputMap.set('Body.inputdata.SCHEME_CD', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     return inputMap;
   }
