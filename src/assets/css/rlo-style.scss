@@ -1688,14 +1688,15 @@ rlo-ui-card-field {
     border-bottom: 1px solid #CDCDCD;
 
     .header-icon {
-      font-size: 29px;
+      font-size: 28px;
       color: #000000;
       position: absolute;
-      top: 9px;
+      top: 11px;
     }
 
     .header-icon+.modal-header-name {
       margin-left: 45px;
+      font-size: 18px;
     }
 
     .fa {

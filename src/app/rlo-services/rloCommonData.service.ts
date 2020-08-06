@@ -241,6 +241,7 @@ export class RloCommonData {
       }
     }
     console.log("shweta :: in update services temp map", tempStoreMap);
+    console.log("shweta :: masterDataMap", this.masterDataMap);
 
     return functionalResponseObj;
   }

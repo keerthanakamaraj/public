@@ -23,6 +23,7 @@ import { FeesChargesDetailsComponent } from '../Fees&ChargesDetails/Fees&Charges
 import { DisbursementDetailsComponent } from '../DisbursementDetails/DisbursementDetails.component';
 import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
+import { IAmortizationForm } from '../Interface/masterInterface';
 
 @Component({
   selector: 'app-popup-alert',
@@ -70,12 +71,20 @@ export class PopupAlertComponent implements OnInit {
     var componentInstance = dynamicComponent.instance;
     componentInstance.parentData = this.modalObject.data;
 
-    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent') {
+    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent') {
       componentInstance.isLoanCategory = true;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
       componentInstance.readOnly = true;
+
+      if (this.modalObject.componentName == "FeesChargesDetailsComponent") {
+        const parentData: IAmortizationForm = undefined;
+        let obj = {
+          "ApplicationId": this.modalObject.applicationId
+        }
+        componentInstance.parentData = obj;
+      }
 
       // async brodcastProdCategory(event) {
       //   //  event.isLoanCategory false when type is 'CC'

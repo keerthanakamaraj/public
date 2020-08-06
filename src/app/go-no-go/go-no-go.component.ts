@@ -37,6 +37,7 @@ export class GoNoGoComponent implements OnInit {
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      console.log(httpResponse);
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
       //call validation method and render

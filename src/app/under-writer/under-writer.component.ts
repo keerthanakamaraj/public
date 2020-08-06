@@ -382,6 +382,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         this.customerList.push(data);
     });
 
+    // let serviceObj = {
+    //   "name": "CustomerDetails",
+    //   "data": array,
+    //   "BorrowerSeq": this.HidCustomerId.getFieldValue()
+    // };
+    // this.services.rloCommonData.updateMasterDataMap(serviceObj, true)
+    
+    // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
     this.UWTabs.setCustomerList(this.customerList);//pass customer list to component
     this.borrowerSeq = this.customerList[0].BorrowerSeq;
 

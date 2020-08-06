@@ -407,7 +407,7 @@ export class LoanDetails implements IDeserializable {
                 title: "No. of Disbursals",
                 subTitle: this.Disbursals,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: this.checkDisbursals()
             },
             {
                 title: "Repayment Frequency",
@@ -419,7 +419,7 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Fees & Charges",
                 subTitle: this.FeesAndCharges,
                 type: "basic",
-                modalSectionName: this.FeesAndCharges == 'NA' ? '' : 'FeesAndCharges'
+                modalSectionName: this.checkFeesAndCharges()
                 //modalSectionName: 'FeesAndCharges'
             },
             {
@@ -481,6 +481,24 @@ export class LoanDetails implements IDeserializable {
             default:
                 return 'NA'
                 break;
+        }
+    }
+
+    checkDisbursals() {
+        if (this.Disbursals != 'NA' && this.Disbursals != "0") {
+            return "DisbursementDetailsComponent"
+        }
+        else {
+            return 'NA';
+        }
+    }
+
+    checkFeesAndCharges() {
+        if (this.FeesAndCharges != 'NA' && this.FeesAndCharges != "0") {
+            return "FeesChargesDetailsComponent"
+        }
+        else {
+            return 'NA';
         }
     }
 }
@@ -899,6 +917,7 @@ export class CustomerDetails implements IDeserializable {
     public DOB: string = "NA";
     public CustomerType: string = "NA";
     public CIF: string = "NA";
+    public CustomerId: string = "NA";
     public CustomerSince: string = "NA";
 
     deserialize(input: any): this {
@@ -961,14 +980,20 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
+                title: "Customer Type",
+                subTitle: this.getCustomerType(this.CustomerType),
+                type: "basic",
+                modalSectionName: ""
+            },
+            {
                 title: "CIF",
                 subTitle: this.CIF,
                 type: "basic",
                 modalSectionName: ""
             },
             {
-                title: "Customer Type",
-                subTitle: this.getCustomerType(this.CustomerType),
+                title: "CID",
+                subTitle: this.CustomerId,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -978,7 +1003,6 @@ export class CustomerDetails implements IDeserializable {
                 type: "basic",
                 modalSectionName: ""
             }
-
         ];
         const returnObj: IGeneralCardData = {
             name: "Customer 360 degrees",
@@ -1032,7 +1056,7 @@ export class ApplicationDetails implements IDeserializable {
     public GoldDetails: GoldDetails;
     public EducationDetails: EducationDetails;
     public GoNoGoDetails: GoNoGoDetails;
-    public PropertyDetails:PropertyDetails;
+    public PropertyDetails: PropertyDetails;
     //blank data
     public ReferalDetails: ReferalDetails;
     public Notes: Notes;
@@ -1117,12 +1141,24 @@ export class ApplicationDetails implements IDeserializable {
             this.LoanDetails.MarginMoney = "NA";
         }
 
-        this.LoanDetails.Disbursals = "NA";
-        this.LoanDetails.FeesAndCharges = "NA";
+        if (input.UWFeeCharges != undefined) {
+            this.LoanDetails.FeesAndCharges = input.UWFeeCharges.length;
+        }
+        else {
+            this.LoanDetails.FeesAndCharges = "NA";
+        }
+
+        if (input.UWDisbursal != undefined) {
+            this.LoanDetails.Disbursals = input.UWDisbursal.length;
+        }
+        else {
+            this.LoanDetails.Disbursals = "NA";
+        }
+
 
         this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
-        this.PropertyDetails= new PropertyDetails().deserialize(input.UWPropertyDetails);
+        this.PropertyDetails = new PropertyDetails().deserialize(input.UWPropertyDetails);
 
         this.CardDetails = new CardDetails().deserialize(input.UWCreditCard);
         this.CardDetails.Branch = this.Branch;

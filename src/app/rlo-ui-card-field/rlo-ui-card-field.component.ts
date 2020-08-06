@@ -67,7 +67,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
     }
 
     switch (this.cardFieldMetaData.modalSectionName) {
-      case "FeesAndCharges":
+      case "FeesChargesDetailsComponent":
         obj.name = "Fees & Charges"
         break;
 
@@ -81,6 +81,14 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
       case "AmortizationScheduleComponent":
         obj.name = "Amortization Schedule"
+        break;
+
+      case "LiabilityDetails":
+        obj.name = "Total Liability"
+        break;
+
+      case "DisbursementDetailsComponent":
+        obj.name = "Disbursement Details"
         break;
 
       default:
