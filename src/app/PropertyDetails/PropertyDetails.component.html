@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PerOfProjectCompletion.isHidden()">
                                     <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
+                                        <label class="clr-brown" [ngClass]="{'mandatory':PerOfProjectCompletion.mandatory}">
                                             {{ 'PropertyDetails.PerOfProjectCompletion' | translate}}
                                         </label>
                                     </div>
@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropertyInsuranceCost.isHidden()">
                                     <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
+                                        <label class="clr-brown" [ngClass]="{'mandatory':PropertyInsuranceCost.mandatory}">
                                             {{ 'PropertyDetails.PropertyInsuranceCost' | translate}}
                                         </label>
                                     </div>
@@ -185,12 +185,12 @@
                                             {{ 'PropertyDetails.SelectToCapitalizeProperty' | translate}}
                                         </label>
                                     </div>
-                                    <app-check-box #SelectToCapitalizeProperty fieldID="SelectToCapitalizeProperty" [formCode]="formCode" (blur)="genericOnBlur('SelectToCapitalizeProperty', $event)"></app-check-box>
+                                    <app-check-box #SelectToCapitalizeProperty fieldID="SelectToCapitalizeProperty"    (change)="SelectToCapitalizeProperty_change($event)" [formCode]="formCode" (blur)="genericOnBlur('SelectToCapitalizeProperty', $event)"></app-check-box>
                                 </div>
                                 <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PersonalInsuranceCost.isHidden()">
                                     <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
+                                        <label class="clr-brown" [ngClass]="{'mandatory':PersonalInsuranceCost.mandatory}">
                                             {{ 'PropertyDetails.PersonalInsuranceCost' | translate}}
                                         </label>
                                     </div>
@@ -202,7 +202,7 @@
                                             {{ 'PropertyDetails.SelectToCapitalizePersonal' | translate}}
                                         </label>
                                     </div>
-                                    <app-check-box #SelectToCapitalizePersonal fieldID="SelectToCapitalizePersonal" [formCode]="formCode" (blur)="genericOnBlur('SelectToCapitalizePersonal', $event)"></app-check-box>
+                                    <app-check-box #SelectToCapitalizePersonal fieldID="SelectToCapitalizePersonal"  (change)="SelectToCapitalizePersonal_change($event)" [formCode]="formCode" (blur)="genericOnBlur('SelectToCapitalizePersonal', $event)"></app-check-box>
                                 </div>
                             </div>
 

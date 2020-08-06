@@ -79,8 +79,8 @@
                         <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode" (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount>
                     </div>
                     <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentMode.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
+                        <div class="clr-brown fieldLegend" >
+                            <label class="clr-brown" [ngClass]="{'mandatory': PaymentMode.mandatory}">
                                 {{ 'DisbursementDetails.PaymentMode' | translate}}
                             </label>
                         </div>
