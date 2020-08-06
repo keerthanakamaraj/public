@@ -52,6 +52,29 @@ export class LoanHandlerComponent extends RLOUIHandlerComponent implements OnIni
     return EMI.toFixed(2);
 
   }
+  CalculateNetInterestRate() {
+    let CalculateNetInterest;
+    if (this.MainComponent.InterestRate.getFieldValue() !== undefined && this.MainComponent.MarginRate.getFieldValue() !== undefined) {
+      //  let store : string ;
+      if (this.MainComponent.MarginRate.getFieldValue().startsWith('+')) {
+        const storePositive = this.MainComponent.MarginRate.getFieldValue().split("+").join(0);
+        CalculateNetInterest = Number(this.MainComponent.InterestRate.getFieldValue()) + Number(storePositive)
+      }
+    
+      else if (this.MainComponent.MarginRate.getFieldValue().startsWith('-')) {
+        const storeNegative = this.MainComponent.MarginRate.getFieldValue().split("-").join(0);
+        CalculateNetInterest = Number(this.MainComponent.InterestRate.getFieldValue()) - Number(storeNegative)
+      }else {
+        CalculateNetInterest = Number(this.MainComponent.InterestRate.getFieldValue()) + Number(this.MainComponent.MarginRate.getFieldValue())
+      }
+
+      this.MainComponent.NetInterestRate.setValue(CalculateNetInterest.toFixed(2));
+      
+    }
+
+  }
+
+
 
   SetValue() {
     if (this.MainComponent.MoneyInstallment.getFieldValue() == undefined) {

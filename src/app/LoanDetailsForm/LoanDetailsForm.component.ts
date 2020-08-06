@@ -217,6 +217,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.setReadOnly(false);
     this.onFormLoad();
   }
+  async MarginRate_blur(event) {
+    this.Handler.CalculateNetInterestRate();
+  
+  }
   OnLoanFormLoad() {
     let inputMap = new Map();
     inputMap.clear();
