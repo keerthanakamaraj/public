@@ -221,10 +221,8 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.value = new FeesChargesDetailsModel();
     this.passNewValue(this.value);
 
-    //if(!this.readOnly){
-      this.setReadOnly(false);
-    //}
-    
+    this.setReadOnly(false);
+  
     this.onFormLoad();
   }
   async ChargeBasis_change(fieldID, value) {

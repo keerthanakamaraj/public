@@ -71,14 +71,14 @@ export class PopupAlertComponent implements OnInit {
     var componentInstance = dynamicComponent.instance;
     componentInstance.parentData = this.modalObject.data;
 
-    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent') {
+    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent') {
       componentInstance.isLoanCategory = true;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
       componentInstance.readOnly = true;
 
-      if (this.modalObject.componentName == "FeesChargesDetailsComponent") {
+      if (this.modalObject.componentName == "FeesAndChargesDetails") {
         const parentData: IAmortizationForm = undefined;
         let obj = {
           "ApplicationId": this.modalObject.applicationId
@@ -107,12 +107,15 @@ export class PopupAlertComponent implements OnInit {
         return new AddSpecificComponent(NotepadDetailsFormComponent);
         break;
       case 'AmortizationScheduleComponent':
+      case 'Amortization':
         return new AddSpecificComponent(AmortizationScheduleComponent);
         break;
       case 'FeesChargesDetailsComponent':
+      case 'FeesAndChargesDetails':
         return new AddSpecificComponent(FeesChargesDetailsComponent);
         break;
       case 'DisbursementDetailsComponent':
+      case 'DisbursementDetails':
         return new AddSpecificComponent(DisbursementDetailsComponent);
         break;
       case 'FamilyDetails':
@@ -150,14 +153,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'OccupationDetails':
         return new AddSpecificComponent(OccupationDtlsFormComponent);
+        break;
       case 'AssetDetails':
         return new AddSpecificComponent(AssetDetailsFormComponent);
-        break;
-      case 'FeesAndCharges':
-        return new AddSpecificComponent(FeesChargesDetailsComponent);
-        break;
-      case 'DisbursementDetails':
-        return new AddSpecificComponent(DisbursementDetailsComponent);
         break;
       case 'IncomeSummary':
         return new AddSpecificComponent(IncomeSummaryFormComponent);

@@ -394,7 +394,7 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Installment Amount",
                 subTitle: this.TotalInstallmentAmount,
                 type: "basic",
-                modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'AmortizationScheduleComponent'
+                modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'Amortization'
                 //modalSectionName: "AmortizationScheduleComponent"
             },
             {
@@ -486,7 +486,7 @@ export class LoanDetails implements IDeserializable {
 
     checkDisbursals() {
         if (this.Disbursals != 'NA' && this.Disbursals != "0") {
-            return "DisbursementDetailsComponent"
+            return "DisbursementDetails"
         }
         else {
             return 'NA';
@@ -495,7 +495,7 @@ export class LoanDetails implements IDeserializable {
 
     checkFeesAndCharges() {
         if (this.FeesAndCharges != 'NA' && this.FeesAndCharges != "0") {
-            return "FeesChargesDetailsComponent"
+            return "FeesAndChargesDetails"
         }
         else {
             return 'NA';
