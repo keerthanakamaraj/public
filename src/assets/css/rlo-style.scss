@@ -1979,10 +1979,12 @@ rlo-ui-card-field {
 
 .policy-row {
   // height: 52px;
+  margin-top: 10px;
   min-height: 52px;
-  max-height: 110px; // width: 1213px;
+  max-height: 110px;
   border-radius: 4px;
-  background-color: #FAFAFA; //line-height: 51px;
+  background-color: #FAFAFA;
+  line-height: 52px;
 
   // max-height: 500px !important;
   .desc-container {
@@ -2670,6 +2672,7 @@ rlo-ui-card-field {
   font-size: 12px;
   font-family: Open Sans Regular !important;
 }
+
 .icon-material_widthdraw {
   background: url(".././icons/Withdraw-icon.svg") center no-repeat;
 }
