@@ -204,7 +204,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     return false;
   }
 
-  
+
 
 
 
@@ -816,26 +816,26 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.onReset();
   }
 
-  async SelectToCapitalizeProperty_change(event){
-    console.log("tick present",this.SelectToCapitalizeProperty.getFieldValue())
-    if(this.SelectToCapitalizeProperty.getFieldValue() === 'true'){
+  async SelectToCapitalizeProperty_change(event) {
+    // console.log("tick present",this.SelectToCapitalizeProperty.getFieldValue())
+    if (this.SelectToCapitalizeProperty.getFieldValue() == 'true') {
       this.PropertyInsuranceCost.mandatory = true;
     }
-    else{
+    else {
       this.PropertyInsuranceCost.mandatory = false
     }
   }
- 
-  async SelectToCapitalizePersonal_change(event){
-    if(this.SelectToCapitalizePersonal.getFieldValue() === 'true'){
+
+  async SelectToCapitalizePersonal_change(event) {
+    if (this.SelectToCapitalizePersonal.getFieldValue() == 'true') {
       this.PersonalInsuranceCost.mandatory = true;
     }
-    else{
+    else {
       this.PersonalInsuranceCost.mandatory = false;
     }
   }
-  
-  
+
+
 
   async ExpDateOfCompletion_blur(event) {
     let inputMap = new Map();
@@ -845,7 +845,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       return 1;
     }
   }
-  
+
 
   async DownPaymentAmount_blur(event) {
     let AmtFinanced;
@@ -855,8 +855,8 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     }
     this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
 
-    if(this.DownPaymentAmount.getFieldValue() != undefined){
-       PerDownPayment = this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100
+    if (this.DownPaymentAmount.getFieldValue() != undefined) {
+      PerDownPayment = this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100
     }
     this.DownPayment.setValue(PerDownPayment.toFixed(2));
   }

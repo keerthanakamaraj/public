@@ -51,7 +51,7 @@
             <i class="fa fa-ellipsis-h hidden-options" [ngStyle]="{'display':(hidemenu!=rowNo)?'block':'none'}"></i>
             <div class="row-options" [ngStyle]="{'display':(hidemenu==rowNo)?'inline-flex':'none'}">
               <i class="fa fa-edit" *ngIf="gridType==2" (click)="editRow(rowNo)" title="Edit"></i>
-              <i class="fa fa-trash-o" (click)="deleteRow(rowNo)" title="Delete"></i>
+              <i class="fa fa-trash" (click)="deleteRow(rowNo)" title="Delete"></i>
               <i class="fa fa-plus" *ngIf="gridType==1" (click)="addEmptyRow(rowNo)" title="Add"></i>
             </div>
           </td>
