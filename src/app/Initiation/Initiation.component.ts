@@ -708,15 +708,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         }
         if (res.status == 'S') {
           this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
-          for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
-            const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
-            if (Data.DECISION == 'Reject') {
-              this.EligibilityDecision = 'Reject';
-            }
-          }
-          if (this.EligibilityDecision != 'Reject') {
-            this.EligibilityDecision = 'Approve';
-          }
+          this.EligibilityDecision = res.ouputdata.OVERALLDECISION;
+          // for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
+          //   const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
+          //   if (Data.DECISION == 'Reject') {
+          //     this.EligibilityDecision = 'Reject';
+          //   }
+          // }
+          // if (this.EligibilityDecision != 'Reject') {
+          //   this.EligibilityDecision = 'Approve';
+          // }
           inputMap.set('Checkvalue', this.eligeData);
           inputMap.set('component', 'checkEligibilityForm');
           const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
