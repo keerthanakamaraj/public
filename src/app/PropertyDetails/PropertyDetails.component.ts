@@ -817,22 +817,11 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   }
 
   async SelectToCapitalizeProperty_change(event) {
-    // console.log("tick present",this.SelectToCapitalizeProperty.getFieldValue())
-    if (this.SelectToCapitalizeProperty.getFieldValue() == 'true') {
-      this.PropertyInsuranceCost.mandatory = true;
-    }
-    else {
-      this.PropertyInsuranceCost.mandatory = false
-    }
+    this.PropertyInsuranceCost.mandatory = this.SelectToCapitalizeProperty.getFieldValue();
   }
 
   async SelectToCapitalizePersonal_change(event) {
-    if (this.SelectToCapitalizePersonal.getFieldValue() == 'true') {
-      this.PersonalInsuranceCost.mandatory = true;
-    }
-    else {
-      this.PersonalInsuranceCost.mandatory = false;
-    }
+    this.PersonalInsuranceCost.mandatory = this.SelectToCapitalizePersonal.getFieldValue();
   }
 
 
@@ -870,10 +859,11 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   // }
 
   async PerOfProjectCompletion_blur(event) {
-    if (this.PerOfProjectCompletion.getFieldInfo() !== undefined) {
-      this.ExpDateOfCompletion.mandatory = true;
-      return;
-    }
+    // console.log("shweta :: property :: project completion %",this.PerOfProjectCompletion.getFieldValue());
+    this.ExpDateOfCompletion.mandatory = (
+      this.PerOfProjectCompletion.getFieldValue() == undefined
+      || this.PerOfProjectCompletion.getFieldValue() == ''
+      || this.PerOfProjectCompletion.getFieldValue() == 0) ? false : true;
   }
 
   fieldDependencies = {

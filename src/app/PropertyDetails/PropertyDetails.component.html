@@ -154,7 +154,7 @@
                 </div>
                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PerOfProjectCompletion.isHidden()">
                   <div class="clr-brown fieldLegend">
-                    <label class="clr-brown" [ngClass]="{'mandatory':PerOfProjectCompletion.mandatory}">
+                    <label class="clr-brown">
                       {{ 'PropertyDetails.PerOfProjectCompletion' | translate}}
                     </label>
                   </div>
@@ -163,7 +163,7 @@
                 </div>
                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ExpDateOfCompletion.isHidden()">
                   <div class="clr-brown fieldLegend">
-                    <label class="clr-brown">
+                    <label class="clr-brown" [ngClass]="{'mandatory':ExpDateOfCompletion.mandatory}">
                       {{ 'PropertyDetails.ExpDateOfCompletion' | translate}}
                     </label>
                   </div>
