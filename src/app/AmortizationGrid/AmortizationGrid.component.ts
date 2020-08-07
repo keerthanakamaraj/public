@@ -79,6 +79,7 @@ export class AmortizationGridComponent implements AfterViewInit {
    // sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    headerClass:'right-header-7',
     valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
@@ -95,6 +96,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    headerClass:'right-header-7',
     valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
@@ -111,6 +113,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    headerClass:'right-header-7',
     valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
@@ -127,6 +130,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    headerClass:'right-header-9',
     valueFormatter: this.formatAmount.bind(this),
     //   filter: "agTextColumnFilter",
     //   filterParams: {
@@ -143,6 +147,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    headerClass:'right-header-7',
     valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
@@ -159,6 +164,7 @@ export class AmortizationGridComponent implements AfterViewInit {
     //sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
+    headerClass:'right-header-7',
     valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
