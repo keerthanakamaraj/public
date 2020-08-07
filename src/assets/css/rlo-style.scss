@@ -753,14 +753,27 @@ width: 681px !important; */
       float: right;
 
       .cust-edit {
+        height: 16px;
+        margin-right: 10px;
+        width: 16px;
+        background-repeat: no-repeat;
+        background-image: url(./../icons/CustEditIcon.svg);
         cursor: pointer;
         float: left;
-        padding-inline-end: 8px;
+        //padding-inline-end: 8px;
       }
 
       .cust-delete {
+        height: 18px;
+        width: 18px;
         float: left;
         cursor: pointer;
+        //  .delete-icon{
+        //   height:30px;
+        //   width:30px;
+        background-repeat: no-repeat;
+        background-image: url(./../icons/CustDeleteIcon.svg);
+        //  }
       }
     }
   }
@@ -874,11 +887,11 @@ a.back {
 //   height: 45px;
 // }
 .dde-tab-btn-div {
- // margin-top: 12px;
- // margin-bottom: 30px !important;
- margin-left: 34%;
- padding-top: 20px;
- padding-bottom: 20px;
+  // margin-top: 12px;
+  // margin-bottom: 30px !important;
+  margin-left: 34%;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .qde-tab-btn-div {
@@ -914,7 +927,7 @@ a.back {
   border-radius: 4px 4px 4px 4px;
   width: 201px;
   border: 1px solid #0079B8;
- //border-radius: 4px 0 0 4px;
+  //border-radius: 4px 0 0 4px;
   background-color: #ffffff;
   color: #0079B8;
   font-family: "Open Sans";
@@ -3130,9 +3143,10 @@ rlo-ui-card-field {
   .doughnut-txt {}
 }
 
-.right-header-9{
+.right-header-9 {
   padding-left: 9% !important;
 }
-.right-header-7{
+
+.right-header-7 {
   padding-left: 7% !important;
 }
