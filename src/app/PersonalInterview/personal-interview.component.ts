@@ -179,18 +179,18 @@ export class PersonalInterviewComponent implements OnInit {
       console.log("shweta :: input map", inputMap);
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.personal-interview', 5000);
+        
+        this.loadQuestionnaireDtls();
+        // let array = [];
+        // array.push({ isValid: true, sectionData: this.QuestionnairMap });
+        // let obj = {
+        //   "name": "PersonalInterviewDetails",
+        //   "data": array,
+        //   "BorrowerSeq": this.activeBorrowerSeq
+        // }
 
-        let array = [];
-        array.push({ isValid: true, sectionData: this.QuestionnairMap });
-        let obj = {
-          "name": "PersonalInterviewDetails",
-          "data": array,
-          "BorrowerSeq": this.activeBorrowerSeq
-        }
+        // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-
-        //  this.loadQuestionnaireDtls();
       },
         (httpError) => {
           console.error(httpError);

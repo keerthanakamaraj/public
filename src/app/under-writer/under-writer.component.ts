@@ -263,13 +263,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //@Output
   broadcastProdCategory(event) {
-    this.services.rloCommonData.globalApplicationDtls = {
-      isLoanCategory: event.isLoanCategory,
-      ProductCode: event.ProductCode,
-      SubProductCode: event.SubProductCode,
-      SchemeCode: event.SchemeCode,
-    };
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    // this.services.rloCommonData.globalApplicationDtls = {
+    //   isLoanCategory: event.isLoanCategory,
+    //    ProductCode: event.ProductCode,
+    //    SubProductCode: event.SubProductCode,
+    //    SchemeCode: event.SchemeCode,
+    // };
+   // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     this.getUnderWriterData();
   }
