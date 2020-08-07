@@ -839,10 +839,13 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   async DownPaymentAmount_blur(event) {
     let AmtFinanced;
     let PerDownPayment;
+    let TotalAmtFinced
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue() + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue()
+      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue() 
+     TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
     }
-    this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
+    console.log("total mt", TotalAmtFinced);
+    this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
 
     if (this.DownPaymentAmount.getFieldValue() != undefined) {
       PerDownPayment = this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100

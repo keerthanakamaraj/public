@@ -392,7 +392,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar7[i].CREATED_BY;
-              tempObj['MT_INITIATED_ON'] = loopVar7[i].CREATED_ON;
+              tempObj['MT_INITIATED_ON'] = loopVar7[i].CREATED_TIME;
               tempObj['MT_CAD_LOCATION'] = loopVar7[i].BRANCH;
               tempObj['MT_PENDING_WITH'] = loopVar7[i].ASSIGNED_TO;
               tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
@@ -428,7 +428,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
             case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_TIME"; break;
             case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
             case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
@@ -454,7 +454,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
             case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_TIME"; break;
             case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
             case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
@@ -484,7 +484,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_CAM_TYPE'] = loopVar32[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar32[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar32[i].CREATED_BY;
-              tempObj['MT_INITIATED_ON'] = loopVar32[i].CREATED_ON;
+              tempObj['MT_INITIATED_ON'] = loopVar32[i].CREATED_TIME;
               tempObj['MT_CAD_LOCATION'] = loopVar32[i].BRANCH;
               tempObj['MT_PENDING_WITH'] = loopVar32[i].ASSIGNED_TO;
               tempObj['hiddenTaskId'] = loopVar32[i].TASK_ID;

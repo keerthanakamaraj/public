@@ -2155,7 +2155,7 @@
     "PerOfProjectCompletion": "Percent of Project Completion",
     "SellerCity": "City",
     "PropertyType": "Property Type",
-    "MoratoriamPeriod": "Select if Interest will be capitalized during Moratoriam Period",
+    "MoratoriamPeriod": "Select if Interest will be Capitalized During Moratorium Period",
     "SellerState": "State",
     "Contractor": "Contractor",
     "AmountToBeFinanced": "Amount To Be Financed",
@@ -2171,7 +2171,7 @@
     "City": "City",
     "WingName": "Wing Name",
     "BuiltUpAreaSqFt": "Built Up Area (Sq. Ft.)",
-    "PropoertyPurchaseNameOf": "Propoerty To Be Purchased in the Name of",
+    "PropoertyPurchaseNameOf": "Property To Be Purchased in the Name of",
     "PropertyAddress": "Property Address",
     "State": "State",
     "Region": "Region",
@@ -2213,4 +2213,5 @@
     "GridTitle": "Disbursement Input Grid",
     "DisbursementAmount": "Amount To Be Disbursed"
   }
+
 }
