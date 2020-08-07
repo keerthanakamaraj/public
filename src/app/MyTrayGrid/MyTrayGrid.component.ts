@@ -165,7 +165,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   {
     field: "MT_STAGE",
     width: 12,
-    sortable: false,
+    sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
     filter: "agTextColumnFilter",    
@@ -204,7 +204,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   {
     field: "MT_INITIATED_ON",
     width: 12,
-    sortable: false,
+    sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
     valueFormatter: this.formatDate.bind(this),

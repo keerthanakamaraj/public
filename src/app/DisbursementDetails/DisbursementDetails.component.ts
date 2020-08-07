@@ -89,6 +89,12 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
     }
+
+    async DD_Reset_click(event) {
+        let inputMap = new Map();
+        this.onReset();
+    }
+
     async onFormLoad() {
         this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'ApplicationId');        
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
@@ -98,10 +104,11 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.hidAppId.setValue('RLO');        
         this.hideFundTransferMode.setValue('FUND_TRANSFER_MODE');
         this.hidePaymentMode.setValue('PAYMENT_MODE');
-        this.InFavorOf.setHidden(true);
+        this.Handler.hideOnPaymentMode({});
         this.FundTransferMode.setHidden(true);
-        this.Account.setHidden(true);
         this.IFSCCode.setHidden(true);
+        this.Account.setHidden(true);
+        this.InFavorOf.setHidden(true);
         this.getLoanFieldValue();        
         await this.Handler.onFormLoad({});
         await this.FieldId_18.gridDataLoad({
@@ -215,6 +222,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         var res = httpResponse.body;
         this.services.alert.showAlert(1, 'rlo.success.update.disbursal', 5000);
         this.onReset();
+        this.setFilterbyOptions();
         },
         async (httpError)=>{
         var err = httpError['error']
@@ -280,6 +288,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         var res = httpResponse.body;
         this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);
         this.onReset();
+        this.setFilterbyOptions();        
         },
         async (httpError)=>{
         var err = httpError['error']
@@ -359,7 +368,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
       }
     async PaymentMode_change(event){
         let inputMap = new Map();
-        this.Handler.hideOnPaymentMode()
+        this.Handler.hideOnPaymentMode({});
     }  
     
     async FieldId_18_modifyDisbursal(event){
@@ -383,7 +392,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.Remarks.setValue(res['DisbursalDetails']['Remarks']);
         this.HideDisbursalSeqId.setValue(res['DisbursalDetails']['DisbursalSeq']);
         this.hideSpinner();  
-        this.Handler.hideOnPaymentMode();      
+        this.Handler.hideOnPaymentMode({});      
         },
         async (httpError)=>{
         var err = httpError['error']
