@@ -275,7 +275,7 @@
                                     </div>
                                     <app-text-box #State fieldID="State" [formCode]="formCode" (blur)="genericOnBlur('State', $event)"></app-text-box>
                                 </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Country.isHidden()">
+                                <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Country.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'PropertyDetails.Country' | translate}}
@@ -283,7 +283,7 @@
                                     </div>
                                     <app-combo-box #Country category="2" fieldID="Country" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                                     domainObjectCode="MSTGENERALPARAM" placeholder="Select" (blur)="genericOnBlur('Country', $event)"></app-combo-box>
-                                </div>
+                                </div> -->
                                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Landmark.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
@@ -501,10 +501,8 @@
                 <app-hidden #hideSellerType fieldID="hideSellerType"></app-hidden>
                 <app-hidden #hideMoratoriumPeriod fieldID="hideMoratoriumPeriod"></app-hidden>
                 <app-hidden #HidePropertySeq fieldID="HidePropertySeq"></app-hidden>  
-                <app-hidden #hideBuilderName fieldID="hideBuilderName"></app-hidden> 
-                <app-hidden #hidCountryCode fieldID="hidCountryCode"></app-hidden> 
-                
-                              
+                <app-hidden #hideBuilderName fieldID="hideBuilderName"></app-hidden>  
+  
             </div>
         </div>
     </div>

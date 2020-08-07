@@ -56,7 +56,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('Region', { static: false }) Region: TextBoxComponent;
   @ViewChild('City', { static: false }) City: TextBoxComponent;
   @ViewChild('State', { static: false }) State: TextBoxComponent;
-  @ViewChild('Country', { static: false }) Country: ComboBoxComponent;
+  // @ViewChild('Country', { static: false }) Country: ComboBoxComponent;
   @ViewChild('Landmark', { static: false }) Landmark: TextBoxComponent;
   @ViewChild('SellerType', { static: false }) SellerType: ComboBoxComponent;
   @ViewChild('NameOfSeller', { static: false }) NameOfSeller: TextBoxComponent;
@@ -85,7 +85,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('FieldId_41', { static: false }) FieldId_41: DisbursInputGridComponent;
   @ViewChild('HidePropertySeq', { static: false }) HidePropertySeq: HiddenComponent;
   @ViewChild('hideBuilderName', { static: false }) hideBuilderName: HiddenComponent;
-  @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
+  // @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @ViewChild('Handler', { static: false }) Handler: PropertyHandlerComponent;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -119,7 +119,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.revalidateBasicField('Region'),
       this.revalidateBasicField('City'),
       this.revalidateBasicField('State'),
-      this.revalidateBasicField('Country'),
+      // this.revalidateBasicField('Country'),
       this.revalidateBasicField('Landmark'),
       this.revalidateBasicField('SellerType'),
       this.revalidateBasicField('NameOfSeller'),
@@ -173,7 +173,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.hideSellerType.setValue('SELLER_TYPE');
     this.hideMoratoriumPeriod.setValue('MORATORIUM_PERIOD');
     this.hideBuilderName.setValue('BUIDER_NAME');
-    this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
+    // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     this.OnLoanFormLoad();
     this.setDependencies();
     await this.Handler.onFormLoad({});
@@ -378,7 +378,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.Region.setValue(PropertyElement['PRRegion']);
             this.State.setValue(PropertyElement['PRState']);
             this.Landmark.setValue(PropertyElement['PRLandmark']);
-            this.Country.setValue(PropertyElement['PRCountry']);
+            // this.Country.setValue(PropertyElement['PRCountry']);
             this.SellerPincode.setValue(PropertyElement['SLPincode']);
             this.SellerCity.setValue(PropertyElement['SLCity']);
             this.SellerRegion.setValue(PropertyElement['SLRegion']);
@@ -445,7 +445,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
         inputMap.set('Body.PropertyDetails.PRCity', this.City.getFieldValue());
         inputMap.set('Body.PropertyDetails.PRState', this.State.getFieldValue());
         inputMap.set('Body.PropertyDetails.PRLandmark', this.Landmark.getFieldValue());
-        inputMap.set('Body.PropertyDetails.PRCountry', this.Country.getFieldValue());
+        // inputMap.set('Body.PropertyDetails.PRCountry', this.Country.getFieldValue());
         inputMap.set('Body.PropertyDetails.SellerType', this.SellerType.getFieldValue());
         inputMap.set('Body.PropertyDetails.SellerName', this.NameOfSeller.getFieldValue());
         inputMap.set('Body.PropertyDetails.CurrentOwnerName', this.NameOfRegisteredOwner.getFieldValue());
@@ -516,9 +516,9 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
               else if (err['ErrorElementPath'] == 'PropertyDetails.PRAddressLine1') {
                 this.Address1.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'PropertyDetails.PRCountry') {
-                this.Country.setError(err['ErrorDescription']);
-              }
+              // else if (err['ErrorElementPath'] == 'PropertyDetails.PRCountry') {
+              //   this.Country.setError(err['ErrorDescription']);
+              // }
               else if (err['ErrorElementPath'] == 'PropertyDetails.SLMobileNo') {
                 this.SellerMobileNo.setError(err['ErrorDescription']);
               }
@@ -642,7 +642,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
         inputMap.set('Body.PropertyDetails.PRCity', this.City.getFieldValue());
         inputMap.set('Body.PropertyDetails.PRState', this.State.getFieldValue());
         inputMap.set('Body.PropertyDetails.PRLandmark', this.Landmark.getFieldValue());
-        inputMap.set('Body.PropertyDetails.PRCountry', this.Country.getFieldValue());
+        // inputMap.set('Body.PropertyDetails.PRCountry', this.Country.getFieldValue());
         inputMap.set('Body.PropertyDetails.SellerType', this.SellerType.getFieldValue());
         inputMap.set('Body.PropertyDetails.SellerName', this.NameOfSeller.getFieldValue());
         inputMap.set('Body.PropertyDetails.CurrentOwnerName', this.NameOfRegisteredOwner.getFieldValue());
@@ -708,9 +708,9 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
               else if (err['ErrorElementPath'] == 'PropertyDetails.PRAddressLine1') {
                 this.Address1.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'PropertyDetails.PRCountry') {
-                this.Country.setError(err['ErrorDescription']);
-              }
+              // else if (err['ErrorElementPath'] == 'PropertyDetails.PRCountry') {
+              //   this.Country.setError(err['ErrorDescription']);
+              // }
               else if (err['ErrorElementPath'] == 'PropertyDetails.SLMobileNo') {
                 this.SellerMobileNo.setError(err['ErrorDescription']);
               }
@@ -802,7 +802,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
                 this.HidePropertySeq.setError(err['ErrorDescription']);
               }
             }
-            this.services.alert.showAlert(2, 'rlo.fail.save.property', -1);
+            this.services.alert.showAlert(2, 'rlo.failed.save.property', -1);
           }
         );
       }
@@ -952,15 +952,15 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       ]
     },
 
-    Country: {
-      inDep: [
-        { paramKey: 'VALUE1', depFieldID: 'Country', paramType: 'PathParam' },
-        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-        { paramKey: 'KEY1', depFieldID: 'hidCountryCode', paramType: 'QueryParam' },
-      ],
-      outDep: [
-      ]
-    },
+    // Country: {
+    //   inDep: [
+    //     { paramKey: 'VALUE1', depFieldID: 'Country', paramType: 'PathParam' },
+    //     { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+    //     { paramKey: 'KEY1', depFieldID: 'hidCountryCode', paramType: 'QueryParam' },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
 
   }
 

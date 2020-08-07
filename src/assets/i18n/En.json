@@ -157,6 +157,7 @@
     "rlo.cancel.comfirmation" :"Are you sure you want to cancel?",
     "rlo.success.save.property":"Property Details Saved Successfully",
     "rlo.success.update.property":"Property Details Updated Successfully",
+    "rlo.failed.save.property":"Failed to Save Property Details",
     "rlo.reset.comfirmation" : "Are you sure you want to reset the form",
     "rlo.error.relationship.invalid" : "Please select relationship according to gender",
     
