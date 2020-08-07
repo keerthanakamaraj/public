@@ -636,12 +636,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
-    this.services.rloCommonData.globalApplicationDtls = {
-      isLoanCategory: event.isLoanCategory,
-      ProductCode: event.ProductCode,
-      SubProductCode: event.SubProductCode,
-      SchemeCode: event.SchemeCode,
-    };
+    // this.services.rloCommonData.globalApplicationDtls = {
+    //   isLoanCategory: event.isLoanCategory,
+    //   ProductCode: event.ProductCode,
+    //   SubProductCode: event.SubProductCode,
+    //   SchemeCode: event.SchemeCode,
+    // };
   }
 
   async headerState(event) {

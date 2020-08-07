@@ -30,20 +30,20 @@ export interface IFormValidationData {
   errorsList: any
 }
 export interface IGlobalApllicationDtls {
-  isLoanCategory?:boolean,
-  TypeOfLoanCode?:string,
-  TypeOfLoanName?:string,
-  ProductCode?:string,
-  ProductName?:string,
-  SubProductCode?:string,
-  SubProductName?:string,
-  SchemeCode?:string,
-  SchemeName?:string,
-  PromotionCode?:string,
-  PromotionName?:string,
-  LoanTenure?:string,
-  LoanTenurePeriodCode?:string,
-  LoanTenurePeriodName?:string
+  isLoanCategory?: boolean;
+  TypeOfLoanCode?: string;
+  TypeOfLoanName?: string;
+  ProductCode?: string;
+  ProductName?: string;
+  SubProductCode?: string;
+  SubProductName?: string;
+  SchemeCode?: string;
+  SchemeName?: string;
+  PromotionCode?: string;
+  PromotionName?: string;
+  LoanTenure?: string;
+  LoanTenurePeriodCode?: string;
+  LoanTenurePeriodName?: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -773,7 +773,7 @@ export class RloCommonData {
     }
   }
 
-  calculateLoanOwnership(activeBorSeq?:string) {
+  calculateLoanOwnership(activeBorSeq?: string) {
     let totalLoanOwnership: number = 0;
     console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
     if (this.masterDataMap.has("customerMap")) {
@@ -781,13 +781,13 @@ export class RloCommonData {
       customerMap.forEach(entry => {
         if (entry.has('CustomerDetails')) {
           let customer = entry.get('CustomerDetails');
-          if (customer.BorrowerSeq!=activeBorSeq && customer.LoanOwnership) {
-            totalLoanOwnership += parseFloat(customer.LoanOwnership);         
+          if (customer.BorrowerSeq != activeBorSeq && customer.LoanOwnership) {
+            totalLoanOwnership += parseFloat(customer.LoanOwnership);
           }
         }
       });
     }
-    console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    //console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
     return totalLoanOwnership;
   }
 

@@ -215,8 +215,8 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       this.repaymentFormData.interestRate = this.NetInterestRate.getFieldValue();
       this.repaymentFormData.disbursalDate = this.formatDate(this.DisbursalDate.getFieldValue(), 'DD-MMM-YYYY', 'DD-MM-YYYY');
       this.repaymentFormData.firstInstallmentDate = this.formatDate(this.RepaymentStartDate.getFieldValue(), 'DD-MMM-YYYY', 'DD-MM-YYYY');
-      this.repaymentFormData.productCode = this.services.rloCommonData.globalApplicationDtls.ProductCode;
-      this.repaymentFormData.subProductCode = this.services.rloCommonData.globalApplicationDtls.SubProductCode;
+      this.repaymentFormData.productCode = this.services.rloCommonData.globalApplicationDtls.ProductName;
+      this.repaymentFormData.subProductCode = this.services.rloCommonData.globalApplicationDtls.SubProductName;
 
       this.AmortizationGrid.gridDataLoad({
         'requestParams': this.repaymentFormData

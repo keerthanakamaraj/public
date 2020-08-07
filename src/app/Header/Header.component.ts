@@ -17,6 +17,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { HeaderHandlerComponent } from '../Header/header-handler.component';
+import { IGlobalApllicationDtls } from '../rlo-services/rloCommonData.service';
 
 const customCss: string = '';
 
@@ -182,11 +183,13 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         this.LOAN_CATEGORY = header.TypeOfLoan;
         this.isLoanCategory = this.LOAN_CATEGORY == 'CC' ? false : true;
 
+        this.broadcastApplicationData(header);
+
         this.productCategoryFound.emit({
           'isLoanCategory': this.isLoanCategory,
-          'ProductCode': header["Product"],
-          'SubProductCode': header["SubProduct"],
-          'SchemeCode': header["Scheme"]
+          // 'ProductCode': header["Product"],
+          // 'SubProductCode': header["SubProduct"],
+          // 'SchemeCode': header["Scheme"]
         });
 
         this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null); // "₹ " + header.LoanAmount'];
@@ -326,7 +329,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
-     this.CURRENCY_IMG = './assets/icons/Mauritius Rs Icon.svg';
+    this.CURRENCY_IMG = './assets/icons/Mauritius Rs Icon.svg';
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
         // this.HD_PROD_CAT_NAME.setValue('Auto Loan');
@@ -393,5 +396,26 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     this.SCHEME_NAME = header.SchemeName;
     this.SUB_PRODUCT_NAME = header.SubProductName;
 
+  }
+
+  async broadcastApplicationData(header) {
+
+    let StoreObject: IGlobalApllicationDtls = {
+      'isLoanCategory': this.isLoanCategory,
+      'TypeOfLoanCode': header.TypeOfLoan,
+      'TypeOfLoanName': header.TypeOfLoanName,
+      'ProductCode': header.Product,
+      'ProductName': header.ProductName,
+      'SubProductCode': header.SubProduct,
+      'SubProductName': header.SubProductName,
+      'SchemeCode': header.Scheme,
+      'SchemeName': header.SchemeName,
+      'PromotionCode': header.Promotion,
+      'PromotionName': header.PromotionName,
+      'LoanTenure': header.Tenure,
+      'LoanTenurePeriodCode': header.TenurePeriodCode,
+      'LoanTenurePeriodName': header.TenurePeriodName,
+    }
+    this.services.rloCommonData.globalApplicationDtls = StoreObject;
   }
 }
