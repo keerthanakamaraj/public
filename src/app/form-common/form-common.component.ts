@@ -171,7 +171,7 @@ export class FormCommonComponent implements OnInit {
   actualOwner: string;
 
   constructor(public utility: UtilityService, public services: ServiceStock) {
-  // constructor(public services: ServiceStock ) {
+    // constructor(public services: ServiceStock ) {
 
     // this.appService = utility.getAppService();
     this.logoPath = "assets/images/logo-header.png";
@@ -228,12 +228,12 @@ export class FormCommonComponent implements OnInit {
     // return http.get('dummy');
   }
   public loadLabels() {
-    
-    if( ! ( FormCommonComponent.labelData && FormCommonComponent.labelData['DOCUMENTS'] ) ) { // defaulting to documents key
+
+    if (!(FormCommonComponent.labelData && FormCommonComponent.labelData['DOCUMENTS'])) { // defaulting to documents key
       // console.log("Not loaded ");
       // sessionStorage.setItem('clo-locale-loaded', 'true');
 
-      this.services.rloui.getJSON('clo_en-IN').subscribe( data => {
+      this.services.rloui.getJSON('clo_en-IN').subscribe(data => {
         console.log('data ', data);
         this.onLabelDataReady(data);
       });
@@ -346,15 +346,15 @@ export class FormCommonComponent implements OnInit {
     //       }
     //     }
     //     this.raSimpleValidationSubject.next(this.raSimpleValidationConfig);
-        this.loadDomainAttributes().subscribe(() => {
-          if (onSuccess) {
-            onSuccess();
-          }
-        }, error => {
-          if (onError) {
-            onError(error);
-          }
-        });
+    this.loadDomainAttributes().subscribe(() => {
+      if (onSuccess) {
+        onSuccess();
+      }
+    }, error => {
+      if (onError) {
+        onError(error);
+      }
+    });
     //   }, error => {
     //     if (onError) {
     //       onError(error);
@@ -542,13 +542,13 @@ export class FormCommonComponent implements OnInit {
     //   });
     // } else {
 
-      console.log("---------------------- CLO - getLookupService ", domainObjectName, pageNumber, term, parameters);
-      
-      
+    console.log("---------------------- CLO - getLookupService ", domainObjectName, pageNumber, term, parameters);
+
+
     // @CLO-RLO-Merge - Single line comment - Discuss with Kalpesh
     // Gets called for each dropdown
     return this.utility.getCommonService().getLookupData(domainObjectName, pageNumber, term, parameters);
-    
+
 
     // }
   }
@@ -556,6 +556,7 @@ export class FormCommonComponent implements OnInit {
   public setLookupService(domainObjectName: string, pageNumber: number = 0, term: boolean = true, parameters?: Map<string, string>
     , lookupName?: string) {
     this.getLookupService(domainObjectName, pageNumber, term, parameters).subscribe(data => {
+      console.warn("form common.comp.ts....", data);
       if (data && data['Data']) {
         if (lookupName) {
           this.lookupVariableOptions[lookupName] = data['Data'];
@@ -631,21 +632,21 @@ export class FormCommonComponent implements OnInit {
  * RLO Integration Addition - moved from different locations
  */
 
- // Moved from igcb-datepicker.component.ts
+// Moved from igcb-datepicker.component.ts
 export class IGCBMinMaxDateModel {
   year: number;
   month: number;
   day: number;
 
   constructor(d: number, m: number, y: number) {
-      this.year = y;
-      this.month = m;
-      this.day = d;
+    this.year = y;
+    this.month = m;
+    this.day = d;
   }
 
-  getDate() : Date {
-      let date = new Date(this.year, this.month - 1, this.day);
-      return date;
+  getDate(): Date {
+    let date = new Date(this.year, this.month - 1, this.day);
+    return date;
   }
 }
 
@@ -653,8 +654,8 @@ export class IGCBMinMaxDateModel {
 export class IGCBMinMaxOffsetModel extends IGCBMinMaxDateModel {
 
   constructor(date: Date, dateOffset: number) {
-      let inputDate = date;
-    let outputDate = new Date(inputDate.getTime() + ((1000*60*60*24)*(dateOffset)));
-      super(outputDate.getDate(), outputDate.getMonth() + 1, outputDate.getFullYear());
+    let inputDate = date;
+    let outputDate = new Date(inputDate.getTime() + ((1000 * 60 * 60 * 24) * (dateOffset)));
+    super(outputDate.getDate(), outputDate.getMonth() + 1, outputDate.getFullYear());
   }
 }

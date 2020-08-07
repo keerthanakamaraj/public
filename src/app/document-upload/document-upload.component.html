@@ -11,9 +11,8 @@
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.trnDemographicId" [items]="ownersName"
-                        bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
-                        (change)="getDocumentTypes(docUploadObject.trnDemographicId)"
-                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')"></ng-select>
+                        bindValue="id" bindLabel="DISPLAY_NAME" name="trnDemographicId"                   
+                        ></ng-select>
                 </div>
             </div>
             <div class="col-md-4 ">

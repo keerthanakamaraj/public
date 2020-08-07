@@ -37,9 +37,9 @@ export class CLOCommonService extends CoreREST {
 		this.stageName = stageName;
 	}
 	public saveDocumentUploadDetails(pFormData) {
-		if (pFormData) {
-			pFormData = this.encodeURIPostData(pFormData);
-		}
+		// if (pFormData) {
+		// 	pFormData = this.encodeURIPostData(pFormData);
+		// }
 		return this.http.post(this.getUrl('/proposals/document-upload-details'), pFormData, this.getDefaultOptions());
 	}
 	public saveTabletDocUploadDetails(pFormData){

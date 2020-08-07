@@ -107,10 +107,14 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
 
         // @CLO-RLO-Merge - Borrower/ Co-Borrower ?
         // Add RLO Code for Borrower Co-Borrower
-        // this.utility.getCommonService().getOwnerNamesDetails(this.documentUploadObject.ProposalId).subscribe(
-        //     data => {
-        //         this.ownersName = data['OwnerNames'];
-        //     });
+        this.utility.getCommonService().getOwnerNamesDetails(this.ApplicationId).subscribe(
+            data => {
+                console.log(data);
+                // this.ownersName = data['OwnerNames'];
+                this.ownersName = [
+                    { id: "2900", text: "Aswathama Pasupuleti" }
+                ];
+            });
 
         // @CLO-RLO-Merge Access Entitlement
         // this.userAccessEntitle = UserAccessEntitlement.getInstance(this.taskName);
@@ -124,18 +128,31 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         let mainBorrower;
         FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
         tempCustomerList.forEach(element => {
-          // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-          if (element.CustomerType == 'B') {
-            mainBorrower = element.BorrowerSeq;
-          }
-          FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+            // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+            if (element.CustomerType == 'B') {
+                mainBorrower = element.BorrowerSeq;
+            }
+            FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
         });
-    
+
         console.log("shweta :: score options list", FilterOptions);
 
         setTimeout(() => {
             this.reLodeGrid();
+
+            this.docUploadObject.trnDemographicId = "2901";
+            this.docDetailsObject.DocType = "1";
+            this.docDetailsObject.entityDocumentId = "1";
+            console.log(this.docDetailsObject);
+
+            // this.ownersName = [
+            //     { id: "2900", text: "Aswathama Pasupuleti" }
+            // ];
+
+            //this.getDocuments()
         }, 500);
+
+
 
     }
     // This method is to get the document types
@@ -164,22 +181,22 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     getDocuments() {
         this.docDetailsObject.entityDocumentId = '';
         const formData = new Map<string, string>();
-        formData.set('proposalId', this.documentUploadObject.ProposalId);
+        formData.set('proposalId', this.ApplicationId);
         formData.set('docType', this.docDetailsObject.DocType);
 
         // @CLO-RLO-Merge - Service to Get Document List
-        // this.utility.getCommonService().getDocumentsDetail(formData).subscribe(
-        //     data => {
-        //         if (this.docDetailsObject.DocType === 'MOM') {
-        //             this.documents = [];
+        this.utility.getCommonService().getDocumentsDetail(formData).subscribe(
+            data => {
+                if (this.docDetailsObject.DocType === 'MOM') {
+                    this.documents = [];
 
-        //             this.documents.push(data['MOMDoc']);
-        //         } else {
-        //             this.documents = [];
+                    this.documents.push(data['MOMDoc']);
+                } else {
+                    this.documents = [];
 
-        //             this.documents = data['Documents'];
-        //         }
-        //     });
+                    this.documents = data['Documents'];
+                }
+            });
     }
 
     // This methos is to revalidate all fields before submit
@@ -201,6 +218,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         } else {
             this.processUplaodImage();
         }
+        this.saveImageDetails()
     }
     addNewComment() {
         this.checkStatus = false;
@@ -217,21 +235,22 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.documentUploadObject.DocDetail.push(this.docDetailsObject);
         this.documentUploadObject.DocUploadDetails.push(this.docUploadObject);
 
+        console.log(this.documentUploadObject);
         // @CLO-RLO-Merge - Update Application with document reference
-        // this.utility.getCommonService().saveDocumentUploadDetails(this.documentUploadObject).subscribe(
-        //     data => {
-        //         if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
-        //             this.fileUploadErrorFlag = true;
-        //             this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_SAVE_FILE');
-        //         } else {
-        //             this.clearform();
-        //             this.tooltipError.tooltipdestroy();
-        //             this.utility.getAppService().success(this.getLabel('FILE_UPLOADED_SUCCESSFULLY'));
-        //             this.reLodeGrid();
+        this.utility.getCommonService().saveDocumentUploadDetails(this.documentUploadObject).subscribe(
+            data => {
+                if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
+                    this.fileUploadErrorFlag = true;
+                    this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_SAVE_FILE');
+                } else {
+                    this.clearform();
+                    //this.tooltipError.tooltipdestroy();
+                    //this.utility.getAppService().success(this.getLabel('FILE_UPLOADED_SUCCESSFULLY'));
+                    this.reLodeGrid();
 
 
-        //         }
-        //     });
+                }
+            });
     }
     // This method is to validate file before uploading
     validateFile(fileInput): void {
