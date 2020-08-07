@@ -134,7 +134,8 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
 
   validateRegEx(value, event) {
     var totalErrors: number = 0;
-    this.regex = "^([5]{1})([0-9]{7})*$";
+    //this.regex = "^([5]{1})([0-9]{7})*$";
+    this.regex="^([7-9]{1})([0-9]+)*$";
     if (this.regex) {
       try {
         var patt = new RegExp(this.regex);
