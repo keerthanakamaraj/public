@@ -245,6 +245,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
+    this.services.rloui.customerListDropDownArray = [];
     // this.getUnderWriterData();
   }
 
@@ -325,7 +326,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530 2141(Loan details), 1675
+    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530 2141(Loan details), 1675 2460(has property) 2483
+
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
@@ -337,6 +339,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
+    //appId = 2483;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -378,8 +381,12 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         "CD_CUSTOMER_TYPE": element.CustomerType
       };
 
-      if (element.CustomerType != "R")
+      if (element.CustomerType != "R") {
         this.customerList.push(data);
+
+        this.services.rloui.customerListDropDownArray.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      }
+
     });
 
     // let serviceObj = {
@@ -388,7 +395,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     //   "BorrowerSeq": this.HidCustomerId.getFieldValue()
     // };
     // this.services.rloCommonData.updateMasterDataMap(serviceObj, true)
-    
+
     // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.UWTabs.setCustomerList(this.customerList);//pass customer list to component

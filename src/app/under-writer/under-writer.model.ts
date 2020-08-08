@@ -64,31 +64,36 @@ export class FinancialSummary implements IDeserializable {
                 title: "Total Income (Annual)",
                 subTitle: this.TotalIncome,
                 type: "basic",
-                modalSectionName: "OccupationDetails"
+                modalSectionName: "OccupationDetails",
+                formatToCurrency: true
             },
             {
                 title: "Total Liability (Annual)",
                 subTitle: this.TotalLiabiity,
                 type: "basic",
-                modalSectionName: this.TotalLiabiity != 'NA' ? "LiabilityDetails" : ""
+                modalSectionName: this.TotalLiabiity != 'NA' ? "LiabilityDetails" : "",
+                formatToCurrency: true
             },
             {
                 title: "Total Asset Value",
                 subTitle: this.TotalAssetValue,
                 type: "basic",
-                modalSectionName: this.TotalAssetValue != 'NA' ? "AssetDetails" : ""
+                modalSectionName: this.TotalAssetValue != 'NA' ? "AssetDetails" : "",
+                formatToCurrency: true
             },
             {
                 title: "Total Obligation (Annual)",
                 subTitle: this.TotalObligation,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             },
             {
                 title: "Net Income Monthly (Annual)",
                 subTitle: this.NetIncomeMonthly,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             },
             {
                 title: "DBR",
@@ -394,8 +399,9 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Installment Amount",
                 subTitle: this.TotalInstallmentAmount,
                 type: "basic",
-                modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'Amortization'
-                //modalSectionName: "AmortizationScheduleComponent"
+                modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'Amortization',
+                //modalSectionName: "Amortization",
+                formatToCurrency: true
             },
             {
                 title: "Repayment Start Date",
@@ -408,6 +414,7 @@ export class LoanDetails implements IDeserializable {
                 subTitle: this.Disbursals,
                 type: "basic",
                 modalSectionName: this.checkDisbursals()
+                //modalSectionName: "DisbursementDetails"
             },
             {
                 title: "Repayment Frequency",
@@ -419,14 +426,16 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Fees & Charges",
                 subTitle: this.FeesAndCharges,
                 type: "basic",
-                modalSectionName: this.checkFeesAndCharges()
-                //modalSectionName: 'FeesAndCharges'
+                modalSectionName: this.checkFeesAndCharges(),
+                //modalSectionName: 'FeesAndCharges',
+                formatToCurrency: true
             },
             {
                 title: "Amoritization Amount",
                 subTitle: this.AmortizationAmount,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             },
             {
                 title: "Margin Money",
@@ -489,7 +498,7 @@ export class LoanDetails implements IDeserializable {
             return "DisbursementDetails"
         }
         else {
-            return 'NA';
+            return '';
         }
     }
 
@@ -498,7 +507,7 @@ export class LoanDetails implements IDeserializable {
             return "FeesAndChargesDetails"
         }
         else {
-            return 'NA';
+            return '';
         }
     }
 }
@@ -800,12 +809,12 @@ export class Notes implements IDeserializable {
 }
 
 export class PropertyDetails implements IDeserializable {
-    public propertType: string = "NA";
-    public builderName: string = "NA";
-    public projectName: string = "NA";
-    public nameOfSeller: string = "NA";
-    public costOfProperty: string = "NA";
-    public downPaymentAmount: string = "NA";
+    public PropertyType: string = "NA";
+    public BuilderName: string = "NA";
+    public ProjectName: string = "NA";
+    public NameOfSeller: string = "NA";
+    public CostOfProperty: string = "NA";
+    public DownPaymentAmount: string = "NA";
 
     deserialize(input: any): this {
         return Object.assign(this, input);
@@ -815,39 +824,41 @@ export class PropertyDetails implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "Property Type",
-                subTitle: this.propertType,
+                subTitle: this.getFullName(this.PropertyType),
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Builder Name",
-                subTitle: this.builderName,
+                subTitle: this.BuilderName,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Project Name",
-                subTitle: this.projectName,
+                subTitle: this.ProjectName,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Name of Seller",
-                subTitle: this.nameOfSeller,
+                subTitle: this.NameOfSeller,
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "Cost of Property",
-                subTitle: this.costOfProperty,
+                subTitle: this.CostOfProperty,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             },
             {
                 title: "Down Payment Amount",
-                subTitle: this.downPaymentAmount,
+                subTitle: this.DownPaymentAmount,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             }
         ];
         const returnObj: IGeneralCardData = {
@@ -859,10 +870,30 @@ export class PropertyDetails implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.propertType == 'NA' && this.builderName == 'NA' && this.projectName == 'NA' && this.nameOfSeller == 'NA' && this.costOfProperty == 'NA' && this.downPaymentAmount == 'NA') {
+        if (this.PropertyType == 'NA' && this.BuilderName == 'NA' && this.ProjectName == 'NA' && this.NameOfSeller == 'NA' && this.CostOfProperty == 'NA' && this.DownPaymentAmount == 'NA') {
             return ""
         } else {
             return "";
+        }
+    }
+
+    getFullName(type) {
+        switch (type) {
+            case "B":
+                return "Bungalow";
+                break;
+
+            case "F":
+                return "Flat";
+                break;
+
+            case "T":
+                return "Township";
+                break;
+
+            default:
+                return "NA";
+                break;
         }
     }
 }
@@ -946,7 +977,7 @@ export class CustomerDetails implements IDeserializable {
         }
 
         if (input.hasOwnProperty("UWPersonalInterview")) {
-            this.PersonalInterview = new PersonalInterview().deserialize(input.UWPersonalInterview);
+            this.PersonalInterview = new PersonalInterview().deserialize(input.UWPersonalInterview);//this 'UWPersonalInterview' obj is manually created in Master 
         } else {
             this.PersonalInterview = new PersonalInterview().deserialize([]);
         }
@@ -969,7 +1000,7 @@ export class CustomerDetails implements IDeserializable {
             },
             {
                 title: "Existing Customer",
-                subTitle: this.ExistingCustomer,
+                subTitle: this.getFormattedExistance(this.ExistingCustomer),
                 type: "basic",
                 modalSectionName: ""
             },
@@ -1044,6 +1075,14 @@ export class CustomerDetails implements IDeserializable {
                 break;
             default:
                 break;
+        }
+    }
+
+    getFormattedExistance(val) {
+        if (val != 'NA') {
+            return val == 'Y' ? 'Yes' : 'No';
+        } else {
+            return val
         }
     }
 }
@@ -1142,7 +1181,17 @@ export class ApplicationDetails implements IDeserializable {
         }
 
         if (input.UWFeeCharges != undefined) {
-            this.LoanDetails.FeesAndCharges = input.UWFeeCharges.length;
+            if (input.UWFeeCharges.length) {
+                if (input.UWFeeCharges[0].EffectiveAmt == undefined) {
+                    this.LoanDetails.FeesAndCharges = input.UWFeeCharges[0].ChargeAmt;
+                }
+                else {
+                    this.LoanDetails.FeesAndCharges = input.UWFeeCharges[0].EffectiveAmt;
+                }
+            }
+            else {
+                this.LoanDetails.FeesAndCharges = "NA";
+            }
         }
         else {
             this.LoanDetails.FeesAndCharges = "NA";
@@ -1158,7 +1207,7 @@ export class ApplicationDetails implements IDeserializable {
 
         this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
-        this.PropertyDetails = new PropertyDetails().deserialize(input.UWPropertyDetails);
+        this.PropertyDetails = new PropertyDetails().deserialize(input.UWProperty);
 
         this.CardDetails = new CardDetails().deserialize(input.UWCreditCard);
         this.CardDetails.Branch = this.Branch;
@@ -1239,6 +1288,22 @@ export class Master implements IDeserializable {
     public RmVisitDetails: RmVisitDetails;
 
     deserialize(input: any): this {
+        let customerList = input["UWCustomerDetails"];
+        let questionnaireList = input["UWQuestionnaire"];
+        let personalInterviewQuestionsList;
+
+        console.log(customerList, questionnaireList);
+
+        if (questionnaireList != undefined) {
+            personalInterviewQuestionsList = questionnaireList.filter(q => q.QuestionnaireCategory == 'per_int');
+        }
+
+        customerList.forEach(element => {
+            if (element.CustomerType != 'R') {
+                element.UWPersonalInterview = questionnaireList.filter(q => q.BorrowerSeq == element.BorrowerSeq);
+            }
+        });
+
         this.CustomerDetails = input["UWCustomerDetails"].map(jsonData => new CustomerDetails().deserialize(jsonData));
 
         delete input["UWCustomerDetails"];// IMP:deleting the key coz it was getting added in ApplicationDetails Class Obj
