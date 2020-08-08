@@ -504,7 +504,7 @@ width: 681px !important; */
 .subrightheader1 {
   float: left;
   height: 292px !important;
-  width: 243px !important;
+  width: 275px !important;
   padding-left: 39px !important;
   padding-top: 23px !important;
   padding-bottom: 23px !important;
@@ -2985,6 +2985,7 @@ rlo-ui-card-field {
   .generate_letter {
     button {
       width: 180px !important;
+      margin-top: 24px !important;
     }
   }
 }
@@ -3150,3 +3151,23 @@ rlo-ui-card-field {
 .right-header-7 {
   padding-left: 7% !important;
 }
+
+#ApplicationInfo,#CustomerInfo,#FieldId_3,#FieldId_8,#Document_Information{
+font-size: 16px; 
+color:black;
+font-family :open sans;
+font-style:normal;
+font-weight:400;  
+margin-top:31px;
+margin-left:21px;
+margin-bottom:16px;
+}
+#CustomerInfo{
+  font-size: 16px; 
+  color:black;
+  font-family :open sans;
+  font-style:normal;
+  font-weight:400;  
+  margin-left:21px;
+  }
+
