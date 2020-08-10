@@ -45,7 +45,8 @@
             </div>
             <app-combo-box #PartyType category="2" fieldID="PartyType" [formCode]="formCode"
               (blur)="genericOnBlur('PartyType', $event)" placeholder="Select"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('PartyType', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyName.isHidden()">
@@ -54,10 +55,14 @@
                 {{ 'Fees&ChargesDetails.PartyName' | translate}}
               </label>
             </div>
-            <app-combo-box #PartyName category="2" fieldID="PartyName" [formCode]="formCode"
+            <app-combo-box #PartyName category="4" fieldID="PartyName" placeholder="Select"
+              [emittedOptions]="FilterOptions">
+            </app-combo-box>
+
+            <!-- <app-combo-box #PartyName category="2" fieldID="PartyName" [formCode]="formCode"
               (blur)="genericOnBlur('PartyName', $event)" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
-            </app-combo-box>
+            </app-combo-box> -->
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeBasis.isHidden()">
@@ -229,7 +234,7 @@
         <app-hidden #hideFrequency fieldID="hideFrequency"></app-hidden>
         <app-hidden #hideRateChargeOn fieldID="hideRateChargeOn"></app-hidden>
         <app-hidden #hideChargeCollection fieldID="hideChargeCollection"></app-hidden>
-        <app-hidden #hidePartyName fieldID="hidePartyName"></app-hidden>
+        <!-- <app-hidden #hidePartyName fieldID="hidePartyName"></app-hidden> -->
         <app-hidden #hideChargeDescription fieldID="hideChargeDescription"></app-hidden>
 
 

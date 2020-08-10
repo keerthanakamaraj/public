@@ -59,16 +59,20 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   @ViewChild('hideRateChargeOn', { static: false }) hideRateChargeOn: HiddenComponent;
   @ViewChild('hideChargeCollection', { static: false }) hideChargeCollection: HiddenComponent;
   @ViewChild('hideChargeDescription', { static: false }) hideChargeDescription: HiddenComponent;
-  @ViewChild('hidePartyName', { static: false }) hidePartyName: HiddenComponent;
+  //@ViewChild('hidePartyName', { static: false }) hidePartyName: HiddenComponent;
 
 
 
   @Input() parentData: IAmortizationForm = undefined;
- 
+
   LoanAmount: any;
   NetInterestRate: any;
   ApplicationId: any;
   InterestRate: any;
+
+  FilterOptions = [];
+
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -123,7 +127,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.hideRateChargeOn.setValue('RATE_CHARGE_ON');
     this.hideChargeCollection.setValue('CHARGE_COLLECTION');
     this.hidePeriodicCharge.setValue('Y_N');
-    this.hidePartyName.setValue('PARTY_NAME')
+    //is.hidePartyName.setValue('PARTY_NAME')
     this.hideChargeDescription.setValue('CHARGE_DESC');
     this.ChargeBasis.setDefault('RATE');
     await this.Handler.onFormLoad({
@@ -199,7 +203,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       this.checkForHTabOverFlow();
 
       if (this.readOnly) {
-        this.setReadOnly(this.readOnly);     
+        this.setReadOnly(this.readOnly);
       }
     });
   }
@@ -222,7 +226,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.passNewValue(this.value);
 
     this.setReadOnly(false);
-  
+
     this.onFormLoad();
   }
   async ChargeBasis_change(fieldID, value) {
@@ -426,7 +430,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         this.Handler.hideFieldBasedOnPeriodicCharge();
 
         if (this.readOnly) {
-          this.setReadOnly(this.readOnly);     
+          this.setReadOnly(this.readOnly);
         }
       },
       async (httpError) => {
@@ -445,6 +449,28 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.NetInterestRate = this.parentData.NetInterestRate
     this.ApplicationId = this.parentData.ApplicationId
     this.InterestRate = this.parentData.InterestRate
+  }
+
+  PartyType_blur(fieldName, event) {
+
+    let filterKey = this.PartyType.getFieldValue();
+    console.log("shweta :: slected filterkey", filterKey);
+    this.setFilterbyOptions(filterKey);
+  }
+
+  setFilterbyOptions(filterKey) {
+    let tempCustomerList = this.services.rloCommonData.getCustomerList();
+    this.FilterOptions = [];
+    // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+    tempCustomerList.forEach(element => {
+      // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+      if (element.CustomerType == filterKey) {
+        this.FilterOptions.push({ id: element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      }
+    });
+
+    console.log("shweta :: score options list", this.FilterOptions);
+    this.PartyName.setStaticListOptions(this.FilterOptions);
   }
 
   fieldDependencies = {
@@ -540,16 +566,16 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       outDep: [
       ]
     },
-    PartyName: {
-      inDep: [
+    // PartyName: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "PartyName", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidePartyName", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    }
+    //     { paramKey: "VALUE1", depFieldID: "PartyName", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidePartyName", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // }
 
   }
 
