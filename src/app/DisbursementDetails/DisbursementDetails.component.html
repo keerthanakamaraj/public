@@ -1,162 +1,172 @@
 <form class="MakeRelative">
-    <div class="ShowLoading " *ngIf="loadSpinner">
-        <div class="lds-roller MakeItMiddle">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <div class="clearfix content">
-        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-                <div class="col-sm-12 col-md-12 disbursalDetails">
-                        
-                        <h4 class="main-header">
-                                <!-- {{ 'DisbursementDetails.FormTitle' | translate }} -->
-                                <!-- <span class="fa fa-times" (click)="onClick(0)"></span> -->
-                        </h4>
-                        </div>
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-12 col-md-12 disbursalDetails">
 
-            <!-- <div class="col-sm-5 col-md-5">
+        <h4 class="main-header">
+          <!-- {{ 'DisbursementDetails.FormTitle' | translate }} -->
+          <!-- <span class="fa fa-times" (click)="onClick(0)"></span> -->
+        </h4>
+      </div>
+
+      <!-- <div class="col-sm-5 col-md-5">
                 <h4 class="FormTitle">
                     {{ 'DisbursementDetails.FormTitle' | translate }}
                 </h4>
             </div> -->
-            <!-- <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      <!-- <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
             </div> -->
-        </div>
-        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-        <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10">
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalTo.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': DisbursalTo.mandatory}">
-                                {{ 'DisbursementDetails.DisbursalTo' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #DisbursalTo category="4" fieldID="DisbursalTo" 
-                        [formCode]="formCode" placeholder="Select" [emittedOptions]="FilterOptions"
-                        defaultValue="{{FilterOptions[0].id}}" 
-                        (blur)="genericOnBlur('DisbursalTo', $event)"></app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalDate.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': DisbursalDate.mandatory}">
-                                {{ 'DisbursementDetails.DisbursalDate' | translate}}
-                            </label>
-                        </div>
-                        <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode" (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': Currency.mandatory}">
-                                {{ 'DisbursementDetails.Currency' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select" domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}"
-                            doServerUrl="/masters" domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Amount.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': Amount.mandatory}">
-                                {{ 'DisbursementDetails.Amount' | translate}}
-                            </label>
-                        </div>
-                        <app-amount #Amount fieldID="Amount" [formCode]="formCode" (blur)="genericOnBlur('Amount', $event)"></app-amount>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'DisbursementDetails.LocalCurrencyEquivalent' | translate}}
-                            </label>
-                        </div>
-                        <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode" (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentMode.isHidden()">
-                        <div class="clr-brown fieldLegend" >
-                            <label class="clr-brown" [ngClass]="{'mandatory': PaymentMode.mandatory}">
-                                {{ 'DisbursementDetails.PaymentMode' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #PaymentMode category="2" fieldID="PaymentMode" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                        domainObjectCode="MSTGENERALPARAM" placeholder="Select" (blur)="genericOnBlur('PaymentMode', $event)" (change)= "PaymentMode_change('PaymentMode', $event)"></app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InFavorOf.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': InFavorOf.mandatory}">
-                                {{ 'DisbursementDetails.InFavorOf' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #InFavorOf fieldID="InFavorOf" [formCode]="formCode" (blur)="genericOnBlur('InFavorOf', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FundTransferMode.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': FundTransferMode.mandatory}">
-                                {{ 'DisbursementDetails.FundTransferMode' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #FundTransferMode category="2" fieldID="FundTransferMode" [formCode]="formCode"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                        domainObjectCode="MSTGENERALPARAM" placeholder="Select" (blur)="genericOnBlur('FundTransferMode', $event)"></app-combo-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="IFSCCode.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': IFSCCode.mandatory}">
-                                {{ 'DisbursementDetails.IFSCCode' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #IFSCCode fieldID="IFSCCode" [formCode]="formCode" (blur)="genericOnBlur('IFSCCode', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Account.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown" [ngClass]="{'mandatory': Account.mandatory}">
-                                {{ 'DisbursementDetails.Account' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #Account fieldID="Account" [formCode]="formCode" (blur)="genericOnBlur('Account', $event)"></app-text-box>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Remarks.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'DisbursementDetails.Remarks' | translate}}
-                            </label>
-                        </div>
-                        <app-text-box #Remarks fieldID="Remarks" [formCode]="formCode" (blur)="genericOnBlur('Remarks', $event)"></app-text-box>
-                    </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
-                    <!-- <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div> -->
-                    <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
-                        <app-button #DD_Reset fieldName="{{ 'DisbursementDetails.DD_Reset' | translate}}"
-                          fieldID="DD_Reset" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2"
-                          customClass="icon-button" (buttonClick)="clear_click($event)"></app-button>
-            
-                        <app-button #DD_Add fieldName="{{ 'DisbursementDetails.DD_Add' | translate}}"
-                          fieldID="DD_Add" [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2"
-                          customClass="icon-button" (buttonClick)="DD_Add_click($event)"></app-button>
-                    </div>
-            
-                    <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>                    
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_18.isHidden()">
-                        <app-DisbursementGrid #FieldId_18 fieldID="FieldId_18" [formCode]="formCode" (modifyDisbursal)="FieldId_18_modifyDisbursal($event)"></app-DisbursementGrid>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
-                            <app-disbursement-handler #Handler [MainComponent]="this"></app-disbursement-handler>
-                          </div>
-                </div>
-                <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
-                <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
-                <app-hidden #hideFundTransferMode fieldID="hideFundTransferMode"></app-hidden>
-                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-                <app-hidden #hidePaymentMode fieldID="hidePaymentMode"></app-hidden>
-                <app-hidden #HideDisbursalSeqId fieldID="HideDisbursalSeqId"></app-hidden>                
-            </div>
-        </div>
     </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalTo.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': DisbursalTo.mandatory}">
+                {{ 'DisbursementDetails.DisbursalTo' | translate}}
+              </label>
+            </div>
+            <app-combo-box #DisbursalTo category="4" fieldID="DisbursalTo" [formCode]="formCode" placeholder="Select"
+              [emittedOptions]="FilterOptions" (blur)="genericOnBlur('DisbursalTo', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DisbursalDate.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': DisbursalDate.mandatory}">
+                {{ 'DisbursementDetails.DisbursalDate' | translate}}
+              </label>
+            </div>
+            <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode"
+              (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Currency.mandatory}">
+                {{ 'DisbursementDetails.Currency' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
+              domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
+              domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Amount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Amount.mandatory}">
+                {{ 'DisbursementDetails.Amount' | translate}}
+              </label>
+            </div>
+            <app-amount #Amount fieldID="Amount" [formCode]="formCode" (blur)="genericOnBlur('Amount', $event)">
+            </app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DisbursementDetails.LocalCurrencyEquivalent' | translate}}
+              </label>
+            </div>
+            <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
+              (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentMode.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': PaymentMode.mandatory}">
+                {{ 'DisbursementDetails.PaymentMode' | translate}}
+              </label>
+            </div>
+            <app-combo-box #PaymentMode category="2" fieldID="PaymentMode" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('PaymentMode', $event)"
+              (change)="PaymentMode_change('PaymentMode', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InFavorOf.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': InFavorOf.mandatory}">
+                {{ 'DisbursementDetails.InFavorOf' | translate}}
+              </label>
+            </div>
+            <app-text-box #InFavorOf fieldID="InFavorOf" [formCode]="formCode"
+              (blur)="genericOnBlur('InFavorOf', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FundTransferMode.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': FundTransferMode.mandatory}">
+                {{ 'DisbursementDetails.FundTransferMode' | translate}}
+              </label>
+            </div>
+            <app-combo-box #FundTransferMode category="2" fieldID="FundTransferMode" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('FundTransferMode', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="IFSCCode.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': IFSCCode.mandatory}">
+                {{ 'DisbursementDetails.IFSCCode' | translate}}
+              </label>
+            </div>
+            <app-text-box #IFSCCode fieldID="IFSCCode" [formCode]="formCode" (blur)="genericOnBlur('IFSCCode', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Account.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Account.mandatory}">
+                {{ 'DisbursementDetails.Account' | translate}}
+              </label>
+            </div>
+            <app-text-box #Account fieldID="Account" [formCode]="formCode" (blur)="genericOnBlur('Account', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Remarks.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DisbursementDetails.Remarks' | translate}}
+              </label>
+            </div>
+            <app-text-box #Remarks fieldID="Remarks" [formCode]="formCode" (blur)="genericOnBlur('Remarks', $event)">
+            </app-text-box>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <!-- <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
+            <app-button #DD_Reset fieldName="{{ 'DisbursementDetails.DD_Reset' | translate}}" fieldID="DD_Reset"
+              [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
+              (buttonClick)="clear_click($event)"></app-button>
+
+            <app-button #DD_Add fieldName="{{ 'DisbursementDetails.DD_Add' | translate}}" fieldID="DD_Add"
+              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
+              (buttonClick)="DD_Add_click($event)"></app-button>
+          </div>
+
+          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_18.isHidden()">
+            <app-DisbursementGrid #FieldId_18 fieldID="FieldId_18" [formCode]="formCode"
+              (modifyDisbursal)="FieldId_18_modifyDisbursal($event)"></app-DisbursementGrid>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+            <app-disbursement-handler #Handler [MainComponent]="this"></app-disbursement-handler>
+          </div>
+        </div>
+        <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
+        <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
+        <app-hidden #hideFundTransferMode fieldID="hideFundTransferMode"></app-hidden>
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hidePaymentMode fieldID="hidePaymentMode"></app-hidden>
+        <app-hidden #HideDisbursalSeqId fieldID="HideDisbursalSeqId"></app-hidden>
+      </div>
+    </div>
+  </div>
 </form>
