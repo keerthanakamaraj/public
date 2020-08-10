@@ -10,6 +10,7 @@ import { IGCBDatepickerComponent } from '../igcb-datepicker/igcb-datepicker.comp
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module';
+import { RAFormModule } from '../ra-form/ra-form.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module'
     FileUploadModule,
     IgcbDatepickerModule,
     DocumentUploadRoutingModule,
+    RAFormModule,
   ],
   exports: [
     DocumentUploadComponent

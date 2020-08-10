@@ -1,72 +1,75 @@
-<div class="container-fluid">
+<div class="lyt-doc-upload container-fluid bi-reponsive ">
 
+    <div class="title">Upload Document</div>
 
-    <div class="section-break"></div>
-
-    <div>
+    <div class="doc-container">
         <!-- <div class="row fluid-row" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge -->
-        <div class="row fluid-row" >
-            <div class="col-md-4">
-                <div class="form-group">
+        <div class="row fluid-row form-group">
+            <div class="col-md-4 res-pr-hide">
+                <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
-                    <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.trnDemographicId" [items]="ownersName"
-                        bindValue="id" bindLabel="DISPLAY_NAME" name="trnDemographicId"                   
-                        ></ng-select>
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.trnDemographicId"
+                        [items]="ownersName" bindValue="id" bindLabel="DISPLAY_NAME" name="trnDemographicId"
+                        [clearable]="false"></ng-select>
                 </div>
             </div>
-            <div class="col-md-4 ">
-                <div class="form-group">
+            <div class="col-md-4 res-pr-hide">
+                <div class="">
                     <label [ngClass]="{ 'mandatory': isMandatory('DocType')}">{{getLabel('DOC_DOC_TYPE')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType" [items]="docTypes"
                         bindValue="DocType" bindLabel="DocDesc" name="DocType"
-                        (blur)="validateField(docDetailsObject.DocType, 'DocType')" (change)="getDocuments()">
+                        (blur)="validateField(docDetailsObject.DocType, 'DocType')" (change)="getDocuments()"
+                        [clearable]="false">
                     </ng-select>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
+            <div class="col-md-4 res-pr-hide">
+                <div class="">
                     <label [ngClass]="{ 'mandatory': isMandatory('entityDocumentId')}">{{getLabel('DOCUMENT')}}</label>
-                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.entityDocumentId" [items]="documents"
-                        bindValue="entityDocumentId" bindLabel="docDesc" name="entityDocumentId"
-                        (blur)="validateField(docDetailsObject.entityDocumentId, 'entityDocumentId')"></ng-select>
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.entityDocumentId"
+                        [items]="documents" bindValue="entityDocumentId" bindLabel="docDesc" name="entityDocumentId"
+                        (blur)="validateField(docDetailsObject.entityDocumentId, 'entityDocumentId')"
+                        [clearable]="false"></ng-select>
                 </div>
             </div>
-
-
-            <div class="col-md-4">
-                <div class="form-group">
+            <div class="col-md-4 res-pr-hide">
+                <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('relationshipToBorrower')}">{{getLabel('DOC_REL_TO_BORR')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.relationshipToBorrower"
                         [items]="lookupVariableOptions['RELATION_BORROWER']" bindValue="id" bindLabel="text"
                         name="relationshipToBorrower"
-                        (blur)="validateField(docUploadObject.relationshipToBorrower, 'relationshipToBorrower')">
+                        (blur)="validateField(docUploadObject.relationshipToBorrower, 'relationshipToBorrower')"
+                        [clearable]="false">
                     </ng-select>
 
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
+            <div class="col-md-4 res-pr-hide">
+                <div class="">
                     <label [ngClass]="{ 'mandatory': isMandatory('status')}">{{getLabel('DOC_STATUS')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.status" name="status"
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
-                        (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')">
+                        (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')"
+                        [clearable]="false">
                     </ng-select>
                 </div>
             </div>
-            <div class="col-md-4"
+            <div class="col-md-4 res-pr-hide"
                 *ngIf="docUploadObject.status =='002' || docUploadObject.status =='003' || docUploadObject.status =='004' ">
-                <div class="form-group">
+                <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('collectionDate')}">{{getLabel('COLLECTION_DATE')}}</label>
-                    <igcb-datepicker [(ngModel)]="docUploadObject.collectionDate" dateFormat="dd-MMM-yyyy"
+                    <!-- <igcb-datepicker [(ngModel)]="docUploadObject.collectionDate" dateFormat="dd-MMM-yyyy"
                         (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')" name="collectionDate">
-                    </igcb-datepicker>
+                    </igcb-datepicker> -->
+                    <app-date #CD_PASSPORT_EXPIRY fieldID="CD_PASSPORT_EXPIRY" [formCode]="formCode"
+                            placeholder="dd-mm-yyyy" (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
                 </div>
             </div>
-            <div class="col-md-4" *ngIf="docUploadObject.status=='005'">
-                <div class="form-group">
+            <div class="col-md-4 res-pr-hide" *ngIf="docUploadObject.status=='005'">
+                <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('deferredUntil')}">{{getLabel('DEFERRED_UNTIL')}}</label>
                     <igcb-datepicker [(ngModel)]="docUploadObject.deferredUntil" dateFormat="dd-MMM-yyyy"
@@ -74,10 +77,8 @@
                     </igcb-datepicker>
                 </div>
             </div>
-
-
-            <div class="col-md-4" *ngIf="docUploadObject.status=='006'">
-                <div class="form-group">
+            <div class="col-md-4 res-pr-hide" *ngIf="docUploadObject.status=='006'">
+                <div class="">
                     <label>{{getLabel('REMARKS')}}</label>
                     <input type="text" class="form-control lfd" id="remarks" placeholder="{{getPlaceholder('remarks')}}"
                         (blur)="validateField(docUploadObject.remarks, 'remarks')" name="remarks"
@@ -85,32 +86,38 @@
 
                 </div>
             </div>
-
         </div>
-        <label [ngClass]="{ 'mandatory': isMandatory('DocName')}">{{getLabel('BROWSE_UPLOAD')}}</label>
-        <div class="form-group row vertical-center">
-            <!-- <div class="col-md-8" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge -->
-              <div class="col-md-8">
-                <div class='input-group handleerror' name="DocName">
-                    <input class="form-control" [(ngModel)]="docDetailsObject.DocName" readonly
-                        (blur)="validateField(docDetailsObject.DocName, 'DocName')" />
-                    <span (click)="fileInput.click()" class="input-group-addon"><img src="assets/icons/folder.png"
-                            width="20" height="20" alt="browse"></span>
-                    <input type="file" name="txtTabAddr_cfs" #fileInput ng2FileSelect [uploader]="uploader"
-                        (change)="validateFile($event)" id="docId" maxFileSize="5000000"
-                        class="img-upload-input" />
+
+        <div class="row fluid-row form-group">
+            <div class="col-md-8 res-pr-hide">
+                <div>
+                    <label [ngClass]="{ 'mandatory': isMandatory('DocName')}">{{getLabel('BROWSE_UPLOAD')}}</label>
+
+                    <!-- <div class="col-md-8" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge -->
+
+                    <div class='file-upload handleerror' name="DocName">
+                        <input class="form-control" [(ngModel)]="docDetailsObject.DocName" readonly
+                            (blur)="validateField(docDetailsObject.DocName, 'DocName')" />
+                        <span (click)="fileInput.click()" class="folder-icon icon-folder-open"></span>
+                        <input class="d-none img-upload-input" type="file" name="txtTabAddr_cfs" #fileInput
+                            ng2FileSelect [uploader]="uploader" (change)="validateFile($event)" id="docId"
+                            maxFileSize="5000000" />
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 btn-group">
-                <button *ngIf="checkStatus" class="btn-secondary"
-                    (click)="addNewComment()">{{getLabel("ADD_NEW")}}</button>
+            <div class="col-md-4 res-pr-hide margin-btn">
+                <!-- <button *ngIf="checkStatus" class="btn-secondary"
+                        (click)="addNewComment()">{{getLabel("ADD_NEW")}}</button> -->
                 <button *ngIf="UserId == checkUserId" (click)="onSubmit()" type="button"
                     class="btn btn-primary">{{getLabel('DOC_UP_UPLOAD')}}</button>
-                <button *ngIf="UserId == checkUserId" (click)="clearform()" type="button"
-                    class="btn-secondary">{{getLabel('RESET')}}</button>
+                <!-- <button *ngIf="UserId == checkUserId" (click)="clearform()" type="button"
+                        class="btn-secondary">{{getLabel('RESET')}}</button> -->
             </div>
 
         </div>
+
+
+
         <div class="row">
             <div class="col-md-12 text-center">
                 <span class="error-message-form" *ngIf="fileUploadErrorFlag">{{fileUploadErrorMsg}}</span>
@@ -119,19 +126,17 @@
         <!-- END - Upload Note  -->
     </div>
 
-
-
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-12" align="center">
             <h4 *ngIf="count == 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</h4>
             <h4 *ngIf="count > 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOADS')}}</h4>
             <h4 *ngIf="count == 0" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</h4>
         </div>
-    </div>
+    </div> -->
     <!-- END - Section Sub Header -->
     <!-- START - Table -->
     <div class="row">
-        <div class="col-md-12" id="docstable1">
+        <!-- <div class="col-md-12" id="docstable1">
             <div class="panel-group">
                 <div class="panel panel-default table table-responsive">
                     <table>
@@ -177,14 +182,15 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
+    <div class="conditions">
+        <div class="note-title"><em>{{getLabel('PLEASE_NOTE')}}</em> </div>
+        <div class="note">{{getLabel('DOC_UP_MAX_LIMIT')}}</div>
+        <div class="note">{{getLabel('DOC_UP_ALLOWED_TYPE')}}</div>
+    </div>
 </div>
-<div>
-    <p><em>{{getLabel('PLEASE_NOTE')}}</em> </p>
-    <p>{{getLabel('DOC_UP_MAX_LIMIT')}}</p>
-    <p>{{getLabel('DOC_UP_ALLOWED_TYPE')}}</p>
-</div>
+
 <!--END OF MODAL-->
 <span *ngIf="fileUploadErrorFlag" class="img-upload-err">{{fileUploadErrorMsg}}</span>

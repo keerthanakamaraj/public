@@ -675,13 +675,13 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   openFileUpload() {
     let modalObj: IModalData = {
-      title: 'Document Upload',
+      title: '',
       mainMessage: undefined,
-      modalSize: 'modal-width-lg',
+      modalSize: 'modal-width-md',
       buttons: [],
       componentName: 'FileUpload',
       data: '',
-      applicationId: Number(this.ApplicationId)
+      applicationId: 1675
     };
     this.services.rloui.confirmationModal(modalObj).then((response) => {
       console.log(response);
