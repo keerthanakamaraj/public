@@ -10,7 +10,12 @@
         </ul>
     </div>
 
-    <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" [maxlength]="10"
+    <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" *ngIf ="type == 'LandlineNo'" [maxlength]="7"
+        [ngClass]="{'error' : error, 'input-readonly':readOnly}"
+        [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
+        [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />
+
+        <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" *ngIf ="type != 'LandlineNo'" [maxlength]="8"
         [ngClass]="{'error' : error, 'input-readonly':readOnly}"
         [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
         [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />

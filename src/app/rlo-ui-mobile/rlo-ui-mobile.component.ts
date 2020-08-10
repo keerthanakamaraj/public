@@ -16,9 +16,12 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   @Input('maxLength') maxLength: number;
   @Input('minLength') minLength: number;
   @Input('DecimalLength') DecimalLength: number;
+  @Input('numberType') type: string;
+
 
   // RLO Additions
   @Input('regex') regex: string;
+  // maxLengthValidation : number = 8;
 
   staticData: any = {
     "CD_COUNTRY_CODE": {
@@ -135,13 +138,23 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   validateRegEx(value, event) {
     var totalErrors: number = 0;
     //this.regex = "^([5]{1})([0-9]{7})*$";
-    this.regex="^([7-9]{1})([0-9]+)*$";
+    if(this.type == 'LandlineNo'){ 
+    this.regex = "^([246]{1})([0-9]{6})*$";
+    // this.maxLengthValidation = 7
+    }
+    else{
+      this.regex = "^([5]{1})([0-9]{7})*$";
+      // this.maxLengthValidation = 8
+
+      // this.regex="^([7-9]{1})([0-9]+)*$";
+    }
+   
     if (this.regex) {
       try {
         var patt = new RegExp(this.regex);
         if (!patt.test(value)) {
           this.setError('rlo.error.invalid.regex');
-          totalErrors++;
+          totalErrors++;  
         }
       } catch (e) {
         console.error("Error validating Reg Ex ", e);
