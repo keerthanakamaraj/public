@@ -169,6 +169,7 @@
     "rlo.success.update.feesCharges": "The Fees & Charges have been updated successfully.",
     "rlo.error.update.feesCharges": "The Fees & Charges could not be updated. Please try again.",
     "rlo.delete-customer.comfirmation": "Are you sure you want to delete the customer?",
+    "rlo.error.ExpDateOfCompletion.invalid":"The Date of Project Completion entered is invalid. Please correct it.",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

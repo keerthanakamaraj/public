@@ -105,7 +105,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.revalidateBasicField('Architect'),
       this.revalidateBasicField('Contractor'),
       this.revalidateBasicField('PerOfProjectCompletion'),
-      // this.revalidateBasicField('ExpDateOfCompletion'),
+      this.revalidateBasicField('ExpDateOfCompletion'),
       this.revalidateBasicField('PropoertyPurchaseNameOf'),
       this.revalidateBasicField('CostOfProperty'),
       this.revalidateBasicField('PropertyInsuranceCost'),
@@ -828,11 +828,13 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async ExpDateOfCompletion_blur(event) {
     let inputMap = new Map();
-
+console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
+    if(this.ExpDateOfCompletion.getFieldValue()){
     if (this.isPastDate(this.ExpDateOfCompletion.getFieldValue())) {
-      this.ExpDateOfCompletion.setError('rlo.error.DateOfRecipt.invalid');
+      this.ExpDateOfCompletion.setError('rlo.error.ExpDateOfCompletion.invalid');
       return 1;
     }
+  }
   }
 
 
