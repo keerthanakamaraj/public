@@ -45,11 +45,11 @@
       <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <i class="fa fa edit"></i>
       </div> -->
-      <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
+      <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
           customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px">
         </app-button>
-      </div>
+      </div> -->
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -92,7 +92,7 @@
               {{ 'Operation.DisbustAmt' | translate}}
             </label>
           </div>
-          <app-text-box #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode" (blur)="genericOnBlur('DisbustAmt', $event)"></app-text-box>
+          <app-amount #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode" (blur)="genericOnBlur('DisbustAmt', $event)"></app-amount>
         </div>
 
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LOAN_DBR.isHidden()">
@@ -101,8 +101,8 @@
               {{ 'Operation.LOAN_DBR' | translate}}
             </label>
           </div>
-          <app-text-box #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
-          </app-text-box>
+          <app-amount #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
+          </app-amount>
         </div>
 
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="EMI_Amt.isHidden()">
@@ -111,8 +111,8 @@
               {{ 'Operation.EMI_Amt' | translate}}
             </label>
           </div>
-          <app-text-box #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
-          </app-text-box>
+          <app-amount #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
+          </app-amount>
         </div>  
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;" >
           <app-button class="generate_letter"  #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
@@ -142,8 +142,8 @@
              
             </label>
           </div>
-          <app-text-box #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
-            (blur)="genericOnBlur('Apved_Limit', $event)"></app-text-box>
+          <app-amount #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
+            (blur)="genericOnBlur('Apved_Limit', $event)"></app-amount>
         </div>
 
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Card_DBR.isHidden()">
@@ -152,8 +152,8 @@
               {{ 'Operation.Card_DBR' | translate}}
             </label>
           </div>
-          <app-text-box #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
-          </app-text-box>
+          <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
+          </app-amount>
         </div>
 
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>

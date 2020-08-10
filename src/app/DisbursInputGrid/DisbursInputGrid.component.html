@@ -8,7 +8,7 @@
   <table class="table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
     (click)="clearGridError()">
     <thead>
-      <tr class="tr-blue tr-td-l">
+      <tr class="tr-blue tr-td-l" style="background: #e7f3ff;">
         <th [hidden]="isColumnHidden('ProjectCompletion')" width="3%">
           {{ 'DisbursInputGrid.ProjectCompletion' | translate }}</th>
         <th [hidden]="isColumnHidden('DisbursementAmount')" width="3%">

@@ -195,9 +195,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.setReadOnly(false);
     this.onFormLoad();
   }
-  viewDDE() {
-    this.services.router.navigate(['home', 'DDE']);
-  }
+  // viewDDE() {
+  //   this.services.router.navigate(['home', 'DDE']);
+  // }
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
   }
