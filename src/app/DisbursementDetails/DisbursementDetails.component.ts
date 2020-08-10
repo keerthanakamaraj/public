@@ -28,11 +28,11 @@ const customCss: string = '';
 })
 export class DisbursementDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
     AplicationId: any;
-    @Input() ApplicationId: string = undefined;
-    @Input() parentData:IAmortizationForm=undefined;
+    // @Input() ApplicationId: string;
+    @Input() parentData: IAmortizationForm = undefined;
     mainBorrower: string = undefined;
-      MstScoreResultMap:any;
-      activeScoreCardResultList:any;      
+    MstScoreResultMap: any;
+    activeScoreCardResultList: any;
     @ViewChild('DisbursalTo', { static: false }) DisbursalTo: ComboBoxComponent;
     @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
     @ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
@@ -53,10 +53,10 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidePaymentMode', { static: false }) hidePaymentMode: HiddenComponent;
     @ViewChild('Handler', { static: false }) Handler: DisbursementsHandlerComponent;
-    @ViewChild('HideDisbursalSeqId', {static: false}) HideDisbursalSeqId: HiddenComponent;
-    
+    @ViewChild('HideDisbursalSeqId', { static: false }) HideDisbursalSeqId: HiddenComponent;
+    passedApplicationId: any;
     FilterOptions = [];
-    
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -96,12 +96,24 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     }
 
     async onFormLoad() {
-        this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'ApplicationId');        
+        //UW
+        console.log(this.FieldId_18.columnDefs);
+        if (this.readOnly) {
+            this.FieldId_18.columnDefs = this.FieldId_18.columnDefs.slice(0, 6);
+            this.FieldId_18.columnDefs[5].width = 12;
+            this.FieldId_18.columnDefs[5].cellRendererParams.CustomClass = "btn-views";
+            this.FieldId_18.columnDefs[5].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+
+        }
+        else {
+            this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'ApplicationId');
+        }
+
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.Amount.setFormatOptions({ currencyCode: 'MUR', languageCode: 'en-US', });
         this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'MUR', languageCode: 'en-US', });
         this.hideCurrencyDesc.setValue('MUR');
-        this.hidAppId.setValue('RLO');        
+        this.hidAppId.setValue('RLO');
         this.hideFundTransferMode.setValue('FUND_TRANSFER_MODE');
         this.hidePaymentMode.setValue('PAYMENT_MODE');
         this.Handler.hideOnPaymentMode({});
@@ -109,20 +121,23 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.IFSCCode.setHidden(true);
         this.Account.setHidden(true);
         this.InFavorOf.setHidden(true);
-        this.getLoanFieldValue();        
+
+        if (!this.readOnly) {
+            this.getLoanFieldValue();
+        }
+
         await this.Handler.onFormLoad({});
+
         await this.FieldId_18.gridDataLoad({
             'DisbursalSeqToGrid': this.ApplicationId
         });
-        
-        this.setDependencies();
 
-        
+        this.setDependencies();
     }
 
-    getLoanFieldValue(){
+    getLoanFieldValue() {
         this.ApplicationId = this.parentData.ApplicationId
-     }
+    }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
         if (params['mode']) {
@@ -152,7 +167,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     }
 
     ngOnInit() {
-        
+
         if (this.formCode == undefined) { this.formCode = 'DisbursementDetails'; }
         if (this.formOnLoadError) { return; }
         var styleElement = document.createElement('style');
@@ -161,7 +176,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         styleElement.id = 'DisbursementDetails_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
         this.setFilterbyOptions();
-        
+
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
@@ -175,6 +190,12 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
+
+        //UW
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+        }
+
     }
     clearError() {
         super.clearBasicFieldsError();
@@ -197,212 +218,217 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.onFormLoad();
     }
 
-    async DD_Add_click(event){
+    async DD_Add_click(event) {
         let inputMap = new Map();
-        var numberOfErrors:number = await this.revalidate();
-        if(numberOfErrors==0){
-        if(this.HideDisbursalSeqId.getFieldValue() != undefined){
-        inputMap.clear();
-        inputMap.set('PathParam.DisbursalSeq', this.HideDisbursalSeqId.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.PaymentMode', this.PaymentMode.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.InFavorOf', this.InFavorOf.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.FundTransferMode', this.FundTransferMode.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.IFSCCode', this.IFSCCode.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.AccountNumber', this.Account.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.Remarks', this.Remarks.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.ApplicationId', this.ApplicationId);
-        
-        this.services.http.fetchApi('/DisbursalDetails/{DisbursalSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'rlo.success.update.disbursal', 5000);
-        this.onReset();
-        this.setFilterbyOptions();
-        },
-        async (httpError)=>{
-        var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        if(err['ErrorElementPath'] == 'DisbursalDetails.Remarks'){
-        this.Remarks.setError(err['ErrorDescription']);
+        var numberOfErrors: number = await this.revalidate();
+        if (numberOfErrors == 0) {
+            if (this.HideDisbursalSeqId.getFieldValue() != undefined) {
+                inputMap.clear();
+                inputMap.set('PathParam.DisbursalSeq', this.HideDisbursalSeqId.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.PaymentMode', this.PaymentMode.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.InFavorOf', this.InFavorOf.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.FundTransferMode', this.FundTransferMode.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.IFSCCode', this.IFSCCode.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.AccountNumber', this.Account.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.Remarks', this.Remarks.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.ApplicationId', this.ApplicationId);
+
+                this.services.http.fetchApi('/DisbursalDetails/{DisbursalSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.update.disbursal', 5000);
+                        this.onReset();
+                        this.setFilterbyOptions();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                            if (err['ErrorElementPath'] == 'DisbursalDetails.Remarks') {
+                                this.Remarks.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.AccountNumber') {
+                                this.Account.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.IFSCCode') {
+                                this.IFSCCode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.FundTransferMode') {
+                                this.FundTransferMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.InFavorOf') {
+                                this.InFavorOf.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.PaymentMode') {
+                                this.PaymentMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmtLocalCurrency') {
+                                this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmt') {
+                                this.Amount.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency') {
+                                this.Currency.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalDate') {
+                                this.DisbursalDate.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalTo') {
+                                this.DisbursalTo.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalSeq') {
+                                this.HideDisbursalSeqId.setError(err['ErrorDescription']);
+                            }
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.update.disbursal', -1);
+                    }
+                );
+            }
+            else {
+                inputMap.clear();
+                inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.PaymentMode', this.PaymentMode.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.InFavorOf', this.InFavorOf.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.FundTransferMode', this.FundTransferMode.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.IFSCCode', this.IFSCCode.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.AccountNumber', this.Account.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.Remarks', this.Remarks.getFieldValue());
+                inputMap.set('Body.DisbursalDetails.ApplicationId', this.ApplicationId);
+
+                this.services.http.fetchApi('/DisbursalDetails', 'POST', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);
+                        this.onReset();
+                        this.setFilterbyOptions();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                            if (err['ErrorElementPath'] == 'DisbursalDetails.Remarks') {
+                                this.Remarks.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.AccountNumber') {
+                                this.Account.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.IFSCCode') {
+                                this.IFSCCode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.FundTransferMode') {
+                                this.FundTransferMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.InFavorOf') {
+                                this.InFavorOf.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.PaymentMode') {
+                                this.PaymentMode.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmtLocalCurrency') {
+                                this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmt') {
+                                this.Amount.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency') {
+                                this.Currency.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalDate') {
+                                this.DisbursalDate.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalTo') {
+                                this.DisbursalTo.setError(err['ErrorDescription']);
+                            }
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.save.disbursal', -1);
+                    }
+                );
+            }
         }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.AccountNumber'){
-        this.Account.setError(err['ErrorDescription']);
+        else {
+            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
         }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.IFSCCode'){
-        this.IFSCCode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.FundTransferMode'){
-        this.FundTransferMode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.InFavorOf'){
-        this.InFavorOf.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.PaymentMode'){
-        this.PaymentMode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmtLocalCurrency'){
-        this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmt'){
-        this.Amount.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency'){
-        this.Currency.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalDate'){
-        this.DisbursalDate.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalTo'){
-        this.DisbursalTo.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalSeq'){
-        this.HideDisbursalSeqId.setError(err['ErrorDescription']);
-        }
-        }
-        this.services.alert.showAlert(2, 'rlo.error.update.disbursal', -1);
-        }
-        );
-        }
-        else{
-        inputMap.clear();
-        inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.PaymentMode', this.PaymentMode.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.InFavorOf', this.InFavorOf.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.FundTransferMode', this.FundTransferMode.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.IFSCCode', this.IFSCCode.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.AccountNumber', this.Account.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.Remarks', this.Remarks.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.ApplicationId', this.ApplicationId);
-        
-        this.services.http.fetchApi('/DisbursalDetails', 'POST', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);
-        this.onReset();
-        this.setFilterbyOptions();        
-        },
-        async (httpError)=>{
-        var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        if(err['ErrorElementPath'] == 'DisbursalDetails.Remarks'){
-        this.Remarks.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.AccountNumber'){
-        this.Account.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.IFSCCode'){
-        this.IFSCCode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.FundTransferMode'){
-        this.FundTransferMode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.InFavorOf'){
-        this.InFavorOf.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.PaymentMode'){
-        this.PaymentMode.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmtLocalCurrency'){
-        this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalAmt'){
-        this.Amount.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency'){
-        this.Currency.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalDate'){
-        this.DisbursalDate.setError(err['ErrorDescription']);
-        }
-        else if(err['ErrorElementPath'] == 'DisbursalDetails.DisbursalTo'){
-        this.DisbursalTo.setError(err['ErrorDescription']);
-        }
-        }
-        this.services.alert.showAlert(2, 'rlo.error.save.disbursal', -1);
-        }
-        );
-        }
-        }
-        else{
-        this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
-        }
-        }
+    }
 
     setFilterbyOptions() {
         let tempCustomerList = this.services.rloCommonData.getCustomerList();
-    
+
         console.log("shweta :: in disburse section", tempCustomerList);
-        this.FilterOptions = [];
-        //this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-        tempCustomerList.forEach(element => {
-          if (element.CustomerType == 'B') {
-            // this.FilterOptions.push({ id: 'A_' + element.BorrowerSeq, text: 'Application' });
-            this.mainBorrower = element.BorrowerSeq;
-          }
-          this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-        });
-    
+        //UW
+        if (this.readOnly) {
+            this.FilterOptions = this.services.rloui.customerListDropDownArray;
+        }
+        else {
+            //this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+            tempCustomerList.forEach(element => {
+                if (element.CustomerType == 'B') {
+                    // this.FilterOptions.push({ id: 'A_' + element.BorrowerSeq, text: 'Application' });
+                    this.mainBorrower = element.BorrowerSeq;
+                }
+                this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+            });
+        }
         console.log("shweta :: disburse options list", this.FilterOptions);
-      }
+    }
+
     DisbursalTo_Blur() {
         console.log("shweta :: selected option", this.DisbursalTo.getFieldValue());
         this.activeScoreCardResultList = this.MstScoreResultMap.get(this.DisbursalTo.getFieldValue());
-      }
+    }
     async Currency_blur(event) {
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
-      }
-      async Amount_blur(event) {
+    }
+    async Amount_blur(event) {
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
         // await this.Handler.onAddTypeChange();
-      }
-    async PaymentMode_change(event){
+    }
+    async PaymentMode_change(event) {
         let inputMap = new Map();
         this.Handler.hideOnPaymentMode({});
-    }  
-    
-    async FieldId_18_modifyDisbursal(event){
+    }
+
+    async FieldId_18_modifyDisbursal(event) {
         let inputMap = new Map();
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.DisbursalSeq', event.DisbursalKey);
         this.services.http.fetchApi('/DisbursalDetails/{DisbursalSeq}', 'GET', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.DisbursalTo.setValue(res['DisbursalDetails']['DisbursalTo']);
-        this.DisbursalDate.setValue(res['DisbursalDetails']['DisbursalDate']);
-        this.Currency.setValue(res['DisbursalDetails']['DisbursalCurrency']);
-        this.Amount.setValue(res['DisbursalDetails']['DisbursalAmt']);
-        this.LocalCurrencyEquivalent.setValue(res['DisbursalDetails']['DisbursalAmtLocalCurrency']);
-        this.PaymentMode.setValue(res['DisbursalDetails']['PaymentMode']);
-        this.InFavorOf.setValue(res['DisbursalDetails']['InFavorOf']);
-        this.FundTransferMode.setValue(res['DisbursalDetails']['FundTransferMode']);
-        this.IFSCCode.setValue(res['DisbursalDetails']['IFSCCode']);
-        this.Account.setValue(res['DisbursalDetails']['AccountNumber']);
-        this.Remarks.setValue(res['DisbursalDetails']['Remarks']);
-        this.HideDisbursalSeqId.setValue(res['DisbursalDetails']['DisbursalSeq']);
-        this.hideSpinner();  
-        this.Handler.hideOnPaymentMode({});      
-        },
-        async (httpError)=>{
-        var err = httpError['error']
-        if(err!=null && err['ErrorElementPath'] != undefined && err['ErrorDescription']!=undefined){
-        }
-        this.services.alert.showAlert(2, 'Failed To Load', -1);
-        this.hideSpinner();
-        }
+            async (httpResponse: HttpResponse<any>) => {
+                var res = httpResponse.body;
+                this.DisbursalTo.setValue(res['DisbursalDetails']['DisbursalTo']);
+                this.DisbursalDate.setValue(res['DisbursalDetails']['DisbursalDate']);
+                this.Currency.setValue(res['DisbursalDetails']['DisbursalCurrency']);
+                this.Amount.setValue(res['DisbursalDetails']['DisbursalAmt']);
+                this.LocalCurrencyEquivalent.setValue(res['DisbursalDetails']['DisbursalAmtLocalCurrency']);
+                this.PaymentMode.setValue(res['DisbursalDetails']['PaymentMode']);
+                this.InFavorOf.setValue(res['DisbursalDetails']['InFavorOf']);
+                this.FundTransferMode.setValue(res['DisbursalDetails']['FundTransferMode']);
+                this.IFSCCode.setValue(res['DisbursalDetails']['IFSCCode']);
+                this.Account.setValue(res['DisbursalDetails']['AccountNumber']);
+                this.Remarks.setValue(res['DisbursalDetails']['Remarks']);
+                this.HideDisbursalSeqId.setValue(res['DisbursalDetails']['DisbursalSeq']);
+                this.hideSpinner();
+                this.Handler.hideOnPaymentMode({});
+            },
+            async (httpError) => {
+                var err = httpError['error']
+                if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                }
+                this.services.alert.showAlert(2, 'Failed To Load', -1);
+                this.hideSpinner();
+            }
         );
-        }
+    }
 
     fieldDependencies = {
         Currency: {

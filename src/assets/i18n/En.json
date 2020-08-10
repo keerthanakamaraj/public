@@ -1428,7 +1428,7 @@
     "AD_SOURCING_CHANNEL": "Sourcing Channel",
     "AD_Save": "SAVE",
     "AD_BRANCH": "Branch",
-    "AD_DATE_OF_RECIEPT": "Date of Reciept",
+    "AD_DATE_OF_RECIEPT": "Date of Receipt",
     "AD_DSA_ID": "DSA ID",
     "AD_HEADING": "Application Information"
   },
@@ -1602,7 +1602,7 @@
     "LD_EMI_AMT": "EMI",
     "CANCEL_MAIN_BTN": "CANCEL",
     "Reset": "RESET",
-    "BAD_DATE_OF_RCPT": "Date Of Receipt",
+    "BAD_DATE_OF_RCPT": "Date Of Reciept",
     "BAD_PROMOTION": "Have a promotion to apply?",
     "LD_GROSS_INCOME": "Gross Income",
     "LD_EXST_LBLT_AMT": "Liabilities",
@@ -2098,20 +2098,22 @@
     "Principal": "Principal"
   },
   "Operation": {
-    "FieldId_1": "Application Information",
+    "FieldId_1": "Operation Queue",
+    "ApplicationInfo": "Application Information",
     "FormTitle": "Operation",
     "VIEW_DDE": "View DDE",
-    "FieldId_2": "Customer Infomation",
+    "CustomerInfo": "Customer Infomation",
     "FieldId_3": "Loan Information",
     "OPERATION_APPROVE": "Approve",
     "OPERATION_WITHDRAW": "Withdraw",
-    "Loan_AMT": "Final Amount to be Disbursed",
-    "Loan_DBR": "DBR",
-    "Installment_AMT": "Installment Amount",
+    "DisbustAmt": "Final Amount to be Disbursed",
+    "LOAN_DBR": "DBR",
+    "EMI_Amt": "Installment Amount",
     "G_LETTER": "Generate Letters",
     "FieldId_8": "Card Information",
-    "Approved_limit": "Approved Limit",
-    "C_DBR": "DBR"
+    "Apved_Limit": "Approved Limit",
+    "Card_DBR": "DBR",
+    "Document_Information":"Document Information"
   },
   "CustGrid": {
     "Cust_Type": "Customer Type",
@@ -2206,7 +2208,7 @@
     "NoOfMilestones": "No. of Milestones",
     "BlockNo": "Block No.",
     "SellerMobileNo": "Seller Landline / Mobile No.",
-    "MoratoriamPeriodCheck": "Moratoriam Period Check"
+    "MoratoriamPeriodCheck": "Select if Intrest will be capitipalized during Moratorian Period"
   },
   "DisbursInputGrid": {
     "ProjectCompletion": "% of Project Completion",

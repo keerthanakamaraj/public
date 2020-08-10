@@ -37,18 +37,10 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   ngAfterViewInit() {
     this.subTitle = this.cardFieldMetaData.subTitle;
     console.log(this.cardFieldMetaData, this.applicationId, this.borrowerSeq, this.componentCode);
-    if (this.cardFieldMetaData.subTitle != "NA")
-      switch (this.cardFieldMetaData.title) {
-        case "Total Income (Annual)":
-        case "Total Liability (Annual)":
-        case "Total Asset Value":
-        case "Total Obligation (Annual)":
-        case "Net Income Monthly (Annual)":
-        case "Amoritization Amount":
-        case "Total Installment Amount":
-          this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
-          break;
-      }
+
+    if (this.cardFieldMetaData.subTitle != "NA" && this.cardFieldMetaData.formatToCurrency) {
+      this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
+    }
   }
 
   onClickButton(event) {

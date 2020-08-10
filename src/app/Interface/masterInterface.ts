@@ -20,6 +20,7 @@ export interface ICardListData {
     subTitle: any; //completed|pending|deviation-> in case of type != basic AND text if type == basic
     type: "basic" | "icon" | "iconStatus" | "statusCount";
     modalSectionName?: string;//name of the section to be opened IN MODAL.
+    formatToCurrency?: boolean;//add currency type (symbol)
 }
 
 export interface IUwCustomerTab {
@@ -27,39 +28,39 @@ export interface IUwCustomerTab {
     CD_CUSTOMER_NAME: string;
     CD_CUSTOMER_TYPE: string;
 }
-export interface IAmortizationForm{
-    LoanAmountRequested?:any,
-    NetInterestRate?:any,
-    Tenure?:any,
-    BLoanOwnership?:any,
-    CBLoanOwnership?:any,
-    BLoanAmtShare?:any,
-    CBLoanAmountShare?:any,
-    DisbursalDate?:any,
-    ScheduleType?:any,
-    RepaymentStartDate?:any,
-    NoOfInstallments?:any,
-    RequiredEMIAmt?:any,
-    ApplicationId?:any
-    InterestRate?:any
-   // TenurePeriod?:any
-  
-  }
+export interface IAmortizationForm {
+    LoanAmountRequested?: any,
+    NetInterestRate?: any,
+    Tenure?: any,
+    BLoanOwnership?: any,
+    CBLoanOwnership?: any,
+    BLoanAmtShare?: any,
+    CBLoanAmountShare?: any,
+    DisbursalDate?: any,
+    ScheduleType?: any,
+    RepaymentStartDate?: any,
+    NoOfInstallments?: any,
+    RequiredEMIAmt?: any,
+    ApplicationId?: any
+    InterestRate?: any
+    // TenurePeriod?:any
 
-  export interface IRepaymentSchedule{
-    loanAmount?:string,
-    noOfInstallments?:string,
-    installmentFrequency?:string,
-    interestRate?:string,
-    disbursalDate?:string,
-    firstInstallmentDate?:string,
-    interestNumerator?:string,
-    interestDenominator?:string,
-    productCode?:string,
-    subProductCode?:string,
-    maturityDate?:string,
-    loanCalculationDate?:string
-    repaymentScheduleType?:string
+}
+
+export interface IRepaymentSchedule {
+    loanAmount?: string,
+    noOfInstallments?: string,
+    installmentFrequency?: string,
+    interestRate?: string,
+    disbursalDate?: string,
+    firstInstallmentDate?: string,
+    interestNumerator?: string,
+    interestDenominator?: string,
+    productCode?: string,
+    subProductCode?: string,
+    maturityDate?: string,
+    loanCalculationDate?: string
+    repaymentScheduleType?: string
 }
 
 
