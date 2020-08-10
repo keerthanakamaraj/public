@@ -46,7 +46,7 @@
             <app-combo-box #PartyType category="2" fieldID="PartyType" [formCode]="formCode"
               (blur)="genericOnBlur('PartyType', $event)" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('PartyType', $event)">
+              (blur)="genericOnBlur('PartyType', $event)" (change)="PartyType_change(fieldName, event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyName.isHidden()">
@@ -56,7 +56,7 @@
               </label>
             </div>
             <app-combo-box #PartyName category="4" fieldID="PartyName" placeholder="Select"
-              [emittedOptions]="FilterOptions">
+              [emittedOptions]="FilterOptions" (blur)="genericOnBlur('PartyName', $event)" >
             </app-combo-box>
 
             <!-- <app-combo-box #PartyName category="2" fieldID="PartyName" [formCode]="formCode"

@@ -80,9 +80,9 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       this.revalidateBasicField('ChargeDescription'),
       this.revalidateBasicField('ChargeType'),
       this.revalidateBasicField('PartyType'),
-      this.revalidateBasicField('PartyName'),
       this.revalidateBasicField('ChargeBasis'),
       this.revalidateBasicField('ChargeRate'),
+      this.revalidateBasicField('PartyName'),
       this.revalidateBasicField('ChargeAmt'),
       this.revalidateBasicField('PeriodicCharge'),
       this.revalidateBasicField('PeriodicStDt'),
@@ -451,25 +451,26 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.InterestRate = this.parentData.InterestRate
   }
 
-  PartyType_blur(fieldName, event) {
+  PartyType_change(fieldName, event) {
 
     let filterKey = this.PartyType.getFieldValue();
-    console.log("shweta :: slected filterkey", filterKey);
+    //  console.log("shweta :: slected filterkey", filterKey);
+    this.PartyName.onReset();
     this.setFilterbyOptions(filterKey);
   }
 
   setFilterbyOptions(filterKey) {
     let tempCustomerList = this.services.rloCommonData.getCustomerList();
     this.FilterOptions = [];
-    // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+    // this.PartyName.onReset();
+    this.FilterOptions.push({ id: undefined, text: "" });
+
     tempCustomerList.forEach(element => {
-      // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
       if (element.CustomerType == filterKey) {
-        this.FilterOptions.push({ id: element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+        this.FilterOptions.push({ id: element.BorrowerSeq, text: element.FullName });
       }
     });
-
-    console.log("shweta :: score options list", this.FilterOptions);
+    // console.log("shweta :: score options list", this.FilterOptions);
     this.PartyName.setStaticListOptions(this.FilterOptions);
   }
 
