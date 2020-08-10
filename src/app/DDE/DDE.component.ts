@@ -809,7 +809,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         setTimeout(() => {
           componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls);
         }, 500);
-      } else if (this.CustomerType !== 'B' && this.ActiveCustomerDtls != undefined) {
+      } else if (this.CustomerType !== 'B' && this.ActiveCustomerDtls == undefined) {
         // method will be called for new customer form after section switch
         // console.log("shweta :: DDE section switch on new cust",this.CustomerType);
         let data = { 'customerType': this.CustomerType };
@@ -820,7 +820,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       this.setCustomerTags();
 
-    } else if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
+    } 
+    if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
       componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
     }
     // if (componentId == 'FamilyDetails') {
@@ -1056,13 +1057,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     //  event.isLoanCategory false when type is 'CC'
-    this.services.rloCommonData.globalApplicationDtls = {
-      isLoanCategory: event.isLoanCategory,
-      ProductCode: event.ProductCode,
-      SubProductCode: event.SubProductCode,
-      SchemeCode: event.SchemeCode,
-    };
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    // this.services.rloCommonData.globalApplicationDtls = {
+    //   isLoanCategory: event.isLoanCategory,
+    //   ProductCode: event.ProductCode,
+    //   SubProductCode: event.SubProductCode,
+    //   SchemeCode: event.SchemeCode,
+    // };
+   // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);

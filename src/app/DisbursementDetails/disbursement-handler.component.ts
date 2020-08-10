@@ -29,8 +29,8 @@ export class DisbursementsHandlerComponent extends RLOUIHandlerComponent impleme
     }
   }
 
-  hideOnPaymentMode(){
-    if(this.MainComponent.PaymentMode.getFieldValue()== 'cash' || this.MainComponent.PaymentMode.getFieldValue() == '' ||this.MainComponent.PaymentMode.getFieldValue() == undefined){
+  hideOnPaymentMode({}){
+    if(this.MainComponent.PaymentMode.getFieldValue()== 'cash'){
       this.MainComponent.IFSCCode.setHidden(true); 
       this.MainComponent.FundTransferMode.setHidden(true);
       this.MainComponent.Account.setHidden(true);
@@ -40,7 +40,7 @@ export class DisbursementsHandlerComponent extends RLOUIHandlerComponent impleme
       this.MainComponent.Account.mandatory = false;
       this.MainComponent.InFavorOf.mandatory = false;
     }
-    if(this.MainComponent.PaymentMode.getFieldValue()== 'cheque' || this.MainComponent.PaymentMode.getFieldValue() == 'DD' ||this.MainComponent.PaymentMode.getFieldValue() == '' ||this.MainComponent.PaymentMode.getFieldValue() == undefined){
+    if(this.MainComponent.PaymentMode.getFieldValue()== 'cheque' ||this.MainComponent.PaymentMode.getFieldValue()== 'DD'){
       this.MainComponent.IFSCCode.setHidden(true); 
       this.MainComponent.FundTransferMode.setHidden(true);
       this.MainComponent.Account.setHidden(true); 
@@ -51,7 +51,7 @@ export class DisbursementsHandlerComponent extends RLOUIHandlerComponent impleme
       this.MainComponent.Account.mandatory = false;
       
     }
-    if(this.MainComponent.PaymentMode.getFieldValue()== 'FT' || this.MainComponent.PaymentMode.getFieldValue() == '' ||this.MainComponent.PaymentMode.getFieldValue() == undefined){
+    if(this.MainComponent.PaymentMode.getFieldValue() == 'FT'){
       this.MainComponent.IFSCCode.setHidden(false); 
       this.MainComponent.FundTransferMode.setHidden(false);
       this.MainComponent.Account.setHidden(false);
@@ -59,7 +59,7 @@ export class DisbursementsHandlerComponent extends RLOUIHandlerComponent impleme
       this.MainComponent.IFSCCode.mandatory = true; 
       this.MainComponent.FundTransferMode.mandatory = true;
       this.MainComponent.Account.mandatory = true;
-      this.MainComponent.InFavorOf.mandatory = true;
+      this.MainComponent.InFavorOf.mandatory = false;
     }
   }
   

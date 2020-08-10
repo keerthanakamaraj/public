@@ -370,7 +370,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         width: 41px;
         height: 27px;
         content: "";
-        background-image: url("./../icons/Mauritius Rs Icon.svg");
+        // background-image: url("./../icons/Mauritius Rs Icon.svg");
         display: inline-block;
         background-size: 41px 27px;
         background-repeat: no-repeat;
@@ -481,9 +481,9 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
 
 .subleftheader {
   height: 292px;
-  width: 246px;
+  // width: 246px;
   padding-left: 35px;
-  padding-right: 55px;
+  // padding-right: 55px;
   padding-top: 23px;
   padding-bottom: 23px;
 }
@@ -504,7 +504,7 @@ width: 681px !important; */
 .subrightheader1 {
   float: left;
   height: 292px !important;
-  width: 243px !important;
+  width: 275px !important;
   padding-left: 39px !important;
   padding-top: 23px !important;
   padding-bottom: 23px !important;
@@ -603,7 +603,7 @@ width: 681px !important; */
   padding-bottom: 10px;
 }
 
-#HD_PROD_CAT {
+#HD_PROD_CAT_NAME {
   height: 12px !important; // width: 93px !important;
   color: #ffffff !important;
   font-family: "Open Sans" !important;
@@ -753,14 +753,27 @@ width: 681px !important; */
       float: right;
 
       .cust-edit {
+        height: 16px;
+        margin-right: 10px;
+        width: 16px;
+        background-repeat: no-repeat;
+        background-image: url(./../icons/CustEditIcon.svg);
         cursor: pointer;
         float: left;
-        padding-inline-end: 8px;
+        //padding-inline-end: 8px;
       }
 
       .cust-delete {
+        height: 18px;
+        width: 18px;
         float: left;
         cursor: pointer;
+        //  .delete-icon{
+        //   height:30px;
+        //   width:30px;
+        background-repeat: no-repeat;
+        background-image: url(./../icons/CustDeleteIcon.svg);
+        //  }
       }
     }
   }
@@ -874,9 +887,11 @@ a.back {
 //   height: 45px;
 // }
 .dde-tab-btn-div {
-  margin-top: 12px;
-  margin-bottom: 30px !important;
-  margin-left: 431px;
+  // margin-top: 12px;
+  // margin-bottom: 30px !important;
+  margin-left: 34%;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .qde-tab-btn-div {
@@ -891,19 +906,20 @@ a.back {
 }
 
 .btn-group {
-  width: 253px;
+  width: 201px;
+  border-radius: 4px 4px 4px 4px;
 }
 
 .btn.btn-default.active {
   box-sizing: border-box;
-  height: 45px;
-  width: 254px;
-  border: 1px solid #004467;
-  border-radius: 4px 0 0 4px;
-  background-color: #004467;
+  height: 33px;
+  border-radius: 4px 4px 4px 4px;
+  width: 201px;
+  border: 1px solid #0079B8;
+  background-color: #0079B8;
   color: #ffffff;
   font-family: "Open Sans";
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0;
   line-height: 22px;
@@ -912,14 +928,15 @@ a.back {
 
 .btn.btn-default {
   box-sizing: border-box;
-  height: 45px;
-  width: 254px;
-  border: 1px solid #004467;
-  border-radius: 4px 0 0 4px;
+  height: 33px;
+  border-radius: 4px 4px 4px 4px;
+  width: 201px;
+  border: 1px solid #0079B8;
+  //border-radius: 4px 0 0 4px;
   background-color: #ffffff;
-  color: #004467;
+  color: #0079B8;
   font-family: "Open Sans";
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0;
   line-height: 22px;
@@ -1697,14 +1714,15 @@ rlo-ui-card-field {
     border-bottom: 1px solid #CDCDCD;
 
     .header-icon {
-      font-size: 29px;
+      font-size: 28px;
       color: #000000;
       position: absolute;
-      top: 9px;
+      top: 11px;
     }
 
     .header-icon+.modal-header-name {
       margin-left: 45px;
+      font-size: 18px;
     }
 
     .fa {
@@ -1983,10 +2001,12 @@ rlo-ui-card-field {
 
 .policy-row {
   // height: 52px;
+  margin-top: 10px;
   min-height: 52px;
-  max-height: 110px; // width: 1213px;
+  max-height: 110px;
   border-radius: 4px;
-  background-color: #FAFAFA; //line-height: 51px;
+  background-color: #FAFAFA;
+  line-height: 52px;
 
   // max-height: 500px !important;
   .desc-container {
@@ -2399,7 +2419,7 @@ rlo-ui-card-field {
 }
 
 .cards-section {
-  background-color: #EEEEEE;
+  background-color: #F8F8F8;
   display: inline-block;
   padding: 28px 11px 27px 11px;
 
@@ -2658,17 +2678,25 @@ rlo-ui-card-field {
 
 .icon-material {
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 22px;
+  height: 22px;
   padding-top: 35px;
   color: #0079b8;
   font-size: 12px;
   font-family: Open Sans Regular !important;
 }
 
-.icon-material_widthdraw {
-  background: url(".././icons/float-withdraw.svg") center no-repeat;
+.icon-material-row {
+  display: inline-block;
+  width: 48px;
+  padding-top: 39px;
+  color: #0079b8;
+  font-size: 12px;
+  font-family: Open Sans Regular !important;
+}
 
+.icon-material_widthdraw {
+  background: url(".././icons/Withdraw-icon.svg") center no-repeat;
 }
 
 .icon-material_sentback {
@@ -2676,7 +2704,7 @@ rlo-ui-card-field {
 }
 
 .icon-material_cancel {
-  background: url(".././icons/float-cancel.svg") center no-repeat;
+  background: url(".././icons/Cancel-icon.svg") center no-repeat;
 }
 
 .icon-material_refer {
@@ -2956,12 +2984,17 @@ rlo-ui-card-field {
   .no-data {
     margin: 2em 2rem 2em 3em;
   }
+
+  .scroll-margin {
+    margin-top: 4.5rem;
+  }
 }
 
 .lyt-operation-queue {
   .generate_letter {
     button {
       width: 180px !important;
+      margin-top: 24px !important;
     }
   }
 }
@@ -3186,4 +3219,42 @@ rlo-ui-card-field {
   }
 }
 
-// seperate doc. upload component 
+
+  .donut-inner {
+    margin-top: -100px;
+    margin-bottom: 100px;
+  }
+
+  .donut-inner h5 {
+    margin-bottom: 5px;
+    margin-top: 0;
+  }
+
+  .donut-inner span {
+    font-size: 12px;
+  }
+
+  .doughnut-txt {}
+}
+
+
+#ApplicationInfo,#CustomerInfo,#FieldId_3,#FieldId_8,#Document_Information{
+font-size: 16px; 
+color:black;
+font-family :open sans;
+font-style:normal;
+font-weight:400;  
+margin-top:31px;
+margin-left:21px;
+margin-bottom:16px;
+}
+#CustomerInfo{
+  font-size: 16px; 
+  color:black;
+  font-family :open sans;
+  font-style:normal;
+  font-weight:400;  
+  margin-left:21px;
+  }
+
+

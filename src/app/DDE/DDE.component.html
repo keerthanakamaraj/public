@@ -26,7 +26,7 @@
         <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
         <div *ngIf="!formOnLoadError">
             <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10">
+                <div class="form-group pb10 row">
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_1.isHidden()">
                         <app-header-progress #headerProgressBar></app-header-progress>
                         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode" [showProgressBar]="'true'"

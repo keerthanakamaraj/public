@@ -34,7 +34,7 @@
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-        <div class="form-group pb10">
+        <div class="form-group pb10 row">
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
             <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
               (productCategoryFound)="brodcastProdCategory($event)">
@@ -45,95 +45,77 @@
       <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <i class="fa fa edit"></i>
       </div> -->
-      <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
+      <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
-          customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode">
+          customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px">
         </app-button>
-      </div>
+      </div> -->
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+      <div class="col-12  col-sm-4 col-md-4 res-pr-hide" style="margin-top: 36px;">
         <app-label #FieldId_1 parentCompCode="Operation" fieldID="FieldId_1" [formCode]="formCode"
-          fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
+          fontFamily="sans-serif" fontColor="#0079B8" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
       </div>
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-        <div style=" width:100%; background:skyblue;height:1px;">
+        <div style=" width:100%; background:#CCCCCC ;height:1px;">
         </div>
       </div>
+      
+      <app-label #ApplicationInfo parentCompCode="Operation" fieldID="ApplicationInfo" [formCode]="formCode"></app-label>
+
       <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
       </app-ApplicationDtls>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-        <app-label #FieldId_2 parentCompCode="Operation" fieldID="FieldId_2" [formCode]="formCode"
-          fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
-      </div>
-      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-        <div style=" width:100%; background:skyblue;height:1px;">
-        </div>
-      </div>
+
+        <app-label #CustomerInfo parentCompCode="Operation" fieldID="CustomerInfo" [formCode]="formCode"></app-label>
+  
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_GRID.isHidden()">
-        <app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode"></app-CustGrid>
+        <app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode" style="margin-left: 22px; width: 98%;"></app-CustGrid>
       </div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="LoanCat" *ngIf="isLoanCategory">
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-          <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"
-            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
-        </div>
-        <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-          <div style=" width:100%; background:skyblue;height:1px;"> </div>
-        </div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+
+      <div *ngIf="isLoanCategory">
+        <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"></app-label>
+      </div>
+
+      <div *ngIf="!isLoanCategory">
+          <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
+      </div>
+
+      <div *ngIf="isLoanCategory">
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()">
           <div class="clr-brown fieldLegend">
-            <label class="clr-brown">
+            <label class="clr-brown" style="margin-bottom: 20px;">
               {{ 'Operation.DisbustAmt' | translate}}
-              <span class="error-d">*</span>
             </label>
           </div>
-          <app-text-box #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode"
-            (blur)="genericOnBlur('DisbustAmt', $event)"></app-text-box>
+          <app-amount #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode" (blur)="genericOnBlur('DisbustAmt', $event)"></app-amount>
         </div>
+
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LOAN_DBR.isHidden()">
           <div class="clr-brown fieldLegend">
-            <label class="clr-brown">
+            <label class="clr-brown" style="margin-bottom: 20px;">
               {{ 'Operation.LOAN_DBR' | translate}}
-              <span class="error-d">*</span>
             </label>
           </div>
-          <app-text-box #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
-          </app-text-box>
+          <app-amount #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
+          </app-amount>
         </div>
+
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="EMI_Amt.isHidden()">
           <div class="clr-brown fieldLegend">
-            <label class="clr-brown">
+            <label class="clr-brown" style="margin-bottom: 20px;">
               {{ 'Operation.EMI_Amt' | translate}}
-              <span class="error-d">*</span>
             </label>
           </div>
-          <app-text-box #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
-          </app-text-box>
-        </div>
-        <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-        <div class="col-12 col-sm-12 col-md-12"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()">
-          <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
+          <app-amount #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
+          </app-amount>
+        </div>  
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;" >
+          <app-button class="generate_letter"  #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
             fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
           </app-button>
         </div>
@@ -152,39 +134,28 @@
         </div>
       </div>
 
-
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="CardCat" *ngIf="!isLoanCategory">
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-          <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"
-            fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
-        </div>
-        <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-          <div style=" width:100%; background:skyblue;height:1px;">
-          </div>
-        </div>
-        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()">
-          <div class="clr-brown fieldLegend">
+          <div class="clr-brown fieldLegend" style="margin-bottom: 20px;">
             <label class="clr-brown">
               {{ 'Operation.Apved_Limit' | translate}}
-              <span class="error-d">*</span>
+             
             </label>
           </div>
-          <app-text-box #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
-            (blur)="genericOnBlur('Apved_Limit', $event)"></app-text-box>
+          <app-amount #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
+            (blur)="genericOnBlur('Apved_Limit', $event)"></app-amount>
         </div>
+
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Card_DBR.isHidden()">
           <div class="clr-brown fieldLegend">
-            <label class="clr-brown">
+            <label class="clr-brown" style="margin-bottom: 20px;">
               {{ 'Operation.Card_DBR' | translate}}
-              <span class="error-d">*</span>
             </label>
           </div>
-          <app-text-box #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
-          </app-text-box>
+          <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
+          </app-amount>
         </div>
+
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -192,11 +163,11 @@
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" > -->
-        <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" style="margin-top: top 30px;">
+        <app-button class="generate_letter"  #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
           fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
         </app-button>
-        <!-- </div> -->
+        </div>
         <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -215,174 +186,226 @@
         </div>
         <!-- <div [innerHTML]="LETTERMGMTFORMAT"></div> -->
       </div>
+      
+        <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information" [formCode]="formCode"></app-label>
 
-      <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-        <app-label #FieldId_31 parentCompCode="Operation" fieldID="Document_Information" [formCode]="formCode"
-          fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="20px" fontWeight="400"></app-label>
-      </div>
-      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-        <div style=" width:100%; background:skyblue;height:1px;"> </div>
-      </div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-      <table *ngIf="ProductCode == 'MORSEC'" style="margin-left: 21px; width: 97%;">
-        <tr>
-          <th>Sr No.</th>
-          <th>Document Type</th>
-          <th>Document Name</th>
-          <th></th>
+        <table *ngIf="ProductCode == 'MORSEC'" #DocumentTable style="margin-left: 21px; width: 97%;">
+        <tr style="background-color: #e4f0f9; font-family: open sans; font-weight: normal; font-size: 12px; line-height: 17px; color: #565656; height:45px;">
+          <th style="border: none;">Sr No.</th>
+          <th style="border: none;">Document Type</th>
+          <th style="border: none;">Document Name</th>
+          <th style="border: none;"></th>
         </tr>
         <tr>
-          <td>1</td>
-          <td>Identity Proof</td>
-          <td>National identity document, passport or driving licence (for borrower/s and guarantor/s)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">1</td>
+          <td style="border: none;">Identity Proof</td>
+          <td style="border: none;">National identity document, passport or driving licence (for borrower/s and guarantor/s)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>2</td>
-          <td>Proof of Residence</td>
-          <td>Utility bill not older than 3 months</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">2</td>
+          <td style="border: none;">Proof of Residence</td>
+          <td style="border: none;">Utility bill not older than 3 months</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>3</td>
-          <td>Bank Statement</td>
-          <td>Last 3 months’ bank statements</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">3</td>
+          <td style="border: none;">Bank Statement</td>
+          <td style="border: none;">Last 3 months’ bank statements</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>4</td>
-          <td>Salary Slip</td>
-          <td>Latest salary slip</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">4</td>
+          <td style="border: none;">Salary Slip</td>
+          <td style="border: none;">Latest salary slip</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>5</td>
-          <td>Salary Slip</td>
-          <td>Last 12 months’ salary slips if you earn other income (e.g. overtime/commissions/travel allowance)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">5</td>
+          <td style="border: none;">Salary Slip</td>
+          <td style="border: none;">Last 12 months’ salary slips if you earn other income (e.g. overtime/commissions/travel allowance)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>6</td>
-          <td>Employer permanent employment Letter</td>
-          <td>Letter from your employer confirming permanent employment if you have been with your current employer 6
+          <td style="border: none;">6</td>
+          <td style="border: none;">Employer permanent employment Letter</td>
+          <td style="border: none;">Letter from your employer confirming permanent employment if you have been with your current employer 6
             months or less</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>7</td>
-          <td>Contract Letter</td>
-          <td>Contract of employment if you are working under contract</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">7</td>
+          <td style="border: none;">Contract Letter</td>
+          <td style="border: none;">Contract of employment if you are working under contract</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>8</td>
-          <td>Marriage certificate </td>
-          <td>Marriage certificate (where applicable)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">8</td>
+          <td style="border: none;">Marriage Certificate </td>
+          <td style="border: none;">Marriage certificate (where applicable)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>9</td>
-          <td>title deed </td>
-          <td>Draft title deed</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">9</td>
+          <td style="border: none;">Title Deed </td>
+          <td style="border: none;">Draft title deed</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>10</td>
-          <td>photographs</td>
-          <td>Couple of passport-size photographs of loan borrower</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">10</td>
+          <td style="border: none;">photographs</td>
+          <td style="border: none;">Couple of passport-size photographs of loan borrower</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+      </table>
+      <table *ngIf="ProductCode == 'MURPRD'" style="margin-left: 21px; width: 97%;">
+        <tr style="background-color: #e4f0f9; font-family: open sans; font-weight: normal; font-size: 12px; line-height: 17px; color: #565656; height:45px;">
+          <th style="border: none;">Sr No.</th>
+          <th style="border: none;">Document Type</th>
+          <th style="border: none;">Document Name</th>
+          <th style="border: none;"></th>
+        </tr>
+        <tr>
+          <td style="border: none;">1</td>
+          <td style="border: none;">Identity Proof</td>
+          <td style="border: none;">National identity document, passport or driving licence</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">2</td>
+          <td style="border: none;">Proof of Residence</td>
+          <td style="border: none;">Utility bill not older than 3 months</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">3</td>
+          <td style="border: none;">Bank Statement</td>
+          <td style="border: none;">Last 3 months’ bank statements</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">4</td>
+          <td style="border: none;">Salary Slip</td>
+          <td style="border: none;">Your latest salary slip (new customers) or a copy of the latest salary slip (fixed income only)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">5</td>
+          <td style="border: none;">Salary Slip</td>
+          <td style="border: none;">latest salary slips and 12 months' latest bank statements (if you earn regular overtime/commissions)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">6</td>
+          <td style="border: none;">Employer permanent employment Letter</td>
+          <td style="border: none;">Letter from your employer confirming permanent employment if you have been with your current employer 6
+            months or less</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">7</td>
+          <td style="border: none;">Contract Letter</td>
+          <td style="border: none;">Contract of employment if you are working under contract</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">8</td>
+          <td style="border: none;">Letter of outstanding balance</td>
+          <td style="border: none;">Letter of outstanding balance from other banks/financial institutions (where applicable)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">9</td>
+          <td style="border: none;">Mutual Fund statement/td>
+          <td style="border: none;">Self-Attested Mutual Fund statement</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">10</td>
+          <td style="border: none;">Client Master List</td>
+          <td style="border: none;">Client Master List (CML) for the relevant Demat Account (in case of Equity)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
+        </tr>
+        <tr>
+          <td style="border: none;">11</td>
+          <td style="border: none;">Photographs</td>
+          <td style="border: none;">Couple of passport-size photographs of loan borrower</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
       </table>
       <table *ngIf="ProductCode == 'PERSEC'" style="margin-left: 21px; width: 97%;">
-        <tr>
-          <th>Sr No.</th>
-          <th>Document Type</th>
-          <th>Document Name</th>
-          <th></th>
+        <tr style="background-color: #e4f0f9; font-family: open sans; font-weight: normal; font-size: 12px; line-height: 17px; color: #565656; height:45px;">
+          <th style="border: none;">Sr No.</th>
+          <th style="border: none;">Document Type</th>
+          <th style="border: none;">Document Name</th>
+          <th style="border: none;"></th>
         </tr>
         <tr>
-          <td>1</td>
-          <td>Identity Proof</td>
-          <td>National identity document, passport or driving licence</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">1</td>
+          <td style="border: none;">Identity Proof</td>
+          <td style="border: none;">National identity document, passport or driving licence</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>2</td>
-          <td>Proof of Residence</td>
-          <td>Utility bill not older than 3 months</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">2</td>
+          <td style="border: none;">Proof of Residence</td>
+          <td style="border: none;">Utility bill not older than 3 months</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>3</td>
-          <td>Bank Statement</td>
-          <td>Last 3 months’ bank statements</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">3</td>
+          <td style="border: none;">Bank Statement</td>
+          <td style="border: none;">Last 3 months’ bank statements</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>4</td>
-          <td>Salary Slip</td>
-          <td>Your latest salary slip (new customers) or a copy of the latest salary slip (fixed income only)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">4</td>
+          <td style="border: none;">Salary Slip</td>
+          <td style="border: none;">Your latest salary slip (new customers) or a copy of the latest salary slip (fixed income only)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>5</td>
-          <td>Salary Slip</td>
-          <td>latest salary slips and 12 months' latest bank statements (if you earn regular overtime/commissions)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">5</td>
+          <td style="border: none;">Salary Slip</td>
+          <td style="border: none;">latest salary slips and 12 months' latest bank statements (if you earn regular overtime/commissions)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>6</td>
-          <td>Employer permanent employment Letter</td>
-          <td>Letter from your employer confirming permanent employment if you have been with your current employer 6
+          <td style="border: none;">6</td>
+          <td style="border: none;">Employer permanent employment Letter</td>
+          <td style="border: none;">Letter from your employer confirming permanent employment if you have been with your current employer 6
             months or less</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>7</td>
-          <td>Contract Letter</td>
-          <td>Contract of employment if you are working under contract</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">7</td>
+          <td style="border: none;">Contract Letter</td>
+          <td style="border: none;">Contract of employment if you are working under contract</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>8</td>
-          <td>Letter of outstanding balance</td>
-          <td>Letter of outstanding balance from other banks/financial institutions (where applicable)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">8</td>
+          <td style="border: none;">Letter of outstanding balance</td>
+          <td style="border: none;">Letter of outstanding balance from other banks/financial institutions (where applicable)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>9</td>
-          <td>Mutual Fund statement/td>
-          <td>Self-Attested Mutual Fund statement</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">9</td>
+          <td style="border: none;">Mutual Fund statement/td>
+          <td style="border: none;">Self-Attested Mutual Fund statement</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>10</td>
-          <td>Client Master List</td>
-          <td>Client Master List (CML) for the relevant Demat Account (in case of Equity)</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">10</td>
+          <td style="border: none;">Client Master List</td>
+          <td style="border: none;">Client Master List (CML) for the relevant Demat Account (in case of Equity)</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
         <tr>
-          <td>11</td>
-          <td>photographs</td>
-          <td>Couple of passport-size photographs of loan borrower</td>
-          <td><input type="checkbox" name="name20" /></td>
+          <td style="border: none;">11</td>
+          <td style="border: none;">Photographs</td>
+          <td style="border: none;">Couple of passport-size photographs of loan borrower</td>
+          <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
       </table>
     </div>

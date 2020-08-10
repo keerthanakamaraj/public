@@ -30,10 +30,20 @@ export interface IFormValidationData {
   errorsList: any
 }
 export interface IGlobalApllicationDtls {
-  isLoanCategory?: string,
-  ProductCode?: string,
-  SubProductCode?: string,
-  SchemeCode?: string
+  isLoanCategory?: boolean;
+  TypeOfLoanCode?: string;
+  TypeOfLoanName?: string;
+  ProductCode?: string;
+  ProductName?: string;
+  SubProductCode?: string;
+  SubProductName?: string;
+  SchemeCode?: string;
+  SchemeName?: string;
+  PromotionCode?: string;
+  PromotionName?: string;
+  LoanTenure?: string;
+  LoanTenurePeriodCode?: string;
+  LoanTenurePeriodName?: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -241,6 +251,7 @@ export class RloCommonData {
       }
     }
     console.log("shweta :: in update services temp map", tempStoreMap);
+    console.log("shweta :: masterDataMap", this.masterDataMap);
 
     return functionalResponseObj;
   }
@@ -648,7 +659,14 @@ export class RloCommonData {
         isAppValid: true,
         errorsList: []
       }
-
+      let totalLoanOwnership: number = this.calculateLoanOwnership();
+      if (100 != totalLoanOwnership) {
+        dataObject.isAppValid = false;
+        dataObject.errorsList.push("Total Loan ownership should be 100%");
+        console.log("shweta :: error list", dataObject.errorsList);
+        resolve(dataObject);
+        return promise;
+      }
       this.isFormValid().then((customerData) => {
         dataObject.errorsList = customerData.errorsList;
         this.validateApplicationSections(isCategoryTypeLoan).then((applicationData) => {
@@ -745,14 +763,32 @@ export class RloCommonData {
       this.router.navigate(['home', 'LANDING']);
     }
   }
-  
+
   removeCustomerFromMap(deletedCustomer) {
     if (this.masterDataMap.has("customerMap")) {
       if (this.masterDataMap.get("customerMap").has(deletedCustomer)) {
         this.masterDataMap.get("customerMap").delete(deletedCustomer);
-         console.log("shweta :: customer deleted from map",this.masterDataMap );
+        // console.log("shweta :: customer deleted from map", this.masterDataMap);
       }
     }
+  }
+
+  calculateLoanOwnership(activeBorSeq?: string) {
+    let totalLoanOwnership: number = 0;
+    console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    if (this.masterDataMap.has("customerMap")) {
+      const customerMap = this.masterDataMap.get("customerMap");
+      customerMap.forEach(entry => {
+        if (entry.has('CustomerDetails')) {
+          let customer = entry.get('CustomerDetails');
+          if (customer.BorrowerSeq != activeBorSeq && customer.LoanOwnership) {
+            totalLoanOwnership += parseFloat(customer.LoanOwnership);
+          }
+        }
+      });
+    }
+    //console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    return totalLoanOwnership;
   }
 
 }

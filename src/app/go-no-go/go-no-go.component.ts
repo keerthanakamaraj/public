@@ -37,6 +37,7 @@ export class GoNoGoComponent implements OnInit {
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      console.log(httpResponse);
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
       //call validation method and render
@@ -201,14 +202,15 @@ export class GoNoGoComponent implements OnInit {
 
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-        let array = [];
-        array.push({ isValid: true, sectionData: this.QuestionnairMap });
-        let obj = {
-          "name": "GoNoGoDetails",
-          "data": array,
-          "sectionName": "GoNoGoDetails",
-        }
-        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+        this.loadQuestionnaireDtls();
+        // let array = [];
+        // array.push({ isValid: true, sectionData: this.QuestionnairMap });
+        // let obj = {
+        //   "name": "GoNoGoDetails",
+        //   "data": array,
+        //   "sectionName": "GoNoGoDetails",
+        // }
+        // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       },
         (httpError) => {
           console.error(httpError);

@@ -1,281 +1,313 @@
 <form class="MakeRelative">
-    <div class="ShowLoading " *ngIf="loadSpinner">
-        <div class="lds-roller MakeItMiddle">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <div class="clearfix content">
-        <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-            <!-- <div class="col-sm-5 col-md-5">
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <!-- <div class="col-sm-5 col-md-5">
                 <h4 class="FormTitle">
                     {{ 'PropertyDetails.FormTitle' | translate }}
                 </h4>
             </div> -->
-            <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-12 col-md-12 group-default">
+            <div #FieldId_5 id="FieldId_5">
+              <div class="form-group pb10 ">
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PurchaseType.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': PurchaseType.mandatory}">
+                      {{ 'PropertyDetails.PurchaseType' | translate}}
+                    </label>
+                  </div>
+                  <app-combo-box #PurchaseType category="2" fieldID="PurchaseType" [formCode]="formCode"
+                    domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                    domainObjectCode="MSTGENERALPARAM" placeholder="select"
+                    (blur)="genericOnBlur('PurchaseType', $event)"></app-combo-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropertyType.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': PropertyType.mandatory}">
+                      {{ 'PropertyDetails.PropertyType' | translate}}
+                    </label>
+                  </div>
+                  <app-combo-box #PropertyType category="2" fieldID="PropertyType" [formCode]="formCode"
+                    domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                    domainObjectCode="MSTGENERALPARAM" placeholder="select"
+                    (blur)="genericOnBlur('PropertyType', $event)"></app-combo-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BuilderName.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': BuilderName.mandatory}">
+                      {{ 'PropertyDetails.BuilderName' | translate}}
+
+                    </label>
+                  </div>
+                  <app-combo-box #BuilderName category="2" fieldID="BuilderName" [formCode]="formCode"
+                    domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                    domainObjectCode="MSTGENERALPARAM" placeholder="select"
+                    (blur)="genericOnBlur('BuilderName', $event)"></app-combo-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ProjectName.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': ProjectName.mandatory}">
+                      {{ 'PropertyDetails.ProjectName' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #ProjectName fieldID="ProjectName" [formCode]="formCode"
+                    (blur)="genericOnBlur('ProjectName', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BuildingName.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.BuildingName' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #BuildingName fieldID="BuildingName" [formCode]="formCode"
+                    (blur)="genericOnBlur('BuildingName', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="WingName.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.WingName' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #WingName fieldID="WingName" [formCode]="formCode"
+                    (blur)="genericOnBlur('WingName', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BuiltUpAreaSqFt.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': BuilderName.mandatory}">
+                      {{ 'PropertyDetails.BuiltUpAreaSqFt' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #BuiltUpAreaSqFt fieldID="BuiltUpAreaSqFt" [formCode]="formCode"
+                    (blur)="genericOnBlur('BuiltUpAreaSqFt', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PlotAreaSqFt.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.PlotAreaSqFt' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #PlotAreaSqFt fieldID="PlotAreaSqFt" [formCode]="formCode"
+                    (blur)="genericOnBlur('PlotAreaSqFt', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PlinthAreaSqFt.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.PlinthAreaSqFt' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #PlinthAreaSqFt fieldID="PlinthAreaSqFt" [formCode]="formCode"
+                    (blur)="genericOnBlur('PlinthAreaSqFt', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PlotFlatNo.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.PlotFlatNo' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #PlotFlatNo fieldID="PlotFlatNo" [formCode]="formCode"
+                    (blur)="genericOnBlur('PlotFlatNo', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BlockNo.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.BlockNo' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #BlockNo fieldID="BlockNo" [formCode]="formCode"
+                    (blur)="genericOnBlur('BlockNo', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Architect.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.Architect' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Architect fieldID="Architect" [formCode]="formCode"
+                    (blur)="genericOnBlur('Architect', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Contractor.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.Contractor' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Contractor fieldID="Contractor" [formCode]="formCode"
+                    (blur)="genericOnBlur('Contractor', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PerOfProjectCompletion.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.PerOfProjectCompletion' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #PerOfProjectCompletion fieldID="PerOfProjectCompletion" [formCode]="formCode"
+                    (blur)="genericOnBlur('PerOfProjectCompletion', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ExpDateOfCompletion.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory':ExpDateOfCompletion.mandatory}">
+                      {{ 'PropertyDetails.ExpDateOfCompletion' | translate}}
+                    </label>
+                  </div>
+                  <app-date #ExpDateOfCompletion fieldID="ExpDateOfCompletion" placeholder="select"
+                    [formCode]="formCode" (blur)="genericOnBlur('ExpDateOfCompletion', $event)"></app-date>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropoertyPurchaseNameOf.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': PropoertyPurchaseNameOf.mandatory}">
+                      {{ 'PropertyDetails.PropoertyPurchaseNameOf' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #PropoertyPurchaseNameOf fieldID="PropoertyPurchaseNameOf" [formCode]="formCode"
+                    (blur)="genericOnBlur('PropoertyPurchaseNameOf', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CostOfProperty.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': CostOfProperty.mandatory}">
+                      {{ 'PropertyDetails.CostOfProperty' | translate}}
+                    </label>
+                  </div>
+                  <app-amount #CostOfProperty fieldID="CostOfProperty" [formCode]="formCode"
+                    (blur)="genericOnBlur('CostOfProperty', $event)"></app-amount>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropertyInsuranceCost.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory':PropertyInsuranceCost.mandatory}">
+                      {{ 'PropertyDetails.PropertyInsuranceCost' | translate}}
+                    </label>
+                  </div>
+                  <app-amount #PropertyInsuranceCost fieldID="PropertyInsuranceCost" [formCode]="formCode"
+                    (blur)="genericOnBlur('PropertyInsuranceCost', $event)"></app-amount>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizeProperty.isHidden()"
+                  [ngClass]="'checkboxLeft'">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SelectToCapitalizeProperty' | translate}}
+                    </label>
+                  </div>
+                  <app-check-box #SelectToCapitalizeProperty fieldID="SelectToCapitalizeProperty"
+                    (change)="SelectToCapitalizeProperty_change($event)" [formCode]="formCode"
+                    (blur)="genericOnBlur('SelectToCapitalizeProperty', $event)"></app-check-box>
+                </div>
+                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PersonalInsuranceCost.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory':PersonalInsuranceCost.mandatory}">
+                      {{ 'PropertyDetails.PersonalInsuranceCost' | translate}}
+                    </label>
+                  </div>
+                  <app-amount #PersonalInsuranceCost fieldID="PersonalInsuranceCost" [formCode]="formCode"
+                    (blur)="genericOnBlur('PersonalInsuranceCost', $event)"></app-amount>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizePersonal.isHidden()"
+                  [ngClass]="'checkboxLeft'">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SelectToCapitalizePersonal' | translate}}
+                    </label>
+                  </div>
+                  <app-check-box #SelectToCapitalizePersonal fieldID="SelectToCapitalizePersonal"
+                    (change)="SelectToCapitalizePersonal_change($event)" [formCode]="formCode"
+                    (blur)="genericOnBlur('SelectToCapitalizePersonal', $event)"></app-check-box>
+                </div>
+              </div>
+
             </div>
-        </div>
-        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-        <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10">
-                    <div class="col-12  col-sm-12 col-md-12 group-default">
-                        <div #FieldId_5 id="FieldId_5">
-                            <div class="form-group pb10 ">
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PurchaseType.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': PurchaseType.mandatory}">
-                                            {{ 'PropertyDetails.PurchaseType' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-combo-box #PurchaseType category="2" fieldID="PurchaseType" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                    domainObjectCode="MSTGENERALPARAM" placeholder="select"
-                                        (blur)="genericOnBlur('PurchaseType', $event)"></app-combo-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropertyType.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': PropertyType.mandatory}">
-                                            {{ 'PropertyDetails.PropertyType' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-combo-box #PropertyType category="2" fieldID="PropertyType" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                    domainObjectCode="MSTGENERALPARAM" placeholder="select" 
-                                        (blur)="genericOnBlur('PropertyType', $event)"></app-combo-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BuilderName.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': BuilderName.mandatory}">
-                                            {{ 'PropertyDetails.BuilderName' | translate}}
-  
-                                        </label>
-                                    </div>
-                                    <app-combo-box #BuilderName category="2" fieldID="BuilderName" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                    domainObjectCode="MSTGENERALPARAM" placeholder="select"
-                                        (blur)="genericOnBlur('BuilderName', $event)"></app-combo-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ProjectName.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': ProjectName.mandatory}">
-                                            {{ 'PropertyDetails.ProjectName' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #ProjectName fieldID="ProjectName" [formCode]="formCode" (blur)="genericOnBlur('ProjectName', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BuildingName.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.BuildingName' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #BuildingName fieldID="BuildingName" [formCode]="formCode" (blur)="genericOnBlur('BuildingName', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="WingName.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.WingName' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #WingName fieldID="WingName" [formCode]="formCode" (blur)="genericOnBlur('WingName', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BuiltUpAreaSqFt.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': BuilderName.mandatory}">
-                                            {{ 'PropertyDetails.BuiltUpAreaSqFt' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #BuiltUpAreaSqFt fieldID="BuiltUpAreaSqFt" [formCode]="formCode" (blur)="genericOnBlur('BuiltUpAreaSqFt', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PlotAreaSqFt.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.PlotAreaSqFt' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #PlotAreaSqFt fieldID="PlotAreaSqFt" [formCode]="formCode" (blur)="genericOnBlur('PlotAreaSqFt', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PlinthAreaSqFt.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.PlinthAreaSqFt' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #PlinthAreaSqFt fieldID="PlinthAreaSqFt" [formCode]="formCode" (blur)="genericOnBlur('PlinthAreaSqFt', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PlotFlatNo.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.PlotFlatNo' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #PlotFlatNo fieldID="PlotFlatNo" [formCode]="formCode" (blur)="genericOnBlur('PlotFlatNo', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BlockNo.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.BlockNo' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #BlockNo fieldID="BlockNo" [formCode]="formCode" (blur)="genericOnBlur('BlockNo', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Architect.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.Architect' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Architect fieldID="Architect" [formCode]="formCode" (blur)="genericOnBlur('Architect', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Contractor.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.Contractor' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Contractor fieldID="Contractor" [formCode]="formCode" (blur)="genericOnBlur('Contractor', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PerOfProjectCompletion.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.PerOfProjectCompletion' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #PerOfProjectCompletion fieldID="PerOfProjectCompletion" [formCode]="formCode" (blur)="genericOnBlur('PerOfProjectCompletion', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ExpDateOfCompletion.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.ExpDateOfCompletion' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-date #ExpDateOfCompletion fieldID="ExpDateOfCompletion" [formCode]="formCode" (blur)="genericOnBlur('ExpDateOfCompletion', $event)"></app-date>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropoertyPurchaseNameOf.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': PropoertyPurchaseNameOf.mandatory}">
-                                            {{ 'PropertyDetails.PropoertyPurchaseNameOf' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #PropoertyPurchaseNameOf fieldID="PropoertyPurchaseNameOf" [formCode]="formCode" (blur)="genericOnBlur('PropoertyPurchaseNameOf', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CostOfProperty.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': CostOfProperty.mandatory}">
-                                            {{ 'PropertyDetails.CostOfProperty' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-amount #CostOfProperty fieldID="CostOfProperty" [formCode]="formCode" (blur)="genericOnBlur('CostOfProperty', $event)"></app-amount>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PropertyInsuranceCost.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.PropertyInsuranceCost' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-amount #PropertyInsuranceCost fieldID="PropertyInsuranceCost" [formCode]="formCode" (blur)="genericOnBlur('PropertyInsuranceCost', $event)"></app-amount>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizeProperty.isHidden()" [ngClass]="'checkboxLeft'">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SelectToCapitalizeProperty' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-check-box #SelectToCapitalizeProperty fieldID="SelectToCapitalizeProperty" [formCode]="formCode" (blur)="genericOnBlur('SelectToCapitalizeProperty', $event)"></app-check-box>
-                                </div>
-                                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PersonalInsuranceCost.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.PersonalInsuranceCost' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-amount #PersonalInsuranceCost fieldID="PersonalInsuranceCost" [formCode]="formCode" (blur)="genericOnBlur('PersonalInsuranceCost', $event)"></app-amount>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizePersonal.isHidden()" [ngClass]="'checkboxLeft'">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SelectToCapitalizePersonal' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-check-box #SelectToCapitalizePersonal fieldID="SelectToCapitalizePersonal" [formCode]="formCode" (blur)="genericOnBlur('SelectToCapitalizePersonal', $event)"></app-check-box>
-                                </div>
-                            </div>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 group-default">
+            <div #FieldId_8 id="FieldId_8">
+              <div class="form-group pb10 ">
+                <div class="col-12  col-sm-5 col-md-5 res-pr-hide">
+                  <app-label #PropertyAddress parentCompCode="PropertyDetails" fieldID="PropertyAddress"
+                    [formCode]="formCode" fontFamily="open sans" fontColor="#555" fontStyle="normal" fontSize="16px"
+                    fontWeight="900"></app-label>
+                </div>
+                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address1.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': Address1.mandatory}">
+                      {{ 'PropertyDetails.Address1' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Address1 fieldID="Address1" [formCode]="formCode"
+                    (blur)="genericOnBlur('Address1', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address2.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.Address2' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Address2 fieldID="Address2" [formCode]="formCode"
+                    (blur)="genericOnBlur('Address2', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address3.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.Address3' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Address3 fieldID="Address3" [formCode]="formCode"
+                    (blur)="genericOnBlur('Address3', $event)"></app-text-box>
+                </div>
 
-                        </div>
-                    </div>
-                    <div class="col-12  col-sm-12 col-md-12 group-default">
-                        <div #FieldId_8 id="FieldId_8">
-                            <div class="form-group pb10 ">
-                                <div class="col-12  col-sm-5 col-md-5 res-pr-hide">
-                                    <app-label #PropertyAddress parentCompCode="PropertyDetails" fieldID="PropertyAddress" [formCode]="formCode" fontFamily="sans-serif"
-                                        fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900"></app-label>
-                                </div>
-                                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address1.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': Address1.mandatory}">
-                                            {{ 'PropertyDetails.Address1' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Address1 fieldID="Address1" [formCode]="formCode" (blur)="genericOnBlur('Address1', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address2.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.Address2' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Address2 fieldID="Address2" [formCode]="formCode" (blur)="genericOnBlur('Address2', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address3.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.Address3' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Address3 fieldID="Address3" [formCode]="formCode" (blur)="genericOnBlur('Address3', $event)"></app-text-box>
-                                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Pincode.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': Pincode.mandatory}">
+                      {{ 'PropertyDetails.Pincode' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Pincode fieldID="Pincode" [formCode]="formCode"
+                    (blur)="genericOnBlur('Pincode', $event)"></app-text-box>
+                </div>
 
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Pincode.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                      <label class="clr-brown" [ngClass]="{'mandatory': Pincode.mandatory}">
-                                        {{ 'PropertyDetails.Pincode' | translate}}
-                                      </label>
-                                    </div>
-                                    <app-text-box #Pincode fieldID="Pincode" [formCode]="formCode"
-                                      (blur)="genericOnBlur('Pincode', $event)"></app-text-box>
-                                  </div>
-
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Region.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.Region' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Region fieldID="Region" [formCode]="formCode" (blur)="genericOnBlur('Region', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="City.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.City' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #City fieldID="City" [formCode]="formCode" (blur)="genericOnBlur('City', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="State.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.State' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #State fieldID="State" [formCode]="formCode" (blur)="genericOnBlur('State', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Country.isHidden()">
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Region.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.Region' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Region fieldID="Region" [formCode]="formCode" (blur)="genericOnBlur('Region', $event)">
+                  </app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="City.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.City' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #City fieldID="City" [formCode]="formCode" (blur)="genericOnBlur('City', $event)">
+                  </app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="State.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.State' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #State fieldID="State" [formCode]="formCode" (blur)="genericOnBlur('State', $event)">
+                  </app-text-box>
+                </div>
+                <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Country.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'PropertyDetails.Country' | translate}}
@@ -283,228 +315,254 @@
                                     </div>
                                     <app-combo-box #Country category="2" fieldID="Country" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                                     domainObjectCode="MSTGENERALPARAM" placeholder="Select" (blur)="genericOnBlur('Country', $event)"></app-combo-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Landmark.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.Landmark' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #Landmark fieldID="Landmark" [formCode]="formCode" (blur)="genericOnBlur('Landmark', $event)"></app-text-box>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-12  col-sm-12 col-md-12 group-default">
-                        <div #FieldId_16 id="FieldId_16">
-                            <div class="form-group pb10 ">
-                                <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                                    <app-label #SellerDetails parentCompCode="PropertyDetails" fieldID="SellerDetails" [formCode]="formCode" fontFamily="sans-serif"
-                                        fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900"></app-label>
-                                </div>
-                                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerType.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': SellerType.mandatory}">
-                                            {{ 'PropertyDetails.SellerType' | translate}}
-                        
-                                        </label>
-                                    </div>
-                                    <app-combo-box #SellerType category="2" fieldID="SellerType" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                    domainObjectCode="MSTGENERALPARAM" placeholder="Select"
-                                        (blur)="genericOnBlur('SellerType', $event)"></app-combo-box>
-                                </div>
-                                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NameOfSeller.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': NameOfSeller.mandatory}">
-                                            {{ 'PropertyDetails.NameOfSeller' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #NameOfSeller fieldID="NameOfSeller" [formCode]="formCode" (blur)="genericOnBlur('NameOfSeller', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NameOfRegisteredOwner.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': NameOfRegisteredOwner.mandatory}">
-                                            {{ 'PropertyDetails.NameOfRegisteredOwner' | translate}}
-                                           
-                                        </label>
-                                    </div>
-                                    <app-text-box #NameOfRegisteredOwner fieldID="NameOfRegisteredOwner" [formCode]="formCode" (blur)="genericOnBlur('NameOfRegisteredOwner', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerAddress1.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': SellerAddress1.mandatory}">
-                                            {{ 'PropertyDetails.SellerAddress1' | translate}}
-                                            
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerAddress1 fieldID="SellerAddress1" [formCode]="formCode" (blur)="genericOnBlur('SellerAddress1', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerAddress2.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SellerAddress2' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerAddress2 fieldID="SellerAddress2" [formCode]="formCode" (blur)="genericOnBlur('SellerAddress2', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerAddress3.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SellerAddress3' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerAddress3 fieldID="SellerAddress3" [formCode]="formCode" (blur)="genericOnBlur('SellerAddress3', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerPincode.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': SellerPincode.mandatory}">
-                                            {{ 'PropertyDetails.SellerPincode' | translate}}
-                                           
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerPincode fieldID="SellerPincode" [formCode]="formCode" (blur)="genericOnBlur('SellerPincode', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerRegion.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SellerRegion' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerRegion fieldID="SellerRegion" [formCode]="formCode" (blur)="genericOnBlur('SellerRegion', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerCity.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SellerCity' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerCity fieldID="SellerCity" [formCode]="formCode" (blur)="genericOnBlur('SellerCity', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerState.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SellerState' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerState fieldID="SellerState" [formCode]="formCode" (blur)="genericOnBlur('SellerState', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerMobileNo.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.SellerMobileNo' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-text-box #SellerMobileNo fieldID="SellerMobileNo" [formCode]="formCode" (blur)="genericOnBlur('SellerMobileNo', $event)"></app-text-box>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-12  col-sm-12 col-md-12 group-default">
-                        <div #FieldId_31 id="FieldId_31">
-                            <div class="form-group pb10 ">
-                                <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                                    <app-label #LoanDetails parentCompCode="PropertyDetails" fieldID="LoanDetails" [formCode]="formCode" fontFamily="sans-serif"
-                                        fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900" ></app-label>
-                                </div>
-                                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DownPaymentAmount.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': DownPaymentAmount.mandatory}">
-                                            {{ 'PropertyDetails.DownPaymentAmount' | translate}}
-                                            
-                                        </label>
-                                    </div>
-                                    <app-amount #DownPaymentAmount fieldID="DownPaymentAmount" [formCode]="formCode" (blur)="genericOnBlur('DownPaymentAmount', $event)"></app-amount>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DownPayment.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown" [ngClass]="{'mandatory': DownPayment.mandatory}">
-                                            {{ 'PropertyDetails.DownPayment' | translate}}
-                                            
-                                        </label>
-                                    </div>
-                                    <app-text-box #DownPayment fieldID="DownPayment" [formCode]="formCode" (blur)="genericOnBlur('DownPayment', $event)"></app-text-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AmountToBeFinanced.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.AmountToBeFinanced' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-amount #AmountToBeFinanced fieldID="AmountToBeFinanced" [formCode]="formCode" (blur)="genericOnBlur('AmountToBeFinanced', $event)"></app-amount>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoratoriumPeriod.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.MoratoriumPeriod' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-combo-box #MoratoriumPeriod category="2" fieldID="MoratoriumPeriod" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                                    domainObjectCode="MSTGENERALPARAM"Placeholder = "Select" (blur)="genericOnBlur('MoratoriumPeriod', $event)"></app-combo-box>
-                                </div>
-                                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoratoriamPeriodCheck.isHidden()" [ngClass]="'checkboxLeft'">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'PropertyDetails.MoratoriamPeriodCheck' | translate}}
-                                        </label>
-                                    </div>
-                                    <app-check-box #MoratoriamPeriodCheck fieldID="MoratoriamPeriodCheck" [formCode]="formCode" (blur)="genericOnBlur('MoratoriamPeriodCheck', $event)"></app-check-box>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-12  col-sm-12 col-md-12 group-default">
-                            <div #FieldId_36 id="FieldId_36">
-                                <div class="form-group pb10 ">
-                                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                                        <app-label #DisbursementDetails parentCompCode="PropertyDetails" fieldID="DisbursementDetails" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900"></app-label>
-                                    </div>
-                                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>                                    
-                                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NoOfMilestones.isHidden()">
-                                        <div class="clr-brown fieldLegend">
-                                            <label class="clr-brown">
-                                                {{ 'PropertyDetails.NoOfMilestones' | translate}}
-                                            </label>
-                                        </div>
-                                     <app-text-box #NoOfMilestones fieldID="NoOfMilestones" [formCode]="formCode" (blur)="genericOnBlur('NoOfMilestones', $event)"></app-text-box>
-                                    </div>
-                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_41.isHidden()">
-                                            <app-DisbursInputGrid #FieldId_41 fieldID="FieldId_41" [formCode]="formCode"></app-DisbursInputGrid>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                    <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
-                    <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-                    <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="PD_Save.isHidden()">
-                        <app-button #PD_Save fieldName="{{ 'PropertyDetails.PD_Save' | translate}}" fieldID="PD_Save" [formCode]="formCode" (buttonClick)="PD_Save_click($event)" customClass="btn btn-primary btn-sm"></app-button>
-                    </div>
-                    <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="PD_Clear.isHidden()">
-                        <app-button #PD_Clear fieldName="{{ 'PropertyDetails.PD_Clear' | translate}}" fieldID="PD_Clear" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
-                    </div>
-                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
-                            <app-property-handler #Handler [MainComponent]="this"></app-property-handler>
-                          </div>
+                                </div> -->
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Landmark.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.Landmark' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #Landmark fieldID="Landmark" [formCode]="formCode"
+                    (blur)="genericOnBlur('Landmark', $event)"></app-text-box>
                 </div>
-                <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
-                <app-hidden #hidePropertyType fieldID="hidePropertyType"></app-hidden>
-                <app-hidden #hidePurchaseType fieldID="hidePurchaseType"></app-hidden>
-                <app-hidden #hideSellerType fieldID="hideSellerType"></app-hidden>
-                <app-hidden #hideMoratoriumPeriod fieldID="hideMoratoriumPeriod"></app-hidden>
-                <app-hidden #HidePropertySeq fieldID="HidePropertySeq"></app-hidden>  
-                <app-hidden #hideBuilderName fieldID="hideBuilderName"></app-hidden> 
-                <app-hidden #hidCountryCode fieldID="hidCountryCode"></app-hidden> 
-                
-                              
+              </div>
+
             </div>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 group-default">
+            <div #FieldId_16 id="FieldId_16">
+              <div class="form-group pb10 ">
+                <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                  <app-label #SellerDetails parentCompCode="PropertyDetails" fieldID="SellerDetails"
+                    [formCode]="formCode" fontFamily="open sans" fontColor="#555" fontStyle="normal" fontSize="16px"
+                    fontWeight="900"></app-label>
+                </div>
+                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerType.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': SellerType.mandatory}">
+                      {{ 'PropertyDetails.SellerType' | translate}}
+
+                    </label>
+                  </div>
+                  <app-combo-box #SellerType category="2" fieldID="SellerType" [formCode]="formCode"
+                    domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                    domainObjectCode="MSTGENERALPARAM" placeholder="Select"
+                    (blur)="genericOnBlur('SellerType', $event)"></app-combo-box>
+                </div>
+                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NameOfSeller.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': NameOfSeller.mandatory}">
+                      {{ 'PropertyDetails.NameOfSeller' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #NameOfSeller fieldID="NameOfSeller" [formCode]="formCode"
+                    (blur)="genericOnBlur('NameOfSeller', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NameOfRegisteredOwner.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': NameOfRegisteredOwner.mandatory}">
+                      {{ 'PropertyDetails.NameOfRegisteredOwner' | translate}}
+
+                    </label>
+                  </div>
+                  <app-text-box #NameOfRegisteredOwner fieldID="NameOfRegisteredOwner" [formCode]="formCode"
+                    (blur)="genericOnBlur('NameOfRegisteredOwner', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerAddress1.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': SellerAddress1.mandatory}">
+                      {{ 'PropertyDetails.SellerAddress1' | translate}}
+
+                    </label>
+                  </div>
+                  <app-text-box #SellerAddress1 fieldID="SellerAddress1" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerAddress1', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerAddress2.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SellerAddress2' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #SellerAddress2 fieldID="SellerAddress2" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerAddress2', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerAddress3.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SellerAddress3' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #SellerAddress3 fieldID="SellerAddress3" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerAddress3', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerPincode.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': SellerPincode.mandatory}">
+                      {{ 'PropertyDetails.SellerPincode' | translate}}
+
+                    </label>
+                  </div>
+                  <app-text-box #SellerPincode fieldID="SellerPincode" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerPincode', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerRegion.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SellerRegion' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #SellerRegion fieldID="SellerRegion" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerRegion', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerCity.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SellerCity' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #SellerCity fieldID="SellerCity" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerCity', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerState.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SellerState' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #SellerState fieldID="SellerState" [formCode]="formCode"
+                    (blur)="genericOnBlur('SellerState', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SellerMobileNo.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.SellerMobileNo' | translate}}
+                    </label>
+                  </div>
+                  <rlo-ui-mobile #SellerMobileNo fieldID="SellerMobileNo"
+                    (countryCodeChanged)="countryCodeChanged('SellerMobileNo',$event)"
+                    (blur)="genericOnBlur('SellerMobileNo', $event)"></rlo-ui-mobile>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 group-default">
+            <div #FieldId_31 id="FieldId_31">
+              <div class="form-group pb10 ">
+                <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                  <app-label #LoanDetails parentCompCode="PropertyDetails" fieldID="LoanDetails" [formCode]="formCode"
+                    fontFamily="open sans" fontColor="#555" fontStyle="normal" fontSize="16px" fontWeight="900">
+                  </app-label>
+                </div>
+                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DownPaymentAmount.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': DownPaymentAmount.mandatory}">
+                      {{ 'PropertyDetails.DownPaymentAmount' | translate}}
+
+                    </label>
+                  </div>
+                  <app-amount #DownPaymentAmount fieldID="DownPaymentAmount" [formCode]="formCode"
+                    (blur)="genericOnBlur('DownPaymentAmount', $event)"></app-amount>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DownPayment.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': DownPayment.mandatory}">
+                      {{ 'PropertyDetails.DownPayment' | translate}}
+
+                    </label>
+                  </div>
+                  <app-text-box #DownPayment fieldID="DownPayment" [formCode]="formCode"
+                    (blur)="genericOnBlur('DownPayment', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AmountToBeFinanced.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.AmountToBeFinanced' | translate}}
+                    </label>
+                  </div>
+                  <app-amount #AmountToBeFinanced fieldID="AmountToBeFinanced" [formCode]="formCode"
+                    (blur)="genericOnBlur('AmountToBeFinanced', $event)"></app-amount>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoratoriumPeriod.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.MoratoriumPeriod' | translate}}
+                    </label>
+                  </div>
+                  <app-combo-box #MoratoriumPeriod category="2" fieldID="MoratoriumPeriod" [formCode]="formCode"
+                    domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                    domainObjectCode="MSTGENERALPARAM" placeholder="Select"
+                    (blur)="genericOnBlur('MoratoriumPeriod', $event)"></app-combo-box>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MoratoriamPeriodCheck.isHidden()"
+                  [ngClass]="'checkboxLeft'">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.MoratoriamPeriodCheck' | translate}}
+                    </label>
+                  </div>
+                  <app-check-box #MoratoriamPeriodCheck fieldID="MoratoriamPeriodCheck" [formCode]="formCode"
+                    (blur)="genericOnBlur('MoratoriamPeriodCheck', $event)"></app-check-box>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-12  col-sm-12 col-md-12 group-default">
+            <div #FieldId_36 id="FieldId_36">
+              <div class="form-group pb10 ">
+                <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+                  <app-label #DisbursementDetails parentCompCode="PropertyDetails" fieldID="DisbursementDetails"
+                    [formCode]="formCode" fontFamily="open sans" fontColor="#555" fontStyle="normal" fontSize="16px"
+                    fontWeight="900"></app-label>
+                </div>
+                <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NoOfMilestones.isHidden()">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'PropertyDetails.NoOfMilestones' | translate}}
+                    </label>
+                  </div>
+                  <app-text-box #NoOfMilestones fieldID="NoOfMilestones" [formCode]="formCode"
+                    (blur)="genericOnBlur('NoOfMilestones', $event)"></app-text-box>
+                </div>
+                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_41.isHidden()">
+                  <app-DisbursInputGrid #FieldId_41 fieldID="FieldId_41" [formCode]="formCode"></app-DisbursInputGrid>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="PD_Save.isHidden()">
+            <app-button #PD_Save fieldName="{{ 'PropertyDetails.PD_Save' | translate}}" fieldID="PD_Save"
+              [formCode]="formCode" (buttonClick)="PD_Save_click($event)" customClass="btn btn-primary btn-sm">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="PD_Clear.isHidden()">
+            <app-button #PD_Clear fieldName="{{ 'PropertyDetails.PD_Clear' | translate}}" fieldID="PD_Clear"
+              [formCode]="formCode" (buttonClick)="Clear_click($event)" customClass="btn-warning-outline"></app-button>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+            <app-property-handler #Handler [MainComponent]="this"></app-property-handler>
+          </div>
         </div>
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hidePropertyType fieldID="hidePropertyType"></app-hidden>
+        <app-hidden #hidePurchaseType fieldID="hidePurchaseType"></app-hidden>
+        <app-hidden #hideSellerType fieldID="hideSellerType"></app-hidden>
+        <app-hidden #hideMoratoriumPeriod fieldID="hideMoratoriumPeriod"></app-hidden>
+        <app-hidden #HidePropertySeq fieldID="HidePropertySeq"></app-hidden>
+        <app-hidden #hideBuilderName fieldID="hideBuilderName"></app-hidden>
+
+      </div>
     </div>
+  </div>
 </form>

@@ -51,8 +51,14 @@ export class RlouiService {
     { componentName: "IncomeSummary", iconClass: "icon-Income-Summary" },
     { componentName: "LiabilityDetails", iconClass: "icon-Liability-Details" },
     { componentName: "AssetDetails", iconClass: "icon-Asset-Details" },
-    { componentName: "FileUpload", iconClass: "icon-Asset-Details" }
-  ]
+    { componentName: "FileUpload", iconClass: "icon-Asset-Details" },
+    { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
+    { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
+    { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
+  ];
+
+  customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
+  //{id: "C_2952", text: "CB-SHITAL JAIN"}
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {
     console.log("UI Service .. constructor --------------------------------");

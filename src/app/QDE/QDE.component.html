@@ -17,15 +17,14 @@
               (productCategoryFound)="brodcastProdCategory($event)" (headerStateEvent)="headerState($event)">
             </app-Header>
           </div>
-
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide qde-tab-btn-div p-0"
-            [ngClass]="showExpandedHeader ? '' : 'header-expanded-qde'">
-
-            <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
+          
+          <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
               <a href="javascript:void(0);" class="icon-folder-open"></a>
             </div>
 
-            <div id="tab" class="btn-group btn-group-justified qde-tab" data-toggle="buttons">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div"
+            [ngClass]="showExpandedHeader ? '' : 'header-expanded-qde'">
+            <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
               <a href="#customer-panel" class="btn btn-default active" data-toggle="tab"
                 (click)="tabSwitched('customer')">
                 <input type="radio" />CUSTOMER
@@ -36,6 +35,7 @@
               </a>
             </div>
           </div>
+
           <div class="tab-content">
             <div class="tab-pane active" id="customer-panel">
 

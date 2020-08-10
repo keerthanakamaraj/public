@@ -694,7 +694,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     inputMap.set('Body.inputdata.LOAN_AMT', this.LD_LOAN_AMOUNT.getFieldValue());
     inputMap.set('Body.inputdata.GENDER', this.gender);
     inputMap.set('Body.inputdata.NETINCOME', this.LD_NET_INCOME.getFieldValue());
-    inputMap.set('Body.inputdata.INTEREST_RATE', this.LD_INTEREST_RATE.getFieldValue());
+    inputMap.set('Body.inputdata.INTEREST_RATE', this.LD_NET_INTEREST_RATE.getFieldValue());
     inputMap.set('Body.inputdata.DBR', this.LD_LTV_DBR.getFieldValue());
     inputMap.set('Body.inputdata.SCHEME_CD', this.BAD_SCHEME.getFieldValue());
     inputMap.set('Body.inputdata.PROMOTION_CD', this.BAD_PROMOTION.getFieldValue());
@@ -708,15 +708,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         }
         if (res.status == 'S') {
           this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
-          for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
-            const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
-            if (Data.DECISION == 'Reject') {
-              this.EligibilityDecision = 'Reject';
-            }
-          }
-          if (this.EligibilityDecision != 'Reject') {
-            this.EligibilityDecision = 'Approve';
-          }
+          this.EligibilityDecision = res.ouputdata.OVERALLDECISION;
+          // for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
+          //   const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
+          //   if (Data.DECISION == 'Reject') {
+          //     this.EligibilityDecision = 'Reject';
+          //   }
+          // }
+          // if (this.EligibilityDecision != 'Reject') {
+          //   this.EligibilityDecision = 'Approve';
+          // }
           inputMap.set('Checkvalue', this.eligeData);
           inputMap.set('component', 'checkEligibilityForm');
           const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });

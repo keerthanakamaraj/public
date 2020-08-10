@@ -66,7 +66,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "CardDetails" },
         // { className: "GoldDetails" },
         // { className: "EducationDetails" },
-        // { className: "PropertyDetails" },
+        { className: "PropertyDetails" },
         { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
@@ -241,9 +241,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   ///
 
   isLoanCategory: boolean = false;
+  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
+    this.services.rloui.customerListDropDownArray = [];
     // this.getUnderWriterData();
   }
 
@@ -262,19 +264,27 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //@Output
   broadcastProdCategory(event) {
-    this.services.rloCommonData.globalApplicationDtls = {
-      isLoanCategory: event.isLoanCategory,
-      ProductCode: event.ProductCode,
-      SubProductCode: event.SubProductCode,
-      SchemeCode: event.SchemeCode,
-    };
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    // this.services.rloCommonData.globalApplicationDtls = {
+    //   isLoanCategory: event.isLoanCategory,
+    //    ProductCode: event.ProductCode,
+    //    SubProductCode: event.SubProductCode,
+    //    SchemeCode: event.SchemeCode,
+    // };
+   // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     this.getUnderWriterData();
   }
 
   //@Output
-  headerState(event) { }
+  async headerState(event) {
+    this.showExpandedHeader = event.headerState;
+    console.log("header ---", this.showExpandedHeader);
+    // if (!this.showExpandedHeader) {
+    //   setTimeout(() => {
+    //     window.scroll(0, 0);
+    //   }, 100);
+    // }
+  }
 
   async claimTask(taskId) {
     const inputMap = new Map();
@@ -316,7 +326,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530 2141(Loan details), 1675
+    //valid application id - 1675 1937 1678 1673(RM visit) 2061 1530 2141(Loan details), 1675 2460(has property) 2483
+
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
@@ -328,6 +339,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
+    //appId = 2483;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -369,9 +381,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         "CD_CUSTOMER_TYPE": element.CustomerType
       };
 
-      if (element.CustomerType != "R")
+      if (element.CustomerType != "R") {
         this.customerList.push(data);
+
+        this.services.rloui.customerListDropDownArray.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      }
+
     });
+
+    // let serviceObj = {
+    //   "name": "CustomerDetails",
+    //   "data": array,
+    //   "BorrowerSeq": this.HidCustomerId.getFieldValue()
+    // };
+    // this.services.rloCommonData.updateMasterDataMap(serviceObj, true)
+
+    // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.UWTabs.setCustomerList(this.customerList);//pass customer list to component
     this.borrowerSeq = this.customerList[0].BorrowerSeq;
@@ -391,13 +416,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
       switch (productCategory) {
         case "CC":
-          if (element.className != "VehicalDetails" && element.className != "LoanDetails") {
+          if (element.className != "VehicalDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
 
         case "AL":
-          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+          if (element.className != "CardDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
@@ -409,7 +434,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           break;
 
         case "PL":
-          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+          if (element.className != "CardDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
             validSectionList.push(element);
           }
           break;
@@ -545,7 +570,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       console.warn(this.aCardDataWithFields, this.aBlankCardData);
       console.warn(JSON.stringify(this.aCardDataWithFields));
       console.warn(JSON.stringify(this.aBlankCardData));
-      console.log("loanDetailsCardData",this.loanDetailsCardData);
+      console.log("loanDetailsCardData", this.loanDetailsCardData);
       setTimeout(() => {
         this.applicationSectionLoaded = true;
         console.warn("****");

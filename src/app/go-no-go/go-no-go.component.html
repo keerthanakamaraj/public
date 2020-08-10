@@ -2,13 +2,13 @@
   <div class="sub-header-container col-12  col-sm-12 col-md-12 res-pr-hide">
     <label class=Questionnaire-subheader> {{ 'GNGDtls.GNG_MST_PARAMETERS' | translate}}</label>
   </div>
-  <div class="mst-params-container row">
+  <div class="mst-params-container">
     <ng-container *ngIf="QuestionnairMap != undefined">
-      <div class="header-container row col-12 col-sm-12 col-md-12">
+      <div class="header-container col-12 col-sm-12 col-md-12">
         <div class="col-12 col-sm-8 col-md-8"></div>
         <div class="decision-header col-12 col-sm-2 col-md-2">{{ 'GNGDtls.GNG_DECISION_HEADER' | translate}}</div>
       </div>
-      <div class="param-container row col-12 col-sm-12 col-md-12"
+      <div class="param-container col-12 col-sm-12 col-md-12"
         *ngFor="let question of QuestionnairMap | keyvalue; let i = index;">
         <div class="param-Question col-12 col-sm-7 col-md-7">
 

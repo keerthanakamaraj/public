@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MyTrayFormModel } from './MyTrayForm.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -19,7 +19,8 @@ import { MyTrayGridComponent } from '../MyTrayGrid/MyTrayGrid.component';
 import { Router } from "@angular/router";
 import { IModalData } from '../popup-alert/popup-interface';
 import { Label, MultiDataSet, SingleDataSet } from 'ng2-charts';
-import { ChartType, ChartOptions } from 'chart.js';
+import { ChartType, ChartOptions, PluginServiceRegistrationOptions } from 'chart.js';
+import * as Chart from 'chart.js';
 
 const customCss: string = '';
 
@@ -31,6 +32,10 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('MT_SLIDER', { static: false }) MT_SLIDER: CheckBoxComponent;
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
   @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
+  @ViewChild('doughnutChartInnerTxt', { static: false }) doughnutChartInnerTxt: ElementRef;
+
+  public context: CanvasRenderingContext2D;
+  public chartPluginService: PluginServiceRegistrationOptions;
 
   menuList = [];
   promotionLists = [
@@ -76,7 +81,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   ];
   public doughnutChartType: ChartType = 'doughnut';
 
-  public chartOptions: any = {
+  public chartOptions: ChartOptions = {
     cutoutPercentage: 80,
     spanGaps: false,
     legend: {
@@ -86,7 +91,29 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
         usePointStyle: true
       }
     },
+    elements: {
+      arc: {
+        borderWidth: 0
+      }
+    }
   }
+
+  //   this.chartPluginService.beforeDraw(data(), 'linear');
+
+  // function data() {
+  //   let context = this.doughnutChartInnerTxt.nativeElement;
+  //   var c = document.getElementById("text");
+  //   this.context.textAlign = "center";
+  //   this.context.textBaseline = "middle";
+  //   this.context.font = "18px sans-serif";
+  //   this.context.fillText("Total Pending", 150, 150);
+
+  //   this.context.textBaseline = "middle";
+  //   this.context.font = "18px sans-serif";
+  //   this.context.fillText("27", 150, 150);
+
+  //   return context;
+  // }
 
   public donutColors = [
     {
@@ -113,7 +140,22 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock, private router: Router) {
+
+  chart: any;
+
+  dataSets = {
+    labels: ['Quick Data Entry', 'Detailed Data Entry', 'CPV', 'Credit Underwriting'],
+    datasets: [
+      {
+        data: [5, 10, 10, 2],
+        backgroundColor: ['#012438',
+          '#037cb1',
+          '#54a8d4',
+          '#560d28'],
+      }]
+  };
+
+  constructor(services: ServiceStock, private router: Router, private cdRef: ChangeDetectorRef) {
     super(services);
     this.value = new MyTrayFormModel();
     this.componentCode = 'MyTrayForm';
@@ -170,6 +212,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     styleElement.innerHTML = customCss;
     styleElement.id = 'MyTrayForm_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
+
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -183,6 +226,48 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+
+    this.context = this.doughnutChartInnerTxt.nativeElement;
+    this.chart = new Chart(this.context, {
+      type: 'doughnut',
+      data: this.dataSets,
+      options: {
+        cutoutPercentage: 80,
+        legend: {
+          position: "bottom",
+          labels: {
+            fontSize: 10,
+            usePointStyle: true
+          }
+        },
+        elements: {
+          arc: {
+            borderWidth: 0
+          }
+        }
+      }
+    });
+
+    Chart.pluginService.register({
+      beforeDraw: function (chart) {
+        var width = chart.width,
+          height = chart.height,
+          ctx = chart.ctx,
+          type = chart.config.type;
+
+        if (type == 'doughnut') {
+          ctx.textBaseline = "middle";
+          ctx.font = "18px sans-serif";
+          ctx.fillText("Total Pending", 140, 73);
+
+          ctx.textBaseline = "middle";
+          ctx.font = "18px sans-serif";
+          ctx.fillText("27", 185, 100);
+          ctx.save();
+        }
+      }
+    });
+    this.cdRef.detectChanges();
   }
   clearError() {
     super.clearBasicFieldsError();

@@ -70,6 +70,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   modalDataSubjectSubscription: Subscription;
   DisbursalDate: string = undefined;
   RepaymentStartDate: string = undefined;
+  totInterestAmt: any;
+  totInstallmentAmt: any;
+  monthlyinstallmentAmt: any;
 
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -128,10 +131,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.hideInstRateType.setValue('INTEREST_RATE_TYPE');
     this.hideRepaymentOption.setValue('REPAYMENT_OPTION');
     this.hideRepaymentFreq.setValue('FREQUENCY');
-    this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
+    // this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
     // this.LD_DISBURMENT_MONEY.setDisabled(true);
     // this.LD_FEES_CHARGE.setDisabled(true);
-    this.LD_RECEIVE_MONEY.setDisabled(true);
+    // this.LD_RECEIVE_MONEY.setDisabled(true);
     let inputMap = new Map();
     await this.Handler.onFormLoad({
     });
@@ -214,6 +217,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.setReadOnly(false);
     this.onFormLoad();
   }
+  async MarginRate_blur(event) {
+    this.Handler.CalculateNetInterestRate();
+  
+  }
   OnLoanFormLoad() {
     let inputMap = new Map();
     inputMap.clear();
@@ -256,14 +263,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
             this.MarginMoney.setValue(LoanElement['MarginMoney']);
-            this.MoneyInstallment.setValue(LoanElement['MoneyInstallment']);
+            this.monthlyinstallmentAmt = LoanElement['MoneyInstallment'];
+            this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
             this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
             this.DisbursalDate = LoanElement['DisbursalDate'];
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.Handler.SetValue();
 
-            this.LoanGridCalculation(this.MoneyInstallment.getFieldValue());
+            this.LoanGridCalculation(this.monthlyinstallmentAmt);
             this.setTotalInterestAmount();
           });
 
@@ -317,32 +325,32 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   async LD_DISBURMENT_MONEY_click(event) {
     if (this.readOnly)
-    return
+      return
 
-  let dataObj = this.generateAmortizationDataList();
-  Promise.all([this.services.rloui.getAlertMessage('', 'Disbursement Details')]).then(values => {
-    console.log(values);
-    let modalObj: IModalData = {
-      title: values[0],
-      mainMessage: undefined,
-      modalSize: "modal-width-lg",
-      buttons: [],
-      componentName: 'DisbursementDetailsComponent',
-      data: dataObj
+    let dataObj = this.generateAmortizationDataList();
+    Promise.all([this.services.rloui.getAlertMessage('', 'Disbursement Details')]).then(values => {
+      console.log(values);
+      let modalObj: IModalData = {
+        title: values[0],
+        mainMessage: undefined,
+        modalSize: "modal-width-lg",
+        buttons: [],
+        componentName: 'DisbursementDetailsComponent',
+        data: dataObj
 
 
-    }
-    this.services.rloui.confirmationModal(modalObj).then((response) => {
-      console.log(response);
-      if (response != null) {
-        if (response.id === 1) {
-          this.services.rloui.closeAllConfirmationModal();
-        }
       }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal();
+          }
+        }
+      });
     });
-  });
-}
-  
+  }
+
   async LD_FEES_CHARGE_click(event) {
     // let inputMap = new Map();
     // inputMap.clear();
@@ -414,14 +422,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
-    //let ToatalEMI = this.Handler.CalculateEMI();
+
+    this.monthlyinstallmentAmt = undefined;
     this.DisbursalDate = updatedData.disbursalDate;
     this.RepaymentStartDate = updatedData.repaymentStartDate
-    let ToatalEMI = updatedData.monthlyinstallmentAmt != undefined ?
+    this.monthlyinstallmentAmt = updatedData.monthlyinstallmentAmt != undefined ?
       updatedData.monthlyinstallmentAmt : this.Handler.CalculateEMI();
-    this.MoneyInstallment.setValue(ToatalEMI);
+    this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
     this.Handler.SetValue();
-    this.LoanGridCalculation(ToatalEMI);
+    this.LoanGridCalculation(this.monthlyinstallmentAmt);
   }
   async LD_CLEAR_BTN_click(event) {
     let Array = this.Handler.FieldsArray();
@@ -447,7 +456,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       inputMap.set('Body.LoanDetails.RepaymentFrequency', this.RepaymentFrequency.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentOption', this.RepaymentOption.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentAccNo', this.RepaymentAccNo.getFieldValue());
-      inputMap.set('Body.LoanDetails.MoneyInstallment', this.MoneyInstallment.getFieldValue());
+      inputMap.set('Body.LoanDetails.MoneyInstallment', this.monthlyinstallmentAmt);
       inputMap.set('Body.LoanDetails.DisbursalDate', this.DisbursalDate);
       inputMap.set('Body.LoanDetails.RepaymentStartDate', this.RepaymentStartDate);
       if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
@@ -555,10 +564,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.FieldId_26.LoanGridArray.forEach(element => {
       if (element.CustomerType == 'B') {
         dataObj.BLoanOwnership = element.LoanOwnership;
-        dataObj.BLoanAmtShare = element.Principle;
+        dataObj.BLoanAmtShare = element.Principle.toFixed(2);
       } else if (element.CustomerType == 'CB' && element.LoanOwnership > 0) {
         dataObj.CBLoanOwnership = element.LoanOwnership;
-        dataObj.CBLoanAmountShare = element.Principle;
+        dataObj.CBLoanAmountShare = element.Principle.toFixed(2);
       }
     });
 
@@ -571,9 +580,13 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
   setTotalInterestAmount() {
+    this.totInterestAmt = undefined;
+    this.totInstallmentAmt = undefined;
     if (this.LoanAmount.getFieldValue() && this.NetInterestRate.getFieldValue()) {
-      this.TotalInterestAmount.setValue((parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2));
-      this.TotalInstallmentAmt.setValue((parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.TotalInterestAmount.getFieldValue())).toFixed(2));
+      this.totInterestAmt = (parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2);
+      this.totInstallmentAmt = (parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.totInterestAmt)).toFixed(2);
+      this.TotalInterestAmount.setValue(this.services.formatAmount(this.totInterestAmt, null, null));
+      this.TotalInstallmentAmt.setValue(this.services.formatAmount(this.totInstallmentAmt, null, null));
     } else {
       this.TotalInterestAmount.setValue('-NA-');
       this.TotalInstallmentAmt.setValue('-NA-');

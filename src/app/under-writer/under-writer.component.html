@@ -11,7 +11,7 @@
   </div>
 
   <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-    <div class="form-group pb10">
+    <div class="form-group pb10 row">
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
           (productCategoryFound)="broadcastProdCategory($event)" (headerStateEvent)="headerState($event)">
@@ -21,7 +21,7 @@
   </div>
 
 
-  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section">
+  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
     <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
       <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" *ngFor="let data of headerScoreCard">
       </app-score-card>
@@ -127,14 +127,14 @@
       <li class="fab-buttons__item">
         <span class="fab-buttons__link" (click)="cancelForm()">
           <span class="icon-material icon-material_cancel"></span>
-          <span style="margin-left: -8px;  color: #0079b8; font-size: 12px;">Cancel</span>
+          <span style="margin-left: -5px;  color:black; font-size: 12px;">Cancel</span>
         </span>
       </li>
       <li class="fab-buttons__item">
         <span class="fab-buttons__link" (click)="withdrawForm()">
           <span class="icon-material icon-material_widthdraw">
           </span>
-          <span style="margin-left: -8px;  color: #0079b8;font-size: 12px;">Withdraw</span>
+          <span style="margin-left: -5px;  color:black;font-size: 12px;">Withdraw</span>
         </span>
       </li>
       <!-- <li class="fab-buttons__item">
@@ -152,7 +152,7 @@
       <!-- <div class="mr-4"> -->
       <div class="fab-buttons__item" style="padding-left: 25px;">
         <span class="fab-buttons__link" (click)="rejectForm()">
-          <span class="icon-material icon-material_reject">
+          <span class="icon-material-row icon-material_reject">
           </span>
           <span style="color: white;font-size: 12px;">Reject</span>
         </span>
@@ -162,7 +162,7 @@
       </div> -->
       <div class="fab-buttons__item " style="padding-right: 75px;">
         <span class="fab-buttons__link" (click)="approveForm()">
-          <span class="icon-material icon-material_approve" style="color: white;"></span>
+          <span class="icon-material-row icon-material_approve"></span>
           <span style="color: white; font-size: 12px;">Approve</span>
         </span>
       </div>

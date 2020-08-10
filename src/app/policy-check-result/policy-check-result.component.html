@@ -1,12 +1,12 @@
-<div class="policy-section-conatoner row">
+<div class="policy-section-conatoner">
     <div class="col-12 col-sm-3 col-md-3">
         <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
           defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur()">
         </app-combo-box> 
       </div>
-  <div class="row header-container">
+  <div class="header-container">
     <ng-container>
-      <div class="policy-row row col-12 col-sm-12 col-md-12">
+      <div class="policy-row col-12 col-sm-12 col-md-12">
         <div class="desc-container col-12 col-sm-6 col-md-6">
           <span class="desc-header-txt"></span>
         </div>
@@ -22,9 +22,9 @@
       </div>
     </ng-container>
   </div>
-  <div class="row data-container">
+  <div class="data-container">
     <ng-container *ngIf="activePolicyResultList != undefined">
-      <div class="policy-row row col-12 col-sm-12 col-md-12" *ngFor="let policy of activePolicyResultList; let i = index;">
+      <div class="policy-row col-12 col-sm-12 col-md-12" *ngFor="let policy of activePolicyResultList; let i = index;">
         <div class="desc-container col-12 col-sm-6 col-md-6">
           <span class="description-txt">{{ i + 1 }}. {{policy.RuleDescription }}</span>
         </div>

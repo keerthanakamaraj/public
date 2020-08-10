@@ -20,7 +20,7 @@ import { HiddenComponent } from '../hidden/hidden.component';
 import * as toPromise from 'rxjs/add/operator/toPromise';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
-import {ReadOnlyComponent} from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
 
 //import { ModalComponent } from 'src/app/modal/modal.component';
@@ -43,6 +43,7 @@ export class FormComponent {
   @Input('formCode') formCode: string;
   @Input('fieldID') fieldID: string;
   @Input('readOnly') readOnly: boolean = false;
+  @Input('ApplicationId') ApplicationId?: any;
 
   @ViewChildren(ComboBoxComponent) comboFields: QueryList<ComboBoxComponent>;
   @ViewChildren(TextBoxComponent) textboxFields: QueryList<TextBoxComponent>;
@@ -578,12 +579,12 @@ export class FormComponent {
     var formModelObject = this.value;
 
     var value = this[fieldId].componentName == 'RLOUIRadioComponent' ?
-    this[fieldId].getFieldValue() : formModelObject[fieldId];
+      this[fieldId].getFieldValue() : formModelObject[fieldId];
 
     if (value != undefined && value.toString() != "") {
-      await this[fieldId].validateValue(value).then((errors) => { 
-        totalErrors += errors ;
-        if(!showErrors){
+      await this[fieldId].validateValue(value).then((errors) => {
+        totalErrors += errors;
+        if (!showErrors) {
           this[fieldId].clearError();
         }
       });
@@ -591,7 +592,7 @@ export class FormComponent {
     }
 
     if (this[fieldId].isMandatory() && (value == undefined || value.toString() == '')) {
-      if(showErrors){
+      if (showErrors) {
         this[fieldId].setError("Value cannot be empty");
       }
       return ++totalErrors;

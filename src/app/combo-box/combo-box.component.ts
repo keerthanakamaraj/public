@@ -101,18 +101,18 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
           return this.services.http.loadLookup(this.domainObjectUrl, this.dependencyMap, this.dropDownOptions.pageNo, this.dropDownOptions.term, 20, this.doServerUrl);
         }
         )).subscribe(
-        data => {
-          if (data) {
-            this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
-            if (data['Data']) {
-              this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
+          data => {
+            if (data) {
+              this.dropDownOptions.Options = this.dropDownOptions.Options = [{ id: undefined, text: '' }];
+              if (data['Data']) {
+                this.dropDownOptions.Options = this.dropDownOptions.Options.concat(data['Data']);
+              }
             }
+            this.dropDownOptions.loading = false;
+          },
+          err => {
+            this.dropDownOptions.loading = false;
           }
-          this.dropDownOptions.loading = false;
-        },
-        err => {
-          this.dropDownOptions.loading = false;
-        }
         );
     }
   }
@@ -364,5 +364,10 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
     this.additionalInfo = undefined;
     this.error = false;
     this.errorCode = undefined;
+  }
+
+  setStaticListOptions(staticList) {
+    this.emittedOptions = staticList;
+    this.dropDownOptions.Options = this.emittedOptions;
   }
 }

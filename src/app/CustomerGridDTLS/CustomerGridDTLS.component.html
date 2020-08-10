@@ -61,19 +61,21 @@
   </div>
 </div>  -->
 
-<div class="customer-container col-12 col-sm-12 col-md-12" *ngIf="parentFormCode=='DDE' && !isLoanCategory;else loanCategoryStyle">
+<div class="customer-container col-12 col-sm-12 col-md-12"
+  *ngIf="parentFormCode=='DDE' && !isLoanCategory;else loanCategoryStyle">
   <div class="cust-group col-12 col-sm-3 col-md-3">
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.BorrowerTag' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
     </div>
     <div class="cust-list">
-      <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
+      <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
+        class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
         <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
         <div class="action-container">
           <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+            <!-- <i class="fas fa-pen"></i> -->
           </div>
         </div>
       </div>
@@ -88,12 +90,13 @@
       </span>
     </div>
     <div class="cust-list">
-      <div *ngFor="let customer of customerTypeMap.get('A')" [ngClass]="{'active' : customer.editing }" class="customer">
+      <div *ngFor="let customer of customerTypeMap.get('A')" [ngClass]="{'active' : customer.editing }"
+        class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
         <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
         <div class="action-container">
           <div class="cust-edit" (click)="editCustomer($event, customer)">
-            <i class="fas fa-pen"></i>
+            <!-- <i class="fas fa-pen"></i> -->
           </div>
           <div class="cust-delete" (click)="deleteCustomer($event, customer)">
             <span>
@@ -114,12 +117,13 @@
         <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
       </div>
       <div class="cust-list">
-        <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }" class="customer">
+        <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
+          class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
-              <i class="fas fa-pen"></i>
+              <!-- <i class="fas fa-pen"></i> -->
             </div>
           </div>
         </div>
@@ -134,18 +138,21 @@
         </span>
       </div>
       <div class="cust-list">
-        <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }" class="customer">
+        <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }"
+          class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
-              <i class="fas fa-pen"></i>
+              <!-- <i class="fas fa-pen"></i> -->
               <!-- <span><img src="/assets/icons/edit.svg"></span> -->
             </div>
-            <div class="cust-delete" (click)="deleteCustomer($event, customer)">
-              <span>
-                <i class="fa fa-trash"></i>
-              </span>
+            <div class="cust-delete" (click)="deleteCustomer($event, customer)"
+              [hidden]="customer.loanOwnerFlag && parentFormCode=='QDE'">
+              <!-- <div class="delete-icon"[hidden]="customer.loanOwnerFlag && parentFormCode=='QDE'">
+                  <i class="fa fa-trash"></i> 
+                 <span><img src="/assets/icons/CustDeleteIcon.svg"></span>
+              </div> -->
             </div>
           </div>
         </div>
@@ -160,17 +167,18 @@
         </span>
       </div>
       <div class="cust-list">
-        <div *ngFor="let customer of customerTypeMap.get('G')" [ngClass]="{'active' : customer.editing }" class="customer">
+        <div *ngFor="let customer of customerTypeMap.get('G')" [ngClass]="{'active' : customer.editing }"
+          class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
-              <i class="fas fa-pen"></i>
+              <!-- <i class="fas fa-pen"></i> -->
             </div>
             <div class="cust-delete" (click)="deleteCustomer($event, customer)">
-              <span>
+              <!-- <span>
                 <i class="fa fa-trash"></i>
-              </span>
+              </span> -->
             </div>
           </div>
         </div>
@@ -185,17 +193,18 @@
         </span>
       </div>
       <div class="cust-list">
-        <div *ngFor="let customer of customerTypeMap.get('OP')" [ngClass]="{'active' : customer.editing }" class="customer">
+        <div *ngFor="let customer of customerTypeMap.get('OP')" [ngClass]="{'active' : customer.editing }"
+          class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
           <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
-              <i class="fas fa-pen"></i>
+              <!-- <i class="fas fa-pen"></i> -->
             </div>
             <div class="cust-delete" (click)="deleteCustomer($event, customer)">
-              <span>
+              <!-- <span>
                 <i class="fa fa-trash"></i>
-              </span>
+              </span> -->
             </div>
           </div>
         </div>

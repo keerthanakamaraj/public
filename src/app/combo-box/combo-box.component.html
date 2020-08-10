@@ -37,7 +37,7 @@
     <select [attr.id]="fieldID" (change)="onChange($event.target.value)" [name]="fieldID" (focus)="onFocus()" (blur)="onBlur()"
       [disabled]="readOnly" class="form-control {{customClass}}" [ngClass]="{'error' : error}">
       <ng-container *ngFor="let opt of dropDownOptions.Options; let first = first;" (open)="open()">
-        <option [value]="opt.id" [disabled]="first && (value===undefined)" [selected]="value==opt.id">{{opt.text}}
+        <option [value]="opt.id" [disabled]="first && (value==undefined)" [selected]="value==opt.id">{{opt.text}}
         </option>
       </ng-container>
     </select>

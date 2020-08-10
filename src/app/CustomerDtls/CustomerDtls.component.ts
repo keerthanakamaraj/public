@@ -111,7 +111,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   appId: any;
   fullName: any;
   staffcheck: boolean;
-  addseq: any;
+  //addseq: any;
   customerDetailMap: any;
 
   // customerDetailMap: {};
@@ -196,7 +196,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
-      this.hideCustomerType.setValue((!this.isLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+      this.hideCustomerType.setValue((!this.isLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
       this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
@@ -209,6 +209,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.Handler.onFormLoad({
     });
     this.setDependencies();
+    if ('DDE' == this.parentFormCode) {
+      this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq)<100?false:true);
+    }
+    
     // this.Handler.displayCustomerTag();
   }
 
@@ -875,7 +879,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
 
-    this.addseq = customer.BorrowerSeq;
+    this.activeBorrowerSeq = customer.BorrowerSeq;
 
     this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
     this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
@@ -883,26 +887,25 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_STAFF.setValue(customer.IsStaff);
     this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
     this.CD_CIF.setValue(customer.CIF);
-
+    
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
-
     this.passBorrowerSeq.emit({
       'BorrowerSeq': customer.BorrowerSeq,
     });
-
+    
     this.revalidate(false).then((errors) => {
       if (errors === 0) {
         let array = [];
         array.push({ isValid: true });
-
+        
         let obj = {
           "name": "CustomerDetails",
           "data": array,
           "BorrowerSeq": this.HidCustomerId.getFieldValue()
         };
-
+        
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
     });
@@ -976,10 +979,21 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   loanCategoryChanged(newLoanCategory) {
     this.isLoanCategory = newLoanCategory;
-    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode=='UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
     this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
   }
 
+  CD_LOAN_OWN_blur(fieldName, event) {
+    let totLoanOwnership:number=0;
+    totLoanOwnership =this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq);
+    if(this.CD_LOAN_OWN.getFieldValue()!=undefined || this.CD_LOAN_OWN.getFieldValue()!=0){
+      totLoanOwnership += parseFloat(this.CD_LOAN_OWN.getFieldValue())}
+    console.log("shweta :: in cust_frorm ::totLoanOwnership",totLoanOwnership);
+    if (totLoanOwnership > 100) {
+      this.CD_LOAN_OWN.setError('rlo.error.loanownership.onblur');
+      return 1;
+    }
+  }
   fieldDependencies = {
     CD_EXISTING_CUST: {
       inDep: [

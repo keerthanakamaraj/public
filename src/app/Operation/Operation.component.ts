@@ -195,9 +195,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.setReadOnly(false);
     this.onFormLoad();
   }
-  viewDDE() {
-    this.services.router.navigate(['home', 'DDE']);
-  }
+  // viewDDE() {
+  //   this.services.router.navigate(['home', 'DDE']);
+  // }
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
   }
@@ -210,9 +210,9 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   brodcastProdCategory(event) {
     //  event.isLoanCategory false when type is 'CC'
     this.isLoanCategory = event.isLoanCategory;
-    this.ProductCode = event.ProductCode;
+    this.ProductCode = this.services.rloCommonData.globalApplicationDtls.ProductCode
     console.log("Loan type", this.isLoanCategory);
-    console.log("Juhi", event.ProductCode);
+    console.log("Juhi", this.ProductCode);
     setTimeout(() => {
       this.isLoan();
     }, 2000);
