@@ -681,7 +681,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       buttons: [],
       componentName: 'FileUpload',
       data: '',
-      applicationId: 1675
+      applicationId: Number(this.ApplicationId)
     };
     this.services.rloui.confirmationModal(modalObj).then((response) => {
       console.log(response);

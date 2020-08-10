@@ -11,7 +11,8 @@ export class CoreREST {
 
   public url: string = '';
   public driveType: string = 'GLOBALDRIVE';
-  public apiKey: string = 'gRrXwGv5lsGXkYFwNzaCS1CLQx5SlUe3';
+  //public apiKey: string = 'gRrXwGv5lsGXkYFwNzaCS1CLQx5SlUe3';
+  public apiKey: string = 'sNZPc5zp9kmOvjL93XWeNUR8nXQsSS6k';
   //public context: string = '/clo-commons/publisher/v1';
   public context: string = '/common-de/publisher/v1';
   public breContext: string = '/clo-bre-services';
@@ -24,9 +25,9 @@ export class CoreREST {
     })
   };
 
-  constructor(public http: HttpClient, 
-      // public auth: IamService
-    ) {
+  constructor(public http: HttpClient,
+    // public auth: IamService
+  ) {
     // if (environment.deploymentTarget && environment.deploymentTarget === DeploymentTarget.ANDROID){
     //   this.url=environment.url;
     // }
@@ -38,7 +39,7 @@ export class CoreREST {
     , parameters?: Map<string, string>) {
     //let url = this.doContext + '/' + domainObjectName + '?lookup=1';
     let url = environment.baseURL + this.doContext + '/' + domainObjectName + '?lookup=1';
-    
+
     if (parameters) {
       url = this.encodeURIParamData(url, parameters);
     }
@@ -129,18 +130,18 @@ export class CoreREST {
         }
         const elem = formData[key];
         // if (elem instanceof Date) {
-          //pFormData[key] = window['moment'](elem).format(AppComponent.component.utility.getTenant().dateFormat.toUpperCase());
+        //pFormData[key] = window['moment'](elem).format(AppComponent.component.utility.getTenant().dateFormat.toUpperCase());
         // } else {
-          const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DDTHH:mm:ssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
-          if (isDateChk.isValid()) {
-            pFormData[key] = isDateChk.format('DD-MMM-YYYY');
-          } else if (elem instanceof Array) {
-            pFormData[key] = this.encodePostDataArray(elem);
-          } else if (elem instanceof Object) {
-            pFormData[key] = this.encodeURIPostData(elem);
-          } else {
-            pFormData[key] = elem;
-          }
+        const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DDTHH:mm:ssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
+        if (isDateChk.isValid()) {
+          pFormData[key] = isDateChk.format('DD-MMM-YYYY');
+        } else if (elem instanceof Array) {
+          pFormData[key] = this.encodePostDataArray(elem);
+        } else if (elem instanceof Object) {
+          pFormData[key] = this.encodeURIPostData(elem);
+        } else {
+          pFormData[key] = elem;
+        }
         // }
       }
       return pFormData;
@@ -154,16 +155,16 @@ export class CoreREST {
       // if (elem instanceof Date) {
       //   result.push(window['moment'](elem).format(AppComponent.component.utility.getTenant().dateFormat.toUpperCase()));
       // } else {
-        const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
-        if (isDateChk.isValid()) {
-          result.push(isDateChk.format('DD-MMM-YYYY'));
-        } else if (elem instanceof Array) {
-          result.push(this.encodePostDataArray(elem));
-        } else if (elem instanceof Object) {
-          result.push(this.encodeURIPostData(elem));
-        } else {
-          result.push(elem);
-        }
+      const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
+      if (isDateChk.isValid()) {
+        result.push(isDateChk.format('DD-MMM-YYYY'));
+      } else if (elem instanceof Array) {
+        result.push(this.encodePostDataArray(elem));
+      } else if (elem instanceof Object) {
+        result.push(this.encodeURIPostData(elem));
+      } else {
+        result.push(elem);
+      }
       // }
     });
     return result;
@@ -189,13 +190,13 @@ export class CoreREST {
       'X-Skip-Entitlement-Validation': 'True'
     };
     // if (ServerUtil.validationModeKeycloak() || ServerUtil.validationModeArx()) {
-      const token = this.getToken();
-      if (token) {
-        Object.assign(baseHeader, {
-          'Authorization': this.getToken(),
-          'apikey': this.apiKey,
-        });
-      }
+    const token = this.getToken();
+    if (token) {
+      Object.assign(baseHeader, {
+        'Authorization': this.getToken(),
+        'apikey': this.apiKey,
+      });
+    }
     // }
 
     if (headers) {
@@ -217,7 +218,7 @@ export class CoreREST {
     let token = '';
     // if (ServerUtil.validationModeKeycloak()) {
     //   if (IamService.isLocalhost()) {
-        token = 'Bearer ' + window.sessionStorage.getItem('TOKEN');
+    token = 'Bearer ' + window.sessionStorage.getItem('TOKEN');
     //   } else {
     //     token = 'Bearer ' + IamService.keycloakAuth.token;
     //   }
@@ -234,8 +235,8 @@ export class CoreREST {
   setApiKey(key) {
     this.apiKey = key;
   }
-  
-	// public getArxUrl() {
-	// 	return environment.arxUrl + environment.arxContext;
-	//   }
+
+  // public getArxUrl() {
+  // 	return environment.arxUrl + environment.arxContext;
+  //   }
 }

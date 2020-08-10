@@ -3,22 +3,22 @@
     <div class="title">Upload Document</div>
 
     <div class="doc-container">
-        <!-- <div class="row fluid-row" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge -->
+        <!-- <div class="row fluid-row" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge lookupVariableOptions['RELATION_BORROWER'] -->
         <div class="row fluid-row form-group">
             <div class="col-md-4 res-pr-hide">
                 <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.trnDemographicId"
-                        [items]="ownersName" bindValue="id" bindLabel="DISPLAY_NAME" name="trnDemographicId"
+                        [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
                         [clearable]="false"></ng-select>
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide">
                 <div class="">
                     <label [ngClass]="{ 'mandatory': isMandatory('DocType')}">{{getLabel('DOC_DOC_TYPE')}}</label>
-                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType" [items]="docTypes"
-                        bindValue="DocType" bindLabel="DocDesc" name="DocType"
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType" [items]="lookupVariableOptions['IMG_DOCUMENT_TYPE']"
+                        bindValue="DocType" bindValue="id" bindLabel="text"
                         (blur)="validateField(docDetailsObject.DocType, 'DocType')" (change)="getDocuments()"
                         [clearable]="false">
                     </ng-select>

@@ -889,9 +889,10 @@ a.back {
 .dde-tab-btn-div {
   // margin-top: 12px;
   // margin-bottom: 30px !important;
-  margin-left: 34%;
+  // margin-left: 34%;
   padding-top: 20px;
   padding-bottom: 20px;
+  display: flex;
 }
 
 .qde-tab-btn-div {
@@ -1045,6 +1046,10 @@ a.back {
 
 .w-100 {
   width: 100%;
+}
+
+.m-auto {
+  margin: auto !important;
 }
 
 //used to add space for every page in layout for form btns
@@ -3135,6 +3140,22 @@ rlo-ui-card-field {
       }
     }
   }
+
+  .donut-inner {
+    margin-top: -100px;
+    margin-bottom: 100px;
+  }
+
+  .donut-inner h5 {
+    margin-bottom: 5px;
+    margin-top: 0;
+  }
+
+  .donut-inner span {
+    font-size: 12px;
+  }
+
+  .doughnut-txt {}
 }
 
 // seperate doc. upload component 
@@ -3219,42 +3240,26 @@ rlo-ui-card-field {
   }
 }
 
-
-  .donut-inner {
-    margin-top: -100px;
-    margin-bottom: 100px;
-  }
-
-  .donut-inner h5 {
-    margin-bottom: 5px;
-    margin-top: 0;
-  }
-
-  .donut-inner span {
-    font-size: 12px;
-  }
-
-  .doughnut-txt {}
+#ApplicationInfo,
+#CustomerInfo,
+#FieldId_3,
+#FieldId_8,
+#Document_Information {
+  font-size: 16px;
+  color: black;
+  font-family: open sans;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 31px;
+  margin-left: 21px;
+  margin-bottom: 16px;
 }
 
-
-#ApplicationInfo,#CustomerInfo,#FieldId_3,#FieldId_8,#Document_Information{
-font-size: 16px; 
-color:black;
-font-family :open sans;
-font-style:normal;
-font-weight:400;  
-margin-top:31px;
-margin-left:21px;
-margin-bottom:16px;
+#CustomerInfo {
+  font-size: 16px;
+  color: black;
+  font-family: open sans;
+  font-style: normal;
+  font-weight: 400;
+  margin-left: 21px;
 }
-#CustomerInfo{
-  font-size: 16px; 
-  color:black;
-  font-family :open sans;
-  font-style:normal;
-  font-weight:400;  
-  margin-left:21px;
-  }
-
-

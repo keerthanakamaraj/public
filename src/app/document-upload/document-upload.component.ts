@@ -110,10 +110,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.utility.getCommonService().getOwnerNamesDetails(this.ApplicationId).subscribe(
             data => {
                 console.log(data);
-                // this.ownersName = data['OwnerNames'];
-                this.ownersName = [
-                    { id: "2900", text: "Aswathama Pasupuleti" }
-                ];
+                this.ownersName = data['OwnerNames'];       
             });
 
         // @CLO-RLO-Merge Access Entitlement
@@ -123,19 +120,20 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
 
         let tempCustomerList = this.services.rloCommonData.getCustomerList();
 
-        console.log("shweta :: in score section", tempCustomerList);
-        let FilterOptions = [];
-        let mainBorrower;
-        FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-        tempCustomerList.forEach(element => {
-            // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-            if (element.CustomerType == 'B') {
-                mainBorrower = element.BorrowerSeq;
-            }
-            FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-        });
+        // console.log("shweta :: in score section", tempCustomerList);
+        // let FilterOptions = [];
+        // let mainBorrower;
 
-        console.log("shweta :: score options list", FilterOptions);
+        // tempCustomerList.forEach(element => {
+        //     // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+        //     if (element.CustomerType == 'B') {
+        //         mainBorrower = element.BorrowerSeq;
+        //     }
+        //     FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+        // });
+
+        console.log("ownersName", this.ownersName);
+        // this.ownersName = FilterOptions;
 
         setTimeout(() => {
             this.reLodeGrid();
@@ -313,8 +311,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.checkUserId = this.UserId;
         this.documents = [];
         this.docTypes = [];
-        this.docDetailsObject.clear();
-        this.docUploadObject.clear();
+        //this.docDetailsObject.clear();
+        //this.docUploadObject.clear();
         this.fileName = '';
         this.cfsNum = '';
 
