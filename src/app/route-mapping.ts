@@ -115,7 +115,14 @@ export var componentRoutes: Routes = [
 	{
 		path: 'DisbursementDetails',
 		loadChildren: 'src/app/DisbursementDetails/DisbursementDetails.module#DisbursementDetailsModule'
-	}
-	
+  },
+  {
+		path: 'document',
+		loadChildren: 'src/app/document-upload/document-upload.module#DocumentUploadModule'
+	},
+  {
+		path: 'collateral',
+		loadChildren: 'src/app/collateral/collateral.module#CollateralModule'
+	}	
 ];
 export class AppRoutingModule { }

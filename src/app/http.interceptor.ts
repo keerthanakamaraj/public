@@ -7,31 +7,38 @@ import { KeycloakService } from "keycloak-angular";
 
 @Injectable()
 export class HttpResponseInceptor implements HttpInterceptor {
-    constructor(private httpService: ProvidehttpService, protected keycloakAngular: KeycloakService) {}
-    
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  constructor(private httpService: ProvidehttpService, protected keycloakAngular: KeycloakService) { }
 
-        const keycloakService = this.keycloakAngular.getKeycloakInstance();
-        
-               
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-                if (keycloakService.token) {
-                    request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + keycloakService.token) });
-                }
-        return next.handle(request).pipe(
-            map((event: HttpEvent<any>) => {
-           
-                // if (event instanceof HttpResponse) {
-                //     if (event.body) {
-                //         this.httpService.checkForSession(event.body);
-                //         if (this.httpService.sessionValid) {
-                //             return event;
-                //         }
-                //     }
-                // } else {
-                //     return event;
-                // }
-                return event;
-            }));
+    // FIXME: temp changes for clo component merge
+    // const keycloakService = this.keycloakAngular.getKeycloakInstance();
+
+    // if (keycloakService.token) {
+    //   request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + keycloakService.token) });
+    // }
+
+    const token = sessionStorage.getItem('TOKEN');
+    if( token ){
+      request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
     }
+
+
+
+    return next.handle(request).pipe(
+      map((event: HttpEvent<any>) => {
+
+        // if (event instanceof HttpResponse) {
+        //     if (event.body) {
+        //         this.httpService.checkForSession(event.body);
+        //         if (this.httpService.sessionValid) {
+        //             return event;
+        //         }
+        //     }
+        // } else {
+        //     return event;
+        // }
+        return event;
+      }));
+  }
 }

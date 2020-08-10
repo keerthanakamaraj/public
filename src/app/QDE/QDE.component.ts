@@ -29,6 +29,7 @@ import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.com
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { Subscription } from 'rxjs';
 import { array } from '@amcharts/amcharts4/core';
+import { IModalData } from '../popup-alert/popup-interface';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -672,14 +673,34 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.QDE_ACCORD1.setTags('CUST_DETAILS', tags);
   }
 
+  openFileUpload() {
+    let modalObj: IModalData = {
+      title: '',
+      mainMessage: undefined,
+      modalSize: 'modal-width-md',
+      buttons: [],
+      componentName: 'FileUpload',
+      data: '',
+      applicationId: 1675
+    };
+    this.services.rloui.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.services.rloui.closeAllConfirmationModal();
+        }
+      }
+    });
+  }
+
   fieldDependencies = {
   };
 
   /* Cancel / Back button */
-goBack() {
+  goBack() {
     this.services.rloui.goBack();
   }
-  
+
   UpdateAccordian() {
     this.QDE_ACCORD1.disableAccordian('ADD_DETAILS', this.disableAccordian);
     this.QDE_ACCORD1.disableAccordian('OCC_DETAILS', this.disableAccordian);

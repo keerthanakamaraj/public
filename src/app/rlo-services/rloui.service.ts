@@ -51,6 +51,7 @@ export class RlouiService {
     { componentName: "IncomeSummary", iconClass: "icon-Income-Summary" },
     { componentName: "LiabilityDetails", iconClass: "icon-Liability-Details" },
     { componentName: "AssetDetails", iconClass: "icon-Asset-Details" },
+    { componentName: "FileUpload", iconClass: "icon-Asset-Details" },
     { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
     { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
     { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile

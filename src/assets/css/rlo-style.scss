@@ -895,9 +895,14 @@ a.back {
 }
 
 .qde-tab-btn-div {
-  margin-top: 12px;
+  // margin-top: 12px;
   margin-bottom: 64px !important;
-  margin-left: 431px;
+  // margin-left: 431px;
+  display: flex;
+
+  .qde-tab {
+    margin: auto;
+  }
 }
 
 .btn-group {
@@ -1036,6 +1041,10 @@ a.back {
 
 .d-flex {
   display: flex !important;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 //used to add space for every page in layout for form btns
@@ -3126,6 +3135,90 @@ rlo-ui-card-field {
       }
     }
   }
+}
+
+// seperate doc. upload component 
+.wgt-doc-upload {
+  // z-index: 99;
+  position: absolute;
+  width: 7rem;
+  height: 3rem;
+  border-top-right-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
+  background-color: #565656;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.24);
+
+  .icon-folder-open {
+    font-size: 20px;
+    color: white;
+    right: 22px;
+    position: absolute;
+    top: 8px;
+    outline: none;
+    text-decoration: none;
+  }
+}
+
+.lyt-doc-upload {
+  .doc-container {
+    background: #FAFCFF;
+    border-radius: 10px;
+    padding: 24px;
+    border: 1px solid #DDDDDD;
+  }
+
+  .file-upload {
+    position: relative;
+    display: flex;
+    border-collapse: separate;
+
+    .folder-icon {
+      position: relative;
+      width: 39px;
+      height: 36px;
+      background: #EEEEEE;
+      margin-top: 1.25rem;
+      border: 1px solid #CCCCCC;
+      border-left: none;
+      border-bottom-right-radius: 5px;
+      border-top-right-radius: 5px;
+      display: flex;
+
+      &.icon-folder-open:before {
+        margin: auto;
+        color: #4F4E4E;
+      }
+    }
+  }
+
+  .margin-btn {
+    margin-top: 2.6em;
+  }
+
+  .conditions {
+    margin-top: 15px;
+
+    .note-title {
+      font-size: 11px;
+      color: #000000;
+      line-height: 14px;
+      font-weight: bold;
+    }
+
+    .note {
+      font-size: 11px;
+      color: #565656;
+      line-height: 14px;
+    }
+  }
+
+  .title {
+    font-size: 20px;
+    text-align: center;
+    margin: 24px 0 24px 0;
+  }
+}
+
 
   .donut-inner {
     margin-top: -100px;
@@ -3163,4 +3256,5 @@ margin-bottom:16px;
   font-weight:400;  
   margin-left:21px;
   }
+
 
