@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { RlouiService } from './rloui.service';
 import { Router } from '@angular/router';
 import { promise } from 'protractor';
+import { string } from '@amcharts/amcharts4/core';
 
 export interface subjectParamsInterface {
   action: string;
@@ -44,6 +45,8 @@ export interface IGlobalApllicationDtls {
   LoanTenure?: string;
   LoanTenurePeriodCode?: string;
   LoanTenurePeriodName?: string;
+  ARN?:string;
+  LoanAmount?:string;
 }
 @Injectable({
   providedIn: 'root'
