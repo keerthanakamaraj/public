@@ -850,15 +850,16 @@ console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
     this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
 
     if (this.DownPaymentAmount.getFieldValue() != undefined) {
-      PerDownPayment = this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100
+      PerDownPayment = (Math.round(this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100))
     }
     this.DownPayment.setValue(PerDownPayment.toFixed(2));
+    console.log("new amt",PerDownPayment);
   }
 
   // async DownPayment_blur(event) {
   //   let DownPaymentCal;
   //   if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
-  //   DownPaymentCal = this.DownPayment.getFieldValue() % this.CostOfProperty.getFieldValue()
+  //   DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue()))
   //   }
   //   this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
   // }
