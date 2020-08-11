@@ -33,7 +33,8 @@
                             (productCategoryFound)="brodcastProdCategory($event)"
                             (headerStateEvent)="headerState($event)"></app-Header>
                         <!-- <app-score-card #scorecard></app-score-card> -->
-                        <div class="scorecard-container row horizontal-layout" [ngClass]="{'expanded':!showExpandedHeader}">
+                        <div class="scorecard-container row horizontal-layout"
+                            [ngClass]="{'expanded':!showExpandedHeader}">
                             <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data"
                                 *ngFor="let data of headerScoreCard">
                             </app-score-card>
@@ -42,6 +43,11 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div d-flex"
                         [ngClass]="showExpandedHeader ? '' : 'header-expanded-dde'">
+
+                        <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
+                            <a href="javascript:void(0);" class="icon-folder-open"></a>
+                        </div>
+
                         <div id="tab" class="btn-group btn-group-justified dde-tab m-auto" data-toggle="buttons">
                             <a class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
                                 <input type="radio" />CUSTOMER

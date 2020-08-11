@@ -8,6 +8,7 @@ import { DocumentDetails } from './document-details.model';
 import { DocumentUpload } from './document-upload.model';
 import { FileDetails } from './file-details.model';
 import { ServiceStock } from '../service-stock.service';
+import { DateComponent } from '../date/date.component';
 declare var jQuery: any;
 
 
@@ -45,6 +46,16 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     cfsNum: any;
     checkStatus: boolean;
     @Input() ApplicationId: any;
+    @ViewChild('collection_date', { static: false }) collection_date: DateComponent;
+    @ViewChild('deffered_date', { static: false }) deffered_date: DateComponent;
+
+
+    // 001	Submitted
+    // 002	Physically Submitted
+    // 003	Verified
+    // 005	Deferred
+    // 006	Waived
+
     public showMessage(msg) {
         this.modalMessage = msg;
         jQuery(this.myModal.nativeElement).modal('show');
@@ -74,6 +85,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             if (this.docDetailsObject.CfsInvNum) {
                 this.saveImageDetails();
             } else {
+                this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
                 this.fileUploadErrorFlag = true;
                 this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_UPLOAD_FILE');
             }
@@ -230,11 +242,20 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     saveImageDetails() {
         this.documentUploadObject.DocDetail = [];
         this.documentUploadObject.DocUploadDetails = [];
+
+        if (this.docUploadObject.status == "005") {
+            this.docUploadObject.deferredUntil = this.deffered_date.getFieldValue();
+        }
+
+        if (this.docUploadObject.status == "002" || this.docUploadObject.status == "003")
+            this.docUploadObject.collectionDate = this.collection_date.getFieldValue();
+
         this.documentUploadObject.DocDetail.push(this.docDetailsObject);
         this.documentUploadObject.DocUploadDetails.push(this.docUploadObject);
 
         console.log(this.documentUploadObject);
         // @CLO-RLO-Merge - Update Application with document reference
+
         this.utility.getCommonService().saveDocumentUploadDetails(this.documentUploadObject).subscribe(
             data => {
                 if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
@@ -242,11 +263,10 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                     this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_SAVE_FILE');
                 } else {
                     this.clearform();
+                    this.clearFormObjs();
                     //this.tooltipError.tooltipdestroy();
-                    //this.utility.getAppService().success(this.getLabel('FILE_UPLOADED_SUCCESSFULLY'));
+                    this.services.alert.showAlert(1, '', -1, 'File uploaded successfully.');
                     this.reLodeGrid();
-
-
                 }
             });
     }
@@ -327,17 +347,19 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             'id': id
         };
         // @CLO-RLO-Merge - Delete File Service Call
-        // this.utility.getCommonService().deleteDocUploadDetails(deleteById).subscribe(
-        //     data => {
-        //         if (data['status'] === 'F') {
-        //             this.utility.getAppService().error(this.getLabel('UNABLE_TO_DELETE_FILE'));
-        //         } else {
-        //             this.clearform();
-        //             this.tooltipError.tooltipdestroy();
-        //             this.utility.getAppService().success(this.getLabel('FILE_DELETED_SUCCESSFULLY'));
-        //             this.reLodeGrid();
-        //         }
-        //     });
+        this.utility.getCommonService().deleteDocUploadDetails(deleteById).subscribe(
+            data => {
+                if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
+                    this.services.alert.showAlert(2, '', -1, 'Unable to delete record.');
+                } else {
+                    this.clearform();
+                    this.clearFormObjs();
+
+                    //this.tooltipError.tooltipdestroy();
+                    this.services.alert.showAlert(1, '', -1, 'File deleted successfully.');
+                    this.reLodeGrid();
+                }
+            });
     }
     // This methos is to populate the date in the fields on click of edit button in grid
     editDocumentDetails(docDetail) {
@@ -351,8 +373,15 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.docUploadObject.relationshipToBorrower = docDetail['relationId'];
         this.docUploadObject.status = docDetail['status'];
         this.docUploadObject.deferredUntil = docDetail['deferredUntil'];
-        this.docUploadObject.collectionDate = docDetail['collectionDate'];
+        //this.docUploadObject.collectionDate = docDetail['collectionDate'];
         this.docUploadObject.remarks = docDetail['remarks'];
+
+        this.docDetailsObject.DocName = docDetail['DocName'];
+
+        if (docDetail['collectionDate'] != undefined) {
+            this.collection_date.setValue(docDetail['collectionDate']);
+        }
+
         if (this.UserId !== this.checkUserId) {
             this.checkStatus = true;
         }
@@ -366,7 +395,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.utility.getCommonService().getDocumentUploadDtls(this.ApplicationId).subscribe(
             data => {
                 if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
-                    // this.utility.getAppService().error(this.getLabel('ERROR_DOCUMENT_UPLOAD'));
+                    this.services.alert.showAlert(2, '', -1, 'Unable to get records.');
                 } else {
                     if (data['DocList']) {
                         this.documentTypeGrid = data['DocList'];
@@ -389,6 +418,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // Alert Service - Confirmation
         // this.utility.getAppService().delete(this.getLabel('WARNING_DELETE'),
         //     () => this.onDeleteConfirm(id));
+        this.onDeleteConfirm(id);
     }
     // This methos is to clear fields which depends on status
     clearDependentfields() {
@@ -399,5 +429,11 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     // This method is called when we click yes in delete popup
     onDeleteConfirm(id) {
         this.deleteImage(id);
+    }
+
+    clearFormObjs() {
+        //clear all the fields from form
+        this.docDetailsObject.clear();
+        this.docUploadObject.clear();
     }
 }

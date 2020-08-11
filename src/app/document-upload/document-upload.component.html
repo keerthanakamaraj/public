@@ -64,7 +64,7 @@
                     <!-- <igcb-datepicker [(ngModel)]="docUploadObject.collectionDate" dateFormat="dd-MMM-yyyy"
                         (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')" name="collectionDate">
                     </igcb-datepicker> -->
-                    <app-date #CD_PASSPORT_EXPIRY fieldID="CD_PASSPORT_EXPIRY" [formCode]="formCode"
+                    <app-date #collection_date fieldID="collection_date" [formCode]="formCode"
                         placeholder="dd-mm-yyyy"
                         (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
                 </div>
@@ -73,9 +73,12 @@
                 <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('deferredUntil')}">{{getLabel('DEFERRED_UNTIL')}}</label>
-                    <igcb-datepicker [(ngModel)]="docUploadObject.deferredUntil" dateFormat="dd-MMM-yyyy"
+                    <!-- <igcb-datepicker [(ngModel)]="docUploadObject.deferredUntil" dateFormat="dd-MMM-yyyy"
                         (blur)="validateField(docUploadObject.deferredUntil, 'deferredUntil')" name="deferredUntil">
-                    </igcb-datepicker>
+                    </igcb-datepicker> -->
+                    <app-date #deffered_date fieldID="deffered_date" [formCode]="formCode"
+                    placeholder="dd-mm-yyyy"
+                    (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide" *ngIf="docUploadObject.status=='006'">
@@ -160,7 +163,7 @@
                             <tr class="docheader" *ngFor="let imgDtl of documentTypeGrid">
                                 <td class="text-left">{{imgDtl.OwnerName}}</td>
                                 <td>{{imgDtl.docDesc}}</td>
-                                <td class="text-ellipses" title="{{imgDtl.DocName}}"><a
+                                <td class="text-ellipses download-img" title="{{imgDtl.DocName}}"><a
                                         (click)="downloadFile(imgDtl.cfsInvNumber)">{{imgDtl.DocName}}</a></td>
                                 <td>{{imgDtl.relationshipToBorrower}}</td>
                                 <td>{{imgDtl.collectionDate}}</td>
