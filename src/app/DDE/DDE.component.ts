@@ -1564,7 +1564,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     let modalObj: IModalData = {
       title: '',
       mainMessage: undefined,
-      modalSize: 'modal-width-md',
+      modalSize: 'modal-doc-upload-width',
       buttons: [],
       componentName: 'FileUpload',
       data: '',

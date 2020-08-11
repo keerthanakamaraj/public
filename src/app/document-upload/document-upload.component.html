@@ -57,15 +57,14 @@
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide"
-                *ngIf="docUploadObject.status =='002' || docUploadObject.status =='003' || docUploadObject.status =='004' ">
+                *ngIf="docUploadObject.status =='001' || docUploadObject.status =='002' || docUploadObject.status =='003' || docUploadObject.status =='004' ">
                 <div class="">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('collectionDate')}">{{getLabel('COLLECTION_DATE')}}</label>
                     <!-- <igcb-datepicker [(ngModel)]="docUploadObject.collectionDate" dateFormat="dd-MMM-yyyy"
                         (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')" name="collectionDate">
                     </igcb-datepicker> -->
-                    <app-date #collection_date fieldID="collection_date" [formCode]="formCode"
-                        placeholder="dd-mm-yyyy"
+                    <app-date #collection_date fieldID="collection_date" [formCode]="formCode" placeholder="dd-mm-yyyy"
                         (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
                 </div>
             </div>
@@ -76,9 +75,8 @@
                     <!-- <igcb-datepicker [(ngModel)]="docUploadObject.deferredUntil" dateFormat="dd-MMM-yyyy"
                         (blur)="validateField(docUploadObject.deferredUntil, 'deferredUntil')" name="deferredUntil">
                     </igcb-datepicker> -->
-                    <app-date #deffered_date fieldID="deffered_date" [formCode]="formCode"
-                    placeholder="dd-mm-yyyy"
-                    (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
+                    <app-date #deffered_date fieldID="deffered_date" [formCode]="formCode" placeholder="dd-mm-yyyy"
+                        (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide" *ngIf="docUploadObject.status=='006'">
@@ -114,8 +112,8 @@
                         (click)="addNewComment()">{{getLabel("ADD_NEW")}}</button> -->
                 <button *ngIf="UserId == checkUserId" (click)="onSubmit()" type="button"
                     class="btn btn-primary">{{getLabel('DOC_UP_UPLOAD')}}</button>
-                <!-- <button *ngIf="UserId == checkUserId" (click)="clearform()" type="button"
-                        class="btn-secondary">{{getLabel('RESET')}}</button> -->
+                <button *ngIf="UserId == checkUserId" (click)="clearform(true)" type="button"
+                    class="btn-secondary">{{getLabel('RESET')}}</button>
             </div>
 
         </div>
@@ -140,7 +138,7 @@
     <!-- END - Section Sub Header -->
     <!-- START - Table -->
     <div class="row">
-        <div class="col-md-12" id="docstable1" >
+        <div class="col-md-12" id="docstable1">
             <div class="panel-group doc-list-table">
                 <div class="panel-default table table-responsive">
                     <table *ngIf="this.documentTypeGrid.length">

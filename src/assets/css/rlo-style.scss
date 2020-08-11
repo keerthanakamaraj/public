@@ -1061,6 +1061,11 @@ a.back {
   padding-bottom: 5rem;
 }
 
+//set width of doc upload modal
+.modal-doc-upload-width .modal-dialog{
+  width: 75%;
+}
+
 .wgt-scores {
   // top: 116px;
   position: relative;
@@ -3219,6 +3224,10 @@ rlo-ui-card-field {
 
   .margin-btn {
     margin-top: 2.6em;
+
+    .btn-secondary{
+      margin-left: 15px;;
+    }
   }
 
   .conditions {

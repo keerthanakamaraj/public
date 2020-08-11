@@ -75,22 +75,46 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
 
         // Create FileUploader in common service
         this.uploader = this.utility.getCommonService().getUploader((item: any, response: any, status: any, headers: any) => {
-            const resp = JSON.parse(response);
-            this.cfsNum = resp['id'];
-            const map = new Map();
-            map.set('CFS_Num', this.cfsNum);
-            this.uploaded.emit(map);
-            this.docDetailsObject.CfsInvNum = resp['id'].toString();
+            // const resp = JSON.parse(response);
+            // this.cfsNum = resp['id'];
+            // const map = new Map();
+            // map.set('CFS_Num', this.cfsNum);
+            // this.uploaded.emit(map);
+            // this.docDetailsObject.CfsInvNum = resp['id'].toString();
 
-            if (this.docDetailsObject.CfsInvNum) {
-                this.saveImageDetails();
-            } else {
-                this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
-                this.fileUploadErrorFlag = true;
-                this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_UPLOAD_FILE');
-            }
+            // if (this.docDetailsObject.CfsInvNum) {
+            //     this.saveImageDetails();
+            // } else {
+            //     this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
+            //     this.fileUploadErrorFlag = true;
+            //     this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_UPLOAD_FILE');
+            // }
         });
         this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+            console.log("ImageUpload:uploaded:", item, status, response);
+            if (status == 200) {
+                const resp = JSON.parse(response);
+                this.cfsNum = resp['id'];
+                const map = new Map();
+                map.set('CFS_Num', this.cfsNum);
+                this.uploaded.emit(map);
+                this.docDetailsObject.CfsInvNum = resp['id'].toString();
+
+                if (this.docDetailsObject.CfsInvNum) {
+                    this.saveImageDetails();
+                } else {
+                    this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
+                    this.fileUploadErrorFlag = true;
+                    this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_UPLOAD_FILE');
+                }
+            }
+            else {
+                this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
+            }
+
+        };
     }
 
     ngOnInit() {
@@ -222,13 +246,15 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     async onSubmit() {
         this.fileUploadErrorFlag = false;
         this.fileUploadErrorMsg = '';
-        this.revalidation();
-        if (this.flag === 1) {
-            return;
-        } else {
-            this.processUplaodImage();
-        }
-        this.saveImageDetails()
+        //this.revalidation();
+        // if (this.flag === 1) {
+        //     return;
+        // } else {
+        //     this.processUplaodImage();
+        // }
+        //this.saveImageDetails();
+
+        this.processUplaodImage();
     }
     addNewComment() {
         this.checkStatus = false;
@@ -247,7 +273,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             this.docUploadObject.deferredUntil = this.deffered_date.getFieldValue();
         }
 
-        if (this.docUploadObject.status == "002" || this.docUploadObject.status == "003")
+        if (this.docUploadObject.status == "002" || this.docUploadObject.status == "003" || this.docUploadObject.status == "001")
             this.docUploadObject.collectionDate = this.collection_date.getFieldValue();
 
         this.documentUploadObject.DocDetail.push(this.docDetailsObject);
@@ -324,7 +350,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.fileName = actualFileName;
     }
     // This methos is to clear variables
-    clearform() {
+    clearform(allFields?:boolean) {
         // @CLO-RLO-Merge - 
         // this.tooltipError.tooltipdestroy();
         // this.tooltipError.tooltiperrorhide('DocName');
@@ -340,6 +366,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // if (this.uploader.queue.length >= 1) {
         //     this.uploader.queue[0].remove();
         // }
+        if(allFields){
+            this.clearFormObjs();
+        }
     }
     // This method is to delete document  by Id
     deleteImage(id) {
@@ -377,9 +406,18 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.docUploadObject.remarks = docDetail['remarks'];
 
         this.docDetailsObject.DocName = docDetail['DocName'];
+        console.log(docDetail['collectionDate']);
 
         if (docDetail['collectionDate'] != undefined) {
+           setTimeout(() => {
             this.collection_date.setValue(docDetail['collectionDate']);
+           }, 500); 
+        }
+
+        if (docDetail['deferredUntil'] != undefined) {
+            setTimeout(() => {
+                this.deffered_date.setValue(docDetail['deferredUntil']);
+            }, 500);    
         }
 
         if (this.UserId !== this.checkUserId) {
