@@ -842,6 +842,32 @@ console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
     let AmtFinanced;
     let PerDownPayment;
     let TotalAmtFinced
+
+    
+    if (this.DownPaymentAmount.getFieldValue() != undefined) {
+      PerDownPayment = (Math.round(this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100))
+    }
+    this.DownPayment.setValue(PerDownPayment.toFixed(2));
+    console.log("new amt",PerDownPayment);
+
+    if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
+      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue() 
+     TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
+    }
+    console.log("total mt", TotalAmtFinced);
+    this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+  }
+
+  async DownPayment_blur(event) {
+    let DownPaymentCal;
+    let AmtFinanced;
+    let TotalAmtFinced;
+
+    if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
+      DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue() / 100))
+      }
+      this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
+
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
       AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue() 
      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
@@ -849,20 +875,8 @@ console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
     console.log("total mt", TotalAmtFinced);
     this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
 
-    if (this.DownPaymentAmount.getFieldValue() != undefined) {
-      PerDownPayment = (Math.round(this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100))
-    }
-    this.DownPayment.setValue(PerDownPayment.toFixed(2));
-    console.log("new amt",PerDownPayment);
+   
   }
-
-  // async DownPayment_blur(event) {
-  //   let DownPaymentCal;
-  //   if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
-  //   DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue()))
-  //   }
-  //   this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
-  // }
 
   async PerOfProjectCompletion_blur(event) {
     // console.log("shweta :: property :: project completion %",this.PerOfProjectCompletion.getFieldValue());
