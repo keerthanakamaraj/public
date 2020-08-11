@@ -401,21 +401,24 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   async broadcastApplicationData(header) {
 
     let StoreObject: IGlobalApllicationDtls = {
-      'isLoanCategory': this.isLoanCategory,
-      'TypeOfLoanCode': header.TypeOfLoan,
-      'TypeOfLoanName': header.TypeOfLoanName,
-      'ProductCode': header.Product,
-      'ProductName': header.ProductName,
-      'SubProductCode': header.SubProduct,
-      'SubProductName': header.SubProductName,
-      'SchemeCode': header.Scheme,
-      'SchemeName': header.SchemeName,
-      'PromotionCode': header.Promotion,
-      'PromotionName': header.PromotionName,
-      'LoanTenure': header.Tenure,
-      'LoanTenurePeriodCode': header.TenurePeriodCode,
-      'LoanTenurePeriodName': header.TenurePeriodName,
+      isLoanCategory: this.isLoanCategory,
+      TypeOfLoanCode: header.TypeOfLoan,
+      TypeOfLoanName: header.TypeOfLoanName,
+      ProductCode: header.Product,
+      ProductName: header.ProductName,
+      SubProductCode: header.SubProduct,
+      SubProductName: header.SubProductName,
+      SchemeCode: header.Scheme,
+      SchemeName: header.SchemeName,
+      PromotionCode: header.Promotion,
+      PromotionName: header.PromotionName,
+      LoanTenure: header.Tenure,
+      LoanTenurePeriodCode: header.TenurePeriodCode,
+      LoanTenurePeriodName: header.TenurePeriodName,
+      ARN:header.ApplicationRefernceNo,
+      LoanAmount:this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
+    console.log("shweta updated global interface",this.services.rloCommonData.globalApplicationDtls);
   }
 }
