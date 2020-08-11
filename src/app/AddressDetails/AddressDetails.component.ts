@@ -409,9 +409,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
     inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
     inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue().toUpperCase());
+    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue().toUpperCase());
+    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue().toUpperCase());
     inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
     inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
     inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());

@@ -110,9 +110,9 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     }
 
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.Amount.setFormatOptions({ currencyCode: 'MUR', languageCode: 'en-US', });
-    this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'MUR', languageCode: 'en-US', });
-    this.hideCurrencyDesc.setValue('MUR');
+    this.Amount.setFormatOptions({ currencyCode: 'EUR', languageCode: 'en-US', });
+    this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'EUR', languageCode: 'en-US', });
+    this.hideCurrencyDesc.setValue('EUR');
     this.hidAppId.setValue('RLO');
     this.hideFundTransferMode.setValue('FUND_TRANSFER_MODE');
     this.hidePaymentMode.setValue('PAYMENT_MODE');

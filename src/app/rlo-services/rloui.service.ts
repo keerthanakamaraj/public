@@ -246,8 +246,8 @@ export class RlouiService {
     // // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
     // return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
 
-    if (!languageCode) { languageCode = this.getConfig("language.default", "en-MU"); }
-    if (!currency) { currency = this.getConfig("currency.code.default", "MUR"); }
+    if (!languageCode) { languageCode = this.getConfig("language.default", "en-US"); }
+    if (!currency) { currency = this.getConfig("currency.code.default", "EUR"); }
 
     let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
     return val;

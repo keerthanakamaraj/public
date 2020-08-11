@@ -80,7 +80,7 @@
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeRate.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': ChargeDescription.mandatory}">
                 {{ 'Fees&ChargesDetails.ChargeRate' | translate}}
               </label>
             </div>

@@ -35,6 +35,7 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.LocalAmount.setValue(undefined);
       this.MainComponent.EffectiveAmount.mandatory= true;
       this.MainComponent.RateOnCharge.mandatory = true;
+      this.MainComponent.ChargeRate.mandatory = true;
     }
      if((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE") )
     {
@@ -48,7 +49,7 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.RateOnCharge.setValue(undefined);
       this.MainComponent.EffectiveAmount.mandatory= false;
       this.MainComponent.RateOnCharge.mandatory = false;
-
+      this.MainComponent.ChargeRate.mandatory = false;
 
     }
   }
@@ -61,7 +62,6 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
     this.MainComponent.PeriodicEnDt.setValue(undefined);
     this.MainComponent.Frequency.setReadOnly(true);
     this.MainComponent.Frequency.mandatory = false;
-      
 
     }
     else{

@@ -65,7 +65,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
 
   onBlur() {
     this.isOnFocus = false;
-    this.languageCode = "en-MU";
+    this.languageCode = "en-US";
 
     if (this.value) {
       this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength, true);
@@ -78,7 +78,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
 
   onChange() {
     this.value = this.additionalInfo;
-    this.languageCode = "en-MU";
+    this.languageCode = "en-US";
     this.change.emit();
 
     if (this.value) {

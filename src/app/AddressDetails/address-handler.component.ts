@@ -57,9 +57,9 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE2.getFieldValue() );
     fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE3.getFieldValue() );
     fullAddressArr.push( this.MainComponent.AD_ADDRESS_LINE4.getFieldValue() );
-    fullAddressArr.push( this.MainComponent.AD_REGION.getFieldValue() );
-    fullAddressArr.push( this.MainComponent.AD_CITY.getFieldValue() );
-    fullAddressArr.push( this.MainComponent.AD_STATE.getFieldValue() );
+    fullAddressArr.push( this.MainComponent.AD_REGION.getFieldValue().toUpperCase());
+    fullAddressArr.push( this.MainComponent.AD_CITY.getFieldValue().toUpperCase());
+    fullAddressArr.push( this.MainComponent.AD_STATE.getFieldValue().toUpperCase());
     fullAddressArr.push( this.MainComponent.AD_PINCODE.getFieldValue());
 
     return this.MainComponent.services.rloutil.concatenate(fullAddressArr, ", ");

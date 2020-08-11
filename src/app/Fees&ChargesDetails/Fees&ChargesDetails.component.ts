@@ -118,7 +118,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.LocalAmount.setFormatOptions({ languageCode: 'en-US', });
     this.EffectiveAmount.setFormatOptions({ languageCode: 'en-US', });
     this.setDependencies();
-    this.hideCurrencyDesc.setValue('MUR');
+    this.hideCurrencyDesc.setValue('EUR');
     this.hidAppId.setValue('RLO');
     this.hideChargeBasis.setValue('CHARGE_BASIS');
     this.hideChargeType.setValue('CHARGE_TYPE');
@@ -235,6 +235,15 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   async PeriodicCharge_change(fieldID, value) {
     this.Handler.hideFieldBasedOnPeriodicCharge();
   }
+  // async PartyType_change(fieldID, value){
+  //   let id = this.PartyType.getFieldValue();
+  //   this.array = this.setFilterbyOptions(id);
+  //   this.FilterOptions = [];
+  //   this.array.forEach(element => {
+  //       this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+  //   });
+  //   this.PartyName.setStaticList(this.FilterOptions);
+  // }
   async Currency_blur(event) {
     let inputMap = new Map();
     this.Handler.chargeAmountcharOnblur()
