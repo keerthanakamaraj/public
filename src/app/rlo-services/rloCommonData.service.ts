@@ -441,21 +441,17 @@ export class RloCommonData {
           isOccupationValid = data[2].isSectionValid;
           isIncomeSummaryValid = data[3].isSectionValid;
 
+          let errorCounter = 1;
           for (let i = 0; i < data.length; i++) {
             const element = data[i];
+
             if (!element.isSectionValid) {
-              if (i == data.length - 1) {
-                element.errorMessage = element.errorMessage + ".";
-              }
-              else {
-                element.errorMessage = element.errorMessage + ", ";
-              }
+              errorMessage += "<p>" + (errorCounter++) + ". " + element.errorMessage + "</p>";
             }
-            errorMessage += element.errorMessage;
           }
 
           if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
-            let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
+            let msg = "<p>The following details for " + custFullName + " need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
             dataObject.errorsList.push(msg);
             dataObject.isAppValid = false;
           }
@@ -479,7 +475,7 @@ export class RloCommonData {
       if (customerData.isValid) {
         commonObj.isSectionValid = true;
       } else {
-        commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+        commonObj.errorMessage += 'All mandatory fields in Customer Details';
       }
     }
     return commonObj;
@@ -509,7 +505,7 @@ export class RloCommonData {
         }
       }
       if (!commonObj.isSectionValid) {
-        commonObj.errorMessage = "Income Type required as Primary for Occupation";
+        commonObj.errorMessage = " 1 primary occupation";
       }
     }
     return commonObj;
@@ -528,7 +524,7 @@ export class RloCommonData {
 
     if (!sectionData.has('AddressDetails')) {
       commonObj.isSectionValid = false;
-      commonObj.errorMessage += 'Please Add Address For Every Customers';
+      // commonObj.errorMessage += '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     } else {
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
@@ -547,25 +543,24 @@ export class RloCommonData {
         }
       }
 
-      if ((LoanOwnership === undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
+      if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
         addrValidationObj.isOffice = true;
       }
 
-      if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
-        addrValidationObj.isOffice = true;
-      }
+      // if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
+      //   addrValidationObj.isOffice = true;
+      // }
 
       for (const flag in addrValidationObj) {
         if (!addrValidationObj[flag]) {
           commonObj.isSectionValid = false;
         }
       }
-
-      if (!commonObj.isSectionValid) {
-        commonObj.errorMessage += (addrValidationObj.isOffice) ?
-          'add one permanent, one current and select one of these as the correspondence address'
-          : 'add one permanent, one current and at least one office address and select one of these as the correspondence address';
-      }
+    }
+    if (!commonObj.isSectionValid) {
+      commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
+        '1 permanent and 1 current residence address and 1 correspondence address'
+        : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     }
     return commonObj;
   }

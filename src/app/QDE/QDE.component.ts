@@ -521,7 +521,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
           console.log(values);
           let modalObj = {
             title: "Alert",
-            mainMessage: values[0],
+            rawHtml: values[0],
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
