@@ -197,3 +197,11 @@
 .icon-folder-open:before {
     content: "\e922";
 }
+
+.icon-delete-bin:before {
+    content: "\e923";
+}
+
+.icon-edit:before {
+    content: "\e924";
+}

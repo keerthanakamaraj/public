@@ -17,10 +17,10 @@
             <div class="col-md-4 res-pr-hide">
                 <div class="">
                     <label [ngClass]="{ 'mandatory': isMandatory('DocType')}">{{getLabel('DOC_DOC_TYPE')}}</label>
-                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType" [items]="lookupVariableOptions['IMG_DOCUMENT_TYPE']"
-                        bindValue="DocType" bindValue="id" bindLabel="text"
-                        (blur)="validateField(docDetailsObject.DocType, 'DocType')" (change)="getDocuments()"
-                        [clearable]="false">
+                    <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType"
+                        [items]="lookupVariableOptions['IMG_DOCUMENT_TYPE']" bindValue="DocType" bindValue="id"
+                        bindLabel="text" (blur)="validateField(docDetailsObject.DocType, 'DocType')"
+                        (change)="getDocuments()" [clearable]="false">
                     </ng-select>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="">
                     <label [ngClass]="{ 'mandatory': isMandatory('entityDocumentId')}">{{getLabel('DOCUMENT')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.entityDocumentId"
-                        [items]="documents" bindValue="entityDocumentId" bindLabel="docDesc" name="entityDocumentId"
+                        [items]="documents" bindValue="docId" bindLabel="docDesc" name="entityDocumentId"
                         (blur)="validateField(docDetailsObject.entityDocumentId, 'entityDocumentId')"
                         [clearable]="false"></ng-select>
                 </div>
@@ -65,7 +65,8 @@
                         (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')" name="collectionDate">
                     </igcb-datepicker> -->
                     <app-date #CD_PASSPORT_EXPIRY fieldID="CD_PASSPORT_EXPIRY" [formCode]="formCode"
-                            placeholder="dd-mm-yyyy" (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
+                        placeholder="dd-mm-yyyy"
+                        (blur)="validateField(docUploadObject.collectionDate, 'collectionDate')"></app-date>
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide" *ngIf="docUploadObject.status=='005'">
@@ -126,19 +127,19 @@
         <!-- END - Upload Note  -->
     </div>
 
-    <!-- <div class="row">
-        <div class="col-md-12" align="center">
-            <h4 *ngIf="count == 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</h4>
-            <h4 *ngIf="count > 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOADS')}}</h4>
-            <h4 *ngIf="count == 0" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</h4>
+    <div class="row">
+        <div class="doc-count col-md-12">
+            <div *ngIf="count == 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div>
+            <div *ngIf="count > 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOADS')}}</div>
+            <div *ngIf="count == 0" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div>
         </div>
-    </div> -->
+    </div>
     <!-- END - Section Sub Header -->
     <!-- START - Table -->
     <div class="row">
-        <!-- <div class="col-md-12" id="docstable1">
-            <div class="panel-group">
-                <div class="panel panel-default table table-responsive">
+        <div class="col-md-12" id="docstable1">
+            <div class="panel-group doc-list-table">
+                <div class="panel-default table table-responsive">
                     <table>
                         <thead>
                             <tr class="grid-comments">
@@ -150,39 +151,43 @@
                                 <th id='col6'>{{getLabel('STATUS')}}</th>
                                 <th id='col7'>{{getLabel('DOC_UPLOADED_BY')}}</th>
                                 <th id='col8'>{{getLabel('DOC_UPLOADED_ON')}}</th>
-                                <th id='col9'>{{getLabel('ACTION')}}</th>
+                                <!-- <th id='col9'>{{getLabel('ACTION')}}</th> -->
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="docheader" *ngFor="let imgDtl of documentTypeGrid">
                                 <td class="text-left">{{imgDtl.OwnerName}}</td>
                                 <td>{{imgDtl.docDesc}}</td>
-                                <td class="text-ellipses" title="{{imgDtl.DocName}}"><a (click)="downloadFile(imgDtl.cfsInvNumber)">{{imgDtl.DocName}}</a></td>
+                                <td class="text-ellipses" title="{{imgDtl.DocName}}"><a
+                                        (click)="downloadFile(imgDtl.cfsInvNumber)">{{imgDtl.DocName}}</a></td>
                                 <td>{{imgDtl.relationshipToBorrower}}</td>
                                 <td>{{imgDtl.collectionDate}}</td>
                                 <td>{{imgDtl.StatusDesc}}</td>
                                 <td>{{imgDtl.InputterId}}</td>
                                 <td>{{imgDtl.InputterDt}}</td>
-                                <td *ngIf="UserId == imgDtl.InputterId">
-
-                                    <a href="javascript:void(0)" id="sideNav" (click)="editDocumentDetails(imgDtl)"><img
-                                            class="navbar-img-link" src="assets/icons/edit.jpg" alt="SideNav" /></a>
-                                    <a href="javascript:void(0)" id="sideNav1" (click)="confirmDelete(imgDtl.id)"><img
-                                            class="navbar-img-link" src="assets/icons/delete.png" alt="SideNav1" /></a>
-
-
-
-                                </td>
-                                <td *ngIf="UserId != imgDtl.InputterId"> <span class="glyphicon glyphicon-eye-open"
+                                <!-- <td *ngIf="UserId == imgDtl.InputterId">
+                                    <a href="javascript:void(0)" id="sideNav" class="icon-edit" (click)="editDocumentDetails(imgDtl)"></a>
+                                    <a href="javascript:void(0)" id="sideNav1" class="icon-delete-bin" (click)="confirmDelete(imgDtl.id)"></a>
+                                </td> -->
+                                <!-- <td *ngIf="UserId != imgDtl.InputterId"> <span class="glyphicon glyphicon-eye-open"
                                         (click)="editDocumentDetails(imgDtl)"></span>
-                                    &nbsp; </td>
+                                    &nbsp; </td> -->
 
+                                <td>
+                                    <span id="sideNav" class="icon-edit" (click)="editDocumentDetails(imgDtl)"></span>
+                                </td>
+                                <td>
+                                    <span id="sideNav1" class="icon-delete-bin"
+                                        (click)="confirmDelete(imgDtl.id)"></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <div class="conditions">

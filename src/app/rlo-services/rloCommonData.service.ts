@@ -51,7 +51,7 @@ export interface IGlobalApllicationDtls {
 
 
 export class RloCommonData {
-
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
   //used to define if the header should be expaneded or collapsed
   childToParentSubject = new Subject<subjectParamsInterface>();
   updateDdeMenuSubject = new Subject<string>();//add or remove

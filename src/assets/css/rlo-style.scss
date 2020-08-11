@@ -1052,6 +1052,10 @@ a.back {
   margin: auto !important;
 }
 
+.t-center {
+  text-align: center !important;
+}
+
 //used to add space for every page in layout for form btns
 .page-layout-padding {
   padding-bottom: 5rem;
@@ -3217,7 +3221,7 @@ rlo-ui-card-field {
   }
 
   .conditions {
-    margin-top: 15px;
+    // margin-top: 15px;
 
     .note-title {
       font-size: 11px;
@@ -3237,6 +3241,61 @@ rlo-ui-card-field {
     font-size: 20px;
     text-align: center;
     margin: 24px 0 24px 0;
+  }
+
+  .doc-list-table {
+    table {
+      border-spacing: 0px 3px;
+      border-collapse: separate;
+
+      thead {
+        tr {
+          background: #E4F0F9;
+          font-size: 12px;
+          line-height: 12px;
+          color: #7C7C7C;
+          font-weight: unset;
+          height: 40px;
+        }
+      }
+
+      tbody {
+        tr {
+          background-color: #FAFAFA;
+        }
+      }
+
+      th {
+        border: none;
+        font-weight: inherit;
+      }
+
+      td {
+        border: none;
+        color: #4f4e4e;
+        line-height: 12px;
+
+        span {
+          font-size: 23px;
+          cursor: pointer;
+
+          &.icon-edit {
+            color: #0079b8;
+          }
+        }
+      }
+    }
+  }
+
+  .doc-count {
+    div {
+      text-align: center;
+      font-size: 20px;
+      line-height: 27px;
+      text-align: center;
+      color: #0079B8;
+      margin: 22px 0 19px 0;
+    }
   }
 }
 

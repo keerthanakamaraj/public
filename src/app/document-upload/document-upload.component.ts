@@ -110,7 +110,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.utility.getCommonService().getOwnerNamesDetails(this.ApplicationId).subscribe(
             data => {
                 console.log(data);
-                this.ownersName = data['OwnerNames'];       
+                this.ownersName = data['OwnerNames'];
             });
 
         // @CLO-RLO-Merge Access Entitlement
@@ -138,9 +138,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         setTimeout(() => {
             this.reLodeGrid();
 
-            this.docUploadObject.trnDemographicId = "2901";
-            this.docDetailsObject.DocType = "1";
-            this.docDetailsObject.entityDocumentId = "1";
+            // this.docUploadObject.trnDemographicId = "2901";
+            // this.docDetailsObject.DocType = "1";
+            // this.docDetailsObject.entityDocumentId = "1";
             console.log(this.docDetailsObject);
 
             // this.ownersName = [
@@ -377,12 +377,11 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                     }
                 }
             });
-
     }
     // This method is to download file
     downloadFile(inventoryNumber) {
         // @CLO-RLO-Merge - Download Document
-        // this.utility.getCommonService().download(inventoryNumber);
+        this.utility.getCommonService().download(inventoryNumber);
     }
     // This method is called when we click on delete icon
     confirmDelete(id) {
