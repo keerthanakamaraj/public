@@ -635,7 +635,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
         if (res.Status == 'S') {
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-          var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+          var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
           var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 

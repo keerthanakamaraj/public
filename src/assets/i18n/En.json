@@ -155,7 +155,7 @@
     "rlo.withdraw.comfirmation": "Are you sure you want to withdraw?",
     "rlo.reject.comfirmation": "Are you sure you want to reject?",
     "rlo.cancel.comfirmation": "Are you sure you want to cancel?",
-
+    "rlo.sentback.comfirmation":"Are you sure you want to sentback?",
     "rlo.reset.comfirmation": "Are you sure you want to reset the form?",
     "rlo.error.relationship.invalid": "Please select the relationship according to the gender selected.",
 
