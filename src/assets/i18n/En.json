@@ -155,7 +155,7 @@
     "rlo.withdraw.comfirmation": "Are you sure you want to withdraw?",
     "rlo.reject.comfirmation": "Are you sure you want to reject?",
     "rlo.cancel.comfirmation": "Are you sure you want to cancel?",
-
+    "rlo.sentback.comfirmation":"Are you sure you want to sentback?",
     "rlo.reset.comfirmation": "Are you sure you want to reset the form?",
     "rlo.error.relationship.invalid": "Please select the relationship according to the gender selected.",
 
@@ -1432,6 +1432,7 @@
     "AD_DATE_OF_RECIEPT": "Date of Receipt",
     "AD_DSA_ID": "DSA ID",
     "AD_HEADING": "Application Information"
+  
   },
   "AddressDetails": {
     "AD_OCCUPANCY_TYPE": "Occupancy Type",
@@ -2107,9 +2108,12 @@
     "FieldId_3": "Loan Information",
     "OPERATION_APPROVE": "Approve",
     "OPERATION_WITHDRAW": "Withdraw",
+    "OPERATION_SENDBACK": "Sendback",
     "DisbustAmt": "Final Amount to be Disbursed",
     "LOAN_DBR": "DBR",
     "EMI_Amt": "Installment Amount",
+    "AD_CUST_STATUS":"Customer Status",
+    "AD_CUST_REMARKS":"Customer Remarks",
     "G_LETTER": "Generate Letters",
     "FieldId_8": "Card Information",
     "Apved_Limit": "Approved Limit",
@@ -2158,7 +2162,7 @@
     "PerOfProjectCompletion": "Percent of Project Completion",
     "SellerCity": "City",
     "PropertyType": "Property Type",
-    "MoratoriamPeriod": "Select if Interest will be Capitalized During Moratorium Period",
+    "MoratoriamPeriod": "Select if interest will be capitalized during Moratorium Period",
     "SellerState": "State",
     "Contractor": "Contractor",
     "AmountToBeFinanced": "Amount To Be Financed",
@@ -2209,7 +2213,7 @@
     "NoOfMilestones": "No. of Milestones",
     "BlockNo": "Block No.",
     "SellerMobileNo": "Seller Landline / Mobile No.",
-    "MoratoriamPeriodCheck": "Select if Intrest will be capitipalized during Moratorian Period"
+    "MoratoriamPeriodCheck": "Select if intrest will be capitalized during Moratoriam Period"
   },
   "DisbursInputGrid": {
     "ProjectCompletion": "% of Project Completion",

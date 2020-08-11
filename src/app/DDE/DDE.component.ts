@@ -46,6 +46,7 @@ import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.com
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component'
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
+import { IModalData } from '../popup-alert/popup-interface';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -1558,6 +1559,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.menuNavigationBtn.enableRightArrow = false;
     }
   }
+
+  openFileUpload() {
+    let modalObj: IModalData = {
+      title: '',
+      mainMessage: undefined,
+      modalSize: 'modal-width-md',
+      buttons: [],
+      componentName: 'FileUpload',
+      data: '',
+      applicationId: Number(this.ApplicationId)
+    };
+    this.services.rloui.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.services.rloui.closeAllConfirmationModal();
+        }
+      }
+    });
+  }
+  
 }
 
 

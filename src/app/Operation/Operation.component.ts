@@ -32,10 +32,15 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
   @ViewChild('CUST_GRID', { static: false }) CUST_GRID: CustGridComponent;
   @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
+  @ViewChild('AD_CUST_STATUS', { static: false }) AD_CUST_STATUS: TextBoxComponent;
+  
+    @ViewChild('AD_CUST_REMARKS', { static: false }) AD_CUST_REMARKS: TextAreaComponent;
+
   @ViewChild('CreditCard', { static: false }) CreditCard: CreditCardDetailsComponent;
   @ViewChild('G_LETTER', { static: false }) G_LETTER: ButtonComponent;
   @ViewChild('OPERATION_APPROVE', { static: false }) OPERATION_APPROVE: ButtonComponent;
   @ViewChild('OPERATION_WITHDRAW', { static: false }) OPERATION_WITHDRAW: ButtonComponent;
+  @ViewChild('OPERATION_SENDBACK', { static: false }) OPERATION_SENDBACK: ButtonComponent;  
   @ViewChild('DisbustAmt', { static: false }) DisbustAmt: TextBoxComponent;
   @ViewChild('LOAN_DBR', { static: false }) LOAN_DBR: TextBoxComponent;
   @ViewChild('EMI_Amt', { static: false }) EMI_Amt: TextBoxComponent;
@@ -53,7 +58,6 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
   @Input() isLoanCategory: any = undefined;
   @Input() ProductCode: any = undefined;
-
 
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   ApplicationId: any;
@@ -74,6 +78,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   LoanArray = [];
   CardArray = [];
   appArray = [];
+  custArray = [];
   LetterArray;
 
   async revalidate(): Promise<number> {
@@ -113,8 +118,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.ApplicationId = appId;
+    this.AD_CUST_REMARKS.setReadOnly(true);
+    this.AD_CUST_STATUS.setReadOnly(true);
     await this.brodcastApplicationId();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
+    this.fetchCustomerDecisionDetails();
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
@@ -405,6 +413,50 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.services.rloui.goBack();
   }
 
+  
+
+
+
+  fetchCustomerDecisionDetails() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let applicationId: any = this.passApplicationId;
+    // let applicationId = '2221';
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (applicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": applicationId
+        }
+      });
+
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+    this.services.http.fetchApi('/ApplicationDetails', 'GET', inputMap, '/initiation').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.custArray = [];
+
+        if (res !== null) {
+          this.custArray = res['ApplicationDetails'];
+
+          this.custArray.forEach(async custElement => {
+            this.AD_CUST_REMARKS.setValue(custElement['CustomerConfirmationRemarks']);
+            // this.LOAN_DBR.setValue(loanDtls['InterestRate']);
+            this.AD_CUST_STATUS.setValue(custElement['CustomerConfirmationStatus']);
+          });
+        }
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
+  }
   async claimTask(taskId) {
     const inputMap = new Map();
     inputMap.clear();
@@ -566,4 +618,68 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       }
     );
   }
+
+
+  async OPERATION_SENDBACK_click(event) {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
+    inputMap.set('Body.direction', 'SB');
+    inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
+    this.services.http.fetchApi('/CompleteTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+          var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+          Promise.all([mainMessage, button1, button2]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+            }
+
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.router.navigate(['home', 'LANDING']);
+                }
+              }
+            });
+          });
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+          if (err['ErrorElementPath'] === 'ServiceCode') {
+            this.HideServiceCodeComplete.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'ProcessId') {
+            this.HideProcessId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TaskId') {
+            this.HideTaskId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+            this.HideTenantId.setError(err['ErrorDescription']);
+          } else if (err['ErrorElementPath'] === 'UserId') {
+            this.HideUserId.setError(err['ErrorDescription']);
+          }
+        }
+        this.services.alert.showAlert(2, 'rlo.error.claim.qde', -1);
+      }
+    );
+  }
+
 }

@@ -19,6 +19,7 @@ import { DisbursementsHandlerComponent } from 'src/app/DisbursementDetails/disbu
 import { LoanDetailsFormComponent } from 'src/app/LoanDetailsForm/LoanDetailsForm.component';
 import { DisbursementGridComponent } from '../DisbursementGrid/DisbursementGrid.component';
 import { IAmortizationForm } from 'src/app/Interface/masterInterface';
+import { each } from '@amcharts/amcharts4/.internal/core/utils/Array';
 
 const customCss: string = '';
 
@@ -224,6 +225,14 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     let inputMap = new Map();
     var numberOfErrors: number = await this.revalidate();
     if (numberOfErrors == 0) {
+      for(let eachRecord of this.FieldId_18.disbursalList){
+        if(eachRecord.DisbursalTo==this.DisbursalTo.getFieldValue() && eachRecord.DisbursalDate==this.DisbursalDate.getFieldValue()){
+         if(eachRecord.DisbursalSeq!=this.HideDisbursalSeqId.getFieldValue()){
+          this.services.alert.showAlert(2, 'rlo.error.duplicate-Record', -1);
+          return;
+         }
+        }
+      }
       if (this.HideDisbursalSeqId.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.DisbursalSeq', this.HideDisbursalSeqId.getFieldValue());
