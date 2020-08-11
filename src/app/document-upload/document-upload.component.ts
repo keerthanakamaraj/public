@@ -401,7 +401,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                         this.documentTypeGrid = data['DocList'];
                         this.count = this.documentTypeGrid.length;
                     } else {
-                        this.documentTypeGrid = data['DocList'];
+                        this.documentTypeGrid = [];
                         this.count = 0;
                     }
                 }

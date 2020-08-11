@@ -130,7 +130,7 @@
         <!-- END - Upload Note  -->
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="this.documentTypeGrid.length">
         <div class="doc-count col-md-12">
             <div *ngIf="count == 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div>
             <div *ngIf="count > 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOADS')}}</div>
@@ -140,10 +140,10 @@
     <!-- END - Section Sub Header -->
     <!-- START - Table -->
     <div class="row">
-        <div class="col-md-12" id="docstable1">
+        <div class="col-md-12" id="docstable1" >
             <div class="panel-group doc-list-table">
                 <div class="panel-default table table-responsive">
-                    <table>
+                    <table *ngIf="this.documentTypeGrid.length">
                         <thead>
                             <tr class="grid-comments">
                                 <th id='col1' class="text-left">{{getLabel('DOC_UP_OWNER')}}</th>
