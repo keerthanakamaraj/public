@@ -55,6 +55,7 @@ export class RlouiService {
     { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
     { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
     { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
+    { componentName: "PropertyDetails", iconClass: "icon-Asset-Details" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal

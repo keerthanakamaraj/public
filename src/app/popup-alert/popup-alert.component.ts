@@ -25,6 +25,7 @@ import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryFo
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 import { IAmortizationForm } from '../Interface/masterInterface';
+import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -166,6 +167,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'FileUpload':
         return new AddSpecificComponent(DocumentUploadComponent);
+        break;
+      case 'PropertyDetails':
+        return new AddSpecificComponent(PropertyDetailsComponent);
         break;
     }
   }

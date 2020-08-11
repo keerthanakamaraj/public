@@ -290,6 +290,11 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+    
+    //UW
+    if (this.readOnly) {
+      this.setReadOnly(this.readOnly);
+    }
   }
   clearError() {
     super.clearBasicFieldsError();
@@ -828,13 +833,13 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async ExpDateOfCompletion_blur(event) {
     let inputMap = new Map();
-console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
-    if(this.ExpDateOfCompletion.getFieldValue()){
-    if (this.isPastDate(this.ExpDateOfCompletion.getFieldValue())) {
-      this.ExpDateOfCompletion.setError('rlo.error.ExpDateOfCompletion.invalid');
-      return 1;
+    console.log("shweta :: ", this.ExpDateOfCompletion.getFieldValue());
+    if (this.ExpDateOfCompletion.getFieldValue()) {
+      if (this.isPastDate(this.ExpDateOfCompletion.getFieldValue())) {
+        this.ExpDateOfCompletion.setError('rlo.error.ExpDateOfCompletion.invalid');
+        return 1;
+      }
     }
-  }
   }
 
 
@@ -843,16 +848,16 @@ console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
     let PerDownPayment;
     let TotalAmtFinced
 
-    
+
     if (this.DownPaymentAmount.getFieldValue() != undefined) {
       PerDownPayment = (Math.round(this.DownPaymentAmount.getFieldValue() / this.CostOfProperty.getFieldValue() * 100))
     }
     this.DownPayment.setValue(PerDownPayment.toFixed(2));
-    console.log("new amt",PerDownPayment);
+    console.log("new amt", PerDownPayment);
 
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue() 
-     TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
+      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
     }
     console.log("total mt", TotalAmtFinced);
     this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
@@ -865,17 +870,17 @@ console.log("shweta :: ",this.ExpDateOfCompletion.getFieldValue());
 
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
       DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue() / 100))
-      }
-      this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
+    }
+    this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
 
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue() 
-     TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
+      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
     }
     console.log("total mt", TotalAmtFinced);
     this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
 
-   
+
   }
 
   async PerOfProjectCompletion_blur(event) {

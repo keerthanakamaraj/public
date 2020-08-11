@@ -116,8 +116,19 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
     }
     //	console.log("shweta :: referrer", this.CustomerDetailsArray);
     await this.Handler.onFormLoad({});
+
+    //UW
+    console.log(this.ReferralDetailsGrid.columnDefs);
+    if (this.readOnly) {
+      this.ReferralDetailsGrid.columnDefs = this.ReferralDetailsGrid.columnDefs.slice(0, 4);
+      this.ReferralDetailsGrid.columnDefs[3].width = 12;
+      this.ReferralDetailsGrid.columnDefs[3].cellRendererParams.CustomClass = "btn-views";
+      this.ReferralDetailsGrid.columnDefs[3].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+    }
+    
     this.setDependencies();
   }
+
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
     if (params['mode']) {
@@ -164,12 +175,13 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
-      
-      		if (this.readOnly) {
-			this.setReadOnly(this.readOnly);
-		}
+
+      //UW
+      if (this.readOnly) {
+        this.setReadOnly(this.readOnly);
+      }
     });
-  
+
   }
   clearError() {
     super.clearBasicFieldsError();

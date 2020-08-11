@@ -262,7 +262,16 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This method is to upload file
     processUplaodImage() {
-        this.uploader.uploadAll();
+        //this.uploader.uploadAll();
+        console.log(this.docDetailsObject, this.docUploadObject.status);
+
+        if (this.docDetailsObject.DocName == undefined || this.docDetailsObject.DocName == "") {
+            if (this.docUploadObject.status == "005" || this.docUploadObject.status == "006")
+                this.saveImageDetails();
+        }
+        else {
+            this.uploader.uploadAll();
+        }
     }
     // This method is to save document details in table
     saveImageDetails() {
@@ -350,7 +359,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.fileName = actualFileName;
     }
     // This methos is to clear variables
-    clearform(allFields?:boolean) {
+    clearform(allFields?: boolean) {
         // @CLO-RLO-Merge - 
         // this.tooltipError.tooltipdestroy();
         // this.tooltipError.tooltiperrorhide('DocName');
@@ -366,7 +375,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // if (this.uploader.queue.length >= 1) {
         //     this.uploader.queue[0].remove();
         // }
-        if(allFields){
+        if (allFields) {
             this.clearFormObjs();
         }
     }
@@ -409,15 +418,15 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         console.log(docDetail['collectionDate']);
 
         if (docDetail['collectionDate'] != undefined) {
-           setTimeout(() => {
-            this.collection_date.setValue(docDetail['collectionDate']);
-           }, 500); 
+            setTimeout(() => {
+                this.collection_date.setValue(docDetail['collectionDate']);
+            }, 500);
         }
 
         if (docDetail['deferredUntil'] != undefined) {
             setTimeout(() => {
                 this.deffered_date.setValue(docDetail['deferredUntil']);
-            }, 500);    
+            }, 500);
         }
 
         if (this.UserId !== this.checkUserId) {

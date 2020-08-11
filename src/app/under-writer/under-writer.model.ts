@@ -873,7 +873,7 @@ export class PropertyDetails implements IDeserializable {
         if (this.PropertyType == 'NA' && this.BuilderName == 'NA' && this.ProjectName == 'NA' && this.NameOfSeller == 'NA' && this.CostOfProperty == 'NA' && this.DownPaymentAmount == 'NA') {
             return ""
         } else {
-            return "";
+            return "PropertyDetails";
         }
     }
 
@@ -969,8 +969,8 @@ export class CustomerDetails implements IDeserializable {
             this.AddressDetails = new AddressDetails().deserialize([]);
         }
 
-        if (input.hasOwnProperty("UWRmVisitDetails")) {
-            this.RmVisitDetails = new RmVisitDetails().deserialize(input.UWRmVisitDetails);
+        if (input.hasOwnProperty("UWRMVisit")) {
+            this.RmVisitDetails = new RmVisitDetails().deserialize(input.UWRMVisit);
         }
         else {
             this.RmVisitDetails = new RmVisitDetails().deserialize([]);
@@ -984,6 +984,15 @@ export class CustomerDetails implements IDeserializable {
 
         //obj
         this.FinancialSummary = new FinancialSummary().deserialize(input.UWIncomeSummary);
+        if (input.hasOwnProperty("UWAsset")) {
+            let assetsList = input["UWAsset"];
+            let assetAmt = 0;
+            assetsList.forEach(element => {
+                assetAmt += element.EquivalentAmt;
+            });
+            this.FinancialSummary.TotalAssetValue = assetAmt;
+        }
+
         this.CollateralDetails = new CollateralDetails().deserialize(input.UWCollateralDetails);
         this.FinancialDetails = new FinancialDetails().deserialize(input.UWIncomeDetails);
 
@@ -1121,8 +1130,8 @@ export class ApplicationDetails implements IDeserializable {
             this.Notes = new Notes().deserialize([]);
         }
 
-        if (input.hasOwnProperty("UWReferalDetails")) {
-            this.ReferalDetails = new ReferalDetails().deserialize(input.UWReferalDetails);
+        if (input.hasOwnProperty("UWReferrrer")) {
+            this.ReferalDetails = new ReferalDetails().deserialize(input.UWReferrrer);
         }
         else {
             this.ReferalDetails = new ReferalDetails().deserialize([]);
