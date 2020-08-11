@@ -1432,6 +1432,7 @@
     "AD_DATE_OF_RECIEPT": "Date of Receipt",
     "AD_DSA_ID": "DSA ID",
     "AD_HEADING": "Application Information"
+  
   },
   "AddressDetails": {
     "AD_OCCUPANCY_TYPE": "Occupancy Type",
@@ -2107,9 +2108,12 @@
     "FieldId_3": "Loan Information",
     "OPERATION_APPROVE": "Approve",
     "OPERATION_WITHDRAW": "Withdraw",
+    "OPERATION_SENDBACK": "Sendback",
     "DisbustAmt": "Final Amount to be Disbursed",
     "LOAN_DBR": "DBR",
     "EMI_Amt": "Installment Amount",
+    "AD_CUST_STATUS":"Customer Status",
+    "AD_CUST_REMARKS":"Customer Remarks",
     "G_LETTER": "Generate Letters",
     "FieldId_8": "Card Information",
     "Apved_Limit": "Approved Limit",

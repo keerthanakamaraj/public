@@ -69,9 +69,39 @@
 
       <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
       </app-ApplicationDtls>
+     
+  <div>
 
+  <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_CUST_STATUS.isHidden()">
+    <div class="clr-brown fieldLegend">
+      <label class="clr-brown" style="margin-bottom: 20px;">
+        {{ 'Operation.AD_CUST_STATUS' | translate}}
+      </label>
+    </div>
+    <app-text-box #AD_CUST_STATUS fieldID="AD_CUST_STATUS" [formCode]="formCode" (blur)="genericOnBlur('AD_CUST_STATUS', $event)"></app-text-box>
+  </div>
+
+  <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_CUST_REMARKS.isHidden()">
+    <div class="clr-brown fieldLegend">
+      <label class="clr-brown" style="margin-bottom: 20px;">
+        {{ 'Operation.AD_CUST_REMARKS' | translate}}
+      </label>
+    </div>
+    <app-text-area #AD_CUST_REMARKS fieldID="AD_CUST_REMARKS" [formCode]="formCode" (blur)="genericOnBlur('AD_CUST_REMARKS', $event)"></app-text-area>
+  </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div>
+    <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+  </div>
+
+      <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+     
+      <div >
         <app-label #CustomerInfo parentCompCode="Operation" fieldID="CustomerInfo" [formCode]="formCode"></app-label>
-  
+      </div>
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_GRID.isHidden()">
         <app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode" style="margin-left: 22px; width: 98%;"></app-CustGrid>
       </div>
@@ -423,6 +453,10 @@
             fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn-warning-outline"
             (buttonClick)="OPERATION_WITHDRAW_click($event)" style="width: 150px !important;">
           </app-button>
+          <app-button #OPERATION_SENDBACK fieldName="{{ 'Operation.OPERATION_SENDBACK' | translate}}"
+          fieldID="OPERATION_SENDBACK" [formCode]="formCode" customClass="btn-warning-outline"
+          (buttonClick)="OPERATION_SENDBACK_click($event)" style="width: 150px !important;">
+        </app-button>
         </div>
         <div class="col-12  col-sm-4 col-md-4"></div>
       </div>
