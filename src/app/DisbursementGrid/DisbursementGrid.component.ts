@@ -34,6 +34,7 @@ export class DisbursementGridComponent implements AfterViewInit {
 
   componentCode: string = 'DisbursementGrid';
   openedFilterForm: string = '';
+  disbursalList = [];
   hidden: boolean = false;
   gridConsts: any = {
     paginationPageSize: 10,
@@ -256,26 +257,26 @@ export class DisbursementGridComponent implements AfterViewInit {
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.loopDataVar10 = [];
-        var loopVar10 = [];
+        this.disbursalList = [];
         if (res !== null) {
           this.disbursementRecord = true
-          loopVar10 = res['DisbursalDetails'];
+          this.disbursalList = res['DisbursalDetails'];
         }
         else {
           this.disbursementRecord = false
         }
 
-        // var loopVar10 = res['DisbursalDetails'];
-        if (loopVar10) {
-          for (var i = 0; i < loopVar10.length; i++) {
+        // var this.disbursalList = res['DisbursalDetails'];
+        if (this.disbursalList) {
+          for (var i = 0; i < this.disbursalList.length; i++) {
             var tempObj = {};
             tempObj['DisbursalNo'] = i + 1;
-            tempObj['HideDisbursald'] = loopVar10[i].DisbursalSeq;
-            let customer = customerList.filter(item => item.id == loopVar10[i].DisbursalTo);
-            tempObj['DisbursalTo'] = customer != undefined ? customer[0].text : loopVar10[i].DisbursalTo;
-            tempObj['Amount'] = loopVar10[i].DisbursalAmtLocalCurrency;
-            tempObj['DisbursalDate'] = loopVar10[i].DisbursalDate;
-            tempObj['PaymentMode'] = loopVar10[i].PaymentMode;
+            tempObj['HideDisbursald'] = this.disbursalList[i].DisbursalSeq;
+            let customer = customerList.filter(item => item.id == this.disbursalList[i].DisbursalTo);
+            tempObj['DisbursalTo'] = customer != undefined ? customer[0].text : this.disbursalList[i].DisbursalTo;
+            tempObj['Amount'] = this.disbursalList[i].DisbursalAmtLocalCurrency;
+            tempObj['DisbursalDate'] = this.disbursalList[i].DisbursalDate;
+            tempObj['PaymentMode'] = this.disbursalList[i].PaymentMode;
             this.loopDataVar10.push(tempObj);
           }
         }
