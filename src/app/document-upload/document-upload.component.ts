@@ -105,13 +105,13 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                 if (this.docDetailsObject.CfsInvNum) {
                     this.saveImageDetails();
                 } else {
-                    this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
+                    this.services.alert.showAlert(2, '', 3000, 'Unable to upload file.');
                     this.fileUploadErrorFlag = true;
                     this.fileUploadErrorMsg = this.getLabel('UNABLE_TO_UPLOAD_FILE');
                 }
             }
             else {
-                this.services.alert.showAlert(2, '', -1, 'Unable to upload file.');
+                this.services.alert.showAlert(2, '', 3000, 'Unable to upload file.');
             }
 
         };
@@ -300,7 +300,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                     this.clearform();
                     this.clearFormObjs();
                     //this.tooltipError.tooltipdestroy();
-                    this.services.alert.showAlert(1, '', -1, 'File uploaded successfully.');
+                    this.services.alert.showAlert(1, '', 3000, 'File uploaded successfully.');
                     this.reLodeGrid();
                 }
             });
@@ -388,13 +388,13 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.utility.getCommonService().deleteDocUploadDetails(deleteById).subscribe(
             data => {
                 if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
-                    this.services.alert.showAlert(2, '', -1, 'Unable to delete record.');
+                    this.services.alert.showAlert(2, '', 3000, 'Unable to delete record.');
                 } else {
                     this.clearform();
                     this.clearFormObjs();
 
                     //this.tooltipError.tooltipdestroy();
-                    this.services.alert.showAlert(1, '', -1, 'File deleted successfully.');
+                    this.services.alert.showAlert(1, '', 3000, 'File deleted successfully.');
                     this.reLodeGrid();
                 }
             });
@@ -442,7 +442,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.utility.getCommonService().getDocumentUploadDtls(this.ApplicationId).subscribe(
             data => {
                 if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
-                    this.services.alert.showAlert(2, '', -1, 'Unable to get records.');
+                    this.services.alert.showAlert(2, '', 3000, 'Unable to get records.');
                 } else {
                     if (data['DocList']) {
                         this.documentTypeGrid = data['DocList'];

@@ -160,7 +160,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     this.value = new MyTrayFormModel();
     this.componentCode = 'MyTrayForm';
     this.displayBorder = false;
-    // this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]}]
+    // this.menuList = [{ Menu: 'MODIFICATION', MenuList: [{ id: 'Initiation', text: 'Initiate' }]}];
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);

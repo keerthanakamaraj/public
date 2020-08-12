@@ -887,11 +887,7 @@ a.back {
 //   height: 45px;
 // }
 .dde-tab-btn-div {
-  // margin-top: 12px;
-  // margin-bottom: 30px !important;
-  // margin-left: 34%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 0 !important;
   display: flex;
 }
 
@@ -1062,7 +1058,7 @@ a.back {
 }
 
 //set width of doc upload modal
-.modal-doc-upload-width .modal-dialog{
+.modal-doc-upload-width .modal-dialog {
   width: 75%;
 }
 
@@ -2446,6 +2442,12 @@ rlo-ui-card-field {
   display: flex;
   margin-top: 30px;
   margin-bottom: 18px;
+  padding: 0;
+  height: 3.5em;
+
+  .wgt-doc-upload {
+    top: 0;
+  }
 
   .btn-group {
     margin: auto;
@@ -3011,6 +3013,15 @@ rlo-ui-card-field {
       margin-top: 24px !important;
     }
   }
+
+  .document-upload{
+    min-height: 3rem;
+    padding:0;
+  }
+
+  .header-expanded-op{
+    margin-top: 3rem;
+  }
 }
 
 .lyt-mytray {
@@ -3225,8 +3236,8 @@ rlo-ui-card-field {
   .margin-btn {
     margin-top: 2.6em;
 
-    .btn-secondary{
-      margin-left: 15px;;
+    .btn-secondary {
+      margin-left: 15px;
     }
   }
 
@@ -3310,6 +3321,10 @@ rlo-ui-card-field {
       color: #0079B8;
       margin: 22px 0 19px 0;
     }
+  }
+
+  .table-responsive {
+    max-height: 19em;
   }
 }
 

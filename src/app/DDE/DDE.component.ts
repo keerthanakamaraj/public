@@ -194,7 +194,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   applicationMenu = [
     [
       { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
-      { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-Gold-Loan-Details", isActive: true, isOptional: true },
+      { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-property", isActive: false, isOptional: true },
       // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
       // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: false },
@@ -1569,23 +1569,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   openFileUpload() {
-    let modalObj: IModalData = {
-      title: '',
-      mainMessage: undefined,
-      modalSize: 'modal-doc-upload-width',
-      buttons: [],
-      componentName: 'FileUpload',
-      data: '',
-      applicationId: Number(this.ApplicationId)
-    };
-    this.services.rloui.confirmationModal(modalObj).then((response) => {
-      console.log(response);
-      if (response != null) {
-        if (response.id === 1) {
-          this.services.rloui.closeAllConfirmationModal();
-        }
-      }
-    });
+    this.services.rloui.openFileUpload(this.ApplicationId);
   }
   
 }

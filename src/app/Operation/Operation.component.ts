@@ -692,4 +692,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
 
+  openFileUpload() {
+    this.services.rloui.openFileUpload(this.ApplicationId);
+  }
+
 }

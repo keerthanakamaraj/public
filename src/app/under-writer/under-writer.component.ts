@@ -10,6 +10,7 @@ import { ServiceStock } from '../service-stock.service';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 import { HttpResponse } from '@angular/common/http';
+import { IModalData } from '../popup-alert/popup-interface';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -339,7 +340,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
-    //appId = 2148;
+    //appId = 2483;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -835,6 +836,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // }
       }
     );
+  }
+
+  openFileUpload() {
+    this.services.rloui.openFileUpload(this.ApplicationId);
   }
 
 }

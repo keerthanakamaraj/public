@@ -290,7 +290,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
-    
+
     //UW
     if (this.readOnly) {
       this.setReadOnly(this.readOnly);
@@ -390,20 +390,20 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.SellerState.setValue(PropertyElement['SLState']);
             this.SellerMobileNo.setValue(PropertyElement['SLMobileNo']);
             this.HidePropertySeq.setValue(PropertyElement['PropertySeq'])
-
-
           });
 
-          // this.revalidate(false).then((errors) => {
-          //     let array = [];
-          //     array.push({ isValid: true, sectionData: this.getFieldValue() });
-          //     let obj = {
-          //         "name": "PropertyDetails",
-          //         "data": array,
-          //         "sectionName": "PropertyDetails"
-          //     }
-          //     this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          // });
+          this.revalidate().then((errors) => {
+            if (!errors) {
+              let array = [];
+              array.push({ isValid: true, sectionData: this.getFieldValue() });
+              let obj = {
+                "name": "PropertyDetails",
+                "data": array,
+                "sectionName": "PropertyDetails"
+              }
+              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+            }
+          });
         }
       },
       async (httpError) => {

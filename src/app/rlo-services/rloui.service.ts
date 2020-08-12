@@ -47,7 +47,7 @@ export class RlouiService {
     { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" },
     { componentName: "FeesChargesDetailsComponent", iconClass: "icon-fees-charges" },
     { componentName: "DisbursementDetailsComponent", iconClass: "icon-disbursement-details" },
-    { componentName: "OccupationDetails", iconClass: "icon-Asset-Details" },
+    { componentName: "OccupationDetails", iconClass: "icon-Occupation-Details" },
     { componentName: "IncomeSummary", iconClass: "icon-Income-Summary" },
     { componentName: "LiabilityDetails", iconClass: "icon-Liability-Details" },
     { componentName: "AssetDetails", iconClass: "icon-Asset-Details" },
@@ -55,7 +55,7 @@ export class RlouiService {
     { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
     { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
     { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
-    { componentName: "PropertyDetails", iconClass: "icon-Asset-Details" }
+    { componentName: "PropertyDetails", iconClass: "icon-property" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -399,6 +399,27 @@ export class RlouiService {
           }
         }
       });
+    });
+  }
+
+  //opening file upload modal
+  openFileUpload(ApplicationId) {
+    let modalObj: IModalData = {
+      title: '',
+      mainMessage: undefined,
+      modalSize: 'modal-doc-upload-width',
+      buttons: [],
+      componentName: 'FileUpload',
+      data: '',
+      applicationId: Number(ApplicationId)
+    };
+    this.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.closeAllConfirmationModal();
+        }
+      }
     });
   }
 
