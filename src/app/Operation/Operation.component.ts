@@ -22,6 +22,7 @@ import { from } from 'rxjs';
 import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetails.component';
 import { IModalData } from '../popup-alert/popup-interface';
 import { string } from '@amcharts/amcharts4/core';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 const customCss: string = '';
 
 @Component({
@@ -32,15 +33,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
   @ViewChild('CUST_GRID', { static: false }) CUST_GRID: CustGridComponent;
   @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
-  @ViewChild('AD_CUST_STATUS', { static: false }) AD_CUST_STATUS: TextBoxComponent;
-  
-    @ViewChild('AD_CUST_REMARKS', { static: false }) AD_CUST_REMARKS: TextAreaComponent;
+  @ViewChild('AD_CUST_STATUS', { static: false }) AD_CUST_STATUS: RLOUIRadioComponent;
+  @ViewChild('AD_CUST_REMARKS', { static: false }) AD_CUST_REMARKS: TextAreaComponent;
 
   @ViewChild('CreditCard', { static: false }) CreditCard: CreditCardDetailsComponent;
   @ViewChild('G_LETTER', { static: false }) G_LETTER: ButtonComponent;
   @ViewChild('OPERATION_APPROVE', { static: false }) OPERATION_APPROVE: ButtonComponent;
   @ViewChild('OPERATION_WITHDRAW', { static: false }) OPERATION_WITHDRAW: ButtonComponent;
-  @ViewChild('OPERATION_SENDBACK', { static: false }) OPERATION_SENDBACK: ButtonComponent;  
+  @ViewChild('OPERATION_SENDBACK', { static: false }) OPERATION_SENDBACK: ButtonComponent;
   @ViewChild('DisbustAmt', { static: false }) DisbustAmt: TextBoxComponent;
   @ViewChild('LOAN_DBR', { static: false }) LOAN_DBR: TextBoxComponent;
   @ViewChild('EMI_Amt', { static: false }) EMI_Amt: TextBoxComponent;
@@ -55,6 +55,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
+  @ViewChild('OPERATION_CLOSE', { static: false }) OPERATION_CLOSE: ButtonComponent;
 
   @Input() isLoanCategory: any = undefined;
   @Input() ProductCode: any = undefined;
@@ -122,6 +123,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.AD_CUST_STATUS.setReadOnly(true);
     await this.brodcastApplicationId();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
+    //this.mapCustomerDecision();
     this.fetchCustomerDecisionDetails();
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
@@ -502,7 +504,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.services.rloui.goBack();
   }
 
-  
+
 
 
 
@@ -776,9 +778,42 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       }
     );
   }
+  mapCustomerDecision() {
+    this.AD_CUST_STATUS.setValue(this.APPLICATION_DETAILS.CustomerConfirmationStatus);
+    this.AD_CUST_REMARKS.setValue(this.APPLICATION_DETAILS.CustomerConfirmationRemarks);
+  }
 
   openFileUpload() {
     this.services.rloui.openFileUpload(this.ApplicationId);
   }
 
+  async OPERATION_CLOSE_click(event) {
+    // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.close.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      // console.log("deep ===", modalObj);
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
 }

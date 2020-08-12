@@ -39,6 +39,8 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
 
   @Input() ApplicationId: string = undefined;
+  CustomerConfirmationStatus:string=undefined;
+            CustomerConfirmationRemarks:string=undefined;
 
 
   async revalidate(showErrors: boolean = true): Promise<number> {
@@ -106,6 +108,8 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
+            this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
+            this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;
             let array = [];
             array.push({ isValid: true, sectionData: this.getFieldValue() });
             let obj = {

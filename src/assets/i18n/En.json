@@ -174,6 +174,7 @@
     "rlo.error.property.tot-proj-completion-percent":"Total Project Completion should be 100%",
     "rlo.success.letter":"Sanction Letter sent to Customer!",
 
+    "rlo.close.comfirmation":"Are you sure you want to Close?",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
@@ -2122,7 +2123,8 @@
     "FieldId_8": "Card Information",
     "Apved_Limit": "Approved Limit",
     "Card_DBR": "DBR",
-    "Document_Information":"Document Information"
+    "Document_Information":"Document Information",
+    "OPERATION_CLOSE":"Close"
   },
   "CustGrid": {
     "Cust_Type": "Customer Type",
