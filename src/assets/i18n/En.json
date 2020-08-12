@@ -2105,7 +2105,7 @@
     "Principal": "Principal"
   },
   "Operation": {
-    "FieldId_1": "Operation Queue",
+    "FieldId_1": "Operations Queue",
     "ApplicationInfo": "Application Information",
     "FormTitle": "Operation",
     "VIEW_DDE": "View DDE",
