@@ -114,8 +114,8 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     this.collateralCommonFields.customerNumber = this.custId;
     this.selectedItemId = this.collateralCommonFields.collateralSubtype;
     // @CLO-RLO-Merge - Use Class Lavel Variable for CollType - As discussed with Kalpesh
-    // this.appService.setCollateral(this.collateralCommonFields.collateralType);
-    // this.collType = this.appService.getCollateral().getValue();
+    this.appService.setCollateral(this.collateralCommonFields.collateralType);
+    this.collType = this.appService.getCollateral().getValue();
     // @CLO-RLO-Merge - Use RLO Date Formatter
     // this.collateralCommonFields.inputDate = this.utility.formatDateObject(new Date());
     await this.getUDFDetails();
@@ -243,10 +243,10 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
   listenCollateralChanges() {
     // called on collateral type changes and changes the udf fields
     // @CLO-RLO-Merge - Use Class Lavel Variable for CollType - As discussed with Kalpesh
-    // this.appService.getCollateral().subscribe(() => {
-    //   this.collType = this.appService.getCollateral().getValue();
-    //   this.getUDFDetails();
-    // });
+    this.appService.getCollateral().subscribe(() => {
+      this.collType = this.appService.getCollateral().getValue();
+      this.getUDFDetails();
+    });
   }
 
   async getUDFDetails() {

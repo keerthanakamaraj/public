@@ -46,6 +46,7 @@ import { NotepadDetailsFormComponent } from './NotepadDetailsForm/NotepadDetails
 import { NotepadDetailsFormModule } from './NotepadDetailsForm/NotepadDetailsForm.module';
 import { PopUpAlertModule } from './popup-alert/popup-alert-module';
 import { DatePipe } from '@angular/common';
+import { appDataProvider } from './services/appDataProvider.service';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
@@ -132,6 +133,7 @@ const keycloakService = new KeycloakService();
     RoutingService,
     RefreshSidebarService,
     DatePipe,
+    appDataProvider,
     FormBuilder,
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
     {

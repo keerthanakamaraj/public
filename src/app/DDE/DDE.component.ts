@@ -44,9 +44,10 @@ import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
-import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component'
+import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 import { IModalData } from '../popup-alert/popup-interface';
+import { CollateralParentComponent } from '../collateral/collateral-parent/collateral-parent.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -182,7 +183,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
       { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
       { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: false },
-      // { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
+      { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
     ],
     [
       { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
@@ -832,6 +833,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //     componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
     // }
 
+    if(componentId == 'CollateralDetails'){
+      componentInstance.trnProposalId = this.ApplicationId;      
+    }
+
     this.services.rloCommonData.dynamicComponentInstance = componentInstance;
 
     this.validateMenuNavigation(ele1, ele2, this.formMenuObject.selectedMenuId);
@@ -880,6 +885,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       case 'IncomeSummary':
         return new AddSpecificComponent(IncomeSummaryFormComponent);
+        break;
+      case 'CollateralDetails':
+        return new AddSpecificComponent(CollateralParentComponent);
         break;
       case 'GoNoGoDetails':
         return new AddSpecificComponent(GoNoGoComponent);

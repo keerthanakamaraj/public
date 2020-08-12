@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { forkJoin, Observable, Subject } from 'rxjs';
 // import { CommonFunctions } from '../common/common-functions';
 // import { IGCBMinMaxDateModel } from '../igcb-datepicker/igcb-datepicker.component';
-// import { appDataProvider } from '../services/appDataProvider.service';
+import { appDataProvider } from '../services/appDataProvider.service';
 // import { UserAccessEntitlement } from '../services/user-access-entitlement.service';
 // import { UtilityService } from '../services/utility.service';
 // import { ToolTipError } from '../tooltip-error';
@@ -35,7 +35,7 @@ export class FormCommonComponent implements OnInit {
   public formContext = new FormContext();
   // public userAccessEntitle = new UserAccessEntitlement(null);
   // public pfms = new ProductFieldMapService(null);
-  // public appService: appDataProvider;
+  public appService: appDataProvider;
   public flag = 0;
   public tenantFieldMaps: Array<TenantFieldMap> = new Array();
   public serviceName = '';
@@ -173,7 +173,7 @@ export class FormCommonComponent implements OnInit {
   constructor(public utility: UtilityService, public services: ServiceStock) {
     // constructor(public services: ServiceStock ) {
 
-    // this.appService = utility.getAppService();
+    this.appService = utility.getAppService();
     this.logoPath = "assets/images/logo-header.png";
     if (!FormCommonComponent.initModulesSuccess && !this.isOverrideAllowed()) {
       window.location.hash = '/initmodules?redirectHash=' + encodeURIComponent(window.location.hash);

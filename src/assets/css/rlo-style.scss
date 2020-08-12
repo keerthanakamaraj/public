@@ -3357,3 +3357,204 @@ rlo-ui-card-field {
 //     color:#565656;
 // }
 // }
+
+/*
+* CLO Collateral Styles override
+*/
+
+.panel {
+  border: none;
+  padding: 0;
+}
+
+.collateral-panel {
+  // height: 650px;
+  // overflow: auto;
+  // padding: 10px 10px 20px 10px;
+
+  .section-head {
+    font-size: 16px;
+  }
+
+  .btn {
+    width: 100%;
+    white-space: normal;
+    box-sizing: border-box;
+    // border: 1px solid #0079B8 !important;
+    border-radius: 4px !important;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 17px;
+    text-align: center;
+    margin: 5px 0;
+  }
+
+  .btn-primary {
+    width: 100% !important;
+    height: fit-content !important;
+    padding: .35rem 1rem;    
+  }
+
+  label {
+    line-height: 12px;
+    font-size: 12px;
+    margin: 2px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-control {
+    margin-top: 24px;
+  }
+
+  .ng-select {
+    margin-top: 24px;
+    width: 100%;
+  }
+
+  // .radio-container {
+  //   position: relative;
+  //   padding-left: 25px;
+  //   margin: 0 12px 0 0;
+  //   cursor: pointer;
+  //   font-size: 12px;
+  //   -webkit-user-select: none;
+  //   -moz-user-select: none;
+  //   -ms-user-select: none;
+  //   user-select: none;
+  //   line-height: 18px;
+
+  //   input {
+  //     position: absolute;
+  //     opacity: 0;
+  //     cursor: pointer;
+  //     left: 0;
+  //     top: 0;
+  //     margin: 0;
+  //     border-color: rgb(204, 204, 204);
+  //   }
+
+  //   input:checked~.checkmark {
+  //     background-color: #0079b8;
+  //     border: 1px solid #0079b8;
+
+  //     &::after {
+  //       content: "";
+  //       position: absolute;
+  //       display: none;
+  //       top: 5px;
+  //       left: 5px;
+  //       width: 4px;
+  //       height: 4px;
+  //       border-radius: 50%;
+  //       background: #fff;
+  //     }
+  //   }
+
+
+  //   .checkmark {
+  //     position: absolute;
+  //     top: 0;
+  //     left: 0;
+  //     height: 16px;
+  //     width: 16px;
+  //     background: #fff;
+  //     border: 1px solid #9a9a9a;
+  //     border-radius: 50%;
+  //     opacity: 1;      
+  //   }
+  // }
+
+  .radio-container {
+    position: relative;
+    padding-left: 25px;
+    margin: 0 12px 0 0;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    line-height: 18px;
+    width: auto;    
+  }
+  .radio-container .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background: #FFF;
+    border: 1px solid #9a9a9a;
+    border-radius: 50%;
+    opacity: 1;    
+  }
+  .radio-container .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 5px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FFF;
+  }
+  .radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    left: 0;
+    top: 0;
+    margin: 0;    
+  }
+  .radio-container input:checked ~ .checkmark {
+    background-color: #0079b8;
+    border: 1px solid #0079b8;
+  }
+  .radio-container input:focus ~ .checkmark {
+    outline: 0;
+  }
+  .radio-container input:focus ~ .checkmark {
+    box-shadow: 0 0 2px 2px #004d8a;
+  }
+  .radio-container input:disabled:not(:checked) ~ .checkmark {
+    cursor: not-allowed;
+  }
+  .radio-container input:disabled:not(:checked) ~ .checkmark {
+    background: #ccc;
+  }
+  .radio-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  /**
+  * Radio button wrapper
+  * Styles for the wrapper div which contains a series of radio buttons within forms.
+  */
+  .radio-wrapper {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px 6px 0;
+    font-size: 14px;
+    margin-top: 24px;
+  }
+  .radio-container {
+    margin-bottom: 1em;
+  }
+
+  .input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    margin-top: 24px;
+
+    .form-control {
+      margin-top: 0;
+    }
+  }
+
+
+}

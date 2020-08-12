@@ -132,16 +132,18 @@ export class CoreREST {
         // if (elem instanceof Date) {
         //pFormData[key] = window['moment'](elem).format(AppComponent.component.utility.getTenant().dateFormat.toUpperCase());
         // } else {
-        const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DDTHH:mm:ssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
-        if (isDateChk.isValid()) {
-          pFormData[key] = isDateChk.format('DD-MMM-YYYY');
-        } else if (elem instanceof Array) {
-          pFormData[key] = this.encodePostDataArray(elem);
-        } else if (elem instanceof Object) {
-          pFormData[key] = this.encodeURIPostData(elem);
-        } else {
+
+        // @CLO-RLO-Merge - Date format
+        // const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DDTHH:mm:ssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
+        // if (isDateChk.isValid()) {
+        //   pFormData[key] = isDateChk.format('DD-MMM-YYYY');
+        // } else if (elem instanceof Array) {
+        //   pFormData[key] = this.encodePostDataArray(elem);
+        // } else if (elem instanceof Object) {
+        //   pFormData[key] = this.encodeURIPostData(elem);
+        // } else {
           pFormData[key] = elem;
-        }
+        // }
         // }
       }
       return pFormData;
@@ -155,16 +157,18 @@ export class CoreREST {
       // if (elem instanceof Date) {
       //   result.push(window['moment'](elem).format(AppComponent.component.utility.getTenant().dateFormat.toUpperCase()));
       // } else {
-      const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
-      if (isDateChk.isValid()) {
-        result.push(isDateChk.format('DD-MMM-YYYY'));
-      } else if (elem instanceof Array) {
-        result.push(this.encodePostDataArray(elem));
-      } else if (elem instanceof Object) {
-        result.push(this.encodeURIPostData(elem));
-      } else {
+
+      // @CLO-RLO-Merge - Date format
+      // const isDateChk = window['moment'](elem, ['YYYY-MM-DDTHH:mm:ss.sssZ', 'YYYY-MM-DD HH:mm:SS.s'], true);
+      // if (isDateChk.isValid()) {
+      //   result.push(isDateChk.format('DD-MMM-YYYY'));
+      // } else if (elem instanceof Array) {
+      //   result.push(this.encodePostDataArray(elem));
+      // } else if (elem instanceof Object) {
+      //   result.push(this.encodeURIPostData(elem));
+      // } else {
         result.push(elem);
-      }
+      // }
       // }
     });
     return result;

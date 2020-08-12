@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 export class CLOEnrichService extends CoreREST {
 
   // public context: string = '/clo-enrichments/publisher/v1';
-  public context: string = '/rlo-de/publisher/v1';
+  public context: string = '/common-de/publisher/v1';
 
 	// public constructor(public http: HttpClient, public auth: IamService) {
   public constructor(public http: HttpClient) {

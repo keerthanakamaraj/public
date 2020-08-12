@@ -46,11 +46,12 @@ export class CollateralParentComponent extends FormCommonComponent implements On
     if (dat['DemographicIndividualDetails']) {
       demographicDetail = demographicDetail.concat(dat['DemographicIndividualDetails']);
     }
-    const borrowerDetail = demographicDetail.find(customerData => customerData['CustomerType'] === '001');
-    if (borrowerDetail && borrowerDetail['CoreCustId']) {
-      custNumber = this.utility.padLeft(borrowerDetail['CoreCustId'], '0', 10);
-    } else if (borrowerDetail && borrowerDetail['icifNumber']) {
-      custNumber = this.utility.padLeft(borrowerDetail['icifNumber'], '0', 10);
+    // const borrowerDetail = demographicDetail.find(customerData => customerData['CustomerType'] === '001');
+    const borrowerDetail = demographicDetail.find(customerData => customerData['CUSTOMERTYPE'] === 'B');
+    if (borrowerDetail && borrowerDetail['CORECUSTID']) {
+      custNumber = this.utility.padLeft(borrowerDetail['CORECUSTID'], '0', 10);
+    } else if (borrowerDetail && borrowerDetail['ICIFNUMBER']) {
+      custNumber = this.utility.padLeft(borrowerDetail['ICIFNUMBER'], '0', 10);
     }
     if (this.collateralList) {
       this.collateralList.custId = custNumber;

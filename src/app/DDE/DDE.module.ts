@@ -32,6 +32,7 @@ import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module
 import {PolicyCheckResultModule} from '../policy-check-result/policy-check-result.module';
 import {ScoreCardResultModule} from '../score-card-result/score-card-result.module';
 import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module';
+import { CollateralModule } from '../collateral/collateral.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -69,7 +70,8 @@ import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module
         ApplicationDtlsModule,
         PolicyCheckResultModule,
         ScoreCardResultModule,
-        PropertyDetailsModule
+        PropertyDetailsModule,
+        CollateralModule,
     ],
     declarations: [
         DDEComponent

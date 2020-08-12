@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { appDataProvider } from './appDataProvider.service';
+import { appDataProvider } from './appDataProvider.service';
 import { CLOCommonService } from '../core-rest/clo-common';
 import { CLOEnrichService } from '../core-rest/clo-enrich';
 // import { CLOInitiationsService } from '../core-rest/clo-init';
@@ -32,7 +32,7 @@ export class UtilityService {
     // private tenant: Tenant, 
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe, 
-    // private appService: appDataProvider,
+    private appService: appDataProvider,
     // private httpService: ProvidehttpService, 
     private common: CLOCommonService,
     // private initiate: CLOInitiationsService, 
@@ -72,9 +72,9 @@ export class UtilityService {
     return this.datePipe;
   }
 
-  // public getAppService(): appDataProvider {
-  //   return this.appService;
-  // }
+  public getAppService(): appDataProvider {
+    return this.appService;
+  }
 
   // public getHttpService(): ProvidehttpService {
   //   return this.httpService;
