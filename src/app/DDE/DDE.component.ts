@@ -231,7 +231,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       score: 54,
     },
     {
-      type: "Fire Policy",
+      type: "Policy Score",
       score: 36,
     },
     {
@@ -961,6 +961,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             if (section.id == "LoanDetails")
               element.splice(i, 1);
             defaultSection = 'ApplicationDetails';
+          }
+
+          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+          if(this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY != 'ML'){
+            if (section.id == "PropertyDetails")
+              element.splice(i, 1);
           }
         }
       });
