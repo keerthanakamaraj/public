@@ -65,7 +65,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   buttonName: any = 'Show';
   passApplicationId: any;
   LoanCat: any;
-  // LETTERMGMTFORMAT = "Ref_no: 20200730093231022213</p>\r\n\r\n\r\n</p>\r\n\r\nDear Jonas Brandt ,</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nRe: Invoice no : 0111000154199 in respect of your purchase from OTTO.de</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis is to inform you that there will be a debit of 215.01 EUR on 17-JUL-2020 from your bank account with number DE000000111000154199</p>\r\n\r\nbasis mandate id : 20200624121109014765</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nThis payment will appear in your bank statement as Hanseatic Bank GmbH + Co.</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nSincerely yours,</p>\r\n\r\n\r\n</p>\r\n\r\nOTTO Customer Service</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\n\r\n</p>\r\n\r\nPlease do not reply to this email as this is an auto generated intimation.</p>";
+  clicked = false;
   userId: any;
   taskId: any;
   instanceId: any;
@@ -213,14 +213,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.APPLICATION_DETAILS.ApplicationId = this.ApplicationId;
     this.CUST_GRID.ApplicationId = this.ApplicationId;
     this.passApplicationId = this.ApplicationId;
-    console.log("juhi::", this.passApplicationId);
+    // console.log("juhi::", this.passApplicationId);
   }
   brodcastProdCategory(event) {
     //  event.isLoanCategory false when type is 'CC'
     this.isLoanCategory = event.isLoanCategory;
     this.ProductCode = this.services.rloCommonData.globalApplicationDtls.ProductCode
-    console.log("Loan type", this.isLoanCategory);
-    console.log("Juhi", this.ProductCode);
+    // console.log("Loan type", this.isLoanCategory);
+    // console.log("Juhi", this.services.rloCommonData.globalApplicationDtls.TypeOfLoanName);
     setTimeout(() => {
       this.isLoan();
     }, 2000);
@@ -243,12 +243,74 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           let errorMsg = "";
           var mainMessage = this.LetterArray;
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
-          // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
+        //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+        //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+        // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+        //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+        //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+        //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+        //       msg = msg.replace(/Personal/gi,loanType);
+        //       msg = msg.replace(/7500/gi, loanAmt);
+        //       msg = msg.replace(/Scheme/gi, schemeName);
+        //   console.log("repalce", msg)
           Promise.all([mainMessage, button1]).then(values => {
-            console.log(values);
             const modalObj: IModalData = {
               title: "Sanction Letter",
+              // mainMessage: values[0],
+              rawHtml: values[0],
+              modalSize: "modal-width-lg",
+              buttons: [
+                // { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+            }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.rloui.closeAllConfirmationModal();
+                }
+              }
+            });
+          });
+
+        }
+      },
+      (httpError) => {
+        console.error(httpError);
+        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+      });
+  }
+  salaryLetter() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let requestParams;
+    inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-2");
+    inputMap.set('QueryParam.sourceType', "Salary Certificate");
+    inputMap.set('QueryParam.sourceCd', "APPROVAL");
+
+    this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.LetterArray;
+        if (res) {
+          this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
+          let errorMsg = "";
+          var mainMessage = this.LetterArray;
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+        //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+        // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+        //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+        //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+        //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+        //       msg = msg.replace(/Personal/gi,loanType);
+        //       msg = msg.replace(/7500/gi, loanAmt);
+        //       msg = msg.replace(/Scheme/gi, schemeName);
+        //   console.log("repalce", msg)
+          Promise.all([mainMessage, button1]).then(values => {
+            const modalObj: IModalData = {
+              title: "Salary Certificate",
               // mainMessage: values[0],
               rawHtml: values[0],
               modalSize: "modal-width-lg",
@@ -278,18 +340,20 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     if (!this.isLoanCategory) {//ie. loan type credit card
       this.Apved_Limit.setReadOnly(true);
       this.Card_DBR.setReadOnly(true);
+      this.Card_DBR.setHidden(true);
       this.fetchCardDetails();
-      console.log("Card is working");
+      // console.log("Card is working");
     }
     else {//CC type loan
       this.DisbustAmt.setReadOnly(true);
       this.LOAN_DBR.setReadOnly(true);
       this.EMI_Amt.setReadOnly(true);
+      this.LOAN_DBR.setHidden(true);
       this.fetchLoanDetails();
-
-      console.log("loan is working");
+      // console.log("loan is working");
     }
   }
+
   fetchLoanDetails() {
     let inputMap = new Map();
     inputMap.clear();
@@ -344,7 +408,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
       }
-    );
+    ); 
   }
 
   fetchCardDetails() {
@@ -402,9 +466,34 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
   onLetterClick() {
-    this.show = !this.show;
-    if (this.show)
+      // var mainMessage = this.services.rloui.getAlertMessage('', 'Sanction Letter sent to Customer!');
+      // var button1 = this.services.rloui.getAlertMessage('', 'OK');
+      // // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+      // Promise.all([mainMessage, button1]).then(values => {
+      //   console.log(values);
+      //   let modalObj = {
+      //     title: "Success",
+      //     rawHtml: values[0],
+      //     modalSize: "modal-width-sm",
+      //     buttons: [
+      //       { id: 1, text: values[1], type: "success", class: "btn-primary" },
+      //       //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+      //     ]
+      //   }
+      //   this.services.rloui.confirmationModal(modalObj).then((response) => {
+      //     console.log(response);
+      //     if (response != null) {
+      //       if (response.id === 1) {
+      //         this.services.rloui.closeAllConfirmationModal();
+      //       }
+      //     }
+      //   });
+      // });
+      this.services.alert.showAlert(1, 'rlo.success.letter', 5000);
+      this.show = !this.show;
+    if (this.show){
       this.buttonName = "show";
+    }
   }
   fieldDependencies = {
   }
@@ -434,28 +523,24 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       });
 
     }
-    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
-    this.services.http.fetchApi('/ApplicationDetails', 'GET', inputMap, '/initiation').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.custArray = [];
-
-        if (res !== null) {
-          this.custArray = res['ApplicationDetails'];
-
-          this.custArray.forEach(async custElement => {
-            this.AD_CUST_REMARKS.setValue(custElement['CustomerConfirmationRemarks']);
-            // this.LOAN_DBR.setValue(loanDtls['InterestRate']);
-            this.AD_CUST_STATUS.setValue(custElement['CustomerConfirmationStatus']);
-          });
+    if (this.ApplicationId) {
+      inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
+      // inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+      this.services.http.fetchApi('/ScoreCardDtls', 'GET', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          let res = httpResponse.body;
+          console.log("new res",res);
+          // let tempScoreCardResultList = res['ScoreCardDetails'];
+          // this.parseScoreCardResultJson(tempScoreCardResultList);
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-      }
-    );
+      );
+    }
   }
   async claimTask(taskId) {
     const inputMap = new Map();

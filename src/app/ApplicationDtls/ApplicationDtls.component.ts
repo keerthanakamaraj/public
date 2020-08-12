@@ -94,8 +94,13 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
 
           var applDtls = res['ApplicationDetails'];
           if (applDtls) {
-
-            this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+            
+            if (this.AD_PHYSICAL_FORM_NO.getFieldValue() == undefined && this.AD_PHYSICAL_FORM_NO.getFieldValue() == null) {
+              this.AD_PHYSICAL_FORM_NO.setValue("NA");
+            }
+            else {
+              this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+            }
             this.AD_DATE_OF_RECIEPT.setValue(moment(applDtls.ApplicationInfo.CreatedOn, 'DD-MM-YYYY HH:mm:ss').format('DD-MM-YYYY'));
             // this.AD_EXISTING_CUSTOMER.setValue(applDtls.ExistingCustomer);
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
