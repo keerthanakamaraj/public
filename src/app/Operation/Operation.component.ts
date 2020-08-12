@@ -596,7 +596,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        if (res.Status == 'S') {
+        if (httpResponse.status == 200){
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
           var mainMessage = this.services.rloui.getAlertMessage('rlo.success.submit');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -662,7 +662,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        if (res.Status == 'S') {
+        if (httpResponse.status == 200){
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
           var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -728,7 +728,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        if (res.Status == 'S') {
+        if (httpResponse.status == 200){
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
           var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
