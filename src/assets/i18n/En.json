@@ -170,6 +170,8 @@
     "rlo.error.update.feesCharges": "The Fees & Charges could not be updated. Please try again.",
     "rlo.delete-customer.comfirmation": "Are you sure you want to delete the customer?",
     "rlo.error.ExpDateOfCompletion.invalid":"The Date of Project Completion entered is invalid. Please correct it.",
+    "rlo.error.property.tot-disburse-amt":"Sum of Disbursement Amount does not match",
+    "rlo.error.property.tot-proj-completion-percent":"Total Project Completion should be 100%",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

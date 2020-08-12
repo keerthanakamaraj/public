@@ -15,60 +15,82 @@ import { string } from '@amcharts/amcharts4/core';
 import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 const customCss: string = '';
 @Component({
-selector: 'app-DisbursInputGrid',
-templateUrl: './DisbursInputGrid.component.html'
+  selector: 'app-DisbursInputGrid',
+  templateUrl: './DisbursInputGrid.component.html'
 })
 export class DisbursInputGridComponent extends GridComponent implements OnInit {
-@ViewChildren('ProjectCompletion')ProjectCompletion : QueryList<TextAreaComponent>;
-@ViewChildren('DisbursementAmount')DisbursementAmount : QueryList<AmountComponent>;
-s : string = undefined;
-constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
-super(services, cdRef);
-this.value = new DisbursInputGridModel();
-this.componentCode = 'DisbursInputGrid';
-this.initRowCount = 1;
-this.uniqueColumns = [];
-this.primaryColumns = [];
- 
-}
-ngOnInit(){
-if(this.gridType==1){this.initRows();}
-var styleElement = document.createElement('style');
-styleElement.type = 'text/css';
-styleElement.innerHTML = customCss;
-styleElement.id = 'DisbursInputGrid_customCss';
-document.getElementsByTagName('head')[0].appendChild(styleElement);
+  @ViewChildren('ProjectCompletion') ProjectCompletion: QueryList<TextAreaComponent>;
+  @ViewChildren('DisbursementAmount') DisbursementAmount: QueryList<AmountComponent>;
+  @ViewChildren('deleteRow') DeleteRow: QueryList<AmountComponent>;
+  @ViewChildren('AddRow') AddRow: QueryList<AmountComponent>;
+  s: string = undefined;
+  constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
+    super(services, cdRef);
+    this.value = new DisbursInputGridModel();
+    this.componentCode = 'DisbursInputGrid';
+    this.initRowCount = 1;
+    this.uniqueColumns = [];
+    this.primaryColumns = [];
 
-}
-ngOnDestroy(){
-for(var i=0;i<this.unsubscribeRow$.length;i++){
-this.unsubscribeRow$[i].next();
-this.unsubscribeRow$[i].complete();
-}
-var styleElement = document.getElementById('DisbursInputGrid_customCss');
-styleElement.parentNode.removeChild(styleElement);
-}
-ngAfterViewInit(){
-setTimeout(()=>{
-this.gridLoad();
-});
-}
-async gridLoad(){
-}
-async onRowAdd(rowNo){
-}
-async onRowDelete(rowNo){
-}
-getFieldInfo(){
-let addInfo = [];
-for(var i = 0; i < this.getRowsCount(); i++){
-let row = {};
-row['DisbursementAmount_desc'] = this.DisbursementAmount.toArray()[i].getFieldInfo();
-addInfo.push(row);
-}
-this.additionalInfo = addInfo;
-return addInfo;
-}
-fieldDependencies = {}
+  }
+  ngOnInit() {
+    if (this.gridType == 1) { this.initRows(); }
+    var styleElement = document.createElement('style');
+    styleElement.type = 'text/css';
+    styleElement.innerHTML = customCss;
+    styleElement.id = 'DisbursInputGrid_customCss';
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
+
+  }
+  ngOnDestroy() {
+    for (var i = 0; i < this.unsubscribeRow$.length; i++) {
+      this.unsubscribeRow$[i].next();
+      this.unsubscribeRow$[i].complete();
+    }
+    var styleElement = document.getElementById('DisbursInputGrid_customCss');
+    styleElement.parentNode.removeChild(styleElement);
+  }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.gridLoad();
+    });
+  }
+  async gridLoad() {
+  }
+  async onRowAdd(rowNo) {
+  }
+  async onRowDelete(rowNo) {
+  }
+
+  getTotProjCompletionPercent() {
+    console.log("shweta :: ProjectCompletion % ", this.ProjectCompletion);
+    let totPercent: number = 0;
+    this.ProjectCompletion.forEach((element: any) => {
+      console.log("shweta :: inside for loop", element.getFieldValue());
+      totPercent += parseFloat(element.getFieldValue());
+    });
+    return totPercent;
+  }
+
+  getTotAmtToBeDisbursed() {
+    console.log("shweta :: DisbursementAmount", this.DisbursementAmount);
+    let totAmount: number = 0;
+    this.DisbursementAmount.forEach((element: any) => {
+      console.log("shweta :: inside amt for loop", element.getFieldValue());
+      totAmount += parseFloat(element.getFieldValue());
+    });
+    return totAmount;
+  }
+  getFieldInfo() {
+    let addInfo = [];
+    for (var i = 0; i < this.getRowsCount(); i++) {
+      let row = {};
+      row['DisbursementAmount_desc'] = this.DisbursementAmount.toArray()[i].getFieldInfo();
+      addInfo.push(row);
+    }
+    this.additionalInfo = addInfo;
+    return addInfo;
+  }
+  fieldDependencies = {}
 
 }

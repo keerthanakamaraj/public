@@ -531,8 +531,9 @@
                   <app-text-box #NoOfMilestones fieldID="NoOfMilestones" [formCode]="formCode"
                     (blur)="genericOnBlur('NoOfMilestones', $event)"></app-text-box>
                 </div>
-                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_41.isHidden()">
-                  <app-DisbursInputGrid #FieldId_41 fieldID="FieldId_41" [formCode]="formCode"></app-DisbursInputGrid>
+                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="disbursalInputGrid.isHidden()">
+                  <app-DisbursInputGrid #disbursalInputGrid fieldID="disbursalInputGrid" [formCode]="formCode">
+                  </app-DisbursInputGrid>
                 </div>
               </div>
             </div>

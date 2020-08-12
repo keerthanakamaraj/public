@@ -82,7 +82,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('hideSellerType', { static: false }) hideSellerType: HiddenComponent;
   @ViewChild('hideMoratoriumPeriod', { static: false }) hideMoratoriumPeriod: HiddenComponent;
   @ViewChild('NoOfMilestones', { static: false }) NoOfMilestones: TextBoxComponent;
-  @ViewChild('FieldId_41', { static: false }) FieldId_41: DisbursInputGridComponent;
+  @ViewChild('disbursalInputGrid', { static: false }) disbursalInputGrid: DisbursInputGridComponent;
   @ViewChild('HidePropertySeq', { static: false }) HidePropertySeq: HiddenComponent;
   @ViewChild('hideBuilderName', { static: false }) hideBuilderName: HiddenComponent;
   // @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
@@ -138,7 +138,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.revalidateBasicField('MoratoriumPeriod'),
       this.revalidateBasicField('MoratoriamPeriodCheck'),
       this.revalidateBasicField('NoOfMilestones'),
-      this.FieldId_41.revalidate(),
+      this.disbursalInputGrid.revalidate(),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -155,7 +155,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
-    this.FieldId_41.setReadOnly(readOnly);
+    this.disbursalInputGrid.setReadOnly(readOnly);
 
   }
   async onFormLoad() {
@@ -252,16 +252,16 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
     this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
     this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-    this.additionalInfo['FieldId_41_desc'] = this.FieldId_41.getFieldInfo();
+    this.additionalInfo['disbursalInputGrid_desc'] = this.disbursalInputGrid.getFieldInfo();
     return this.additionalInfo;
   }
   getFieldValue() {
-    this.value.FieldId_41 = this.FieldId_41.getFieldValue();
+    this.value.disbursalInputGrid = this.disbursalInputGrid.getFieldValue();
     return this.value;
   }
   setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
-    this.FieldId_41.setValue(inputValue['FieldId_41'], inputDesc['FieldId_41_desc']);
+    this.disbursalInputGrid.setValue(inputValue['disbursalInputGrid'], inputDesc['disbursalInputGrid_desc']);
     this.value = new PropertyDetailsModel();
     this.value.setValue(inputValue);
     this.setDependencies();
@@ -285,8 +285,8 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   ngAfterViewInit() {
     setTimeout(() => {
       this.subsBFldsValueUpdates();
-      this.value.FieldId_41 = this.FieldId_41.getFieldValue();
-      this.FieldId_41.valueChangeUpdates().subscribe((value) => { this.value.FieldId_41 = value; });
+      this.value.disbursalInputGrid = this.disbursalInputGrid.getFieldValue();
+      this.disbursalInputGrid.valueChangeUpdates().subscribe((value) => { this.value.disbursalInputGrid = value; });
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
@@ -300,14 +300,14 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     super.clearBasicFieldsError();
     super.clearHTabErrors();
     super.clearVTabErrors();
-    this.FieldId_41.clearError();
+    this.disbursalInputGrid.clearError();
     this.errors = 0;
     this.errorMessage = [];
   }
   onReset() {
     super.resetBasicFields();
     this.clearHTabErrors();
-    this.FieldId_41.onReset();
+    this.disbursalInputGrid.onReset();
     this.clearVTabErrors();
     this.errors = 0;
     this.errorMessage = [];
@@ -416,8 +416,22 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async PD_Save_click(event) {
     let inputMap = new Map();
+    //note: add field value validation incase calculation going to be checked before olive revalidate call
+    
     var noOfError: number = await this.revalidate();
     if (noOfError == 0) {
+
+    //   const totProjCompletionPercent=this.disbursalInputGrid.getTotProjCompletionPercent();
+    // if(totProjCompletionPercent!=100){
+    //   this.services.alert.showAlert(2, 'rlo.error.property.tot-proj-completion-percent', -1);
+    //   return;
+    // } 
+    //   const expectedTotAmtToBeDisbursed:number=parseFloat(this.CostOfProperty.getFieldValue())-parseFloat(this.DownPaymentAmount.getFieldValue());
+    // const totAmtTobeDisbursed=this.disbursalInputGrid.getTotAmtToBeDisbursed();
+    //   if(totAmtTobeDisbursed.toFixed(2)!=expectedTotAmtToBeDisbursed.toFixed(2)){
+    //   this.services.alert.showAlert(2, 'rlo.error.property.tot-disburse-amt', -1);
+    //   return;
+    // }
       if (this.HidePropertySeq.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.PropertySeq', this.HidePropertySeq.getFieldValue());
