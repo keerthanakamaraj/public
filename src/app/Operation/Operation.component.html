@@ -31,6 +31,8 @@
     <app-hidden #HideAppId fieldID="HideAppId"></app-hidden>
     <app-hidden #HideServiceCodeComplete fieldID="HideServiceCodeComplete"></app-hidden>
     <app-hidden #hideDirection fieldID="hideDirection"></app-hidden>
+    <app-hidden #HideDecision fieldID="HideDecision"></app-hidden>
+
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
@@ -271,24 +273,27 @@
       </div>
       <div class="cust-acknwlg-Container col-12 col-sm-12 col-md-12">
         <br><br>
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_CUST_STATUS.isHidden()">
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
           <div class="clr-brown fieldLegend">
-            <label class="clr-brown" style="margin-bottom: 20px;">
+            <label class="clr-brown">
               {{ 'Operation.AD_CUST_STATUS' | translate}}
             </label>
           </div>
-          <app-text-box #AD_CUST_STATUS fieldID="AD_CUST_STATUS" [formCode]="formCode"
-            (blur)="genericOnBlur('AD_CUST_STATUS', $event)"></app-text-box>
+          <rlo-ui-radio #AD_CUST_STATUS fieldID="AD_CUST_STATUS" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_CUST_STATUS', $event)">
+          </rlo-ui-radio>
+          <!-- <rlo-ui-radio fieldID="AD_CUST_STATUS" 
+            [emittedOptions]="custStatusOptionList"></rlo-ui-radio> -->
         </div>
 
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_CUST_REMARKS.isHidden()">
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
           <div class="clr-brown fieldLegend">
             <label class="clr-brown" style="margin-bottom: 20px;">
               {{ 'Operation.AD_CUST_REMARKS' | translate}}
             </label>
           </div>
-          <app-text-area #AD_CUST_REMARKS fieldID="AD_CUST_REMARKS" [formCode]="formCode"
-            (blur)="genericOnBlur('AD_CUST_REMARKS', $event)"></app-text-area>
+          <app-text-area #AD_CUST_REMARKS fieldID="AD_CUST_REMARKS" (blur)="genericOnBlur('AD_CUST_REMARKS', $event)">
+          </app-text-area>
         </div>
       </div>
     </div>
