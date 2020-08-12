@@ -503,8 +503,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('Body.direction', 'AP');
+    inputMap.set('Body.ApplicationStatus', 'Approve');
+    inputMap.set('Body.CurrentStage', 'Operation');
+    inputMap.set('Body.ApplicationId', this.ApplicationId);    
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
-    this.services.http.fetchApi('/CompleteTask', 'POST', inputMap, '/los-wf').subscribe(
+    this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
@@ -565,8 +568,12 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('Body.direction', 'W');
+    inputMap.set('Body.ApplicationId', this.ApplicationId);    
+    inputMap.set('Body.ApplicationStatus', 'Withdraw');
+    inputMap.set('Body.CurrentStage', 'Operation');    
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
-    this.services.http.fetchApi('/CompleteTask', 'POST', inputMap, '/los-wf').subscribe(
+    this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
+
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
@@ -628,8 +635,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('Body.direction', 'SB');
+    inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.ApplicationStatus', 'Sendback'); 
+    inputMap.set('Body.CurrentStage', 'Operation');    
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
-    this.services.http.fetchApi('/CompleteTask', 'POST', inputMap, '/los-wf').subscribe(
+    this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
