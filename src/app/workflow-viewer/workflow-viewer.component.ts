@@ -130,7 +130,7 @@ export class WorkflowViewerComponent implements OnInit {
   getBPMCoordinates() {
     const url = 'https://rlfc.intellectseecapps.com/los-wf/rest/';
     const headers = { 'ServiceCode': 'getBPMNCoordinates', 'ProcessId': 'RLO_Process'};
-    const body = { 'TaskId': this.taskId, 'ProcessId': this.processId};
+    const body = { 'TaskId': this.taskId, 'ProcessId': this.processId, 'TENANT_ID': 'SB1'};
     return this.utility.getHttpClient().post(url, body, { headers });
   }
 
