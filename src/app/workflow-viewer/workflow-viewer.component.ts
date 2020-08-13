@@ -47,6 +47,8 @@ export class WorkflowViewerComponent implements OnInit {
   ngOnInit() {
 
     this.stage = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'stage');
+    this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+    this.processId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
 
     console.log("stage ", this.stage);
 
