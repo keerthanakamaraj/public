@@ -150,7 +150,7 @@ export class WorkflowViewerComponent implements OnInit {
     if (divCss.width == divCss.height) {
       $('#active-div').css({ 'border-radius': '50%' });
     }
-
+    $('#active-div').focus();
   }
 
   async delay(ms: number) {
