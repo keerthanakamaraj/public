@@ -219,7 +219,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   async MarginRate_blur(event) {
     this.Handler.CalculateNetInterestRate();
-  
+
   }
   OnLoanFormLoad() {
     let inputMap = new Map();
@@ -583,7 +583,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.totInterestAmt = undefined;
     this.totInstallmentAmt = undefined;
     if (this.LoanAmount.getFieldValue() && this.NetInterestRate.getFieldValue()) {
-      this.totInterestAmt = (parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue())).toFixed(2);
+      this.totInterestAmt = (parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue()) / 100).toFixed(2);
       this.totInstallmentAmt = (parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.totInterestAmt)).toFixed(2);
       this.TotalInterestAmount.setValue(this.services.formatAmount(this.totInterestAmt, null, null));
       this.TotalInstallmentAmt.setValue(this.services.formatAmount(this.totInstallmentAmt, null, null));
