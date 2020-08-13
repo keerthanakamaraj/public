@@ -10,15 +10,15 @@
         </ul>
     </div>
 
-    <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" *ngIf ="type == 'LandlineNo'" [maxlength]="10"
-       [minLength] = "8" [ngClass]="{'error' : error, 'input-readonly':readOnly}"
-        [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
-        [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />
-
-        <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" *ngIf ="type != 'LandlineNo'" [maxlength]="9"
+    <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" [maxlength]="maxLength"
         [ngClass]="{'error' : error, 'input-readonly':readOnly}"
         [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
         [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />
+
+        <!-- <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" *ngIf ="type != 'LandlineNo'" 
+        [ngClass]="{'error' : error, 'input-readonly':readOnly}"
+        [(ngModel)]="value" (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
+        [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" /> -->
 
     <span class="errorMessagespan error-country-code" *ngIf="error">{{errorCode | translate}}</span>
 </div>

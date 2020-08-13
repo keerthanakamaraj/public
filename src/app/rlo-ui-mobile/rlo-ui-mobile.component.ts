@@ -137,17 +137,15 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
 
   validateRegEx(value, event) {
     var totalErrors: number = 0;
-    //this.regex = "^([5]{1})([0-9]{7})*$";
-    if(this.type == 'LandlineNo'){ 
-    this.regex = "^[1-9][0-9]*$";
-    // this.maxLengthValidation = 7
-    }
-    else{
-      this.regex = "^[7][0-9]*$";
-      // this.maxLengthValidation = 8
-
-      // this.regex="^([7-9]{1})([0-9]+)*$";
-    }
+    // //this.regex = "^([5]{1})([0-9]{7})*$";
+    // if(this.type == 'LandlineNo'){ 
+    // this.regex = "^[1-9][0-9]*$";
+  
+    // }
+    // else{
+    //   this.regex = "^[7][0-9]*$";
+  
+    // }
    
     if (this.regex) {
       try {
