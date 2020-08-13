@@ -2168,7 +2168,6 @@
     "PerOfProjectCompletion": "Percent of Project Completion",
     "SellerCity": "City",
     "PropertyType": "Property Type",
-    "MoratoriamPeriod": "Select if interest will be capitalized during Moratorium Period",
     "SellerState": "State",
     "Contractor": "Contractor",
     "AmountToBeFinanced": "Amount To Be Financed",
@@ -2219,7 +2218,7 @@
     "NoOfMilestones": "No. of Milestones",
     "BlockNo": "Block No.",
     "SellerMobileNo": "Seller Landline / Mobile No.",
-    "MoratoriamPeriodCheck": "Select if intrest will be capitalized during Moratoriam Period"
+    "MoratoriamPeriodCheck": "Select if interest will be capitalized during Moratorium Period"
   },
   "DisbursInputGrid": {
     "ProjectCompletion": "% of Project Completion",
