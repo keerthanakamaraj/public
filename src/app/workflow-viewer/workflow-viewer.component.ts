@@ -115,10 +115,10 @@ export class WorkflowViewerComponent implements OnInit {
         this.addCssToDiv(this.flowBpmData.BPMNMetadata[i]);
         await this.blinkFor2s();
       }
-      if (this.currentBpmData != null && this.currentBpmData != undefined) {
+      //if (this.currentBpmData != null && this.currentBpmData != undefined) {
         //this.addCssToDiv(this.currentBpmData.BPMNMetadata[0]);
         this.addCssToDiv(this.getCoordinates(this.stage));
-      }
+      //}
       this.blinkContinuous();
     }
 
