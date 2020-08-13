@@ -73,49 +73,20 @@
         <div style=" width:100%; background:#CCCCCC ;height:1px;">
         </div>
       </div>
-
-      <app-label #ApplicationInfo parentCompCode="Operation" fieldID="ApplicationInfo" [formCode]="formCode">
+      <div class="app-Container">
+      <app-label class="group-default" #ApplicationInfo parentCompCode="Operation" fieldID="ApplicationInfo" [formCode]="formCode">
       </app-label>
-
       <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
       </app-ApplicationDtls>
-
-      <!-- <div> -->
-
-      <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_CUST_STATUS.isHidden()">
-    <div class="clr-brown fieldLegend">
-      <label class="clr-brown" style="margin-bottom: 20px;">
-        {{ 'Operation.AD_CUST_STATUS' | translate}}
-      </label>
-    </div>
-    <app-text-box #AD_CUST_STATUS fieldID="AD_CUST_STATUS" [formCode]="formCode" (blur)="genericOnBlur('AD_CUST_STATUS', $event)"></app-text-box>
-  </div>
-
-  <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AD_CUST_REMARKS.isHidden()">
-    <div class="clr-brown fieldLegend">
-      <label class="clr-brown" style="margin-bottom: 20px;">
-        {{ 'Operation.AD_CUST_REMARKS' | translate}}
-      </label>
-    </div>
-    <app-text-area #AD_CUST_REMARKS fieldID="AD_CUST_REMARKS" [formCode]="formCode" (blur)="genericOnBlur('AD_CUST_REMARKS', $event)"></app-text-area>
-  </div> -->
-      <!-- </div> -->
-      <!-- <br>
-      <br>
-      <br> -->
-      <!-- <div>
-        <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-      </div> -->
-
-      <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
-
-      <div>
-        <app-label #CustomerInfo parentCompCode="Operation" fieldID="CustomerInfo" [formCode]="formCode"></app-label>
       </div>
+      
+      <div class="customer-Container">
+        <app-label #CustomerInfo parentCompCode="Operation" fieldID="CustomerInfo" [formCode]="formCode"></app-label> 
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_GRID.isHidden()">
-        <app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode" style="margin-left: 22px; width: 98%;">
-        </app-CustGrid>
-      </div>
+				<app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode" style="padding-top: 0px;"></app-CustGrid>
+			</div>
+    </div>
+    
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
 
       <div *ngIf="isLoanCategory">
@@ -126,8 +97,8 @@
         <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
       </div>
 
-      <div *ngIf="isLoanCategory">
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()">
+      <div class="loan-Container"  *ngIf="isLoanCategory">
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()" style="margin-left: 4px;">
           <div class="clr-brown fieldLegend">
             <label class="clr-brown" style="margin-bottom: 20px;">
               {{ 'Operation.DisbustAmt' | translate}}
@@ -156,28 +127,10 @@
           <app-amount #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
           </app-amount>
         </div>
-        <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;" >
-          <app-button class="generate_letter"  #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
-            fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
-          </app-button>
-        </div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide" *ngIf="show">-->
-        <!-- <span><a href="#">Mortage Deed</a></span><br>
-            <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-            <span><a href="#">Agrement letter</a></span><br>
-            <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div> -->
-        <!-- <span><a (click)="fetchLetter()">Final Sanction letter</a></span>
-        </div> -->
       </div>
 
-      <div class="CardCat" *ngIf="!isLoanCategory">
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()">
+      <div class="card-Container" *ngIf="!isLoanCategory">
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()" style="margin-left: 2px;">
           <div class="clr-brown fieldLegend" style="margin-bottom: 20px;">
             <label class="clr-brown">
               {{ 'Operation.Apved_Limit' | translate}}
@@ -197,7 +150,6 @@
           <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
           </app-amount>
         </div>
-
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -205,30 +157,9 @@
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide" style="margin-top: top 30px;">
-        <app-button class="generate_letter"  #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
-          fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
-        </app-button>
-        </div>
-        <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div *ngIf="show"> -->
-        <!-- <a href="#">Mortage Deed</a><br>
-            <a href="#">Agrement letter</a><br> -->
-        <!-- <a (click)="fetchLetter()">Final Sanction letter</a>
-        </div> -->
-        <!-- <div [innerHTML]="LETTERMGMTFORMAT"></div> -->
       </div>
       <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+      <div class="doc-Container">
       <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information" [formCode]="formCode">
       </app-label>
 
@@ -249,9 +180,8 @@
           <td style="border: none;"><input type="checkbox" name="name20" /></td>
         </tr>
       </table>
-
-      <div>
-        <br><br>
+      </div>
+      <div class="button-Container">
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;">
           <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
             fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
@@ -261,18 +191,13 @@
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide" *ngIf="show">
-          <!-- <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-          <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-          <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-          <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div> -->
-          <br>
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <span><a (click)="fetchLetter()">Final Sanction letter</a></span>
         </div>
       </div>
       <div class="cust-acknwlg-Container col-12 col-sm-12 col-md-12">
-        <br><br>
+        <br>
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
           <div class="clr-brown fieldLegend">
             <label class="clr-brown">
