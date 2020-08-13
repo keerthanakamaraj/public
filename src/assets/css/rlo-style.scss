@@ -3584,3 +3584,34 @@ rlo-ui-card-field {
 .cust-acknwlg-Container{
   padding-left: 0px !important;
 }
+
+/*
+* CLO Component WF Viewer Styles
+*/
+
+#img-container {
+  position: relative;
+  display: inline-block;
+}
+
+#active-div {
+  position: absolute;
+  clear: both;
+  border: 2px solid black;
+  opacity: 0.2;
+  background-color: #8a0303;
+  animation: blink 0.5s linear infinite;
+}
+
+#img-container img {
+  height: 100%;
+}
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.3;
+  }
+}

@@ -47,6 +47,7 @@ import { NotepadDetailsFormModule } from './NotepadDetailsForm/NotepadDetailsFor
 import { PopUpAlertModule } from './popup-alert/popup-alert-module';
 import { DatePipe } from '@angular/common';
 import { appDataProvider } from './services/appDataProvider.service';
+import { WorkflowViewerModule } from './workflow-viewer/workflow-viewer.module';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
@@ -117,6 +118,7 @@ const keycloakService = new KeycloakService();
     NgbModalModule,
     MyTrayGridModule,
     RloUiCardFieldModule,
+    WorkflowViewerModule,
     Ng4LoadingSpinnerModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

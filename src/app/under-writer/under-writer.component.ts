@@ -105,7 +105,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       score: 54,
     },
     {
-      type: "Fire Policy",
+      type: "Policy Score",
       score: 36,
     },
     {

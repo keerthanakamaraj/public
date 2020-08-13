@@ -123,6 +123,10 @@ export var componentRoutes: Routes = [
   {
 		path: 'collateral',
 		loadChildren: 'src/app/collateral/collateral.module#CollateralModule'
+  },
+  {
+		path: 'view-wf',
+		loadChildren: 'src/app/workflow-viewer/workflow-viewer.module#WorkflowViewerModule'
 	}	
 ];
 export class AppRoutingModule { }

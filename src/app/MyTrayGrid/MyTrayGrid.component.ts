@@ -203,7 +203,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   },
   {
     field: "MT_INITIATED_ON",
-    width: 12,
+    width: 10,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -227,7 +227,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   },
   {
     field: "MT_CAD_LOCATION",
-    width: 12,
+    width: 10,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -255,6 +255,23 @@ export class MyTrayGridComponent implements AfterViewInit {
     // caseSensitive: true,
     // },
   },
+  {
+      width: 4,
+      field: " ",
+      sortable: false,
+      filter: false,
+      resizable: true,
+      cellRenderer: 'buttonRenderer',
+      cellStyle: { 'text-align': 'left' },
+      cellRendererParams: {
+          gridCode: 'AssetDetailsGrid',
+          columnId: 'AT_VIEW',
+          Type: '1',
+          CustomClass: 'btn-views',
+          IconClass: 'fa fa-eye fa-lg',
+          onClick: this.showWorkflowStage.bind(this),
+      },
+  }
 
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
@@ -554,6 +571,33 @@ export class MyTrayGridComponent implements AfterViewInit {
   }
   hideSpinner() {
     this.loadSpinner = false;
+  }
+
+  showWorkflowStage(rowdata){
+    let inputMap = new Map();
+    console.log('rowdata ' , rowdata);
+
+    var navPath = ('/home').split('/');
+    navPath = navPath.slice(1);
+    
+    // let stageId = rowdata['hiddenStageId'];
+    // navPath.push('view-wf?stage=' + stageId);
+    navPath.push('view-wf');
+
+    this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
+
+    inputMap.set('stage', rowdata['hiddenStageId']);
+    inputMap.set('appId', rowdata['MT_PROPOSAL_ID']);
+    inputMap.set('taskId', rowdata['hiddenTaskId']);
+    inputMap.set('instanceId', rowdata['hiddenInstanceId']);
+
+    if (this.services.routing.currModal > 0) {
+      var routerOutlets = {};
+      routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length - 1], 'popup'];
+      this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange: true });
+    } else {
+      this.services.router.navigate(navPath);
+    }
   }
 
   formatAmount(number) {

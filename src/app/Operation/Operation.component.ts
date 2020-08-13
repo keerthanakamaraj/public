@@ -56,6 +56,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
   @ViewChild('OPERATION_CLOSE', { static: false }) OPERATION_CLOSE: ButtonComponent;
+  @ViewChild('HideDecision', { static: false }) HideDecision: HiddenComponent;
 
   @Input() isLoanCategory: any = undefined;
   @Input() ProductCode: any = undefined;
@@ -70,6 +71,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   userId: any;
   taskId: any;
   instanceId: any;
+ // customerDecision:string=undefined;
+  // custStatusOptionList=[
+  //   { id: 'Approve', text: 'Approve'},
+  //   { id: 'Amend', text: 'Amend'}
+  // ];
   // tenantId: string = "SB1";
   // serviceCode: string = "ClaimTask";
   // serviceCodeN: string = "CompleteTask";
@@ -113,18 +119,20 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.HideTenantId.setValue('SB1');
     this.HideAppId.setValue('RLO');
     this.HideCurrentStage.setValue('Operation');
+    this.HideDecision.setValue('CustDecision');
     this.setDependencies();
     let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.ApplicationId = appId;
-    this.AD_CUST_REMARKS.setReadOnly(true);
-    this.AD_CUST_STATUS.setReadOnly(true);
+   // this.AD_CUST_REMARKS.setReadOnly(true);
+   // this.AD_CUST_STATUS.setReadOnly(true);
     await this.brodcastApplicationId();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
-    //this.mapCustomerDecision();
-    this.fetchCustomerDecisionDetails();
+   // this.mapCustomerDecision();
+   // this.fetchCustomerDecisionDetails();
+    this.fetchApplicationDetails();
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
@@ -498,6 +506,16 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     }
   }
   fieldDependencies = {
+    AD_CUST_STATUS: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "AD_CUST_STATUS", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "HideDecision", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "HideAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    }
   }
 
   goBack() {
@@ -815,5 +833,31 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         }
       });
     });
+  }
+  fetchApplicationDetails() {
+    let inputMap = new Map();
+    inputMap.clear();
+    if (this.ApplicationId) {
+
+      inputMap.set('PathParam.ApplicationId', this.ApplicationId);
+      this.services.http.fetchApi('/ApplicationDetails/{ApplicationId}', 'GET', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+
+          var applDtls = res['ApplicationDetails'];
+          if (applDtls) {
+           // this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
+           // this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;
+            this.AD_CUST_STATUS.setValue(applDtls.CustomerConfirmationStatus);
+            this.AD_CUST_REMARKS.setValue(applDtls.CustomerConfirmationRemarks);
+          }
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+        }
+      );
+    }
   }
 }

@@ -18,7 +18,7 @@ export class ScoreCardComponent implements OnInit {
       score: 54,
     },
     {
-      type: "Fire Policy",
+      type: "Policy Score",
       score: 36,
     },
     {
