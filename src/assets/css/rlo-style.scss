@@ -370,7 +370,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         width: 41px;
         height: 27px;
         content: "";
-         background-image: url("./../icons/Euro Header icon.svg");
+        background-image: url("./../icons/Euro Header icon.svg");
         display: inline-block;
         background-size: 41px 27px;
         background-repeat: no-repeat;
@@ -2007,95 +2007,102 @@ rlo-ui-card-field {
 .header-container,
 .data-container {
   padding-left: 20px;
-}
 
-.policy-row {
-  // height: 52px;
-  margin-top: 10px;
-  min-height: 52px;
-  max-height: 110px;
-  border-radius: 4px;
-  background-color: #FAFAFA;
-  line-height: 52px;
+  .policy-row {
+    background-color: #FAFAFA;
+    @extend .policy-row-header;
+  }
 
-  // max-height: 500px !important;
-  .desc-container {
+  .policy-row-header {
+    // height: 52px;
+
+    margin-top: 10px;
+    min-height: 52px;
+    max-height: 110px;
+    border-radius: 4px;
+    // background-color: #FAFAFA;
+    line-height: 52px;
 
     // max-height: 500px !important;
-    .description-txt {
-      height: 17px; //width: 250px;
-      //  max-height: 500px !important;
-      color: #565656;
-      font-family: "Open Sans";
-      font-size: 12px;
-      letter-spacing: 0;
-      line-height: 17px;
+    .desc-container {
+      padding-left: 0px;
+
+      // max-height: 500px !important;
+      .description-txt {
+        height: 17px; //width: 250px;
+        //  max-height: 500px !important;
+        color: #565656;
+        font-family: "Open Sans";
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 17px;
+      }
+    }
+
+    .value-container {
+      .col-header-txt {
+        height: 17px; // width: 86px;
+        color: #8E8E8E;
+        font-family: "Open Sans";
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 17px;
+      }
+
+      .value-txt {
+        height: 17px; //  width: 21px;
+        color: #000000;
+        font-family: "Open Sans";
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 17px;
+      }
+
+      .pass-txt {
+        height: 17px; //   width: 27px;
+        color: #00B500;
+        font-family: "Open Sans";
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 17px;
+      }
+
+      .fail-txt {
+        height: 17px; // width: 21px;
+        color: #D0021B;
+        font-family: "Open Sans";
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 17px;
+      }
     }
   }
 
-  .value-container {
-    .col-header-txt {
-      height: 17px; // width: 86px;
-      color: #8E8E8E;
-      font-family: "Open Sans";
-      font-size: 12px;
-      letter-spacing: 0;
-      line-height: 17px;
-    }
+  .total-container {
+    height: 52px; // width: 1213px;
+    border-radius: 4px;
+    background-color: #E4F0F9;
+    line-height: 51px;
 
-    .value-txt {
-      height: 17px; //  width: 21px;
+    .total-label {
+      height: 17px; //  width: 63px;
       color: #000000;
       font-family: "Open Sans";
       font-size: 12px;
-      letter-spacing: 0;
-      line-height: 17px;
+      letter-spacing: 0; // line-height: 17px;
+      text-align: right;
     }
 
-    .pass-txt {
-      height: 17px; //   width: 27px;
+    .total-value {
+      height: 17px; //  width: 57px;
       color: #00B500;
       font-family: "Open Sans";
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0;
-      line-height: 17px;
+      letter-spacing: 0; // line-height: 17px;
     }
-
-    .fail-txt {
-      height: 17px; // width: 21px;
-      color: #D0021B;
-      font-family: "Open Sans";
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0;
-      line-height: 17px;
-    }
-  }
-}
-
-.total-container {
-  height: 52px; // width: 1213px;
-  border-radius: 4px;
-  background-color: #E4F0F9;
-  line-height: 51px;
-
-  .total-label {
-    height: 17px; //  width: 63px;
-    color: #000000;
-    font-family: "Open Sans";
-    font-size: 12px;
-    letter-spacing: 0; // line-height: 17px;
-    text-align: right;
-  }
-
-  .total-value {
-    height: 17px; //  width: 57px;
-    color: #00B500;
-    font-family: "Open Sans";
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0; // line-height: 17px;
   }
 }
 
@@ -3014,12 +3021,12 @@ rlo-ui-card-field {
     }
   }
 
-  .document-upload{
+  .document-upload {
     min-height: 3rem;
-    padding:0;
+    padding: 0;
   }
 
-  .header-expanded-op{
+  .header-expanded-op {
     margin-top: 3rem;
   }
 }
@@ -3330,7 +3337,7 @@ rlo-ui-card-field {
 
 #ApplicationInfo,
 #FieldId_3,
-#FieldId_8{
+#FieldId_8 {
   font-size: 16px;
   color: black;
   font-family: open sans;
@@ -3348,22 +3355,24 @@ rlo-ui-card-field {
   font-style: normal;
   font-weight: 400;
   margin-left: 21px;
-  margin-bottom:16px;
+  margin-bottom: 16px;
 }
+
 /*input grid css start*/
 
-.table>thead:first-child>tr:first-child>th{
+.table>thead:first-child>tr:first-child>th {
   border-top: 0;
-    background-color: #e4f0f9;
-    font-family: "Open Sans",sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 17px;
-    color: #565656;
-    border-radius: 4px;
-    border: none;
-    height: 40px;
+  background-color: #e4f0f9;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 17px;
+  color: #565656;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
 }
+
 // .input-grid-plus-icon{
 //   .fa-plus:before {
 //    content:
@@ -3405,7 +3414,7 @@ rlo-ui-card-field {
   .btn-primary {
     width: 100% !important;
     height: fit-content !important;
-    padding: .35rem 1rem;    
+    padding: .35rem 1rem;
   }
 
   label {
@@ -3491,8 +3500,9 @@ rlo-ui-card-field {
     -ms-user-select: none;
     user-select: none;
     line-height: 18px;
-    width: auto;    
+    width: auto;
   }
+
   .radio-container .checkmark {
     position: absolute;
     top: 0;
@@ -3502,8 +3512,9 @@ rlo-ui-card-field {
     background: #FFF;
     border: 1px solid #9a9a9a;
     border-radius: 50%;
-    opacity: 1;    
+    opacity: 1;
   }
+
   .radio-container .checkmark:after {
     content: "";
     position: absolute;
@@ -3515,33 +3526,41 @@ rlo-ui-card-field {
     border-radius: 50%;
     background: #FFF;
   }
+
   .radio-container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     left: 0;
     top: 0;
-    margin: 0;    
+    margin: 0;
   }
-  .radio-container input:checked ~ .checkmark {
+
+  .radio-container input:checked~.checkmark {
     background-color: #0079b8;
     border: 1px solid #0079b8;
   }
-  .radio-container input:focus ~ .checkmark {
+
+  .radio-container input:focus~.checkmark {
     outline: 0;
   }
-  .radio-container input:focus ~ .checkmark {
+
+  .radio-container input:focus~.checkmark {
     box-shadow: 0 0 2px 2px #004d8a;
   }
-  .radio-container input:disabled:not(:checked) ~ .checkmark {
+
+  .radio-container input:disabled:not(:checked)~.checkmark {
     cursor: not-allowed;
   }
-  .radio-container input:disabled:not(:checked) ~ .checkmark {
+
+  .radio-container input:disabled:not(:checked)~.checkmark {
     background: #ccc;
   }
-  .radio-container input:checked ~ .checkmark:after {
+
+  .radio-container input:checked~.checkmark:after {
     display: block;
   }
+
   /**
   * Radio button wrapper
   * Styles for the wrapper div which contains a series of radio buttons within forms.
@@ -3554,6 +3573,7 @@ rlo-ui-card-field {
     font-size: 14px;
     margin-top: 24px;
   }
+
   .radio-container {
     margin-bottom: 1em;
   }
@@ -3570,6 +3590,7 @@ rlo-ui-card-field {
   }
 
 }
+
 #Document_Information {
   font-size: 16px;
   color: black;
@@ -3581,7 +3602,7 @@ rlo-ui-card-field {
   margin-bottom: 23px;
 }
 
-.cust-acknwlg-Container{
+.cust-acknwlg-Container {
   padding-left: 0px !important;
   margin-left: 4px;
 }
@@ -3612,17 +3633,20 @@ rlo-ui-card-field {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 0.3;
   }
 }
+
 .lyt-operation-queue {
-.group-default{
-  margin-left: 2px;
-  padding: 0px;
-  width: 100%;
-}
-#CUST_GRID{
-  padding-top: 0px;
-}
+  .group-default {
+    margin-left: 2px;
+    padding: 0px;
+    width: 100%;
+  }
+
+  #CUST_GRID {
+    padding-top: 0px;
+  }
 }

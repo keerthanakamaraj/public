@@ -265,8 +265,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.MarginMoney.setValue(LoanElement['MarginMoney']);
             this.monthlyinstallmentAmt = LoanElement['MoneyInstallment'];
             this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
-            this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
-            this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
+            // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
+            // this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
+            this.totInterestAmt = LoanElement['TotalInterestAmount'];
+            this.totInstallmentAmt = LoanElement['TotalInstallmentAmt'];
             this.DisbursalDate = LoanElement['DisbursalDate'];
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.Handler.SetValue();
@@ -459,12 +461,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       inputMap.set('Body.LoanDetails.MoneyInstallment', this.monthlyinstallmentAmt);
       inputMap.set('Body.LoanDetails.DisbursalDate', this.DisbursalDate);
       inputMap.set('Body.LoanDetails.RepaymentStartDate', this.RepaymentStartDate);
-      if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
-        inputMap.set('Body.LoanDetails.TotalInterestAmount', 0);
-      }
-      if (this.TotalInstallmentAmt.getFieldValue() == '-NA-') {
-        inputMap.set('Body.LoanDetails.TotalInstallmentAmt', 0);
-      }
+      // if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
+      //   inputMap.set('Body.LoanDetails.TotalInterestAmount', 0);
+      // }
+      // if (this.TotalInstallmentAmt.getFieldValue() == '-NA-') {
+      //   inputMap.set('Body.LoanDetails.TotalInstallmentAmt', 0);
+      // }
+
+      inputMap.set('Body.LoanDetails.TotalInterestAmount', this.totInterestAmt != undefined ? this.totInterestAmt : 0);
+      inputMap.set('Body.LoanDetails.TotalInstallmentAmt', this.totInstallmentAmt != undefined ? this.totInstallmentAmt : 0);
 
       inputMap.set('Body.LoanDetails.MarginMoney', this.MarginMoney.getFieldValue());
       inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
