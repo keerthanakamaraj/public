@@ -150,7 +150,9 @@ export class WorkflowViewerComponent implements OnInit {
     if (divCss.width == divCss.height) {
       $('#active-div').css({ 'border-radius': '50%' });
     }
-    $('#active-div').focus();
+    $('html, body').animate({
+        scrollTop: $('#active-div').offset().top
+    }, 500);
   }
 
   async delay(ms: number) {
