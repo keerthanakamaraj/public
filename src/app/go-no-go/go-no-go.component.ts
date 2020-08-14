@@ -7,8 +7,7 @@ import { IQuestion, IAnswerOption, IGoNoGoQuestionnaire, IselectedAnswer, IField
 
 @Component({
   selector: 'app-go-no-go',
-  templateUrl: './go-no-go.component.html',
-  //  styleUrls: ['./go-no-go.component.css']
+  templateUrl: './go-no-go.component.html'
 })
 
 export class GoNoGoComponent implements OnInit {
@@ -17,7 +16,7 @@ export class GoNoGoComponent implements OnInit {
   ApplicationDetails: IGoNoGoQuestionnaire = {};
   QuestionnairMap: Map<String, IQuestion> = new Map<String, IQuestion>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
-  @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
+ // @ViewChildren(RLOUIRadioComponent) GNG_PARAM_List: QueryList<ElementRef>;
 
   @Input() ApplicationId: string = undefined;
   @Input() readOnly: boolean = false;
@@ -32,11 +31,13 @@ export class GoNoGoComponent implements OnInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'go_no_go');
-    inputMap.set('QueryParam.Product', 'PROD1');
+   // inputMap.set('QueryParam.Product', 'PROD1');
+    inputMap.set('QueryParam.Product', this.services.rloCommonData.globalApplicationDtls.ProductCode);
     // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
 
     this.services.http.fetchApi('/questionnaire', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      console.log(httpResponse);
       let questionnairDtlsResp = httpResponse.body.QuestionnaireDtls;
       this.parseGetQuestionnairResp(questionnairDtlsResp);
       //call validation method and render
@@ -51,7 +52,7 @@ export class GoNoGoComponent implements OnInit {
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
 
-      if(this.readOnly){
+      if (this.readOnly) {
         setTimeout(() => {
           this.domRef.forEach((element: any) => {
             element.setReadOnly(true);
@@ -155,19 +156,18 @@ export class GoNoGoComponent implements OnInit {
     this.ErrorSet.clear();
     this.QuestionnairMap.forEach(question => {
       question.IsDeviation = false;
+      let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
       if (question.SelectedDecision.AnswerSeq == undefined) {
         //   this.ErrorSet.push({ QuestionSeq: question.QuestionSeq, errorText: 'decision pending' });
         this.ErrorSet.add('rlo.error.questionnaire.decision-pending');
         isValid = false;
-      } //else if (question.SelectedDecision.Remark == undefined) {
-        let answerParams = question.AnswerOptionList.find(answer => answer.AnswerSeq == question.SelectedDecision.AnswerSeq)
-        if (('N' == question.IsNegative && 'N' == answerParams.AnswerValue) ||
-          ('Y' == question.IsNegative && 'Y' == answerParams.AnswerValue)) {
-          question.IsDeviation = true;
+      } else if (('N' == question.IsNegative && 'N' == answerParams.AnswerValue) || ('Y' == question.IsNegative && 'Y' == answerParams.AnswerValue)) {
+        if (question.SelectedDecision.Remark == undefined) {
           this.ErrorSet.add('rlo.error.questionnaire.Remark-pending');
           isValid = false;
         }
-     // }
+        question.IsDeviation = true;
+      }
     });
 
     return isValid;
@@ -187,7 +187,7 @@ export class GoNoGoComponent implements OnInit {
         decision['QuestionSeq'] = question.QuestionSeq;
         decision['ApplicationId'] = this.ApplicationId;
         decision['AnswerSeq'] = question.SelectedDecision.AnswerSeq;
-        decision['DeviationLevel'] = question.DeviationLevel;
+        decision['DeviationLevel'] = question.IsDeviation ? question.DeviationLevel : '';
         decision['QuestionnaireCategory'] = question.QuestionnaireCategory;
         decision['Remarks'] = (question.SelectedDecision.Remark == undefined) ? '' : question.SelectedDecision.Remark;
         decision['CreatedBy'] = sessionStorage.getItem('userId');
@@ -202,15 +202,15 @@ export class GoNoGoComponent implements OnInit {
 
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
-        let array = [];
-        array.push({ isValid: true, sectionData: this.QuestionnairMap });
-        let obj = {
-          "name": "GoNoGoDetails",
-          "data": array,
-          "sectionName": "GoNoGoDetails",
-        }
-        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-        //   this.loadQuestionnaireDtls();
+        this.loadQuestionnaireDtls();
+        // let array = [];
+        // array.push({ isValid: true, sectionData: this.QuestionnairMap });
+        // let obj = {
+        //   "name": "GoNoGoDetails",
+        //   "data": array,
+        //   "sectionName": "GoNoGoDetails",
+        // }
+        // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       },
         (httpError) => {
           console.error(httpError);

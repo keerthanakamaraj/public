@@ -35,7 +35,7 @@ export class PersonalInterviewComponent implements OnInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'per_int');
-    inputMap.set('QueryParam.Product', 'PROD1');
+    inputMap.set('QueryParam.Product', this.services.rloCommonData.globalApplicationDtls.ProductCode);
     inputMap.set('QueryParam.BorrowerSeq', this.activeBorrowerSeq);
     // inputMap.set('QueryParam.SubProduct', 'SUBPROD1');
     inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
@@ -179,18 +179,18 @@ export class PersonalInterviewComponent implements OnInit {
       console.log("shweta :: input map", inputMap);
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.personal-interview', 5000);
+        
+        this.loadQuestionnaireDtls();
+        // let array = [];
+        // array.push({ isValid: true, sectionData: this.QuestionnairMap });
+        // let obj = {
+        //   "name": "PersonalInterviewDetails",
+        //   "data": array,
+        //   "BorrowerSeq": this.activeBorrowerSeq
+        // }
 
-        let array = [];
-        array.push({ isValid: true, sectionData: this.QuestionnairMap });
-        let obj = {
-          "name": "PersonalInterviewDetails",
-          "data": array,
-          "BorrowerSeq": this.activeBorrowerSeq
-        }
+        // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-
-        //  this.loadQuestionnaireDtls();
       },
         (httpError) => {
           console.error(httpError);

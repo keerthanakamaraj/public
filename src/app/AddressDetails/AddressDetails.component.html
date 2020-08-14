@@ -189,8 +189,8 @@
                 {{ 'AddressDetails.AD_LANDLINE_NUMBER' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER"
-              (countryCodeChanged)="countryCodeChanged('AD_LANDLINE_NUMBER',$event)"
+            <rlo-ui-mobile #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [numberType] = "'LandlineNo'"
+            (countryCodeChanged)="countryCodeChanged('AD_LANDLINE_NUMBER',$event)"
               (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)"></rlo-ui-mobile>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_COUNTRY_CODE.isHidden()">

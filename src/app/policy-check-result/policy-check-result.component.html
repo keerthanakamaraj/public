@@ -1,19 +1,19 @@
-<div class="policy-section-conatoner row">
-    <div class="col-12 col-sm-3 col-md-3">
-        <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" [formCode]="formCode" placeholder="Select" [emittedOptions]="FilterOptions"
-          defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur('PCR_Filter', $event)">
-        </app-combo-box> 
-      </div>
-  <div class="row header-container">
+<div class="policy-section-conatoner">
+  <div class="col-12 col-sm-3 col-md-3">
+    <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
+      defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur()">
+    </app-combo-box>
+  </div>
+  <div class="header-container">
     <ng-container>
-      <div class="policy-row row col-12 col-sm-12 col-md-12">
-        <div class="desc-container col-12 col-sm-6 col-md-6">
+      <div class="policy-row-header col-12 col-sm-12 col-md-12">
+        <div class="desc-container col-12 col-sm-4 col-md-4">
           <span class="desc-header-txt"></span>
         </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
+        <div class="value-container col-12 col-sm-3 col-md-3">
           <span class="col-header-txt">Actual Result</span>
         </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
+        <div class="value-container col-12 col-sm-3 col-md-3">
           <span class="col-header-txt">Expected Result</span>
         </div>
         <div class="value-container col-12 col-sm-2 col-md-2">
@@ -22,19 +22,19 @@
       </div>
     </ng-container>
   </div>
-  <div class="row data-container">
+  <div class="data-container">
     <ng-container *ngIf="activePolicyResultList != undefined">
-      <div class="policy-row row col-12 col-sm-12 col-md-12" *ngFor="let policy of activePolicyResultList; let i = index;">
-        <div class="desc-container col-12 col-sm-6 col-md-6">
+      <div class="policy-row col-12 col-sm-12 col-md-12" *ngFor="let policy of activePolicyResultList; let i = index;">
+        <div class="desc-container col-12 col-sm-4 col-md-4">
           <span class="description-txt">{{ i + 1 }}. {{policy.RuleDescription }}</span>
         </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
+        <div class="value-container col-12 col-sm-3 col-md-3">
           <span class="value-txt">{{policy.ActualValue }}</span>
         </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
+        <div class="value-container col-12 col-sm-3 col-md-3">
           <span class="value-txt">{{policy.ExpectedValue }}</span>
         </div>
-        <div class="value-container col-12 col-sm2 col-md-2">
+        <div class="value-container col-12 col-sm-2 col-md-2">
           <span [ngClass]="(policy.RuleResult=='Pass')?'pass-txt':'fail-txt'">{{policy.RuleResult }}</span>
         </div>
       </div>

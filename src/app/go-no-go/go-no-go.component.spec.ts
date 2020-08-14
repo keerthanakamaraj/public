@@ -8,9 +8,9 @@ describe('GoNoGoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoNoGoComponent ]
+      declarations: [GoNoGoComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

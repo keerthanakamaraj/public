@@ -183,5 +183,29 @@
 }
 
 .icon_eye_visibility:before {
-    content: "\e91f"
+    content: "\e91f";
+}
+
+.icon-time:before {
+    content: "\e920";
+}
+
+.icon-calendar-line:before {
+    content: "\e921";
+}
+
+.icon-folder-open:before {
+    content: "\e922";
+}
+
+.icon-delete-bin:before {
+    content: "\e923";
+}
+
+.icon-edit:before {
+    content: "\e924";
+}
+
+.icon-property:before{
+    content: "\e925";
 }

@@ -31,6 +31,8 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import {PolicyCheckResultModule} from '../policy-check-result/policy-check-result.module';
 import {ScoreCardResultModule} from '../score-card-result/score-card-result.module';
+import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module';
+import { CollateralModule } from '../collateral/collateral.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -67,7 +69,9 @@ import {ScoreCardResultModule} from '../score-card-result/score-card-result.modu
         LoanDetailsFormModule,
         ApplicationDtlsModule,
         PolicyCheckResultModule,
-        ScoreCardResultModule
+        ScoreCardResultModule,
+        PropertyDetailsModule,
+        CollateralModule,
     ],
     declarations: [
         DDEComponent

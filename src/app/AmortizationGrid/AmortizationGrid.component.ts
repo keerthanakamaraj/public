@@ -7,7 +7,8 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import {IRepaymentScheduleResp,IRepaymentSchedule} from '../amortization-schedule/amortization-interface'
+import { IRepaymentScheduleResp } from '../amortization-schedule/amortization-interface'
+import { IRepaymentSchedule } from '../Interface/masterInterface';
 
 const customCss: string = '';
 @Component({
@@ -35,8 +36,8 @@ export class AmortizationGridComponent implements AfterViewInit {
   componentCode: string = 'AmortizationGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
-  maturityDate:string=undefined;
-  isRecord:boolean=false;
+  maturityDate: string = undefined;
+  isRecord: boolean = false;
   gridConsts: any = {
     paginationPageSize: 10,
     gridCode: "AmortizationGrid",
@@ -44,131 +45,109 @@ export class AmortizationGridComponent implements AfterViewInit {
   };
   columnDefs: any[] = [{
     field: "No",
-    width: 10,
-    sortable: true,
+    width: 9,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
-    // },
   },
   {
     field: "Date",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
-    // },
   },
   {
     field: "Principal",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
-    // },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
   },
   {
     field: "Interest",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
-    // },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
   },
   {
     field: "Installment",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
-    // },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
   },
   {
     field: "Others",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-   },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
+    //   filter: "agTextColumnFilter",
+    //   filterParams: {
+    //     suppressAndOrCondition: true,
+    //     applyButton: true,
+    //     clearButton: true,
+    //     filterOptions: ["contains"],
+    //     caseSensitive: true,
+    //   },
+  },
   {
     field: "Total_Due",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
-    // },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
   },
   {
     field: "Prin_OS",
-    width: 10,
-    sortable: true,
+    width: 13,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    //   suppressAndOrCondition: true,
-    //   applyButton: true,
-    //   clearButton: true,
-    //   filterOptions: ["contains"],
-    //   caseSensitive: true,
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
+  },
+    // {
+    //   field: "vvc",
+    //   width: 13,
+    //   resizable: true,
+    //   cellStyle: { 'text-align': 'right' },
+    //   filter: false,
     // },
-  },
-  {
-    field: "vvc",
-    width: 10,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: false,
-  },
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
   ngAfterViewInit() {
@@ -213,11 +192,11 @@ export class AmortizationGridComponent implements AfterViewInit {
     styleElement.parentNode.removeChild(styleElement);
   }
   gridDataLoad(formInputs) {
-		this.readonlyGrid.setFormInputs(formInputs);
+    this.readonlyGrid.setFormInputs(formInputs);
   }
   refreshGrid() {
-		this.readonlyGrid.refreshGrid();
-	}
+    this.readonlyGrid.refreshGrid();
+  }
   // setValue(rowData) {
   //   this.readonlyGrid.setRowData(rowData);
   // }
@@ -235,66 +214,74 @@ export class AmortizationGridComponent implements AfterViewInit {
   //   this.loadSpinner = false;
   // }
   async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
-    let RepaymentList:IRepaymentScheduleResp[]=[];
+    let RepaymentList: IRepaymentScheduleResp[] = [];
     let LoanGridDetails = [];
 
-     let inputMap = new Map();
-     inputMap.clear();
-    let requestParams:IRepaymentSchedule=event.requestParams;
-    inputMap.set('QueryParam.loan-amount', requestParams.loanAmount);
-    inputMap.set('QueryParam.no-of-installments',requestParams.noOfInstallments);
-    inputMap.set('QueryParam.installment-frequency',requestParams.installmentFrequency);
-    inputMap.set('QueryParam.interest-rate', requestParams.interestRate);
-    inputMap.set('QueryParam.disbursal-date', requestParams.disbursalDate);
-    inputMap.set('QueryParam.first-installment-date',requestParams.firstInstallmentDate);
-    inputMap.set('QueryParam.interest-numerator', '360C');//optional
-    inputMap.set('QueryParam.interest-denominator', '360');//optional
-    inputMap.set('QueryParam.product-code', '360');//optional
-    inputMap.set('QueryParam.sub-product-code', '360');//optional
-    
+    let inputMap = new Map();
+    inputMap.clear();
+    let requestParams: IRepaymentSchedule = event.requestParams;
+    inputMap.set('QueryParam.loanAmount', requestParams.loanAmount);
+    inputMap.set('QueryParam.noOfInstallments', requestParams.noOfInstallments);
+    inputMap.set('QueryParam.installmentFrequency', requestParams.installmentFrequency);
+    inputMap.set('QueryParam.interestRate', requestParams.interestRate);
+    inputMap.set('QueryParam.disbursalDate', requestParams.disbursalDate);
+    inputMap.set('QueryParam.firstInstallmentDate', requestParams.firstInstallmentDate);
+    inputMap.set('QueryParam.interestNumerator', '');//optional
+    inputMap.set('QueryParam.interestDenominator', '');//optional
+    //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
+    //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional
 
-    this.services.http.fetchApi('/repayment-schedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
-       RepaymentList = httpResponse.body.Record;
-      
+
+    this.services.http.fetchApi('/repayment', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+      RepaymentList = httpResponse.body.Record;
+      if (RepaymentList) {
+        this.isRecord = true;
+        let largeNo: number = 0;
+        let maturityDate: string = undefined;
+        let installmentAmt = undefined;
+        for (let eachRecord of RepaymentList) {
+          let tempinstallmentNo = parseInt(eachRecord.installmentNo);
+          if (tempinstallmentNo > 0) {
+            let tempObj = {};
+            tempObj['No'] = tempinstallmentNo;
+            tempObj['Date'] = eachRecord.installmentDate;
+            tempObj['Principal'] = parseFloat(eachRecord.principalAmount).toFixed(2);
+            tempObj['Interest'] = parseFloat(eachRecord.interestAmount).toFixed(2);
+            tempObj['Installment'] = parseFloat(eachRecord.installmentAmount).toFixed(2);
+            tempObj['Others'] = eachRecord.others != undefined ? eachRecord.others : '0.00';
+            tempObj['Total_Due'] = parseFloat(eachRecord.closingPrincipalBalance).toFixed(2);
+            tempObj['Prin_OS'] = parseFloat(eachRecord.openPrincipalBalance).toFixed(2);
+            //  tempObj['vvc']='VVC';
+            LoanGridDetails.push(tempObj);
+
+            if (tempinstallmentNo == 1) {
+              installmentAmt = eachRecord.installmentAmount;
+            }
+            if (parseInt(eachRecord.installmentNo) > largeNo) {
+              maturityDate = eachRecord.installmentDate;
+              largeNo = parseInt(eachRecord.installmentNo);
+            }
+          }
+        }
+        this.triggerRepaymentForm.emit({
+          'maturityDate': maturityDate,
+          'installmentAmt': installmentAmt
+        });
+      }
+
+      let LoanGridDetailsCopy = LoanGridDetails.sort((a, b) => (a.No > b.No) ? 1 : ((b.No > a.No) ? -1 : 0));
+      this.readonlyGrid.apiSuccessCallback(params, LoanGridDetailsCopy);
     },
       (httpError) => {
         console.error(httpError);
         this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
       });
-
-   if(RepaymentList.length<=0){
-   RepaymentList = event.hardCodedResp;
-   }
-    if (RepaymentList) {
-      this.isRecord = true;
-      let largeNo:number=0;
-      let maturityDate:string=undefined;
-        for (let eachRecord of RepaymentList) {
-            
-            let tempObj = {};
-            tempObj['No']= eachRecord.installmentNo;
-            tempObj['Date'] = eachRecord.installmentDate;
-            tempObj['Principal'] = eachRecord.principalAmount;
-            tempObj['Interest'] =eachRecord.interestAmount;
-            tempObj['Installment']=eachRecord.installmentAmount;
-            tempObj['Others'] = eachRecord.others!=undefined?eachRecord.others: '0.00';
-            tempObj['Total_Due'] =eachRecord.closingPrincipalBalance;
-            tempObj['Prin_OS']= eachRecord.openPrincipalBalance;
-            LoanGridDetails.push(tempObj);
-
-            
-            if(parseInt(eachRecord.installmentNo)>largeNo){
-              maturityDate=eachRecord.installmentDate;
-               largeNo=parseInt(eachRecord.installmentNo);
-            }
-        }
-        this.triggerRepaymentForm.emit({
-            'maturityDate': maturityDate
-          });
+  }
+  formatAmount(number) {
+    if (number.value) {
+      return this.services.formatAmount(number.value, null, null);
+    } else {
+      return '-';
     }
-    this.readonlyGrid.apiSuccessCallback(params, LoanGridDetails);
-
-
-    // this.services.alert.showAlert(2, 'Fail', -1);
-}
+  }
 }

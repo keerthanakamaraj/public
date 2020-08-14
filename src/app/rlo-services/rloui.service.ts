@@ -10,6 +10,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
 import { IGeneralCardData } from '../Interface/masterInterface';
+import { Router } from '@angular/router';
 
 export var errorMap;
 
@@ -44,10 +45,23 @@ export class RlouiService {
     { componentName: "Notes", iconClass: "icon-Notes" },
     { componentName: "ApplicationDetails", iconClass: "icon-Application-Details" },
     { componentName: "AmortizationScheduleComponent", iconClass: "icon-generate-amortization" },
-    { componentName: "FeesAndCharges", iconClass: "icon-generate-amortization" },
-  ]
+    { componentName: "FeesChargesDetailsComponent", iconClass: "icon-fees-charges" },
+    { componentName: "DisbursementDetailsComponent", iconClass: "icon-disbursement-details" },
+    { componentName: "OccupationDetails", iconClass: "icon-Occupation-Details" },
+    { componentName: "IncomeSummary", iconClass: "icon-Income-Summary" },
+    { componentName: "LiabilityDetails", iconClass: "icon-Liability-Details" },
+    { componentName: "AssetDetails", iconClass: "icon-Asset-Details" },
+    { componentName: "FileUpload", iconClass: "icon-Asset-Details" },
+    { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
+    { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
+    { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
+    { componentName: "PropertyDetails", iconClass: "icon-property" }
+  ];
 
-  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal) {
+  customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
+  //{id: "C_2952", text: "CB-SHITAL JAIN"}
+
+  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {
     console.log("UI Service .. constructor --------------------------------");
 
     // this.getJSON().subscribe(data => {
@@ -226,11 +240,19 @@ export class RlouiService {
       return amount;
     }
 
-    if (!languageCode) { languageCode = this.getConfig("language.default", "en-IN"); }
-    if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
+    //OG
+    // if (!languageCode) { languageCode = this.getConfig("language.default", "en-MU"); }
+    // if (!currency) { currency = this.getConfig("currency.code.default", "MUR"); }
 
-    // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
-    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+    // // return amt.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
+    // return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+
+    if (!languageCode) { languageCode = this.getConfig("language.default", "en-US"); }
+    if (!currency) { currency = this.getConfig("currency.code.default", "EUR"); }
+
+    let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
+    return val;
+
   }
 
   // TODO: Check Type of date and format accordingly
@@ -304,13 +326,13 @@ export class RlouiService {
       }
 
       this.modalObject = modalObj;//obj consumed in PopupAlertComponent
-     
-      //FOR TESTING
-      this.modalObject.iconClass = "icon-Family-Details";
 
-      // if (modalObj.hasOwnProperty('componentName')) {
-      //   this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
-      // }
+      //FOR TESTING
+      //this.modalObject.iconClass = "icon-Family-Details";
+
+      if (modalObj.hasOwnProperty('componentName')) {
+        this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
+      }
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });
@@ -350,4 +372,55 @@ export class RlouiService {
       });
     });
   }
+
+
+  //called when user click on " < back " above header component
+  goBack() {
+    var mainMessage = this.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.getAlertMessage('', 'OK');
+    var button2 = this.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+
+  //opening file upload modal
+  openFileUpload(ApplicationId) {
+    let modalObj: IModalData = {
+      title: '',
+      mainMessage: undefined,
+      modalSize: 'modal-doc-upload-width',
+      buttons: [],
+      componentName: 'FileUpload',
+      data: '',
+      applicationId: Number(ApplicationId)
+    };
+    this.confirmationModal(modalObj).then((response) => {
+      console.log(response);
+      if (response != null) {
+        if (response.id === 1) {
+          this.closeAllConfirmationModal();
+        }
+      }
+    });
+  }
+
 }

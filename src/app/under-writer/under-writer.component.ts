@@ -10,6 +10,7 @@ import { ServiceStock } from '../service-stock.service';
 // import { NgxMasonryOptions } from 'ngx-masonry';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 import { HttpResponse } from '@angular/common/http';
+import { IModalData } from '../popup-alert/popup-interface';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -28,234 +29,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   @ViewChild('UWTabs', { static: false }) UWTabs: UWCustomerTabComponent;
 
-  customerCardSectionData: any;
-  //interfaceCardSectionData: any;
-
   commonBlankCardSectionData: Array<any> = [];
   basicCardSectionData: IbasicCardSectionData = {
     cardType: '',
     sectionList: []
   };
-
-  customerSectionData = {
-    "UWApplication": {
-      "UWCustomerDetails": [
-        {
-          "ExistingCustomer": "N",
-          "UWIncomeSummary": {
-            "NetIncomeMonthly": 0,
-            "DBR": 0,
-            "IncomeSummarySeq": 101,
-            "TotalIncome": 0,
-            "TotalLiabiity": 0,
-            "BorrowerSeq": 2251,
-            "TotalObligation": 0
-          },
-          "DOB": "04-05-1995",
-          "FullName": "Juhi S Patil",
-          "UWFamily": [
-            {
-              "DOB": "1995-07-01 00:00:00.0",
-              "FullName": "YTRI YUTU UYTU ",
-              "Relationship": "BR",
-              "BorrowerSeq": 3291,
-              "CustomerRelated": 2251
-            }
-          ],
-          "BorrowerSeq": 2251,
-          "ApplicationId": 2061,
-          "CustomerType": "B",
-          "UWAddress": [
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 829,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "OF",
-              "Pincode": 400060
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 728,
-              "Address1": "bncbv",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 727,
-              "Address1": "virar",
-              "BorrowerSeq": 2251,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400060
-            }
-          ]
-        },
-        {
-          "FullName": "JUHI ",
-          "BorrowerSeq": 3272,
-          "ApplicationId": 2061,
-          "CustomerType": "R",
-          "UWAddress": [
-            {
-              "State": "MAHARASHTRA",
-              "AddressSeq": 1288,
-              "Address1": "BHAYANDER",
-              "BorrowerSeq": 3272,
-              "City": "MUMBAI",
-              "Pincode": 400001
-            },
-            {
-              "State": "MAHARASHTRA",
-              "AddressSeq": 1289,
-              "Address1": "BHAYANDER",
-              "BorrowerSeq": 3272,
-              "City": "MUMBAI",
-              "Pincode": 400001
-            }
-          ]
-        }
-      ],
-      "UWApplicationInfo": {
-        "DateOfReceipt": "13-05-2020 00:00:00",
-        "ApplicationInfoId": 2082,
-        "ApplicationId": 2061
-      },
-      "Branch": "101",
-      "UWLoan": {
-        "LoanDetailsSeq": 702,
-        "ApplicationId": 2061
-      },
-      "DSAId": "USERS2",
-      "SourcingChannel": "MUM",
-      "ApplicationId": 2061
-    }
-  }
-
-  singleCustomerData = {
-    "ExistingCustomer": "N",
-    "UWIncomeSummary": {
-      "NetIncomeMonthly": 0,
-      "DBR": 0,
-      "IncomeSummarySeq": 101,
-      "TotalIncome": 0,
-      "TotalLiabiity": 0,
-      "BorrowerSeq": 2251,
-      "TotalObligation": 0
-    },
-    "DOB": "04-05-1995",
-    "FullName": "Juhi S Patil",
-    "UWFamily": [
-      {
-        "DOB": "1995-07-01 00:00:00.0",
-        "FullName": "YTRI YUTU UYTU ",
-        "Relationship": "BR",
-        "BorrowerSeq": 3291,
-        "CustomerRelated": 2251
-      }
-    ],
-    "BorrowerSeq": 2251,
-    "ApplicationId": 2061,
-    "CustomerType": "B",
-    "UWAddress": [
-      {
-        "State": "Maharashtra",
-        "AddressSeq": 829,
-        "Address1": "virar",
-        "BorrowerSeq": 2251,
-        "City": "Mumbai",
-        "AddressType": "OF",
-        "Pincode": 400060
-      },
-      {
-        "State": "Maharashtra",
-        "AddressSeq": 728,
-        "Address1": "bncbv",
-        "BorrowerSeq": 2251,
-        "City": "Mumbai",
-        "AddressType": "RS",
-        "OccupationType": "OW",
-        "Pincode": 400060
-      },
-      {
-        "State": "Maharashtra",
-        "AddressSeq": 727,
-        "Address1": "virar",
-        "BorrowerSeq": 2251,
-        "City": "Mumbai",
-        "AddressType": "RS",
-        "OccupationType": "OW",
-        "Pincode": 400060
-      }
-    ]
-  };
-
-  // customizedJsonData = [
-  //   {
-  //     sectionName: "customer",
-  //     data: {
-  //       id: 1,
-  //       fullName: "Sulaiman Neville",
-  //       existingCustomer: true,
-  //       dob: "23 Mar 1991"
-  //     }
-  //   },
-  //   {
-  //     sectionName: "interfaceResults",
-  //     data: {
-  //       customer: [
-  //         {
-  //           id: 1,
-  //           name: "Vishal karan Kotwal",
-  //           internalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //           externalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //         },
-  //         {
-  //           id: 2,
-  //           name: "Darshan karan Kotwal",
-  //           internalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //           externalResults: [
-  //             { watchOut: true }, { PAN: true }
-  //           ],
-  //         }
-  //       ]
-  //     }
-  //   },
-  //   {
-  //     sectionName: "financialSummary",
-  //     data: {
-  //       id: 1,
-  //       totalIncome: 10000,
-  //       totalLiability: 10000,
-  //       totalAsstValue: 20000
-  //     }
-  //   },
-  //   {
-  //     sectionName: "collateralDetails",
-  //     data: {
-  //       id: 1,
-  //       type: "house",
-  //       collateernalName: "",
-  //       amount: 20000
-  //     }
-  //   },
-  //   {
-  //     sectionName: "familyDetails",
-  //     data: null
-  //   }
-  // ];
 
   customerSectionsList = [
     { responseName: "UWIncomeSummary", name: "financialSummary", displayName: "Financial Summary" },
@@ -287,8 +65,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // { className: "InterfaceResults" },
         // { className: "VehicalDetails" },
         { className: "CardDetails" },
-        { className: "GoldDetails" },
+        // { className: "GoldDetails" },
         // { className: "EducationDetails" },
+        { className: "PropertyDetails" },
         { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
@@ -314,7 +93,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
   customerCardDataWithFields: IGeneralCardData;//store customer related data
 
-  loanDetailsCardData: IGeneralCardData//stores loan Details card data
+  loanDetailsCardData: IGeneralCardData = null//stores loan Details card data
   interfaceResultCardData: IGeneralCardData;
 
   selectedTab: string = "customer";
@@ -326,7 +105,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       score: 54,
     },
     {
-      type: "Fire Policy",
+      type: "Policy Score",
       score: 36,
     },
     {
@@ -357,128 +136,226 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   customerSectionLoaded: boolean = false;
 
   workingJsonObj = {
-    "UWCustomerDetails": [
-      {
-        "ExistingCustomer": "N",
-        "UWIncomeSummary": {
-          "NetIncomeMonthly": 120,
-          "DBR": 65,
-          "IncomeSummarySeq": 101,
-          "TotalIncome": 1500000,
-          "TotalLiabiity": 0,
-          "BorrowerSeq": 2251,
-          "TotalObligation": 100
-        },
-        "DOB": "04-05-1995",
-        "FullName": "Deepesh jain",
-        "BorrowerSeq": 1496,
-        "ApplicationId": 1486,
-        "CustomerType": "B",
-        "UWAddress": [
-          {
-            "State": "Maharashtra",
-            "AddressSeq": 829,
-            "Address1": "virar",
-            "BorrowerSeq": 2251,
-            "City": "Mumbai",
-            "AddressType": "OF",
-            "Pincode": 400060,
-            "test": "aaaaaa"
-          },
-          {
-            "State": "Maharashtra",
-            "AddressSeq": 728,
-            "Address1": "bncbv",
-            "BorrowerSeq": 2251,
-            "City": "Mumbai",
-            "AddressType": "RS",
-            "OccupationType": "OW",
-            "Pincode": 400060
-          },
-          {
-            "State": "Maharashtra",
-            "AddressSeq": 727,
-            "Address1": "virar",
-            "BorrowerSeq": 2251,
-            "City": "Mumbai",
-            "AddressType": "RS",
-            "OccupationType": "OW",
-            "Pincode": 400060
-          }
-        ],
-        "UWFamily": [
-          {
-            "DOB": "1995-07-01 00:00:00.0",
-            "FullName": "YTRI YUTU UYTU ",
-            "Relationship": "BR",
-            "BorrowerSeq": 3291,
-            "CustomerRelated": 2251
-          },
-          {
-            "DOB": "0",
-            "FullName": "0",
-            "Relationship": "0",
-            "BorrowerSeq": 0,
-            "CustomerRelated": 0
-          }
-        ],
-        "UWIncomeDetails": {
-          "GrossIncome": "pending",
-          "ExistingLiabilities": "completed",
-          "IncomeVerification": "completed",
-          "PANVerification": "deviation",
-        }
+    "UWApplication": {
+      "UWDisbursal": {
+        "DisbursalSeq": ""
       },
-      {
-        "ExistingCustomer": "N",
-        "UWIncomeSummary": {
-          "NetIncomeMonthly": 0,
-          "DBR": 0,
-          "IncomeSummarySeq": 101,
-          "BorrowerSeq": 2251,
-          "TotalObligation": 0
-        },
-        "DOB": "04-05-1995",
-        "FullName": "Juhi S Patil",
-        "BorrowerSeq": 1495,
-        "ApplicationId": 1486,
-        "CustomerType": "CB"
+      "UWCreditCard": {
+        "CreditCardSeq": ""
+      },
+      "UWCustomerDetails": [
+        {
+          "ExistingCustomer": "N",
+          "UWIncomeSummary": {
+            "NetIncomeMonthly": 32958,
+            "DBR": 0,
+            "IncomeSummarySeq": 261,
+            "TotalIncome": 395500,
+            "TotalLiabiity": 0,
+            "BorrowerSeq": 3573,
+            "TotalObligation": 0
+          },
+          "DOB": "02-07-1997",
+          "FullName": "TEJ PATIL",
+          "BorrowerSeq": 3573,
+          "ApplicationId": 2822,
+          "CustomerType": "B",
+          "UWAddress": [
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 1466,
+              "Address1": "BHAYANDER",
+              "BorrowerSeq": 3573,
+              "City": "Mumbai",
+              "AddressType": "OF",
+              "Pincode": 400060
+            },
+            {
+              "State": "Maharashtra",
+              "AddressSeq": 1467,
+              "Address1": "GOREGOAN",
+              "BorrowerSeq": 3573,
+              "City": "Mumbai",
+              "AddressType": "RS",
+              "OccupationType": "OW",
+              "Pincode": 400001
+            },
+            {
+              "State": "MAHARASHTRA",
+              "AddressSeq": 1468,
+              "Address1": "VIRAR",
+              "BorrowerSeq": 3573,
+              "City": "MUMBAI",
+              "AddressType": "RS",
+              "OccupationType": "RN",
+              "Pincode": 400002
+            }
+          ]
+        }
+      ],
+      "UWApplicationInfo": {
+        "DateOfReceipt": "03-07-1996 00:00:00",
+        "ApplicationInfoId": 2843,
+        "ApplicationId": 2822
+      },
+      "Branch": "103",
+      "UWLoan": {
+        "RepaymentFrequency": "A",
+        "AmortizationAmount": 33806.67,
+        "ProductCategory": "ML",
+        "LoanDetailsSeq": 862,
+        "ApplicationId": 2822,
+        "MargineMoney": 0
+      },
+      "DSAId": "USERS1",
+      "SourcingChannel": "DSA",
+      "UWQuestionnaire": {
+        "DeviationLevel": "L1",
+        "QuestionnaireCategory": "go_no_go",
+        "QuestionnaireSeq": 369,
+        "ApplicationId": 2822
+      },
+      "ApplicationId": 2822,
+      "UWFeeCharges": {
+        "ChargeSeq": ""
+      },
+      "UWRMVisit": {
+        "VisitSeq": ""
       }
-    ],
-    "UWApplicationInfo": {
-      "DateOfReceipt": "13-05-2020 00:00:00",
-      "ApplicationInfoId": 2082,
-      "ApplicationId": 2061
-    },
-    "Branch": "101",
-    "UWLoan": {
-      "LoanDetailsSeq": 702,
-      "ApplicationId": 2061
-    },
-    "DSAId": "USERS2",
-    "SourcingChannel": "MUM",
-    "ApplicationId": 2061
-  };
+    }
+  }
 
-  applicationId: number;
-  borrowerSeq: number;
+  borrowerSeq: number = 0;
+  isDataAvaliableFlag: number = -1;
+
   componentCode = 'UnderWriter';
+
+  //getting data from route(mytray -> UW)
+  applicationId: number = 0;
+  taskId: any;
+  instanceId: any;
+  userId: any;
+  tenantId: string = "SB1";
+  serviceCode: string = "ClaimTask";
+  processId: string = "RLO_Process";
+  applicationStatus: string = "AP";
+  ///
+
+  isLoanCategory: boolean = false;
+  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
+    this.services.rloui.customerListDropDownArray = [];
+    // this.getUnderWriterData();
+  }
+
+  ngOnInit() { }
+
+  ngOnDestroy() {
+    this.services.rloui.closeAllConfirmationModal();
+  }
+
+  ngAfterViewInit() {
+    // setTimeout(() => {
+    //   this.reloadCardGrid();
+    // }, 10);
+    //withdraw  reject  pre-cpv
+  }
+
+  //@Output
+  broadcastProdCategory(event) {
+    // this.services.rloCommonData.globalApplicationDtls = {
+    //   isLoanCategory: event.isLoanCategory,
+    //    ProductCode: event.ProductCode,
+    //    SubProductCode: event.SubProductCode,
+    //    SchemeCode: event.SchemeCode,
+    // };
+   // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    this.isLoanCategory = event.isLoanCategory;
     this.getUnderWriterData();
-    //this.generateModelJson({});
+  }
+
+  //@Output
+  async headerState(event) {
+    this.showExpandedHeader = event.headerState;
+    console.log("header ---", this.showExpandedHeader);
+    // if (!this.showExpandedHeader) {
+    //   setTimeout(() => {
+    //     window.scroll(0, 0);
+    //   }, 100);
+    // }
+  }
+
+  async claimTask(taskId) {
+    const inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
+    inputMap.set('Body.TENANT_ID', this.tenantId);
+    inputMap.set('Body.TaskId', taskId);
+    inputMap.set('HeaderParam.ProcessId', this.processId);
+    inputMap.set('HeaderParam.ServiceCode', this.serviceCode);
+    this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        if (res.Status == 'S') {
+          this.services.alert.showAlert(1, 'rlo.success.claim.dde', 5000);
+          this.userId = sessionStorage.getItem('userId')
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+        }
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        // if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+        //   if (err['ErrorElementPath'] === 'ServiceCode') {
+        //     this.HideServiceCode.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'ProcessId') {
+        //     this.HideProcessId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TaskId') {
+        //     this.HideTaskId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+        //     this.HideTenantId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'UserId') {
+        //     this.HideUserId.setError(err['ErrorDescription']);
+        //   }
+        // }
+        this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
+      }
+    );
   }
 
   getUnderWriterData() {
-    //valid application id - 1675 1937 1678 1673(RM visit)
-    let appId = "1675";
+    //valid application id -  2141(Loan details), 2460(has property) 2483(al data),2148(liability)
+
+    this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
+    this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
+    this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
+
+    if (this.userId === undefined || this.userId == '') {
+      this.claimTask(this.taskId);
+    }
+
+    console.error("*******", this.applicationId);
+    let appId = this.applicationId;
+    //appId = 2483;
+
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
+        //const res = this.workingJsonObj //testing
         console.warn(res);
-        this.applicationId = res.UWApplication.ApplicationId;
-        this.generateModelJson(res.UWApplication);
+
+        if (res != null) {
+          this.isDataAvaliableFlag = 1;
+          this.applicationId = res.UWApplication.ApplicationId;
+          this.generateModelJson(res.UWApplication);
+        }
+        else {
+          this.isDataAvaliableFlag = 0;
+        }
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -493,36 +370,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.masonry.layout();
   }
 
-  ngOnInit() { }
-
-  ngAfterViewInit() {
-    // setTimeout(() => {
-    //   this.reloadCardGrid();
-    // }, 10);
-    //withdraw  reject  pre-cpv
-  }
-
-  //@Output
-  brodcastProdCategory() { }
-
-  //@Output
-  headerState() { }
-
-  addCustomerData() {
-    const object: ICardMetaData = {
-      id: "customer",
-      displayName: "Customer 360 degrees",
-      data: this.singleCustomerData,
-      type: "customerCard"
-    };
-
-    this.customerCardSectionData = object;
-  }
-
   //under-writer.component.ts
   generateModelJson(jsonData) {
     let obj = jsonData;
-    //let obj = this.workingJsonObj;
 
     //data for cust-tabs
     obj["UWCustomerDetails"].forEach(element => {
@@ -532,9 +382,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         "CD_CUSTOMER_TYPE": element.CustomerType
       };
 
-      if (element.CustomerType != "R")
+      if (element.CustomerType != "R") {
         this.customerList.push(data);
+
+        this.services.rloui.customerListDropDownArray.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      }
+
     });
+
+    // let serviceObj = {
+    //   "name": "CustomerDetails",
+    //   "data": array,
+    //   "BorrowerSeq": this.HidCustomerId.getFieldValue()
+    // };
+    // this.services.rloCommonData.updateMasterDataMap(serviceObj, true)
+
+    // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.UWTabs.setCustomerList(this.customerList);//pass customer list to component
     this.borrowerSeq = this.customerList[0].BorrowerSeq;
@@ -548,15 +411,40 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     for (let i = 0; i < this.allSectionsCardData[1].cardList.length; i++) {
       const element = this.allSectionsCardData[1].cardList[i];
-      if (productCategory == "CC") {
-        if (element.className != "VehicalDetails" && element.className != "GoldDetails") {
-          validSectionList.push(element);
-        }
-      } else if (productCategory == "AL") {
-        if (element.className != "CardDetails" && element.className != "GoldDetails") {
-          validSectionList.push(element);
-        }
+      if (this.isLoanCategory && element.className == "LoanDetails") {
+        validSectionList.push(element);
       }
+
+      switch (productCategory) {
+        case "CC":
+          if (element.className != "VehicalDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        case "AL":
+          if (element.className != "CardDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        case "ML":
+          if (element.className != "CardDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        case "PL":
+          if (element.className != "CardDetails" && element.className != "PropertyDetails" && element.className != "LoanDetails") {
+            validSectionList.push(element);
+          }
+          break;
+
+        default:
+          // validSectionList.push(element);
+          break;
+      }
+
     }
     this.allSectionsCardData[1].cardList = validSectionList;
     console.log(this.allSectionsCardData[1].cardList);
@@ -625,6 +513,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       this.aBlankCardData = [];
 
       let application = this.customerMasterJsonData.ApplicationDetails;
+      console.log("----", application);
+
       this.allSectionsCardData[1].cardList.forEach(element => {
         switch (element.className) {
           case "LoanDetails":
@@ -656,6 +546,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "GoldDetails":
           case "EducationDetails":
           case "GoNoGoDetails":
+          case "PropertyDetails":
             data = application[element.className].getCardData();
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;
@@ -680,6 +571,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       console.warn(this.aCardDataWithFields, this.aBlankCardData);
       console.warn(JSON.stringify(this.aCardDataWithFields));
       console.warn(JSON.stringify(this.aBlankCardData));
+      console.log("loanDetailsCardData", this.loanDetailsCardData);
       setTimeout(() => {
         this.applicationSectionLoaded = true;
         console.warn("****");
@@ -738,6 +630,216 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   fabclose() {
     document.getElementById("fab-show").style.display = "none";
     document.getElementById("fab-open").style.display = "block";
+  }
+
+  goBack() {
+    this.services.rloui.goBack();
+  }
+
+  cancelForm() {
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      console.log("deep ===", modalObj);
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+
+  withdrawForm() {
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Withdraw');
+    requestParams.set('Body.direction', 'W');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
+          }
+        }
+      });
+    });
+  }
+
+  reviewForm() {
+
+  }
+
+  rejectForm() {
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Reject');
+    requestParams.set('Body.direction', 'RJ');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.reject.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
+          }
+        }
+      });
+    });
+  }
+
+  approveForm() {
+    const requestParams = new Map();
+
+    requestParams.set('Body.ApplicationStatus', this.applicationStatus);
+    requestParams.set('Body.direction', this.applicationStatus);
+    this.submitDDE(requestParams);
+  }
+
+  async submitDDE(requestParams) {
+    const inputMap = new Map();
+
+    inputMap.clear();
+    inputMap.set('HeaderParam.ProcessId', this.processId);
+    inputMap.set('HeaderParam.ServiceCode', this.serviceCode);
+    inputMap.set('Body.TaskId', this.taskId);
+    inputMap.set('Body.TENANT_ID', this.tenantId);
+    inputMap.set('Body.UserId', this.userId);
+    inputMap.set('Body.CurrentStage', "UW");
+    inputMap.set('Body.ApplicationId', this.applicationId);
+    inputMap.set('Body.ApplicationStatus', this.applicationStatus);
+    inputMap.set('Body.CreatedBy', this.userId);
+
+    if (requestParams) {
+      requestParams.forEach((val, key) => {
+        inputMap.set(key, val);
+      });
+    } else {
+      return;
+    }
+
+    this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+
+        const action: string = (requestParams.get('Body.ApplicationStatus')).toUpperCase();
+
+        let alertMsg = 'rlo.success.submit';
+        switch (action) {
+          case 'WITHDRAW':
+            alertMsg = 'rlo.success.withdraw';
+            break;
+          case 'REJECT':
+            alertMsg = 'rlo.success.reject';
+            break;
+          case 'REFER':
+            alertMsg = 'rlo.success.refer';
+            break;
+          default:
+            alertMsg = 'rlo.success.submit';
+            break;
+        }
+
+        var mainMessage = this.services.rloui.getAlertMessage(alertMsg);
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+
+        Promise.all([mainMessage, button1]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+          }
+
+          console.log("deep ===", modalObj);
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.router.navigate(['home', 'LANDING']);
+              }
+            }
+          });
+        });
+        // this.QDE_SUBMIT.setDisabled(true);
+        // this.QDE_WITHDRAW.setDisabled(true);
+        // this.services.alert.showAlert(1, alertMsg, 5000);
+        // // this.QDE_SUBMIT.setDisabled(false)
+        // this.services.router.navigate(['home', 'LANDING']);
+      },
+      async (httpError) => {
+        const err = httpError['error'];
+        // if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+        //   if (err['ErrorElementPath'] === 'CurrentStage') {
+        //     this.HideCurrentStage.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'UserId') {
+        //     this.HideUserId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TENANT_ID') {
+        //     this.HideTenantId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'TaskId') {
+        //     this.HideTaskId.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'ServiceCode') {
+        //     this.HideServiceCode.setError(err['ErrorDescription']);
+        //   } else if (err['ErrorElementPath'] === 'ProcessId') {
+        //     this.HideProcessId.setError(err['ErrorDescription']);
+        //   }
+        //   this.services.alert.showAlert(2, 'Fail to Submit', -1);
+        // }
+      }
+    );
+  }
+
+  openFileUpload() {
+    this.services.rloui.openFileUpload(this.ApplicationId);
   }
 
 }

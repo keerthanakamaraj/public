@@ -165,9 +165,17 @@ export class MyTrayGridComponent implements AfterViewInit {
   {
     field: "MT_STAGE",
     width: 12,
-    sortable: false,
+    sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",    
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    }
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -195,11 +203,19 @@ export class MyTrayGridComponent implements AfterViewInit {
   },
   {
     field: "MT_INITIATED_ON",
-    width: 12,
-    sortable: false,
+    width: 10,
+    sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    valueFormatter: this.formatDate.bind(this),
+    // valueFormatter: this.formatDate.bind(this),
+    filter: "agTextColumnFilter",    
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    }
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -211,7 +227,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   },
   {
     field: "MT_CAD_LOCATION",
-    width: 12,
+    width: 10,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -239,6 +255,23 @@ export class MyTrayGridComponent implements AfterViewInit {
     // caseSensitive: true,
     // },
   },
+  {
+      width: 4,
+      field: " ",
+      sortable: false,
+      filter: false,
+      resizable: true,
+      cellRenderer: 'buttonRenderer',
+      cellStyle: { 'text-align': 'left' },
+      cellRendererParams: {
+          gridCode: 'AssetDetailsGrid',
+          columnId: 'AT_VIEW',
+          Type: '1',
+          CustomClass: 'btn-views',
+          IconClass: 'fa fa-eye fa-lg',
+          onClick: this.showWorkflowStage.bind(this),
+      },
+  }
 
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
@@ -376,7 +409,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar7[i].CREATED_BY;
-              tempObj['MT_INITIATED_ON'] = loopVar7[i].CREATED_ON;
+              tempObj['MT_INITIATED_ON'] = loopVar7[i].CREATED_TIME;
               tempObj['MT_CAD_LOCATION'] = loopVar7[i].BRANCH;
               tempObj['MT_PENDING_WITH'] = loopVar7[i].ASSIGNED_TO;
               tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
@@ -438,7 +471,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
             case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_TIME"; break;
             case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
             case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
@@ -498,9 +531,18 @@ export class MyTrayGridComponent implements AfterViewInit {
     if (selectedData2) {
       let stageId = selectedData2['hiddenStageId'];
 
-      if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
-        this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
-        return;
+      // if(stageId !== "QDE" && stageId !== "DDE"){ // Restrict navigation other than QDE - Sprint -2
+      //   this.services.alert.showAlert(4, 'rlo.error.feature.unavailable', 5000);
+      //   return;
+      // }
+
+      //UW
+      // if(stageId== "PRE-CPV"){
+      //   stageId = "Underwriter";
+      // }
+
+      if (stageId == "Underwriter") {
+        stageId = "Underwriter";
       }
 
       navPath.push(stageId);
@@ -529,6 +571,33 @@ export class MyTrayGridComponent implements AfterViewInit {
   }
   hideSpinner() {
     this.loadSpinner = false;
+  }
+
+  showWorkflowStage(rowdata){
+    let inputMap = new Map();
+    console.log('rowdata ' , rowdata);
+
+    var navPath = ('/home').split('/');
+    navPath = navPath.slice(1);
+    
+    // let stageId = rowdata['hiddenStageId'];
+    // navPath.push('view-wf?stage=' + stageId);
+    navPath.push('view-wf');
+
+    this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
+
+    inputMap.set('stage', rowdata['hiddenStageId']);
+    inputMap.set('appId', rowdata['MT_PROPOSAL_ID']);
+    inputMap.set('taskId', rowdata['hiddenTaskId']);
+    inputMap.set('instanceId', rowdata['hiddenInstanceId']);
+
+    if (this.services.routing.currModal > 0) {
+      var routerOutlets = {};
+      routerOutlets[this.services.routing.currOutlet] = [navPath[navPath.length - 1], 'popup'];
+      this.services.router.navigate([{ outlets: routerOutlets }], { skipLocationChange: true });
+    } else {
+      this.services.router.navigate(navPath);
+    }
   }
 
   formatAmount(number) {

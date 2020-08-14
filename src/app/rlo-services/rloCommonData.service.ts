@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { RlouiService } from './rloui.service';
 import { Router } from '@angular/router';
 import { promise } from 'protractor';
+import { string } from '@amcharts/amcharts4/core';
 
 export interface subjectParamsInterface {
   action: string;
@@ -30,10 +31,22 @@ export interface IFormValidationData {
   errorsList: any
 }
 export interface IGlobalApllicationDtls {
-  isLoanCategory?: string,
-  ProductCode?: string,
-  SubProductCode?: string,
-  SchemeCode?: string
+  isLoanCategory?: boolean;
+  TypeOfLoanCode?: string;
+  TypeOfLoanName?: string;
+  ProductCode?: string;
+  ProductName?: string;
+  SubProductCode?: string;
+  SubProductName?: string;
+  SchemeCode?: string;
+  SchemeName?: string;
+  PromotionCode?: string;
+  PromotionName?: string;
+  LoanTenure?: string;
+  LoanTenurePeriodCode?: string;
+  LoanTenurePeriodName?: string;
+  ARN?:string;
+  LoanAmount?:string;
 }
 @Injectable({
   providedIn: 'root'
@@ -41,10 +54,11 @@ export interface IGlobalApllicationDtls {
 
 
 export class RloCommonData {
-
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
   //used to define if the header should be expaneded or collapsed
   childToParentSubject = new Subject<subjectParamsInterface>();
   updateDdeMenuSubject = new Subject<string>();//add or remove
+  modalDataSubject = new Subject<subjectParamsInterface>();//modal to invoking component data passing
 
   dataSavedSubject = new Subject<boolean>();//when a particular form section is saved successfully(save),subscribed in DDE
 
@@ -54,7 +68,7 @@ export class RloCommonData {
   masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
   componentLvlDataSubject = new Subject<IComponentLvlData>();
   currentRoute: string = "";
-globalApplicationDtls:IGlobalApllicationDtls= {};
+  globalApplicationDtls: IGlobalApllicationDtls = {};
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -199,6 +213,10 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
+        case 'ApplicationDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -227,7 +245,7 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
           }
           else {
             // no data found in component ie. either tabular or no-tabular component
-           functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
+            functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
           }
         }
       }
@@ -236,6 +254,7 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
       }
     }
     console.log("shweta :: in update services temp map", tempStoreMap);
+    console.log("shweta :: masterDataMap", this.masterDataMap);
 
     return functionalResponseObj;
   }
@@ -343,7 +362,7 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
 
     return dataObject;
   }
-      
+
   getCustomerList() {
     let CustomerList = [];
     if (this.masterDataMap.has('customerMap')) {
@@ -357,31 +376,25 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
     return CustomerList;
   }
 
-       async UpdateRmVisitDetailsTags(event) {
-        const tags = [];
-        event.data.forEach(Visit => {
-            let tagText = '';
-            let vistPlace = '';
-            console.log("RM Visit Tags : ", Visit);
-            switch (Visit.PlaceofVisit) {
-                case 'OF': vistPlace = 'Office'; break;
-                case 'PL': vistPlace = 'Plant'; break;
-                case 'RS': vistPlace = 'Residence'; break;
-                case 'WH': vistPlace = 'Warehouse'; break;
-                default: vistPlace = Visit.PlaceofVisit;
-            }
-            tagText = tagText + this.rloutil.concatenate([Visit.NameOfPerson, vistPlace], '; ');
-            tags.push({ text: tagText });
-        });
-        return this.trimTagsIfRequired(tags, 3);
-    }
+  async UpdateRmVisitDetailsTags(event) {
+    const tags = [];
+    event.data.forEach(Visit => {
+      let tagText = '';
+      let vistPlace = '';
+      console.log("RM Visit Tags : ", Visit);
+      switch (Visit.PlaceofVisit) {
+        case 'OF': vistPlace = 'Office'; break;
+        case 'PL': vistPlace = 'Plant'; break;
+        case 'RS': vistPlace = 'Residence'; break;
+        case 'WH': vistPlace = 'Warehouse'; break;
+        default: vistPlace = Visit.PlaceofVisit;
+      }
+      tagText = tagText + this.rloutil.concatenate([Visit.NameOfPerson, vistPlace], '; ');
+      tags.push({ text: tagText });
+    });
+    return this.trimTagsIfRequired(tags, 3);
+  }
 
-
-    async asyncForEach(array, callback) {
-        for (let index = 0; index < array.length; index++) {
-            await callback(array[index], index, array);
-        }
-    }
 
 
 
@@ -397,71 +410,58 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
 
   //88888888888888888888888888888888888888888888888888888888888888888888888888888
 
-    //used in both QDE and DDE -> customer sections
-    async isFormValid() {
-        let dataObject: IFormValidationData = {
-            isAppValid: true,
-            errorsList: []
-        }
+  //used in both QDE and DDE -> customer sections
+  async isFormValid() {
+    let dataObject: IFormValidationData = {
+      isAppValid: true,
+      errorsList: []
+    }
 
-        var dataToValidate: Map<any, any>;
-        dataToValidate = this.masterDataMap.get("customerMap");
+    var dataToValidate: Map<any, any>;
+    dataToValidate = this.masterDataMap.get("customerMap");
 
-        await this.asyncForEach(Array.from(dataToValidate.entries()), async (entry) => {
-            let isAddressValid = true;
-            let isOccupationValid = true;
-            let isCustomerValid = true;
-            let isIncomeSummaryValid = true;
-            let errorMessage = '';
-            let custFullName = '';
+    await this.asyncForEach(Array.from(dataToValidate.entries()), async (entry) => {
+      let isAddressValid = true;
+      let isOccupationValid = true;
+      let isCustomerValid = true;
+      let isIncomeSummaryValid = true;
+      let errorMessage = '';
+      let custFullName = '';
 
-            if (entry[1].has('CustomerDetails')) {
-                const customer = entry[1].get('CustomerDetails');
-                custFullName = customer.FullName;
+      if (entry[1].has('CustomerDetails')) {
+        const customer = entry[1].get('CustomerDetails');
+        custFullName = customer.FullName;
 
-                forkJoin(
-                    this.validateCustomerDetailSection(entry[1]),
-                    this.validateAddressDetailSection(entry[1]),
-                    this.validateOccupationDetailsSection(entry[1]),
-                    this.validateIncomeSummary(entry[1])
-                ).subscribe((data) => {
-                    console.error(data);
-                    isCustomerValid = data[0].isSectionValid;
-                    isAddressValid = data[1].isSectionValid;
-                    isOccupationValid = data[2].isSectionValid;
-                    isIncomeSummaryValid = data[3].isSectionValid;
+        forkJoin(
+          this.validateCustomerDetailSection(entry[1]),
+          this.validateAddressDetailSection(entry[1]),
+          this.validateOccupationDetailsSection(entry[1]),
+          this.validateIncomeSummary(entry[1])
+        ).subscribe((data) => {
+          console.error(data);
+          isCustomerValid = data[0].isSectionValid;
+          isAddressValid = data[1].isSectionValid;
+          isOccupationValid = data[2].isSectionValid;
+          isIncomeSummaryValid = data[3].isSectionValid;
 
-                    for (let i = 0; i < data.length; i++) {
-                        const element = data[i];
-                        if (!element.isSectionValid) {
-                            if (i == data.length - 1) {
-                                element.errorMessage = element.errorMessage + ".";
-                            }
-                            else {
-                                element.errorMessage = element.errorMessage + ", ";
-                            }
-                        }
-                        errorMessage += element.errorMessage;
-                    }
+          let errorCounter = 1;
+          for (let i = 0; i < data.length; i++) {
+            const element = data[i];
 
-                    if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
-                        let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
-                        dataObject.errorsList.push(msg);
-                        dataObject.isAppValid = false;
-                    }
-                });
+            if (!element.isSectionValid) {
+              errorMessage += "<p>" + (errorCounter++) + ". " + element.errorMessage + "</p>";
             }
-            errorMessage += element.errorMessage;
           }
 
-          if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
-            let msg = "Please fill all the pending Details for Customer" + ' " ' + custFullName + ' " ' + " : " + errorMessage + "\r\n";
+          if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
+            let msg = "<p>The following details for " + custFullName + " need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
             dataObject.errorsList.push(msg);
             dataObject.isAppValid = false;
           }
         });
       }
     });
+
     console.warn(dataObject.errorsList);
     return dataObject;
   }
@@ -474,10 +474,12 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
     let customerData = sectionData.get('CustomerDetails');
 
     console.log("-------- customerData ", customerData);
-    if (customerData.isValid) {
-      commonObj.isSectionValid = true;
-    } else {
-      commonObj.errorMessage += 'Fill all mandatory fields for the customer';
+    if (customerData.CustomerType != "G") {
+      if (customerData.isValid) {
+        commonObj.isSectionValid = true;
+      } else {
+        commonObj.errorMessage += 'All mandatory fields in Customer Details';
+      }
     }
     return commonObj;
   }
@@ -492,30 +494,26 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
 
     const LoanOwnership = customerData.LoanOwnership;
 
-        if (LoanOwnership !== undefined && LoanOwnership!=0) {
-            commonObj.isSectionValid = false;
-            if (customerSectionData.has('OccupationDetails')) {
-                const occupationList = customerSectionData.get('OccupationDetails');
+    if (LoanOwnership !== undefined && LoanOwnership != 0) {
+      commonObj.isSectionValid = false;
+      if (customerSectionData.has('OccupationDetails')) {
+        const occupationList = customerSectionData.get('OccupationDetails');
 
-                for (const eachOccupation of occupationList) {
-                    if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
-                        commonObj.isSectionValid = true;
-                    } else if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
-                        commonObj.isSectionValid = true;
-                    }
-                }
-            }
-            if (!commonObj.isSectionValid) {
-                commonObj.errorMessage = "Income Type required as Primary for Occupation";
-            }
+        for (const eachOccupation of occupationList) {
+          if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
+            commonObj.isSectionValid = true;
+          } else if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
+            commonObj.isSectionValid = true;
+          }
         }
       }
       if (!commonObj.isSectionValid) {
-        commonObj.errorMessage = "Income Type required as Primary for Occupation. ";
+        commonObj.errorMessage = " 1 primary occupation";
       }
     }
     return commonObj;
   }
+
 
   async validateAddressDetailSection(sectionData: Map<any, any>) {
     let commonObj: IComponentSectionValidationData = {
@@ -529,7 +527,7 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
 
     if (!sectionData.has('AddressDetails')) {
       commonObj.isSectionValid = false;
-      commonObj.errorMessage += 'Please Add Address For Every Customers';
+      // commonObj.errorMessage += '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     } else {
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
@@ -537,52 +535,35 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
         if (eachAddress.MailingAddress && eachAddress.MailingAddress === 'Y') {
           addrValidationObj.isMailing = true;
         }
+        if ('CR' === ('' + eachAddress.OccupancyType)) {
+          addrValidationObj.isCurrent = true;
+        }
+        if ('PR' === ('' + eachAddress.OccupancyType)) {
+          addrValidationObj.isPermenet = true;
+        }
+        if ('OF' === ('' + eachAddress.AddressType)) {
+          addrValidationObj.isOffice = true;
+        }
+      }
 
-        let customerData = sectionData.get('CustomerDetails');
-
-        const LoanOwnership = customerData.LoanOwnership;
-        const custType = customerData.CustomerType;
-
-        if (!sectionData.has('AddressDetails')) {
-            commonObj.isSectionValid = false;
-            commonObj.errorMessage += 'Please Add Address For Every Customers';
-        } else {
-            const addressList = sectionData.get('AddressDetails');
-            const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
-            for (const eachAddress of addressList) {
-                if (eachAddress.MailingAddress && eachAddress.MailingAddress === 'Y') {
-                    addrValidationObj.isMailing = true;
-                }
-                if ('CR' === ('' + eachAddress.OccupancyType)) {
-                    addrValidationObj.isCurrent = true;
-                }
-                if ('PR' === ('' + eachAddress.OccupancyType)) {
-                    addrValidationObj.isPermenet = true;
-                }
-                if ('OF' === ('' + eachAddress.AddressType)) {
-                    addrValidationObj.isOffice = true;
-                }
-            }
-
-            if ((LoanOwnership === undefined || LoanOwnership==0)&& custType !== 'B' && custType !== 'CB') {
-                addrValidationObj.isOffice = true;
-            }
-
-      if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
+      if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
         addrValidationObj.isOffice = true;
       }
+
+      // if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
+      //   addrValidationObj.isOffice = true;
+      // }
 
       for (const flag in addrValidationObj) {
         if (!addrValidationObj[flag]) {
           commonObj.isSectionValid = false;
         }
       }
-
-      if (!commonObj.isSectionValid) {
-        commonObj.errorMessage += (addrValidationObj.isOffice) ?
-          'add one permanent, one current and select one of these as the correspondence address'
-          : 'add one permanent, one current and at least one office address and select one of these as the correspondence address';
-      }
+    }
+    if (!commonObj.isSectionValid) {
+      commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
+        '1 permanent and 1 current residence address and 1 correspondence address'
+        : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     }
     return commonObj;
   }
@@ -676,7 +657,14 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
         isAppValid: true,
         errorsList: []
       }
-
+      let totalLoanOwnership: number = this.calculateLoanOwnership();
+      if (100 != totalLoanOwnership) {
+        dataObject.isAppValid = false;
+        dataObject.errorsList.push("Total Loan ownership should be 100%");
+        console.log("shweta :: error list", dataObject.errorsList);
+        resolve(dataObject);
+        return promise;
+      }
       this.isFormValid().then((customerData) => {
         dataObject.errorsList = customerData.errorsList;
         this.validateApplicationSections(isCategoryTypeLoan).then((applicationData) => {
@@ -748,29 +736,57 @@ globalApplicationDtls:IGlobalApllicationDtls= {};
     return commonObj;
   }
 
-    async validateIncomeSummary(customerTabSectionData: Map<any, any>) {
-        let commonObj: IComponentSectionValidationData = {
-            isSectionValid: true,
-            errorMessage: ''
-        }
-        let customerData = customerTabSectionData.get("CustomerDetails");
-
-        if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
-            if (!customerTabSectionData.has('IncomeSummary')) {
-                commonObj.isSectionValid = false;
-                commonObj.errorMessage = "Details from income summary section required";
-            }
-            return commonObj;
-        }
-        else {
-            return commonObj;
-        }
+  async validateIncomeSummary(customerTabSectionData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
     }
-    
+    let customerData = customerTabSectionData.get("CustomerDetails");
+
+    if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+      if (!customerTabSectionData.has('IncomeSummary')) {
+        commonObj.isSectionValid = false;
+        commonObj.errorMessage = "Details from income summary section required";
+      }
+      return commonObj;
+    }
+    else {
+      return commonObj;
+    }
+  }
+
   goBack() {
     console.log("BACK");
     if (confirm("Are you sure you want to cancel?")) {
       this.router.navigate(['home', 'LANDING']);
     }
   }
+
+  removeCustomerFromMap(deletedCustomer) {
+    if (this.masterDataMap.has("customerMap")) {
+      if (this.masterDataMap.get("customerMap").has(deletedCustomer)) {
+        this.masterDataMap.get("customerMap").delete(deletedCustomer);
+        // console.log("shweta :: customer deleted from map", this.masterDataMap);
+      }
+    }
+  }
+
+  calculateLoanOwnership(activeBorSeq?: string) {
+    let totalLoanOwnership: number = 0;
+    console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    if (this.masterDataMap.has("customerMap")) {
+      const customerMap = this.masterDataMap.get("customerMap");
+      customerMap.forEach(entry => {
+        if (entry.has('CustomerDetails')) {
+          let customer = entry.get('CustomerDetails');
+          if (customer.BorrowerSeq != activeBorSeq && customer.LoanOwnership) {
+            totalLoanOwnership += parseFloat(customer.LoanOwnership);
+          }
+        }
+      });
+    }
+    //console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    return totalLoanOwnership;
+  }
+
 }

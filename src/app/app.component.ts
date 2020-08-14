@@ -5,6 +5,7 @@ import { PopupContentComponent } from './popup-content/popup-content.component';
 import { ServiceStock } from './service-stock.service';
 import { AlertsComponent } from './alerts/alerts.component';
 import { RlouiService } from './rlo-services/rloui.service';
+import { UtilityService } from './services/utility.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
     this.services.translate.use(language);
   }
 
-  constructor(public services: ServiceStock, private router: Router, private rloui: RlouiService) {
+  constructor(public services: ServiceStock, private router: Router, private rloui: RlouiService, private utility: UtilityService) {
     for (var i = 0; i < componentRoutes.length; i++) {
       let route = componentRoutes[i];
       let path = route.path;

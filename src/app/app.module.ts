@@ -3,7 +3,7 @@ import { NgModule, DoBootstrap, ApplicationRef } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder } from '@angular/forms';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
@@ -45,6 +45,9 @@ import { RloUiCardFieldModule } from './rlo-ui-card-field/rlo-ui-card-field.modu
 import { NotepadDetailsFormComponent } from './NotepadDetailsForm/NotepadDetailsForm.component';
 import { NotepadDetailsFormModule } from './NotepadDetailsForm/NotepadDetailsForm.module';
 import { PopUpAlertModule } from './popup-alert/popup-alert-module';
+import { DatePipe } from '@angular/common';
+import { appDataProvider } from './services/appDataProvider.service';
+import { WorkflowViewerModule } from './workflow-viewer/workflow-viewer.module';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
@@ -115,6 +118,7 @@ const keycloakService = new KeycloakService();
     NgbModalModule,
     MyTrayGridModule,
     RloUiCardFieldModule,
+    WorkflowViewerModule,
     Ng4LoadingSpinnerModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -130,6 +134,9 @@ const keycloakService = new KeycloakService();
     Data,
     RoutingService,
     RefreshSidebarService,
+    DatePipe,
+    appDataProvider,
+    FormBuilder,
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
     {
       provide: KeycloakService,
@@ -164,9 +171,17 @@ export class AppModule implements DoBootstrap {
           keycloakService.login({ redirectUri: initOptions.redirectUri });
         } else {
 
+          const k = keycloakService.getKeycloakInstance();
+          if( k.token ){
+            sessionStorage.setItem('TOKEN', k.token );
+          }
+
+
           //console.log('Username: ', keycloakService.getUsername());
           // keycloakService.getToken().then( (token) => {
-          //   console.log("token " + token);
+            // console.log("token " + token);
+            // TODO: remove Token from sessionstorage after Document upload Integration
+            // sessionStorage.setItem('TOKEN', token);
           // });
           keycloakService.loadUserProfile().then((profile) => {
             console.log("User Profile ", profile);

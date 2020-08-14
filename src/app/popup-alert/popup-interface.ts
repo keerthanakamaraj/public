@@ -1,6 +1,7 @@
 export interface IModalData {
   title?: string;//title to be displayed for modal
-  mainMessage: string; //set main msg as undefined while showing component in modal
+  mainMessage?: string; //set main msg as undefined while showing component in modal
+  rawHtml?: string; // operation (convert html)
   buttons: Array<IButtonObj>;//contains list of buttons to be shown @ footer. Send [] array if no btns required
   modalSize: string;//bootstap classes modal-width-sm|modal-width-md|modal-width-lg 
   componentName?: string;

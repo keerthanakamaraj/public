@@ -9,6 +9,8 @@ import { MyTrayFormRoutingModule } from './MyTrayForm-routing.module';
 import { MyTrayFormComponent } from './MyTrayForm.component';
 import { MyTrayGridModule } from '../MyTrayGrid/MyTrayGrid.module';
 import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module';
+import { ChartsModule } from 'ng2-charts';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -24,7 +26,8 @@ import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsFo
             }
         }),
         MyTrayGridModule,
-        NotepadDetailsFormModule
+        NotepadDetailsFormModule,
+        ChartsModule
     ],
     declarations: [
         MyTrayFormComponent,

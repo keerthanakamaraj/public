@@ -1,14 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerGridDTLSModel } from './CustomerGridDTLS.model';
-import { ComboBoxComponent } from '../combo-box/combo-box.component';
-import { TextBoxComponent } from '../text-box/text-box.component';
-import { TextAreaComponent } from '../text-area/text-area.component';
-import { CheckBoxComponent } from '../check-box/check-box.component';
-import { HiddenComponent } from '../hidden/hidden.component';
-import { FileuploadComponent } from '../fileupload/fileupload.component';
-import { DateComponent } from '../date/date.component';
-import { ButtonComponent } from '../button/button.component';
-import { AmountComponent } from '../amount/amount.component';
 import { FormComponent } from '../form/form.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupModalComponent } from '../popup-modal/popup-modal.component';
@@ -187,22 +178,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           console.log("BorrowerDetails", BorrowerDetails);
           if (BorrowerDetails) {
 
-            // this.updateStageValidation.emit({
-            //   "name": "customerLoad",
-            //   "data": BorrowerDetails
-            // });
-
-
-            //  if (this.isFirstAPICall) {
-            // this.passArrayToCustomer.emit({
-            //   'CustomerArray': BorrowerDetails
-            // });
-            //      this.isFirstAPICall=false;
-            //    }
-
             BorrowerDetails.forEach(eachBorrower => {
               let isValid = false;
-              if(eachBorrower.BorrowerSeq == borrowerSeq){
+              if (eachBorrower.BorrowerSeq == borrowerSeq) {
                 eachBorrower.isValid = true;
               }
               let array = [];
@@ -220,6 +198,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
               customer['editing'] = false;
+              customer['loanOwnerFlag']=false;
+              if(eachBorrower.LoanOwnership!=undefined && eachBorrower.LoanOwnership!=0){
+                customer['loanOwnerFlag']=true;
+              }
 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != '' && eachBorrower.Relationship == undefined || eachBorrower.ReferrerRelation == undefined
@@ -333,31 +315,51 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     }
   }
 
-  deleteCustomer(event, selectedCustomer){
-    alert("deleting customer"+selectedCustomer.CustomerId);
-    if (confirm("Are you sure you want to delete this record")) {
-			let inputMap = new Map();
-			inputMap.clear();
-			inputMap.set('PathParam.BorrowerSeq', selectedCustomer.CustomerId);
-			this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-				async (httpResponse: HttpResponse<any>) => {
-					var res = httpResponse.body;
-					this.services.alert.showAlert(1, 'rlo.success.delete.customer', 5000);
-          this.isFirstAPICall=true;
-          this.doAPIForCustomerList({});
-					// if (this.addressDetails.length == 1)
-					// 	this.services.rloCommonData.updateValuesFundLineGraph("remove");
+  deleteCustomer(event, selectedCustomer) {
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.delete-customer.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'DELETE');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
-					//this.readonlyGrid.refreshGrid();
-				},
-				async (httpError) => {
-					var err = httpError['error']
-					if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-					}
-					this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-				}
-			);
-		}
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.doDeleteCustomerAPICall(selectedCustomer);
+          }
+        }
+      });
+    });
+  }
 
+  doDeleteCustomerAPICall(selectedCustomer) {
+    let inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('PathParam.BorrowerSeq', selectedCustomer.CustomerId);
+    this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.services.alert.showAlert(1, 'rlo.success.delete.customer', 5000);
+        this.isFirstAPICall = true;
+        this.services.rloCommonData.removeCustomerFromMap(selectedCustomer.CustomerId)
+        this.doAPIForCustomerList({});
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+      }
+    );
   }
 }

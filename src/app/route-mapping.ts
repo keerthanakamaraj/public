@@ -109,9 +109,24 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/Fees&ChargesDetails/Fees&ChargesDetails.module#FeesChargesDetailsModule'
 	},
 	{
-		path: 'withdraw',
+		path: 'Operation',
 		loadChildren: 'src/app/Operation/Operation.module#OperationModule'
-	}
-	
+	},
+	{
+		path: 'DisbursementDetails',
+		loadChildren: 'src/app/DisbursementDetails/DisbursementDetails.module#DisbursementDetailsModule'
+  },
+  {
+		path: 'document',
+		loadChildren: 'src/app/document-upload/document-upload.module#DocumentUploadModule'
+	},
+  {
+		path: 'collateral',
+		loadChildren: 'src/app/collateral/collateral.module#CollateralModule'
+  },
+  {
+		path: 'view-wf',
+		loadChildren: 'src/app/workflow-viewer/workflow-viewer.module#WorkflowViewerModule'
+	}	
 ];
 export class AppRoutingModule { }

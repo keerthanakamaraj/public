@@ -111,7 +111,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   appId: any;
   fullName: any;
   staffcheck: boolean;
-  addseq: any;
+  //addseq: any;
   customerDetailMap: any;
 
   // customerDetailMap: {};
@@ -196,7 +196,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
-      this.hideCustomerType.setValue((!this.isLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+      this.hideCustomerType.setValue((!this.isLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
       this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
@@ -209,6 +209,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.Handler.onFormLoad({
     });
     this.setDependencies();
+    if ('DDE' == this.parentFormCode) {
+      this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq)<100?false:true);
+    }
+    
     // this.Handler.displayCustomerTag();
   }
 
@@ -269,19 +273,19 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // this.FieldId_30.valueChangeUpdates().subscribe((value) => { this.value.FieldId_30 = value; });
       this.onFormLoad(event);
       this.checkForHTabOverFlow();
-      
-      
-            //when opened in modal ie:UW
-            if (this.readOnly) {
-                let obj = {
-                    selectedCustId: this.activeBorrowerSeq
-                }
-                this.CUST_DTLS_GRID_custDtlsEdit(obj).then((response)=>{
-                    setTimeout(() => {
-                       this.setReadOnly(true); 
-                    }, 1000);                   
-                });
-            }
+
+
+      //when opened in modal ie:UW
+      if (this.readOnly) {
+        let obj = {
+          selectedCustId: this.activeBorrowerSeq
+        }
+        this.CUST_DTLS_GRID_custDtlsEdit(obj).then((response) => {
+          setTimeout(() => {
+            this.setReadOnly(true);
+          }, 1000);
+        });
+      }
     });
   }
   clearError() {
@@ -749,6 +753,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_MOBILE_NO.onReset();
     //this.CD_COUNTRY_CODE.onReset();
   }
+
   async CUST_DTLS_GRID_custDtlsEdit(event) {
     const inputMap = new Map();
     inputMap.clear();
@@ -756,74 +761,80 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
+        console.log(this.isLoanCategory);
+        this.LoadCustomerDetailsonFormLoad(res['BorrowerDetails']);
 
-        this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);
-        this.CD_FIRST_NAME.setValue(res['BorrowerDetails']['FirstName']);
-        this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
-        this.CD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
-        this.CD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
-        this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
-        this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
-        this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
+        // function setData() {
+        //   this.CD_TITLE.setValue(res['BorrowerDetails']['Title']);
+        //   this.CD_FIRST_NAME.setValue(res['BorrowerDetails']['FirstName']);
+        //   this.CD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
+        //   this.CD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
+        //   this.CD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
+        //   this.CD_GENDER.setValue(res['BorrowerDetails']['Gender']);
+        //   this.CD_DOB.setValue(res['BorrowerDetails']['DOB']);
+        //   this.CD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
+        //   this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
+        //   this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
+        //   this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
+        //   this.CD_STAFF_ID.setValue(res['BorrowerDetails']['IsStaff']);
+        //   // this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
+        //   // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
+        //   this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
+        //   this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
+        //   this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
+        //   this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
+        //   // this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
+        //   this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
+        //   this.CD_PASSPORT_EXPIRY.setValue(res['BorrowerDetails']['PassportExpiryDt']);
+        //   this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
+        //   this.CD_DRVNG_LCNSE_EXP_DT.setValue(res['BorrowerDetails']['DrivingLicenseExpiryDt']);
+        //   this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
+        //   this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
+        //   this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
+        //   this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
+        //   this.CD_VISA_VALID.setValue(res['BorrowerDetails']['VisaExpiryDt']);
 
-        this.CD_DEBIT_SCORE.setValue(res['BorrowerDetails']['DebitScore']);
-        this.CD_CUST_SEGMENT.setValue(res['BorrowerDetails']['CustomerSegment']);
-        this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
-        this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, res['BorrowerDetails']['StaffID']);
-        this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
-        this.CD_CUST_ID.setValue(res['BorrowerDetails']['ICIFNumber']);
-        // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, res['BorrowerDetails']['ICIFNumber']);
-        this.CD_PMRY_EMBSR_NAME.setValue(res['BorrowerDetails']['PrimaryEmbosserName1']);
-        this.CD_NATIONALITY.setValue(res['BorrowerDetails']['Nationality']);
-        this.CD_CITIZENSHIP.setValue(res['BorrowerDetails']['CitizenShip']);
-        this.CD_MARITAL_STATUS.setValue(res['BorrowerDetails']['MaritalStatus']);
-        // this.CD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
-        this.CD_PASSPORT_NO.setValue(res['BorrowerDetails']['PassportNumber']);
-        this.CD_PASSPORT_EXPIRY.setValue(res['BorrowerDetails']['PassportExpiryDt']);
-        this.CD_DRIVING_LICENSE.setValue(res['BorrowerDetails']['DrivingLicense']);
-        this.CD_DRVNG_LCNSE_EXP_DT.setValue(res['BorrowerDetails']['DrivingLicenseExpiryDt']);
-        this.CD_PREF_COM_CH.setValue(res['BorrowerDetails']['CommunicationAlertChannel']);
-        this.CD_EMAIL.setValue(res['BorrowerDetails']['Email']);
-        this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
-        this.CD_PREF_LANG.setValue(res['BorrowerDetails']['PreferredLanguage']);
+        //   this.addseq = res['BorrowerDetails']['BorrowerSeq'];
 
-        this.addseq = res['BorrowerDetails']['BorrowerSeq'];
-        // this.FieldId_29.addBorrowerSeq = res['BorrowerDetails']['BorrowerSeq'];
-        // this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
-        this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
-        this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
-        if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
-          this.setNonEditableFields(true);
-        } else {
-          this.setNonEditableFields(false);
-        }
-        this.passBorrowerSeq.emit({
-          'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
-        });
+        //   this.CD_LOAN_OWN.setValue(res['BorrowerDetails']['LoanOwnership']);
+        //   this.CD_CUST_TYPE.setValue(res['BorrowerDetails']['CustomerType']);
 
-        this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
-        this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
-        this.passfullName.emit({
-          'FullName': res['BorrowerDetails']['FullName'],
-        });
+        //   this.CD_STAFF.setValue(res['BorrowerDetails']['IsStaff']);
+        //   this.CD_EXISTING_CUST.setValue(res['BorrowerDetails']['ExistingCustomer']);
+        //   this.CD_CIF.setValue(res['BorrowerDetails']['CIF']);
 
-        this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
-        // this.setNonEditableFields(true);
+        //   this.CD_MOBILE_NO.setComponentSpecificValue(res['BorrowerDetails']['MobileNo'], res['BorrowerDetails']['ISDCountryCode']);
+        //   this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
 
-        this.revalidate(false).then((errors) => {
-          if (errors === 0) {
-            let array = [];
-            array.push({ isValid: true });
+        //   // if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
+        //   //   this.setNonEditableFields(true);
+        //   // } else {
+        //   //   this.setNonEditableFields(false);
+        //   // }
 
-            let obj = {
-              "name": "CustomerDetails",
-              "data": array,
-              "BorrowerSeq": this.HidCustomerId.getFieldValue()
-            };
+        //   this.passBorrowerSeq.emit({
+        //     'BorrowerSeq': res['BorrowerDetails']['BorrowerSeq'],
+        //   });
 
-            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          }
-        });
+        //   // this.passfullName.emit({
+        //   //   'FullName': res['BorrowerDetails']['FullName'],
+        //   // });
+
+        //   this.revalidate(false).then((errors) => {
+        //     if (errors === 0) {
+        //       let array = [];
+        //       array.push({ isValid: true });
+
+        //       let obj = {
+        //         "name": "CustomerDetails",
+        //         "data": array,
+        //         "BorrowerSeq": this.HidCustomerId.getFieldValue()
+        //       };
+
+        //       this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+        //     }
+        //   });
+        // }
       },
       async (httpError) => {
         const err = httpError['error'];
@@ -868,7 +879,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
 
-    this.addseq = customer.BorrowerSeq;
+    this.activeBorrowerSeq = customer.BorrowerSeq;
 
     this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
     this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
@@ -876,26 +887,25 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_STAFF.setValue(customer.IsStaff);
     this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
     this.CD_CIF.setValue(customer.CIF);
-
+    
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
-
     this.passBorrowerSeq.emit({
       'BorrowerSeq': customer.BorrowerSeq,
     });
-
+    
     this.revalidate(false).then((errors) => {
       if (errors === 0) {
         let array = [];
         array.push({ isValid: true });
-
+        
         let obj = {
           "name": "CustomerDetails",
           "data": array,
           "BorrowerSeq": this.HidCustomerId.getFieldValue()
         };
-
+        
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
     });
@@ -969,10 +979,21 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   loanCategoryChanged(newLoanCategory) {
     this.isLoanCategory = newLoanCategory;
-    this.hideCustomerType.setValue((!newLoanCategory && this.parentFormCode == 'DDE') ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
     this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
   }
 
+  CD_LOAN_OWN_blur(fieldName, event) {
+    let totLoanOwnership:number=0;
+    totLoanOwnership =this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq);
+    if(this.CD_LOAN_OWN.getFieldValue()!=undefined || this.CD_LOAN_OWN.getFieldValue()!=0){
+      totLoanOwnership += parseFloat(this.CD_LOAN_OWN.getFieldValue())}
+    console.log("shweta :: in cust_frorm ::totLoanOwnership",totLoanOwnership);
+    if (totLoanOwnership > 100) {
+      this.CD_LOAN_OWN.setError('rlo.error.loanownership.onblur');
+      return 1;
+    }
+  }
   fieldDependencies = {
     CD_EXISTING_CUST: {
       inDep: [

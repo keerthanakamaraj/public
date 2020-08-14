@@ -20,6 +20,12 @@ import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtl
 import { AssetDetailsFormComponent } from '../AssetDetailsForm/AssetDetailsForm.component';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { FeesChargesDetailsComponent } from '../Fees&ChargesDetails/Fees&ChargesDetails.component';
+import { DisbursementDetailsComponent } from '../DisbursementDetails/DisbursementDetails.component';
+import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
+import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
+import { DocumentUploadComponent } from '../document-upload/document-upload.component';
+import { IAmortizationForm } from '../Interface/masterInterface';
+import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -67,12 +73,20 @@ export class PopupAlertComponent implements OnInit {
     var componentInstance = dynamicComponent.instance;
     componentInstance.parentData = this.modalObject.data;
 
-    if (this.modalObject.componentName != 'AmortizationScheduleComponent') {
+    if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent') {
       componentInstance.isLoanCategory = true;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
       componentInstance.readOnly = true;
+
+      if (this.modalObject.componentName == "FeesAndChargesDetails") {
+        const parentData: IAmortizationForm = undefined;
+        let obj = {
+          "ApplicationId": this.modalObject.applicationId
+        }
+        componentInstance.parentData = obj;
+      }
 
       // async brodcastProdCategory(event) {
       //   //  event.isLoanCategory false when type is 'CC'
@@ -95,7 +109,16 @@ export class PopupAlertComponent implements OnInit {
         return new AddSpecificComponent(NotepadDetailsFormComponent);
         break;
       case 'AmortizationScheduleComponent':
+      case 'Amortization':
         return new AddSpecificComponent(AmortizationScheduleComponent);
+        break;
+      case 'FeesChargesDetailsComponent':
+      case 'FeesAndChargesDetails':
+        return new AddSpecificComponent(FeesChargesDetailsComponent);
+        break;
+      case 'DisbursementDetailsComponent':
+      case 'DisbursementDetails':
+        return new AddSpecificComponent(DisbursementDetailsComponent);
         break;
       case 'FamilyDetails':
         return new AddSpecificComponent(FamilyDetailsFormComponent);
@@ -132,13 +155,25 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'OccupationDetails':
         return new AddSpecificComponent(OccupationDtlsFormComponent);
+        break;
       case 'AssetDetails':
         return new AddSpecificComponent(AssetDetailsFormComponent);
         break;
-      case 'FeesAndCharges':
-        return new AddSpecificComponent(FeesChargesDetailsComponent);
+      case 'IncomeSummary':
+        return new AddSpecificComponent(IncomeSummaryFormComponent);
+        break;
+      case 'LiabilityDetails':
+        return new AddSpecificComponent(LiabilityDtlsFormComponent);
+        break;
+      case 'FileUpload':
+        return new AddSpecificComponent(DocumentUploadComponent);
+        break;
+      case 'PropertyDetails':
+        return new AddSpecificComponent(PropertyDetailsComponent);
         break;
     }
   }
-
+  // ngOnDestroy() {
+  //   this.services.rloCommonData.modalDataSubject.unsubscribe();
+  // }
 }

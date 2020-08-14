@@ -1,4 +1,4 @@
-<div class="clearfix content">
+<div class="lyt-underwriter clearfix content">
   <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
     <div class="col-sm-12 col-md-12">
       <div class="FormTitle no-border">
@@ -9,18 +9,19 @@
     <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
     </div>
   </div>
+
   <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-    <div class="form-group pb10">
+    <div class="form-group pb10 row">
       <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
-          (productCategoryFound)="brodcastProdCategory($event)" (headerStateEvent)="headerState($event)">
+          (productCategoryFound)="broadcastProdCategory($event)" (headerStateEvent)="headerState($event)">
         </app-Header>
       </div>
     </div>
   </div>
 
 
-  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section">
+  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
     <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
       <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" *ngFor="let data of headerScoreCard">
       </app-score-card>
@@ -32,6 +33,9 @@
 
   <div class="row">
     <div class="col-12  col-sm-12 col-md-12 uw-tabs">
+      <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
+        <a href="javascript:void(0);" class="icon-folder-open"></a>
+      </div>
       <div id="tab" class="btn-group btn-group-justified dde-tab" data-toggle="buttons">
         <a href="#customer-panel" class="btn btn-default active" data-toggle="tab" (click)="tabSwitched('customer')">
           <input type="radio" />CUSTOMER
@@ -82,9 +86,9 @@
         <div class="cards-section" style="width:100% !important;height:100% !important;">
 
           <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='application'">
-            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
-              [ngClass]="{'d-block' : applicationSectionLoaded}">
-              <div class="card-layout-container">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngStyle]="{}"
+              [ngClass]="{'d-block' : applicationSectionLoaded }">
+              <div class="card-layout-container" [ngClass]="{'p-0' : loanDetailsCardData==null}">
                 <app-card [cardMetaData]="loanDetailsCardData"></app-card>
               </div>
             </div>
@@ -114,43 +118,57 @@
       </div>
     </div>
   </div>
+
+  <!-- <ng-template #invalidUser>
+    <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section no-data"
+      *ngIf="isDataAvaliableFlag=='0' || isDataAvaliableFlag=='-1'">No data found</div>
+  </ng-template> -->
+
   <!-- fab button -->
   <div class="fab" id="fab-show" style="display:none;">
     <ul class="fab-buttons ">
       <li class="fab-buttons__item">
-        <a href="#" class="fab-buttons__link">
-          <span class="icon-material icon-material_tw">Cancel</span>
-        </a>
+        <span class="fab-buttons__link" (click)="cancelForm()">
+          <span class="icon-material icon-material_cancel"></span>
+          <span style="margin-left: -5px;  color:black; font-size: 12px;">Cancel</span>
+        </span>
       </li>
       <li class="fab-buttons__item">
-        <a href="#" class="fab-buttons__link">
-          <span class="icon-material icon-material_tw">Widthdraw </span>
-        </a>
+        <span class="fab-buttons__link" (click)="withdrawForm()">
+          <span class="icon-material icon-material_widthdraw">
+          </span>
+          <span style="margin-left: -5px;  color:black;font-size: 12px;">Withdraw</span>
+        </span>
       </li>
       <!-- <li class="fab-buttons__item">
-        <a href="#" class="fab-buttons__link">
-          <span class="icon-material icon-material_li">Sent Back</span>
+        <a  class="fab-buttons__link">
+          <span class="icon-material icon-material_sentback">Sent Back</span>
         </a>
       </li> -->
-      <li class="fab-buttons__item mb-4">
+      <!-- <li class="fab-buttons__item mb-4">
         <a href="#" class="fab-buttons__link">
-          <span class="icon-material icon-material_gp">Refer/ Review</span>
+          <span class="icon-material icon-material_refer">Refer/ Review</span>
         </a>
-      </li>
+      </li> -->
     </ul>
     <div class="fab-row ">
       <!-- <div class="mr-4"> -->
       <div class="fab-buttons__item" style="padding-left: 25px;">
-        <a href="#" class="fab-buttons__link">
-          <span class="icon-material icon-material_fb" style="color: white;">Reject</span>
-        </a>
+        <span class="fab-buttons__link" (click)="rejectForm()">
+          <span class="icon-material-row icon-material_reject">
+          </span>
+          <span style="color: white;font-size: 12px;">Reject</span>
+        </span>
       </div>
-      <div class="fab-buttons__item mr-5" style="padding-right: 75px; padding-left: 20px;">
-        <a href="#" class="fab-buttons__link">
-          <span class="icon-material icon-material_gp" style="color: white;">Approve</span>
-        </a>
+      <!-- <div class="fab-buttons__item" style="color:white;">
+        |
+      </div> -->
+      <div class="fab-buttons__item " style="padding-right: 75px;">
+        <span class="fab-buttons__link" (click)="approveForm()">
+          <span class="icon-material-row icon-material_approve"></span>
+          <span style="color: white; font-size: 12px;">Approve</span>
+        </span>
       </div>
-
     </div>
     <span class="fab-action-button shadow-sm" (click)="fabclose()">
       <i class="fab-action-button__icon"></i>
@@ -158,7 +176,7 @@
   </div>
 
 
-  <div class="fab" id="fab-open">
+  <div class="fab" id="fab-open" *ngIf="customerList.length">
     <span class="fab-action-button_2 shadow-sm" (click)="fabopen()">
       <i class="fab-action-button__icon_2"></i>
     </span>

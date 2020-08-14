@@ -29,6 +29,7 @@ import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.com
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
 import { Subscription } from 'rxjs';
 import { array } from '@amcharts/amcharts4/core';
+import { IModalData } from '../popup-alert/popup-interface';
 // import {CUSTOMERHANDLERComponent} from '../customer-handler/customer-handler.component';
 
 
@@ -520,7 +521,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
           console.log(values);
           let modalObj = {
             title: "Alert",
-            mainMessage: values[0],
+            rawHtml: values[0],
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
@@ -551,6 +552,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.UserId', this.userId);
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.SchemeId', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
+
 
     if (requestParams) {
       requestParams.forEach((val, key) => {
@@ -634,6 +637,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
+    // this.services.rloCommonData.globalApplicationDtls = {
+    //   isLoanCategory: event.isLoanCategory,
+    //   ProductCode: event.ProductCode,
+    //   SubProductCode: event.SubProductCode,
+    //   SchemeCode: event.SchemeCode,
+    // };
   }
 
   async headerState(event) {
@@ -664,35 +673,16 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.QDE_ACCORD1.setTags('CUST_DETAILS', tags);
   }
 
+  openFileUpload() {
+    this.services.rloui.openFileUpload(this.ApplicationId);
+  }
+
   fieldDependencies = {
   };
 
   /* Cancel / Back button */
   goBack() {
-    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
-    var button1 = this.services.rloui.getAlertMessage('', 'OK');
-    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
-    Promise.all([mainMessage, button1, button2]).then(values => {
-      console.log(values);
-      let modalObj = {
-        title: "Alert",
-        mainMessage: values[0],
-        modalSize: "modal-width-sm",
-        buttons: [
-          { id: 1, text: values[1], type: "success", class: "btn-primary" },
-          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-        ]
-      }
-      this.services.rloui.confirmationModal(modalObj).then((response) => {
-        console.log(response);
-        if (response != null) {
-          if (response.id === 1) {
-            this.services.router.navigate(['home', 'LANDING']);
-          }
-        }
-      });
-    });
+    this.services.rloui.goBack();
   }
 
   UpdateAccordian() {

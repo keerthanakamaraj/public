@@ -16,7 +16,7 @@
     </ng-container>
 
     <div>
-      <button type="button" class="lable-icon" *ngIf="cardFieldMetaData.modalSectionName.length"
+      <button type="button" class="lable-icon icon-link" *ngIf="cardFieldMetaData.modalSectionName.length"
         (click)="onButtonClick()">
       </button>
     </div>
@@ -28,7 +28,7 @@
       <span class="count">
         <app-status-indicator [iconType]="'completed'" [status]="'completed'">
         </app-status-indicator>
-        <span class="number">{{cardFieldMetaData.subTitle.success}}</span>
+        <span id="secondary_lable" class="number">{{cardFieldMetaData.subTitle.success}}</span>
       </span>
       <span class="count">
         <app-status-indicator [iconType]="'pending'" [status]="'pending'">

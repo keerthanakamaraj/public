@@ -29,7 +29,7 @@ export class PolicyCheckResultComponent implements OnInit {
     this.setFilterbyOptions();
 
 
-    this.retriggerPolicyResult();
+    this.invokeInterface();
     // this.loadPolicyResult();
   }
   setFilterbyOptions() {
@@ -65,7 +65,7 @@ export class PolicyCheckResultComponent implements OnInit {
         });
         // inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
         inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-        this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, "/rlo-de").subscribe(
+        this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             let res = httpResponse.body;
             let tempPolicyResultList = res['PolicyResult'];
@@ -99,8 +99,8 @@ export class PolicyCheckResultComponent implements OnInit {
         }
         let policy: IPolicy = eachPolicy;
         newPolicyResultList.push(policy);
-        if(newMapKey!=undefined){
-        this.MstPolicyResultMap.set(newMapKey, newPolicyResultList);
+        if (newMapKey != undefined) {
+          this.MstPolicyResultMap.set(newMapKey, newPolicyResultList);
         }
       }
     });
@@ -133,11 +133,30 @@ export class PolicyCheckResultComponent implements OnInit {
       }
     });
   }
-  retriggerPolicyResult() {
+
+  invokeInterface() {
     this.MstPolicyResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
+    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        let res = httpResponse.body;
+        this.retriggerPolicyResult(res);
+      }, async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+      }
+    );
+  }
 
-    this.services.http.fetchApi('/policyCheck', 'POST', inputMap).subscribe(
+  retriggerPolicyResult(res) {
+
+    // let inputMap = this.generateRetriggerRequestJson();
+    // console.log("shweta :: input map",inputMap);
+    let inputMap = this.generatepolicyCheckReq(res);
+
+    this.services.http.fetchApi('/policyCheck', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body;
         this.loadPolicyResult();
@@ -150,10 +169,20 @@ export class PolicyCheckResultComponent implements OnInit {
       }
     );
   }
+
+  generatepolicyCheckReq(res) {
+    let inputMap = new Map();
+    inputMap.set('Body.prposalid', res['prposalid']);
+    inputMap.set('Body.interfaceId', res['interfaceId']);
+    inputMap.set('Body.ouputdata', res['ouputdata']);
+
+    return inputMap;
+  }
   generateRetriggerRequestJson() {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT007');
     inputMap.set('Body.prposalid', this.ApplicationId);
+   // inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
     inputMap.set('Body.inputdata.SCHEME_CD', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     return inputMap;
   }

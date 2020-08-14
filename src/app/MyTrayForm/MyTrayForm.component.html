@@ -1,37 +1,99 @@
-<form class="MakeRelative page-layout-padding">
-    <div class="clearfix content">
-        <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-            <div class="col-sm-12 col-md-12">
-                <div class="FormTitle">                
-                    <span>{{ 'MyTrayForm.FormTitle' | translate }}</span>
-                </div>
-            </div>
+<form class="lyt-mytray MakeRelative page-layout-padding">
+  <div class="clearfix content">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-12 col-md-12">
+        <div class="FormTitle">
+          <span>{{ 'MyTrayForm.FormTitle' | translate }}</span>
         </div>
-
-        <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
-        <div *ngIf="!formOnLoadError">
-            <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-                <div class="form-group pb10 row">
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MT_SLIDER.isHidden()" [ngClass]="'checkboxRight'">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'MyTrayForm.MT_SLIDER' | translate}}</label>
-                        </div>
-                        <app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)"
-                            (change)="MT_SLIDER_change($event)"></app-check-box>
-                    </div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
-                    <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                        <app-button #MT_Proposal fieldName="{{ 'MyTrayForm.MT_Proposal' | translate}}" (buttonClick)="MT_Proposal_click($event)"
-                            fieldID="MT_Proposal" [formCode]="formCode" customClass="btn btn-primary btn-lg"></app-button>
-                        <h4 (click)="underWriter()">Underwriter</h4>
-                        <!-- <h4 (click)="testModal()">Test Modal</h4> -->
-                    </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
-                        <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+
+    <div class="row" style="margin-top:30px;">
+
+      <div class="col-lg-4 col-sm-4 col-md-4">
+        <div class="proposal-card">
+          <span class="icon-calendar-line"></span>
+          <div class="filter-container">
+            <span>All | 1Y | 6M | 3M | 1M | 1W </span>
+          </div>
+          <div class="title">Pending Proposals Overview</div>
+          <div class="proposal-container">
+            <div style="display: block;position: relative;">
+              <canvas #doughnutChartInnerTxt id="text" class="doughnut-txt" height="174" width="350"></canvas>
+              <!-- <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType" [options]="chartOptions" [colors]="donutColors">
+              </canvas> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-4 col-md-4">
+        <div class="broadcast-card">
+          <div class="title">Notifications</div>
+          <div class="broadcast-container">
+
+            <div class="broadcast-section">
+              <div class="type">New</div>
+              <div class="msg">
+                Customer ID: S04312244561234 has been blacklisted. Kindly ensure all
+                applications with this ID No.
+                <span class="date-time icon-time">27 Mon, 11:00 AM</span>
+              </div>
+            </div>
+
+            <div class="broadcast-section">
+              <div class="type">Recent</div>
+              <div class="msg">
+                From 3rd August 2020, branch trading hours will be back to normal (9:00 - 16:00).
+                Safety measures will be followed and respected throughout.
+                <span class="date-time icon-time">27 Mon, 11:00 AM</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-sm-4 col-md-4">
+        <div class="promo-card">
+          <div class="title">Promotions</div>
+          <div class="promo-container">
+            <div class="promo-section" *ngFor="let promo of promotionLists">
+              <div class="promo-title">{{promo.title}}</div>
+              <div class="promo-message">{{promo.txt}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10 row">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MT_SLIDER.isHidden()"
+            [ngClass]="'checkboxRight'">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'MyTrayForm.MT_SLIDER' | translate}}</label>
+            </div>
+            <app-check-box #MT_SLIDER fieldID="MT_SLIDER" [formCode]="formCode" [uncheckedValue]="false"
+              [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)" (change)="MT_SLIDER_change($event)">
+            </app-check-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+            <app-button #MT_Proposal fieldName="{{ 'MyTrayForm.MT_Proposal' | translate}}"
+              (buttonClick)="MT_Proposal_click($event)" fieldID="MT_Proposal" [formCode]="formCode"
+              customClass="btn btn-primary btn-lg"></app-button>
+            <!-- <h4 (click)="underWriter()">Underwriter</h4> -->
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
+            <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>

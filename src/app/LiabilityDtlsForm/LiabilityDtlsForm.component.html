@@ -112,7 +112,7 @@
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EQUIVALENT_AMOUNT.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': LD_EQUIVALENT_AMOUNT.mandatory}">
+              <label class="clr-brown">
                 {{ 'LiabilityDtlsForm.LD_EQUIVALENT_AMOUNT' | translate}}
               </label>
             </div>
@@ -190,7 +190,7 @@
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
             <app-button #clear fieldName="{{ 'LiabilityDtlsForm.clear' | translate}}" fieldID="clear"
               [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
               (buttonClick)="clear_click($event)"></app-button>

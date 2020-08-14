@@ -391,7 +391,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         let months = currentDate.diff(selectedDate, 'months');
         console.log("selected months count is:", months);
         console.log("default months count is:", this.monthLimit);
-        if (months <= this.monthLimit) {
+        if (months+1 <= this.monthLimit) {
             console.log("returning true", months);
             return true;
         }

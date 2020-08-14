@@ -37,16 +37,10 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   ngAfterViewInit() {
     this.subTitle = this.cardFieldMetaData.subTitle;
     console.log(this.cardFieldMetaData, this.applicationId, this.borrowerSeq, this.componentCode);
-    if (this.cardFieldMetaData.subTitle != "NA")
-      switch (this.cardFieldMetaData.title) {
-        case "Total Income (Annual)":
-        case "Total Liability (Annual)":
-        case "Total Asset Value":
-        case "Total Obligation (Annual)":
-        case "Net Income Monthly (Annual)":
-          this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
-          break;
-      }
+
+    if (this.cardFieldMetaData.subTitle != "NA" && this.cardFieldMetaData.formatToCurrency) {
+      this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
+    }
   }
 
   onClickButton(event) {
@@ -65,7 +59,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
     }
 
     switch (this.cardFieldMetaData.modalSectionName) {
-      case "FeesAndCharges":
+      case "FeesAndChargesDetails":
         obj.name = "Fees & Charges"
         break;
 
@@ -73,8 +67,24 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
         obj.name = "Loan Details"
         break;
 
-      case "OccupationDetails": 
+      case "OccupationDetails":
         obj.name = "Financial Summary"
+        break;
+
+      case "Amortization":
+        obj.name = "Amortization Schedule"
+        break;
+
+      case "LiabilityDetails":
+        obj.name = "Total Liability"
+        break;
+
+      case "DisbursementDetails":
+        obj.name = "Disbursement Details"
+        break;
+
+      case "AssetDetails":
+        obj.name = "Asset Details"
         break;
 
       default:

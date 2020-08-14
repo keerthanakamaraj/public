@@ -235,10 +235,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
+
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.AD_MAILING_ADDRESS.setDefault('N');
+    this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
     await this.Handler.onFormLoad({
@@ -407,9 +409,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
     inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
     inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue());
-    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue());
-    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue());
+    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue().toUpperCase());
+    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue().toUpperCase());
+    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue().toUpperCase());
     inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
     inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
     inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
@@ -464,7 +466,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.services.alert.showAlert(2, 'rlo.error.period.not.exist', -1);
           return;
         }
-
+      }
         // tslint:disable-next-line:max-line-length
         // if ((this.AD_LANDLINE_NUMBER.getFieldValue() !== undefined && this.AD_LANDLINE_NUMBER.getFieldValue() !== '' && this.AD_LAND_COUNTRY_CODE.getFieldValue() === undefined) || (this.AD_ALTERNATE_MOB_NO.getFieldValue() !== undefined && this.AD_ALTERNATE_MOB_NO.getFieldValue() !== '' && this.AD_COUNTRY_CODE.getFieldValue() === undefined)) {
         //   this.services.alert.showAlert(2, 'rlo.error.code.address', -1);
@@ -484,7 +486,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
           return;
         }
-      }
+      
       const requestdata = this.requestParameterForAddressDetails();
       this.AD_SAVE_ADDRESS.setDisabled(true);
       if (this.AD_HIDE_ID.getFieldValue() !== undefined) {
