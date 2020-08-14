@@ -199,6 +199,8 @@ export class GoNoGoComponent implements OnInit {
       let inputMap = new Map();
       inputMap.clear();
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
+      inputMap.set('QueryParam.ApplicationId', this.ApplicationId);
+      inputMap.set('QueryParam.QuestionnaireCategory', 'go_no_go');
 
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.go-no-go', 5000);
