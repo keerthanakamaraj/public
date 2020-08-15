@@ -2009,14 +2009,14 @@ rlo-ui-card-field {
   padding-left: 20px;
 
   .policy-row {
-    background-color: #FAFAFA;
+    // background-color: #FAFAFA;
     @extend .policy-row-header;
   }
 
   .policy-row-header {
     // height: 52px;
 
-    margin-top: 10px;
+    // margin-top: 10px;
     min-height: 52px;
     max-height: 110px;
     border-radius: 4px;
@@ -2036,6 +2036,7 @@ rlo-ui-card-field {
         font-size: 12px;
         letter-spacing: 0;
         line-height: 17px;
+        margin-left: 18px;
       }
     }
 
@@ -3648,5 +3649,53 @@ rlo-ui-card-field {
 
   #CUST_GRID {
     padding-top: 0px;
+  }
+}
+
+.lyt-policy-check-result {
+  .policy-row {
+    padding: 0;
+
+    div {
+      margin: 3px 0;
+      background-color: #FAFAFA;
+    }
+
+    .actual-result {
+      padding: 3px 0;
+      margin: 0 !important;
+      background: #E4F0F9;
+
+      span {
+        margin-left: 16px;
+      }
+    }
+  }
+
+
+  .policy-row:first-child {
+
+    div {
+      margin-top: 6px;
+    }
+
+    .actual-result {
+      padding: 5px 0;
+    }
+  }
+
+  .policy-row:last-child {
+
+    div {
+      margin-bottom: 6px;
+    }
+
+    .actual-result {
+      padding: 5px 0;
+    }
+  }
+
+  .policy-row-header {
+    padding: 0;
   }
 }

@@ -1,4 +1,4 @@
-<div class="policy-section-conatoner">
+<div class="policy-section-conatoner lyt-policy-check-result">
   <div class="col-12 col-sm-3 col-md-3">
     <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
       defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur()">
@@ -28,7 +28,7 @@
         <div class="desc-container col-12 col-sm-4 col-md-4">
           <span class="description-txt">{{ i + 1 }}. {{policy.RuleDescription }}</span>
         </div>
-        <div class="value-container col-12 col-sm-3 col-md-3">
+        <div class="value-container actual-result col-12 col-sm-3 col-md-3">
           <span class="value-txt">{{policy.ActualValue }}</span>
         </div>
         <div class="value-container col-12 col-sm-3 col-md-3">
