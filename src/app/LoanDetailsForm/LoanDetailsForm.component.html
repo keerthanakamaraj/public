@@ -230,9 +230,7 @@
             </app-LoanDetailsGrid>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12 col-sm-3 col-md-3"></div>
-          <div class="col-12 col-sm-3 col-md-3"></div>
-          <div class="col-12 col-sm-3 col-md-3"></div>
+          <div class="col-12 col-sm-10 col-md-10"></div>
           <ng-container *ngIf="!readOnly">
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
             <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}" fieldID="LD_SAVE_BTN"
@@ -240,7 +238,7 @@
             </app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
-            <app-button #CD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}" fieldID="LD_CLEAR_BTN"
+            <app-button #LD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}" fieldID="LD_CLEAR_BTN"
               [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="LD_CLEAR_BTN_click($event)">
             </app-button>
           </div>
