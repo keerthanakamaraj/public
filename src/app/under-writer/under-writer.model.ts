@@ -431,7 +431,7 @@ export class LoanDetails implements IDeserializable {
                 formatToCurrency: true
             },
             {
-                title: "Amoritization Amount",
+                title: "Amortization Amount",
                 subTitle: this.AmortizationAmount,
                 type: "basic",
                 modalSectionName: "",
@@ -447,7 +447,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Interest Amount",
                 subTitle: this.TotalInterestAmount,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             }
         ];
         const returnObj: IGeneralCardData = {
@@ -1145,7 +1146,7 @@ export class ApplicationDetails implements IDeserializable {
         }
 
         //obj
-        this.LoanDetails = new LoanDetails().deserialize(input.UWIncomeSummary);
+        this.LoanDetails = new LoanDetails().deserialize(input.UWLoan);
 
         if (input.UWDisbursal != undefined && input.UWDisbursal.DisbursalDate != undefined) {
             this.LoanDetails.DisbursementDate = input.UWDisbursal.DisbursalDate;
@@ -1309,7 +1310,9 @@ export class Master implements IDeserializable {
 
         customerList.forEach(element => {
             if (element.CustomerType != 'R') {
-                element.UWPersonalInterview = questionnaireList.filter(q => q.BorrowerSeq == element.BorrowerSeq);
+                if (element.UWPersonalInterview != undefined) {
+                    element.UWPersonalInterview = questionnaireList.filter(q => q.BorrowerSeq == element.BorrowerSeq);
+                }
             }
         });
 

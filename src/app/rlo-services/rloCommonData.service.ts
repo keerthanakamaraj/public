@@ -45,8 +45,8 @@ export interface IGlobalApllicationDtls {
   LoanTenure?: string;
   LoanTenurePeriodCode?: string;
   LoanTenurePeriodName?: string;
-  ARN?:string;
-  LoanAmount?:string;
+  ARN?: string;
+  LoanAmount?: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -217,6 +217,18 @@ export class RloCommonData {
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
+        case 'PropertyDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
+        // case 'PolicyCheckResults':
+        //   mapValue = componentData.data;
+        //   functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+        //   break;
+        // case 'ScorecardResults':
+        //   mapValue = componentData.data;
+        //   functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+        //   break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -606,16 +618,18 @@ export class RloCommonData {
 
       let isGoNoGoSectionValid = true;
       let isLoadOrCreditCardValid = true;
+      let isPropertyDetailsValid = true;
       let errorMessage = '';
-
 
       forkJoin(
         this.validateGoNoGoSection(dataToValidate),
-        this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan)
+        this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
+        this.validatePropertyDetailsSection(dataToValidate)
       ).subscribe((data) => {
         console.error(data);
         isGoNoGoSectionValid = data[0].isSectionValid;
-        //isLoadOrCreditCardValid = data[1].isSectionValid;
+        isLoadOrCreditCardValid = data[1].isSectionValid;
+        isPropertyDetailsValid = data[2].isSectionValid;
 
         for (let i = 0; i < data.length; i++) {
           const element = data[i];
@@ -625,7 +639,7 @@ export class RloCommonData {
           errorMessage += element.errorMessage;
         }
 
-        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid)) {
+        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid)) {
           let msg = errorMessage + "\r\n";
           dataObject.errorsList.push(msg);
           dataObject.isAppValid = false;
@@ -787,6 +801,27 @@ export class RloCommonData {
     }
     //console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
     return totalLoanOwnership;
+  }
+
+  async validatePropertyDetailsSection(applicationData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (applicationData.has("PropertyDetails")) {
+      let propertyDetails = applicationData.get("PropertyDetails");
+      if (!propertyDetails[0].isValid) {
+        commonObj.errorMessage = "Please fill all the mandatory fields of property details";
+        commonObj.isSectionValid = false;
+      }
+    }
+    else {
+      commonObj.errorMessage = "Please fill all the mandatory fields of property details";
+      commonObj.isSectionValid = false;
+    }
+
+    return commonObj;
   }
 
 }

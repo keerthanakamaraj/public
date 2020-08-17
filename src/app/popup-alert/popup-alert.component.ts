@@ -101,6 +101,13 @@ export class PopupAlertComponent implements OnInit {
       //   this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
       // }
     }
+
+    setTimeout(() => {
+      const activePanel = document.getElementsByClassName("pop-up-components");
+      const firstInput = activePanel[0].getElementsByTagName('input')[0];
+      if (firstInput != undefined)
+        firstInput.blur();
+    }, 10);
   }
 
   getComponentClassRef(componentId: string): AddSpecificComponent {

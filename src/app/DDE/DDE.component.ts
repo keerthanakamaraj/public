@@ -822,7 +822,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       this.setCustomerTags();
 
-    } 
+    }
     if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
       componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
     }
@@ -833,8 +833,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //     componentInstance.CustomerDetailsArray = this.CustomerDetailsArray;
     // }
 
-    if(componentId == 'CollateralDetails'){
-      componentInstance.trnProposalId = this.ApplicationId;      
+    if (componentId == 'CollateralDetails') {
+      componentInstance.trnProposalId = this.ApplicationId;
     }
 
     this.services.rloCommonData.dynamicComponentInstance = componentInstance;
@@ -955,7 +955,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           if (this.isLoanCategory) {//ie. loan type credit card
             if (section.id == "CreditCardDetails")
               element.splice(i, 1);
+
+            if (section.id == "PropertyDetails" && this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML" && section.isOptional) {
+              section.isOptional = false;
+              this.progressStatusObject.manditorySection += 1;
+            }
+
             defaultSection = 'ApplicationDetails';
+
           }
           else {//CC type loan
             if (section.id == "LoanDetails")
@@ -1078,7 +1085,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //   SubProductCode: event.SubProductCode,
     //   SchemeCode: event.SchemeCode,
     // };
-   // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
@@ -1147,7 +1154,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.CustomerType = "B";
       return;
     }
-
 
     this.CustomerType = customerData.CustomerType;
 
@@ -1577,7 +1583,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   openFileUpload() {
     this.services.rloui.openFileUpload(this.ApplicationId);
   }
-  
+
+  redoProgressBarCalulation() {
+    console.log(this.progressStatusObject);
+  }
+
 }
 
 

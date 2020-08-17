@@ -109,6 +109,21 @@ export class PolicyCheckResultComponent implements OnInit {
 
     this.activePolicyResultList = this.MstPolicyResultMap.get(this.PCR_Filter.getFieldValue());
     console.log("shweta :: mstPolicy list", this.MstPolicyResultMap);
+    console.warn(this.activePolicyResultList);
+
+    if (this.activePolicyResultList.length) {
+      //store data in map
+      var array = [];
+      array.push({ isValid: true, sectionData: this.activePolicyResultList });
+
+      let obj = {
+        "name": "PolicyCheckResults",
+        "data": array,
+        "sectionName": "PolicyCheckResults"
+      }
+      this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+    }
+
   }
 
   mergeBorAndAppRecords() {
@@ -141,6 +156,8 @@ export class PolicyCheckResultComponent implements OnInit {
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body;
         this.retriggerPolicyResult(res);
+
+        //do UW validation here 
       }, async (httpError) => {
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
@@ -182,7 +199,7 @@ export class PolicyCheckResultComponent implements OnInit {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT007');
     inputMap.set('Body.prposalid', this.ApplicationId);
-   // inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
+    // inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
     inputMap.set('Body.inputdata.SCHEME_CD', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     return inputMap;
   }

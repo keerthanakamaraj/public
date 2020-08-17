@@ -271,7 +271,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     //    SubProductCode: event.SubProductCode,
     //    SchemeCode: event.SchemeCode,
     // };
-   // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     this.getUnderWriterData();
   }
@@ -327,7 +327,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id -  2141(Loan details), 2460(has property) 2483(al data),2148(liability)
+    //valid application id -  2141(Loan details), 2460(has property) 2483 2691(al data),2148(liability),2523(disburse)
 
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
@@ -340,7 +340,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
-    //appId = 2483;
+    appId = 2691;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -385,7 +385,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       if (element.CustomerType != "R") {
         this.customerList.push(data);
 
-        this.services.rloui.customerListDropDownArray.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+        this.services.rloui.customerListDropDownArray.push({ id: element.BorrowerSeq, text: element.FullName });
       }
 
     });
@@ -839,7 +839,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   openFileUpload() {
-    this.services.rloui.openFileUpload(this.ApplicationId);
+    this.services.rloui.openFileUpload(this.applicationId);
   }
 
 }
