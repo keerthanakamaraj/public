@@ -376,6 +376,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         background-repeat: no-repeat;
         padding: 0 20px;
         vertical-align: middle;
+        margin-right: 14px;
       }
 
       &.loan-cat::before {
@@ -385,7 +386,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         display: inline-block;
         background-size: 20px 20px;
         background-repeat: no-repeat;
-        padding: 0 20px;
+        padding: 0 16px;
         vertical-align: middle;
       }
 
@@ -423,6 +424,13 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   //   background-image: url("./../icons/score_card_refresher.svg");
   //   background-size: cover;
   // }
+
+  .limit-width{
+    max-width: 17rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 
 .expand-header {
@@ -504,7 +512,7 @@ width: 681px !important; */
 .subrightheader1 {
   float: left;
   height: 292px !important;
-  width: 275px !important;
+  width: 390px !important;
   padding-left: 39px !important;
   padding-top: 23px !important;
   padding-bottom: 23px !important;
@@ -516,7 +524,8 @@ width: 681px !important; */
   width: 246px !important;
   /* padding-left: 381px !important; */
   padding-top: 23px !important;
-  margin-left: 113px !important;
+  // margin-left: 113px !important;
+  margin-left: 0px !important;
   /* padding-right:123px !important; */
   /* padding-bottom: 181 !important  */
 }
@@ -3697,5 +3706,17 @@ rlo-ui-card-field {
 
   .policy-row-header {
     padding: 0;
+  }
+}
+
+
+.ellipsis-text {
+  rlo-ui-readonlyfield {
+    label {
+      width: 23rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 }
