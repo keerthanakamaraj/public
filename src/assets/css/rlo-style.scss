@@ -425,7 +425,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   //   background-size: cover;
   // }
 
-  .limit-width{
+  .limit-width {
     max-width: 17rem;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2013,14 +2013,58 @@ rlo-ui-card-field {
 }
 
 //policy result section css
+.lyt-policy-check-result {
+  .policy-row {
+    padding: 0;
+
+    div {
+      margin: 3px 0;
+      background-color: #FAFAFA;
+    }
+
+    .actual-result {
+      padding: 3px 0;
+      margin: 0 !important;
+      background: #E4F0F9;
+      opacity: 0.6;
+
+      span {
+        margin-left: 16px;
+      }
+    }
+  }
+
+
+  .policy-row:first-child {
+
+    div {
+      margin-top: 6px;
+    }
+
+    .actual-result {
+      padding: 5px 0;
+    }
+  }
+
+  .policy-row:last-child {
+
+    div {
+      margin-bottom: 6px;
+    }
+
+    .actual-result {
+      padding: 5px 0;
+    }
+  }
+
+  .policy-row-header {
+    padding: 0;
+  }
+}
+
 .header-container,
 .data-container {
   padding-left: 20px;
-
-  .policy-row {
-    // background-color: #FAFAFA;
-    @extend .policy-row-header;
-  }
 
   .policy-row-header {
     // height: 52px;
@@ -2088,6 +2132,17 @@ rlo-ui-card-field {
         line-height: 17px;
       }
     }
+
+    .expected-result {
+      span {
+        margin-left: 20%;
+      }
+    }
+  }
+
+  .policy-row {
+    // background-color: #FAFAFA;
+    @extend .policy-row-header;
   }
 
   .total-container {
@@ -3369,18 +3424,58 @@ rlo-ui-card-field {
 }
 
 /*input grid css start*/
+.lyt-ip-grid {
+  padding: 0px;
 
-.table>thead:first-child>tr:first-child>th {
-  border-top: 0;
-  background-color: #e4f0f9;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 17px;
-  color: #565656;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
+  .disbursal-ip-table {
+    thead:first-child {
+      tr:first-child {
+        th {
+          background-color: #e4f0f9;
+          font-family: "Open Sans", sans-serif;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 17px;
+          color: #565656;
+          border-radius: 4px;
+          border: none;
+          height: 40px;
+
+          .row-add-icon {
+            // background-image: url("./../icons/plus.svg");
+            width: 19px;
+            height: 19px;
+            float: right;
+            cursor: pointer;
+            background-image: url(./../icons/plus.svg);
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr>td {
+        border: 0px;
+
+        .row-add-icon {
+          width: 19px;
+          height: 19px;
+          float: right;
+          cursor: pointer;
+          background-image: url(./../icons/plus.svg);
+        }
+
+        .row-delete-icon {
+          height: 24px;
+          width: 20px;
+          float: right;
+          cursor: pointer;
+          background-repeat: no-repeat;
+          background-image: url(./../icons/CustDeleteIcon.svg);
+        }
+      }
+    }
+  }
 }
 
 // .input-grid-plus-icon{
@@ -3659,61 +3754,13 @@ rlo-ui-card-field {
   #CUST_GRID {
     padding-top: 0px;
   }
+
   app-readonly-grid {
     .table-responsive {
       border: 0px;
     }
   }
 }
-
-.lyt-policy-check-result {
-  .policy-row {
-    padding: 0;
-
-    div {
-      margin: 3px 0;
-      background-color: #FAFAFA;
-    }
-
-    .actual-result {
-      padding: 3px 0;
-      margin: 0 !important;
-      background: #E4F0F9;
-
-      span {
-        margin-left: 16px;
-      }
-    }
-  }
-
-
-  .policy-row:first-child {
-
-    div {
-      margin-top: 6px;
-    }
-
-    .actual-result {
-      padding: 5px 0;
-    }
-  }
-
-  .policy-row:last-child {
-
-    div {
-      margin-bottom: 6px;
-    }
-
-    .actual-result {
-      padding: 5px 0;
-    }
-  }
-
-  .policy-row-header {
-    padding: 0;
-  }
-}
-
 
 .ellipsis-text {
   rlo-ui-readonlyfield {

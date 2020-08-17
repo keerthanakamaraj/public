@@ -540,14 +540,14 @@
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="PD_Save.isHidden()" *ngIf="!readOnly">
             <app-button #PD_Save fieldName="{{ 'PropertyDetails.PD_Save' | translate}}" fieldID="PD_Save"
               [formCode]="formCode" (buttonClick)="PD_Save_click($event)" customClass="btn btn-primary btn-sm">
             </app-button>
           </div>
-          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="PD_Clear.isHidden()" *ngIf="!readOnly">
+          <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="PD_Clear.isHidden()" *ngIf="!readOnly">
             <app-button #PD_Clear fieldName="{{ 'PropertyDetails.PD_Clear' | translate}}" fieldID="PD_Clear"
               [formCode]="formCode" (buttonClick)="Clear_click($event)" customClass="btn-warning-outline"></app-button>
           </div>

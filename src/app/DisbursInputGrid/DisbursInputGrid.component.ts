@@ -19,11 +19,12 @@ const customCss: string = '';
   templateUrl: './DisbursInputGrid.component.html'
 })
 export class DisbursInputGridComponent extends GridComponent implements OnInit {
-  @ViewChildren('ProjectCompletion') ProjectCompletion: QueryList<TextAreaComponent>;
+  @ViewChildren('ProjectCompletion') ProjectCompletion: QueryList<TextBoxComponent>;
   @ViewChildren('DisbursementAmount') DisbursementAmount: QueryList<AmountComponent>;
   @ViewChildren('deleteRow') DeleteRow: QueryList<AmountComponent>;
   @ViewChildren('AddRow') AddRow: QueryList<AmountComponent>;
   s: string = undefined;
+  showAdd: boolean = false;
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
     this.value = new DisbursInputGridModel();
@@ -56,10 +57,23 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
     });
   }
   async gridLoad() {
+    //this.showHideAddRowIcon(0);
   }
   async onRowAdd(rowNo) {
+    this.showHideAddRowIcon(1);
+  }
+
+
+  showHideAddRowIcon(rowlimit) {
+    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
+    if (this.value.rowData.length <= rowlimit) {
+      this.showAdd = true;
+    } else {
+      this.showAdd = false;
+    }
   }
   async onRowDelete(rowNo) {
+    this.showHideAddRowIcon(1);
   }
 
   getTotProjCompletionPercent() {

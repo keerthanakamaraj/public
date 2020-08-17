@@ -464,11 +464,11 @@
 }
 
 /* .form-group-initiation { */
-  /* box-sizing: border-box;
+/* box-sizing: border-box;
     height: 1px;
     width: 1325px; */
-  /* border-bottom: 1px solid #DDDDDD !important; */
-  /* padding-top: 19px; */
+/* border-bottom: 1px solid #DDDDDD !important; */
+/* padding-top: 19px; */
 
 
 /* Buttons */
@@ -487,7 +487,7 @@
   text-align: center;
 }
 
-.tag{
+.tag {
   padding: 8px;
 }
 
@@ -565,6 +565,7 @@
 .ag-cell {
   color: #4F4E4E;
 }
+
 /* .shirnkheader {
   float: left;
   width: 100%;
@@ -617,47 +618,51 @@ li .a {
   height: 60px;
 } */
 
-.occp_st{
+.occp_st {
   margin-left: -15px;
 }
-.refDtls{
+
+.refDtls {
   margin-left: -15px;
 }
-.noteDtls{
+
+.noteDtls {
   margin-left: -15px;
 }
-.qde-application{
+
+.qde-application {
   margin-left: -33px;
 }
-#CD_SAVE_BTN{
+
+#CD_SAVE_BTN {
   margin-left: 185px;
 }
 
-#CD_CLEAR_BTN{
+#CD_CLEAR_BTN {
   margin-left: 194px;
 }
 
-#PI_SAVE_BTN{
+#PI_SAVE_BTN {
   margin-left: 264px;
 }
 
-#PI_CLEAR_BTN{
+#PI_CLEAR_BTN {
   margin-left: 277px;
 }
 
 /* #GNG_SAVE_BTN{
   margin-left: 0px;
 } */
-
-#GNG_CLEAR_BTN{
+#PD_Clear,
+#GNG_CLEAR_BTN {
   margin-left: 10px;
 }
- 
-#AMS_GENERATE_BTN{
+
+#AMS_GENERATE_BTN {
   margin-left: 0px;
 }
 
-#AMS_CLEAR_BTN{
+#AMS_CLEAR_BTN {
   margin-left: 10px;
 }
 
@@ -665,25 +670,25 @@ li .a {
   margin-left: 0px;
 }  */
 
-#LD_CLEAR_BTN{
+#LD_CLEAR_BTN {
   margin-left: 10px;
 }
 
-.AD_EMAIL1{
+.AD_EMAIL1 {
   margin-left: 10px;
   margin-top: 6px;
 }
 
-.emailCheck1{
+.emailCheck1 {
   margin-top: 6px;
 }
 
-.emailCheck2{
+.emailCheck2 {
   margin-top: 6px;
 }
 
-.mandatory{
-  content:" *";
+.mandatory {
+  content: " *";
   color: red;
 }
 
@@ -704,42 +709,50 @@ li .a {
   border: 0.25px solid #FDFDFD !important;
   color: #0079B8 !important;
 }
-#Edit{
-  margin-top:75px;
+
+#Edit {
+  margin-top: 75px;
   margin-left: 185px;
 }
+
 .icon {
   color: white;
 }
+
 /* 
 #RD_RESET{
   border-color: dimgray;
   margin-left: 131px;
 } */
-#CCD_Save{
+#CCD_Save {
   margin-top: 35px;
   margin-left: 36px;
 }
-#CCD_Clear{
+
+#CCD_Clear {
   margin-top: 35px;
   margin-left: 50px;
 }
-#Save{
+
+#Save {
   margin-left: 171px;
 }
-#CD_ADD{
+
+#CD_ADD {
   margin-left: 204px;
 }
+
 /* #RD_SAVE{
   margin-left: 187px;
 } */
 
-#MT_Proposal{
+#MT_Proposal {
   margin-left: 250px;
   margin-top: 19px;
   /* height: 36px; */
   width: 165px !important
 }
+
 .fa.fa-trash.fa-lg {
   box-sizing: border-box;
   height: 22.8px;
@@ -899,8 +912,9 @@ app-check-box[fieldID=MT_SLIDER] .checkbox label span:before {
 .btn-warning-outline {
   margin-inline-start: 50px;
 }
-.text1{
-color: #0079B8;
+
+.text1 {
+  color: #0079B8;
 }
 
 #BAD_PROMOTION {

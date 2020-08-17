@@ -8,9 +8,9 @@ describe('PolicyCheckResultComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PolicyCheckResultComponent ]
+      declarations: [PolicyCheckResultComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

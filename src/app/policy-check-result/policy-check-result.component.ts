@@ -128,14 +128,16 @@ export class PolicyCheckResultComponent implements OnInit {
 
   mergeBorAndAppRecords() {
     let appPolicyResultList = [];
-    if (this.MstPolicyResultMap.has('A_' + this.ApplicationId)) {
-      appPolicyResultList = this.MstPolicyResultMap.get('A_' + this.ApplicationId).concat(
-        this.MstPolicyResultMap.get('C_' + this.mainBorrower));
+    if (this.MstPolicyResultMap.has('C_' + this.mainBorrower)) {
+      if (this.MstPolicyResultMap.has('A_' + this.ApplicationId)) {
+        appPolicyResultList = this.MstPolicyResultMap.get('A_' + this.ApplicationId).concat(
+          this.MstPolicyResultMap.get('C_' + this.mainBorrower));
+      }
+      else {
+        appPolicyResultList = this.MstPolicyResultMap.get('C_' + this.mainBorrower);
+      }
+      this.MstPolicyResultMap.set('A_' + this.ApplicationId, appPolicyResultList);
     }
-    else {
-      appPolicyResultList = this.MstPolicyResultMap.get('C_' + this.mainBorrower);
-    }
-    this.MstPolicyResultMap.set('A_' + this.ApplicationId, appPolicyResultList);
   }
   removeEmptyOptions() {
     this.FilterOptions.forEach(element => {
