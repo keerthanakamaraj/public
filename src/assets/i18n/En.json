@@ -2111,9 +2111,9 @@
     "VIEW_DDE": "View DDE",
     "CustomerInfo": "Customer Infomation",
     "FieldId_3": "Loan Information",
-    "OPERATION_APPROVE": "Approve",
-    "OPERATION_WITHDRAW": "Withdraw",
-    "OPERATION_SENDBACK": "Sendback",
+    "OPERATION_APPROVE": "APPROVE",
+    "OPERATION_WITHDRAW": "WITHDRAW",
+    "OPERATION_SENDBACK": "SENDBACK",
     "DisbustAmt": "Final Amount to be Disbursed",
     "LOAN_DBR": "DBR",
     "EMI_Amt": "Installment Amount",
@@ -2124,7 +2124,7 @@
     "Apved_Limit": "Approved Limit",
     "Card_DBR": "DBR",
     "Document_Information":"Document Information",
-    "OPERATION_CLOSE":"Close"
+    "OPERATION_CLOSE":"CANCEL"
   },
   "CustGrid": {
     "Cust_Type": "Customer Type",
