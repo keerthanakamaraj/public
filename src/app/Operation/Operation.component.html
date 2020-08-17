@@ -233,10 +233,6 @@
             fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn btn-primary"
             (buttonClick)="OPERATION_SUBMIT_click($event)" style="width: 150px !important;">
           </app-button>
-          <app-button #OPERATION_CLOSE fieldName="{{ 'Operation.OPERATION_CLOSE' | translate}}"
-            fieldID="OPERATION_CLOSE" [formCode]="formCode" customClass="btn-warning-outline"
-            (buttonClick)="OPERATION_CLOSE_click($event)" style="width: 150px !important;">
-          </app-button>
           <app-button #OPERATION_WITHDRAW fieldName="{{ 'Operation.OPERATION_WITHDRAW' | translate}}"
             fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn-warning-outline"
             (buttonClick)="OPERATION_WITHDRAW_click($event)" style="width: 150px !important;">
@@ -245,6 +241,10 @@
             fieldID="OPERATION_SENDBACK" [formCode]="formCode" customClass="btn-warning-outline"
             (buttonClick)="OPERATION_SENDBACK_click($event)" style="width: 150px !important;">
           </app-button>
+          <app-button #OPERATION_CLOSE fieldName="{{ 'Operation.OPERATION_CLOSE' | translate}}"
+          fieldID="OPERATION_CLOSE" [formCode]="formCode" customClass="btn-warning-outline"
+          (buttonClick)="OPERATION_CLOSE_click($event)" style="width: 150px !important;">
+        </app-button>
         </div>
         <div class="col-12  col-sm-4 col-md-4"></div>
       </div>
