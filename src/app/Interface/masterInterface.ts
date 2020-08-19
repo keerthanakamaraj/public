@@ -75,3 +75,9 @@ export interface ICardInfo {
     borrowerSeq: number;
     componentCode: string;
 }
+
+//used in multi date
+export interface ISelectedDateRange {
+    startDate?: Date;
+    endDate?: Date;
+}

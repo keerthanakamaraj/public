@@ -352,6 +352,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           this.isDataAvaliableFlag = 1;
           this.applicationId = res.UWApplication.ApplicationId;
           this.generateModelJson(res.UWApplication);
+          this.getScores();
         }
         else {
           this.isDataAvaliableFlag = 0;
@@ -840,6 +841,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   openFileUpload() {
     this.services.rloui.openFileUpload(this.applicationId);
+  }
+
+  getScores() {
+    console.log(this.applicationId);
+    let userId = sessionStorage.getItem('userId');
+    //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
+    let url = "/ApplicationScoreDetails/" + this.applicationId;
+    this.services.http.fetchApi(url, 'GET', null, '').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+        console.warn("Application details api")
+        console.log(res);
+      },
+      async (httpError) => {
+
+      });
   }
 
 }

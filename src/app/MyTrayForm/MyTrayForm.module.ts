@@ -10,6 +10,7 @@ import { MyTrayFormComponent } from './MyTrayForm.component';
 import { MyTrayGridModule } from '../MyTrayGrid/MyTrayGrid.module';
 import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module';
 import { ChartsModule } from 'ng2-charts';
+import { DateMultiselectdModule } from '../date-multiselect/date-multiselect.module';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { ChartsModule } from 'ng2-charts';
         }),
         MyTrayGridModule,
         NotepadDetailsFormModule,
-        ChartsModule
+        ChartsModule,
+        DateMultiselectdModule
     ],
     declarations: [
         MyTrayFormComponent,

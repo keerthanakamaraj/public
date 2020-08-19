@@ -2,8 +2,9 @@
 
     <div class="input-group-btn">
         <button type="button" name="CD_COUNTRY_CODE" class="btn btn-default btn-country-code dropdown-toggle"
-            data-toggle="dropdown" (blur)="onBlur()"
-            (click)="open()" aria-haspopup="true" aria-expanded="false">+{{countryCode}}</button>
+            data-toggle="dropdown" (blur)="onBlur()" 
+            (click)="open()" aria-haspopup="true" aria-expanded="false"
+            [ngClass]="{'disabled':readOnly}">+{{countryCode}}</button>
         <ul class="dropdown-menu country-code-list">
             <li *ngIf="showLoader" class="loading">Loading...</li>
             <li *ngFor="let data of countriesList" (click)="selectedCode(data.id)" [ngClass]="countryCode == data.id?'selected-code':''">{{data.text}}</li>

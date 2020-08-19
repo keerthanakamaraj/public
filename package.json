@@ -41,6 +41,7 @@
     "keycloak-js": "^8.0.1",
     "masonry-layout": "^4.2.2",
     "mydatepicker": "^2.6.6",
+    "mydaterangepicker": "^4.2.1",
     "ng-bootstrap-to-bootstrap-3": "^0.7.0",
     "ng2-charts": "^2.3.2",
     "ng2-datepicker": "^3.1.1",

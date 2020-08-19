@@ -1614,7 +1614,7 @@ rlo-ui-card-field {
     font-size: 12px !important;
     font-weight: 100 !important;
     border-right: none !important;
-    background-color: #EEEEEE;
+    background-color: #EEEEEE !important;
     outline: none !important;
   }
 
@@ -3141,11 +3141,20 @@ rlo-ui-card-field {
       text-align: center;
       color: #037cb1;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin: 4px 0 15px 0;
 
-      span {
-        font-size: 15px;
-        cursor: pointer;
+      .filter-list {
+        span {
+          font-size: 14px;
+          cursor: pointer;
+          margin-right: 7px;
+          border-right: 2px solid;
+          padding-right: 7px;
+
+          &:last-of-type {
+            border: none;
+          }
+        }
       }
     }
 
@@ -3248,6 +3257,35 @@ rlo-ui-card-field {
   }
 
   .doughnut-txt {}
+
+  // date range
+  .multi-date-select {
+    content: none;
+    position: absolute;
+    right: 56px;
+    top: 10px;
+
+    input {
+      padding: 0;
+    }
+
+    .mydrp {
+      border: none !important;
+
+      .mydrpicon {
+        font-size: 18px;
+      }
+    }
+
+    .icon-mydrpcalendar:before {
+      content: "\e921";
+      color: #037cb1;
+    }
+  }
+
+  .filter-selected {
+    text-decoration: underline;
+  }
 }
 
 // seperate doc. upload component 
@@ -3809,3 +3847,5 @@ rlo-ui-card-field {
   padding-left: 0.8rem;
   float: left;
 }
+
+.wgt-date-multiselect {}

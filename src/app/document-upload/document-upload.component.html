@@ -43,7 +43,6 @@
                         (blur)="validateField(docUploadObject.relationshipToBorrower, 'relationshipToBorrower')"
                         [clearable]="false">
                     </ng-select>
-
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide">
@@ -85,7 +84,6 @@
                     <input type="text" class="form-control lfd" id="remarks" placeholder="{{getPlaceholder('remarks')}}"
                         (blur)="validateField(docUploadObject.remarks, 'remarks')" name="remarks"
                         [(ngModel)]="docUploadObject.remarks" />
-
                 </div>
             </div>
         </div>
@@ -94,9 +92,7 @@
             <div class="col-md-8 res-pr-hide">
                 <div>
                     <label [ngClass]="{ 'mandatory': isMandatory('DocName')}">{{getLabel('BROWSE_UPLOAD')}}</label>
-
                     <!-- <div class="col-md-8" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge -->
-
                     <div class='file-upload handleerror' name="DocName">
                         <input class="form-control" [(ngModel)]="docDetailsObject.DocName" readonly
                             (blur)="validateField(docDetailsObject.DocName, 'DocName')" />
@@ -115,10 +111,7 @@
                 <button *ngIf="UserId == checkUserId" (click)="clearform(true)" type="button"
                     class="btn-secondary">{{getLabel('RESET')}}</button>
             </div>
-
         </div>
-
-
 
         <div class="row">
             <div class="col-md-12 text-center">

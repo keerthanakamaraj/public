@@ -21,6 +21,9 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { Label, MultiDataSet, SingleDataSet } from 'ng2-charts';
 import { ChartType, ChartOptions, PluginServiceRegistrationOptions } from 'chart.js';
 import * as Chart from 'chart.js';
+import { ISelectedDateRange } from '../Interface/masterInterface';
+import { start } from 'repl';
+import { async } from 'rxjs/internal/scheduler/async';
 
 const customCss: string = '';
 
@@ -143,17 +146,17 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
   chart: any;
 
-  dataSets = {
-    labels: ['Quick Data Entry', 'Detailed Data Entry', 'CPV', 'Credit Underwriting'],
-    datasets: [
-      {
-        data: [5, 10, 10, 2],
-        backgroundColor: ['#012438',
-          '#037cb1',
-          '#54a8d4',
-          '#560d28'],
-      }]
-  };
+
+  graphFilterList: any = [
+    { name: 'All', isSelected: false },
+    { name: '1Y', isSelected: false },
+    { name: '6M', isSelected: false },
+    { name: '3M', isSelected: false },
+    { name: '1M', isSelected: false },
+    { name: '1W', isSelected: false },
+  ];
+
+  dateFormat = 'DD-MMM-YY';
 
   constructor(services: ServiceStock, private router: Router, private cdRef: ChangeDetectorRef) {
     super(services);
@@ -227,46 +230,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.checkForHTabOverFlow();
     });
 
-    this.context = this.doughnutChartInnerTxt.nativeElement;
-    this.chart = new Chart(this.context, {
-      type: 'doughnut',
-      data: this.dataSets,
-      options: {
-        cutoutPercentage: 80,
-        legend: {
-          position: "bottom",
-          labels: {
-            fontSize: 10,
-            usePointStyle: true
-          }
-        },
-        elements: {
-          arc: {
-            borderWidth: 0
-          }
-        }
-      }
-    });
-
-    Chart.pluginService.register({
-      beforeDraw: function (chart) {
-        var width = chart.width,
-          height = chart.height,
-          ctx = chart.ctx,
-          type = chart.config.type;
-
-        if (type == 'doughnut') {
-          ctx.textBaseline = "middle";
-          ctx.font = "18px sans-serif";
-          ctx.fillText("Total Pending", 140, 73);
-
-          ctx.textBaseline = "middle";
-          ctx.font = "18px sans-serif";
-          ctx.fillText("27", 185, 100);
-          ctx.save();
-        }
-      }
-    });
+    this.getFilter("1W")
     this.cdRef.detectChanges();
   }
   clearError() {
@@ -323,25 +287,203 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     this.router.navigate(['/home/Underwriter']);
   }
 
-  testModal() {
+  getFilter(name: "All" | "1Y" | "6M" | "3M" | "1M" | "1W") {
+    console.log(name);
+    let startDate;
+    const moment = require('moment');
+    this.clearNonCalendarFilter();
+    let selectedOption = this.graphFilterList.find(el => el.name == name);
+    selectedOption.isSelected = true;
 
-    Promise.all([this.services.rloui.getAlertMessage('', 'test'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
-      console.log(values);
-      let modalObj: IModalData = {
-        title: "Alert",
-        mainMessage: values[0],
-        modalSize: "modal-width-lg",
-        buttons: [],
-        componentName: 'NotepadDetailsFormComponent'
-      }
-      this.services.rloui.confirmationModal(modalObj).then((response) => {
-        console.log(response);
-        if (response != null) {
-          if (response.id === 1) {
-            this.services.rloui.closeAllConfirmationModal();
-          }
-        }
-      });
+    switch (name) {
+      case 'All':
+        startDate = moment().subtract(1, 'year').format(this.dateFormat);
+        break;
+
+      case '1Y':
+        startDate = moment().subtract(1, 'year').format(this.dateFormat);
+        break;
+
+      case '6M':
+        startDate = moment().subtract(6, 'months').format(this.dateFormat);
+        break;
+
+      case '3M':
+        startDate = moment().subtract(3, 'months').format(this.dateFormat);
+        break;
+
+      case '1M':
+        startDate = moment().subtract(1, 'months').format(this.dateFormat);
+        break;
+
+      case '1W':
+        startDate = moment().subtract(7, 'day').format(this.dateFormat);
+        break;
+
+      default:
+        break;
+    }
+
+    console.warn(startDate, moment().format(this.dateFormat));
+    this.getGraphData(startDate, moment().format(this.dateFormat)).then((response:any)=>{
+      console.log(response);
+      this.plotDoughnutChart();
+    })
+  }
+
+  //@output
+  selectedDateRange(date: ISelectedDateRange) {
+    this.clearNonCalendarFilter();
+    console.log("DEEP | selected date range", date);
+
+    const moment = require('moment');
+    let startDate = moment(date.startDate).format(this.dateFormat);
+    let endDate = moment(date.endDate).format(this.dateFormat);
+
+    console.warn(startDate, endDate);
+    this.getGraphData(startDate, endDate).then((response:any)=>{
+      console.log(response);
+      this.plotDoughnutChart();
     });
   }
+
+  clearNonCalendarFilter() {
+    this.graphFilterList.forEach(element => {
+      element.isSelected = false;
+    });
+  }
+
+  async getGraphData(startDate, endDate) {
+    //http://10.11.12.19:18180/olive/publisher/DashboardChart?fromDate=01-APR-20&toDate=06-AUG-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process
+
+    let userId = sessionStorage.getItem('userId');
+    //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
+    let url="/DashboardChart?fromDate=01-APR-20&toDate=06-AUG-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process";
+    this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        const res = httpResponse.body;
+        console.log(res);
+      },
+      async (httpError) => {
+
+      });
+
+    let data = [
+      {
+        "FORMNAME": "ApprovedQueue",
+        "COUNT": "2"
+      },
+      {
+        "FORMNAME": "DDE",
+        "COUNT": "5"
+      },
+      {
+        "FORMNAME": "Operation",
+        "COUNT": "8"
+      },
+      {
+        "FORMNAME": "QDE",
+        "COUNT": "320"
+      },
+      {
+        "FORMNAME": "Underwriter",
+        "COUNT": "2"
+      }
+    ]
+
+    return data;
+  }
+
+
+  plotDoughnutChart() {
+    let dataList = [
+      {
+        "FORMNAME": "ApprovedQueue",
+        "COUNT": "2"
+      },
+      {
+        "FORMNAME": "DDE",
+        "COUNT": "5"
+      },
+      {
+        "FORMNAME": "Operation",
+        "COUNT": "8"
+      },
+      {
+        "FORMNAME": "QDE",
+        "COUNT": "320"
+      },
+      {
+        "FORMNAME": "Underwriter",
+        "COUNT": "2"
+      }
+    ];
+
+    let dataPoints = [];
+    let dataLabels = [];
+    let pendingProposals = 0;
+
+    if (dataList.length) {
+      dataList.forEach(element => {
+        dataPoints.push(element.COUNT);
+        dataLabels.push(element.FORMNAME);
+        pendingProposals += Number(element.COUNT);
+      });
+    }
+
+
+    let dataSets = {
+      labels: dataLabels,
+      datasets: [
+        {
+          data: dataPoints,
+          backgroundColor: ['#012438',
+            '#037cb1',
+            '#54a8d4',
+            '#560d28'],
+        }]
+    };
+
+    this.context = this.doughnutChartInnerTxt.nativeElement;
+    this.chart = new Chart(this.context, {
+      type: 'doughnut',
+      data: dataSets,
+      options: {
+        cutoutPercentage: 80,
+        legend: {
+          position: "bottom",
+          labels: {
+            fontSize: 10,
+            usePointStyle: true
+          }
+        },
+        elements: {
+          arc: {
+            borderWidth: 0
+          }
+        }
+      }
+    });
+
+    Chart.pluginService.register({
+      beforeDraw: function (chart) {
+        var width = chart.width,
+          height = chart.height,
+          ctx = chart.ctx,
+          type = chart.config.type;
+
+        if (type == 'doughnut') {
+          ctx.textBaseline = "middle";
+          ctx.font = "18px sans-serif";
+          ctx.fillText("Total Pending", 140, 73);
+
+          ctx.textBaseline = "middle";
+          ctx.font = "18px sans-serif";
+          ctx.fillText(pendingProposals.toString(), 185, 100);
+          ctx.save();
+        }
+      }
+    });
+  }
+
 }

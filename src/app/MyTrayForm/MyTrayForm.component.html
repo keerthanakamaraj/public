@@ -14,7 +14,12 @@
         <div class="proposal-card">
           <span class="icon-calendar-line"></span>
           <div class="filter-container">
-            <span>All | 1Y | 6M | 3M | 1M | 1W </span>
+            <span class="filter-list">
+              <span *ngFor="let filter of graphFilterList" [class.filter-selected]="filter.isSelected" (click)="getFilter(filter.name)">{{filter.name}}</span>
+            </span>
+          </div>
+          <div class="multi-date-select">
+            <app-date-multiselect (passSelectedDate)="selectedDateRange($event)"></app-date-multiselect>
           </div>
           <div class="title">Pending Proposals Overview</div>
           <div class="proposal-container">

@@ -179,7 +179,7 @@
             </div>
             <!-- deep test -->
             <!-- <app-text-box #CD_MOBILE_NO fieldID="CD_MOBILE_NO" [formCode]="formCode" (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></app-text-box> -->
-            <rlo-ui-mobile #CD_MOBILE_NO fieldID="CD_MOBILE_NO"
+            <rlo-ui-mobile #CD_MOBILE_NO fieldID="CD_MOBILE_NO" [readOnly]="readOnly"
               (countryCodeChanged)="countryCodeChanged('CD_MOBILE_NO',$event)"
               (blur)="genericOnBlur('CD_MOBILE_NO', $event)"></rlo-ui-mobile>
           </div>

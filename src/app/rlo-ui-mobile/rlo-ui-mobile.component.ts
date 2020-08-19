@@ -18,6 +18,8 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
   @Input('DecimalLength') DecimalLength: number;
   @Input('numberType') type: string;
 
+  @Input('readOnly') readOnly: boolean;
+
 
   // RLO Additions
   @Input('regex') regex: string;
@@ -140,19 +142,19 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
     // //this.regex = "^([5]{1})([0-9]{7})*$";
     // if(this.type == 'LandlineNo'){ 
     // this.regex = "^[1-9][0-9]*$";
-  
+
     // }
     // else{
     //   this.regex = "^[7][0-9]*$";
-  
+
     // }
-   
+
     if (this.regex) {
       try {
         var patt = new RegExp(this.regex);
         if (!patt.test(value)) {
           this.setError('rlo.error.invalid.regex');
-          totalErrors++;  
+          totalErrors++;
         }
       } catch (e) {
         console.error("Error validating Reg Ex ", e);

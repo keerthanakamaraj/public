@@ -189,7 +189,7 @@
                 {{ 'AddressDetails.AD_LANDLINE_NUMBER' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [numberType] = "'LandlineNo'"
+            <rlo-ui-mobile #AD_LANDLINE_NUMBER fieldID="AD_LANDLINE_NUMBER" [readOnly]="readOnly" [numberType] = "'LandlineNo'"
             (countryCodeChanged)="countryCodeChanged('AD_LANDLINE_NUMBER',$event)"
               (blur)="genericOnBlur('AD_LANDLINE_NUMBER', $event)"></rlo-ui-mobile>
           </div>
@@ -208,7 +208,7 @@
                 {{ 'AddressDetails.AD_ALTERNATE_MOB_NO' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #AD_ALTERNATE_MOB_NO fieldID="AD_ALTERNATE_MOB_NO"
+            <rlo-ui-mobile #AD_ALTERNATE_MOB_NO fieldID="AD_ALTERNATE_MOB_NO" [readOnly]="readOnly"
               (countryCodeChanged)="countryCodeChanged('AD_ALTERNATE_MOB_NO',$event)"
               (blur)="genericOnBlur('AD_ALTERNATE_MOB_NO', $event)"></rlo-ui-mobile>
           </div>

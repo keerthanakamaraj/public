@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-score-card',
@@ -10,6 +11,7 @@ export class ScoreCardComponent implements OnInit {
 
   @Input("scoreData") scoreData: any;
   @Input("layoutType") layoutType?: string = "horizontal";
+  @Input("applicationId") applicationId?: any;
 
   showExpanded: boolean = false;
   scoreCards = [
@@ -33,6 +35,8 @@ export class ScoreCardComponent implements OnInit {
 
   ngAfterViewInit() {
     console.log(this.scoreData);
+
+    //this.getScores();
   }
 
   headerChanges(data) {
@@ -44,4 +48,20 @@ export class ScoreCardComponent implements OnInit {
       this.showExpanded = false;
     }
   }
+
+  // getScores() {
+  //   console.log(this.applicationId);
+  //   let userId = sessionStorage.getItem('userId');
+  //   //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
+  //   let url = "/ApplicationScoreDetails/768";
+  //   this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       const res = httpResponse.body;
+  //       console.warn("Application details api")
+  //       console.log(res);
+  //     },
+  //     async (httpError) => {
+
+  //     });
+  // }
 }

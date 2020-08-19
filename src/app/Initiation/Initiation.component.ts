@@ -129,6 +129,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   custMinAge: number = 18;
   custMaxAge: number = 100;
   loanTotal: number;
+  readOnly: boolean = false;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -765,7 +766,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
-       // inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp());
+        // inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
         if (this.BAD_PROD_CAT.getFieldValue() == 'CC') {
@@ -1069,10 +1070,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   }
 
-  getTimeStamp(){
+  getTimeStamp() {
     const moment = require('moment');
-    let currentDate=moment().format('DD-MM-YY hh:mm:ss A');
-   // console.log("shweta :: current date test ",currentDate);
+    let currentDate = moment().format('DD-MM-YY hh:mm:ss A');
+    // console.log("shweta :: current date test ",currentDate);
     return currentDate;
   }
 

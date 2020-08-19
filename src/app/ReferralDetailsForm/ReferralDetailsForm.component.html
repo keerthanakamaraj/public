@@ -61,7 +61,7 @@
               </label>
             </div>
             <rlo-ui-mobile #RD_REF_NO fieldID="RD_REF_NO" (countryCodeChanged)="countryCodeChanged('RD_REF_NO',$event)"
-              (blur)="genericOnBlur('RD_REF_NO', $event)"></rlo-ui-mobile>
+              (blur)="genericOnBlur('RD_REF_NO', $event)" [readOnly]="readOnly"></rlo-ui-mobile>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFRRER_EMAILID.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -174,7 +174,7 @@
               </label>
             </div>
             <rlo-ui-mobile #RD_PHONE1 fieldID="RD_PHONE1" (countryCodeChanged)="countryCodeChanged('RD_PHONE1',$event)"
-              (blur)="genericOnBlur('RD_PHONE1', $event)"></rlo-ui-mobile>
+              (blur)="genericOnBlur('RD_PHONE1', $event)" [readOnly]="readOnly"></rlo-ui-mobile>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_PHONE2.isHidden()">
@@ -184,7 +184,7 @@
               </label>
             </div>
             <rlo-ui-mobile #RD_PHONE2 fieldID="RD_PHONE2" (countryCodeChanged)="countryCodeChanged('RD_PHONE2',$event)"
-              (blur)="genericOnBlur('RD_PHONE2', $event)"></rlo-ui-mobile>
+              (blur)="genericOnBlur('RD_PHONE2', $event)" [readOnly]="readOnly"></rlo-ui-mobile>
           </div>
           <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div> -->
           <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>

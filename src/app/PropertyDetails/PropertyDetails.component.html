@@ -430,7 +430,7 @@
                 {{ 'PropertyDetails.SellerMobileNo' | translate}}
               </label>
             </div>
-            <rlo-ui-mobile #SellerMobileNo fieldID="SellerMobileNo"
+            <rlo-ui-mobile #SellerMobileNo fieldID="SellerMobileNo" [readOnly]="readOnly"
               (countryCodeChanged)="countryCodeChanged('SellerMobileNo',$event)"
               (blur)="genericOnBlur('SellerMobileNo', $event)"></rlo-ui-mobile>
           </div>

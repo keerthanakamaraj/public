@@ -263,20 +263,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     // This method is to upload file
     processUplaodImage() {
         //this.uploader.uploadAll();
-        console.log(this.docDetailsObject, this.docUploadObject.status);
-
-        if (this.docDetailsObject.DocName == undefined || this.docDetailsObject.DocName == "") {
-            if (this.docUploadObject.status == "005" || this.docUploadObject.status == "006")
-                this.saveImageDetails();
-        }
-        else {
-            this.uploader.uploadAll();
-        }
-    }
-    // This method is to save document details in table
-    saveImageDetails() {
-        this.documentUploadObject.DocDetail = [];
-        this.documentUploadObject.DocUploadDetails = [];
+        console.log(this.docDetailsObject, this.docUploadObject);
+        let msg = "Please select ";
+        let msgList = [];
 
         if (this.docUploadObject.status == "005") {
             this.docUploadObject.deferredUntil = this.deffered_date.getFieldValue();
@@ -284,6 +273,65 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
 
         if (this.docUploadObject.status == "002" || this.docUploadObject.status == "003" || this.docUploadObject.status == "001")
             this.docUploadObject.collectionDate = this.collection_date.getFieldValue();
+
+
+        if (this.docUploadObject.trnDemographicId == undefined || !this.docUploadObject.trnDemographicId.length) {
+            msgList.push(" owner");
+        }
+
+        if (this.docDetailsObject.DocType == undefined || !this.docDetailsObject.DocType.length) {
+            msgList.push(" document type");
+        }
+
+        if (this.docDetailsObject.entityDocumentId == undefined || !this.docDetailsObject.entityDocumentId.length) {
+            msgList.push(" document");
+        }
+
+        if (this.docUploadObject.relationshipToBorrower == undefined || !this.docUploadObject.relationshipToBorrower.length) {
+            msgList.push(" relationship to borrower");
+        }
+
+        if (this.docUploadObject.status == undefined || !this.docUploadObject.status.length) {
+            msgList.push(" status");
+        }
+        else {
+            if ((this.docUploadObject.status == "001" || this.docUploadObject.status == "002" || this.docUploadObject.status == "003") && !this.docUploadObject.collectionDate.length) {
+                msgList.push(" collection date");
+            }
+            else if (this.docUploadObject.status == "005" && !this.docUploadObject.deferredUntil.length) {
+                msgList.push(" deferred date");
+            } if (this.docUploadObject.status == "006" && !this.docUploadObject.remarks.length) {
+                msgList.push(" remarks");
+            }
+        }
+
+        console.warn(msgList);
+
+        if (msgList.length) {
+            this.services.alert.showAlert(2, '', 3000, msg + msgList.join());
+        }
+        else {
+            if (this.docDetailsObject.DocName == undefined || this.docDetailsObject.DocName == "") {
+                this.saveImageDetails();
+            }
+            else {
+                this.uploader.uploadAll();
+            }
+        }
+
+
+        // if (this.docDetailsObject.DocName == undefined || this.docDetailsObject.DocName == "") {
+        //     //if (this.docUploadObject.status == "005" || this.docUploadObject.status == "006")
+        //         this.saveImageDetails();
+        // }
+        // else {
+        //     this.uploader.uploadAll();
+        // }
+    }
+    // This method is to save document details in table
+    saveImageDetails() {
+        this.documentUploadObject.DocDetail = [];
+        this.documentUploadObject.DocUploadDetails = [];
 
         this.documentUploadObject.DocDetail.push(this.docDetailsObject);
         this.documentUploadObject.DocUploadDetails.push(this.docUploadObject);
@@ -314,7 +362,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         }
         let actualFileName = '';
         const validLength = true;
-        const allowedExtensions = ['jpg', 'jpeg', 'png', 'tiff', 'bmp', 'gif', 'pdf', 'xls', 'xlsx', 'doc', 'docx', 'msg',
+        const allowedExtensions = ['jpg', 'jpeg', 'png', 'tiff', 'tif', 'bmp', 'gif', 'pdf', 'xls', 'xlsx', 'doc', 'docx', 'msg',
             'JPG', 'JPEG', 'PNG', 'TIFF', 'BMP', 'GIF', 'PDF', 'XLS', 'XLSX', 'DOC', 'DOCX', 'MSG'];
 
         const file = fileInput.target.files[0];

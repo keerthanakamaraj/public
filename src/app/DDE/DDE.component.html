@@ -35,7 +35,7 @@
                         <!-- <app-score-card #scorecard></app-score-card> -->
                         <div class="scorecard-container row horizontal-layout"
                             [ngClass]="{'expanded':!showExpandedHeader}">
-                            <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data"
+                            <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data" [applicationId]="ApplicationId"
                                 *ngFor="let data of headerScoreCard">
                             </app-score-card>
                             <span class="refresher"></span>

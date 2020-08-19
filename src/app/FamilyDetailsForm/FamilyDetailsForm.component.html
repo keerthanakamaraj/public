@@ -112,7 +112,7 @@
               </label>
             </div>
             <rlo-ui-mobile #FD_MOBILE fieldID="FD_MOBILE" (countryCodeChanged)="countryCodeChanged('FD_MOBILE',$event)"
-              (blur)="genericOnBlur('FD_MOBILE', $event)"></rlo-ui-mobile>
+              (blur)="genericOnBlur('FD_MOBILE', $event)" [readOnly]="readOnly"></rlo-ui-mobile>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FD_RELATIONSHIP.isHidden()">
             <div class="clr-brown fieldLegend">
