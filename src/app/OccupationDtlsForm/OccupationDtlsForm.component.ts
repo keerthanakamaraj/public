@@ -126,7 +126,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.hideCurrencyDesc.setValue('EUR');
+    // this.hideCurrencyDesc.setValue('EUR');
     this.HidOccupation.setValue('OCCUPATION');
     this.HidAppId.setValue('RLO');
     this.HidIncomeDocType.setValue('INCOME_DOC_TYPE');
@@ -754,7 +754,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       inDep: [
 
         { paramKey: "CurrencySrc", depFieldID: "OD_CURRENCY", paramType: "PathParam" },
-        { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+        // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
       ],
       outDep: [
 

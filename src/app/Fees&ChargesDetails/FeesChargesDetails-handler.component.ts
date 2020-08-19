@@ -90,7 +90,7 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       else if(this.MainComponent.RateOnCharge.getFieldValue() == 'CATM'){
         CalcEffectiveAmount = this.MainComponent.LoanAmount*(this.MainComponent.ChargeRate.getFieldValue()/100)*(this.MainComponent.InterestRate/100);
       }
-      this.MainComponent.EffectiveAmount.setValue(CalcEffectiveAmount);
+      this.MainComponent.EffectiveAmount.setValue(CalcEffectiveAmount.toFixed(2));
     }
    
   }

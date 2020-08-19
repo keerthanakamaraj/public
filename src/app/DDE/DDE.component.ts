@@ -40,7 +40,7 @@ import { PersonalInterviewComponent } from '../PersonalInterview/personal-interv
 import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { Subscription } from 'rxjs';
-import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData } from '../rlo-services/rloCommonData.service';
+import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData, RloCommonData } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
@@ -474,6 +474,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
     this.injectDynamicComponent('CustomerDetails', false, 0, 0);
     this.services.rloCommonData.getCurrentRoute();
+    setTimeout(() => {
+      this.tabSwitched('customer');
+    }, 2000);
+    
   }
 
   ngOnDestroy() {
@@ -934,6 +938,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     }
   }
+  hideCollateralSection(){
+    if(this.FieldId_1.LOAN_CATEGORY == 'CC'){
+      
+    }
+  }
 
   tabSwitched(tabName: string) {
     let defaultSection: string;
@@ -943,6 +952,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.formMenuObject.isCustomerTabSelected = true;
       this.reCalculateMenuSections(this.ActiveBorrowerSeq);
       defaultSection = 'CustomerDetails';
+      this.formsMenuList.forEach(element => {
+        for (let i = 0; i < element.length; i++) {
+          const section = element[i];
+          section.isActive = false;
+          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+          if(this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC'){
+            if (section.id == "CollateralDetails")
+              element.splice(i, 1);
+          }
+        }
+      });
       this.injectDynamicComponent(defaultSection, false, 0, 0);
     }
     else {

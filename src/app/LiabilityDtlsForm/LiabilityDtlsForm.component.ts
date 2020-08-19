@@ -122,7 +122,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.hidAppId.setValue('RLO');
         this.hidLoanStatus.setValue('LOAN_STATUS');
         this.hideInculdeInDBR.setValue('Y_N');
-        this.hideCurrencyDesc.setValue('EUR');
+        // this.hideCurrencyDesc.setValue('EUR');
         this.hideLiabilityType.setValue('LIABILITY_TYPE');
         this.hideObligationHead.setValue('OBLIGATION_HEAD');
         this.setDependencies();
@@ -540,7 +540,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             inDep: [
 
                 { paramKey: "CurrencySrc", depFieldID: "LD_CURRENCY", paramType: "PathParam" },
-                { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+                // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
             ],
             outDep: [
                 { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },

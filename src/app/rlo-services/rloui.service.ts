@@ -149,7 +149,7 @@ export class RlouiService {
         //console.log("validations ", this.fieldValidations);
         localStorage.setItem("ui.validations", JSON.stringify(this.fieldValidations));
         localStorage.setItem("ui.validation.version", this.tenantconfig["ui.validation.version"]);
-      },
+            },
       async (httpError) => {
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
@@ -185,6 +185,11 @@ export class RlouiService {
 
         localStorage.setItem("ui.formfields", JSON.stringify(this.formFields));
         localStorage.setItem("ui.fields.version", this.tenantconfig["ui.fields.version"]);
+        localStorage.setItem("currency.code.default", this.tenantconfig["currency.code.default"]);
+        localStorage.setItem("mob.default.country.code", this.tenantconfig["mob.default.country.code"]);
+
+       
+
       },
       async (httpError) => {
         var err = httpError['error']

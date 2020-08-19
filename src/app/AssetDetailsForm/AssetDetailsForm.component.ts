@@ -100,7 +100,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.hideIncludeInDBR.setValue('Y_N');
         // this.hideName.setValue('NAME');
         // this.hideOwnedBy.setValue('OWNED_BY');
-        this.hideCurrencyDesc.setValue('EUR');
+        // this.hideCurrencyDesc.setValue('EUR');
         this.setDependencies();
         await this.Handler.onFormLoad({});
         await this.AssetDetailsGrid.gridDataLoad({
@@ -444,7 +444,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             inDep: [
 
                 { paramKey: "CurrencySrc", depFieldID: "AT_CURRENCY", paramType: "PathParam" },
-                { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+                // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
             ],
             outDep: [
                 { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },

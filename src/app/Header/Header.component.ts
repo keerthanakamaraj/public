@@ -329,7 +329,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
-    this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
+    switch(localStorage.getItem("currency.code.default")){
+      case 'EUR':  this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
+     
+    }
+   
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
         // this.HD_PROD_CAT_NAME.setValue('Auto Loan');
