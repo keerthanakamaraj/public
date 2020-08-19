@@ -22,12 +22,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
-          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
-                        <app-label #LD_HEADING parentCompCode="LoanDetailsForm" fieldID="LD_HEADING"
-                            [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal"
-                            fontSize="16px" fontWeight="bold"></app-label>
-                    </div> -->
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanAmount.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':LoanAmount.mandatory}">
@@ -151,8 +146,8 @@
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_FEES_CHARGE.isHidden()">
             <app-button #LD_FEES_CHARGE fieldName="{{ 'LoanDetailsForm.LD_FEES_CHARGE' | translate}}"
-              fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3" (buttonClick)="LD_FEES_CHARGE_click($event)"
-              imagePath="./assets/icons/refresh-form.svg">
+              fieldID="LD_FEES_CHARGE" customClass="btn-loan" [formCode]="formCode" [type]="3"
+              (buttonClick)="LD_FEES_CHARGE_click($event)" imagePath="./assets/icons/refresh-form.svg">
             </app-button>
           </div>
           <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_COLL_UPFRONT_CHARGES.isHidden()">
@@ -167,8 +162,8 @@
           </div> -->
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_DISBURMENT_MONEY.isHidden()">
             <app-button #LD_DISBURMENT_MONEY fieldName="{{ 'LoanDetailsForm.LD_DISBURMENT_MONEY' | translate}}"
-              fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3" 
-              (buttonClick)= "LD_DISBURMENT_MONEY_click($event)">
+              fieldID="LD_DISBURMENT_MONEY" customClass="btn-loan" [formCode]="formCode" [type]="3"
+              (buttonClick)="LD_DISBURMENT_MONEY_click($event)">
             </app-button>
           </div>
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="LD_GEN_AMOR_SCH.isHidden()">
@@ -230,19 +225,20 @@
             </app-LoanDetailsGrid>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12 col-sm-10 col-md-10"></div>
+          <div class="col-12 col-sm-9 col-md-9"></div>
           <ng-container *ngIf="!readOnly">
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
-            <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}" fieldID="LD_SAVE_BTN"
-              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="LD_SAVE_BTN_click($event)">
-            </app-button>
-          </div>
-          <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
-            <app-button #LD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}" fieldID="LD_CLEAR_BTN"
-              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="LD_CLEAR_BTN_click($event)">
-            </app-button>
-          </div>
-         </ng-container>
+            <div class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide">
+              <app-button #LD_SAVE_BTN fieldName="{{ 'LoanDetailsForm.LD_SAVE_BTN' | translate}}" fieldID="LD_SAVE_BTN"
+                [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="LD_SAVE_BTN_click($event)">
+              </app-button>
+            </div>
+            <div class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide">
+              <app-button #LD_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.LD_CLEAR_BTN' | translate}}"
+                fieldID="LD_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
+                (buttonClick)="LD_CLEAR_BTN_click($event)">
+              </app-button>
+            </div>
+          </ng-container>
           <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
             <app-loan-handler #Handler [MainComponent]="this"></app-loan-handler>
           </div>

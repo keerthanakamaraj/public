@@ -65,8 +65,8 @@
   *ngIf="parentFormCode=='DDE' && !isLoanCategory;else loanCategoryStyle">
   <div class="cust-group col-12 col-sm-3 col-md-3">
     <div class="cust-header">
-      <span class="cust-tag">{{ 'CustomerGridDTLS.BorrowerTag' | translate }}</span>
-      <span class="cust-label">{{ 'CustomerGridDTLS.BorrowerLabel' | translate }}</span>
+      <span class="cust-tag">{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
+      <span class="cust-label">{{ 'CustomerGridDTLS.PrimaryApplicantLabel' | translate }}</span>
     </div>
     <div class="cust-list">
       <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
@@ -99,9 +99,9 @@
             <!-- <i class="fas fa-pen"></i> -->
           </div>
           <div class="cust-delete" (click)="deleteCustomer($event, customer)">
-            <span>
+            <!-- <span>
               <i class="fa fa-trash"></i>
-            </span>
+            </span> -->
           </div>
         </div>
       </div>

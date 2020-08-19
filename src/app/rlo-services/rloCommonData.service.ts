@@ -486,13 +486,13 @@ export class RloCommonData {
     let customerData = sectionData.get('CustomerDetails');
 
     console.log("-------- customerData ", customerData);
-    if (customerData.CustomerType != "G") {
-      if (customerData.isValid) {
-        commonObj.isSectionValid = true;
-      } else {
-        commonObj.errorMessage += 'All mandatory fields in Customer Details';
-      }
+    // if (customerData.CustomerType != "G") {  //comented beacause logically technically not proper
+    if (customerData.isValid) {
+      commonObj.isSectionValid = true;
+    } else {
+      commonObj.errorMessage += 'All mandatory fields in Customer Details';
     }
+    // }
     return commonObj;
   }
 
@@ -631,16 +631,23 @@ export class RloCommonData {
         isLoadOrCreditCardValid = data[1].isSectionValid;
         isPropertyDetailsValid = data[2].isSectionValid;
 
+        let errorCounter = 1;
         for (let i = 0; i < data.length; i++) {
+          // const element = data[i];
+          // if (!element.isSectionValid) {
+          //   errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
+          // }
+          // errorMessage += element.errorMessage;
           const element = data[i];
+
           if (!element.isSectionValid) {
-            errorMessage = errorMessage !== '' ? errorMessage + ', ' : errorMessage;
+            errorMessage += "<p>" + (errorCounter++) + ". " + element.errorMessage + "</p>";
           }
-          errorMessage += element.errorMessage;
         }
 
         if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid)) {
-          let msg = errorMessage + "\r\n";
+          // let msg = errorMessage + "\r\n";
+          let msg = "<p>The following details of Application tab need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
           dataObject.errorsList.push(msg);
           dataObject.isAppValid = false;
         }
@@ -649,7 +656,7 @@ export class RloCommonData {
     }
     else {
       dataObject.isAppValid = false;
-      dataObject.errorsList.push('Kindly fill application section.');
+      dataObject.errorsList.push('<p>Kindly fill application section.</p>');
     }
 
     console.log(dataObject);
@@ -808,19 +815,20 @@ export class RloCommonData {
       isSectionValid: true,
       errorMessage: ''
     }
+    if (this.globalApplicationDtls.TypeOfLoanCode == 'ML') {
 
-    if (applicationData.has("PropertyDetails")) {
-      let propertyDetails = applicationData.get("PropertyDetails");
-      if (!propertyDetails[0].isValid) {
+      if (applicationData.has("PropertyDetails")) {
+        let propertyDetails = applicationData.get("PropertyDetails");
+        if (!propertyDetails[0].isValid) {
+          commonObj.errorMessage = "Please fill all the mandatory fields of property details";
+          commonObj.isSectionValid = false;
+        }
+      }
+      else {
         commonObj.errorMessage = "Please fill all the mandatory fields of property details";
         commonObj.isSectionValid = false;
       }
     }
-    else {
-      commonObj.errorMessage = "Please fill all the mandatory fields of property details";
-      commonObj.isSectionValid = false;
-    }
-
     return commonObj;
   }
 

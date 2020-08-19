@@ -125,14 +125,14 @@
               placeholder="Select" (blur)="genericOnBlur('CardDispatchMode', $event)"></app-combo-box>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <ng-container *ngIf="!readOnly">
-            <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Save.isHidden()">
+            <div class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Save.isHidden()">
               <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save"
                 [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
               </app-button>
             </div>
-            <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Clear.isHidden()">
+            <div class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Clear.isHidden()">
               <app-button #CCD_Clear fieldName="{{ 'CreditCardDetails.CCD_Clear' | translate}}" fieldID="CCD_Clear"
                 [formCode]="formCode" (buttonClick)="CCD_Clear_click($event)" customClass="btn-warning-outline">
               </app-button>

@@ -60,7 +60,7 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
     //this.showHideAddRowIcon(0);
   }
   async onRowAdd(rowNo) {
-    this.showHideAddRowIcon(1);
+    this.showHideAddRowIcon(0);
   }
 
 

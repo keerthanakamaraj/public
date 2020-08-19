@@ -634,45 +634,30 @@ li .a {
   margin-left: -33px;
 }
 
-#CD_SAVE_BTN {
+/* #CD_SAVE_BTN {
   margin-left: 185px;
 }
 
 #CD_CLEAR_BTN {
   margin-left: 194px;
-}
+} */
 
-#PI_SAVE_BTN {
+/* #PI_SAVE_BTN {
   margin-left: 264px;
 }
 
 #PI_CLEAR_BTN {
   margin-left: 277px;
-}
+} */
 
-/* #GNG_SAVE_BTN{
+/* #AMS_GENERATE_BTN {
   margin-left: 0px;
 } */
-#PD_Clear,
-#GNG_CLEAR_BTN {
+
+/* #AMS_CLEAR_BTN {
   margin-left: 10px;
-}
+} */
 
-#AMS_GENERATE_BTN {
-  margin-left: 0px;
-}
-
-#AMS_CLEAR_BTN {
-  margin-left: 10px;
-}
-
-/* #LD_SAVE_BTN{
-  margin-left: 0px;
-}  */
-
-#LD_CLEAR_BTN {
-  margin-left: 10px;
-}
 
 .AD_EMAIL1 {
   margin-left: 10px;
@@ -724,7 +709,7 @@ li .a {
   border-color: dimgray;
   margin-left: 131px;
 } */
-#CCD_Save {
+/* #CCD_Save {
   margin-top: 35px;
   margin-left: 36px;
 }
@@ -732,7 +717,7 @@ li .a {
 #CCD_Clear {
   margin-top: 35px;
   margin-left: 50px;
-}
+} */
 
 #Save {
   margin-left: 171px;
