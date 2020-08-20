@@ -681,7 +681,7 @@ export class RloCommonData {
         errorsList: []
       }
       let totalLoanOwnership: number = this.calculateLoanOwnership();
-      if (100 != totalLoanOwnership) {
+      if (100 != totalLoanOwnership && !this.globalApplicationDtls.isLoanCategory) {
         dataObject.isAppValid = false;
         dataObject.errorsList.push("Total Loan ownership should be 100%");
         console.log("shweta :: error list", dataObject.errorsList);
