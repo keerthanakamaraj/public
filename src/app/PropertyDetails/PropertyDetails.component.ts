@@ -421,17 +421,17 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     var noOfError: number = await this.revalidate();
     if (noOfError == 0) {
 
-      //   const totProjCompletionPercent=this.disbursalInputGrid.getTotProjCompletionPercent();
-      // if(totProjCompletionPercent!=100){
-      //   this.services.alert.showAlert(2, 'rlo.error.property.tot-proj-completion-percent', -1);
-      //   return;
-      // } 
-      //   const expectedTotAmtToBeDisbursed:number=parseFloat(this.CostOfProperty.getFieldValue())-parseFloat(this.DownPaymentAmount.getFieldValue());
-      // const totAmtTobeDisbursed=this.disbursalInputGrid.getTotAmtToBeDisbursed();
-      //   if(totAmtTobeDisbursed.toFixed(2)!=expectedTotAmtToBeDisbursed.toFixed(2)){
-      //   this.services.alert.showAlert(2, 'rlo.error.property.tot-disburse-amt', -1);
-      //   return;
-      // }
+        const totProjCompletionPercent=this.disbursalInputGrid.getTotProjCompletionPercent();
+      if(totProjCompletionPercent!=100){
+        this.services.alert.showAlert(2, 'rlo.error.property.tot-proj-completion-percent', -1);
+        return;
+      } 
+        const expectedTotAmtToBeDisbursed:number=parseFloat(this.CostOfProperty.getFieldValue())-parseFloat(this.DownPaymentAmount.getFieldValue());
+      const totAmtTobeDisbursed=this.disbursalInputGrid.getTotAmtToBeDisbursed();
+        if(totAmtTobeDisbursed.toFixed(2)!=expectedTotAmtToBeDisbursed.toFixed(2)){
+        this.services.alert.showAlert(2, 'rlo.error.property.tot-disburse-amt', -1);
+        return;
+      }
       if (this.HidePropertySeq.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.PropertySeq', this.HidePropertySeq.getFieldValue());
