@@ -3514,15 +3514,13 @@ rlo-ui-card-field {
 }
 
 
-#ApplicationInfo,
-#FieldId_3,
-#FieldId_8 {
+#ApplicationInfo{
   font-size: 16px;
   color: black;
   font-family: open sans;
   font-style: normal;
   font-weight: 400;
-  margin-top: 23px;
+  margin-top: 27px;
   margin-left: 21px;
   margin-bottom: 13px;
 }
@@ -3888,7 +3886,7 @@ rlo-ui-card-field {
     margin-bottom: 23px;
   }
 
-  #FieldId_3 {
+  #FieldId_3,#FieldId_8{
     font-size: 16px;
     color: black;
     font-family: open sans;

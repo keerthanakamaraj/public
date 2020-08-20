@@ -91,15 +91,12 @@
 
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
 
-      <div *ngIf="isLoanCategory">
-        <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"></app-label>
-      </div>
-
-      <div *ngIf="!isLoanCategory">
-        <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
-      </div>
-
+    <div>
       <div class="loan-Container" *ngIf="isLoanCategory">
+        <div>
+          <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"></app-label>
+        </div>
+
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()" style="margin-left: 4px;">
           <div class="clr-brown fieldLegend">
             <label class="clr-brown" style="margin-bottom: 20px;">
@@ -130,13 +127,16 @@
           </app-amount>
         </div>
       </div>
-
+      <br>
       <div class="card-Container" *ngIf="!isLoanCategory">
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()" style="margin-left: 2px;">
+        <div>
+          <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
+        </div>
+
+        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()" style="margin-left: 6px;">
           <div class="clr-brown fieldLegend" style="margin-bottom: 20px;">
             <label class="clr-brown">
               {{ 'Operation.Apved_Limit' | translate}}
-
             </label>
           </div>
           <app-amount #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
@@ -152,16 +152,12 @@
           <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
           </app-amount>
         </div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       </div>
+    </div>
       <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-
+    <br>
+    <!-- <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+    <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div> -->
       <div class="doc-Container" *ngIf="this.documentTypeGrid.length">
         <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information"
           [formCode]="formCode">
@@ -275,7 +271,7 @@
   </div>
   <div class="col-12  col-sm-12 col-md-12 group-default">
     <div #BUTTON_SECTION id="BUTTON_SECTION">
-      <div class="form-group pb10 button-group">
+      <div class="pb10 button-group">
         <div class="col-12  col-sm-3 col-md-3"></div>
         <div class="col-12  col-sm-12 col-md-12 text-center">
 
