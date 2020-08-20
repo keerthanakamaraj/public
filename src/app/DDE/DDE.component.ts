@@ -973,7 +973,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           const section = element[i];
           section.isActive = false;
           // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-          if (!this.isLoanCategory) {
+          if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC') {
             if (section.id == "CollateralDetails"){
               element.splice(i, 1);
               i--;
