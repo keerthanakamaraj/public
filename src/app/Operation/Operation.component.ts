@@ -186,6 +186,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('Operation_customCss');
     styleElement.parentNode.removeChild(styleElement);
+    this.services.rloui.closeAllConfirmationModal();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -809,7 +810,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   }
 
   openFileUpload() {
-    this.services.rloui.openFileUpload(this.ApplicationId);
+    //called whenever the modal is close - need to change it later.
+    this.services.rloui.openFileUpload(this.ApplicationId).then((response) => {
+      console.log("Modal closed", response);
+      if (response) {
+        this.getDocumentGridData();
+      }
+    });
   }
 
   async OPERATION_CLOSE_click(event) {

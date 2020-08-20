@@ -2395,6 +2395,14 @@ rlo-ui-card-field {
           margin: 0px 36px 2px 32px;
         }
 
+        .progress-count {
+          position: absolute;
+        }
+
+        .refresher {
+          margin: 0 36px 0 69px;
+        }
+
         .cards {
           &:first-child {
             border-bottom-left-radius: 0px;
@@ -3871,6 +3879,7 @@ rlo-ui-card-field {
     position: absolute;
     left: 8rem;
   }
+
   .form-group {
     margin-bottom: -11px !important;
   }

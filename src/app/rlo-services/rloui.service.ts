@@ -410,23 +410,27 @@ export class RlouiService {
 
   //opening file upload modal
   openFileUpload(ApplicationId) {
-    let modalObj: IModalData = {
-      title: '',
-      mainMessage: undefined,
-      modalSize: 'modal-doc-upload-width',
-      buttons: [],
-      componentName: 'FileUpload',
-      data: '',
-      applicationId: Number(ApplicationId)
-    };
-    this.confirmationModal(modalObj).then((response) => {
-      console.log(response);
-      if (response != null) {
-        if (response.id === 1) {
-          this.closeAllConfirmationModal();
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: '',
+        mainMessage: undefined,
+        modalSize: 'modal-doc-upload-width',
+        buttons: [],
+        componentName: 'FileUpload',
+        data: '',
+        applicationId: Number(ApplicationId)
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
         }
-      }
+        resolve(true);
+      });
     });
+    return promise;
   }
 
 }

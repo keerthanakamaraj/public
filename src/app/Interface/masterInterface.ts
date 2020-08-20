@@ -81,3 +81,8 @@ export interface ISelectedDateRange {
     startDate?: Date;
     endDate?: Date;
 }
+
+export interface IheaderScoreCard {
+    type: string;
+    score: number;
+}
