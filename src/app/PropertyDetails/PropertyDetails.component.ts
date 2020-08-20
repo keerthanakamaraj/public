@@ -869,7 +869,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       }
     }
   }
-
   async DownPaymentAmount_blur(event) {
     let AmtFinanced;
     let PerDownPayment;
@@ -879,28 +878,37 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.DownPayment.setValue(PerDownPayment.toFixed(2));
       console.log("new amt", PerDownPayment);
     }
-    if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
-      console.log("total mt", TotalAmtFinced);
-      this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+    // console.log("log", this.SelectToCapitalizePersonal.getFieldValue(), this.SelectToCapitalizeProperty.getFieldValue())
+    if (this.SelectToCapitalizePersonal.getFieldValue() != false && this.SelectToCapitalizeProperty.getFieldValue() != false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
+        console.log("total mt", TotalAmtFinced);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+      }
     }
-    else if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() == undefined && this.PropertyInsuranceCost.getFieldValue() == null && this.PersonalInsuranceCost.getFieldValue() == undefined && this.PersonalInsuranceCost.getFieldValue() == null) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      console.log("total mt", AmtFinanced);
-      this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
+    else if (this.SelectToCapitalizePersonal.getFieldValue() != false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PersonalInsuranceCost.getFieldValue();
+        console.log("total mt", TotalAmtFinced);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+      }
     }
-    else if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() == undefined && this.PropertyInsuranceCost.getFieldValue() == null) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      TotalAmtFinced = AmtFinanced + this.PersonalInsuranceCost.getFieldValue();
-      console.log("total mt", TotalAmtFinced);
-      this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+    else if (this.SelectToCapitalizeProperty.getFieldValue() != false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() !== undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue();
+        console.log("total mt", TotalAmtFinced);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+      }
     }
-    else if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() == undefined && this.PersonalInsuranceCost.getFieldValue() == null) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue();
-      console.log("total mt", TotalAmtFinced);
-      this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+    else if (this.SelectToCapitalizePersonal.getFieldValue() == false && this.SelectToCapitalizeProperty.getFieldValue() == false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        console.log("total mt", AmtFinanced);
+        this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
+      }
     }
   }
 
@@ -913,32 +921,39 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue() / 100))
       this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
     }
-
-
-    if (this.CostOfProperty.getFieldValue() !=undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
-      console.log("total mt", TotalAmtFinced);
-      this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+    if (this.SelectToCapitalizePersonal.getFieldValue() != false && this.SelectToCapitalizeProperty.getFieldValue() != false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue() + this.PersonalInsuranceCost.getFieldValue();
+        console.log("total mt", TotalAmtFinced);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+      }
     }
-    else if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() == undefined && this.PropertyInsuranceCost.getFieldValue() == null && this.PersonalInsuranceCost.getFieldValue() == undefined && this.PersonalInsuranceCost.getFieldValue() == null) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      console.log("total mt", AmtFinanced);
-      this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
+    else if (this.SelectToCapitalizePersonal.getFieldValue() != false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PersonalInsuranceCost.getFieldValue();
+        console.log("total mt", TotalAmtFinced);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+      }
     }
-    else if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() == undefined && this.PropertyInsuranceCost.getFieldValue() == null) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      TotalAmtFinced = AmtFinanced + this.PersonalInsuranceCost.getFieldValue();
-      console.log("total mt", TotalAmtFinced);
-      this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+    else if (this.SelectToCapitalizeProperty.getFieldValue() != false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() !== undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue();
+        console.log("total mt", TotalAmtFinced);
+        this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+      }
     }
-    else if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() !== undefined && this.PersonalInsuranceCost.getFieldValue() == undefined && this.PersonalInsuranceCost.getFieldValue() == null) {
-      AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
-      TotalAmtFinced = AmtFinanced + this.PropertyInsuranceCost.getFieldValue();
-      console.log("total mt", TotalAmtFinced);
-      this.AmountToBeFinanced.setValue(TotalAmtFinced.toFixed(2));
+    else if (this.SelectToCapitalizePersonal.getFieldValue() == false && this.SelectToCapitalizeProperty.getFieldValue() == false) {
+      if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined) {
+        AmtFinanced = this.CostOfProperty.getFieldValue() - this.DownPaymentAmount.getFieldValue()
+        console.log("total mt", AmtFinanced);
+        this.AmountToBeFinanced.setValue(AmtFinanced.toFixed(2));
+      }
     }
   }
+ 
 
   async PerOfProjectCompletion_blur(event) {
     // console.log("shweta :: property :: project completion %",this.PerOfProjectCompletion.getFieldValue());
