@@ -15,6 +15,9 @@ export class CollateralParentComponent extends FormCommonComponent implements On
   @ViewChild('collateralDetails', { static: false }) collateralDetails: CollateralDetailsComponent;
   @ViewChild('collateralList', { static: false }) collateralList: CollateralListComponent;
   custID: any;
+
+  readOnly: boolean = false;
+
   constructor(public utility: UtilityService, services: ServiceStock) {
     super(utility, services);
   }

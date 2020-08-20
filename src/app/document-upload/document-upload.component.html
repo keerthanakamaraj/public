@@ -1,9 +1,7 @@
 <div class="lyt-doc-upload container-fluid bi-reponsive ">
-
     <div class="title">Upload Document</div>
 
     <div class="doc-container">
-        <!-- <div class="row fluid-row" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge lookupVariableOptions['RELATION_BORROWER'] -->
         <div class="row fluid-row form-group">
             <div class="col-md-4 res-pr-hide">
                 <div class="">
@@ -11,7 +9,7 @@
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
                     <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.trnDemographicId"
                         [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
-                        [clearable]="false"></ng-select>
+                        [clearable]="false" [readonly]="readOnly"></ng-select>
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide">
@@ -20,7 +18,7 @@
                     <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.DocType"
                         [items]="lookupVariableOptions['IMG_DOCUMENT_TYPE']" bindValue="DocType" bindValue="id"
                         bindLabel="text" (blur)="validateField(docDetailsObject.DocType, 'DocType')"
-                        (change)="getDocuments()" [clearable]="false">
+                        (change)="getDocuments()" [clearable]="false" [readonly]="readOnly">
                     </ng-select>
                 </div>
             </div>
@@ -30,7 +28,7 @@
                     <ng-select class="ngselect w-100 " [(ngModel)]="docDetailsObject.entityDocumentId"
                         [items]="documents" bindValue="docId" bindLabel="docDesc" name="entityDocumentId"
                         (blur)="validateField(docDetailsObject.entityDocumentId, 'entityDocumentId')"
-                        [clearable]="false"></ng-select>
+                        [clearable]="false" [readonly]="readOnly"></ng-select>
                 </div>
             </div>
             <div class="col-md-4 res-pr-hide">
@@ -41,7 +39,7 @@
                         [items]="lookupVariableOptions['RELATION_BORROWER']" bindValue="id" bindLabel="text"
                         name="relationshipToBorrower"
                         (blur)="validateField(docUploadObject.relationshipToBorrower, 'relationshipToBorrower')"
-                        [clearable]="false">
+                        [clearable]="false" [readonly]="readOnly">
                     </ng-select>
                 </div>
             </div>
@@ -51,7 +49,7 @@
                     <ng-select class="ngselect w-100 " [(ngModel)]="docUploadObject.status" name="status"
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
                         (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')"
-                        [clearable]="false">
+                        [clearable]="false" [readonly]="readOnly">
                     </ng-select>
                 </div>
             </div>
@@ -83,7 +81,7 @@
                     <label>{{getLabel('REMARKS')}}</label>
                     <input type="text" class="form-control lfd" id="remarks" placeholder="{{getPlaceholder('remarks')}}"
                         (blur)="validateField(docUploadObject.remarks, 'remarks')" name="remarks"
-                        [(ngModel)]="docUploadObject.remarks" />
+                        [(ngModel)]="docUploadObject.remarks" [disabled]="readOnly"/>
                 </div>
             </div>
         </div>
@@ -95,15 +93,16 @@
                     <!-- <div class="col-md-8" [fieldset-viewconfig]="UserId != checkUserId"> @CLO-RLO-Merge -->
                     <div class='file-upload handleerror' name="DocName">
                         <input class="form-control" [(ngModel)]="docDetailsObject.DocName" readonly
-                            (blur)="validateField(docDetailsObject.DocName, 'DocName')" />
-                        <span (click)="fileInput.click()" class="folder-icon icon-folder-open"></span>
+                            (blur)="validateField(docDetailsObject.DocName, 'DocName')" [disabled]="readOnly"/>
+                        <span *ngIf="!readOnly" (click)="fileInput.click()" class="folder-icon icon-folder-open"></span>
+                        <span *ngIf="readOnly" class="folder-icon icon-folder-open"></span>
                         <input class="d-none img-upload-input" type="file" name="txtTabAddr_cfs" #fileInput
                             ng2FileSelect [uploader]="uploader" (change)="validateFile($event)" id="docId"
-                            maxFileSize="5000000" />
+                            maxFileSize="5000000" [disabled]="readOnly"/>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 res-pr-hide margin-btn">
+            <div class="col-md-4 res-pr-hide margin-btn" *ngIf="!readOnly">
                 <!-- <button *ngIf="checkStatus" class="btn-secondary"
                         (click)="addNewComment()">{{getLabel("ADD_NEW")}}</button> -->
                 <button *ngIf="UserId == checkUserId" (click)="onSubmit()" type="button"
@@ -147,7 +146,7 @@
                                 <th id='col8'>{{getLabel('DOC_UPLOADED_ON')}}</th>
                                 <!-- <th id='col9'>{{getLabel('ACTION')}}</th> -->
                                 <th></th>
-                                <th></th>
+                                <th *ngIf="!readOnly"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -172,7 +171,7 @@
                                 <td>
                                     <span id="sideNav" class="icon-edit" (click)="editDocumentDetails(imgDtl)"></span>
                                 </td>
-                                <td>
+                                <td *ngIf="!readOnly">
                                     <span id="sideNav1" class="icon-delete-bin"
                                         (click)="confirmDelete(imgDtl.id)"></span>
                                 </td>

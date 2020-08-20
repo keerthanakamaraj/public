@@ -64,6 +64,8 @@ export class RloCommonData {
 
   dynamicComponentInstance: any;
 
+  makeDdeDisabled: boolean = false;//applied only when user comes to DDE from operations page
+
   /////////////////////////////////////////////////////////
   masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
   componentLvlDataSubject = new Subject<IComponentLvlData>();
@@ -832,4 +834,8 @@ export class RloCommonData {
     return commonObj;
   }
 
+  //from operation to DDE
+  makeDdePageDisabled() {
+    this.makeDdeDisabled = true;
+  }
 }

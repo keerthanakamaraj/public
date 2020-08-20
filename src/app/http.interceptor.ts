@@ -23,11 +23,8 @@ export class HttpResponseInceptor implements HttpInterceptor {
       request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
     }
 
-
-
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
-
         // if (event instanceof HttpResponse) {
         //     if (event.body) {
         //         this.httpService.checkForSession(event.body);

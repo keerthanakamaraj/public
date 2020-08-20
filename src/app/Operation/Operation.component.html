@@ -47,11 +47,7 @@
       <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
         <i class="fa fa edit"></i>
       </div> -->
-      <!-- <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VIEW_DDE.isHidden()">
-        <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
-          customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px">
-        </app-button>
-      </div> -->
+
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
@@ -60,6 +56,11 @@
 
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide document-upload"
         [ngClass]="showExpandedHeader ? '' : 'header-expanded-op'">
+        <div class="view-dde-section" [hidden]="VIEW_DDE.isHidden()">
+          <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
+            customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px">
+          </app-button>
+        </div>
         <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
           <a href="javascript:void(0);" class="icon-folder-open"></a>
         </div>
@@ -74,19 +75,20 @@
         </div>
       </div>
       <div class="app-Container">
-      <app-label class="group-default" #ApplicationInfo parentCompCode="Operation" fieldID="ApplicationInfo" [formCode]="formCode">
-      </app-label>
-      <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
-      </app-ApplicationDtls>
+        <app-label class="group-default" #ApplicationInfo parentCompCode="Operation" fieldID="ApplicationInfo"
+          [formCode]="formCode">
+        </app-label>
+        <app-ApplicationDtls #APPLICATION_DETAILS fieldID="APPLICATION_DETAILS" [formCode]="formCode">
+        </app-ApplicationDtls>
       </div>
-      
+
       <div class="customer-Container">
-        <app-label #CustomerInfo parentCompCode="Operation" fieldID="CustomerInfo" [formCode]="formCode"></app-label> 
-      <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_GRID.isHidden()">
-				<app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode" style="padding-top: 0px;"></app-CustGrid>
-			</div>
-    </div>
-    
+        <app-label #CustomerInfo parentCompCode="Operation" fieldID="CustomerInfo" [formCode]="formCode"></app-label>
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_GRID.isHidden()">
+          <app-CustGrid #CUST_GRID fieldID="CUST_GRID" [formCode]="formCode" style="padding-top: 0px;"></app-CustGrid>
+        </div>
+      </div>
+
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
 
       <div *ngIf="isLoanCategory">
@@ -97,7 +99,7 @@
         <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
       </div>
 
-      <div class="loan-Container"  *ngIf="isLoanCategory">
+      <div class="loan-Container" *ngIf="isLoanCategory">
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()" style="margin-left: 4px;">
           <div class="clr-brown fieldLegend">
             <label class="clr-brown" style="margin-bottom: 20px;">
@@ -160,26 +162,28 @@
       </div>
       <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
       <div class="doc-Container">
-      <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information" [formCode]="formCode">
-      </app-label>
+        <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information"
+          [formCode]="formCode">
+        </app-label>
 
-      <table #DocumentTable style="margin-left: 21px; width: 97%;">
-        <tr
-          style="background-color: #e4f0f9; font-family: open sans; font-weight: normal; font-size: 12px; line-height: 17px; color: #565656; height:45px;">
-          <th style="border: none;">Sr No.</th>
-          <th style="border: none;">Document Type</th>
-          <th style="border: none;">Document Name</th>
-          <th style="border: none;"></th>
-        </tr>
-        <tr>
-          <td style="border: none;">1</td>
-          <td style="border: none;"><span (click)="salaryLetter()" style="color: black; cursor: pointer;">Salary
-              Certificate</span></td>
-          <td style="border: none;"><span (click)="salaryLetter()" style="color: black; cursor: pointer;">Latest Salary
-              Certificate</span></td>
-          <td style="border: none;"><input type="checkbox" name="name20" /></td>
-        </tr>
-      </table>
+        <table #DocumentTable style="margin-left: 21px; width: 97%;">
+          <tr
+            style="background-color: #e4f0f9; font-family: open sans; font-weight: normal; font-size: 12px; line-height: 17px; color: #565656; height:45px;">
+            <th style="border: none;">Sr No.</th>
+            <th style="border: none;">Document Type</th>
+            <th style="border: none;">Document Name</th>
+            <th style="border: none;"></th>
+          </tr>
+          <tr>
+            <td style="border: none;">1</td>
+            <td style="border: none;"><span (click)="salaryLetter()" style="color: black; cursor: pointer;">Salary
+                Certificate</span></td>
+            <td style="border: none;"><span (click)="salaryLetter()" style="color: black; cursor: pointer;">Latest
+                Salary
+                Certificate</span></td>
+            <td style="border: none;"><input type="checkbox" name="name20" /></td>
+          </tr>
+        </table>
       </div>
       <div class="button-Container">
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;">
@@ -242,9 +246,9 @@
             (buttonClick)="OPERATION_SENDBACK_click($event)" style="width: 150px !important;">
           </app-button>
           <app-button #OPERATION_CLOSE fieldName="{{ 'Operation.OPERATION_CLOSE' | translate}}"
-          fieldID="OPERATION_CLOSE" [formCode]="formCode" customClass="btn-warning-outline"
-          (buttonClick)="OPERATION_CLOSE_click($event)" style="width: 150px !important;">
-        </app-button>
+            fieldID="OPERATION_CLOSE" [formCode]="formCode" customClass="btn-warning-outline"
+            (buttonClick)="OPERATION_CLOSE_click($event)" style="width: 150px !important;">
+          </app-button>
         </div>
         <div class="col-12  col-sm-4 col-md-4"></div>
       </div>

@@ -28,6 +28,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @Input() ApplicationId: string = undefined;
   @Input() isLoanCategory: boolean = true;
   @Input() parentFormCode: string;
+  @Input() readOnly: boolean = false;//used only when user comes to DDE from operations page
 
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
@@ -198,9 +199,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
               customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
               customer['editing'] = false;
-              customer['loanOwnerFlag']=false;
-              if(eachBorrower.LoanOwnership!=undefined && eachBorrower.LoanOwnership!=0){
-                customer['loanOwnerFlag']=true;
+              customer['loanOwnerFlag'] = false;
+              if (eachBorrower.LoanOwnership != undefined && eachBorrower.LoanOwnership != 0) {
+                customer['loanOwnerFlag'] = true;
               }
 
               customer['CD_CUSTOMER_TYPE'] = eachBorrower.CustomerType != null

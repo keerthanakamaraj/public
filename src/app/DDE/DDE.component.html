@@ -35,8 +35,8 @@
                         <!-- <app-score-card #scorecard></app-score-card> -->
                         <div class="scorecard-container row horizontal-layout"
                             [ngClass]="{'expanded':!showExpandedHeader}">
-                            <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data" [applicationId]="ApplicationId"
-                                *ngFor="let data of headerScoreCard">
+                            <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data"
+                                [applicationId]="ApplicationId" *ngFor="let data of headerScoreCard">
                             </app-score-card>
                             <span class="refresher"></span>
                         </div>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
                         <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
-                            [hidden]="!formMenuObject.isCustomerTabSelected"
+                            [readOnly]="readOnly" [hidden]="!formMenuObject.isCustomerTabSelected"
                             (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
                             (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
                             (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
@@ -292,7 +292,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12  col-sm-12 col-md-12 group-default">
+        <div class="col-12  col-sm-12 col-md-12 group-default" *ngIf="!readOnly">
             <div #BUTTON_SECTION id="BUTTON_SECTION">
                 <div class="form-group pb10 button-group">
                     <div class="col-12  col-sm-2 col-md-2"></div>

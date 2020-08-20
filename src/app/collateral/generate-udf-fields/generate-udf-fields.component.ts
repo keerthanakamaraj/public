@@ -20,6 +20,8 @@ export class GenerateUdfFieldsComponent extends FormCommonComponent implements O
   @Input() modelObject: Array<SpecificInformation>;
   @Output() modelObjectChange = new EventEmitter();
   @Output() depositNumChange = new EventEmitter();
+  @Input() readOnly: boolean = false;
+
   udfData = new Array<SpecificInformation>();
   items1: any;
   lovData = new Object();
@@ -172,8 +174,8 @@ export class GenerateUdfFieldsComponent extends FormCommonComponent implements O
   }
 
   validateField(fieldValue, fieldName, minDate?: IGCBMinMaxDateModel,
-     maxDate?: IGCBMinMaxDateModel, uiFieldName?: string, isDate?: boolean) {
-       // @CLO-RLO-Merge - Use RLO Error Handler
+    maxDate?: IGCBMinMaxDateModel, uiFieldName?: string, isDate?: boolean) {
+    // @CLO-RLO-Merge - Use RLO Error Handler
     // const tooltip = new ToolTipError();
     // tooltip.tooltiperrorhide(fieldName);
     // if (!tooltip.isFieldVisible(fieldName)) {

@@ -11,6 +11,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
 import { IGeneralCardData } from '../Interface/masterInterface';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { RloCommonData } from './rloCommonData.service';
 
 export var errorMap;
 
@@ -61,7 +63,7 @@ export class RlouiService {
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
   //{id: "C_2952", text: "CB-SHITAL JAIN"}
 
-  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router) {
+  constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router, private locationRoute: Location) {
     console.log("UI Service .. constructor --------------------------------");
 
     // this.getJSON().subscribe(data => {
@@ -73,9 +75,7 @@ export class RlouiService {
   }
 
   loadUiConfigs() {
-
     this.loadTenantConfig();
-
   }
 
   private loadTenantConfig() {
@@ -149,7 +149,7 @@ export class RlouiService {
         //console.log("validations ", this.fieldValidations);
         localStorage.setItem("ui.validations", JSON.stringify(this.fieldValidations));
         localStorage.setItem("ui.validation.version", this.tenantconfig["ui.validation.version"]);
-            },
+      },
       async (httpError) => {
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
@@ -188,7 +188,7 @@ export class RlouiService {
         localStorage.setItem("currency.code.default", this.tenantconfig["currency.code.default"]);
         localStorage.setItem("mob.default.country.code", this.tenantconfig["mob.default.country.code"]);
 
-       
+
 
       },
       async (httpError) => {
@@ -400,7 +400,8 @@ export class RlouiService {
         console.log(response);
         if (response != null) {
           if (response.id === 1) {
-            this.router.navigate(['home', 'LANDING']);
+            this.locationRoute.back();
+            //this.router.navigate(['home', 'LANDING']);
           }
         }
       });

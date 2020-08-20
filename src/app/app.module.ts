@@ -48,6 +48,7 @@ import { PopUpAlertModule } from './popup-alert/popup-alert-module';
 import { DatePipe } from '@angular/common';
 import { appDataProvider } from './services/appDataProvider.service';
 import { WorkflowViewerModule } from './workflow-viewer/workflow-viewer.module';
+import { CachingInterceptor } from './Cache-Interceptor/CachingInterceptor';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
 // import { MyTrayGridComponent } from './MyTrayGrid/MyTrayGrid.component';
@@ -137,7 +138,9 @@ const keycloakService = new KeycloakService();
     DatePipe,
     appDataProvider,
     FormBuilder,
+    //{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
+   
     {
       provide: KeycloakService,
       useValue: keycloakService

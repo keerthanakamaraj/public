@@ -4,43 +4,65 @@
         <!-- for date field  -->
         <div *ngIf="field.fieldType === 'D'">
             <div class="col-md-3 form-group">
-                <label class="facilityOverflow" title="{{field['fieldLabel']}}" [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}
+                <label class="facilityOverflow" title="{{field['fieldLabel']}}"
+                    [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}
                 </label>
                 <igcb-datepicker dateFormat="dd-MMM-yyyy" id="{{field['tagName']}}" name="{{field['tagName']}}"
-                    attr.name="{{field['tagName']}}" [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null"
-                    [(ngModel)]="field.columnValue" (ngModelChange)="udfChanges(field)" (blur)="validateField(field.columnValue, field['tagName'], null, null, true)"></igcb-datepicker>
+                    attr.name="{{field['tagName']}}"
+                    [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null"
+                    [(ngModel)]="field.columnValue" (ngModelChange)="udfChanges(field)"
+                    (blur)="validateField(field.columnValue, field['tagName'], null, null, true)" [disabled]="readOnly">
+                </igcb-datepicker>
             </div>
         </div>
         <!-- for amount field  -->
         <div *ngIf="field.fieldType === 'N'">
             <div class="col-md-3 form-group">
-                <label class="facilityOverflow" title="{{field['fieldLabel']}}" [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}
+                <label class="facilityOverflow" title="{{field['fieldLabel']}}"
+                    [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}
                 </label>
                 <!-- <input type="text" amountformatter [allowzero]="true" class="form-control lfd" id="{{field['tagName']}}" -->
                 <input type="text" amountformatter class="form-control lfd" id="{{field['tagName']}}"
                     name="{{field['tagName']}}" [(ngModel)]="field.columnValue" (ngModelChange)="udfChanges(field)"
-                    maxlength="{{field[fieldLength] ? field[fieldLength] : null}}" [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null"
-                    placeholder="{{getPlaceholder(field)}}" attr.name="{{field['tagName']}}" (blur)="validateField(field.columnValue, field['tagName'], null, null, true)" />
+                    maxlength="{{field[fieldLength] ? field[fieldLength] : null}}"
+                    [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null"
+                    placeholder="{{getPlaceholder(field)}}" attr.name="{{field['tagName']}}"
+                    (blur)="validateField(field.columnValue, field['tagName'], null, null, true)"
+                    [disabled]="readOnly" />
             </div>
         </div>
         <!-- for text field  -->
         <div *ngIf="field.fieldType === 'T'">
             <div class="col-md-3 form-group">
-                <label class="facilityOverflow" title="{{field['fieldLabel']}}" [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}</label>
-                <input type="text" class="form-control" maxlength="{{field['fieldLength'] ? field['fieldLength'] : null}}"
-                    [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null" id="{{field['tagName']}}"
-                    name="{{field['tagName']}}" [(ngModel)]="field.columnValue" (ngModelChange)="udfChanges(field)"
-                    placeholder="{{getPlaceholder(field)}}" attr.name="{{field['tagName']}}" (blur)="validateField(field.columnValue, field['tagName'])" />
+                <label class="facilityOverflow" title="{{field['fieldLabel']}}"
+                    [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}</label>
+                    <!-- ***OG CODE*** -->
+                <!-- <input type="text" class="form-control"
+                    maxlength="{{field['fieldLength'] ? field['fieldLength'] : null}}"
+                    [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null"
+                    id="{{field['tagName']}}" name="{{field['tagName']}}" [(ngModel)]="field.columnValue"
+                    (ngModelChange)="udfChanges(field)" placeholder="{{getPlaceholder(field)}}"
+                    attr.name="{{field['tagName']}}" (blur)="validateField(field.columnValue, field['tagName'])"
+                    [disabled]="readOnly" /> -->
+
+                <input type="text" class="form-control"
+                    maxlength="{{field['fieldLength'] ? field['fieldLength'] : null}}"
+                    id="{{field['tagName']}}" name="{{field['tagName']}}" [(ngModel)]="field.columnValue"
+                    (ngModelChange)="udfChanges(field)" placeholder="{{getPlaceholder(field)}}"
+                    attr.name="{{field['tagName']}}" (blur)="validateField(field.columnValue, field['tagName'])"
+                    [disabled]="readOnly" />
             </div>
         </div>
         <!-- for LOV field  -->
         <div *ngIf="field.fieldType === 'L'">
             <div class="col-md-3 form-group">
-                <label for="text" class="facilityOverflow" title="{{field['fieldLabel']}}" [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}</label>
+                <label for="text" class="facilityOverflow" title="{{field['fieldLabel']}}"
+                    [ngClass]="{ 'mandatory': field['mandatoryFlag'] ? fieldValueCheck(field['mandatoryFlag']) : false }">{{field['fieldLabel']}}</label>
                 <ng-select [(ngModel)]="field.columnValue" (ngModelChange)="udfChanges(field)" [selectOnTab]="true"
-                    [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null" [items]="lovData[field.tagName]"
-                    bindValue="columnCode" bindLabel="columnValue" id="{{field['tagName']}}" name="{{field['tagName']}}"
-                    attr.name="{{field['tagName']}}" (blur)="validateField(field.columnValue, field['tagName'])">
+                    [disabled]="field['displayField'] ? fieldValueCheck(field['displayField']) : null"
+                    [items]="lovData[field.tagName]" bindValue="columnCode" bindLabel="columnValue"
+                    id="{{field['tagName']}}" name="{{field['tagName']}}" attr.name="{{field['tagName']}}"
+                    (blur)="validateField(field.columnValue, field['tagName'])" [readonly]="readOnly">
                 </ng-select>
             </div>
         </div>

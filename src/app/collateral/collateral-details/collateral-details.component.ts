@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { FormCommonComponent } from '../../form-common/form-common.component';
 import { UtilityService } from '../../services/utility.service';
 import { Collateral } from './collateral-details.model';
@@ -51,6 +51,8 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
   depositAccount = {};
   @Output() loadColl: EventEmitter<object> = new EventEmitter<object>();
   @Output() loadgrid: EventEmitter<object> = new EventEmitter<object>();
+
+  @Input() readOnly: boolean = false;
 
   constructor(public utility: UtilityService, services: ServiceStock) {
     super(utility, services);
@@ -128,9 +130,9 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     this.flag = 0;
     // @CLO-RLO-Merge - Use RLO Date Formatter
     // this.collateralCommonFields.expiryDate = this.utility.formatDate(this.collateralCommonFields.expiryDate,
-      // this.utility.getTenant().getMomentDateFormat());
+    // this.utility.getTenant().getMomentDateFormat());
     // this.collateralCommonFields.inputDate = this.utility.formatDate(this.collateralCommonFields.inputDate,
-      // this.utility.getTenant().getMomentDateFormat());
+    // this.utility.getTenant().getMomentDateFormat());
     this.collateralCommonFields.validateFields(this);
     let fieldDataFiltered: any;
     this.config.forEach(fieldConfig => {
@@ -147,7 +149,7 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
         if (fieldConfig['fieldType'] === 'D' && (fieldDataFiltered || fieldDataFiltered.columnValue)) {
           // @CLO-RLO-Merge - Use RLO Date Formatter
           // fieldDataFiltered.columnValue = this.utility.formatDate(fieldDataFiltered.columnValue,
-            // this.utility.getTenant().getMomentDateFormat());
+          // this.utility.getTenant().getMomentDateFormat());
         }
       }
     });
@@ -161,35 +163,35 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     // this.collateralCommonFields['facilityLinkage']['Facilities'] = this.facilityLinkage.TRNDetailsArray;
     this.utility.getEnrichmentService().saveCollateralDetails(this.collateralCommonFields,
       this.collateralCommonFields.customerNumber).subscribe(
-      () => {
-        // @CLO-RLO-Merge - Use RLO Error Handling
-        // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
-        this.collateralCommonFields.clear();
-        this.clearMappedFacilities();
-        this.loadColl.emit();
-      }, error => {
-        if (error['error']['ErrorCode'] && error['error']['ErrorCode'] === 'PRD_ERR_035') {
-          if (error['error']['ErrorDesc']) {
-            const errorJson = JSON.parse(error['error']['ErrorDesc']);
-            const errorMessage = errorJson['errorMessage'];
-            const collateralCode = errorJson['collateralCode'];
-            // @CLO-RLO-Merge - Use RLO Error Handling
-            // this.appService.error(errorMessage);
-            this.collateralCommonFields.collateralCode = collateralCode;
-            this.loadgrid.emit();
-          }
-        }
-        if (error.error.ErrorCode.charAt(0) === 'I') {
+        () => {
           // @CLO-RLO-Merge - Use RLO Error Handling
-          // this.appService.error(error.error.ErrorDesc);
-          if (error.error.ErrorCode && error.error.ErrorCode === 'IPRD_ERR_035') {
-            this.collateralCommonFields.clear();
-            this.clearMappedFacilities();
-            this.loadColl.emit();
+          // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
+          this.collateralCommonFields.clear();
+          this.clearMappedFacilities();
+          this.loadColl.emit();
+        }, error => {
+          if (error['error']['ErrorCode'] && error['error']['ErrorCode'] === 'PRD_ERR_035') {
+            if (error['error']['ErrorDesc']) {
+              const errorJson = JSON.parse(error['error']['ErrorDesc']);
+              const errorMessage = errorJson['errorMessage'];
+              const collateralCode = errorJson['collateralCode'];
+              // @CLO-RLO-Merge - Use RLO Error Handling
+              // this.appService.error(errorMessage);
+              this.collateralCommonFields.collateralCode = collateralCode;
+              this.loadgrid.emit();
+            }
+          }
+          if (error.error.ErrorCode.charAt(0) === 'I') {
+            // @CLO-RLO-Merge - Use RLO Error Handling
+            // this.appService.error(error.error.ErrorDesc);
+            if (error.error.ErrorCode && error.error.ErrorCode === 'IPRD_ERR_035') {
+              this.collateralCommonFields.clear();
+              this.clearMappedFacilities();
+              this.loadColl.emit();
+            }
           }
         }
-      }
-    );
+      );
   }
 
   getCustomerId() {

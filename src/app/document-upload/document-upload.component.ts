@@ -1,5 +1,5 @@
 import { PlatformLocation } from '@angular/common';
-import { Component, ElementRef, OnInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, EventEmitter, Input, Output, ViewChild, Renderer2 } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { FormCommonComponent } from '../form-common/form-common.component';
 import { UtilityService } from '../services/utility.service';
@@ -19,9 +19,15 @@ declare var jQuery: any;
 })
 
 export class DocumentUploadComponent extends FormCommonComponent implements OnInit {
-    lookupVariables = ['IMG_DOCUMENT_TYPE', 'RELATION_BORROWER', 'STATUS'];
+    @Input() ApplicationId: any;
+    @Output() uploaded = new EventEmitter<Map<string, string>>();
+
     @ViewChild('myModal', { static: false }) myModal: ElementRef;
     @ViewChild('uploadModal', { static: false }) uploadModal: ElementRef;
+    @ViewChild('collection_date', { static: false }) collection_date: DateComponent;
+    @ViewChild('deffered_date', { static: false }) deffered_date: DateComponent;
+
+    lookupVariables = ['IMG_DOCUMENT_TYPE', 'RELATION_BORROWER', 'STATUS'];
     ownersName = [];
     customer = [];
     documents = [];
@@ -42,13 +48,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     documentUploadObject: DocumentUpload = new DocumentUpload();
     docUploadObject: FileDetails = new FileDetails();
     docDetailsObject: DocumentDetails = new DocumentDetails();
-    @Output() uploaded = new EventEmitter<Map<string, string>>();
     cfsNum: any;
     checkStatus: boolean;
-    @Input() ApplicationId: any;
-    @ViewChild('collection_date', { static: false }) collection_date: DateComponent;
-    @ViewChild('deffered_date', { static: false }) deffered_date: DateComponent;
-
+    readOnly: boolean = false;
 
     // 001	Submitted
     // 002	Physically Submitted
@@ -64,11 +66,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     initializeValues(paramMap) {
         this.UserId = paramMap.get('userId');
         this.checkUserId = this.UserId;
-
-        console.log(this.lookupVariableOptions);
     }
 
-    constructor(private location: PlatformLocation, public utility: UtilityService, services: ServiceStock) {
+    constructor(private location: PlatformLocation, public utility: UtilityService, services: ServiceStock, private renderer2: Renderer2) {
         // constructor(private location: PlatformLocation, services: ServiceStock) {
         // super(utility);
         super(utility, services);
@@ -113,7 +113,6 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             else {
                 this.services.alert.showAlert(2, '', 3000, 'Unable to upload file.');
             }
-
         };
     }
 
@@ -126,6 +125,14 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.fileUploadErrorMsg = '';
         this.documentUploadObject.InputterId = sessionStorage.getItem('userId');
         console.log('this.documentUploadObject', this.documentUploadObject, this.ApplicationId);
+
+        //only when navigating to DDE from Operations
+        if (this.services.rloCommonData.makeDdeDisabled) {
+            this.readOnly = true;
+        }
+        else {
+            this.readOnly = false;
+        }
 
         // @CLO-RLO-Merge - Inputter Id 
         // if (!this.documentUploadObject.InputterId) {
@@ -143,50 +150,22 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
 
         // @CLO-RLO-Merge - Borrower/ Co-Borrower ?
         // Add RLO Code for Borrower Co-Borrower
-        this.utility.getCommonService().getOwnerNamesDetails(this.ApplicationId).subscribe(
-            data => {
-                console.log(data);
-                this.ownersName = data['OwnerNames'];
-            });
+        this.utility.getCommonService().getOwnerNamesDetails(this.ApplicationId).subscribe(data => {
+            console.log(data);
+            this.ownersName = data['OwnerNames'];
+        });
 
         // @CLO-RLO-Merge Access Entitlement
         // this.userAccessEntitle = UserAccessEntitlement.getInstance(this.taskName);
-
         // this.tooltipError.tooltipdestroy();
-
-        let tempCustomerList = this.services.rloCommonData.getCustomerList();
-
-        // console.log("shweta :: in score section", tempCustomerList);
-        // let FilterOptions = [];
-        // let mainBorrower;
-
-        // tempCustomerList.forEach(element => {
-        //     // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-        //     if (element.CustomerType == 'B') {
-        //         mainBorrower = element.BorrowerSeq;
-        //     }
-        //     FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-        // });
 
         console.log("ownersName", this.ownersName);
         // this.ownersName = FilterOptions;
 
         setTimeout(() => {
             this.reLodeGrid();
-
-            // this.docUploadObject.trnDemographicId = "2901";
-            // this.docDetailsObject.DocType = "1";
-            // this.docDetailsObject.entityDocumentId = "1";
             console.log(this.docDetailsObject);
-
-            // this.ownersName = [
-            //     { id: "2900", text: "Aswathama Pasupuleti" }
-            // ];
-
-            //this.getDocuments()
         }, 500);
-
-
 
     }
     // This method is to get the document types
@@ -465,16 +444,30 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.docDetailsObject.DocName = docDetail['DocName'];
         console.log(docDetail['collectionDate']);
 
+        //only when navigating to DDE from Operations
+        if (this.docUploadObject.status == '001' || this.docUploadObject.status == '002' || this.docUploadObject.status == '003' || this.docUploadObject.status == '004') {
+            setTimeout(() => {
+                this.collection_date.setReadOnly(true);
+            }, 100);
+        }
+
+        //only when navigating to DDE from Operations
+        if (this.docUploadObject.status == '005') {
+            setTimeout(() => {
+                this.deffered_date.setReadOnly(true);
+            }, 100);
+        }
+
         if (docDetail['collectionDate'] != undefined) {
             setTimeout(() => {
                 this.collection_date.setValue(docDetail['collectionDate']);
-            }, 500);
+            }, 100);
         }
 
         if (docDetail['deferredUntil'] != undefined) {
             setTimeout(() => {
                 this.deffered_date.setValue(docDetail['deferredUntil']);
-            }, 500);
+            }, 100);
         }
 
         if (this.UserId !== this.checkUserId) {
@@ -520,6 +513,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.docUploadObject.deferredUntil = '';
         this.docUploadObject.remarks = '';
         this.docUploadObject.collectionDate = '';
+        console.log("DEEP | status", this.docUploadObject.status);
     }
     // This method is called when we click yes in delete popup
     onDeleteConfirm(id) {

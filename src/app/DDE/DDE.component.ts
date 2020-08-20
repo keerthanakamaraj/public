@@ -477,7 +477,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     setTimeout(() => {
       this.tabSwitched('customer');
     }, 2000);
-    
+
+    //only when navigating to DDE from Operations
+    if (this.services.rloCommonData.makeDdeDisabled) {
+      this.readOnly = true;
+      this.setReadOnly(this.readOnly);
+    }
+
   }
 
   ngOnDestroy() {
@@ -489,7 +495,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.masterDataSubscription.unsubscribe();
     this.childToParentSubjectSubscription.unsubscribe();
     this.services.rloui.closeAllConfirmationModal();
-  }
+    //is disabled when navigating to DDE from operations
+    if (this.services.rloCommonData.makeDdeDisabled)
+      this.services.rloCommonData.makeDdeDisabled = false;
+  } 
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -804,6 +813,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     componentInstance.isLoanCategory = this.isLoanCategory;
     componentInstance.parentFormCode = this.componentCode;
 
+    //applied only when user comes to DDE from operations page
+    if (this.readOnly)
+      componentInstance.readOnly = this.readOnly;
+
     // reset the tags
     this.setTags([]);
 
@@ -845,12 +858,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.validateMenuNavigation(ele1, ele2, this.formMenuObject.selectedMenuId);
 
-    setTimeout(() => {
-      const activePanel = document.getElementsByClassName("injected-component");
-      const firstInput = activePanel[0].getElementsByTagName('input')[0];
-      if (firstInput != undefined)
-        firstInput.focus();
-    }, 100);
+    if (!this.readOnly) {
+      setTimeout(() => {
+        const activePanel = document.getElementsByClassName("injected-component");
+        const firstInput = activePanel[0].getElementsByTagName('input')[0];
+        if (firstInput != undefined)
+          firstInput.focus();
+      }, 100);
+    }
+
 
   }
 
@@ -938,9 +954,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     }
   }
-  hideCollateralSection(){
-    if(this.FieldId_1.LOAN_CATEGORY == 'CC'){
-      
+  hideCollateralSection() {
+    if (this.FieldId_1.LOAN_CATEGORY == 'CC') {
+
     }
   }
 
@@ -957,7 +973,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           const section = element[i];
           section.isActive = false;
           // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-          if(this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC'){
+          if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC') {
             if (section.id == "CollateralDetails")
               element.splice(i, 1);
           }
@@ -991,7 +1007,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
 
           // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-          if(this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY != 'ML'){
+          if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY != 'ML') {
             if (section.id == "PropertyDetails")
               element.splice(i, 1);
           }

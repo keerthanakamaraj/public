@@ -71,7 +71,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   userId: any;
   taskId: any;
   instanceId: any;
- // customerDecision:string=undefined;
+  // customerDecision:string=undefined;
   // custStatusOptionList=[
   //   { id: 'Approve', text: 'Approve'},
   //   { id: 'Amend', text: 'Amend'}
@@ -126,12 +126,12 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.ApplicationId = appId;
-   // this.AD_CUST_REMARKS.setReadOnly(true);
-   // this.AD_CUST_STATUS.setReadOnly(true);
+    // this.AD_CUST_REMARKS.setReadOnly(true);
+    // this.AD_CUST_STATUS.setReadOnly(true);
     await this.brodcastApplicationId();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
-   // this.mapCustomerDecision();
-   // this.fetchCustomerDecisionDetails();
+    // this.mapCustomerDecision();
+    // this.fetchCustomerDecisionDetails();
     this.fetchApplicationDetails();
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
@@ -213,9 +213,12 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.setReadOnly(false);
     this.onFormLoad();
   }
-  // viewDDE() {
-  //   this.services.router.navigate(['home', 'DDE']);
-  // }
+
+  viewDDE() {
+    this.services.rloCommonData.makeDdePageDisabled();
+    this.services.router.navigate(['home', 'DDE']);
+  }
+
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
   }
@@ -253,16 +256,16 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           let errorMsg = "";
           var mainMessage = this.LetterArray;
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
-        //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
-        //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
-        // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
-        //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
-        //    let msg = res.Letter[0].LETTERMGMTFORMAT;
-        //      msg = msg.replace(/@@ARN@@/gi, arnNo);
-        //       msg = msg.replace(/Personal/gi,loanType);
-        //       msg = msg.replace(/7500/gi, loanAmt);
-        //       msg = msg.replace(/Scheme/gi, schemeName);
-        //   console.log("repalce", msg)
+          //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+          //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+          // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+          //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+          //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+          //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+          //       msg = msg.replace(/Personal/gi,loanType);
+          //       msg = msg.replace(/7500/gi, loanAmt);
+          //       msg = msg.replace(/Scheme/gi, schemeName);
+          //   console.log("repalce", msg)
           Promise.all([mainMessage, button1]).then(values => {
             const modalObj: IModalData = {
               title: "Sanction Letter",
@@ -308,16 +311,16 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           let errorMsg = "";
           var mainMessage = this.LetterArray;
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
-        //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
-        //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
-        // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
-        //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
-        //    let msg = res.Letter[0].LETTERMGMTFORMAT;
-        //      msg = msg.replace(/@@ARN@@/gi, arnNo);
-        //       msg = msg.replace(/Personal/gi,loanType);
-        //       msg = msg.replace(/7500/gi, loanAmt);
-        //       msg = msg.replace(/Scheme/gi, schemeName);
-        //   console.log("repalce", msg)
+          //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+          //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+          // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+          //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+          //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+          //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+          //       msg = msg.replace(/Personal/gi,loanType);
+          //       msg = msg.replace(/7500/gi, loanAmt);
+          //       msg = msg.replace(/Scheme/gi, schemeName);
+          //   console.log("repalce", msg)
           Promise.all([mainMessage, button1]).then(values => {
             const modalObj: IModalData = {
               title: "Salary Certificate",
@@ -418,7 +421,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
       }
-    ); 
+    );
   }
 
   fetchCardDetails() {
@@ -476,32 +479,32 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
   onLetterClick() {
-      // var mainMessage = this.services.rloui.getAlertMessage('', 'Sanction Letter sent to Customer!');
-      // var button1 = this.services.rloui.getAlertMessage('', 'OK');
-      // // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-      // Promise.all([mainMessage, button1]).then(values => {
-      //   console.log(values);
-      //   let modalObj = {
-      //     title: "Success",
-      //     rawHtml: values[0],
-      //     modalSize: "modal-width-sm",
-      //     buttons: [
-      //       { id: 1, text: values[1], type: "success", class: "btn-primary" },
-      //       //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-      //     ]
-      //   }
-      //   this.services.rloui.confirmationModal(modalObj).then((response) => {
-      //     console.log(response);
-      //     if (response != null) {
-      //       if (response.id === 1) {
-      //         this.services.rloui.closeAllConfirmationModal();
-      //       }
-      //     }
-      //   });
-      // });
-      this.services.alert.showAlert(1, 'rlo.success.letter', 5000);
-      this.show = !this.show;
-    if (this.show){
+    // var mainMessage = this.services.rloui.getAlertMessage('', 'Sanction Letter sent to Customer!');
+    // var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    // // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+    // Promise.all([mainMessage, button1]).then(values => {
+    //   console.log(values);
+    //   let modalObj = {
+    //     title: "Success",
+    //     rawHtml: values[0],
+    //     modalSize: "modal-width-sm",
+    //     buttons: [
+    //       { id: 1, text: values[1], type: "success", class: "btn-primary" },
+    //       //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+    //     ]
+    //   }
+    //   this.services.rloui.confirmationModal(modalObj).then((response) => {
+    //     console.log(response);
+    //     if (response != null) {
+    //       if (response.id === 1) {
+    //         this.services.rloui.closeAllConfirmationModal();
+    //       }
+    //     }
+    //   });
+    // });
+    this.services.alert.showAlert(1, 'rlo.success.letter', 5000);
+    this.show = !this.show;
+    if (this.show) {
       this.buttonName = "show";
     }
   }
@@ -549,7 +552,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.services.http.fetchApi('/ScoreCardDtls', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
-          console.log("new res",res);
+          console.log("new res", res);
           // let tempScoreCardResultList = res['ScoreCardDetails'];
           // this.parseScoreCardResultJson(tempScoreCardResultList);
         },
@@ -610,13 +613,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.direction', 'AP');
     inputMap.set('Body.ApplicationStatus', 'Approve');
     inputMap.set('Body.CurrentStage', 'Operation');
-    inputMap.set('Body.ApplicationId', this.ApplicationId);    
+    inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
     this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        if (httpResponse.status == 200){
+        if (httpResponse.status == 200) {
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
           var mainMessage = this.services.rloui.getAlertMessage('rlo.success.submit');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -673,16 +676,16 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.TaskId', this.taskId);
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('Body.direction', 'W');
-    inputMap.set('Body.ApplicationId', this.ApplicationId);    
+    inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.ApplicationStatus', 'Withdraw');
-    inputMap.set('Body.CurrentStage', 'Operation');    
+    inputMap.set('Body.CurrentStage', 'Operation');
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
     this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
 
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        if (httpResponse.status == 200){
+        if (httpResponse.status == 200) {
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
           var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -741,14 +744,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('HeaderParam.ProcessId', this.HideProcessId.getFieldValue());
     inputMap.set('Body.direction', 'SB');
     inputMap.set('Body.ApplicationId', this.ApplicationId);
-    inputMap.set('Body.ApplicationStatus', 'Sendback'); 
-    inputMap.set('Body.CurrentStage', 'Operation');    
+    inputMap.set('Body.ApplicationStatus', 'Sendback');
+    inputMap.set('Body.CurrentStage', 'Operation');
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
     this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
 
-        if (httpResponse.status == 200){
+        if (httpResponse.status == 200) {
           // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
           var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
           var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -846,8 +849,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
           var applDtls = res['ApplicationDetails'];
           if (applDtls) {
-           // this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
-           // this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;
+            // this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
+            // this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;
             this.AD_CUST_STATUS.setValue(applDtls.CustomerConfirmationStatus);
             this.AD_CUST_REMARKS.setValue(applDtls.CustomerConfirmationRemarks);
           }

@@ -358,7 +358,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
     let userId = sessionStorage.getItem('userId');
     //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
-    let url="/DashboardChart?fromDate=01-APR-20&toDate=06-AUG-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process";
+    let url="/DashboardChart?fromDate=01-APR-20&toDate=01-JUN-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process";
     this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
@@ -479,7 +479,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
           ctx.textBaseline = "middle";
           ctx.font = "18px sans-serif";
-          ctx.fillText(pendingProposals.toString(), 185, 100);
+          ctx.fillText(pendingProposals.toString(), 180, 100);
           ctx.save();
         }
       }
