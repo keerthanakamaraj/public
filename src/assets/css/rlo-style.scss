@@ -3514,7 +3514,7 @@ rlo-ui-card-field {
 }
 
 
-#ApplicationInfo{
+#ApplicationInfo {
   font-size: 16px;
   color: black;
   font-family: open sans;
@@ -3871,6 +3871,7 @@ rlo-ui-card-field {
     position: absolute;
     left: 8rem;
   }
+
   .form-group {
     margin-bottom: -11px !important;
   }
@@ -3886,7 +3887,8 @@ rlo-ui-card-field {
     margin-bottom: 23px;
   }
 
-  #FieldId_3,#FieldId_8{
+  #FieldId_3,
+  #FieldId_8 {
     font-size: 16px;
     color: black;
     font-family: open sans;
@@ -3895,6 +3897,12 @@ rlo-ui-card-field {
     margin-top: 19px;
     margin-left: 21px;
     margin-bottom: 13px;
+  }
+
+  .op-button {
+    button {
+      margin-inline-start: 15px !important;
+    }
   }
 }
 
