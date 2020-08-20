@@ -112,7 +112,9 @@ export class WorkflowViewerComponent implements OnInit {
       var i;
       $('#active-div').hide();
       for (i = 0; i < this.flowBpmData.BPMNMetadata.length; i++) {
-        this.addCssToDiv(this.flowBpmData.BPMNMetadata[i]);
+        let coord = this.flowBpmData.BPMNMetadata[i];
+        coord.x = +coord.x + 18;
+        this.addCssToDiv(coord);
         await this.blinkFor2s();
       }
       //if (this.currentBpmData != null && this.currentBpmData != undefined) {
@@ -151,8 +153,10 @@ export class WorkflowViewerComponent implements OnInit {
       $('#active-div').css({ 'border-radius': '50%' });
     }
     $('html, body').animate({
-        scrollTop: $('#active-div').offset().top
-    }, 500);
+        // scrollTop: $('#active-div').offset().top
+        scrollTop: divCss.y
+    }, 1000);
+    
   }
 
   async delay(ms: number) {
