@@ -161,12 +161,57 @@
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
       </div>
       <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-      <div class="doc-Container">
+
+      <div class="doc-Container" *ngIf="this.documentTypeGrid.length">
         <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information"
           [formCode]="formCode">
         </app-label>
 
-        <table #DocumentTable style="margin-left: 21px; width: 97%;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="op-doc-list-table">
+              <div class="panel-default table col-12  col-sm-12 col-md-12 res-pr-hide">
+                <table *ngIf="this.documentTypeGrid.length">
+                  <thead>
+                    <tr class="grid-comments">
+                      <!-- <th id='col1' class="text-left">{{getLabel('DOC_UP_OWNER')}}</th>
+                      <th id='col2'>{{getLabel('DOCUMENT_NAME')}}</th>
+                      <th id='col3'>{{getLabel('DOC_UP_FILE_NAME')}}</th>
+                      <th id='col4'>{{getLabel('DOC_REL_TO_BORR')}}</th>
+                      <th id='col5'>{{getLabel('COLLECTION_DATE')}}</th>
+                      <th id='col6'>{{getLabel('STATUS')}}</th>
+                      <th id='col7'>{{getLabel('DOC_UPLOADED_BY')}}</th>
+                      <th id='col8'>{{getLabel('DOC_UPLOADED_ON')}}</th>-->
+                      <th id='col1' class="text-left">Owner</th>
+                      <th id='col2'>Document Name</th>
+                      <th id='col3'>File Name</th>
+                      <th id='col4'>Relationship to Borrower</th>
+                      <th id='col5'>Collection Date</th>
+                      <th id='col6'>Status</th>
+                      <th id='col7'>Uploaded By</th>
+                      <th id='col8'>Uploaded Date/Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="docheader" *ngFor="let imgDtl of documentTypeGrid">
+                      <td class="text-left">{{imgDtl.OwnerName}}</td>
+                      <td>{{imgDtl.docDesc}}</td>
+                      <td class="text-ellipses download-img" title="{{imgDtl.DocName}}"><a
+                          (click)="downloadFile(imgDtl.cfsInvNumber)">{{imgDtl.DocName}}</a></td>
+                      <td>{{imgDtl.relationshipToBorrower}}</td>
+                      <td>{{imgDtl.collectionDate}}</td>
+                      <td>{{imgDtl.StatusDesc}}</td>
+                      <td>{{imgDtl.InputterId}}</td>
+                      <td>{{imgDtl.InputterDt}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <table #DocumentTable style="margin-left: 21px; width: 97%;">
           <tr
             style="background-color: #e4f0f9; font-family: open sans; font-weight: normal; font-size: 12px; line-height: 17px; color: #565656; height:45px;">
             <th style="border: none;">Sr No.</th>
@@ -183,8 +228,9 @@
                 Certificate</span></td>
             <td style="border: none;"><input type="checkbox" name="name20" /></td>
           </tr>
-        </table>
+        </table> -->
       </div>
+
       <div class="button-Container">
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;">
           <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"

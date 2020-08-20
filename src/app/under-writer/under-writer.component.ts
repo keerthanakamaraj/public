@@ -327,7 +327,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getUnderWriterData() {
-    //valid application id -  2141(Loan details), 2460(has property) 2483 2691(al data),2148(liability),2523(disburse)
+    //valid application id -  2141(Loan details), 2460(has property) 2483(dont edit), 2691(al data),2148(liability),2523(disburse)
 
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');

@@ -3374,6 +3374,21 @@ rlo-ui-card-field {
     margin: 24px 0 24px 0;
   }
 
+  .doc-count {
+    div {
+      text-align: center;
+      font-size: 20px;
+      line-height: 27px;
+      text-align: center;
+      color: #0079B8;
+      margin: 22px 0 19px 0;
+    }
+  }
+
+  .table-responsive {
+    max-height: 19em;
+  }
+
   .doc-list-table {
     table {
       border-spacing: 0px 3px;
@@ -3421,22 +3436,83 @@ rlo-ui-card-field {
       }
     }
   }
+}
 
-  .doc-count {
-    div {
-      text-align: center;
-      font-size: 20px;
-      line-height: 27px;
-      text-align: center;
-      color: #0079B8;
-      margin: 22px 0 19px 0;
+//document table used in doc mngt and operations
+.op-doc-list-table {
+  .panel-default {
+    margin-bottom: 15px !important;
+  }
+
+  table {
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    // th:after {
+    //   border-right: 1px solid rgba(189, 195, 199, .5);
+    //   content: " ";
+    //   height: 16px;
+    //   margin-top: 8px;
+    //   position: absolute;
+    //   text-indent: -2000px;
+    //   top: 0;
+    // }
+
+    tr:hover {
+      background-color: #ecf0f1;
+    }
+
+    thead {
+      tr {
+        background: #E4F0F9;
+        font-size: 12px;
+        line-height: 12px;
+        color: #7C7C7C;
+        font-weight: unset;
+        height: 40px;
+      }
+    }
+
+    tbody {
+      tr {
+        height: 40px;
+        color: rgb(79, 78, 78);
+
+        td {
+          border: none;
+          color: #4f4f4f;
+          line-height: 12px;
+          font-size: 12px;
+          font-weight: 400;
+
+          span {
+            font-size: 23px;
+            cursor: pointer;
+
+            &.icon-edit {
+              color: #0079b8;
+            }
+          }
+        }
+      }
+
+      .download-img {
+        cursor: pointer;
+      }
+    }
+
+    th {
+      border: none;
+      font-weight: inherit;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 17px;
+      color: #565656;
     }
   }
-
-  .table-responsive {
-    max-height: 19em;
-  }
 }
+
 
 #ApplicationInfo,
 #FieldId_3,

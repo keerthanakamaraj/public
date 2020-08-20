@@ -23,6 +23,7 @@ import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetai
 import { IModalData } from '../popup-alert/popup-interface';
 import { string } from '@amcharts/amcharts4/core';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { UtilityService } from '../services/utility.service';
 const customCss: string = '';
 
 @Component({
@@ -87,6 +88,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   appArray = [];
   custArray = [];
   LetterArray;
+  documentTypeGrid = [];
+  count: any;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -102,7 +105,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     super.afterRevalidate();
     return totalErrors;
   }
-  constructor(services: ServiceStock) {
+  constructor(services: ServiceStock, public utility: UtilityService) {
     super(services);
     this.value = new OperationModel();
     this.componentCode = 'Operation';
@@ -189,6 +192,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
+      this.getDocumentGridData();
     });
   }
   clearError() {
@@ -862,5 +866,30 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         }
       );
     }
+  }
+
+  //get document grid
+  getDocumentGridData() {
+    let appId = this.ApplicationId;
+    //appId = 2483;
+    this.utility.getCommonService().getDocumentUploadDtls(appId).subscribe(
+      data => {
+        if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
+          this.services.alert.showAlert(2, '', 3000, 'Unable to get records.');
+        } else {
+          if (data['DocList']) {
+            this.documentTypeGrid = data['DocList'];
+            this.count = this.documentTypeGrid.length;
+          } else {
+            this.documentTypeGrid = [];
+            this.count = 0;
+          }
+        }
+      });
+  }
+
+  // This method is to download file
+  downloadFile(inventoryNumber) {
+    this.utility.getCommonService().download(inventoryNumber);
   }
 }
