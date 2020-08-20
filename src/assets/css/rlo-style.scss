@@ -3922,10 +3922,10 @@ rlo-ui-card-field {
   padding-left: 0.8rem;
 }
 
-.modal-end-btn-container {
-  padding-left: 2.56rem;
-  //  padding-right: 0px;
-}
+// .modal-end-btn-container {
+//   padding-left: 2.56rem;
+// 
+// }
 
 // .clr-btn{
 //   margin-left: 0px !important;
@@ -3941,12 +3941,13 @@ rlo-ui-card-field {
 }
 
 #AMS_GENERATE_BTN {
-  float: left;
+  float: right;
+  margin-right: 0.8rem;
 }
 
 #AMS_CLEAR_BTN {
-  padding-left: 0.8rem;
-  float: left;
+  float: right;
+  margin-left: 0px;
 }
 
 .wgt-date-multiselect {}

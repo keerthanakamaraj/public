@@ -125,14 +125,15 @@
           </div>
 
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
-          <div class="col-12  col-sm-10 col-md-10 res-pr-hide"></div>
-          <div class="modal-end-btn-container col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="AMS_GENERATE_BTN.isHidden()">
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <div class="modal-end-btn-container col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AMS_GENERATE_BTN.isHidden()">
+            <app-button #AMS_CLEAR_BTN fieldName="{{ 'Amortization.AMS_CLEAR_BTN' | translate}}" fieldID="AMS_CLEAR_BTN"
+              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="AMS_CLEAR_BTN_click($event)">
+            </app-button>
             <app-button #AMS_GENERATE_BTN fieldName="{{ 'Amortization.AMS_GENERATE_BTN' | translate}}"
               fieldID="AMS_GENERATE_BTN" [formCode]="formCode" customClass="btn btn-primary"
               (buttonClick)="AMS_GENERATE_BTN_click($event)"></app-button>
-              <app-button #AMS_CLEAR_BTN fieldName="{{ 'Amortization.AMS_CLEAR_BTN' | translate}}" fieldID="AMS_CLEAR_BTN"
-              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="AMS_CLEAR_BTN_click($event)">
-            </app-button>
+              
             </div>
         </div>
         <div class="form-group pb10" [ngClass]="editableFlag?'deactivate-amortization':''">
