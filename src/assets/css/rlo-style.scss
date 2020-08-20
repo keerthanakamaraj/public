@@ -3734,20 +3734,12 @@ rlo-ui-card-field {
 
 }
 
-#Document_Information {
-  font-size: 16px;
-  color: black;
-  font-family: open sans;
-  font-style: normal;
-  font-weight: 400;
-  margin-top: 41px;
-  margin-left: 21px;
-  margin-bottom: 23px;
-}
+
 
 .cust-acknwlg-Container {
   padding-left: 0px !important;
   margin-left: 4px;
+  margin-top: 9px;
 }
 
 /*
@@ -3804,6 +3796,31 @@ rlo-ui-card-field {
     top: 14px;
     position: absolute;
     left: 8rem;
+  }
+  .form-group {
+    margin-bottom: -11px !important;
+  }
+
+  #Document_Information {
+    font-size: 16px;
+    color: black;
+    font-family: open sans;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 29px;
+    margin-left: 21px;
+    margin-bottom: 23px;
+  }
+
+  #FieldId_3 {
+    font-size: 16px;
+    color: black;
+    font-family: open sans;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 19px;
+    margin-left: 21px;
+    margin-bottom: 13px;
   }
 }
 
