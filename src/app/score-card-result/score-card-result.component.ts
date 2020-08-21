@@ -3,6 +3,7 @@ import { ServiceStock } from '../service-stock.service';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { HttpResponse } from '@angular/common/http';
 import { IScoreCard, IScoreColor } from './ScoreCardInterface';
+import { ButtonComponent } from '../button/button.component';
 @Component({
   selector: 'app-score-card-result',
   templateUrl: './score-card-result.component.html',
@@ -12,6 +13,7 @@ import { IScoreCard, IScoreColor } from './ScoreCardInterface';
 export class ScoreCardResultComponent implements OnInit {
 
   @ViewChild('SCR_Filter', { static: false }) SCR_Filter: ComboBoxComponent;
+  @ViewChild('SCR_RETRIGGER_BTN', { static: false }) SCR_RETRIGGER_BTN: ButtonComponent;
   @Input() ApplicationId: string = undefined;
 
   MstScoreResultMap: Map<string, IScoreCard[]> = new Map();
@@ -219,8 +221,8 @@ export class ScoreCardResultComponent implements OnInit {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT008');
     inputMap.set('Body.prposalid', this.ApplicationId);
-   // inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
-    inputMap.set('Body.inputdata.SCHEME_CD',this.services.rloCommonData.globalApplicationDtls.SchemeCode);
+    // inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
+    inputMap.set('Body.inputdata.SCHEME_CD', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
     return inputMap;
   }
 

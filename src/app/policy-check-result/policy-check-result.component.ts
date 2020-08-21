@@ -2,8 +2,8 @@ import { Component, OnInit, ElementRef, Renderer2, ViewChildren, QueryList, Afte
 import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
-import { DropDown } from '../DropDownOptions';
 import { IPolicy } from './PolicyCheckInterface';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-policy-check-result',
@@ -14,10 +14,10 @@ import { IPolicy } from './PolicyCheckInterface';
 export class PolicyCheckResultComponent implements OnInit {
   // if (this.formCode == undefined) { this.formCode = 'PolicyCheckResultDtls'; }
   ErrorSet = new Set([]);
-  // QuestionnairMap: Map<String, IPolicy> = new Map<String, IPolicy>();
   @ViewChildren('tbData') domRef: QueryList<ElementRef>;
-  // PolicyResultMap = new Map<string, IPolicy>();
   @ViewChild('PCR_Filter', { static: false }) PCR_Filter: ComboBoxComponent;
+  @ViewChild('PCR_RETRIGGER_BTN', { static: false }) PCR_RETRIGGER_BTN: ButtonComponent;
+
   @Input() ApplicationId: string = undefined;
   parentFormCode: string = undefined;
   activePolicyResultList: IPolicy[] = undefined;

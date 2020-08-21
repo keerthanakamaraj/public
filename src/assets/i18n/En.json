@@ -2227,6 +2227,13 @@
     "ProjectCompletion": "% of Project Completion",
     "GridTitle": "Disbursement Input Grid",
     "DisbursementAmount": "Amount To Be Disbursed"
+  },
+  "PolicyResult": {
+    "PCR_RETRIGGER_BTN": "RETRIGGER",
+    "ActualResult": "Actual Result",
+    "ExpectedResult": "Expected Result",
+    "Result": "Result"
+
   }
 
 }
