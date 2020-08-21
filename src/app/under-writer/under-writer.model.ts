@@ -596,7 +596,8 @@ export class CardDetails implements IDeserializable {
                 title: "Maximum Card Limit",
                 subTitle: this.MaxCardLimit,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             },
             {
                 title: "Approved Limit",

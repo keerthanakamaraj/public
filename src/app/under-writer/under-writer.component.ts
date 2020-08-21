@@ -243,6 +243,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   isLoanCategory: boolean = false;
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+  maxCardLimit: any = "NA";
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -265,14 +266,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //@Output
   broadcastProdCategory(event) {
-    // this.services.rloCommonData.globalApplicationDtls = {
-    //   isLoanCategory: event.isLoanCategory,
-    //    ProductCode: event.ProductCode,
-    //    SubProductCode: event.SubProductCode,
-    //    SchemeCode: event.SchemeCode,
-    // };
-    // console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    let globlaObj = this.services.rloCommonData.globalApplicationDtls;
+
     this.isLoanCategory = event.isLoanCategory;
+    if (globlaObj.TypeOfLoanCode == "CC") {
+      if (globlaObj.LoanAmount != undefined) {
+        this.maxCardLimit = globlaObj.LoanAmount;
+      }
+    }
     this.getUnderWriterData();
   }
 
@@ -340,7 +342,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
-    //appId = 2691;
+    appId = 2483;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -514,7 +516,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       this.aBlankCardData = [];
 
       let application = this.customerMasterJsonData.ApplicationDetails;
-      console.log("----", application);
 
       this.allSectionsCardData[1].cardList.forEach(element => {
         switch (element.className) {
@@ -543,12 +544,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "VehicalDetails":
-          case "CardDetails":
           case "GoldDetails":
           case "EducationDetails":
           case "GoNoGoDetails":
           case "PropertyDetails":
             data = application[element.className].getCardData();
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
+            this.aCardDataWithFields.push(data);
+            break;
+
+          case "CardDetails":
+            data = application[element.className].getCardData();
+            let obj = data.data.find(a => a.title == "Maximum Card Limit");
+            obj.subTitle = this.maxCardLimit;
+            console.warn("DEEP | card details", obj);
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;
             data.componentCode = this.componentCode;
@@ -848,7 +859,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     let userId = sessionStorage.getItem('userId');
     //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
     let url = "/ApplicationScoreDetails/" + this.applicationId;
-    this.services.http.fetchApi(url, 'GET', null, '').subscribe(
+    //url = "/ApplicationScoreDetails/2483";
+    this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
         console.warn("Application details api")

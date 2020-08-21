@@ -3294,6 +3294,30 @@ rlo-ui-card-field {
   .filter-selected {
     text-decoration: underline;
   }
+
+  .absolute-center {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .text-center {
+    text-align: center;
+
+    span{
+      font-size: 14px;
+      font-weight: 600;
+      color: #6f6f6f;
+    }
+
+    p {
+      font-size: 14px;
+      margin-top: 4px;
+      font-weight: 600;
+      color: #6f6f6f;
+    }
+  }
 }
 
 // seperate doc. upload component 

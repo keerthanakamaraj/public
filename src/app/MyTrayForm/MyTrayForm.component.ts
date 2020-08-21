@@ -35,9 +35,13 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('MT_SLIDER', { static: false }) MT_SLIDER: CheckBoxComponent;
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
   @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
-  @ViewChild('doughnutChartInnerTxt', { static: false }) doughnutChartInnerTxt: ElementRef;
+  @ViewChild('doughnutChart', { static: false }) doughnutChart: ElementRef;
+  @ViewChild('chartPendingTxt', { static: false }) chartPendingTxt: ElementRef;
+  @ViewChild('chartCountTxt', { static: false }) chartCountTxt: ElementRef;
 
-  public context: CanvasRenderingContext2D;
+  public doughnutChartContext: CanvasRenderingContext2D;
+  public chartPendingContext: CanvasRenderingContext2D;
+  public chartCountContext: CanvasRenderingContext2D;
   public chartPluginService: PluginServiceRegistrationOptions;
 
   menuList = [];
@@ -101,23 +105,6 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-  //   this.chartPluginService.beforeDraw(data(), 'linear');
-
-  // function data() {
-  //   let context = this.doughnutChartInnerTxt.nativeElement;
-  //   var c = document.getElementById("text");
-  //   this.context.textAlign = "center";
-  //   this.context.textBaseline = "middle";
-  //   this.context.font = "18px sans-serif";
-  //   this.context.fillText("Total Pending", 150, 150);
-
-  //   this.context.textBaseline = "middle";
-  //   this.context.font = "18px sans-serif";
-  //   this.context.fillText("27", 150, 150);
-
-  //   return context;
-  // }
-
   public donutColors = [
     {
       backgroundColor: [
@@ -146,7 +133,6 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
   chart: any;
 
-
   graphFilterList: any = [
     { name: 'All', isSelected: false },
     { name: '1Y', isSelected: false },
@@ -157,6 +143,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   ];
 
   dateFormat = 'DD-MMM-YY';
+
+  proposalCount: number = 0;
 
   constructor(services: ServiceStock, private router: Router, private cdRef: ChangeDetectorRef) {
     super(services);
@@ -325,9 +313,9 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     }
 
     console.warn(startDate, moment().format(this.dateFormat));
-    this.getGraphData(startDate, moment().format(this.dateFormat)).then((response:any)=>{
+    this.getGraphData(startDate, moment().format(this.dateFormat)).then((response: any) => {
       console.log(response);
-      this.plotDoughnutChart();
+      this.plotDoughnutChart(response);
     })
   }
 
@@ -341,9 +329,9 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     let endDate = moment(date.endDate).format(this.dateFormat);
 
     console.warn(startDate, endDate);
-    this.getGraphData(startDate, endDate).then((response:any)=>{
+    this.getGraphData(startDate, endDate).then((response: any) => {
       console.log(response);
-      this.plotDoughnutChart();
+      this.plotDoughnutChart(response);
     });
   }
 
@@ -356,68 +344,31 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   async getGraphData(startDate, endDate) {
     //http://10.11.12.19:18180/olive/publisher/DashboardChart?fromDate=01-APR-20&toDate=06-AUG-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process
 
+    let data = [];
     let userId = sessionStorage.getItem('userId');
-    //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
-    let url="/DashboardChart?fromDate=01-APR-20&toDate=01-JUN-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process";
-    this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        const res = httpResponse.body;
-        console.log(res);
-      },
-      async (httpError) => {
+    let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
+    //let url="/DashboardChart?fromDate=01-APR-20&toDate=01-JUN-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process";
 
-      });
-
-    let data = [
-      {
-        "FORMNAME": "ApprovedQueue",
-        "COUNT": "2"
-      },
-      {
-        "FORMNAME": "DDE",
-        "COUNT": "5"
-      },
-      {
-        "FORMNAME": "Operation",
-        "COUNT": "8"
-      },
-      {
-        "FORMNAME": "QDE",
-        "COUNT": "320"
-      },
-      {
-        "FORMNAME": "Underwriter",
-        "COUNT": "2"
-      }
-    ]
-
-    return data;
+    let promise = new Promise<any>((resolve, reject) => {
+      this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          const res = httpResponse.body;
+          if (res != null) {
+            data = res;
+          }
+          resolve(data);
+          console.log(res);
+        },
+        async (httpError) => {
+          resolve(data);
+        });
+    });
+    return promise;
   }
 
-
-  plotDoughnutChart() {
-    let dataList = [
-      {
-        "FORMNAME": "ApprovedQueue",
-        "COUNT": "2"
-      },
-      {
-        "FORMNAME": "DDE",
-        "COUNT": "5"
-      },
-      {
-        "FORMNAME": "Operation",
-        "COUNT": "8"
-      },
-      {
-        "FORMNAME": "QDE",
-        "COUNT": "320"
-      },
-      {
-        "FORMNAME": "Underwriter",
-        "COUNT": "2"
-      }
-    ];
+  plotDoughnutChart(response) {
+    console.log("DEEP | plotting", response);
+    let dataList = response;
 
     let dataPoints = [];
     let dataLabels = [];
@@ -430,7 +381,13 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
         pendingProposals += Number(element.COUNT);
       });
     }
+    this.proposalCount = pendingProposals;
+    let proposalCount = pendingProposals.toString();
 
+    console.log(pendingProposals, this.chart);
+    if (this.chart != undefined) {
+      this.chart.destroy();
+    }
 
     let dataSets = {
       labels: dataLabels,
@@ -440,12 +397,15 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
           backgroundColor: ['#012438',
             '#037cb1',
             '#54a8d4',
-            '#560d28'],
+            '#560d28',
+            '#a7a931',
+            '#a9318a'
+          ],
         }]
     };
 
-    this.context = this.doughnutChartInnerTxt.nativeElement;
-    this.chart = new Chart(this.context, {
+    this.doughnutChartContext = this.doughnutChart.nativeElement;
+    this.chart = new Chart(this.doughnutChartContext, {
       type: 'doughnut',
       data: dataSets,
       options: {
@@ -463,27 +423,31 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
           }
         }
       }
+      // ,
+      // plugins: [{
+      //   beforeDraw: function (chart, options) {
+      //     var width = chart.width,
+      //       height = chart.height,
+      //       ctx = chart.ctx,
+      //       type = chart.config.type;
+
+      //     if (type == 'doughnut') {
+      //       ctx.textBaseline = "middle";
+      //       var fontSize = (height / 11).toFixed(2);
+      //       ctx.font = fontSize + "px sans-serif";
+      //       //ctx.fillText("Total Pending", 140, 73);
+
+      //       var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2) - 10;
+      //       var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2) + 20;
+      //       ctx.textBaseline = "middle";
+      //       ctx.font = fontSize + "sans-serif";
+      //       //ctx.fillText(proposalCount, centerX, centerY);
+      //       ctx.save();
+      //     }
+      //   }
+      // }]
     });
 
-    Chart.pluginService.register({
-      beforeDraw: function (chart) {
-        var width = chart.width,
-          height = chart.height,
-          ctx = chart.ctx,
-          type = chart.config.type;
-
-        if (type == 'doughnut') {
-          ctx.textBaseline = "middle";
-          ctx.font = "18px sans-serif";
-          ctx.fillText("Total Pending", 140, 73);
-
-          ctx.textBaseline = "middle";
-          ctx.font = "18px sans-serif";
-          ctx.fillText(pendingProposals.toString(), 180, 100);
-          ctx.save();
-        }
-      }
-    });
   }
 
 }

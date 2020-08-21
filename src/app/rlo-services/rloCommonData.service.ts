@@ -7,6 +7,8 @@ import { RlouiService } from './rloui.service';
 import { Router } from '@angular/router';
 import { promise } from 'protractor';
 import { string } from '@amcharts/amcharts4/core';
+import { ProvidehttpService } from '../providehttp.service';
+import { HttpResponse } from '@angular/common/http';
 
 export interface subjectParamsInterface {
   action: string;
@@ -71,7 +73,7 @@ export class RloCommonData {
   componentLvlDataSubject = new Subject<IComponentLvlData>();
   currentRoute: string = "";
   globalApplicationDtls: IGlobalApllicationDtls = {};
-  constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router) {
+  constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
   }
@@ -838,4 +840,67 @@ export class RloCommonData {
   makeDdePageDisabled() {
     this.makeDdeDisabled = true;
   }
+
+  //scoreCard(apllication score) invoke interface and score card api
+  generateRetriggerRequestJson(applicationId: any, interfaceId: string) {
+    let inputMap = new Map();
+    inputMap.set('Body.interfaceId', interfaceId);
+    inputMap.set('Body.prposalid', applicationId);
+    // inputMap.set('Body.inputdata.SCHEME_CD', 'HOUSEC');
+    inputMap.set('Body.inputdata.SCHEME_CD', this.globalApplicationDtls.SchemeCode);
+    return inputMap;
+  }
+
+  //called in scorecard.component on refresh btn policyScore->scorecard
+  invokeInterface(applicationId: any, type: "policyScore" | "applicationScore") {
+    let interfaceId, apiName;
+
+    if (type == "applicationScore") {
+      interfaceId = "INT008";
+      apiName = "ScoreCard";
+    }
+    else {
+      interfaceId = "INT007";
+      apiName = "policyCheck";
+    }
+
+    let inputMap = this.generateRetriggerRequestJson(applicationId, interfaceId);
+
+    this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        let res = httpResponse.body;
+        this.retriggerScoreResult(res, apiName);
+      }, async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+      }
+    );
+  }
+
+  retriggerScoreResult(res, apiName: string) {
+    let inputMap = this.generateScoreCheckReq(res);
+
+    this.http.fetchApi('/' + apiName, 'POST', inputMap, '/initiation').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        let res = httpResponse.body;
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+      });
+  }
+
+  generateScoreCheckReq(res) {
+    let inputMap = new Map();
+    inputMap.set('Body.prposalid', res['prposalid']);
+    inputMap.set('Body.interfaceId', res['interfaceId']);
+    inputMap.set('Body.ouputdata', res['ouputdata']);
+    return inputMap;
+  }
+  //scoreCard invoke interface and score card api
+
 }

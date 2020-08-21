@@ -15,7 +15,8 @@
           <span class="icon-calendar-line"></span>
           <div class="filter-container">
             <span class="filter-list">
-              <span *ngFor="let filter of graphFilterList" [class.filter-selected]="filter.isSelected" (click)="getFilter(filter.name)">{{filter.name}}</span>
+              <span *ngFor="let filter of graphFilterList" [class.filter-selected]="filter.isSelected"
+                (click)="getFilter(filter.name)">{{filter.name}}</span>
             </span>
           </div>
           <div class="multi-date-select">
@@ -23,11 +24,12 @@
           </div>
           <div class="title">Pending Proposals Overview</div>
           <div class="proposal-container">
-            <div style="display: block;position: relative;">
-              <canvas #doughnutChartInnerTxt id="text" class="doughnut-txt" height="174" width="350"></canvas>
-              <!-- <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
-                [chartType]="doughnutChartType" [options]="chartOptions" [colors]="donutColors">
-              </canvas> -->
+            <div style="display: block;position: relative;width: 350;height: 174;">
+              <canvas #doughnutChart id="text" class="doughnut-txt" height="174" width="350"></canvas>
+              <div class="absolute-center text-center">
+                <span>Total Pending</span>
+                <p>{{proposalCount}}</p>
+              </div>
             </div>
           </div>
         </div>
