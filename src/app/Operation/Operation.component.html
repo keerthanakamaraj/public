@@ -91,72 +91,73 @@
 
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
 
-    <div>
-      <div class="loan-Container" *ngIf="isLoanCategory">
-        <div>
-          <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"></app-label>
-        </div>
-
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()" style="margin-left: 4px;">
-          <div class="clr-brown fieldLegend">
-            <label class="clr-brown" style="margin-bottom: 20px;">
-              {{ 'Operation.DisbustAmt' | translate}}
-            </label>
+      <div>
+        <div class="loan-Container" *ngIf="isLoanCategory">
+          <div>
+            <app-label #FieldId_3 parentCompCode="Operation" fieldID="FieldId_3" [formCode]="formCode"></app-label>
           </div>
-          <app-amount #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode"
-            (blur)="genericOnBlur('DisbustAmt', $event)"></app-amount>
-        </div>
 
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LOAN_DBR.isHidden()">
-          <div class="clr-brown fieldLegend">
-            <label class="clr-brown" style="margin-bottom: 20px;">
-              {{ 'Operation.LOAN_DBR' | translate}}
-            </label>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DisbustAmt.isHidden()" style="margin-left: 4px;">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" style="margin-bottom: 20px;">
+                {{ 'Operation.DisbustAmt' | translate}}
+              </label>
+            </div>
+            <app-amount #DisbustAmt fieldID="DisbustAmt" [formCode]="formCode"
+              (blur)="genericOnBlur('DisbustAmt', $event)"></app-amount>
           </div>
-          <app-amount #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
-          </app-amount>
-        </div>
 
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="EMI_Amt.isHidden()">
-          <div class="clr-brown fieldLegend">
-            <label class="clr-brown" style="margin-bottom: 20px;">
-              {{ 'Operation.EMI_Amt' | translate}}
-            </label>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LOAN_DBR.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" style="margin-bottom: 20px;">
+                {{ 'Operation.LOAN_DBR' | translate}}
+              </label>
+            </div>
+            <app-amount #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
+            </app-amount>
           </div>
-          <app-amount #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
-          </app-amount>
+
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="EMI_Amt.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" style="margin-bottom: 20px;">
+                {{ 'Operation.EMI_Amt' | translate}}
+              </label>
+            </div>
+            <app-amount #EMI_Amt fieldID="EMI_Amt" [formCode]="formCode" (blur)="genericOnBlur('EMI_Amt', $event)">
+            </app-amount>
+          </div>
+        </div>
+        <br>
+        <div class="card-Container" *ngIf="!isLoanCategory">
+          <div>
+            <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
+          </div>
+
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()"
+            style="margin-left: 6px;">
+            <div class="clr-brown fieldLegend" style="margin-bottom: 20px;">
+              <label class="clr-brown">
+                {{ 'Operation.Apved_Limit' | translate}}
+              </label>
+            </div>
+            <app-amount #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
+              (blur)="genericOnBlur('Apved_Limit', $event)"></app-amount>
+          </div>
+
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Card_DBR.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" style="margin-bottom: 20px;">
+                {{ 'Operation.Card_DBR' | translate}}
+              </label>
+            </div>
+            <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
+            </app-amount>
+          </div>
         </div>
       </div>
-      <br>
-      <div class="card-Container" *ngIf="!isLoanCategory">
-        <div>
-          <app-label #FieldId_8 parentCompCode="Operation" fieldID="FieldId_8" [formCode]="formCode"></app-label>
-        </div>
-
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Apved_Limit.isHidden()" style="margin-left: 6px;">
-          <div class="clr-brown fieldLegend" style="margin-bottom: 20px;">
-            <label class="clr-brown">
-              {{ 'Operation.Apved_Limit' | translate}}
-            </label>
-          </div>
-          <app-amount #Apved_Limit fieldID="Apved_Limit" [formCode]="formCode"
-            (blur)="genericOnBlur('Apved_Limit', $event)"></app-amount>
-        </div>
-
-        <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Card_DBR.isHidden()">
-          <div class="clr-brown fieldLegend">
-            <label class="clr-brown" style="margin-bottom: 20px;">
-              {{ 'Operation.Card_DBR' | translate}}
-            </label>
-          </div>
-          <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
-          </app-amount>
-        </div>
-      </div>
-    </div>
       <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-    <br>
-    <!-- <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
+      <br>
+      <!-- <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
     <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div> -->
       <div class="doc-Container" *ngIf="this.documentTypeGrid.length">
         <app-label #Document_Information parentCompCode="Operation" fieldID="Document_Information"
@@ -269,30 +270,29 @@
       </div>
     </div>
   </div>
-  <div class="col-12  col-sm-12 col-md-12 group-default">
+  <div class="col-12  col-sm-12 col-md-12 group-default op-button">
     <div #BUTTON_SECTION id="BUTTON_SECTION">
       <div class="pb10 button-group">
-        <div class="col-12  col-sm-3 col-md-3"></div>
-        <div class="col-12  col-sm-12 col-md-12 text-center">
-
+        <div class="col-12  col-sm-2 col-md-2"></div>
+        <div class="col-12  col-sm-8 col-md-8 text-center">
           <app-button #OPERATION_APPROVE fieldName="{{ 'Operation.OPERATION_APPROVE' | translate}}"
             fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn btn-primary"
-            (buttonClick)="OPERATION_SUBMIT_click($event)" style="width: 150px !important;">
+            (buttonClick)="OPERATION_SUBMIT_click($event)">
           </app-button>
           <app-button #OPERATION_WITHDRAW fieldName="{{ 'Operation.OPERATION_WITHDRAW' | translate}}"
             fieldID="OPERATION_APPROVE" [formCode]="formCode" customClass="btn-warning-outline"
-            (buttonClick)="OPERATION_WITHDRAW_click($event)" style="width: 150px !important;">
+            (buttonClick)="OPERATION_WITHDRAW_click($event)">
           </app-button>
           <app-button #OPERATION_SENDBACK fieldName="{{ 'Operation.OPERATION_SENDBACK' | translate}}"
             fieldID="OPERATION_SENDBACK" [formCode]="formCode" customClass="btn-warning-outline"
-            (buttonClick)="OPERATION_SENDBACK_click($event)" style="width: 150px !important;">
+            (buttonClick)="OPERATION_SENDBACK_click($event)">
           </app-button>
           <app-button #OPERATION_CLOSE fieldName="{{ 'Operation.OPERATION_CLOSE' | translate}}"
             fieldID="OPERATION_CLOSE" [formCode]="formCode" customClass="btn-warning-outline"
-            (buttonClick)="OPERATION_CLOSE_click($event)" style="width: 150px !important;">
+            (buttonClick)="OPERATION_CLOSE_click($event)">
           </app-button>
         </div>
-        <div class="col-12  col-sm-4 col-md-4"></div>
+        <div class="col-12  col-sm-2 col-md-2"></div>
       </div>
     </div>
   </div>

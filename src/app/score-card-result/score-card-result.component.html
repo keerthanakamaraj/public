@@ -5,15 +5,15 @@
     </app-combo-box>
 
   </div>
-  <div class="col-12  col-sm-5 col-md-5 res-pr-hide"></div>
+  <!-- <div class="col-12  col-sm-5 col-md-5 res-pr-hide"></div> -->
   <!-- <div class=" button-container col-12  col-sm-2 col-md-2 res-pr-hide">
     <app-button #SCR_DOWNLOAD_BTN fieldName="{{ 'ScoreCardRslt.SCR_DOWNLOAD_BTN' | translate}}" fieldID="SCR_DOWNLOAD_BTN" 
       customClass="btn btn-primary"></app-button>
 
   </div> -->
-  <div class="col-12  col-sm-1 col-md-1 res-pr-hide">
-    <app-button #SCR_RETRIGGER_BTN fieldName="{{ 'ScoreCardRslt.SCR_RETRIGGER_BTN' | translate}}" fieldID="SCR_RETRIGGER_BTN"
-       customClass="btn-warning-outline" (buttonClick)="invokeInterface()"></app-button>
+  <div class="top-btn-container col-12  col-sm-8 col-md-8 res-pr-hide">
+    <app-button #SCR_RETRIGGER_BTN fieldName="{{ 'ScoreCardRslt.SCR_RETRIGGER_BTN' | translate}}"
+      fieldID="SCR_RETRIGGER_BTN" customClass="btn-warning-outline" (buttonClick)="invokeInterface()"></app-button>
   </div>
 </div>
 <div style="min-height: 0px;height: 40px;" class="col-12 col-sm-12 col-md-12"></div>
@@ -23,13 +23,15 @@
       {{scoreData.ScoreSection}}
     </span>
     <div class="progress col-12 col-sm-5 col-md-5">
-      <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':(scoreData.Score/scoreData.MaxSectionScore)*100+'%','background-color':scoreData.colorCode}">
+      <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+        [ngStyle]="{'width':(scoreData.Score/scoreData.MaxSectionScore)*100+'%','background-color':scoreData.colorCode}">
         <span class="sr-only">
           {{scoreData.Score}}% Complete
         </span>
       </div>
     </div>
-    <span class="progress-count col-12 col-sm-1 col-md-1" [ngStyle]="{'color':scoreData.colorCode}">{{scoreData.Score}}</span>
+    <span class="progress-count col-12 col-sm-1 col-md-1"
+      [ngStyle]="{'color':scoreData.colorCode}">{{scoreData.Score}}</span>
   </div>
   <div class="graph-index-row col-12 col-sm-12 col-md-12">
     <span class=" no-padding col-12 col-sm-3 col-md-3"></span>
