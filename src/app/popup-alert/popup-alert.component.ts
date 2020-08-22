@@ -63,6 +63,13 @@ export class PopupAlertComponent implements OnInit {
 
   injectDynamicComponent() {
     const componentRef = this.getComponentClassRef(this.modalObject.componentName);
+    let headerObj = this.services.rloCommonData.globalApplicationDtls;
+
+    let isLoanCategory = false;
+    if (headerObj != null || headerObj != undefined) {
+      isLoanCategory = headerObj.isLoanCategory;
+    }
+
     console.log("______", this.modalObject);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
@@ -74,16 +81,16 @@ export class PopupAlertComponent implements OnInit {
     componentInstance.parentData = this.modalObject.data;
 
     if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent') {
-      componentInstance.isLoanCategory = true;
+      componentInstance.isLoanCategory = isLoanCategory;
       componentInstance.parentFormCode = this.modalObject.componentCode;
       componentInstance.ApplicationId = this.modalObject.applicationId;
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
       componentInstance.readOnly = true;
 
-      if(this.modalObject.componentName == "CustomerDetails"){
+      if (this.modalObject.componentName == "CustomerDetails") {
         setTimeout(() => {
-          componentInstance.loanCategoryChanged(false);
-        }, 1000);    
+          componentInstance.loanCategoryChanged(isLoanCategory);
+        }, 1000);
       }
 
       if (this.modalObject.componentName == "FeesAndChargesDetails") {
