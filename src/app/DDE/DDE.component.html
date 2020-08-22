@@ -38,7 +38,7 @@
                             <app-score-card #scorecard class="col-sm-4 col-md-4 col-lg-4 p-0" [scoreData]="data"
                                 [applicationId]="ApplicationId" *ngFor="let data of headerScoreCard">
                             </app-score-card>
-                            <span class="refresher"></span>
+                            <span class="refresher" (click)="refreshScoreData()"></span>
                         </div>
                     </div>
                     <div class="col-12  col-sm-12 col-md-12 res-pr-hide dde-tab-btn-div d-flex"

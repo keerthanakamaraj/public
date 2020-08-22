@@ -23,7 +23,7 @@
 
   <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
     <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
-      <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" *ngFor="let data of headerScoreCard">
+      <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" [applicationId]="applicationId" *ngFor="let data of headerScoreCard">
       </app-score-card>
     </div>
     <div class="header-status-container col-sm-6 col-md-6 col-lg-6">

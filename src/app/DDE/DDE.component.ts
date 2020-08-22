@@ -39,7 +39,7 @@ import { AddressDetailsComponent } from '../AddressDetails/AddressDetails.compon
 import { PersonalInterviewComponent } from '../PersonalInterview/personal-interview.component'
 import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData, RloCommonData } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
@@ -48,6 +48,7 @@ import { ScoreCardResultComponent } from '../score-card-result/score-card-result
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 import { IModalData } from '../popup-alert/popup-interface';
 import { CollateralParentComponent } from '../collateral/collateral-parent/collateral-parent.component';
+import { IheaderScoreCard } from '../Interface/masterInterface';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -213,7 +214,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   ];
 
   formsMenuList: Array<any> = [];
-  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
+  showExpandedHeader: boolean = false;//state of header i.e expanded-1 or collapsed-0 
 
   progressStatusObject: any = {
     manditorySection: 6,
@@ -225,7 +226,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   childToParentSubjectSubscription: Subscription;
   customersList = new Map();
 
-  headerScoreCard = [
+  headerScoreCard: IheaderScoreCard[] = [
     {
       type: "Final DBR",
       score: 54,
@@ -498,7 +499,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //is disabled when navigating to DDE from operations
     if (this.services.rloCommonData.makeDdeDisabled)
       this.services.rloCommonData.makeDdeDisabled = false;
-  } 
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -526,6 +527,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       // this.onFormLoad();
       // this.checkForHTabOverFlow();
     });
+
+    // setTimeout(() => {
+    //   window.scrollTo(0, 0);
+    // }, 3000);
+
     this.onFormLoad();
   }
   clearError() {
@@ -974,10 +980,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           section.isActive = false;
           // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
           if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC') {
-            if (section.id == "CollateralDetails"){
+            if (section.id == "CollateralDetails") {
               element.splice(i, 1);
               i--;
-            }             
+            }
           }
         }
       });
@@ -991,7 +997,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           const section = element[i];
           section.isActive = false;
           if (this.isLoanCategory) {//ie. loan type credit card
-            if (section.id == "CreditCardDetails"){
+            if (section.id == "CreditCardDetails") {
               element.splice(i, 1);
               i--;
             }
@@ -1004,8 +1010,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
           }
           else {//CC type loan
-            if (section.id == "LoanDetails")
-            {
+            if (section.id == "LoanDetails") {
               element.splice(i, 1);
               i--;
             }
@@ -1013,15 +1018,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
 
           // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-          if (section.id == "PropertyDetails" && section.isOptional){
-          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML") {
-            section.isOptional = false;
-            this.progressStatusObject.manditorySection += 1;
-          }else{
+          if (section.id == "PropertyDetails" && section.isOptional) {
+            if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML") {
+              section.isOptional = false;
+              this.progressStatusObject.manditorySection += 1;
+            } else {
               element.splice(i, 1);
               i--;
+            }
           }
-        }
         }
       });
       this.injectDynamicComponent(defaultSection, false, 0, 0,);
@@ -1633,6 +1638,35 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   redoProgressBarCalulation() {
     console.log(this.progressStatusObject);
+  }
+
+  refreshScoreData() {
+    forkJoin(
+      this.services.rloCommonData.invokeInterface(this.ApplicationId, "policyScore"),
+      this.services.rloCommonData.invokeInterface(this.ApplicationId, "applicationScore")
+    ).subscribe((response) => {
+      console.log(response);
+      this.setPolicyScore(response[0]);
+      this.setApplicationScore(response[1]);
+    });
+  }
+
+  setPolicyScore(response: any) {
+    if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
+      this.headerScoreCard[1].score = response.ouputdata.OVERALLSCORE;
+    }
+  }
+
+  setApplicationScore(response: any) {
+    if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
+      this.headerScoreCard[2].score = response.ouputdata.OVERALLSCORE;
+    }
+  }
+
+  setDbrScore(response: any){
+    if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
+      this.headerScoreCard[0].score = response.ouputdata.OVERALLSCORE;
+    }
   }
 
 }

@@ -367,6 +367,19 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   }
 
   plotDoughnutChart(response) {
+    let colorListObj = [
+      { stage: "QDE", color: "#002438" },
+      { stage: "DDE", color: "#026297" },
+      { stage: "CPV", color: "#018ac3" },
+      { stage: "Underwriter", color: "#4b7d92" },
+      { stage: "Operation", color: "#b2d8e7" },
+      { stage: "Approve", color: "#92d050" },
+      { stage: "Reject", color: "#c0504d" },
+      { stage: "withdraw", color: "#7f7f7f" }
+    ];
+
+    let colorArray = [];
+
     console.log("DEEP | plotting", response);
     let dataList = response;
 
@@ -378,11 +391,12 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       dataList.forEach(element => {
         dataPoints.push(element.COUNT);
         dataLabels.push(element.FORMNAME);
+        let obj = colorListObj.find(el => el.stage == element.FORMNAME);
+        colorArray.push(obj.color);
         pendingProposals += Number(element.COUNT);
       });
     }
     this.proposalCount = pendingProposals;
-    let proposalCount = pendingProposals.toString();
 
     console.log(pendingProposals, this.chart);
     if (this.chart != undefined) {
@@ -394,13 +408,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       datasets: [
         {
           data: dataPoints,
-          backgroundColor: ['#012438',
-            '#037cb1',
-            '#54a8d4',
-            '#560d28',
-            '#a7a931',
-            '#a9318a'
-          ],
+          backgroundColor: colorArray
         }]
     };
 

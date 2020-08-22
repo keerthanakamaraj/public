@@ -342,7 +342,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
-    appId = 2483;
+    //appId = 2483;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -855,12 +855,26 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getScores() {
-    console.log(this.applicationId);
-    let userId = sessionStorage.getItem('userId');
-    //let url = "/DashboardChart?fromDate=" + startDate + "&toDate=" + endDate + "&userId=" + userId + "&processId=RLO_Process";
-    let url = "/ApplicationScoreDetails/" + this.applicationId;
-    //url = "/ApplicationScoreDetails/2483";
-    this.services.http.fetchApi(url, 'GET', null, '/rlo-de').subscribe(
+    let inputMap = new Map();
+    inputMap.clear();
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+
+    criteriaJson.FilterCriteria.push({
+      "columnName": "ApplicationId",
+      "columnType": "String",
+      "conditions": {
+        "searchType": "equals",
+        "searchText": this.applicationId
+      }
+    });
+    inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
+    inputMap.set('QueryParam.ApplicationId', this.applicationId);
+
+    console.log(inputMap);
+
+    let url = "/ApplicationScoreDetails";
+    //url = "/ApplicationScoreDetails/2483"; '/LiabilityDetails', 'GET', inputMap, '/rlo-de'
+    this.services.http.fetchApi(url, 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
         console.warn("Application details api")

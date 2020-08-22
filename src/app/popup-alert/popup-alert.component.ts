@@ -80,6 +80,12 @@ export class PopupAlertComponent implements OnInit {
       componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
       componentInstance.readOnly = true;
 
+      if(this.modalObject.componentName == "CustomerDetails"){
+        setTimeout(() => {
+          componentInstance.loanCategoryChanged(false);
+        }, 1000);    
+      }
+
       if (this.modalObject.componentName == "FeesAndChargesDetails") {
         const parentData: IAmortizationForm = undefined;
         let obj = {

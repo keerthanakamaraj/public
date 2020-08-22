@@ -399,8 +399,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Total Installment Amount",
                 subTitle: this.TotalInstallmentAmount,
                 type: "basic",
-                modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'Amortization',
-                //modalSectionName: "Amortization",
+                //modalSectionName: this.TotalInstallmentAmount == 'NA' ? '' : 'Amortization',
+                modalSectionName: "",
                 formatToCurrency: true
             },
             {

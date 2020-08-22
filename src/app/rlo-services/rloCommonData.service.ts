@@ -853,30 +853,35 @@ export class RloCommonData {
 
   //called in scorecard.component on refresh btn policyScore->scorecard
   invokeInterface(applicationId: any, type: "policyScore" | "applicationScore") {
-    let interfaceId, apiName;
+    const promise = new Promise((resolve, reject) => {
+      let interfaceId, apiName;
 
-    if (type == "applicationScore") {
-      interfaceId = "INT008";
-      apiName = "ScoreCard";
-    }
-    else {
-      interfaceId = "INT007";
-      apiName = "policyCheck";
-    }
-
-    let inputMap = this.generateRetriggerRequestJson(applicationId, interfaceId);
-
-    this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.retriggerScoreResult(res, apiName);
-      }, async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+      if (type == "applicationScore") {
+        interfaceId = "INT008";
+        apiName = "ScoreCard";
       }
-    );
+      else {
+        interfaceId = "INT007";
+        apiName = "policyCheck";
+      }
+
+      let inputMap = this.generateRetriggerRequestJson(applicationId, interfaceId);
+
+      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          let res = httpResponse.body;
+          resolve(res);
+          this.retriggerScoreResult(res, apiName);
+        }, async (httpError) => {
+          resolve(null);
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+          //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+        }
+      );
+    });
+    return promise;
   }
 
   retriggerScoreResult(res, apiName: string) {

@@ -36,7 +36,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
   ngAfterViewInit() {
     this.subTitle = this.cardFieldMetaData.subTitle;
-    console.log(this.cardFieldMetaData, this.applicationId, this.borrowerSeq, this.componentCode);
+    // console.log(this.cardFieldMetaData, this.applicationId, this.borrowerSeq, this.componentCode);
 
     if (this.cardFieldMetaData.subTitle != "NA" && this.cardFieldMetaData.formatToCurrency) {
       this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
@@ -48,7 +48,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   }
 
   onButtonClick() {
-    console.log(this.cardFieldMetaData);
+    // console.log(this.cardFieldMetaData);
 
     const obj: IGeneralCardData = {
       name: '',
