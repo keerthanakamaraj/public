@@ -60,16 +60,16 @@ export class LoanHandlerComponent extends RLOUIHandlerComponent implements OnIni
         const storePositive = this.MainComponent.MarginRate.getFieldValue().split("+").join(0);
         CalculateNetInterest = Number(this.MainComponent.InterestRate.getFieldValue()) + Number(storePositive)
       }
-    
+
       else if (this.MainComponent.MarginRate.getFieldValue().startsWith('-')) {
         const storeNegative = this.MainComponent.MarginRate.getFieldValue().split("-").join(0);
         CalculateNetInterest = Number(this.MainComponent.InterestRate.getFieldValue()) - Number(storeNegative)
-      }else {
+      } else {
         CalculateNetInterest = Number(this.MainComponent.InterestRate.getFieldValue()) + Number(this.MainComponent.MarginRate.getFieldValue())
       }
 
       this.MainComponent.NetInterestRate.setValue(CalculateNetInterest.toFixed(2));
-      
+
     }
 
   }
@@ -77,8 +77,8 @@ export class LoanHandlerComponent extends RLOUIHandlerComponent implements OnIni
 
 
   SetValue() {
-    if (this.MainComponent.MoneyInstallment.getFieldValue() == undefined) {
-      this.MainComponent.MoneyInstallment.setValue('0.00')
+    if (this.MainComponent.EMIAmount.getFieldValue() == undefined) {
+      this.MainComponent.EMIAmount.setValue('0.00')
     }
     if (this.MainComponent.TotalInstallmentAmt.getFieldValue() == undefined) {
       this.MainComponent.TotalInstallmentAmt.setValue('-NA-')

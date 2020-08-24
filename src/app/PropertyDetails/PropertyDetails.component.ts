@@ -389,7 +389,11 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.SellerRegion.setValue(PropertyElement['SLRegion']);
             this.SellerState.setValue(PropertyElement['SLState']);
             this.SellerMobileNo.setValue(PropertyElement['SLMobileNo']);
-            this.HidePropertySeq.setValue(PropertyElement['PropertySeq'])
+            this.HidePropertySeq.setValue(PropertyElement['PropertySeq']);
+            // let disburalRecords=PropertyElement['DisbursalRecords'];
+            // if(disburalRecords){
+            // this.disbursalInputGrid.parseDisbursalJson(disburalRecords);
+            // }
           });
 
           this.revalidate().then((errors) => {
@@ -421,14 +425,14 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     var noOfError: number = await this.revalidate();
     if (noOfError == 0) {
 
-        const totProjCompletionPercent=this.disbursalInputGrid.getTotProjCompletionPercent();
-      if(totProjCompletionPercent!=100){
+      const totProjCompletionPercent = this.disbursalInputGrid.getTotProjCompletionPercent();
+      if (totProjCompletionPercent != 100) {
         this.services.alert.showAlert(2, 'rlo.error.property.tot-proj-completion-percent', -1);
         return;
-      } 
-        const expectedTotAmtToBeDisbursed:number=parseFloat(this.CostOfProperty.getFieldValue())-parseFloat(this.DownPaymentAmount.getFieldValue());
-      const totAmtTobeDisbursed=this.disbursalInputGrid.getTotAmtToBeDisbursed();
-        if(totAmtTobeDisbursed.toFixed(2)!=expectedTotAmtToBeDisbursed.toFixed(2)){
+      }
+      const expectedTotAmtToBeDisbursed: number = parseFloat(this.CostOfProperty.getFieldValue()) - parseFloat(this.DownPaymentAmount.getFieldValue());
+      const totAmtTobeDisbursed = this.disbursalInputGrid.getTotAmtToBeDisbursed();
+      if (totAmtTobeDisbursed.toFixed(2) != expectedTotAmtToBeDisbursed.toFixed(2)) {
         this.services.alert.showAlert(2, 'rlo.error.property.tot-disburse-amt', -1);
         return;
       }
@@ -953,7 +957,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       }
     }
   }
- 
+
 
   async PerOfProjectCompletion_blur(event) {
     // console.log("shweta :: property :: project completion %",this.PerOfProjectCompletion.getFieldValue());

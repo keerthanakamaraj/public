@@ -21,6 +21,7 @@ const customCss: string = '';
 export class DisbursInputGridComponent extends GridComponent implements OnInit {
   @ViewChildren('ProjectCompletion') ProjectCompletion: QueryList<TextBoxComponent>;
   @ViewChildren('DisbursementAmount') DisbursementAmount: QueryList<AmountComponent>;
+  // @ViewChildren('DisbursalSeq') DisbursalSeq: QueryList<HiddenComponent>;
   @ViewChildren('deleteRow') DeleteRow: QueryList<AmountComponent>;
   @ViewChildren('AddRow') AddRow: QueryList<AmountComponent>;
   s: string = undefined;
@@ -29,7 +30,7 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
     super(services, cdRef);
     this.value = new DisbursInputGridModel();
     this.componentCode = 'DisbursInputGrid';
-    this.initRowCount = 1;
+    this.initRowCount = 0;
     this.uniqueColumns = [];
     this.primaryColumns = [];
 
@@ -57,7 +58,7 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
     });
   }
   async gridLoad() {
-    //this.showHideAddRowIcon(0);
+    this.showHideAddRowIcon(0);
   }
   async onRowAdd(rowNo) {
     this.showHideAddRowIcon(0);
@@ -106,5 +107,14 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
     return addInfo;
   }
   fieldDependencies = {}
+
+  parseDisbursalJson(DisbursalResp) {
+    DisbursalResp.forEach(element => {
+      let rowData = { 'DisbursementAmount': element.DisbursalAmt, 'ProjectCompletion': 50, 'DisbursalSeq': element.DisbursalSeq };
+      let rowCounter = this.addRow(rowData);
+      console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
+    });
+    console.log("shweta :: complete record fetched", this.value.rowData);
+  }
 
 }

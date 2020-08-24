@@ -47,7 +47,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('LD_DISBURMENT_MONEY', { static: false }) LD_DISBURMENT_MONEY: ButtonComponent;
   @ViewChild('LD_RECEIVE_MONEY', { static: false }) LD_RECEIVE_MONEY: ButtonComponent;
   @ViewChild('LD_GEN_AMOR_SCH', { static: false }) LD_GEN_AMOR_SCH: ButtonComponent;
-  @ViewChild('MoneyInstallment', { static: false }) MoneyInstallment: ReadOnlyComponent;
+  @ViewChild('EMIAmount', { static: false }) EMIAmount: ReadOnlyComponent;
   @ViewChild('TotalInterestAmount', { static: false }) TotalInterestAmount: ReadOnlyComponent;
   @ViewChild('TotalInstallmentAmt', { static: false }) TotalInstallmentAmt: ReadOnlyComponent;
   @ViewChild('MarginMoney', { static: false }) MarginMoney: ReadOnlyComponent;
@@ -91,7 +91,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       this.revalidateBasicField('RepaymentFrequency', false, showErrors),
       this.revalidateBasicField('RepaymentOption', false, showErrors),
       this.revalidateBasicField('RepaymentAccNo', false, showErrors),
-      this.revalidateBasicField('MoneyInstallment', false, showErrors),
+      this.revalidateBasicField('EMIAmount', false, showErrors),
       this.revalidateBasicField('TotalInterestAmount', false, showErrors),
       this.revalidateBasicField('TotalInstallmentAmt', false, showErrors),
       this.revalidateBasicField('MarginMoney', false, showErrors),
@@ -263,8 +263,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
             this.MarginMoney.setValue(LoanElement['MarginMoney']);
-            this.monthlyinstallmentAmt = LoanElement['MoneyInstallment'];
-            this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
+            this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
+            this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
             // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             // this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
             this.totInterestAmt = LoanElement['TotalInterestAmount'];
@@ -430,7 +430,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.RepaymentStartDate = updatedData.repaymentStartDate
     this.monthlyinstallmentAmt = updatedData.monthlyinstallmentAmt != undefined ?
       updatedData.monthlyinstallmentAmt : this.Handler.CalculateEMI();
-    this.MoneyInstallment.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
+    this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
     this.Handler.SetValue();
     this.LoanGridCalculation(this.monthlyinstallmentAmt);
   }
@@ -458,7 +458,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       inputMap.set('Body.LoanDetails.RepaymentFrequency', this.RepaymentFrequency.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentOption', this.RepaymentOption.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentAccNo', this.RepaymentAccNo.getFieldValue());
-      inputMap.set('Body.LoanDetails.MoneyInstallment', this.monthlyinstallmentAmt);
+      inputMap.set('Body.LoanDetails.EMIAmount', this.monthlyinstallmentAmt);
       inputMap.set('Body.LoanDetails.DisbursalDate', this.DisbursalDate);
       inputMap.set('Body.LoanDetails.RepaymentStartDate', this.RepaymentStartDate);
       // if (this.TotalInterestAmount.getFieldValue() == '-NA-') {
@@ -511,8 +511,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             else if (err['ErrorElementPath'] == 'LoanDetails.TotalInterestAmount') {
               this.TotalInterestAmount.setError(err['ErrorDescription']);
             }
-            else if (err['ErrorElementPath'] == 'LoanDetails.MoneyInstallment') {
-              this.MoneyInstallment.setError(err['ErrorDescription']);
+            else if (err['ErrorElementPath'] == 'LoanDetails.EMIAmount') {
+              this.EMIAmount.setError(err['ErrorDescription']);
             }
             else if (err['ErrorElementPath'] == 'LoanDetails.RepaymentAccNo') {
               this.RepaymentAccNo.setError(err['ErrorDescription']);
