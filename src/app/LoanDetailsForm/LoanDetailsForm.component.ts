@@ -68,8 +68,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   ApplicationId: any
   LoanArray = [];
   modalDataSubjectSubscription: Subscription;
-  DisbursalDate: string = undefined;
-  RepaymentStartDate: string = undefined;
+  DisbursalDate: Date = undefined;
+  RepaymentStartDate: Date = undefined;
   totInterestAmt: any;
   totInstallmentAmt: any;
   monthlyinstallmentAmt: any;
