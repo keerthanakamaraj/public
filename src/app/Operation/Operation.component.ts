@@ -244,6 +244,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     }, 2000);
   }
 
+  openLetter(lettername){
+    window.open('/assets/documents/' + lettername, '_new');
+  }
+
+
   fetchLetter() {
     let inputMap = new Map();
     inputMap.clear();
