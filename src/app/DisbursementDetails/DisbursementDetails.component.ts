@@ -169,6 +169,27 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     this.passNewValue(this.value);
   }
 
+  disbursal_date(selectedDate) {
+    const moment = require('moment');
+    const currentDate = moment();
+    currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+    console.log("current date :: ", currentDate._d);
+    console.log("selected date :: ", selectedDate._d);
+    if (selectedDate < currentDate) {
+      return false;
+    }
+    return true;
+  }
+  async DisbursalDate_blur(event) {
+    let inputMap = new Map();
+    if (!this.disbursal_date(this.DisbursalDate.getFieldValue())) {
+      this.DisbursalDate.setError('Please select valid disbursal date')
+      return 1;
+      // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
+      // this.OD_DT_OF_INCPTN.onReset();
+    }
+  }
   ngOnInit() {
 
     if (this.formCode == undefined) { this.formCode = 'DisbursementDetails'; }
