@@ -83,6 +83,7 @@ export interface ISelectedDateRange {
 }
 
 export interface IheaderScoreCard {
+    id: 'DBR' | 'Policy' | 'ScoreCard';
     type: string;
     score: number;
 }

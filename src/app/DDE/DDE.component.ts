@@ -228,16 +228,19 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   headerScoreCard: IheaderScoreCard[] = [
     {
+      id: "DBR",
       type: "Final DBR",
-      score: 54,
+      score: 0,
     },
     {
+      id: "Policy",
       type: "Policy Score",
-      score: 36,
+      score: 0,
     },
     {
+      id: "ScoreCard",
       type: "Application Score",
-      score: 75,
+      score: 0,
     }
   ];
 
@@ -485,6 +488,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.setReadOnly(this.readOnly);
     }
 
+    this.getScores();//get scores on page load
   }
 
   ngOnDestroy() {
@@ -1663,10 +1667,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
   }
 
-  setDbrScore(response: any){
+  setDbrScore(response: any) {
     if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
       this.headerScoreCard[0].score = response.ouputdata.OVERALLSCORE;
     }
+  }
+
+  getScores() {
+    this.services.rloCommonData.getInitialScores(this.ApplicationId).then((response: any) => {
+      console.warn(response);
+      if (response != null) {
+        response.ApplicationScoreDetails.forEach(element => {
+          let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
+          selectedObj.score = Math.round(element.Score);
+        });
+      }
+      else {
+        this.headerScoreCard.forEach(element => {
+          element.score = 0;
+        });
+      }
+    });
   }
 
 }

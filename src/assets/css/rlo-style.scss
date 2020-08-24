@@ -3166,10 +3166,12 @@ rlo-ui-card-field {
       }
     }
 
-    // .proposal-container {
-    //   max-height: 216px;
-    //   min-height: 216px;
-    // }
+    .graph-container {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 194px;
+    }
   }
 
   .broadcast-card {
@@ -3264,7 +3266,9 @@ rlo-ui-card-field {
     font-size: 12px;
   }
 
-  .doughnut-txt {}
+  .doughnut-txt {
+    position: absolute;
+  }
 
   // date range
   .multi-date-select {
@@ -3297,7 +3301,7 @@ rlo-ui-card-field {
 
   .absolute-center {
     position: absolute;
-    top: 47%;
+    top: 6.3rem;
     left: 50%;
     transform: translate(-50%, -50%);
   }
@@ -3305,7 +3309,7 @@ rlo-ui-card-field {
   .text-center {
     text-align: center;
 
-    span{
+    span {
       font-size: 14px;
       font-weight: 600;
       color: #6f6f6f;
@@ -3313,7 +3317,7 @@ rlo-ui-card-field {
 
     p {
       font-size: 14px;
-      margin-top: 4px;
+      // margin-top: 4px;
       font-weight: 600;
       color: #6f6f6f;
     }

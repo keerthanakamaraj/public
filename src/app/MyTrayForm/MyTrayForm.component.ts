@@ -88,22 +88,22 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   ];
   public doughnutChartType: ChartType = 'doughnut';
 
-  public chartOptions: ChartOptions = {
-    cutoutPercentage: 80,
-    spanGaps: false,
-    legend: {
-      position: "bottom",
-      labels: {
-        fontSize: 10,
-        usePointStyle: true
-      }
-    },
-    elements: {
-      arc: {
-        borderWidth: 0
-      }
-    }
-  }
+  // public chartOptions: ChartOptions = {
+  //   cutoutPercentage: 80,
+  //   spanGaps: false,
+  //   legend: {
+  //     position: "bottom",
+  //     labels: {
+  //       fontSize: 10,
+  //       usePointStyle: true
+  //     }
+  //   },
+  //   elements: {
+  //     arc: {
+  //       borderWidth: 0
+  //     }
+  //   }
+  // }
 
   public donutColors = [
     {
@@ -132,6 +132,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   }
 
   chart: any;
+  chartOptions: Chart.ChartConfiguration;
 
   graphFilterList: any = [
     { name: 'All', isSelected: false },
@@ -218,7 +219,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       this.checkForHTabOverFlow();
     });
 
-    this.getFilter("1W")
+    this.getFilter("1W");
     this.cdRef.detectChanges();
   }
   clearError() {
@@ -367,6 +368,9 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   }
 
   plotDoughnutChart(response) {
+
+    // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
+
     let colorListObj = [
       { stage: "QDE", color: "#002438" },
       { stage: "DDE", color: "#026297" },
@@ -398,7 +402,6 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     }
     this.proposalCount = pendingProposals;
 
-    console.log(pendingProposals, this.chart);
     if (this.chart != undefined) {
       this.chart.destroy();
     }
@@ -413,7 +416,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     };
 
     this.doughnutChartContext = this.doughnutChart.nativeElement;
-    this.chart = new Chart(this.doughnutChartContext, {
+
+    this.chartOptions = {
       type: 'doughnut',
       data: dataSets,
       options: {
@@ -424,6 +428,32 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
             fontSize: 10,
             usePointStyle: true
           }
+          ,
+          //onClick: updateCount(e, legendItem)
+          onClick: ((e, legendItem) => {
+            console.log(e, legendItem);
+            pendingProposals = 0;
+            var index = legendItem.index;
+            var ci = this.chart;
+            //var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+            console.log(ci.data, ci.id);
+
+            let obj = ci.data.datasets[0]._meta[ci.id].data;
+
+            for (let i = 0; i < obj.length; i++) {
+              const element = obj[i];
+              console.log(ci.data.datasets[0].data[i]);
+              if (i == index) {
+                element.hidden = element.hidden ? false : true;
+              }
+
+              if (!element.hidden)
+                pendingProposals += Number(ci.data.datasets[0].data[i]);
+            }
+            this.updateCount(pendingProposals);
+            ci.update();
+          })
         },
         elements: {
           arc: {
@@ -443,19 +473,48 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       //       ctx.textBaseline = "middle";
       //       var fontSize = (height / 11).toFixed(2);
       //       ctx.font = fontSize + "px sans-serif";
-      //       //ctx.fillText("Total Pending", 140, 73);
+      //       ctx.fillText("Total Pending", 140, 73);
 
       //       var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2) - 10;
       //       var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2) + 20;
       //       ctx.textBaseline = "middle";
       //       ctx.font = fontSize + "sans-serif";
-      //       //ctx.fillText(proposalCount, centerX, centerY);
+      //       ctx.fillText(this.proposalCount, centerX, centerY);
       //       ctx.save();
       //     }
       //   }
       // }]
-    });
 
+    }
+
+    this.chart = new Chart(this.doughnutChartContext, this.chartOptions);
+
+    //this.chart.chartOptions = this.chartOptions;
   }
 
+  updateCount(count: any): any {
+    console.error("DEEP | count", count);
+    this.proposalCount = count;
+    // console.log(e, legendItem);
+    // var index = legendItem.index;
+    // var ci = this.chart;
+    // //var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+    // console.log(ci.data, ci);
+
+    // let obj = ci.data.datasets[0]._meta[0].data;
+
+    // for (let i = 0; i < obj.length; i++) {
+    //   const element = obj[i];
+    //   console.log(element);
+    //   console.log(ci.data.datasets[0].data);
+    //   if (i == index) {
+    //     element.hidden = element.hidden ? false : true;
+    //   }
+    //   this.proposalCount = 0;
+
+    // }
+
+    // ci.update();
+  }
 }

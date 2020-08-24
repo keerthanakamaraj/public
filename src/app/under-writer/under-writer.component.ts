@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
-import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
+import { ICardMetaData, IUwCustomerTab, IGeneralCardData, IheaderScoreCard } from '../Interface/masterInterface';
 import { RloCommonData } from '../rlo-services/rloCommonData.service';
 import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
@@ -99,18 +99,21 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   selectedTab: string = "customer";
   updateMasonryLayout: boolean = false;
 
-  headerScoreCard = [
+  headerScoreCard: IheaderScoreCard[] = [
     {
+      id: "DBR",
       type: "Final DBR",
-      score: 54,
+      score: 0,
     },
     {
+      id: "Policy",
       type: "Policy Score",
-      score: 36,
+      score: 0,
     },
     {
+      id: "ScoreCard",
       type: "Application Score",
-      score: 75,
+      score: 0,
     }
   ];
 
@@ -855,34 +858,20 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   }
 
   getScores() {
-    let inputMap = new Map();
-    inputMap.clear();
-    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-
-    criteriaJson.FilterCriteria.push({
-      "columnName": "ApplicationId",
-      "columnType": "String",
-      "conditions": {
-        "searchType": "equals",
-        "searchText": this.applicationId
+    this.services.rloCommonData.getInitialScores(this.applicationId).then((response: any) => {
+      console.warn(response);
+      if (response != null) {
+        response.ApplicationScoreDetails.forEach(element => {
+          let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
+          selectedObj.score = Math.round(element.Score);
+        });
+      }
+      else {
+        this.headerScoreCard.forEach(element => {
+          element.score = 0;
+        });
       }
     });
-    inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
-    inputMap.set('QueryParam.ApplicationId', this.applicationId);
-
-    console.log(inputMap);
-
-    let url = "/ApplicationScoreDetails";
-    //url = "/ApplicationScoreDetails/2483"; '/LiabilityDetails', 'GET', inputMap, '/rlo-de'
-    this.services.http.fetchApi(url, 'GET', inputMap, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        const res = httpResponse.body;
-        console.warn("Application details api")
-        console.log(res);
-      },
-      async (httpError) => {
-
-      });
   }
 
 }
