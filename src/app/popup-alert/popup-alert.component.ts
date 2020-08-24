@@ -70,7 +70,7 @@ export class PopupAlertComponent implements OnInit {
       isLoanCategory = headerObj.isLoanCategory;
     }
 
-    console.log("______", this.modalObject);
+    console.log("DEEP | popup alert object______", this.modalObject);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
     const viewContainerRef = this.FormHost;
@@ -99,6 +99,10 @@ export class PopupAlertComponent implements OnInit {
           "ApplicationId": this.modalObject.applicationId
         }
         componentInstance.parentData = obj;
+      }
+
+      if (this.modalObject.componentName == 'Amortization') {
+        componentInstance.parentData = this.services.rloCommonData.amortizationModalDataUW
       }
 
       // async brodcastProdCategory(event) {

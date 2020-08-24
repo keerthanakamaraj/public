@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
-import { ICardMetaData, IUwCustomerTab, IGeneralCardData, IheaderScoreCard } from '../Interface/masterInterface';
+import { ICardMetaData, IUwCustomerTab, IGeneralCardData, IheaderScoreCard, IAmortizationForm } from '../Interface/masterInterface';
 import { RloCommonData } from '../rlo-services/rloCommonData.service';
 import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
@@ -248,6 +248,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   maxCardLimit: any = "NA";
 
+  customersList: any;//list of customers
+
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
     this.services.rloui.customerListDropDownArray = [];
@@ -312,27 +314,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         }
       },
       async (httpError) => {
-        const err = httpError['error'];
-        // if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-        //   if (err['ErrorElementPath'] === 'ServiceCode') {
-        //     this.HideServiceCode.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'ProcessId') {
-        //     this.HideProcessId.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'TaskId') {
-        //     this.HideTaskId.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'TENANT_ID') {
-        //     this.HideTenantId.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'UserId') {
-        //     this.HideUserId.setError(err['ErrorDescription']);
-        //   }
-        // }
         this.services.alert.showAlert(2, 'rlo.error.claim.dde', -1);
       }
     );
   }
 
   getUnderWriterData() {
-    //valid application id -  2141(Loan details), 2460(has property) 2483(dont edit), 2691(al data),2148(liability),2523(disburse)
+    //valid application id -  2141(Loan details), 2460(has property) 2483(dont edit), 2691(al data),2148(liability),2523(disburse),2797
 
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
@@ -393,7 +381,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
         this.services.rloui.customerListDropDownArray.push({ id: element.BorrowerSeq, text: element.FullName });
       }
-
     });
 
     // let serviceObj = {
@@ -413,6 +400,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     console.log(this.customerMasterJsonData);
 
     let productCategory = this.customerMasterJsonData.productCategory;
+    this.customersList = this.customerMasterJsonData.CustomerDetails;
+
+    this.setAmortizationScheduleObj();
+
     let validSectionList = [];
 
     for (let i = 0; i < this.allSectionsCardData[1].cardList.length; i++) {
@@ -872,6 +863,34 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         });
       }
     });
+  }
+
+  setAmortizationScheduleObj() {
+    let globlaObj = this.services.rloCommonData.globalApplicationDtls;
+    let dataObj: IAmortizationForm = {};
+
+    dataObj.LoanAmountRequested = globlaObj.LoanAmount;
+    dataObj.NetInterestRate = "4.95"
+    dataObj.InterestRate = globlaObj.InterestRate;
+    dataObj.ApplicationId = this.applicationId;
+
+    dataObj.Tenure = globlaObj.Tenure + " " + globlaObj.TenurePeriodName;
+
+    this.customersList.forEach(element => {
+      if (element.CustomerType == 'B') {
+        // dataObj.BLoanOwnership = element.LoanOwnership;
+        dataObj.BLoanOwnership = 100;
+        dataObj.BLoanAmtShare = this.getPercentage(globlaObj.LoanAmount, 100);
+      } else if (element.CustomerType == 'CB' && element.LoanOwnership > 0) {
+        dataObj.CBLoanOwnership = element.LoanOwnership;
+        dataObj.CBLoanAmountShare = this.getPercentage(globlaObj.LoanAmount, 0);
+      }
+    });
+    this.services.rloCommonData.amortizationModalDataUW = dataObj;
+  }
+
+  getPercentage(amt, percent) {
+    return ((amt / 100) * percent).toFixed(2);
   }
 
 }

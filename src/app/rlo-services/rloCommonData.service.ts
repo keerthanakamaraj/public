@@ -49,6 +49,9 @@ export interface IGlobalApllicationDtls {
   LoanTenurePeriodName?: string;
   ARN?: string;
   LoanAmount?: string;
+  InterestRate?: string;
+  Tenure?: string;
+  TenurePeriodName?: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -73,6 +76,9 @@ export class RloCommonData {
   componentLvlDataSubject = new Subject<IComponentLvlData>();
   currentRoute: string = "";
   globalApplicationDtls: IGlobalApllicationDtls = {};
+
+  amortizationModalDataUW: any;//stored data used for amortization schedule modal  
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -909,12 +915,12 @@ export class RloCommonData {
   //scoreCard invoke interface and score card api
 
   //get score data in DDE and UW
-  getInitialScores(applicationId:any){
+  getInitialScores(applicationId: any) {
     const promise = new Promise((resolve, reject) => {
       let inputMap = new Map();
       inputMap.clear();
       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-  
+
       criteriaJson.FilterCriteria.push({
         "columnName": "ApplicationId",
         "columnType": "String",
@@ -925,9 +931,9 @@ export class RloCommonData {
       });
       inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
       inputMap.set('QueryParam.ApplicationId', applicationId);
-  
+
       console.log(inputMap);
-  
+
       let url = "/ApplicationScoreDetails";
       //url = "/ApplicationScoreDetails/2483"; '/LiabilityDetails', 'GET', inputMap, '/rlo-de'
       this.http.fetchApi(url, 'GET', inputMap, '/rlo-de').subscribe(
