@@ -245,7 +245,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   }
 
   openLetter(lettername){
-    window.open('/assets/documents/' + lettername, '_new');
+    window.open('./assets/documents/' + lettername, '_new');
   }
 
 
