@@ -1408,7 +1408,8 @@
     "LD_DISBURMENT_MONEY": "Disbursement Details",
     "LD_RECEIVE_MONEY": "Receive Initial Money",
     "LD_SAVE_BTN": "SAVE",
-    "LD_CLEAR_BTN": "CLEAR"
+    "LD_CLEAR_BTN": "CLEAR",
+    "EMIAmount": "Monthly Installments"
 
   },
   "SearchCustomerGrid": {
