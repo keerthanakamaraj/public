@@ -381,6 +381,7 @@ export class LoanDetails implements IDeserializable {
     public AmortizationAmount: string = "NA";
     public MarginMoney: string = "NA";
     public TotalInterestAmount: string = "NA";
+    public NetInterestRate: any = 0;//used in amortization modal popup
     public common: Common;
 
     deserialize(input: any): this {
