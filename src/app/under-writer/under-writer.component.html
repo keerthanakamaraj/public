@@ -56,8 +56,7 @@
         <div class="cards-section" style="width:100% !important;height:100% !important;">
 
           <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='customer'">
-            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
-              [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngClass]="{'d-block' : customerSectionLoaded}">
               <div class="card-layout-container">
                 <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
               </div>
@@ -69,8 +68,7 @@
               </div>
             </div>
 
-            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
-              [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngClass]="{'d-block' : customerSectionLoaded}">
               <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
                 <div class="blank-container" *ngIf="cBlankCardData.length">
                   <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>
