@@ -333,7 +333,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
     console.error("*******", this.applicationId);
     let appId = this.applicationId;
-    //appId = 2483;
+    //appId = 1118;
 
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -854,7 +854,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       if (response != null) {
         response.ApplicationScoreDetails.forEach(element => {
           let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
-          selectedObj.score = Math.round(element.Score);
+          if (element.Score != undefined)
+            selectedObj.score = Math.round(element.Score);
         });
       }
       else {
@@ -870,7 +871,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     let dataObj: IAmortizationForm = {};
 
     dataObj.LoanAmountRequested = globlaObj.LoanAmount;
-    dataObj.NetInterestRate = "4.95"
+    dataObj.NetInterestRate = this.customerMasterJsonData.ApplicationDetails.LoanDetails.NetInterestRate;
     dataObj.InterestRate = globlaObj.InterestRate;
     dataObj.ApplicationId = this.applicationId;
 

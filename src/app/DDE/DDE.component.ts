@@ -1679,7 +1679,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (response != null) {
         response.ApplicationScoreDetails.forEach(element => {
           let selectedObj = this.headerScoreCard.find(x => x.id == element.ScoreId);
-          selectedObj.score = Math.round(element.Score);
+          if (element.Score != undefined)
+            selectedObj.score = Math.round(element.Score);
         });
       }
       else {
