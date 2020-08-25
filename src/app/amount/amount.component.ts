@@ -59,7 +59,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
   formatAmount(number, languageCode, minFraction, hideSymbol?: boolean) {
     // return this.services.formatAmount(number, languageCode, minFraction);
     // Dirty Fix
-    return this.services.formatAmount(number, languageCode, minFraction).substr(1);
+    return this.services.formatAmount(number, languageCode, minFraction).substr(3);
     // return this.services.formatAmount(number, languageCode, minFraction);
   }
 

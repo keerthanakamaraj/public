@@ -329,11 +329,14 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
-    switch (localStorage.getItem("currency.code.default")) {
-      case 'EUR': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
+    switch(localStorage.getItem("currency.code.default")){
+      case 'EUR':  this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
+      break;
+      case 'KES':  this.CURRENCY_IMG = './assets/icons/Ksh icon.svg';
+      break;
 
     }
-
+   
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
         // this.HD_PROD_CAT_NAME.setValue('Auto Loan');
@@ -419,13 +422,10 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       LoanTenure: header.Tenure,
       LoanTenurePeriodCode: header.TenurePeriodCode,
       LoanTenurePeriodName: header.TenurePeriodName,
-      ARN: header.ApplicationRefernceNo,
-      LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount,
-      InterestRate: header.InterestRate,
-      Tenure: header.Tenure,
-      TenurePeriodName: header.TenurePeriodName
+      ARN:header.ApplicationRefernceNo,
+      LoanAmount:this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
-    console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
+    console.log("shweta updated global interface",this.services.rloCommonData.globalApplicationDtls);
   }
 }
