@@ -28,12 +28,18 @@ export class CollateralListComponent extends FormCommonComponent implements OnIn
   }
 
   async loadCollateralDetails() {
+
+    console.log('---------------------------- loadCollateralDetails');
+
     // to get the collateral details and the mapped facilities to each collateral based on customer number
-    const facColLinkDtls = await this.utility.getEnrichmentService().getLinkedfacilities(this.custId).toPromise();
+    // const facColLinkDtls = await this.utility.getEnrichmentService().getLinkedfacilities(this.custId).toPromise();
+
     this.utility.getEnrichmentService().getCustomerCollateralDetails(this.custId).subscribe(
       data => {
         this.collateralList = (data && data['collateralDetails']) ? data['collateralDetails'] : [];
-        const linkedFacilities = facColLinkDtls ? facColLinkDtls['linkedFacilities'] : [];
+        // @CLO-RLO-Merge - linked facilities not required
+        // const linkedFacilities = facColLinkDtls ? facColLinkDtls['linkedFacilities'] : [];
+        const linkedFacilities = [];
         if (linkedFacilities && linkedFacilities.length > 0) {
           for (let j = 0; j < linkedFacilities.length; j++) {
             const index = this.collateralList.findIndex(obj => obj.collateralCode === linkedFacilities[j]['collateralCode']);
@@ -72,12 +78,17 @@ export class CollateralListComponent extends FormCommonComponent implements OnIn
   editCollateral(collDtl) {
     // on edit of collateral emits the collateralcode to parent component to reload
     // @CLO-RLO-Merge - app Service Integration Pending
-    // if (collDtl.collateralStatus === 'REL') {
-    //   this.appService.error(this.getLabel('COLL_MARKED_FOR_EXECUTION'));
-    //   return;
-    // } else {
-    //   this.appService.setCollateral((collDtl['collateralType']['typeCode']).trim());
-    //   this.editColl.emit(collDtl);
-    // }
+    if (collDtl.collateralStatus === 'REL') {
+      // this.appService.error(this.getLabel('COLL_MARKED_FOR_EXECUTION'));
+      console.log('COLL_MARKED_FOR_EXECUTION ');
+      return;
+    } else {
+      this.appService.setCollateral((collDtl['collateralType']['typeCode']).trim());
+      this.editColl.emit(collDtl);
+    }
+  }
+
+  formatAmount(amt){
+    return this.services.rloui.formatAmount(amt);
   }
 }

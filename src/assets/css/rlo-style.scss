@@ -3667,6 +3667,7 @@ rlo-ui-card-field {
     line-height: 17px;
     text-align: center;
     margin: 5px 0;
+    background-color: #ededed;
   }
 
   .btn-primary {
@@ -3693,59 +3694,6 @@ rlo-ui-card-field {
     margin-top: 24px;
     width: 100%;
   }
-
-  // .radio-container {
-  //   position: relative;
-  //   padding-left: 25px;
-  //   margin: 0 12px 0 0;
-  //   cursor: pointer;
-  //   font-size: 12px;
-  //   -webkit-user-select: none;
-  //   -moz-user-select: none;
-  //   -ms-user-select: none;
-  //   user-select: none;
-  //   line-height: 18px;
-
-  //   input {
-  //     position: absolute;
-  //     opacity: 0;
-  //     cursor: pointer;
-  //     left: 0;
-  //     top: 0;
-  //     margin: 0;
-  //     border-color: rgb(204, 204, 204);
-  //   }
-
-  //   input:checked~.checkmark {
-  //     background-color: #0079b8;
-  //     border: 1px solid #0079b8;
-
-  //     &::after {
-  //       content: "";
-  //       position: absolute;
-  //       display: none;
-  //       top: 5px;
-  //       left: 5px;
-  //       width: 4px;
-  //       height: 4px;
-  //       border-radius: 50%;
-  //       background: #fff;
-  //     }
-  //   }
-
-
-  //   .checkmark {
-  //     position: absolute;
-  //     top: 0;
-  //     left: 0;
-  //     height: 16px;
-  //     width: 16px;
-  //     background: #fff;
-  //     border: 1px solid #9a9a9a;
-  //     border-radius: 50%;
-  //     opacity: 1;      
-  //   }
-  // }
 
   .radio-container {
     position: relative;
@@ -3849,7 +3797,24 @@ rlo-ui-card-field {
 
 }
 
+.collateral {
 
+  thead tr {
+    background-color: #E4F0F9;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #FAFAFA;
+  }
+
+  td {
+    font-size: 12px;
+    border: none;
+  }
+}
+
+
+// CLO Collateral Styles - END 
 
 .cust-acknwlg-Container {
   padding-left: 0px !important;

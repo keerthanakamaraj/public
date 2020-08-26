@@ -672,10 +672,10 @@ li .a {
   margin-top: 6px;
 }
 
-.mandatory {
+/* .mandatory {
   content: " *";
   color: red;
-}
+} */
 
 .corrBox {
   box-sizing: border-box;

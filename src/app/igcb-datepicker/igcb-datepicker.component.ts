@@ -179,7 +179,10 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
         control.valueChanges.subscribe(newValue => {
             this.momentDate = null;
             if (newValue) {
-                let date = window["moment"](newValue, this.allowedDateFormats, true);
+                const moment = require('moment');
+                // @CLO-RLO-Merge - 
+                //let date = window["moment"](newValue, this.allowedDateFormats, true);
+                let date = moment(newValue, this.allowedDateFormats, true);
                 this.momentDate = date;
                 if (date.isValid()) {
                     //console.log(this.datepickerDayView);

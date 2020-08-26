@@ -120,6 +120,7 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     this.collType = this.appService.getCollateral().getValue();
     // @CLO-RLO-Merge - Use RLO Date Formatter
     // this.collateralCommonFields.inputDate = this.utility.formatDateObject(new Date());
+    this.collateralCommonFields.inputDate = this.services.formatDate(new Date());
     await this.getUDFDetails();
     // @CLO-RLO-Merge - Use RLO Error Handling
     // this.tooltipError.tooltipdestroy();
@@ -131,8 +132,11 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     // @CLO-RLO-Merge - Use RLO Date Formatter
     // this.collateralCommonFields.expiryDate = this.utility.formatDate(this.collateralCommonFields.expiryDate,
     // this.utility.getTenant().getMomentDateFormat());
+    this.collateralCommonFields.expiryDate = '22-Aug-2021';
     // this.collateralCommonFields.inputDate = this.utility.formatDate(this.collateralCommonFields.inputDate,
     // this.utility.getTenant().getMomentDateFormat());
+    this.collateralCommonFields.inputDate = '26-Aug-2020';
+    this.collateralCommonFields.collateralCurrency = 'KES';
     this.collateralCommonFields.validateFields(this);
     let fieldDataFiltered: any;
     this.config.forEach(fieldConfig => {

@@ -294,6 +294,15 @@ export class FormCommonComponent implements OnInit {
   public getFormMetadata(serviceName: string, onSuccess?: Function, onError?: Function) {
     this.serviceName = serviceName;
     this.tenantFieldMaps = new Array();
+
+    console.log("Service Name ", serviceName);
+
+    var formFields = this.services.rloui.getFormFields(serviceName);
+
+    formFields.forEach(field => {
+      console.log("field ", field);
+    });
+
     // Queries for Kalpesh
     // Validation Services
     // forkJoin(this.utility.getCommonService().getTenantDAValidationDetail(serviceName),
@@ -364,7 +373,7 @@ export class FormCommonComponent implements OnInit {
 
   public isMandatory(fieldName: string, defaultRequired?: boolean): boolean {
 
-    let mandatory = false;
+    let mandatory = true;
     this.raSimpleValidationConfig.forEach(field => {
       if (field.fieldName == fieldName) {
         mandatory = field.isMandatory;
