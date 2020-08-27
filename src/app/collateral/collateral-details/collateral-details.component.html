@@ -46,7 +46,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-3 form-group" style="display: none;">
+                <div class="col-md-3 form-group">
                     <label for="collateralCurrency"
                         [ngClass]="{ 'mandatory': isMandatory('collateralCurrency' , true)}">{{getLabel("CURRENCY")}}</label>
                     <ng-select [(ngModel)]="collateralCommonFields.collateralCurrency" [selectOnTab]="true"
@@ -137,7 +137,7 @@
                         </igcb-datepicker>
                     </fieldset>
                 </div>
-                <div class="col-md-3 form-group" style="display: none;">
+                <div class="col-md-3 form-group">
                     <label
                         [ngClass]="{ 'mandatory': isMandatory('expiryDate' , true)}">{{getLabel('EXPIRY_DATE')}}</label>
                     <fieldset class='DisableDt' [disabled]="true" id='inputDate'>

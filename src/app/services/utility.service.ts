@@ -146,6 +146,7 @@ export class UtilityService {
 
   formatDate(dateString: string, dateFormat?: string): string {
     // const momentDate = moment(dateString, dateFormat ? dateFormat : this.tenant.getMomentDateTimeFormat());
+    const moment = require('moment');
     const momentDate = moment(dateString);
     if (momentDate.isValid()) {
       return this.formatDateObject(momentDate._d);
@@ -156,8 +157,7 @@ export class UtilityService {
   formatDateObject(dateObject: Date) : string {
     // const tenantDetail = this.tenant;
     // return this.datePipe.transform(dateObject, tenantDetail.dateFormat, tenantDetail.timeZone, tenantDetail.defaultLanguage);
-    const dateTrans = this.datePipe.transform(dateObject, 'DDMMMYYYY', '0530', 'en-IN');
-    return;
+    return this.datePipe.transform(dateObject, 'dd-MMM-yyyy', '0530', 'en-IN');
   }
 
   public format(...values: any[]) : string {

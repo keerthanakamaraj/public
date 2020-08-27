@@ -10,7 +10,7 @@ import { DatePipe, FormStyle, getLocaleDayNames, getLocaleFirstDayOfWeek, getLoc
 import { Component, ElementRef, EventEmitter, forwardRef, Injectable, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDatepickerConfig, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-// import { UtilityService } from '../services/utility.service';
+import { UtilityService } from '../services/utility.service';
 // import { Tenant } from '../form-common/tenant.model';
 
 export function createCustomInputControlValueAccessor(extendedInputComponent: any) {
@@ -61,7 +61,7 @@ export class IGCBDatepickerI18n extends NgbDatepickerI18n {
     <input tabindex="-1" autocomplete="off" type="text" [container]="body" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="hiddenValue" name="hiddenDatepicker" #d="ngbDatepicker" ngbDatepicker (dateSelect)="onDateSelect($event)" style="position: absolute;left: 0;width: 100%;height: 100%;opacity: 0;" (ngModelChange)="modelChangeEvent(value)">
     <input class="form-control" autocomplete="off" type="text" (blur)="myBlurEvent($event)" [(ngModel)]="innerValue" #input name="datepicker" (ngModelChange)="changeHiddenValue($event)" />
     <span class="input-group-addon" (click)="d.toggle()">
-    <span class="glyphicon glyphicon-calendar"></span>                 
+    <span class="glyphicon glyphicon-calendar"></span>
     </span>
     </div>
   `,
@@ -93,7 +93,7 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
 
     // @CLO-RLO-Merge - 
     // constructor(private tenant: Tenant, private injector: Injector, private datePipe: DatePipe, private dpConfig: NgbDatepickerConfig, private utility: UtilityService) {
-    constructor(private injector: Injector, private datePipe: DatePipe, private dpConfig: NgbDatepickerConfig) {
+    constructor(private injector: Injector, private datePipe: DatePipe, private dpConfig: NgbDatepickerConfig, private utility: UtilityService) {
 
     }
 
@@ -206,7 +206,7 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
                     }*/
                     // @CLO-RLO-Merge - 
                     // const dateTrans = this.datePipe.transform(date._d, this.tenant.dateFormat, this.tenant.timeZone, this.tenant.defaultLanguage);
-                    const dateTrans = this.datePipe.transform(date._d, 'DDMMMYYYY', '0530', 'en-IN');
+                    const dateTrans = this.datePipe.transform(date._d, 'dd-MMM-yyyy', '0530', 'en-IN');
                     this.innerValue = dateTrans;
                     this.hiddenValue = date._d;
                 } else {
@@ -242,9 +242,9 @@ export class IGCBDatepickerComponent implements ControlValueAccessor, OnInit {
     modelChangeEvent(value) {
         if (this.hiddenValue && this.hiddenValue instanceof Date) {
             // @CLO-RLO-Merge - 
-            // const dateTrans = this.utility.getDatePipe().transform(this.hiddenValue, this.dateFormat);
-            // this.innerValue = dateTrans;
-            // this.parentModel.control.setValue(this.hiddenValue);
+            const dateTrans = this.utility.getDatePipe().transform(this.hiddenValue, this.dateFormat);
+            this.innerValue = dateTrans;
+            this.parentModel.control.setValue(this.hiddenValue);
         }
     }
 
