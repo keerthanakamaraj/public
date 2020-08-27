@@ -24,6 +24,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { string } from '@amcharts/amcharts4/core';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { UtilityService } from '../services/utility.service';
+import { threadId } from 'worker_threads';
 const customCss: string = '';
 
 @Component({
@@ -61,7 +62,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
   @Input() isLoanCategory: any = undefined;
   @Input() ProductCode: any = undefined;
-
+  // @Input() activeBorrowerSeq: string = undefined;
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   ApplicationId: any;
   show: boolean = false;
@@ -90,6 +91,61 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   LetterArray;
   documentTypeGrid = [];
   count: any;
+  customerDetils: any;
+  addressDetails: any;
+  finalOutput: any;
+  fieldLst = [];
+  documentShow: boolean = false;
+  configMap = {
+    "CREATED_BY": "System",
+    "EVENT_CODE": "SANCTION_LETTER",
+    "EVENT_TYPE": "LETTER_GENERATION",
+    "SOURCE_SYSTEM": "RLO"
+  };
+  //   letter: any = {
+  //     "fieldLst": [
+  //         {
+  //             "fieldName": "TITLE",
+  //             "fieldValue": "MS"
+  //         },
+  //         {
+  //             "fieldName": "FULL_NAME",
+  //             "fieldValue": "Lilly Abebe"
+  //         },
+  //         {
+  //             "fieldName": "ADDR1",
+  //             "fieldValue": "123, Simpleton village"
+  //         },
+  //         {
+  //             "fieldName": "COUNTRY",
+  //             "fieldValue": "Sweden"
+  //         },
+  //         {
+  //             "fieldName": "PINCODE",
+  //             "fieldValue": "12345"
+  //         },
+  //         {
+  //             "fieldName": "ARN",
+  //             "fieldValue": "ARN00001"
+  //         },
+  //         {
+  //             "fieldName": "LOAN_AMT",
+  //             "fieldValue": "75000"
+  //         },
+  //         {
+  //             "fieldName": "PRODUCT_CODE",
+  //             "fieldValue": "Personal Loan"
+  //         }
+  //     ],
+  //     "gridLst": null,
+  //     "configMap": {
+  //         "CREATED_BY": "System",
+  //         "EVENT_CODE": "SANCTION_LETTER",
+  //         "EVENT_TYPE": "LETTER_GENERATION",
+  //         "SOURCE_SYSTEM": "RLO"
+  //     },
+  //     "dataMap": null
+  // }; 
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -139,7 +195,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-    if (this.userId === undefined || this.userId == '') {
+    if (this.userId == undefined || this.userId == '') {
       this.claimTask(this.taskId);
     }
   }
@@ -180,6 +236,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     styleElement.innerHTML = customCss;
     styleElement.id = 'Operation_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
+    // console.log("letter data", this.fieldLst);
+    // this.fieldLst.push({
+    //   "fieldName": "TITLE",
+    //   "fieldValue": "new"});
+    //   this.fieldLst[0].fieldValue = "mrs"
   }
   ngOnDestroy() {
     this.unsubscribe$.next();
@@ -244,126 +305,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     }, 2000);
   }
 
-  openLetter(lettername){
-    window.open('./assets/documents/' + lettername, '_new');
-  }
 
 
-  fetchLetter() {
-    let inputMap = new Map();
-    inputMap.clear();
-    let requestParams;
-    inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-1");
-    inputMap.set('QueryParam.sourceType', "Sanction Letter");
-    inputMap.set('QueryParam.sourceCd', "APPROVAL");
-
-    this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.LetterArray;
-        if (res) {
-          this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
-          let errorMsg = "";
-          var mainMessage = this.LetterArray;
-          var button1 = this.services.rloui.getAlertMessage('', 'OK');
-          //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
-          //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
-          // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
-          //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
-          //    let msg = res.Letter[0].LETTERMGMTFORMAT;
-          //      msg = msg.replace(/@@ARN@@/gi, arnNo);
-          //       msg = msg.replace(/Personal/gi,loanType);
-          //       msg = msg.replace(/7500/gi, loanAmt);
-          //       msg = msg.replace(/Scheme/gi, schemeName);
-          //   console.log("repalce", msg)
-          Promise.all([mainMessage, button1]).then(values => {
-            const modalObj: IModalData = {
-              title: "Sanction Letter",
-              // mainMessage: values[0],
-              rawHtml: values[0],
-              modalSize: "modal-width-lg",
-              buttons: [
-                // { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-              ]
-            }
-            this.services.rloui.confirmationModal(modalObj).then((response) => {
-              console.log(response);
-              if (response != null) {
-                if (response.id === 1) {
-                  this.services.rloui.closeAllConfirmationModal();
-                }
-              }
-            });
-          });
-
-        }
-      },
-      (httpError) => {
-        console.error(httpError);
-        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
-      });
-  }
-  salaryLetter() {
-    let inputMap = new Map();
-    inputMap.clear();
-    let requestParams;
-    inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-2");
-    inputMap.set('QueryParam.sourceType', "Salary Certificate");
-    inputMap.set('QueryParam.sourceCd', "APPROVAL");
-
-    this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.LetterArray;
-        if (res) {
-          this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
-          let errorMsg = "";
-          var mainMessage = this.LetterArray;
-          var button1 = this.services.rloui.getAlertMessage('', 'OK');
-          //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
-          //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
-          // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
-          //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
-          //    let msg = res.Letter[0].LETTERMGMTFORMAT;
-          //      msg = msg.replace(/@@ARN@@/gi, arnNo);
-          //       msg = msg.replace(/Personal/gi,loanType);
-          //       msg = msg.replace(/7500/gi, loanAmt);
-          //       msg = msg.replace(/Scheme/gi, schemeName);
-          //   console.log("repalce", msg)
-          Promise.all([mainMessage, button1]).then(values => {
-            const modalObj: IModalData = {
-              title: "Salary Certificate",
-              // mainMessage: values[0],
-              rawHtml: values[0],
-              modalSize: "modal-width-lg",
-              buttons: [
-                // { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-              ]
-            }
-            this.services.rloui.confirmationModal(modalObj).then((response) => {
-              console.log(response);
-              if (response != null) {
-                if (response.id === 1) {
-                  this.services.rloui.closeAllConfirmationModal();
-                }
-              }
-            });
-          });
-
-        }
-      },
-      (httpError) => {
-        console.error(httpError);
-        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
-      });
-  }
   isLoan() {
     if (!this.isLoanCategory) {//ie. loan type credit card
       this.Apved_Limit.setReadOnly(true);
       this.Card_DBR.setReadOnly(true);
-      this.Card_DBR.setHidden(true);
+      // this.Card_DBR.setHidden(true);
       this.fetchCardDetails();
       // console.log("Card is working");
     }
@@ -371,7 +319,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       this.DisbustAmt.setReadOnly(true);
       this.LOAN_DBR.setReadOnly(true);
       this.EMI_Amt.setReadOnly(true);
-      this.LOAN_DBR.setHidden(true);
+      // this.LOAN_DBR.setHidden(true);
       this.fetchLoanDetails();
       // console.log("loan is working");
     }
@@ -419,11 +367,19 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.services.http.fetchApi('/ApplicationScoreDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.appArray = [];
-
+        var resArray
+        // console.log("DBR", res)
         if (res !== null) {
-          this.appArray = res['ApplicationScoreDetails'];
-          this.LOAN_DBR.setValue(res['DBR']);
+          for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
+            resArray = res.ApplicationScoreDetails[i];
+            // console.log("loop",resArray)
+            if (resArray.ScoreId == 'DBR') {
+              this.LOAN_DBR.setValue(resArray.Score);
+            }
+          }
+        }
+        else {
+          this.LOAN_DBR.setValue('0');
         }
       },
       async (httpError) => {
@@ -474,11 +430,19 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.services.http.fetchApi('/ApplicationScoreDetails', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.appArray = [];
-
+        var resArray
+        // console.log("DBR", res)
         if (res !== null) {
-          this.appArray = res['ApplicationScoreDetails'];
-          this.LOAN_DBR.setValue(res['DBR']);
+          for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
+            resArray = res.ApplicationScoreDetails[i];
+            // console.log("loop",resArray)
+            if (resArray.ScoreId == 'DBR') {
+              this.Card_DBR.setValue(resArray.Score);
+            }
+          }
+        }
+        else {
+          this.Card_DBR.setValue('0');
         }
       },
       async (httpError) => {
@@ -489,34 +453,173 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
   onLetterClick() {
-    // var mainMessage = this.services.rloui.getAlertMessage('', 'Sanction Letter sent to Customer!');
-    // var button1 = this.services.rloui.getAlertMessage('', 'OK');
-    // // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    // Promise.all([mainMessage, button1]).then(values => {
-    //   console.log(values);
-    //   let modalObj = {
-    //     title: "Success",
-    //     rawHtml: values[0],
-    //     modalSize: "modal-width-sm",
-    //     buttons: [
-    //       { id: 1, text: values[1], type: "success", class: "btn-primary" },
-    //       //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-    //     ]
-    //   }
-    //   this.services.rloui.confirmationModal(modalObj).then((response) => {
-    //     console.log(response);
-    //     if (response != null) {
-    //       if (response.id === 1) {
-    //         this.services.rloui.closeAllConfirmationModal();
-    //       }
-    //     }
-    //   });
-    // });
+    let inputMap = new Map();
+    inputMap.clear();
+    let applicationId: any = this.passApplicationId;
+    // let BorrowerSeq = '1934';
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (applicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": applicationId
+        }
+      });
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+    this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.customerDetils = res.BorrowerDetails[0];
+        if (this.customerDetils) {
+          this.fetchAdd();
+        }
+        // console.log("customer res", this.customerDetils);
+        // this.C_title.setValue(res['Title']);
+        // this.C_fullName.setValue(res['FullName']);
+        // this.C_natinality.setValue(res['Nationality']);
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
+    // console.log("header res", this.services.rloCommonData.globalApplicationDtls);
+    setTimeout(() => {
+      this.lettercall();
+    }, 5000);
     this.services.alert.showAlert(1, 'rlo.success.letter', 5000);
     this.show = !this.show;
     if (this.show) {
       this.buttonName = "show";
     }
+  }
+  fetchAdd() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let borrowerSeq: any = this.customerDetils.BorrowerSeq;
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (borrowerSeq) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "BorrowerSeq",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": borrowerSeq
+        }
+      });
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+    this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.addressDetails = res.AddressDetails[1];
+        // console.log("address res", res);
+        // this.C_address.setValue(res['AddressLine1']);
+        // this.C_pincode.setValue(res['PinCode']);
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
+  }
+  lettercall() {
+    let inputMap = new Map();
+    this.fieldLst.push({ "fieldName": "TITLE", "fieldValue": this.customerDetils.Title });
+    this.fieldLst.push({ "fieldName": "FULL_NAME", "fieldValue": this.customerDetils.FullName });
+    this.fieldLst.push({ "fieldName": "COUNTRY", "fieldValue": this.customerDetils.Nationality });
+    this.fieldLst.push({ "fieldName": "ADDR1", "fieldValue": this.addressDetails.AddressLine1 });
+    this.fieldLst.push({ "fieldName": "PINCODE", "fieldValue": this.addressDetails.PinCode });
+    this.fieldLst.push({ "fieldName": "ARN", "fieldValue": this.services.rloCommonData.globalApplicationDtls.ARN });
+    this.fieldLst.push({ "fieldName": "LOAN_AMT", "fieldValue": this.services.rloCommonData.globalApplicationDtls.LoanAmount });
+    this.fieldLst.push({ "fieldName": "PRODUCT_CODE", "fieldValue": this.services.rloCommonData.globalApplicationDtls.ProductName });
+
+    inputMap.clear();
+    inputMap.set('Body.fieldLst', this.fieldLst);
+    inputMap.set('Body.gridLst', null);
+    inputMap.set('Body.configMap', this.configMap);
+    inputMap.set('Body.dataMap', null);
+    this.services.http.fetchApi('/generatedocument', 'POST', inputMap, '/lettermangement').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        if (httpResponse.body != null) {
+          var res = httpResponse.body;
+          this.finalOutput = res.TemplateData[0];
+          this.documentShow = true;
+          // console.log("final output from lettergenrator", res);
+        }
+
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        // this.services.alert.showAlert(2, 'rlo.error.save.occupation', -1);
+      }
+    );
+  }
+
+  fetchLetter() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let requestParams;
+    inputMap.set('QueryParam.eventReferenceNo', this.finalOutput.EVENT_REFERENCE_NO);
+    inputMap.set('QueryParam.sourceType', this.finalOutput.SOURCETYPE);
+    inputMap.set('QueryParam.sourceCd', this.finalOutput.SOURCECD);
+
+    // inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-1");
+    // inputMap.set('QueryParam.sourceType', "Sanction Letter");
+    // inputMap.set('QueryParam.sourceCd', "APPROVAL");
+    this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.LetterArray;
+        if (res) {
+          this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
+          let errorMsg = "";
+          var mainMessage = this.LetterArray;
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+          //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+          // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+          //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+          //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+          //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+          //       msg = msg.replace(/Personal/gi,loanType);
+          //       msg = msg.replace(/7500/gi, loanAmt);
+          //       msg = msg.replace(/Scheme/gi, schemeName);
+          //   console.log("repalce", msg)
+          Promise.all([mainMessage, button1]).then(values => {
+            const modalObj: IModalData = {
+              title: "Sanction Letter",
+              // mainMessage: values[0],
+              rawHtml: values[0],
+              modalSize: "modal-width-lg",
+              buttons: [
+                // { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+              ]
+            }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.rloui.closeAllConfirmationModal();
+                }
+              }
+            });
+          });
+
+        }
+      },
+      (httpError) => {
+        console.error(httpError);
+        this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+      });
   }
   fieldDependencies = {
     AD_CUST_STATUS: {
@@ -636,7 +739,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 
           Promise.all([mainMessage, button1]).then(values => {
-            console.log(values);
+            // console.log(values);
             let modalObj = {
               title: "Alert",
               mainMessage: values[0],
@@ -826,7 +929,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
 
   async OPERATION_CLOSE_click(event) {
     // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-    var mainMessage = this.services.rloui.getAlertMessage('rlo.close.comfirmation');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
     var button1 = this.services.rloui.getAlertMessage('', 'OK');
     var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
 

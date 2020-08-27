@@ -12,12 +12,12 @@
 </div>
 </div> -->
 
-    <div class="clearfix content">
+    <div class="clearfix content lyt-header">
         <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
         <div *ngIf="!formOnLoadError">
             <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}" [hidden]="!headerExpandedView">
                 <div class="form-group pb10 headerform border-top">
-                    <div class="col-12  col-sm-12 col-md-12 mainheader row">
+                    <div class="mainheader">
                         <div class='imageheader'>
                             <div class='first-child'>
                                 <div class='second-child'>
