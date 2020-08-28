@@ -164,7 +164,10 @@
     "rlo.error.questionnaire.decision-Remark-pending": "Decision for all questions and Remarks for Deviation questions are mandatory.",
     "rlo.error.customer.exist": "The same customer has already been added. Please add other details.",
     "rlo.error.loanownership.invalid": "Total Loan Ownership can not be less than 100%.",
-    "rlo.error.loanownership.onblur": "Loanw Ownership cannot be more than 100%.",
+    "rlo.error.loanownership.onblur": "Loan Ownership cannot be more than 100%.",
+    "rlo.error.completionpercent.invalid":"Total Completion Percent can not be less than 100%.",
+    "rlo.error.disbursementamount.invalid":"Added amount should be equal to Disbursal Amount",
+    "rlo.error.completionpercent.onblur":"Completion Percent cannot be more than 100%.",
     "rlo.success.save.feesCharges": "The Fees & Charges have been saved successfully.",
     "rlo.success.update.feesCharges": "The Fees & Charges have been updated successfully.",
     "rlo.error.update.feesCharges": "The Fees & Charges could not be updated. Please try again.",
@@ -2166,7 +2169,9 @@
     "DD_Reset": "Reset",
     "FundTransferMode": "Fund Transfer Mode",
     "DisbursalTo": "Disbursal To",
-    "PaymentMode": "Payment Mode"
+    "PaymentMode": "Payment Mode",
+    "CompletionPercent":"Percent of Project Completion",
+    "PartialDisbursememt":"Disbursement based on Percent of Project Completion"
   },
   "PropertyDetails": {
     "PerOfProjectCompletion": "Percent of Project Completion",

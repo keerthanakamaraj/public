@@ -30,6 +30,14 @@ const customCss: string = '';
   templateUrl: './LoanDetailsForm.component.html'
 })
 export class LoanDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
+  DisbursalAmount: any;
+  totalDisbAmt: number;
+  total: number;
+  DisbAmount: any;
+  CompletionPercent: any;
+  DisbArray: any[];
+  DisbursalData: any[];
+  ProductCategory: any;
   @ViewChild('LoanAmount', { static: false }) LoanAmount: AmountComponent;
   @ViewChild('InterestRate', { static: false }) InterestRate: TextBoxComponent;
   @ViewChild('MarginRate', { static: false }) MarginRate: TextBoxComponent;
@@ -64,7 +72,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
   @Input() readOnly: boolean = false;
-
+  @Input() parentData: IAmortizationForm = undefined;
+  
   ApplicationId: any
   LoanArray = [];
   modalDataSubjectSubscription: Subscription;
@@ -124,6 +133,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     // this.LoanAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.SystemRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.UserRecommendedAmount.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
+
     this.hidAppId.setValue('RLO');
     this.hidInterestRate.setValue('INTEREST_RATE');
     this.hidPeriod.setValue('PERIOD');
@@ -131,6 +141,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.hideInstRateType.setValue('INTEREST_RATE_TYPE');
     this.hideRepaymentOption.setValue('REPAYMENT_OPTION');
     this.hideRepaymentFreq.setValue('FREQUENCY');
+    
     // this.LD_COLL_UPFRONT_CHARGES.setDisabled(true);
     // this.LD_DISBURMENT_MONEY.setDisabled(true);
     // this.LD_FEES_CHARGE.setDisabled(true);
@@ -141,6 +152,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.OnLoanFormLoad()
 
     this.setDependencies();
+    console.log("this.parentData.DisbursalList---------", this.DisbArray);
+    
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -271,6 +284,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.totInstallmentAmt = LoanElement['TotalInstallmentAmt'];
             this.DisbursalDate = LoanElement['DisbursalDate'];
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
+            this.ProductCategory = LoanElement['ProductCategory'];
+            this.DisbursalAmount = LoanElement['DisbursalAmount'];
             this.Handler.SetValue();
 
             this.LoanGridCalculation(this.monthlyinstallmentAmt);
@@ -349,6 +364,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.services.rloui.closeAllConfirmationModal();
           }
         }
+        this.fetchDisbDetails();
       });
     });
   }
@@ -440,11 +456,88 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       arrayfalse.onReset()
     });
   }
+
+
+
+
+  fetchDisbDetails() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let ApplicationId: any = this.ApplicationId;
+    // let applicationId = '2221';
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (ApplicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": ApplicationId
+        }
+      });
+
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+    this.services.http.fetchApi('/DisbursalDetails', 'GET', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        this.DisbArray = [];
+        if (res !== null) {
+          this.DisbArray = res['DisbursalDetails'];
+          this.validateDisbursement();
+        }
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+      }
+    );
+  }
+
+  validateDisbursement() {
+      this.total = 0
+      this.totalDisbAmt =0;
+      for (let i = 0; i < this.DisbArray.length; i++) {
+        if(this.DisbArray[i].PartialDisburse){
+          if(this.DisbArray[i].CompletionPercent){
+            if (this.DisbArray[i].CompletionPercent !== undefined && this.DisbArray[i].CompletionPercent !== "") {
+              this.total += Number(this.DisbArray[i].CompletionPercent);
+            }
+          } 
+        }
+        if(this.DisbArray[i].CompletionPercent){
+          if (this.DisbArray[i].CompletionPercent !== undefined && this.DisbArray[i].CompletionPercent !== "") {
+            this.total += Number(this.DisbArray[i].CompletionPercent);
+          }
+        }
+        if(this.DisbArray[i].DisbursalAmt){
+          if (this.DisbArray[i].DisbursalAmt !== undefined && this.DisbArray[i].DisbursalAmt !== "") {
+            this.totalDisbAmt += Number(this.DisbArray[i].DisbursalAmt);
+          }
+        }
+       
+      }
+   
+  }
+
   async LD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     inputMap.clear();
     var nooferror: number = await this.revalidate();
     if (nooferror == 0) {
+      if(this.ProductCategory == 'ML'){
+        if (this.total != 0 && this.total < 100) {
+          this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
+          return;
+        }
+        if(this.totalDisbAmt != this.DisbursalAmount){
+          this.services.alert.showAlert(2,'rlo.error.disbursementamount.invalid', -1);
+          return;
+        }
+      }
+      
+      // this.validateDisbursement();
       inputMap.set('PathParam.LoanDetailSeq', this.hideLoanSeq.getFieldValue());
       inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getFieldValue());
       inputMap.set('Body.LoanDetails.InterestRate', this.InterestRate.getFieldValue());
@@ -565,6 +658,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     dataObj.NetInterestRate = this.NetInterestRate.getFieldValue();
     dataObj.InterestRate = this.InterestRate.getFieldValue();
     dataObj.ApplicationId = this.ApplicationId;
+    dataObj.LoanProductCategory = this.ProductCategory;
     dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
     this.FieldId_26.LoanGridArray.forEach(element => {
       if (element.CustomerType == 'B') {

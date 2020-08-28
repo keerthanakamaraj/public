@@ -51,6 +51,27 @@
             <app-date #DisbursalDate fieldID="DisbursalDate" [formCode]="formCode"
               (blur)="genericOnBlur('DisbursalDate', $event)"></app-date>
           </div>
+
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartialDisbursememt.isHidden()"
+          [ngClass]="'checkboxLeft'">
+          <div class="clr-brown fieldLegend">
+            <label class="clr-brown">
+              {{ 'DisbursementDetails.PartialDisbursememt' | translate}}
+            </label>
+          </div>
+          <app-check-box #PartialDisbursememt fieldID="PartialDisbursememt"
+            (change)="PartialDisbursememt_change($event)" [formCode]="formCode"
+            (blur)="genericOnBlur('PartialDisbursememt', $event)"></app-check-box>
+        </div>
+
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"[hidden]="CompletionPercent.isHidden()">
+          <div class="clr-brown fieldLegend">
+            <label class="clr-brown" [ngClass]="{'mandatory': CompletionPercent.mandatory}">
+              {{ 'DisbursementDetails.CompletionPercent' | translate}}</label>
+          </div>
+          <app-text-box #CompletionPercent fieldID="CompletionPercent" [formCode]="formCode"
+            (blur)="genericOnBlur('CompletionPercent', $event)"></app-text-box>
+        </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
             <div class="clr-brown fieldLegend">
