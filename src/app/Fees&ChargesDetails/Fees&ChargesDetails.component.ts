@@ -130,6 +130,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     //is.hidePartyName.setValue('PARTY_NAME')
     this.hideChargeDescription.setValue('CHARGE_DESC');
     this.ChargeBasis.setDefault('RATE');
+    this.ChargeBasis.setValue('RATE');
     await this.Handler.onFormLoad({
     });
 
@@ -437,6 +438,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         this.AD_HIDE_ID.setValue(res['ChargeDetails']['ChargeDtlSeq']);
         this.Handler.hideShowFieldBasedOnChargeBasis();
         this.Handler.hideFieldBasedOnPeriodicCharge();
+        this.revalidateBasicField('Currency', true)
 
         if (this.readOnly) {
           this.setReadOnly(this.readOnly);

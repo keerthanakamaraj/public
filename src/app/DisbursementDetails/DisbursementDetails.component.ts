@@ -445,6 +445,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.HideDisbursalSeqId.setValue(res['DisbursalDetails']['DisbursalSeq']);
         this.hideSpinner();
         this.Handler.hideOnPaymentMode({});
+        this.revalidateBasicField('Currency', true)
       },
       async (httpError) => {
         var err = httpError['error']

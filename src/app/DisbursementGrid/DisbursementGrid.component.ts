@@ -76,7 +76,8 @@ export class DisbursementGridComponent implements AfterViewInit {
     width: 18,
     sortable: true,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
     // filter: "agTextColumnFilter",
     // filterParams: {
     //     suppressAndOrCondition: true,
@@ -329,5 +330,11 @@ export class DisbursementGridComponent implements AfterViewInit {
   // hideSpinner(){
   // this.loadSpinner=false;
   // }
-
+  formatAmount(number) {
+    if (number.value) {
+      return this.services.formatAmount(number.value, null, null);
+    } else {
+      return '-';
+    }
+  }
 }

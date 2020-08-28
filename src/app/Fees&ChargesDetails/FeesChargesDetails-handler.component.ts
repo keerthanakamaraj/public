@@ -20,10 +20,11 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
     console.log("fees and charges  .. On form load");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
     super.onFormLoad({});
-	}
+  }
+ 
 
   hideShowFieldBasedOnChargeBasis(){
-    if(this.MainComponent.ChargeBasis.getDefault() == "RATE" || this.MainComponent.ChargeBasis.getFieldValue() == "RATE"){
+    if((this.MainComponent.ChargeBasis.getDefault() == "RATE" && this.MainComponent.ChargeBasis.getFieldValue() == "RATE")||(this.MainComponent.ChargeBasis.getDefault() == "RATE" && this.MainComponent.ChargeBasis.getFieldValue() == undefined)){
       this.MainComponent.Currency.setHidden(true);
       this.MainComponent.ChargeAmt.setHidden(true);
       this.MainComponent.LocalAmount.setHidden(true);
@@ -37,7 +38,7 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.RateOnCharge.mandatory = true;
       this.MainComponent.ChargeRate.mandatory = true;
     }
-     if((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE") )
+    else if((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE") )
     {
       this.MainComponent.Currency.setHidden(false);
       this.MainComponent.ChargeAmt.setHidden(false);
@@ -70,7 +71,7 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.Frequency.setReadOnly(false);
       this.MainComponent.Frequency.mandatory = true;
     }
-  }
+  } 
   chargeAmountcharOnblur(){
     if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.ChargeAmt.getFieldValue() !== undefined){
       let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.ChargeAmt.getFieldValue();
