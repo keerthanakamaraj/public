@@ -65,8 +65,7 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('VRF_Photograph', $event)"></rlo-ui-radio>
           </div>
-          <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="VRF_UPLOAD_BTN.isHidden()">
-            <div style="min-height: 38px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-2 col-md-2 res-pr-hide upload-btn-container" [hidden]="VRF_UPLOAD_BTN.isHidden()">
             <app-button #VRF_UPLOAD_BTN fieldName="{{ 'VisitReportForm.VRF_UPLOAD_BTN' | translate}}"
               fieldID="VRF_UPLOAD_BTN" [formCode]="formCode" customClass="btn-warning-outline"></app-button>
           </div>
