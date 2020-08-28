@@ -179,6 +179,9 @@
     "rlo.error.invalid-repaymentDt": "Date should be after disbursal date",
     "rlo.error.invalid-disbarsalDt": "Invalid date",
     "rlo.close.comfirmation": "Are you sure you want to Close?",
+    "rlo.error.amortization-visit-pending":"Please Visit the Amortization First",
+    "rlo.error.invalid-repayment-freq":"Repayment Frequency should be according to Tenure Period",
+    "rlo.error.bre-exception":"BRE Exception occured",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

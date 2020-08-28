@@ -226,7 +226,11 @@ export class AmortizationGridComponent implements AfterViewInit {
     inputMap.set('QueryParam.interestRate', requestParams.interestRate);
     inputMap.set('QueryParam.disbursalDate', requestParams.disbursalDate);
     inputMap.set('QueryParam.firstInstallmentDate', requestParams.firstInstallmentDate);
-    inputMap.set('QueryParam.interestNumerator', '');//optional
+    inputMap.set('QueryParam.installment-frequency-indicator', requestParams.installmentFreqIndicator);
+    
+    inputMap.set('QueryParam.loan-tenor', '');//optional
+    inputMap.set('QueryParam.loan-tenor-indicator', '');//optional
+    inputMap.set('QueryParam.interestDenominator', '');//optional
     inputMap.set('QueryParam.interestDenominator', '');//optional
     //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
     //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional

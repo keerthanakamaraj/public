@@ -82,6 +82,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   totInterestAmt: any;
   totInstallmentAmt: any;
   monthlyinstallmentAmt: any;
+  isAmortizationVisited:boolean=false;
 
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -441,6 +442,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
 
+    this.isAmortizationVisited=true;
     this.monthlyinstallmentAmt = undefined;
     this.DisbursalDate = updatedData.disbursalDate;
     this.RepaymentStartDate = updatedData.repaymentStartDate
@@ -538,6 +540,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       }
       
       // this.validateDisbursement();
+      if(!this.isAmortizationVisited){
+        this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
+            return;
+      }
       inputMap.set('PathParam.LoanDetailSeq', this.hideLoanSeq.getFieldValue());
       inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getFieldValue());
       inputMap.set('Body.LoanDetails.InterestRate', this.InterestRate.getFieldValue());
@@ -658,9 +664,14 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     dataObj.NetInterestRate = this.NetInterestRate.getFieldValue();
     dataObj.InterestRate = this.InterestRate.getFieldValue();
     dataObj.ApplicationId = this.ApplicationId;
-    dataObj.LoanProductCategory = this.ProductCategory;
-    dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
-    this.FieldId_26.LoanGridArray.forEach(element => {
+    dataObj.InstallmentFreqIndicator= this.RepaymentFrequency.getFieldInfo();
+    dataObj.InstallmentFreqIndicatorCd=this.RepaymentFrequency.getFieldValue();
+    dataObj.Tenure=this.Tenure.getFieldValue();
+    dataObj.TenurePeriod=(this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
+    dataObj.TenurePeriodCd=this.TenurePeriod.getFieldValue();
+ // dataObj.Tenure = this.Tenure.getFieldValue() + " " + (this.TenurePeriod.getFieldInfo() != undefined ? this.TenurePeriod.getFieldInfo() : this.TenurePeriod.getFieldValue());
+ if(this.FieldId_26.LoanGridArray!=undefined){  
+ this.FieldId_26.LoanGridArray.forEach(element => {
       if (element.CustomerType == 'B') {
         dataObj.BLoanOwnership = element.LoanOwnership;
         dataObj.BLoanAmtShare = element.Principle.toFixed(2);
@@ -669,7 +680,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         dataObj.CBLoanAmountShare = element.Principle.toFixed(2);
       }
     });
-
+  }
     return dataObj;
   }
 
@@ -693,6 +704,23 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     console.log("shweta ::calculated tot interest", this.TotalInterestAmount.getFieldValue(), " :: tot installment ::", this.TotalInstallmentAmt.getFieldValue());
   }
 
+  RepaymentFrequency_blur(){
+this.isAmortizationVisited=false;
+if (!this.validateTenureAndRepaymentFreq()) {
+  this.RepaymentFrequency.setError('rlo.error.invalid-repayment-freq');
+  return 1;
+  }
+}
+  validateTenureAndRepaymentFreq(){
+    let isValid:boolean=false;
+    switch(this.RepaymentFrequency.getFieldValue()){
+      case 'D': isValid=true;break;
+      case 'W': isValid=(this.TenurePeriod.getFieldValue()!='DAY')?true:false;break;
+      case 'M':isValid=(this.TenurePeriod.getFieldValue()!='DAY'&& this.TenurePeriod.getFieldValue()!='WEEK')?true:false;break;
+      case 'Y':isValid=(this.TenurePeriod.getFieldValue()=='YRS')?true:false;break;
+    }
+    return isValid;
+  }
   fieldDependencies = {
     TenurePeriod: {
       inDep: [
