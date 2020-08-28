@@ -154,7 +154,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
 
   getLoanFieldValue() {
     this.ApplicationId = this.parentData.ApplicationId
-    this.productCategory = this.parentData.LoanProductCategory
+    //this.productCategory = this.parentData.LoanProductCategory
   }
 
   setInputs(param: any) {
