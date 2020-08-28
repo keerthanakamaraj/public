@@ -15,7 +15,6 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { DisbursInputGridComponent } from '../DisbursInputGrid/DisbursInputGrid.component';
 import { PropertyHandlerComponent } from './property-handler.component';
 
 const customCss: string = '';
@@ -81,8 +80,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('hidePurchaseType', { static: false }) hidePurchaseType: HiddenComponent;
   @ViewChild('hideSellerType', { static: false }) hideSellerType: HiddenComponent;
   @ViewChild('hideMoratoriumPeriod', { static: false }) hideMoratoriumPeriod: HiddenComponent;
-  @ViewChild('NoOfMilestones', { static: false }) NoOfMilestones: TextBoxComponent;
-  @ViewChild('disbursalInputGrid', { static: false }) disbursalInputGrid: DisbursInputGridComponent;
   @ViewChild('HidePropertySeq', { static: false }) HidePropertySeq: HiddenComponent;
   @ViewChild('hideBuilderName', { static: false }) hideBuilderName: HiddenComponent;
   // @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
@@ -137,8 +134,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
       this.revalidateBasicField('AmountToBeFinanced'),
       this.revalidateBasicField('MoratoriumPeriod'),
       this.revalidateBasicField('MoratoriamPeriodCheck'),
-      this.revalidateBasicField('NoOfMilestones'),
-      this.disbursalInputGrid.revalidate(),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -155,7 +150,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
-    this.disbursalInputGrid.setReadOnly(readOnly);
 
   }
   async onFormLoad() {
@@ -252,16 +246,13 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
     this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
     this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-    this.additionalInfo['disbursalInputGrid_desc'] = this.disbursalInputGrid.getFieldInfo();
     return this.additionalInfo;
   }
   getFieldValue() {
-    this.value.disbursalInputGrid = this.disbursalInputGrid.getFieldValue();
     return this.value;
   }
   setValue(inputValue, inputDesc = undefined) {
     this.setBasicFieldsValue(inputValue, inputDesc);
-    this.disbursalInputGrid.setValue(inputValue['disbursalInputGrid'], inputDesc['disbursalInputGrid_desc']);
     this.value = new PropertyDetailsModel();
     this.value.setValue(inputValue);
     this.setDependencies();
@@ -285,8 +276,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   ngAfterViewInit() {
     setTimeout(() => {
       this.subsBFldsValueUpdates();
-      this.value.disbursalInputGrid = this.disbursalInputGrid.getFieldValue();
-      this.disbursalInputGrid.valueChangeUpdates().subscribe((value) => { this.value.disbursalInputGrid = value; });
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
@@ -300,14 +289,12 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     super.clearBasicFieldsError();
     super.clearHTabErrors();
     super.clearVTabErrors();
-    this.disbursalInputGrid.clearError();
     this.errors = 0;
     this.errorMessage = [];
   }
   onReset() {
     super.resetBasicFields();
     this.clearHTabErrors();
-    this.disbursalInputGrid.onReset();
     this.clearVTabErrors();
     this.errors = 0;
     this.errorMessage = [];
@@ -392,7 +379,6 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
             this.HidePropertySeq.setValue(PropertyElement['PropertySeq']);
             // let disburalRecords=PropertyElement['DisbursalRecords'];
             // if(disburalRecords){
-            // this.disbursalInputGrid.parseDisbursalJson(disburalRecords);
             // }
           });
 
@@ -424,18 +410,8 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
     var noOfError: number = await this.revalidate();
     if (noOfError == 0) {
-
-      const totProjCompletionPercent = this.disbursalInputGrid.getTotProjCompletionPercent();
-      if (totProjCompletionPercent != 100) {
-        this.services.alert.showAlert(2, 'rlo.error.property.tot-proj-completion-percent', -1);
-        return;
-      }
       const expectedTotAmtToBeDisbursed: number = parseFloat(this.CostOfProperty.getFieldValue()) - parseFloat(this.DownPaymentAmount.getFieldValue());
-      const totAmtTobeDisbursed = this.disbursalInputGrid.getTotAmtToBeDisbursed();
-      if (totAmtTobeDisbursed.toFixed(2) != expectedTotAmtToBeDisbursed.toFixed(2)) {
-        this.services.alert.showAlert(2, 'rlo.error.property.tot-disburse-amt', -1);
-        return;
-      }
+   
       if (this.HidePropertySeq.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.PropertySeq', this.HidePropertySeq.getFieldValue());
