@@ -28,8 +28,9 @@ export class PolicyCheckResultComponent implements OnInit {
   ngOnInit() {
     this.setFilterbyOptions();
 
+    this.retriggerPolicyResult();
 
-    this.invokeInterface();
+    // this.invokeInterface();
     // this.loadPolicyResult();
   }
   setFilterbyOptions() {
@@ -151,34 +152,39 @@ export class PolicyCheckResultComponent implements OnInit {
     });
   }
 
-  invokeInterface() {
-    this.MstPolicyResultMap.clear();
-    let inputMap = this.generateRetriggerRequestJson();
-    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.retriggerPolicyResult(res);
+  // invokeInterface() {
+  //   this.MstPolicyResultMap.clear();
+  //   let inputMap = this.generateRetriggerRequestJson();
+  //   this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //       this.retriggerPolicyResult(res);
 
-        //do UW validation here 
-      }, async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      }
-    );
-  }
+  //       //do UW validation here 
+  //     }, async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+  //     }
+  //   );
+  // }
 
-  retriggerPolicyResult(res) {
+  retriggerPolicyResult() {
 
     // let inputMap = this.generateRetriggerRequestJson();
     // console.log("shweta :: input map",inputMap);
-    let inputMap = this.generatepolicyCheckReq(res);
-
+    //  let inputMap = this.generatepolicyCheckReq(res);
+    let inputMap = this.generateRetriggerRequestJson();
     this.services.http.fetchApi('/policyCheck', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.loadPolicyResult();
+        let res = httpResponse.body.Body['ouputdata'];
+        if (res.error) {
+          this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+        } else if (res.OVERALLSCORE) {
+          console.log("Shweta :: BRE response ", res.OVERALLRESULT, " : ", res.OVERALLRESULT);
+          this.loadPolicyResult();
+        }
       },
       async (httpError) => {
         var err = httpError['error']

@@ -96,18 +96,23 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
 
           var applDtls = res['ApplicationDetails'];
           if (applDtls) {
-            
-            if (this.AD_PHYSICAL_FORM_NO.getFieldValue() == undefined && this.AD_PHYSICAL_FORM_NO.getFieldValue() == null) {
-              this.AD_PHYSICAL_FORM_NO.setValue("NA");
-            }
-            else {
-              this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
-            }
             this.AD_DATE_OF_RECIEPT.setValue(moment(applDtls.ApplicationInfo.CreatedOn, 'DD-MM-YYYY HH:mm:ss').format('DD-MM-YYYY'));
             // this.AD_EXISTING_CUSTOMER.setValue(applDtls.ExistingCustomer);
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
+            // if (this.AD_PHYSICAL_FORM_NO.getFieldValue() == undefined && this.AD_PHYSICAL_FORM_NO.getFieldValue() == null) {
+            //   this.AD_PHYSICAL_FORM_NO.setValue("NA");
+            // }
+            // else {
+              // this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+            // }
+            if(applDtls.ApplicationInfo.PhysicalFormNo){
+              this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+            }else{
+              this.AD_PHYSICAL_FORM_NO.setValue("NA");
+            }
+
             this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
             this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;
             let array = [];

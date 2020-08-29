@@ -9,13 +9,18 @@ import { DisbursementDetailsComponent } from 'src/app/DisbursementDetails/Disbur
   styles: []
 })
 export class DisbursementsHandlerComponent extends RLOUIHandlerComponent implements OnInit {
+  disbursements: any[];
+  editId: any;
+  customers: any;
   @Input() MainComponent: DisbursementDetailsComponent;
   formName: string = "DisbursementDetails";
 
   ngOnInit() {
    
   }
-	
+  
+  
+
 	onFormLoad(arg0: {}) {
     console.log("Disbursement Details Load ");
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
@@ -62,7 +67,17 @@ export class DisbursementsHandlerComponent extends RLOUIHandlerComponent impleme
       this.MainComponent.InFavorOf.mandatory = false;
     }
   }
-  
+
+  aggregateCompletionPercent() {
+    this.disbursements = this.MainComponent.FieldId_18.getDisburseDetails();
+    var total = 0
+    for (let i = 0; i < this.disbursements.length; i++) {
+      if (this.disbursements[i].CompletionPercent !== undefined && this.disbursements[i].CompletionPercent !== "" && this.disbursements[i].HideDisbursald !== this.MainComponent.HideDisbursalSeqId.getFieldValue()) {
+        total += Number(this.disbursements[i].CompletionPercent);
+      }
+    }
+    return total;
+  }
 
   }
 
