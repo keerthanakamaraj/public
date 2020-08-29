@@ -10,6 +10,12 @@ Run `start-server.bat` for a dev server. Navigate to `http://localhost:1841/`. T
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+Build Command for Standalone ( Currently demo )
+
+```sh
+ng build --configuration demo --base-href /rlo/ --sourceMap=true
+```
+
 ## Tools for development
 
 ##### Required 
