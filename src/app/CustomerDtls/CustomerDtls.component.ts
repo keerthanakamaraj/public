@@ -196,7 +196,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
-      this.hideCustomerType.setValue((!this.isLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+      this.hideCustomerType.setValue((!this.isLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
       this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
@@ -982,7 +982,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   loanCategoryChanged(newLoanCategory) {
     this.isLoanCategory = newLoanCategory;
-    this.hideCustomerType.setValue((!newLoanCategory && (this.parentFormCode == 'DDE' || this.parentFormCode == 'UnderWriter')) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+    this.hideCustomerType.setValue((!newLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
     this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
   }
 
