@@ -96,3 +96,10 @@ export interface IheaderScoreCard {
     type: string;
     score: number;
 }
+
+//used in every sections which are there in DDE(rloCommonDataService -> masterDataMap)
+export interface IGlobalComponentLvlDataHandler {
+    name: string;
+    data: any;
+    BorrowerSeq: number;
+}

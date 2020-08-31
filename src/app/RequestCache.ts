@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
 
 @Injectable()
-export class RequestCache  {
+export class RequestCache {
   cache = new Map();
   get(req: HttpRequest<any>): HttpResponse<any> | undefined {
     /* const url = req.urlWithParams;
@@ -26,6 +26,6 @@ export class RequestCache  {
     const url = req.url;
     const entry = { url, response, lastRead: Date.now() };
     this.cache.set(url, entry);
-    console.log(this.cache);
+    console.log("DEEP | cache", this.cache);
   }
 }

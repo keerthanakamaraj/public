@@ -85,7 +85,8 @@ export class FinancialSummary implements IDeserializable {
                 title: "Total Obligation (Annual)",
                 subTitle: this.TotalObligation,
                 type: "basic",
-                modalSectionName: "",
+                modalSectionName: this.TotalObligation != 'NA' ? "ObligationDetails" : "",
+                //modalSectionName:"ObligationDetails",
                 formatToCurrency: true
             },
             {
@@ -1333,15 +1334,15 @@ export class Master implements IDeserializable {
 
         if (questionnaireList != undefined) {
             personalInterviewQuestionsList = questionnaireList.filter(q => q.QuestionnaireCategory == 'per_int');
-        }
 
-        customerList.forEach(element => {
-            if (element.CustomerType != 'R') {
-                if (element.UWPersonalInterview != undefined) {
+            customerList.forEach(element => {
+                if (element.CustomerType != 'R') {
+                    //if (element.UWPersonalInterview != undefined) {
                     element.UWPersonalInterview = questionnaireList.filter(q => q.BorrowerSeq == element.BorrowerSeq);
+                    //}
                 }
-            }
-        });
+            });
+        }
 
         this.CustomerDetails = input["UWCustomerDetails"].map(jsonData => new CustomerDetails().deserialize(jsonData));
 

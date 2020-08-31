@@ -155,7 +155,7 @@ export class ScoreCardResultComponent implements OnInit {
     this.activeScoreCardResultList = this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
     console.log("shweta :: score result master map", this.MstScoreResultMap);
 
-    if (this.activeScoreCardResultList.length) {
+    if (tempScoreCardResultList.length) {
       //store data in map
       var array = [];
       array.push({ isValid: true, sectionData: this.activeScoreCardResultList });

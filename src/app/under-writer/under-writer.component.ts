@@ -327,6 +327,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
+    //this.applicationId = 2785;
+
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
     }

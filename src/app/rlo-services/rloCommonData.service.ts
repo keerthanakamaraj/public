@@ -231,14 +231,14 @@ export class RloCommonData {
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
-        // case 'PolicyCheckResults':
-        //   mapValue = componentData.data;
-        //   functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
-        //   break;
-        // case 'ScorecardResults':
-        //   mapValue = componentData.data;
-        //   functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
-        //   break;
+        case 'PolicyCheckResults':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
+        case 'ScorecardResults':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -629,17 +629,23 @@ export class RloCommonData {
       let isGoNoGoSectionValid = true;
       let isLoadOrCreditCardValid = true;
       let isPropertyDetailsValid = true;
+      let isScoreCardDetailsValid = true;
+      let isPolicyCheckValid = true;
       let errorMessage = '';
 
       forkJoin(
         this.validateGoNoGoSection(dataToValidate),
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
-        this.validatePropertyDetailsSection(dataToValidate)
+        this.validatePropertyDetailsSection(dataToValidate),
+        this.validateScoreCard(dataToValidate),
+        this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
         console.error(data);
         isGoNoGoSectionValid = data[0].isSectionValid;
         isLoadOrCreditCardValid = data[1].isSectionValid;
         isPropertyDetailsValid = data[2].isSectionValid;
+        isScoreCardDetailsValid = data[3].isSectionValid;
+        isPolicyCheckValid = data[4].isSectionValid;
 
         let errorCounter = 1;
         for (let i = 0; i < data.length; i++) {
@@ -655,7 +661,7 @@ export class RloCommonData {
           }
         }
 
-        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid)) {
+        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid && isScoreCardDetailsValid && isPolicyCheckValid)) {
           // let msg = errorMessage + "\r\n";
           let msg = "<p>The following details of Application tab need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
           dataObject.errorsList.push(msg);
@@ -949,4 +955,46 @@ export class RloCommonData {
     });
     return promise;
   }
+
+  async validateScoreCard(applicationData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (applicationData.has("PropertyDetails")) {
+      let ScorecardResults = applicationData.get("ScorecardResults");
+      if (!ScorecardResults[0].isValid) {
+        commonObj.errorMessage = "Please fill all the mandatory fields of Scorecard Results";
+        commonObj.isSectionValid = false;
+      }
+    }
+    else {
+      commonObj.errorMessage = "Please fill all the mandatory fields of Scorecard Results";
+      commonObj.isSectionValid = false;
+    }
+    return commonObj;
+  }
+
+  async validatePolicyCheck(applicationData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (applicationData.has("PolicyCheckResults")) {
+      let ScorecardResults = applicationData.get("PolicyCheckResults");
+      if (!ScorecardResults[0].isValid) {
+        commonObj.errorMessage = "Please fill all the mandatory fields of PolicyCheck Results";
+        commonObj.isSectionValid = false;
+      }
+    }
+    else {
+      commonObj.errorMessage = "Please fill all the mandatory fields of PolicyCheck Results";
+      commonObj.isSectionValid = false;
+    }
+    return commonObj;
+  }
+
+
 }
