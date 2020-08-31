@@ -45,8 +45,8 @@ export class ScoreCardResultComponent implements OnInit {
   ngOnInit() {
     this.setFilterbyOptions();
     // this.loadScoreResult();
-    this.invokeInterface();
-    //this.retriggerScoreResult();
+    //this.invokeInterface();
+    this.retriggerScoreResult();
 
   }
 
@@ -191,14 +191,22 @@ export class ScoreCardResultComponent implements OnInit {
       }
     });
   }
-  retriggerScoreResult(res) {
-    // this.MstScoreResultMap.clear();
-    let inputMap = this.generateScoreCheckReq(res);
+  retriggerScoreResult() {
+   this.MstScoreResultMap.clear();
+    let inputMap = this.generateRetriggerRequestJson();
 
     this.services.http.fetchApi('/ScoreCard', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.loadScoreResult();
+        let res = httpResponse.body['ouputdata'];
+         if (res.OVERALLSCORE) {
+          this.loadScoreResult();
+        }else if (res.error) {
+          this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+        }else{
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+        }
+        // let res = httpResponse.body;
+        // this.loadScoreResult();
       },
       async (httpError) => {
         var err = httpError['error']
@@ -209,14 +217,14 @@ export class ScoreCardResultComponent implements OnInit {
     );
   }
 
-  generateScoreCheckReq(res) {
-    let inputMap = new Map();
-    inputMap.set('Body.prposalid', res['prposalid']);
-    inputMap.set('Body.interfaceId', res['interfaceId']);
-    inputMap.set('Body.ouputdata', res['ouputdata']);
+  // generateScoreCheckReq(res) {
+  //   let inputMap = new Map();
+  //   inputMap.set('Body.prposalid', res['prposalid']);
+  //   inputMap.set('Body.interfaceId', res['interfaceId']);
+  //   inputMap.set('Body.ouputdata', res['ouputdata']);
 
-    return inputMap;
-  }
+  //   return inputMap;
+  // }
   generateRetriggerRequestJson() {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT008');
@@ -226,20 +234,20 @@ export class ScoreCardResultComponent implements OnInit {
     return inputMap;
   }
 
-  invokeInterface() {
-    this.MstScoreResultMap.clear();
-    let inputMap = this.generateRetriggerRequestJson();
-    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.retriggerScoreResult(res);
-      }, async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      }
-    );
-  }
+  // invokeInterface() {
+  //   this.MstScoreResultMap.clear();
+  //   let inputMap = this.generateRetriggerRequestJson();
+  //   this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //       this.retriggerScoreResult(res);
+  //     }, async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+  //     }
+  //   );
+  // }
 
 }
