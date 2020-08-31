@@ -324,7 +324,7 @@ async FC_DELETE_click(event) {
 }
 formatAmount(number) {
     if (number.value) {
-      return this.services.formatAmount(number.value, null, null);
+      return this.services.formatAmount(number.value, null, null,false);
     } else {
       return '-';
     }

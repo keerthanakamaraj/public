@@ -13,6 +13,7 @@ import { IGeneralCardData } from '../Interface/masterInterface';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RloCommonData } from './rloCommonData.service';
+import { splitClasses } from '@angular/compiler';
 
 export var errorMap;
 
@@ -188,6 +189,8 @@ export class RlouiService {
         localStorage.setItem("ui.fields.version", this.tenantconfig["ui.fields.version"]);
         localStorage.setItem("currency.code.default", this.tenantconfig["currency.code.default"]);
         localStorage.setItem("mob.default.country.code", this.tenantconfig["mob.default.country.code"]);
+        localStorage.setItem("language.default", this.tenantconfig["language.default"]);
+
 
 
 
@@ -230,7 +233,7 @@ export class RlouiService {
     });
   }
 
-  formatAmount(amount, languageCode?: string, minFraction?, currency?: string) {
+  formatAmount(amount, languageCode?: string, minFraction?, currency?: string,hideSymbol?:boolean) {
     // console.log("Format Amount " , amount);
     let amt: number;
     if (typeof amount == "string") {
@@ -256,8 +259,13 @@ export class RlouiService {
     if (!languageCode) { languageCode = this.getConfig("language.default", "en-US"); }
     if (!currency) { currency = this.getConfig("currency.code.default", "EUR"); }
 
-    let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt).map(val => val.value).join('');
-    return val;
+    let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt);
+   
+    if(hideSymbol){
+      val.splice(0,1);
+    }
+    let mapValue = val.map(val => val.value).join('')
+    return mapValue;
 
   }
 

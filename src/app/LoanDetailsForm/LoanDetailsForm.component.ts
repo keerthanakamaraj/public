@@ -59,6 +59,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('TotalInterestAmount', { static: false }) TotalInterestAmount: ReadOnlyComponent;
   @ViewChild('TotalInstallmentAmt', { static: false }) TotalInstallmentAmt: ReadOnlyComponent;
   @ViewChild('MarginMoney', { static: false }) MarginMoney: ReadOnlyComponent;
+  @ViewChild('TotalFeeAdjWithDist', { static: false }) TotalFeeAdjWithDist: ReadOnlyComponent;
+  @ViewChild('TotalFeeCollUpfront', { static: false }) TotalFeeCollUpfront: ReadOnlyComponent;
+  @ViewChild('TotalLoanAmt', { static: false }) TotalLoanAmt: ReadOnlyComponent;
+  @ViewChild('TotaDistlAmt', { static: false }) TotaDistlAmt: ReadOnlyComponent;
   @ViewChild('Handler', { static: false }) Handler: LoanHandlerComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidInterestRate', { static: false }) hidInterestRate: HiddenComponent;
@@ -105,6 +109,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       this.revalidateBasicField('TotalInterestAmount', false, showErrors),
       this.revalidateBasicField('TotalInstallmentAmt', false, showErrors),
       this.revalidateBasicField('MarginMoney', false, showErrors),
+      this.revalidateBasicField('TotalFeeAdjWithDist', false, showErrors),
+      this.revalidateBasicField('TotalFeeAdjWithDist', false, showErrors),
+      this.revalidateBasicField('TotalLoanAmt', false, showErrors),
+      this.revalidateBasicField('TotaDistlAmt', false, showErrors),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -278,7 +286,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
             this.MarginMoney.setValue(LoanElement['MarginMoney']);
             this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
-            this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
+            this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null,false));
             // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             // this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
             this.totInterestAmt = LoanElement['TotalInterestAmount'];
@@ -448,7 +456,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     this.RepaymentStartDate = updatedData.repaymentStartDate
     this.monthlyinstallmentAmt = updatedData.monthlyinstallmentAmt != undefined ?
       updatedData.monthlyinstallmentAmt : this.Handler.CalculateEMI();
-    this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null));
+    this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null,false));
     this.Handler.SetValue();
     this.LoanGridCalculation(this.monthlyinstallmentAmt);
   }
@@ -695,8 +703,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     if (this.LoanAmount.getFieldValue() && this.NetInterestRate.getFieldValue()) {
       this.totInterestAmt = (parseFloat(this.LoanAmount.getFieldValue()) * parseFloat(this.NetInterestRate.getFieldValue()) / 100).toFixed(2);
       this.totInstallmentAmt = (parseFloat(this.LoanAmount.getFieldValue()) + parseFloat(this.totInterestAmt)).toFixed(2);
-      this.TotalInterestAmount.setValue(this.services.formatAmount(this.totInterestAmt, null, null));
-      this.TotalInstallmentAmt.setValue(this.services.formatAmount(this.totInstallmentAmt, null, null));
+      this.TotalInterestAmount.setValue(this.services.formatAmount(this.totInterestAmt, null, null,false));
+      this.TotalInstallmentAmt.setValue(this.services.formatAmount(this.totInstallmentAmt, null, null,false));
     } else {
       this.TotalInterestAmount.setValue('-NA-');
       this.TotalInstallmentAmt.setValue('-NA-');

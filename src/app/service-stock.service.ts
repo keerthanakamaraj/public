@@ -26,9 +26,9 @@ export class ServiceStock {
     public rloutil: RloUtilService,
     public rloCommonData: RloCommonData) { }
 
-  formatAmount(number, languageCode, minFraction) {
+  formatAmount(number, languageCode, minFraction,hideSymbol) {
     //return number.toLocaleString(languageCode, { minimumFractionDigits: minFraction});
-    return this.rloui.formatAmount(number, languageCode, minFraction, null);
+    return this.rloui.formatAmount(number, languageCode, minFraction, null,hideSymbol);
   }
 
   formatDate(date) {

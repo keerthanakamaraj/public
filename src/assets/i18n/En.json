@@ -1416,7 +1416,14 @@
     "LD_RECEIVE_MONEY": "Receive Initial Money",
     "LD_SAVE_BTN": "SAVE",
     "LD_CLEAR_BTN": "CLEAR",
-    "EMIAmount": "Monthly Installments"
+    "EMIAmount": "Monthly Installments",
+    "TotalFeeAdjWithDist": "Total Fees Adjusted with Disbursement",
+    "TotalFeeCollUpfront": "Total Fees Collected Upfront",
+    "TotalLoanAmt": "Total Loan Amount",
+    "TotaDistlAmt": "Total Disbursement Amount"
+
+
+
 
   },
   "SearchCustomerGrid": {

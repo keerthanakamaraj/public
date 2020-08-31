@@ -18,8 +18,8 @@ export class AmountComponent extends FieldComponent implements OnInit {
   @Input('minLength') minLength: number;
   @Input('DecimalLength') DecimalLength: number = 2;
 
-  currencyCode = 'INR';
-  languageCode = 'en-IN';
+  currencyCode =  localStorage.getItem("currency.code.default");
+  languageCode = localStorage.getItem("language.default");;
   constructor(services: ServiceStock) {
     super(services);
   }
@@ -59,13 +59,13 @@ export class AmountComponent extends FieldComponent implements OnInit {
   formatAmount(number, languageCode, minFraction, hideSymbol?: boolean) {
     // return this.services.formatAmount(number, languageCode, minFraction);
     // Dirty Fix
-    return this.services.formatAmount(number, languageCode, minFraction).substr(3);
+    return this.services.formatAmount(number, languageCode, minFraction,hideSymbol);
     // return this.services.formatAmount(number, languageCode, minFraction);
   }
 
   onBlur() {
     this.isOnFocus = false;
-    this.languageCode = "en-US";
+    this.languageCode;
 
     if (this.value) {
       this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength, true);
@@ -78,7 +78,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
 
   onChange() {
     this.value = this.additionalInfo;
-    this.languageCode = "en-US";
+    this.languageCode ;
     this.change.emit();
 
     if (this.value) {

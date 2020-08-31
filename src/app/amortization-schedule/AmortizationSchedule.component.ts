@@ -282,7 +282,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
   generateRepaymentForm(requestedParams) {
     //this.repaymentFormData=requestParams;
-    this.repaymentFormData.loanAmount = this.services.formatAmount(this.repaymentFormData.loanAmount, null, null);
+    this.repaymentFormData.loanAmount = this.services.formatAmount(this.repaymentFormData.loanAmount, null, null,false);
     this.repaymentFormData.maturityDate = requestedParams.maturityDate;
     this.repaymentFormData.loanCalculationDate = this.getTimeStamp();
     // console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());

@@ -192,7 +192,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           // 'SchemeCode': header["Scheme"]
         });
 
-        this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null); // "₹ " + header.LoanAmount'];
+        this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null,false); // "₹ " + header.LoanAmount'];
 
         this.INTEREST_RATE = header.InterestRate + "% pa";
 
@@ -232,8 +232,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.LD_INTEREST_RATE.setValue(this.INTEREST_RATE);
           this.LD_TENURE.setValue(header.Tenure);
           this.LD_TENURE_PERIOD.setValue(header.TenurePeriod);
-          this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null));
-          this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null));
+          this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null,false));
+          this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null,false));
         } else {
           this.CC_CUST_TYPE.setValue(header.ExistingCustomer != undefined && header.ExistingCustomer == 'Y' ? 'Existing' : 'New');
           this.customerType = this.CC_CUST_TYPE.getFieldValue();
