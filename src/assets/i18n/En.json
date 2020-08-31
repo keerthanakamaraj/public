@@ -182,6 +182,7 @@
     "rlo.error.amortization-visit-pending":"Please Visit the Amortization First",
     "rlo.error.invalid-repayment-freq":"Repayment Frequency should be according to Tenure Period",
     "rlo.error.bre-exception":"BRE Exception occured",
+    "rlo.error.borrwer-loan-ownership-alert":"Loan Ownership for borrower should be more than 0",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

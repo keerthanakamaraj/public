@@ -210,9 +210,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     });
     this.setDependencies();
     if ('DDE' == this.parentFormCode) {
-      this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq)<100?false:true);
+      this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq) < 100 ? false : true);
     }
-    
+
     // this.Handler.displayCustomerTag();
   }
 
@@ -467,6 +467,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // }
 
     if (noOfErrors === 0) {
+
       let CustomerDetailsArray = [];
       CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
       //  console.log("Shweta :: return from service", CustomerDetailsArray);
@@ -850,6 +851,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.setNonEditableFields(false)
     }
     const customer = customerDtlsObj;
+    this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
     this.CD_TITLE.setValue(customer.Title);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
     this.CD_MIDDLE_NAME.setValue(customer.MiddleName);
@@ -887,25 +889,25 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_STAFF.setValue(customer.IsStaff);
     this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
     this.CD_CIF.setValue(customer.CIF);
-    
+
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
     this.passBorrowerSeq.emit({
       'BorrowerSeq': customer.BorrowerSeq,
     });
-    
+
     this.revalidate(false).then((errors) => {
       if (errors === 0) {
         let array = [];
         array.push({ isValid: true });
-        
+
         let obj = {
           "name": "CustomerDetails",
           "data": array,
           "BorrowerSeq": this.HidCustomerId.getFieldValue()
         };
-        
+
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       }
     });
@@ -961,6 +963,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.onFullNameblur.emit({});
     this.CD_CUST_TYPE.setValue(event.customerType, undefined, true);
     this.setNonEditableFields(false);
+    this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
   }
 
   async CD_FULL_NAME_change(fullName, customerType) {
@@ -984,13 +987,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   CD_LOAN_OWN_blur(fieldName, event) {
-    let totLoanOwnership:number=0;
-    totLoanOwnership =this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq);
-    if(this.CD_LOAN_OWN.getFieldValue()!=undefined || this.CD_LOAN_OWN.getFieldValue()!=0){
-      totLoanOwnership += parseFloat(this.CD_LOAN_OWN.getFieldValue())}
-    console.log("shweta :: in cust_frorm ::totLoanOwnership",totLoanOwnership);
+    let totLoanOwnership: number = 0;
+    totLoanOwnership = this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq);
+    if (this.CD_LOAN_OWN.getFieldValue() != undefined || this.CD_LOAN_OWN.getFieldValue() != 0) {
+      totLoanOwnership += parseFloat(this.CD_LOAN_OWN.getFieldValue())
+    }
+    console.log("shweta :: in cust_frorm ::totLoanOwnership", totLoanOwnership);
     if (totLoanOwnership > 100) {
       this.CD_LOAN_OWN.setError('rlo.error.loanownership.onblur');
+      return 1;
+    }
+    if (this.CD_CUST_TYPE.getFieldValue() == 'B' && this.isLoanCategory && (this.CD_LOAN_OWN.getFieldValue() == undefined || this.CD_LOAN_OWN.getFieldValue() == 0 || this.CD_LOAN_OWN.getFieldValue() == '')) {
+      this.CD_LOAN_OWN.setError('rlo.error.borrwer-loan-ownership-alert');
       return 1;
     }
   }
@@ -1125,5 +1133,28 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     );
     return this.fieldArray;
   }
-
+  disableLoanOwnership(customerType) {
+    let readOnlyFlag = true;
+    if (this.parentFormCode != 'DDE') {
+      return true;
+    }
+    if (customerType == 'B') {
+      return false;
+    }
+    if (customerType == 'G' || customerType == 'OP') {
+      return true;
+    } else if (this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq) >= 100) {
+      return true;
+    } else {
+      let customerList = this.services.rloCommonData.getCustomerList();
+      for (let element of customerList) {
+        if (element.LoanOwnership != undefined && element.CustomerType == 'CB'
+          && element.BorrowerSeq != this.activeBorrowerSeq) {
+          // readOnlyFlag = true;
+          return true;
+        }
+      }
+      return false;
+    }
+  }
 }
