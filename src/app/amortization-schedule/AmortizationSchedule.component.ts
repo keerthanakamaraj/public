@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef, ɵConsole } from '@angular/core';
 import { AmortizationScheduleModel } from './AmortizationSchedule.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -261,7 +261,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       this.repaymentFormData.productCode = this.services.rloCommonData.globalApplicationDtls.ProductName;
       this.repaymentFormData.subProductCode = this.services.rloCommonData.globalApplicationDtls.SubProductName;
 
-      if(this.RequiredEMIAmt!=undefined && this.RequiredEMIAmt.getFieldValue()!=0 && this.RequiredEMIAmt.getFieldValue()!=''){
+      if(this.RequiredEMIAmt.getFieldValue()!=undefined && this.RequiredEMIAmt.getFieldValue()!=0 && this.RequiredEMIAmt.getFieldValue()!=''){
         this.repaymentFormData.requiredEMIAmt=this.RequiredEMIAmt.getFieldValue();
         this.repaymentFormData.tenure=this.parentData.Tenure;
         this.repaymentFormData.tenureIndecator=this.convertTenurePeriodToScheduleType();
@@ -270,7 +270,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
         this.repaymentFormData.installmentFrequency = '1';
         this.repaymentFormData.installmentFreqIndicator=this.ScheduleType.getFieldInfo();
       }
-
+console.log("shweta :: new repayment Interface ::",JSON.stringify(this.repaymentFormData));
     this.AmortizationGrid.gridDataLoad({
         'requestParams': this.repaymentFormData
       });
