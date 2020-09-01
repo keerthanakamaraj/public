@@ -82,7 +82,7 @@
                         </div>
                         <div class='rightheader' [className]="isLoanCategory?'active':'inactive'">
                             <div class='subrightheader1'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_INTEREST_RATE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_INTEREST_RATE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_INTEREST_RATE' | translate}}
@@ -91,7 +91,7 @@
                                     <rlo-ui-readonlyfield #LD_INTEREST_RATE fieldID="LD_INTEREST_RATE" [formCode]="formCode" (blur)="genericOnBlur('LD_INTEREST_RATE', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_TENURE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_TENURE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_TENURE' | translate}}
@@ -99,7 +99,7 @@
                                     </div>
                                     <rlo-ui-readonlyfield #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode" (blur)="genericOnBlur('LD_TENURE', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_TENURE_PERIOD_NAME.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_TENURE_PERIOD_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_TENURE_PERIOD' | translate}}
@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                             <div class='subrightheader2'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_SYS_RCMD_AMT.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_SYS_RCMD_AMT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_SYS_RCMD_AMT' | translate}}
@@ -127,7 +127,7 @@
                                     <rlo-ui-readonlyfield #LD_SYS_RCMD_AMT fieldID="LD_SYS_RCMD_AMT" [formCode]="formCode" (blur)="genericOnBlur('LD_SYS_RCMD_AMT', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="LD_USR_RCMD_AMT.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_USR_RCMD_AMT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_USR_RCMD_AMT' | translate}}
@@ -150,7 +150,7 @@
                         </div>
                         <div class='rightheader' [className]="!isLoanCategory?'active':'inactive'">
                             <div class='subrightheader1'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CC_CUST_TYPE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CUST_TYPE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CUST_TYPE' | translate}}
@@ -160,7 +160,7 @@
                                     <rlo-ui-readonlyfield #CC_CUST_TYPE fieldID="CC_CUST_TYPE" [formCode]="formCode" (blur)="genericOnBlur('CC_CUST_TYPE', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CC_CHANNEL.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CHANNEL.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CHANNEL' | translate}}
@@ -169,7 +169,7 @@
                                     </div>
                                     <rlo-ui-readonlyfield #CC_CHANNEL fieldID="CC_CHANNEL" [formCode]="formCode" (blur)="genericOnBlur('CC_CHANNEL', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CC_PRIME_USAGE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_PRIME_USAGE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_PRIME_USAGE' | translate}}
@@ -178,7 +178,7 @@
                                     <rlo-ui-readonlyfield #CC_PRIME_USAGE fieldID="CC_PRIME_USAGE" [formCode]="formCode" (blur)="genericOnBlur('CC_PRIME_USAGE', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CC_CARD_TYPE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_TYPE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CARD_TYPE' | translate}}
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                             <div class='subrightheader2'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CC_CARD_ASSOCIATION.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_ASSOCIATION.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CARD_ASSOCIATION' | translate}}
