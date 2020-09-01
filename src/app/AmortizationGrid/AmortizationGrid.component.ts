@@ -226,17 +226,17 @@ export class AmortizationGridComponent implements AfterViewInit {
     inputMap.set('QueryParam.interestRate', requestParams.interestRate);
     inputMap.set('QueryParam.disbursalDate', requestParams.disbursalDate);
     inputMap.set('QueryParam.firstInstallmentDate', requestParams.firstInstallmentDate);
-    inputMap.set('QueryParam.installment-frequency-indicator', requestParams.installmentFreqIndicator);
-    
-    inputMap.set('QueryParam.loan-tenor', '');//optional
-    inputMap.set('QueryParam.loan-tenor-indicator', '');//optional
+    inputMap.set('QueryParam.installmentFreqIndicator', requestParams.installmentFreqIndicator);   
+    inputMap.set('QueryParam.loanTenure', requestParams.tenure);//optional
+    inputMap.set('QueryParam.loanTenureIndecator', requestParams.tenureIndecator);//optional
     inputMap.set('QueryParam.interestDenominator', '');//optional
     inputMap.set('QueryParam.interestDenominator', '');//optional
     //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
     //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional
 
+    console.log("shweta :: new repayment input map req ::",inputMap);
 
-    this.services.http.fetchApi('/repayment', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
+    this.services.http.fetchApi('/RepaymentSchedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
       RepaymentList = httpResponse.body.Record;
       if (RepaymentList) {
         this.isRecord = true;

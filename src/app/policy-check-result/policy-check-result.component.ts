@@ -175,15 +175,18 @@ export class PolicyCheckResultComponent implements OnInit {
     // let inputMap = this.generateRetriggerRequestJson();
     // console.log("shweta :: input map",inputMap);
     //  let inputMap = this.generatepolicyCheckReq(res);
+    this.MstPolicyResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
     this.services.http.fetchApi('/policyCheck', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body.Body['ouputdata'];
-        if (res.error) {
-          this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
-        } else if (res.OVERALLSCORE) {
+        let res = httpResponse.body['ouputdata'];
+        if (res.OVERALLSCORE) {
           console.log("Shweta :: BRE response ", res.OVERALLRESULT, " : ", res.OVERALLRESULT);
           this.loadPolicyResult();
+        } else if (res.error) {
+          this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
       },
       async (httpError) => {
