@@ -10,12 +10,12 @@ export const environment = {
   baseURL: window.location.origin, //Demo
   //  baseURL: 'http://localhost:8081',
   enableKeycloak: false,
-  authURL: 'https://iam.intellectseecapps.com/auth',
+  authURL: 'http://10.11.12.15:18080/auth/',
   //authURL: 'https://iam.intellectqacloud.com/auth', // QA
-  realm: 'ecpvdev',
+  realm: 'rlorealm',
   // realm: 'dabank', // QA
-  clientId: 'fabric',
-  redirectURL: 'http://localhost:1841/rlo/#/home/LANDING',
+  clientId: 'rloclient',
+  redirectURL: 'http://10.11.12.15:20804/rlo/#/home/LANDING',
   // redirectURL: window.location.hash.replace('#/', '') === '' ? window.location.href + '#/home/LANDING' : window.location.href,
 
   // serviceMap : {
