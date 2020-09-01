@@ -39,6 +39,7 @@ export class ScoreCardResultComponent implements OnInit {
       description: 'Non Favourable'
     }
   ];
+  openInModal: boolean = false;//set true if wanna open in modal.UW header scores
 
   constructor(public services: ServiceStock) { }
 
@@ -47,22 +48,33 @@ export class ScoreCardResultComponent implements OnInit {
     // this.loadScoreResult();
     //this.invokeInterface();
     this.retriggerScoreResult();
-
   }
 
   setFilterbyOptions() {
-    let tempCustomerList = this.services.rloCommonData.getCustomerList();
-
-    console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-    tempCustomerList.forEach(element => {
-      // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-      if (element.CustomerType == 'B') {
-        this.mainBorrower = element.BorrowerSeq;
-      }
-      this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-    });
+    if (this.openInModal) {
+      this.FilterOptions = this.services.rloui.customerDataDropDown;
+      this.FilterOptions.forEach(element => {
+        let customerType = element.text.split("-")[0];
+        if (customerType == "B") {
+          this.mainBorrower = element.id.split("_")[1];
+        }
+      });
+    }
+    else {
+      let tempCustomerList = this.services.rloCommonData.getCustomerList();
+
+      console.log("shweta :: in score section", tempCustomerList);
+
+      this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+      tempCustomerList.forEach(element => {
+        // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+        if (element.CustomerType == 'B') {
+          this.mainBorrower = element.BorrowerSeq;
+        }
+        this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      });
+    }
 
     console.log("shweta :: score options list", this.FilterOptions);
   }

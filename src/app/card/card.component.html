@@ -82,7 +82,7 @@
     <div class="wgt-cards">
         <div class="cards-header">
             <span>{{cardMetaData.name}}</span>
-            <span class="icon-link" (click)="openModal()"
+            <span *ngIf="cardMetaData.canShowModal" class="icon-link" (click)="openModal()"
                 [ngClass]="{'disable-card' : !cardMetaData.modalSectionName.length}"></span>
         </div>
         <div class="cards-body row">

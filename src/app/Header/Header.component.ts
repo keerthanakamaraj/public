@@ -108,6 +108,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   SCHEME_NAME: string;
   SUB_PRODUCT_NAME: string
 
+  currentPageName: string;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -192,7 +194,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           // 'SchemeCode': header["Scheme"]
         });
 
-        this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null,false); // "₹ " + header.LoanAmount'];
+        this.LOAN_AMT = this.services.formatAmount(this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount, null, null, false); // "₹ " + header.LoanAmount'];
 
         this.INTEREST_RATE = header.InterestRate + "% pa";
 
@@ -232,8 +234,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.LD_INTEREST_RATE.setValue(this.INTEREST_RATE);
           this.LD_TENURE.setValue(header.Tenure);
           this.LD_TENURE_PERIOD.setValue(header.TenurePeriod);
-          this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null,false));
-          this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null,false));
+          this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null, false));
+          this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null, false));
         } else {
           this.CC_CUST_TYPE.setValue(header.ExistingCustomer != undefined && header.ExistingCustomer == 'Y' ? 'Existing' : 'New');
           this.customerType = this.CC_CUST_TYPE.getFieldValue();
@@ -304,6 +306,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+    this.services.rloCommonData.getCurrentRoute();
+    this.currentPageName = this.services.rloCommonData.currentRoute;
   }
   clearError() {
     super.clearBasicFieldsError();
@@ -329,14 +333,14 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
-    switch(localStorage.getItem("currency.code.default")){
-      case 'EUR':  this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
-      break;
-      case 'KES':  this.CURRENCY_IMG = './assets/icons/Ksh icon.svg';
-      break;
+    switch (localStorage.getItem("currency.code.default")) {
+      case 'EUR': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
+        break;
+      case 'KES': this.CURRENCY_IMG = './assets/icons/Ksh icon.svg';
+        break;
 
     }
-   
+
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
         // this.HD_PROD_CAT_NAME.setValue('Auto Loan');
@@ -422,10 +426,10 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       LoanTenure: header.Tenure,
       LoanTenurePeriodCode: header.TenurePeriodCode,
       LoanTenurePeriodName: header.TenurePeriodName,
-      ARN:header.ApplicationRefernceNo,
-      LoanAmount:this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount
+      ARN: header.ApplicationRefernceNo,
+      LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
-    console.log("shweta updated global interface",this.services.rloCommonData.globalApplicationDtls);
+    console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
   }
 }

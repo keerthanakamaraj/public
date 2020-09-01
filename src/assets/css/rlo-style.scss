@@ -1065,6 +1065,10 @@ a.back {
   text-align: center !important;
 }
 
+.m-0 {
+  margin: 0 !important;
+}
+
 //used to add space for every page in layout for form btns
 .page-layout-padding {
   padding-bottom: 5rem;
@@ -1710,7 +1714,7 @@ rlo-ui-card-field {
 }
 
 .progress-bar-visible {
-  top: 105px !important;
+  top: 104px !important;
 }
 
 .test-class {
@@ -2451,10 +2455,9 @@ rlo-ui-card-field {
 }
 
 .scorecard-container {
-
+  margin: 0 -7px 0 -7px !important;
   //two types of layouts for header-vertical-layoute & horizontal-layout
   &.horizontal-layout {
-    margin: 0 !important;
     border: 1px solid #ccc;
     border-top: 0;
     border-bottom-left-radius: 8px;
@@ -2502,12 +2505,13 @@ rlo-ui-card-field {
     }
 
     &.expanded {
-      top: 165px;
+      top: 164px;
       position: fixed;
       right: 0;
       left: 15px;
       width: calc(100% - 30px) !important;
       z-index: 99;
+      margin: 0 !important;
     }
   }
 }
@@ -3972,11 +3976,12 @@ rlo-ui-card-field {
   float: right;
 }
 
-.upload-btn-container{
+.upload-btn-container {
   line-height: 7rem;
 }
-#VRF_UPLOAD_BTN{
- // margin-top: 8px;
+
+#VRF_UPLOAD_BTN {
+  // margin-top: 8px;
   margin-left: 0px;
 }
 

@@ -15,6 +15,7 @@ export interface IGeneralCardData {
     borrowerSeq?: number;
     applicationId?: number;
     componentCode?: string;
+    canShowModal?: boolean;
 }
 
 export interface ICardListData {
@@ -47,9 +48,9 @@ export interface IAmortizationForm {
     InterestRate?: any,
     InstallmentFrequency?: any,
     InstallmentFreqIndicator?: any,
-    InstallmentFreqIndicatorCd?:any,
-    TenurePeriod?:any,
-    TenurePeriodCd?:any
+    InstallmentFreqIndicatorCd?: any,
+    TenurePeriod?: any,
+    TenurePeriodCd?: any
 
 }
 
@@ -67,9 +68,9 @@ export interface IRepaymentSchedule {
     maturityDate?: string,
     loanCalculationDate?: string,
     installmentFreqIndicator?: string
-    tenure?:string,
-    tenureIndecator?:string,
-    requiredEMIAmt?:string
+    tenure?: string,
+    tenureIndecator?: string,
+    requiredEMIAmt?: string
 }
 
 

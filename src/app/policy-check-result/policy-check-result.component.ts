@@ -21,32 +21,45 @@ export class PolicyCheckResultComponent implements OnInit {
   @Input() ApplicationId: string = undefined;
   parentFormCode: string = undefined;
   activePolicyResultList: IPolicy[] = undefined;
-  constructor(private services: ServiceStock, private renderer2: Renderer2) { }
   mainBorrower: string = undefined;
   FilterOptions = [];
   MstPolicyResultMap: Map<string, IPolicy[]> = new Map();
+  openInModal: boolean = false;//set true if wanna open in modal.UW header scores
+
+  constructor(private services: ServiceStock, private renderer2: Renderer2) { }
+
   ngOnInit() {
     this.setFilterbyOptions();
-
     this.retriggerPolicyResult();
 
     // this.invokeInterface();
     // this.loadPolicyResult();
   }
   setFilterbyOptions() {
-    let tempCustomerList = this.services.rloCommonData.getCustomerList();
-
-    console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-    tempCustomerList.forEach(element => {
-      if (element.CustomerType == 'B') {
-        // this.FilterOptions.push({ id: 'A_' + element.CustSeq, text: 'Application' });
-        this.mainBorrower = element.BorrowerSeq;
-      }
-      this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-    });
+    if (this.openInModal) {
+      this.FilterOptions = this.services.rloui.customerDataDropDown;
+      console.log(this.FilterOptions);
+      this.FilterOptions.forEach(element => {
+        let customerType = element.text.split("-")[0];
+        if (customerType == "B") {
+          this.mainBorrower = element.id.split("_")[1];
+        }
+      });
+    }
+    else {
+      let tempCustomerList = this.services.rloCommonData.getCustomerList();
+      console.log("shweta :: in score section", tempCustomerList);
 
+      this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+      tempCustomerList.forEach(element => {
+        if (element.CustomerType == 'B') {
+          // this.FilterOptions.push({ id: 'A_' + element.CustSeq, text: 'Application' });
+          this.mainBorrower = element.BorrowerSeq;
+        }
+        this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      });
+    }
     console.log("shweta :: score options list", this.FilterOptions);
   }
 
@@ -84,6 +97,8 @@ export class PolicyCheckResultComponent implements OnInit {
   }
   parsePolicyResultJson(tempPolicyResultList) {
     let newPolicyResultList = [];
+    this.activePolicyResultList = [];
+    
     console.log("shweta :: policy Resp:", tempPolicyResultList);
     tempPolicyResultList.forEach(eachPolicy => {
       if (this.parentFormCode == eachPolicy.Stage) {

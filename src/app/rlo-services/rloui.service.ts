@@ -59,11 +59,16 @@ export class RlouiService {
     { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
     { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
     { componentName: "PropertyDetails", iconClass: "icon-property" },
-    { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" }
+    { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" },
+    { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
+    { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
-  //{id: "C_2952", text: "CB-SHITAL JAIN"}
+  //{id: "2952", text: "SHITAL JAIN"}
+
+  customerDataDropDown: { id: string, text: string }[] = [];//used for score card and policy check in UW
+  //{id: "A_2946", text: "Application"}{id: "C_3418", text: "B-SONU SOOD"}
 
   constructor(public http: ProvidehttpService, public translate: TranslateService, public httpProvider: Http, public modal: NgbModal, public router: Router, private locationRoute: Location) {
     console.log("UI Service .. constructor --------------------------------");

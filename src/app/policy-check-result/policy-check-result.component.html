@@ -1,57 +1,61 @@
-<div class="policy-section-conatoner lyt-policy-check-result">
-  <div class="col-12 col-sm-3 col-md-3">
-    <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
-      defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur()">
-    </app-combo-box>
-  </div>
-  <!-- <div class="col-12  col-sm-5 col-md-5 res-pr-hide"></div> -->
-  <div class="top-btn-container col-12  col-sm-8 col-md-8 res-pr-hide">
-    <app-button #PCR_RETRIGGER_BTN fieldName="{{ 'PolicyResult.PCR_RETRIGGER_BTN' | translate}}"
-      fieldID="PCR_RETRIGGER_BTN" customClass="btn-warning-outline" (buttonClick)="retriggerPolicyResult()"></app-button>
-  </div>
-  <div class="header-container">
-    <ng-container>
-      <div class="policy-row-header col-12 col-sm-12 col-md-12">
-        <div class="desc-container col-12 col-sm-4 col-md-4">
-          <span class="desc-header-txt"></span>
+<div class="policy-section-conatoner lyt-policy-check-result" [ngStyle]="{'margin-right':openInModal ? '20px' : '0' }">
+  <div class="row" [ngClass]="openInModal?'m-0':''">
+    <div class="col-12 col-sm-3 col-md-3">
+      <app-combo-box #PCR_Filter category="4" fieldID="PCR_Filter" placeholder="Select" [emittedOptions]="FilterOptions"
+        defaultValue="{{FilterOptions[0].id}}" (blur)="PCR_Filter_Blur()">
+      </app-combo-box>
+    </div>
+    <!-- <div class="col-12  col-sm-5 col-md-5 res-pr-hide"></div> -->
+    <div class="top-btn-container col-12  col-sm-8 col-md-8 res-pr-hide">
+      <app-button #PCR_RETRIGGER_BTN fieldName="{{ 'PolicyResult.PCR_RETRIGGER_BTN' | translate}}"
+        fieldID="PCR_RETRIGGER_BTN" customClass="btn-warning-outline" (buttonClick)="retriggerPolicyResult()">
+      </app-button>
+    </div>
+    <div class="header-container">
+      <ng-container>
+        <div class="policy-row-header col-lg-12 col-sm-12 col-md-12">
+          <div class="desc-container col-12 col-sm-4 col-md-4">
+            <span class="desc-header-txt"></span>
+          </div>
+          <div class="value-container col-sm-2 col-sm-2 col-md-2">
+            <span class="col-header-txt"> {{ 'PolicyResult.ActualResult' | translate}}</span>
+          </div>
+          <!-- <div class="value-container col-12 col-sm-1 col-md-1"></div> -->
+          <div class="value-container expected-result col-lg-4 col-sm-4 col-md-4">
+            <span class="col-header-txt"> {{ 'PolicyResult.ExpectedResult' | translate}}</span>
+          </div>
+          <div class="value-container col-lg-2 col-sm-2 col-md-2">
+            <span class="col-header-txt"> {{ 'PolicyResult.Result' | translate}}</span>
+          </div>
         </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
-          <span class="col-header-txt"> {{ 'PolicyResult.ActualResult' | translate}}</span>
-        </div>
-        <!-- <div class="value-container col-12 col-sm-1 col-md-1"></div> -->
-        <div class="value-container expected-result col-12 col-sm-4 col-md-4">
-          <span class="col-header-txt"> {{ 'PolicyResult.ExpectedResult' | translate}}</span>
-        </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
-          <span class="col-header-txt"> {{ 'PolicyResult.Result' | translate}}</span>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-  <div class="data-container">
-    <ng-container *ngIf="activePolicyResultList != undefined">
-      <div class="policy-row col-12 col-sm-12 col-md-12" *ngFor="let policy of activePolicyResultList; let i = index;">
-        <div class="desc-container col-12 col-sm-4 col-md-4">
-          <span class="description-txt">{{ i + 1 }}. {{policy.RuleDescription }}</span>
-        </div>
-        <div class="value-container actual-result col-12 col-sm-2 col-md-2">
-          <span class="value-txt">{{policy.ActualValue }}</span>
-        </div>
-        <!-- <div class="value-container col-12 col-sm-1 col-md-1">
+      </ng-container>
+    </div>
+    <div class="data-container">
+      <ng-container *ngIf="activePolicyResultList != undefined">
+        <div class="policy-row col-12 col-sm-12 col-md-12"
+          *ngFor="let policy of activePolicyResultList; let i = index;">
+          <div class="desc-container col-12 col-sm-4 col-md-4">
+            <span class="description-txt">{{ i + 1 }}. {{policy.RuleDescription }}</span>
+          </div>
+          <div class="value-container actual-result col-12 col-sm-2 col-md-2">
+            <span class="value-txt">{{policy.ActualValue }}</span>
+          </div>
+          <!-- <div class="value-container col-12 col-sm-1 col-md-1">
             <span class="value-txt"></span>
         </div> -->
-        <div class="value-container expected-result col-12 col-sm-4 col-md-4">
-          <span class="value-txt">{{policy.ExpectedValue }}</span>
+          <div class="value-container expected-result col-12 col-sm-4 col-md-4">
+            <span class="value-txt">{{policy.ExpectedValue }}</span>
+          </div>
+          <div class="value-container col-12 col-sm-2 col-md-2">
+            <span [ngClass]="(policy.RuleResult=='Pass')?'pass-txt':'fail-txt'">{{policy.RuleResult }}</span>
+          </div>
         </div>
-        <div class="value-container col-12 col-sm-2 col-md-2">
-          <span [ngClass]="(policy.RuleResult=='Pass')?'pass-txt':'fail-txt'">{{policy.RuleResult }}</span>
-        </div>
-      </div>
-      <!-- <div class="total-container row col-12 col-sm-12 col-md-12">
+        <!-- <div class="total-container row col-12 col-sm-12 col-md-12">
         <span class="col-12 col-sm-8 col-md-8"></span>
         <span class="total-label col-12 col-sm-2 col-md-2"> Total Score</span>
         <span class="total-value col-12 col-sm-2 col-md-2"> 100 - pass</span>
       </div> -->
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>

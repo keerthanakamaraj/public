@@ -874,46 +874,66 @@ export class RloCommonData {
 
       if (type == "applicationScore") {
         interfaceId = "INT008";
-        apiName = "ScoreCard";
+        apiName = "/ScoreCard";
       }
       else {
         interfaceId = "INT007";
-        apiName = "policyCheck";
+        apiName = "/policyCheck";
       }
 
       let inputMap = this.generateRetriggerRequestJson(applicationId, interfaceId);
 
-      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      // this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      //   async (httpResponse: HttpResponse<any>) => {
+      //     let res = httpResponse.body;
+      //     resolve(res);
+      //     this.retriggerScoreResult(res, apiName);
+      //   }, async (httpError) => {
+      //     resolve(null);
+      //     var err = httpError['error']
+      //     if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+      //     }
+      //     //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+      //   }
+      // );
+
+      this.http.fetchApi(apiName, 'POST', inputMap, '/initiation').subscribe(
         async (httpResponse: HttpResponse<any>) => {
-          let res = httpResponse.body;
-          resolve(res);
-          this.retriggerScoreResult(res, apiName);
-        }, async (httpError) => {
-          resolve(null);
+          let res = httpResponse.body['ouputdata'];
+          if (res.OVERALLSCORE) {
+            resolve(res);
+          } else if (res.error) {
+            //this.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+          } else {
+            //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+          }
+        },
+        async (httpError) => {
           var err = httpError['error']
           if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           }
-          //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+          //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
       );
+
     });
     return promise;
   }
 
-  retriggerScoreResult(res, apiName: string) {
-    let inputMap = this.generateScoreCheckReq(res);
+  // retriggerScoreResult(res, apiName: string) {
+  //   let inputMap = this.generateScoreCheckReq(res);
 
-    this.http.fetchApi('/' + apiName, 'POST', inputMap, '/initiation').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      });
-  }
+  //   this.http.fetchApi('/' + apiName, 'POST', inputMap, '/initiation').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //     },
+  //     async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+  //     });
+  // }
 
   generateScoreCheckReq(res) {
     let inputMap = new Map();
@@ -966,7 +986,7 @@ export class RloCommonData {
       errorMessage: ''
     }
 
-    if (applicationData.has("PropertyDetails")) {
+    if (applicationData.has("ScorecardResults")) {
       let ScorecardResults = applicationData.get("ScorecardResults");
       if (!ScorecardResults[0].isValid) {
         commonObj.errorMessage = "Please fill all the mandatory fields of Scorecard Results";

@@ -124,17 +124,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     // itemSelector: '.w-25'
   };
 
-  masonryItems = [
-    { title: 'item 1', width: '50%', height: '50em', height2: 'auto', class: "col-sm-6 col-md-6 col-lg-6", color: "red", class2: "w-25" },
-    { title: 'item 2', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-    { title: 'item 3', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-    { title: 'item 4', width: '50%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-    { title: 'item 5', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-    { title: 'item 6', width: '25%', height: '50.3em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-    { title: 'item 7', width: '50%', height: '50.2em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-    { title: 'item 8', width: '25%', height: '50em', height2: 'auto', class: "col-sm-3 col-md-3 col-lg-3", color: "red", class2: "w-25" },
-  ];
-
   applicationSectionLoaded: boolean = false;
   customerSectionLoaded: boolean = false;
 
@@ -249,6 +238,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   maxCardLimit: any = "NA";
 
   customersList: any;//list of customers
+  borrowersBorrowerSeq: number = 0;//required in DBR expand section
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
@@ -327,7 +317,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    //this.applicationId = 2785;
+    //this.applicationId = 2483;
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -347,7 +337,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           this.isDataAvaliableFlag = 1;
           this.applicationId = res.UWApplication.ApplicationId;
           this.generateModelJson(res.UWApplication);
-          this.getScores();
+          this.getScores();//DBR,policy,application scores
         }
         else {
           this.isDataAvaliableFlag = 0;
@@ -380,10 +370,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
       if (element.CustomerType != "R") {
         this.customerList.push(data);
-
         this.services.rloui.customerListDropDownArray.push({ id: element.BorrowerSeq, text: element.FullName });
+
+        if (element.CustomerType == "B") {
+          this.borrowersBorrowerSeq = element.BorrowerSeq;
+        }
       }
     });
+
+    this.generateCustomerListDropDowns(obj["UWCustomerDetails"]);
 
     // let serviceObj = {
     //   "name": "CustomerDetails",
@@ -448,21 +443,28 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.allSectionsCardData[1].cardList = validSectionList;
     console.log(this.allSectionsCardData[1].cardList);
 
-    this.selectedTabCardData(this.selectedTab);
+    this.selectedTabCardData(this.selectedTab, this.customersList[0].BorrowerSeq);
   }
 
   isJsonEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
 
-  selectedTabCardData(sectionType: string = "customer", menuIndex: number = 0) {
+  selectedTabCardData(sectionType: string = "customer", borrowerSeq: number = 0) {
     let data: IGeneralCardData;
 
     if (sectionType == "customer") {
       this.cCardDataWithFields = [];
       this.cBlankCardData = [];
+      let customerIndex = -1;
 
-      let singleCustomer = this.customerMasterJsonData.CustomerDetails[menuIndex];
+      for (let i = 0; i < this.customersList.length; i++) {
+        const element = this.customersList[i];
+        if (borrowerSeq == element.BorrowerSeq)
+          customerIndex = i
+      }
+
+      let singleCustomer = this.customerMasterJsonData.CustomerDetails[customerIndex];
       console.error(singleCustomer);
 
       this.allSectionsCardData[0].cardList.forEach(element => {
@@ -592,7 +594,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   customerSelectionChanged(data) {
     console.log(data);
     this.borrowerSeq = data.selectedBorrowerSeq;
-    this.selectedTabCardData(this.selectedTab, data.index);
+    this.selectedTabCardData(this.selectedTab, data.selectedBorrowerSeq);
     setTimeout(() => {
       this.reloadCardGrid();
     }, 10);
@@ -600,11 +602,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   tabSwitched(tab: string) {
     console.log("tab switched", tab);
-    if (this.selectedTab == tab)
+    if (this.selectedTab == tab) {
       return;
-
-    this.selectedTab = tab;
-    this.selectedTabCardData(this.selectedTab);
+    }
+    else {
+      this.selectedTab = tab;
+      if (tab != "application")
+        this.UWTabs.resetToFirst();
+      this.selectedTabCardData(this.selectedTab, this.customersList[0].BorrowerSeq);
+    }
 
     tab == "customer" ? this.applicationSectionLoaded = false : this.customerSectionLoaded = false;
   }
@@ -826,22 +832,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       },
       async (httpError) => {
         const err = httpError['error'];
-        // if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-        //   if (err['ErrorElementPath'] === 'CurrentStage') {
-        //     this.HideCurrentStage.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'UserId') {
-        //     this.HideUserId.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'TENANT_ID') {
-        //     this.HideTenantId.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'TaskId') {
-        //     this.HideTaskId.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'ServiceCode') {
-        //     this.HideServiceCode.setError(err['ErrorDescription']);
-        //   } else if (err['ErrorElementPath'] === 'ProcessId') {
-        //     this.HideProcessId.setError(err['ErrorDescription']);
-        //   }
-        //   this.services.alert.showAlert(2, 'Fail to Submit', -1);
-        // }
       }
     );
   }
@@ -894,6 +884,17 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   getPercentage(amt, percent) {
     return ((amt / 100) * percent).toFixed(2);
+  }
+
+  generateCustomerListDropDowns(tempCustomerList) {
+    let filterOptions = [];
+    filterOptions.push({ id: 'A_' + this.applicationId, text: 'Application' });
+    tempCustomerList.forEach(element => {
+      if (element.CustomerType != 'R')
+        filterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+    });
+    console.warn("DEEP | filterOptions", filterOptions);
+    this.services.rloui.customerDataDropDown = filterOptions;
   }
 
 }

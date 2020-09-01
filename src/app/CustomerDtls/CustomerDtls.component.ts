@@ -847,6 +847,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   LoadCustomerDetailsonFormLoad(customerDtlsObj) {
+    console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
     if (this.parentFormCode == 'DDE') {
       this.setNonEditableFields(false)
     }

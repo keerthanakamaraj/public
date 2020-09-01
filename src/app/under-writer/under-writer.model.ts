@@ -106,7 +106,8 @@ export class FinancialSummary implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Financial Summary",
             modalSectionName: "IncomeSummary",
-            data: fieldList
+            data: fieldList,
+            canShowModal: false
         };
         return returnObj;
     }
@@ -182,7 +183,8 @@ export class AddressDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Address Details",
             modalSectionName: this.addressesList.length ? "AddressDetails" : "",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -250,7 +252,8 @@ export class CollateralDetails implements IDeserializable {
             name: "Collateral Details",
             modalSectionName: "AssetDetails",
             //modalSectionName: this.isSectionAvaliable(),
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -308,7 +311,8 @@ export class FinancialDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Financial Details",
             modalSectionName: "",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -326,7 +330,8 @@ export class FamilyDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: `Family Details (${this.familyList.length})`,
             modalSectionName: this.familyList.length ? "FamilyDetails" : "",
-            data: ""
+            data: "",
+            canShowModal: true
         };
         return returnObj;
     }
@@ -345,7 +350,8 @@ export class PersonalInterview implements IDeserializable {
             name: `Personal Interview (${this.personalInterviewList.length})`,
             modalSectionName: this.personalInterviewList.length ? "PersonalInterviewDetails" : "",
             //modalSectionName: "PersonalInterviewDetails",
-            data: ""
+            data: "",
+            canShowModal: true
         };
         return returnObj;
     }
@@ -364,7 +370,8 @@ export class RmVisitDetails implements IDeserializable {
             name: `RM Visit Details (${this.rmVisitListList.length})`,
             modalSectionName: this.rmVisitListList.length ? "RmVisitDetails" : "",
             //modalSectionName: "RmVisitDetails",
-            data: ""
+            data: "",
+            canShowModal: true
         };
         return returnObj;
     }
@@ -457,7 +464,8 @@ export class LoanDetails implements IDeserializable {
             name: "Loan Details",
             modalSectionName: this.isSectionAvaliable(),
             // modalSectionName: "LoanDetails",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -564,7 +572,8 @@ export class VehicalDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Vehical Details",
             modalSectionName: "",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -611,7 +620,8 @@ export class CardDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Card Details",
             modalSectionName: this.isSectionAvaliable(),
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -652,7 +662,8 @@ export class GoldDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Gold Details",
             modalSectionName: "",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -721,7 +732,8 @@ export class EducationDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Education Details",
             modalSectionName: "",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -748,7 +760,8 @@ export class GoNoGoDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Go/ No-Go Results",
             modalSectionName: this.goNoGoDetails.length ? "GoNoGoDetails" : "",
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -788,7 +801,8 @@ export class ReferalDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: `Referral Details (${this.referalDetailsList.length})`,
             modalSectionName: this.referalDetailsList.length ? "ReferrerDetails" : "",
-            data: ""
+            data: "",
+            canShowModal: true
         };
         return returnObj;
     }
@@ -806,7 +820,8 @@ export class Notes implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: `Notes (${this.notesList.length})`,
             modalSectionName: this.notesList.length ? "Notes" : "",
-            data: ""
+            data: "",
+            canShowModal: true
         };
         return returnObj;
     }
@@ -868,7 +883,8 @@ export class PropertyDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Property Details",
             modalSectionName: this.isSectionAvaliable(),
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -929,7 +945,8 @@ export class InterfaceResults implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Interface Results",
             modalSectionName: "",
-            data: []
+            data: [],
+            canShowModal: true
         };
         return returnObj;
     }
@@ -1052,7 +1069,8 @@ export class CustomerDetails implements IDeserializable {
             name: "Customer 360 degrees",
             modalSectionName: "CustomerDetails",
             //modalSectionName: this.isSectionAvaliable(),
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
@@ -1268,7 +1286,8 @@ export class ApplicationDetails implements IDeserializable {
         const returnObj: IGeneralCardData = {
             name: "Application Details",
             modalSectionName: this.isSectionAvaliable(),
-            data: fieldList
+            data: fieldList,
+            canShowModal: true
         };
         return returnObj;
     }
