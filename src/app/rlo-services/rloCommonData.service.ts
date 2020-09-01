@@ -515,6 +515,7 @@ export class RloCommonData {
     }
 
     const LoanOwnership = customerData.LoanOwnership;
+    const custType = customerData.CustomerType;
 
     if (LoanOwnership !== undefined && LoanOwnership != 0) {
       commonObj.isSectionValid = false;
@@ -530,7 +531,10 @@ export class RloCommonData {
         }
       }
       if (!commonObj.isSectionValid) {
-        commonObj.errorMessage = " 1 primary occupation";
+        if((LoanOwnership != undefined && LoanOwnership != 0) && (custType == 'B' || custType == 'CB')){
+          commonObj.errorMessage = " 1 primary occupation"
+        }
+      
       }
     }
     return commonObj;
@@ -584,7 +588,7 @@ export class RloCommonData {
     }
     if (!commonObj.isSectionValid) {
       commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
-        '1 permanent and 1 current residence address and 1 correspondence address'
+        '1 correspondence address'
         : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     }
     return commonObj;
