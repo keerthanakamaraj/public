@@ -57,14 +57,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUSTOMER_GRID.isHidden()">
-                        <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
-                            [readOnly]="readOnly" [hidden]="!formMenuObject.isCustomerTabSelected"
-                            (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
-                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
-                            (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
-                        </app-CustomerGridDTLS>
-                    </div>
+
                 </div>
                 <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
                 <app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
@@ -103,24 +96,37 @@
             </div>
 
             <div class="col-sm-11 col-md-11 col-lg-11 p-0">
+
                 <div class="wgt-form-menu-container">
+
+                    <div class="customer-grid-container" [hidden]="CUSTOMER_GRID.isHidden()">
+                        <app-CustomerGridDTLS #CUSTOMER_GRID fieldID="CUSTOMER_GRID" [formCode]="formCode"
+                            [readOnly]="readOnly" [hidden]="!formMenuObject.isCustomerTabSelected"
+                            (resetCustForm)="CUSTOMER_GRID_resetCustForm($event)"
+                            (updateCustGrid)="CUST_DTLS_updateCustGrid($event)"
+                            (passArrayToCustomer)="CUSTOMER_GRID_passArrayToCustomer($event)">
+                        </app-CustomerGridDTLS>
+                    </div>
+
                     <div class="menu-header">
                         <span class="form-title">{{formMenuObject.selectedMenuComponent}}</span>
-                        <div class="info">
-                            <ul class="tag-list">
-                                <li *ngFor="let tag of tags;" class="tag">
-                                    <span class="label">{{ tag.label }}</span>
-                                    <span class="text1">{{ tag.text }}</span>
-                                </li>
-                            </ul>
-                            <span class="menu-btn">
-                                <span id="LeftMenuSectionArrow" class="icon-left-arrow"
-                                    [ngClass]="menuNavigationBtn.enableLeftArrow?'enable-btn':''"
-                                    (click)="loadForm('prev')"></span>
-                                <span id="RightMenuSectionArrow" class="icon-right-arrow"
-                                    [ngClass]="menuNavigationBtn.enableRightArrow?'enable-btn':''"
-                                    (click)="loadForm('nxt')"></span>
-                            </span>
+                        <div class="tag-list-container">
+                            <div class="info">
+                                <ul class="tag-list">
+                                    <li *ngFor="let tag of tags;" class="tag">
+                                        <span class="label">{{ tag.label }}</span>
+                                        <span class="text1">{{ tag.text }}</span>
+                                    </li>
+                                </ul>
+                                <span class="menu-btn">
+                                    <span id="LeftMenuSectionArrow" class="icon-left-arrow"
+                                        [ngClass]="menuNavigationBtn.enableLeftArrow?'enable-btn':''"
+                                        (click)="loadForm('prev')"></span>
+                                    <span id="RightMenuSectionArrow" class="icon-right-arrow"
+                                        [ngClass]="menuNavigationBtn.enableRightArrow?'enable-btn':''"
+                                        (click)="loadForm('nxt')"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
 

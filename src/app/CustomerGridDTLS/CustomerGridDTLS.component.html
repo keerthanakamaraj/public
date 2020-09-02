@@ -71,7 +71,8 @@
       <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
         class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <span class="cust-editing-indicator"></span>
+        <!-- <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div> -->
         <div class="action-container">
           <div class="cust-edit" (click)="editCustomer($event, customer)">
             <!-- <i class="fas fa-pen"></i> -->
@@ -92,7 +93,8 @@
       <div *ngFor="let customer of customerTypeMap.get('A')" [ngClass]="{'active' : customer.editing }"
         class="customer">
         <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-        <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+        <span class="cust-editing-indicator"></span>
+        <!-- <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div> -->
         <div class="action-container">
           <div class="cust-edit" (click)="editCustomer($event, customer)">
             <!-- <i class="fas fa-pen"></i> -->
@@ -119,7 +121,8 @@
         <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
           class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <span class="cust-editing-indicator"></span>
+          <!-- <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div> -->
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
               <!-- <i class="fas fa-pen"></i> -->
@@ -136,11 +139,12 @@
           <img src="assets/icons/add_plus.png" />
         </span>
       </div>
-      <div class="cust-list">
+      <div class="cust-list scroll">
         <div *ngFor="let customer of customerTypeMap.get('CB')" [ngClass]="{'active' : customer.editing }"
           class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <span class="cust-editing-indicator"></span>
+          <!-- <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div> -->
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
               <!-- <i class="fas fa-pen"></i> -->
@@ -165,11 +169,12 @@
           <img src="assets/icons/add_plus.png" />
         </span>
       </div>
-      <div class="cust-list">
+      <div class="cust-list scroll">
         <div *ngFor="let customer of customerTypeMap.get('G')" [ngClass]="{'active' : customer.editing }"
           class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <span class="cust-editing-indicator"></span>
+          <!-- <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div> -->
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
               <!-- <i class="fas fa-pen"></i> -->
@@ -191,11 +196,12 @@
           <img src="assets/icons/add_plus.png" />
         </span>
       </div>
-      <div class="cust-list">
+      <div class="cust-list scroll">
         <div *ngFor="let customer of customerTypeMap.get('OP')" [ngClass]="{'active' : customer.editing }"
           class="customer">
           <div class="name">{{customer.CD_CUSTOMER_NAME}}</div>
-          <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div>
+          <span class="cust-editing-indicator"></span>
+          <!-- <div class="cust-editing">{{ 'CustomerGridDTLS.Editing' | translate }}</div> -->
           <div class="action-container">
             <div class="cust-edit" (click)="editCustomer($event, customer)">
               <!-- <i class="fas fa-pen"></i> -->
