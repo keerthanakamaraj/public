@@ -50,12 +50,10 @@
             <span [ngClass]="(policy.RuleResult=='Pass')?'pass-txt':'fail-txt'">{{policy.RuleResult }}</span>
           </div>
         </div>
-        <!-- <div class="total-container row col-12 col-sm-12 col-md-12">
-        <span class="col-12 col-sm-8 col-md-8"></span>
-        <span class="total-label col-12 col-sm-2 col-md-2"> Total Score</span>
-        <span class="total-value col-12 col-sm-2 col-md-2"> 100 - pass</span>
-      </div> -->
+        <div class="total-container row col-12 col-sm-12 col-md-12">
+          <span class="total-label col-12 col-sm-10 col-md-10"> Total Score</span>
+          <span class="total-value col-12 col-sm-2 col-md-2"> {{overallScore}} - {{overallResult}}</span>
+        </div>
       </ng-container>
     </div>
   </div>
-</div>

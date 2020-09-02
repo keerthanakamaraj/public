@@ -421,11 +421,16 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
   async LD_GEN_AMOR_SCH_click(event) {
     if (this.readOnly)
-      return
-
-    if (this.Tenure == undefined || this.TenurePeriod == undefined) {
-      this.services.alert.showAlert(2, 'rlo.error.tenure or tenureperiod.not.exist', -1);
       return;
+
+    if (this.Tenure.getFieldValue() == undefined || this.Tenure.getFieldValue() =='' || this.Tenure.getFieldValue()==0 )
+    {
+      this.services.alert.showAlert(2, 'rlo.error.invalid-loan-tenure', -1);
+      return 1;
+    }
+    if(this.TenurePeriod.getFieldValue() == undefined ||this.TenurePeriod.getFieldValue()=='') {
+      this.services.alert.showAlert(2, 'rlo.error.invalid-loan-trnure-period', -1);
+      return 1;
     }
 
     //amortization modal code starts
@@ -538,8 +543,14 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   async LD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     inputMap.clear();
+    if(!this.isAmortizationVisited){
+      this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
+         return;
+    }
     var nooferror: number = await this.revalidate();
+    
     if (nooferror == 0) {
+        
       if(this.ProductCategory == 'ML'){
         if (this.total != 0 && this.total < 100) {
           this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
@@ -552,10 +563,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       }
       
       // this.validateDisbursement();
-      if(!this.isAmortizationVisited){
-        this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
-            return;
-      }
+      // if(!this.isAmortizationVisited){
+      //   this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
+      //       return;
+      // }
       inputMap.set('PathParam.LoanDetailSeq', this.hideLoanSeq.getFieldValue());
       inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getFieldValue());
       inputMap.set('Body.LoanDetails.InterestRate', this.InterestRate.getFieldValue());

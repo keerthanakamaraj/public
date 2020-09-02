@@ -183,9 +183,29 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   RD_RESET_click(event) {
     this.onReset();
   }
+
+  // momenttest(){
+  //   const moment = require('moment');
+  //   var wTw = moment.duration(30, "weeks").asWeeks();
+  //   var mTw = moment.duration(30, "months").asWeeks();
+  //   var dTw = moment.duration(30, "days").asWeeks();
+  //   var yTw = moment.duration(30, "years").asWeeks();
+  //   var yTm = moment.duration(30, "years").asMonths();
+  //   var wTm = moment.duration(30, "weeks").asMonths();
+  //   var dTm = moment.duration(30, "days").asMonths();
+  //   console.log("shweta :: wTw",wTw);
+  //   console.log("shweta :: mTw",mTw);
+  //   console.log("shweta :: dTw",dTw);
+  //   console.log("shweta :: yTw",yTw);
+  //   console.log("shweta :: yTm",yTm);
+  //   console.log("shweta :: wTm",wTm);
+  //   console.log("shweta :: dTm",dTm);
+  // }
   parseParentDataObj() {
     this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested);
     this.NetInterestRate.setValue(this.parentData.NetInterestRate);
+
+   // this.momenttest();
 
     this.Tenure.setValue(this.parentData.Tenure + " "+this.parentData.TenurePeriod);
     this.BLoanOwnership.setValue(this.parentData.BLoanOwnership);
@@ -197,7 +217,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 
 
     this.DisbursalDate.setValue(this.parentData.DisbursalDate);
-    this.ScheduleType.setValue(this.parentData.ScheduleType);
+   // this.ScheduleType.setValue(this.parentData.ScheduleType);
     this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate);
    // this.NoOfInstallments.setValue(this.parentData.NoOfInstallments);
     // this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt);
@@ -209,7 +229,8 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   ScheduleInstallments(){
     if(this.parentData.InstallmentFreqIndicatorCd!=undefined){
       this.ScheduleType.setValue(this.parentData.InstallmentFreqIndicator,this.parentData.InstallmentFreqIndicatorCd);
-     this.NoOfInstallments.setValue(this.calculateNoOfInstallments());
+   //  this.NoOfInstallments.setValue(this.calculateNoOfInstallments());
+   this.NoOfInstallments.setValue(this.periodConverter());
     }
     else{
       this.NoOfInstallments.setValue(this.parentData.Tenure);
@@ -217,16 +238,54 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
    this.ScheduleType.setValue(this.parentData.TenurePeriod,tempInstfreqType);
     }
   }
-  calculateNoOfInstallments(){
+  periodConverter(){
     let NoOfinstallments:number=undefined;
-  switch(this.parentData.InstallmentFreqIndicatorCd){
-   case 'D':NoOfinstallments=this.convertToDays();break;
-   case 'W':NoOfinstallments=this.convertToDays()/7;break;
-   case 'M':NoOfinstallments=this.convertToDays()/30;break;
-   case 'Y':NoOfinstallments=this.convertToDays()/365;break;
+    let tempTenurefreqType= this.convertTenurePeriodToScheduleType();
+    switch(tempTenurefreqType){
+      case 'D':NoOfinstallments=this.parentData.Tenure;break;
+      case 'W':NoOfinstallments=this.weeksTodynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+      case 'M':NoOfinstallments=this.monthsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+      case 'Y':NoOfinstallments=this.yearsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+     }
+     return NoOfinstallments;
   }
-  return NoOfinstallments;
+
+  weeksTodynamicPeriodConverter(scheduleType,tempInstallments){
+if(scheduleType=='D'){
+  tempInstallments=tempInstallments*7;
+}
+return tempInstallments;
   }
+
+  monthsToDynamicPeriodConverter(scheduleType,tempInstallments){
+    if(scheduleType=='W'){
+      tempInstallments=tempInstallments*4;
+    }else if(scheduleType=='D'){
+      tempInstallments=tempInstallments*4*7;
+    }
+    return tempInstallments;
+      }
+
+      yearsToDynamicPeriodConverter(scheduleType,tempInstallments){
+        if(scheduleType=='M'){
+          tempInstallments=tempInstallments*12;
+        }else if(scheduleType=='W'){
+          tempInstallments=tempInstallments*12*4;
+        }else if(scheduleType=='D'){
+          tempInstallments=tempInstallments*12*4*7;
+        }
+        return tempInstallments;
+      }
+  // calculateNoOfInstallments(){
+  //   let NoOfinstallments:number=undefined;
+  // switch(this.parentData.InstallmentFreqIndicatorCd){
+  //  case 'D':NoOfinstallments=this.convertToDays();break;
+  //  case 'W':NoOfinstallments=this.convertToDays()/7;break;
+  //  case 'M':NoOfinstallments=this.convertToDays()/30;break;
+  //  case 'Y':NoOfinstallments=this.convertToDays()/365;break;
+  // }
+  // return NoOfinstallments;
+  // }
 
   convertToDays(){
     let NoOfDays:number=undefined;

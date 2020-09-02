@@ -4,6 +4,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { IPolicy } from './PolicyCheckInterface';
 import { ButtonComponent } from '../button/button.component';
+import { string } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-policy-check-result',
@@ -27,6 +28,8 @@ export class PolicyCheckResultComponent implements OnInit {
   openInModal: boolean = false;//set true if wanna open in modal.UW header scores
 
   constructor(private services: ServiceStock, private renderer2: Renderer2) { }
+  overallResult: string = undefined;
+  overallScore: string = undefined;
 
   ngOnInit() {
     this.setFilterbyOptions();
@@ -98,7 +101,7 @@ export class PolicyCheckResultComponent implements OnInit {
   parsePolicyResultJson(tempPolicyResultList) {
     let newPolicyResultList = [];
     this.activePolicyResultList = [];
-    
+
     console.log("shweta :: policy Resp:", tempPolicyResultList);
     tempPolicyResultList.forEach(eachPolicy => {
       if (this.parentFormCode == eachPolicy.Stage) {
@@ -196,7 +199,9 @@ export class PolicyCheckResultComponent implements OnInit {
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body['ouputdata'];
         if (res.OVERALLSCORE) {
-          console.log("Shweta :: BRE response ", res.OVERALLRESULT, " : ", res.OVERALLRESULT);
+          this.overallResult = res.OVERALLRESULT;
+          this.overallScore = res.OVERALLSCORE;
+          console.log("Shweta :: BRE response ", res.OVERALLSCORE, " : ", res.OVERALLRESULT);
           this.loadPolicyResult();
         } else if (res.error) {
           this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
@@ -213,14 +218,14 @@ export class PolicyCheckResultComponent implements OnInit {
     );
   }
 
-  generatepolicyCheckReq(res) {
-    let inputMap = new Map();
-    inputMap.set('Body.prposalid', res['prposalid']);
-    inputMap.set('Body.interfaceId', res['interfaceId']);
-    inputMap.set('Body.ouputdata', res['ouputdata']);
+  // generatepolicyCheckReq(res) {
+  //   let inputMap = new Map();
+  //   inputMap.set('Body.prposalid', res['prposalid']);
+  //   inputMap.set('Body.interfaceId', res['interfaceId']);
+  //   inputMap.set('Body.ouputdata', res['ouputdata']);
 
-    return inputMap;
-  }
+  //   return inputMap;
+  // }
   generateRetriggerRequestJson() {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT007');

@@ -179,10 +179,12 @@
     "rlo.error.invalid-repaymentDt": "Date should be after disbursal date",
     "rlo.error.invalid-disbarsalDt": "Invalid date",
     "rlo.close.comfirmation": "Are you sure you want to Close?",
-    "rlo.error.amortization-visit-pending":"Please Visit the Amortization First",
-    "rlo.error.invalid-repayment-freq":"Repayment Frequency should be according to Tenure Period",
-    "rlo.error.bre-exception":"BRE Exception occured",
-    "rlo.error.borrwer-loan-ownership-alert":"Loan Ownership for borrower should be more than 0",
+    "rlo.error.amortization-visit-pending":"Amortization Schedule needs to be generated in order to  complete this section.",
+    "rlo.error.invalid-repayment-freq":"Repayment Frequency needs to be according to the Tenure Period added.",
+    "rlo.error.bre-exception":"BRE Exception has occurred.",
+    "rlo.error.borrwer-loan-ownership-alert":"Loan Ownership for the borrower needs to be more than 0.",
+    "rlo.error.invalid-loan-tenure":"Loan Tenure needs to be more than 0.",
+    "rlo.error.invalid-loan-trnure-period":"Loan Tenure Period cannot be blank.",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
@@ -2249,7 +2251,8 @@
     "PCR_RETRIGGER_BTN": "RETRIGGER",
     "ActualResult": "Actual Result",
     "ExpectedResult": "Expected Result",
-    "Result": "Result"
+    "Result": "Result",
+    "TotalScore":"Total Score"
 
   }
 
