@@ -2065,7 +2065,8 @@
     "Frequency": "Frequency",
     "RateOnCharge": "Rate Charge On",
     "ChargeCollection": "Charge Collection",
-    "PartyType": "Party Type",
+    "PartyTypeReceivable": "Party Type",
+    "PartyTypePayable": "Party Type",
     "EffectiveAmount": "Effective Amount",
     "Currency": "Currency",
     "LocalAmount": "Local Currency Equivalent"
