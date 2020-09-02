@@ -164,7 +164,10 @@
     "rlo.error.questionnaire.decision-Remark-pending": "Decision for all questions and Remarks for Deviation questions are mandatory.",
     "rlo.error.customer.exist": "The same customer has already been added. Please add other details.",
     "rlo.error.loanownership.invalid": "Total Loan Ownership can not be less than 100%.",
-    "rlo.error.loanownership.onblur": "Loanw Ownership cannot be more than 100%.",
+    "rlo.error.loanownership.onblur": "Loan Ownership cannot be more than 100%.",
+    "rlo.error.completionpercent.invalid":"Total Completion Percent can not be less than 100%.",
+    "rlo.error.disbursementamount.invalid":"Added amount should be equal to Disbursal Amount",
+    "rlo.error.completionpercent.onblur":"Completion Percent cannot be more than 100%.",
     "rlo.success.save.feesCharges": "The Fees & Charges have been saved successfully.",
     "rlo.success.update.feesCharges": "The Fees & Charges have been updated successfully.",
     "rlo.error.update.feesCharges": "The Fees & Charges could not be updated. Please try again.",
@@ -176,6 +179,12 @@
     "rlo.error.invalid-repaymentDt": "Date should be after disbursal date",
     "rlo.error.invalid-disbarsalDt": "Invalid date",
     "rlo.close.comfirmation": "Are you sure you want to Close?",
+    "rlo.error.amortization-visit-pending":"Amortization Schedule needs to be generated in order to  complete this section.",
+    "rlo.error.invalid-repayment-freq":"Repayment Frequency needs to be according to the Tenure Period added.",
+    "rlo.error.bre-exception":"BRE Exception has occurred.",
+    "rlo.error.borrwer-loan-ownership-alert":"Loan Ownership for the borrower needs to be more than 0.",
+    "rlo.error.invalid-loan-tenure":"Loan Tenure needs to be more than 0.",
+    "rlo.error.invalid-loan-trnure-period":"Loan Tenure Period cannot be blank.",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
@@ -1408,7 +1417,15 @@
     "LD_DISBURMENT_MONEY": "Disbursement Details",
     "LD_RECEIVE_MONEY": "Receive Initial Money",
     "LD_SAVE_BTN": "SAVE",
-    "LD_CLEAR_BTN": "CLEAR"
+    "LD_CLEAR_BTN": "CLEAR",
+    "EMIAmount": "Monthly Installments",
+    "TotalFeeAdjWithDist": "Total Fees Adjusted with Disbursement",
+    "TotalFeeCollUpfront": "Total Fees Collected Upfront",
+    "TotalLoanAmt": "Total Loan Amount",
+    "TotaDistlAmt": "Total Disbursement Amount"
+
+
+
 
   },
   "SearchCustomerGrid": {
@@ -1743,7 +1760,7 @@
     "Edit": "Edit",
     "LD_APP_PRPSE": "Application Purpose",
     "LD_SYS_RCMD_AMT": "System Recommended Amount",
-    "LD_USR_RCMD_AMT": "User Recommended Amount",
+    "LD_USR_RCMD_AMT": "Underwriter Recommended Amount",
     "LD_TENURE": "Tenure",
     "HD_PROMOTION": "Promotion",
     "HD_APP_SUBMSN_DT": "Application Submission Date",
@@ -2165,7 +2182,9 @@
     "DD_Reset": "Reset",
     "FundTransferMode": "Fund Transfer Mode",
     "DisbursalTo": "Disbursal To",
-    "PaymentMode": "Payment Mode"
+    "PaymentMode": "Payment Mode",
+    "CompletionPercent":"Percent of Project Completion",
+    "PartialDisbursememt":"Disbursement based on Percent of Project Completion"
   },
   "PropertyDetails": {
     "PerOfProjectCompletion": "Percent of Project Completion",
@@ -2232,7 +2251,8 @@
     "PCR_RETRIGGER_BTN": "RETRIGGER",
     "ActualResult": "Actual Result",
     "ExpectedResult": "Expected Result",
-    "Result": "Result"
+    "Result": "Result",
+    "TotalScore":"Total Score"
 
   }
 

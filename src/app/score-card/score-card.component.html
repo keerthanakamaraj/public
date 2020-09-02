@@ -27,6 +27,6 @@
         </div>
         <span class="progress-count">{{scoreData.score}}</span>
         <span *ngIf="layoutType == 'vertical'" class="refresher" (click)="refreshData()"></span>
-        <span *ngIf="layoutType == 'vertical'" class="open-modal"></span>
+        <span *ngIf="layoutType == 'vertical'" class="open-modal" (click)="openModal(scoreData)"></span>
     </div>
 </div>

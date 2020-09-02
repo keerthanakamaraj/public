@@ -138,13 +138,14 @@ const keycloakService = new KeycloakService();
     DatePipe,
     appDataProvider,
     FormBuilder,
-    //{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
-   
     {
       provide: KeycloakService,
       useValue: keycloakService
-    }
+    },
+      
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
+    //{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+
   ],
   //bootstrap: [AppComponent],
   entryComponents: [

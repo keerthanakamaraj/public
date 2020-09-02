@@ -144,18 +144,21 @@ export class UtilityService {
   //   return this.currencyPipe.transform(value);
   // }
 
-  // formatDate(dateString: string, dateFormat?: string): string {
-  //   const momentDate = moment(dateString, dateFormat ? dateFormat : this.tenant.getMomentDateTimeFormat());
-  //   if (momentDate.isValid()) {
-  //     return this.formatDateObject(momentDate._d);
-  //   }
-  //   return dateString;
-  // }
+  formatDate(dateString: string, dateFormat?: string): string {
+    // const momentDate = moment(dateString, dateFormat ? dateFormat : this.tenant.getMomentDateTimeFormat());
+    const moment = require('moment');
+    const momentDate = moment(dateString);
+    if (momentDate.isValid()) {
+      return this.formatDateObject(momentDate._d);
+    }
+    return dateString;
+  }
 
-  // formatDateObject(dateObject: Date) : string {
-  //   const tenantDetail = this.tenant;
-  //   return this.datePipe.transform(dateObject, tenantDetail.dateFormat, tenantDetail.timeZone, tenantDetail.defaultLanguage);
-  // }
+  formatDateObject(dateObject: Date) : string {
+    // const tenantDetail = this.tenant;
+    // return this.datePipe.transform(dateObject, tenantDetail.dateFormat, tenantDetail.timeZone, tenantDetail.defaultLanguage);
+    return this.datePipe.transform(dateObject, 'dd-MMM-yyyy', '0530', 'en-IN');
+  }
 
   public format(...values: any[]) : string {
     var index = 0, token = '';

@@ -39,30 +39,42 @@ export class ScoreCardResultComponent implements OnInit {
       description: 'Non Favourable'
     }
   ];
+  openInModal: boolean = false;//set true if wanna open in modal.UW header scores
 
   constructor(public services: ServiceStock) { }
 
   ngOnInit() {
     this.setFilterbyOptions();
     // this.loadScoreResult();
-    this.invokeInterface();
-    //this.retriggerScoreResult();
-
+    //this.invokeInterface();
+    this.retriggerScoreResult();
   }
 
   setFilterbyOptions() {
-    let tempCustomerList = this.services.rloCommonData.getCustomerList();
-
-    console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-    tempCustomerList.forEach(element => {
-      // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-      if (element.CustomerType == 'B') {
-        this.mainBorrower = element.BorrowerSeq;
-      }
-      this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-    });
+    if (this.openInModal) {
+      this.FilterOptions = this.services.rloui.customerDataDropDown;
+      this.FilterOptions.forEach(element => {
+        let customerType = element.text.split("-")[0];
+        if (customerType == "B") {
+          this.mainBorrower = element.id.split("_")[1];
+        }
+      });
+    }
+    else {
+      let tempCustomerList = this.services.rloCommonData.getCustomerList();
+
+      console.log("shweta :: in score section", tempCustomerList);
+
+      this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+      tempCustomerList.forEach(element => {
+        // this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+        if (element.CustomerType == 'B') {
+          this.mainBorrower = element.BorrowerSeq;
+        }
+        this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      });
+    }
 
     console.log("shweta :: score options list", this.FilterOptions);
   }
@@ -155,7 +167,7 @@ export class ScoreCardResultComponent implements OnInit {
     this.activeScoreCardResultList = this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
     console.log("shweta :: score result master map", this.MstScoreResultMap);
 
-    if (this.activeScoreCardResultList.length) {
+    if (tempScoreCardResultList.length) {
       //store data in map
       var array = [];
       array.push({ isValid: true, sectionData: this.activeScoreCardResultList });
@@ -191,14 +203,22 @@ export class ScoreCardResultComponent implements OnInit {
       }
     });
   }
-  retriggerScoreResult(res) {
-    // this.MstScoreResultMap.clear();
-    let inputMap = this.generateScoreCheckReq(res);
+  retriggerScoreResult() {
+   this.MstScoreResultMap.clear();
+    let inputMap = this.generateRetriggerRequestJson();
 
     this.services.http.fetchApi('/ScoreCard', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.loadScoreResult();
+        let res = httpResponse.body['ouputdata'];
+         if (res.OVERALLSCORE) {
+          this.loadScoreResult();
+        }else if (res.error) {
+          this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+        }else{
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+        }
+        // let res = httpResponse.body;
+        // this.loadScoreResult();
       },
       async (httpError) => {
         var err = httpError['error']
@@ -209,14 +229,14 @@ export class ScoreCardResultComponent implements OnInit {
     );
   }
 
-  generateScoreCheckReq(res) {
-    let inputMap = new Map();
-    inputMap.set('Body.prposalid', res['prposalid']);
-    inputMap.set('Body.interfaceId', res['interfaceId']);
-    inputMap.set('Body.ouputdata', res['ouputdata']);
+  // generateScoreCheckReq(res) {
+  //   let inputMap = new Map();
+  //   inputMap.set('Body.prposalid', res['prposalid']);
+  //   inputMap.set('Body.interfaceId', res['interfaceId']);
+  //   inputMap.set('Body.ouputdata', res['ouputdata']);
 
-    return inputMap;
-  }
+  //   return inputMap;
+  // }
   generateRetriggerRequestJson() {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT008');
@@ -226,20 +246,20 @@ export class ScoreCardResultComponent implements OnInit {
     return inputMap;
   }
 
-  invokeInterface() {
-    this.MstScoreResultMap.clear();
-    let inputMap = this.generateRetriggerRequestJson();
-    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.retriggerScoreResult(res);
-      }, async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      }
-    );
-  }
+  // invokeInterface() {
+  //   this.MstScoreResultMap.clear();
+  //   let inputMap = this.generateRetriggerRequestJson();
+  //   this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //       this.retriggerScoreResult(res);
+  //     }, async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+  //     }
+  //   );
+  // }
 
 }

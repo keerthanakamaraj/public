@@ -28,6 +28,9 @@ const customCss: string = '';
   templateUrl: './DisbursementDetails.component.html'
 })
 export class DisbursementDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
+  disbursalData: any[];
+  percent: number;
+  productCategory: any;
   AplicationId: any;
   // @Input() ApplicationId: string;
   @Input() parentData: IAmortizationForm = undefined;
@@ -36,6 +39,8 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
   // activeScoreCardResultList: any;
   @ViewChild('DisbursalTo', { static: false }) DisbursalTo: ComboBoxComponent;
   @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
+  @ViewChild('PartialDisbursememt', { static: false }) PartialDisbursememt: CheckBoxComponent;  
+  @ViewChild('CompletionPercent', { static: false }) CompletionPercent: TextBoxComponent;
   @ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
   @ViewChild('Amount', { static: false }) Amount: AmountComponent;
   @ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: AmountComponent;
@@ -122,11 +127,15 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     this.IFSCCode.setHidden(true);
     this.Account.setHidden(true);
     this.InFavorOf.setHidden(true);
-
+    this.CompletionPercent.setHidden(true);
+    this.CompletionPercent.mandatory= false;
+    this.PartialDisbursememt.setHidden(true);
     if (!this.readOnly) {
       this.getLoanFieldValue();
     }
-
+    if(this.productCategory == 'ML'){
+      this.PartialDisbursememt.setHidden(false);
+    }
     this.setFilterbyOptions();
     await this.Handler.onFormLoad({});
 
@@ -138,9 +147,16 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     this.setDependencies();
   }
 
+  async PartialDisbursememt_change(event) {
+    this.CompletionPercent.setHidden(!this.PartialDisbursememt.getFieldValue());    
+    this.CompletionPercent.mandatory = this.PartialDisbursememt.getFieldValue();
+  }
+
   getLoanFieldValue() {
     this.ApplicationId = this.parentData.ApplicationId
+    this.productCategory = this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode;
   }
+
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
     if (params['mode']) {
@@ -168,6 +184,41 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     this.setDependencies();
     this.passNewValue(this.value);
   }
+
+  disbursal_date(selectedDate) {
+    const moment = require('moment');
+    const currentDate = moment();
+    currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+    console.log("current date :: ", currentDate._d);
+    console.log("selected date :: ", selectedDate._d);
+    if (selectedDate < currentDate) {
+      return false;
+    }
+    return true;
+  }
+  async DisbursalDate_blur(event) {
+    let inputMap = new Map();
+    if (!this.disbursal_date(this.DisbursalDate.getFieldValue())) {
+      this.DisbursalDate.setError('Please select valid disbursal date')
+      return 1;
+      // this.services.alert.showAlert(2, 'rlo.error.inceptiondate.occupation', -1);
+      // this.OD_DT_OF_INCPTN.onReset();
+    }
+  }
+
+
+  async CompletionPercent_blur() {
+         this.percent = 0;
+         this.percent = this.Handler.aggregateCompletionPercent();
+        if (this.CompletionPercent.getFieldValue() !== undefined) {
+          this.percent = this.percent + Number(this.CompletionPercent.getFieldValue());
+        }
+        if (this.percent > 100) {
+          this.CompletionPercent.setError('rlo.error.completionpercent.onblur');
+          return 1
+        }
+      }
 
   ngOnInit() {
 
@@ -237,6 +288,8 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         inputMap.clear();
         inputMap.set('PathParam.DisbursalSeq', this.HideDisbursalSeqId.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
+        inputMap.set('Body.DisbursalDetails.CompletionPercent', this.CompletionPercent.getFieldValue());
+        inputMap.set('Body.DisbursalDetails.PartialDisburse', this.PartialDisbursememt.getFieldValue());        
         inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
@@ -286,11 +339,17 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency') {
                 this.Currency.setError(err['ErrorDescription']);
               }
+              else if (err['ErrorElementPath'] == 'DisbursalDetails.CompletionPercent') {
+                this.CompletionPercent.setError(err['ErrorDescription']);
+              }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalDate') {
                 this.DisbursalDate.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalTo') {
                 this.DisbursalTo.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'DisbursalDetails.PartialDisburse') {
+                this.PartialDisbursememt.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalSeq') {
                 this.HideDisbursalSeqId.setError(err['ErrorDescription']);
@@ -304,6 +363,8 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         inputMap.clear();
         inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
+        inputMap.set('Body.DisbursalDetails.CompletionPercent', this.CompletionPercent.getFieldValue()); 
+        inputMap.set('Body.DisbursalDetails.PartialDisburse', this.PartialDisbursememt.getFieldValue());                
         inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
@@ -318,7 +379,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.services.http.fetchApi('/DisbursalDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);        
             this.onReset();
             //  this.setFilterbyOptions();
           },
@@ -351,6 +412,12 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency') {
                 this.Currency.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'DisbursalDetails.CompletionPercent') {
+                this.CompletionPercent.setError(err['ErrorDescription']);
+              }
+              else if (err['ErrorElementPath'] == 'DisbursalDetails.PartialDisburse') {
+                this.PartialDisbursememt.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalDate') {
                 this.DisbursalDate.setError(err['ErrorDescription']);
@@ -421,9 +488,15 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.IFSCCode.setValue(res['DisbursalDetails']['IFSCCode']);
         this.Account.setValue(res['DisbursalDetails']['AccountNumber']);
         this.Remarks.setValue(res['DisbursalDetails']['Remarks']);
+        if(res['DisbursalDetails']['PartialDisburse']){
+          this.PartialDisbursememt.setValue(true);
+        }
+        this.CompletionPercent.setValue(res['DisbursalDetails']['CompletionPercent']);
         this.HideDisbursalSeqId.setValue(res['DisbursalDetails']['DisbursalSeq']);
         this.hideSpinner();
         this.Handler.hideOnPaymentMode({});
+        this.PartialDisbursememt_change(event);
+        this.revalidateBasicField('Currency', true)
       },
       async (httpError) => {
         var err = httpError['error']

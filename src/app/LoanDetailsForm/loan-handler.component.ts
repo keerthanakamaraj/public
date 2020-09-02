@@ -89,6 +89,18 @@ export class LoanHandlerComponent extends RLOUIHandlerComponent implements OnIni
     if (this.MainComponent.MarginMoney.getFieldValue() == undefined) {
       this.MainComponent.MarginMoney.setValue('0.00')
     }
+    if (this.MainComponent.TotalFeeAdjWithDist.getFieldValue() == undefined) {
+      this.MainComponent.TotalFeeAdjWithDist.setValue('0.00')
+    }
+     if (this.MainComponent.TotalFeeCollUpfront.getFieldValue() == undefined) {
+      this.MainComponent.TotalFeeCollUpfront.setValue('0.00')
+    } 
+    if (this.MainComponent.TotalLoanAmt.getFieldValue() == undefined) {
+      this.MainComponent.TotalLoanAmt.setValue('0.00')
+    } 
+    if (this.MainComponent.TotaDistlAmt.getFieldValue() == undefined) {
+      this.MainComponent.TotaDistlAmt.setValue('0.00')
+    }
   }
 
 }

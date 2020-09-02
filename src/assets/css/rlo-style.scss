@@ -369,8 +369,6 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       &.loan-amt::before {
         width: 41px;
         height: 27px;
-        content: "";
-        background-image: url("./../icons/Euro Header icon.svg");
         display: inline-block;
         background-size: 41px 27px;
         background-repeat: no-repeat;
@@ -378,7 +376,13 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         vertical-align: middle;
         margin-right: 14px;
       }
+      &.image::before{
+        content: "";
+        background-image: url("./../icons/Euro Header icon.svg");
+      }
 
+      
+     
       &.loan-cat::before {
         width: 20px;
         height: 20px;
@@ -790,7 +794,7 @@ width: 681px !important; */
 
 .loan-container {
   box-sizing: border-box;
-  height: 10.200em;
+  height: 15.4em;
   border: 1px solid #DFD7D7;
   border-radius: 0.267em;
   background-color: #FFFFFF;
@@ -798,7 +802,7 @@ width: 681px !important; */
 
   .loan-group {
     box-sizing: border-box;
-    height: 7.4em;
+    height: 13em;
     margin-top: 1.000em;
     border-right: 1px solid #DFD7D7;
 
@@ -1059,6 +1063,10 @@ a.back {
 
 .t-center {
   text-align: center !important;
+}
+
+.m-0 {
+  margin: 0 !important;
 }
 
 //used to add space for every page in layout for form btns
@@ -1706,7 +1714,7 @@ rlo-ui-card-field {
 }
 
 .progress-bar-visible {
-  top: 105px !important;
+  top: 104px !important;
 }
 
 .test-class {
@@ -2149,24 +2157,27 @@ rlo-ui-card-field {
     height: 52px; // width: 1213px;
     border-radius: 4px;
     background-color: #E4F0F9;
-    line-height: 51px;
+    //line-height: 51px;
 
     .total-label {
-      height: 17px; //  width: 63px;
+     // height: 17px; //  width: 63px;
       color: #000000;
       font-family: "Open Sans";
       font-size: 12px;
       letter-spacing: 0; // line-height: 17px;
       text-align: right;
+      line-height: 51px;
     }
 
     .total-value {
-      height: 17px; //  width: 57px;
+    //  height: 17px; //  width: 57px;
+      padding-left: 3rem;
       color: #00B500;
       font-family: "Open Sans";
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0; // line-height: 17px;
+      line-height: 51px;
     }
   }
 }
@@ -2447,10 +2458,9 @@ rlo-ui-card-field {
 }
 
 .scorecard-container {
-
+  margin: 0 -7px 0 -7px !important;
   //two types of layouts for header-vertical-layoute & horizontal-layout
   &.horizontal-layout {
-    margin: 0 !important;
     border: 1px solid #ccc;
     border-top: 0;
     border-bottom-left-radius: 8px;
@@ -2498,12 +2508,13 @@ rlo-ui-card-field {
     }
 
     &.expanded {
-      top: 165px;
+      top: 164px;
       position: fixed;
       right: 0;
       left: 15px;
       width: calc(100% - 30px) !important;
       z-index: 99;
+      margin: 0 !important;
     }
   }
 }
@@ -2511,7 +2522,7 @@ rlo-ui-card-field {
 .cards-section {
   background-color: #F8F8F8;
   display: inline-block;
-  padding: 28px 11px 27px 11px;
+  padding: 28px 0px 27px 28px;
 
   .card-layout-container {
     padding-top: 1em;
@@ -2824,7 +2835,8 @@ rlo-ui-card-field {
 }
 
 .w-25 {
-  width: 32em;
+  // width: 32em;
+  width: 32%;
 }
 
 .w-64 {
@@ -3091,6 +3103,7 @@ rlo-ui-card-field {
     button {
       width: 180px !important;
       margin-top: 24px !important;
+      margin-left: 4px !important;
     }
   }
 
@@ -3130,7 +3143,7 @@ rlo-ui-card-field {
 
   .proposal-card {
     @include dashboard-card;
-    padding: 15px;
+    padding: 15px 5px;
     min-height: 296px;
     background: white;
     border-radius: 17px;
@@ -3209,7 +3222,7 @@ rlo-ui-card-field {
           line-height: 13px;
           color: #919191;
           margin: 1px 0 0 15px;
-          position: absolute;
+          // position: absolute;
         }
 
         .icon-time::before {
@@ -3301,9 +3314,13 @@ rlo-ui-card-field {
 
   .absolute-center {
     position: absolute;
-    top: 6.3rem;
+    top: 6.7rem;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    div {
+      line-height: 12pt;
+    }
   }
 
   .text-center {
@@ -3662,6 +3679,7 @@ rlo-ui-card-field {
     line-height: 17px;
     text-align: center;
     margin: 5px 0;
+    background-color: #ededed;
   }
 
   .btn-primary {
@@ -3688,59 +3706,6 @@ rlo-ui-card-field {
     margin-top: 24px;
     width: 100%;
   }
-
-  // .radio-container {
-  //   position: relative;
-  //   padding-left: 25px;
-  //   margin: 0 12px 0 0;
-  //   cursor: pointer;
-  //   font-size: 12px;
-  //   -webkit-user-select: none;
-  //   -moz-user-select: none;
-  //   -ms-user-select: none;
-  //   user-select: none;
-  //   line-height: 18px;
-
-  //   input {
-  //     position: absolute;
-  //     opacity: 0;
-  //     cursor: pointer;
-  //     left: 0;
-  //     top: 0;
-  //     margin: 0;
-  //     border-color: rgb(204, 204, 204);
-  //   }
-
-  //   input:checked~.checkmark {
-  //     background-color: #0079b8;
-  //     border: 1px solid #0079b8;
-
-  //     &::after {
-  //       content: "";
-  //       position: absolute;
-  //       display: none;
-  //       top: 5px;
-  //       left: 5px;
-  //       width: 4px;
-  //       height: 4px;
-  //       border-radius: 50%;
-  //       background: #fff;
-  //     }
-  //   }
-
-
-  //   .checkmark {
-  //     position: absolute;
-  //     top: 0;
-  //     left: 0;
-  //     height: 16px;
-  //     width: 16px;
-  //     background: #fff;
-  //     border: 1px solid #9a9a9a;
-  //     border-radius: 50%;
-  //     opacity: 1;      
-  //   }
-  // }
 
   .radio-container {
     position: relative;
@@ -3844,7 +3809,24 @@ rlo-ui-card-field {
 
 }
 
+.collateral {
 
+  thead tr {
+    background-color: #E4F0F9;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #FAFAFA;
+  }
+
+  td {
+    font-size: 12px;
+    border: none;
+  }
+}
+
+
+// CLO Collateral Styles - END 
 
 .cust-acknwlg-Container {
   padding-left: 0px !important;
@@ -3995,6 +3977,15 @@ rlo-ui-card-field {
 #PCR_RETRIGGER_BTN,
 #SCR_RETRIGGER_BTN {
   float: right;
+}
+
+.upload-btn-container {
+  line-height: 7rem;
+}
+
+#VRF_UPLOAD_BTN {
+  // margin-top: 8px;
+  margin-left: 0px;
 }
 
 .wgt-date-multiselect {}

@@ -24,6 +24,9 @@ import { IncomeSummaryFormModule } from '../IncomeSummaryForm/IncomeSummaryForm.
 import { LiabilityDtlsFormModule } from '../LiabilityDtlsForm/LiabilityDtlsForm.module';
 import { DocumentUploadModule } from '../document-upload/document-upload.module';
 import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module';
+import { PolicyCheckResultModule } from '../policy-check-result/policy-check-result.module';
+import { ScoreCardResultModule } from '../score-card-result/score-card-result.module';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -46,7 +49,9 @@ import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module
         IncomeSummaryFormModule,
         LiabilityDtlsFormModule,
         DocumentUploadModule,
-        PropertyDetailsModule
+        PropertyDetailsModule,
+        PolicyCheckResultModule,
+        ScoreCardResultModule
     ],
     declarations: [
         PopupAlertComponent,

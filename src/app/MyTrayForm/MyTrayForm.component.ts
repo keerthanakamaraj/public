@@ -369,7 +369,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
   plotDoughnutChart(response) {
 
-    // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
+   // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
 
     let colorListObj = [
       { stage: "QDE", color: "#002438" },

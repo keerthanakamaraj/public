@@ -19,7 +19,7 @@ export class ITag {
   templateUrl: './uw-cust-tab.component.html'
 })
 export class UWCustomerTabComponent implements OnInit, AfterViewInit {
- 
+
   @Output() customerChanged = new EventEmitter<any>();
 
   customerDataArr: any[];
@@ -81,13 +81,28 @@ export class UWCustomerTabComponent implements OnInit, AfterViewInit {
   //   this.onIconClick.emit(event);
   // }
 
+  resetToFirst() {
+    this.tagsArr.forEach(element => {
+      element.isActive = false;
+    });
+
+    this.customerDataArr.forEach(element => {
+      element.isActive = false;
+    });
+
+    this.customerDataArr[0].isActive = true;
+    this.tagsArr[0].isActive = true;
+    this.firstIndex = 0;
+    this.lastIndex = this.sliderLength;
+  }
+
   setCustomerList(customerList) {
-      this.customerDataArr = customerList;
-      if (!this.isFirstLoad) {
-        this.customerDataArr[0].isActive = true;
-        this.isFirstLoad = true;
-      }
-      this.setCustomerTagList();
+    this.customerDataArr = customerList;
+    if (!this.isFirstLoad) {
+      this.customerDataArr[0].isActive = true;
+      this.isFirstLoad = true;
+    }
+    this.setCustomerTagList();
   }
 
   trimTagsIfRequired(tags, maxAllowedTags) {

@@ -294,6 +294,34 @@ export class FormCommonComponent implements OnInit {
   public getFormMetadata(serviceName: string, onSuccess?: Function, onError?: Function) {
     this.serviceName = serviceName;
     this.tenantFieldMaps = new Array();
+
+    console.log("Service Name ", serviceName);
+
+    var formFields = this.services.rloui.getFormFields(serviceName);
+
+    formFields.forEach(field => {
+      // console.log("field ", field);
+      const obj = new TenantFieldMap();
+
+      obj.fieldName = field['ID'];
+      obj.isMandatory = false;
+      if(field['M'] && field['M'] == '1'){
+        obj.isMandatory = true;
+      }
+      //obj.regex = elemValues[element]['REGEX'];
+
+      if ( field['V'] ) { // Check Validations
+        const validation = this.services.rloui.getValidation(field['V']);
+
+        if ( validation ) { // TODO: Check Type and set appropriate Validations
+          if ( validation['P'] ) { // Pattern
+            obj.regex = validation['P'];
+          }
+        }
+      }
+      this.raSimpleValidationConfig.push(obj);
+    });
+
     // Queries for Kalpesh
     // Validation Services
     // forkJoin(this.utility.getCommonService().getTenantDAValidationDetail(serviceName),

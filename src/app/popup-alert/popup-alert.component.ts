@@ -26,6 +26,8 @@ import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsFo
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
 import { IAmortizationForm } from '../Interface/masterInterface';
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
+import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
+import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -70,7 +72,7 @@ export class PopupAlertComponent implements OnInit {
       isLoanCategory = headerObj.isLoanCategory;
     }
 
-    console.log("______", this.modalObject);
+    console.log("DEEP | popup alert object______", this.modalObject);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
     const viewContainerRef = this.FormHost;
@@ -91,14 +93,21 @@ export class PopupAlertComponent implements OnInit {
         setTimeout(() => {
           componentInstance.loanCategoryChanged(isLoanCategory);
         }, 1000);
-      }
-
-      if (this.modalObject.componentName == "FeesAndChargesDetails") {
+      } else if (this.modalObject.componentName == "FeesAndChargesDetails") {
         const parentData: IAmortizationForm = undefined;
         let obj = {
           "ApplicationId": this.modalObject.applicationId
         }
         componentInstance.parentData = obj;
+      } else if (this.modalObject.componentName == 'Amortization') {
+        componentInstance.parentData = this.services.rloCommonData.amortizationModalDataUW
+      } else if (this.modalObject.componentName == 'ObligationDetails') {
+        componentInstance.setTypeObligation = true;
+      } else if (this.modalObject.componentName == 'ScorecardResults') {
+        componentInstance.openInModal = true;
+      } else if (this.modalObject.componentName == 'PolicyCheckResults') {
+        componentInstance.openInModal = true;
+        componentInstance.parentFormCode = "DDE";//used in condition to check score acc. to stage
       }
 
       // async brodcastProdCategory(event) {
@@ -183,6 +192,7 @@ export class PopupAlertComponent implements OnInit {
         return new AddSpecificComponent(IncomeSummaryFormComponent);
         break;
       case 'LiabilityDetails':
+      case 'ObligationDetails':
         return new AddSpecificComponent(LiabilityDtlsFormComponent);
         break;
       case 'FileUpload':
@@ -191,6 +201,13 @@ export class PopupAlertComponent implements OnInit {
       case 'PropertyDetails':
         return new AddSpecificComponent(PropertyDetailsComponent);
         break;
+      case 'PolicyCheckResults':
+        return new AddSpecificComponent(PolicyCheckResultComponent);
+        break;
+      case 'ScorecardResults':
+        return new AddSpecificComponent(ScoreCardResultComponent);
+        break;
+
     }
   }
   // ngOnDestroy() {

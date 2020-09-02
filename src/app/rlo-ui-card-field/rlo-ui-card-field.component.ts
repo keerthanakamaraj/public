@@ -39,7 +39,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
     // console.log(this.cardFieldMetaData, this.applicationId, this.borrowerSeq, this.componentCode);
 
     if (this.cardFieldMetaData.subTitle != "NA" && this.cardFieldMetaData.formatToCurrency) {
-      this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null)
+      this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null,false)
     }
   }
 
@@ -85,6 +85,10 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
       case "AssetDetails":
         obj.name = "Asset Details"
+        break;
+
+      case "ObligationDetails":
+        obj.name = "Total Liability"
         break;
 
       default:

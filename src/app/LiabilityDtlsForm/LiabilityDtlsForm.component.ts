@@ -56,6 +56,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     @ViewChild('hideObligationHead', { static: false }) hideObligationHead: HiddenComponent;
 
     isObligation: boolean;
+    setTypeObligation: boolean = false;//used in UW 
 
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -113,7 +114,9 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.onReset();
     }
     async onFormLoad() {
+        this.LD_LIABILITY_TYPE.setDefault('L');
         this.LD_LIABILITY_TYPE.setValue('L');
+
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         // this.LD_OS_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
         // this.LD_EQUIVALENT_AMOUNT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
@@ -126,12 +129,23 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.hideLiabilityType.setValue('LIABILITY_TYPE');
         this.hideObligationHead.setValue('OBLIGATION_HEAD');
         this.setDependencies();
-        this.LD_LIABILITY_TYPE.setDefault('L');
+
         this.Handler.hideObligationField({});
         await this.Handler.onFormLoad({});
         await this.LIABILITY_GRID.gridDataLoad({
             'passBorrowerToLiability': this.activeBorrowerSeq
         });
+
+        //used in UW 
+        if (this.setTypeObligation) {
+            setTimeout(() => {
+                this.LD_LIABILITY_TYPE.setDefault('O');
+                this.LD_LIABILITY_TYPE.setValue('O');
+
+                this.isObligation = true;
+                this.LD_LIABILITY_TYPE_change();
+            }, 800);
+        }
 
         //UW
         console.log(this.LIABILITY_GRID.columnDefs);
@@ -154,7 +168,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         }
     }
 
-    async LD_LIABILITY_TYPE_change(fieldID, value) {
+    async LD_LIABILITY_TYPE_change() {
         let inputMap = new Map();
         this.Handler.hideObligationField({});
         this.LD_LOAN_AMOUNT.onReset();

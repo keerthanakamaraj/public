@@ -46,69 +46,70 @@ field:"FC_Charge_Desc",
 width:10,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 field:"FC_Party_Name",
 width:10,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 field:"FC_Charge_Type",
 width:10,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 field:"FC_Rate",
 width:7,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 field:"FC_Amount",
 width:10,
 resizable: true,
-cellStyle: {'text-align': 'left'},
-filter: false,
+cellStyle: {'text-align': 'right'},
+valueFormatter: this.formatAmount.bind(this),
 },
 {
 field:"FC_Effective_Amt",
 width:15,
 resizable: true,
-cellStyle: {'text-align': 'left'},
-filter: false,
+cellStyle: {'text-align': 'right'},
+valueFormatter: this.formatAmount.bind(this),
+
 },
 {
 field:"FC_Frequency",
 width:10,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 field:"FC_Rate_Charge_On",
 width:15,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 field:"FC_Charge_Collection",
 width:15,
 resizable: true,
 cellStyle: {'text-align': 'left'},
-filter: false,
+
 },
 {
 width:6,
 field:"FC_Edit",
 sortable: false,
-filter: false,
+
 resizable: true,
 cellRenderer: 'buttonRenderer',
 cellStyle: {'text-align': 'center'},
@@ -124,7 +125,7 @@ onClick: this.FC_EDIT_click.bind(this),
 width:6,
 field:"FC_Delete",
 sortable: false,
-filter: false,
+
 cellRenderer: 'buttonRenderer',
 cellStyle: {'text-align': 'center'},
 cellRendererParams: {
@@ -321,5 +322,12 @@ async FC_DELETE_click(event) {
         );
     }
 }
+formatAmount(number) {
+    if (number.value) {
+      return this.services.formatAmount(number.value, null, null,false);
+    } else {
+      return '-';
+    }
+  }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Output, EventEmitter, Input, ChangeDetectorRef, ɵConsole } from '@angular/core';
 import { AmortizationScheduleModel } from './AmortizationSchedule.model';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
@@ -17,6 +17,7 @@ import { AmortizationScheduleHandlerComponent } from './AmortizationSchedule-han
 // import { IAmortizationForm, IRepaymentSchedule } from './amortization-interface';
 import { IAmortizationForm, IRepaymentSchedule } from '../Interface/masterInterface';
 import { ConsoleService } from '@ng-select/ng-select/lib/console.service';
+import { RefreshSidebarService } from '../refreshSidebar.service';
 
 const customCss: string = '';
 
@@ -33,14 +34,14 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   @ViewChild('BLoanAmtShare', { static: false }) BLoanAmtShare: AmountComponent;
   @ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: AmountComponent;
   @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
-  @ViewChild('ScheduleType', { static: false }) ScheduleType: ComboBoxComponent;
+  @ViewChild('ScheduleType', { static: false }) ScheduleType: TextBoxComponent;
   @ViewChild('RepaymentStartDate', { static: false }) RepaymentStartDate: DateComponent;
   @ViewChild('NoOfInstallments', { static: false }) NoOfInstallments: TextBoxComponent;
   @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: AmountComponent;
   @ViewChild('AmortizationGrid', { static: false }) AmortizationGrid: AmortizationGridComponent;
   @ViewChild('Handler', { static: false }) Handler: AmortizationScheduleHandlerComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
-  @ViewChild('hidScheduleType', { static: false }) hidScheduleType: HiddenComponent;
+ // @ViewChild('hidScheduleType', { static: false }) hidScheduleType: HiddenComponent;
   @ViewChild('AMS_GENERATE_BTN', { static: false }) AMS_GENERATE_BTN: ButtonComponent;
   @ViewChild('AMS_CLEAR_BTN', { static: false }) AMS_CLEAR_BTN: ButtonComponent;
 
@@ -96,7 +97,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     let inputMap = new Map();
     this.hidAppId.setValue('RLO');
-    this.hidScheduleType.setValue('ScheduleType');
+    //this.hidScheduleType.setValue('ScheduleType');
     this.parseParentDataObj();
 
     // if (this.ApplicationId) {
@@ -182,10 +183,31 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   RD_RESET_click(event) {
     this.onReset();
   }
+
+  // momenttest(){
+  //   const moment = require('moment');
+  //   var wTw = moment.duration(30, "weeks").asWeeks();
+  //   var mTw = moment.duration(30, "months").asWeeks();
+  //   var dTw = moment.duration(30, "days").asWeeks();
+  //   var yTw = moment.duration(30, "years").asWeeks();
+  //   var yTm = moment.duration(30, "years").asMonths();
+  //   var wTm = moment.duration(30, "weeks").asMonths();
+  //   var dTm = moment.duration(30, "days").asMonths();
+  //   console.log("shweta :: wTw",wTw);
+  //   console.log("shweta :: mTw",mTw);
+  //   console.log("shweta :: dTw",dTw);
+  //   console.log("shweta :: yTw",yTw);
+  //   console.log("shweta :: yTm",yTm);
+  //   console.log("shweta :: wTm",wTm);
+  //   console.log("shweta :: dTm",dTm);
+  // }
   parseParentDataObj() {
     this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested);
     this.NetInterestRate.setValue(this.parentData.NetInterestRate);
-    this.Tenure.setValue(this.parentData.Tenure);
+
+   // this.momenttest();
+
+    this.Tenure.setValue(this.parentData.Tenure + " "+this.parentData.TenurePeriod);
     this.BLoanOwnership.setValue(this.parentData.BLoanOwnership);
     this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare);
 
@@ -195,14 +217,96 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 
 
     this.DisbursalDate.setValue(this.parentData.DisbursalDate);
-    this.ScheduleType.setValue(this.parentData.ScheduleType);
+   // this.ScheduleType.setValue(this.parentData.ScheduleType);
     this.RepaymentStartDate.setValue(this.parentData.RepaymentStartDate);
-    this.NoOfInstallments.setValue(this.parentData.NoOfInstallments);
+   // this.NoOfInstallments.setValue(this.parentData.NoOfInstallments);
     // this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt);
     //this.tenurePeriod=this.parentData.TenurePeriod;
     //console.log("shweta :: ",this.tenurePeriod);
+    this.ScheduleInstallments();
+    console.log("shweta :: in amortization",this);
+  }
+  ScheduleInstallments(){
+    if(this.parentData.InstallmentFreqIndicatorCd!=undefined){
+      this.ScheduleType.setValue(this.parentData.InstallmentFreqIndicator,this.parentData.InstallmentFreqIndicatorCd);
+   //  this.NoOfInstallments.setValue(this.calculateNoOfInstallments());
+   this.NoOfInstallments.setValue(this.periodConverter());
+    }
+    else{
+      this.NoOfInstallments.setValue(this.parentData.Tenure);
+   let tempInstfreqType= this.convertTenurePeriodToScheduleType();
+   this.ScheduleType.setValue(this.parentData.TenurePeriod,tempInstfreqType);
+    }
+  }
+  periodConverter(){
+    let NoOfinstallments:number=undefined;
+    let tempTenurefreqType= this.convertTenurePeriodToScheduleType();
+    switch(tempTenurefreqType){
+      case 'D':NoOfinstallments=this.parentData.Tenure;break;
+      case 'W':NoOfinstallments=this.weeksTodynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+      case 'M':NoOfinstallments=this.monthsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+      case 'Y':NoOfinstallments=this.yearsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+     }
+     return NoOfinstallments;
   }
 
+  weeksTodynamicPeriodConverter(scheduleType,tempInstallments){
+if(scheduleType=='D'){
+  tempInstallments=tempInstallments*7;
+}
+return tempInstallments;
+  }
+
+  monthsToDynamicPeriodConverter(scheduleType,tempInstallments){
+    if(scheduleType=='W'){
+      tempInstallments=tempInstallments*4;
+    }else if(scheduleType=='D'){
+      tempInstallments=tempInstallments*4*7;
+    }
+    return tempInstallments;
+      }
+
+      yearsToDynamicPeriodConverter(scheduleType,tempInstallments){
+        if(scheduleType=='M'){
+          tempInstallments=tempInstallments*12;
+        }else if(scheduleType=='W'){
+          tempInstallments=tempInstallments*12*4;
+        }else if(scheduleType=='D'){
+          tempInstallments=tempInstallments*12*4*7;
+        }
+        return tempInstallments;
+      }
+  // calculateNoOfInstallments(){
+  //   let NoOfinstallments:number=undefined;
+  // switch(this.parentData.InstallmentFreqIndicatorCd){
+  //  case 'D':NoOfinstallments=this.convertToDays();break;
+  //  case 'W':NoOfinstallments=this.convertToDays()/7;break;
+  //  case 'M':NoOfinstallments=this.convertToDays()/30;break;
+  //  case 'Y':NoOfinstallments=this.convertToDays()/365;break;
+  // }
+  // return NoOfinstallments;
+  // }
+
+  convertToDays(){
+    let NoOfDays:number=undefined;
+    switch(this.parentData.TenurePeriodCd){
+      case 'DAY': NoOfDays=parseInt(this.parentData.Tenure);break;
+      case 'WEEK': NoOfDays=parseInt(this.parentData.Tenure)*7;break;
+      case 'MTHS': NoOfDays=parseInt(this.parentData.Tenure)*30;break;
+      case 'YRS': NoOfDays=parseInt(this.parentData.Tenure)*365;break;
+        }
+        return NoOfDays;
+  }
+  convertTenurePeriodToScheduleType(){
+    let frequencyCode=undefined;
+    switch(this.parentData.TenurePeriodCd){
+      case 'DAY': frequencyCode='D';break;
+      case 'WEEK': frequencyCode='W';break;
+      case 'MTHS': frequencyCode='M';break;
+      case 'YRS': frequencyCode='Y';
+        }
+        return frequencyCode;
+  }
   async AMS_GENERATE_BTN_click(event) {
 
     const noOfErrors: number = await this.revalidate();
@@ -210,15 +314,23 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
 
       this.repaymentFormData = {};
       this.repaymentFormData.loanAmount = this.LoanAmountRequested.getFieldValue();
-      this.repaymentFormData.noOfInstallments = this.NoOfInstallments.getFieldValue();
-      this.repaymentFormData.installmentFrequency = '1';
       this.repaymentFormData.interestRate = this.NetInterestRate.getFieldValue();
       this.repaymentFormData.disbursalDate = this.formatDate(this.DisbursalDate.getFieldValue(), 'DD-MMM-YYYY', 'DD-MM-YYYY');
       this.repaymentFormData.firstInstallmentDate = this.formatDate(this.RepaymentStartDate.getFieldValue(), 'DD-MMM-YYYY', 'DD-MM-YYYY');
       this.repaymentFormData.productCode = this.services.rloCommonData.globalApplicationDtls.ProductName;
       this.repaymentFormData.subProductCode = this.services.rloCommonData.globalApplicationDtls.SubProductName;
 
-      this.AmortizationGrid.gridDataLoad({
+      if(this.RequiredEMIAmt.getFieldValue()!=undefined && this.RequiredEMIAmt.getFieldValue()!=0 && this.RequiredEMIAmt.getFieldValue()!=''){
+        this.repaymentFormData.requiredEMIAmt=this.RequiredEMIAmt.getFieldValue();
+        this.repaymentFormData.tenure=this.parentData.Tenure;
+        this.repaymentFormData.tenureIndecator=this.convertTenurePeriodToScheduleType();
+      }else{
+        this.repaymentFormData.noOfInstallments = this.NoOfInstallments.getFieldValue();
+        this.repaymentFormData.installmentFrequency = '1';
+        this.repaymentFormData.installmentFreqIndicator=this.ScheduleType.getFieldInfo();
+      }
+console.log("shweta :: new repayment Interface ::",JSON.stringify(this.repaymentFormData));
+    this.AmortizationGrid.gridDataLoad({
         'requestParams': this.repaymentFormData
       });
 
@@ -229,10 +341,9 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
   generateRepaymentForm(requestedParams) {
     //this.repaymentFormData=requestParams;
-    this.repaymentFormData.loanAmount = this.services.formatAmount(this.repaymentFormData.loanAmount, null, null);
+    this.repaymentFormData.loanAmount = this.services.formatAmount(this.repaymentFormData.loanAmount, null, null,false);
     this.repaymentFormData.maturityDate = requestedParams.maturityDate;
     this.repaymentFormData.loanCalculationDate = this.getTimeStamp();
-    this.repaymentFormData.repaymentScheduleType = this.ScheduleType.getFieldInfo();
     // console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
     // console.log("installment Amt from grid", requestedParams.installmentAmt);
     //let instAmt = this.RequiredEMIAmt.getFieldValue();
@@ -307,15 +418,15 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   }
 
   fieldDependencies = {
-    ScheduleType: {
-      inDep: [
-        { paramKey: "VALUE1", depFieldID: "ScheduleType", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidScheduleType", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    }
+    // ScheduleType: {
+    //   inDep: [
+    //     { paramKey: "VALUE1", depFieldID: "ScheduleType", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidScheduleType", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // }
   }
 
 }

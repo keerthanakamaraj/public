@@ -3,7 +3,7 @@
         <div class="col-md-12" id="docstable1">
             <div class="panel-group">
                 <div class="panel panel-default table table-responsive">
-                    <table align="center">
+                    <table align="center" class="collateral">
                         <thead class="grid-head">
                             <tr>
                                 <td>{{getLabel('ASSO_CUSTOMER')}}</td>
@@ -14,7 +14,7 @@
                                 <td>{{getLabel('APPORTIONED_AMOUNT')}}</td>
                                 <td>{{getLabel('AVAILABLE_AMOUNT')}}</td>
                                 <td>{{getLabel('COLLATERAL_STATUS')}}</td>
-                                <td>{{getLabel('TAGGED_FACILITY')}}</td>
+                                <!-- <td>{{getLabel('TAGGED_FACILITY')}}</td> -->
                                 <td></td>
                             </tr>
                         </thead>
@@ -25,14 +25,14 @@
                                 <td>{{collList.collateralCode}}</td>
                                 <td>{{collList.collateralSubtype.subTypeDescription}}</td>
                                 <td>{{collList.collateralCurrency}}</td>
-                                <!-- <td>{{collList.originalValue | amountCurrency}}</td>
-                                <td>{{collList.apportionedAmount | amountCurrency}}</td>
-                                <td>{{collList.availableAmount | amountCurrency}}</td> -->
+                                <td>{{ formatAmount(collList.originalValue) }}</td>
+                                <td>{{ formatAmount(collList.apportionedAmount) }}</td>
+                                <td>{{ formatAmount(collList.availableAmount) }}</td>
                                 <td>{{collList.collateralStatus}}</td>
-                                <td class="text-ellipses" title="{{collList.taggedFacilities}}">
-                                    {{collList.taggedFacilities}}</td>
+                                <!-- <td class="text-ellipses" title="{{collList.taggedFacilities}}">
+                                    {{collList.taggedFacilities}}</td> -->
                                 <td class="fas collateral-edit"
-                                    [ngClass]="{'fa-edit': (userAccessEntitle.isEntitled('AddData')  && !appService.viewMode), 'fa-eye': !(userAccessEntitle.isEntitled('AddData')  && !appService.viewMode) }"
+                                    [ngClass]="{'fa-edit': (!appService.viewMode), 'fa-eye': (appService.viewMode) }"
                                     (click)="editCollateral(collList)"></td>
                             </tr>
                         </tbody>

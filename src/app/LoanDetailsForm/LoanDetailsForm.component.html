@@ -182,31 +182,78 @@
               <rlo-ui-readonlyfield #MarginMoney fieldID="MarginMoney" (blur)="genericOnBlur('MarginMoney', $event)">
               </rlo-ui-readonlyfield>
               <div class="clr-brown fieldLegend">
-                <label class="clr-brown">
-                  {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
-                </label>
-              </div>
-
-              <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt" placeholder="Placeholder"
-                (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
-              </rlo-ui-readonlyfield>
-
-
+                  <label class="clr-brown">
+                    {{ 'LoanDetailsForm.EMIAmount' | translate}}
+                  </label>
+                </div>
+                <rlo-ui-readonlyfield #EMIAmount fieldID="EMIAmount" placeholder="Placeholder"
+                  (blur)="genericOnBlur('EMIAmount', $event)">
+                </rlo-ui-readonlyfield>
+                <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'LoanDetailsForm.TotalLoanAmt' | translate}}
+                    </label>
+                  </div>
+                  <rlo-ui-readonlyfield #TotalLoanAmt fieldID="TotalLoanAmt" placeholder="Placeholder"
+                    (blur)="genericOnBlur('TotalLoanAmt', $event)">
+                  </rlo-ui-readonlyfield>
+              
             </div>
             <div class="loan-group col-9 col-sm-4 col-md-4">
+                <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'LoanDetailsForm.TotalFeeAdjWithDist' | translate}}
+                    </label>
+                  </div>
+    
+                  <rlo-ui-readonlyfield #TotalFeeAdjWithDist fieldID="TotalFeeAdjWithDist" placeholder="Placeholder"
+                    (blur)="genericOnBlur('TotalFeeAdjWithDist', $event)">
+                  </rlo-ui-readonlyfield>
+    
+    
+                <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
+                    </label>
+                  </div>
+    
+                  <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt" placeholder="Placeholder"
+                    (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
+                  </rlo-ui-readonlyfield>
 
-              <div class="clr-brown fieldLegend">
+                  <div class="clr-brown fieldLegend">
+                      <label class="clr-brown">
+                        {{ 'LoanDetailsForm.TotaDistlAmt' | translate}}
+                      </label>
+                    </div>
+      
+                    <rlo-ui-readonlyfield #TotaDistlAmt fieldID="TotaDistlAmt" placeholder="Placeholder"
+                      (blur)="genericOnBlur('TotaDistlAmt', $event)">
+                    </rlo-ui-readonlyfield>
+      
+    
+    
+              <!-- <div class="clr-brown fieldLegend">
                 <label class="clr-brown">
                   {{ 'LoanDetailsForm.EMIAmount' | translate}}
                 </label>
               </div>
               <rlo-ui-readonlyfield #EMIAmount fieldID="EMIAmount" placeholder="Placeholder"
                 (blur)="genericOnBlur('EMIAmount', $event)">
-              </rlo-ui-readonlyfield>
+              </rlo-ui-readonlyfield> -->
 
             </div>
             <div class="loan-group col-9 col-sm-4 col-md-4">
 
+                <div class="clr-brown fieldLegend">
+                    <label class="clr-brown">
+                      {{ 'LoanDetailsForm.TotalFeeCollUpfront' | translate}}
+                    </label>
+                  </div>
+                  <rlo-ui-readonlyfield #TotalFeeCollUpfront fieldID="TotalFeeCollUpfront"
+                    (blur)="genericOnBlur('TotalFeeCollUpfront', $event)">
+                  </rlo-ui-readonlyfield>
+    
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown">
                   {{ 'LoanDetailsForm.TotalInterestAmount' | translate}}

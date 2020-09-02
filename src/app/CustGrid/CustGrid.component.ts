@@ -134,14 +134,19 @@ export class CustGridComponent implements AfterViewInit {
 					"searchType": "equals",
 					"searchText": custId
 				}
-			});
+      });
 		}
 		inputMap.set('QueryParam.criteriaDetails', criteriaJson);
     this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/rlo-de').subscribe(
     async (httpResponse: HttpResponse<any>) => {
       var res = httpResponse.body;
       var loopDataVar4 = [];
+      let BorrowerDetail = res['BorrowerDetails'];
       var loopVar4 = res['BorrowerDetails'];
+      var loopVar4 = BorrowerDetail.filter(function (BorrowerDetail) {
+        return BorrowerDetail.CustomerType !== 'R' && BorrowerDetail.CustomerType !== 'F';
+      });
+      console.log("BorrowerDetails", loopVar4);
       if (loopVar4) {
         for (var i = 0; i < loopVar4.length; i++) {
           var tempObj = {};

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
-import { IheaderScoreCard } from '../Interface/masterInterface';
+import { IheaderScoreCard, IGeneralCardData } from '../Interface/masterInterface';
 
 @Component({
   selector: 'app-score-card',
@@ -13,22 +13,10 @@ export class ScoreCardComponent implements OnInit {
   @Input("scoreData") scoreData: IheaderScoreCard;
   @Input("layoutType") layoutType?: string = "horizontal";
   @Input("applicationId") applicationId?: any;
+  @Input("borrowersBorrowerSeq") borrowersBorrowerSeq?: number = 0;
+  //containes only "borrower's" borrowerseq. Used in final DBR to show borrowers income summary->UW
 
   showExpanded: boolean = false;
-  scoreCards = [
-    {
-      type: "Final DBR",
-      score: 54,
-    },
-    {
-      type: "Policy Score",
-      score: 36,
-    },
-    {
-      type: "Application Score",
-      score: 75,
-    }
-  ];
 
   constructor(public services: ServiceStock) { }
 
@@ -74,8 +62,8 @@ export class ScoreCardComponent implements OnInit {
       case "Policy Score":
         this.services.rloCommonData.invokeInterface(this.applicationId, "policyScore").then((response: any) => {
           console.log(response)
-          if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
-            this.scoreData.score = response.ouputdata.OVERALLSCORE;
+          if (response != undefined && response.OVERALLSCORE != undefined) {
+            this.scoreData.score = Math.round(response.OVERALLSCORE);
           }
         });
 
@@ -84,14 +72,46 @@ export class ScoreCardComponent implements OnInit {
       case "Application Score":
         this.services.rloCommonData.invokeInterface(this.applicationId, "applicationScore").then((response: any) => {
           console.log(response);
-          if (response.ouputdata != undefined && response.ouputdata.OVERALLSCORE != undefined) {
-            this.scoreData.score = response.ouputdata.OVERALLSCORE;
+          if (response != undefined && response.OVERALLSCORE != undefined) {
+            this.scoreData.score = Math.round(response.OVERALLSCORE);
           }
         });
         break;
 
       default:
         break;
+    }
+  }
+
+  openModal(data: IheaderScoreCard) {
+    console.log(data);
+
+    if (!this.borrowersBorrowerSeq)
+      return;
+
+    let modalSectionName, name;
+    if (data.id == "DBR") {
+      modalSectionName = "IncomeSummary";
+      name = "Final DBR";
+    }
+    else if (data.id == "Policy") {
+      modalSectionName = "PolicyCheckResults";
+      name = "Policy Score";
+    } else {
+      modalSectionName = "ScorecardResults";
+      name = "Application Score";
+    }
+
+    if (modalSectionName.length) {
+      const obj: IGeneralCardData = {
+        name: name,
+        modalSectionName: modalSectionName,
+        borrowerSeq: this.borrowersBorrowerSeq,
+        applicationId: this.applicationId,
+        componentCode: ""
+      }
+
+      this.services.rloui.openComponentModal(obj);
     }
   }
 }

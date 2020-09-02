@@ -359,7 +359,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   updateAmountTags() {
     let displayTag = [];
     if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined) {
-      displayTag.push("Rs" + " " + this.MainComponent.LD_LOAN_AMOUNT.getFieldValue())
+      displayTag.push( this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
     }
 
     if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {
@@ -633,8 +633,17 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   //   this.MainComponent.BAD_BRANCH,this.MainComponent.BAD_SRC_CHANNEL)
 
   // }
+  formatAmount(number) {
+    if (number) {
+      return this.MainComponent.services.formatAmount(number, null, null,false);
+    } else {
+      return '-';
+    }
+  }
+
 
 }
+
 
 
 

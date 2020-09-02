@@ -4,6 +4,7 @@ import { HttpResponse } from '@angular/common/http';
 import { ComboBoxComponent } from '../combo-box/combo-box.component';
 import { IPolicy } from './PolicyCheckInterface';
 import { ButtonComponent } from '../button/button.component';
+import { string } from '@amcharts/amcharts4/core';
 
 @Component({
   selector: 'app-policy-check-result',
@@ -21,31 +22,47 @@ export class PolicyCheckResultComponent implements OnInit {
   @Input() ApplicationId: string = undefined;
   parentFormCode: string = undefined;
   activePolicyResultList: IPolicy[] = undefined;
-  constructor(private services: ServiceStock, private renderer2: Renderer2) { }
   mainBorrower: string = undefined;
   FilterOptions = [];
   MstPolicyResultMap: Map<string, IPolicy[]> = new Map();
+  openInModal: boolean = false;//set true if wanna open in modal.UW header scores
+
+  constructor(private services: ServiceStock, private renderer2: Renderer2) { }
+  overallResult: string = undefined;
+  overallScore: string = undefined;
+
   ngOnInit() {
     this.setFilterbyOptions();
+    this.retriggerPolicyResult();
 
-
-    this.invokeInterface();
+    // this.invokeInterface();
     // this.loadPolicyResult();
   }
   setFilterbyOptions() {
-    let tempCustomerList = this.services.rloCommonData.getCustomerList();
-
-    console.log("shweta :: in score section", tempCustomerList);
     this.FilterOptions = [];
-    this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
-    tempCustomerList.forEach(element => {
-      if (element.CustomerType == 'B') {
-        // this.FilterOptions.push({ id: 'A_' + element.CustSeq, text: 'Application' });
-        this.mainBorrower = element.BorrowerSeq;
-      }
-      this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-    });
+    if (this.openInModal) {
+      this.FilterOptions = this.services.rloui.customerDataDropDown;
+      console.log(this.FilterOptions);
+      this.FilterOptions.forEach(element => {
+        let customerType = element.text.split("-")[0];
+        if (customerType == "B") {
+          this.mainBorrower = element.id.split("_")[1];
+        }
+      });
+    }
+    else {
+      let tempCustomerList = this.services.rloCommonData.getCustomerList();
+      console.log("shweta :: in score section", tempCustomerList);
 
+      this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
+      tempCustomerList.forEach(element => {
+        if (element.CustomerType == 'B') {
+          // this.FilterOptions.push({ id: 'A_' + element.CustSeq, text: 'Application' });
+          this.mainBorrower = element.BorrowerSeq;
+        }
+        this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
+      });
+    }
     console.log("shweta :: score options list", this.FilterOptions);
   }
 
@@ -83,6 +100,8 @@ export class PolicyCheckResultComponent implements OnInit {
   }
   parsePolicyResultJson(tempPolicyResultList) {
     let newPolicyResultList = [];
+    this.activePolicyResultList = [];
+
     console.log("shweta :: policy Resp:", tempPolicyResultList);
     tempPolicyResultList.forEach(eachPolicy => {
       if (this.parentFormCode == eachPolicy.Stage) {
@@ -151,34 +170,44 @@ export class PolicyCheckResultComponent implements OnInit {
     });
   }
 
-  invokeInterface() {
-    this.MstPolicyResultMap.clear();
-    let inputMap = this.generateRetriggerRequestJson();
-    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.retriggerPolicyResult(res);
+  // invokeInterface() {
+  //   this.MstPolicyResultMap.clear();
+  //   let inputMap = this.generateRetriggerRequestJson();
+  //   this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //       this.retriggerPolicyResult(res);
 
-        //do UW validation here 
-      }, async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      }
-    );
-  }
+  //       //do UW validation here 
+  //     }, async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+  //     }
+  //   );
+  // }
 
-  retriggerPolicyResult(res) {
+  retriggerPolicyResult() {
 
     // let inputMap = this.generateRetriggerRequestJson();
     // console.log("shweta :: input map",inputMap);
-    let inputMap = this.generatepolicyCheckReq(res);
-
+    //  let inputMap = this.generatepolicyCheckReq(res);
+    this.MstPolicyResultMap.clear();
+    let inputMap = this.generateRetriggerRequestJson();
     this.services.http.fetchApi('/policyCheck', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        this.loadPolicyResult();
+        let res = httpResponse.body['ouputdata'];
+        if (res.OVERALLSCORE) {
+          this.overallResult = res.OVERALLRESULT;
+          this.overallScore = res.OVERALLSCORE;
+          console.log("Shweta :: BRE response ", res.OVERALLSCORE, " : ", res.OVERALLRESULT);
+          this.loadPolicyResult();
+        } else if (res.error) {
+          this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+        } else {
+          this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+        }
       },
       async (httpError) => {
         var err = httpError['error']
@@ -189,14 +218,14 @@ export class PolicyCheckResultComponent implements OnInit {
     );
   }
 
-  generatepolicyCheckReq(res) {
-    let inputMap = new Map();
-    inputMap.set('Body.prposalid', res['prposalid']);
-    inputMap.set('Body.interfaceId', res['interfaceId']);
-    inputMap.set('Body.ouputdata', res['ouputdata']);
+  // generatepolicyCheckReq(res) {
+  //   let inputMap = new Map();
+  //   inputMap.set('Body.prposalid', res['prposalid']);
+  //   inputMap.set('Body.interfaceId', res['interfaceId']);
+  //   inputMap.set('Body.ouputdata', res['ouputdata']);
 
-    return inputMap;
-  }
+  //   return inputMap;
+  // }
   generateRetriggerRequestJson() {
     let inputMap = new Map();
     inputMap.set('Body.interfaceId', 'INT007');

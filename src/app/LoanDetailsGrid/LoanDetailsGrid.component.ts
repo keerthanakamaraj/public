@@ -223,7 +223,7 @@ export class LoanDetailsGridComponent implements AfterViewInit {
   }
   formatAmount(number) {
     if (number.value) {
-      return this.services.formatAmount(number.value, null, null);
+      return this.services.formatAmount(number.value, null, null,false);
     } else {
       return '-';
     }

@@ -39,7 +39,7 @@ export class TextBoxComponent extends FieldComponent implements OnInit {
   // }
 
   getFieldInfo() {
-    return (this.value == undefined) ? "" : this.value;
+    return (this.value == undefined) ? "" : this.additionalInfo;
   }
 
   async validateValue(value, event = undefined): Promise<number> {

@@ -1,3 +1,5 @@
+import { any } from "@amcharts/amcharts4/.internal/core/utils/Array";
+
 export interface ICardMetaData {
     type: string;
     id: string;
@@ -13,6 +15,7 @@ export interface IGeneralCardData {
     borrowerSeq?: number;
     applicationId?: number;
     componentCode?: string;
+    canShowModal?: boolean;
 }
 
 export interface ICardListData {
@@ -41,9 +44,13 @@ export interface IAmortizationForm {
     RepaymentStartDate?: any,
     NoOfInstallments?: any,
     RequiredEMIAmt?: any,
-    ApplicationId?: any
-    InterestRate?: any
-    // TenurePeriod?:any
+    ApplicationId?: any,
+    InterestRate?: any,
+    InstallmentFrequency?: any,
+    InstallmentFreqIndicator?: any,
+    InstallmentFreqIndicatorCd?: any,
+    TenurePeriod?: any,
+    TenurePeriodCd?: any
 
 }
 
@@ -59,8 +66,11 @@ export interface IRepaymentSchedule {
     productCode?: string,
     subProductCode?: string,
     maturityDate?: string,
-    loanCalculationDate?: string
-    repaymentScheduleType?: string
+    loanCalculationDate?: string,
+    installmentFreqIndicator?: string
+    tenure?: string,
+    tenureIndecator?: string,
+    requiredEMIAmt?: string
 }
 
 
@@ -86,4 +96,11 @@ export interface IheaderScoreCard {
     id: 'DBR' | 'Policy' | 'ScoreCard';
     type: string;
     score: number;
+}
+
+//used in every sections which are there in DDE(rloCommonDataService -> masterDataMap)
+export interface IGlobalComponentLvlDataHandler {
+    name: string;
+    data: any;
+    BorrowerSeq: number;
 }

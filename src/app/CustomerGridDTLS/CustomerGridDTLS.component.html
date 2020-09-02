@@ -61,8 +61,7 @@
   </div>
 </div>  -->
 
-<div class="customer-container col-12 col-sm-12 col-md-12"
-  *ngIf="parentFormCode=='DDE' && !isLoanCategory;else loanCategoryStyle">
+<div class="customer-container col-12 col-sm-12 col-md-12" *ngIf="!isLoanCategory;else loanCategoryStyle">
   <div class="cust-group col-12 col-sm-3 col-md-3">
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
@@ -85,7 +84,7 @@
     <div class="cust-header">
       <span class="cust-tag">{{ 'CustomerGridDTLS.AddOnDetails' | translate }}</span>
       <span class="cust-label">{{ 'CustomerGridDTLS.AddOnDetailsLable' | translate }}</span>
-      <span class="cust-add" (click)="doReset('A')" *ngIf="!readOnly">
+      <span class="cust-add" (click)="doReset('A')" [hidden]="!PlusFlag">
         <img src="assets/icons/add_plus.png" />
       </span>
     </div>

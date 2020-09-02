@@ -49,6 +49,9 @@ export interface IGlobalApllicationDtls {
   LoanTenurePeriodName?: string;
   ARN?: string;
   LoanAmount?: string;
+  InterestRate?: string;
+  Tenure?: string;
+  TenurePeriodName?: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -73,6 +76,9 @@ export class RloCommonData {
   componentLvlDataSubject = new Subject<IComponentLvlData>();
   currentRoute: string = "";
   globalApplicationDtls: IGlobalApllicationDtls = {};
+
+  amortizationModalDataUW: any;//stored data used for amortization schedule modal  
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -225,14 +231,14 @@ export class RloCommonData {
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
-        // case 'PolicyCheckResults':
-        //   mapValue = componentData.data;
-        //   functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
-        //   break;
-        // case 'ScorecardResults':
-        //   mapValue = componentData.data;
-        //   functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
-        //   break;
+        case 'PolicyCheckResults':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
+        case 'ScorecardResults':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -509,6 +515,7 @@ export class RloCommonData {
     }
 
     const LoanOwnership = customerData.LoanOwnership;
+    const custType = customerData.CustomerType;
 
     if (LoanOwnership !== undefined && LoanOwnership != 0) {
       commonObj.isSectionValid = false;
@@ -524,7 +531,10 @@ export class RloCommonData {
         }
       }
       if (!commonObj.isSectionValid) {
-        commonObj.errorMessage = " 1 primary occupation";
+        if((LoanOwnership != undefined && LoanOwnership != 0) && (custType == 'B' || custType == 'CB')){
+          commonObj.errorMessage = " 1 primary occupation"
+        }
+      
       }
     }
     return commonObj;
@@ -578,7 +588,7 @@ export class RloCommonData {
     }
     if (!commonObj.isSectionValid) {
       commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
-        '1 permanent and 1 current residence address and 1 correspondence address'
+        '1 correspondence address'
         : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     }
     return commonObj;
@@ -623,17 +633,23 @@ export class RloCommonData {
       let isGoNoGoSectionValid = true;
       let isLoadOrCreditCardValid = true;
       let isPropertyDetailsValid = true;
+      let isScoreCardDetailsValid = true;
+      let isPolicyCheckValid = true;
       let errorMessage = '';
 
       forkJoin(
         this.validateGoNoGoSection(dataToValidate),
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
-        this.validatePropertyDetailsSection(dataToValidate)
+        this.validatePropertyDetailsSection(dataToValidate),
+        this.validateScoreCard(dataToValidate),
+        this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
         console.error(data);
         isGoNoGoSectionValid = data[0].isSectionValid;
         isLoadOrCreditCardValid = data[1].isSectionValid;
         isPropertyDetailsValid = data[2].isSectionValid;
+        isScoreCardDetailsValid = data[3].isSectionValid;
+        isPolicyCheckValid = data[4].isSectionValid;
 
         let errorCounter = 1;
         for (let i = 0; i < data.length; i++) {
@@ -649,7 +665,7 @@ export class RloCommonData {
           }
         }
 
-        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid)) {
+        if (!(isGoNoGoSectionValid && isLoadOrCreditCardValid && isPropertyDetailsValid && isScoreCardDetailsValid && isPolicyCheckValid)) {
           // let msg = errorMessage + "\r\n";
           let msg = "<p>The following details of Application tab need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
           dataObject.errorsList.push(msg);
@@ -858,46 +874,66 @@ export class RloCommonData {
 
       if (type == "applicationScore") {
         interfaceId = "INT008";
-        apiName = "ScoreCard";
+        apiName = "/ScoreCard";
       }
       else {
         interfaceId = "INT007";
-        apiName = "policyCheck";
+        apiName = "/policyCheck";
       }
 
       let inputMap = this.generateRetriggerRequestJson(applicationId, interfaceId);
 
-      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      // this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      //   async (httpResponse: HttpResponse<any>) => {
+      //     let res = httpResponse.body;
+      //     resolve(res);
+      //     this.retriggerScoreResult(res, apiName);
+      //   }, async (httpError) => {
+      //     resolve(null);
+      //     var err = httpError['error']
+      //     if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+      //     }
+      //     //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+      //   }
+      // );
+
+      this.http.fetchApi(apiName, 'POST', inputMap, '/initiation').subscribe(
         async (httpResponse: HttpResponse<any>) => {
-          let res = httpResponse.body;
-          resolve(res);
-          this.retriggerScoreResult(res, apiName);
-        }, async (httpError) => {
-          resolve(null);
+          let res = httpResponse.body['ouputdata'];
+          if (res.OVERALLSCORE) {
+            resolve(res);
+          } else if (res.error) {
+            //this.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+          } else {
+            //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+          }
+        },
+        async (httpError) => {
           var err = httpError['error']
           if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
           }
-          //this.alert.showAlert(2, 'rlo.error.load.form', -1);
+          //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
       );
+
     });
     return promise;
   }
 
-  retriggerScoreResult(res, apiName: string) {
-    let inputMap = this.generateScoreCheckReq(res);
+  // retriggerScoreResult(res, apiName: string) {
+  //   let inputMap = this.generateScoreCheckReq(res);
 
-    this.http.fetchApi('/' + apiName, 'POST', inputMap, '/initiation').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-        //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      });
-  }
+  //   this.http.fetchApi('/' + apiName, 'POST', inputMap, '/initiation').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //     },
+  //     async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       //this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+  //     });
+  // }
 
   generateScoreCheckReq(res) {
     let inputMap = new Map();
@@ -909,12 +945,12 @@ export class RloCommonData {
   //scoreCard invoke interface and score card api
 
   //get score data in DDE and UW
-  getInitialScores(applicationId:any){
+  getInitialScores(applicationId: any) {
     const promise = new Promise((resolve, reject) => {
       let inputMap = new Map();
       inputMap.clear();
       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-  
+
       criteriaJson.FilterCriteria.push({
         "columnName": "ApplicationId",
         "columnType": "String",
@@ -925,9 +961,9 @@ export class RloCommonData {
       });
       inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
       inputMap.set('QueryParam.ApplicationId', applicationId);
-  
+
       console.log(inputMap);
-  
+
       let url = "/ApplicationScoreDetails";
       //url = "/ApplicationScoreDetails/2483"; '/LiabilityDetails', 'GET', inputMap, '/rlo-de'
       this.http.fetchApi(url, 'GET', inputMap, '/rlo-de').subscribe(
@@ -943,4 +979,46 @@ export class RloCommonData {
     });
     return promise;
   }
+
+  async validateScoreCard(applicationData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (applicationData.has("ScorecardResults")) {
+      let ScorecardResults = applicationData.get("ScorecardResults");
+      if (!ScorecardResults[0].isValid) {
+        commonObj.errorMessage = "Please fill all the mandatory fields of Scorecard Results";
+        commonObj.isSectionValid = false;
+      }
+    }
+    else {
+      commonObj.errorMessage = "Please fill all the mandatory fields of Scorecard Results";
+      commonObj.isSectionValid = false;
+    }
+    return commonObj;
+  }
+
+  async validatePolicyCheck(applicationData: Map<any, any>) {
+    let commonObj: IComponentSectionValidationData = {
+      isSectionValid: true,
+      errorMessage: ''
+    }
+
+    if (applicationData.has("PolicyCheckResults")) {
+      let ScorecardResults = applicationData.get("PolicyCheckResults");
+      if (!ScorecardResults[0].isValid) {
+        commonObj.errorMessage = "Please fill all the mandatory fields of PolicyCheck Results";
+        commonObj.isSectionValid = false;
+      }
+    }
+    else {
+      commonObj.errorMessage = "Please fill all the mandatory fields of PolicyCheck Results";
+      commonObj.isSectionValid = false;
+    }
+    return commonObj;
+  }
+
+
 }
