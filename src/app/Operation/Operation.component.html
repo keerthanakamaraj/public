@@ -113,8 +113,8 @@
                   {{ 'Operation.LOAN_DBR' | translate}}
                 </label>
               </div>
-              <app-amount #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
-              </app-amount>
+              <app-text-box #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
+              </app-text-box>
             </div>
 
             <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="EMI_Amt.isHidden()">
@@ -151,8 +151,8 @@
                 {{ 'Operation.Card_DBR' | translate}}
               </label>
             </div>
-            <app-amount #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
-            </app-amount>
+            <app-text-box #Card_DBR fieldID="Card_DBR" [formCode]="formCode" (blur)="genericOnBlur('Card_DBR', $event)">
+            </app-text-box>
           </div>
         </div>
       </div>
