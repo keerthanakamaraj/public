@@ -117,6 +117,15 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
 
     ngOnInit() {
+        
+        //only when navigating to DDE from Operations
+        if (this.services.rloCommonData.makeDdeDisabled) {
+            this.readOnly = true;
+        }
+        else {
+            this.readOnly = false;
+        }
+        
         this.getFormMetadata('saveDocumentUploadDetails');
         this.location.onPopState(() => {
         });
@@ -126,13 +135,6 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.documentUploadObject.InputterId = sessionStorage.getItem('userId');
         console.log('this.documentUploadObject', this.documentUploadObject, this.ApplicationId);
 
-        //only when navigating to DDE from Operations
-        if (this.services.rloCommonData.makeDdeDisabled) {
-            this.readOnly = true;
-        }
-        else {
-            this.readOnly = false;
-        }
 
         // @CLO-RLO-Merge - Inputter Id 
         // if (!this.documentUploadObject.InputterId) {

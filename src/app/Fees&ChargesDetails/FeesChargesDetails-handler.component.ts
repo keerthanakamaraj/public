@@ -95,5 +95,16 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
     }
    
   }
+
+  hideFiedlBasedonChargeType(){
+    if(this.MainComponent.ChargeType.getFieldValue() == 'Payable'){
+      this.MainComponent.PartyTypeReceivable.setHidden(true);
+      this.MainComponent.PartyTypePayable.setHidden(false);
+    }
+    else{
+      this.MainComponent.PartyTypeReceivable.setHidden(true);
+      this.MainComponent.PartyTypePayable.setHidden(false);
+    }
+  }
  }
 

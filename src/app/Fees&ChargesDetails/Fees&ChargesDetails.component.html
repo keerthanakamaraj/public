@@ -15,6 +15,29 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
+         
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeType.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ChargeType.mandatory}">
+                {{ 'Fees&ChargesDetails.ChargeType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #ChargeType category="2" fieldID="ChargeType" [formCode]="formCode" placeholder="Select"
+              (blur)="genericOnBlur('ChargeType', $event)" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
+            </app-combo-box>
+          </div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeType.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ChargeType.mandatory}">
+                {{ 'Fees&ChargesDetails.ChargeType' | translate}}
+              </label>
+            </div>
+            <rlo-ui-radio #ChargeType fieldID="ChargeType" [formCode]="formCode" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('ChargeType', $event)" (change)="ChargeBasis_change('ChargeType', $event)">
+            </rlo-ui-radio>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeDescription.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': ChargeDescription.mandatory}">
@@ -26,27 +49,29 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
             </app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeType.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyTypeReceivable.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': ChargeType.mandatory}">
-                {{ 'Fees&ChargesDetails.ChargeType' | translate}}
+              <label class="clr-brown" [ngClass]="{'mandatory': PartyTypeReceivable.mandatory}">
+                {{ 'Fees&ChargesDetails.PartyTypeReceivable' | translate}}
               </label>
             </div>
-            <app-combo-box #ChargeType category="2" fieldID="ChargeType" [formCode]="formCode" placeholder="Select"
-              (blur)="genericOnBlur('ChargeType', $event)" placeholder="Select"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
+            <app-combo-box #PartyTypeReceivable category="2" fieldID="PartyTypeReceivable" [formCode]="formCode"
+              (blur)="genericOnBlur('PartyTypeReceivable', $event)" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('PartyTypeReceivable', $event)" (change)="PartyTypeReceivable_change(fieldName, event)">
             </app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyType.isHidden()">
+
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyTypePayable.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': PartyType.mandatory}">
-                {{ 'Fees&ChargesDetails.PartyType' | translate}}
+              <label class="clr-brown" [ngClass]="{'mandatory': PartyTypePayable.mandatory}">
+                {{ 'Fees&ChargesDetails.PartyTypePayable' | translate}}
               </label>
             </div>
-            <app-combo-box #PartyType category="2" fieldID="PartyType" [formCode]="formCode"
-              (blur)="genericOnBlur('PartyType', $event)" placeholder="Select"
+            <app-combo-box #PartyTypePayable category="2" fieldID="PartyTypePayable" [formCode]="formCode"
+              (blur)="genericOnBlur('PartyTypePayable', $event)" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('PartyType', $event)" (change)="PartyType_change(fieldName, event)">
+              (blur)="genericOnBlur('PartyTypePayable', $event)" (change)="PartyTypePayable_change(fieldName, event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyName.isHidden()">
@@ -102,8 +127,7 @@
             </div>
             <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
-              domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)"
-              (change)="Currency_change('Currency', $event)">
+              domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeAmt.isHidden()">
@@ -228,7 +252,8 @@
         <app-hidden #AD_HIDE_ID fieldID="AD_HIDE_ID"></app-hidden>
         <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
         <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
-        <app-hidden #hidePartyType fieldID="hidePartyType"></app-hidden>
+        <app-hidden #hidePartyTypeRec fieldID="hidePartyTypeRec"></app-hidden>
+        <app-hidden #hidePartyTypePay fieldID="hidePartyTypePay"></app-hidden>
         <app-hidden #hidePeriodicCharge fieldID="hidePeriodicCharge"></app-hidden>
         <app-hidden #hideChargeType fieldID="hideChargeType"></app-hidden>
         <app-hidden #hideFrequency fieldID="hideFrequency"></app-hidden>

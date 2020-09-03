@@ -366,9 +366,9 @@ console.log("shweta :: new repayment Interface ::",JSON.stringify(this.repayment
 
   AMS_CLEAR_BTN_click(event) {
     this.DisbursalDate.onReset();
-    this.ScheduleType.onReset();
+//    this.ScheduleType.onReset();
     this.RepaymentStartDate.onReset();
-    this.NoOfInstallments.onReset();
+ //   this.NoOfInstallments.onReset();
     this.RequiredEMIAmt.onReset();
   }
 
