@@ -96,6 +96,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   finalOutput: any;
   fieldLst = [];
   documentShow: boolean = false;
+  usertask : any;
   configMap = {
     "CREATED_BY": "System",
     "EVENT_CODE": "SANCTION_LETTER",
@@ -195,9 +196,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-    if (this.userId == undefined || this.userId == '') {
-      this.claimTask(this.taskId);
-    }
+    if (this.usertask.Status == "F") {
+      if (this.userId == undefined || this.userId == '') {
+        this.claimTask(this.taskId);
+       }
+      }
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -689,6 +692,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     this.services.http.fetchApi('/ClaimTask', 'POST', inputMap, '/los-wf').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
+        this.usertask = res;
         if (res.Status == 'S') {
           this.services.alert.showAlert(1, 'rlo.success.claim.qde', 5000);
           this.userId = sessionStorage.getItem('userId');

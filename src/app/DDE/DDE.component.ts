@@ -372,10 +372,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
     this.CUSTOMER_GRID.parentFormCode = this.componentCode;
     this.CUSTOMER_GRID.doAPIForCustomerList({});
-
+    if (!this.services.rloCommonData.makeDdeDisabled) {
+      //claim task code here  
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
     }
+  }
     this.setDependencies();
   }
 
