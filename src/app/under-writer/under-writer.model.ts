@@ -1005,14 +1005,16 @@ export class CustomerDetails implements IDeserializable {
 
         //obj
         this.FinancialSummary = new FinancialSummary().deserialize(input.UWIncomeSummary);
+
+        let assetAmt = 0;
         if (input.hasOwnProperty("UWAsset")) {
             let assetsList = input["UWAsset"];
-            let assetAmt = 0;
             assetsList.forEach(element => {
-                assetAmt += element.EquivalentAmt;
+                if (element.hasOwnProperty("EquivalentAmt"))
+                    assetAmt += element.EquivalentAmt;
             });
-            this.FinancialSummary.TotalAssetValue = assetAmt;
         }
+        this.FinancialSummary.TotalAssetValue = !assetAmt ? "NA" : assetAmt;
 
         this.CollateralDetails = new CollateralDetails().deserialize(input.UWCollateralDetails);
         this.FinancialDetails = new FinancialDetails().deserialize(input.UWIncomeDetails);
