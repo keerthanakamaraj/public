@@ -245,7 +245,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
       case 'D':NoOfinstallments=this.parentData.Tenure;break;
       case 'W':NoOfinstallments=this.weeksTodynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
       case 'M':NoOfinstallments=this.monthsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
-      case 'Y':case'A':NoOfinstallments=this.yearsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
+      case 'Y':NoOfinstallments=this.yearsToDynamicPeriodConverter(this.parentData.InstallmentFreqIndicatorCd,this.parentData.Tenure);break;
      }
      return NoOfinstallments;
   }
@@ -366,9 +366,9 @@ console.log("shweta :: new repayment Interface ::",JSON.stringify(this.repayment
 
   AMS_CLEAR_BTN_click(event) {
     this.DisbursalDate.onReset();
-    this.ScheduleType.onReset();
+//    this.ScheduleType.onReset();
     this.RepaymentStartDate.onReset();
-    this.NoOfInstallments.onReset();
+ //   this.NoOfInstallments.onReset();
     this.RequiredEMIAmt.onReset();
   }
 
