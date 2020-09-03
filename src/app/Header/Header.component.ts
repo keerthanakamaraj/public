@@ -338,7 +338,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         break;
       case 'KES': this.CURRENCY_IMG = './assets/icons/Ksh icon.svg';
         break;
-
+        case 'INR': this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
+        break;
     }
 
     switch (this.HD_PROD_CAT.getFieldValue()) {
