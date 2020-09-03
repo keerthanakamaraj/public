@@ -35,7 +35,7 @@
             </div>
             <rlo-ui-radio #ChargeType fieldID="ChargeType" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('ChargeType', $event)" (change)="ChargeBasis_change('ChargeType', $event)">
+              (blur)="genericOnBlur('ChargeType', $event)" (change)="ChargeType_change('ChargeType', $event)">
             </rlo-ui-radio>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeDescription.isHidden()">
@@ -83,11 +83,18 @@
             <app-combo-box #PartyName category="4" fieldID="PartyName" placeholder="Select"
               [emittedOptions]="FilterOptions" (blur)="genericOnBlur('PartyName', $event)" >
             </app-combo-box>
-
-            <!-- <app-combo-box #PartyName category="2" fieldID="PartyName" [formCode]="formCode"
-              (blur)="genericOnBlur('PartyName', $event)" placeholder="Select"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
-            </app-combo-box> -->
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyNames.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': PartyNames.mandatory}">
+                {{ 'Fees&ChargesDetails.PartyNames' | translate}}
+              </label>
+            </div>
+            <app-combo-box #PartyNames category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MstPartyNameDetails/{PartyCode}" doServerUrl="/masters"
+            domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('PartyNames', $event)">
+          </app-combo-box>
+            
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeBasis.isHidden()">

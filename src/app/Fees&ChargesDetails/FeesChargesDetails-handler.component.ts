@@ -96,14 +96,27 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
    
   }
 
-  hideFiedlBasedonChargeType(){
-    if(this.MainComponent.ChargeType.getFieldValue() == 'Payable'){
+  hideFieldBasedonChargeType(){
+    if(this.MainComponent.ChargeType.getFieldValue() == 'PAYABLE'){
       this.MainComponent.PartyTypeReceivable.setHidden(true);
       this.MainComponent.PartyTypePayable.setHidden(false);
+      this.MainComponent.PartyTypeReceivable.setValue(undefined);
     }
     else{
-      this.MainComponent.PartyTypeReceivable.setHidden(true);
-      this.MainComponent.PartyTypePayable.setHidden(false);
+      this.MainComponent.PartyTypeReceivable.setHidden(false);
+      this.MainComponent.PartyTypePayable.setHidden(true);
+      this.MainComponent.PartyTypePayable.setValue(undefined);
+    }
+  }
+  
+  displayPartyNameBasedOnPartyType(){
+    if(this.MainComponent.PartyTypeReceivable.getFieldValue() != 'B'){
+      this.MainComponent.PartyName.setHidden(true);
+      this.MainComponent.PartyNames.setHidden(false);
+    }
+    else{
+      this.MainComponent.PartyName.setHidden(false);
+      this.MainComponent.PartyNames.setHidden(true);
     }
   }
  }

@@ -32,6 +32,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   @ViewChild('PartyTypeReceivable', { static: false }) PartyTypeReceivable: ComboBoxComponent;
   @ViewChild('PartyTypePayable', { static: false }) PartyTypePayable: ComboBoxComponent;
   @ViewChild('PartyName', { static: false }) PartyName: ComboBoxComponent;
+  @ViewChild('PartyNames', { static: false }) PartyNames: ComboBoxComponent;
   @ViewChild('ChargeBasis', { static: false }) ChargeBasis: RLOUIRadioComponent;
   @ViewChild('ChargeRate', { static: false }) ChargeRate: TextBoxComponent;
   @ViewChild('ChargeAmt', { static: false }) ChargeAmt: AmountComponent;
@@ -88,6 +89,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       this.revalidateBasicField('ChargeBasis'),
       this.revalidateBasicField('ChargeRate'),
       this.revalidateBasicField('PartyName'),
+      this.revalidateBasicField('PartyNames'),
       this.revalidateBasicField('ChargeAmt'),
       this.revalidateBasicField('PeriodicCharge'),
       this.revalidateBasicField('PeriodicStDt'),
@@ -142,7 +144,8 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
 
     this.Handler.hideShowFieldBasedOnChargeBasis();
     this.Handler.hideFieldBasedOnPeriodicCharge();
-    this.Handler.hideFiedlBasedonChargeType();
+    this.Handler.hideFieldBasedonChargeType();
+    this.Handler.displayPartyNameBasedOnPartyType()
 
     this.getLoanFieldValue();
 
@@ -237,21 +240,24 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
 
     this.onFormLoad();
   }
+  async ChargeType_change(fieldID, value) {
+    this.Handler.hideFieldBasedonChargeType();
+  }
   async ChargeBasis_change(fieldID, value) {
     this.Handler.hideShowFieldBasedOnChargeBasis();
   }
   async PeriodicCharge_change(fieldID, value) {
     this.Handler.hideFieldBasedOnPeriodicCharge();
   }
-  // async PartyType_change(fieldID, value){
-  //   let id = this.PartyType.getFieldValue();
-  //   this.array = this.setFilterbyOptions(id);
-  //   this.FilterOptions = [];
-  //   this.array.forEach(element => {
-  //       this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
-  //   });
-  //   this.PartyName.setStaticList(this.FilterOptions);
-  // }
+  
+  async PartyTypeReceivable_change(fieldID, value){
+  
+   let filterKey = this.PartyTypeReceivable.getFieldValue();
+   //  console.log("shweta :: slected filterkey", filterKey);
+   this.PartyName.onReset();
+   this.setFilterbyOptions(filterKey);
+   this.Handler.displayPartyNameBasedOnPartyType();
+  }
   async Currency_blur(event) {
     let inputMap = new Map();
     this.Handler.chargeAmountcharOnblur()
@@ -317,15 +323,16 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   }
 
   requestParameterForFeeChargesDetails() {
+    const PartyType = (this.ChargeType.getFieldValue() == 'PAYABLE') ? this.PartyTypePayable.getFieldValue() : this.PartyTypeReceivable.getFieldValue();
+    const PartyName = (this.PartyTypeReceivable.getFieldValue() == 'B') ? this.PartyNames.getFieldValue() : this.PartyName.getFieldValue();
     const inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ChargeDtlSeq', this.AD_HIDE_ID.getFieldValue());
     inputMap.set('Body.ChargeDetails.ApplicationId', this.ApplicationId);
     inputMap.set('Body.ChargeDetails.ChargeDescription', this.ChargeDescription.getFieldValue());
     inputMap.set('Body.ChargeDetails.ChargeType', this.ChargeType.getFieldValue());
-
-    inputMap.set('Body.ChargeDetails.PartyType', this.PartyTypePayable.getFieldValue());
-    inputMap.set('Body.ChargeDetails.PartyName', this.PartyName.getFieldValue());
+    inputMap.set('Body.ChargeDetails.PartyType', PartyType);
+    inputMap.set('Body.ChargeDetails.PartyName', PartyName);
     inputMap.set('Body.ChargeDetails.Currency', this.Currency.getFieldValue());
     inputMap.set('Body.ChargeDetails.ChargeBasis', this.ChargeBasis.getFieldValue());
     inputMap.set('Body.ChargeDetails.ChargeRate', this.ChargeRate.getFieldValue());
@@ -433,9 +440,17 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         this.ChargeDescription.setValue(res['ChargeDetails']['ChargeDescription']);
         this.ChargeType.setValue(res['ChargeDetails']['ChargeType']);
         this.ChargeRate.setValue(res['ChargeDetails']['ChargeRate']);
-        this.PartyTypeReceivable.setValue(res['ChargeDetails']['PartyType']);
-        this.PartyTypePayable.setValue(res['ChargeDetails']['PartyType']);
-        this.PartyName.setValue(res['ChargeDetails']['PartyName']);
+        if(res['ChargeDetails']['ChargeType'] == 'PAYABLE'){
+          this.PartyTypePayable.setValue(res['ChargeDetails']['PartyType']);
+        }else{
+          this.PartyTypeReceivable.setValue(res['ChargeDetails']['PartyType']);
+        }
+        if(res['ChargeDetails']['PartyType'] == 'B'){
+          this.PartyName.setValue(res['ChargeDetails']['PartyName']);
+        }
+        else{
+          this.PartyNames.setValue(res['ChargeDetails']['PartyName']);
+        }
         this.ChargeBasis.setValue(res['ChargeDetails']['ChargeBasis']);
         this.Currency.setValue(res['ChargeDetails']['Currency']);
         this.ChargeAmt.setValue(res['ChargeDetails']['ChargeAmt']);
@@ -450,7 +465,8 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         this.AD_HIDE_ID.setValue(res['ChargeDetails']['ChargeDtlSeq']);
         this.Handler.hideShowFieldBasedOnChargeBasis();
         this.Handler.hideFieldBasedOnPeriodicCharge();
-        this.Handler.hideFiedlBasedonChargeType()
+        this.Handler.hideFieldBasedonChargeType()
+        this.Handler.displayPartyNameBasedOnPartyType();
         this.revalidateBasicField('Currency', true)
 
         if (this.readOnly) {
@@ -475,14 +491,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.InterestRate = this.parentData.InterestRate
   }
 
-  PartyType_change(fieldName, event) {
-
-    let filterKey = this.PartyTypeReceivable.getFieldValue();
-    //  console.log("shweta :: slected filterkey", filterKey);
-    this.PartyName.onReset();
-    this.setFilterbyOptions(filterKey);
-  }
-
+ 
   setFilterbyOptions(filterKey) {
     let tempCustomerList = this.services.rloCommonData.getCustomerList();
     this.FilterOptions = [];
@@ -600,6 +609,15 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         { paramKey: "VALUE1", depFieldID: "ChargeDescription", paramType: "PathParam" },
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
         { paramKey: "KEY1", depFieldID: "hideChargeDescription", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    PartyNames: {
+      inDep: [
+
+        { paramKey: "ProductCd", depFieldID: "PartyNames", paramType: "PathParam" },
+        { paramKey: "PartyType", depFieldID: "hidePartyType", paramType: "QueryParam" },
       ],
       outDep: [
       ]
