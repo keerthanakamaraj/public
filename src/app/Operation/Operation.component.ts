@@ -716,9 +716,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
 
+ 
   async OPERATION_SUBMIT_click(event) {
     const inputMap = new Map();
     inputMap.clear();
+    inputMap.set('Body.interfaceId', 'INT009');
     inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
     inputMap.set('Body.TaskId', this.taskId);
@@ -727,7 +729,19 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.ApplicationStatus', 'Approve');
     inputMap.set('Body.CurrentStage', 'Operation');
     inputMap.set('Body.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.prposalid', this.ApplicationId);
+    inputMap.set('Body.inputdata.downPayment.paymentToBank','0');
+    inputMap.set('Body.inputdata.downPayment.paymentToOthers','0');
+    inputMap.set('Body.inputdata.interestRateDetails.baseRate','10');
+    inputMap.set('Body.inputdata.interestRateDetails.customerSpread','0');
+    inputMap.set('Body.inputdata.interestRateDetails.productSpread','0');
+    inputMap.set('Body.inputdata.interestRateDetails.loanSpread','0');
+    inputMap.set('Body.inputdata.bookingDate','03-APR-2020');
+    inputMap.set('Body.inputdata.noOfInstallments','60');
+    inputMap.set('Body.inputdata.scheduleType','S');
+    inputMap.set('Body.inputdata.firstRepaymentDate','06-DEC-2020');
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
+
     this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
