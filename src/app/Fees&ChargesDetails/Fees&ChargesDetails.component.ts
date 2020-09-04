@@ -257,6 +257,8 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
    this.PartyName.onReset();
    this.setFilterbyOptions(filterKey);
    this.Handler.displayPartyNameBasedOnPartyType();
+   const party = this.hidePartyType.getFieldValue();
+   console.log("Party",party);
   }
   async Currency_blur(event) {
     let inputMap = new Map();
@@ -270,6 +272,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   async ChargeRate_blur(event) {
     let inputMap = new Map();
     this.Handler.calculateEffectiveAmount()
+   
     // await this.Handler.onAddTypeChange();
   }
   async RateOnCharge_change(event) {
@@ -548,7 +551,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         { paramKey: "KEY1", depFieldID: "hidePartyTypePay", paramType: "QueryParam" },
       ],
       outDep: [
-        { paramKey: "VALUE1", depFieldID: "hidePartyType" },
+        { paramKey: "MSTGENERALPARAM.VALUE1", depFieldID: "hidePartyType" },
       ]
     },
     PartyTypeReceivable: {
@@ -559,7 +562,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         { paramKey: "KEY1", depFieldID: "hidePartyTypeRec", paramType: "QueryParam" },
       ],
       outDep: [
-        { paramKey: "VALUE1", depFieldID: "hidePartyType" },
+        { paramKey: "MSTGENERALPARAM.VALUE1", depFieldID: "hidePartyType" },
       ]
     },
     Frequency: {
@@ -617,7 +620,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       inDep: [
 
         { paramKey: "ProductCd", depFieldID: "PartyNames", paramType: "PathParam" },
-        { paramKey: "PartyType", depFieldID: "hidePartyType", paramType: "QueryParam" },
+        { paramKey: "hidePartyType", depFieldID: "hidePartyType", paramType: "QueryParam" },
       ],
       outDep: [
       ]

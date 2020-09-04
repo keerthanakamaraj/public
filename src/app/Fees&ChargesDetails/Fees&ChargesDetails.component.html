@@ -155,6 +155,26 @@
             <app-amount #LocalAmount fieldID="LocalAmount" [formCode]="formCode"
               (blur)="genericOnBlur('LocalAmount', $event)"></app-amount>
           </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RateOnCharge.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': RateOnCharge.mandatory}">
+                {{ 'Fees&ChargesDetails.RateOnCharge' | translate}}
+              </label>
+            </div>
+            <app-combo-box #RateOnCharge category="2" fieldID="RateOnCharge" [formCode]="formCode"
+              (blur)="genericOnBlur('RateOnCharge', $event)" (change)="RateOnCharge_change('RateOnCharge', $event)"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EffectiveAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EffectiveAmount.mandatory}">
+                {{ 'Fees&ChargesDetails.EffectiveAmount' | translate}}
+              </label>
+            </div>
+            <app-amount #EffectiveAmount fieldID="EffectiveAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('EffectiveAmount', $event)"></app-amount>
+          </div>
 
 
           <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
@@ -199,7 +219,7 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM">
             </app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RateOnCharge.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RateOnCharge.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': RateOnCharge.mandatory}">
                 {{ 'Fees&ChargesDetails.RateOnCharge' | translate}}
@@ -218,7 +238,7 @@
             </div>
             <app-amount #EffectiveAmount fieldID="EffectiveAmount" [formCode]="formCode"
               (blur)="genericOnBlur('EffectiveAmount', $event)"></app-amount>
-          </div>
+          </div> -->
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeCollection.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -261,6 +281,7 @@
         <app-hidden #hideCurrencyDesc fieldID="hideCurrencyDesc"></app-hidden>
         <app-hidden #hidePartyTypeRec fieldID="hidePartyTypeRec"></app-hidden>
         <app-hidden #hidePartyTypePay fieldID="hidePartyTypePay"></app-hidden>
+        <app-hidden #hidePartyType fieldID="hidePartyType"></app-hidden>
         <app-hidden #hidePeriodicCharge fieldID="hidePeriodicCharge"></app-hidden>
         <app-hidden #hideChargeType fieldID="hideChargeType"></app-hidden>
         <app-hidden #hideFrequency fieldID="hideFrequency"></app-hidden>

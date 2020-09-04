@@ -101,22 +101,30 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.PartyTypeReceivable.setHidden(true);
       this.MainComponent.PartyTypePayable.setHidden(false);
       this.MainComponent.PartyTypeReceivable.setValue(undefined);
+      this.MainComponent.PartyTypePayable.mandatory = true;
+      this.MainComponent.PartyTypeReceivable.mandatory = false;
     }
     else{
       this.MainComponent.PartyTypeReceivable.setHidden(false);
       this.MainComponent.PartyTypePayable.setHidden(true);
       this.MainComponent.PartyTypePayable.setValue(undefined);
+      this.MainComponent.PartyTypePayable.mandatory = false;
+      this.MainComponent.PartyTypeReceivable.mandatory = true;
     }
   }
   
   displayPartyNameBasedOnPartyType(){
-    if(this.MainComponent.PartyTypeReceivable.getFieldValue() != 'B'){
-      this.MainComponent.PartyName.setHidden(true);
-      this.MainComponent.PartyNames.setHidden(false);
-    }
-    else{
+    if(this.MainComponent.PartyTypeReceivable.getFieldValue() == 'B'){
       this.MainComponent.PartyName.setHidden(false);
       this.MainComponent.PartyNames.setHidden(true);
+      this.MainComponent.PartyNames.mandatory = false;
+      this.MainComponent.PartyName.mandatory = true
+    }
+    else{
+      this.MainComponent.PartyName.setHidden(true);
+      this.MainComponent.PartyNames.setHidden(false);
+      this.MainComponent.PartyNames.mandatory = true;
+      this.MainComponent.PartyName.mandatory = false
     }
   }
  }
