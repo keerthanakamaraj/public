@@ -50,8 +50,8 @@
                 {{ 'CreditCardDetails.MaximumCardLimit' | translate}}
               </label>
             </div>
-            <app-text-box #MaximumCardLimit fieldID="MaximumCardLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('MaximumCardLimit', $event)"></app-text-box>
+            <app-amount #MaximumCardLimit fieldID="MaximumCardLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('MaximumCardLimit', $event)"></app-amount>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
@@ -60,8 +60,8 @@
                 {{ 'CreditCardDetails.ApprovedLimit' | translate}}
               </label>
             </div>
-            <app-text-box #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('ApprovedLimit', $event)"></app-text-box>
+            <app-amount #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('ApprovedLimit', $event);approveLimitBlur($event)"></app-amount>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -126,13 +126,15 @@
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
-          <ng-container *ngIf="!readOnly">
-            <div class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Save.isHidden()">
+          <ng-container>
+            <div *ngIf="!readOnly" class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
+              [hidden]="CCD_Save.isHidden()">
               <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save"
                 [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
               </app-button>
             </div>
-            <div class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="CCD_Clear.isHidden()">
+            <div *ngIf="!readOnly" class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
+              [hidden]="CCD_Clear.isHidden()">
               <app-button #CCD_Clear fieldName="{{ 'CreditCardDetails.CCD_Clear' | translate}}" fieldID="CCD_Clear"
                 [formCode]="formCode" (buttonClick)="CCD_Clear_click($event)" customClass="btn-warning-outline">
               </app-button>
@@ -140,6 +142,13 @@
           </ng-container>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-creditcard-handler #Handler [MainComponent]="this"></app-creditcard-handler>
+          </div>
+        </div>
+        <div>
+          <div *ngIf="readOnly" class="credit-card-only-save" [hidden]="CCD_Save.isHidden()">
+            <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save"
+              [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
+            </app-button>
           </div>
         </div>
         <app-hidden #hidCreditSeq fieldID="hidCreditSeq"></app-hidden>

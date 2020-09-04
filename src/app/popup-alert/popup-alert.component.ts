@@ -36,7 +36,7 @@ import { ScoreCardResultComponent } from '../score-card-result/score-card-result
 })
 export class PopupAlertComponent implements OnInit {
 
-  @ViewChild('appDDEFormDirective', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
+  @ViewChild('appAlertComponents', { static: true, read: ViewContainerRef }) FormHost: ViewContainerRef;
   @ViewChild('FAMILY_DTLS', { static: false }) FAMILY_DTLS: FamilyDetailsFormComponent;
   @ViewChild('OCCUPATION_DTLS', { static: false }) OCCUPATION_DTLS: OccupationDtlsFormComponent;
 

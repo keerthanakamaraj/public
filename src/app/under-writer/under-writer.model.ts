@@ -614,7 +614,8 @@ export class CardDetails implements IDeserializable {
                 title: "Approved Limit",
                 subTitle: this.ApprovedLimit,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             }
         ];
         const returnObj: IGeneralCardData = {

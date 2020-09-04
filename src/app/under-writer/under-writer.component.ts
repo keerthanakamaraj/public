@@ -11,6 +11,7 @@ import { ServiceStock } from '../service-stock.service';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 import { HttpResponse } from '@angular/common/http';
 import { IModalData } from '../popup-alert/popup-interface';
+import { Subscription } from 'rxjs';
 
 class IbasicCardSectionData {
   cardType: string;
@@ -239,17 +240,30 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   customersList: any;//list of customers
   borrowersBorrowerSeq: number = 0;//required in DBR expand section
+  reloadUWSectionsSubscription: Subscription;
 
   constructor(public services: ServiceStock, public rloCommonDataService: RloCommonData) {
     super(services);
     this.services.rloui.customerListDropDownArray = [];
     // this.getUnderWriterData();
+
+    //when approved limit is changed in CC modal
+    this.reloadUWSectionsSubscription = this.services.rloCommonData.reloadUWSections.subscribe((data: any) => {
+      console.log(data);
+      var oldApprovedLimit = this.customerMasterJsonData.ApplicationDetails.CardDetails.ApprovedLimit;
+
+      this.customerMasterJsonData.ApplicationDetails.CardDetails.ApprovedLimit = data.data.approvedLimit;
+      console.log(this.customerMasterJsonData.ApplicationDetails.CardDetails)
+      this.selectedTabCardData('application');
+
+    });
   }
 
   ngOnInit() { }
 
   ngOnDestroy() {
     this.services.rloui.closeAllConfirmationModal();
+    this.reloadUWSectionsSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
