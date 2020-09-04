@@ -187,7 +187,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
     ],
     [
-      { id: "PersonalInterviewDetails", name: "Personal Interview Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
+      { id: "PersonalInterviewDetails", name: "PI Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
       { id: "RmVisitDetails", name: "RM Visit Details", completed: false, iconClass: "icon-RM-Visit-Details", isActive: false, isOptional: true },
     ]
   ];

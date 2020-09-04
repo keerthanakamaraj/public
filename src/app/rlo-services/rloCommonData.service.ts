@@ -79,6 +79,8 @@ export class RloCommonData {
 
   amortizationModalDataUW: any;//stored data used for amortization schedule modal  
 
+  reloadUWSections = new Subject<any>();
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);

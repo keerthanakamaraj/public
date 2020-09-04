@@ -675,9 +675,10 @@ width: 681px !important; */
   .cust-group {
     // margin: 24px 0;
     // border-right: 1px solid #ccc;
-    background-color: #f6fbff;
+    background-color: #e4f0f9;
     margin: 0px 7px;
     padding: 15px;
+    box-shadow: 0px 0px 7px 0px rgba(198, 198, 198, 0.75);
 
     &:last-of-type {
       border: none;
@@ -1406,8 +1407,12 @@ a.back {
   }
 
   .main-container:hover {
-    width: 26rem;
+    width: 22rem;
   }
+
+  // .main-container {
+  //   width: 22rem;
+  // }
 }
 
 .wgt-form-menu-container {
@@ -2214,7 +2219,7 @@ rlo-ui-card-field {
     //line-height: 51px;
 
     .total-label {
-     // height: 17px; //  width: 63px;
+      // height: 17px; //  width: 63px;
       color: #000000;
       font-family: "Open Sans";
       font-size: 12px;
@@ -2224,7 +2229,7 @@ rlo-ui-card-field {
     }
 
     .total-value {
-    //  height: 17px; //  width: 57px;
+      //  height: 17px; //  width: 57px;
       padding-left: 3rem;
       color: #00B500;
       font-family: "Open Sans";
@@ -4045,3 +4050,8 @@ rlo-ui-card-field {
 }
 
 .wgt-date-multiselect {}
+
+.credit-card-only-save {
+  float: right;
+  margin: 0 1.167rem;
+}

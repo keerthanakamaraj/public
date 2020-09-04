@@ -48,6 +48,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
+    isApproveLimitValid: boolean = true;
 
     async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
@@ -83,8 +84,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.Branch.setReadOnly(true);
-        this.MaximumCardLimit.setReadOnly(true);
-        this.ApprovedLimit.setReadOnly(true);
+        this.MaximumCardLimit.setReadOnly(false);
+
         this.hidAppId.setValue('RLO');
         this.hidCatgory.setValue('FRONT_PAGE_CATG');
         this.hidPaymentOption.setValue('PAYMENT_OPTION');
@@ -92,6 +93,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.hidExisitingCard.setValue('EXISITING_CARD');
         this.hidCardDispatch.setValue('CARD_DISPATACH');
         this.hidAccType.setValue('ACC_TYPE');
+
+        setTimeout(() => {
+            if (this.readOnly) {
+                this.ApprovedLimit.setReadOnly(false);
+            } else {
+                this.ApprovedLimit.setReadOnly(true);
+            }
+
+        }, 1000);
+
         this.fetchCarditCardDetails();
         await this.Handler.onFormLoad({
         });
@@ -256,10 +267,38 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.onReset();
     }
 
+    approveLimitBlur(approveLimit) {
+        console.error("DEEP | approve limit", approveLimit);
+        this.isApproveLimitValid = true;
+        if (approveLimit == undefined || approveLimit == null || approveLimit == "") {
+            this.isApproveLimitValid = false;
+        }
+    }
+
     async CCD_Save_click(event) {
         let inputMap = new Map();
         let decisionsParamArray = [];
         var noOfError: number = await this.revalidate();
+        console.log(this.ApprovedLimit.getFieldValue());
+        if (this.readOnly) {
+            let approveLimit = this.ApprovedLimit.getFieldValue();
+            let maxCardLimit = this.MaximumCardLimit.getFieldValue();
+            if (!approveLimit.length || approveLimit != null || approveLimit != undefined || !maxCardLimit.length) {
+                if (approveLimit <= maxCardLimit) {
+                    if (!this.isApproveLimitValid) {
+                        this.services.alert.showAlert(2, 'rlo.error.save.card', -1);
+                        return
+                    }
+                } else {
+                    this.services.alert.showAlert(2, '', 3000, "Approve Limit cannot be greater than Maximum Card Limit");
+                    return;
+                }
+            }
+            else {
+                this.services.alert.showAlert(2, 'rlo.error.save.card', -1);
+                return;
+            }
+        }
         if (noOfError == 0) {
             if (this.hidCreditSeq.getFieldValue() == undefined) {
                 inputMap.clear();
@@ -287,6 +326,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
+                        if(this.readOnly){
+                            this.services.rloCommonData.reloadUWSections.next({                         
+                                data: { 'isLoanCategory':  this.ApprovedLimit.getFieldValue() }
+                            });
+                        }
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -344,6 +388,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                             "sectionName": "CreditCardDetails"
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+
+                        if(this.readOnly){
+                            this.services.rloCommonData.reloadUWSections.next({                         
+                                data: { 'approvedLimit':  this.ApprovedLimit.getFieldValue() }
+                            });
+                        }
                     },
                     async (httpError) => {
                         var err = httpError['error']
