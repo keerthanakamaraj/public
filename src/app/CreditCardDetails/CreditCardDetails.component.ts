@@ -285,7 +285,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             let maxCardLimit = this.MaximumCardLimit.getFieldValue();
             if (!approveLimit.length || approveLimit != null || approveLimit != undefined || !maxCardLimit.length) {
                 if (approveLimit <= maxCardLimit) {
-                    if (!this.isApproveLimitValid) {
+                    if (!this.isApproveLimitValid || approveLimit == 0) {
                         this.services.alert.showAlert(2, 'rlo.error.save.card', -1);
                         return
                     }

@@ -100,7 +100,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('Application_Dtls', { static: false }) Application_Dtls: ApplicationDtlsComponent;
   @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
   ApplicationId: string = undefined;
-  ActiveBorrowerSeq: string = undefined;
+  ActiveBorrowerSeq: number = undefined;
   ActiveCustomerDtls: {} = undefined;
   CustomerDetailsArray: any;
   // fullName: string = undefined;
@@ -129,18 +129,23 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   formMenuObject: {
     selectedMenuId: string,
     selectedMenuComponent: string,
-    activeBorrowerSeq?: string,
-    validCoBorrowerId?: string,//loanOwnership > 0
+    validBorrowerId: number,
+    activeBorrowerSeq?: number,
+    validCoBorrowerId?: number,//loanOwnership > 0
     isCustomerTabSelected: boolean,
     firstArr?: number,
-    secondArr?: number
+    secondArr?: number,
+    progressCalcDone: boolean
   } =
     {
       selectedMenuId: "",
       selectedMenuComponent: "",
       isCustomerTabSelected: true,
       firstArr: 0,
-      secondArr: 0
+      secondArr: 0,
+      validCoBorrowerId: 0,
+      validBorrowerId: 0,
+      progressCalcDone: false
     };
 
   /**
@@ -187,7 +192,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
     ],
     [
-      { id: "PersonalInterviewDetails", name: "PI Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
+      { id: "PI Details", name: "PI Details", completed: false, iconClass: "icon-Personal-Interview-Details", isActive: false, isOptional: true },
       { id: "RmVisitDetails", name: "RM Visit Details", completed: false, iconClass: "icon-RM-Visit-Details", isActive: false, isOptional: true },
     ]
   ];
@@ -218,7 +223,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   progressStatusObject: any = {
     manditorySection: 8,
-    completedSection: 0
+    completedSection: 0,
+    borrowerCompletedSection: 0,
+    coBorrowerCompletedSection: 0
   };
 
   masterDataSubscription: Subscription;
@@ -294,6 +301,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   allCustomerTypeList: number[] = [];
 
+  mandatoryCustomerSections: any = ['CustomerDetails', 'AddressDetails', 'OccupationDetails', 'IncomeSummary'];
+
   constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
     super(services);
     this.value = new DDEModel();
@@ -318,9 +327,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (!this.initiallyCustomersAdded)
           this.setInitialObjectData(data);
       }
-      else {
-        this.initiallyCustomersAdded = true;
-      }
+      // else {
+      //   this.initiallyCustomersAdded = true;
+      // }
 
       //this.addCustomersToMap(data)
 
@@ -331,6 +340,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.validationSection(data);
 
         this.addRemoveCompletedSection(sectionResponseObj, data);
+        //this.addRemoveCompletedSection2(sectionResponseObj, data);
       });
       this.updateSectionWiseTags(data);
     });
@@ -374,10 +384,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CUSTOMER_GRID.doAPIForCustomerList({});
     if (!this.services.rloCommonData.makeDdeDisabled) {
       //claim task code here  
-    if (this.userId === undefined || this.userId == '') {
-      this.claimTask(this.taskId);
+      if (this.userId === undefined || this.userId == '') {
+        this.claimTask(this.taskId);
+      }
     }
-  }
     this.setDependencies();
   }
 
@@ -1287,11 +1297,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CustomerType = customerData.CustomerType;
 
     if (customerData.CustomerType == "B") {
+      this.formMenuObject.validBorrowerId = customerData.BorrowerSeq;
       if (customerData.LoanOwnership == 100)
         this.initiallyCustomersAdded = true;
     }
     else if (customerData.CustomerType == "CB") {
-      if (customerData.LoanOwnership > 0 && this.formMenuObject.validCoBorrowerId == undefined) {
+      if (customerData.LoanOwnership > 0 && this.formMenuObject.validCoBorrowerId == 0) {
         this.progressStatusObject.manditorySection += 4;
         this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
         //this.initiallyCustomersAdded = true;
@@ -1299,6 +1310,49 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     console.log("deep", this.progressStatusObject);
   }
+
+  // setInitialObjectData(data) {
+  //   console.log("setInitialObjectData", data.data[0]);
+  //   let customerData = data.data[0];
+
+  //   if (customerData.hasOwnProperty('isValid')) {
+  //     //this.CustomerType = customerData.CustomerType;
+  //     this.initiallyCustomersAdded = true;
+  //     this.CustomerType = "B";
+  //     return;
+  //   }
+
+  //   this.CustomerType = customerData.CustomerType;
+
+  //   if (customerData.CustomerType == "B") {
+  //     this.formMenuObject.validBorrowerId = customerData.BorrowerSeq;
+  //     if (customerData.LoanOwnership == 100)
+  //       this.initiallyCustomersAdded = true;
+  //   }
+  //   else if (customerData.CustomerType == "CB") {
+  //     this.initiallyCustomersAdded = true;
+  //     if (customerData.LoanOwnership > 0 && this.formMenuObject.validCoBorrowerId == undefined) {
+  //       this.progressStatusObject.manditorySection += 4;
+  //       this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
+  //       //this.initiallyCustomersAdded = true;
+  //     }
+  //   }
+
+  //   // this.CustomerType = customerData.CustomerType;
+
+  //   // if (customerData.CustomerType == "B") {
+  //   //   if (customerData.LoanOwnership == 100)
+  //   //     this.initiallyCustomersAdded = true;
+  //   // }
+  //   // else if (customerData.CustomerType == "CB") {
+  //   //   if (customerData.LoanOwnership > 0 && this.formMenuObject.validCoBorrowerId == undefined) {
+  //   //     this.progressStatusObject.manditorySection += 4;
+  //   //     this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
+  //   //     //this.initiallyCustomersAdded = true;
+  //   //   }
+  //   // }
+  //   console.log("deep", this.progressStatusObject);
+  // }
 
   async DDE_CANCEL_click(event) {
     // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
@@ -1332,7 +1386,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   DDE_SUBMIT_click(event) {
     const requestParams = new Map();
-   
+
     this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
       console.log("Deep ===", data);
       if (data.isAppValid) {
@@ -1764,6 +1818,185 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         });
       }
     });
+  }
+
+  ////////////
+  ///////////
+  // dynamic adding of scores for CB
+
+  addRemoveCompletedSection2(sectionResponseObj: IComponentSectionValidationData, componentLvlData) {
+    console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject, componentLvlData);
+    let data = [];
+    let selectedSection, mapKey;
+
+    if (this.formMenuObject.isCustomerTabSelected) {
+      selectedSection = "customerSection";
+      mapKey = componentLvlData.BorrowerSeq;
+    } else {
+      selectedSection = "applicationSection";
+      mapKey = componentLvlData.sectionName;
+    }
+
+    if (sectionResponseObj.isSectionValid) {
+      //first time loading data; customer not present
+      if (this.completedMenuSectionList[selectedSection].get(mapKey) === undefined) {
+        console.error("NEW SECTION AND CUSTOMER ADDED | CALCULATE SCORE");
+        data.push(componentLvlData.name);
+        this.updateMenu2('add', data, selectedSection, mapKey);
+      }
+      else {
+        let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
+        if (!dataList.includes(componentLvlData.name)) {
+          console.error("ADD NEW SECTION TO EXISTING CUSTOMER| CALCULATE SCORE");
+          dataList.push(componentLvlData.name);
+          this.updateMenu2('add', dataList, selectedSection, mapKey);
+        }
+        else {
+          this.updateMenu2('add', dataList, selectedSection, mapKey);
+        }
+      }
+    } else {
+      let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
+      if (dataList == undefined) {
+        return;
+      }
+      let sectionAlreadyCompleted = dataList.includes(componentLvlData.name);
+      if (sectionAlreadyCompleted) {
+        console.error("SECTION REMOVED | CALCULATE SCORE");
+        dataList.splice(dataList.indexOf(mapKey), 1);
+        this.updateMenu2('remove', dataList, selectedSection, mapKey);
+      }
+      else {
+        console.error("SECTION NOT FOUND");
+      }
+    }
+  }
+
+  updateMenu2(action: string, menuList: any, selectedSection: string, mapKey: string) {
+    let state = action == "add" ? true : false;
+    this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
+    this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
+
+    let allCustomerDetailsList = [];
+    let selectedCustomersType;
+
+    if (this.services.rloCommonData.masterDataMap.has('customerMap')) {
+      const customerMapKeys = Array.from(this.services.rloCommonData.masterDataMap.get('customerMap'));
+      console.log("customerMapKeys", customerMapKeys)
+      for (let i = 0; i < customerMapKeys.length; i++) {
+        const element = customerMapKeys[i];
+        if (mapKey == element[0]) {
+          this.formMenuObject.activeBorrowerSeq = element[0];
+          let customerDetails = element[1].get("CustomerDetails");
+          selectedCustomersType = customerDetails.CustomerType;
+        }
+
+        if (element[1].has("CustomerDetails")) {
+          let customerDetails = element[1].get("CustomerDetails");
+          console.warn("^^^^^", customerDetails);
+          allCustomerDetailsList.push(customerDetails);
+        }
+      }
+    }
+
+
+    let totalLoanOwnership = 0;
+    let coBorrowersWithOwnership = false;
+    let customerType;
+    for (let i = 0; i < allCustomerDetailsList.length; i++) {
+      const customerDtls = allCustomerDetailsList[i];
+      totalLoanOwnership += customerDtls.LoanOwnership == undefined ? 0 : customerDtls.LoanOwnership;
+      customerType = customerDtls.CustomerType;
+      if (customerType == "CB") {
+        if (totalLoanOwnership == 100) {
+          //if (this.formMenuObject.validCoBorrowerId != customerDtls.BorrowerSeq) {
+          coBorrowersWithOwnership = true;
+          //}
+          this.formMenuObject.validCoBorrowerId = customerDtls.BorrowerSeq;
+        }
+        else {
+          this.formMenuObject.validCoBorrowerId = 0;
+        }
+      }
+    }
+
+    // let storedCustomers = Array.from(this.completedMenuSectionList.customerSection);
+    // console.log("storedCustomers", storedCustomers);
+
+    // let coBorrowerWithOwnershipExists = false;
+    // for (let i = 0; i < storedCustomers.length; i++) {
+    //   const element = storedCustomers[i];
+    //   if (this.formMenuObject.validCoBorrowerId == element[0]) {
+    //     coBorrowerWithOwnershipExists = true;
+    //   }
+    //   console.log(element[0]);
+    // }
+
+    // if (coBorrowerWithOwnershipExists && totalLoanOwnership == 100) {
+    //   if (!this.progressStatusObject.progressCalcDone) {
+    //     this.progressStatusObject.manditorySection += 4;
+    //     this.progressStatusObject.manditorySection += this.progressStatusObject.additionalApplicationManditorySection;
+    //     this.progressStatusObject.progressCalcDone = true;
+    //   }
+    // } else {
+    //   //this.progressStatusObject.manditorySection -= 4;
+    // }
+    this.getCustomerSections(coBorrowersWithOwnership, this.completedMenuSectionList[selectedSection].get(mapKey), mapKey, selectedCustomersType);
+
+    //console.log("coBorrowerWithOwnershipExists", coBorrowerWithOwnershipExists);
+    console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.warn(this.completedMenuSectionList);
+    console.warn(this.progressStatusObject);
+    console.warn(this.formMenuObject);
+    console.warn(this.allCustomerTypeList);
+  }
+
+  getCustomerSections(coBorrowersWithOwnership: boolean, customerCompletedSections: any, borrowerSeq: any, selectedCustomersType: string) {
+    console.log("DEEP | coBorrowersWithOwnership", coBorrowersWithOwnership, customerCompletedSections, this.formMenuObject.activeBorrowerSeq, this.formMenuObject.validCoBorrowerId, borrowerSeq);
+
+    if (selectedCustomersType == "B") {
+      this.progressStatusObject.borrowerCompletedSection = 0;
+    }
+    else {
+      if (this.formMenuObject.activeBorrowerSeq == this.formMenuObject.validCoBorrowerId)
+        this.progressStatusObject.coBorrowerCompletedSection = 0;
+    }
+
+    customerCompletedSections.forEach(sectionName => {
+      if (this.mandatoryCustomerSections.includes(sectionName)) {
+        if (selectedCustomersType == "B") {
+          this.progressStatusObject.borrowerCompletedSection += 1;
+        } else if (selectedCustomersType == "CB" && (this.formMenuObject.activeBorrowerSeq == this.formMenuObject.validCoBorrowerId)) {
+          this.progressStatusObject.coBorrowerCompletedSection += 1;
+        }
+      }
+    });
+
+    this.progressStatusObject.completedSection = this.progressStatusObject.borrowerCompletedSection + this.progressStatusObject.coBorrowerCompletedSection;
+
+    console.log("DEEP | count", this.progressStatusObject);
+    console.log("")
+
+    // let storedCustomers = Array.from(this.completedMenuSectionList.customerSection);
+    // console.log("storedCustomers", storedCustomers);
+
+    // if (this.formMenuObject.activeBorrowerSeq == this.formMenuObject.validBorrowerId) {
+    //   let borrowerSections = this.completedMenuSectionList.customerSection.get(this.formMenuObject.activeBorrowerSeq);
+    //   console.log("borrowerSections", borrowerSections);
+
+    //   this.newCalculateScore(borrowerSections);
+
+    // } else {
+
+    // }
+  }
+
+  newCalculateScore(borrowerSections) {
+    this.progressStatusObject.completedSection = 0;
+    borrowerSections.forEach(element => {
+      this.progressStatusObject.completedSection += 1;
+    });
+    this.updateProgressBar();
   }
 
 }

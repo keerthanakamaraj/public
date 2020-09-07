@@ -296,7 +296,7 @@ export class FormCommonComponent implements OnInit {
     this.tenantFieldMaps = new Array();
 
     console.log("Service Name ", serviceName);
-
+    console.warn("DEEP | formFields", formFields);
     var formFields = this.services.rloui.getFormFields(serviceName);
 
     formFields.forEach(field => {
@@ -305,16 +305,16 @@ export class FormCommonComponent implements OnInit {
 
       obj.fieldName = field['ID'];
       obj.isMandatory = false;
-      if(field['M'] && field['M'] == '1'){
+      if (field['M'] && field['M'] == '1') {
         obj.isMandatory = true;
       }
       //obj.regex = elemValues[element]['REGEX'];
 
-      if ( field['V'] ) { // Check Validations
+      if (field['V']) { // Check Validations
         const validation = this.services.rloui.getValidation(field['V']);
 
-        if ( validation ) { // TODO: Check Type and set appropriate Validations
-          if ( validation['P'] ) { // Pattern
+        if (validation) { // TODO: Check Type and set appropriate Validations
+          if (validation['P']) { // Pattern
             obj.regex = validation['P'];
           }
         }
