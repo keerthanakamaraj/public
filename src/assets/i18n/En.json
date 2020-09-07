@@ -2101,7 +2101,7 @@
     "BLoanAmtShare": "Share in Loan Amount for Borrower",
     "CBLoanAmountShare": "Share in Loan Amount for Co-Borrower",
     "DisbursalDate": "Disbursal Date",
-    "ScheduleType": "Schedule Type",
+    "RepaymentFrequency": "Repayment Frequency",
     "RepaymentStartDate": "Repayment Start Date",
     "NoOfInstallments": "No. of Installments",
     "RequiredEMIAmt": "Required EMI Amount",
@@ -2110,7 +2110,7 @@
     "Product": "Product",
     "SubProduct": " Sub Product",
     "loanCalculationDate": "Loan Calculation Date",
-    "RepaymentScheduleType": "Repayment Schedule Type",
+    "RepaymentFrequencyType": "Repayment Frequency",
     "MaturityDate": "Maturity Date"
   },
   "AmortizationGrid": {

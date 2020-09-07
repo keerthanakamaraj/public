@@ -37,6 +37,7 @@ export class FieldComponent{
   readOnly: boolean = false;
   isOnFocus:boolean = false;
   dependencyMap = new Map<string, any>();
+  oldValue:any=undefined;
 
   private changeValue = new Subject<any>();
   public valueChangeUpdates(): Observable<any>{
@@ -195,4 +196,11 @@ export class FieldComponent{
   }
   doCustomScript: () => void = undefined;
 
+  updateOldValue(){
+    this.oldValue=this.value;
+  }
+  getOldValue(){
+    return this.oldValue;
+  }
 }
+

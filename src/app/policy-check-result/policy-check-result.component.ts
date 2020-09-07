@@ -235,8 +235,9 @@ export class PolicyCheckResultComponent implements OnInit {
     return inputMap;
   }
 
-  PCR_Filter_Blur() {
-    console.log("shweta :: selected option", this.PCR_Filter.getFieldValue());
+  PCR_Filter_Change() {
+    // console.log("shweta :: selected option", this.PCR_Filter.getFieldValue());
     this.activePolicyResultList = this.MstPolicyResultMap.get(this.PCR_Filter.getFieldValue());
   }
+
 }

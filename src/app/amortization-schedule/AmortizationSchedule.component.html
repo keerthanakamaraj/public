@@ -87,7 +87,7 @@
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ScheduleType.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':ScheduleType.mandatory}">
-                {{ 'Amortization.ScheduleType' | translate}}
+                {{ 'Amortization.RepaymentFrequency' | translate}}
               </label>
             </div>
             <app-text-box #ScheduleType fieldID="ScheduleType" [formCode]="formCode"></app-text-box>
@@ -166,7 +166,7 @@
               <div class="field-container col-12  col-sm-6 col-md-6">
                 <div class="clr-brown fieldLegend">
                   <label class="clr-brown">
-                    {{ 'Amortization.RepaymentScheduleType' | translate}}
+                    {{ 'Amortization.RepaymentFrequencyType' | translate}}
                   </label>
                 </div>
                 <span class="field-text">{{repaymentFormData.repaymentScheduleType}}</span>

@@ -64,7 +64,7 @@ export class ScoreCardResultComponent implements OnInit {
     else {
       let tempCustomerList = this.services.rloCommonData.getCustomerList();
 
-      console.log("shweta :: in score section", tempCustomerList);
+    //  console.log("shweta :: in score section", tempCustomerList);
 
       this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
       tempCustomerList.forEach(element => {
@@ -76,11 +76,11 @@ export class ScoreCardResultComponent implements OnInit {
       });
     }
 
-    console.log("shweta :: score options list", this.FilterOptions);
+  //  console.log("shweta :: score options list", this.FilterOptions);
   }
 
-  SCR_Filter_Blur() {
-    console.log("shweta :: selected option", this.SCR_Filter.getFieldValue());
+  SCR_Filter_Change() {
+    //console.log("shweta :: selected option", this.SCR_Filter.getFieldValue());
     this.activeScoreCardResultList = this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
   }
 
@@ -204,17 +204,17 @@ export class ScoreCardResultComponent implements OnInit {
     });
   }
   retriggerScoreResult() {
-   this.MstScoreResultMap.clear();
+    this.MstScoreResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
 
     this.services.http.fetchApi('/ScoreCard', 'POST', inputMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body['ouputdata'];
-         if (res.OVERALLSCORE) {
+        if (res.OVERALLSCORE) {
           this.loadScoreResult();
-        }else if (res.error) {
+        } else if (res.error) {
           this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
-        }else{
+        } else {
           this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
         }
         // let res = httpResponse.body;
