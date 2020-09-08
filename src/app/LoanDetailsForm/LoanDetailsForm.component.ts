@@ -31,7 +31,6 @@ const customCss: string = '';
 })
 export class LoanDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
   DisbursalAmount: any;
-  TotalDisbursalAmount: any;
   totalDisbAmt: number;
   total: number;
   DisbAmount: any;
@@ -301,7 +300,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.ProductCategory = LoanElement['ProductCategory'];
             this.DisbursalAmount = LoanElement['DisbursalAmount'];
-            this.TotalDisbursalAmount = LoanElement['TotalDistlAmt'];            
             this.Handler.SetValue();
 
             this.LoanGridCalculation(this.monthlyinstallmentAmt);
@@ -419,7 +417,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.services.rloui.closeAllConfirmationModal();
           }
         }
-        this.OnLoanFormLoad();        
+        this.OnLoanFormLoad();
       });
     });
   }
@@ -559,7 +557,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
             return;
           }
-          if (this.totalDisbAmt != this.TotalDisbursalAmount) {
+          if (this.totalDisbAmt != this.TotaDistlAmt.getFieldValue()) {
             this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
             return;
           }
