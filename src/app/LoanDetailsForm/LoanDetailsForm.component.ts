@@ -160,8 +160,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     });
     this.OnLoanFormLoad()
     this.total = 0;
+    this.fetchDisbDetails();
     this.setDependencies();
-    console.log("this.parentData.DisbursalList---------", this.DisbArray);
 
   }
   setInputs(param: any) {
@@ -551,7 +551,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     var nooferror: number = await this.revalidate();
 
     if (nooferror == 0) {
-      if(this.DisbArray){
+      if(this.DisbArray.length > 0){
         if (this.ProductCategory == 'ML') {
           if (this.total != 0 && this.total < 100) {
             this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
