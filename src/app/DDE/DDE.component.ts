@@ -893,19 +893,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.validateMenuNavigation(ele1, ele2, this.formMenuObject.selectedMenuId);
 
-    if (!this.readOnly) {
-      setTimeout(() => {
-        // const activePanel = document.getElementsByClassName("injected-component");
-        // const firstInput = activePanel[0].getElementsByTagName('input')[0];
-        // if (firstInput != undefined)
-        //   firstInput.focus();
+    // const activePanel = document.getElementsByClassName("injected-component");
+    // const firstInput = activePanel[0].getElementsByTagName('input')[0];
+    // if (firstInput != undefined)
+    //   firstInput.focus();
 
+    if (this.formMenuObject.isCustomerTabSelected) {
+      setTimeout(() => {
         const element = document.getElementById('SelectedComponentName');
         console.log("DEEP | ele scroll info", element, element.offsetTop);
         if (!this.showExpandedHeader)
           window.scroll({ top: 260, left: 0, behavior: 'smooth' });
       }, 100);
     }
+    else {
+      setTimeout(() => {
+        if (!this.showExpandedHeader)
+          window.scroll({ top: 150, left: 0, behavior: 'smooth' });
+      }, 100);
+    }
+
+
   }
 
   updateRoleBasedScore(action: string) {
