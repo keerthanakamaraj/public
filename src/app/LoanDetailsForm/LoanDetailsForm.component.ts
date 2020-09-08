@@ -419,6 +419,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.services.rloui.closeAllConfirmationModal();
           }
         }
+        this.OnLoanFormLoad();        
       });
     });
   }
