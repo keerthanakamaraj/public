@@ -500,7 +500,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     document.getElementsByTagName('head')[0].appendChild(styleElement);
     //this.onFormLoad();
     this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-    this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
+    // this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
     this.injectDynamicComponent('CustomerDetails', false, 0, 0);
     this.services.rloCommonData.getCurrentRoute();
     // setTimeout(() => {//dont know why
@@ -1027,21 +1027,22 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     if (tabName == "customer") {
       this.formMenuObject.isCustomerTabSelected = true;
+      this.formsMenuList = this.customerMenu;
       this.reCalculateMenuSections(this.ActiveBorrowerSeq);
       defaultSection = 'CustomerDetails';
-      this.formsMenuList.forEach(element => {
-        for (let i = 0; i < element.length; i++) {
-          const section = element[i];
-          section.isActive = false;
-          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-          if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC') {
-            if (section.id == "CollateralDetails") {
-              element.splice(i, 1);
-              i--;
-            }
-          }
-        }
-      });
+      // this.formsMenuList.forEach(element => {
+      //   for (let i = 0; i < element.length; i++) {
+      //     const section = element[i];
+      //     section.isActive = false;
+      //     // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+      //     if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC') {
+      //       if (section.id == "CollateralDetails") {
+      //         element.splice(i, 1);
+      //         i--;
+      //       }
+      //     }
+      //   }
+      // });
       this.injectDynamicComponent(defaultSection, false, 0, 0);
     }
     else {
@@ -1084,7 +1085,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       //     }
       //   }
       // });
-      this.injectDynamicComponent('ApplicationDetails', false, 0, 0,);
+      this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
     }
 
   }
@@ -1204,6 +1205,26 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
 
     this.validateSectionForApplication();
+    this.validateSectionForCustomer();
+  }
+
+  validateSectionForCustomer() {
+    let formsMenuList = this.customerMenu;
+    formsMenuList.forEach(element => {
+      for (let i = 0; i < element.length; i++) {
+        const section = element[i];
+        section.isActive = false;
+        // if (!this.isLoanCategory) {//ie. loan type credit card
+        if (section.id == "CollateralDetails" && section.isOptional) {
+          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode != "PL") {
+            element.splice(i, 1);
+            i--;
+          }
+        }
+      }
+    });
+    this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
   }
 
   validateSectionForApplication() {
