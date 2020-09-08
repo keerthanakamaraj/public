@@ -78,8 +78,8 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     this.clearMappedFacilities();
     this.getCollateralDetail();
     this.getUDFDetails();
-    $('#common-section').scrollTop(0);
-    $(window).scrollTop(0);
+    // $('#common-section').scrollTop(0);
+    // $(window).scrollTop(0);
   }
   getCollateralDetail() {
     // to get all the collateral types

@@ -325,13 +325,14 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   getUnderWriterData() {
     //valid application id -  2141(Loan details), 2460(has property) 2483(dont edit), 2691(al data),2148(liability),2523(disburse),2797
+    //amort 2983,2962
 
     this.applicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    //this.applicationId = 2483;
+    //this.applicationId = 2962;
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -881,23 +882,30 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     dataObj.InterestRate = globlaObj.InterestRate;
     dataObj.ApplicationId = this.applicationId;
 
-    dataObj.Tenure = globlaObj.Tenure + " " + globlaObj.TenurePeriodName;
+    dataObj.Tenure = globlaObj.Tenure;
+    dataObj.TenurePeriod = globlaObj.TenurePeriodName;
+    dataObj.TenurePeriodCd = globlaObj.TenurePeriodCd;
+
+    let RepaymentFrequency = this.customerMasterJsonData.ApplicationDetails.LoanDetails.RepaymentFrequency
+    if (RepaymentFrequency != undefined || RepaymentFrequency != "NA") {
+      dataObj.InstallmentFreqIndicator = this.getFrequencyNames(RepaymentFrequency);
+      dataObj.InstallmentFreqIndicatorCd = RepaymentFrequency;
+    }
 
     this.customersList.forEach(element => {
       if (element.CustomerType == 'B') {
-        // dataObj.BLoanOwnership = element.LoanOwnership;
-        dataObj.BLoanOwnership = 100;
-        dataObj.BLoanAmtShare = this.getPercentage(globlaObj.LoanAmount, 100);
+        dataObj.BLoanOwnership = element.LoanOwnership;
+        dataObj.BLoanAmtShare = this.getPercentage(element.LoanOwnership, globlaObj.LoanAmount);
       } else if (element.CustomerType == 'CB' && element.LoanOwnership > 0) {
         dataObj.CBLoanOwnership = element.LoanOwnership;
-        dataObj.CBLoanAmountShare = this.getPercentage(globlaObj.LoanAmount, 0);
+        dataObj.CBLoanAmountShare = this.getPercentage(element.LoanOwnership, globlaObj.LoanAmount);
       }
     });
     this.services.rloCommonData.amortizationModalDataUW = dataObj;
   }
 
-  getPercentage(amt, percent) {
-    return ((amt / 100) * percent).toFixed(2);
+  getPercentage(LoanOwnership, LoanAmount) {
+    return Number(LoanOwnership) / 100 * Number(LoanAmount);
   }
 
   generateCustomerListDropDowns(tempCustomerList) {
@@ -911,4 +919,29 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.services.rloui.customerDataDropDown = filterOptions;
   }
 
+  getFrequencyNames(keys) {
+    switch (keys) {
+      case 'D':
+        return 'Daily';
+        break;
+      case 'W':
+        return 'Weekly';
+        break;
+      case 'BW':
+        return 'Bi-Weekly';
+        break;
+      case 'M':
+        return 'Monthly';
+        break;
+      case 'Q':
+        return 'Quaterly';
+        break;
+      case 'A':
+        return 'Annually';
+        break;
+      default:
+        return 'NA'
+        break;
+    }
+  }
 }

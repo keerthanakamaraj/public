@@ -51,6 +51,7 @@ export interface IGlobalApllicationDtls {
   LoanAmount?: string;
   InterestRate?: string;
   Tenure?: string;
+  TenurePeriodCd?:string;
   TenurePeriodName?: string;
 }
 @Injectable({

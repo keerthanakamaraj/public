@@ -219,7 +219,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   ];
 
   formsMenuList: Array<any> = [];
-  showExpandedHeader: boolean = false;//state of header i.e expanded-1 or collapsed-0 
+  showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
   progressStatusObject: any = {
     manditorySection: 8,
@@ -895,14 +895,17 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     if (!this.readOnly) {
       setTimeout(() => {
-        const activePanel = document.getElementsByClassName("injected-component");
-        const firstInput = activePanel[0].getElementsByTagName('input')[0];
-        if (firstInput != undefined)
-          firstInput.focus();
+        // const activePanel = document.getElementsByClassName("injected-component");
+        // const firstInput = activePanel[0].getElementsByTagName('input')[0];
+        // if (firstInput != undefined)
+        //   firstInput.focus();
+
+        const element = document.getElementById('SelectedComponentName');
+        console.log("DEEP | ele scroll info", element, element.offsetTop);
+        if (!this.showExpandedHeader)
+          window.scroll({ top: 260, left: 0, behavior: 'smooth' });
       }, 100);
     }
-
-
   }
 
   updateRoleBasedScore(action: string) {
@@ -1238,6 +1241,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
 
   async headerState(event) {
+    console.warn("DEEP | Header state", event);
     this.showExpandedHeader = event.headerState;
     this.scoreCardComponent.headerChanges(event);
 

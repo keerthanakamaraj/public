@@ -594,11 +594,26 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
           this.OD_EMPLT_TYPE.mandatory = true;
           this.OD_EMPLT_TYPE.setReadOnly(false);
+          if (this.readOnly) {
+            this.OD_EMPLT_TYPE.mandatory = false;
+            setTimeout(() => {
+              this.OD_EMPLT_TYPE.setReadOnly(true);
+            }, 500);      
+          }  
         } else if (this.OD_OCCUPATION.getFieldValue() == 'SE') {
           this.OD_SELF_EMPLD_TYPE.mandatory = true;
           this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
           this.OD_SELF_EMPLD_PROF.setReadOnly(false);
+          if (this.readOnly) {
+            this.OD_SELF_EMPLD_TYPE.mandatory = false;
+            setTimeout(() => {
+              this.OD_SELF_EMPLD_TYPE.setReadOnly(true);
+              this.OD_SELF_EMPLD_PROF.setReadOnly(true); 
+            }, 500);
+          }  
         }
+
+
         this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']);
         this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
         this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']);

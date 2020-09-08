@@ -174,6 +174,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
+    //inputMap.set('PathParam.ApplicationId', 2962);
     console.log('inputmaap', inputMap);
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -239,7 +240,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         } else {
           this.CC_CUST_TYPE.setValue(header.ExistingCustomer != undefined && header.ExistingCustomer == 'Y' ? 'Existing' : 'New');
           this.customerType = this.CC_CUST_TYPE.getFieldValue();
-          this.CC_PRIME_USAGE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
+          this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
           this.CC_CHANNEL.setValue('Offline');
           this.channel = this.CC_CHANNEL.getFieldValue();
@@ -338,7 +339,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         break;
       case 'KES': this.CURRENCY_IMG = './assets/icons/Ksh icon.svg';
         break;
-        case 'INR': this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
+      case 'INR': this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
         break;
     }
 
@@ -428,7 +429,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       LoanTenurePeriodCode: header.TenurePeriodCode,
       LoanTenurePeriodName: header.TenurePeriodName,
       ARN: header.ApplicationRefernceNo,
-      LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount
+      LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount,
+
+      InterestRate: header.InterestRate,
+      Tenure: header.Tenure,
+      TenurePeriodCd: header.TenurePeriod,
+      TenurePeriodName: header.TenurePeriodName
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
