@@ -556,11 +556,11 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           if (this.total != 0 && this.total < 100) {
             this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
             return;
-          }
-          if (this.totalDisbAmt != this.TotaDistlAmt.getFieldValue()) {
-            this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
-            return;
-          }
+          } 
+        }
+        if (this.totalDisbAmt != this.TotaDistlAmt.getFieldValue()) {
+          this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
+          return;
         }
       }
 
