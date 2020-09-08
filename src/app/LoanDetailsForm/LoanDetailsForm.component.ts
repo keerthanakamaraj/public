@@ -31,6 +31,7 @@ const customCss: string = '';
 })
 export class LoanDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
   DisbursalAmount: any;
+  TotalDisbursalAmount: any;
   totalDisbAmt: number;
   total: number;
   DisbAmount: any;
@@ -159,7 +160,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     await this.Handler.onFormLoad({
     });
     this.OnLoanFormLoad()
-
+    this.total = 0;
     this.setDependencies();
     console.log("this.parentData.DisbursalList---------", this.DisbArray);
 
@@ -300,6 +301,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.ProductCategory = LoanElement['ProductCategory'];
             this.DisbursalAmount = LoanElement['DisbursalAmount'];
+            this.TotalDisbursalAmount = LoanElement['TotalDistlAmt'];            
             this.Handler.SetValue();
 
             this.LoanGridCalculation(this.monthlyinstallmentAmt);
@@ -550,17 +552,20 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     var nooferror: number = await this.revalidate();
 
     if (nooferror == 0) {
-
-      if (this.ProductCategory == 'ML') {
-        if (this.total != 0 && this.total < 100) {
-          this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
-          return;
-        }
-        if (this.totalDisbAmt != this.DisbursalAmount) {
-          this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
-          return;
+      if(this.DisbArray){
+        if (this.ProductCategory == 'ML') {
+          if (this.total != 0 && this.total < 100) {
+            this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
+            return;
+          }
+          if (this.totalDisbAmt != this.TotalDisbursalAmount) {
+            this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
+            return;
+          }
         }
       }
+
+      
 
       // this.validateDisbursement();
       // if(!this.isAmortizationVisited){
