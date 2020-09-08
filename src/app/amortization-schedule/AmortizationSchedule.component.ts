@@ -94,6 +94,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   async onFormLoad() {
     // this.ApplicationId = '2221';
     this.editableFlag = true;
+    this.RequiredEMIAmt.setReadOnly(true);
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     let inputMap = new Map();
     this.hidAppId.setValue('RLO');
