@@ -1214,10 +1214,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       for (let i = 0; i < element.length; i++) {
         const section = element[i];
         section.isActive = false;
-        // if (!this.isLoanCategory) {//ie. loan type credit card
         if (section.id == "CollateralDetails" && section.isOptional) {
-          // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode != "PL") {
+          //Hide Collateral details for Personal loan
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
             element.splice(i, 1);
             i--;
           }
