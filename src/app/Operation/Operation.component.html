@@ -57,8 +57,8 @@
       <div class="col-12 col-sm-12 col-md-12 res-pr-hide document-upload"
         [ngClass]="showExpandedHeader ? '' : 'header-expanded-op'">
         <div class="view-dde-section" [hidden]="VIEW_DDE.isHidden()">
-          <app-button #VIEW_DDE fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
-            customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px">
+          <app-button #VIEW_DDE class="viewbutton" fieldName="{{ 'Operation.VIEW_DDE' | translate}}" fieldID="VIEW_DDE"
+            customClass="btn btn-primary" (click)="viewDDE()" [formCode]="formCode" style="margin-top: 36px;">
           </app-button>
         </div>
         <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
@@ -113,7 +113,8 @@
                   {{ 'Operation.LOAN_DBR' | translate}}
                 </label>
               </div>
-              <app-text-box #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode" (blur)="genericOnBlur('LOAN_DBR', $event)">
+              <app-text-box #LOAN_DBR fieldID="LOAN_DBR" [formCode]="formCode"
+                (blur)="genericOnBlur('LOAN_DBR', $event)">
               </app-text-box>
             </div>
 
@@ -234,19 +235,45 @@
         </table> -->
       </div>
 
-      <div class="button-Container">
+      <div class="button-Container" *ngIf="isLoanCategory">
         <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="G_LETTER.isHidden()" style="margin-top: top 30px;">
           <app-button class="generate_letter" #G_LETTER fieldName="{{ 'Operation.G_LETTER' | translate}}"
-            fieldID="G_LETTER" customClass="btn btn-primary" (click)="onLetterClick()" [formCode]="formCode">
+            fieldID="G_LETTER" customClass="btn btn-primary" (click)="gerateLetter()" [formCode]="formCode">
           </app-button>
         </div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
         <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-        <div class="col-12 col-sm-12 col-md-12 res-pr-hide" *ngIf="documentShow">
+        <div class="col-12 col-sm-12 col-md-12 res-pr-hide" *ngIf="isLetterGenrated">
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
           <div class="col-12 col-sm-12 col-md-12 res-pr-hide"></div>
-          <span style="margin-left: 4px;"><a (click)="fetchLetter()">Final Sanction letter</a></span>
+          <div class="row">
+            <div>
+              <div class="op-doc-letter-table">
+                <div class="panel-default table col-12  col-sm-12 col-md-12 res-pr-hide">
+                  <table *ngIf="letterArray.length">
+                    <thead>
+                      <tr class="grid-comments">
+                        <th id='col2'>Document Name</th>
+                        <th id='col3'>Document Description</th>
+                        <th id='col4'></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="docheader" *ngFor="let letter of letterArray">
+                        <td class="text-left">{{letter.TEMPLATECD}}</td>
+                        <td>{{letter.TEMPLATECD}}</td>
+                        <td class="btn-views" (click)="fetchLetter(letter)"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <span style="margin-left: 4px;"><a (click)="fetchMortgageLetter()">Mortgage Deed</a></span><br>
+          <span style="margin-left: 4px;"><a (click)="fetchAggrementLetter()">Agreement Letter</a></span><br>  
+          <span style="margin-left: 4px;"><a (click)="onSanctionLetterClick()">Final Sanction letter</a></span>   -->
         </div>
       </div>
       <div class="cust-acknwlg-Container col-12 col-sm-12 col-md-12">

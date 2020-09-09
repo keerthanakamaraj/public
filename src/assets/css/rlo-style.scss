@@ -2975,6 +2975,7 @@ rlo-ui-card-field {
   border: none;
   background-position: center center;
   background-size: 25px;
+  cursor: pointer;
 }
 
 .status-count-container {
@@ -3168,7 +3169,11 @@ rlo-ui-card-field {
       margin-left: 4px !important;
     }
   }
-
+  .viewbutton {
+    button {
+      width: 145px !important;
+    }
+  }
   .document-upload {
     min-height: 3rem;
     padding: 0;
@@ -4055,4 +4060,78 @@ rlo-ui-card-field {
 .credit-card-only-save {
   float: right;
   margin: 0 1.167rem;
+}
+
+.op-doc-letter-table {
+  .panel-default {
+    margin-top: 25px !important;
+  }
+
+  table {
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    // th:after {
+    //   border-right: 1px solid rgba(189, 195, 199, .5);
+    //   content: " ";
+    //   height: 16px;
+    //   margin-top: 8px;
+    //   position: absolute;
+    //   text-indent: -2000px;
+    //   top: 0;
+    // }
+
+    tr:hover {
+      background-color: #ecf0f1;
+    }
+
+    thead {
+      tr {
+        background: #E4F0F9;
+        font-size: 12px;
+        line-height: 12px;
+        color: #7C7C7C;
+        font-weight: unset;
+        height: 40px;
+      }
+    }
+
+    tbody {
+      tr {
+        height: 40px;
+        color: rgb(79, 78, 78);
+
+        td {
+          border: none;
+          color: #4f4f4f;
+          line-height: 12px;
+          font-size: 12px;
+          font-weight: 400;
+
+          span {
+            font-size: 23px;
+            cursor: pointer;
+
+            &.icon-edit {
+              color: #0079b8;
+            }
+          }
+        }
+      }
+
+      .download-img {
+        cursor: pointer;
+      }
+    }
+
+    th {
+      border: none;
+      font-weight: inherit;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 17px;
+      color: #565656;
+    }
+  }
 }

@@ -96,13 +96,46 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   finalOutput: any;
   fieldLst = [];
   documentShow: boolean = false;
-  usertask : any;
-  configMap = {
-    "CREATED_BY": "System",
-    "EVENT_CODE": "SANCTION_LETTER",
-    "EVENT_TYPE": "LETTER_GENERATION",
-    "SOURCE_SYSTEM": "RLO"
-  };
+  usertask: any;
+  isLetterGenrated: boolean = false;
+  letterArray = [];
+  // letterArray: any = {
+  //   "TemplateData": [
+  //     {
+  //       "SOURCECD": "SANCTION_LETTER",
+  //       "EVENT_REFERENCE_NO": "AECB0E139B027AC4E0530100007F3CF5-1",
+  //       "TEMPLATECD": "AGREEMENT_LETTER",
+  //       "AUDIT_FLAG": "Y",
+  //       "TEMPLATE": "<p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Smart Bank</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Plot No. 3/G3, Siruseri,</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">SIPCOT IT Park,</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Chennai,&nbsp;</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Tamil Nadu 600130</span></p><p style=\"text-align: left;\"><strong>&nbsp;</strong></p><p style=\"text-align: left;\">&nbsp;</p><p style=\"text-align: center;\"><strong>LOAN AGREEMENT</strong></p><p style=\"text-align: center;\">&nbsp;</p><p><span style=\"font-weight: 400;\">This Loan Agreement</span> <span style=\"font-weight: 400;\">(the &ldquo;Agreement&rdquo;) is made and effective as of </span><span style=\"font-weight: 400;\">2020-07-23 00:00:00.0</span><span style=\"font-weight: 400;\">,</span></p><p>&nbsp;</p><p><strong>BETWEEN: </strong> <span style=\"font-weight: 400;\">PARKER PARKER</span><span style=\"font-weight: 400;\"> (the &ldquo;Borrower&rdquo;), aged </span><span style=\"font-weight: 400;\">@AGE</span><span style=\"font-weight: 400;\"> years residing at:</span></p><p>&nbsp;</p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style=\"font-weight: 400;\">GRTGTRGT 400006</span></p><p>&nbsp;</p><p><strong>AND:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</strong><span style=\"font-weight: 400;\">Smart Bank (the &ldquo;Lender&rdquo;), a company registered under the Companies Act 1913</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;having its registered office at:</span></p><p>&nbsp;</p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Plot No. 3/G3, Siruseri,&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;SIPCOT IT Park,&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Chennai,&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Tamil Nadu 600130</span></p><p>&nbsp;</p><p><strong>RECITALS</strong></p><p>&nbsp;</p><p><span style=\"font-weight: 400;\">The Borrower, being in need of funds has applied to the Lender for the grant of loan/ credit facilities to the extent of </span><span style=\"font-weight: 400;\">en-US  856469696</span><span style=\"font-weight: 400;\"> for the purpose of </span><span style=\"font-weight: 400;\">COM</span><span style=\"font-weight: 400;\">.&nbsp;</span></p><p>&nbsp;</p><p><span style=\"font-weight: 400;\">AND WHEREAS the Lender has given/ agreed to give Loan/ Credit facilities up to </span><span style=\"font-weight: 400;\"> </span><span style=\"font-weight: 400;\">with Interest</span><span style=\"font-weight: 400;\">8.65</span><span style=\"font-weight: 400;\">for a period of</span><span style=\"font-weight: 400;\">855 MTHS</span><span style=\"font-weight: 400;\">&nbsp;to the Borrower.</span></p>",
+  //       "TEMPLATENAME": "CUSTOMERSANTION LETTER",
+  //       "SOURCETYPE": "LETTER_GENERATION"
+  //     },
+  //     {
+  //       "SOURCECD": "SANCTION_LETTER",
+  //       "EVENT_REFERENCE_NO": "AECB0E139B027AC4E0530100007F3CF5-2",
+  //       "TEMPLATECD": "MORTGAGE_LETTER",
+  //       "AUDIT_FLAG": "Y",
+  //       "TEMPLATE": "<p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Smart Bank</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Plot No. 3/G3, Siruseri,</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">SIPCOT IT Park,</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Chennai,&nbsp;</span></p><p style=\"text-align: right;\"><span style=\"font-weight: 400;\">Tamil Nadu 600130</span></p><p style=\"text-align: right;\">&nbsp;</p><p style=\"text-align: center;\"><strong>DEED OF MORTGAGE</strong></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><span style=\"font-weight: 400;\">This Mortgage Deed</span> <span style=\"font-weight: 400;\">(the &ldquo;Agreement&rdquo;) is made and effective as of </span><span style=\"font-weight: 400;\">2020-07-23 00:00:00.0</span><span style=\"font-weight: 400;\">,</span></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><strong>BETWEEN: </strong> <span style=\"font-weight: 400;\">PARKER PARKER</span><span style=\"font-weight: 400;\"> (the &ldquo;Borrower&rdquo;), aged </span><span style=\"font-weight: 400;\">@AGE</span><span style=\"font-weight: 400;\"> years residing at:</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span> <span style=\"font-weight: 400;\">GRTGTRGT 400006</span></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><strong>AND:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong><span style=\"font-weight: 400;\">Smart Bank (the &ldquo;Lender&rdquo;), a company registered under the Companies Act 1913</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; having its registered office at:</span></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Plot No. 3/G3, Siruseri,&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SIPCOT IT Park,&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Chennai,&nbsp;</span></p><p><span style=\"font-weight: 400;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Tamil Nadu 600130</span></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><strong>RECITALS</strong></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><span style=\"font-weight: 400;\">The Borrower, being in need of funds has applied to the Lender for the grant of loan/ credit facilities to the extent of </span><span style=\"font-weight: 400;\">[LOAN CURRENCY + LOAN AMOUNT REQUESTED in words and number format] 856469696</span><span style=\"font-weight: 400;\"> for the purpose of </span><span style=\"font-weight: 400;\">COM</span><span style=\"font-weight: 400;\">.&nbsp;</span></p><p><span style=\"font-weight: 400;\">AND WHEREAS the Lender has given/ agreed to give Loan/ Credit facilities up to </span><span style=\"font-weight: 400;\">en-US 856469696 </span><span style=\"font-weight: 400;\">with Interest</span><span style=\"font-weight: 400;\">8.65</span><span style=\"font-weight: 400;\">for a period of</span><span style=\"font-weight: 400;\">855  MTHS</span><span style=\"font-weight: 400;\">&nbsp;to the Borrower by executing a Mortgage for the property situated at:</span></p><p><span style=\"font-weight: 400;\">&nbsp;</span></p><p><span style=\"font-weight: 400;\">@PR_ADDLINE_1@PR_ADDLINE_2@PR_PINCODE</span></p>",
+  //       "TEMPLATENAME": "CUSTOMERSANTION LETTER",
+  //       "SOURCETYPE": "LETTER_GENERATION"
+  //     },
+  //     {
+  //       "SOURCECD": "SANCTION_LETTER",
+  //       "EVENT_REFERENCE_NO": "AECB0E139B027AC4E0530100007F3CF5-3",
+  //       "TEMPLATECD": "SANCTION_LETTER",
+  //       "AUDIT_FLAG": "Y",
+  //       "TEMPLATE": "<p style=\"text-align:right !important\"><B>Hoist Finance</B></p><p style=\"text-align:right !important\"><span >123 Bank Street, 7th Business District</span></p><p style=\"text-align:right !important\"><span >Sweden</span></p><p><br></p><p><span >Ms Lilly Abebe</span></p><p><span >123 Blue, Norrmalm</span></p><p><span >SWEDEN</span></p><p><span >11123.</span></p><p><br></p><p><strong >Subject: Sanction of loan against your application</strong></p><p><br></p><p><span >Dear Ms Lilly,</span></p><p><br></p><p><span >We are glad to inform you that in response to your request for a bank loan in order to meet financial requirements, we have approved your loan.</span></p><p><br></p><p><span >The bank has decided to approve your application of loan for EUR 3,000.00</span></p><p><br></p><p><span >Please see the Loan Details as below:</span></p><p><br></p><p><span style='display: inline-block; width: 180px;'>Loan Product</span><span style='margin: 0 10px;'>:</span><span>Personal Loan - Express Credit Scheme </span></p><p><span style='display: inline-block; width: 180px;'>Loan Amount</span><span style='margin: 0 10px;'>:</span><span>EUR 3,000.00 </span></p><p><span style='display: inline-block; width: 180px;'>Interest Rate</span><span style='margin: 0 10px;'>:</span><span></span>3.20%</span></p><p><span style='display: inline-block; width: 180px;'>Loan Tenor</span><span style='margin: 0 10px;'>:</span><span>24 months</span></p><p><span style='display: inline-block; width: 180px;'>Upfront Fee</span><span style='margin: 0 10px;'>:</span><span>EUR 50</span></p><p><span style='display: inline-block; width: 180px;'>Payment every month</span><span style='margin: 0 10px;'>:</span><span>EUR 129.21</span></p><p><span style='display: inline-block; width: 180px;'>Total Interest</span><span style='margin: 0 10px;'>:</span><span>EUR 101.02</span></p><p><span style='display: inline-block; width: 180px;'>All payments &amp; fee</span><span style='margin: 0 10px;'>:</span><span>EUR 3,151.02</span></p><p><span style='display: inline-block; width: 180px;'>APR for the Loan</span><span style='margin: 0 10px;'>:</span><span>4.843%</span></p><p><br></p><p><span >The terms have been completely outlined in the promissory note. You are requested to visit the Branch and sign it. </span></p><p><span ></span></p><p><span >Sincerely,</span></p><p><span ></span></p><p><span >Branch Manager</span></p>",
+  //       "TEMPLATENAME": "CUSTOMERSANTION LETTER",
+  //       "SOURCETYPE": "LETTER_GENERATION"
+  //     }
+  //   ]
+  // }
+  // configMap = {
+  //   "CREATED_BY": "System",
+  //   "EVENT_CODE": "SANCTION_LETTER",
+  //   "EVENT_TYPE": "LETTER_GENERATION",
+  //   "SOURCE_SYSTEM": "RLO"
+  // };
   //   letter: any = {
   //     "fieldLst": [
   //         {
@@ -196,11 +229,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-    if (this.usertask.Status == "F") {
-      if (this.userId == undefined || this.userId == '') {
-        this.claimTask(this.taskId);
-       }
-      }
+
+    if (this.userId === undefined || this.userId === '') {
+      this.claimTask(this.taskId);
+    }
+    else {
+      this.gerateLetter();
+    }
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -239,6 +274,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     styleElement.innerHTML = customCss;
     styleElement.id = 'Operation_customCss';
     document.getElementsByTagName('head')[0].appendChild(styleElement);
+
     // console.log("letter data", this.fieldLst);
     // this.fieldLst.push({
     //   "fieldName": "TITLE",
@@ -455,107 +491,35 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       }
     );
   }
-  onLetterClick() {
+  gerateLetter() {
+    if (this.isLetterGenrated)
+      return;
     let inputMap = new Map();
     inputMap.clear();
-    let applicationId: any = this.passApplicationId;
-    // let BorrowerSeq = '1934';
-    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-    if (applicationId) {
-      criteriaJson.FilterCriteria.push({
-        "columnName": "ApplicationId",
-        "columnType": "String",
-        "conditions": {
-          "searchType": "equals",
-          "searchText": applicationId
-        }
-      });
+    // inputMap.set('Body.interfaceId',"INT010");
+    // inputMap.set('Body.INT010', "2688");
+    if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML") {
+      inputMap.set('Body.interfaceId', "INT010");
+      inputMap.set('Body.prposalid', this.ApplicationId);
     }
-    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
-    this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.customerDetils = res.BorrowerDetails[0];
-        if (this.customerDetils) {
-          this.fetchAdd();
-        }
-        // console.log("customer res", this.customerDetils);
-        // this.C_title.setValue(res['Title']);
-        // this.C_fullName.setValue(res['FullName']);
-        // this.C_natinality.setValue(res['Nationality']);
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-      }
-    );
-    // console.log("header res", this.services.rloCommonData.globalApplicationDtls);
-    setTimeout(() => {
-      this.lettercall();
-    }, 5000);
-    this.services.alert.showAlert(1, 'rlo.success.letter', 5000);
-    this.show = !this.show;
-    if (this.show) {
-      this.buttonName = "show";
+    else {
+      inputMap.set('Body.interfaceId', "INT011");
+      inputMap.set('Body.prposalid', this.ApplicationId);
     }
-  }
-  fetchAdd() {
-    let inputMap = new Map();
-    inputMap.clear();
-    let borrowerSeq: any = this.customerDetils.BorrowerSeq;
-    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-    if (borrowerSeq) {
-      criteriaJson.FilterCriteria.push({
-        "columnName": "BorrowerSeq",
-        "columnType": "String",
-        "conditions": {
-          "searchType": "equals",
-          "searchText": borrowerSeq
-        }
-      });
-    }
-    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
-    this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        this.addressDetails = res.AddressDetails[1];
-        // console.log("address res", res);
-        // this.C_address.setValue(res['AddressLine1']);
-        // this.C_pincode.setValue(res['PinCode']);
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
-      }
-    );
-  }
-  lettercall() {
-    let inputMap = new Map();
-    this.fieldLst.push({ "fieldName": "TITLE", "fieldValue": this.customerDetils.Title });
-    this.fieldLst.push({ "fieldName": "FULL_NAME", "fieldValue": this.customerDetils.FullName });
-    this.fieldLst.push({ "fieldName": "COUNTRY", "fieldValue": this.customerDetils.Nationality });
-    this.fieldLst.push({ "fieldName": "ADDR1", "fieldValue": this.addressDetails.AddressLine1 });
-    this.fieldLst.push({ "fieldName": "PINCODE", "fieldValue": this.addressDetails.PinCode });
-    this.fieldLst.push({ "fieldName": "ARN", "fieldValue": this.services.rloCommonData.globalApplicationDtls.ARN });
-    this.fieldLst.push({ "fieldName": "LOAN_AMT", "fieldValue": this.services.rloCommonData.globalApplicationDtls.LoanAmount });
-    this.fieldLst.push({ "fieldName": "PRODUCT_CODE", "fieldValue": this.services.rloCommonData.globalApplicationDtls.ProductName });
-
-    inputMap.clear();
-    inputMap.set('Body.fieldLst', this.fieldLst);
-    inputMap.set('Body.gridLst', null);
-    inputMap.set('Body.configMap', this.configMap);
-    inputMap.set('Body.dataMap', null);
-    this.services.http.fetchApi('/generatedocument', 'POST', inputMap, '/lettermangement').subscribe(
+    this.services.http.fetchApi('/invokeLetterGeneration', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         if (httpResponse.body != null) {
           var res = httpResponse.body;
-          this.finalOutput = res.TemplateData[0];
-          this.documentShow = true;
+          console.log("interface res newwwww", res);
+          this.letterArray = res.ouputdata.TemplateData;
+          this.letterArray.forEach(element => {
+            element.TEMPLATECD = element.TEMPLATECD.replace('_', ' ');
+          });
+          this.isLetterGenrated = true;
+          // this.finalOutput = res.TemplateData[0];
+          // this.services.rloCommonData.isLetterGenrated = true;
           // console.log("final output from lettergenrator", res);
         }
-
       },
       async (httpError) => {
         var err = httpError['error']
@@ -566,16 +530,246 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
 
-  fetchLetter() {
+
+
+  // onSanctionLetterClick() {
+  //   let inputMap = new Map();
+  //   inputMap.clear();
+  //   let applicationId: any = this.passApplicationId;
+  //   // let BorrowerSeq = '1934';
+  //   let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+  //   if (applicationId) {
+  //     criteriaJson.FilterCriteria.push({
+  //       "columnName": "ApplicationId",
+  //       "columnType": "String",
+  //       "conditions": {
+  //         "searchType": "equals",
+  //         "searchText": applicationId
+  //       }
+  //     });
+  //   }
+  //   inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+  //   this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, '/rlo-de').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       var res = httpResponse.body;
+  //       this.customerDetils = res.BorrowerDetails[0];
+  //       if (this.customerDetils) {
+  //         this.fetchAdd();
+  //       }
+  //       // console.log("customer res", this.customerDetils);
+  //       // this.C_title.setValue(res['Title']);
+  //       // this.C_fullName.setValue(res['FullName']);
+  //       // this.C_natinality.setValue(res['Nationality']);
+  //     },
+  //     async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //     }
+  //   );
+  //   // console.log("header res", this.services.rloCommonData.globalApplicationDtls);
+  //   setTimeout(() => {
+  //     this.lettercall();
+  //   }, 2000);
+  // }
+  // fetchAdd() {
+  //   let inputMap = new Map();
+  //   inputMap.clear();
+  //   let borrowerSeq: any = this.customerDetils.BorrowerSeq;
+  //   let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+  //   if (borrowerSeq) {
+  //     criteriaJson.FilterCriteria.push({
+  //       "columnName": "BorrowerSeq",
+  //       "columnType": "String",
+  //       "conditions": {
+  //         "searchType": "equals",
+  //         "searchText": borrowerSeq
+  //       }
+  //     });
+  //   }
+  //   inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+  //   this.services.http.fetchApi('/AddressDetails', 'GET', inputMap, '/rlo-de').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       var res = httpResponse.body;
+  //       this.addressDetails = res.AddressDetails[1];
+  //       // console.log("address res", res);
+  //       // this.C_address.setValue(res['AddressLine1']);
+  //       // this.C_pincode.setValue(res['PinCode']);
+  //     },
+  //     async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //     }
+  //   );
+  // }
+  // lettercall() {
+  //   let inputMap = new Map();
+  //   this.fieldLst.push({ "fieldName": "TITLE", "fieldValue": this.customerDetils.Title });
+  //   this.fieldLst.push({ "fieldName": "FULL_NAME", "fieldValue": this.customerDetils.FullName });
+  //   this.fieldLst.push({ "fieldName": "COUNTRY", "fieldValue": this.customerDetils.Nationality });
+  //   this.fieldLst.push({ "fieldName": "ADDR1", "fieldValue": this.addressDetails.AddressLine1 });
+  //   this.fieldLst.push({ "fieldName": "PINCODE", "fieldValue": this.addressDetails.PinCode });
+  //   this.fieldLst.push({ "fieldName": "ARN", "fieldValue": this.services.rloCommonData.globalApplicationDtls.ARN });
+  //   this.fieldLst.push({ "fieldName": "LOAN_AMT", "fieldValue": this.services.rloCommonData.globalApplicationDtls.LoanAmount });
+  //   this.fieldLst.push({ "fieldName": "PRODUCT_CODE", "fieldValue": this.services.rloCommonData.globalApplicationDtls.ProductName });
+
+  //   inputMap.clear();
+  //   inputMap.set('Body.fieldLst', this.fieldLst);
+  //   inputMap.set('Body.gridLst', null);
+  //   inputMap.set('Body.configMap', this.configMap);
+  //   inputMap.set('Body.dataMap', null);
+  //   this.services.http.fetchApi('/generatedocument', 'POST', inputMap, '/lettermangement').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       if (httpResponse.body != null) {
+  //         var res = httpResponse.body;
+
+  //         this.finalOutput = res.TemplateData[0];
+  //         this.documentShow = true;
+  //         // console.log("final output from lettergenrator", res);
+  //       }
+
+  //     },
+  //     async (httpError) => {
+  //       var err = httpError['error']
+  //       if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  //       }
+  //       // this.services.alert.showAlert(2, 'rlo.error.save.occupation', -1);
+  //     }
+  //   );
+  //   setTimeout(() => {
+  //     this.fetchLetter() 
+  //   }, 2000);
+  // }
+
+  // fetchLetter() {
+  //   let inputMap = new Map();
+  //   inputMap.clear();
+  //   let requestParams;
+  //   inputMap.set('QueryParam.eventReferenceNo', this.finalOutput.EVENT_REFERENCE_NO);
+  //   inputMap.set('QueryParam.sourceType', this.finalOutput.SOURCETYPE);
+  //   inputMap.set('QueryParam.sourceCd', this.finalOutput.SOURCECD);
+
+  //   // inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-1");
+  //   // inputMap.set('QueryParam.sourceType', "Sanction Letter");
+  //   // inputMap.set('QueryParam.sourceCd', "APPROVAL");
+  //   this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       var res = httpResponse.body;
+  //       this.LetterArray;
+  //       if (res) {
+  //         this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
+  //         let errorMsg = "";
+  //         var mainMessage = this.LetterArray;
+  //         var button1 = this.services.rloui.getAlertMessage('', 'OK');
+  //         //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+  //         //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+  //         // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+  //         //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+  //         //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+  //         //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+  //         //       msg = msg.replace(/Personal/gi,loanType);
+  //         //       msg = msg.replace(/7500/gi, loanAmt);
+  //         //       msg = msg.replace(/Scheme/gi, schemeName);
+  //         //   console.log("repalce", msg)
+  //         Promise.all([mainMessage, button1]).then(values => {
+  //           const modalObj: IModalData = {
+  //             title: "Sanction Letter",
+  //             // mainMessage: values[0],
+  //             rawHtml: values[0],
+  //             modalSize: "modal-width-lg",
+  //             buttons: [
+  //               // { id: 1, text: values[1], type: "success", class: "btn-primary" },
+  //               //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+  //             ]
+  //           }
+  //           this.services.rloui.confirmationModal(modalObj).then((response) => {
+  //             console.log(response);
+  //             if (response != null) {
+  //               if (response.id === 1) {
+  //                 this.services.rloui.closeAllConfirmationModal();
+  //               }
+  //             }
+  //           });
+  //         });
+
+  //       }
+  //     },
+  //     (httpError) => {
+  //       console.error(httpError);
+  //       this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+  //     });
+  // }
+  // fetchMortgageLetter() {
+  //   let inputMap = new Map();
+  //   inputMap.clear();
+  //   let requestParams;
+  //   // inputMap.set('QueryParam.eventReferenceNo', this.finalOutput.EVENT_REFERENCE_NO);
+  //   // inputMap.set('QueryParam.sourceType', this.finalOutput.SOURCETYPE);
+  //   // inputMap.set('QueryParam.sourceCd', this.finalOutput.SOURCECD);
+
+  //   inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-3");
+  //   inputMap.set('QueryParam.sourceType', "MORTGAGE LETTER");
+  //   inputMap.set('QueryParam.sourceCd', "APPROVAL");
+  //   this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       var res = httpResponse.body;
+  //       this.LetterArray;
+  //       if (res) {
+  //         this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
+  //         let errorMsg = "";
+  //         var mainMessage = this.LetterArray;
+  //         var button1 = this.services.rloui.getAlertMessage('', 'OK');
+  //         //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
+  //         //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
+  //         // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
+  //         //  let  schemeName = this.services.rloCommonData.globalApplicationDtls.SchemeName;
+  //         //    let msg = res.Letter[0].LETTERMGMTFORMAT;
+  //         //      msg = msg.replace(/@@ARN@@/gi, arnNo);
+  //         //       msg = msg.replace(/Personal/gi,loanType);
+  //         //       msg = msg.replace(/7500/gi, loanAmt);
+  //         //       msg = msg.replace(/Scheme/gi, schemeName);
+  //         //   console.log("repalce", msg)
+  //         Promise.all([mainMessage, button1]).then(values => {
+  //           const modalObj: IModalData = {
+  //             title: "Sanction Letter",
+  //             // mainMessage: values[0],
+  //             rawHtml: values[0],
+  //             modalSize: "modal-width-lg",
+  //             buttons: [
+  //               // { id: 1, text: values[1], type: "success", class: "btn-primary" },
+  //               //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+  //             ]
+  //           }
+  //           this.services.rloui.confirmationModal(modalObj).then((response) => {
+  //             console.log(response);
+  //             if (response != null) {
+  //               if (response.id === 1) {
+  //                 this.services.rloui.closeAllConfirmationModal();
+  //               }
+  //             }
+  //           });
+  //         });
+
+  //       }
+  //     },
+  //     (httpError) => {
+  //       console.error(httpError);
+  //       this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
+  //     });
+  // }
+
+  fetchLetter(letter) {
     let inputMap = new Map();
     inputMap.clear();
     let requestParams;
-    inputMap.set('QueryParam.eventReferenceNo', this.finalOutput.EVENT_REFERENCE_NO);
-    inputMap.set('QueryParam.sourceType', this.finalOutput.SOURCETYPE);
-    inputMap.set('QueryParam.sourceCd', this.finalOutput.SOURCECD);
+    console.log(letter);
+    inputMap.set('QueryParam.eventReferenceNo', letter.EVENT_REFERENCE_NO);
+    inputMap.set('QueryParam.sourceType', letter.SOURCETYPE);
+    inputMap.set('QueryParam.sourceCd', letter.SOURCECD);
 
-    // inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-1");
-    // inputMap.set('QueryParam.sourceType', "Sanction Letter");
+    // inputMap.set('QueryParam.eventReferenceNo', "20200730093231022213-4");
+    // inputMap.set('QueryParam.sourceType', "AGREEMENT LETTER");
     // inputMap.set('QueryParam.sourceCd', "APPROVAL");
     this.services.http.fetchApi('/fetchLetterManagementAudit', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -720,7 +914,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
 
- 
+
   async OPERATION_SUBMIT_click(event) {
     const inputMap = new Map();
     inputMap.clear();
@@ -734,16 +928,16 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.CurrentStage', 'Operation');
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.prposalid', this.ApplicationId);
-    inputMap.set('Body.inputdata.downPayment.paymentToBank','0');
-    inputMap.set('Body.inputdata.downPayment.paymentToOthers','0');
-    inputMap.set('Body.inputdata.interestRateDetails.baseRate','10');
-    inputMap.set('Body.inputdata.interestRateDetails.customerSpread','0');
-    inputMap.set('Body.inputdata.interestRateDetails.productSpread','0');
-    inputMap.set('Body.inputdata.interestRateDetails.loanSpread','0');
-    inputMap.set('Body.inputdata.bookingDate','03-APR-2020');
-    inputMap.set('Body.inputdata.noOfInstallments','60');
-    inputMap.set('Body.inputdata.scheduleType','S');
-    inputMap.set('Body.inputdata.firstRepaymentDate','06-DEC-2020');
+    inputMap.set('Body.inputdata.downPayment.paymentToBank', '0');
+    inputMap.set('Body.inputdata.downPayment.paymentToOthers', '0');
+    inputMap.set('Body.inputdata.interestRateDetails.baseRate', '10');
+    inputMap.set('Body.inputdata.interestRateDetails.customerSpread', '0');
+    inputMap.set('Body.inputdata.interestRateDetails.productSpread', '0');
+    inputMap.set('Body.inputdata.interestRateDetails.loanSpread', '0');
+    inputMap.set('Body.inputdata.bookingDate', '03-APR-2020');
+    inputMap.set('Body.inputdata.noOfInstallments', '60');
+    inputMap.set('Body.inputdata.scheduleType', 'S');
+    inputMap.set('Body.inputdata.firstRepaymentDate', '06-DEC-2020');
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
 
     this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
