@@ -259,7 +259,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.setFilterbyOptions(filterKey);
     this.Handler.displayPartyNameBasedOnPartyType();
     const party = this.hidePartyType.getFieldValue();
-    console.log("Party", party);
+    console.log("shweta :: Party", party);
   }
   async Currency_blur(event) {
     let inputMap = new Map();
@@ -328,7 +328,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
 
   requestParameterForFeeChargesDetails() {
     const PartyType = (this.ChargeType.getFieldValue() == 'PAYABLE') ? this.PartyTypePayable.getFieldValue() : this.PartyTypeReceivable.getFieldValue();
-    const PartyName = (this.PartyTypeReceivable.getFieldValue() == 'B') ? this.PartyNames.getFieldValue() : this.PartyName.getFieldValue();
+    const PartyName = (this.PartyTypeReceivable.getFieldValue() == 'B') ? this.PartyName.getFieldValue() : this.PartyNames.getFieldValue();
     const inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ChargeDtlSeq', this.AD_HIDE_ID.getFieldValue());
@@ -451,9 +451,14 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
           this.PartyTypeReceivable.setValue(res['ChargeDetails']['PartyType']);
         }
         if (res['ChargeDetails']['PartyType'] == 'B') {
+          let filterKey = res['ChargeDetails']['PartyType'];
+          //  console.log("shweta :: slected filterkey", filterKey);
+          this.PartyName.onReset();
+          this.setFilterbyOptions(filterKey);
           this.PartyName.setValue(res['ChargeDetails']['PartyName']);
         }
         else {
+          this.hidePartyType.setValue(res['ChargeDetails']['PartyType']);
           this.PartyNames.setValue(res['ChargeDetails']['PartyName']);
         }
         this.ChargeBasis.setValue(res['ChargeDetails']['ChargeBasis']);
