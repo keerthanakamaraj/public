@@ -500,7 +500,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     document.getElementsByTagName('head')[0].appendChild(styleElement);
     //this.onFormLoad();
     this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-    // this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
+    this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
     this.injectDynamicComponent('CustomerDetails', false, 0, 0);
     this.services.rloCommonData.getCurrentRoute();
     // setTimeout(() => {//dont know why
