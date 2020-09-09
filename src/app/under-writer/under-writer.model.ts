@@ -450,7 +450,8 @@ export class LoanDetails implements IDeserializable {
                 title: "Margin Money",
                 subTitle: this.MarginMoney,
                 type: "basic",
-                modalSectionName: ""
+                modalSectionName: "",
+                formatToCurrency: true
             },
             {
                 title: "Total Interest Amount",
