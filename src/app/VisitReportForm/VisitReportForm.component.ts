@@ -110,6 +110,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         });
         await this.Handler.onFormLoad({
         });
+        //UW
         console.log(this.Visit_Report_Grid.columnDefs);
         if (this.readOnly) {
             this.Visit_Report_Grid.columnDefs = this.Visit_Report_Grid.columnDefs.slice(0, 7);
@@ -349,13 +350,16 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     }
 
     async VRF_DateOfVisit_blur(event) {
-        const inputMap = new Map();
-        if (!(this.isTodaysDate(this.VRF_DateOfVisit.getFieldValue()) || this.isPastDate(this.VRF_DateOfVisit.getFieldValue()))) {
-            this.VRF_DateOfVisit.setError('rlo.error.dov-invalid');
-            return 1;
-        } else if (!this.isMonthsLimitValid(this.VRF_DateOfVisit.getFieldValue())) {
-            this.VRF_DateOfVisit.setError('rlo.error.dov-expired');
-            return 1;
+        //UW
+        if (!this.readOnly) {
+            const inputMap = new Map();
+            if (!(this.isTodaysDate(this.VRF_DateOfVisit.getFieldValue()) || this.isPastDate(this.VRF_DateOfVisit.getFieldValue()))) {
+                this.VRF_DateOfVisit.setError('rlo.error.dov-invalid');
+                return 1;
+            } else if (!this.isMonthsLimitValid(this.VRF_DateOfVisit.getFieldValue())) {
+                this.VRF_DateOfVisit.setError('rlo.error.dov-expired');
+                return 1;
+            }
         }
     }
 
@@ -391,7 +395,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         let months = currentDate.diff(selectedDate, 'months');
         console.log("selected months count is:", months);
         console.log("default months count is:", this.monthLimit);
-        if (months+1 <= this.monthLimit) {
+        if (months + 1 <= this.monthLimit) {
             console.log("returning true", months);
             return true;
         }
