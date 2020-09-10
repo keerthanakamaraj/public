@@ -30,6 +30,11 @@ const customCss: string = '';
   templateUrl: './LoanDetailsForm.component.html'
 })
 export class LoanDetailsFormComponent extends FormComponent implements OnInit, AfterViewInit {
+  totalMarginMoney: any;
+  totalUpfront: any;
+  totalDistAmount: any;
+  totalFeeAdjDist: any;
+  totalLoanAmount: any;
   DisbursalAmount: any;
   totalDisbAmt: number;
   total: number;
@@ -284,12 +289,21 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']);
             this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
-            this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
-            this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'],null,null,null));
-            this.TotalFeeAdjWithDist.setValue(this.services.formatAmount(LoanElement['TotalFeeAdjWithDist'],null,null,null));
-            this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'],null,null,null));
+            this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq']);
+           
             this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['TotalLoanAmt'],null,null,null));
-            this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null,null,null));
+            this.TotalFeeAdjWithDist.setValue(this.services.formatAmount(LoanElement['TotalFeeAdjWithDist'],null,null,null));
+            this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null,null,null));;
+            this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'],null,null,null));
+            this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'],null,null,null));
+          
+            // this.totalMarginMoney.setValue(LoanElement['MarginMoney']);
+            // this.totalFeeAdjDist.setValue(LoanElement['TotalFeeAdjWithDist']);
+            // this.totalUpfront.setValue(LoanElement['TotalFeeCollUpfront']);
+            // this.totalLoanAmount.setValue(LoanElement['TotalLoanAmt']);
+            this.totalDistAmount.setValue(LoanElement['TotaDistlAmt']);
+           
+
             this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
             this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null, false));
             // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
@@ -558,7 +572,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             return;
           } 
         }
-        if (this.totalDisbAmt != this.TotaDistlAmt.getFieldValue()) {
+        if (this.totalDisbAmt != this.totalDistAmount) {
           this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
           return;
         }
@@ -597,11 +611,11 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       inputMap.set('Body.LoanDetails.TotalInterestAmount', this.totInterestAmt != undefined ? this.totInterestAmt : 0);
       inputMap.set('Body.LoanDetails.TotalInstallmentAmt', this.totInstallmentAmt != undefined ? this.totInstallmentAmt : 0);
 
-      inputMap.set('Body.LoanDetails.MarginMoney', this.MarginMoney.getFieldValue());
-      inputMap.set('Body.LoanDetails.TotaDistlAmt', this.TotaDistlAmt.getFieldValue());
-      inputMap.set('Body.LoanDetails.TotalFeeAdjWithDist', this.TotalFeeAdjWithDist.getFieldValue());
-      inputMap.set('Body.LoanDetails.TotalFeeCollUpfront', this.TotalFeeCollUpfront.getFieldValue());
-      inputMap.set('Body.LoanDetails.TotalLoanAmt', this.TotalLoanAmt.getFieldValue());
+      // inputMap.set('Body.LoanDetails.MarginMoney', this.totalMarginMoney);
+      // inputMap.set('Body.LoanDetails.TotaDistlAmt', this.totalDistAmount);
+      // inputMap.set('Body.LoanDetails.TotalFeeAdjWithDist', this.totalFeeAdjDist);
+      // inputMap.set('Body.LoanDetails.TotalFeeCollUpfront', this.totalUpfront);
+      // inputMap.set('Body.LoanDetails.TotalLoanAmt', this.totalLoanAmount);
       inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
       this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
