@@ -1,29 +1,29 @@
 <div class="wgt-alert-modal">
-    <div class="modal-header" *ngIf="modalObject.title">
-        <span [ngClass]="modalObject.iconClass"></span>
-        <span class="modal-header-name">{{modalObject.title}}</span>
-        <span class="fa fa-times" (click)="onClick(0)"></span>
-    </div>
-    <div class="modal-body">
-        <span class="msg-span fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
-        <h5>{{modalObject.mainMessage}}</h5>
-        <div [innerHTML]="modalObject.rawHtml">
-        </div>
-
-        <!-- components added here -->
-        <div class="menu-content pop-up-components">
-            <ng-template #appAlertComponents></ng-template>
-        </div>
+  <div class="modal-header" *ngIf="modalObject.title">
+    <span [ngClass]="modalObject.iconClass"></span>
+    <span class="modal-header-name">{{modalObject.title}}</span>
+    <span class="fa fa-times" (click)="onClick(0)"></span>
+  </div>
+  <div class="modal-body">
+    <span class="msg-span fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
+    <h5>{{modalObject.mainMessage}}</h5>
+    <div id="printdiv" [innerHTML]="modalObject.rawHtml">
     </div>
 
-    <ng-container *ngIf="modalObject.buttons.length">
-        <div class="modal-footer">
-            <button class="btn" [ngClass]="button.class" type="button" *ngFor="let button of modalObject.buttons"
-                (click)="onClick(button)">
-                {{button.text}}
-            </button>
-        </div>
-    </ng-container>
+    <!-- components added here -->
+    <div class="menu-content pop-up-components">
+      <ng-template #appAlertComponents></ng-template>
+    </div>
+  </div>
+
+  <ng-container *ngIf="modalObject.buttons.length">
+    <div class="modal-footer">
+      <button class="btn" [ngClass]="button.class" type="button" *ngFor="let button of modalObject.buttons"
+        (click)="onClick(button)">
+        {{button.text}}
+      </button>
+    </div>
+  </ng-container>
 </div>
 <!-- .wgt-alert-modal .modal-body span {
   /* position: absolute; */
