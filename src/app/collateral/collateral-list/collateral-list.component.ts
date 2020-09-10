@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormCommonComponent } from '../../form-common/form-common.component';
 import { UtilityService } from '../../services/utility.service';
 // import { UserAccessEntitlement } from 'src/app/services/user-access-entitlement.service';
@@ -14,6 +14,8 @@ export class CollateralListComponent extends FormCommonComponent implements OnIn
   collateralList: any;
   custId: any;
   @Output() editColl: EventEmitter<object> = new EventEmitter<object>();
+  @Input() selectedBorrowerSeq: any;//used to get current selected borrowerSeq in DDE
+
   constructor(public utility: UtilityService, services: ServiceStock) {
     super(utility, services);
 
@@ -54,6 +56,13 @@ export class CollateralListComponent extends FormCommonComponent implements OnIn
           }
         }
         this.collateralList = this.collateralList.filter(coll => coll.customerNumber === this.custId);
+
+        let obj = {
+          "name": "CollateralDetails",
+          "data": this.collateralList,
+          "BorrowerSeq": this.selectedBorrowerSeq
+        }
+        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
       });
   }
   updateTaggedFac(collDetails, collateralList, facDesc) {
@@ -88,7 +97,7 @@ export class CollateralListComponent extends FormCommonComponent implements OnIn
     }
   }
 
-  formatAmount(amt){
+  formatAmount(amt) {
     return this.services.rloui.formatAmount(amt);
   }
 }

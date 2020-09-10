@@ -848,6 +848,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     componentInstance.ApplicationId = this.ApplicationId;
     componentInstance.isLoanCategory = this.isLoanCategory;
     componentInstance.parentFormCode = this.componentCode;
+    componentInstance.borrowerSeq = this.formMenuObject.activeBorrowerSeq;
 
     //applied only when user comes to DDE from operations page
     if (this.readOnly)

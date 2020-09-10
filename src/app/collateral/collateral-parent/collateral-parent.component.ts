@@ -17,13 +17,16 @@ export class CollateralParentComponent extends FormCommonComponent implements On
   custID: any;
 
   readOnly: boolean = false;
+  borrowerSeq: number;//passed from DDE in injectDynamicComponent
 
   constructor(public utility: UtilityService, services: ServiceStock) {
     super(utility, services);
   }
 
   ngOnInit() {
+    console.warn("DDEP | collateralDetails borrowerSeq", this.borrowerSeq);
   }
+  
   clearAll() {
 
   }

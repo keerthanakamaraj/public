@@ -1,4 +1,4 @@
 <app-collateral-details #collateralDetails [readOnly]="readOnly" (loadColl)=loadCollateralDetails() (loadgrid)="loadCollateralGrid()">
 </app-collateral-details>
-<app-collateral-list #collateralList (editColl)=editCollateralDetails($event)></app-collateral-list>
+<app-collateral-list #collateralList [selectedBorrowerSeq]="borrowerSeq" (editColl)=editCollateralDetails($event)></app-collateral-list>
 <!-- <app-relationship-linking #relationshipLink></app-relationship-linking> -->

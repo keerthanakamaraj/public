@@ -70,8 +70,8 @@ export class RloCommonData {
 
   dynamicComponentInstance: any;
 
-  makeDdeDisabled: { ddeDisabled: boolean, previousPageOperation: boolean } 
-  = { ddeDisabled: false, previousPageOperation: false };//applied only when user comes to DDE from operations page
+  makeDdeDisabled: { ddeDisabled: boolean, previousPageOperation: boolean }
+    = { ddeDisabled: false, previousPageOperation: false };//applied only when user comes to DDE from operations page
 
   /////////////////////////////////////////////////////////
   masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
@@ -190,9 +190,10 @@ export class RloCommonData {
           mapValue.set('IncomeSummary', componentData.data);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
-        // case 'CollateralDetails':
-        //     mapValue.set('CollateralDetails', componentData.data);
-        //     break;
+        case 'CollateralDetails':
+          mapValue.set('CollateralDetails', componentData.data);
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
         case 'PersonalInterviewDetails':
           mapValue.set('PersonalInterviewDetails', componentData.data);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(componentData.data[0].isValid).then(data => { return data });

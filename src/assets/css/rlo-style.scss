@@ -3443,6 +3443,7 @@ rlo-ui-card-field {
     position: relative;
     display: flex;
     border-collapse: separate;
+    border: none !important;
 
     .folder-icon {
       position: relative;
