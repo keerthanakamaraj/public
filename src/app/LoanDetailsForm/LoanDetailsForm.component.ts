@@ -301,7 +301,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             // this.totalFeeAdjDist.setValue(LoanElement['TotalFeeAdjWithDist']);
             // this.totalUpfront.setValue(LoanElement['TotalFeeCollUpfront']);
             // this.totalLoanAmount.setValue(LoanElement['TotalLoanAmt']);
-            this.totalDistAmount.setValue(LoanElement['TotaDistlAmt']);
+            this.totalDistAmount = LoanElement['TotaDistlAmt'];
            
 
             this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
