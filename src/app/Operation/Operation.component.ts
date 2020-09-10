@@ -98,6 +98,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   documentShow: boolean = false;
   usertask: any;
   isLetterGenrated: boolean = false;
+  viewtask : boolean = true;
   letterArray = [];
   // letterArray: any = {
   //   "TemplateData": [
@@ -230,7 +231,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       'passCustGrid': this.ApplicationId,
     });
 
-    if (this.userId === undefined || this.userId === '') {
+    if (this.userId === undefined || this.userId === '' || this.viewtask == true ) {
       this.claimTask(this.taskId);
     }
     else {
@@ -368,7 +369,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     let inputMap = new Map();
     inputMap.clear();
     let applicationId: any = this.passApplicationId;
-    // let applicationId = '2221';
+    // let applicationId = '2829';
     let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
     if (applicationId) {
       criteriaJson.FilterCriteria.push({
@@ -407,11 +408,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         var resArray
-        // console.log("DBR", res)
+        console.log("DBR", res)
         if (res !== null) {
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
-            // console.log("loop",resArray)
+            console.log("loop",resArray)
             if (resArray.ScoreId == 'DBR') {
               this.LOAN_DBR.setValue(resArray.Score);
             }
@@ -474,7 +475,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (res !== null) {
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
-            // console.log("loop",resArray)
+            console.log("loop",resArray)
             if (resArray.ScoreId == 'DBR') {
               this.Card_DBR.setValue(resArray.Score);
             }
@@ -525,7 +526,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
-        // this.services.alert.showAlert(2, 'rlo.error.save.occupation', -1);
+        this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
       }
     );
   }
