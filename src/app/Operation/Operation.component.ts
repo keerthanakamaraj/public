@@ -526,7 +526,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
-        this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+        // this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
       }
     );
   }
