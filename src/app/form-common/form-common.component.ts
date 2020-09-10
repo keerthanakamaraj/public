@@ -5,7 +5,7 @@ import { forkJoin, Observable, Subject } from 'rxjs';
 import { appDataProvider } from '../services/appDataProvider.service';
 // import { UserAccessEntitlement } from '../services/user-access-entitlement.service';
 // import { UtilityService } from '../services/utility.service';
-// import { ToolTipError } from '../tooltip-error';
+import { ToolTipError } from '../tooltip-error';
 import { FormContext } from './form-context.model';
 import { TenantFieldMap } from './tenant-field-map.model';
 import { Tenant } from './tenant.model';
@@ -441,20 +441,25 @@ export class FormCommonComponent implements OnInit {
   // Discuss with Kalpesh
   // Create Date Model class in common
   validateField(fieldValue, fieldName, minDate?: IGCBMinMaxDateModel, maxDate?: IGCBMinMaxDateModel, uiFieldName?: string) {
-    // const tooltip = new ToolTipError();
-    // if (!uiFieldName) {
-    //   uiFieldName = fieldName;
-    // }
-    // tooltip.tooltiperrorhide(uiFieldName);
-    // if (!tooltip.isFieldVisible(uiFieldName)) {
-    //   return;
-    // }
-    // if (!this.validateMandatory(fieldValue, fieldName)) {
-    //   this.flag = 1;
-    //   tooltip.tooltiperrorshow(uiFieldName, this.getLabel('error.' +
-    //     this.serviceName + '.' + fieldName + '.required', this.getLabel('error.default.required')));
-    //   return;
-    // }
+    const tooltip = new ToolTipError();
+    if (!uiFieldName) {
+      uiFieldName = fieldName;
+    }
+    tooltip.tooltiperrorhide(uiFieldName);
+    if (!tooltip.isFieldVisible(uiFieldName)) {
+      return;
+    }
+    if (!this.validateMandatory(fieldValue, fieldName)) {
+      this.flag = 1;
+      console.log('Mandatory Field ', fieldName);
+
+      // this.services.alert.showAlert(2, this.getLabel('error.' + this.serviceName + '.' + fieldName + '.required'), this.getLabel('error.default.required'), -1);
+      // this.services.alert.showAlert(2, this.getLabel('error.' + this.serviceName + '.' + fieldName + '.required'), -1);
+
+      tooltip.tooltiperrorshow(uiFieldName, this.getLabel('error.' +
+        this.serviceName + '.' + fieldName + '.required', this.getLabel('error.default.required')));
+      return;
+    }
     // if (!this.validateRegex(fieldValue, fieldName)) {
     //   if (!minDate && !maxDate) {
     //     this.flag = 1;
