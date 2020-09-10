@@ -531,9 +531,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           this.total += Number(this.DisbArray[i].CompletionPercent);
         }
       }
-      if (this.DisbArray[i].DisbursalAmt) {
-        if (this.DisbArray[i].DisbursalAmt !== undefined && this.DisbArray[i].DisbursalAmt !== "") {
-          this.totalDisbAmt += Number(this.DisbArray[i].DisbursalAmt);
+      if (this.DisbArray[i].DisbursalAmtLocalCurrency) {
+        if (this.DisbArray[i].DisbursalAmtLocalCurrency !== undefined && this.DisbArray[i].DisbursalAmtLocalCurrency !== "") {
+          this.totalDisbAmt += Number(this.DisbArray[i].DisbursalAmtLocalCurrency);
         }
       }
 
