@@ -51,7 +51,7 @@ export interface IGlobalApllicationDtls {
   LoanAmount?: string;
   InterestRate?: string;
   Tenure?: string;
-  TenurePeriodCd?:string;
+  TenurePeriodCd?: string;
   TenurePeriodName?: string;
 }
 @Injectable({
@@ -70,7 +70,8 @@ export class RloCommonData {
 
   dynamicComponentInstance: any;
 
-  makeDdeDisabled: boolean = false;//applied only when user comes to DDE from operations page
+  makeDdeDisabled: { ddeDisabled: boolean, previousPageOperation: boolean } 
+  = { ddeDisabled: false, previousPageOperation: false };//applied only when user comes to DDE from operations page
 
   /////////////////////////////////////////////////////////
   masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
@@ -534,10 +535,10 @@ export class RloCommonData {
         }
       }
       if (!commonObj.isSectionValid) {
-        if((LoanOwnership != undefined && LoanOwnership != 0) && (custType == 'B' || custType == 'CB')){
+        if ((LoanOwnership != undefined && LoanOwnership != 0) && (custType == 'B' || custType == 'CB')) {
           commonObj.errorMessage = " 1 primary occupation"
         }
-      
+
       }
     }
     return commonObj;
@@ -857,7 +858,7 @@ export class RloCommonData {
 
   //from operation to DDE
   makeDdePageDisabled() {
-    this.makeDdeDisabled = true;
+    this.makeDdeDisabled.ddeDisabled = true;
   }
 
   //scoreCard(apllication score) invoke interface and score card api

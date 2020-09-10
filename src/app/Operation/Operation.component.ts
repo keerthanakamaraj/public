@@ -98,7 +98,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   documentShow: boolean = false;
   usertask: any;
   isLetterGenrated: boolean = false;
-  viewtask : boolean = true;
+  viewtask: boolean = true;
   letterArray = [];
   // letterArray: any = {
   //   "TemplateData": [
@@ -231,12 +231,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       'passCustGrid': this.ApplicationId,
     });
 
-    if (this.userId === undefined || this.userId === '' || this.viewtask == true ) {
-      this.claimTask(this.taskId);
+    if (this.userId === undefined || this.userId === '') {
+      if (!this.services.rloCommonData.makeDdeDisabled.ddeDisabled && !this.services.rloCommonData.makeDdeDisabled.previousPageOperation)
+        this.claimTask(this.taskId);
     }
     else {
       this.gerateLetter();
     }
+    this.services.rloCommonData.makeDdeDisabled.previousPageOperation = false;
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -412,7 +414,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (res !== null) {
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
-            console.log("loop",resArray)
+            console.log("loop", resArray)
             if (resArray.ScoreId == 'DBR') {
               this.LOAN_DBR.setValue(resArray.Score);
             }
@@ -475,7 +477,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (res !== null) {
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
-            console.log("loop",resArray)
+            console.log("loop", resArray)
             if (resArray.ScoreId == 'DBR') {
               this.Card_DBR.setValue(resArray.Score);
             }
