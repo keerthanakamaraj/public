@@ -85,7 +85,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       this.revalidateBasicField('ChargeType'),
       this.revalidateBasicField('PartyTypeReceivable'),
       this.revalidateBasicField('PartyTypePayable'),
-      
+
       this.revalidateBasicField('ChargeBasis'),
       this.revalidateBasicField('ChargeRate'),
       this.revalidateBasicField('PartyName'),
@@ -242,6 +242,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   }
   async ChargeType_change(fieldID, value) {
     this.Handler.hideFieldBasedonChargeType();
+    this.adjustChargeCollectOptions(this.ChargeType.getFieldValue());
   }
   async ChargeBasis_change(fieldID, value) {
     this.Handler.hideShowFieldBasedOnChargeBasis();
@@ -249,16 +250,16 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   async PeriodicCharge_change(fieldID, value) {
     this.Handler.hideFieldBasedOnPeriodicCharge();
   }
-  
-  async PartyTypeReceivable_change(fieldID, value){
-  
-   let filterKey = this.PartyTypeReceivable.getFieldValue();
-   //  console.log("shweta :: slected filterkey", filterKey);
-   this.PartyName.onReset();
-   this.setFilterbyOptions(filterKey);
-   this.Handler.displayPartyNameBasedOnPartyType();
-   const party = this.hidePartyType.getFieldValue();
-   console.log("Party",party);
+
+  async PartyTypeReceivable_change(fieldID, value) {
+
+    let filterKey = this.PartyTypeReceivable.getFieldValue();
+    //  console.log("shweta :: slected filterkey", filterKey);
+    this.PartyName.onReset();
+    this.setFilterbyOptions(filterKey);
+    this.Handler.displayPartyNameBasedOnPartyType();
+    const party = this.hidePartyType.getFieldValue();
+    console.log("shweta :: Party", party);
   }
   async Currency_blur(event) {
     let inputMap = new Map();
@@ -272,7 +273,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   async ChargeRate_blur(event) {
     let inputMap = new Map();
     this.Handler.calculateEffectiveAmount()
-   
+
     // await this.Handler.onAddTypeChange();
   }
   async RateOnCharge_change(event) {
@@ -327,7 +328,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
 
   requestParameterForFeeChargesDetails() {
     const PartyType = (this.ChargeType.getFieldValue() == 'PAYABLE') ? this.PartyTypePayable.getFieldValue() : this.PartyTypeReceivable.getFieldValue();
-    const PartyName = (this.PartyTypeReceivable.getFieldValue() == 'B') ? this.PartyNames.getFieldValue() : this.PartyName.getFieldValue();
+    const PartyName = (this.PartyTypeReceivable.getFieldValue() == 'B') ? this.PartyName.getFieldValue() : this.PartyNames.getFieldValue();
     const inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ChargeDtlSeq', this.AD_HIDE_ID.getFieldValue());
@@ -399,7 +400,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
               this.ChargeBasis.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.LandlineNumber') {
               this.PartyTypePayable.setError(err['ErrorDescription']);
-            }  else if (err['ErrorElementPath'] === 'AddressDetails.LandlineNumber') {
+            } else if (err['ErrorElementPath'] === 'AddressDetails.LandlineNumber') {
               this.PartyTypeReceivable.setError(err['ErrorDescription']);
             }
             else if (err['ErrorElementPath'] === 'AddressDetails.Landmark') {
@@ -442,16 +443,22 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         const res = httpResponse.body;
         this.ChargeDescription.setValue(res['ChargeDetails']['ChargeDescription']);
         this.ChargeType.setValue(res['ChargeDetails']['ChargeType']);
+        this.adjustChargeCollectOptions(res['ChargeDetails']['ChargeType']);
         this.ChargeRate.setValue(res['ChargeDetails']['ChargeRate']);
-        if(res['ChargeDetails']['ChargeType'] == 'PAYABLE'){
+        if (res['ChargeDetails']['ChargeType'] == 'PAYABLE') {
           this.PartyTypePayable.setValue(res['ChargeDetails']['PartyType']);
-        }else{
+        } else {
           this.PartyTypeReceivable.setValue(res['ChargeDetails']['PartyType']);
         }
-        if(res['ChargeDetails']['PartyType'] == 'B'){
+        if (res['ChargeDetails']['PartyType'] == 'B') {
+          let filterKey = res['ChargeDetails']['PartyType'];
+          //  console.log("shweta :: slected filterkey", filterKey);
+          this.PartyName.onReset();
+          this.setFilterbyOptions(filterKey);
           this.PartyName.setValue(res['ChargeDetails']['PartyName']);
         }
-        else{
+        else {
+          this.hidePartyType.setValue(res['ChargeDetails']['PartyType']);
           this.PartyNames.setValue(res['ChargeDetails']['PartyName']);
         }
         this.ChargeBasis.setValue(res['ChargeDetails']['ChargeBasis']);
@@ -494,7 +501,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.InterestRate = this.parentData.InterestRate
   }
 
- 
+
   setFilterbyOptions(filterKey) {
     let tempCustomerList = this.services.rloCommonData.getCustomerList();
     this.FilterOptions = [];
@@ -509,7 +516,19 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     // console.log("shweta :: score options list", this.FilterOptions);
     this.PartyName.setStaticListOptions(this.FilterOptions);
   }
-
+  adjustChargeCollectOptions(chargeType, newValue?: string) {
+    if (chargeType == 'PAYABLE') {
+      this.ChargeCollection.onReset();
+      this.hideChargeCollection.setValue('ALT_CHRGE_CLCTN');
+      newValue = newValue != undefined ? newValue : 'PAY';
+      this.ChargeCollection.setReadOnly(true);
+    } else {
+      this.ChargeCollection.onReset();
+      this.hideChargeCollection.setValue('CHARGE_COLLECTION');
+      this.ChargeCollection.setReadOnly(false);
+    }
+    this.ChargeCollection.setValue(newValue);
+  }
   fieldDependencies = {
     ChargeBasis: {
       inDep: [

@@ -49,6 +49,7 @@ import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.com
 import { IModalData } from '../popup-alert/popup-interface';
 import { CollateralParentComponent } from '../collateral/collateral-parent/collateral-parent.component';
 import { IheaderScoreCard } from '../Interface/masterInterface';
+import { Location } from '@angular/common';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -303,7 +304,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   mandatoryCustomerSections: any = ['CustomerDetails', 'AddressDetails', 'OccupationDetails', 'IncomeSummary'];
 
-  constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private locationRoute: Location) {
     super(services);
     this.value = new DDEModel();
     this.componentCode = 'DDE';
@@ -382,7 +383,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
     this.CUSTOMER_GRID.parentFormCode = this.componentCode;
     this.CUSTOMER_GRID.doAPIForCustomerList({});
-    if (!this.services.rloCommonData.makeDdeDisabled) {
+    if (!this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
       //claim task code here  
       if (this.userId === undefined || this.userId == '') {
         this.claimTask(this.taskId);
@@ -508,7 +509,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     // }, 2000);
 
     //only when navigating to DDE from Operations
-    if (this.services.rloCommonData.makeDdeDisabled) {
+    if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
       this.readOnly = true;
       this.setReadOnly(this.readOnly);
     }
@@ -526,8 +527,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.childToParentSubjectSubscription.unsubscribe();
     this.services.rloui.closeAllConfirmationModal();
     //is disabled when navigating to DDE from operations
-    if (this.services.rloCommonData.makeDdeDisabled)
-      this.services.rloCommonData.makeDdeDisabled = false;
+    if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled)
+      this.services.rloCommonData.makeDdeDisabled.ddeDisabled = false;
   }
 
   ngAfterViewInit() {
@@ -1182,7 +1183,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   goBack() {
-    this.services.rloui.goBack();
+    if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
+      this.services.rloCommonData.makeDdeDisabled.ddeDisabled = false;
+      this.services.rloCommonData.makeDdeDisabled.previousPageOperation = true;
+      this.locationRoute.back();
+    } else {
+      this.services.rloui.goBack();
+    }
+
   }
 
   async brodcastProdCategory(event) {

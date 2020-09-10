@@ -52,6 +52,15 @@ export class PopupAlertComponent implements OnInit {
   }
 
   async onClick(buttonObj: AnyNaptrRecord): Promise<any> {
+    if (buttonObj['text'] == "PRINT") {
+      var prtContent = document.getElementById("printdiv");
+      var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=500px,toolbar=0,scrollbars=0,status=0');
+      WinPrint.document.write(prtContent.innerHTML);
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
+    }
     this.activeModal.close(buttonObj);
     //on click of modal button send the button obj eg: {id: 1, text: 'Save';, type: "success", class: "btn-primary"}. Depending on which btn click(id); perform actions. Respnse snt where the component/ngModal is invoked 
   }

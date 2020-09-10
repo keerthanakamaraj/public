@@ -119,7 +119,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     ngOnInit() {
         
         //only when navigating to DDE from Operations
-        if (this.services.rloCommonData.makeDdeDisabled) {
+        if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
             this.readOnly = true;
         }
         else {

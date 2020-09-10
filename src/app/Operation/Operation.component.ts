@@ -98,6 +98,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   documentShow: boolean = false;
   usertask: any;
   isLetterGenrated: boolean = false;
+  viewtask: boolean = true;
   letterArray = [];
   // letterArray: any = {
   //   "TemplateData": [
@@ -231,11 +232,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     });
 
     if (this.userId === undefined || this.userId === '') {
-      this.claimTask(this.taskId);
+      if (!this.services.rloCommonData.makeDdeDisabled.ddeDisabled && !this.services.rloCommonData.makeDdeDisabled.previousPageOperation)
+        this.claimTask(this.taskId);
     }
     else {
       this.gerateLetter();
     }
+    this.services.rloCommonData.makeDdeDisabled.previousPageOperation = false;
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -368,7 +371,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     let inputMap = new Map();
     inputMap.clear();
     let applicationId: any = this.passApplicationId;
-    // let applicationId = '2221';
+    // let applicationId = '2829';
     let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
     if (applicationId) {
       criteriaJson.FilterCriteria.push({
@@ -407,11 +410,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         var resArray
-        // console.log("DBR", res)
+        console.log("DBR", res)
         if (res !== null) {
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
-            // console.log("loop",resArray)
+            console.log("loop", resArray)
             if (resArray.ScoreId == 'DBR') {
               this.LOAN_DBR.setValue(resArray.Score);
             }
@@ -474,7 +477,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         if (res !== null) {
           for (let i = 0; i <= res.ApplicationScoreDetails.length; i++) {
             resArray = res.ApplicationScoreDetails[i];
-            // console.log("loop",resArray)
+            console.log("loop", resArray)
             if (resArray.ScoreId == 'DBR') {
               this.Card_DBR.setValue(resArray.Score);
             }
@@ -512,6 +515,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           var res = httpResponse.body;
           console.log("interface res newwwww", res);
           this.letterArray = res.ouputdata.TemplateData;
+          // this.letterArray = this.letterArray.TemplateData;
           this.letterArray.forEach(element => {
             element.TEMPLATECD = element.TEMPLATECD.replace('_', ' ');
           });
@@ -525,7 +529,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
-        // this.services.alert.showAlert(2, 'rlo.error.save.occupation', -1);
+        // this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
       }
     );
   }
@@ -779,7 +783,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           this.LetterArray = res.Letter["0"].LETTERMGMTFORMAT;
           let errorMsg = "";
           var mainMessage = this.LetterArray;
-          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          // var button1 = this.services.rloui.getAlertMessage('OK', 'OK');
+          var PrintBtn = this.services.rloui.getAlertMessage('PRINT', 'PRINT');
           //  let  loanType = this.services.rloCommonData.globalApplicationDtls.ProductName;
           //  let  loanAmt = this.services.rloCommonData.globalApplicationDtls.LoanAmount;
           // let arnNo = this.services.rloCommonData.globalApplicationDtls.ARN;
@@ -790,15 +795,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           //       msg = msg.replace(/7500/gi, loanAmt);
           //       msg = msg.replace(/Scheme/gi, schemeName);
           //   console.log("repalce", msg)
-          Promise.all([mainMessage, button1]).then(values => {
+          Promise.all([mainMessage, PrintBtn]).then(values => {
             const modalObj: IModalData = {
               title: "Sanction Letter",
               // mainMessage: values[0],
               rawHtml: values[0],
               modalSize: "modal-width-lg",
               buttons: [
-                // { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                { id: 1, text: values[1], type: "success", class: "btn-primary" }
               ]
             }
             this.services.rloui.confirmationModal(modalObj).then((response) => {
@@ -806,6 +810,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
               if (response != null) {
                 if (response.id === 1) {
                   this.services.rloui.closeAllConfirmationModal();
+                  // this.services.rloui.printRecords(event);
                 }
               }
             });
@@ -818,6 +823,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         this.services.alert.showAlert(2, 'rlo.error.fetch.form', -1);
       });
   }
+
   fieldDependencies = {
     AD_CUST_STATUS: {
       inDep: [

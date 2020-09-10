@@ -285,11 +285,11 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq'])
-            this.MarginMoney.setValue(LoanElement['MarginMoney']);
-            this.TotalFeeAdjWithDist.setValue(LoanElement['TotalFeeAdjWithDist']);
-            this.TotalFeeCollUpfront.setValue(LoanElement['TotalFeeCollUpfront']);
-            this.TotalLoanAmt.setValue(LoanElement['TotalLoanAmt']);
-            this.TotaDistlAmt.setValue(LoanElement['TotaDistlAmt']);
+            this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'],null,null,null));
+            this.TotalFeeAdjWithDist.setValue(this.services.formatAmount(LoanElement['TotalFeeAdjWithDist'],null,null,null));
+            this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'],null,null,null));
+            this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['TotalLoanAmt'],null,null,null));
+            this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null,null,null));
             this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
             this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null, false));
             // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
@@ -531,9 +531,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           this.total += Number(this.DisbArray[i].CompletionPercent);
         }
       }
-      if (this.DisbArray[i].DisbursalAmt) {
-        if (this.DisbArray[i].DisbursalAmt !== undefined && this.DisbArray[i].DisbursalAmt !== "") {
-          this.totalDisbAmt += Number(this.DisbArray[i].DisbursalAmt);
+      if (this.DisbArray[i].DisbursalAmtLocalCurrency) {
+        if (this.DisbArray[i].DisbursalAmtLocalCurrency !== undefined && this.DisbArray[i].DisbursalAmtLocalCurrency !== "") {
+          this.totalDisbAmt += Number(this.DisbArray[i].DisbursalAmtLocalCurrency);
         }
       }
 
