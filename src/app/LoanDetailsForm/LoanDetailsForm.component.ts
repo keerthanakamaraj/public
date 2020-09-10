@@ -296,22 +296,23 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null,null,null));;
             this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'],null,null,null));
             this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'],null,null,null));
+            
+            this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
+            this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null, false));
+            this.totInterestAmt = LoanElement['TotalInterestAmount'];
+            this.totInstallmentAmt = LoanElement['TotalInstallmentAmt'];
+            this.DisbursalDate = LoanElement['DisbursalDate'];
+            this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
           
             // this.totalMarginMoney.setValue(LoanElement['MarginMoney']);
             // this.totalFeeAdjDist.setValue(LoanElement['TotalFeeAdjWithDist']);
             // this.totalUpfront.setValue(LoanElement['TotalFeeCollUpfront']);
             // this.totalLoanAmount.setValue(LoanElement['TotalLoanAmt']);
-            this.totalDistAmount = LoanElement['TotaDistlAmt'];
+            this.totalDistAmount = LoanElement['TotaDistlAmt']!=undefined?LoanElement['TotaDistlAmt']:0.00;
            
 
-            this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
-            this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null, false));
             // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             // this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
-            this.totInterestAmt = LoanElement['TotalInterestAmount'];
-            this.totInstallmentAmt = LoanElement['TotalInstallmentAmt'];
-            this.DisbursalDate = LoanElement['DisbursalDate'];
-            this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
             this.ProductCategory = LoanElement['ProductCategory'];
             this.DisbursalAmount = LoanElement['DisbursalAmount'];
             this.Handler.SetValue();
