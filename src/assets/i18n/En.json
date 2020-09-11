@@ -185,6 +185,8 @@
     "rlo.error.borrwer-loan-ownership-alert":"Loan Ownership for the borrower needs to be more than 0.",
     "rlo.error.invalid-loan-tenure":"Loan Tenure needs to be more than 0.",
     "rlo.error.invalid-loan-trnure-period":"Loan Tenure Period cannot be blank.",
+    "rlo.failed.save.property":"Property Details could not be saved. Please try again.",
+    "rlo.fail.update.property":"Property Details could not be updated. Please try again.",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
