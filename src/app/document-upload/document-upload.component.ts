@@ -27,6 +27,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     @ViewChild('collection_date', { static: false }) collection_date: DateComponent;
     @ViewChild('deffered_date', { static: false }) deffered_date: DateComponent;
 
+    @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+
     lookupVariables = ['IMG_DOCUMENT_TYPE', 'RELATION_BORROWER', 'STATUS'];
     ownersName = [];
     customer = [];
@@ -51,6 +53,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     cfsNum: any;
     checkStatus: boolean;
     readOnly: boolean = false;
+    selectedFilesToUpload: any;
 
     // 001	Submitted
     // 002	Physically Submitted
@@ -117,7 +120,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
 
     ngOnInit() {
-        
+
         //only when navigating to DDE from Operations
         if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
             this.readOnly = true;
@@ -125,7 +128,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         else {
             this.readOnly = false;
         }
-        
+
         this.getFormMetadata('saveDocumentUploadDetails');
         this.location.onPopState(() => {
         });
@@ -292,11 +295,17 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             this.services.alert.showAlert(2, '', 3000, msg + msgList.join());
         }
         else {
+            console.error("DEEP |", this.selectedFilesToUpload)
+
             if (this.docDetailsObject.DocName == undefined || this.docDetailsObject.DocName == "") {
                 this.saveImageDetails();
             }
             else {
-                this.uploader.uploadAll();
+                if (this.selectedFilesToUpload == undefined) {
+                    this.saveImageDetails();
+                } else {
+                    this.uploader.uploadAll();
+                }
             }
         }
 
@@ -347,6 +356,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             'JPG', 'JPEG', 'PNG', 'TIFF', 'BMP', 'GIF', 'PDF', 'XLS', 'XLSX', 'DOC', 'DOCX', 'MSG'];
 
         const file = fileInput.target.files[0];
+        this.selectedFilesToUpload = file;
         const sizeInKB = Math.round(file.size / 1024);
         if (Number(sizeInKB) > 5120) {
 
@@ -447,18 +457,18 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         console.log(docDetail['collectionDate']);
 
         //only when navigating to DDE from Operations
-        if (this.docUploadObject.status == '001' || this.docUploadObject.status == '002' || this.docUploadObject.status == '003' || this.docUploadObject.status == '004') {
-            setTimeout(() => {
-                this.collection_date.setReadOnly(true);
-            }, 100);
-        }
+        // if (this.docUploadObject.status == '001' || this.docUploadObject.status == '002' || this.docUploadObject.status == '003' || this.docUploadObject.status == '004') {
+        //     setTimeout(() => {
+        //         this.collection_date.setReadOnly(true);
+        //     }, 100);
+        // }
 
         //only when navigating to DDE from Operations
-        if (this.docUploadObject.status == '005') {
-            setTimeout(() => {
-                this.deffered_date.setReadOnly(true);
-            }, 100);
-        }
+        // if (this.docUploadObject.status == '005') {
+        //     setTimeout(() => {
+        //         this.deffered_date.setReadOnly(true);
+        //     }, 100);
+        // }
 
         if (docDetail['collectionDate'] != undefined) {
             setTimeout(() => {

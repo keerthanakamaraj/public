@@ -1215,18 +1215,27 @@ export class ApplicationDetails implements IDeserializable {
             this.LoanDetails.MarginMoney = "NA";
         }
 
-        if (input.UWFeeCharges != undefined) {
-            if (input.UWFeeCharges.length) {
-                if (input.UWFeeCharges[0].EffectiveAmt == undefined) {
-                    this.LoanDetails.FeesAndCharges = input.UWFeeCharges[0].ChargeAmt;
-                }
-                else {
-                    this.LoanDetails.FeesAndCharges = input.UWFeeCharges[0].EffectiveAmt;
-                }
+        if (input.UWLoan != undefined) {
+            let CollectedUpfront = 0;
+            let AdjWithDisb = 0;
+            if (input.UWLoan.TotalFeeCollectedUpfront != undefined) {
+                CollectedUpfront = input.UWLoan.TotalFeeCollectedUpfront;
             }
-            else {
-                this.LoanDetails.FeesAndCharges = "NA";
+            if (input.UWLoan.TotalFeeAdjWithDisb != undefined) {
+                AdjWithDisb = input.UWLoan.TotalFeeAdjWithDisb;
             }
+            this.LoanDetails.FeesAndCharges = (CollectedUpfront + AdjWithDisb).toString();
+            // if (input.UWFeeCharges.length) {
+            //     if (input.UWFeeCharges[0].EffectiveAmt == undefined) {
+            //         this.LoanDetails.FeesAndCharges = input.UWFeeCharges[0].ChargeAmt;
+            //     }
+            //     else {
+            //         this.LoanDetails.FeesAndCharges = input.UWFeeCharges[0].EffectiveAmt;
+            //     }
+            // }
+            // else {
+            //     this.LoanDetails.FeesAndCharges = "NA";
+            // }
         }
         else {
             this.LoanDetails.FeesAndCharges = "NA";
