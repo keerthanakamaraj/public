@@ -1549,6 +1549,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.CreatedBy', this.userId);
+    inputMap.set('Body.ProductCategory', this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode);
 
 
     if (requestParams) {
