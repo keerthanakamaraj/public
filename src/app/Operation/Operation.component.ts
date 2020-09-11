@@ -797,7 +797,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           //   console.log("repalce", msg)
           Promise.all([mainMessage, PrintBtn]).then(values => {
             const modalObj: IModalData = {
-              title: "Sanction Letter",
+              title: "Letter",
               // mainMessage: values[0],
               rawHtml: values[0],
               modalSize: "modal-width-lg",
