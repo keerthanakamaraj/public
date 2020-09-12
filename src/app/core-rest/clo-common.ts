@@ -13,13 +13,13 @@ import { environment } from 'src/environments/environment';
 })
 export class CLOCommonService extends CoreREST {
 
-  // public baseContext: string = '/clo-commons';
-  public baseContext: string = '/common-de';
+	// public baseContext: string = '/clo-commons';
+	public baseContext: string = '/common-de';
 	public context: string = (this.baseContext + '/publisher/v1');
 	private domainAttributesCache = {};
 	private tenantDACache = {};
 	public urlInfoContext: string = 'assets/json/url-info.json';
-    public docContext: string = '/igcb-dms/v1';
+	public docContext: string = '/igcb-dms/v1';
 	public static UrlMap: any;
 	public ActionModes = {};
 	public APIInfo = {};
@@ -27,9 +27,9 @@ export class CLOCommonService extends CoreREST {
 
 
 	// public constructor(public http: HttpClient, public auth: IamService) {
-    public constructor(public http: HttpClient) {
-    //super(http, auth);
-    super(http);
+	public constructor(public http: HttpClient) {
+		//super(http, auth);
+		super(http);
 
 	}
 
@@ -42,16 +42,16 @@ export class CLOCommonService extends CoreREST {
 		// }
 		return this.http.post(this.getUrl('/proposals/document-upload-details'), pFormData, this.getDefaultOptions());
 	}
-	public saveTabletDocUploadDetails(pFormData){
+	public saveTabletDocUploadDetails(pFormData) {
 		if (pFormData) {
 			pFormData = this.encodeURIPostData(pFormData);
 		}
-		return this.http.post(this.getUrl('/documentUploads?userId='+ sessionStorage.getItem("USERID")), pFormData, this.getDefaultOptions());
+		return this.http.post(this.getUrl('/documentUploads?userId=' + sessionStorage.getItem("USERID")), pFormData, this.getDefaultOptions());
 	}
 	public deleteDocUploadDetails(pFormData) {
 		return this.http.delete(this.getUrl('/documents?documentId=' + pFormData.id), this.getDefaultOptions());
 	}
-	public deleteUploadedImage(id){
+	public deleteUploadedImage(id) {
 		return this.http.delete(this.getUrl('/documentUploads?seqId=' + id), this.getDefaultOptions());
 	}
 	public getOwnerNamesDetails(pFormData) {
@@ -197,11 +197,14 @@ export class CLOCommonService extends CoreREST {
 	}
 	public subscribeDownload(inventoryNumber) {
 		const url = this.getDownloadUrl(inventoryNumber);
+		let mainUrl = url.slice(0, url.lastIndexOf("_")) + "driveType=" + this.driveType;
+
+		console.error("this.getDownloadUrl", mainUrl);
 		const header = {
 			'apikey': this.apiKey,
 			'Authorization': this.getToken()
 		};
-		return this.http.get(url, {
+		return this.http.get(mainUrl, {
 			headers: new HttpHeaders(header),
 			responseType: 'blob',
 			observe: 'response',
@@ -573,8 +576,8 @@ export class CLOCommonService extends CoreREST {
 		}
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public getCustomerLevelDocs(id){
-		let url = this.getUrl('/documentsByCustomer?trnDemographicId='+ id);
+	public getCustomerLevelDocs(id) {
+		let url = this.getUrl('/documentsByCustomer?trnDemographicId=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
 
@@ -584,8 +587,8 @@ export class CLOCommonService extends CoreREST {
 	// 	}
 	// 	return this.http.post(this.getUrl('/'+ resource, environment.arxContext, environment.arxUrl), pFormData, this.getDefaultOptions({'Cache-Control':'no-cache'}));
 	// }
- 
-	public getUserAuthenticated(pFormData){
+
+	public getUserAuthenticated(pFormData) {
 		if (pFormData) {
 			pFormData = this.encodeURIPostData(pFormData);
 		}
@@ -608,62 +611,62 @@ export class CLOCommonService extends CoreREST {
 	// 	return this.http.post(url, pFormData, this.getDefaultOptions());
 	// }
 
-	public getDocChecklistCustomers(id){
-		let url = this.getUrl('/document?proposalId='+ id);
+	public getDocChecklistCustomers(id) {
+		let url = this.getUrl('/document?proposalId=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
 
-	public getDocumentsForCustomers(id){
-		let url = this.getUrl('/documents?custType='+ id);
+	public getDocumentsForCustomers(id) {
+		let url = this.getUrl('/documents?custType=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
 
-	public getMaintainedDocumentsForCustomers(id){
-		let url = this.getUrl('/customer-documents?custType='+ id);
+	public getMaintainedDocumentsForCustomers(id) {
+		let url = this.getUrl('/customer-documents?custType=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public saveNewDocumentDetails(pFormData){
+	public saveNewDocumentDetails(pFormData) {
 		if (pFormData) {
 			pFormData = this.encodeURIPostData(pFormData);
 		}
 		return this.http.post(this.getUrl('/document?userId=' + sessionStorage.getItem('USERID')), pFormData, this.getDefaultOptions());
-	
+
 	}
-	public getDocumentsForPrograms(id){
-		let url = this.getUrl('/documentsForPrograms?prodCode='+ id);
+	public getDocumentsForPrograms(id) {
+		let url = this.getUrl('/documentsForPrograms?prodCode=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public getProgramLevelDocs(id){		
-		let url = this.getUrl('/documentsByPrograms?proposalId='+ id);
+	public getProgramLevelDocs(id) {
+		let url = this.getUrl('/documentsByPrograms?proposalId=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public getFilePreview(id){
-		let url = this.getUrl('/documents/'+ id +'/preview?driveType=' + this.driveType, this.docContext);
-		
+	public getFilePreview(id) {
+		let url = this.getUrl('/documents/' + id + '/preview?driveType=' + this.driveType, this.docContext);
+
 		return this.http.get(url, {
 			responseType: 'blob',
 			observe: 'response',
 		});
 	}
-	public getPendingTaggedImages(id){
-		let url = this.getUrl('/quick-uploads/tags?proposalId='+ id);
+	public getPendingTaggedImages(id) {
+		let url = this.getUrl('/quick-uploads/tags?proposalId=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public getDocumentTypes(){
+	public getDocumentTypes() {
 		let url = this.getUrl('/document-types');
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public savePendingTaggedDoc(pFormData){
+	public savePendingTaggedDoc(pFormData) {
 		if (pFormData) {
 			pFormData = this.encodeURIPostData(pFormData);
 		}
 		return this.http.post(this.getUrl('/documentsByCustomer?userId=' + sessionStorage.getItem('USERID')), pFormData, this.getDefaultOptions());
 	}
-	getImagesForUpdateAction(id){
-		let url = this.getUrl('/documentUploads?docId='+ id);
+	getImagesForUpdateAction(id) {
+		let url = this.getUrl('/documentUploads?docId=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
-	public updateDocumentDetails(pFormData){
+	public updateDocumentDetails(pFormData) {
 		if (pFormData) {
 			pFormData = this.encodeURIPostData(pFormData);
 		}
@@ -678,7 +681,7 @@ export class CLOCommonService extends CoreREST {
 
 	}
 
-	public getBasicUserDtls(){
+	public getBasicUserDtls() {
 		// let url = this.getUrl('/getarxbasicdtls?url='+ environment.arxUrl);
 		// return this.http.get(url, this.getDefaultOptions());
 	}
