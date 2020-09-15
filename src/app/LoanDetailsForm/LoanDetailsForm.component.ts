@@ -86,7 +86,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   totInterestAmt: any;
   totInstallmentAmt: any;
   monthlyinstallmentAmt: any;
-  isAmortizationVisited:boolean=false;
+ // isAmortizationVisited:boolean=false;
 
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -459,7 +459,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
 
-    this.isAmortizationVisited=true;
+   // this.isAmortizationVisited=true;
     this.monthlyinstallmentAmt = undefined;
     this.DisbursalDate = updatedData.disbursalDate;
     this.RepaymentStartDate = updatedData.repaymentStartDate
@@ -543,10 +543,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   async LD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     inputMap.clear();
-    if(!this.isAmortizationVisited){
-      this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
-         return;
-    }
+    // if(!this.isAmortizationVisited){
+    //   this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
+    //      return;
+    // }
     var nooferror: number = await this.revalidate();
     
     if (nooferror == 0) {
@@ -732,11 +732,11 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
   RepaymentFrequency_blur(){
-this.isAmortizationVisited=false;
-if (!this.validateTenureAndRepaymentFreq()) {
-  this.RepaymentFrequency.setError('rlo.error.invalid-repayment-freq');
-  return 1;
-  }
+// this.isAmortizationVisited=false;
+// if (!this.validateTenureAndRepaymentFreq()) {
+//   this.RepaymentFrequency.setError('rlo.error.invalid-repayment-freq');
+//   return 1;
+//   }
 }
   validateTenureAndRepaymentFreq(){
     let isValid:boolean=false;
