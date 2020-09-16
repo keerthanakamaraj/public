@@ -50,6 +50,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { CollateralParentComponent } from '../collateral/collateral-parent/collateral-parent.component';
 import { IheaderScoreCard } from '../Interface/masterInterface';
 import { Location } from '@angular/common';
+import {EducationLoanDetailsComponent} from '../EducationLoanDetails/EducationLoanDetails.component'
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -203,7 +204,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
       { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-property", isActive: false, isOptional: true },
       // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
-      // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
+      { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
@@ -1010,6 +1011,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'PropertyDetails':
         return new AddSpecificComponent(PropertyDetailsComponent);
+        break;
+      case 'EducationLoanDetails':
+        return new AddSpecificComponent(EducationLoanDetailsComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);

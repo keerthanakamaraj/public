@@ -1,0 +1,327 @@
+<form class="MakeRelative">
+<div class="ShowLoading " *ngIf="loadSpinner">
+ <div class="lds-roller MakeItMiddle">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
+<div class="clearfix content">
+<div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+<div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'EducationLoanDetails.FormTitle' | translate }}
+</h4>
+</div>
+<div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+</div>
+</div>
+<div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+<div *ngIf="!formOnLoadError">
+<div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+<div class="form-group pb10">
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #FieldId_1 id="FieldId_1">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #PastEducationDtls parentCompCode="EducationLoanDetails" fieldID="PastEducationDtls" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900"></app-label>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEExamPassed.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PEExamPassed' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PEExamPassed category="2" fieldID="PEExamPassed" [formCode]="formCode" placeholder="select" [mandatory]="true" (blur)="genericOnBlur('PEExamPassed', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEInstitution.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PEInstitution' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PEInstitution category="2" fieldID="PEInstitution" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PEInstitution', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEYearOfPassing.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PEYearOfPassing' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PEYearOfPassing category="2" fieldID="PEYearOfPassing" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PEYearOfPassing', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEMarksPercent.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PEMarksPercent' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PEMarksPercent category="2" fieldID="PEMarksPercent" [formCode]="formCode" placeholder="Select" [mandatory]="true" (blur)="genericOnBlur('PEMarksPercent', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEClassObtained.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PEClassObtained' | translate}}
+</label>
+</div>
+<app-combo-box #PEClassObtained category="2" fieldID="PEClassObtained" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PEClassObtained', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEPrizes.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PEPrizes' | translate}}
+</label>
+</div>
+<app-text-box #PEPrizes fieldID="PEPrizes" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PEPrizes', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="PastEducationGrid.isHidden()">
+<app-PastEducationDtlsGrid #PastEducationGrid fieldID="PastEducationGrid" [formCode]="formCode" [displayTitle]="false"></app-PastEducationDtlsGrid>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #FieldId_3 id="FieldId_3">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #CourseDetails parentCompCode="EducationLoanDetails" fieldID="CourseDetails" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900"></app-label>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCInstitutionName.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCInstitutionName' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCInstitutionName fieldID="PCInstitutionName" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCInstitutionName', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCInstituteAddress.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCInstituteAddress' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCInstituteAddress fieldID="PCInstituteAddress" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCInstituteAddress', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCPinCode.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCPinCode' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCPinCode fieldID="PCPinCode" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCPinCode', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCRegion.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCRegion' | translate}}
+</label>
+</div>
+<app-text-box #PCRegion fieldID="PCRegion" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCRegion', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCity.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCCity' | translate}}
+</label>
+</div>
+<app-text-box #PCCity fieldID="PCCity" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCCity', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCState.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCState' | translate}}
+</label>
+</div>
+<app-text-box #PCState fieldID="PCState" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCState', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCountry.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCCountry' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PCCountry category="2" fieldID="PCCountry" [formCode]="formCode" placeholder="Select" [mandatory]="true" (blur)="genericOnBlur('PCCountry', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCAdmissionStatus.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCAdmissionStatus' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PCAdmissionStatus category="2" fieldID="PCAdmissionStatus" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCAdmissionStatus', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCUnivercityName.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCUnivercityName' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCUnivercityName fieldID="PCUnivercityName" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCUnivercityName', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCContactPerson.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCContactPerson' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCContactPerson fieldID="PCContactPerson" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCContactPerson', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCAppliedFor.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCAppliedFor' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCAppliedFor fieldID="PCAppliedFor" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCAppliedFor', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCName.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCName' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCName fieldID="PCName" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCName', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCAdmitionThrough.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCAdmitionThrough' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PCAdmitionThrough category="2" fieldID="PCAdmitionThrough" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCAdmitionThrough', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCategory.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCCategory' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PCCategory category="2" fieldID="PCCategory" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCCategory', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCourseType.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCCourseType' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #PCCourseType category="2" fieldID="PCCourseType" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCCourseType', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCStartDate.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCStartDate' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-date #PCStartDate fieldID="PCStartDate" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCStartDate', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCEndDate.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCEndDate' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-date #PCEndDate fieldID="PCEndDate" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCEndDate', $event)"></app-date>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCRanking.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCRanking' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-text-box #PCRanking fieldID="PCRanking" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('PCRanking', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCIsAttending.isHidden()" [ngClass]="'checkboxLeft'">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCIsAttending' | translate}}
+</label>
+</div>
+<app-check-box #PCIsAttending fieldID="PCIsAttending" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCIsAttending', $event)"></app-check-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCollegeName.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCCollegeName' | translate}}
+</label>
+</div>
+<app-text-box #PCCollegeName fieldID="PCCollegeName" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCCollegeName', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCName2.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCName2' | translate}}
+</label>
+</div>
+<app-text-box #PCName2 fieldID="PCName2" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCName2', $event)"></app-text-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCompeteDate.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.PCCompeteDate' | translate}}
+</label>
+</div>
+<app-date #PCCompeteDate fieldID="PCCompeteDate" [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('PCCompeteDate', $event)"></app-date>
+</div>
+</div>
+
+</div>
+</div>
+<div class="col-12  col-sm-12 col-md-12 group-default">
+<div #FieldId_6 id="FieldId_6">
+<div class="form-group pb10 ">
+<div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+<app-label #LoanDetails parentCompCode="EducationLoanDetails" fieldID="LoanDetails" [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="900"></app-label>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LCurrency.isHidden()">
+<div class="clr-brown fieldLegend">
+<label class="clr-brown">
+{{ 'EducationLoanDetails.LCurrency' | translate}}
+<span class="error-d">*</span>
+</label>
+</div>
+<app-combo-box #LCurrency category="2" fieldID="LCurrency" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('LCurrency', $event)"></app-combo-box>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CostOfCourseGrid.isHidden()">
+<app-CostOfCourseGrid #CostOfCourseGrid fieldID="CostOfCourseGrid" [formCode]="formCode" [displayTitle]="false"></app-CostOfCourseGrid>
+</div>
+<div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="FundsAvailableGrid.isHidden()">
+<app-FundsAvailableGrid #FundsAvailableGrid fieldID="FundsAvailableGrid" [formCode]="formCode" [displayTitle]="false"></app-FundsAvailableGrid>
+</div>
+<div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+<!-- <app-education-loan-handler #FieldId_20></app-education-loan-handler> -->
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>

@@ -1,0 +1,68 @@
+<div class="row" *ngIf="displayTitle">
+<div class="col-sm-5 col-md-5">
+<h4>{{ 'FundsAvailableGrid.GridTitle' | translate }}</h4>
+</div>
+</div>
+<table class="table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}" (click)="clearGridError()">
+<thead>
+<tr class="tr-blue tr-td-l">
+<th [hidden]="isColumnHidden('SrNo')" width="11%">
+{{ 'FundsAvailableGrid.SrNo' | translate }}</th>
+<th [hidden]="isColumnHidden('FundsAvailable')" width="40%">
+{{ 'FundsAvailableGrid.FundsAvailable' | translate }}</th>
+<th [hidden]="isColumnHidden('Amount')" width="25%">
+{{ 'FundsAvailableGrid.Amount' | translate }}</th>
+<th [hidden]="isColumnHidden('LocalCurEqui')" width="25%">
+{{ 'FundsAvailableGrid.LocalCurEqui' | translate }}</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngIf="getRowsCount()==0">
+<td colspan=12 style="text-align: center;">
+<span>No data has been added</span>
+</td>
+</tr>
+<ng-container *ngFor="let row of value.rowData;let rowNo = index;let even = even; let odd = odd;">
+<tr (click)="clearRowError(rowNo)"  class="tr-td-l" [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
+<td [hidden]="isColumnHidden('SrNo')">
+<app-text-box #SrNo inputType="number" fieldID="SrNo_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['SrNo']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('SrNo', $event, rowNo)"></app-text-box>
+<div *ngIf="isCellReadOnly[rowNo]['SrNo']">
+<p class="label-text" [title]="this['SrNo'].toArray()[rowNo].getFieldInfo()">
+{{this['SrNo'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('FundsAvailable')">
+<app-text-box #FundsAvailable fieldID="FundsAvailable_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['FundsAvailable']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('FundsAvailable', $event, rowNo)"></app-text-box>
+<div *ngIf="isCellReadOnly[rowNo]['FundsAvailable']">
+<p class="label-text" [title]="this['FundsAvailable'].toArray()[rowNo].getFieldInfo()">
+{{this['FundsAvailable'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('Amount')">
+<app-amount #Amount fieldID="Amount_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Amount']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('Amount', $event, rowNo)"></app-amount>
+<div *ngIf="isCellReadOnly[rowNo]['Amount']">
+<p class="label-text" [title]="this['Amount'].toArray()[rowNo].getFieldInfo()">
+{{this['Amount'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+<td [hidden]="isColumnHidden('LocalCurEqui')">
+<app-amount #LocalCurEqui fieldID="LocalCurEqui_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['LocalCurEqui']" [formCode]="formCode" placeholder="Placeholder" [mandatory]="true" (blur)="genericOnBlur('LocalCurEqui', $event, rowNo)"></app-amount>
+<div *ngIf="isCellReadOnly[rowNo]['LocalCurEqui']">
+<p class="label-text" [title]="this['LocalCurEqui'].toArray()[rowNo].getFieldInfo()">
+{{this['LocalCurEqui'].toArray()[rowNo].getFieldInfo()}}
+</p>
+</div>
+</td>
+</tr>
+<tr *ngIf="rowError[rowNo].hasError">
+<td colspan=12 style="text-align: center;">
+<span class="errorMessagespan">{{rowError[rowNo].errorCode | translate}}</span>
+</td>
+</tr>
+</ng-container>
+</tbody>
+</table>
+<span class="errorMessagespan">{{errorCode| translate}}</span>

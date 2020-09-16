@@ -2258,6 +2258,72 @@
     "Result": "Result",
     "TotalScore":"Total Score"
 
-  }
+  },
+  "PastEducationDtlsGrid" : {
+    "toolbar_PastEducationDtlsGrid" : "null",
+    "InstitutionOrUniversity" : "InstitutionOrUniversity",
+    "ClassObtained" : "Class Obtained",
+    "ScholarshipsOrPrizes_" : "Scholarships Or Prizes won",
+    "ExamPassed" : "Examination Passed",
+    "GridTitle" : "PastEducationDtlsGrid",
+    "PassingYear" : "Year Of Passing",
+    "PE_Delete_ButtonName" : "Delete",
+    "PE_Edit" : "null",
+    "PE_Edit_ButtonName" : "Edit",
+    "PE_Delete" : "null"
+    },
+    "CostOfCourseGrid" : {
+    "GridTitle" : "CostOfCourseGrid",
+    "SrNo" : "Sr. No",
+    "Amount" : "Amount",
+    "CostOfTheCourse" : "Cost Of The Course",
+    "LocalCurEq" : "Local Currency Equivalen"
+    },
+    "FundsAvailableGrid" : {
+    "GridTitle" : "FundsAvailableGrid",
+    "SrNo" : "Sr. No",
+    "Amount" : "Amount",
+    "FundsAvailable" : "Funds Available",
+    "LocalCurEqui" : "Local Currency Equivalent"
+    },
+    "EducationLoanDetails" : {
+    "PCEndDate" : "Course End Date",
+    "CostOfCourseGrid" : "null",
+    "PCCountry" : "Country",
+    "PCCollegeName" : "College or Institute Name",
+    "PCCompeteDate" : "Course Completion Date",
+    "PastEducationDtls" : "Past Education Details",
+    "PCName" : "Course Name",
+    "LCurrency" : "Loan Currency",
+    "PCRegion" : "Region",
+    "PCStartDate" : "Course Start Date",
+    "PEPrizes" : "Scholarships/ Prizes won for academic distinction ",
+    "PCInstituteAddress" : "Address of Institution/ University",
+    "PCState" : "State",
+    "PCAdmitionThrough" : "Admission of course is through",
+    "PCName2" : "Course being pursued",
+    "PCRanking" : "Course Ranking",
+    "PEYearOfPassing" : "Year Of Passing",
+    "PEMarksPercent" : "Percentage Of Marks",
+    "PCInstitutionName" : "Name of Institution/ University",
+    "PCAppliedFor" : "Course Applied For",
+    "FieldId_20" : "null",
+    "FormTitle" : "EducationLoanDetails",
+    "PEInstitution" : "Institution",
+    "PCCategory" : "Course Category",
+    "FundsAvailableGrid" : "null",
+    "PCUnivercityName" : "Name Of the University",
+    "PCCity" : "City",
+    "PCCourseType" : "Course Type",
+    "LoanDetails" : "Loan Details",
+    "PCPinCode" : "Pin Code",
+    "PEExamPassed" : "Examination Passed",
+    "PEClassObtained" : "Class Obtained",
+    "CourseDetails" : "Pursuing Course Details",
+    "PastEducationGrid" : "null",
+    "PCAdmissionStatus" : "Admission Status",
+    "PCContactPerson" : "Contact Person at The University",
+    "PCIsAttending" : "Is Applicant Attending Any college/ institute at present"
+    }
 
 }
