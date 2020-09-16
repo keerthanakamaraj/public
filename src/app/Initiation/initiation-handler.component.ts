@@ -303,13 +303,13 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       let customer = this.getFormCustomerDetails();
       customer.tempId = "ID-" + (this.counter++);
       console.log("this.customers before adding", this.customers);
-     
-        for (let i = 0; i < this.customers.length; i++) {
-     
-          if (this.customers[i].tempId !== this.editId) {
-            if (customer.customerType.value == 'B') {
+
+      for (let i = 0; i < this.customers.length; i++) {
+
+        if (this.customers[i].tempId !== this.editId) {
+          if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, 'rlo.error.Borrower.exist',-1);
+              this.MainComponent.services.alert.showAlert(2, 'rlo.error.Borrower.exist', -1);
               return;
             }
           }
@@ -317,7 +317,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
             this.MainComponent.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
             return;
           }
-        } 
+        }
       }
       if (this.editId) {
         let index = this.customers.findIndex(cust => cust.tempId === this.editId);
@@ -359,7 +359,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   updateAmountTags() {
     let displayTag = [];
     if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined) {
-      displayTag.push( this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
+      displayTag.push(this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
     }
 
     if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {
@@ -499,12 +499,17 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['IsStaff'] = this.customers[i].staff.value;
         tempObj['StaffID'] = this.customers[i].staffId;
         tempObj['ICIFNumber'] = this.customers[i].customerId;
-        tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
+        // tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
         tempObj['Email'] = this.customers[i].email;
         tempObj['ISDCountryCode'] = this.customers[i].countryCode;
         tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
-        // CustData.push(tempObj);
-        //  
+
+        if (this.customers[i].customerType.value == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
+          tempObj['LoanOwnership'] = 100;
+        } else {
+          tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
+        }
+
         CustData.push(tempObj);
 
       }
@@ -607,16 +612,16 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         const storePositive = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("+").join(0);
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(storePositive)
       }
-    
+
       else if (this.MainComponent.LD_MARGIN_RATE.getFieldValue().startsWith('-')) {
         const storeNegative = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("-").join(0);
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) - Number(storeNegative)
-      }else {
+      } else {
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(this.MainComponent.LD_MARGIN_RATE.getFieldValue())
       }
 
       this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest.toFixed(2));
-      
+
     }
 
   }
@@ -635,7 +640,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // }
   formatAmount(number) {
     if (number) {
-      return this.MainComponent.services.formatAmount(number, null, null,false);
+      return this.MainComponent.services.formatAmount(number, null, null, false);
     } else {
       return '-';
     }
