@@ -335,6 +335,23 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     }
   }
 }
+.INR::before{
+  content: "₹";
+  background-image: url("./../icons/rupee-yellow.svg");
+}
+
+.MUR::before{
+  content: "Rs";
+}
+
+.EUR::before{
+  content: "€";
+  background-image: url("./../icons/Euro Header icon.svg");
+}
+.KES::before{
+  content: "";
+  background-image: url("./../icons/Ksh icon.svg");
+}
 
 .collapsedHeader {
   width: calc(100% - 30px);
@@ -377,11 +394,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         margin-right: 14px;
       }
 
-      &.image::before {
-        content: "";
-        background-image: url("./../icons/rupee-yellow.svg");
-      }
-
+     
 
 
       &.loan-cat::before {

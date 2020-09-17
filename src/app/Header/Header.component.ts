@@ -109,6 +109,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   SUB_PRODUCT_NAME: string
 
   currentPageName: string;
+  currency : string;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -247,6 +248,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.CC_CARD_TYPE.setValue('NA');
           this.CC_CARD_ASSOCIATION.setValue('NA');
         }
+        this.currency =localStorage.getItem("currency.code.default");
         this.apiSuccessCallback();
       },
       async (httpError) => {
@@ -334,6 +336,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
+  
     switch (localStorage.getItem("currency.code.default")) {
       case 'EUR': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
         break;
@@ -345,6 +348,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       case 'ZWL': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
         break;
     }
+    
 
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
