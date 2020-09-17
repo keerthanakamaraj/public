@@ -341,6 +341,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         break;
       case 'INR': this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
         break;
+
       case 'ZWL': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
         break;
     }

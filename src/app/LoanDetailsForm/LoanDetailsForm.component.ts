@@ -93,6 +93,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   monthlyinstallmentAmt: any;
   isAmortizationVisited: boolean = false;
 
+
+
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -475,7 +477,9 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   populateAmortizationReturnedData(updatedData) {
     console.log("shweta :: in loandtls amort returned data", updatedData);
 
+
     this.isAmortizationVisited = true;
+
     this.monthlyinstallmentAmt = undefined;
     this.DisbursalDate = updatedData.disbursalDate;
     this.RepaymentStartDate = updatedData.repaymentStartDate
@@ -559,10 +563,12 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   async LD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     inputMap.clear();
+
     if (!this.isAmortizationVisited) {
       this.services.alert.showAlert(2, 'rlo.error.amortization-visit-pending', -1);
       return;
     }
+
     var nooferror: number = await this.revalidate();
 
     if (nooferror == 0) {
@@ -750,6 +756,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     console.log("shweta ::calculated tot interest", this.TotalInterestAmount.getFieldValue(), " :: tot installment ::", this.TotalInstallmentAmt.getFieldValue());
   }
 
+
   RepaymentFrequency_blur(fieldId, event) {
     console.log("shweta :: in frequency blur ", event, " : ", this.RepaymentFrequency);
     if (this.RepaymentFrequency.getFieldValue() != this.RepaymentFrequency.getOldValue()) {
@@ -784,6 +791,8 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       case 'W': isValid = (this.TenurePeriod.getFieldValue() != 'DAY') ? true : false; break;
       case 'M': isValid = (this.TenurePeriod.getFieldValue() != 'DAY' && this.TenurePeriod.getFieldValue() != 'WEEK') ? true : false; break;
       case 'Y': isValid = (this.TenurePeriod.getFieldValue() == 'YRS') ? true : false; break;
+
+ 
     }
     return isValid;
   }
