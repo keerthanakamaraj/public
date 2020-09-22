@@ -529,6 +529,11 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     }
     this.ChargeCollection.setValue(newValue);
   }
+
+  clear_click(event){
+    this.onReset();
+  }
+
   fieldDependencies = {
     ChargeBasis: {
       inDep: [
@@ -656,5 +661,4 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     // }
 
   }
-
 }
