@@ -44,12 +44,13 @@ export class ScoreCardResultComponent implements OnInit {
   constructor(public services: ServiceStock) { }
 
   ngOnInit() {
-    this.setFilterbyOptions();
-    // this.loadScoreResult();
-    //this.invokeInterface();
+     this.setFilterbyOptions();
+    // this.retriggerScoreResult();
+  }
+  ngAfterViewInit(){
+  //  this.setFilterbyOptions();
     this.retriggerScoreResult();
   }
-
   setFilterbyOptions() {
     this.FilterOptions = [];
     if (this.openInModal) {
@@ -103,15 +104,18 @@ export class ScoreCardResultComponent implements OnInit {
         // inputMap.set('QueryParam.criteriaDetails', criteriaJson);
         this.services.http.fetchApi('/ScoreCardDtls', 'GET', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
+            this.MstScoreResultMap.clear();
             let res = httpResponse.body;
             let tempScoreCardResultList = res['ScoreCardDetails'];
             this.parseScoreCardResultJson(tempScoreCardResultList);
+            this.SCR_RETRIGGER_BTN.setDisabled(false);
           },
           async (httpError) => {
             var err = httpError['error']
             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
             }
             this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+            this.SCR_RETRIGGER_BTN.setDisabled(false);
           }
         );
       }
@@ -204,6 +208,7 @@ export class ScoreCardResultComponent implements OnInit {
     });
   }
   retriggerScoreResult() {
+    this.SCR_RETRIGGER_BTN.setDisabled(true);
     this.MstScoreResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
 
@@ -214,9 +219,12 @@ export class ScoreCardResultComponent implements OnInit {
           this.loadScoreResult();
         } else if (res.error) {
           this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+          this.SCR_RETRIGGER_BTN.setDisabled(false);
         } else {
           this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+          this.SCR_RETRIGGER_BTN.setDisabled(false);
         }
+        
         // let res = httpResponse.body;
         // this.loadScoreResult();
       },
@@ -225,7 +233,8 @@ export class ScoreCardResultComponent implements OnInit {
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
         this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-      }
+        this.SCR_RETRIGGER_BTN.setDisabled(false);
+      } 
     );
   }
 

@@ -7,9 +7,12 @@
     </div>
     <!-- <div class="col-12  col-sm-5 col-md-5 res-pr-hide">(blur)="PCR_Filter_Blur()"</div> -->
     <div class="top-btn-container col-12  col-sm-8 col-md-8 res-pr-hide">
-      <app-button #PCR_RETRIGGER_BTN fieldName="{{ 'PolicyResult.PCR_RETRIGGER_BTN' | translate}}"
+      <!-- <app-button #PCR_RETRIGGER_BTN fieldName="{{ 'PolicyResult.PCR_RETRIGGER_BTN' | translate}}"
         fieldID="PCR_RETRIGGER_BTN" customClass="btn-warning-outline" (buttonClick)="retriggerPolicyResult()">
-      </app-button>
+      </app-button> -->
+      <app-button #PCR_RETRIGGER_BTN fieldName="{{ 'PolicyResult.PCR_RETRIGGER_BTN' | translate}}"
+      fieldID="PCR_RETRIGGER_BTN" customClass="btn btn-primary" (buttonClick)="retriggerPolicyResult()">
+    </app-button>
     </div>
     <div class="header-container">
       <ng-container>

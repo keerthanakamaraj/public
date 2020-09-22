@@ -32,11 +32,16 @@ export class PolicyCheckResultComponent implements OnInit {
   overallScore: string = undefined;
 
   ngOnInit() {
-    this.setFilterbyOptions();
-    this.retriggerPolicyResult();
+     this.setFilterbyOptions();
+    // this.retriggerPolicyResult();
 
     // this.invokeInterface();
     // this.loadPolicyResult();
+  }
+  ngAfterViewInit(){
+   // this.setFilterbyOptions();
+    this.retriggerPolicyResult();
+
   }
   setFilterbyOptions() {
     this.FilterOptions = [];
@@ -84,15 +89,18 @@ export class PolicyCheckResultComponent implements OnInit {
         inputMap.set('QueryParam.criteriaDetails', criteriaJson);
         this.services.http.fetchApi('/PolicyResult', 'GET', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
+            this.MstPolicyResultMap.clear();
             let res = httpResponse.body;
             let tempPolicyResultList = res['PolicyResult'];
             this.parsePolicyResultJson(tempPolicyResultList);
+            this.PCR_RETRIGGER_BTN.setDisabled(false);
           },
           async (httpError) => {
             var err = httpError['error']
             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
             }
             this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+            this.PCR_RETRIGGER_BTN.setDisabled(false);
           }
         );
       }
@@ -193,6 +201,7 @@ export class PolicyCheckResultComponent implements OnInit {
     // let inputMap = this.generateRetriggerRequestJson();
     // console.log("shweta :: input map",inputMap);
     //  let inputMap = this.generatepolicyCheckReq(res);
+    this.PCR_RETRIGGER_BTN.setDisabled(true);
     this.MstPolicyResultMap.clear();
     let inputMap = this.generateRetriggerRequestJson();
     this.services.http.fetchApi('/policyCheck', 'POST', inputMap, '/initiation').subscribe(
@@ -205,15 +214,19 @@ export class PolicyCheckResultComponent implements OnInit {
           this.loadPolicyResult();
         } else if (res.error) {
           this.services.alert.showAlert(2, 'rlo.error.bre-exception', -1);
+          this.PCR_RETRIGGER_BTN.setDisabled(false);
         } else {
           this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+          this.PCR_RETRIGGER_BTN.setDisabled(false);
         }
+        
       },
       async (httpError) => {
         var err = httpError['error']
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
         this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+       this.PCR_RETRIGGER_BTN.setDisabled(false);
       }
     );
   }
