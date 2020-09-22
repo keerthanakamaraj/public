@@ -84,6 +84,9 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('hideBuilderName', { static: false }) hideBuilderName: HiddenComponent;
   // @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @ViewChild('Handler', { static: false }) Handler: PropertyHandlerComponent;
+
+  clearFieldsFlag = false;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -168,7 +171,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.hideMoratoriumPeriod.setValue('MORATORIUM_PERIOD');
     this.hideBuilderName.setValue('BUIDER_NAME');
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
-    this.OnLoanFormLoad();
+    if (!this.clearFieldsFlag) { this.OnLoanFormLoad(); }
     this.setDependencies();
     await this.Handler.onFormLoad({});
     this.AmountToBeFinanced.setReadOnly(true);
@@ -411,7 +414,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     var noOfError: number = await this.revalidate();
     if (noOfError == 0) {
       const expectedTotAmtToBeDisbursed: number = parseFloat(this.CostOfProperty.getFieldValue()) - parseFloat(this.DownPaymentAmount.getFieldValue());
-   
+
       if (this.HidePropertySeq.getFieldValue() != undefined) {
         inputMap.clear();
         inputMap.set('PathParam.PropertySeq', this.HidePropertySeq.getFieldValue());
@@ -826,6 +829,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     }
   }
   Clear_click(event) {
+    this.clearFieldsFlag = true;
     this.onReset();
   }
 
