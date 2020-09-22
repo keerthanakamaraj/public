@@ -310,14 +310,14 @@ async FC_DELETE_click(event) {
         this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.services.alert.showAlert(1, 'rlo.success.delete.referrer', 5000);
+                this.services.alert.showAlert(1, 'rlo.success.delete.charge', 5000);
                 this.readonlyGrid.refreshGrid();
             },
             async (httpError) => {
                 var err = httpError['error']
                 if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                 }
-                this.services.alert.showAlert(2, 'rlo.error.delete.referrer', -1);
+                this.services.alert.showAlert(2, 'rlo.error.delete.charge', -1);
             }
         );
     }
