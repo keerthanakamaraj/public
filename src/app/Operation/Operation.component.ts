@@ -100,6 +100,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   isLetterGenrated: boolean = false;
   viewtask: boolean = true;
   letterArray = [];
+  generateLetterFlag: boolean = false;
   // letterArray: any = {
   //   "TemplateData": [
   //     {
@@ -496,8 +497,10 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
   gerateLetter() {
-    if (this.letterArray.length)
-      return;
+    if (this.letterArray.length){
+      return;  
+    }
+    
 
     let inputMap = new Map();
     inputMap.clear();
@@ -517,6 +520,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           var res = httpResponse.body;
           console.log("interface res newwwww", res);
           this.fetchStoreLetter();
+          this.generateLetterFlag = true;
+        
           // this.finalOutput = res.TemplateData[0];
           // this.services.rloCommonData.isLetterGenrated = true;
           // console.log("final output from lettergenrator", res);
@@ -749,6 +754,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   async OPERATION_SUBMIT_click(event) {
     const inputMap = new Map();
     inputMap.clear();
+    if (this.letterArray.length){
+      this.generateLetterFlag = true;
+    }
+    else{
+      this.services.alert.showAlert(2, 'rlo.error.generate.letter', -1);
+      return;
+    }
+   
     inputMap.set('Body.interfaceId', 'INT009');
     inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
