@@ -1127,6 +1127,12 @@ a.back {
   margin: 0 !important;
 }
 
+//overide btn style
+#MT_Proposal {
+  margin-left: 0 !important;
+  float: right !important;
+}
+
 //used to add space for every page in layout for form btns
 .page-layout-padding {
   padding-bottom: 5rem;

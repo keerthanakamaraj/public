@@ -286,6 +286,11 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           this.LoanArray = res['LoanDetails'];
 
           this.LoanArray.forEach(async LoanElement => {
+            //custom
+            this.UserRecommendedAmount.setComponentSpecificValue(LoanElement['UserRecommendedAmount'], null);
+            this.SystemRecommendedAmount.setComponentSpecificValue(LoanElement['SystemRecommendedAmount'], null);
+            this.LoanAmount.setComponentSpecificValue(LoanElement['LoanAmount'], null);
+
             //this.LoanAmount.setValue(LoanElement['LoanAmount']);
             this.InterestRate.setValue(LoanElement['InterestRate']);
             this.MarginRate.setValue(LoanElement['MarginRate']);
@@ -299,39 +304,35 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq']);
-           
-            this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['TotalLoanAmt'],null,null,null));
-            this.TotalFeeAdjWithDist.setValue(this.services.formatAmount(LoanElement['TotalFeeAdjWithDist'],null,null,null));
-            this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null,null,null));;
-            this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'],null,null,null));
-            this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'],null,null,null));
-            
+
+            this.TotalLoanAmt.setValue(this.services.formatAmount(LoanElement['TotalLoanAmt'], null, null, null));
+            this.TotalFeeAdjWithDist.setValue(this.services.formatAmount(LoanElement['TotalFeeAdjWithDist'], null, null, null));
+            this.TotaDistlAmt.setValue(this.services.formatAmount(LoanElement['TotaDistlAmt'], null, null, null));;
+            this.TotalFeeCollUpfront.setValue(this.services.formatAmount(LoanElement['TotalFeeCollUpfront'], null, null, null));
+            this.MarginMoney.setValue(this.services.formatAmount(LoanElement['MarginMoney'], null, null, null));
+
             this.monthlyinstallmentAmt = LoanElement['EMIAmount'];
             this.EMIAmount.setValue(this.services.formatAmount(this.monthlyinstallmentAmt, null, null, false));
             this.totInterestAmt = LoanElement['TotalInterestAmount'];
             this.totInstallmentAmt = LoanElement['TotalInstallmentAmt'];
             this.DisbursalDate = LoanElement['DisbursalDate'];
             this.RepaymentStartDate = LoanElement['RepaymentStartDate'];
-          
+
             // this.totalMarginMoney.setValue(LoanElement['MarginMoney']);
             // this.totalFeeAdjDist.setValue(LoanElement['TotalFeeAdjWithDist']);
             // this.totalUpfront.setValue(LoanElement['TotalFeeCollUpfront']);
             // this.totalLoanAmount.setValue(LoanElement['TotalLoanAmt']);
-            this.totalDistAmount = LoanElement['TotaDistlAmt']!=undefined?LoanElement['TotaDistlAmt']:0.00;
-           
+            this.totalDistAmount = LoanElement['TotaDistlAmt'] != undefined ? LoanElement['TotaDistlAmt'] : 0.00;
 
             // this.TotalInterestAmount.setValue(LoanElement['TotalInterestAmount']);
             // this.TotalInstallmentAmt.setValue(LoanElement['TotalInstallmentAmt']);
             this.ProductCategory = LoanElement['ProductCategory'];
             this.DisbursalAmount = LoanElement['DisbursalAmount'];
+            
             this.Handler.SetValue();
 
             this.LoanGridCalculation(this.monthlyinstallmentAmt);
             this.setTotalInterestAmount();
-
-            this.UserRecommendedAmount.setComponentSpecificValue(LoanElement['UserRecommendedAmount'], null);
-            this.SystemRecommendedAmount.setComponentSpecificValue(LoanElement['SystemRecommendedAmount'], null);
-            this.LoanAmount.setComponentSpecificValue(LoanElement['LoanAmount'], null);
           });
 
           this.revalidate(false).then((errors) => {
@@ -368,7 +369,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         CalCulatepPrincipal = Number(Customer.LoanOwnership) / 100 * Number(this.LoanAmount.getFieldValue());
         let Emi = EMIAmount ? EMIAmount : this.Handler.CalculateEMI();
         let EMIShare = Number(Customer.LoanOwnership) / 100 * Number(Emi);
-        ;
+        
         var tempObj = {};
         tempObj['CustomerType'] = Customer.CustomerType;
         tempObj['CustomerName'] = Customer.FullName;
@@ -396,8 +397,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         buttons: [],
         componentName: 'DisbursementDetailsComponent',
         data: dataObj
-
-
       }
       this.services.rloui.confirmationModal(modalObj).then((response) => {
         console.log(response);
@@ -508,8 +507,6 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
 
-
-
   fetchDisbDetails() {
     let inputMap = new Map();
     inputMap.clear();
@@ -583,12 +580,12 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     var nooferror: number = await this.revalidate();
 
     if (nooferror == 0) {
-      if(this.DisbArray.length > 0){
+      if (this.DisbArray.length > 0) {
         if (this.ProductCategory == 'ML') {
           if (this.total != 0 && this.total < 100) {
             this.services.alert.showAlert(2, 'rlo.error.completionpercent.invalid', -1);
             return;
-          } 
+          }
         }
         if (this.totalDisbAmt != this.totalDistAmount) {
           this.services.alert.showAlert(2, 'rlo.error.disbursementamount.invalid', -1);
@@ -596,7 +593,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
         }
       }
 
-      
+
 
       // this.validateDisbursement();
       // if(!this.isAmortizationVisited){
@@ -809,7 +806,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       case 'M': isValid = (this.TenurePeriod.getFieldValue() != 'DAY' && this.TenurePeriod.getFieldValue() != 'WEEK') ? true : false; break;
       case 'Y': isValid = (this.TenurePeriod.getFieldValue() == 'YRS') ? true : false; break;
 
- 
+
     }
     return isValid;
   }

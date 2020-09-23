@@ -649,7 +649,6 @@ export class FormComponent {
   }
 
   genericOnBlur(fieldId, value) {
-    console.log("generic blur", fieldId, value);
     this.value[fieldId] = value;
     this.setDependency(fieldId, value);
     this.revalidateBasicField(fieldId, true);

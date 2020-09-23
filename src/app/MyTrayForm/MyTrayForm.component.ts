@@ -66,18 +66,16 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     }
   ];
 
-  broadcastLists = [
+  NotificationList = [
     {
-      msg: "New changes added in our current plan(PLAN_04_456136). Kindly all your sub-products accordingly.",
-      dateTime: "27 Mon, 11:00 AM"
+      type: "New",
+      msg: "Customer ID: S04312244561234 has been blacklisted. Kindly ensure all applications with this ID No.",
+      dateTime: "26 Aug Wed, 10:03 AM"
     },
     {
-      msg: "All the newly joined staff need to update their policies by the end of September.Submit the required documents to the Admin in .PDF format.",
-      dateTime: "29 Wed, 03:36 PM"
-    },
-    {
-      msg: "New offers for the month of August will be rolled out soon. Those who are intersted can contact Aishwarya or Jai. For any queries contact HR.",
-      dateTime: "29 Wed, 6:05 PM"
+      type: "Recent",
+      msg: "From 1st Sep 2020, branch trading hours will be back to normal (9:00 - 16:00).Safety measures will be followed and respected throughout.",
+      dateTime: "21 Aug Fri, 01:20 PM"
     }
   ];
 
@@ -369,7 +367,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
   plotDoughnutChart(response) {
 
-   // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
+    // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
 
     let colorListObj = [
       { stage: "QDE", color: "#002438" },

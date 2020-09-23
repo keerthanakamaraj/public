@@ -942,7 +942,8 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
     if (this.CostOfProperty.getFieldValue() != undefined && this.DownPayment.getFieldValue() != undefined) {
       DownPaymentCal = (Math.round(this.DownPayment.getFieldValue() * this.CostOfProperty.getFieldValue() / 100))
-      this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
+      //this.DownPaymentAmount.setValue(DownPaymentCal.toFixed(2));
+      this.DownPaymentAmount.setComponentSpecificValue(DownPaymentCal.toFixed(2), null);
     }
     if (this.SelectToCapitalizePersonal.getFieldValue() != false && this.SelectToCapitalizeProperty.getFieldValue() != false) {
       if (this.CostOfProperty.getFieldValue() != undefined && this.DownPaymentAmount.getFieldValue() != undefined && this.PropertyInsuranceCost.getFieldValue() != undefined && this.PersonalInsuranceCost.getFieldValue() != undefined) {

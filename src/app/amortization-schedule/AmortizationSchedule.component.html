@@ -16,8 +16,13 @@
                 {{ 'Amortization.LoanAmountRequested' | translate}}
               </label>
             </div>
-            <app-amount #LoanAmountRequested fieldID="LoanAmountRequested" [formCode]="formCode"
-              (blur)="genericOnBlur('LoanAmountRequested', $event)"></app-amount>
+            <!-- <app-amount #LoanAmountRequested fieldID="LoanAmountRequested" [formCode]="formCode"
+              (blur)="genericOnBlur('LoanAmountRequested', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #LoanAmountRequested fieldID="LoanAmountRequested" [currencyReadOnly]="true"
+              [componentFieldId]="'LoanAmountRequested'" [inputReadOnly]="true" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NetInterestRate.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -52,8 +57,13 @@
                 {{ 'Amortization.BLoanAmtShare' | translate}}
               </label>
             </div>
-            <app-amount #BLoanAmtShare fieldID="BLoanAmtShare" [formCode]="formCode"
-              (blur)="genericOnBlur('BLoanAmtShare', $event)"></app-amount>
+            <!-- <app-amount #BLoanAmtShare fieldID="BLoanAmtShare" [formCode]="formCode"
+              (blur)="genericOnBlur('BLoanAmtShare', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #BLoanAmtShare fieldID="BLoanAmtShare" [currencyReadOnly]="true"
+              [componentFieldId]="'BLoanAmtShare'" [inputReadOnly]="true" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CBLoanOwnership.isHidden() || !isCBOwnership">
             <div class="clr-brown fieldLegend">
@@ -70,8 +80,13 @@
                 {{ 'Amortization.CBLoanAmountShare' | translate}}
               </label>
             </div>
-            <app-amount #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode"
-              (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-amount>
+            <!-- <app-amount #CBLoanAmountShare fieldID="CBLoanAmountShare" [formCode]="formCode"
+              (blur)="genericOnBlur('CBLoanAmountShare', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #CBLoanAmountShare fieldID="CBLoanAmountShare" [currencyReadOnly]="true"
+              [componentFieldId]="'CBLoanAmountShare'" [inputReadOnly]="true" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
           <div class="col-12  col-sm-3 col-md-3"></div>
           <div class="horizontal-line col-12 col-sm-12 col-md-12 "></div>
@@ -120,8 +135,13 @@
                 {{ 'Amortization.RequiredEMIAmt' | translate}}
               </label>
             </div>
-            <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode"
-              (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount>
+            <!-- <app-amount #RequiredEMIAmt fieldID="RequiredEMIAmt" [formCode]="formCode"
+              (blur)="genericOnBlur('RequiredEMIAmt', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #RequiredEMIAmt fieldID="RequiredEMIAmt" [currencyReadOnly]="true"
+              [componentFieldId]="'RequiredEMIAmt'" [inputReadOnly]="true" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
 
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
