@@ -3287,9 +3287,9 @@ rlo-ui-card-field {
 
     .broadcast-container {
       background-color: white;
-      max-height: 246px;
-      min-height: 227px;
-      // overflow-y: scroll;
+      overflow-y: scroll;
+      max-height: 216px;
+      min-height: 216px;
 
       .broadcast-section {
         padding: 12px 0;

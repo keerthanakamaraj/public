@@ -65,7 +65,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('Branch', false, showErrors),
             this.revalidateBasicField('FrontPageCategory', false, showErrors),
             this.revalidateBasicField('MaximumCardLimit', false, showErrors),
-            // this.revalidateBasicField('ApprovedLimit',false,showErrors),
+            this.revalidateBasicField('ApprovedLimit', false, showErrors),
             this.revalidateBasicField('SettlementAccountType', false, showErrors),
             this.revalidateBasicField('SettlementAccountNo', false, showErrors),
             this.revalidateBasicField('PaymentOption', false, showErrors),
@@ -306,9 +306,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
             //custom
             let maxCardLimit = Number(this.MaximumCardLimit.getTextBoxValue());
-            let approveLimit = Number(this.ApprovedLimit.getTextBoxValue());
+            let approveLimit = this.ApprovedLimit.getTextBoxValue() != undefined ? Number(this.ApprovedLimit.getTextBoxValue()) : this.ApprovedLimit.getTextBoxValue();
 
-            if (approveLimit != null || approveLimit != undefined || maxCardLimit != null || maxCardLimit != undefined) {
+            if (approveLimit != null && approveLimit != undefined && maxCardLimit != null && maxCardLimit != undefined) {
                 if (approveLimit <= maxCardLimit) {
                     if (!this.isApproveLimitValid || approveLimit == 0) {
                         this.services.alert.showAlert(2, 'rlo.error.save.card', -1);
@@ -525,4 +525,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         },
     }
 
+    customGenericOnBlur(event: any) {
+        console.log("Deep | customGenericOnBlur", event);
+        if (event.field == "ApprovedLimit") {
+            this.approveLimitBlur(event.textFieldValue);
+        }
+        this.genericOnBlur(event.field, event.textFieldValue);
+    }
 }

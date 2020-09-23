@@ -764,10 +764,39 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   approveForm() {
     const requestParams = new Map();
-
     requestParams.set('Body.ApplicationStatus', this.applicationStatus);
     requestParams.set('Body.direction', this.applicationStatus);
-    this.submitDDE(requestParams);
+
+    console.log(this.customerMasterJsonData.ApplicationDetails.CardDetails);
+    let ApprovedLimit = this.customerMasterJsonData.ApplicationDetails.CardDetails.ApprovedLimit;
+
+    if (ApprovedLimit == "NA") {
+      var mainMessage = this.services.rloui.getAlertMessage('', "Please enter an approve limit for credit card");
+      var button1 = this.services.rloui.getAlertMessage('', 'OK');
+
+      Promise.all([mainMessage, button1]).then(values => {
+        console.log(values);
+        let modalObj = {
+          title: "Alert",
+          mainMessage: values[0],
+          modalSize: "modal-width-sm",
+          buttons: [
+            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          ]
+        }
+
+        this.services.rloui.confirmationModal(modalObj).then((response) => {
+          console.log(response);
+          if (response != null) {
+            if (response.id === 1) {
+            }
+          }
+        });
+      });
+    }
+    else {
+      this.submitDDE(requestParams);
+    }
   }
 
   async submitDDE(requestParams) {
@@ -825,7 +854,6 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
             ]
           }
 
