@@ -18,6 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AssetDetailsGridComponent } from '../AssetDetailsGrid/AssetDetailsGrid.component';
 import { AssetsHandlerComponent } from '../AssetDetailsForm/assets-handler.component';
 import { RLOUIRadioComponent } from 'src/app/rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -31,10 +32,10 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('AT_ASSET_SUBTYPE', { static: false }) AT_ASSET_SUBTYPE: ComboBoxComponent;
     @ViewChild('AT_ASSET_LOCATION', { static: false }) AT_ASSET_LOCATION: TextBoxComponent;
     @ViewChild('AT_ASSET_STATUS', { static: false }) AT_ASSET_STATUS: ComboBoxComponent;
-    @ViewChild('AT_ASSET_VALUE', { static: false }) AT_ASSET_VALUE: TextBoxComponent;
-    @ViewChild('AT_FAIR_MRKT_VALUE', { static: false }) AT_FAIR_MRKT_VALUE: TextBoxComponent;
-    @ViewChild('AT_CURRENCY', { static: false }) AT_CURRENCY: ComboBoxComponent;
-    @ViewChild('AT_EQUIVALENT_AMOUNT', { static: false }) AT_EQUIVALENT_AMOUNT: TextBoxComponent;
+    //@ViewChild('AT_ASSET_VALUE', { static: false }) AT_ASSET_VALUE: TextBoxComponent;
+    //@ViewChild('AT_FAIR_MRKT_VALUE', { static: false }) AT_FAIR_MRKT_VALUE: TextBoxComponent;
+    //@ViewChild('AT_CURRENCY', { static: false }) AT_CURRENCY: ComboBoxComponent;
+    //@ViewChild('AT_EQUIVALENT_AMOUNT', { static: false }) AT_EQUIVALENT_AMOUNT: TextBoxComponent;
     // @ViewChild('AT_OWNED_BY', { static: false }) AT_OWNED_BY: ComboBoxComponent;
     // @ViewChild('AT_NAME', { static: false }) AT_NAME: ComboBoxComponent;
     @ViewChild('AT_INCLUDE_IN_DBR', { static: false }) AT_INCLUDE_IN_DBR: RLOUIRadioComponent;
@@ -52,6 +53,11 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
     @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
     @ViewChild('hideAssetStatus', { static: false }) hideAssetStatus: HiddenComponent;
 
+    //custom
+    @ViewChild('AT_FAIR_MRKT_VALUE', { static: false }) AT_FAIR_MRKT_VALUE: RloUiCurrencyComponent;
+    @ViewChild('AT_EQUIVALENT_AMOUNT', { static: false }) AT_EQUIVALENT_AMOUNT: RloUiCurrencyComponent;
+    @ViewChild('AT_ASSET_VALUE', { static: false }) AT_ASSET_VALUE: RloUiCurrencyComponent;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -62,8 +68,8 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             this.revalidateBasicField('AT_ASSET_STATUS'),
             this.revalidateBasicField('AT_ASSET_VALUE'),
             this.revalidateBasicField('AT_FAIR_MRKT_VALUE'),
-            this.revalidateBasicField('AT_CURRENCY'),
-            this.revalidateBasicField('AT_EQUIVALENT_AMOUNT'),
+            //this.revalidateBasicField('AT_CURRENCY'),
+            //this.revalidateBasicField('AT_EQUIVALENT_AMOUNT'),
             // this.revalidateBasicField('AT_OWNED_BY'),
             // this.revalidateBasicField('AT_NAME'),
             this.revalidateBasicField('AT_INCLUDE_IN_DBR'),
@@ -187,6 +193,11 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.passNewValue(this.value);
         this.setReadOnly(false);
         this.onFormLoad();
+
+        //custom
+        this.AT_FAIR_MRKT_VALUE.resetFieldAndDropDown();
+        this.AT_EQUIVALENT_AMOUNT.resetFieldAndDropDown();
+        this.AT_ASSET_VALUE.resetFieldAndDropDown();
     }
 
     async AT_CURRENCY_blur(event) {
@@ -222,25 +233,31 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             if (this.ASSET_ID.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.AssetSeq', this.ASSET_ID.getFieldValue());
-                inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
+                //inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetType', this.AT_ASSET_TYPE.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetSubtype', this.AT_ASSET_SUBTYPE.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetLocation', this.AT_ASSET_LOCATION.getFieldValue());
-                inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
-                inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
-                inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
+                //inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
+                //inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
+                //inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
                 // inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
                 // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
                 inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
+
+                //custom
+                inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getTextBoxValue());
+                inputMap.set('Body.AssetDetails.Currency', this.AT_FAIR_MRKT_VALUE.currencyCode);
+                inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getTextBoxValue());
+                inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
+
                 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.update.asset', 5000);
                         this.onReset();
                         // this.AT_SAVE.setDisabled(false);
-
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -261,7 +278,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                                 this.AT_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'AssetDetails.Currency') {
-                                this.AT_CURRENCY.setError(err['ErrorDescription']);
+                                //this.AT_CURRENCY.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'AssetDetails.FairMarketValue') {
                                 this.AT_FAIR_MRKT_VALUE.setError(err['ErrorDescription']);
@@ -294,21 +311,27 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 inputMap.set('Body.AssetDetails.AssetSubtype', this.AT_ASSET_SUBTYPE.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetLocation', this.AT_ASSET_LOCATION.getFieldValue());
                 inputMap.set('Body.AssetDetails.AssetStatus', this.AT_ASSET_STATUS.getFieldValue());
-                inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
-                inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
-                inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
+                //inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getFieldValue());
+                //inputMap.set('Body.AssetDetails.Currency', this.AT_CURRENCY.getFieldValue());
+                //inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
                 // inputMap.set('Body.AssetDetails.OwnedBy', this.AT_OWNED_BY.getFieldValue());
-                inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
+                //inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getFieldValue());
                 // inputMap.set('Body.AssetDetails.OwnerName', this.AT_NAME.getFieldValue());
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.AT_INCLUDE_IN_DBR.getFieldValue());
                 inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
+
+                //custom
+                inputMap.set('Body.AssetDetails.AssetValue', this.AT_ASSET_VALUE.getTextBoxValue());
+                inputMap.set('Body.AssetDetails.Currency', this.AT_FAIR_MRKT_VALUE.currencyCode);
+                inputMap.set('Body.AssetDetails.FairMarketValue', this.AT_FAIR_MRKT_VALUE.getTextBoxValue());
+                inputMap.set('Body.AssetDetails.EquivalentAmt', this.AT_EQUIVALENT_AMOUNT.getFieldValue());
+
                 this.services.http.fetchApi('/AssetDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
                         this.services.alert.showAlert(1, 'rlo.success.save.asset', 5000);
                         this.onReset();
                         // this.AT_SAVE.setDisabled(false);
-
                     },
                     async (httpError) => {
                         var err = httpError['error']
@@ -329,7 +352,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                                 this.AT_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'AssetDetails.Currency') {
-                                this.AT_CURRENCY.setError(err['ErrorDescription']);
+                                //this.AT_CURRENCY.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'AssetDetails.FairMarketValue') {
                                 this.AT_FAIR_MRKT_VALUE.setError(err['ErrorDescription']);
@@ -370,17 +393,24 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 this.AT_ASSET_SUBTYPE.setValue(res['AssetDetails']['AssetSubtype']);
                 this.AT_ASSET_LOCATION.setValue(res['AssetDetails']['AssetLocation']);
                 this.AT_ASSET_STATUS.setValue(res['AssetDetails']['AssetStatus']);
-                this.AT_ASSET_VALUE.setValue(res['AssetDetails']['AssetValue']);
-                this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
-                this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
-                this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
+                //this.AT_ASSET_VALUE.setValue(res['AssetDetails']['AssetValue']);
+                //this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
+                //this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
+                //this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
                 // this.AT_NAME.setValue(res['AssetDetails']['OwnerName']);
                 this.AT_INCLUDE_IN_DBR.setValue(res['AssetDetails']['IncludeInDBR']);
                 // this.AT_OWNED_BY.setValue(res['AssetDetails']['OwnedBy']);
                 this.ASSET_ID.setValue(res['AssetDetails']['AssetSeq']);
                 this.hideSpinner();
                 this.revalidateBasicField('AT_CURRENCY', true)
-                
+
+                //custom
+                this.AT_FAIR_MRKT_VALUE.setComponentSpecificValue(res['AssetDetails']['FairMarketValue'], res['AssetDetails']['Currency']);
+                this.AT_EQUIVALENT_AMOUNT.setComponentSpecificValue(res['AssetDetails']['EquivalentAmt'], null);
+                this.AT_ASSET_VALUE.setComponentSpecificValue(res['AssetDetails']['AssetValue'], null);
+
+                this.AT_FAIR_MRKT_VALUE.selectedCode(res['AssetDetails']['Currency']);
+                this.AT_ASSET_VALUE.selectedCode(res['AssetDetails']['Currency'], false);
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -440,17 +470,16 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             outDep: [
             ]
         },
-        AT_CURRENCY: {
-            inDep: [
+        // AT_CURRENCY: {
+        //     inDep: [
 
-                { paramKey: "CurrencySrc", depFieldID: "AT_CURRENCY", paramType: "PathParam" },
-                // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
-            ],
-            outDep: [
-                { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
-            ]
-        },
-
+        //         { paramKey: "CurrencySrc", depFieldID: "AT_CURRENCY", paramType: "PathParam" },
+        //         // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //         { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+        //     ]
+        // },
         AT_ASSET_STATUS: {
             inDep: [
 
@@ -463,4 +492,21 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         },
     }
 
+    //custom 
+    customGenericOnBlur(event: any) {
+        console.log("Deep | customGenericOnBlur", event);
+        if (event.field == "AT_FAIR_MRKT_VALUE") {
+            if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+                this.hidExchangeRate.setValue(event.exchangeRate);
+
+                let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+                console.log(localCurrencyEq);
+
+                this.AT_EQUIVALENT_AMOUNT.setComponentSpecificValue(localCurrencyEq, null);
+            }
+            this.AT_ASSET_VALUE.currencyCode = this.AT_FAIR_MRKT_VALUE.currencyCode;
+        }
+
+        this.genericOnBlur(event.field, event.textFieldValue);
+    }
 }

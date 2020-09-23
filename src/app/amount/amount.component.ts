@@ -18,7 +18,9 @@ export class AmountComponent extends FieldComponent implements OnInit {
   @Input('minLength') minLength: number;
   @Input('DecimalLength') DecimalLength: number = 2;
 
-  currencyCode =  localStorage.getItem("currency.code.default");
+  @Input('readOnly') readOnly: boolean = false;
+
+  currencyCode = localStorage.getItem("currency.code.default");
   languageCode = localStorage.getItem("language.default");;
   constructor(services: ServiceStock) {
     super(services);
@@ -59,7 +61,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
   formatAmount(number, languageCode, minFraction, hideSymbol?: boolean) {
     // return this.services.formatAmount(number, languageCode, minFraction);
     // Dirty Fix
-    return this.services.formatAmount(number, languageCode, minFraction,hideSymbol);
+    return this.services.formatAmount(number, languageCode, minFraction, hideSymbol);
     // return this.services.formatAmount(number, languageCode, minFraction);
   }
 
@@ -78,7 +80,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
 
   onChange() {
     this.value = this.additionalInfo;
-    this.languageCode ;
+    this.languageCode;
     this.change.emit();
 
     if (this.value) {
@@ -148,6 +150,17 @@ export class AmountComponent extends FieldComponent implements OnInit {
   }
   getFieldValue() {
     return this.value == undefined ? this.value : +this.value;
+  }
+
+  onReset() {
+    this.value = undefined;
+    this.additionalInfo = undefined;
+    this.error = false;
+    this.errorCode = undefined;
+    this.passNewValue(this.value);
+   // this.readOnly = false;
+    this.dependencyMap.clear();
+    this.fieldReset();
   }
 
   ngOnInit() { }

@@ -18,6 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { LiabilityDtlsGridComponent } from '../LiabilityDtlsGrid/LiabilityDtlsGrid.component';
 import { LiabilityHandlerComponent } from '../LiabilityDtlsForm/liability-handler.component';
 import { RLOUIRadioComponent } from 'src/app/rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -30,13 +31,13 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     @ViewChild('LD_FINANCIER_NAME', { static: false }) LD_FINANCIER_NAME: TextBoxComponent;
     @ViewChild('LD_LOAN_STATUS', { static: false }) LD_LOAN_STATUS: ComboBoxComponent;
     @ViewChild('LD_TYPE_OF_LOAN', { static: false }) LD_TYPE_OF_LOAN: ComboBoxComponent;
-    @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: TextBoxComponent;
+    //@ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: TextBoxComponent;
     @ViewChild('LD_LOAN_CLOSURE_DATE', { static: false }) LD_LOAN_CLOSURE_DATE: DateComponent;
-    @ViewChild('LD_LOAN_EMI', { static: false }) LD_LOAN_EMI: TextBoxComponent;
+    //@ViewChild('LD_LOAN_EMI', { static: false }) LD_LOAN_EMI: TextBoxComponent;
     @ViewChild('LD_INCLUDE_IN_DBR', { static: false }) LD_INCLUDE_IN_DBR: RLOUIRadioComponent;
-    @ViewChild('LD_OS_AMOUNT', { static: false }) LD_OS_AMOUNT: AmountComponent;
-    @ViewChild('LD_CURRENCY', { static: false }) LD_CURRENCY: ComboBoxComponent;
-    @ViewChild('LD_EQUIVALENT_AMOUNT', { static: false }) LD_EQUIVALENT_AMOUNT: AmountComponent;
+    //@ViewChild('LD_OS_AMOUNT', { static: false }) LD_OS_AMOUNT: AmountComponent;
+    //@ViewChild('LD_CURRENCY', { static: false }) LD_CURRENCY: ComboBoxComponent;
+    //@ViewChild('LD_EQUIVALENT_AMOUNT', { static: false }) LD_EQUIVALENT_AMOUNT: AmountComponent;
     @ViewChild('LD_LOAN_EMI_FREQUENCY', { static: false }) LD_LOAN_EMI_FREQUENCY: ComboBoxComponent;
     @ViewChild('LD_REMARKS', { static: false }) LD_REMARKS: TextAreaComponent;
     @ViewChild('LD_SAVE', { static: false }) LD_SAVE: ButtonComponent;
@@ -55,6 +56,12 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     @ViewChild('hideLiabilityType', { static: false }) hideLiabilityType: HiddenComponent;
     @ViewChild('hideObligationHead', { static: false }) hideObligationHead: HiddenComponent;
 
+    //custom
+    @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: RloUiCurrencyComponent;
+    @ViewChild('LD_EQUIVALENT_AMOUNT', { static: false }) LD_EQUIVALENT_AMOUNT: RloUiCurrencyComponent;
+    @ViewChild('LD_LOAN_EMI', { static: false }) LD_LOAN_EMI: RloUiCurrencyComponent;
+    @ViewChild('LD_OS_AMOUNT', { static: false }) LD_OS_AMOUNT: RloUiCurrencyComponent;
+
     isObligation: boolean;
     setTypeObligation: boolean = false;//used in UW 
 
@@ -65,8 +72,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             await Promise.all([
                 this.revalidateBasicField('LD_LOAN_AMOUNT'),
                 this.revalidateBasicField('LD_INCLUDE_IN_DBR'),
-                this.revalidateBasicField('LD_CURRENCY'),
-                this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
+                //this.revalidateBasicField('LD_CURRENCY'),
+                //this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
                 this.revalidateBasicField('LD_LOAN_EMI_FREQUENCY'),
                 this.revalidateBasicField('LD_LIABILITY_TYPE'),
             ]).then((errorCounts) => {
@@ -84,8 +91,8 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 this.revalidateBasicField('LD_LOAN_EMI'),
                 this.revalidateBasicField('LD_INCLUDE_IN_DBR'),
                 this.revalidateBasicField('LD_OS_AMOUNT'),
-                this.revalidateBasicField('LD_CURRENCY'),
-                this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
+                //this.revalidateBasicField('LD_CURRENCY'),
+                //this.revalidateBasicField('LD_EQUIVALENT_AMOUNT'),
                 this.revalidateBasicField('LD_LOAN_EMI_FREQUENCY'),
                 this.revalidateBasicField('LD_LIABILITY_TYPE'),
                 this.revalidateBasicField('LD_REMARKS'),
@@ -160,7 +167,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
     async LD_OBLIGATION_HEAD_change(fieldID, value) {
         let inputMap = new Map();
         if (this.LD_OBLIGATION_HEAD.getFieldValue() != '' || this.LD_OBLIGATION_HEAD.getFieldValue() != undefined) {
-            this.LD_CURRENCY.mandatory = true;
+            //this.LD_CURRENCY.mandatory = true;
             this.LD_EQUIVALENT_AMOUNT.mandatory = true;
             this.LD_INCLUDE_IN_DBR.mandatory = true;
             this.LD_LOAN_EMI_FREQUENCY.mandatory = true;
@@ -172,7 +179,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         let inputMap = new Map();
         this.Handler.hideObligationField({});
         this.LD_LOAN_AMOUNT.onReset();
-        this.LD_CURRENCY.onReset();
+        //this.LD_CURRENCY.onReset();
         this.LD_EQUIVALENT_AMOUNT.onReset();
         this.LD_INCLUDE_IN_DBR.onReset();
         this.LD_LOAN_EMI_FREQUENCY.onReset();
@@ -185,9 +192,17 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.LD_LOAN_EMI.onReset();
         this.LD_OS_AMOUNT.onReset();
 
+        //custom
+        this.LD_LOAN_AMOUNT.resetFieldAndDropDown();
+        this.LD_EQUIVALENT_AMOUNT.resetFieldAndDropDown();
+        this.LD_LOAN_EMI.resetFieldAndDropDown();
+        this.LD_OS_AMOUNT.resetFieldAndDropDown();
     }
 
     async LD_CURRENCY_blur(event) {
+        let hidExchangeRate = this.hidExchangeRate.getFieldValue();
+        let LD_LOAN_AMOUNT = this.LD_LOAN_AMOUNT.getFieldValue();
+        console.warn("Deep LD_CURRENCY_blur()|", hidExchangeRate, LD_LOAN_AMOUNT)
         let inputMap = new Map();
         this.Handler.calculateLocalCurrEquv()
     }
@@ -268,6 +283,12 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
         this.passNewValue(this.value);
         this.setReadOnly(false);
         this.onFormLoad();
+
+        //custom
+        this.LD_LOAN_AMOUNT.resetFieldAndDropDown();
+        this.LD_EQUIVALENT_AMOUNT.resetFieldAndDropDown();
+        this.LD_LOAN_EMI.resetFieldAndDropDown();
+        this.LD_OS_AMOUNT.resetFieldAndDropDown();
     }
     loanClosuredate(selectedDate) {
         const moment = require('moment');
@@ -314,18 +335,37 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.LoanStatus', this.LD_LOAN_STATUS.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.TypeofLoan', this.LD_TYPE_OF_LOAN.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.ClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.IncludeInDBR', this.LD_INCLUDE_IN_DBR.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.EmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.LiabilityType', this.LD_LIABILITY_TYPE.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.Remarks', this.LD_REMARKS.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.ObligationHead', this.LD_OBLIGATION_HEAD.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.activeBorrowerSeq);
+
+                //custom
+                inputMap.set('Body.LiabilityDetails.Currency', this.LD_LOAN_AMOUNT.currencyCode);
+                inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getTextBoxValue());
+                inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
+                inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getTextBoxValue());
+                inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getTextBoxValue());
+
+
+                console.error("DEEP | LD_SAVE_click()", inputMap);
+                console.error("DEEP | LD_SAVE_click()",
+                    inputMap.get('Body.LiabilityDetails.Currency'),
+                    inputMap.get('Body.LiabilityDetails.Amount'),
+                    inputMap.get('Body.LiabilityDetails.LocalEquivalentAmt'),
+                    inputMap.get('Body.LiabilityDetails.LoanEMI'),
+                    inputMap.get('Body.LiabilityDetails.OutstandingAmount')
+                );
+                //return;
+
                 this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
@@ -344,7 +384,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                                 this.LD_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'LiabilityDetails.Currency') {
-                                this.LD_CURRENCY.setError(err['ErrorDescription']);
+                                //this.LD_CURRENCY.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'LiabilityDetails.OutstandingAmount') {
                                 this.LD_OS_AMOUNT.setError(err['ErrorDescription']);
@@ -394,18 +434,36 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.LiabilityDetails.FinancerName', this.LD_FINANCIER_NAME.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.LoanStatus', this.LD_LOAN_STATUS.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.TypeofLoan', this.LD_TYPE_OF_LOAN.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.ClosureDate', this.LD_LOAN_CLOSURE_DATE.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.IncludeInDBR', this.LD_INCLUDE_IN_DBR.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
-                inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.Currency', this.LD_CURRENCY.getFieldValue());
+                //inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.EmiFrequency', this.LD_LOAN_EMI_FREQUENCY.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.LiabilityType', this.LD_LIABILITY_TYPE.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.Remarks', this.LD_REMARKS.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.ObligationHead', this.LD_OBLIGATION_HEAD.getFieldValue());
                 inputMap.set('Body.LiabilityDetails.BorrowerSeq', this.activeBorrowerSeq);
+
+                //custom
+                inputMap.set('Body.LiabilityDetails.Currency', this.LD_LOAN_AMOUNT.currencyCode);
+                inputMap.set('Body.LiabilityDetails.Amount', this.LD_LOAN_AMOUNT.getTextBoxValue());
+                inputMap.set('Body.LiabilityDetails.LocalEquivalentAmt', this.LD_EQUIVALENT_AMOUNT.getFieldValue());
+                inputMap.set('Body.LiabilityDetails.LoanEMI', this.LD_LOAN_EMI.getTextBoxValue());
+                inputMap.set('Body.LiabilityDetails.OutstandingAmount', this.LD_OS_AMOUNT.getTextBoxValue());
+
+                console.error("DEEP | LD_SAVE_click()", inputMap);
+                console.error("DEEP | LD_SAVE_click()",
+                    inputMap.get('Body.LiabilityDetails.Currency'),
+                    inputMap.get('Body.LiabilityDetails.Amount'),
+                    inputMap.get('Body.LiabilityDetails.LocalEquivalentAmt'),
+                    inputMap.get('Body.LiabilityDetails.LoanEMI'),
+                    inputMap.get('Body.LiabilityDetails.OutstandingAmount')
+                );
+                //return;
+
                 this.services.http.fetchApi('/LiabilityDetails', 'POST', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
@@ -424,7 +482,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                                 this.LD_EQUIVALENT_AMOUNT.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'LiabilityDetails.Currency') {
-                                this.LD_CURRENCY.setError(err['ErrorDescription']);
+                                //this.LD_CURRENCY.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'LiabilityDetails.OutstandingAmount') {
                                 this.LD_OS_AMOUNT.setError(err['ErrorDescription']);
@@ -439,7 +497,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                                 this.LD_LOAN_CLOSURE_DATE.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'LiabilityDetails.Amount') {
-                                this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
+                                //this.LD_LOAN_AMOUNT.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'LiabilityDetails.TypeofLoan') {
                                 this.LD_TYPE_OF_LOAN.setError(err['ErrorDescription']);
@@ -482,13 +540,13 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 this.LD_FINANCIER_NAME.setValue(res['LiabilityDetails']['FinancerName']);
                 this.LD_LOAN_STATUS.setValue(res['LiabilityDetails']['LoanStatus']);
                 this.LD_TYPE_OF_LOAN.setValue(res['LiabilityDetails']['TypeofLoan']);
-                this.LD_LOAN_AMOUNT.setValue(res['LiabilityDetails']['Amount']);
+                //this.LD_LOAN_AMOUNT.setValue(res['LiabilityDetails']['Amount']);
                 this.LD_LOAN_CLOSURE_DATE.setValue(res['LiabilityDetails']['ClosureDate']);
-                this.LD_LOAN_EMI.setValue(res['LiabilityDetails']['LoanEMI']);
+                //this.LD_LOAN_EMI.setValue(res['LiabilityDetails']['LoanEMI']);
                 this.LD_INCLUDE_IN_DBR.setValue(res['LiabilityDetails']['IncludeInDBR']);
-                this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
-                this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
-                this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['LocalEquivalentAmt']);
+                //this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
+                //this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
+                //this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['LocalEquivalentAmt']);
                 this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['EmiFrequency']);
                 this.LD_LIABILITY_TYPE.setValue(res['LiabilityDetails']['LiabilityType']);
                 this.LD_REMARKS.setValue(res['LiabilityDetails']['Remarks']);
@@ -496,9 +554,18 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 this.hiddenLiabilitySeq.setValue(res['LiabilityDetails']['LiabilitySeq']);
                 this.hideSpinner();
                 this.Handler.hideObligationField({});
-                this.revalidateBasicField('LD_CURRENCY', true)
+                //this.revalidateBasicField('LD_CURRENCY', true)
                 this.LD_OBLIGATION_HEAD_change('LD_OBLIGATION_HEAD', event);
 
+                //custom
+                this.LD_LOAN_AMOUNT.setComponentSpecificValue(res['LiabilityDetails']['Amount'], res['LiabilityDetails']['Currency']);
+                this.LD_EQUIVALENT_AMOUNT.setComponentSpecificValue(res['LiabilityDetails']['LocalEquivalentAmt'], null);
+                this.LD_LOAN_EMI.setComponentSpecificValue(res['LiabilityDetails']['LoanEMI'], null);
+                this.LD_OS_AMOUNT.setComponentSpecificValue(res['LiabilityDetails']['OutstandingAmount'], null);
+
+                this.LD_LOAN_AMOUNT.selectedCode(res['LiabilityDetails']['Currency']);
+                this.LD_LOAN_EMI.selectedCode(res['LiabilityDetails']['Currency'], false);
+                this.LD_OS_AMOUNT.selectedCode(res['LiabilityDetails']['Currency'], false);
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -550,16 +617,16 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             outDep: [
             ]
         },
-        LD_CURRENCY: {
-            inDep: [
+        // LD_CURRENCY: {
+        //     inDep: [
 
-                { paramKey: "CurrencySrc", depFieldID: "LD_CURRENCY", paramType: "PathParam" },
-                // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
-            ],
-            outDep: [
-                { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
-            ]
-        },
+        //         { paramKey: "CurrencySrc", depFieldID: "LD_CURRENCY", paramType: "PathParam" },
+        //         // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //         { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+        //     ]
+        // },
         LD_OBLIGATION_HEAD: {
             inDep: [
 
@@ -581,6 +648,25 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             ]
         },
 
+    }
+
+    //custom 
+    customGenericOnBlur(event: any) {
+        console.log("Deep | customGenericOnBlur", event);
+        if (event.field == "LD_LOAN_AMOUNT") {
+            if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+                this.hidExchangeRate.setValue(event.exchangeRate);
+
+                let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+                console.log(localCurrencyEq);
+
+                this.LD_EQUIVALENT_AMOUNT.setComponentSpecificValue(localCurrencyEq, null);
+            }
+            this.LD_LOAN_EMI.currencyCode = this.LD_LOAN_AMOUNT.currencyCode;
+            this.LD_OS_AMOUNT.currencyCode = this.LD_LOAN_AMOUNT.currencyCode;
+        }
+
+        this.genericOnBlur(event.field, event.textFieldValue);
     }
 
 }

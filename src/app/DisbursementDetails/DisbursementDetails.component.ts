@@ -20,6 +20,7 @@ import { LoanDetailsFormComponent } from 'src/app/LoanDetailsForm/LoanDetailsFor
 import { DisbursementGridComponent } from '../DisbursementGrid/DisbursementGrid.component';
 import { IAmortizationForm } from 'src/app/Interface/masterInterface';
 import { each } from '@amcharts/amcharts4/.internal/core/utils/Array';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -39,11 +40,11 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
   // activeScoreCardResultList: any;
   @ViewChild('DisbursalTo', { static: false }) DisbursalTo: ComboBoxComponent;
   @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
-  @ViewChild('PartialDisbursememt', { static: false }) PartialDisbursememt: CheckBoxComponent;  
+  @ViewChild('PartialDisbursememt', { static: false }) PartialDisbursememt: CheckBoxComponent;
   @ViewChild('CompletionPercent', { static: false }) CompletionPercent: TextBoxComponent;
-  @ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
-  @ViewChild('Amount', { static: false }) Amount: AmountComponent;
-  @ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: AmountComponent;
+  //@ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
+  //@ViewChild('Amount', { static: false }) Amount: AmountComponent;
+  //@ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: AmountComponent;
   @ViewChild('PaymentMode', { static: false }) PaymentMode: ComboBoxComponent;
   @ViewChild('InFavorOf', { static: false }) InFavorOf: TextBoxComponent;
   @ViewChild('FundTransferMode', { static: false }) FundTransferMode: ComboBoxComponent;
@@ -60,6 +61,11 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
   @ViewChild('hidePaymentMode', { static: false }) hidePaymentMode: HiddenComponent;
   @ViewChild('Handler', { static: false }) Handler: DisbursementsHandlerComponent;
   @ViewChild('HideDisbursalSeqId', { static: false }) HideDisbursalSeqId: HiddenComponent;
+
+  //custom
+  @ViewChild('Amount', { static: false }) Amount: RloUiCurrencyComponent;
+  @ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: RloUiCurrencyComponent;
+
   passedApplicationId: any;
   FilterOptions = [];
 
@@ -69,7 +75,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     await Promise.all([
       this.revalidateBasicField('DisbursalTo'),
       this.revalidateBasicField('DisbursalDate'),
-      this.revalidateBasicField('Currency'),
+      //this.revalidateBasicField('Currency'),
       this.revalidateBasicField('Amount'),
       this.revalidateBasicField('LocalCurrencyEquivalent'),
       this.revalidateBasicField('PaymentMode'),
@@ -116,8 +122,8 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     }
 
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
-    this.Amount.setFormatOptions({ currencyCode: 'EUR', languageCode: 'en-US', });
-    this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'EUR', languageCode: 'en-US', });
+    //this.Amount.setFormatOptions({ currencyCode: 'EUR', languageCode: 'en-US', });
+    //this.LocalCurrencyEquivalent.setFormatOptions({ currencyCode: 'EUR', languageCode: 'en-US', });
     this.hideCurrencyDesc.setValue('EUR');
     this.hidAppId.setValue('RLO');
     this.hideFundTransferMode.setValue('FUND_TRANSFER_MODE');
@@ -128,12 +134,12 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     this.Account.setHidden(true);
     this.InFavorOf.setHidden(true);
     this.CompletionPercent.setHidden(true);
-    this.CompletionPercent.mandatory= false;
+    this.CompletionPercent.mandatory = false;
     this.PartialDisbursememt.setHidden(true);
     if (!this.readOnly) {
       this.getLoanFieldValue();
     }
-    if(this.productCategory == 'ML'){
+    if (this.productCategory == 'ML') {
       this.PartialDisbursememt.setHidden(false);
     }
     this.setFilterbyOptions();
@@ -148,7 +154,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
   }
 
   async PartialDisbursememt_change(event) {
-    this.CompletionPercent.setHidden(!this.PartialDisbursememt.getFieldValue());    
+    this.CompletionPercent.setHidden(!this.PartialDisbursememt.getFieldValue());
     this.CompletionPercent.mandatory = this.PartialDisbursememt.getFieldValue();
   }
 
@@ -209,16 +215,16 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
 
 
   async CompletionPercent_blur() {
-         this.percent = 0;
-         this.percent = this.Handler.aggregateCompletionPercent();
-        if (this.CompletionPercent.getFieldValue() !== undefined) {
-          this.percent = this.percent + Number(this.CompletionPercent.getFieldValue());
-        }
-        if (this.percent > 100) {
-          this.CompletionPercent.setError('rlo.error.completionpercent.onblur');
-          return 1
-        }
-      }
+    this.percent = 0;
+    this.percent = this.Handler.aggregateCompletionPercent();
+    if (this.CompletionPercent.getFieldValue() !== undefined) {
+      this.percent = this.percent + Number(this.CompletionPercent.getFieldValue());
+    }
+    if (this.percent > 100) {
+      this.CompletionPercent.setError('rlo.error.completionpercent.onblur');
+      return 1
+    }
+  }
 
   ngOnInit() {
 
@@ -270,18 +276,22 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
     this.passNewValue(this.value);
     this.setReadOnly(false);
     this.onFormLoad();
+
+    //custom
+    this.Amount.resetFieldAndDropDown();
+    this.LocalCurrencyEquivalent.resetFieldAndDropDown();
   }
 
   async DD_Add_click(event) {
     let inputMap = new Map();
     var numberOfErrors: number = await this.revalidate();
     if (numberOfErrors == 0) {
-      for(let eachRecord of this.FieldId_18.disbursalList){
-        if(eachRecord.DisbursalTo==this.DisbursalTo.getFieldValue() && eachRecord.DisbursalDate==this.DisbursalDate.getFieldValue()){
-         if(eachRecord.DisbursalSeq!=this.HideDisbursalSeqId.getFieldValue()){
-          this.services.alert.showAlert(2, 'rlo.error.duplicate-Record', -1);
-          return;
-         }
+      for (let eachRecord of this.FieldId_18.disbursalList) {
+        if (eachRecord.DisbursalTo == this.DisbursalTo.getFieldValue() && eachRecord.DisbursalDate == this.DisbursalDate.getFieldValue()) {
+          if (eachRecord.DisbursalSeq != this.HideDisbursalSeqId.getFieldValue()) {
+            this.services.alert.showAlert(2, 'rlo.error.duplicate-Record', -1);
+            return;
+          }
         }
       }
       if (this.HideDisbursalSeqId.getFieldValue() != undefined) {
@@ -289,11 +299,11 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         inputMap.set('PathParam.DisbursalSeq', this.HideDisbursalSeqId.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
         inputMap.set('Body.DisbursalDetails.CompletionPercent', this.CompletionPercent.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.PartialDisburse', this.PartialDisbursememt.getFieldValue());        
+        inputMap.set('Body.DisbursalDetails.PartialDisburse', this.PartialDisbursememt.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
+        //inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
+        //inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
+        //inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
         inputMap.set('Body.DisbursalDetails.PaymentMode', this.PaymentMode.getFieldValue());
         inputMap.set('Body.DisbursalDetails.InFavorOf', this.InFavorOf.getFieldValue());
         inputMap.set('Body.DisbursalDetails.FundTransferMode', this.FundTransferMode.getFieldValue());
@@ -301,6 +311,19 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         inputMap.set('Body.DisbursalDetails.AccountNumber', this.Account.getFieldValue());
         inputMap.set('Body.DisbursalDetails.Remarks', this.Remarks.getFieldValue());
         inputMap.set('Body.DisbursalDetails.ApplicationId', this.ApplicationId);
+
+        //custom
+        inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Amount.currencyCode);
+        inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getTextBoxValue());
+        inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
+
+        console.error("DEEP | DD_Add_click()", inputMap);
+        console.error("DEEP | DD_Add_click()",
+            inputMap.get('Body.DisbursalDetails.DisbursalCurrency'),
+            inputMap.get('Body.DisbursalDetails.DisbursalAmt'),
+            inputMap.get('Body.DisbursalDetails.DisbursalAmtLocalCurrency'),
+        );
+        //return;
 
         this.services.http.fetchApi('/DisbursalDetails/{DisbursalSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
@@ -337,7 +360,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
                 this.Amount.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency') {
-                this.Currency.setError(err['ErrorDescription']);
+                //this.Currency.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.CompletionPercent') {
                 this.CompletionPercent.setError(err['ErrorDescription']);
@@ -363,11 +386,11 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         inputMap.clear();
         inputMap.set('Body.DisbursalDetails.DisbursalTo', this.DisbursalTo.getFieldValue());
         inputMap.set('Body.DisbursalDetails.DisbursalDate', this.DisbursalDate.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.CompletionPercent', this.CompletionPercent.getFieldValue()); 
-        inputMap.set('Body.DisbursalDetails.PartialDisburse', this.PartialDisbursememt.getFieldValue());                
-        inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
-        inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
+        inputMap.set('Body.DisbursalDetails.CompletionPercent', this.CompletionPercent.getFieldValue());
+        inputMap.set('Body.DisbursalDetails.PartialDisburse', this.PartialDisbursememt.getFieldValue());
+        //inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Currency.getFieldValue());
+        //inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getFieldValue());
+        //inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
         inputMap.set('Body.DisbursalDetails.PaymentMode', this.PaymentMode.getFieldValue());
         inputMap.set('Body.DisbursalDetails.InFavorOf', this.InFavorOf.getFieldValue());
         inputMap.set('Body.DisbursalDetails.FundTransferMode', this.FundTransferMode.getFieldValue());
@@ -376,10 +399,23 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         inputMap.set('Body.DisbursalDetails.Remarks', this.Remarks.getFieldValue());
         inputMap.set('Body.DisbursalDetails.ApplicationId', this.ApplicationId);
 
+        //custom
+        inputMap.set('Body.DisbursalDetails.DisbursalCurrency', this.Amount.currencyCode);
+        inputMap.set('Body.DisbursalDetails.DisbursalAmt', this.Amount.getTextBoxValue());
+        inputMap.set('Body.DisbursalDetails.DisbursalAmtLocalCurrency', this.LocalCurrencyEquivalent.getFieldValue());
+
+        console.error("DEEP | DD_Add_click()", inputMap);
+        console.error("DEEP | DD_Add_click()",
+            inputMap.get('Body.DisbursalDetails.DisbursalCurrency'),
+            inputMap.get('Body.DisbursalDetails.DisbursalAmt'),
+            inputMap.get('Body.DisbursalDetails.DisbursalAmtLocalCurrency'),
+        );
+        //return;
+
         this.services.http.fetchApi('/DisbursalDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);        
+            this.services.alert.showAlert(1, 'rlo.success.save.disbursal', 5000);
             this.onReset();
             //  this.setFilterbyOptions();
           },
@@ -411,7 +447,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
                 this.Amount.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.DisbursalCurrency') {
-                this.Currency.setError(err['ErrorDescription']);
+                //this.Currency.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'DisbursalDetails.CompletionPercent') {
                 this.CompletionPercent.setError(err['ErrorDescription']);
@@ -479,8 +515,8 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         var res = httpResponse.body;
         this.DisbursalTo.setValue(res['DisbursalDetails']['DisbursalTo']);
         this.DisbursalDate.setValue(res['DisbursalDetails']['DisbursalDate']);
-        this.Currency.setValue(res['DisbursalDetails']['DisbursalCurrency']);
-        this.Amount.setValue(res['DisbursalDetails']['DisbursalAmt']);
+        //this.Currency.setValue(res['DisbursalDetails']['DisbursalCurrency']);
+        //this.Amount.setValue(res['DisbursalDetails']['DisbursalAmt']);
         this.LocalCurrencyEquivalent.setValue(res['DisbursalDetails']['DisbursalAmtLocalCurrency']);
         this.PaymentMode.setValue(res['DisbursalDetails']['PaymentMode']);
         this.InFavorOf.setValue(res['DisbursalDetails']['InFavorOf']);
@@ -488,7 +524,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.IFSCCode.setValue(res['DisbursalDetails']['IFSCCode']);
         this.Account.setValue(res['DisbursalDetails']['AccountNumber']);
         this.Remarks.setValue(res['DisbursalDetails']['Remarks']);
-        if(res['DisbursalDetails']['PartialDisburse']){
+        if (res['DisbursalDetails']['PartialDisburse']) {
           this.PartialDisbursememt.setValue(true);
         }
         this.CompletionPercent.setValue(res['DisbursalDetails']['CompletionPercent']);
@@ -496,7 +532,12 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         this.hideSpinner();
         this.Handler.hideOnPaymentMode({});
         this.PartialDisbursememt_change(event);
-        this.revalidateBasicField('Currency', true)
+        //this.revalidateBasicField('Currency', true)
+
+        //custom
+        this.Amount.setComponentSpecificValue(res['DisbursalDetails']['DisbursalAmt'], res['DisbursalDetails']['DisbursalCurrency']);
+        this.LocalCurrencyEquivalent.setComponentSpecificValue(res['DisbursalDetails']['DisbursalAmtLocalCurrency'], null);
+
       },
       async (httpError) => {
         var err = httpError['error']
@@ -513,16 +554,16 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
   }
 
   fieldDependencies = {
-    Currency: {
-      inDep: [
+    // Currency: {
+    //   inDep: [
 
-        { paramKey: "CurrencySrc", depFieldID: "Currency", paramType: "PathParam" },
-        { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
-      ],
-      outDep: [
-        { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
-      ]
-    },
+    //     { paramKey: "CurrencySrc", depFieldID: "Currency", paramType: "PathParam" },
+    //     { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //     { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+    //   ]
+    // },
     FundTransferMode: {
       inDep: [
 
@@ -543,6 +584,21 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
       outDep: [
       ]
     },
+  }
+
+  customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+    if (event.field == "Amount") {
+      if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+        this.hidExchangeRate.setValue(event.exchangeRate);
+
+        let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+        console.log(localCurrencyEq);
+
+        this.LocalCurrencyEquivalent.setComponentSpecificValue(localCurrencyEq, null);
+      }
+    }
+    this.genericOnBlur(event.field, event.textFieldValue);
   }
 
 }

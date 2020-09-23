@@ -9,9 +9,9 @@ import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
   styles: []
 })
 export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent implements OnInit {
-	@Input() MainComponent: FeesChargesDetailsComponent;
-	formName: string = "ChargeDetails";
-	  ngOnInit() {
+  @Input() MainComponent: FeesChargesDetailsComponent;
+  formName: string = "ChargeDetails";
+  ngOnInit() {
     // ngOnInit
   }
 
@@ -21,26 +21,25 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
     //this.MainComponent.CD_THIRD_NAME.setHidden(true);
     super.onFormLoad({});
   }
- 
 
-  hideShowFieldBasedOnChargeBasis(){
-    if((this.MainComponent.ChargeBasis.getDefault() == "RATE" && this.MainComponent.ChargeBasis.getFieldValue() == "RATE")||(this.MainComponent.ChargeBasis.getDefault() == "RATE" && this.MainComponent.ChargeBasis.getFieldValue() == undefined)){
-      this.MainComponent.Currency.setHidden(true);
+
+  hideShowFieldBasedOnChargeBasis() {
+    if ((this.MainComponent.ChargeBasis.getDefault() == "RATE" && this.MainComponent.ChargeBasis.getFieldValue() == "RATE") || (this.MainComponent.ChargeBasis.getDefault() == "RATE" && this.MainComponent.ChargeBasis.getFieldValue() == undefined)) {
+      //this.MainComponent.Currency.setHidden(true);
       this.MainComponent.ChargeAmt.setHidden(true);
       this.MainComponent.LocalAmount.setHidden(true);
       this.MainComponent.ChargeRate.setHidden(false);
       this.MainComponent.RateOnCharge.setHidden(false);
       this.MainComponent.EffectiveAmount.setHidden(false);
-      this.MainComponent.Currency.setValue(undefined);
+      //this.MainComponent.Currency.setValue(undefined);
       this.MainComponent.ChargeAmt.setValue(undefined);
       this.MainComponent.LocalAmount.setValue(undefined);
-      this.MainComponent.EffectiveAmount.mandatory= true;
+      this.MainComponent.EffectiveAmount.mandatory = true;
       this.MainComponent.RateOnCharge.mandatory = true;
       this.MainComponent.ChargeRate.mandatory = true;
     }
-    else if((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE") )
-    {
-      this.MainComponent.Currency.setHidden(false);
+    else if ((this.MainComponent.ChargeBasis.getFieldValue() == "AMOUNT" && this.MainComponent.ChargeBasis.getDefault() == "RATE")) {
+      //this.MainComponent.Currency.setHidden(false);
       this.MainComponent.ChargeAmt.setHidden(false);
       this.MainComponent.LocalAmount.setHidden(false);
       this.MainComponent.ChargeRate.setHidden(true);
@@ -48,63 +47,65 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.EffectiveAmount.setHidden(true);
       this.MainComponent.ChargeRate.setValue(undefined);
       this.MainComponent.RateOnCharge.setValue(undefined);
-      this.MainComponent.EffectiveAmount.mandatory= false;
+      this.MainComponent.EffectiveAmount.mandatory = false;
       this.MainComponent.RateOnCharge.mandatory = false;
       this.MainComponent.ChargeRate.mandatory = false;
 
     }
   }
 
-  hideFieldBasedOnPeriodicCharge(){
-    if(this.MainComponent.PeriodicCharge.getFieldValue() == 'N'){
+  hideFieldBasedOnPeriodicCharge() {
+    if (this.MainComponent.PeriodicCharge.getFieldValue() == 'N') {
       this.MainComponent.PeriodicStDt.setHidden(true);
       this.MainComponent.PeriodicEnDt.setHidden(true);
       this.MainComponent.PeriodicStDt.setValue(undefined);
-    this.MainComponent.PeriodicEnDt.setValue(undefined);
-    this.MainComponent.Frequency.setReadOnly(true);
-    this.MainComponent.Frequency.mandatory = false;
+      this.MainComponent.PeriodicEnDt.setValue(undefined);
+      this.MainComponent.Frequency.setReadOnly(true);
+      this.MainComponent.Frequency.mandatory = false;
 
     }
-    else{
+    else {
       this.MainComponent.PeriodicStDt.setHidden(false);
       this.MainComponent.PeriodicEnDt.setHidden(false);
       this.MainComponent.Frequency.setReadOnly(false);
       this.MainComponent.Frequency.mandatory = true;
     }
-  } 
-  chargeAmountcharOnblur(){
-    if(this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.ChargeAmt.getFieldValue() !== undefined){
+  }
+  chargeAmountcharOnblur() {
+    if (this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.ChargeAmt.getFieldValue() !== undefined) {
       let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.ChargeAmt.getFieldValue();
       this.MainComponent.LocalAmount.setValue(CurrenyExchangeValue.toFixed(2));
     }
   }
-  calculateEffectiveAmount(){
-   
-    if(this.MainComponent.ChargeRate.getFieldValue() !== undefined && this.MainComponent.RateOnCharge.getFieldValue() !== undefined ){
-      var CalcEffectiveAmount ;
-      if(this.MainComponent.RateOnCharge.getFieldValue() == 'INTEREST'){
-        CalcEffectiveAmount = (this.MainComponent.NetInterestRate / 100) * this.MainComponent.LoanAmount * (this.MainComponent.ChargeRate.getFieldValue()/100);
+  calculateEffectiveAmount() {
+
+    if (this.MainComponent.ChargeRate.getFieldValue() !== undefined && this.MainComponent.RateOnCharge.getFieldValue() !== undefined) {
+      var CalcEffectiveAmount;
+      if (this.MainComponent.RateOnCharge.getFieldValue() == 'INTEREST') {
+        CalcEffectiveAmount = (this.MainComponent.NetInterestRate / 100) * this.MainComponent.LoanAmount * (this.MainComponent.ChargeRate.getFieldValue() / 100);
       }
-      else if(this.MainComponent.RateOnCharge.getFieldValue() == 'PRINCIPAL'){
-        CalcEffectiveAmount = this.MainComponent.LoanAmount*(this.MainComponent.ChargeRate.getFieldValue()/100);
+      else if (this.MainComponent.RateOnCharge.getFieldValue() == 'PRINCIPAL') {
+        CalcEffectiveAmount = this.MainComponent.LoanAmount * (this.MainComponent.ChargeRate.getFieldValue() / 100);
       }
-      else if(this.MainComponent.RateOnCharge.getFieldValue() == 'CATM'){
-        CalcEffectiveAmount = this.MainComponent.LoanAmount*(this.MainComponent.ChargeRate.getFieldValue()/100)*(this.MainComponent.InterestRate/100);
+      else if (this.MainComponent.RateOnCharge.getFieldValue() == 'CATM') {
+        CalcEffectiveAmount = this.MainComponent.LoanAmount * (this.MainComponent.ChargeRate.getFieldValue() / 100) * (this.MainComponent.InterestRate / 100);
       }
-      this.MainComponent.EffectiveAmount.setValue(CalcEffectiveAmount.toFixed(2));
+      //this.MainComponent.EffectiveAmount.setValue(CalcEffectiveAmount.toFixed(2));
+
+      this.MainComponent.EffectiveAmount.setComponentSpecificValue(CalcEffectiveAmount.toFixed(2), null);
     }
-   
+
   }
 
-  hideFieldBasedonChargeType(){
-    if(this.MainComponent.ChargeType.getFieldValue() == 'PAYABLE'){
+  hideFieldBasedonChargeType() {
+    if (this.MainComponent.ChargeType.getFieldValue() == 'PAYABLE') {
       this.MainComponent.PartyTypeReceivable.setHidden(true);
       this.MainComponent.PartyTypePayable.setHidden(false);
       this.MainComponent.PartyTypeReceivable.setValue(undefined);
       this.MainComponent.PartyTypePayable.mandatory = true;
       this.MainComponent.PartyTypeReceivable.mandatory = false;
     }
-    else{
+    else {
       this.MainComponent.PartyTypeReceivable.setHidden(false);
       this.MainComponent.PartyTypePayable.setHidden(true);
       this.MainComponent.PartyTypePayable.setValue(undefined);
@@ -112,20 +113,20 @@ export class FeesChargesDetailsHandlerComponent extends RLOUIHandlerComponent im
       this.MainComponent.PartyTypeReceivable.mandatory = true;
     }
   }
-  
-  displayPartyNameBasedOnPartyType(){
-    if(this.MainComponent.PartyTypeReceivable.getFieldValue() == 'B'){
+
+  displayPartyNameBasedOnPartyType() {
+    if (this.MainComponent.PartyTypeReceivable.getFieldValue() == 'B') {
       this.MainComponent.PartyName.setHidden(false);
       this.MainComponent.PartyNames.setHidden(true);
       this.MainComponent.PartyNames.mandatory = false;
       this.MainComponent.PartyName.mandatory = true
     }
-    else{
+    else {
       this.MainComponent.PartyName.setHidden(true);
       this.MainComponent.PartyNames.setHidden(false);
       this.MainComponent.PartyNames.mandatory = true;
       this.MainComponent.PartyName.mandatory = false
     }
   }
- }
+}
 

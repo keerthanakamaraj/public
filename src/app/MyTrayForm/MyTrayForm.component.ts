@@ -36,13 +36,13 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
   @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
   @ViewChild('doughnutChart', { static: false }) doughnutChart: ElementRef;
-  @ViewChild('chartPendingTxt', { static: false }) chartPendingTxt: ElementRef;
-  @ViewChild('chartCountTxt', { static: false }) chartCountTxt: ElementRef;
+  //@ViewChild('chartPendingTxt', { static: false }) chartPendingTxt: ElementRef;
+  //@ViewChild('chartCountTxt', { static: false }) chartCountTxt: ElementRef;
 
   public doughnutChartContext: CanvasRenderingContext2D;
-  public chartPendingContext: CanvasRenderingContext2D;
-  public chartCountContext: CanvasRenderingContext2D;
-  public chartPluginService: PluginServiceRegistrationOptions;
+  //public chartPendingContext: CanvasRenderingContext2D;
+  //public chartCountContext: CanvasRenderingContext2D;
+  //public chartPluginService: PluginServiceRegistrationOptions;
 
   menuList = [];
   promotionLists = [
@@ -427,9 +427,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
           labels: {
             fontSize: 10,
             usePointStyle: true
-          }
-          ,
-          //onClick: updateCount(e, legendItem)
+          },
           onClick: ((e, legendItem) => {
             console.log(e, legendItem);
             pendingProposals = 0;
@@ -461,60 +459,13 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
           }
         }
       }
-      // ,
-      // plugins: [{
-      //   beforeDraw: function (chart, options) {
-      //     var width = chart.width,
-      //       height = chart.height,
-      //       ctx = chart.ctx,
-      //       type = chart.config.type;
-
-      //     if (type == 'doughnut') {
-      //       ctx.textBaseline = "middle";
-      //       var fontSize = (height / 11).toFixed(2);
-      //       ctx.font = fontSize + "px sans-serif";
-      //       ctx.fillText("Total Pending", 140, 73);
-
-      //       var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2) - 10;
-      //       var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2) + 20;
-      //       ctx.textBaseline = "middle";
-      //       ctx.font = fontSize + "sans-serif";
-      //       ctx.fillText(this.proposalCount, centerX, centerY);
-      //       ctx.save();
-      //     }
-      //   }
-      // }]
-
     }
 
     this.chart = new Chart(this.doughnutChartContext, this.chartOptions);
-
-    //this.chart.chartOptions = this.chartOptions;
   }
 
   updateCount(count: any): any {
     console.error("DEEP | count", count);
     this.proposalCount = count;
-    // console.log(e, legendItem);
-    // var index = legendItem.index;
-    // var ci = this.chart;
-    // //var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
-
-    // console.log(ci.data, ci);
-
-    // let obj = ci.data.datasets[0]._meta[0].data;
-
-    // for (let i = 0; i < obj.length; i++) {
-    //   const element = obj[i];
-    //   console.log(element);
-    //   console.log(ci.data.datasets[0].data);
-    //   if (i == index) {
-    //     element.hidden = element.hidden ? false : true;
-    //   }
-    //   this.proposalCount = 0;
-
-    // }
-
-    // ci.update();
   }
 }

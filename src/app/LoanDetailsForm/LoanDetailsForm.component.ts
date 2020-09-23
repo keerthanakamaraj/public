@@ -23,6 +23,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { IAmortizationForm } from '../Interface/masterInterface';
 import { ICardMetaData, IUwCustomerTab, IGeneralCardData } from '../Interface/masterInterface';
 import { Subscription } from 'rxjs';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 const customCss: string = '';
 
 @Component({
@@ -43,15 +44,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   DisbArray: any[];
   DisbursalData: any[];
   ProductCategory: any;
-  @ViewChild('LoanAmount', { static: false }) LoanAmount: AmountComponent;
+  //@ViewChild('LoanAmount', { static: false }) LoanAmount: AmountComponent;
   @ViewChild('InterestRate', { static: false }) InterestRate: TextBoxComponent;
   @ViewChild('MarginRate', { static: false }) MarginRate: TextBoxComponent;
   @ViewChild('NetInterestRate', { static: false }) NetInterestRate: TextBoxComponent;
   @ViewChild('Tenure', { static: false }) Tenure: TextBoxComponent;
   @ViewChild('TenurePeriod', { static: false }) TenurePeriod: ComboBoxComponent;
   @ViewChild('InterestRateType', { static: false }) InterestRateType: ComboBoxComponent;
-  @ViewChild('SystemRecommendedAmount', { static: false }) SystemRecommendedAmount: AmountComponent;
-  @ViewChild('UserRecommendedAmount', { static: false }) UserRecommendedAmount: AmountComponent;
+  //@ViewChild('SystemRecommendedAmount', { static: false }) SystemRecommendedAmount: AmountComponent;
+  //@ViewChild('UserRecommendedAmount', { static: false }) UserRecommendedAmount: AmountComponent;
   @ViewChild('RepaymentFrequency', { static: false }) RepaymentFrequency: ComboBoxComponent;
   @ViewChild('RepaymentOption', { static: false }) RepaymentOption: ComboBoxComponent;
   @ViewChild('RepaymentAccNo', { static: false }) RepaymentAccNo: TextBoxComponent;
@@ -80,6 +81,12 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   @ViewChild('FieldId_26', { static: false }) FieldId_26: LoanDetailsGridComponent;
   @ViewChild('LD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('LD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
+
+  //custom
+  @ViewChild('UserRecommendedAmount', { static: false }) UserRecommendedAmount: RloUiCurrencyComponent;
+  @ViewChild('LoanAmount', { static: false }) LoanAmount: RloUiCurrencyComponent;
+  @ViewChild('SystemRecommendedAmount', { static: false }) SystemRecommendedAmount: RloUiCurrencyComponent;
+
   @Input() readOnly: boolean = false;
   @Input() parentData: IAmortizationForm = undefined;
 
@@ -279,15 +286,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
           this.LoanArray = res['LoanDetails'];
 
           this.LoanArray.forEach(async LoanElement => {
-            this.LoanAmount.setValue(LoanElement['LoanAmount']);
+            //this.LoanAmount.setValue(LoanElement['LoanAmount']);
             this.InterestRate.setValue(LoanElement['InterestRate']);
             this.MarginRate.setValue(LoanElement['MarginRate']);
             this.NetInterestRate.setValue(LoanElement['NetInterestRate']);
             this.Tenure.setValue(LoanElement['Tenure']);
             this.TenurePeriod.setValue(LoanElement['TenurePeriod']);
             this.InterestRateType.setValue(LoanElement['InterestRateType']);
-            this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
-            this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
+            //this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
+            //this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
             this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']);
             this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
@@ -321,6 +328,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
 
             this.LoanGridCalculation(this.monthlyinstallmentAmt);
             this.setTotalInterestAmount();
+
+            this.UserRecommendedAmount.setComponentSpecificValue(LoanElement['UserRecommendedAmount'], null);
+            this.SystemRecommendedAmount.setComponentSpecificValue(LoanElement['SystemRecommendedAmount'], null);
+            this.LoanAmount.setComponentSpecificValue(LoanElement['LoanAmount'], null);
           });
 
           this.revalidate(false).then((errors) => {
@@ -593,15 +604,15 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       //       return;
       // }
       inputMap.set('PathParam.LoanDetailSeq', this.hideLoanSeq.getFieldValue());
-      inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getFieldValue());
+      //inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getFieldValue());
       inputMap.set('Body.LoanDetails.InterestRate', this.InterestRate.getFieldValue());
       inputMap.set('Body.LoanDetails.MarginRate', this.MarginRate.getFieldValue());
       inputMap.set('Body.LoanDetails.NetInterestRate', this.NetInterestRate.getFieldValue());
       inputMap.set('Body.LoanDetails.Tenure', this.Tenure.getFieldValue());
       inputMap.set('Body.LoanDetails.TenurePeriod', this.TenurePeriod.getFieldValue());
       inputMap.set('Body.LoanDetails.InterestRateType', this.InterestRateType.getFieldValue());
-      inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.SystemRecommendedAmount.getFieldValue());
-      inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.UserRecommendedAmount.getFieldValue());
+      //inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.SystemRecommendedAmount.getFieldValue());
+      //inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.UserRecommendedAmount.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentFrequency', this.RepaymentFrequency.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentOption', this.RepaymentOption.getFieldValue());
       inputMap.set('Body.LoanDetails.RepaymentAccNo', this.RepaymentAccNo.getFieldValue());
@@ -624,6 +635,12 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       // inputMap.set('Body.LoanDetails.TotalFeeCollUpfront', this.totalUpfront);
       // inputMap.set('Body.LoanDetails.TotalLoanAmt', this.totalLoanAmount);
       inputMap.set('Body.LoanDetails.ApplicationId', this.ApplicationId);
+
+      //custom
+      inputMap.set('Body.LoanDetails.UserRecommendedAmount', this.UserRecommendedAmount.getTextBoxValue());
+      inputMap.set('Body.LoanDetails.SystemRecommendedAmount', this.SystemRecommendedAmount.getTextBoxValue());
+      inputMap.set('Body.LoanDetails.LoanAmount', this.LoanAmount.getTextBoxValue());
+
       this.services.http.fetchApi('/LoanDetails/{LoanDetailSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;

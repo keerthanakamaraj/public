@@ -18,6 +18,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { OccuptionDtlsGridComponent } from '../OccuptionDtlsGrid/OccuptionDtlsGrid.component';
 import { OccupationHandlerComponent } from '../OccupationDtlsForm/occupation-handler.component';
 import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -42,14 +43,14 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('OD_COMP_NAME', { static: false }) OD_COMP_NAME: TextBoxComponent;
   @ViewChild('OD_LENGTH_OF_EXST', { static: false }) OD_LENGTH_OF_EXST: TextBoxComponent;
   @ViewChild('OD_INC_DOC_TYPE', { static: false }) OD_INC_DOC_TYPE: ComboBoxComponent;
-  @ViewChild('OD_NET_INCOME', { static: false }) OD_NET_INCOME: TextBoxComponent;
+  // @ViewChild('OD_NET_INCOME', { static: false }) OD_NET_INCOME: TextBoxComponent;
   @ViewChild('OD_INCOME_FREQ', { static: false }) OD_INCOME_FREQ: ComboBoxComponent;
   @ViewChild('OD_EMP_STATUS', { static: false }) OD_EMP_STATUS: ComboBoxComponent;
   @ViewChild('OD_INCOME_TYPE', { static: false }) OD_INCOME_TYPE: ComboBoxComponent;
   @ViewChild('OD_WRK_PERMIT_NO', { static: false }) OD_WRK_PERMIT_NO: TextBoxComponent;
   @ViewChild('OD_RES_PRT_NO', { static: false }) OD_RES_PRT_NO: TextBoxComponent;
-  @ViewChild('OD_CURRENCY', { static: false }) OD_CURRENCY: ComboBoxComponent;
-  @ViewChild('OD_LOC_CURR_EQ', { static: false }) OD_LOC_CURR_EQ: TextBoxComponent;
+  //@ViewChild('OD_CURRENCY', { static: false }) OD_CURRENCY: ComboBoxComponent;
+  //@ViewChild('OD_LOC_CURR_EQ', { static: false }) OD_LOC_CURR_EQ: TextBoxComponent;
   @ViewChild('OD_SAVE_BTN', { static: false }) OD_SAVE_BTN: ButtonComponent;
   @ViewChild('OD_CLEAR_BTN', { static: false }) OD_CLEAR_BTN: ButtonComponent;
   @ViewChild('OCC_DTLS_GRID', { static: false }) OCC_DTLS_GRID: OccuptionDtlsGridComponent;
@@ -71,6 +72,11 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('HidCurrency', { static: false }) HidCurrency: HiddenComponent;
   @ViewChild('HidOccupationSeq', { static: false }) HidOccupationSeq: HiddenComponent;
   @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
+
+  //custom
+  @ViewChild('OD_NET_INCOME', { static: false }) OD_NET_INCOME: RloUiCurrencyComponent;
+  @ViewChild('OD_LOC_CURR_EQ', { static: false }) OD_LOC_CURR_EQ: RloUiCurrencyComponent;
+
   @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() parentFormCode: string;
@@ -98,13 +104,13 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.revalidateBasicField('OD_COMP_NAME'),
       this.revalidateBasicField('OD_LENGTH_OF_EXST'),
       this.revalidateBasicField('OD_INC_DOC_TYPE'),
-      this.revalidateBasicField('OD_NET_INCOME'),
+      // this.revalidateBasicField('OD_NET_INCOME'),
       this.revalidateBasicField('OD_INCOME_FREQ'),
       this.revalidateBasicField('OD_EMP_STATUS'),
       this.revalidateBasicField('OD_INCOME_TYPE'),
       this.revalidateBasicField('OD_WRK_PERMIT_NO'),
       this.revalidateBasicField('OD_RES_PRT_NO'),
-      this.revalidateBasicField('OD_CURRENCY'),
+      this.revalidateBasicField('OD_NET_INCOME'),
       //this.revalidateBasicField('OD_LOC_CURR_EQ'),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
@@ -287,6 +293,10 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     this.passNewValue(this.value);
     this.setReadOnly(false);
     this.onFormLoad();
+
+    //custom
+    this.OD_NET_INCOME.resetFieldAndDropDown();
+    this.OD_LOC_CURR_EQ.resetFieldAndDropDown();
   }
   async OD_OCCUPATION_change(fieldID, value) {
     let inputMap = new Map();
@@ -349,15 +359,26 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.CompanyName', this.OD_COMP_NAME.getFieldValue());
         inputMap.set('Body.OccupationDetails.LengthOfExistance', this.OD_LENGTH_OF_EXST.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeDocumentType', this.OD_INC_DOC_TYPE.getFieldValue());
-        inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
+        //inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeFrequecy', this.OD_INCOME_FREQ.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmploymentStatus', this.OD_EMP_STATUS.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
         inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
+        // inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
         inputMap.set('Body.OccupationDetails.BorrowerSeq', this.activeBorrowerSeq);
+        //inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+
+        //custom
+        inputMap.set('Body.OccupationDetails.Currency', this.OD_NET_INCOME.currencyCode);
+        inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+        //custom
+
+        console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
+        return;
+
+
         this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -377,10 +398,10 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             var err = httpError['error']
             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
               if (err['ErrorElementPath'] == 'OccupationDetails.LocalCurrencyEquivalent') {
-                this.OD_LOC_CURR_EQ.setError(err['ErrorDescription']);
+                //this.OD_LOC_CURR_EQ.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.Currency') {
-                this.OD_CURRENCY.setError(err['ErrorDescription']);
+                //this.OD_CURRENCY.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber') {
                 this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
@@ -398,6 +419,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
                 this.OD_INCOME_FREQ.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.NetIncome') {
+                //this.OD_NET_INCOME.setError(err['ErrorDescription']);
                 this.OD_NET_INCOME.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.IncomeDocumentType') {
@@ -471,15 +493,24 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.CompanyName', this.OD_COMP_NAME.getFieldValue());
         inputMap.set('Body.OccupationDetails.LengthOfExistance', this.OD_LENGTH_OF_EXST.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeDocumentType', this.OD_INC_DOC_TYPE.getFieldValue());
-        inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
+        //inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeFrequecy', this.OD_INCOME_FREQ.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmploymentStatus', this.OD_EMP_STATUS.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
         inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
+        //inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
         inputMap.set('Body.OccupationDetails.BorrowerSeq', this.activeBorrowerSeq);
+        //inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+
+        //custom
+        inputMap.set('Body.OccupationDetails.Currency', this.OD_NET_INCOME.currencyCode);
+        inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getTextBoxValue());
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+
+        console.error("DEEP | OD_SAVE_BTN_click()", inputMap);
+        console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
+       
         this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -498,10 +529,10 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             var err = httpError['error']
             if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
               if (err['ErrorElementPath'] == 'OccupationDetails.LocalCurrencyEquivalent') {
-                this.OD_LOC_CURR_EQ.setError(err['ErrorDescription']);
+                //this.OD_LOC_CURR_EQ.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.Currency') {
-                this.OD_CURRENCY.setError(err['ErrorDescription']);
+                //this.OD_CURRENCY.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber') {
                 this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
@@ -519,6 +550,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
                 this.OD_INCOME_FREQ.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.NetIncome') {
+                // this.OD_NET_INCOME.setError(err['ErrorDescription']);
                 this.OD_NET_INCOME.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'OccupationDetails.IncomeDocumentType') {
@@ -582,6 +614,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   async OD_CLEAR_BTN_click(event) {
     let inputMap = new Map();
     this.onReset();
+    this.occpOnBlur.emit({});
   }
   async OCC_DTLS_GRID_occDtlsEdit(event) {
     let inputMap = new Map();
@@ -598,8 +631,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             this.OD_EMPLT_TYPE.mandatory = false;
             setTimeout(() => {
               this.OD_EMPLT_TYPE.setReadOnly(true);
-            }, 500);      
-          }  
+            }, 500);
+          }
         } else if (this.OD_OCCUPATION.getFieldValue() == 'SE') {
           this.OD_SELF_EMPLD_TYPE.mandatory = true;
           this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
@@ -608,9 +641,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             this.OD_SELF_EMPLD_TYPE.mandatory = false;
             setTimeout(() => {
               this.OD_SELF_EMPLD_TYPE.setReadOnly(true);
-              this.OD_SELF_EMPLD_PROF.setReadOnly(true); 
+              this.OD_SELF_EMPLD_PROF.setReadOnly(true);
             }, 500);
-          }  
+          }
         }
 
 
@@ -629,21 +662,26 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_COMP_NAME.setValue(res['OccupationDetails']['CompanyName']);
         this.OD_LENGTH_OF_EXST.setValue(res['OccupationDetails']['LengthOfExistance']);
         this.OD_INC_DOC_TYPE.setValue(res['OccupationDetails']['IncomeDocumentType']);
-        this.OD_NET_INCOME.setValue(res['OccupationDetails']['NetIncome']);
+        //this.OD_NET_INCOME.setValue(res['OccupationDetails']['NetIncome']);
         this.OD_INCOME_FREQ.setValue(res['OccupationDetails']['IncomeFrequecy']);
         this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']);
         this.OD_INCOME_TYPE.setValue(res['OccupationDetails']['IncomeType']);
         this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
         this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
-        this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
-        this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
+        //this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
+        //this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
         this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
         this.Handler.occupationOnchange();
         this.Handler.companyCodeChange();
         this.OD_OCCUPATION_change('OD_OCCUPATION', event);
-        this.revalidateBasicField('OD_CURRENCY', true)
-        
+        this.revalidateBasicField('OD_NET_INCOME', true)
+
+        //custom
+        this.OD_NET_INCOME.setComponentSpecificValue(res['OccupationDetails']['NetIncome'], res['OccupationDetails']['Currency']);
+        this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
+
+        this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -765,17 +803,17 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       outDep: [
       ]
     },
-    OD_CURRENCY: {
-      inDep: [
+    // OD_CURRENCY: {
+    //   inDep: [
 
-        { paramKey: "CurrencySrc", depFieldID: "OD_CURRENCY", paramType: "PathParam" },
-        // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
-      ],
-      outDep: [
+    //     { paramKey: "CurrencySrc", depFieldID: "OD_CURRENCY", paramType: "PathParam" },
+    //     // { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
 
-        { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
-      ]
-    },
+    //     { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+    //   ]
+    // },
     OD_COMPANY_CODE: {
       inDep: [
 
@@ -792,7 +830,21 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
   /* Write Custom Scripts Here */
 
+  //custom 
+  customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+    if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+      this.hidExchangeRate.setValue(event.exchangeRate);
 
-  //occBorrowerSeq;
+      let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+      console.log(localCurrencyEq);
 
+      this.OD_LOC_CURR_EQ.setComponentSpecificValue(localCurrencyEq, null);
+    }
+
+    this.genericOnBlur('OD_NET_INCOME', event.textFieldValue);
+    //this.resetBasicFields();
+    //let inputMap = new Map();
+    //this.Handler.netIncomeOnblur();
+  }
 }

@@ -335,20 +335,22 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
     }
   }
 }
-.INR::before{
+
+.INR::before {
   content: "₹";
   background-image: url("./../icons/rupee-yellow.svg");
 }
 
-.MUR::before{
+.MUR::before {
   content: "Rs";
 }
 
-.EUR::before{
+.EUR::before {
   content: "€";
   background-image: url("./../icons/Euro Header icon.svg");
 }
-.KES::before{
+
+.KES::before {
   content: "";
   background-image: url("./../icons/Ksh icon.svg");
 }
@@ -394,7 +396,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         margin-right: 14px;
       }
 
-     
+
 
 
       &.loan-cat::before {
@@ -2921,6 +2923,7 @@ rlo-ui-card-field {
 /*amortization css start*/
 .horizontal-line {
   border-bottom: 1px solid #E9E9E9;
+  margin: 0 1.25rem 15px 1.25rem;
 }
 
 .deactivate-amortization {
@@ -3182,11 +3185,13 @@ rlo-ui-card-field {
       margin-left: 4px !important;
     }
   }
+
   .viewbutton {
     button {
       width: 145px !important;
     }
   }
+
   .document-upload {
     min-height: 3rem;
     padding: 0;

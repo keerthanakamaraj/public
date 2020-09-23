@@ -25,6 +25,7 @@ import { ignoreElements } from 'rxjs/operators';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { element } from 'protractor';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -74,20 +75,20 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_ADD', { static: false }) CD_ADD: ButtonComponent;
   @ViewChild('CD_RESET', { static: false }) CD_RESET: ButtonComponent;
   @ViewChild('CUST_DTLS_GRID', { static: false }) CUST_DTLS_GRID: CustDtlsGridComponent;
-  @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: AmountComponent;
+  //@ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: AmountComponent;
   @ViewChild('LD_INTEREST_RATE', { static: false }) LD_INTEREST_RATE: TextBoxComponent;
   @ViewChild('LD_TENURE', { static: false }) LD_TENURE: TextBoxComponent;
   @ViewChild('LD_TENURE_PERIOD', { static: false }) LD_TENURE_PERIOD: ComboBoxComponent;
   // @ViewChild('LD_APP_PRPSE', { static: false }) LD_APP_PRPSE: ComboBoxComponent;
-  @ViewChild('LD_GROSS_INCOME', { static: false }) LD_GROSS_INCOME: AmountComponent;
-  @ViewChild('LD_EXST_LBLT_AMT', { static: false }) LD_EXST_LBLT_AMT: AmountComponent;
-  @ViewChild('LD_OTH_DEDUCTIONS', { static: false }) LD_OTH_DEDUCTIONS: TextBoxComponent;
-  @ViewChild('LD_NET_INCOME', { static: false }) LD_NET_INCOME: AmountComponent;
+  //@ViewChild('LD_GROSS_INCOME', { static: false }) LD_GROSS_INCOME: AmountComponent;
+  //@ViewChild('LD_EXST_LBLT_AMT', { static: false }) LD_EXST_LBLT_AMT: AmountComponent;
+  //@ViewChild('LD_OTH_DEDUCTIONS', { static: false }) LD_OTH_DEDUCTIONS: TextBoxComponent;
+  //@ViewChild('LD_NET_INCOME', { static: false }) LD_NET_INCOME: AmountComponent;
   @ViewChild('LD_CHK_ELGBTY_BTN', { static: false }) LD_CHK_ELGBTY_BTN: ButtonComponent;
-  @ViewChild('LD_SYS_AMT_RCMD', { static: false }) LD_SYS_AMT_RCMD: AmountComponent;
-  @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: AmountComponent;
+  //@ViewChild('LD_SYS_AMT_RCMD', { static: false }) LD_SYS_AMT_RCMD: AmountComponent;
+  //@ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: AmountComponent;
   @ViewChild('LD_LTV_DBR', { static: false }) LD_LTV_DBR: TextBoxComponent;
-  @ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: AmountComponent;
+  //@ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: AmountComponent;
   @ViewChild('LD_NET_INTEREST_RATE', { static: false }) LD_NET_INTEREST_RATE: TextBoxComponent;
   @ViewChild('LD_MARGIN_RATE', { static: false }) LD_MARGIN_RATE: TextBoxComponent;
   @ViewChild('CD_EMAIL_ID', { static: false }) CD_EMAIL_ID: TextBoxComponent;
@@ -119,6 +120,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('INIT_ACCORD', { static: false }) INIT_ACCORD: RloUiAccordionComponent;
   @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
   @ViewChild('allowCoBorrower', { static: false }) allowCoBorrower: HiddenComponent;
+
+  //custom
+  @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: RloUiCurrencyComponent;
+  @ViewChild('LD_GROSS_INCOME', { static: false }) LD_GROSS_INCOME: RloUiCurrencyComponent;
+  @ViewChild('LD_EXST_LBLT_AMT', { static: false }) LD_EXST_LBLT_AMT: RloUiCurrencyComponent;
+  @ViewChild('LD_OTH_DEDUCTIONS', { static: false }) LD_OTH_DEDUCTIONS: RloUiCurrencyComponent;
+  @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: RloUiCurrencyComponent;
+
+  @ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: RloUiCurrencyComponent;
+  @ViewChild('LD_NET_INCOME', { static: false }) LD_NET_INCOME: RloUiCurrencyComponent;
+  @ViewChild('LD_SYS_AMT_RCMD', { static: false }) LD_SYS_AMT_RCMD: RloUiCurrencyComponent;
+
   disableLoanOwnership: boolean = true
   eligeData = [];
   isLoanCategory: boolean;
@@ -227,7 +240,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('LD_EXST_LBLT_AMT'),
         this.revalidateBasicField('LD_OTH_DEDUCTIONS'),
         this.revalidateBasicField('LD_NET_INCOME'),
-        this.revalidateBasicField('LD_SYS_AMT_RCMD'),
+        //this.revalidateBasicField('LD_SYS_AMT_RCMD'),
         this.revalidateBasicField('LD_USR_RCMD_AMT'),
         this.revalidateBasicField('LD_LTV_DBR'),
         this.revalidateBasicField('LD_EMI_AMT'),
@@ -699,6 +712,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     inputMap.set('Body.inputdata.DBR', this.LD_LTV_DBR.getFieldValue());
     inputMap.set('Body.inputdata.SCHEME_CD', this.BAD_SCHEME.getFieldValue());
     inputMap.set('Body.inputdata.PROMOTION_CD', this.BAD_PROMOTION.getFieldValue());
+
+    console.error("DEEP | LD_CHK_ELGBTY_BTN_click", inputMap);
+
     this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
@@ -794,9 +810,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.LoanDetails.MarginRate', this.LD_MARGIN_RATE.getFieldValue());
         inputMap.set('Body.LoanDetails.NetInterestRate', this.LD_NET_INTEREST_RATE.getFieldValue());
         inputMap.set('Body.BorrowerDetails', this.Handler.getBorrowerPostData());
-        console.log("Params ", inputMap);
 
-        //return;
+        console.error("DEEP | inputMap", inputMap);
+        console.log(inputMap.get("Body.LoanDetails.EMIAmoun"),
+          inputMap.get("Body.LoanDetails.LoanAmount"),
+          inputMap.get("Body.LoanDetails.UserRecommendedAmount"),
+        )
 
         this.services.http.fetchApi('/proposal/initiate', 'POST', inputMap, '/initiation').subscribe(
           async (httpResponse: HttpResponse<any>) => {
@@ -867,7 +886,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
                 this.LD_USR_RCMD_AMT.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'LoanDetails.SystemRecommendedAmount') {
-                this.LD_SYS_AMT_RCMD.setError(err['ErrorDescription']);
+                //this.LD_SYS_AMT_RCMD.setError(err['ErrorDescription']);
               }
               else if (err['ErrorElementPath'] == 'LoanDetails.TenurePeriod') {
                 this.LD_TENURE_PERIOD.setError(err['ErrorDescription']);
@@ -1259,6 +1278,19 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     //   outDep: [
     //   ]
     // },
+  }
+
+  customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+
+    if (event.field == "LD_LOAN_AMOUNT") {
+      // if (event.textFieldValue != "")
+      this.Handler.updateAmountTags();
+    } else if (event.field == "LD_GROSS_INCOME" || event.field == "LD_EXST_LBLT_AMT" || event.field == "LD_OTH_DEDUCTIONS") {
+      this.Handler.calculateNetIncome({});
+    }
+    this.genericOnBlur(event.field, event.textFieldValue);
+
   }
 
 }

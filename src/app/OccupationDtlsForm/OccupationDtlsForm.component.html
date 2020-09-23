@@ -163,32 +163,43 @@
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)">
             </app-combo-box>
           </div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_CURRENCY.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': OD_CURRENCY.mandatory}">
-                {{ 'OccupationDtlsForm.OD_CURRENCY' | translate}}</label>
+              <label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
+                {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
             </div>
-            <app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select"
+            <!-- <app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('OD_CURRENCY', $event)">
-            </app-combo-box>
+            </app-combo-box> -->
+
+            <app-rlo-ui-currency #OD_NET_INCOME fieldID="OD_NET_INCOME" [currencyReadOnly]="readOnly" 
+            [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'OD_NET_INCOME'"
+            (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
                 {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
             </div>
             <app-amount #OD_NET_INCOME fieldID="OD_NET_INCOME" [formCode]="formCode"
               (blur)="genericOnBlur('OD_NET_INCOME', $event)"></app-amount>
-          </div>
+          </div> -->
+          
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_LOC_CURR_EQ.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'OccupationDtlsForm.OD_LOC_CURR_EQ' | translate}}</label>
             </div>
-            <app-amount #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select"
-              (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-amount>
+            <!-- <app-amount #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [formCode]="formCode" placeholder="Select"
+              (blur)="genericOnBlur('OD_LOC_CURR_EQ', $event)"></app-amount> -->
+
+              <app-rlo-ui-currency #OD_LOC_CURR_EQ fieldID="OD_LOC_CURR_EQ" [currencyReadOnly]="true" 
+              [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
+
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INC_DOC_TYPE.isHidden()">
             <div class="clr-brown fieldLegend">

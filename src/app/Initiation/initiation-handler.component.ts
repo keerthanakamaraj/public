@@ -73,6 +73,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
     let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
     let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
+
     if (liability == undefined) {
       liability = 0;
     }
@@ -82,13 +83,20 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (grossincome == undefined) {
       grossincome = 0;
     }
+
+    grossincome = grossincome ? Number(grossincome) : grossincome;
+    liability = liability ? Number(liability) : liability;
+    otherDeduction = otherDeduction ? Number(otherDeduction) : otherDeduction;
+
     let liabityAndOtherDed = liability + otherDeduction;
     if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed > grossincome) {
       this.MainComponent.LD_GROSS_INCOME.setError('rlo.error.grossIncome.invalid');
     } else {
       let netIncome = grossincome - liability - otherDeduction;
       // let DBR = (liability + otherDeduction) / grossincome;
-      this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+      //this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+      this.MainComponent.LD_NET_INCOME.setComponentSpecificValue(netIncome.toFixed(2), null);
+
       // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
       this.MainComponent.LD_GROSS_INCOME.clearError();
     }
@@ -121,8 +129,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
     this.MainComponent.LD_SYS_AMT_RCMD.onReset();
-    this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
-    this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
+    //this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
+    this.MainComponent.LD_SYS_AMT_RCMD.setComponentSpecificValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue(), null);
+
+    //this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
     if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined) {
       let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
       let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
@@ -136,6 +146,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       if (grossincome == undefined) {
         grossincome = 0;
       }
+
+      grossincome = grossincome ? Number(grossincome) : grossincome;
+      liability = liability ? Number(liability) : liability;
+      otherDeduction = otherDeduction ? Number(otherDeduction) : otherDeduction;
 
       let DBR = (liability + otherDeduction) / grossincome;
       this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
@@ -156,8 +170,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
     let EMI = amount * rate / (1 - (Math.pow(1 / (1 + rate), months)));
     console.log("Loan EMI", EMI);
-    this.MainComponent.LD_EMI_AMT.setValue(EMI.toFixed(2));
-
+    //this.MainComponent.LD_EMI_AMT.setValue(EMI.toFixed(2));
+    this.MainComponent.LD_EMI_AMT.setComponentSpecificValue(EMI.toFixed(2), null);
   }
 
 
@@ -358,8 +372,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   }
   updateAmountTags() {
     let displayTag = [];
+    let val = this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()
+    console.log(val);
     if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined) {
-      displayTag.push(this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
+      if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue().length)
+        displayTag.push(this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
     }
 
     if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {

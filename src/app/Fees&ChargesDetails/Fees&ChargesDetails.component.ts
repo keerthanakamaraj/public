@@ -19,6 +19,7 @@ import { FeesChargesGridComponent } from '../FeesChargesGrid/FeesChargesGrid.com
 import { FeesChargesDetailsHandlerComponent } from './FeesChargesDetails-handler.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { IAmortizationForm } from '../Interface/masterInterface';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -35,16 +36,16 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   @ViewChild('PartyNames', { static: false }) PartyNames: ComboBoxComponent;
   @ViewChild('ChargeBasis', { static: false }) ChargeBasis: RLOUIRadioComponent;
   @ViewChild('ChargeRate', { static: false }) ChargeRate: TextBoxComponent;
-  @ViewChild('ChargeAmt', { static: false }) ChargeAmt: AmountComponent;
+  //@ViewChild('ChargeAmt', { static: false }) ChargeAmt: AmountComponent;
   @ViewChild('PeriodicCharge', { static: false }) PeriodicCharge: ComboBoxComponent;
   @ViewChild('PeriodicStDt', { static: false }) PeriodicStDt: DateComponent;
   @ViewChild('PeriodicEnDt', { static: false }) PeriodicEnDt: ComboBoxComponent;
   @ViewChild('Frequency', { static: false }) Frequency: DateComponent;
   @ViewChild('RateOnCharge', { static: false }) RateOnCharge: ComboBoxComponent;
   @ViewChild('ChargeCollection', { static: false }) ChargeCollection: ComboBoxComponent;
-  @ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
-  @ViewChild('EffectiveAmount', { static: false }) EffectiveAmount: AmountComponent;
-  @ViewChild('LocalAmount', { static: false }) LocalAmount: AmountComponent;
+  //@ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
+  //@ViewChild('EffectiveAmount', { static: false }) EffectiveAmount: AmountComponent;
+  //@ViewChild('LocalAmount', { static: false }) LocalAmount: AmountComponent;
   @ViewChild('FC_SAVE_BTN', { static: false }) FC_SAVE_BTN: ButtonComponent;
   @ViewChild('FC_RESET_BTN', { static: false }) FC_RESET_BTN: ButtonComponent;
   @ViewChild('FieldId_2', { static: false }) FieldId_2: FeesChargesGridComponent;
@@ -65,7 +66,11 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   @ViewChild('hideChargeDescription', { static: false }) hideChargeDescription: HiddenComponent;
   //@ViewChild('hidePartyName', { static: false }) hidePartyName: HiddenComponent;
 
+  //custom
+  @ViewChild('ChargeAmt', { static: false }) ChargeAmt: RloUiCurrencyComponent;
+  @ViewChild('LocalAmount', { static: false }) LocalAmount: RloUiCurrencyComponent;
 
+  @ViewChild('EffectiveAmount', { static: false }) EffectiveAmount: RloUiCurrencyComponent;
 
   @Input() parentData: IAmortizationForm = undefined;
 
@@ -98,7 +103,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       this.revalidateBasicField('RateOnCharge'),
       this.revalidateBasicField('ChargeCollection'),
       this.revalidateBasicField('EffectiveAmount'),
-      this.revalidateBasicField('Currency'),
+      //this.revalidateBasicField('Currency'),
       this.revalidateBasicField('LocalAmount')
 
     ]).then((errorCounts) => {
@@ -121,9 +126,9 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   async onFormLoad() {
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
 
-    this.ChargeAmt.setFormatOptions({ languageCode: 'en-US', });
-    this.LocalAmount.setFormatOptions({ languageCode: 'en-US', });
-    this.EffectiveAmount.setFormatOptions({ languageCode: 'en-US', });
+    //this.ChargeAmt.setFormatOptions({ languageCode: 'en-US', });
+    //this.LocalAmount.setFormatOptions({ languageCode: 'en-US', });
+    //this.EffectiveAmount.setFormatOptions({ languageCode: 'en-US', });
     this.setDependencies();
     this.hideCurrencyDesc.setValue('EUR');
     this.hidAppId.setValue('RLO');
@@ -337,18 +342,24 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     inputMap.set('Body.ChargeDetails.ChargeType', this.ChargeType.getFieldValue());
     inputMap.set('Body.ChargeDetails.PartyType', PartyType);
     inputMap.set('Body.ChargeDetails.PartyName', PartyName);
-    inputMap.set('Body.ChargeDetails.Currency', this.Currency.getFieldValue());
+    //inputMap.set('Body.ChargeDetails.Currency', this.Currency.getFieldValue());
     inputMap.set('Body.ChargeDetails.ChargeBasis', this.ChargeBasis.getFieldValue());
     inputMap.set('Body.ChargeDetails.ChargeRate', this.ChargeRate.getFieldValue());
-    inputMap.set('Body.ChargeDetails.ChargeAmt', this.ChargeAmt.getFieldValue());
+    //inputMap.set('Body.ChargeDetails.ChargeAmt', this.ChargeAmt.getFieldValue());
     inputMap.set('Body.ChargeDetails.PeriodicCharge', this.PeriodicCharge.getFieldValue());
     inputMap.set('Body.ChargeDetails.PeriodicStDt', this.PeriodicStDt.getFieldValue());
     inputMap.set('Body.ChargeDetails.PeriodicEnDt', this.PeriodicEnDt.getFieldValue());
     inputMap.set('Body.ChargeDetails.Frequency', this.Frequency.getFieldValue());
     inputMap.set('Body.ChargeDetails.RateOnCharge', this.RateOnCharge.getFieldValue());
     inputMap.set('Body.ChargeDetails.ChargeCollection', this.ChargeCollection.getFieldValue());
-    inputMap.set('Body.ChargeDetails.LocalAmount', this.LocalAmount.getFieldValue());
+    //inputMap.set('Body.ChargeDetails.LocalAmount', this.LocalAmount.getFieldValue());
     inputMap.set('Body.ChargeDetails.EffectiveAmount', this.EffectiveAmount.getFieldValue());
+
+    //custom
+    inputMap.set('Body.ChargeDetails.Currency', this.ChargeAmt.currencyCode);
+    inputMap.set('Body.ChargeDetails.ChargeAmt', this.ChargeAmt.getTextBoxValue());
+    inputMap.set('Body.ChargeDetails.LocalAmount', this.LocalAmount.getFieldValue());
+
     return inputMap;
   }
   FC_RESET_click($event) {
@@ -462,8 +473,8 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
           this.PartyNames.setValue(res['ChargeDetails']['PartyName']);
         }
         this.ChargeBasis.setValue(res['ChargeDetails']['ChargeBasis']);
-        this.Currency.setValue(res['ChargeDetails']['Currency']);
-        this.ChargeAmt.setValue(res['ChargeDetails']['ChargeAmt']);
+        //this.Currency.setValue(res['ChargeDetails']['Currency']);
+        //this.ChargeAmt.setValue(res['ChargeDetails']['ChargeAmt']);
         this.PeriodicCharge.setValue(res['ChargeDetails']['PeriodicCharge']);
         this.PeriodicStDt.setValue(res['ChargeDetails']['PeriodicStDt']);
         this.PeriodicEnDt.setValue(res['ChargeDetails']['PeriodicEnDt']);
@@ -471,13 +482,19 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         this.ChargeCollection.setValue(res['ChargeDetails']['ChargeCollection']);
         this.RateOnCharge.setValue(res['ChargeDetails']['RateOnCharge']);
         this.EffectiveAmount.setValue(res['ChargeDetails']['EffectiveAmount']);
-        this.LocalAmount.setValue(res['ChargeDetails']['LocalAmount']);
+        //this.LocalAmount.setValue(res['ChargeDetails']['LocalAmount']);
         this.AD_HIDE_ID.setValue(res['ChargeDetails']['ChargeDtlSeq']);
         this.Handler.hideShowFieldBasedOnChargeBasis();
         this.Handler.hideFieldBasedOnPeriodicCharge();
         this.Handler.hideFieldBasedonChargeType()
         this.Handler.displayPartyNameBasedOnPartyType();
-        this.revalidateBasicField('Currency', true)
+        //this.revalidateBasicField('Currency', true)
+
+
+        //custom
+        this.ChargeAmt.setComponentSpecificValue(res['ChargeDetails']['ChargeAmt'], res['ChargeDetails']['Currency']);
+        this.LocalAmount.setComponentSpecificValue(res['ChargeDetails']['LocalAmount'], null);
+        this.EffectiveAmount.setComponentSpecificValue(res['ChargeDetails']['EffectiveAmount'], null);
 
         if (this.readOnly) {
           this.setReadOnly(this.readOnly);
@@ -545,17 +562,17 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       outDep: [
       ]
     },
-    Currency: {
-      inDep: [
+    // Currency: {
+    //   inDep: [
 
-        { paramKey: "CurrencySrc", depFieldID: "Currency", paramType: "PathParam" },
-        { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
-      ],
-      outDep: [
+    //     { paramKey: "CurrencySrc", depFieldID: "Currency", paramType: "PathParam" },
+    //     { paramKey: "CurrencyDest", depFieldID: "hideCurrencyDesc", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
 
-        { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
-      ]
-    },
+    //     { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+    //   ]
+    // },
     ChargeType: {
       inDep: [
 
@@ -660,5 +677,21 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     //   ]
     // }
 
+  }
+
+  //custom 
+  customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+    if (event.field == "ChargeAmt") {
+      if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+        this.hidExchangeRate.setValue(event.exchangeRate);
+
+        let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+        console.log(localCurrencyEq);
+
+        this.LocalAmount.setComponentSpecificValue(localCurrencyEq, null);
+      }
+    }
+    this.genericOnBlur(event.field, event.textFieldValue);
   }
 }

@@ -72,16 +72,22 @@
               [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_ASSET_STATUS', $event)"></app-combo-box>
           </div>
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_ASSET_VALUE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AT_ASSET_VALUE.mandatory}">
                 {{ 'AssetDetailsForm.AT_ASSET_VALUE' | translate}}
               </label>
             </div>
-            <app-amount #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [formCode]="formCode"
-              (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-amount>
+            <!-- <app-amount #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [formCode]="formCode"
+              (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [currencyReadOnly]="true"
+              [componentFieldId]="'AT_ASSET_VALUE'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="false"
+              [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_CURRENCY.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_CURRENCY.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AT_CURRENCY.mandatory}">
                 {{ 'AssetDetailsForm.AT_CURRENCY' | translate}}
@@ -91,45 +97,38 @@
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails" placeholder="Select" (blur)="genericOnBlur('AT_CURRENCY', $event)">
             </app-combo-box>
-          </div>
+          </div> -->
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_FAIR_MRKT_VALUE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AT_FAIR_MRKT_VALUE.mandatory}">
                 {{ 'AssetDetailsForm.AT_FAIR_MRKT_VALUE' | translate}}
               </label>
             </div>
-            <app-amount #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [formCode]="formCode"
-              (blur)="genericOnBlur('AT_FAIR_MRKT_VALUE', $event)"></app-amount>
+            <!-- <app-amount #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [formCode]="formCode"
+              (blur)="genericOnBlur('AT_FAIR_MRKT_VALUE', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #AT_FAIR_MRKT_VALUE fieldID="AT_FAIR_MRKT_VALUE" [currencyReadOnly]="readOnly"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'AT_FAIR_MRKT_VALUE'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+
           </div>
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
-         
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_EQUIVALENT_AMOUNT.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'AssetDetailsForm.AT_EQUIVALENT_AMOUNT' | translate}}
               </label>
             </div>
-            <app-amount #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode"
-              (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-amount>
+            <!-- <app-amount #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [formCode]="formCode"
+              (blur)="genericOnBlur('AT_EQUIVALENT_AMOUNT', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #AT_EQUIVALENT_AMOUNT fieldID="AT_EQUIVALENT_AMOUNT" [currencyReadOnly]="true"
+              [componentFieldId]="'AT_EQUIVALENT_AMOUNT'" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_OWNED_BY.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AssetDetailsForm.AT_OWNED_BY' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #AT_OWNED_BY category="2" placeholder="Select" fieldID="AT_OWNED_BY" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_OWNED_BY', $event)"></app-combo-box>
-                    </div> -->
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_NAME.isHidden()">
-                        <div class="clr-brown fieldLegend">
-                            <label class="clr-brown">
-                                {{ 'AssetDetailsForm.AT_NAME' | translate}}
-                            </label>
-                        </div>
-                        <app-combo-box #AT_NAME category="2" fieldID="AT_NAME" placeholder="Select" [formCode]="formCode" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
-                            doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AT_NAME', $event)"></app-combo-box>
-                    </div> -->
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AT_INCLUDE_IN_DBR.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AT_INCLUDE_IN_DBR.mandatory}">
