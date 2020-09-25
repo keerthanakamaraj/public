@@ -102,7 +102,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
       this.revalidateBasicField('Frequency'),
       this.revalidateBasicField('RateOnCharge'),
       this.revalidateBasicField('ChargeCollection'),
-      this.revalidateBasicField('EffectiveAmount'),
+      //this.revalidateBasicField('EffectiveAmount'),
       //this.revalidateBasicField('Currency'),
       this.revalidateBasicField('LocalAmount')
 
@@ -242,6 +242,11 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
     this.passNewValue(this.value);
 
     this.setReadOnly(false);
+
+    //custom
+    this.ChargeAmt.resetFieldAndDropDown();
+    this.LocalAmount.resetFieldAndDropDown();
+    this.EffectiveAmount.resetFieldAndDropDown();
 
     this.onFormLoad();
   }

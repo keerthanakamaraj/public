@@ -136,6 +136,11 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
     this.setValue(value, additionalInfo = undefined);
     this.currencyCode = countryCode == null || countryCode == undefined ? this.defaultCurrencyCode() : countryCode;
 
+    if (countryCode != null || countryCode != undefined) {
+      this.selectedCode(countryCode);
+      return;
+    }
+
     this.genericOnBlur(this.currencyCode, value);
   }
 
