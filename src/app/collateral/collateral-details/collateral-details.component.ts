@@ -49,6 +49,7 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
   };
   allowedUdfTypes = ['D', 'N', 'T', 'L'];
   depositAccount = {};
+  disableFlag:boolean=false;
   @Output() loadColl: EventEmitter<object> = new EventEmitter<object>();
   @Output() loadgrid: EventEmitter<object> = new EventEmitter<object>();
 
@@ -168,11 +169,13 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     this.collateralCommonFields['facilityLinkage'] = {};
     // @CLO-RLO-Merge - FAcilities not used for RLO
     // this.collateralCommonFields['facilityLinkage']['Facilities'] = this.facilityLinkage.TRNDetailsArray;
+    this.disableFlag=true; //disable add button
     this.utility.getEnrichmentService().saveCollateralDetails(this.collateralCommonFields,
       this.collateralCommonFields.customerNumber).subscribe(
         () => {
           // @CLO-RLO-Merge - Use RLO Error Handling
           // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
+          this.disableFlag=false;
           this.collateralCommonFields.clear();
           this.clearMappedFacilities();
           this.loadColl.emit();
@@ -197,6 +200,7 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
               this.loadColl.emit();
             }
           }
+          this.disableFlag=false;
         }
       );
   }
