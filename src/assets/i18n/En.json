@@ -2347,6 +2347,57 @@
     "Plus":"+",
     "Initiate":"Initiate",
     "INITIATE":"INITIATE"
-    }
-
+    },
+  "VehicleIPGrid" : {
+    "VehicleCostBreakup" : "Vehicle Cost Breakup",
+    "GridTitle" : "VehicleIPGrid",
+    "LocalCurrencyEquivalent" : "Local Currency Equivalent",
+    "Vehicle_Currency" : "Currency",
+    "Vehicle_Amount" : "Amount"
+    },
+    "VehicleDetails" : {
+    "NameoftheDealer" : "Name of the Dealer",
+    "AssetLife" : "Asset Life (Months)",
+    "LoanRequired" : "Loan Required",
+    "FormTitle" : "VehicleDetails",
+    "LocalCurrencyEquivalent" : "Local Currency Equivalent",
+    "Make" : "Make",
+    "Variant" : "Variant",
+    "Vehicle_Save" : "Save",
+    "DealerCode" : "Dealer Code ",
+    "Vehicle_clear" : "Clear",
+    "Currency" : "Currency",
+    "Manufacturer" : "Manufacturer",
+    "Model" : "Model",
+    "FundsbyCustomer" : "Funds by Customer",
+    "FieldId_13" : "null",
+    "VehicleCategory" : "Vehicle Category",
+    "AssetType" : "Asset Type"
+    },
+    "GoldDetailsGrid" : {
+      "MarketRate" : "Market Rate",
+      "GOLD_Modify_ButtonName" : "null",
+      "toolbar_GoldDetailsGrid" : "null",
+      "GridTitle" : "GoldDetailsGrid",
+      "Value" : "Value",
+      "GOLD_Delete_ButtonName" : "null",
+      "GoldOrnamentType" : "Gold Ornament Type",
+      "Weight" : "Weight"
+      },
+      "GoldDetails" : {
+      "GOLD_Save" : "ADD",
+      "Karat" : "Karat",
+      "FormTitle" : "GoldDetails",
+      "LocalCurrencyEquivalent" : "Local Currency Equivalent",
+      "Count" : "Count",
+      "DateofMarketRateCapture" : "Date of Market Rate Capture",
+      "Weight" : "Weight",
+      "MarketRate" : "Market Rate",
+      "GOLD_Clear" : "Claer",
+      "Currency" : "Currency",
+      "Value" : "Value",
+      "FieldId_16" : "null",
+      "GoldOrnamentType" : "Gold Ornament Type",
+      "AdditionalRemarks" : "Additional Remarks"
+      }
 }

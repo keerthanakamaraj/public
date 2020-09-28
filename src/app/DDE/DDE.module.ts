@@ -34,6 +34,8 @@ import {ScoreCardResultModule} from '../score-card-result/score-card-result.modu
 import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module';
 import { CollateralModule } from '../collateral/collateral.module';
 import {EducationLoanDetailsModule} from '../EducationLoanDetails/EducationLoanDetails.module'
+import { GoldDetailsModule } from '../GoldDetails/GoldDetails.module';
+import { VehicleDetailsModule } from '../VehicleDetails/VehicleDetails.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -74,6 +76,8 @@ import {EducationLoanDetailsModule} from '../EducationLoanDetails/EducationLoanD
         PropertyDetailsModule,
         CollateralModule,
         EducationLoanDetailsModule,
+        VehicleDetailsModule,
+        GoldDetailsModule
     ],
     declarations: [
         DDEComponent

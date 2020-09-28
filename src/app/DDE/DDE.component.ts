@@ -51,6 +51,8 @@ import { CollateralParentComponent } from '../collateral/collateral-parent/colla
 import { IheaderScoreCard } from '../Interface/masterInterface';
 import { Location } from '@angular/common';
 import {EducationLoanDetailsComponent} from '../EducationLoanDetails/EducationLoanDetails.component'
+import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.component';
+import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -203,7 +205,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     [
       { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
       { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-property", isActive: false, isOptional: true },
-      // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
       { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
@@ -1014,6 +1017,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'EducationLoanDetails':
         return new AddSpecificComponent(EducationLoanDetailsComponent);
+        break;
+      case 'VehicalLoanDetails':
+        return new AddSpecificComponent(VehicleDetailsComponent);
+        break;
+      case 'GoldLoanDetails':
+        return new AddSpecificComponent(GoldDetailsComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
