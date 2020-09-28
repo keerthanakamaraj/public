@@ -461,6 +461,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       return 1;
     }
     if (this.RepaymentFrequency.getFieldValue()!=undefined && !this.validateTenureAndRepaymentFreq()) {
+      this.RepaymentFrequency.setError('rlo.error.invalid-repayment-freq');
       this.services.alert.showAlert(2,'rlo.error.invalid-repayment-freq',-1);
       return 1;
     }
