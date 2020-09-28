@@ -3657,10 +3657,10 @@ rlo-ui-card-field {
 }
 
 /*input grid css start*/
-.lyt-ip-grid {
-  padding: 0px;
+// .lyt-ip-grid {
+//   padding: 0px;
 
-  .disbursal-ip-table {
+  .rlo-ip-table {
     thead:first-child {
       tr:first-child {
         th {
@@ -3706,10 +3706,21 @@ rlo-ui-card-field {
           background-repeat: no-repeat;
           background-image: url(./../icons/CustDeleteIcon.svg);
         }
+
+        .read-only-field {
+          font-size: 12px !important;
+          height: 36px !important;
+          line-height: 36px !important;
+          margin-bottom: 0px !important;
+          margin-top: 18px !important;
+        }
       }
     }
   }
-}
+  // #CostOfTheCourse{
+  //   font-size: 12px;
+  // }
+//}
 
 // .input-grid-plus-icon{
 //   .fa-plus:before {
