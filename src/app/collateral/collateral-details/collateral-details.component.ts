@@ -174,7 +174,14 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
       this.collateralCommonFields.customerNumber).subscribe(
         () => {
           // @CLO-RLO-Merge - Use RLO Error Handling
-          // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
+         // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
+         console.log('shweta :: collateral id ',this.collateralCommonFields.collateralCode);
+         if(this.collateralCommonFields.collateralCode ==undefined || this.collateralCommonFields.collateralCode =="" ){
+          this.services.alert.showAlert(1, 'rlo.success.save.collateral', 5000);
+         }else{
+          this.services.alert.showAlert(1, 'rlo.success.update.collateral', 5000);
+         }
+         
           this.disableFlag=false;
           this.collateralCommonFields.clear();
           this.clearMappedFacilities();
@@ -200,6 +207,11 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
               this.loadColl.emit();
             }
           }
+          if(this.collateralCommonFields.collateralCode ==undefined || this.collateralCommonFields.collateralCode ==""){
+            this.services.alert.showAlert(2, 'rlo.error.save.collateral', -1);
+           }else{
+            this.services.alert.showAlert(2, 'rlo.error.update.collateral', -1);
+           }
           this.disableFlag=false;
         }
       );

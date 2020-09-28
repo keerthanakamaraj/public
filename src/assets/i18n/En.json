@@ -188,6 +188,12 @@
     "rlo.failed.save.property":"Property Details could not be saved. Please try again.",
     "rlo.fail.update.property":"Property Details could not be updated. Please try again.",
     "rlo.error.generate.letter" : "Please Generate the Letter",
+    "rlo.success.save.collateral":"The Collateral Details have been saved successfully.",
+    "rlo.success.update.collateral":"The Collateral Details have been updated successfully.",
+    "rlo.error.save.collateral":"Collateral Details could not be saved. Please try again.",
+    "rlo.error.update.collateral":"Collateral Details could not be updated. Please try again.",
+
+
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

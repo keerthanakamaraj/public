@@ -460,6 +460,10 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       this.services.alert.showAlert(2, 'rlo.error.invalid-loan-trnure-period', -1);
       return 1;
     }
+    if (this.RepaymentFrequency.getFieldValue()!=undefined && !this.validateTenureAndRepaymentFreq()) {
+      this.services.alert.showAlert(2,'rlo.error.invalid-repayment-freq',-1);
+      return 1;
+    }
 
     //amortization modal code starts
 
