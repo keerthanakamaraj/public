@@ -4,7 +4,7 @@ import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from 'src/app/rlouihandler/rlouihandler.component';
 
 @Component({
-  selector: 'app-occupation-handler',
+  selector: 'app-education-loan-handler',
   template: `<div style="display:none;"></div>`,
   styles: []
 })
@@ -25,4 +25,5 @@ export class EducationLoanHandlerComponent extends RLOUIHandlerComponent impleme
   }
 
 }
+
 

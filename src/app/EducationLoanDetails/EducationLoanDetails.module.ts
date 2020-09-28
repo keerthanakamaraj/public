@@ -10,7 +10,7 @@ import { EducationLoanDetailsComponent } from './EducationLoanDetails.component'
 import { CostOfCourseGridModule } from '../CostOfCourseGrid/CostOfCourseGrid.module';
 import { FundsAvailableGridModule } from '../FundsAvailableGrid/FundsAvailableGrid.module';
 import { PastEducationDtlsGridModule } from '../PastEducationDtlsGrid/PastEducationDtlsGrid.module';
-//import { EducationLoanHandlerModule } from '../EducationLoanDetails/education-loan-handler.module';
+import { EducationLoanHandlerModule } from './education-loan-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -25,7 +25,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-//EducationLoanHandlerModule,
+EducationLoanHandlerModule,
 FundsAvailableGridModule,
 PastEducationDtlsGridModule,
 CostOfCourseGridModule,

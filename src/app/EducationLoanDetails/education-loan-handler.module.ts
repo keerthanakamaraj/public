@@ -9,4 +9,4 @@ import { EducationLoanHandlerComponent } from './education-loan-handler.componen
     CommonModule
   ]
 })
-export class OccupationHandlerModule { }
+export class EducationLoanHandlerModule { }
