@@ -1,0 +1,156 @@
+<div class="row" *ngIf="displayTitle">
+  <div class="col-sm-5 col-md-5">
+    <h4>{{ 'PreCPVInputGrid.GridTitle' | translate }}</h4>
+  </div>
+</div>
+<table class="table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
+  (click)="clearGridError()">
+  <thead>
+    <tr class="tr-blue tr-td-l">
+      <th [hidden]="isColumnHidden('SrNo')" width="10%">
+        {{ 'PreCPVInputGrid.SrNo' | translate }}</th>
+      <th [hidden]="isColumnHidden('CustomerName')" width="25%">
+        {{ 'PreCPVInputGrid.CustomerName' | translate }}</th>
+      <th [hidden]="isColumnHidden('VerificationType')" width="25%">
+        {{ 'PreCPVInputGrid.VerificationType' | translate }}</th>
+      <th [hidden]="isColumnHidden('Details')" width="25%">
+        {{ 'PreCPVInputGrid.Details' | translate }}</th>
+      <th [hidden]="isColumnHidden('SelectCity')" width="25%">
+        {{ 'PreCPVInputGrid.SelectCity' | translate }}</th>
+      <th [hidden]="isColumnHidden('SelectAgency')" width="25%">
+        {{ 'PreCPVInputGrid.SelectAgency' | translate }}</th>
+      <th [hidden]="isColumnHidden('RemarksForAgency')" width="25%">
+        {{ 'PreCPVInputGrid.RemarksForAgency' | translate }}</th>
+      <th [hidden]="isColumnHidden('WaiveOff')" width="25%">
+        {{ 'PreCPVInputGrid.WaiveOff' | translate }}</th>
+      <th [hidden]="isColumnHidden('RetriggerStatus')" width="25%">
+        {{ 'PreCPVInputGrid.RetriggerStatus' | translate }}</th>
+    <th [hidden]="isColumnHidden('AddVerificationType')" width="25%">
+      {{ 'PreCPVInputGrid.AddVerificationType' | translate }}</th>
+  <th [hidden]="isColumnHidden('Initiate')" width="25%">
+    {{ 'PreCPVInputGrid.Initiate' | translate }}</th>
+</tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="getRowsCount()==0">
+      <td colspan=12 style="text-align: center;">
+        <span>No data has been added</span>
+      </td>
+    </tr>
+    <ng-container *ngFor="let row of value.rowData;let rowNo = index;let even = even; let odd = odd;">
+      <tr (click)="clearRowError(rowNo)" class="tr-td-l"
+        [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
+        <td [hidden]="isColumnHidden('SrNo')">
+          {{rowNo + 1}}
+        </td>
+        <td [hidden]="isColumnHidden('CustomerName')">
+          <app-combo-box #CustomerName category="2" fieldID="CustomerName_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['CustomerName']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('CustomerName', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['CustomerName']">
+            <p class="label-text" [title]="this['CustomerName'].toArray()[rowNo].getFieldInfo()">
+              {{this['CustomerName'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('VerificationType')">
+          <app-combo-box #VerificationType category="2" fieldID="VerificationType_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['VerificationType']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('VerificationType', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['VerificationType']">
+            <p class="label-text" [title]="this['VerificationType'].toArray()[rowNo].getFieldInfo()">
+              {{this['VerificationType'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('Details')">
+          <app-combo-box #Details category="2" fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
+            [formCode]="formCode" placeholder="Placeholder" [mandatory]="true"
+            (blur)="genericOnBlur('Details', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['Details']">
+            <p class="label-text" [title]="this['Details'].toArray()[rowNo].getFieldInfo()">
+              {{this['Details'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('SelectCity')">
+          <app-combo-box #SelectCity category="2" fieldID="SelectCity_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['SelectCity']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('SelectCity', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['SelectCity']">
+            <p class="label-text" [title]="this['SelectCity'].toArray()[rowNo].getFieldInfo()">
+              {{this['SelectCity'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('SelectAgency')">
+          <app-combo-box #SelectAgency category="2" fieldID="SelectAgency_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['SelectAgency']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('SelectAgency', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['SelectAgency']">
+            <p class="label-text" [title]="this['SelectAgency'].toArray()[rowNo].getFieldInfo()">
+              {{this['SelectAgency'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('RemarksForAgency')">
+          <app-text-box #RemarksForAgency fieldID="RemarksForAgency_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['RemarksForAgency']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('RemarksForAgency', $event, rowNo)"></app-text-box>
+          <div *ngIf="isCellReadOnly[rowNo]['RemarksForAgency']">
+            <p class="label-text" [title]="this['RemarksForAgency'].toArray()[rowNo].getFieldInfo()">
+              {{this['RemarksForAgency'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('WaiveOff')">
+          <app-check-box #WaiveOff fieldID="WaiveOff_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['WaiveOff']"
+            [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('WaiveOff', $event, rowNo)">
+          </app-check-box>
+          <div *ngIf="isCellReadOnly[rowNo]['WaiveOff']">
+            <p class="label-text" [title]="this['WaiveOff'].toArray()[rowNo].getFieldInfo()">
+              {{this['WaiveOff'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('RetriggerStatus')">
+          <app-text-box #RetriggerStatus fieldID="RetriggerStatus_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['RetriggerStatus']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('RetriggerStatus', $event, rowNo)"></app-text-box>
+          <div *ngIf="isCellReadOnly[rowNo]['RetriggerStatus']">
+            <p class="label-text" [title]="this['RetriggerStatus'].toArray()[rowNo].getFieldInfo()">
+              {{this['RetriggerStatus'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('AddVerificationType')">
+          <app-button #AddVerificationType fieldName="{{ 'PreCPVInputGrid.Plus' | translate}}" fieldID="AddVerificationType_{{rowNo}}"
+          [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="addEmptyRow(rowNo)">
+        </app-button>
+        <!-- AddVerificationType_click(rowNo,$event) -->
+          <div *ngIf="isCellReadOnly[rowNo]['AddVerificationType']">
+            <p class="label-text" [title]="this['AddVerificationType'].toArray()[rowNo].getFieldInfo()">
+              {{this['AddVerificationType'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('Initiate')">
+            <app-button #Initiate fieldName="{{ 'PreCPVInputGrid.INITIATE' | translate}}" fieldID="Initiate_{{rowNo}}"
+            [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Initiate_click(rowNo,$event)">
+          </app-button>
+          <div *ngIf="isCellReadOnly[rowNo]['Initiate']">
+            <p class="label-text" [title]="this['Initiate'].toArray()[rowNo].getFieldInfo()">
+              {{this['Initiate'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="rowError[rowNo].hasError">
+        <td colspan=12 style="text-align: center;">
+          <span class="errorMessagespan">{{rowError[rowNo].errorCode | translate}}</span>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<span class="errorMessagespan">{{errorCode| translate}}</span>

@@ -127,6 +127,10 @@ export var componentRoutes: Routes = [
   {
 		path: 'view-wf',
 		loadChildren: 'src/app/workflow-viewer/workflow-viewer.module#WorkflowViewerModule'
+  },	
+  {
+		path: 'withdraw',
+		loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
 	}	
 ];
 export class AppRoutingModule { }
