@@ -376,9 +376,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         //custom
 
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
-        return;
-
-
+      
         this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;

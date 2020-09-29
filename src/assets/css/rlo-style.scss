@@ -337,7 +337,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
 }
 
 .INR::before {
-  content: "₹";
+  content: "";
   background-image: url("./../icons/rupee-yellow.svg");
 }
 
@@ -346,7 +346,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
 }
 
 .EUR::before {
-  content: "€";
+  content: "";
   background-image: url("./../icons/Euro Header icon.svg");
 }
 
