@@ -83,7 +83,7 @@
               (blur)="genericOnBlur('AT_ASSET_VALUE', $event)"></app-amount> -->
 
             <app-rlo-ui-currency #AT_ASSET_VALUE fieldID="AT_ASSET_VALUE" [currencyReadOnly]="true"
-              [componentFieldId]="'AT_ASSET_VALUE'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="false"
+              [componentFieldId]="'AT_ASSET_VALUE'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>

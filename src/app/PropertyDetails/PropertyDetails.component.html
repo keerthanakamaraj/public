@@ -181,7 +181,7 @@
               (blur)="genericOnBlur('CostOfProperty', $event)"></app-amount> -->
 
             <app-rlo-ui-currency #CostOfProperty fieldID="CostOfProperty" [currencyReadOnly]="true"
-              [componentFieldId]="'CostOfProperty'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="false"
+              [componentFieldId]="'CostOfProperty'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>
@@ -196,7 +196,7 @@
 
             <app-rlo-ui-currency #PropertyInsuranceCost fieldID="PropertyInsuranceCost" [currencyReadOnly]="true"
               [componentFieldId]="'PropertyInsuranceCost'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizeProperty.isHidden()"
@@ -222,7 +222,7 @@
 
             <app-rlo-ui-currency #PersonalInsuranceCost fieldID="PersonalInsuranceCost" [currencyReadOnly]="true"
               [componentFieldId]="'PersonalInsuranceCost'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SelectToCapitalizePersonal.isHidden()"
@@ -474,7 +474,7 @@
 
             <app-rlo-ui-currency #DownPaymentAmount fieldID="DownPaymentAmount" [currencyReadOnly]="true"
               [componentFieldId]="'DownPaymentAmount'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DownPayment.isHidden()">

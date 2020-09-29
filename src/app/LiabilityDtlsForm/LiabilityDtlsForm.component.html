@@ -140,7 +140,7 @@
               (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-amount> -->
               <app-rlo-ui-currency #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [currencyReadOnly]="true" 
               [componentFieldId]="'LD_LOAN_EMI'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
@@ -164,7 +164,7 @@
               (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount> -->
               <app-rlo-ui-currency #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [currencyReadOnly]="true"
               [componentFieldId]="'LD_OS_AMOUNT'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
 
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->

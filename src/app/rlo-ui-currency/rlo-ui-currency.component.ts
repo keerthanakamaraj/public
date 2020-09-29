@@ -93,6 +93,10 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
 
   selectedCode(code: string, getExhangeRate: boolean = true) {
     console.warn(code);
+    if (code == undefined) {
+      return;
+    }
+
     this.currencyCode = code;
     console.log("selectedCode()", this.amountTextbox.value);
 

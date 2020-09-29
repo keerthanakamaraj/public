@@ -164,7 +164,7 @@
               (blur)="genericOnBlur('LocalAmount', $event)"></app-amount> -->
 
             <app-rlo-ui-currency #LocalAmount fieldID="LocalAmount" [currencyReadOnly]="true"
-              [componentFieldId]="'LocalAmount'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="true"
+              [componentFieldId]="'LocalAmount'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>
@@ -190,7 +190,7 @@
               (blur)="genericOnBlur('EffectiveAmount', $event)"></app-amount> -->
 
             <app-rlo-ui-currency #EffectiveAmount fieldID="EffectiveAmount" [currencyReadOnly]="true"
-              [componentFieldId]="'EffectiveAmount'" [inputReadOnly]="true"
+              [componentFieldId]="'EffectiveAmount'" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
 
           </div>
