@@ -110,9 +110,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 } else {
                     this.MaximumCardLimit.setReadOnly(true);
                     this.ApprovedLimit.setReadOnly(true);
+                    this.ApprovedLimit.mandatory=false;
                 }
             } else {
                 this.ApprovedLimit.setReadOnly(true);
+                this.ApprovedLimit.mandatory=false;
             }
 
         }, 1000);
