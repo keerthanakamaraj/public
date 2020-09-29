@@ -51,7 +51,8 @@
               </label>
             </div>
             <app-combo-box #BuilderName category="2" fieldID="BuilderName" [formCode]="formCode"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+            domainObjectUrl="/MstBuilderDetails/{BuilderSeq}" doServerUrl="/masters"
+            domainObjectCode="MstBuilderDetails"
               placeholder="select" (blur)="genericOnBlur('BuilderName', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ProjectName.isHidden()">
