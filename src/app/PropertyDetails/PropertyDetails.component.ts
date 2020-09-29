@@ -94,7 +94,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
   @ViewChild('DownPaymentAmount', { static: false }) DownPaymentAmount: RloUiCurrencyComponent;
 
   clearFieldsFlag = false;
-
+  
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -177,7 +177,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     this.hidePurchaseType.setValue('PURCHASE_TYPE');
     this.hideSellerType.setValue('SELLER_TYPE');
     this.hideMoratoriumPeriod.setValue('MORATORIUM_PERIOD');
-    // this.hideBuilderName.setValue('BUIDER_NAME');
+    this.hideBuilderName.setValue('BUIDER_NAME');
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     if (!this.clearFieldsFlag) { this.OnLoanFormLoad(); }
     this.setDependencies();
@@ -1035,11 +1035,14 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
     BuilderName: {
       inDep: [
 
-        { paramKey: "BuilderSeq", depFieldID: "BuilderName", paramType: "PathParam" },
+        { paramKey: "VALUE1", depFieldID: "BuilderName", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hideBuilderName", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
       ]
     },
+
     Pincode: {
       inDep: [
         { paramKey: "PinCd", depFieldID: "Pincode", paramType: "PathParam" },
