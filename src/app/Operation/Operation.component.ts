@@ -559,20 +559,20 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         var res = httpResponse.body;
         console.log("ressssssssssss", res);
         if (res != null) {
-          let letterArray = res.ApplicationLetterDetails;
+           let letterArray = res.ApplicationLetterDetails;
           for (let index = 0; index < letterArray.length; index++) {
             const element = letterArray[index];
             console.log("new resss", element);
-            if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML" && element.LetterMode == "SANCTION_LETTER") {
-              this.letterArray.forEach(element => {
-                element.TempCode = element.TempCode.replace('_', ' ');
-              });
+            if(element.LetterMode == "INPRINCIPLE_LETTER"){
+              element.TempCode = element.TempCode.replace('_', ' ');
               this.letterArray.push(element);
             }
-            else if (element.LetterMode == "SANCTION_LETTER_CARD") {
-              this.letterArray.forEach(element => {
+            if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML" && element.LetterMode == "SANCTION_LETTER") {
                 element.TempCode = element.TempCode.replace('_', ' ');
-              });
+              this.letterArray.push(element);
+            }
+            else if (element.LetterMode == "SANCTION_LETTER_CARD") {  
+                element.TempCode = element.TempCode.replace('_', ' ');
               this.letterArray.push(element)
             }
           }
