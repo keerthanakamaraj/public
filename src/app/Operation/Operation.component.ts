@@ -754,7 +754,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   async OPERATION_SUBMIT_click(event) {
     const inputMap = new Map();
     inputMap.clear();
-    if (this.letterArray.length){
+    if (!this.isLoanCategory || this.letterArray.length){
       this.generateLetterFlag = true;
     }
     else{
