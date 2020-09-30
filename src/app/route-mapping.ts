@@ -115,22 +115,26 @@ export var componentRoutes: Routes = [
 	{
 		path: 'DisbursementDetails',
 		loadChildren: 'src/app/DisbursementDetails/DisbursementDetails.module#DisbursementDetailsModule'
-  },
-  {
+	},
+	{
 		path: 'document',
 		loadChildren: 'src/app/document-upload/document-upload.module#DocumentUploadModule'
 	},
-  {
+	{
 		path: 'collateral',
 		loadChildren: 'src/app/collateral/collateral.module#CollateralModule'
-  },
-  {
+	},
+	{
 		path: 'view-wf',
 		loadChildren: 'src/app/workflow-viewer/workflow-viewer.module#WorkflowViewerModule'
-  },	
-  {
+	},
+	{
 		path: 'withdraw',
 		loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
-	}	
+	},
+	{
+		path: 'customization-console',
+		loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
+	}
 ];
 export class AppRoutingModule { }
