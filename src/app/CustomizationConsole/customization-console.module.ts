@@ -13,6 +13,8 @@ import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.modul
 import { ConsoleLandingComponent } from './console-landing/console-landing.component'
 import { CustomizationConsoleRoutingModule } from './customization-console-routing.module';
 
+import { AngularSplitModule } from 'angular-split';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -27,6 +29,7 @@ import { CustomizationConsoleRoutingModule } from './customization-console-routi
                 deps: [HttpClient]
             }
         }),
+        AngularSplitModule
     ],
     declarations: [
         ConsoleLandingComponent
