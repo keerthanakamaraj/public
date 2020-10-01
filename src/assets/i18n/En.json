@@ -2399,5 +2399,25 @@
       "FieldId_16" : "null",
       "GoldOrnamentType" : "Gold Ornament Type",
       "AdditionalRemarks" : "Additional Remarks"
-      }
+      },
+      "PostCPVInputGrid" : {
+        "AgencyName" : "Agency Name",
+        "VerificationType" : "Verification Type",
+        "GridTitle" : "PostCPVInputGrid",
+        "Details" : "Details",
+        "Report" : "Report",
+        "CompletionResult" : "Completion Result",
+        "InitiatorRemarks" : "Initiator Remarks",
+        "CompletionRemarks" : "Completion Remarks",
+        "CustomerName" : "Customer Name",
+        "VerificationResult" : "Verification Result ",
+        "VerificationRemarks" : "Verification Remarks",
+        "SrNo" : "Sr. No"
+        },
+        "PostCPV" : {
+          "FormTitle" : "PostCPV",
+          "PostCPV_Cancel" : "CANCEL",
+          "PostCPV_Reset" : "RESET",
+          "PostCPV_Submit" : "SUBMIT"
+          }
 }
