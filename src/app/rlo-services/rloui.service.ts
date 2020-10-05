@@ -86,7 +86,7 @@ export class RlouiService {
   }
 
   private loadTenantConfig() {
-    this.http.fetchApi(this.tenantConfigAPI, 'GET', undefined, this.serviceContext).subscribe(
+    this.http.fetchApi(this.tenantConfigAPI + '?t=' + new Date().getTime(), 'GET', undefined, this.serviceContext).subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var tconfig = httpResponse.body ? httpResponse.body.TenantConfig : [];
 
@@ -94,7 +94,11 @@ export class RlouiService {
           this.tenantconfig[element["TCName"]] = element["TCValue"];
         });
         console.log("tenantconfig ", this.tenantconfig, this.tenantconfig["language.default"]);
-        //this.tenantconfig["language.default"] = "bh-BH";
+        
+        // this.tenantconfig["language.default"] = "en-US";
+        // this.tenantconfig["locale.default"] = "en-US";
+        // this.tenantconfig["currency.code.default"] = "USD";
+
         this.translate.setDefaultLang('En');
 
         // switch (this.tenantconfig["language.default"]) {
@@ -236,6 +240,14 @@ export class RlouiService {
     return text.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
       return m.toUpperCase();
     });
+  }
+
+  getCurrencyChar(languageCode?: string, minFraction?, currency?: string){
+    if (!languageCode) { languageCode = this.getConfig("language.default", "en-IN"); }
+    if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
+
+    // default currency symbol at first element of array
+    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(0)[0]['value'];
   }
 
   formatAmount(amount, languageCode?: string, minFraction?, currency?: string,hideSymbol?:boolean) {

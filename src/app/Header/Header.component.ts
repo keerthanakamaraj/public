@@ -84,6 +84,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
   PRODUCT_CATEGORY_IMG = '';
   CURRENCY_IMG = '';
+  currencySymbol = '';
 
   headerExpandedView: boolean = true;
   headerCurrentState: boolean = true; //expanded-1,collapsed-0
@@ -151,6 +152,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     super.setBasicFieldsReadOnly(readOnly);
   }
   async onFormLoad() {
+    this.currencySymbol = this.services.rloui.getCurrencyChar();
+
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     // this.HD_CIF.setReadOnly(true);
     // this.HD_CUST_ID.setReadOnly(true);
