@@ -6,7 +6,7 @@
                 {{getLabel('ADD_SEC_COLL')}}
             </p>
             <div *ngFor="let programOpt of collateralsDtlsType" id="CollateralsDtlsTypeContainer">
-                <div [ngClass]="{'btn-primary': selectedItemId === programOpt.subTypeCode,'btn': selectedItemId !== programOpt.subTypeCode}"
+                <div [ngClass]="{'selected-btn': selectedItemId === programOpt.subTypeCode,'btn': selectedItemId !== programOpt.subTypeCode}"
                     (click)="showPanel(programOpt)" id="{{programOpt.subTypeCode}}">
                     {{programOpt.subTypeDescription}}
                 </div>
