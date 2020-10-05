@@ -46,7 +46,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
     if (this.value) {
       this.isOnFocus = false;
       this.value = this.additionalInfo;
-      this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength);
+      this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.DecimalLength, true);
     }
   }
 
@@ -138,7 +138,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
       if (additionalInfo) {
         this.additionalInfo = additionalInfo;
       } else {
-        this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.countDecimals(+value) == 0 ? this.DecimalLength : this.countDecimals(+value));
+        this.additionalInfo = this.formatAmount(+this.value, this.languageCode, this.countDecimals(+value) == 0 ? this.DecimalLength : this.countDecimals(+value), true);
       }
     }
     this.passNewValue(this.value);
@@ -158,7 +158,7 @@ export class AmountComponent extends FieldComponent implements OnInit {
     this.error = false;
     this.errorCode = undefined;
     this.passNewValue(this.value);
-   // this.readOnly = false;
+    // this.readOnly = false;
     this.dependencyMap.clear();
     this.fieldReset();
   }
