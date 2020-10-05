@@ -3913,7 +3913,6 @@ rlo-ui-card-field {
       margin-top: 0;
     }
   }
-
 }
 
 .error-message {
@@ -4075,6 +4074,16 @@ rlo-ui-card-field {
 #PD_Clear,
 #GNG_CLEAR_BTN {
   margin-left: 0px;
+}
+
+#COD_SAVE{
+  float: right;
+  margin-right: 0.8rem;
+}
+#COD_CLEAR{
+  float: right;
+  margin-left: 0px;
+  margin-top:5px;
 }
 
 #AMS_GENERATE_BTN {

@@ -160,12 +160,13 @@
             </div>
             <br>
             <div class="row" *ngIf="!readOnly">
-                <div class="btn-group-right col-md-12">
+                <div class="col-12 col-sm-8 col-md-8"></div>
+                <div class="col-12  col-sm-4 col-md-4">
                     <!-- <button class="btn-secondary" (click)="onSubmit()" *ngIf="userAccessEntitle.isEntitled('DeleteData')  && !appService.viewMode">{{getLabel('ADD')}}</button>
                     <button class="btn-warning-outline" (click)="clearCollateraldetails(collateralCommonFields)" *ngIf="userAccessEntitle.isEntitled('DeleteData')  && !appService.viewMode">{{getLabel('CLEAR')}}</button> -->
                     <!-- <button class="btn-secondary" (click)="onSubmit()" *ngIf="!appService.viewMode">{{getLabel('ADD')}}</button> -->
-                    <button class="btn btn-primary" (click)="onSubmit()" [disabled]="disableFlag==true">{{getLabel('ADD')}}</button>
-                    <button class="btn-warning-outline" (click)="clearCollateraldetails(collateralCommonFields)">{{getLabel('CLEAR')}}</button> 
+                    <button id='COD_CLEAR'class="btn-warning-outline" (click)="clearCollateraldetails(collateralCommonFields)">{{getLabel('CLEAR')}}</button> 
+                    <button id='COD_SAVE' class="btn btn-primary" (click)="onSubmit()" [disabled]="disableFlag==true">{{getLabel('ADD')}}</button>
                 </div>
             </div>
         </div>
