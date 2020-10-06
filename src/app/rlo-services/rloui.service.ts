@@ -247,7 +247,11 @@ export class RlouiService {
     if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
 
     // default currency symbol at first element of array
-    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(0)[0]['value'];
+    // return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(0)[0]['value'];
+    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency })
+                    .formatToParts(0)
+                    .filter( part => part.type == 'currency')
+                    .map( val => val.value)[0];
   }
 
   formatAmount(amount, languageCode?: string, minFraction?, currency?: string,hideSymbol?:boolean) {
