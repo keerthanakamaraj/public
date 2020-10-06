@@ -283,7 +283,8 @@ export class RlouiService {
     let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt);
    
     if(hideSymbol){
-      val.splice(0,1);
+      //val.splice(0,1);
+      val.filter( part => part.type !== 'currency');
     }
     let mapValue = val.map(val => val.value).join('')
     return mapValue;
