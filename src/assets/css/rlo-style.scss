@@ -212,7 +212,8 @@ app-button[customclass="icon-button"] div {
 #clear,
 #VRF_Reset,
 #RD_RESET,
-#ND_CLEAR,#GOLD_Clear,
+#ND_CLEAR,
+#GOLD_Clear,
 #FC_RESET_BTN,
 #DD_Reset {
   border-color: gray;
@@ -223,7 +224,8 @@ app-button[customclass="icon-button"] div {
 #AD_SAVE_ADDRESS,
 #OD_SAVE_BTN,
 #FD_Save,
-#LD_SAVE,#GOLD_Save,
+#LD_SAVE,
+#GOLD_Save,
 #AT_SAVE,
 #VRF_Save,
 #RD_SAVE,
@@ -3169,11 +3171,13 @@ rlo-ui-card-field {
       margin-left: 4px !important;
     }
   }
+
   .viewbutton {
     button {
       width: 145px !important;
     }
   }
+
   .document-upload {
     min-height: 3rem;
     padding: 0;
@@ -3660,66 +3664,67 @@ rlo-ui-card-field {
 // .lyt-ip-grid {
 //   padding: 0px;
 
-  .rlo-ip-table {
-    thead:first-child {
-      tr:first-child {
-        th {
-          background-color: #e4f0f9;
-          font-family: "Open Sans", sans-serif;
-          font-weight: 400;
-          font-size: 12px;
-          line-height: 17px;
-          color: #565656;
-          border-radius: 4px;
-          border: none;
-          height: 40px;
-
-          .row-add-icon {
-            // background-image: url("./../icons/plus.svg");
-            width: 19px;
-            height: 19px;
-            float: right;
-            cursor: pointer;
-            background-image: url(./../icons/plus.svg);
-          }
-        }
-      }
-    }
-
-    tbody {
-      tr>td {
-        border: 0px;
+.rlo-ip-table {
+  thead:first-child {
+    tr:first-child {
+      th {
+        background-color: #e4f0f9;
+        font-family: "Open Sans", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 17px;
+        color: #565656;
+        border-radius: 4px;
+        border: none;
+        height: 40px;
 
         .row-add-icon {
+          // background-image: url("./../icons/plus.svg");
           width: 19px;
           height: 19px;
           float: right;
           cursor: pointer;
           background-image: url(./../icons/plus.svg);
         }
-
-        .row-delete-icon {
-          height: 24px;
-          width: 20px;
-          float: right;
-          cursor: pointer;
-          background-repeat: no-repeat;
-          background-image: url(./../icons/CustDeleteIcon.svg);
-        }
-
-        .read-only-field {
-          font-size: 12px !important;
-          height: 36px !important;
-          line-height: 36px !important;
-          margin-bottom: 0px !important;
-          margin-top: 18px !important;
-        }
       }
     }
   }
-  // #CostOfTheCourse{
-  //   font-size: 12px;
-  // }
+
+  tbody {
+    tr>td {
+      border: 0px;
+
+      .row-add-icon {
+        width: 19px;
+        height: 19px;
+        float: right;
+        cursor: pointer;
+        background-image: url(./../icons/plus.svg);
+      }
+
+      .row-delete-icon {
+        height: 24px;
+        width: 20px;
+        float: right;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-image: url(./../icons/CustDeleteIcon.svg);
+      }
+
+      .read-only-field {
+        font-size: 12px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+        margin-bottom: 0px !important;
+        margin-top: 18px !important;
+      }
+    }
+  }
+}
+
+// #CostOfTheCourse{
+//   font-size: 12px;
+// }
 //}
 
 // .input-grid-plus-icon{
@@ -4150,6 +4155,50 @@ rlo-ui-card-field {
       font-size: 12px;
       line-height: 17px;
       color: #565656;
+    }
+  }
+}
+
+.wgt-tree-node {
+  list-style-type: none;
+
+  li {
+    padding: 6px 12px;
+    cursor: pointer;
+
+    &[role="treeitem"][aria-expanded="false"]>ul {
+      display: none;
+    }
+
+    &[role="treeitem"][aria-expanded="true"]>ul {
+      display: block;
+    }
+
+    span {
+      &.tree-item-label {
+        padding: 6px 12px;
+      }
+    }
+
+    i {
+      margin-left: -1.15rem;
+    }
+
+    &:focus {
+      outline: none;
+
+      >span {
+        outline: none;
+        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+
+    &[tabindex="0"] {
+      >span {
+        border: 1px solid black;
+      }
     }
   }
 }
