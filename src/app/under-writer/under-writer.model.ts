@@ -777,9 +777,14 @@ export class GoNoGoDetails implements IDeserializable {
         if (this.goNoGoDetails.length) {
             this.goNoGoDetails.forEach(element => {
                 if (element.QuestionnaireCategory == "go_no_go") {
-                    if (element.DeviationLevel.length && element.DeviationLevel != undefined) {
-                        data.failure += 1;
-                    } else {
+                    if (element.DeviationLevel != undefined) {
+                        if (element.DeviationLevel.length) {
+                            data.failure += 1;
+                        } else {
+                            data.success += 1;
+                        }
+                    }
+                    else {
                         data.success += 1;
                     }
                 }
