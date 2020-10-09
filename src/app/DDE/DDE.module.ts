@@ -36,6 +36,8 @@ import { CollateralModule } from '../collateral/collateral.module';
 import {EducationLoanDetailsModule} from '../EducationLoanDetails/EducationLoanDetails.module'
 import { GoldDetailsModule } from '../GoldDetails/GoldDetails.module';
 import { VehicleDetailsModule } from '../VehicleDetails/VehicleDetails.module';
+import { InterfaceResultsModule } from '../interface-results/interface-results.module';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -77,7 +79,8 @@ import { VehicleDetailsModule } from '../VehicleDetails/VehicleDetails.module';
         CollateralModule,
         EducationLoanDetailsModule,
         VehicleDetailsModule,
-        GoldDetailsModule
+        GoldDetailsModule,
+        InterfaceResultsModule
     ],
     declarations: [
         DDEComponent

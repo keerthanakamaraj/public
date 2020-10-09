@@ -50,9 +50,10 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { CollateralParentComponent } from '../collateral/collateral-parent/collateral-parent.component';
 import { IheaderScoreCard } from '../Interface/masterInterface';
 import { Location } from '@angular/common';
-import {EducationLoanDetailsComponent} from '../EducationLoanDetails/EducationLoanDetails.component'
+import { EducationLoanDetailsComponent } from '../EducationLoanDetails/EducationLoanDetails.component'
 import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.component';
 import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
+import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -212,7 +213,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
-      // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
       { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
       { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
       { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
@@ -506,7 +507,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //this.onFormLoad();
     this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
-    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
     this.services.rloCommonData.getCurrentRoute();
     // setTimeout(() => {//dont know why
     //   this.tabSwitched('customer');
@@ -720,7 +721,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
 
-    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
     this.disableMenus = true;
     //this.CUST_DTLS.setNewCustomerFrom(event);
   }
@@ -761,7 +762,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.disableMenus = false;
-    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
   }
 
   getCustomerId(customerType, borrowerSeq): string {
@@ -1023,6 +1024,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'GoldLoanDetails':
         return new AddSpecificComponent(GoldDetailsComponent);
+        break;
+      case 'InterfaceResults':
+        return new AddSpecificComponent(InterfaceResultsComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);

@@ -1114,6 +1114,14 @@ a.back {
   margin: 0 !important;
 }
 
+.d-inline-block {
+  display: inline-block;
+}
+
+.d-inline-flex {
+  display: inline-block;
+}
+
 //used to add space for every page in layout for form btns
 .page-layout-padding {
   padding-bottom: 5rem;
@@ -4198,6 +4206,156 @@ rlo-ui-card-field {
     &[tabindex="0"] {
       >span {
         border: 1px solid black;
+      }
+    }
+  }
+}
+
+.lyt-interface-result {
+
+  .section:nth-of-type(2) {
+    margin-top: 15px;
+  }
+
+  .section {
+    border-bottom: 1px solid #CCCCCC;
+
+    table {
+      margin-bottom: 23px;
+    }
+  }
+
+  .interface-types {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .interface-indicator {
+    min-height: 16px;
+    min-width: 16px;
+    display: block;
+    border-radius: 50%;
+    // position: absolute;
+    // bottom: 18px;
+    margin: auto;
+
+    &.success {
+      background: green;
+    }
+  }
+
+  .cust-tag {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    border-radius: 2px;
+    background-color: #0079b8;
+    display: inline-block;
+    text-align: center;
+    line-height: 0 !important;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    margin-right: 8px;
+
+    span {
+      margin: 0 auto;
+      font-size: 9px;
+      color: white;
+    }
+  }
+
+  .value-container {
+    display: inline-block;
+  }
+
+  .header-txt {
+    line-height: 52px;
+    height: 17px;
+    color: #8E8E8E;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+
+    td {
+      border: none;
+      background: #FAFAFA;
+      padding: 1rem;
+      position: relative;
+
+      span {
+        color: #565656;
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 17px;
+        font-weight: normal;
+      }
+    }
+
+    th {
+      border: none;
+      padding: 8px 29px;
+      text-align: center;
+
+      span {
+        color: #8e8e8e;
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 17px;
+        font-weight: normal;
+      }
+
+    }
+  }
+
+  .interface-index {
+    display: flex;
+
+    .index-container {
+      background: #F8F8F8;
+      display: inline-block;
+      margin: 0 auto;
+      margin-top: 15.5px;
+      width: auto;
+
+      .d-inline-flex {
+        margin: 16px;
+        font-size: 12px;
+        color: #565656;
+        display: inline-flex;
+
+        .index-indicator {
+          height: 16px;
+          width: 16px;
+          border-radius: 50%;
+          display: block;
+          margin-right: 12px;
+          padding: 0 4px;
+
+          &.success {
+            background: #00B500;
+          }
+
+          &.warning {
+            background: #F5A623;
+          }
+
+          &.danger {
+            background: #D0021B;
+          }
+
+          &.black {
+            background: black;
+          }
+
+          &.disabled {
+            background: #B7B7B7;
+          }
+        }
       }
     }
   }
