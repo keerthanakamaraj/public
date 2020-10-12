@@ -13,11 +13,11 @@
   </div>
   <div class="clearfix content">
     <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
-      <div class="col-sm-5 col-md-5">
+      <!-- <div class="col-sm-5 col-md-5">
         <h4 class="FormTitle">
           {{ 'GoldDetails.FormTitle' | translate }}
         </h4>
-      </div>
+      </div> -->
       <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
       </div>
     </div>
@@ -25,17 +25,17 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="GoldOrnamentType.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="GoldOrnamentType.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': GoldOrnamentType.mandatory}">
                 {{ 'GoldDetails.GoldOrnamentType' | translate}}
               </label>
             </div>
-            <app-combo-box #GoldOrnamentType category="1" fieldID="GoldOrnamentType" [formCode]="formCode"
+            <app-combo-box #GoldOrnamentType category="2" fieldID="GoldOrnamentType" [formCode]="formCode"
             domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('GoldOrnamentType', $event)"></app-combo-box>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Karat.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Karat.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': Karat.mandatory}">
                 {{ 'GoldDetails.Karat' | translate}}
@@ -44,36 +44,36 @@
             <app-text-box #Karat fieldID="Karat" [formCode]="formCode"
               (blur)="genericOnBlur('Karat', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Weight.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Weight.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': Weight.mandatory}">
                 {{ 'GoldDetails.Weight' | translate}}
               </label>
             </div>
-            <app-text-box #Weight fieldID="Weight" [formCode]="formCode" (blur)="genericOnBlur('Weight', $event)">
+            <app-text-box #Weight  fieldID="Weight" [formCode]="formCode" (blur)="genericOnBlur('Weight', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Currency.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="WeightUnit.isHidden()">
+						<div class="clr-brown fieldLegend">
+							<label class="clr-brown">
+								{{ 'GoldDetails.WeightUnit' | translate}}
+							</label>
+						</div>
+            <app-combo-box #WeightUnit category="2" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+             fieldID="WeightUnit" [formCode]="formCode" placeholder="Select" (blur)="genericOnBlur('WeightUnit', $event)"></app-combo-box>
+					</div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown"  [ngClass]="{'mandatory': Currency.mandatory}">
                 {{ 'GoldDetails.Currency' | translate}}
               </label>
             </div>
-            <app-combo-box #Currency category="1" fieldID="Currency" [formCode]="formCode"
+            <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode"
             domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails"
               (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
-          </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Value.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': Value.mandatory}">
-                {{ 'GoldDetails.Value' | translate}}
-              </label>
-            </div>
-            <app-text-box #Value fieldID="Value" [formCode]="formCode" (blur)="genericOnBlur('Value', $event)">
-            </app-text-box>
-          </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Count.isHidden()">
+          </div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Count.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': Count.mandatory}">
                 {{ 'GoldDetails.Count' | translate}}
@@ -82,25 +82,34 @@
             <app-text-box #Count fieldID="Count" [formCode]="formCode" (blur)="genericOnBlur('Count', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="TotalWeight.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown"  [ngClass]="{'mandatory': TotalWeight.mandatory}">
+                {{ 'GoldDetails.TotalWeight' | translate}}
+              </label>
+            </div>
+            <app-text-box #TotalWeight fieldID="TotalWeight" [formCode]="formCode" (blur)="genericOnBlur('TotalWeight', $event)">
+            </app-text-box>
+          </div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'GoldDetails.LocalCurrencyEquivalent' | translate}}
               </label>
             </div>
-            <app-text-box #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
-            (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-text-box>
-          </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MarketRate.isHidden()">
+            <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
+            (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount>
+          </div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MarketRate.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': MarketRate.mandatory}">
                 {{ 'GoldDetails.MarketRate' | translate}}
               </label>
             </div>
-            <app-text-box #MarketRate fieldID="MarketRate" [formCode]="formCode"
-              (blur)="genericOnBlur('MarketRate', $event)"></app-text-box>
+            <app-amount #MarketRate fieldID="MarketRate" [formCode]="formCode"
+              (blur)="genericOnBlur('MarketRate', $event)"></app-amount>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DateofMarketRateCapture.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DateofMarketRateCapture.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': DateofMarketRateCapture.mandatory}">
                 {{ 'GoldDetails.DateofMarketRateCapture' | translate}}
@@ -109,7 +118,16 @@
             <app-date #DateofMarketRateCapture fieldID="DateofMarketRateCapture" [formCode]="formCode"
               placeholder="Select" (blur)="genericOnBlur('DateofMarketRateCapture', $event)"></app-date>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AdditionalRemarks.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Value.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Value.mandatory}">
+                {{ 'GoldDetails.Value' | translate}}
+              </label>
+            </div>
+            <app-amount #Value fieldID="Value" [formCode]="formCode" (blur)="genericOnBlur('Value', $event)">
+            </app-amount>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AdditionalRemarks.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'GoldDetails.AdditionalRemarks' | translate}}
@@ -119,19 +137,19 @@
               (blur)="genericOnBlur('AdditionalRemarks', $event)"></app-text-box>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
             <app-button #GOLD_Clear fieldName="{{ 'GoldDetails.GOLD_Clear' | translate}}" fieldID="GOLD_Clear"
               [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
-              (buttonClick)="clear_click($event)"></app-button>
+              (buttonClick)="GOLD_RESET_click($event)"></app-button>
 
             <app-button #GOLD_Save fieldName="{{ 'GoldDetails.GOLD_Save' | translate}}" fieldID="GOLD_Save"
               [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
-              (buttonClick)="Save_click($event)"></app-button>
+              (buttonClick)="GOLD_SAVE_click($event)"></app-button>
           </div>
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_16.isHidden()">
-            <app-GoldDetailsGrid #FieldId_16 fieldID="FieldId_16" [formCode]="formCode"></app-GoldDetailsGrid>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="GoldDeatilGrid.isHidden()">
+            <app-GoldDetailsGrid #GoldDeatilGrid   (ModifyGoldDeatils)="ModifyGoldDeatils($event)" fieldID="GoldDeatilGrid" [formCode]="formCode"></app-GoldDetailsGrid>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-gold-handler #Handler [MainComponent]="this"></app-gold-handler>
@@ -139,6 +157,8 @@
         </div>
         <app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
         <app-hidden #HidGoldOType fieldID="HidGoldOType"></app-hidden>
+        <app-hidden #GoldDetailSeq fieldID="GoldDetailSeq"></app-hidden>
+        <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
       </div>
     </div>
   </div>
