@@ -137,7 +137,7 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
 	},
 	{
-		path: 'ApprovedQueue',
+		path: 'Reject',
 		loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
 	}	
 ];

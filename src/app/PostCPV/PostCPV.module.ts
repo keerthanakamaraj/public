@@ -7,8 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { PostCPVRoutingModule } from './PostCPV-routing.module';
 import { PostCPVComponent } from './PostCPV.component';
-import { PostCPVInputGridComponent } from '../PostCPVInputGrid/PostCPVInputGrid.component';
 import { HeaderModule } from '../Header/Header.module';
+import { PostCPVInputGridModule } from '../PostCPVInputGrid/PostCPVInputGrid.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -24,10 +24,10 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+PostCPVInputGridModule,
 ],
 declarations: [
 PostCPVComponent,
-PostCPVInputGridComponent
 ],
 exports:[
 PostCPVComponent,
