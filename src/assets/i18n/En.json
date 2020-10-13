@@ -187,6 +187,12 @@
     "rlo.error.invalid-loan-trnure-period":"Loan Tenure Period cannot be blank.",
     "rlo.failed.save.property":"Property Details could not be saved. Please try again.",
     "rlo.fail.update.property":"Property Details could not be updated. Please try again.",
+    "rlo.success.update.gold": "The Gold Details have been updated successfully.",
+    "rlo.error.update.gold": "The Gold Details could not be updated. Please try again.",
+    "rlo.success.save.gold": "The Gold Details have been saved successfully.",
+    "rlo.error.save.gold": "The Gold Details could not be saved. Please try again.",
+    "rlo.success.delete.gold": "The details have been deleted successfully.",
+    "rlo.error.delete.gold": "The Gold Details could not be deleted. Please try again.",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
@@ -2391,14 +2397,15 @@
       "LocalCurrencyEquivalent" : "Local Currency Equivalent",
       "Count" : "Count",
       "DateofMarketRateCapture" : "Date of Market Rate Capture",
-      "Weight" : "Weight",
+      "Weight" : "Weight (gms)",
       "MarketRate" : "Market Rate",
       "GOLD_Clear" : "Claer",
       "Currency" : "Currency",
-      "Value" : "Value",
+      "TotalWeight" : "Total Weight (gms)",
       "FieldId_16" : "null",
       "GoldOrnamentType" : "Gold Ornament Type",
-      "AdditionalRemarks" : "Additional Remarks"
+      "AdditionalRemarks" : "Additional Remarks",
+      "Value": "Value"
       },
       "PostCPVInputGrid" : {
         "AgencyName" : "Agency Name",

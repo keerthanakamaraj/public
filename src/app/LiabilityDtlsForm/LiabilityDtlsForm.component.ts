@@ -480,19 +480,19 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.LD_FINANCIER_NAME.setValue(res['LiabilityDetails']['FinancerName']);
-                this.LD_LOAN_STATUS.setValue(res['LiabilityDetails']['LoanStatus']);
-                this.LD_TYPE_OF_LOAN.setValue(res['LiabilityDetails']['TypeofLoan']);
+                this.LD_LOAN_STATUS.setValue(res['LiabilityDetails']['LoanStatus']['id']);
+                this.LD_TYPE_OF_LOAN.setValue(res['LiabilityDetails']['TypeofLoan']['id']);
                 this.LD_LOAN_AMOUNT.setValue(res['LiabilityDetails']['Amount']);
                 this.LD_LOAN_CLOSURE_DATE.setValue(res['LiabilityDetails']['ClosureDate']);
                 this.LD_LOAN_EMI.setValue(res['LiabilityDetails']['LoanEMI']);
-                this.LD_INCLUDE_IN_DBR.setValue(res['LiabilityDetails']['IncludeInDBR']);
+                this.LD_INCLUDE_IN_DBR.setValue(res['LiabilityDetails']['IncludeInDBR']['id']);
                 this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
                 this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
                 this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['LocalEquivalentAmt']);
-                this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['EmiFrequency']);
-                this.LD_LIABILITY_TYPE.setValue(res['LiabilityDetails']['LiabilityType']);
+                this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['EmiFrequency']['id']);
+                this.LD_LIABILITY_TYPE.setValue(res['LiabilityDetails']['LiabilityType']['id']);
                 this.LD_REMARKS.setValue(res['LiabilityDetails']['Remarks']);
-                this.LD_OBLIGATION_HEAD.setValue(res['LiabilityDetails']['ObligationHead']);
+                this.LD_OBLIGATION_HEAD.setValue(res['LiabilityDetails']['ObligationHead']['id']);
                 this.hiddenLiabilitySeq.setValue(res['LiabilityDetails']['LiabilitySeq']);
                 this.hideSpinner();
                 this.Handler.hideObligationField({});

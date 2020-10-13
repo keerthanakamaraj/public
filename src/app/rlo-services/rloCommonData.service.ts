@@ -338,7 +338,7 @@ export class RloCommonData {
       // console.log('Liability ' , liability);
 
       const formattedAmount = this.rloui.formatAmount(liability.LocalEquivalentAmt);
-      tags.push({ label: liability.LiabilityType, text: formattedAmount });
+      tags.push({ label: liability.LiabilityType.text, text: formattedAmount });
     });
     return this.trimTagsIfRequired(tags, 3);
   }
@@ -349,7 +349,7 @@ export class RloCommonData {
       console.log('Asset ', asset);
 
       const formattedAmount = this.rloui.formatAmount(asset.EquivalentAmt);
-      tags.push({ label: asset.AssetType, text: formattedAmount });
+      tags.push({ label: asset.AssetType.text, text: formattedAmount });
     });
     return this.trimTagsIfRequired(tags, 3);
   }
