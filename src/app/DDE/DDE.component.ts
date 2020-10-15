@@ -527,8 +527,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.childToParentSubjectSubscription.unsubscribe();
     this.services.rloui.closeAllConfirmationModal();
     //is disabled when navigating to DDE from operations
-    if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled)
+    if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
       this.services.rloCommonData.makeDdeDisabled.ddeDisabled = false;
+      this.services.rloCommonData.makeDdeDisabled.previousPageOperation = true;
+    }
+
   }
 
   ngAfterViewInit() {

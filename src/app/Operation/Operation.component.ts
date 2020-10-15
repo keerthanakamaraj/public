@@ -232,10 +232,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       'passCustGrid': this.ApplicationId,
     });
 
-    if (this.userId === undefined || this.userId === '') {
-      this.claimTask(this.taskId);
+    if (!this.services.rloCommonData.makeDdeDisabled.previousPageOperation) {
+      if (this.userId === undefined || this.userId === '') {
+        this.claimTask(this.taskId);
+      }
     }
-
     this.services.rloCommonData.makeDdeDisabled.previousPageOperation = false;
 
     this.fetchStoreLetter();
@@ -497,10 +498,10 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     );
   }
   gerateLetter() {
-    if (this.letterArray.length){
-      return;  
+    if (this.letterArray.length) {
+      return;
     }
-    
+
 
     let inputMap = new Map();
     inputMap.clear();
@@ -521,7 +522,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
           console.log("interface res newwwww", res);
           this.fetchStoreLetter();
           this.generateLetterFlag = true;
-        
+
           // this.finalOutput = res.TemplateData[0];
           // this.services.rloCommonData.isLetterGenrated = true;
           // console.log("final output from lettergenrator", res);
@@ -559,20 +560,20 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
         var res = httpResponse.body;
         console.log("ressssssssssss", res);
         if (res != null) {
-           let letterArray = res.ApplicationLetterDetails;
+          let letterArray = res.ApplicationLetterDetails;
           for (let index = 0; index < letterArray.length; index++) {
             const element = letterArray[index];
             console.log("new resss", element);
-            if(element.LetterMode == "INPRINCIPLE_LETTER"){
+            if (element.LetterMode == "INPRINCIPLE_LETTER") {
               element.TempCode = element.TempCode.replace('_', ' ');
               this.letterArray.push(element);
             }
             if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML" && element.LetterMode == "SANCTION_LETTER") {
-                element.TempCode = element.TempCode.replace('_', ' ');
+              element.TempCode = element.TempCode.replace('_', ' ');
               this.letterArray.push(element);
             }
-            else if (element.LetterMode == "SANCTION_LETTER_CARD") {  
-                element.TempCode = element.TempCode.replace('_', ' ');
+            else if (element.LetterMode == "SANCTION_LETTER_CARD") {
+              element.TempCode = element.TempCode.replace('_', ' ');
               this.letterArray.push(element)
             }
           }
@@ -754,14 +755,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   async OPERATION_SUBMIT_click(event) {
     const inputMap = new Map();
     inputMap.clear();
-    if (!this.isLoanCategory || this.letterArray.length){
+    if (!this.isLoanCategory || this.letterArray.length) {
       this.generateLetterFlag = true;
     }
-    else{
+    else {
       this.services.alert.showAlert(2, 'rlo.error.generate.letter', -1);
       return;
     }
-   
+
     inputMap.set('Body.interfaceId', 'INT009');
     inputMap.set('Body.UserId', sessionStorage.getItem('userId'));
     inputMap.set('Body.TENANT_ID', this.HideTenantId.getFieldValue());
@@ -872,38 +873,38 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
               ]
             }
 
-             this.services.rloui.confirmationModal(modalObj).then((response) => {
-        console.log(response);
-        if (response != null) {
-          if (response.id === 1) {
-            this.services.rloui.closeAllConfirmationModal()
-            var mainMessage = this.services.rloui.getAlertMessage('rlo.success.withdraw');
-            var button1 = this.services.rloui.getAlertMessage('', 'OK');
-            // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    
-            Promise.all([mainMessage, button1]).then(values => {
-              console.log(values);
-              let modalObj = {
-                title: "Alert",
-                mainMessage: values[0],
-                modalSize: "modal-width-sm",
-                buttons: [
-                  { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                  //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-                ]
-              }
-              this.services.rloui.confirmationModal(modalObj).then((response) => {
-                console.log(response);
-                if (response != null) {
-                  if (response.id === 1) {
-                    this.services.router.navigate(['home', 'LANDING']);
-                  }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.rloui.closeAllConfirmationModal()
+                  var mainMessage = this.services.rloui.getAlertMessage('rlo.success.withdraw');
+                  var button1 = this.services.rloui.getAlertMessage('', 'OK');
+                  // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+                  Promise.all([mainMessage, button1]).then(values => {
+                    console.log(values);
+                    let modalObj = {
+                      title: "Alert",
+                      mainMessage: values[0],
+                      modalSize: "modal-width-sm",
+                      buttons: [
+                        { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                        //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                      ]
+                    }
+                    this.services.rloui.confirmationModal(modalObj).then((response) => {
+                      console.log(response);
+                      if (response != null) {
+                        if (response.id === 1) {
+                          this.services.router.navigate(['home', 'LANDING']);
+                        }
+                      }
+                    });
+                  });
                 }
-              });
+              }
             });
-          }
-        }
-      });
           });
         }
       },
