@@ -1703,7 +1703,13 @@
     "SettlementAccountType": "Settlement Account Type",
     "FieldId_31": "null",
     "MaximumCardLimit": "Maximum Card Limit",
-    "CardDispatchMode": "Pickup Instruction"
+    "CardDispatchMode": "Pickup Instruction",
+    "CRLine" : "Credit Limit",
+    "CardAdvLine":"Cash limit",
+    "EcsPercentage" :"Percentage to be settled",
+    "EcsAccNo" : "Account number",
+    "EcsType" : "ECS Type",
+    "EcsMandateFlag" : "ECS Applicable"
   },
   "CustomerDtls": {
     "CARD_DTLS_LBL": "Card Details",
@@ -1753,7 +1759,11 @@
     "CD_FULL_NAME": "Full Name",
     "CD_LOAN_OWN": "Loan Ownership (in %)",
     "CD_COUNTRY_CODE": "Country Code",
-    "CD_Add_CUST_TYPE": "Customer Type"
+    "CD_Add_CUST_TYPE": "Customer Type",
+    "MaidenName" : "Maiden Name",
+    "EmbLine4" : "Embossing line4",
+    "EmbLineFlag" : "Embossing Line Applicable",
+    "CustSubSegment" : "Customer Sub Segment"
   },
   "QDE": {
     "FieldId_1": "null",

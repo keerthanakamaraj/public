@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CreditCardHandlerComponent } from '../CreditCardDetails/creditcard-handler.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
 
 const customCss: string = '';
@@ -35,9 +36,18 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('StmtDispatchMode', { static: false }) StmtDispatchMode: ComboBoxComponent;
     @ViewChild('ExistingCreditCard', { static: false }) ExistingCreditCard: ComboBoxComponent;
     @ViewChild('CardDispatchMode', { static: false }) CardDispatchMode: ComboBoxComponent;
+    @ViewChild('CRLine', { static: false }) CRLine: TextBoxComponent;
+    @ViewChild('CardAdvLine', { static: false }) CardAdvLine: TextBoxComponent;
+    @ViewChild('EcsMandateFlag', { static: false }) EcsMandateFlag: RLOUIRadioComponent;
+    @ViewChild('EcsType', { static: false }) EcsType: ComboBoxComponent;
+    @ViewChild('EcsPercentage', { static: false }) EcsPercentage: TextBoxComponent;
+    @ViewChild('EcsAccNo', { static: false }) EcsAccNo: TextBoxComponent;
+
     @ViewChild('CCD_Save', { static: false }) CCD_Save: ButtonComponent;
     @ViewChild('CCD_Clear', { static: false }) CCD_Clear: ButtonComponent;
     @ViewChild('hidCreditSeq', { static: false }) hidCreditSeq: HiddenComponent;
+    @ViewChild('hidECSMandateFlag', { static: false }) hidECSMandateFlag: HiddenComponent;
+    @ViewChild('hidECSType', { static: false }) hidECSType: HiddenComponent;
     @ViewChild('Handler', { static: false }) Handler: CreditCardHandlerComponent;
     @ViewChild('hidCatgory', { static: false }) hidCatgory: HiddenComponent;
     @ViewChild('hidAccType', { static: false }) hidAccType: HiddenComponent;
@@ -93,6 +103,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.hidExisitingCard.setValue('EXISITING_CARD');
         this.hidCardDispatch.setValue('CARD_DISPATACH');
         this.hidAccType.setValue('ACC_TYPE');
+        this.hidECSMandateFlag.setValue('Y_N');
+        this.hidECSType.setValue('ECS_TYPE');
 
         setTimeout(() => {
             if (this.readOnly) {
@@ -375,6 +387,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.EcsMandateFlag', this.EcsMandateFlag.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.EcsMandateFlag', this.EcsMandateFlag.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.EcsPercentage', this.EcsPercentage.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.EcsAccNo', this.EcsAccNo.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.CardAdvLine', this.CardAdvLine.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.CRLine', this.CRLine.getFieldValue());
+
+
                 inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
                 this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
@@ -485,6 +505,26 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 { paramKey: "VALUE1", depFieldID: "CardDispatchMode", paramType: "PathParam" },
                 { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
                 { paramKey: "KEY1", depFieldID: "hidCardDispatch", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+
+      
+        EcsMandateFlag: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "EcsMandateFlag", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidECSMandateFlag", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        EcsType: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "EcsType", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidECSType", paramType: "QueryParam" },
             ],
             outDep: [
             ]

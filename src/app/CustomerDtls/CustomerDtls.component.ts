@@ -70,6 +70,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
   @ViewChild('CD_PREF_COM_CH', { static: false }) CD_PREF_COM_CH: ComboBoxComponent;
   @ViewChild('CD_PREF_LANG', { static: false }) CD_PREF_LANG: ComboBoxComponent;
+  @ViewChild('MaidenName', { static: false }) MaidenName: TextBoxComponent;
+  @ViewChild('EmbLine4', { static: false }) EmbLine4: TextBoxComponent;
+  @ViewChild('EmbLineFlag', { static: false }) EmbLineFlag: RLOUIRadioComponent;
+  @ViewChild('CustSubSegment', { static: false }) CustSubSegment: ComboBoxComponent;
   @ViewChild('CD_SAVE_BTN', { static: false }) CD_SAVE_BTN: ButtonComponent;
   @ViewChild('CD_CLEAR_BTN', { static: false }) CD_CLEAR_BTN: ButtonComponent;
   @Output() passBorrowerSeq: EventEmitter<any> = new EventEmitter<any>();
@@ -89,6 +93,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
   @ViewChild('HidCustomerId', { static: false }) HidCustomerId: HiddenComponent;
   @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
+  @ViewChild('hideCustSubSegment', { static: false }) hideCustSubSegment: HiddenComponent;
+  @ViewChild('hideEmbLineFlag', { static: false }) hideEmbLineFlag: HiddenComponent;
   @ViewChild('CUST_ACCORD', { static: false }) CUST_ACCORD: RloUiAccordionComponent;
   @ViewChild('hidPrefLanguage', { static: false }) hidPrefLanguage: HiddenComponent;
   //@ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: ComboBoxComponent;
@@ -193,6 +199,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hidTitle.setValue('TITLE');
     this.hidPrefLanguage.setValue('PREF_LANGUAGE');
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
+    this.hideEmbLineFlag.setValue('Y_N');
+    this.hideCustSubSegment.setValue('CUST_SUB_SEGMENT');
 
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
@@ -522,6 +530,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
         inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
         inputMap.set('Body.BorrowerDetails.VisaExpiryDt', this.CD_VISA_VALID.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.EmbLine4', this.EmbLine4.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.CustSubSegment', this.CustSubSegment.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
+
 
         console.log(inputMap, this.CD_MOBILE_NO.countryCode);
 
@@ -638,6 +651,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
         inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
         inputMap.set('Body.BorrowerDetails.VisaExpiryDt', this.CD_VISA_VALID.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.EmbLine4', this.EmbLine4.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.CustSubSegment', this.CustSubSegment.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
+
 
 
         this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
@@ -894,6 +912,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
+    
     this.passBorrowerSeq.emit({
       'BorrowerSeq': customer.BorrowerSeq,
     });
@@ -1120,6 +1139,26 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
         { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    CustSubSegment: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "CustSubSegment", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCustSubSegment", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    EmbLineFlag: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "EmbLineFlag", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideEmbLineFlag", paramType: "QueryParam" },
       ],
       outDep: [
       ]
