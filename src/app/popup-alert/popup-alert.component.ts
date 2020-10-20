@@ -28,6 +28,7 @@ import { IAmortizationForm } from '../Interface/masterInterface';
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
+import { CustomerSearchComponent } from '../customer-search/customer-search.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -215,6 +216,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'ScorecardResults':
         return new AddSpecificComponent(ScoreCardResultComponent);
+        break;
+      case 'CustomerSearch':
+        return new AddSpecificComponent(CustomerSearchComponent);
         break;
 
     }
