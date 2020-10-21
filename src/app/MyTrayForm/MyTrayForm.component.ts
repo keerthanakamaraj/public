@@ -47,21 +47,27 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   menuList = [];
   promotionLists = [
     {
-      title: "New to Bank Promotion",
-      txt: `Enjoy promotional interest rates on personal loans (unsecured) from as low as 7% p.a. with
-      no processing fee for new to bank customers. Offer valid till 3rd September 2020.`,
+      title: "COVID-19 Relief Plan",
+      txt: `Deferral of Mortgage Payments is now being offered to customers affected by COVID-19. In order to avail this, the customer will have to show his/her COVID-19 test to the Relationship Manager.`,
       bgColor: "#9013fe"
     },
     {
       title: "Fixed Rate Promotion",
-      txt: `Enjoy stability by fixing the interest rate on housing loans for the initial 3 years of the loan
-      (minimum tenure of 10 years required). Offer valid till 31st December 2020.`,
+      txt: `Enjoy stability by fixing the interest rate on mortgage loans. Offer valid till 31st December 2020.`,
       bgColor: "#17afbd"
     },
     {
-      title: "August Special",
-      txt: `Enjoy a reduction of 1% p.a. on all personal loans (secured) for the month of August. Offer
-      valid till 31st August 2020.`,
+      title: "Options available for Customers facing Hardship such as loss of job",
+      // txt: `\n\u2022 Refinance your mortgage to pay out other debt (subject to qualification)
+      // \n\u2022 Restore your original amortization (which lowers your payment amount)
+      // \n\u2022 Hold a payment (during a temporary suspension of income)
+      // \n\u2022 Offer you a reduced payment for a specific time
+      // `,
+      txt: `\n\u2022 Refinance your mortgage to pay out other debt (subject to qualification)
+      \n\u2022 Restore your original amortization (which lowers your payment amount)
+      \n\u2022 Hold a payment (during a temporary suspension of income)
+      \n\u2022 Offer you a reduced payment for a specific time
+      `,
       bgColor: "#fd83e3"
     }
   ];
@@ -70,12 +76,12 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     {
       type: "New",
       msg: "Customer ID: S04312244561234 has been blacklisted. Kindly ensure all applications with this ID No.",
-      dateTime: "26 Aug Wed, 10:03 AM"
+      dateTime: "21 Oct Wed, 10:03 AM"
     },
     {
       type: "Recent",
       msg: "From 1st Sep 2020, branch trading hours will be back to normal (9:00 - 16:00).Safety measures will be followed and respected throughout.",
-      dateTime: "21 Aug Fri, 01:20 PM"
+      dateTime: "21 Oct Fri, 01:20 PM"
     }
   ];
 
