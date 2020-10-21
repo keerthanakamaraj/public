@@ -213,7 +213,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
             }
         }
         this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-        this.services.http.fetchApi('/GoldDetails', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/GoldDetails', 'GET', inputMap,'/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar10 = [];

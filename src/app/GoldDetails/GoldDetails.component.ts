@@ -333,7 +333,7 @@ export class GoldDetailsComponent extends FormComponent implements OnInit, After
         this.showSpinner();
         inputMap.clear();
         inputMap.set('PathParam.GoldDetailSeq', event.GoldKey);
-        this.services.http.fetchApi('/GoldDetails/{GoldDetailSeq}', 'GET', inputMap).subscribe(
+        this.services.http.fetchApi('/GoldDetails/{GoldDetailSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.GoldOrnamentType.setValue(res['GoldDetails']['GoldOrnamentType']['id']);

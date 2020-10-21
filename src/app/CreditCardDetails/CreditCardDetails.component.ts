@@ -217,14 +217,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
                     var CreditArray = res['CreditCardDetails'];
                     CreditArray.forEach(async CreditElement => {
-                        this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']);
+                        this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']['id']);
                         this.ApprovedLimit.setValue(CreditElement['ApprovedLimit']);
-                        this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']);
+                        this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']['id']);
                         this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
-                        this.PaymentOption.setValue(CreditElement['PaymentOption']);
-                        this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']);
-                        this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']);
-                        this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
+                        this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
+                        this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
+                        this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
+                        this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']['id']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
                     });
 
