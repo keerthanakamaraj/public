@@ -45,7 +45,7 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('HideProcessId', { static: false }) HideProcessId: HiddenComponent;
   @ViewChild('HideServiceCode', { static: false }) HideServiceCode: HiddenComponent;
   @ViewChild('HideServiceCodeComplete', { static: false }) HideServiceCodeComplete: HiddenComponent;
-  @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
+  // @ViewChild('HideTaskId', { static: false }) HideTaskId: HiddenComponent;
   @ViewChild('HideTenantId', { static: false }) HideTenantId: HiddenComponent;
   @ViewChild('HideUserId', { static: false }) HideUserId: HiddenComponent;
   @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
@@ -60,6 +60,7 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   userId: any;
   taskId: any;
   instanceId: any;
+  isLoanCategory: any = undefined;
   
  
 
@@ -95,17 +96,16 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
     this.HideAppId.setValue('RLO');
     this.HideCurrentStage.setValue('PreCPV');
     this.setDependencies();
-    let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
-    this.ApplicationId = appId;
   
-
+this.ApplicationId='3322';
     if (this.userId === undefined || this.userId === '') {
       this.claimTask(this.taskId);
     }
-
+this.fetchCustomers();
 
   }
 
@@ -215,8 +215,43 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
    console.log("close clicked");
   }
   
+  broadcastProdCategory(event) {
+    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
 
+    this.isLoanCategory = event.isLoanCategory;
+  }
 
+fetchCustomers(){
+  if (this.ApplicationId != undefined) {
+    let inputMap = new Map();
+  let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+  if (this.ApplicationId) {
+    criteriaJson.FilterCriteria.push({
+      "columnName": "ApplicationId",
+      "columnType": "String",
+      "conditions": {
+        "searchType": "equals",
+        "searchText": this.ApplicationId
+      }
+    });
+  inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+  this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
+    async (httpResponse: HttpResponse<any>) => {
+      var res = httpResponse.body;
+      let BorrowerDetail = res['BorrowerDetails'];
+       
+    },
+    async (httpError) => {
+      var err = httpError['error']
+      if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+      }
+      this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+    }
+  );
+  }
+}
+}
   fieldDependencies = {
    
   }

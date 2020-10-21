@@ -157,65 +157,69 @@ const keycloakService = new KeycloakService();
     PopupAlertComponent
   ],
 })
-export class AppModule implements DoBootstrap {
-  ngDoBootstrap(appRef: ApplicationRef): void {
-    let config = {
-      //url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'angular-test-app'
-      url: environment.authURL, realm: environment.realm, clientId: environment.clientId
-    }
+// export class AppModule implements DoBootstrap {
+//   ngDoBootstrap(appRef: ApplicationRef): void {
+//     let config = {
+//       //url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'angular-test-app'
+//       url: environment.authURL, realm: environment.realm, clientId: environment.clientId
+//     }
 
-    let initOptions = {
-      redirectUri: environment.redirectURL
-    };
+//     let initOptions = {
+//       redirectUri: environment.redirectURL
+//     };
 
-    // if(!environment.production && environment.enableKeycloak) {
-    keycloakService
-      .init({ config, enableBearerInterceptor: true })
-      .then((auth) => {
-        console.log('[ngDoBootstrap] bootstrap app');
-        if (!auth) {
-          keycloakService.login({ redirectUri: initOptions.redirectUri });
-        } else {
+//     // if(!environment.production && environment.enableKeycloak) {
+//     keycloakService
+//       .init({ config, enableBearerInterceptor: true })
+//       .then((auth) => {
+//         console.log('[ngDoBootstrap] bootstrap app');
+//         if (!auth) {
+//           keycloakService.login({ redirectUri: initOptions.redirectUri });
+//         } else {
 
-          const k = keycloakService.getKeycloakInstance();
-          if( k.token ){
-            sessionStorage.setItem('TOKEN', k.token );
-          }
-
-
-          //console.log('Username: ', keycloakService.getUsername());
-          // keycloakService.getToken().then( (token) => {
-            // console.log("token " + token);
-            // TODO: remove Token from sessionstorage after Document upload Integration
-            // sessionStorage.setItem('TOKEN', token);
-          // });
-          keycloakService.loadUserProfile().then((profile) => {
-            console.log("User Profile ", profile);
-            sessionStorage.setItem('userId', profile.username);
-
-            let fullName = (profile.firstName ? profile.firstName : "") + " " + (profile.lastName ? profile.lastName : "");
-            sessionStorage.setItem('fullName', fullName);
-
-            if (profile["attributes"] && profile["attributes"].tenantId) {
-              sessionStorage.setItem('tenants', profile["attributes"].tenantId.join(","));
-            }
-
-          })
-          appRef.bootstrap(AppComponent);
-        }
-      })
-      .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));
-    // } else {
-    //   sessionStorage.setItem('userId', "vishal.kardode@inttellectdesign.com");
-    //   sessionStorage.setItem('fullName', "Vishal Kardode" );
-
-    //   appRef.bootstrap(AppComponent);
-    // }
+//           const k = keycloakService.getKeycloakInstance();
+//           if( k.token ){
+//             sessionStorage.setItem('TOKEN', k.token );
+//           }
 
 
+//           //console.log('Username: ', keycloakService.getUsername());
+//           // keycloakService.getToken().then( (token) => {
+//             // console.log("token " + token);
+//             // TODO: remove Token from sessionstorage after Document upload Integration
+//             // sessionStorage.setItem('TOKEN', token);
+//           // });
+//           keycloakService.loadUserProfile().then((profile) => {
+//             console.log("User Profile ", profile);
+//             sessionStorage.setItem('userId', profile.username);
+
+//             let fullName = (profile.firstName ? profile.firstName : "") + " " + (profile.lastName ? profile.lastName : "");
+//             sessionStorage.setItem('fullName', fullName);
+
+//             if (profile["attributes"] && profile["attributes"].tenantId) {
+//               sessionStorage.setItem('tenants', profile["attributes"].tenantId.join(","));
+//             }
+
+//           })
+//           appRef.bootstrap(AppComponent);
+//         }
+//       })
+//       .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));
+//     // } else {
+//     //   sessionStorage.setItem('userId', "vishal.kardode@inttellectdesign.com");
+//     //   sessionStorage.setItem('fullName', "Vishal Kardode" );
+
+//     //   appRef.bootstrap(AppComponent);
+//     // }
+
+
+//   }
+// }
+export class AppModule implements DoBootstrap{
+  ngDoBootstrap(appRef: ApplicationRef){
+    appRef.bootstrap(AppComponent);
   }
 }
-
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

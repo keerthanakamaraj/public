@@ -3,7 +3,7 @@
     <h4>{{ 'PreCPVInputGrid.GridTitle' | translate }}</h4>
   </div>
 </div>
-<table class="table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
+<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
   (click)="clearGridError()">
   <thead>
     <tr class="tr-blue tr-td-l">

@@ -12,39 +12,41 @@ import { ServiceStock } from '../service-stock.service';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
-
+import { CostOrFundsInterface } from '../EducationLoanDetails/Education-loan-interfaces';
 const customCss: string = '';
 @Component({
   selector: 'app-FundsAvailableGrid',
   templateUrl: './FundsAvailableGrid.component.html'
 })
 export class FundsAvailableGridComponent extends GridComponent implements OnInit {
-  @ViewChildren('SrNo')SrNo : QueryList<ReadOnlyComponent>;
+  @ViewChildren('SrNo') SrNo: QueryList<ReadOnlyComponent>;
   @ViewChildren('FundsAvailable') FundsAvailable: QueryList<ReadOnlyComponent>;
   @ViewChildren('Amount') Amount: QueryList<AmountComponent>;
   @ViewChildren('LocalCurEq') LocalCurEq: QueryList<AmountComponent>;
-  
-  showAdd:boolean=false;
-  MstRecords= [
-    {
-    'SrNo': 1,
-      'FundsAvailable': 'Own Source',
-     // 'Amount':,
-  //'LocalCurEq':0.00
-    },
-    {
-      'SrNo': 2,
-      'FundsAvailable': 'Scholarship',
-      //'Amount':0.00,
-  //'LocalCurEq':0.00
-    },
-    {
-      'SrNo': 3,
-      'FundsAvailable': 'Others',
-      'Amount':200,
-  'LocalCurEq':300
-    },
-  ];
+
+  //FundsAvailableList: CostOrFundsInterface[]=[];
+  FundsAvailableMap: Map<string, CostOrFundsInterface> = new Map();
+  showAdd: boolean = false;
+  // MstRecords= [
+  //   {
+  //   'SrNo': 1,
+  //     'FundsAvailable': 'Own Source',
+  //    // 'Amount':,
+  // //'LocalCurEq':0.00
+  //   },
+  //   {
+  //     'SrNo': 2,
+  //     'FundsAvailable': 'Scholarship',
+  //     //'Amount':0.00,
+  // //'LocalCurEq':0.00
+  //   },
+  //   {
+  //     'SrNo': 3,
+  //     'FundsAvailable': 'Others',
+  //     'Amount':200,
+  // 'LocalCurEq':300
+  //   },
+  // ];
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
@@ -79,9 +81,11 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
     });
   }
   async gridLoad() {
-    this.loadRecords(this.MstRecords);
+    this.fetchMstFundList();
+    // this.loadRecords();
     this.showHideAddRowIcon(0);
   }
+
   async onRowAdd(rowNo) {
     this.LocalCurEq.toArray()[rowNo].setReadOnly(true);
     this.showHideAddRowIcon(0);
@@ -109,13 +113,38 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
     return addInfo;
   }
 
-  loadRecords(DisbursalResp) {
-    DisbursalResp.forEach(element => {
-      let rowData = element;
+  loadRecords() {
+    this.FundsAvailableMap.forEach(element => {
+      let rowData = {};
+      rowData['SrNo'] = element.SrNo;
+      rowData['FundsAvailable'] = element.mstText;
+      rowData['Amount'] = element.Amount;
+      rowData['LocalCurEq'] = element.CurrencyEquivalentAmt;
       let rowCounter = this.addRow(rowData);
       console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
     });
     console.log("shweta :: complete record fetched", this.value.rowData);
+  }
+  fetchMstFundList() {
+    let inputMap = new Map();
+    this.FundsAvailableMap.clear();
+    // const MstDescList :CostOrFundsInterface[]=[];
+    inputMap.set('QueryParam.lookup', 1);
+    inputMap.set('QueryParam.APPID', 'RLO');
+    inputMap.set('QueryParam.KEY1', 'FUNDS_AVAILABLE');
+    this.services.http.fetchApi('/MSTGENERALPARAM', 'GET', inputMap, '/masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        let res = httpResponse.body;
+        let tempList = res['Data'];
+        console.log("res", res);
+        if (tempList) {
+          let counter = 1;
+          tempList.forEach(element => {
+            this.FundsAvailableMap.set(element.id, { SrNo: counter++, mstId: element.id, mstText: element.text });
+          });
+        }
+      }
+    );
   }
 
   Amount_blur(FieldId, $event, rowNo) {
