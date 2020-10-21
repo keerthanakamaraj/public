@@ -14,8 +14,9 @@ import { environment } from 'src/environments/environment';
 export class CLOCommonService extends CoreREST {
 
 	// public baseContext: string = '/clo-commons';
-	public baseContext: string = '/common-de';
-	public context: string = (this.baseContext + '/publisher/v1');
+  // public baseContext: string = '/common-de';
+  public baseContext: string = environment.serviceMap['/common-de'];
+	public context: string = (this.baseContext + '/v1');
 	private domainAttributesCache = {};
 	private tenantDACache = {};
 	public urlInfoContext: string = 'assets/json/url-info.json';

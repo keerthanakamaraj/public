@@ -1,6 +1,7 @@
 import { CoreREST } from './core-rest';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 // import { IamService } from '../iam-service/iam.service';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class CLOEnrichService extends CoreREST {
 
   // public context: string = '/clo-enrichments/publisher/v1';
-  public context: string = '/common-de/publisher/v1';
+  public context: string = environment.serviceMap['/common-de'] + '/v1';
 
 	// public constructor(public http: HttpClient, public auth: IamService) {
   public constructor(public http: HttpClient) {

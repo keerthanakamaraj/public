@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BPMData } from './workflow-viewer.model';
 import { UtilityService } from '../services/utility.service';
 import { ServiceStock } from '../service-stock.service';
+import { environment } from 'src/environments/environment';
 
 declare let $: any;
 window['$'] = $;
@@ -113,7 +114,7 @@ export class WorkflowViewerComponent implements OnInit {
       $('#active-div').hide();
       for (i = 0; i < this.flowBpmData.BPMNMetadata.length; i++) {
         let coord = this.flowBpmData.BPMNMetadata[i];
-        coord.x = +coord.x + 18;
+        // coord.x = +coord.x + 18;
         this.addCssToDiv(coord);
         await this.blinkFor2s();
       }
@@ -126,14 +127,16 @@ export class WorkflowViewerComponent implements OnInit {
 
   }
   getCurrentBPMCordinates() {
-    const url = 'https://rlfc.intellectseecapps.com/los-wf/rest/';
+    // const url = 'https://rlfc.intellectseecapps.com/los-wf/rest/';
+    const url = environment.baseURL + environment.serviceMap["/los-wf"];
     const headers = { 'ServiceCode': 'getCurrentTaskBPMNCoordinates', 'ProcessId': 'RLO_Process', 'TENANT_ID': 'SB1'};
     const body = { 'TaskId': this.taskId, 'ProcessId': this.processId, 'TENANT_ID': 'SB1'};
     return this.utility.getHttpClient().post(url, body, { headers });
   }
 
   getBPMCoordinates() {
-    const url = 'https://rlfc.intellectseecapps.com/los-wf/rest/';
+    // const url = 'https://rlfc.intellectseecapps.com/los-wf/rest/';
+    const url = environment.baseURL + environment.serviceMap["/los-wf"];
     const headers = { 'ServiceCode': 'getBPMNCoordinates', 'ProcessId': 'RLO_Process'};
     const body = { 'TaskId': this.taskId, 'ProcessId': this.processId, 'TENANT_ID': 'SB1'};
     return this.utility.getHttpClient().post(url, body, { headers });
