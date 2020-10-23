@@ -256,7 +256,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     // },
   },
   {
-      width: 4,
+      width: 8,
       field: " ",
       sortable: false,
       filter: false,

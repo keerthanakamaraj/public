@@ -84,6 +84,9 @@ export class ReadonlyGridComponent {
   private gridWidth: number;
   private gridWidthInitialized: boolean = false;
   onGridSizeChanged(event) {
+    //console.log("DEEP | GridWidth Changed", this.gridWidthInitialized,event.clientWidth)
+    //this.gridWidth = event.clientWidth;
+    this.gridApi.sizeColumnsToFit();
     if (this.gridWidthInitialized == false && event.clientWidth != 0) {
       this.gridWidth = event.clientWidth;
       this.gridWidthInitialized = true;
@@ -282,7 +285,7 @@ export class ReadonlyGridComponent {
         lastRow = params.startRow + gridData.length;
       }
       params.successCallback(gridData, lastRow);
-    }else if(params.startRow == 0){
+    } else if (params.startRow == 0) {
       this.showNoRowOverlay();
     }
   }

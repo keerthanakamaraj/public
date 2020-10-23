@@ -88,7 +88,7 @@
 
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
 
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CURRENCY.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_CURRENCY.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': LD_CURRENCY.mandatory}">
                 {{ 'LiabilityDtlsForm.LD_CURRENCY' | translate}}
@@ -98,7 +98,7 @@
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails" placeholder="Select" (blur)="genericOnBlur('LD_CURRENCY', $event)">
             </app-combo-box>
-          </div>
+          </div> -->
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -106,8 +106,12 @@
                 {{ 'LiabilityDtlsForm.LD_LOAN_AMOUNT' | translate}}
               </label>
             </div>
-            <app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode"
-              (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-amount>
+            <!-- <app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode"
+              (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [currencyReadOnly]="readOnly"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'LD_LOAN_AMOUNT'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EQUIVALENT_AMOUNT.isHidden()">
@@ -116,8 +120,12 @@
                 {{ 'LiabilityDtlsForm.LD_EQUIVALENT_AMOUNT' | translate}}
               </label>
             </div>
-            <app-amount #LD_EQUIVALENT_AMOUNT fieldID="LD_EQUIVALENT_AMOUNT" [formCode]="formCode"
-              (blur)="genericOnBlur('LD_EQUIVALENT_AMOUNT', $event)"></app-amount>
+            <!-- <app-amount #LD_EQUIVALENT_AMOUNT fieldID="LD_EQUIVALENT_AMOUNT" [formCode]="formCode"
+              (blur)="genericOnBlur('LD_EQUIVALENT_AMOUNT', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #LD_EQUIVALENT_AMOUNT fieldID="LD_EQUIVALENT_AMOUNT" [currencyReadOnly]="true" 
+            [componentFieldId]="'LD_EQUIVALENT_AMOUNT'" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
 
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
@@ -128,8 +136,11 @@
                 {{ 'LiabilityDtlsForm.LD_LOAN_EMI' | translate}}
               </label>
             </div>
-            <app-amount #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode"
-              (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-amount>
+            <!-- <app-amount #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [formCode]="formCode"
+              (blur)="genericOnBlur('LD_LOAN_EMI', $event)"></app-amount> -->
+              <app-rlo-ui-currency #LD_LOAN_EMI fieldID="LD_LOAN_EMI" [currencyReadOnly]="true" 
+              [componentFieldId]="'LD_LOAN_EMI'" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
@@ -139,8 +150,8 @@
                 {{ 'LiabilityDtlsForm.LD_LOAN_CLOSURE_DATE' | translate}}
               </label>
             </div>
-            <app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" placeholder="dd-mm-yyyy" [formCode]="formCode"
-              (blur)="genericOnBlur('LD_LOAN_CLOSURE_DATE', $event)"></app-date>
+            <app-date #LD_LOAN_CLOSURE_DATE fieldID="LD_LOAN_CLOSURE_DATE" placeholder="dd-mm-yyyy"
+              [formCode]="formCode" (blur)="genericOnBlur('LD_LOAN_CLOSURE_DATE', $event)"></app-date>
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_OS_AMOUNT.isHidden() || !isObligation">
@@ -149,8 +160,11 @@
                 {{ 'LiabilityDtlsForm.LD_OS_AMOUNT' | translate}}
               </label>
             </div>
-            <app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode"
-              (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount>
+            <!-- <app-amount #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [formCode]="formCode"
+              (blur)="genericOnBlur('LD_OS_AMOUNT', $event)"></app-amount> -->
+              <app-rlo-ui-currency #LD_OS_AMOUNT fieldID="LD_OS_AMOUNT" [currencyReadOnly]="true"
+              [componentFieldId]="'LD_OS_AMOUNT'" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
 
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->

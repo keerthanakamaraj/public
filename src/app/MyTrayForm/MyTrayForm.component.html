@@ -31,7 +31,6 @@
                   <div>Pending</div>
                   <div>Applications</div>
                 </div>
-               
                 <p>{{proposalCount}}</p>
               </div>
             </div>
@@ -43,25 +42,13 @@
         <div class="broadcast-card">
           <div class="title">Notifications</div>
           <div class="broadcast-container">
-
-            <div class="broadcast-section">
-              <div class="type">New</div>
+            <div class="broadcast-section" *ngFor="let notification of NotificationList">
+              <div class="type">{{notification.type}}</div>
               <div class="msg">
-                Customer ID: S04312244561234 has been blacklisted. Kindly ensure all
-                applications with this ID No.
-                <span class="date-time icon-time">26 Aug Wed, 10:03 AM</span>
+                {{notification.msg}}
+                <span class="date-time icon-time">{{notification.dateTime}}</span>
               </div>
             </div>
-
-            <div class="broadcast-section">
-              <div class="type">Recent</div>
-              <div class="msg">
-                From 1st Sep 2020, branch trading hours will be back to normal (9:00 - 16:00).
-                Safety measures will be followed and respected throughout.
-                <span class="date-time icon-time">21 Aug Fri, 01:20 PM</span>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

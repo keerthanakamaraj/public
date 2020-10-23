@@ -53,27 +53,29 @@
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartialDisbursememt.isHidden()"
-          [ngClass]="'checkboxLeft'">
-          <div class="clr-brown fieldLegend">
-            <label class="clr-brown">
-              {{ 'DisbursementDetails.PartialDisbursememt' | translate}}
-            </label>
+            [ngClass]="'checkboxLeft'">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DisbursementDetails.PartialDisbursememt' | translate}}
+              </label>
+            </div>
+            <app-check-box #PartialDisbursememt fieldID="PartialDisbursememt"
+              (change)="PartialDisbursememt_change($event)" [formCode]="formCode"
+              (blur)="genericOnBlur('PartialDisbursememt', $event)"></app-check-box>
           </div>
-          <app-check-box #PartialDisbursememt fieldID="PartialDisbursememt"
-            (change)="PartialDisbursememt_change($event)" [formCode]="formCode"
-            (blur)="genericOnBlur('PartialDisbursememt', $event)"></app-check-box>
-        </div>
 
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"[hidden]="CompletionPercent.isHidden()">
-          <div class="clr-brown fieldLegend">
-            <label class="clr-brown" [ngClass]="{'mandatory': CompletionPercent.mandatory}">
-              {{ 'DisbursementDetails.CompletionPercent' | translate}}</label>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CompletionPercent.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CompletionPercent.mandatory}">
+                {{ 'DisbursementDetails.CompletionPercent' | translate}}</label>
+            </div>
+            <app-text-box #CompletionPercent fieldID="CompletionPercent" [formCode]="formCode"
+              (blur)="genericOnBlur('CompletionPercent', $event)"></app-text-box>
           </div>
-          <app-text-box #CompletionPercent fieldID="CompletionPercent" [formCode]="formCode"
-            (blur)="genericOnBlur('CompletionPercent', $event)"></app-text-box>
-        </div>
+
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
+
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': Currency.mandatory}">
                 {{ 'DisbursementDetails.Currency' | translate}}
@@ -82,25 +84,38 @@
             <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
-          </div>
+          </div> -->
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Amount.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': Amount.mandatory}">
                 {{ 'DisbursementDetails.Amount' | translate}}
               </label>
             </div>
-            <app-amount #Amount fieldID="Amount" [formCode]="formCode" (blur)="genericOnBlur('Amount', $event)">
-            </app-amount>
+            <!-- <app-amount #Amount fieldID="Amount" [formCode]="formCode" (blur)="genericOnBlur('Amount', $event)">
+            </app-amount> -->
+
+            <app-rlo-ui-currency #Amount fieldID="Amount" [currencyReadOnly]="readOnly" [inputReadOnly]="readOnly"
+              [formCode]="formCode" [componentFieldId]="'Amount'" (onBlurEvent)="customGenericOnBlur($event)">
+            </app-rlo-ui-currency>
+
           </div>
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'DisbursementDetails.LocalCurrencyEquivalent' | translate}}
               </label>
             </div>
-            <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
-              (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount>
+            <!-- <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
+              (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [currencyReadOnly]="true"
+              [componentFieldId]="'LocalCurrencyEquivalent'" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentMode.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': PaymentMode.mandatory}">

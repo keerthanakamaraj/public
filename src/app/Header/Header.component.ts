@@ -84,6 +84,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
   PRODUCT_CATEGORY_IMG = '';
   CURRENCY_IMG = '';
+  currencySymbol = '';
 
   headerExpandedView: boolean = true;
   headerCurrentState: boolean = true; //expanded-1,collapsed-0
@@ -109,6 +110,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   SUB_PRODUCT_NAME: string
 
   currentPageName: string;
+  currency : string;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -150,6 +152,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     super.setBasicFieldsReadOnly(readOnly);
   }
   async onFormLoad() {
+    this.currencySymbol = this.services.rloui.getCurrencyChar();
+
     this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
     // this.HD_CIF.setReadOnly(true);
     // this.HD_CUST_ID.setReadOnly(true);
@@ -247,6 +251,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.CC_CARD_TYPE.setValue('NA');
           this.CC_CARD_ASSOCIATION.setValue('NA');
         }
+        this.currency =localStorage.getItem("currency.code.default");
         this.apiSuccessCallback();
       },
       async (httpError) => {
@@ -334,6 +339,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
+  
     switch (localStorage.getItem("currency.code.default")) {
       case 'EUR': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
         break;
@@ -341,7 +347,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         break;
       case 'INR': this.CURRENCY_IMG = './assets/icons/rupee-yellow.svg';
         break;
+
+      case 'ZWL': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
+        break;
     }
+    
 
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';

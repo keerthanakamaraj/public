@@ -29,8 +29,13 @@
                 {{ 'LoanDetailsForm.LoanAmount' | translate}}
               </label>
             </div>
-            <app-amount #LoanAmount fieldID="LoanAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('LoanAmount', $event)"></app-amount>
+            <!-- <app-amount #LoanAmount fieldID="LoanAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('LoanAmount', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #LoanAmount fieldID="LoanAmount" [currencyReadOnly]="true"
+              [componentFieldId]="'LoanAmount'" [inputReadOnly]="true" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="InterestRate.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -98,8 +103,13 @@
                 {{ 'LoanDetailsForm.SystemRecommendedAmount' | translate}}
               </label>
             </div>
-            <app-amount #SystemRecommendedAmount fieldID="SystemRecommendedAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('SystemRecommendedAmount', $event)"></app-amount>
+            <!-- <app-amount #SystemRecommendedAmount fieldID="SystemRecommendedAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('SystemRecommendedAmount', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #SystemRecommendedAmount fieldID="SystemRecommendedAmount" [currencyReadOnly]="true"
+              [componentFieldId]="'SystemRecommendedAmount'" [inputReadOnly]="true" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="UserRecommendedAmount.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -107,8 +117,14 @@
                 {{ 'LoanDetailsForm.UserRecommendedAmount' | translate}}
               </label>
             </div>
-            <app-amount #UserRecommendedAmount fieldID="UserRecommendedAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('UserRecommendedAmount', $event)"></app-amount>
+
+            <!-- <app-amount #UserRecommendedAmount fieldID="UserRecommendedAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('UserRecommendedAmount', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #UserRecommendedAmount fieldID="UserRecommendedAmount" [currencyReadOnly]="true"
+              [componentFieldId]="'UserRecommendedAmount'" [inputReadOnly]="readOnly" [formCode]="formCode">
+            </app-rlo-ui-currency>
+
           </div>
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
@@ -182,57 +198,57 @@
               <rlo-ui-readonlyfield #MarginMoney fieldID="MarginMoney" (blur)="genericOnBlur('MarginMoney', $event)">
               </rlo-ui-readonlyfield>
               <div class="clr-brown fieldLegend">
-                  <label class="clr-brown">
-                    {{ 'LoanDetailsForm.EMIAmount' | translate}}
-                  </label>
-                </div>
-                <rlo-ui-readonlyfield #EMIAmount fieldID="EMIAmount" placeholder="Placeholder"
-                  (blur)="genericOnBlur('EMIAmount', $event)">
-                </rlo-ui-readonlyfield>
-                <div class="clr-brown fieldLegend">
-                    <label class="clr-brown">
-                      {{ 'LoanDetailsForm.TotalLoanAmt' | translate}}
-                    </label>
-                  </div>
-                  <rlo-ui-readonlyfield #TotalLoanAmt fieldID="TotalLoanAmt" placeholder="Placeholder"
-                    (blur)="genericOnBlur('TotalLoanAmt', $event)">
-                  </rlo-ui-readonlyfield>
-              
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.EMIAmount' | translate}}
+                </label>
+              </div>
+              <rlo-ui-readonlyfield #EMIAmount fieldID="EMIAmount" placeholder="Placeholder"
+                (blur)="genericOnBlur('EMIAmount', $event)">
+              </rlo-ui-readonlyfield>
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotalLoanAmt' | translate}}
+                </label>
+              </div>
+              <rlo-ui-readonlyfield #TotalLoanAmt fieldID="TotalLoanAmt" placeholder="Placeholder"
+                (blur)="genericOnBlur('TotalLoanAmt', $event)">
+              </rlo-ui-readonlyfield>
+
             </div>
             <div class="loan-group col-9 col-sm-4 col-md-4">
-                <div class="clr-brown fieldLegend">
-                    <label class="clr-brown">
-                      {{ 'LoanDetailsForm.TotalFeeAdjWithDist' | translate}}
-                    </label>
-                  </div>
-    
-                  <rlo-ui-readonlyfield #TotalFeeAdjWithDist fieldID="TotalFeeAdjWithDist" placeholder="Placeholder"
-                    (blur)="genericOnBlur('TotalFeeAdjWithDist', $event)">
-                  </rlo-ui-readonlyfield>
-    
-    
-                <div class="clr-brown fieldLegend">
-                    <label class="clr-brown">
-                      {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
-                    </label>
-                  </div>
-    
-                  <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt" placeholder="Placeholder"
-                    (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
-                  </rlo-ui-readonlyfield>
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotalFeeAdjWithDist' | translate}}
+                </label>
+              </div>
 
-                  <div class="clr-brown fieldLegend">
-                      <label class="clr-brown">
-                        {{ 'LoanDetailsForm.TotaDistlAmt' | translate}}
-                      </label>
-                    </div>
-      
-                    <rlo-ui-readonlyfield #TotaDistlAmt fieldID="TotaDistlAmt" placeholder="Placeholder"
-                      (blur)="genericOnBlur('TotaDistlAmt', $event)">
-                    </rlo-ui-readonlyfield>
-      
-    
-    
+              <rlo-ui-readonlyfield #TotalFeeAdjWithDist fieldID="TotalFeeAdjWithDist" placeholder="Placeholder"
+                (blur)="genericOnBlur('TotalFeeAdjWithDist', $event)">
+              </rlo-ui-readonlyfield>
+
+
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotalInstallmentAmt' | translate}}
+                </label>
+              </div>
+
+              <rlo-ui-readonlyfield #TotalInstallmentAmt fieldID="TotalInstallmentAmt" placeholder="Placeholder"
+                (blur)="genericOnBlur('TotalInstallmentAmt', $event)">
+              </rlo-ui-readonlyfield>
+
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotaDistlAmt' | translate}}
+                </label>
+              </div>
+
+              <rlo-ui-readonlyfield #TotaDistlAmt fieldID="TotaDistlAmt" placeholder="Placeholder"
+                (blur)="genericOnBlur('TotaDistlAmt', $event)">
+              </rlo-ui-readonlyfield>
+
+
+
               <!-- <div class="clr-brown fieldLegend">
                 <label class="clr-brown">
                   {{ 'LoanDetailsForm.EMIAmount' | translate}}
@@ -245,15 +261,15 @@
             </div>
             <div class="loan-group col-9 col-sm-4 col-md-4">
 
-                <div class="clr-brown fieldLegend">
-                    <label class="clr-brown">
-                      {{ 'LoanDetailsForm.TotalFeeCollUpfront' | translate}}
-                    </label>
-                  </div>
-                  <rlo-ui-readonlyfield #TotalFeeCollUpfront fieldID="TotalFeeCollUpfront"
-                    (blur)="genericOnBlur('TotalFeeCollUpfront', $event)">
-                  </rlo-ui-readonlyfield>
-    
+              <div class="clr-brown fieldLegend">
+                <label class="clr-brown">
+                  {{ 'LoanDetailsForm.TotalFeeCollUpfront' | translate}}
+                </label>
+              </div>
+              <rlo-ui-readonlyfield #TotalFeeCollUpfront fieldID="TotalFeeCollUpfront"
+                (blur)="genericOnBlur('TotalFeeCollUpfront', $event)">
+              </rlo-ui-readonlyfield>
+
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown">
                   {{ 'LoanDetailsForm.TotalInterestAmount' | translate}}

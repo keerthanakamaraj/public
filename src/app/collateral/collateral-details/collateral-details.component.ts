@@ -49,6 +49,7 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
   };
   allowedUdfTypes = ['D', 'N', 'T', 'L'];
   depositAccount = {};
+  disableFlag:boolean=false;
   @Output() loadColl: EventEmitter<object> = new EventEmitter<object>();
   @Output() loadgrid: EventEmitter<object> = new EventEmitter<object>();
 
@@ -168,11 +169,20 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
     this.collateralCommonFields['facilityLinkage'] = {};
     // @CLO-RLO-Merge - FAcilities not used for RLO
     // this.collateralCommonFields['facilityLinkage']['Facilities'] = this.facilityLinkage.TRNDetailsArray;
+    this.disableFlag=true; //disable add button
     this.utility.getEnrichmentService().saveCollateralDetails(this.collateralCommonFields,
       this.collateralCommonFields.customerNumber).subscribe(
         () => {
           // @CLO-RLO-Merge - Use RLO Error Handling
-          // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
+         // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
+         console.log('shweta :: collateral id ',this.collateralCommonFields.collateralCode);
+         if(this.collateralCommonFields.collateralCode ==undefined || this.collateralCommonFields.collateralCode =="" ){
+          this.services.alert.showAlert(1, 'rlo.success.save.collateral', 5000);
+         }else{
+          this.services.alert.showAlert(1, 'rlo.success.update.collateral', 5000);
+         }
+         
+          this.disableFlag=false;
           this.collateralCommonFields.clear();
           this.clearMappedFacilities();
           this.loadColl.emit();
@@ -197,6 +207,12 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
               this.loadColl.emit();
             }
           }
+          if(this.collateralCommonFields.collateralCode ==undefined || this.collateralCommonFields.collateralCode ==""){
+            this.services.alert.showAlert(2, 'rlo.error.save.collateral', -1);
+           }else{
+            this.services.alert.showAlert(2, 'rlo.error.update.collateral', -1);
+           }
+          this.disableFlag=false;
         }
       );
   }

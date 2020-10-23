@@ -69,7 +69,7 @@ export class RloUiMobileComponent extends FieldComponent implements OnInit {
       value: "RLO"
     });
 
-    this.dependencyMap2.set("KEY1", {
+    this.dependencyMap2.set("KEY1", { 
       paramType: "QueryParam",
       value: "ISD_COUNTRY_CODE"
     });

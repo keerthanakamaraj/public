@@ -82,7 +82,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
     this.fieldArray = [];
     this.fieldArray.push(this.MainComponent.OD_INDUSTRY, this.MainComponent.OD_COMPANY_CODE, this.MainComponent.OD_COMP_CAT,
       this.MainComponent.OD_COMP_NAME, this.MainComponent.OD_INC_DOC_TYPE, this.MainComponent.OD_NET_INCOME,
-      this.MainComponent.OD_INCOME_FREQ, this.MainComponent.OD_INCOME_TYPE, this.MainComponent.OD_CURRENCY, this.MainComponent.OD_LOC_CURR_EQ)
+      this.MainComponent.OD_INCOME_FREQ, this.MainComponent.OD_INCOME_TYPE, this.MainComponent.OD_NET_INCOME, this.MainComponent.OD_LOC_CURR_EQ)
     return this.fieldArray;
   }
 

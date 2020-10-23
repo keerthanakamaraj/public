@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { IncomeSummaryHandlerComponent } from '../IncomeSummaryForm/incomesummary-handler.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -24,12 +25,18 @@ const customCss: string = '';
     templateUrl: './IncomeSummaryForm.component.html'
 })
 export class IncomeSummaryFormComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('IS_TOTAL_INCOME', { static: false }) IS_TOTAL_INCOME: AmountComponent;
-    @ViewChild('IS_NET_INCOME', { static: false }) IS_NET_INCOME: AmountComponent;
-    @ViewChild('IS_TOTAL_OBLIGATION', { static: false }) IS_TOTAL_OBLIGATION: AmountComponent;
+    //@ViewChild('IS_TOTAL_INCOME', { static: false }) IS_TOTAL_INCOME: AmountComponent;
+    //@ViewChild('IS_NET_INCOME', { static: false }) IS_NET_INCOME: AmountComponent;
+    //@ViewChild('IS_TOTAL_OBLIGATION', { static: false }) IS_TOTAL_OBLIGATION: AmountComponent;
     @ViewChild('IS_DBR', { static: false }) IS_DBR: TextBoxComponent;
-    @ViewChild('IS_TOTAL_LIABILITY', { static: false }) IS_TOTAL_LIABILITY: AmountComponent;
+    //@ViewChild('IS_TOTAL_LIABILITY', { static: false }) IS_TOTAL_LIABILITY: AmountComponent;
     @ViewChild('Handler', { static: false }) Handler: IncomeSummaryHandlerComponent;
+
+    //custom
+    @ViewChild('IS_TOTAL_INCOME', { static: false }) IS_TOTAL_INCOME: RloUiCurrencyComponent;
+    @ViewChild('IS_TOTAL_OBLIGATION', { static: false }) IS_TOTAL_OBLIGATION: RloUiCurrencyComponent;
+    @ViewChild('IS_TOTAL_LIABILITY', { static: false }) IS_TOTAL_LIABILITY: RloUiCurrencyComponent;
+    @ViewChild('IS_NET_INCOME', { static: false }) IS_NET_INCOME: RloUiCurrencyComponent;
 
     @Input() activeBorrowerSeq: string = undefined;
 
@@ -106,11 +113,17 @@ export class IncomeSummaryFormComponent extends FormComponent implements OnInit,
                     for (let i = 0; i < res.IncomeSummary.length; i++) {
                         const incomeDtls = res.IncomeSummary[i];
                         if (incomeDtls) {
-                            this.IS_NET_INCOME.setValue(incomeDtls.NetIncomeMonthly);
-                            this.IS_TOTAL_INCOME.setValue(incomeDtls.TotalIncome);
-                            this.IS_TOTAL_LIABILITY.setValue(incomeDtls.TotalLiability);
-                            this.IS_TOTAL_OBLIGATION.setValue(incomeDtls.TotalObligation);
+                            // this.IS_NET_INCOME.setValue(incomeDtls.NetIncomeMonthly);
+                            // this.IS_TOTAL_INCOME.setValue(incomeDtls.TotalIncome);
+                            // this.IS_TOTAL_LIABILITY.setValue(incomeDtls.TotalLiability);
+                            // this.IS_TOTAL_OBLIGATION.setValue(incomeDtls.TotalObligation);
                             this.IS_DBR.setValue(incomeDtls.DBR);
+
+                            //custom
+                            this.IS_NET_INCOME.setComponentSpecificValue(incomeDtls.NetIncomeMonthly, null);
+                            this.IS_TOTAL_INCOME.setComponentSpecificValue(incomeDtls.TotalIncome, null);
+                            this.IS_TOTAL_LIABILITY.setComponentSpecificValue(incomeDtls.TotalLiability, null);
+                            this.IS_TOTAL_OBLIGATION.setComponentSpecificValue(incomeDtls.TotalObligation, null);
                         }
                     }
                     obj.data = res.IncomeSummary;

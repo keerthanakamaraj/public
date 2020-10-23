@@ -3,19 +3,24 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
+  name: 'demo',
+  production: false,
   // baseURL: 'http://10.11.12.26:8180/olive/'
   // baseURL: "http://10.11.12.19:18180" //Mumbai
   // baseURL: 'http://10.11.12.53:9090', // LOCAL
-  baseURL: window.location.origin, //Demo
+  baseURL: 'http://10.11.12.15:20804', //Demo
+  // baseURL: 'http://10.12.20.45:10144', //Demo 2
   //  baseURL: 'http://localhost:8081',
   enableKeycloak: false,
-  authURL: 'http://10.12.20.45:18080/auth',
+  authURL: 'http://10.11.12.15:18080/auth', // Demo
+  // authURL: 'http://10.12.20.45:18080/auth', // Demo 2
   //authURL: 'https://iam.intellectqacloud.com/auth', // QA
-  realm: 'RLO',
+  realm: 'rlorealm',
+  // realm: 'RLO', // Demo 2
   // realm: 'dabank', // QA
   clientId: 'rloclient',
-  redirectURL: 'http://10.12.20.45:10144/rlo/#/home/LANDING',
+  redirectURL: 'http://localhost:1841/#/home/LANDING', // Demo 2
+  //redirectURL: 'http://10.12.20.45:20804/rlo/#/home/LANDING', // Demo 2
   // redirectURL: window.location.hash.replace('#/', '') === '' ? window.location.href + '#/home/LANDING' : window.location.href,
 
   // serviceMap : {
@@ -36,7 +41,8 @@ export const environment = {
     "/initiation": "/olive/publisher/rlo-initiation",
     "/rlo-de": "/olive/publisher/rlo-data-enrich",
     "/los-integrator": "/los-integrator",
-    "/lettermangement" :"/olive/publisher/rlo-letter-mgmt"
+    "/lettermangement" :"/olive/publisher/rlo-letter-mgmt",
+    "/common-de": "/olive/publisher/rlo-common-de"
   }
 
   // serviceMap : {

@@ -37,7 +37,7 @@ export class Collateral {
         this.fairMarketValue = '';
         this.scope = '';
         this.restricted = '';
-        this.collateralStatus = '';
+       // this.collateralStatus = '';
         const specificFieldInformation = this.specificFieldInformation;
         const newSpecInfo = new Array<SpecificInformation>();
         specificFieldInformation.forEach(data => {

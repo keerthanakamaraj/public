@@ -18,6 +18,7 @@ import { AmortizationScheduleHandlerComponent } from './AmortizationSchedule-han
 import { IAmortizationForm, IRepaymentSchedule } from '../Interface/masterInterface';
 import { ConsoleService } from '@ng-select/ng-select/lib/console.service';
 import { RefreshSidebarService } from '../refreshSidebar.service';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 
@@ -26,24 +27,30 @@ const customCss: string = '';
   templateUrl: './AmortizationSchedule.component.html'
 })
 export class AmortizationScheduleComponent extends FormComponent implements OnInit, AfterViewInit {
-  @ViewChild('LoanAmountRequested', { static: false }) LoanAmountRequested: AmountComponent;
+  //@ViewChild('LoanAmountRequested', { static: false }) LoanAmountRequested: AmountComponent;
   @ViewChild('NetInterestRate', { static: false }) NetInterestRate: TextBoxComponent;
   @ViewChild('Tenure', { static: false }) Tenure: TextBoxComponent;
   @ViewChild('BLoanOwnership', { static: false }) BLoanOwnership: TextBoxComponent;
   @ViewChild('CBLoanOwnership', { static: false }) CBLoanOwnership: TextBoxComponent;
-  @ViewChild('BLoanAmtShare', { static: false }) BLoanAmtShare: AmountComponent;
-  @ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: AmountComponent;
+  //@ViewChild('BLoanAmtShare', { static: false }) BLoanAmtShare: AmountComponent;
+  //@ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: AmountComponent;
   @ViewChild('DisbursalDate', { static: false }) DisbursalDate: DateComponent;
   @ViewChild('ScheduleType', { static: false }) ScheduleType: TextBoxComponent;
   @ViewChild('RepaymentStartDate', { static: false }) RepaymentStartDate: DateComponent;
   @ViewChild('NoOfInstallments', { static: false }) NoOfInstallments: TextBoxComponent;
-  @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: AmountComponent;
+  //@ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: AmountComponent;
   @ViewChild('AmortizationGrid', { static: false }) AmortizationGrid: AmortizationGridComponent;
   @ViewChild('Handler', { static: false }) Handler: AmortizationScheduleHandlerComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   // @ViewChild('hidScheduleType', { static: false }) hidScheduleType: HiddenComponent;
   @ViewChild('AMS_GENERATE_BTN', { static: false }) AMS_GENERATE_BTN: ButtonComponent;
   @ViewChild('AMS_CLEAR_BTN', { static: false }) AMS_CLEAR_BTN: ButtonComponent;
+
+  //custom
+  @ViewChild('LoanAmountRequested', { static: false }) LoanAmountRequested: RloUiCurrencyComponent;
+  @ViewChild('BLoanAmtShare', { static: false }) BLoanAmtShare: RloUiCurrencyComponent;
+  @ViewChild('CBLoanAmountShare', { static: false }) CBLoanAmountShare: RloUiCurrencyComponent;
+  @ViewChild('RequiredEMIAmt', { static: false }) RequiredEMIAmt: RloUiCurrencyComponent;
 
   @Input() parentData: IAmortizationForm = undefined;
   @Input() ApplicationId: string = undefined;
@@ -60,13 +67,13 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     super.beforeRevalidate();
     await Promise.all([
 
-      this.revalidateBasicField('LoanAmountRequested'),
+      //this.revalidateBasicField('LoanAmountRequested'),
       this.revalidateBasicField('NetInterestRate'),
       this.revalidateBasicField('Tenure'),
       this.revalidateBasicField('BLoanOwnership'),
       this.revalidateBasicField('CBLoanOwnership'),
-      this.revalidateBasicField('BLoanAmtShare'),
-      this.revalidateBasicField('CBLoanAmountShare'),
+      //this.revalidateBasicField('BLoanAmtShare'),
+      //this.revalidateBasicField('CBLoanAmountShare'),
       this.revalidateBasicField('DisbursalDate'),
       this.revalidateBasicField('ScheduleType'),
       this.revalidateBasicField('RepaymentStartDate'),
@@ -203,19 +210,22 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   //   console.log("shweta :: dTm",dTm);
   // }
   parseParentDataObj() {
-    this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested);
+    // this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested);
+    let LoanAmountRequested = this.parentData.LoanAmountRequested == "NaN" ? 0 : this.parentData.LoanAmountRequested;
+    this.LoanAmountRequested.setComponentSpecificValue(LoanAmountRequested, null);
     this.NetInterestRate.setValue(this.parentData.NetInterestRate);
-
-    // this.momenttest();
 
     this.Tenure.setValue(this.parentData.Tenure + " " + this.parentData.TenurePeriod);
     this.BLoanOwnership.setValue(this.parentData.BLoanOwnership);
-    this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare);
+
+    // this.BLoanAmtShare.setValue(this.parentData.BLoanAmtShare);
+    let BLoanAmtShare = this.parentData.BLoanAmtShare == "NaN" ? 0 : this.parentData.BLoanAmtShare;
+    this.BLoanAmtShare.setComponentSpecificValue(BLoanAmtShare, null);
 
     this.isCBOwnership = (this.parentData.CBLoanOwnership != undefined && this.parentData.CBLoanOwnership != 0) ? true : false;
     this.CBLoanOwnership.setValue(this.parentData.CBLoanOwnership);
-    this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare);
-
+    //this.CBLoanAmountShare.setValue(this.parentData.CBLoanAmountShare);
+    this.CBLoanAmountShare.setComponentSpecificValue(this.parentData.CBLoanAmountShare, null);
 
     this.DisbursalDate.setValue(this.parentData.DisbursalDate);
     // this.ScheduleType.setValue(this.parentData.ScheduleType);

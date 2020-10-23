@@ -36,48 +36,52 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('MT_GRID', { static: false }) MT_GRID: MyTrayGridComponent;
   @ViewChild('MT_Proposal', { static: false }) MT_Proposal: ButtonComponent;
   @ViewChild('doughnutChart', { static: false }) doughnutChart: ElementRef;
-  @ViewChild('chartPendingTxt', { static: false }) chartPendingTxt: ElementRef;
-  @ViewChild('chartCountTxt', { static: false }) chartCountTxt: ElementRef;
+  //@ViewChild('chartPendingTxt', { static: false }) chartPendingTxt: ElementRef;
+  //@ViewChild('chartCountTxt', { static: false }) chartCountTxt: ElementRef;
 
   public doughnutChartContext: CanvasRenderingContext2D;
-  public chartPendingContext: CanvasRenderingContext2D;
-  public chartCountContext: CanvasRenderingContext2D;
-  public chartPluginService: PluginServiceRegistrationOptions;
+  //public chartPendingContext: CanvasRenderingContext2D;
+  //public chartCountContext: CanvasRenderingContext2D;
+  //public chartPluginService: PluginServiceRegistrationOptions;
 
   menuList = [];
   promotionLists = [
     {
-      title: "New to Bank Promotion",
-      txt: `Enjoy promotional interest rates on personal loans (unsecured) from as low as 7% p.a. with
-      no processing fee for new to bank customers. Offer valid till 3rd September 2020.`,
+      title: "COVID-19 Relief Plan",
+      txt: `Deferral of Mortgage Payments is now being offered to customers affected by COVID-19. In order to avail this, the customer will have to show his/her COVID-19 test to the Relationship Manager.`,
       bgColor: "#9013fe"
     },
     {
       title: "Fixed Rate Promotion",
-      txt: `Enjoy stability by fixing the interest rate on housing loans for the initial 3 years of the loan
-      (minimum tenure of 10 years required). Offer valid till 31st December 2020.`,
+      txt: `Enjoy stability by fixing the interest rate on mortgage loans. Offer valid till 31st December 2020.`,
       bgColor: "#17afbd"
     },
     {
-      title: "August Special",
-      txt: `Enjoy a reduction of 1% p.a. on all personal loans (secured) for the month of August. Offer
-      valid till 31st August 2020.`,
+      title: "Options available for Customers facing Hardship such as loss of job",
+      // txt: `\n\u2022 Refinance your mortgage to pay out other debt (subject to qualification)
+      // \n\u2022 Restore your original amortization (which lowers your payment amount)
+      // \n\u2022 Hold a payment (during a temporary suspension of income)
+      // \n\u2022 Offer you a reduced payment for a specific time
+      // `,
+      txt: `\n\u2022 Refinance your mortgage to pay out other debt (subject to qualification)
+      \n\u2022 Restore your original amortization (which lowers your payment amount)
+      \n\u2022 Hold a payment (during a temporary suspension of income)
+      \n\u2022 Offer you a reduced payment for a specific time
+      `,
       bgColor: "#fd83e3"
     }
   ];
 
-  broadcastLists = [
+  NotificationList = [
     {
-      msg: "New changes added in our current plan(PLAN_04_456136). Kindly all your sub-products accordingly.",
-      dateTime: "27 Mon, 11:00 AM"
+      type: "New",
+      msg: "Customer ID: S04312244561234 has been blacklisted. Kindly ensure all applications with this ID No.",
+      dateTime: "21 Oct Wed, 10:03 AM"
     },
     {
-      msg: "All the newly joined staff need to update their policies by the end of September.Submit the required documents to the Admin in .PDF format.",
-      dateTime: "29 Wed, 03:36 PM"
-    },
-    {
-      msg: "New offers for the month of August will be rolled out soon. Those who are intersted can contact Aishwarya or Jai. For any queries contact HR.",
-      dateTime: "29 Wed, 6:05 PM"
+      type: "Recent",
+      msg: "From 1st Sep 2020, branch trading hours will be back to normal (9:00 - 16:00).Safety measures will be followed and respected throughout.",
+      dateTime: "21 Oct Fri, 01:20 PM"
     }
   ];
 
@@ -365,7 +369,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
 
   plotDoughnutChart(response) {
 
-   // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
+    // response = [{ "FORMNAME": "DDE", "COUNT": "3" }, { "FORMNAME": "Operation", "COUNT": "5" }, { "FORMNAME": "QDE", "COUNT": "3" }, { "FORMNAME": "Reject", "COUNT": "1" }, { "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" },{ "FORMNAME": "Underwriter", "COUNT": "1" }]
 
     let colorListObj = [
       { stage: "QDE", color: "#002438" },
@@ -423,9 +427,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
           labels: {
             fontSize: 10,
             usePointStyle: true
-          }
-          ,
-          //onClick: updateCount(e, legendItem)
+          },
           onClick: ((e, legendItem) => {
             console.log(e, legendItem);
             pendingProposals = 0;
@@ -457,60 +459,13 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
           }
         }
       }
-      // ,
-      // plugins: [{
-      //   beforeDraw: function (chart, options) {
-      //     var width = chart.width,
-      //       height = chart.height,
-      //       ctx = chart.ctx,
-      //       type = chart.config.type;
-
-      //     if (type == 'doughnut') {
-      //       ctx.textBaseline = "middle";
-      //       var fontSize = (height / 11).toFixed(2);
-      //       ctx.font = fontSize + "px sans-serif";
-      //       ctx.fillText("Total Pending", 140, 73);
-
-      //       var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2) - 10;
-      //       var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2) + 20;
-      //       ctx.textBaseline = "middle";
-      //       ctx.font = fontSize + "sans-serif";
-      //       ctx.fillText(this.proposalCount, centerX, centerY);
-      //       ctx.save();
-      //     }
-      //   }
-      // }]
-
     }
 
     this.chart = new Chart(this.doughnutChartContext, this.chartOptions);
-
-    //this.chart.chartOptions = this.chartOptions;
   }
 
   updateCount(count: any): any {
     console.error("DEEP | count", count);
     this.proposalCount = count;
-    // console.log(e, legendItem);
-    // var index = legendItem.index;
-    // var ci = this.chart;
-    // //var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
-
-    // console.log(ci.data, ci);
-
-    // let obj = ci.data.datasets[0]._meta[0].data;
-
-    // for (let i = 0; i < obj.length; i++) {
-    //   const element = obj[i];
-    //   console.log(element);
-    //   console.log(ci.data.datasets[0].data);
-    //   if (i == index) {
-    //     element.hidden = element.hidden ? false : true;
-    //   }
-    //   this.proposalCount = 0;
-
-    // }
-
-    // ci.update();
   }
 }

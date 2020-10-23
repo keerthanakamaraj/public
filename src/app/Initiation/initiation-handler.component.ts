@@ -73,6 +73,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
     let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
     let otherDeduction = this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue();
+
     if (liability == undefined) {
       liability = 0;
     }
@@ -82,13 +83,20 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (grossincome == undefined) {
       grossincome = 0;
     }
+
+    grossincome = grossincome ? Number(grossincome) : grossincome;
+    liability = liability ? Number(liability) : liability;
+    otherDeduction = otherDeduction ? Number(otherDeduction) : otherDeduction;
+
     let liabityAndOtherDed = liability + otherDeduction;
     if (liability > grossincome || otherDeduction > grossincome || liabityAndOtherDed > grossincome) {
       this.MainComponent.LD_GROSS_INCOME.setError('rlo.error.grossIncome.invalid');
     } else {
       let netIncome = grossincome - liability - otherDeduction;
       // let DBR = (liability + otherDeduction) / grossincome;
-      this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+      //this.MainComponent.LD_NET_INCOME.setValue(netIncome.toFixed(2));
+      this.MainComponent.LD_NET_INCOME.setComponentSpecificValue(netIncome.toFixed(2), null);
+
       // this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
       this.MainComponent.LD_GROSS_INCOME.clearError();
     }
@@ -121,8 +129,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
     this.MainComponent.LD_SYS_AMT_RCMD.onReset();
-    this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
-    this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
+    //this.MainComponent.LD_SYS_AMT_RCMD.setValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue());
+    this.MainComponent.LD_SYS_AMT_RCMD.setComponentSpecificValue(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue(), null);
+
+    //this.MainComponent.revalidateBasicField('LD_SYS_AMT_RCMD');
     if (this.MainComponent.LD_GROSS_INCOME.getFieldValue() != undefined || this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue() != undefined || this.MainComponent.LD_OTH_DEDUCTIONS.getFieldValue() != undefined) {
       let grossincome = this.MainComponent.LD_GROSS_INCOME.getFieldValue();
       let liability = this.MainComponent.LD_EXST_LBLT_AMT.getFieldValue();
@@ -136,6 +146,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       if (grossincome == undefined) {
         grossincome = 0;
       }
+
+      grossincome = grossincome ? Number(grossincome) : grossincome;
+      liability = liability ? Number(liability) : liability;
+      otherDeduction = otherDeduction ? Number(otherDeduction) : otherDeduction;
 
       let DBR = (liability + otherDeduction) / grossincome;
       this.MainComponent.LD_LTV_DBR.setValue(DBR.toFixed(2));
@@ -156,8 +170,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     }
     let EMI = amount * rate / (1 - (Math.pow(1 / (1 + rate), months)));
     console.log("Loan EMI", EMI);
-    this.MainComponent.LD_EMI_AMT.setValue(EMI.toFixed(2));
-
+    //this.MainComponent.LD_EMI_AMT.setValue(EMI.toFixed(2));
+    this.MainComponent.LD_EMI_AMT.setComponentSpecificValue(EMI.toFixed(2), null);
   }
 
 
@@ -303,13 +317,13 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       let customer = this.getFormCustomerDetails();
       customer.tempId = "ID-" + (this.counter++);
       console.log("this.customers before adding", this.customers);
-     
-        for (let i = 0; i < this.customers.length; i++) {
-     
-          if (this.customers[i].tempId !== this.editId) {
-            if (customer.customerType.value == 'B') {
+
+      for (let i = 0; i < this.customers.length; i++) {
+
+        if (this.customers[i].tempId !== this.editId) {
+          if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, 'rlo.error.Borrower.exist',-1);
+              this.MainComponent.services.alert.showAlert(2, 'rlo.error.Borrower.exist', -1);
               return;
             }
           }
@@ -317,7 +331,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
             this.MainComponent.services.alert.showAlert(2, 'rlo.error.customer.exist', -1);
             return;
           }
-        } 
+        }
       }
       if (this.editId) {
         let index = this.customers.findIndex(cust => cust.tempId === this.editId);
@@ -358,8 +372,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   }
   updateAmountTags() {
     let displayTag = [];
+    let val = this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()
+    console.log(val);
     if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue() !== undefined) {
-      displayTag.push( this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
+      if (this.MainComponent.LD_LOAN_AMOUNT.getFieldValue().length)
+        displayTag.push(this.formatAmount(this.MainComponent.LD_LOAN_AMOUNT.getFieldValue()))
     }
 
     if (this.MainComponent.LD_INTEREST_RATE.getFieldValue() !== undefined && this.MainComponent.LD_MARGIN_RATE.getFieldValue() !== undefined) {
@@ -499,12 +516,17 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['IsStaff'] = this.customers[i].staff.value;
         tempObj['StaffID'] = this.customers[i].staffId;
         tempObj['ICIFNumber'] = this.customers[i].customerId;
-        tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
+        // tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
         tempObj['Email'] = this.customers[i].email;
         tempObj['ISDCountryCode'] = this.customers[i].countryCode;
         tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
-        // CustData.push(tempObj);
-        //  
+
+        if (this.customers[i].customerType.value == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
+          tempObj['LoanOwnership'] = 100;
+        } else {
+          tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
+        }
+
         CustData.push(tempObj);
 
       }
@@ -607,16 +629,16 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         const storePositive = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("+").join(0);
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(storePositive)
       }
-    
+
       else if (this.MainComponent.LD_MARGIN_RATE.getFieldValue().startsWith('-')) {
         const storeNegative = this.MainComponent.LD_MARGIN_RATE.getFieldValue().split("-").join(0);
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) - Number(storeNegative)
-      }else {
+      } else {
         CalculateNetInterest = Number(this.MainComponent.LD_INTEREST_RATE.getFieldValue()) + Number(this.MainComponent.LD_MARGIN_RATE.getFieldValue())
       }
 
       this.MainComponent.LD_NET_INTEREST_RATE.setValue(CalculateNetInterest.toFixed(2));
-      
+
     }
 
   }
@@ -635,7 +657,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // }
   formatAmount(number) {
     if (number) {
-      return this.MainComponent.services.formatAmount(number, null, null,false);
+      return this.MainComponent.services.formatAmount(number, null, null, false);
     } else {
       return '-';
     }

@@ -11,13 +11,13 @@ export class CoreREST {
 
   public url: string = '';
   public driveType: string = 'GLOBALDRIVE';
-  //public apiKey: string = 'gRrXwGv5lsGXkYFwNzaCS1CLQx5SlUe3';
-  public apiKey: string = 'sNZPc5zp9kmOvjL93XWeNUR8nXQsSS6k';
+  public apiKey: string = 'gRrXwGv5lsGXkYFwNzaCS1CLQx5SlUe3';
+  //public apiKey: string = 'sNZPc5zp9kmOvjL93XWeNUR8nXQsSS6k';
   //public context: string = '/clo-commons/publisher/v1';
-  public context: string = '/common-de/publisher/v1';
+  public context: string = environment.serviceMap['/common-de'] + '/v1'; //'/common-de/publisher/v1';
   public breContext: string = '/clo-bre-services';
   //public doContext: string = '/clo-commons/publisher';
-  public doContext: string = '/common-de/publisher';
+  public doContext: string = environment.serviceMap['/common-de']; // '/common-de/publisher';
 
   public defaultOptions: any = {
     headers: new HttpHeaders({

@@ -528,9 +528,10 @@ export class RloCommonData {
         const occupationList = customerSectionData.get('OccupationDetails');
 
         for (const eachOccupation of occupationList) {
-          if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
-            commonObj.isSectionValid = true;
-          } else if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
+          // if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
+          //   commonObj.isSectionValid = true;
+          // } else
+           if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
             commonObj.isSectionValid = true;
           }
         }

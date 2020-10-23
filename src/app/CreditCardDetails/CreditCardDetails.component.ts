@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { CreditCardHandlerComponent } from '../CreditCardDetails/creditcard-handler.component';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 
 const customCss: string = '';
@@ -28,8 +29,8 @@ const customCss: string = '';
 export class CreditCardDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
     @ViewChild('Branch', { static: false }) Branch: TextBoxComponent;
     @ViewChild('FrontPageCategory', { static: false }) FrontPageCategory: ComboBoxComponent;
-    @ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: TextBoxComponent;
-    @ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: TextBoxComponent;
+    //@ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: TextBoxComponent;
+    //@ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: TextBoxComponent;
     @ViewChild('SettlementAccountType', { static: false }) SettlementAccountType: ComboBoxComponent;
     @ViewChild('SettlementAccountNo', { static: false }) SettlementAccountNo: TextBoxComponent;
     @ViewChild('PaymentOption', { static: false }) PaymentOption: ComboBoxComponent;
@@ -56,8 +57,15 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('hidExisitingCard', { static: false }) hidExisitingCard: HiddenComponent;
     @ViewChild('hidCardDispatch', { static: false }) hidCardDispatch: HiddenComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
+
+    //custom
+    @ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: RloUiCurrencyComponent;
+    @ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: RloUiCurrencyComponent;
+
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
+    @Input() enableApproveLimit: boolean = false;//set to to only when opened in UW
+
     isApproveLimitValid: boolean = true;
 
     async revalidate(showErrors: boolean = true): Promise<number> {
@@ -67,7 +75,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('Branch', false, showErrors),
             this.revalidateBasicField('FrontPageCategory', false, showErrors),
             this.revalidateBasicField('MaximumCardLimit', false, showErrors),
-            // this.revalidateBasicField('ApprovedLimit',false,showErrors),
+            this.revalidateBasicField('ApprovedLimit', false, showErrors),
             this.revalidateBasicField('SettlementAccountType', false, showErrors),
             this.revalidateBasicField('SettlementAccountNo', false, showErrors),
             this.revalidateBasicField('PaymentOption', false, showErrors),
@@ -108,9 +116,17 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
         setTimeout(() => {
             if (this.readOnly) {
-                this.ApprovedLimit.setReadOnly(false);
+                if (this.enableApproveLimit) {
+                    this.MaximumCardLimit.setReadOnly(true);
+                    this.ApprovedLimit.setReadOnly(false);
+                } else {
+                    this.MaximumCardLimit.setReadOnly(true);
+                    this.ApprovedLimit.setReadOnly(true);
+                    this.ApprovedLimit.mandatory=false;
+                }
             } else {
                 this.ApprovedLimit.setReadOnly(true);
+                this.ApprovedLimit.mandatory=false;
             }
 
         }, 1000);
@@ -226,6 +242,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
                         this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']['id']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+
+                        //custom
+                        this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
                     });
 
                     this.revalidate(false).then((errors) => {
@@ -262,7 +281,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     let header = res.Header;
 
                     this.Branch.setValue(header.ApplicationBranch);
-                    this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
+                    //this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
+
+                    //custom
+                    this.MaximumCardLimit.setComponentSpecificValue(header.S_MaxLoanAmount, null);
                 },
                 async (httpError) => {
                     var err = httpError['error']
@@ -293,9 +315,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         var noOfError: number = await this.revalidate();
         console.log(this.ApprovedLimit.getFieldValue());
         if (this.readOnly) {
-            let approveLimit = this.ApprovedLimit.getFieldValue();
-            let maxCardLimit = this.MaximumCardLimit.getFieldValue();
-            if (!approveLimit.length || approveLimit != null || approveLimit != undefined || !maxCardLimit.length) {
+            //let approveLimit = this.ApprovedLimit.getFieldValue();
+            //let maxCardLimit = this.MaximumCardLimit.getFieldValue();
+
+            //custom
+            let maxCardLimit = Number(this.MaximumCardLimit.getTextBoxValue());
+            let approveLimit = this.ApprovedLimit.getTextBoxValue() != undefined ? Number(this.ApprovedLimit.getTextBoxValue()) : this.ApprovedLimit.getTextBoxValue();
+
+            if (approveLimit != null && approveLimit != undefined && maxCardLimit != null && maxCardLimit != undefined) {
                 if (approveLimit <= maxCardLimit) {
                     if (!this.isApproveLimitValid || approveLimit == 0) {
                         this.services.alert.showAlert(2, 'rlo.error.save.card', -1);
@@ -315,13 +342,17 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             if (this.hidCreditSeq.getFieldValue() == undefined) {
                 inputMap.clear();
                 inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
-                inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
+                //inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.SettlementAccountType', this.SettlementAccountType.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.SettlementAccountNo', this.SettlementAccountNo.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.PaymentOption', this.PaymentOption.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
+
+                //custom
+                inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getTextBoxValue());
+
                 decisionsParamArray.push(inputMap);
                 // inputMap.set('Body.CreditCardDetails.CreditCardDetailSeq', '123');
                 inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
@@ -338,9 +369,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-                        if(this.readOnly){
-                            this.services.rloCommonData.reloadUWSections.next({                         
-                                data: { 'isLoanCategory':  this.ApprovedLimit.getFieldValue() }
+                        if (this.readOnly) {
+                            let dataObj = { 'isLoanCategory': this.ApprovedLimit.getTextBoxValue() };
+                            this.services.rloCommonData.reloadUWSections.next({
+                                data: dataObj
                             });
                         }
                     },
@@ -380,7 +412,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.clear();
                 inputMap.set('PathParam.CreditCardDetailSeq', this.hidCreditSeq.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
-                inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
+                //inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.SettlementAccountType', this.SettlementAccountType.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.SettlementAccountNo', this.SettlementAccountNo.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.PaymentOption', this.PaymentOption.getFieldValue());
@@ -396,6 +428,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
 
                 inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
+
+                //custom
+                inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getTextBoxValue());
+
                 this.services.http.fetchApi('/CreditCardDetails/{CreditCardDetailSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
@@ -409,9 +445,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         }
                         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
-                        if(this.readOnly){
-                            this.services.rloCommonData.reloadUWSections.next({                         
-                                data: { 'approvedLimit':  this.ApprovedLimit.getFieldValue() }
+                        if (this.readOnly) {
+                            this.services.rloCommonData.reloadUWSections.next({
+                                data: { 'approvedLimit': this.ApprovedLimit.getTextBoxValue() }
                             });
                         }
                     },
@@ -531,4 +567,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         },
     }
 
+    customGenericOnBlur(event: any) {
+        console.log("Deep | customGenericOnBlur", event);
+        if (event.field == "ApprovedLimit") {
+            this.approveLimitBlur(event.textFieldValue);
+        }
+        this.genericOnBlur(event.field, event.textFieldValue);
+    }
 }

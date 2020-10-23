@@ -24,9 +24,9 @@
                     <label class="clr-brown" [ngClass]="{'mandatory': SRC_MOBILE_NO.mandatory}">
                       {{ 'Initiation.SRC_MOBILE_NO' | translate}}</label>
                   </div>
-                   <rlo-ui-mobile #SRC_MOBILE_NO fieldID="SRC_MOBILE_NO"
-                      (countryCodeChanged)="countryCodeChanged('SRC_MOBILE_NO',$event)"
-                      (blur)="genericOnBlur('SRC_MOBILE_NO', $event)" [readOnly]="readOnly"></rlo-ui-mobile>
+                  <rlo-ui-mobile #SRC_MOBILE_NO fieldID="SRC_MOBILE_NO"
+                    (countryCodeChanged)="countryCodeChanged('SRC_MOBILE_NO',$event)"
+                    (blur)="genericOnBlur('SRC_MOBILE_NO', $event)" [readOnly]="readOnly"></rlo-ui-mobile>
                 </div>
                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_TAX_ID.isHidden()">
                   <div class="clr-brown fieldLegend">
@@ -154,8 +154,8 @@
                         {{ 'Initiation.BAD_DATE_OF_RCPT' | translate}}
                       </label>
                     </div>
-                    <app-date #BAD_DATE_OF_RCPT fieldID="BAD_DATE_OF_RCPT" [formCode]="formCode" placeholder="dd-mm-yyyy"
-                      (blur)="genericOnBlur('BAD_DATE_OF_RCPT', $event)"></app-date>
+                    <app-date #BAD_DATE_OF_RCPT fieldID="BAD_DATE_OF_RCPT" [formCode]="formCode"
+                      placeholder="dd-mm-yyyy" (blur)="genericOnBlur('BAD_DATE_OF_RCPT', $event)"></app-date>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SRC_CHANNEL.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -554,15 +554,20 @@
             <rlo-ui-accordion-group #ACC_LOAN_DTLS id="ACC_LOAN_DTLS" title="{{ 'Initiation.LD_HEAD' | translate}}"
               [hidden]="!isLoanCategory">
               <div #LD_GROUP id="LD_GROUP">
-                <div class="form-group"> 
+                <div class="form-group">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LOAN_AMOUNT.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_LOAN_AMOUNT.mandatory}">
                         {{ 'Initiation.LD_LOAN_AMOUNT' | translate}}
                       </label>
                     </div>
-                    <app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" domainObjectUrl="null"
-                      (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-amount>
+                    <!-- <app-amount #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [formCode]="formCode" domainObjectUrl="null"
+                      (blur)="genericOnBlur('LD_LOAN_AMOUNT', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_LOAN_AMOUNT fieldID="LD_LOAN_AMOUNT" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_LOAN_AMOUNT'" (onBlurEvent)="customGenericOnBlur($event)"
+                      [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_INTEREST_RATE.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -610,14 +615,19 @@
                     </app-combo-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EMI_AMT.isHidden()">
-                      <div class="clr-brown fieldLegend">
-                        <label class="clr-brown" [ngClass]="{'mandatory': LD_EMI_AMT.mandatory}">
-                          {{ 'Initiation.LD_EMI_AMT' | translate}}
-                        </label>
-                      </div>
-                      <app-amount #LD_EMI_AMT fieldID="LD_EMI_AMT" [formCode]="formCode"
-                        (blur)="genericOnBlur('LD_EMI_AMT', $event)"></app-amount>
+                    <div class="clr-brown fieldLegend">
+                      <label class="clr-brown" [ngClass]="{'mandatory': LD_EMI_AMT.mandatory}">
+                        {{ 'Initiation.LD_EMI_AMT' | translate}}
+                      </label>
                     </div>
+                    <!-- <app-amount #LD_EMI_AMT fieldID="LD_EMI_AMT" [formCode]="formCode"
+                      (blur)="genericOnBlur('LD_EMI_AMT', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_EMI_AMT fieldID="LD_EMI_AMT" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_EMI_AMT'" [inputReadOnly]="true" [formCode]="formCode">
+                    </app-rlo-ui-currency>
+
+                  </div>
                   <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
                     style="padding: 5px 10x 5px 10px;"></div> -->
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_APP_PRPSE.isHidden()">
@@ -640,24 +650,39 @@
                         {{ 'Initiation.LD_GROSS_INCOME' | translate}}
                       </label>
                     </div>
-                    <app-amount #LD_GROSS_INCOME fieldID="LD_GROSS_INCOME" [formCode]="formCode"
-                      (blur)="genericOnBlur('LD_GROSS_INCOME', $event)"></app-amount>
+                    <!-- <app-amount #LD_GROSS_INCOME fieldID="LD_GROSS_INCOME" [formCode]="formCode"
+                      (blur)="genericOnBlur('LD_GROSS_INCOME', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_GROSS_INCOME fieldID="LD_GROSS_INCOME" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_GROSS_INCOME'" (onBlurEvent)="customGenericOnBlur($event)"
+                      [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_EXST_LBLT_AMT.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_EXST_LBLT_AMT.mandatory}">
                         {{ 'Initiation.LD_EXST_LBLT_AMT' | translate}}</label>
                     </div>
-                    <app-amount #LD_EXST_LBLT_AMT fieldID="LD_EXST_LBLT_AMT" [formCode]="formCode"
-                      placeholder="(Optional)" (blur)="genericOnBlur('LD_EXST_LBLT_AMT', $event)"></app-amount>
+                    <!-- <app-amount #LD_EXST_LBLT_AMT fieldID="LD_EXST_LBLT_AMT" [formCode]="formCode"
+                      placeholder="(Optional)" (blur)="genericOnBlur('LD_EXST_LBLT_AMT', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_EXST_LBLT_AMT fieldID="LD_EXST_LBLT_AMT " [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_EXST_LBLT_AMT'" (onBlurEvent)="customGenericOnBlur($event)"
+                      [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_OTH_DEDUCTIONS.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_OTH_DEDUCTIONS.mandatory}">
                         {{ 'Initiation.LD_OTH_DEDUCTIONS' | translate}}</label>
                     </div>
-                    <app-amount #LD_OTH_DEDUCTIONS fieldID="LD_OTH_DEDUCTIONS" [formCode]="formCode"
-                      placeholder="(Optional)" (blur)="genericOnBlur('LD_OTH_DEDUCTIONS', $event)"></app-amount>
+                    <!-- <app-amount #LD_OTH_DEDUCTIONS fieldID="LD_OTH_DEDUCTIONS" [formCode]="formCode"
+                      placeholder="(Optional)" (blur)="genericOnBlur('LD_OTH_DEDUCTIONS', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_OTH_DEDUCTIONS fieldID="LD_OTH_DEDUCTIONS" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_OTH_DEDUCTIONS'" (onBlurEvent)="customGenericOnBlur($event)"
+                      [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_NET_INCOME.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -665,8 +690,13 @@
                         {{ 'Initiation.LD_NET_INCOME' | translate}}
                       </label>
                     </div>
-                    <app-amount #LD_NET_INCOME fieldID="LD_NET_INCOME" [formCode]="formCode"
-                      (blur)="genericOnBlur('LD_NET_INCOME', $event)"></app-amount>
+                    <!-- <app-amount #LD_NET_INCOME fieldID="LD_NET_INCOME" [formCode]="formCode"
+                      (blur)="genericOnBlur('LD_NET_INCOME', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_NET_INCOME fieldID="LD_NET_INCOME" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_NET_INCOME'" [inputReadOnly]="true" [formCode]="formCode">
+                    </app-rlo-ui-currency>
+
                   </div>
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"
                     style="padding: 0px 15px 10px 15px;"></div>
@@ -675,7 +705,8 @@
                       fieldID="LD_CHK_ELGBTY_BTN" [formCode]="formCode" customClass="inlineButton"
                       (buttonClick)="LD_CHK_ELGBTY_BTN_click($event)"></app-button>
                   </div>
-                  <div class="col-12  col-sm-2 col-md-2 res-pr-hide" style="border-top-width: thick;margin-top: 10px; margin-bottom: 10.941;">
+                  <div class="col-12  col-sm-2 col-md-2 res-pr-hide"
+                    style="border-top-width: thick;margin-top: 10px; margin-bottom: 10.941;">
                     <label style="color:blue;">{{EligibilityDecision}}</label>
                     <!-- <a>{{EligibilityDecision}}</a> -->
                   </div>
@@ -686,16 +717,26 @@
                         {{ 'Initiation.LD_SYS_AMT_RCMD' | translate}}
                       </label>
                     </div>
-                    <app-amount #LD_SYS_AMT_RCMD fieldID="LD_SYS_AMT_RCMD" [formCode]="formCode"
-                      (blur)="genericOnBlur('LD_SYS_AMT_RCMD', $event)"></app-amount>
+                    <!-- <app-amount #LD_SYS_AMT_RCMD fieldID="LD_SYS_AMT_RCMD" [formCode]="formCode"
+                      (blur)="genericOnBlur('LD_SYS_AMT_RCMD', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_SYS_AMT_RCMD fieldID="LD_SYS_AMT_RCMD" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_SYS_AMT_RCMD'" [inputReadOnly]="true" [formCode]="formCode">
+                    </app-rlo-ui-currency>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_USR_RCMD_AMT.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': LD_USR_RCMD_AMT.mandatory}">
                         {{ 'Initiation.LD_USR_RCMD_AMT' | translate}}</label>
                     </div>
-                    <app-amount #LD_USR_RCMD_AMT fieldID="LD_USR_RCMD_AMT" [formCode]="formCode"
-                      placeholder="(Optional)" (blur)="genericOnBlur('LD_USR_RCMD_AMT', $event)"></app-amount>
+                    <!-- <app-amount #LD_USR_RCMD_AMT fieldID="LD_USR_RCMD_AMT" [formCode]="formCode"
+                      placeholder="(Optional)" (blur)="genericOnBlur('LD_USR_RCMD_AMT', $event)"></app-amount> -->
+
+                    <app-rlo-ui-currency #LD_USR_RCMD_AMT fieldID="LD_USR_RCMD_AMT" [currencyReadOnly]="true"
+                      [componentFieldId]="'LD_USR_RCMD_AMT'" (onBlurEvent)="customGenericOnBlur($event)"
+                      [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LD_LTV_DBR.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -705,7 +746,7 @@
                     <app-text-box #LD_LTV_DBR fieldID="LD_LTV_DBR" [formCode]="formCode"
                       (blur)="genericOnBlur('LD_LTV_DBR', $event)"></app-text-box>
                   </div>
-                 
+
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                 </div>
               </div>
@@ -715,7 +756,7 @@
             </rlo-ui-accordion-group>
             <rlo-ui-accordion-group #ACC_REFERRER id="ACC_REFERRER" title="{{ 'Initiation.RD_HEAD_LBL' | translate}}">
               <div #RD_GROUP id="RD_GROUP">
-                <div class="form-group"> 
+                <div class="form-group">
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RD_REFERRER_NAME.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': RD_REFERRER_NAME.mandatory}">
@@ -796,7 +837,7 @@
 
             <app-button #CANCEL_MAIN_BTN fieldName="{{ 'Initiation.CANCEL_MAIN_BTN' | translate}}"
               (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
-              customClass="btn-warning-outline" ></app-button>
+              customClass="btn-warning-outline"></app-button>
 
             <app-button #Reset fieldName="{{ 'Initiation.Reset' | translate}}" fieldID="Reset" [formCode]="formCode"
               customClass="btn-warning-outline" (buttonClick)="Reset_click($event)"></app-button>

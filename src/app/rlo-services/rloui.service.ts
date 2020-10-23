@@ -88,7 +88,7 @@ export class RlouiService {
   }
 
   private loadTenantConfig() {
-    this.http.fetchApi(this.tenantConfigAPI, 'GET', undefined, this.serviceContext).subscribe(
+    this.http.fetchApi(this.tenantConfigAPI + '?t=' + new Date().getTime(), 'GET', undefined, this.serviceContext).subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var tconfig = httpResponse.body ? httpResponse.body.TenantConfig : [];
 
@@ -96,7 +96,11 @@ export class RlouiService {
           this.tenantconfig[element["TCName"]] = element["TCValue"];
         });
         console.log("tenantconfig ", this.tenantconfig, this.tenantconfig["language.default"]);
-        //this.tenantconfig["language.default"] = "bh-BH";
+        
+        // this.tenantconfig["language.default"] = "en-US";
+        // this.tenantconfig["locale.default"] = "en-US";
+        // this.tenantconfig["currency.code.default"] = "USD";
+
         this.translate.setDefaultLang('En');
 
         // switch (this.tenantconfig["language.default"]) {
@@ -240,6 +244,18 @@ export class RlouiService {
     });
   }
 
+  getCurrencyChar(languageCode?: string, minFraction?, currency?: string){
+    if (!languageCode) { languageCode = this.getConfig("language.default", "en-IN"); }
+    if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
+
+    // default currency symbol at first element of array
+    // return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(0)[0]['value'];
+    return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency })
+                    .formatToParts(0)
+                    .filter( part => part.type == 'currency')
+                    .map( val => val.value)[0];
+  }
+
   formatAmount(amount, languageCode?: string, minFraction?, currency?: string,hideSymbol?:boolean) {
     // console.log("Format Amount " , amount);
     let amt: number;
@@ -269,7 +285,8 @@ export class RlouiService {
     let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt);
    
     if(hideSymbol){
-      val.splice(0,1);
+      //val.splice(0,1);
+      val.filter( part => part.type !== 'currency');
     }
     let mapValue = val.map(val => val.value).join('')
     return mapValue;

@@ -28,7 +28,7 @@ export class LiabilityHandlerComponent extends RLOUIHandlerComponent implements 
     if(this.MainComponent.LD_LIABILITY_TYPE.getFieldValue() == 'O'){
     this.MainComponent.isObligation = false;
       this.MainComponent.LD_LOAN_AMOUNT.mandatory = false;
-      this.MainComponent.LD_CURRENCY.mandatory = false;
+      //this.MainComponent.LD_CURRENCY.mandatory = false;
       this.MainComponent.LD_EQUIVALENT_AMOUNT.mandatory = false;
       this.MainComponent.LD_INCLUDE_IN_DBR.mandatory = false;
       this.MainComponent.LD_LOAN_EMI_FREQUENCY.mandatory = false;
@@ -36,7 +36,7 @@ export class LiabilityHandlerComponent extends RLOUIHandlerComponent implements 
     }else{
       this.MainComponent.isObligation = true;
       // this.MainComponent.LD_LOAN_AMOUNT.mandatory = true;
-      this.MainComponent.LD_CURRENCY.mandatory = true;
+      //this.MainComponent.LD_CURRENCY.mandatory = true;
       this.MainComponent.LD_EQUIVALENT_AMOUNT.mandatory = true;
       this.MainComponent.LD_INCLUDE_IN_DBR.mandatory = true;
       this.MainComponent.LD_LOAN_EMI_FREQUENCY.mandatory = true;

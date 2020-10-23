@@ -340,6 +340,25 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   }
 }
 
+.INR::before {
+  content: "";
+  background-image: url("./../icons/rupee-yellow.svg");
+}
+
+.MUR::before {
+  content: "Rs";
+}
+
+.EUR::before {
+  content: "";
+  background-image: url("./../icons/Euro Header icon.svg");
+}
+
+.KES::before {
+  content: "";
+  background-image: url("./../icons/Ksh icon.svg");
+}
+
 .collapsedHeader {
   width: calc(100% - 30px);
   background-color: #004467;
@@ -381,10 +400,6 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         margin-right: 14px;
       }
 
-      &.image::before {
-        content: "";
-        background-image: url("./../icons/Euro Header icon.svg");
-      }
 
 
 
@@ -603,14 +618,34 @@ width: 681px !important; */
   height: 43px; //margin-top: 22px;
 }
 
-.CurrencyTypeImage {
-  padding-top: 20px !important;
+.currencySymbol span {
+  color: #F8E71C;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  border: 2px solid #F8E71C;
+  width: 50px;
+  display: inline-block;
+  margin-top: 20px;
+  border-radius: 3px;
+  text-align: center;
 }
 
-.currencyImage {
-  max-width: 15% !important;
-  height: 43px;
+.collapsedHeader .currencySymbol span {
+  margin-top: 0;
+  vertical-align: middle;
 }
+
+// .CurrencyTypeImage {
+//   padding-top: 20px !important;
+// }
+
+// .currencyImage {
+//   max-width: 15% !important;
+//   height: 43px;
+// }
+
+
 
 .horizontal {
   display: inline;
@@ -1122,6 +1157,10 @@ a.back {
 
 .d-inline-flex {
   display: inline-block;
+//overide btn style
+#MT_Proposal {
+  margin-left: 0 !important;
+  float: right !important;
 }
 
 //used to add space for every page in layout for form btns
@@ -2996,6 +3035,7 @@ rlo-ui-card-field {
 /*amortization css start*/
 .horizontal-line {
   border-bottom: 1px solid #E9E9E9;
+  margin: 0 1.25rem 15px 1.25rem;
 }
 
 .deactivate-amortization {
@@ -3353,9 +3393,9 @@ rlo-ui-card-field {
 
     .broadcast-container {
       background-color: white;
-      max-height: 246px;
-      min-height: 227px;
-      // overflow-y: scroll;
+      overflow-y: scroll;
+      max-height: 216px;
+      min-height: 216px;
 
       .broadcast-section {
         padding: 12px 0;
@@ -3417,6 +3457,7 @@ rlo-ui-card-field {
           font-size: 12px;
           line-height: 13px;
           color: #565656;
+          white-space: pre-wrap;
         }
       }
     }
@@ -3864,9 +3905,24 @@ rlo-ui-card-field {
     background-color: #ededed;
   }
 
-  .btn-primary {
-    width: 100% !important;
-    height: fit-content !important;
+  // .btn-primary {
+  //   width: 100% !important;
+  //   height: fit-content !important;
+  //   padding: .35rem 1rem;
+  // }
+  .selected-btn{
+    box-sizing: border-box;
+    background-color: #0079B8 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #0079B8 !important;
+    border-radius: 4px !important;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 17px;
+    text-align: center;
+    width: 100%;
+    height: fit-content;
     padding: .35rem 1rem;
   }
 
@@ -3988,7 +4044,6 @@ rlo-ui-card-field {
       margin-top: 0;
     }
   }
-
 }
 
 .error-message {
@@ -4150,6 +4205,16 @@ rlo-ui-card-field {
 #PD_Clear,
 #GNG_CLEAR_BTN {
   margin-left: 0px;
+}
+
+#COD_SAVE{
+  float: right;
+  margin-right: 0.8rem;
+}
+#COD_CLEAR{
+  float: right;
+  margin-left: 0px;
+  margin-top:5px;
 }
 
 #AMS_GENERATE_BTN {

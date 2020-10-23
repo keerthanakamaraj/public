@@ -965,13 +965,20 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   setNonEditableFields(flag) {
     //  this.CD_CUST_TYPE.setReadOnly(flag);
+    let mandatoryFlag = flag == true ? false : true;
     this.CD_TITLE.setReadOnly(flag);
+    this.CD_TITLE.mandatory = mandatoryFlag;
     this.CD_FIRST_NAME.setReadOnly(flag);
+    this.CD_FIRST_NAME.mandatory = mandatoryFlag;
     this.CD_MIDDLE_NAME.setReadOnly(flag);
     // this.CD_THIRD_NAME.setReadOnly(flag);
+    //this.CD_THIRD_NAME.mandatory=mandatoryFlag;
     this.CD_LAST_NAME.setReadOnly(flag);
+    this.CD_LAST_NAME.mandatory = mandatoryFlag;
     this.CD_DOB.setReadOnly(flag);
+    this.CD_DOB.mandatory = mandatoryFlag;
     this.CD_GENDER.setReadOnly(flag);
+    this.CD_GENDER.mandatory = mandatoryFlag;
   }
 
   onCountrycodeChanged() {

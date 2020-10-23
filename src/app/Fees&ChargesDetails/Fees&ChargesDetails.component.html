@@ -15,7 +15,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
-         
+
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeType.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': ChargeType.mandatory}">
@@ -58,7 +58,8 @@
             <app-combo-box #PartyTypeReceivable category="2" fieldID="PartyTypeReceivable" [formCode]="formCode"
               (blur)="genericOnBlur('PartyTypeReceivable', $event)" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('PartyTypeReceivable', $event)" (change)="PartyTypeReceivable_change(fieldName, event)">
+              (blur)="genericOnBlur('PartyTypeReceivable', $event)"
+              (change)="PartyTypeReceivable_change(fieldName, event)">
             </app-combo-box>
           </div>
 
@@ -81,7 +82,7 @@
               </label>
             </div>
             <app-combo-box #PartyName category="4" fieldID="PartyName" placeholder="Select"
-              [emittedOptions]="FilterOptions" (blur)="genericOnBlur('PartyName', $event)" >
+              [emittedOptions]="FilterOptions" (blur)="genericOnBlur('PartyName', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PartyNames.isHidden()">
@@ -91,10 +92,10 @@
               </label>
             </div>
             <app-combo-box #PartyNames category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstPartyNameDetails/{PartyCode}" doServerUrl="/masters"
-            domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('PartyNames', $event)">
-          </app-combo-box>
-            
+              domainObjectUrl="/MstPartyNameDetails/{PartyCode}" doServerUrl="/masters"
+              domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('PartyNames', $event)">
+            </app-combo-box>
+
           </div>
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeBasis.isHidden()">
@@ -127,7 +128,7 @@
                 </div>
                 <app-amount #ChargeAmount fieldID="ChargeAmount" [formCode]="formCode" (blur)="genericOnBlur('ChargeAmount', $event)"></app-amount>
                 </div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'Fees&ChargesDetails.Currency' | translate}}</label>
@@ -136,25 +137,38 @@
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)">
             </app-combo-box>
-          </div>
+          </div> -->
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ChargeAmt.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'Fees&ChargesDetails.ChargeAmt' | translate}}
               </label>
             </div>
-            <app-amount #ChargeAmt fieldID="ChargeAmt" [formCode]="formCode"
-              (blur)="genericOnBlur('ChargeAmt', $event)"></app-amount>
+            <!-- <app-amount #ChargeAmt fieldID="ChargeAmt" [formCode]="formCode"
+              (blur)="genericOnBlur('ChargeAmt', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #ChargeAmt fieldID="ChargeAmt" [currencyReadOnly]="readOnly" [inputReadOnly]="readOnly"
+              [formCode]="formCode" [componentFieldId]="'ChargeAmt'" (onBlurEvent)="customGenericOnBlur($event)">
+            </app-rlo-ui-currency>
+
           </div>
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalAmount.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'Fees&ChargesDetails.LocalAmount' | translate}}
               </label>
             </div>
-            <app-amount #LocalAmount fieldID="LocalAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('LocalAmount', $event)"></app-amount>
+            <!-- <app-amount #LocalAmount fieldID="LocalAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('LocalAmount', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #LocalAmount fieldID="LocalAmount" [currencyReadOnly]="true"
+              [componentFieldId]="'LocalAmount'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RateOnCharge.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': RateOnCharge.mandatory}">
@@ -172,8 +186,13 @@
                 {{ 'Fees&ChargesDetails.EffectiveAmount' | translate}}
               </label>
             </div>
-            <app-amount #EffectiveAmount fieldID="EffectiveAmount" [formCode]="formCode"
-              (blur)="genericOnBlur('EffectiveAmount', $event)"></app-amount>
+            <!-- <app-amount #EffectiveAmount fieldID="EffectiveAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('EffectiveAmount', $event)"></app-amount> -->
+
+            <app-rlo-ui-currency #EffectiveAmount fieldID="EffectiveAmount" [currencyReadOnly]="true"
+              [componentFieldId]="'EffectiveAmount'" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
 
 
@@ -264,7 +283,7 @@
           </div>
 
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-            <div style=" width:100%; background:black;height:1px;"></div>
+            <div style=" width:100%; background:#cccccc;height:1px;"></div>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_2.isHidden()">
             <app-FeesChargesGrid #FieldId_2 fieldID="FieldId_2" [formCode]="formCode"

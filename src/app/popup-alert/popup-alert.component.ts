@@ -118,6 +118,8 @@ export class PopupAlertComponent implements OnInit {
       } else if (this.modalObject.componentName == 'PolicyCheckResults') {
         componentInstance.openInModal = true;
         componentInstance.parentFormCode = "DDE";//used in condition to check score acc. to stage
+      } else if (this.modalObject.componentName == 'CreditCardDetails') {
+        componentInstance.enableApproveLimit = true;
       }
 
       // async brodcastProdCategory(event) {
