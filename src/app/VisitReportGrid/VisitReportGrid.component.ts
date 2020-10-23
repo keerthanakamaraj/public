@@ -251,11 +251,11 @@ export class VisitReportGridComponent implements AfterViewInit {
 						for (var i = 0; i < loopVar10.length; i++) {
 							var tempObj = {};
 
-							tempObj['VR_Type'] = loopVar10[i].ReportType;
+							tempObj['VR_Type'] = loopVar10[i].ReportType.text;
 							tempObj['VR_DateofVisit'] = loopVar10[i].DateOfVisit;
 							tempObj['VR_NameOfPersonMet'] = loopVar10[i].NameOfPerson;
 							tempObj['VR_Designation'] = loopVar10[i].DesignationOfPerson;
-							tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceofVisit;
+							tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceofVisit.text;
 							tempObj['VR_AddressOfVisit'] = loopVar10[i].AddressOfVisit;
 							tempObj['HidVisitReportId'] = loopVar10[i].Id;
 							// tempObj['VR_NameBankRep'] = loopVar10[i].NameBankRep;

@@ -309,14 +309,14 @@ if (loopVar4) {
 for (var i = 0; i < loopVar4.length; i++) {
 var tempObj = {};
 tempObj['hidChargeSeq'] = loopVar4[i].ChargeDtlSeq;
-tempObj['CH_DESC'] = loopVar4[i].ChargeDescription;
+tempObj['CH_DESC'] = loopVar4[i].ChargeDescription.text;
 tempObj['CH_PARTY_NAME'] = loopVar4[i].PartyName;
-tempObj['CH_TYPE'] = loopVar4[i].ChargeType;
+tempObj['CH_TYPE'] = loopVar4[i].ChargeType.text;
 tempObj['CH_RATE'] = loopVar4[i].ChargeRate;
 tempObj['CH_AMT'] = loopVar4[i].ChargeAmt;
-tempObj['CH_FREQ'] = loopVar4[i].Frequency;
-tempObj['CH_RATE_CH_ON'] = loopVar4[i].RateOnCharge;
-tempObj['CH_COLL'] = loopVar4[i].ChargeCollection;
+tempObj['CH_FREQ'] = loopVar4[i].Frequency.text;
+tempObj['CH_RATE_CH_ON'] = loopVar4[i].RateOnCharge.text;
+tempObj['CH_COLL'] = loopVar4[i].ChargeCollection.text;
 loopDataVar4.push(tempObj);}
 }
 this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);

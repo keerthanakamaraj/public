@@ -281,10 +281,10 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
 						var tempObj = {};
 						tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
-						tempObj['AD_Address_Type'] = address[i].AddressType;
-						tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress;
-						tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType;
-						tempObj['AD_OCC_STATUS'] = address[i].ResidenceType;
+						tempObj['AD_Address_Type'] = address[i].AddressType.text;
+						tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress.text;
+						tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
+						tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
 
 						let fullAddressArr = [];
 						fullAddressArr.push(address[i].AddressLine1);
@@ -298,11 +298,11 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
 						tempObj['AD_Address'] = this.services.rloutil.concatenate(fullAddressArr, ", ");
 
-						if (address[i].ResidenceDuration == undefined && address[i].Period == undefined) {
+						if (address[i].ResidenceDuration == undefined && address[i].Period.id == undefined) {
 							tempObj['AD_Residence_Duration'] = " ";
 						}// tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress;
 						else {
-							tempObj['AD_Residence_Duration'] = address[i].ResidenceDuration + " " + address[i].Period;
+							tempObj['AD_Residence_Duration'] = address[i].ResidenceDuration + " " + address[i].Period.text;
 						}
 						// if (address[i].ResidenceType == undefined) {
 						// 	tempObj['AD_OCC_STATUS'] = " "

@@ -231,7 +231,7 @@ export class ReferralDetailsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['Referrer_ID'] = loopVar10[i].BorrowerSeq;
             tempObj['RD_REFERRER_NAME'] = loopVar10[i].ReferrerName;
-            tempObj['RD_REFERRER_RELATION'] = loopVar10[i].ReferrerRelation;
+            tempObj['RD_REFERRER_RELATION'] = loopVar10[i].ReferrerRelation.text;
             tempObj['RD_REFERRER_MOBILE_NO'] = loopVar10[i].ReferrerMobileNumber;
             this.referredetails.push(tempObj);
           }

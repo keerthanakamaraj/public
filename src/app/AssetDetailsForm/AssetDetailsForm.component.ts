@@ -395,7 +395,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 this.AT_ASSET_STATUS.setValue(res['AssetDetails']['AssetStatus']['id']);
                 this.AT_ASSET_VALUE.setValue(res['AssetDetails']['AssetValue']);
                 this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
-                this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
+                // this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
                 this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
                 // this.AT_NAME.setValue(res['AssetDetails']['OwnerName']);
                 this.AT_INCLUDE_IN_DBR.setValue(res['AssetDetails']['IncludeInDBR']['id']);

@@ -299,14 +299,14 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
           for (var i = 0; i < occupationDetails.length; i++) {
             var tempObj = {};
             tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
-            tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation;
+            tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation.text;
             console.log("Occupation ", occupationDetails[i].Occupation);
 
 
-            tempObj['OD_INCOME_TYPE'] = occupationDetails[i].IncomeType;
+            tempObj['OD_INCOME_TYPE'] = occupationDetails[i].IncomeType.text;
             // tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
             tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
-            tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy;
+            tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy.text;
             tempObj['NET_INCOME'] = occupationDetails[i].LocalCurrencyEquivalent;
             this.occupation.push(tempObj);
 

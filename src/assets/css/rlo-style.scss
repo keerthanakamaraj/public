@@ -1157,6 +1157,8 @@ a.back {
 
 .d-inline-flex {
   display: inline-block;
+}
+
 //overide btn style
 #MT_Proposal {
   margin-left: 0 !important;
@@ -1610,7 +1612,7 @@ rlo-ui-card-field {
       }
     }
 
-    .interface-status-container{
+    .interface-status-container {
       position: absolute;
       top: 11px;
       right: 16px;
@@ -3847,9 +3849,11 @@ rlo-ui-card-field {
       }
     }
   }
-  tfoot{
-    tr>td{
+
+  tfoot {
+    tr>td {
       border: 0px;
+
       .read-only-field {
         font-size: 12px !important;
         height: 36px !important;
@@ -3910,7 +3914,7 @@ rlo-ui-card-field {
   //   height: fit-content !important;
   //   padding: .35rem 1rem;
   // }
-  .selected-btn{
+  .selected-btn {
     box-sizing: border-box;
     background-color: #0079B8 !important;
     color: #FFFFFF !important;
@@ -4207,14 +4211,15 @@ rlo-ui-card-field {
   margin-left: 0px;
 }
 
-#COD_SAVE{
+#COD_SAVE {
   float: right;
   margin-right: 0.8rem;
 }
-#COD_CLEAR{
+
+#COD_CLEAR {
   float: right;
   margin-left: 0px;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
 #AMS_GENERATE_BTN {
@@ -4592,7 +4597,7 @@ rlo-ui-card-field {
   .menu-btn {
     float: right;
 
-    span{
+    span {
       cursor: pointer;
     }
 

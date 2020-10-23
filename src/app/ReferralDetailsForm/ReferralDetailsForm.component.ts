@@ -470,7 +470,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
 
         // this.AddBorrowerSeq.setValue(res['ReferrerDetails']['BorrowerSeq']);
         this.RD_REF_NAME.setValue(res['ReferrerDetails']['ReferrerName']);
-        this.RD_REFERRER_RELATION.setValue(res['ReferrerDetails']['ReferrerRelation']);
+        this.RD_REFERRER_RELATION.setValue(res['ReferrerDetails']['ReferrerRelation']['id']);
         // this.RD_ISD_CODE.setValue(res['ReferrerDetails']['CountryCode']);
         this.RD_REF_NO.setValue(res['ReferrerDetails']['ReferrerMobileNumber']);
         this.RD_REFRRER_EMAILID.setValue(res['ReferrerDetails']['ReferrerEmailID']);

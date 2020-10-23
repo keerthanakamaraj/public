@@ -325,14 +325,14 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.services.http.fetchApi('/RMRADetails/{Id}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body['RMRADetails'];
-                this.VRF_ReportType.setValue(res['ReportType']);
+                this.VRF_ReportType.setValue(res['ReportType']['id']);
                 this.VRF_DateOfVisit.setValue(res['DateOfVisit']);
                 this.VRF_AddressofVisit.setValue(res['AddressOfVisit']);
-                this.VRF_OfficialName.setValue(res['NameBankRep']);
+                this.VRF_OfficialName.setValue(res['NameBankRep']['id']);
                 this.VRF_NameofPersonMet.setValue(res['NameOfPerson']);
                 this.VRF_Designation.setValue(res['DesignationOfPerson']);
-                this.VRF_OfficialBusinessGroup.setValue(res['BankRepVertical']);
-                this.VRF_PlaceOfVisit.setValue(res['PlaceofVisit']);
+                this.VRF_OfficialBusinessGroup.setValue(res['BankRepVertical']['id']);
+                this.VRF_PlaceOfVisit.setValue(res['PlaceofVisit']['id']);
                 this.VRF_Photograph.setValue(res['AttVRPhoto']);
                 this.VRF_AdverseObservation.setValue(res['AdverseObservation']);
                 this.VRF_Observations.setValue(res['GistofDiscussion']);

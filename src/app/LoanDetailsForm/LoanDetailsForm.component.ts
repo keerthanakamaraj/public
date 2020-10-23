@@ -296,12 +296,12 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
             this.MarginRate.setValue(LoanElement['MarginRate']);
             this.NetInterestRate.setValue(LoanElement['NetInterestRate']);
             this.Tenure.setValue(LoanElement['Tenure']);
-            this.TenurePeriod.setValue(LoanElement['TenurePeriod']);
-            this.InterestRateType.setValue(LoanElement['InterestRateType']);
-            //this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
-            //this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
-            this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']);
-            this.RepaymentOption.setValue(LoanElement['RepaymentOption']);
+            this.TenurePeriod.setValue(LoanElement['TenurePeriod']['id']);
+            this.InterestRateType.setValue(LoanElement['InterestRateType']['id']);
+            this.SystemRecommendedAmount.setValue(LoanElement['SystemRecommendedAmount']);
+            this.UserRecommendedAmount.setValue(LoanElement['UserRecommendedAmount']);
+            this.RepaymentFrequency.setValue(LoanElement['RepaymentFrequency']['id']);
+            this.RepaymentOption.setValue(LoanElement['RepaymentOption']['id']);
             this.RepaymentAccNo.setValue(LoanElement['RepaymentAccNo']);
             this.hideLoanSeq.setValue(LoanElement['LoanDetailSeq']);
 

@@ -336,20 +336,20 @@ inputMap.set('PathParam.ChargeDtlSeq', event.ChargeSeq);
 this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'GET', inputMap).subscribe(
 async (httpResponse: HttpResponse<any>) => {
 var res = httpResponse.body;
-this.CH_CHARGE_DESC.setValue(res['ChargeDetails']['ChargeDescription']);
-this.CH_CHARGE_TYPE.setValue(res['ChargeDetails']['ChargeType']);
+this.CH_CHARGE_DESC.setValue(res['ChargeDetails']['ChargeDescription']['id']);
+this.CH_CHARGE_TYPE.setValue(res['ChargeDetails']['ChargeType']['id']);
 this.CH_PARTY_TYPE.setValue(res['ChargeDetails']['PartyType']);
 this.CH_PARTY_NAME.setValue(res['ChargeDetails']['PartyName']);
 this.CH_CURRENCY.setValue(res['ChargeDetails']['Currency']);
-this.CH_CHARGE_BASIS.setValue(res['ChargeDetails']['ChargeBasis']);
+this.CH_CHARGE_BASIS.setValue(res['ChargeDetails']['ChargeBasis']['id']);
 this.CH_CHARGE_RATE.setValue(res['ChargeDetails']['ChargeRate']);
 this.CH_CHARGE_AMT.setValue(res['ChargeDetails']['ChargeAmt']);
-this.CH_PERIODIC_CHARGE.setValue(res['ChargeDetails']['PeriodicCharge']);
+this.CH_PERIODIC_CHARGE.setValue(res['ChargeDetails']['PeriodicCharge']['id']);
 this.CH_PRD_ST_DT.setValue(res['ChargeDetails']['PeriodicStDt']);
 this.CH_PRD_END_DT.setValue(res['ChargeDetails']['PeriodicEnDt']);
-this.CH_FREQ.setValue(res['ChargeDetails']['Frequency']);
-this.CH_RT_CH_ON.setValue(res['ChargeDetails']['RateOnCharge']);
-this.CH_COLL.setValue(res['ChargeDetails']['ChargeCollection']);
+this.CH_FREQ.setValue(res['ChargeDetails']['Frequency']['id']);
+this.CH_RT_CH_ON.setValue(res['ChargeDetails']['RateOnCharge']['id']);
+this.CH_COLL.setValue(res['ChargeDetails']['ChargeCollection']['id']);
 this.hidChargeSeq.setValue(res['ChargeDetails']['ChargeDtlSeq']);
 },
 async (httpError)=>{

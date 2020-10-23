@@ -518,9 +518,9 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
         //this.Currency.setValue(res['DisbursalDetails']['DisbursalCurrency']);
         //this.Amount.setValue(res['DisbursalDetails']['DisbursalAmt']);
         this.LocalCurrencyEquivalent.setValue(res['DisbursalDetails']['DisbursalAmtLocalCurrency']);
-        this.PaymentMode.setValue(res['DisbursalDetails']['PaymentMode']);
+        this.PaymentMode.setValue(res['DisbursalDetails']['PaymentMode']['id']);
         this.InFavorOf.setValue(res['DisbursalDetails']['InFavorOf']);
-        this.FundTransferMode.setValue(res['DisbursalDetails']['FundTransferMode']);
+        this.FundTransferMode.setValue(res['DisbursalDetails']['FundTransferMode']['id']);
         this.IFSCCode.setValue(res['DisbursalDetails']['IFSCCode']);
         this.Account.setValue(res['DisbursalDetails']['AccountNumber']);
         this.Remarks.setValue(res['DisbursalDetails']['Remarks']);

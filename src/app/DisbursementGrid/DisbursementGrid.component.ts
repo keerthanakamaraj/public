@@ -277,7 +277,7 @@ export class DisbursementGridComponent implements AfterViewInit {
             tempObj['DisbursalTo'] = customer != undefined ? customer[0].text : this.disbursalList[i].DisbursalTo;
             tempObj['Amount'] = this.disbursalList[i].DisbursalAmtLocalCurrency;
             tempObj['DisbursalDate'] = this.disbursalList[i].DisbursalDate;
-            tempObj['PaymentMode'] = this.disbursalList[i].PaymentMode;
+            tempObj['PaymentMode'] = this.disbursalList[i].PaymentMode.text;
             this.loopDataVar10.push(tempObj);
           }
         }

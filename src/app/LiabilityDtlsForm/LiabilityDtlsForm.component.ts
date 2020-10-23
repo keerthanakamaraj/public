@@ -545,7 +545,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
                 this.LD_LOAN_EMI.setValue(res['LiabilityDetails']['LoanEMI']);
                 this.LD_INCLUDE_IN_DBR.setValue(res['LiabilityDetails']['IncludeInDBR']['id']);
                 this.LD_OS_AMOUNT.setValue(res['LiabilityDetails']['OutstandingAmount']);
-                this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
+                // this.LD_CURRENCY.setValue(res['LiabilityDetails']['Currency']);
                 this.LD_EQUIVALENT_AMOUNT.setValue(res['LiabilityDetails']['LocalEquivalentAmt']);
                 this.LD_LOAN_EMI_FREQUENCY.setValue(res['LiabilityDetails']['EmiFrequency']['id']);
                 this.LD_LIABILITY_TYPE.setValue(res['LiabilityDetails']['LiabilityType']['id']);

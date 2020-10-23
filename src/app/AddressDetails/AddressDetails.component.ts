@@ -591,12 +591,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
-        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
+        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']['id']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
-        this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']);
-        this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']);
-        this.AD_OCCUPANCY_TYPE.setValue(res['AddressDetails']['OccupancyType']);
-        this.AD_PREF_TIME.setValue(res['AddressDetails']['PreferredTime']);
+        this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
+        this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
+        this.AD_OCCUPANCY_TYPE.setValue(res['AddressDetails']['OccupancyType']['id']);
+        this.AD_PREF_TIME.setValue(res['AddressDetails']['PreferredTime']['id']);
         this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
         this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
         this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
@@ -610,7 +610,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']);
+        this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']['id']);
         // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
         this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
