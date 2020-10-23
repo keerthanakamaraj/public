@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { VehicleIPGridComponent } from '../VehicleIPGrid/VehicleIPGrid.component';
 import { VehicleDetailsHandlerComponent } from './vehicle-handler.component';
+import { VehicleIPInterface } from './VehicleDetails-interfaces';
 
 
 const customCss: string = '';
@@ -35,21 +36,27 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     @ViewChild('AssetLife', { static: false }) AssetLife: TextBoxComponent;
     @ViewChild('NameoftheDealer', { static: false }) NameoftheDealer: ComboBoxComponent;
     @ViewChild('DealerCode', { static: false }) DealerCode: TextBoxComponent;
-    @ViewChild('FieldId_13', { static: false }) FieldId_13: VehicleIPGridComponent;
+    @ViewChild('VehicaleCostDetails', { static: false }) VehicaleCostDetails: VehicleIPGridComponent;
     @ViewChild('Currency', { static: false }) Currency: ComboBoxComponent;
     @ViewChild('FundsbyCustomer', { static: false }) FundsbyCustomer: TextBoxComponent;
     @ViewChild('LocalCurrencyEquivalent', { static: false }) LocalCurrencyEquivalent: TextBoxComponent;
-    @ViewChild('LoanRequired', { static: false }) LoanRequired: ComboBoxComponent;
+    @ViewChild('LoanRequired', { static: false }) LoanRequired: TextBoxComponent;
     @ViewChild('Vehicle_Save', { static: false }) Vehicle_Save: ButtonComponent;
     @ViewChild('Vehicle_clear', { static: false }) Vehicle_clear: ButtonComponent;
     @ViewChild('Handler', { static: false }) Handler: VehicleDetailsHandlerComponent;
     @ViewChild('HidAppId', { static: false }) HidAppId: HiddenComponent;
     @ViewChild('HidVehicleCategory', { static: false }) HidVehicleCategory: HiddenComponent;
-    @ViewChild('HidMake', { static: false }) HidMake: HiddenComponent;
+    @ViewChild('VehicleDtlsSeq', { static: false }) VehicleDtlsSeq: HiddenComponent;
     @ViewChild('HidVariant', { static: false }) HidVariant: HiddenComponent;
     @ViewChild('HidModel', { static: false }) HidModel: HiddenComponent;
     @ViewChild('HidVAssetType', { static: false }) HidVAssetType: HiddenComponent;
+    @ViewChild('City', { static: false }) City: ComboBoxComponent;
+    @ViewChild('Address', { static: false }) Address: TextBoxComponent;
+    @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
 
+    VehicelSummSeq: number = undefined;
+    clearFieldsFlag: boolean = false;
+    @Input() ApplicationId: string = undefined;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -63,11 +70,13 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             this.revalidateBasicField('AssetLife'),
             this.revalidateBasicField('NameoftheDealer'),
             this.revalidateBasicField('DealerCode'),
-            this.FieldId_13.revalidate(),
+            this.VehicaleCostDetails.revalidate(),
             this.revalidateBasicField('Currency'),
             this.revalidateBasicField('FundsbyCustomer'),
             this.revalidateBasicField('LocalCurrencyEquivalent'),
             this.revalidateBasicField('LoanRequired'),
+            this.revalidateBasicField('City'),
+            this.revalidateBasicField('Address'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -84,21 +93,24 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
-        this.FieldId_13.setReadOnly(readOnly);
+        this.VehicaleCostDetails.setReadOnly(readOnly);
     }
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.DealerCode.setReadOnly(true);
         this.LocalCurrencyEquivalent.setReadOnly(true);
+        this.LoanRequired.setReadOnly(true);
         this.HidAppId.setValue('RLO');
         this.HidVehicleCategory.setValue('Vehicle_Category');
-        this.HidMake.setValue('Make');
-        this.HidVariant.setValue('Variant');
-        this.HidModel.setValue('Model');
+        // this.HidMake.setValue('Make');
+        // this.HidVariant.setValue('Variant');
+        // this.HidModel.setValue('Model');
         this.HidVAssetType.setValue('V_AssetType');
         this.setDependencies();
         await this.Handler.onFormLoad({
         });
+        await this.FetcVehicelLoanDtls();
+        if (!this.clearFieldsFlag) { await this.FetcVehicelLoanDtls(); }
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -114,16 +126,16 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
         this.amountComponent.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
         this.comboFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
         this.fileUploadFields.forEach(field => { this.additionalInfo[field.fieldID + '_desc'] = field.getFieldInfo(); });
-        this.additionalInfo['FieldId_13_desc'] = this.FieldId_13.getFieldInfo();
+        this.additionalInfo['VehicaleCostDetails_desc'] = this.VehicaleCostDetails.getFieldInfo();
         return this.additionalInfo;
     }
     getFieldValue() {
-        this.value.FieldId_13 = this.FieldId_13.getFieldValue();
+        this.value.VehicaleCostDetails = this.VehicaleCostDetails.getFieldValue();
         return this.value;
     }
     setValue(inputValue, inputDesc = undefined) {
         this.setBasicFieldsValue(inputValue, inputDesc);
-        this.FieldId_13.setValue(inputValue['FieldId_13'], inputDesc['FieldId_13_desc']);
+        this.VehicaleCostDetails.setValue(inputValue['VehicaleCostDetails'], inputDesc['VehicaleCostDetails_desc']);
         this.value = new VehicleDetailsModel();
         this.value.setValue(inputValue);
         this.setDependencies();
@@ -147,8 +159,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     ngAfterViewInit() {
         setTimeout(() => {
             this.subsBFldsValueUpdates();
-            this.value.FieldId_13 = this.FieldId_13.getFieldValue();
-            this.FieldId_13.valueChangeUpdates().subscribe((value) => { this.value.FieldId_13 = value; });
+            this.value.VehicaleCostDetails = this.VehicaleCostDetails.getFieldValue();
+            this.VehicaleCostDetails.valueChangeUpdates().subscribe((value) => { this.value.VehicaleCostDetails = value; });
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
@@ -157,13 +169,13 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
         super.clearBasicFieldsError();
         super.clearHTabErrors();
         super.clearVTabErrors();
-        this.FieldId_13.clearError();
+        this.VehicaleCostDetails.clearError();
         this.errors = 0;
         this.errorMessage = [];
     }
     onReset() {
         super.resetBasicFields();
-        this.FieldId_13.onReset();
+        this.VehicaleCostDetails.onReset();
         this.clearHTabErrors();
         this.clearVTabErrors();
         this.errors = 0;
@@ -175,6 +187,288 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
         this.setReadOnly(false);
         this.onFormLoad();
     }
+    async FundsbyCustomer_blur(event) {
+        let inputMap = new Map();
+        this.Handler.FundsbyCustomerOnblur()
+        // await this.Handler.onAddTypeChange();
+      }
+    
+    async FetcVehicelLoanDtls() {
+        let inputMap = new Map();
+        inputMap.clear();
+        // this.ApplicationId = '2341';
+        if (this.ApplicationId) {
+            let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+            criteriaJson.FilterCriteria.push({
+                "columnName": "ApplicationId",
+                "columnType": "String",
+                "conditions": {
+                    "searchType": "equals",
+                    "searchText": this.ApplicationId
+                }
+            });
+            inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+            this.services.http.fetchApi('/VehicleDetails', 'GET', inputMap, '/rlo-de').subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    let res = httpResponse.body;
+                    let VehicleDtls = res['VehicleDetails'];
+                    if (VehicleDtls) {
+                        console.log("shweta :: Education loan fetched : ", VehicleDtls);
+                        this.parseFetchVehicleResp(VehicleDtls);
+                        // let array = [];
+                        // array.push({ isValid: true, sectionData: this.getFieldValue() });
+                        // let obj = {
+                        //   "name": "EducationDetails",
+                        //   "data": array,
+                        //   "sectionName": "EducationDetails"
+                        // }
+                        // console.log("shweta ::: in application section", array);
+                        // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                    }
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                    }
+                }
+            );
+            this.setDependencies();
+        }
+    }
+    parseFetchVehicleResp(VehicleDtls) {
+        console.log("abc :: edu resp", VehicleDtls, " : ", VehicleDtls[0]['VehicaleCostDetails']);
+        this.ParseVehicleSummDtls(VehicleDtls[0]);
+        this.generateCostAndFundsList(VehicleDtls[0]['VehicaleCostDetails']);
+    }
+    ParseVehicleSummDtls(VehicleDtlsSumm) {
+        this.VehicleDtlsSeq = VehicleDtlsSumm.VehicleDtlsSeq;
+        this.Manufacturer.setValue(VehicleDtlsSumm.Manufacturer.id);
+        this.VehicleCategory.setValue(VehicleDtlsSumm.VehicleCategory.id);
+        this.Make.setValue(VehicleDtlsSumm.VehicleMake.id);
+        this.VehicaleCostDetails.TotalAmount.setValue(VehicleDtlsSumm.TotalCost);
+        this.VehicaleCostDetails.TotalLocalCurEq.setValue(VehicleDtlsSumm.LocalCurrenyAmount);
+        this.Variant.setValue(VehicleDtlsSumm.Variant.id);
+        this.Model.setValue(VehicleDtlsSumm.Model.id);
+        this.AssetType.setValue(VehicleDtlsSumm.VehicleAssetType.id);
+        this.DealerCode.setValue(VehicleDtlsSumm.DealerCode);
+        this.City.setValue(VehicleDtlsSumm.DealerCity.id);
+        this.AssetLife = VehicleDtlsSumm.AssetLife;
+        this.VehicelSummSeq = VehicleDtlsSumm.VehicleInputSeq;
+        this.NameoftheDealer.setValue(VehicleDtlsSumm.DealerName.id);
+        this.Currency.setValue(VehicleDtlsSumm.Currency);
+        this.Address = VehicleDtlsSumm.DealerAddress;
+        this.LoanRequired.setValue(VehicleDtlsSumm.TotalCost);
+        this.LocalCurrencyEquivalent.setValue(VehicleDtlsSumm.LocalCurrenyAmount);
+        this.FundsbyCustomer.setValue(VehicleDtlsSumm.CustomerFunds);
+        
+      }
+    generateCostAndFundsList(VehicleList) {
+        console.log("abc :: cost and funds list", VehicleList);
+        // let costSrNo=0;
+        // let fundSrNo=0;
+        if (VehicleList != undefined) {
+            VehicleList.forEach(element => {
+                let tempObj: VehicleIPInterface = {}
+                if (this.VehicaleCostDetails.VehicleDetailsMap.has(element.TransactionDescription)) {
+                    tempObj = this.VehicaleCostDetails.VehicleDetailsMap.get(element.TransactionDescription);
+                    //  tempObj.SrNo=costSrNo+1;
+                }
+                if (Object.keys(tempObj).length != 0) {
+                    tempObj.VehicleDtlsSeq = element.EdTransactionSeq;
+                    tempObj.ApplicationId = element.ApplicationId;
+                    tempObj.TransactionType = element.TransactionType;
+                    tempObj.TransactionDescription = element.TransactionDescription;
+                    tempObj.VehicleInputSeq = this.VehicelSummSeq;
+                    tempObj.Amount = element.Amount;
+                    tempObj.Version = element.Version;
+                    tempObj.Currency = element.Currency;
+                    tempObj.CreatedBy = element.CreatedBy;
+                    tempObj.CreatedOn = element.CreatedOn;
+                    tempObj.UpdatedBy = element.UpdatedBy;
+                    tempObj.UpdatedOn = element.UpdatedOn;
+                    tempObj.LocalCurrencyEquivalent = element.CurrencyEquivalentAmt;
+                }
+            });
+        }
+        this.VehicaleCostDetails.loadRecords();
+        // this.FundsAvailableGrid.loadRecords();
+    }
+    async Currency_blur(event) {
+        console.log("shweta : hidden exchange rate : ", this.hidExchangeRate.getFieldValue());
+        this.VehicaleCostDetails.hidExchangeRate = this.hidExchangeRate.getFieldValue();
+        this.VehicaleCostDetails.Amount.toArray().forEach((element, index) => {
+          let tempObj = { "columnId": "Amount", "rowNo": index, "value": element.value };
+          this.VehicaleCostDetails.Amount_blur(tempObj, undefined, undefined);
+        });
+        //this.CostOfCourseGrid.updateTotal();
+      }
+    generateCostAndFundsReq() {
+        let VehicleDtlsList = [];
+        VehicleDtlsList = this.mapCostandFundsRecords(VehicleDtlsList, this.VehicaleCostDetails.VehicleDetailsMap, 'C');
+        return VehicleDtlsList;
+      }
+      mapCostandFundsRecords(VehicleDtlsList, TransactionList, TransactionType) {
+        TransactionList.forEach(element => {
+          let inputObj: VehicleIPInterface = {};
+          inputObj.ApplicationId = this.ApplicationId;
+          inputObj.VehicleInputSeq = element.VehicleInputSeq;
+          inputObj.VehicleDtlsSeq = element.VehicleDtlsSeq;
+          inputObj.TransactionDescription = element.mstId;
+          inputObj.TransactionType = element.TransactionType == undefined ? TransactionType : element.TransactionType;
+          inputObj.Amount = element.Amount;
+          inputObj.Currency = this.Currency.getFieldValue();
+          inputObj.LocalCurrencyEquivalent = element.LocalCurrencyEquivalent;
+          VehicleDtlsList.push(inputObj);
+          // inputMap.set('CreatedBy',element.);
+          //  inputMap.set('UpdatedBy',element.);
+          //  inputMap.set('Version',element.);
+          //  inputMap.set('UpdatedOn',element.);
+          //  inputMap.set('CreatedOn',element.);
+        });
+        return VehicleDtlsList;
+      }
+    generateVehicleSaveUpdateReq(inputMap) {
+        inputMap.clear();
+        if (this.VehicleDtlsSeq != undefined) {
+            inputMap.set('PathParam.VehicleDtlsSeq', this.VehicleDtlsSeq);
+        }
+        inputMap.set('Body.VehicleDetails.ApplicationId', this.ApplicationId);
+        // inputMap.set('Body.VehicleDetails.VehicleDtlsSeq', this.VehicleDtlsSeq.getFieldValue());
+        inputMap.set('Body.VehicleDetails.VehicleCategory', this.VehicleCategory.getFieldValue());
+        inputMap.set('Body.VehicleDetails.Manufacturer', this.Manufacturer.getFieldValue());
+        inputMap.set('Body.VehicleDetails.VehicleMake', this.Make.getFieldValue());
+        inputMap.set('Body.VehicleDetails.Variant', this.Variant.getFieldValue());
+        // inputMap.set('Body.VehicleDetails.Currency', this.Currency.getFieldValue());
+        inputMap.set('Body.VehicleDetails.Model', this.Model.getFieldValue());
+        inputMap.set('Body.VehicleDetails.VehicleAssetType', this.AssetType.getFieldValue());
+        inputMap.set('Body.VehicleDetails.DealerCode', this.DealerCode.getFieldValue());
+        inputMap.set('Body.VehicleDetails.DealerCity', this.City.getFieldValue());
+        inputMap.set('Body.VehicleDetails.AssetLife', this.AssetLife.getFieldValue());
+        inputMap.set('Body.VehicleDetails.DealerName', this.NameoftheDealer.getFieldValue());
+        inputMap.set('Body.VehicleDetails.Currency', this.Currency.getFieldValue());
+        // inputMap.set('Body.VehicleDetails.AssetLife', this.NameoftheDealer.getFieldValue());
+        inputMap.set('Body.VehicleDetails.DealerAddress', this.Address.getFieldValue());
+        inputMap.set('Body.VehicleDetails.CustomerFunds', this.FundsbyCustomer.getFieldValue());
+        inputMap.set('Body.VehicleDetails.TotalCost', this.LoanRequired.getFieldValue());
+        inputMap.set('Body.VehicleDetails.LocalCurrenyAmount', this.LocalCurrencyEquivalent.getFieldValue());
+        inputMap.set('Body.VehicleDetails.costAndFundsGridDtls', this.generateCostAndFundsReq());
+        return inputMap;
+    }
+    parseResponseError(err) {
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            if (err['ErrorElementPath'] == 'VehicleDetails.NameoftheDealer') {
+                this.NameoftheDealer.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.AssetLife') {
+                this.AssetLife.setError(err['ErrorDescription']);
+            }
+            // else if (err['ErrorElementPath'] == 'VehicleDetails.LocalCurrencyEquivalent') {
+            //     this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
+            // }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.VehicleAssetType') {
+                this.AssetType.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.Model') {
+                this.Model.setError(err['ErrorDescription']);
+            }
+            // else if (err['ErrorElementPath'] == 'VehicleDetails.Currency') {
+            //     this.Currency.setError(err['ErrorDescription']);
+            // }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.Variant') {
+                this.Variant.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.DealerCode') {
+                this.DealerCode.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.Make') {
+                this.Make.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.Manufacturer') {
+                this.Manufacturer.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.VehicleCategory') {
+                this.VehicleCategory.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.Currency') {
+                this.Currency.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDtlsSeq') {
+                this.VehicleDtlsSeq.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.DealerCode') {
+                this.DealerCode.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.DealerCity') {
+                this.City.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.DealerName') {
+                this.NameoftheDealer.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.DealerAddress') {
+                this.Address.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.CustomerFunds') {
+                this.FundsbyCustomer.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.TotalCost') {
+                this.LoanRequired.setError(err['ErrorDescription']);
+            }
+            else if (err['ErrorElementPath'] == 'VehicleDetails.LocalCurrenyAmount') {
+                this.LocalCurrencyEquivalent.setError(err['ErrorDescription']);
+            }
+        }
+    }
+    Vehicle_Clear_click(event) {
+        this.onReset();
+    }
+    Vehicle_Save_click(event) {
+        let inputMap = new Map();
+        this.Vehicle_Save.setDisabled(true);
+        let numberOfErrors: number = 0;
+        if (numberOfErrors == 0) {
+            if (this.VehicleDtlsSeq != undefined) {
+
+                inputMap = this.generateVehicleSaveUpdateReq(inputMap);
+
+                this.services.http.fetchApi('/VehicleDetails/{VehicleDtlsSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
+                        this.Vehicle_Clear_click({});
+                        this.Vehicle_Save.setDisabled(false);
+                    },
+                    async (httpError) => {
+                        this.parseResponseError(httpError['error']);
+                        this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
+                        this.Vehicle_Save.setDisabled(false);
+                    }
+                );
+            }
+            else {
+                inputMap = this.generateVehicleSaveUpdateReq(inputMap);
+                this.services.http.fetchApi('/VehicleDetails', 'POST', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
+                        // this.PastEducationGrid.gridDataLoad({
+                        //     'ApplicationId': this.ApplicationId
+                        // });
+                        this.Vehicle_Clear_click({});
+                        this.Vehicle_Save.setDisabled(false);
+                    },
+                    async (httpError) => {
+                        this.parseResponseError(httpError['error']);
+                        this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
+                        this.Vehicle_Save.setDisabled(false);
+                    }
+                );
+            }
+        }
+        else {
+            this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+            this.Vehicle_Save.setDisabled(false);
+        }
+    }
     fieldDependencies = {
         VehicleCategory: {
             inDep: [
@@ -185,23 +479,20 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             ],
             outDep: [
             ]
-        }, 
-        Make: {
+        },
+        Manufacturer: {
             inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "Make", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "HidMake", paramType: "QueryParam" },
+                { paramKey: "ManufacturerCode", depFieldID: "Manufacturer", paramType: "PathParam" },
             ],
             outDep: [
             ]
         },
-        Variant: {
+        Make: {
             inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "Variant", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "HidVariant", paramType: "QueryParam" },
+                { paramKey: "VehicleMakeCode", depFieldID: "Make", paramType: "PathParam" },
+                { paramKey: "Manufacturer", depFieldID: "Manufacturer", paramType: "QueryParam" }
             ],
             outDep: [
             ]
@@ -209,9 +500,25 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
         Model: {
             inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "Model", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "HidModel", paramType: "QueryParam" },
+                { paramKey: "VehicleModelCode", depFieldID: "Model", paramType: "PathParam" },
+                { paramKey: "Make", depFieldID: "Make", paramType: "QueryParam" }
+            ],
+            outDep: [
+            ]
+        },
+        Variant: {
+            inDep: [
+
+                { paramKey: "VehicleVariantCode", depFieldID: "Variant", paramType: "PathParam" },
+                { paramKey: "Model", depFieldID: "Model", paramType: "QueryParam" }
+            ],
+            outDep: [
+            ]
+        },
+        NameoftheDealer: {
+            inDep: [
+
+                { paramKey: "DEALER_CODE", depFieldID: "NameoftheDealer", paramType: "PathParam" },
             ],
             outDep: [
             ]
@@ -226,6 +533,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             outDep: [
             ]
         },
+
         Currency: {
             inDep: [
 
@@ -234,6 +542,14 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             ],
             outDep: [
                 { paramKey: "MstCurrencyDetails.ExchangeRate", depFieldID: "hidExchangeRate" },
+            ]
+        },
+        City: {
+            inDep: [
+
+                { paramKey: "CityCd", depFieldID: "City", paramType: "PathParam" },
+            ],
+            outDep: [
             ]
         }
     }

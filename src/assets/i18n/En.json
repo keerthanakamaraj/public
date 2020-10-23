@@ -2375,8 +2375,9 @@
     "VehicleCostBreakup" : "Vehicle Cost Breakup",
     "GridTitle" : "VehicleIPGrid",
     "LocalCurrencyEquivalent" : "Local Currency Equivalent",
-    "Vehicle_Currency" : "Currency",
-    "Vehicle_Amount" : "Amount"
+    "Currency" : "Currency",
+    "Amount" : "Amount",
+    "Total": "Total"
     },
     "VehicleDetails" : {
     "NameoftheDealer" : "Name of the Dealer",
@@ -2395,7 +2396,9 @@
     "FundsbyCustomer" : "Funds by Customer",
     "FieldId_13" : "null",
     "VehicleCategory" : "Vehicle Category",
-    "AssetType" : "Asset Type"
+    "AssetType" : "Asset Type",
+    "City" : "City",
+    "Address" :"Address"
     },
     "GoldDetailsGrid" : {
       "MarketRate" : "Market Rate",
