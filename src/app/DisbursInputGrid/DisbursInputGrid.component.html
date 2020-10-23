@@ -5,7 +5,7 @@
 </div>
 <div class="lyt-ip-grid col-12  col-sm-12 col-md-12 res-pr-hide">
 
-  <table class="disbursal-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+  <table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
     [ngClass]="{'gridError':error}" (click)="clearGridError()">
     <thead>
       <tr>
@@ -14,9 +14,9 @@
         <th [hidden]="isColumnHidden('DisbursementAmount')" width="45%">
           {{ 'DisbursInputGrid.DisbursementAmount' | translate }}</th>
         <th [hidden]="isColumnHidden('AddRow')" width="5%">
-          <div class="row-add-icon" (click)="addEmptyRow()" *ngIf="showAdd">
-            <!-- <img src="./assets/icons/plus.svg" (click)="addEmptyRow()"/> -->
-          </div>
+          <!-- <div class="row-add-icon" (click)="addEmptyRow()" >
+             <img src="./assets/icons/plus.svg" (click)="addEmptyRow()"/>
+          </div> -->
 
           <!-- <i class="fa fa-plus" style="font-size: 1.1rem;" (click)="addEmptyRow()" title="Add" *ngIf="showAdd"></i> -->
         </th>
@@ -70,7 +70,7 @@
             </div>
           </td>
           <td *ngIf="!readOnly" class="text-center">
-            <div class="row-options row-delete-icon" (click)="deleteRow(rowNo)">
+            <div class="row-options row-delete-icon" (click)="deleteRow(rowNo)" *ngIf="showDelete">
 
               <!-- <i class="fa fa-trash" (click)="deleteRow(rowNo)" title="Delete"></i> -->
             </div>

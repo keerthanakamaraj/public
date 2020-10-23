@@ -58,10 +58,12 @@ export class RlouiService {
     { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
     { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
     { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
+    
     { componentName: "PropertyDetails", iconClass: "icon-property" },
     { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" },
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
-    { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" }
+    { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" },
+    { componentName: "CustomerSearch", iconClass: "icon-Scorecard-Results" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -450,6 +452,30 @@ export class RlouiService {
         componentName: 'FileUpload',
         data: '',
         applicationId: Number(ApplicationId)
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+        }
+        resolve(true);
+      });
+    });
+    return promise;
+  }
+
+  //customerSearch
+  openCustomerSearch() {
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: '',
+        mainMessage: undefined,
+        modalSize: 'modal-doc-upload-width',
+        buttons: [],
+        componentName: 'CustomerSearch',
+        data: ''
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);

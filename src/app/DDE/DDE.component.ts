@@ -50,6 +50,10 @@ import { IModalData } from '../popup-alert/popup-interface';
 import { CollateralParentComponent } from '../collateral/collateral-parent/collateral-parent.component';
 import { IheaderScoreCard } from '../Interface/masterInterface';
 import { Location } from '@angular/common';
+import { EducationLoanDetailsComponent } from '../EducationLoanDetails/EducationLoanDetails.component'
+import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.component';
+import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
+import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -202,13 +206,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     [
       { id: "ApplicationDetails", name: "Application Details", completed: false, iconClass: "icon-Application-Details", isActive: false, isOptional: false },
       { id: "PropertyDetails", name: "Property Details", completed: false, iconClass: "icon-property", isActive: false, isOptional: true },
-      // { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
-      // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
+      { id: "VehicalLoanDetails", name: "Vehical Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
+      { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
-      // { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
       { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
       { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
       { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
@@ -719,7 +724,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
 
-    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
     this.disableMenus = true;
     //this.CUST_DTLS.setNewCustomerFrom(event);
   }
@@ -760,7 +765,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.disableMenus = false;
-    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
+    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
   }
 
   getCustomerId(customerType, borrowerSeq): string {
@@ -1013,6 +1018,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'PropertyDetails':
         return new AddSpecificComponent(PropertyDetailsComponent);
+        break;
+      case 'EducationLoanDetails':
+        return new AddSpecificComponent(EducationLoanDetailsComponent);
+        break;
+      case 'VehicalLoanDetails':
+        return new AddSpecificComponent(VehicleDetailsComponent);
+        break;
+      case 'GoldLoanDetails':
+        return new AddSpecificComponent(GoldDetailsComponent);
+        break;
+      case 'InterfaceResults':
+        return new AddSpecificComponent(InterfaceResultsComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);

@@ -2,7 +2,7 @@
   [ngClass]="[parentCardName == 'Customer 360 degrees'||parentCardName == 'Loan Details'?'col-sm-6 col-md-6 col-lg-6 special':'']">
 
   <div class="card-tile-container"
-    [ngClass]="{'icon-only': cardFieldMetaData.type =='icon','d-flex go-no-go-status-card':cardFieldMetaData.type =='statusCount'}">
+    [ngClass]="{'icon-only': cardFieldMetaData.type =='icon','d-flex go-no-go-status-card':cardFieldMetaData.type =='statusCount','interface-icon-only': parentCardName == 'Interface Results'}">
     <span id="primary_lable" class="primary_lable">{{cardFieldMetaData.title}}</span>
 
     <ng-container *ngIf="cardFieldMetaData.type =='iconStatus'">
@@ -21,17 +21,26 @@
       </button>
     </div>
 
-    <app-status-indicator *ngIf="cardFieldMetaData.type =='icon' || cardFieldMetaData.type =='iconStatus'"
-      [iconType]="cardFieldMetaData.type" [status]="cardFieldMetaData.subTitle"></app-status-indicator>
+    <ng-container *ngIf="parentCardName != 'Interface Results'">
+      <app-status-indicator *ngIf="cardFieldMetaData.type =='icon' || cardFieldMetaData.type =='iconStatus'"
+        [iconType]="cardFieldMetaData.type" [status]="cardFieldMetaData.subTitle"></app-status-indicator>
+    </ng-container>
+
+    <ng-container *ngIf="parentCardName == 'Interface Results'">
+      <div class="interface-status-container">
+        <app-status-indicator [iconType]="'basic'" [status]="cardFieldMetaData.subTitle">
+        </app-status-indicator>
+      </div>
+    </ng-container>
 
     <div class="status-count-container" *ngIf="cardFieldMetaData.type =='statusCount'">
       <span class="count">
-        <app-status-indicator [iconType]="'completed'" [status]="'completed'">
+        <app-status-indicator [iconType]="'icon'" [status]="'completed'">
         </app-status-indicator>
         <span id="secondary_lable" class="number">{{cardFieldMetaData.subTitle.success}}</span>
       </span>
       <span class="count">
-        <app-status-indicator [iconType]="'pending'" [status]="'pending'">
+        <app-status-indicator [iconType]="'icon'" [status]="'pending'">
         </app-status-indicator>
         <span class="number">{{cardFieldMetaData.subTitle.failure}}</span>
       </span>

@@ -1,0 +1,99 @@
+
+<div class="container-fluid container-fixed-nav">
+
+    <!-- START - Header Banner -->
+    <div>
+
+        <div class="row well">
+            <div class="col-md-4 col-xs-12 col-sm-6 form-group">
+                <p><strong>{{getLabel('SEARCH_TYPE')}}</strong></p>
+                <label class="radio-container">{{getLabel("INTERNAL_SEARCH")}}
+                    <input type="radio" name="searchType" [(ngModel)]="searchType" value='001' />
+                    <span class="checkmark"></span>
+                </label>
+                <label class="radio-container">{{getLabel("EXTERNAL_SEARCH")}}
+                    <input type="radio" name="searchType" [(ngModel)]="searchType" value='002' />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-6 form-group">
+                <p><strong>{{getLabel('CUSTOMER_SUB_TYPE')}}</strong></p>
+                <label class="radio-container">{{getLabel("INDIVIDUAL")}}
+                    <input type="radio" name="customerSubType" [(ngModel)]="customerSubType" value='001'
+                        (change)="onCustSubTypeChange(customerSubType)" />
+                    <span class="checkmark"></span>
+                </label>
+                <label class="radio-container">{{getLabel("CORPORATE")}}
+                    <input type="radio" name="customerSubType" [(ngModel)]="customerSubType" value='002'
+                        (change)="onCustSubTypeChange(customerSubType)" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-md-12 col-xs-12 col-sm-12" *ngIf="searchType === '001'">
+                <p><strong>Note: </strong>{{getLabel('CUSTOMER_SEARCH_LOGIC')}}
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- END - Header Banner -->
+
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <ng-container *ngFor="let group of objectKey(groupedFields);let j = index">
+            <div class="row fluid-row searchGroup col-md-12" *ngIf="searchType === '001'">
+                <ng-container *ngFor="let field of groupedFields[group]; let i = index">
+                    <ng-container *ngTemplateOutlet="fields;context:{field:field}"></ng-container>
+                </ng-container>
+            </div>
+        </ng-container>
+        <div class="row fluid-row" *ngIf="searchType === '002'">
+            <ng-container *ngFor="let field of fieldData; let i = index">
+                <ng-container *ngTemplateOutlet="fields;context:{field:field}"></ng-container>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="!appService.viewMode">
+        <div class="col-md-12 btn-group-right">
+            <button class="btn-secondary" (click)="searchCustomers()">{{getLabel("SEARCH")}}</button>
+            <button class="btn-warning-outline" (click)="clearData()">{{getLabel("CLEAR")}}</button>
+        </div>
+    </div>
+    <br>
+
+    <div class="row" *ngIf="showCustomerData">
+        <!-- <app-cust-search-results-grid #custResultsGrid [rowData]="rowData" (customerData)="callFunction($event)">
+        </app-cust-search-results-grid> -->
+    </div>
+</div>
+
+<ng-template #fields let-field="field">
+    <!-- START - Date fields -->
+    <div class="col-md-3 col-xs-12 col-sm-6" *ngIf="field.fieldType === 'D'">
+        <div class="form-group">
+            <label title="{{field['fieldName']}}"
+                [ngClass]="{ 'mandatory': isMandatory(field['attributeName']) }">{{field['fieldName']}}
+
+            </label>
+            <igcb-datepicker dateFormat="dd-MMM-yyyy" id="{{field['attributeName']}}" name="{{field['attributeName']}}"
+                attr.name="{{field['attributeName']}}" [(ngModel)]="searchParameters[field['attributeName']]"
+                (blur)="validateDateField(searchParameters[field['attributeName']], field, null, null, true)">
+            </igcb-datepicker>
+        </div>
+    </div>
+    <!-- END - Date fields -->
+
+    <!-- START - Text fields -->
+    <div class="col-md-3 col-xs-12 col-sm-6" *ngIf="field.fieldType === 'T'">
+        <div class="form-group">
+            <label title="{{field['fieldName']}}"
+                [ngClass]="{ 'mandatory': isMandatory(field['attributeName']) }">{{field['fieldName']}}
+            </label>
+            <input type="text" class="form-control" autocomplete="off"
+                maxlength="{{field['maxLength'] ? field['maxLength'] : null}}" id="{{field['attributeName']}}"
+                name="{{field['attributeName']}}" [(ngModel)]="searchParameters[field['attributeName']]"
+                attr.name="{{field['attributeName']}}"
+                (blur)="validateField(searchParameters[field['attributeName']], field['attributeName'])" />
+        </div>
+    </div>
+    <!-- END - Text fields -->
+</ng-template>

@@ -389,16 +389,16 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']);
-                this.AT_ASSET_SUBTYPE.setValue(res['AssetDetails']['AssetSubtype']);
+                this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']['id'],['text']);
+                this.AT_ASSET_SUBTYPE.setValue(res['AssetDetails']['AssetSubtype']['id']);
                 this.AT_ASSET_LOCATION.setValue(res['AssetDetails']['AssetLocation']);
-                this.AT_ASSET_STATUS.setValue(res['AssetDetails']['AssetStatus']);
-                //this.AT_ASSET_VALUE.setValue(res['AssetDetails']['AssetValue']);
-                //this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
-                //this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
-                //this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
+                this.AT_ASSET_STATUS.setValue(res['AssetDetails']['AssetStatus']['id']);
+                this.AT_ASSET_VALUE.setValue(res['AssetDetails']['AssetValue']);
+                this.AT_FAIR_MRKT_VALUE.setValue(res['AssetDetails']['FairMarketValue']);
+                this.AT_CURRENCY.setValue(res['AssetDetails']['Currency']);
+                this.AT_EQUIVALENT_AMOUNT.setValue(res['AssetDetails']['EquivalentAmt']);
                 // this.AT_NAME.setValue(res['AssetDetails']['OwnerName']);
-                this.AT_INCLUDE_IN_DBR.setValue(res['AssetDetails']['IncludeInDBR']);
+                this.AT_INCLUDE_IN_DBR.setValue(res['AssetDetails']['IncludeInDBR']['id']);
                 // this.AT_OWNED_BY.setValue(res['AssetDetails']['OwnedBy']);
                 this.ASSET_ID.setValue(res['AssetDetails']['AssetSeq']);
                 this.hideSpinner();

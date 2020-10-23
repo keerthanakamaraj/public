@@ -33,11 +33,75 @@ export class CardComponent implements OnInit {
     isExpandable: true
   };
 
+  testData = {
+    modalSectionName: "",
+    subTitle: "completed",
+    title: "Verification",
+    type: "icon"
+  }
+
+  customerList = [];
+
+  testJson = [
+    {
+      CustomerType: "B",
+      FullName: "Tim cook",
+      data: [
+        {
+          type: "External Interface Results",
+          class:"external",
+          data: [
+            { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
+          ]
+        },
+        {
+          type: "Internal Interface Results",
+          class:"internal",
+          data: [
+            { type: "icon", title: "PAN", subTitle: 'pending', modalSectionName: "" },
+            { type: "icon", title: "CIBIL", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "AMLOCK", subTitle: 'completed', modalSectionName: "" }
+          ]
+        }
+      ]
+    },
+    {
+      CustomerType: "CB",
+      FullName: "Ron cook",
+      data: [
+        {
+          type: "External Interface Results",
+          class:"external",
+          data: [
+            { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
+          ]
+        },
+        {
+          type: "Internal Interface Results",
+          class:"internal",
+          data: [
+            { type: "icon", title: "PAN", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "CIBIL", subTitle: 'pending', modalSectionName: "" },
+            { type: "icon", title: "AMLOCK", subTitle: 'disabled', modalSectionName: "" }
+          ]
+        }
+      ]
+    },
+  ];
+
+  selectedCustomerData: { name: string, index: number } = { name: "", index: 0 };
   commonCardSectionData: Array<ICardConfig>;
 
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);
     this.cardConfig.set("interfaceResults", this.interface);
+
+    //get interface data;
+    this.getInterfaceData();
+
+    console.log("testJson", this.testJson);
   }
 
   ngOnInit() {
@@ -53,5 +117,29 @@ export class CardComponent implements OnInit {
 
   openModal() {
     this.services.rloui.openComponentModal(this.cardMetaData);
+  }
+
+  showNxt() {
+    if (this.selectedCustomerData.index < (this.customerList.length - 1)) {
+      this.selectedCustomerData.index += 1;
+      this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index]
+    }
+  }
+
+  showPrev() {
+    if (this.selectedCustomerData.index != 0) {
+      this.selectedCustomerData.index -= 1;
+      this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index]
+    }
+  }
+
+  getInterfaceData() {
+    this.testJson.map((data) => {
+      this.customerList.push(data.FullName);
+    });
+    this.selectedCustomerData.index = 0;
+    this.selectedCustomerData.name = this.customerList[0];
+    console.clear();
+    console.log(this.testJson[this.selectedCustomerData.index]);
   }
 }

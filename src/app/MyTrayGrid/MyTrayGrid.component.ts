@@ -344,20 +344,20 @@ export class MyTrayGridComponent implements AfterViewInit {
         var obj = gridReqMap.get("FilterCriteria");
         for (var i = 0; i < obj.length; i++) {
           switch (obj[i].columnName) {
-            case "MT_ARN": obj[i].columnName = "ARN"; break;
+            case "MT_ARN": obj[i].columnName = "CTP.APP_REF_NUMBER"; break;
             case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
-            case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+            case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
-            case "MT_SUB_PRODUCT": obj[i].columnName = "SUB_PRODUCT"; break;
+            case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
             case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
-            case "MT_LOAN_AMOUNT": obj[i].columnName = "LOAN_AMOUNT"; break;
+            case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
 
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
-            case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+            case "MT_STAGE": obj[i].columnName = "T.NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
-            case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
-            case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "T.CREATEDON"; break;
+            case "MT_CAD_LOCATION": obj[i].columnName = "B.BRANCH_NAME"; break;
+            case "MT_PENDING_WITH": obj[i].columnName = "T.ACTUALOWNER_ID"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
@@ -369,19 +369,19 @@ export class MyTrayGridComponent implements AfterViewInit {
         var obj = gridReqMap.get("OrderCriteria");
         for (var i = 0; i < obj.length; i++) {
           switch (obj[i].columnName) {
-            case "MT_ARN": obj[i].columnName = "ARN"; break;
+            case "MT_ARN": obj[i].columnName = "CTP.APP_REF_NUMBER"; break;
             case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
-            case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+            case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
-            case "MT_SUB_PRODUCT": obj[i].columnName = "SUB_PRODUCT"; break;
+            case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
             case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
-            case "MT_LOAN_AMOUNT": obj[i].columnName = "LOAN_AMOUNT"; break;
+            case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
-            case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+            case "MT_STAGE": obj[i].columnName = "T.NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
-            case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
-            case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "T.CREATEDON"; break;
+            case "MT_CAD_LOCATION": obj[i].columnName = "B.BRANCH_NAME"; break;
+            case "MT_PENDING_WITH": obj[i].columnName = "T.ACTUALOWNER_ID"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
@@ -435,19 +435,19 @@ export class MyTrayGridComponent implements AfterViewInit {
         var obj = gridReqMap.get("FilterCriteria");
         for (var i = 0; i < obj.length; i++) {
           switch (obj[i].columnName) {
-            case "MT_ARN": obj[i].columnName = "ARN"; break;
+            case "MT_ARN": obj[i].columnName = "CTP.APP_REF_NUMBER"; break;
             case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
-            case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+            case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
-            case "MT_SUB_PRODUCT": obj[i].columnName = "SUB_PRODUCT"; break;
+            case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
             case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
-            case "MT_LOAN_AMOUNT": obj[i].columnName = "LOAN_AMOUNT"; break;
+            case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
-            case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+            case "MT_STAGE": obj[i].columnName = "T.NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_ON"; break;
-            case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
-            case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "T.CREATEDON"; break;
+            case "MT_CAD_LOCATION": obj[i].columnName = "B.BRANCH_NAME"; break;
+            case "MT_PENDING_WITH": obj[i].columnName = "T.ACTUALOWNER_ID"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
@@ -459,21 +459,21 @@ export class MyTrayGridComponent implements AfterViewInit {
         var obj = gridReqMap.get("OrderCriteria");
         for (var i = 0; i < obj.length; i++) {
           switch (obj[i].columnName) {
-            case "MT_ARN": obj[i].columnName = "ARN"; break;
+            case "MT_ARN": obj[i].columnName = "CTP.APP_REF_NUMBER"; break;
             case "MT_PROPOSAL_ID": obj[i].columnName = "PROPOSAL_ID"; break;
-            case "MT_CUSTOMER": obj[i].columnName = "CUSTOMER_NAME"; break;
+            case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
 
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
-            case "MT_SUB_PRODUCT": obj[i].columnName = "SUB_PRODUCT"; break;
+            case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
             case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
-            case "MT_LOAN_AMOUNT": obj[i].columnName = "LOAN_AMOUNT"; break;
+            case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
 
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
-            case "MT_STAGE": obj[i].columnName = "STAGE_NAME"; break;
+            case "MT_STAGE": obj[i].columnName = "T.NAME"; break;
             case "MT_INITIATED_BY": obj[i].columnName = "CREATED_BY"; break;
-            case "MT_INITIATED_ON": obj[i].columnName = "CREATED_TIME"; break;
-            case "MT_CAD_LOCATION": obj[i].columnName = "BRANCH"; break;
-            case "MT_PENDING_WITH": obj[i].columnName = "ASSIGNED_TO"; break;
+            case "MT_INITIATED_ON": obj[i].columnName = "T.CREATEDON"; break;
+            case "MT_CAD_LOCATION": obj[i].columnName = "B.BRANCH_NAME"; break;
+            case "MT_PENDING_WITH": obj[i].columnName = "T.ACTUALOWNER_ID"; break;
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;

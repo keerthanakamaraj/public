@@ -32,6 +32,7 @@
     "ag-grid-community": "^21.1.0",
     "angular-2-local-storage": "^3.0.2",
     "angular-dual-listbox": "^5.0.1",
+    "angular-split": "^4.0.0",
     "chart.js": "^2.9.3",
     "chartjs-plugin-labels": "^1.1.0",
     "concurrently": "^4.1.2",
@@ -56,7 +57,7 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.801.2",
+    "@angular-devkit/build-angular": "^0.801.3",
     "@angular-devkit/core": "^8.1.2",
     "@angular/cli": "^8.3.22",
     "@angular/compiler-cli": "^8.1.2",

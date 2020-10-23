@@ -1,0 +1,56 @@
+<form class="MakeRelative lyt-precpv-queue page-layout-padding">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="clearfix content">
+    <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <!-- <div class="col-sm-12 col-md-12">
+        <div class="FormTitle no-border">
+          <a class="back" (click)="goBack()">Back</a>
+          <span>{{ 'PreCPV.FormTitle' | translate }}</span>
+        </div>
+      </div> -->
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError"></div>
+    </div>
+    <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+      <div class="form-group pb10 row">
+        <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+          <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
+            (productCategoryFound)="brodcastProdCategory($event)">
+          </app-Header>
+        </div>
+      </div>
+    </div>
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="PreCPVGrid.isHidden()">
+      <app-PreCPVInputGrid #PreCPVGrid fieldID="PreCPVGrid" [formCode]="formCode"
+        [displayTitle]="false"></app-PreCPVInputGrid>
+    </div>
+    <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DisbursalGrid.isHidden()">
+      <app-DisbursInputGrid #DisbursalGrid fieldID="DisbursalGrid"
+        [displayTitle]="false"></app-DisbursInputGrid>
+    </div> -->
+    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DisbursalGrid.isHidden()">
+      <app-DisbursInputGrid #DisbursalGrid fieldID="DisbursalGrid" [formCode]="formCode"></app-DisbursInputGrid>
+    </div>
+    <app-hidden #HideCurrentStage fieldID="HideCurrentStage"></app-hidden>
+    <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+    <app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
+    <!-- <app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden> -->
+    <app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
+    <app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
+    <app-hidden #HideAppId fieldID="HideAppId"></app-hidden>
+    <app-hidden #HideServiceCodeComplete fieldID="HideServiceCodeComplete"></app-hidden>
+    <app-hidden #hideDirection fieldID="hideDirection"></app-hidden>
+    <app-hidden #HideDecision fieldID="HideDecision"></app-hidden>
+    </div>
+</form>

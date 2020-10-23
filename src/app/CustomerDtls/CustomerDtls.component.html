@@ -137,6 +137,15 @@
             <app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
           </div>
+          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MaidenName.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CustomerDtls.MaidenName' | translate}}
+              </label>
+            </div>
+            <app-text-box #MaidenName fieldID="MaidenName" [formCode]="formCode"
+              (blur)="genericOnBlur('MaidenName', $event)"></app-text-box>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
@@ -321,6 +330,17 @@
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SEGMENT', $event)">
             </app-combo-box>
           </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustSubSegment.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CustomerDtls.CustSubSegment' | translate}}
+              </label>
+            </div>
+            <app-combo-box #CustSubSegment category="2" fieldID="CustSubSegment" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CustSubSegment', $event)">
+            </app-combo-box>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWN.isHidden() || !isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -365,11 +385,33 @@
                 {{ 'CustomerDtls.CD_PREF_LANG' | translate}}
               </label>
             </div>
+          
 
             <app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('CD_PREF_LANG', $event)">
             </app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EmbLineFlag.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EmbLineFlag.mandatory}">
+                {{ 'CustomerDtls.EmbLineFlag' | translate}}
+              </label>
+            </div>
+            <rlo-ui-radio #EmbLineFlag fieldID="EmbLineFlag" [formCode]="formCode" placeholder="Select"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('EmbLineFlag', $event)">
+            </rlo-ui-radio>
+          </div>
+         
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EmbLine4.isHidden()|| isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EmbLine4.mandatory}">
+                {{ 'CustomerDtls.EmbLine4' | translate}}
+              </label>
+            </div>
+            <app-text-box #EmbLine4 fieldID="EmbLine4" [formCode]="formCode"
+              (blur)="genericOnBlur('EmbLine4', $event)"></app-text-box>
           </div>
           <ng-container *ngIf="!readOnly">
             <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
@@ -410,6 +452,8 @@
         <app-hidden #hidPrefLanguage fieldID="hidPrefLanguage"></app-hidden>
         <app-hidden #hideISDCode fieldID="hideISDCode"></app-hidden>
         <app-hidden #hideCitizenship fieldID="hideCitizenship"></app-hidden>
+        <app-hidden #hideCustSubSegment fieldID="hideCustSubSegment"></app-hidden>
+        <app-hidden #hideEmbLineFlag fieldID="hideEmbLineFlag"></app-hidden>
       </div>
     </div>
   </div>

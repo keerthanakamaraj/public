@@ -277,14 +277,14 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype;
-                        tempObj['AT_Asset_Type'] = loopVar4[i].AssetType;
-                        tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus;
+                        tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype.text;
+                        tempObj['AT_Asset_Type'] = loopVar4[i].AssetType.text;
+                        tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus.text;
                         tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
                         tempObj['AT_Local_Curr_Value'] = loopVar4[i].EquivalentAmt;
                         tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
                         // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
-                        tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR;
+                        tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR.text;
                         this.loopDataVar4.push(tempObj);
                     }
                 }

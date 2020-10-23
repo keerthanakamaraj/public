@@ -26,11 +26,12 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
   @ViewChildren('AddRow') AddRow: QueryList<AmountComponent>;
   s: string = undefined;
   showAdd: boolean = false;
+  
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
     this.value = new DisbursInputGridModel();
     this.componentCode = 'DisbursInputGrid';
-    this.initRowCount = 0;
+    this.initRowCount = 1;
     this.uniqueColumns = [];
     this.primaryColumns = [];
 
@@ -58,23 +59,14 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
     });
   }
   async gridLoad() {
-    this.showHideAddRowIcon(0);
+    this.showHideDeleteIcon(1);
   }
   async onRowAdd(rowNo) {
-    this.showHideAddRowIcon(0);
+    this.showHideDeleteIcon(1);
   }
 
-
-  showHideAddRowIcon(rowlimit) {
-    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
-    if (this.value.rowData.length <= rowlimit) {
-      this.showAdd = true;
-    } else {
-      this.showAdd = false;
-    }
-  }
   async onRowDelete(rowNo) {
-    this.showHideAddRowIcon(1);
+    this.showHideDeleteIcon(2);
   }
 
   getTotProjCompletionPercent() {

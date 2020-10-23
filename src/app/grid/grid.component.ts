@@ -12,6 +12,8 @@ import { CheckBoxComponent } from '../check-box/check-box.component';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
+import { ButtonComponent } from '../button/button.component';
+import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 
 @Component({
   selector: 'app-grid',
@@ -28,6 +30,8 @@ export class GridComponent implements OnInit {
   @ViewChildren(AmountComponent) amountComponent: QueryList<AmountComponent>;
   @ViewChildren(CheckBoxComponent) checkboxComponent: QueryList<CheckBoxComponent>;
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
+  @ViewChildren(ButtonComponent) buttonComponent: ButtonComponent;
+  @ViewChildren(ReadOnlyComponent) readOnlyComponent: ReadOnlyComponent;
 
   @Input('formCode') formCode: string;
   @Input('displayTitle') displayTitle: boolean = true;
@@ -41,6 +45,7 @@ export class GridComponent implements OnInit {
   errorCode: string;
   value: any = undefined;
   fieldDependencies = {};
+  showDelete:boolean=false;
 
   isCellReadOnly: {
     [key: string]: boolean
@@ -530,5 +535,13 @@ export class GridComponent implements OnInit {
       this[colId].toArray()[rowNo].setValue(rowData[colId], rowDesc[colId + '_desc']);
     }
     if (this.gridType == 2) { this.setRowReadOnly(rowNo, true); }
+  }
+  showHideDeleteIcon(rowlimit) {
+    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
+    if (this.value.rowData.length <= rowlimit) {
+      this.showDelete = false;
+    } else {
+      this.showDelete = true;
+    }
   }
 }

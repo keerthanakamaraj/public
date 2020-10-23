@@ -63,7 +63,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       type: "application",
       cardList: [
         { className: "LoanDetails" },
-        // { className: "InterfaceResults" },
+        { className: "InterfaceResults" },
         // { className: "VehicalDetails" },
         { className: "CardDetails" },
         // { className: "GoldDetails" },
@@ -122,6 +122,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     gutter: 10,
     originTop: true,
     originLeft: true,
+    percentPosition: true
     // itemSelector: '.w-25'
   };
 

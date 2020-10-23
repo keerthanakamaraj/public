@@ -1,0 +1,27 @@
+<p>console-landing works!</p>
+<div class="lyt-console-landing w-100 h-100 " style="height: 500px; ">
+    <as-split direction="horizontal">
+        <as-split-area [size]="40">
+            <ng-container *ngTemplateOutlet="treeViewList; 
+                                 context:{$implicit:items,role:'tree',parentid:'root'}">
+            </ng-container>
+            <ng-template #treeViewList let-list>
+                <ul class="wgt-tree-node" [attr.role]="role" id="treeview_ul_{{parentid}}">
+                    <li #options *ngFor="let item of list;let i=index" 
+                    role="treeitem" 
+                    [attr.data-code]="item.name"
+                    [attr.aria-expanded]="getStateOfItem(item)" 
+                    id="tree_item_{{parentid}}_{{item.name}}">
+                        <span (click)="toggleSelection($event,item)">{{item.name}}</span>
+                        <ng-container *ngTemplateOutlet="treeViewList;
+                                    context:{$implicit: item.children,role:'group',parentid:item.name}">
+                        </ng-container>
+                    </li>
+                </ul>
+            </ng-template>
+        </as-split-area>
+        <as-split-area [size]="60">
+            <p>RIGHT</p>
+        </as-split-area>
+    </as-split>
+</div>

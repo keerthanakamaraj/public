@@ -272,12 +272,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-  underWriter() {
-    let inputMap = new Map();
-    inputMap.set('appId', 1675);
-
-    this.services.dataStore.setRouteParams(this.services.routing.currModal, inputMap);
-    this.router.navigate(['/home/Underwriter']);
+  cc() {
+    this.router.navigate(['/home/customization-console']);
   }
 
   getFilter(name: "All" | "1Y" | "6M" | "3M" | "1M" | "1W") {

@@ -1,0 +1,187 @@
+<form class="MakeRelative">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <!-- <div class="col-sm-5 col-md-5">
+<h4 class="FormTitle">
+{{ 'VehicleDetails.FormTitle' | translate }}
+</h4>
+</div> -->
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="VehicleCategory.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': VehicleCategory.mandatory}">
+                {{ 'VehicleDetails.VehicleCategory' | translate}}
+              </label>
+            </div>
+            <app-combo-box #VehicleCategory category="2" fieldID="VehicleCategory" [formCode]="formCode"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('VehicleCategory', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Manufacturer.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Manufacturer.mandatory}">
+                {{ 'VehicleDetails.Manufacturer' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Manufacturer category="2" fieldID="Manufacturer" [formCode]="formCode" placeholder="Select"
+              (blur)="genericOnBlur('Manufacturer', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Make.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Make.mandatory}">
+                {{ 'VehicleDetails.Make' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Make category="2" fieldID="Make" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('Make', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Variant.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Variant.mandatory}">
+                {{ 'VehicleDetails.Variant' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Variant category="2" fieldID="Variant" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('Variant', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Model.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown"  [ngClass]="{'mandatory': Model.mandatory}">
+                {{ 'VehicleDetails.Model' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Model category="2" fieldID="Model" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('Model', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AssetType.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': AssetType.mandatory}">
+                {{ 'VehicleDetails.AssetType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #AssetType category="2" fieldID="AssetType" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('AssetType', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="AssetLife.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'VehicleDetails.AssetLife' | translate}}
+              </label>
+            </div>
+            <app-text-box #AssetLife fieldID="AssetLife" [formCode]="formCode" 
+              (blur)="genericOnBlur('AssetLife', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="NameoftheDealer.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown"  [ngClass]="{'mandatory': NameoftheDealer.mandatory}">
+                {{ 'VehicleDetails.NameoftheDealer' | translate}}
+              </label>
+            </div>
+            <app-combo-box #NameoftheDealer category="2" fieldID="NameoftheDealer" [formCode]="formCode"
+              placeholder="Select" (blur)="genericOnBlur('NameoftheDealer', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="DealerCode.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown"  [ngClass]="{'mandatory': DealerCode.mandatory}">
+                {{ 'VehicleDetails.DealerCode' | translate}}
+              </label>
+            </div>
+            <app-text-box #DealerCode fieldID="DealerCode" [formCode]="formCode"
+              (blur)="genericOnBlur('DealerCode', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FieldId_13.isHidden()">
+            <app-VehicleIPGrid #FieldId_13 fieldID="FieldId_13" [formCode]="formCode"></app-VehicleIPGrid>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Currency.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown"  [ngClass]="{'mandatory': Currency.mandatory}">
+                {{ 'VehicleDetails.Currency' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
+              domainObjectCode="MstCurrencyDetails"
+              (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FundsbyCustomer.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': FundsbyCustomer.mandatory}">
+                {{ 'VehicleDetails.FundsbyCustomer' | translate}}
+              </label>
+            </div>
+            <app-text-box #FundsbyCustomer fieldID="FundsbyCustomer" [formCode]="formCode"
+              (blur)="genericOnBlur('FundsbyCustomer', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'VehicleDetails.LocalCurrencyEquivalent' | translate}}
+              </label>
+            </div>
+            <app-text-box #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [formCode]="formCode"
+              (blur)="genericOnBlur('LocalCurrencyEquivalent', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LoanRequired.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'VehicleDetails.LoanRequired' | translate}}
+              </label>
+            </div>
+            <app-combo-box #LoanRequired category="2" fieldID="LoanRequired" [formCode]="formCode" placeholder="Select"
+              (blur)="genericOnBlur('LoanRequired', $event)"></app-combo-box>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <!-- <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div> -->
+          <ng-container>
+            <div *ngIf="!readOnly" class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
+              [hidden]="Vehicle_Save.isHidden()">
+              <app-button #Vehicle_Save fieldName="{{ 'VehicleDetails.Vehicle_Save' | translate}}" fieldID="Vehicle_Save"
+                [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
+              </app-button>
+            </div>
+            <div *ngIf="!readOnly" class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
+              [hidden]="Vehicle_clear.isHidden()">
+              <app-button #Vehicle_clear fieldName="{{ 'VehicleDetails.Vehicle_clear' | translate}}" fieldID="Vehicle_clear"
+                [formCode]="formCode" (buttonClick)="CCD_Clear_click($event)" customClass="btn-warning-outline">
+              </app-button>
+            </div>
+          </ng-container>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+            <app-vehicle-handler #Handler [MainComponent]="this"></app-vehicle-handler>
+          </div>
+        </div>
+        <app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
+        <app-hidden #HidVehicleCategory fieldID="HidVehicleCategory"></app-hidden>
+        <app-hidden #HidMake fieldID="HidMake"></app-hidden>
+        <app-hidden #HidVariant fieldID="HidVariant"></app-hidden>
+        <app-hidden #HidModel fieldID="HidModel"></app-hidden>
+        <app-hidden #HidVAssetType fieldID="HidVAssetType"></app-hidden>
+      </div>
+    </div>
+  </div>
+</form>

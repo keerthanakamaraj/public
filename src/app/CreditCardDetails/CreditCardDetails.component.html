@@ -135,6 +135,63 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('CardDispatchMode', $event)"></app-combo-box>
           </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CRLine.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CRLine.mandatory}">
+                {{ 'CreditCardDetails.CRLine' | translate}}
+              </label>
+            </div>
+            <app-text-box #CRLine fieldID="CRLine" [formCode]="formCode" (blur)="genericOnBlur('CRLine', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardAdvLine.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CardAdvLine.mandatory}">
+                {{ 'CreditCardDetails.CardAdvLine' | translate}}
+              </label>
+            </div>
+            <app-text-box #CardAdvLine fieldID="CardAdvLine" [formCode]="formCode" (blur)="genericOnBlur('CardAdvLine', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsMandateFlag.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EcsMandateFlag.mandatory}">
+                {{ 'CreditCardDetails.EcsMandateFlag' | translate}}
+              </label>
+            </div>
+            <rlo-ui-radio #EcsMandateFlag category="2" fieldID="EcsMandateFlag" [formCode]="formCode"
+              (change)="EcsMandateFlag_change('EcsMandateFlag', $event)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+              doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('EcsMandateFlag', $event)">
+            </rlo-ui-radio>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsType.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EcsType.mandatory}">
+                {{ 'CreditCardDetails.EcsType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #EcsType category="2" fieldID="EcsType" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('EcsType', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsPercentage.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EcsPercentage.mandatory}">
+                {{ 'CreditCardDetails.EcsPercentage' | translate}}
+              </label>
+            </div>
+            <app-text-box #EcsPercentage fieldID="EcsPercentage" [formCode]="formCode" (blur)="genericOnBlur('EcsPercentage', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsAccNo.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': EcsAccNo.mandatory}">
+                {{ 'CreditCardDetails.EcsAccNo' | translate}}
+              </label>
+            </div>
+            <app-text-box #EcsAccNo fieldID="EcsAccNo" [formCode]="formCode" (blur)="genericOnBlur('EcsAccNo', $event)">
+            </app-text-box>
+          </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <ng-container>
@@ -169,6 +226,9 @@
         <app-hidden #hidStatementDispatch fieldID="hidStatementDispatch"></app-hidden>
         <app-hidden #hidExisitingCard fieldID="hidExisitingCard"></app-hidden>
         <app-hidden #hidCardDispatch fieldID="hidCardDispatch"></app-hidden>
+        <app-hidden #hidECSMandateFlag fieldID="hidECSMandateFlag"></app-hidden>
+        <app-hidden #hidECSType fieldID="hidECSType"></app-hidden>
+
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
       </div>
     </div>

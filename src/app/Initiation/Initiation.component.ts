@@ -453,6 +453,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async SEARCH_CUST_BTN_click(event) {
+
+    this.services.rloui.openCustomerSearch();
+
+    return;
     this.searchbutton = 'Y';
     let inputMap = new Map();
     inputMap.clear();
