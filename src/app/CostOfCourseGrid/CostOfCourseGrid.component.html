@@ -1,7 +1,4 @@
 <div class="row" *ngIf="displayTitle">
-  <!-- <div class="col-sm-5 col-md-5">
-    <h4>{{ 'CostOfCourseGrid.GridTitle' | translate }}</h4>
-  </div> -->
 </div>
 <table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
   (click)="clearGridError()">
@@ -15,13 +12,6 @@
         {{ 'CostOfCourseGrid.Amount' | translate }}</th>
       <th [hidden]="isColumnHidden('LocalCurEq')" width="25%">
         {{ 'CostOfCourseGrid.LocalCurEq' | translate }}</th>
-        <!-- <th [hidden]="isColumnHidden('TrnCode')" width="0%">
-        </th> -->
-      <!-- <th [hidden]="isColumnHidden('AddRow')" width="5%">
-        <div class="row-add-icon" (click)="addEmptyRow()" *ngIf="showAdd">
-        </div>
-      </th>
-      <th [hidden]="isColumnHidden('DeleteRow')" width="5%"></th> -->
     </tr>
   </thead>
   <tbody>
@@ -34,9 +24,6 @@
       <tr (click)="clearRowError(rowNo)" class="tr-td-l"
         [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
         <td [hidden]="isColumnHidden('SrNo')">
-          <!-- <app-text-box #SrNo inputType="number" fieldID="SrNo_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['SrNo']"
-            [formCode]="formCode" placeholder="Placeholder" [mandatory]="true"
-            (blur)="genericOnBlur('SrNo', $event, rowNo)"></app-text-box> -->
             <rlo-ui-readonlyfield fontSize="13px" class="general-text" #SrNo fieldID="SrNo_{{rowNo}}" 
             [hidden]="isCellReadOnly[rowNo]['SrNo']"
             [formCode]="formCode"
@@ -48,14 +35,7 @@
             </p>
           </div>
         </td>
-        <!-- <td [hidden]="isColumnHidden('SrNo')">
-          {{rowNo + 1}}
-        </td> -->
         <td [hidden]="isColumnHidden('CostOfTheCourse')">
-          <!-- <app-text-box #CostOfTheCourse fieldID="CostOfTheCourse_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['CostOfTheCourse']" [formCode]="formCode" placeholder="Enter"
-            [maxLength]="100" [mandatory]="true" (blur)="genericOnBlur('CostOfTheCourse', $event, rowNo)">
-          </app-text-box> -->
           <rlo-ui-readonlyfield fontSize="13px" class="general-text" #CostOfTheCourse fieldID="CostOfTheCourse_{{rowNo}}" 
             [hidden]="isCellReadOnly[rowNo]['CostOfTheCourse']"
             [formCode]="formCode"
@@ -87,17 +67,6 @@
             </p>
           </div>
         </td>
-        <!-- <td [hidden]="isColumnHidden('TrnCode')">
-        <app-hidden #TrnCode fieldID="TrnCode"></app-hidden>
-      </td> -->
-        <!-- <td *ngIf="!readOnly" class="text-center">
-            <div class="row-options row-add-icon" (click)="addEmptyRow(rowNo)">
-            </div>
-          </td>
-          <td *ngIf="!readOnly" class="text-center">
-            <div class="row-options row-delete-icon" (click)="deleteRow(rowNo)">
-            </div>
-          </td> -->
       </tr>
       <tr *ngIf="rowError[rowNo].hasError">
         <td colspan=12 style="text-align: center;">
@@ -109,18 +78,13 @@
   <tfoot>
       <tr>
         <td></td>
-        <td></td>
+        <td>{{ 'CostOfCourseGrid.Total' | translate }}</td>
           <td><app-amount #TotalAmount fieldID="TotalAmount" 
             (blur)="genericOnBlur('TotalAmount', $event)"></app-amount></td>
           
           <td><app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq" 
             (blur)="genericOnBlur('TotalLocalCurEq', $event)"></app-amount></td>
         </tr>
-
-    <!-- <tr>
-      <td>Sum</td>
-      <td>$180</td>
-    </tr> -->
   </tfoot>
 </table>
 <span class="errorMessagespan">{{errorCode| translate}}</span>

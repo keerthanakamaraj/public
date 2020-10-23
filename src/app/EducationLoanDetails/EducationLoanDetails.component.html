@@ -383,9 +383,6 @@
 
                     </label>
                   </div>
-                  <!-- <app-combo-box #LCurrency category="2" fieldID="LCurrency" [formCode]="formCode"
-                    placeholder="Select" (blur)="genericOnBlur('LCurrency', $event)">
-                  </app-combo-box> -->
                   <app-combo-box #LCurrency category="2" fieldID="LCurrency" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
               domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('LCurrency', $event)">
@@ -449,13 +446,10 @@
                   <div class="clr-brown fieldLegend">
                     <label class="clr-brown">
                       {{ 'EducationLoanDetails.LEMIPeriod' | translate}}
-
                     </label>
                   </div>
-                  <app-combo-box #LEMIPeriod category="2" fieldID="LEMIPeriod" [formCode]="formCode"
-                  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                    placeholder="Placeholder" (blur)="genericOnBlur('LEMIPeriod', $event)">
-                  </app-combo-box>
+                  <app-text-box #LEMIPeriod fieldID="LEMIPeriod" [formCode]="formCode" placeholder="Placeholder"
+                  (blur)="genericOnBlur('LEMIPeriod', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LTotLoanPeriod.isHidden()">
                   <div class="clr-brown fieldLegend">

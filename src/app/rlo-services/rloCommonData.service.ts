@@ -12,7 +12,7 @@ import { HttpResponse } from '@angular/common/http';
 
 export interface subjectParamsInterface {
   action: string;
-  data: any;
+  data?: any;
 }
 
 export interface IComponentLvlData {

@@ -21,6 +21,8 @@ import { FundsAvailableGridComponent } from '../FundsAvailableGrid/FundsAvailabl
 import { EducationLoanHandlerComponent } from '../EducationLoanDetails/education-loan-handler.component';
 import { EducationLoanSummary, CostOrFundsInterface, PastEducationInterface, PursuingCourseInterface } from '../EducationLoanDetails/Education-loan-interfaces';
 import { RefreshSidebarService } from '../refreshSidebar.service';
+import { Subscription, forkJoin } from 'rxjs';
+
 const customCss: string = '';
 
 @Component({
@@ -83,31 +85,25 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   @ViewChild('PCCollegeAddress', { static: false }) PCCollegeAddress: TextBoxComponent;
   @ViewChild('PE_SAVE_BTN', { static: false }) PE_SAVE_BTN: ButtonComponent;
   @ViewChild('PE_CLEAR_BTN', { static: false }) PE_CLEAR_BTN: ButtonComponent;
+  @ViewChild('ED_SAVE_BTN', { static: false }) ED_SAVE_BTN: ButtonComponent;
+  @ViewChild('ED_CLEAR_BTN', { static: false }) ED_CLEAR_BTN: ButtonComponent;
 
   @Input() ApplicationId: string = undefined;
+
+  childToEduSubscription: Subscription;
 
   EdLoanSummSeq: number = undefined;
   LoanSeq: number = undefined;
   PursuingCourseSeq: number = undefined;
   PastEdSeq: number = undefined;
 
-
-  TotalCost: number = undefined;
-  TotalCostEq: number = undefined;
-  TotalFund: number = undefined;
-  TotalFundEq: number = undefined;
+  clearFieldsFlag: boolean = false;
   TenurePeriod: string = undefined;
-
+  tempCostFundsList = [];
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      // this.revalidateBasicField('PEExamPassed'),
-      // this.revalidateBasicField('PEInstitution'),
-      // this.revalidateBasicField('PEYearOfPassing'),
-      // this.revalidateBasicField('PEMarksPercent'),
-      // this.revalidateBasicField('PEClassObtained'),
-      // this.revalidateBasicField('PEPrizes'),
       this.revalidateBasicField('PCInstitutionName'),
       this.revalidateBasicField('PCInstituteAddress'),
       this.revalidateBasicField('PCPinCode'),
@@ -153,6 +149,15 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     super(services);
     this.value = new EducationLoanDetailsModel();
     this.componentCode = 'EducationLoanDetails';
+
+    this.childToEduSubscription = this.services.rloCommonData.modalDataSubject.subscribe((event) => {
+      switch (event.action) {
+        case 'parseInputGridRecords':
+          this.generateCostAndFundsList(this.tempCostFundsList);
+          event.action = undefined;
+          break;
+      }
+    });
   }
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
@@ -177,7 +182,8 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     await this.PastEducationGrid.gridDataLoad({
       'ApplicationId': this.ApplicationId
     });
-    await this.FetchEducationLoanDtls();
+    if (!this.clearFieldsFlag) { await this.FetchEducationLoanDtls(); }
+
 
     this.setDependencies();
   }
@@ -228,6 +234,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('EducationLoanDetails_customCss');
     styleElement.parentNode.removeChild(styleElement);
+    this.childToEduSubscription.unsubscribe();
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -282,19 +289,23 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
       this.services.http.fetchApi('/EducationLoan', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
-          let EducationDtls = res['EducationLoan'];
-          if (EducationDtls) {
-            console.log("shweta :: Education loan fetched : ", EducationDtls);
-            this.parseFetchEducationResp(EducationDtls);
-            // let array = [];
-            // array.push({ isValid: true, sectionData: this.getFieldValue() });
-            // let obj = {
-            //   "name": "EducationDetails",
-            //   "data": array,
-            //   "sectionName": "EducationDetails"
-            // }
-            // console.log("shweta ::: in application section", array);
-            // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+          if (res) {
+            let EducationDtls = res['EducationLoan'];
+            if (EducationDtls) {
+              console.log("shweta :: Education loan fetched : ", EducationDtls);
+              this.parseFetchEducationResp(EducationDtls);
+              // let array = [];
+              // array.push({ isValid: true, sectionData: this.getFieldValue() });
+              // let obj = {
+              //   "name": "EducationDetails",
+              //   "data": array,
+              //   "sectionName": "EducationDetails"
+              // }
+              // console.log("shweta ::: in application section", array);
+              // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+            }
+          } else {
+            this.fetchLoanDtls();
           }
         },
         async (httpError) => {
@@ -306,28 +317,78 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
       this.setDependencies();
     }
   }
+  fetchLoanDtls() {
+    let inputMap = new Map();
+    inputMap.clear();
+    if (this.ApplicationId) {
+      let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": this.ApplicationId
+        }
+      });
+      inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+      this.services.http.fetchApi('/LoanDtls', 'GET', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          let res = httpResponse.body;
+          let LoanDtls = res['LoanDtls'];
+          if (LoanDtls) {
+            console.log("shweta :: only loan fetched : ", LoanDtls);
+            this.parseLoanDtls(LoanDtls[0]);
+            this.CostOfCourseGrid.loadRecords();
+            this.FundsAvailableGrid.loadRecords();
+          }
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+        }
+      );
+      this.setDependencies();
+    }
+
+  }
+  parseLoanDtls(LoanDtls) {
+    this.LoanRequied.setValue(LoanDtls.LoanRequiredAmt);
+    this.TenurePeriod = LoanDtls.TenurePeriod;
+    this.LoanSeq = LoanDtls.LoanSeq;
+    this.LTotMoratorium.setValue(LoanDtls.TotalMoratoriumPeriod);
+    this.LTotLoanPeriod.setValue(LoanDtls.TotalLoanPeriod);
+  }
   parseFetchEducationResp(EducationDtls) {
     console.log("shweta :: edu resp", EducationDtls, " : ", EducationDtls[0]['costAndFundsGridDtls']);
     this.ParseEducationSummDtls(EducationDtls[0]);
-    this.generateCostAndFundsList(EducationDtls[0]['costAndFundsGridDtls']);
     this.parsePersuingCourseDtls(EducationDtls[0]['pursuingCourseDtls']);
+    this.tempCostFundsList = EducationDtls[0]['costAndFundsGridDtls'];
+    if (this.CostOfCourseGrid.CostOfCourseMap.size > 0 && this.FundsAvailableGrid.FundsAvailableMap.size > 0) {
+      this.generateCostAndFundsList(this.tempCostFundsList);
+    }
+    else {
+      this.CostOfCourseGrid.doSubscribeFlag = this.CostOfCourseGrid.CostOfCourseMap.size > 0 ? false : true;
+      this.FundsAvailableGrid.doSubscribeFlag = this.FundsAvailableGrid.FundsAvailableMap.size > 0 ? false : true;
+    }
   }
+
   ParseEducationSummDtls(EducationDtlsSumm) {
     this.EdLoanSummSeq = EducationDtlsSumm.EducationLoanSummSeq;
     this.LCurrency.setValue(EducationDtlsSumm.Currency);
-    this.LoanRequied.setValue(EducationDtlsSumm.loanDtls.LoanRequiredAmt);
     this.LMoratoriumDurCoursePeriod.setValue(EducationDtlsSumm.MoratoriumDuringCourse);
     this.LMoratoriumPostCoursePeriod.setValue(EducationDtlsSumm.MoratoriumAfterCourse);
-    this.TotalCost = EducationDtlsSumm.TotalCost;
-    this.TotalCostEq = EducationDtlsSumm.TotalCostEq;
-    this.TotalFund = EducationDtlsSumm.TotalFund;
-    this.TotalFundEq = EducationDtlsSumm.TotalCostEq;
+    this.CostOfCourseGrid.TotalAmount.setValue(EducationDtlsSumm.TotalCost);
+    this.CostOfCourseGrid.TotalLocalCurEq.setValue(EducationDtlsSumm.TotalCostEq);
+    this.FundsAvailableGrid.TotalAmount.setValue(EducationDtlsSumm.TotalFund);
+    this.FundsAvailableGrid.TotalLocalCurEq.setValue(EducationDtlsSumm.TotalCostEq);
+    this.LEMIPeriod.setValue(EducationDtlsSumm.EMIPeriod);
+    this.LIsInterestCaptalized.setValue(EducationDtlsSumm.InterestCapitalizedFlag);
+    this.LoanRequied.setValue(EducationDtlsSumm.loanDtls.LoanRequiredAmt);
     this.TenurePeriod = EducationDtlsSumm.loanDtls.TenurePeriod;
     this.LoanSeq = EducationDtlsSumm.loanDtls.LoanSeq;
     this.LTotMoratorium.setValue(EducationDtlsSumm.loanDtls.TotalMoratoriumPeriod);
-    this.LEMIPeriod.setValue(EducationDtlsSumm.EMIPeriod);
     this.LTotLoanPeriod.setValue(EducationDtlsSumm.loanDtls.TotalLoanPeriod);
-    this.LIsInterestCaptalized.setValue(EducationDtlsSumm.InterestCapitalizedFlag);
   }
   parsePersuingCourseDtls(PursuingCourse) {
     this.PursuingCourseSeq = PursuingCourse.PursuingCourseSeq;
@@ -368,16 +429,17 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   }
   generateCostAndFundsList(tempCostAndFundsList) {
     console.log("shweta :: cost and funds list", tempCostAndFundsList);
-    // let costSrNo=0;
-    // let fundSrNo=0;
+    if (this.CostOfCourseGrid.doSubscribeFlag || this.CostOfCourseGrid.doSubscribeFlag) {
+      return;
+    }
     if (tempCostAndFundsList != undefined) {
       tempCostAndFundsList.forEach(element => {
         let tempObj: CostOrFundsInterface = {}
-        if (this.CostOfCourseGrid.CostOfCourseMap.has(element.TransactionDescription)) {
+        if (this.CostOfCourseGrid.CostOfCourseMap.has(element.TransactionDescription) && element.TransactionType=='C') {
           tempObj = this.CostOfCourseGrid.CostOfCourseMap.get(element.TransactionDescription);
           //  tempObj.SrNo=costSrNo+1;
         }
-        else if (this.FundsAvailableGrid.FundsAvailableMap.has(element.TransactionDescription)) {
+        else if (this.FundsAvailableGrid.FundsAvailableMap.has(element.TransactionDescription)&& element.TransactionType=='F') {
           tempObj = this.FundsAvailableGrid.FundsAvailableMap.get(element.TransactionDescription);
           //  tempObj.SrNo=fundSrNo+1;
         }
@@ -386,7 +448,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           tempObj.ApplicationId = element.ApplicationId;
           tempObj.TransactionType = element.TransactionType;
           tempObj.TransactionDescription = element.TransactionDescription;
-          tempObj.LoanSummSeq = element.LoanSummSeq;
+          tempObj.LoanSummSeq = this.EdLoanSummSeq;
           tempObj.Amount = element.Amount;
           tempObj.Version = element.Version;
           tempObj.Currency = element.Currency;
@@ -529,7 +591,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
       else if (err['ErrorElementPath'] == 'PastEducation.ExamPassed') {
         this.PEExamPassed.setError(err['ErrorDescription']);
       }
-
       else if (err['ErrorElementPath'] == 'PastEducation.PassingYear') {
         this.PEYearOfPassing.setError(err['ErrorDescription']);
       }
@@ -578,19 +639,33 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
 
   generateEduSaveUpdateReq(inputMap) {
     inputMap.clear();
-    if (this.PastEdSeq != undefined) {
-      inputMap.set('PathParam.PastEdSeq', this.PastEdSeq);
+    if (this.EdLoanSummSeq != undefined) {
+      inputMap.set('PathParam.EducationLoanSummSeq', this.EdLoanSummSeq);
     }
     inputMap.set('Body.EducationLoan.ApplicationId', this.ApplicationId);
-    inputMap.set('Body.EducationLoan.EducationLoanSummSeq', this.PEPrizes.getFieldValue());
-    inputMap.set('Body.EducationLoan.TotalCost', this.PEClassObtained.getFieldValue());
-    inputMap.set('Body.EducationLoan.TotalCostEq', this.EdLoanSummSeq);
-    inputMap.set('Body.EducationLoan.TotalFund', this.PEExamPassed.getFieldValue());
-    inputMap.set('Body.EducationLoan.TotalFundEq', this.PEYearOfPassing.getFieldValue());
-    inputMap.set('Body.EducationLoan.InterestCapitalizedFlag', this.PEInstitution.getFieldValue());
+    inputMap.set('Body.EducationLoan.TotalCost', this.CostOfCourseGrid.TotalAmount.getFieldValue());
+    inputMap.set('Body.EducationLoan.TotalCostEq', this.CostOfCourseGrid.TotalLocalCurEq.getFieldValue());
+    inputMap.set('Body.EducationLoan.TotalFund', this.FundsAvailableGrid.TotalAmount.getFieldValue());
+    inputMap.set('Body.EducationLoan.TotalFundEq', this.FundsAvailableGrid.TotalLocalCurEq.getFieldValue());
+    inputMap.set('Body.EducationLoan.InterestCapitalizedFlag', this.LIsInterestCaptalized.getFieldValue());
+    inputMap.set('Body.EducationLoan.Currency', this.LCurrency.getFieldValue());
     inputMap.set('Body.EducationLoan.pursuingCourseDtls', this.generatePersuingCourseSaveReq());
     inputMap.set('Body.EducationLoan.costAndFundsGridDtls', this.generateCostAndFundsReq());
+    inputMap.set('Body.EducationLoan.loanDtls', this.generateLoanReq());
+
     return inputMap;
+  }
+  generateLoanReq() {
+    let inputObj = {};
+    inputObj['TenurePeriod'] = "MTHS";
+    inputObj['LoanSeq'] = this.LoanSeq;
+    inputObj['ApplicationId']=this.ApplicationId;
+    inputObj['TotalLoanPeriod'] = this.LTotLoanPeriod.getFieldValue();
+    inputObj['TotalMoratoriumPeriod'] = this.LTotMoratorium.getFieldValue();
+    inputObj['LoanRequiredAmt'] = this.LoanRequied.getFieldValue();
+
+
+    return inputObj;
   }
   generateCostAndFundsReq() {
     let CostAndFundsList = [];
@@ -601,15 +676,15 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   }
   mapCostandFundsRecords(CostAndFundsList, TransactionList, TransactionType) {
     TransactionList.forEach(element => {
-      let inputObj = new Map();
-      inputObj.set('ApplicationId', this.ApplicationId);
-      inputObj.set('TransactionType', element.TransactionType == undefined ? TransactionType : element.TransactionType);
-      inputObj.set('TransactionDescription', element.TransactionDescription);
-      inputObj.set('LoanSummSeq', element.LoanSummSeq);
-      inputObj.set('Amount', element.Amount);
-      inputObj.set('EdTransactionSeq', element.EdTransactionSeq);
-      inputObj.set('Currency', element.Currency);
-      inputObj.set('CurrencyEquivalentAmt', element.CurrencyEquivalentAmt);
+      let inputObj: CostOrFundsInterface = {};
+      inputObj.ApplicationId = this.ApplicationId;
+      inputObj.LoanSummSeq = element.LoanSummSeq;
+      inputObj.EdTransactionSeq = element.EdTransactionSeq;
+      inputObj.TransactionDescription = element.mstId;
+      inputObj.TransactionType = element.TransactionType == undefined ? TransactionType : element.TransactionType;
+      inputObj.Amount = element.Amount;
+      inputObj.Currency = this.LCurrency.getFieldValue();
+      inputObj.CurrencyEquivalentAmt = element.CurrencyEquivalentAmt;
       CostAndFundsList.push(inputObj);
       // inputMap.set('CreatedBy',element.);
       //  inputMap.set('UpdatedBy',element.);
@@ -619,56 +694,13 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     });
     return CostAndFundsList;
   }
-  // generatePersuingCourseSaveReq() {
-  //   let inputObj = {};
-  //   if (this.PastEdSeq != undefined) {
-  //     inputMap.set('PursuingCourseSeq', this.PastEdSeq);
-  //   }
-  //   if (this.EdLoanSummSeq != undefined) {
-  //     inputMap.set('LoanSummSeq', this.EdLoanSummSeq);
-  //   }
-  //   inputMap.set('PrContactPerson', this.PCContactPerson.getFieldValue());
-  //   inputMap.set('PrPincode', this.PCPinCode.getFieldValue());
-  //   inputMap.set('PrAdmissionThrough', this.PCAdmitionThrough.getFieldValue());
-  //   inputMap.set('PrCity', this.PCCity.getFieldValue());
-  //   inputMap.set('PrAddress', this.PCInstituteAddress.getFieldValue());
-  //   inputMap.set('PrCourseRank', this.PCRanking.getFieldValue());
-  //   inputMap.set('PrState', this.PCState.getFieldValue());
-  //   inputMap.set('PrAdmissionStatus', this.PCAdmissionStatus.getFieldValue());
-  //   inputMap.set('PrCourseFor', this.PCAppliedFor.getFieldValue());
-  //   inputMap.set('PrCourseType', this.PCCourseType.getFieldValue());
-  //   inputMap.set('SecInstituteName', this.PCCollegeName.getFieldValue());
-  //   inputMap.set('SecCourseName', this.PCName2.getFieldValue());
-  //   inputMap.set('PrRegion', this.PCRegion.getFieldValue());
-  //   inputMap.set('PrCourseName', this.PCName.getFieldValue());
-  //   inputMap.set('PrCountry', this.PCCountry.getFieldValue());
-  //   inputMap.set('PrCourseStartDt', this.PCStartDate.getFieldValue());
-  //   inputMap.set('PrRecognizedAuthority', this.RecognizedAuthority.getFieldValue());
-  //   inputMap.set('PrCourseCategory', this.PCCategory.getFieldValue());
-  //   inputMap.set('SecAddress', this.PCCollegeAddress.getFieldValue());
-  //   inputMap.set('SecCourseEndDate', this.PCEndDate.getFieldValue());
-  //   inputMap.set('ApplicationId', this.ApplicationId);
-  //   inputMap.set('PrInstituteName', this.PCInstitutionName.getFieldValue());
-  //   inputMap.set('PrCourseEndDt', this.PCCompeteDate.getFieldValue());
-  //   inputMap.set('SecCourseFlag', this.PCIsAttending.getFieldValue());
-  //   //inputMap.set('UpdatedBy',this..getFieldValue());
-  //   //inputMap.set('Version',this..getFieldValue());
-  //   //inputMap.set('UpdatedOn',this.a.getFieldValue());
-  //   //inputMap.set('CreatedOn',this.a.getFieldValue());
-  //   //inputMap.set('CreatedBy',this..getFieldValue());
 
-  //   return inputMap;
-
-  // }
 
   generatePersuingCourseSaveReq() {
     let inputObj = {};
-    if (this.PastEdSeq != undefined) {
-      inputObj['PursuingCourseSeq'] = this.PastEdSeq;
-    }
-    if (this.EdLoanSummSeq != undefined) {
-      inputObj['LoanSummSeq'] = this.EdLoanSummSeq;
-    }
+
+    inputObj['PursuingCourseSeq'] = this.PursuingCourseSeq;
+    inputObj['LoanSummSeq'] = this.EdLoanSummSeq;
     inputObj['PrContactPerson'] = this.PCContactPerson.getFieldValue();
     inputObj['PrPincode'] = this.PCPinCode.getFieldValue();
     inputObj['PrAdmissionThrough'] = this.PCAdmitionThrough.getFieldValue();
@@ -702,16 +734,17 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     return inputObj;
 
   }
-  ED_SAVE_BTN_click(event) {
+  async ED_SAVE_BTN_click(event) {
     let inputMap = new Map();
-    this.PE_SAVE_BTN.setDisabled(true);
-    let numberOfErrors: number = 0;
-    if (numberOfErrors == 0) {
-      if (this.PastEdSeq != undefined) {
+    // this.ED_SAVE_BTN.setDisabled(true);
+    //var noOfError: number = await this.revalidate();
+    var noOfError: number = 0;
+    if (noOfError == 0) {
+      if (this.EdLoanSummSeq != undefined) {
 
         inputMap = this.generateEduSaveUpdateReq(inputMap);
 
-        this.services.http.fetchApi('/EducationLoan/{PastEdSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
+        this.services.http.fetchApi('/EducationLoan/{EducationLoanSummSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
@@ -719,18 +752,18 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
               'ApplicationId': this.ApplicationId
             });
             this.PE_CLEAR_BTN_click({});
-            this.PE_SAVE_BTN.setDisabled(false);
+            this.ED_SAVE_BTN.setDisabled(false);
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
             this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
-            this.PE_SAVE_BTN.setDisabled(false);
+            this.ED_SAVE_BTN.setDisabled(false);
           }
         );
       }
       else {
         inputMap = this.generateEduSaveUpdateReq(inputMap);
-        this.services.http.fetchApi('/PastEducation', 'POST', inputMap, '/rlo-de').subscribe(
+        this.services.http.fetchApi('/EducationLoan', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
@@ -738,20 +771,56 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
               'ApplicationId': this.ApplicationId
             });
             this.PE_CLEAR_BTN_click({});
-            this.PE_SAVE_BTN.setDisabled(false);
+            this.ED_SAVE_BTN.setDisabled(false);
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
             this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
-            this.PE_SAVE_BTN.setDisabled(false);
+            this.ED_SAVE_BTN.setDisabled(false);
           }
         );
       }
     }
     else {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
-      this.PE_SAVE_BTN.setDisabled(false);
+      this.ED_SAVE_BTN.setDisabled(false);
     }
+  }
+
+  async LCurrency_blur(event) {
+    console.log("shweta : hidden exchange rate : ", this.hidExchangeRate.getFieldValue());
+    this.CostOfCourseGrid.hidExchangeRate = this.hidExchangeRate.getFieldValue();
+    this.FundsAvailableGrid.hidExchangeRate = this.hidExchangeRate.getFieldValue();
+    this.CostOfCourseGrid.Amount.toArray().forEach((element, index) => {
+      let tempObj = { "columnId": "Amount", "rowNo": index, "value": element.value };
+      this.CostOfCourseGrid.Amount_blur(tempObj, undefined, undefined);
+    });
+    //this.CostOfCourseGrid.updateTotal();
+    this.FundsAvailableGrid.Amount.toArray().forEach((element, index) => {
+      let tempObj = { "columnId": "Amount", "rowNo": index, "value": element.value };
+      this.FundsAvailableGrid.Amount_blur(tempObj, undefined, undefined);
+    });
+  }
+
+  async LMoratoriumDurCoursePeriod_blur(event){
+    this.setTotMortorium();
+  }
+async LMoratoriumPostCoursePeriod_blur(event){
+  this.setTotMortorium();
+}
+  setTotMortorium(){
+let preMort:number=this.LMoratoriumDurCoursePeriod.getFieldValue()!=undefined && this.LMoratoriumDurCoursePeriod.getFieldValue()!=""?parseInt(this.LMoratoriumDurCoursePeriod.getFieldValue()):0;
+let postMort:number=this.LMoratoriumPostCoursePeriod.getFieldValue()!=undefined && this.LMoratoriumPostCoursePeriod.getFieldValue()!="" ?parseInt(this.LMoratoriumPostCoursePeriod.getFieldValue()):0;
+this.LTotMoratorium.setValue(preMort+postMort);
+}
+async LEMIPeriod_blur(event){
+  let EMIPeriod:number=this.LEMIPeriod.getFieldValue()!=undefined?parseInt(this.LEMIPeriod.getFieldValue()):0;
+  let totMort:number=this.LTotMoratorium.getFieldValue()!=undefined?parseInt(this.LTotMoratorium.getFieldValue()):0;
+  this.LTotLoanPeriod.setValue(EMIPeriod+totMort);
+}
+  ED_CLEAR_BTN_click($event) {
+    this.clearFieldsFlag = true;
+    this.onReset();
   }
 
   fieldDependencies = {

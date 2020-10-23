@@ -2293,14 +2293,16 @@
     "SrNo" : "Sr. No",
     "Amount" : "Amount",
     "CostOfTheCourse" : "Cost Of The Course",
-    "LocalCurEq" : "Local Currency Equivalen"
+    "LocalCurEq" : "Local Currency Equivalen",
+    "Total":"Total"
     },
     "FundsAvailableGrid" : {
     "GridTitle" : "FundsAvailableGrid",
     "SrNo" : "Sr. No",
     "Amount" : "Amount",
     "FundsAvailable" : "Funds Available",
-    "LocalCurEq" : "Local Currency Equivalent"
+    "LocalCurEq" : "Local Currency Equivalent",
+    "Total":"Total"
     },
     "EducationLoanDetails" : {
     "PCEndDate" : "Course End Date",

@@ -13,6 +13,7 @@ import { HiddenComponent } from '../hidden/hidden.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { CostOrFundsInterface } from '../EducationLoanDetails/Education-loan-interfaces';
+
 const customCss: string = '';
 @Component({
   selector: 'app-FundsAvailableGrid',
@@ -23,30 +24,13 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
   @ViewChildren('FundsAvailable') FundsAvailable: QueryList<ReadOnlyComponent>;
   @ViewChildren('Amount') Amount: QueryList<AmountComponent>;
   @ViewChildren('LocalCurEq') LocalCurEq: QueryList<AmountComponent>;
+  @ViewChild('TotalAmount', { static: false }) TotalAmount: AmountComponent;
+  @ViewChild('TotalLocalCurEq', { static: false }) TotalLocalCurEq: AmountComponent;
 
-  //FundsAvailableList: CostOrFundsInterface[]=[];
-  FundsAvailableMap: Map<string, CostOrFundsInterface> = new Map();
   showAdd: boolean = false;
-  // MstRecords= [
-  //   {
-  //   'SrNo': 1,
-  //     'FundsAvailable': 'Own Source',
-  //    // 'Amount':,
-  // //'LocalCurEq':0.00
-  //   },
-  //   {
-  //     'SrNo': 2,
-  //     'FundsAvailable': 'Scholarship',
-  //     //'Amount':0.00,
-  // //'LocalCurEq':0.00
-  //   },
-  //   {
-  //     'SrNo': 3,
-  //     'FundsAvailable': 'Others',
-  //     'Amount':200,
-  // 'LocalCurEq':300
-  //   },
-  // ];
+  FundsAvailableMap: Map<string, CostOrFundsInterface> = new Map();
+  hidExchangeRate: number = undefined;
+  doSubscribeFlag: boolean = false;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
@@ -80,16 +64,19 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
       this.gridLoad();
     });
   }
+
   async gridLoad() {
     this.fetchMstFundList();
-    // this.loadRecords();
     this.showHideAddRowIcon(0);
   }
 
   async onRowAdd(rowNo) {
     this.LocalCurEq.toArray()[rowNo].setReadOnly(true);
+    this.TotalAmount.setReadOnly(true);
+    this.TotalLocalCurEq.setReadOnly(true);
     this.showHideAddRowIcon(0);
   }
+
   showHideAddRowIcon(rowlimit) {
     console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
     if (this.value.rowData.length <= rowlimit) {
@@ -98,9 +85,11 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
       this.showAdd = false;
     }
   }
+
   async onRowDelete(rowNo) {
     this.showHideAddRowIcon(1);
   }
+
   getFieldInfo() {
     let addInfo = [];
     for (var i = 0; i < this.getRowsCount(); i++) {
@@ -118,13 +107,17 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
       let rowData = {};
       rowData['SrNo'] = element.SrNo;
       rowData['FundsAvailable'] = element.mstText;
+      //rowData['Amount'] = element.Amount == undefined ? 0.00 : element.Amount;
+      //rowData['LocalCurEq'] = element.Amount == undefined ? 0.00 : element.CurrencyEquivalentAmt;
       rowData['Amount'] = element.Amount;
-      rowData['LocalCurEq'] = element.CurrencyEquivalentAmt;
+      rowData['LocalCurEq'] =element.CurrencyEquivalentAmt;
       let rowCounter = this.addRow(rowData);
-      console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
+      //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
     });
-    console.log("shweta :: complete record fetched", this.value.rowData);
+    // console.log("shweta :: complete record fetched", this.value.rowData);
+    //this.updateTotal();
   }
+
   fetchMstFundList() {
     let inputMap = new Map();
     this.FundsAvailableMap.clear();
@@ -136,21 +129,60 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
       async (httpResponse: HttpResponse<any>) => {
         let res = httpResponse.body;
         let tempList = res['Data'];
-        console.log("res", res);
         if (tempList) {
           let counter = 1;
           tempList.forEach(element => {
             this.FundsAvailableMap.set(element.id, { SrNo: counter++, mstId: element.id, mstText: element.text });
           });
+          if (this.doSubscribeFlag) {
+            this.doSubscribeFlag = false;
+            this.services.rloCommonData.modalDataSubject.next({
+              action: 'parseInputGridRecords'
+            });
+          }
         }
       }
     );
   }
 
-  Amount_blur(FieldId, $event, rowNo) {
-    console.log(this.Amount.toArray()[FieldId.rowNo]);
-    let tempCurrency = Number(FieldId.value) + 100;
-    this.LocalCurEq.toArray()[FieldId.rowNo].setValue(tempCurrency);
+  Amount_blur(element, $event, rowNo) {
+    console.log(this.Amount.toArray()[element.rowNo]);
+    let newEquivalentAmt = this.ConvertInLocalCurrency(element.value);
+    this.LocalCurEq.toArray()[element.rowNo].setValue(newEquivalentAmt);
+    this.updateSelectedObj(element, newEquivalentAmt);
+    this.updateTotal();
+  }
+  ConvertInLocalCurrency(newAmount) {
+    if (this.hidExchangeRate != undefined && newAmount != undefined) {
+      return this.hidExchangeRate * newAmount;
+    }
+    return 0;
+  }
+  updateTotal() {
+    let totAmount: number = 0;
+    this.Amount.forEach((element: any) => {
+      if(element.getFieldValue()!=undefined){
+      totAmount += parseFloat(element.getFieldValue());
+      this.TotalAmount.setValue(totAmount.toFixed(2));
+      }
+    });
+    totAmount = 0;
+    this.LocalCurEq.forEach((element: any) => {
+      if(element.getFieldValue()!=undefined){
+      totAmount += parseFloat(element.getFieldValue());
+      this.TotalLocalCurEq.setValue(totAmount.toFixed(2));
+      }
+    });
+  }
+
+  updateSelectedObj(FieldId, newEquivalentAmt) {
+    let selectedDesc = this.FundsAvailable.toArray()[FieldId.rowNo].getFieldValue();
+    this.FundsAvailableMap.forEach(element => {
+      if (element.mstText == selectedDesc) {
+        element.Amount = FieldId.value;
+        element.CurrencyEquivalentAmt = newEquivalentAmt;
+      }
+    });
   }
 
   fieldDependencies = {}

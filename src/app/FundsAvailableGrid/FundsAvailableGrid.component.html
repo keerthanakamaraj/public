@@ -1,7 +1,4 @@
 <div class="row" *ngIf="displayTitle">
-  <div class="col-sm-5 col-md-5">
-    <h4>{{ 'FundsAvailableGrid.GridTitle' | translate }}</h4>
-  </div>
 </div>
 <table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
   (click)="clearGridError()">
@@ -40,9 +37,6 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('FundsAvailable')">
-          <!-- <app-text-box #FundsAvailable fieldID="FundsAvailable_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['FundsAvailable']" [formCode]="formCode" placeholder="Placeholder"
-            [mandatory]="true" (blur)="genericOnBlur('FundsAvailable', $event, rowNo)"></app-text-box> -->
             <rlo-ui-readonlyfield fontSize="13px" class="general-text" #FundsAvailable fieldID="FundsAvailable_{{rowNo}}" 
             [hidden]="isCellReadOnly[rowNo]['FundsAvailable']"
             [formCode]="formCode"
@@ -82,5 +76,16 @@
       </tr>
     </ng-container>
   </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td> {{ 'FundsAvailableGrid.Total' | translate }}</td>
+        <td><app-amount #TotalAmount fieldID="TotalAmount" 
+          (blur)="genericOnBlur('TotalAmount', $event)"></app-amount></td>
+        
+        <td><app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq" 
+          (blur)="genericOnBlur('TotalLocalCurEq', $event)"></app-amount></td>
+      </tr>
+</tfoot>
 </table>
 <span class="errorMessagespan">{{errorCode| translate}}</span>
