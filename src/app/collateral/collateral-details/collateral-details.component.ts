@@ -175,7 +175,7 @@ export class CollateralDetailsComponent extends FormCommonComponent implements O
         () => {
           // @CLO-RLO-Merge - Use RLO Error Handling
          // this.appService.success(this.getLabel('COLL_SAVED_SUCCESSFULLY'));
-         console.log('shweta :: collateral id ',this.collateralCommonFields.collateralCode);
+        // console.log('shweta :: collateral id ',this.collateralCommonFields.collateralCode);
          if(this.collateralCommonFields.collateralCode ==undefined || this.collateralCommonFields.collateralCode =="" ){
           this.services.alert.showAlert(1, 'rlo.success.save.collateral', 5000);
          }else{

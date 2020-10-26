@@ -2353,7 +2353,9 @@
     "LTotMoratorium":"Total Moratorium (months)",
     "LEMIPeriod":"EMI Period (months)",
     "LTotLoanPeriod":"Total Loan Period (months)",
-    "LIsInterestCaptalized":"Select if Interest will be capitalized during Moratorium Period"
+    "LIsInterestCaptalized":"Select if Interest will be capitalized during Moratorium Period",
+    "ED_SAVE_BTN":"SAVE",
+    "ED_CLEAR_BTN":"CLEAR"
   },
   "PreCPVInputGrid" : {
     "SelectCity" : "Select City",

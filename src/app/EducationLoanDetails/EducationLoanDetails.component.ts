@@ -737,8 +737,8 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   async ED_SAVE_BTN_click(event) {
     let inputMap = new Map();
     // this.ED_SAVE_BTN.setDisabled(true);
-    //var noOfError: number = await this.revalidate();
-    var noOfError: number = 0;
+    var noOfError: number = await this.revalidate();
+    //var noOfError: number = 0;
     if (noOfError == 0) {
       if (this.EdLoanSummSeq != undefined) {
 
@@ -751,7 +751,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
             this.PastEducationGrid.gridDataLoad({
               'ApplicationId': this.ApplicationId
             });
-            this.PE_CLEAR_BTN_click({});
+            this.onReset();
             this.ED_SAVE_BTN.setDisabled(false);
           },
           async (httpError) => {
@@ -770,7 +770,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
             this.PastEducationGrid.gridDataLoad({
               'ApplicationId': this.ApplicationId
             });
-            this.PE_CLEAR_BTN_click({});
+            this.onReset();
             this.ED_SAVE_BTN.setDisabled(false);
           },
           async (httpError) => {
