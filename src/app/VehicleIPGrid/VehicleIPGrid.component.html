@@ -1,7 +1,7 @@
 <div class="row" *ngIf="displayTitle">
 </div>
-<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
-  (click)="clearGridError()">
+<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+  [ngClass]="{'gridError':error}" (click)="clearGridError()">
   <thead>
     <tr>
       <th [hidden]="isColumnHidden('VehicleCostBreakup')" width="25%">
@@ -19,7 +19,8 @@
       </td>
     </tr>
     <ng-container *ngFor="let row of value.rowData;let rowNo = index;let even = even; let odd = odd;">
-      <tr (click)="clearRowError(rowNo)" class="tr-td-l" [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
+      <tr (click)="clearRowError(rowNo)" class="tr-td-l"
+        [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
         <!-- <td [hidden]="isColumnHidden('SrNo')">
             <rlo-ui-readonlyfield fontSize="13px" class="general-text" #SrNo fieldID="SrNo_{{rowNo}}" 
             [hidden]="isCellReadOnly[rowNo]['SrNo']"
@@ -33,11 +34,10 @@
           </div>
         </td> -->
         <td [hidden]="isColumnHidden('VehicleCostBreakup')">
-          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VehicleCostBreakup fieldID="VehicleCostBreakup_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['VehicleCostBreakup']"
-            [formCode]="formCode"
-            (blur)="genericOnBlur('VehicleCostBreakup', $event, rowNo)">
-            </rlo-ui-readonlyfield>
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VehicleCostBreakup
+            fieldID="VehicleCostBreakup_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['VehicleCostBreakup']"
+            [formCode]="formCode" (blur)="genericOnBlur('VehicleCostBreakup', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['VehicleCostBreakup']">
             <p class="label-text" [title]="this['VehicleCostBreakup'].toArray()[rowNo].getFieldInfo()">
               {{this['VehicleCostBreakup'].toArray()[rowNo].getFieldInfo()}}
@@ -55,9 +55,10 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('LocalCurrencyEquivalent')">
-          <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['LocalCurrencyEquivalent']"
-            [formCode]="formCode" placeholder="Placeholder" [DecimalLength]="20" [mandatory]="true"
-            (blur)="genericOnBlur('LocalCurrencyEquivalent', $event, rowNo)"></app-amount>
+          <app-amount #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['LocalCurrencyEquivalent']" [formCode]="formCode" placeholder="Placeholder"
+            [DecimalLength]="20" [mandatory]="true" (blur)="genericOnBlur('LocalCurrencyEquivalent', $event, rowNo)">
+          </app-amount>
           <div *ngIf="isCellReadOnly[rowNo]['LocalCurrencyEquivalent']">
             <p class="label-text" [title]="this['LocalCurrencyEquivalent'].toArray()[rowNo].getFieldInfo()">
               {{this['LocalCurrencyEquivalent'].toArray()[rowNo].getFieldInfo()}}
@@ -73,14 +74,17 @@
     </ng-container>
   </tbody>
   <tfoot>
-      <tr>
-        <td>{{ 'VehicleIPGrid.Total' | translate }}</td>
-          <td><app-amount #TotalAmount fieldID="TotalAmount" 
-            (blur)="genericOnBlur('TotalAmount', $event)"></app-amount></td>
-          
-          <td><app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq" 
-            (blur)="genericOnBlur('TotalLocalCurEq', $event)"></app-amount></td>
-        </tr>
+    <tr>
+      <td>{{ 'VehicleIPGrid.Total' | translate }}</td>
+      <td>
+        <app-amount #TotalAmount fieldID="TotalAmount" (blur)="genericOnBlur('TotalAmount', $event)"></app-amount>
+      </td>
+
+      <td>
+        <app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq" (blur)="genericOnBlur('TotalLocalCurEq', $event)">
+        </app-amount>
+      </td>
+    </tr>
   </tfoot>
 </table>
 <span class="errorMessagespan">{{errorCode| translate}}</span>

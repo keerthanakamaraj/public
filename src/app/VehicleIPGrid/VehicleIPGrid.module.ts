@@ -7,24 +7,24 @@ import { VehicleIPGridComponent } from './VehicleIPGrid.component';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { GridModule } from '../grid/grid.module';
 @NgModule({
-imports: [
-CommonModule,
-RAFormModule,
-GridModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-VehicleIPGridComponent,
-],
-exports:[
-VehicleIPGridComponent,
-],
+  imports: [
+    CommonModule,
+    RAFormModule,
+    GridModule,
+    HttpClientModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+  ],
+  declarations: [
+    VehicleIPGridComponent,
+  ],
+  exports: [
+    VehicleIPGridComponent,
+  ],
 })
 export class VehicleIPGridModule { }

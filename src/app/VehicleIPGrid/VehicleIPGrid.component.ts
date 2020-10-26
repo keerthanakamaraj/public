@@ -20,7 +20,7 @@ const customCss: string = '';
 })
 export class VehicleIPGridComponent extends GridComponent implements OnInit {
   @ViewChildren('VehicleCostBreakup') VehicleCostBreakup: QueryList<ReadOnlyComponent>;
-  @ViewChildren('Currency') Currency: QueryList<ComboBoxComponent>;
+  // @ViewChildren('Currency') Currency: QueryList<ComboBoxComponent>;
   @ViewChildren('Amount') Amount: QueryList<AmountComponent>;
   @ViewChildren('LocalCurrencyEquivalent') LocalCurrencyEquivalent: QueryList<AmountComponent>;
   @ViewChild('TotalAmount', { static: false }) TotalAmount: AmountComponent;
@@ -38,7 +38,7 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
     super(services, cdRef);
     this.value = new VehicleIPGridModel();
     this.componentCode = 'VehicleIPGrid';
-    this.initRowCount = 4;
+    this.initRowCount = 0;
     this.uniqueColumns = [];
     this.primaryColumns = [];
   }

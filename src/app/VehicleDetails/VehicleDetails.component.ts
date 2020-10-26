@@ -223,19 +223,21 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
       this.services.http.fetchApi('/VehicleDetails', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
-          let VehicleDtls = res['VehicleDetails'];
-          if (VehicleDtls) {
-            console.log("shweta :: Education loan fetched : ", VehicleDtls);
-            this.parseFetchVehicleResp(VehicleDtls);
-            // let array = [];
-            // array.push({ isValid: true, sectionData: this.getFieldValue() });
-            // let obj = {
-            //   "name": "EducationDetails",
-            //   "data": array,
-            //   "sectionName": "EducationDetails"
-            // }
-            // console.log("shweta ::: in application section", array);
-            // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+          if (res != null) {
+            let VehicleDtls = res['VehicleDetails'];
+            if (VehicleDtls) {
+              console.log("shweta :: Education loan fetched : ", VehicleDtls);
+              this.parseFetchVehicleResp(VehicleDtls);
+              // let array = [];
+              // array.push({ isValid: true, sectionData: this.getFieldValue() });
+              // let obj = {
+              //   "name": "EducationDetails",
+              //   "data": array,
+              //   "sectionName": "EducationDetails"
+              // }
+              // console.log("shweta ::: in application section", array);
+              // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+            }
           }
           else {
             this.VehicaleCostDetails.loadRecords();
@@ -253,8 +255,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   parseFetchVehicleResp(VehicleDtls) {
     console.log("abc :: edu resp", VehicleDtls, " : ", VehicleDtls[0]['VehicaleCostDetails']);
     this.ParseVehicleSummDtls(VehicleDtls[0]);
+    this.tempCostFundsList = VehicleDtls[0]['VehicaleCostDetails'];
     if (this.VehicaleCostDetails.VehicleDetailsMap.size > 0) {
-      this.tempCostFundsList = VehicleDtls[0]['VehicaleCostDetails'];
       this.generateCostAndFundsList(this.tempCostFundsList);
     } else {
       this.VehicaleCostDetails.doSubscribeFlag = this.VehicaleCostDetails.VehicleDetailsMap.size > 0 ? false : true;
