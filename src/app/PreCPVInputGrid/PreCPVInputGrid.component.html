@@ -3,33 +3,33 @@
     <h4>{{ 'PreCPVInputGrid.GridTitle' | translate }}</h4>
   </div>
 </div>
-<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
-  (click)="clearGridError()">
+<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+  [ngClass]="{'gridError':error}" (click)="clearGridError()">
   <thead>
     <tr class="tr-blue tr-td-l">
-      <th [hidden]="isColumnHidden('SrNo')" width="10%">
+      <th [hidden]="isColumnHidden('SrNo')" width="10">
         {{ 'PreCPVInputGrid.SrNo' | translate }}</th>
-      <th [hidden]="isColumnHidden('CustomerName')" width="25%">
+      <th [hidden]="isColumnHidden('CustomerName')" width="30">
         {{ 'PreCPVInputGrid.CustomerName' | translate }}</th>
-      <th [hidden]="isColumnHidden('VerificationType')" width="25%">
+      <th [hidden]="isColumnHidden('VerificationType')" width="30">
         {{ 'PreCPVInputGrid.VerificationType' | translate }}</th>
-      <th [hidden]="isColumnHidden('Details')" width="25%">
+      <th [hidden]="isColumnHidden('Details')" width="40">
         {{ 'PreCPVInputGrid.Details' | translate }}</th>
-      <th [hidden]="isColumnHidden('SelectCity')" width="25%">
+      <th [hidden]="isColumnHidden('SelectCity')" width="30">
         {{ 'PreCPVInputGrid.SelectCity' | translate }}</th>
-      <th [hidden]="isColumnHidden('SelectAgency')" width="25%">
+      <th [hidden]="isColumnHidden('SelectAgency')" width="30">
         {{ 'PreCPVInputGrid.SelectAgency' | translate }}</th>
-      <th [hidden]="isColumnHidden('RemarksForAgency')" width="25%">
+      <th [hidden]="isColumnHidden('RemarksForAgency')" width="30">
         {{ 'PreCPVInputGrid.RemarksForAgency' | translate }}</th>
-      <th [hidden]="isColumnHidden('WaiveOff')" width="25%">
+      <th [hidden]="isColumnHidden('WaiveOff')" width="10">
         {{ 'PreCPVInputGrid.WaiveOff' | translate }}</th>
-      <th [hidden]="isColumnHidden('RetriggerStatus')" width="25%">
+      <th [hidden]="isColumnHidden('RetriggerStatus')" width="30">
         {{ 'PreCPVInputGrid.RetriggerStatus' | translate }}</th>
-    <th [hidden]="isColumnHidden('AddVerificationType')" width="25%">
-      {{ 'PreCPVInputGrid.AddVerificationType' | translate }}</th>
-  <th [hidden]="isColumnHidden('Initiate')" width="25%">
-    {{ 'PreCPVInputGrid.Initiate' | translate }}</th>
-</tr>
+      <th [hidden]="isColumnHidden('AddVerificationType')" width="10">
+        {{ 'PreCPVInputGrid.AddVerificationType' | translate }}</th>
+      <th [hidden]="isColumnHidden('Initiate')" width="10">
+        {{ 'PreCPVInputGrid.Initiate' | translate }}</th>
+    </tr>
   </thead>
   <tbody>
     <tr *ngIf="getRowsCount()==0">
@@ -44,9 +44,12 @@
           {{rowNo + 1}}
         </td>
         <td [hidden]="isColumnHidden('CustomerName')">
-          <app-combo-box #CustomerName category="2" fieldID="CustomerName_{{rowNo}}"
+          <!-- <app-combo-box #CustomerName category="2" fieldID="CustomerName_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['CustomerName']" [formCode]="formCode" placeholder="Placeholder"
-            [mandatory]="true" (blur)="genericOnBlur('CustomerName', $event, rowNo)"></app-combo-box>
+            [mandatory]="true" (blur)="genericOnBlur('CustomerName', $event, rowNo)"></app-combo-box> -->
+          <app-combo-box #CustomerName category="4" fieldID="CustomerName_{{rowNo}}" placeholder="Select"
+            [emittedOptions]="customerDropDownList" (blur)="genericOnBlur('CustomerName', $event, rowNo)">
+          </app-combo-box>
           <div *ngIf="isCellReadOnly[rowNo]['CustomerName']">
             <p class="label-text" [title]="this['CustomerName'].toArray()[rowNo].getFieldInfo()">
               {{this['CustomerName'].toArray()[rowNo].getFieldInfo()}}
@@ -54,9 +57,13 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('VerificationType')">
-          <app-combo-box #VerificationType category="2" fieldID="VerificationType_{{rowNo}}"
+          <!-- <app-combo-box #VerificationType category="2" fieldID="VerificationType_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['VerificationType']" [formCode]="formCode" placeholder="Placeholder"
-            [mandatory]="true" (blur)="genericOnBlur('VerificationType', $event, rowNo)"></app-combo-box>
+            [mandatory]="true" (blur)="genericOnBlur('VerificationType', $event, rowNo)"></app-combo-box> -->
+          <app-combo-box #VerificationType category="4" fieldID="VerificationType_{{rowNo}}" placeholder="Select"
+            [emittedOptions]="vrfnDropDownList" (change)="VerificationType_Change()"
+            (blur)="genericOnBlur('VerificationType', $event, rowNo)">
+          </app-combo-box>
           <div *ngIf="isCellReadOnly[rowNo]['VerificationType']">
             <p class="label-text" [title]="this['VerificationType'].toArray()[rowNo].getFieldInfo()">
               {{this['VerificationType'].toArray()[rowNo].getFieldInfo()}}
@@ -64,32 +71,43 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('Details')">
-          <app-combo-box #Details category="2" fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
+          <!-- <app-combo-box #Details category="2" fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
             [formCode]="formCode" placeholder="Placeholder" [mandatory]="true"
-            (blur)="genericOnBlur('Details', $event, rowNo)"></app-combo-box>
+            (blur)="genericOnBlur('Details', $event, rowNo)"></app-combo-box> -->
+          <app-text-area #Details fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
+            [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('Details', $event, rowNo)"></app-text-area>
           <div *ngIf="isCellReadOnly[rowNo]['Details']">
             <p class="label-text" [title]="this['Details'].toArray()[rowNo].getFieldInfo()">
               {{this['Details'].toArray()[rowNo].getFieldInfo()}}
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('SelectCity')">
-          <app-combo-box #SelectCity category="2" fieldID="SelectCity_{{rowNo}}"
+        <td [hidden]="isColumnHidden('City')">
+          <!-- <app-combo-box #SelectCity category="2" fieldID="SelectCity_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['SelectCity']" [formCode]="formCode" placeholder="Placeholder"
-            [mandatory]="true" (blur)="genericOnBlur('SelectCity', $event, rowNo)"></app-combo-box>
-          <div *ngIf="isCellReadOnly[rowNo]['SelectCity']">
-            <p class="label-text" [title]="this['SelectCity'].toArray()[rowNo].getFieldInfo()">
-              {{this['SelectCity'].toArray()[rowNo].getFieldInfo()}}
+            [mandatory]="true" (blur)="genericOnBlur('SelectCity', $event, rowNo)"></app-combo-box> -->
+          <!-- <app-combo-box #City category="4" fieldID="City_{{rowNo}}" placeholder="Select"
+            [emittedOptions]="cityDropDownList" (change)="City_Change()" (blur)="genericOnBlur('City', $event, rowNo)">
+     </app-combo-box> -->
+          <app-combo-box #City category="2" fieldID="City_{{rowNo}}" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MstCityDetails/{CityCd}" domainObjectCode="MstCityDetails" doServerUrl="/masters"
+            (blur)="genericOnBlur('City', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['City']">
+            <p class="label-text" [title]="this['City'].toArray()[rowNo].getFieldInfo()">
+              {{this['City'].toArray()[rowNo].getFieldInfo()}}
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('SelectAgency')">
-          <app-combo-box #SelectAgency category="2" fieldID="SelectAgency_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['SelectAgency']" [formCode]="formCode" placeholder="Placeholder"
-            [mandatory]="true" (blur)="genericOnBlur('SelectAgency', $event, rowNo)"></app-combo-box>
-          <div *ngIf="isCellReadOnly[rowNo]['SelectAgency']">
-            <p class="label-text" [title]="this['SelectAgency'].toArray()[rowNo].getFieldInfo()">
-              {{this['SelectAgency'].toArray()[rowNo].getFieldInfo()}}
+        <td [hidden]="isColumnHidden('Agency')">
+          <!-- <app-combo-box #Agency category="2" fieldID="Agency_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['Agency']" [formCode]="formCode" placeholder="Placeholder"
+            [mandatory]="true" (blur)="genericOnBlur('Agency', $event, rowNo)"></app-combo-box> -->
+          <app-combo-box #Agency category="2" placeholder="Select" fieldID="Agency" [formCode]="formCode"
+            domainObjectUrl="/AgencyDtls/{AgencySeq}" domainObjectCode="AgencyDtls" doServerUrl="/masters"
+            (blur)="genericOnBlur('Agency', $event, rowNo)"></app-combo-box>
+          <div *ngIf="isCellReadOnly[rowNo]['Agency']">
+            <p class="label-text" [title]="this['Agency'].toArray()[rowNo].getFieldInfo()">
+              {{this['Agency'].toArray()[rowNo].getFieldInfo()}}
             </p>
           </div>
         </td>
@@ -124,10 +142,11 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('AddVerificationType')">
-          <app-button #AddVerificationType fieldName="{{ 'PreCPVInputGrid.Plus' | translate}}" fieldID="AddVerificationType_{{rowNo}}"
-          [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="addEmptyRow(rowNo)">
-        </app-button>
-        <!-- AddVerificationType_click(rowNo,$event) -->
+          <app-button #AddVerificationType fieldName="{{ 'PreCPVInputGrid.Plus' | translate}}"
+            fieldID="AddVerificationType_{{rowNo}}" [formCode]="formCode" customClass="btn btn-primary"
+            (buttonClick)="addEmptyRow(rowNo)">
+          </app-button>
+          <!-- AddVerificationType_click(rowNo,$event) -->
           <div *ngIf="isCellReadOnly[rowNo]['AddVerificationType']">
             <p class="label-text" [title]="this['AddVerificationType'].toArray()[rowNo].getFieldInfo()">
               {{this['AddVerificationType'].toArray()[rowNo].getFieldInfo()}}
@@ -135,7 +154,7 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('Initiate')">
-            <app-button #Initiate fieldName="{{ 'PreCPVInputGrid.INITIATE' | translate}}" fieldID="Initiate_{{rowNo}}"
+          <app-button #Initiate fieldName="{{ 'PreCPVInputGrid.INITIATE' | translate}}" fieldID="Initiate_{{rowNo}}"
             [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Initiate_click(rowNo,$event)">
           </app-button>
           <div *ngIf="isCellReadOnly[rowNo]['Initiate']">

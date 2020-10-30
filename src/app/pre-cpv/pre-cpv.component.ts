@@ -26,7 +26,8 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { UtilityService } from '../services/utility.service';
 import { threadId } from 'worker_threads';
 import { PreCPVInputGridComponent } from '../PreCPVInputGrid/PreCPVInputGrid.component';
-import { DisbursInputGridComponent } from '../DisbursInputGrid/DisbursInputGrid.component';
+
+
 const customCss: string = '';
 
 @Component({
@@ -35,10 +36,10 @@ const customCss: string = '';
 })
 export class PreCPVComponent extends FormComponent implements OnInit, AfterViewInit {
   @ViewChild('HEADER', { static: false }) HEADER: HeaderComponent;
- 
+
   @ViewChild('AD_CUST_REMARKS', { static: false }) AD_CUST_REMARKS: TextAreaComponent;
 
- 
+
   @ViewChild('PreCPV_APPROVE', { static: false }) PreCPV_APPROVE: ButtonComponent;
   @ViewChild('PreCPV_WITHDRAW', { static: false }) PreCPV_WITHDRAW: ButtonComponent;
   @ViewChild('PreCPV_SENDBACK', { static: false }) PreCPV_SENDBACK: ButtonComponent;
@@ -52,8 +53,7 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
   @ViewChild('PreCPV_CLOSE', { static: false }) PreCPV_CLOSE: ButtonComponent;
-  @ViewChild('PreCPVGrid', {static: false}) PreCPVGrid: PreCPVInputGridComponent;
-  @ViewChild('DisbursalGrid', {static: false}) DisbursalGrid: DisbursInputGridComponent;
+  @ViewChild('PreCPVGrid', { static: false }) PreCPVGrid: PreCPVInputGridComponent;
 
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
   ApplicationId: any;
@@ -61,8 +61,8 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   taskId: any;
   instanceId: any;
   isLoanCategory: any = undefined;
-  
- 
+
+
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -100,12 +100,14 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
     this.taskId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'taskId');
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
-  
-this.ApplicationId='3322';
+
+    this.ApplicationId = '3322';
+    this.PreCPVGrid.ApplicationId = this.ApplicationId;
+    this.PreCPVGrid.fetchDefaultData();
     if (this.userId === undefined || this.userId === '') {
       this.claimTask(this.taskId);
     }
-this.fetchCustomers();
+
 
   }
 
@@ -192,67 +194,30 @@ this.fetchCustomers();
     this.services.rloui.goBack();
   }
 
-
-
-
-
- 
- 
-
   async PreCPV_SUBMIT_click(event) {
     console.log("submit clicked");
   }
   async PreCPV_WITHDRAW_click(event) {
-   console.log("withdraw clicked");
+    console.log("withdraw clicked");
   }
 
 
   async PreCPV_SENDBACK_click(event) {
-   console.log("sendback clicked")
+    console.log("sendback clicked")
   }
-  
+
   async PreCPV_CLOSE_click(event) {
-   console.log("close clicked");
+    console.log("close clicked");
   }
-  
+
   broadcastProdCategory(event) {
     console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
-
     this.isLoanCategory = event.isLoanCategory;
   }
 
-fetchCustomers(){
-  if (this.ApplicationId != undefined) {
-    let inputMap = new Map();
-  let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-  if (this.ApplicationId) {
-    criteriaJson.FilterCriteria.push({
-      "columnName": "ApplicationId",
-      "columnType": "String",
-      "conditions": {
-        "searchType": "equals",
-        "searchText": this.ApplicationId
-      }
-    });
-  inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-  this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
-    async (httpResponse: HttpResponse<any>) => {
-      var res = httpResponse.body;
-      let BorrowerDetail = res['BorrowerDetails'];
-       
-    },
-    async (httpError) => {
-      var err = httpError['error']
-      if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-      }
-      this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
-    }
-  );
-  }
-}
-}
+
   fieldDependencies = {
-   
+
   }
 }

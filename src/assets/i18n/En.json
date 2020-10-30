@@ -198,6 +198,10 @@
     "rlo.success.update.collateral":"The Collateral Details have been updated successfully.",
     "rlo.error.save.collateral":"Collateral Details could not be saved. Please try again.",
     "rlo.error.update.collateral":"Collateral Details could not be updated. Please try again.",
+    "rlo.success.precpv-initiate":"Verification Initiated successfully",
+    "rlo.error.precpv-initiate":"Verification Initiation failed. Please try again.",
+    "rlo.success.save.precpv-retrigged":"Verification retriggered successfully",
+    "rlo.error.vrfndtls-not-found":"details not available for selected verifacation. Please try another",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

@@ -12,7 +12,7 @@ import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module
 import { CustGridModule } from '../CustGrid/CustGrid.module';
 import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.module';
 import { PreCPVInputGridModule } from '../PreCPVInputGrid/PreCPVInputGrid.module';
-import {DisbursInputGridModule} from '../DisbursInputGrid/DisbursInputGrid.module';
+
 @NgModule({
 imports: [
 CommonModule,
@@ -31,8 +31,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-PreCPVInputGridModule,
-DisbursInputGridModule,
+PreCPVInputGridModule
 ],
 declarations: [
 PreCPVComponent,

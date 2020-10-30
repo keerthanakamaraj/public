@@ -32,15 +32,8 @@
       </div>
     </div>
     <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="PreCPVGrid.isHidden()">
-      <app-PreCPVInputGrid #PreCPVGrid fieldID="PreCPVGrid" [formCode]="formCode"
-        [displayTitle]="false"></app-PreCPVInputGrid>
-    </div>
-    <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DisbursalGrid.isHidden()">
-      <app-DisbursInputGrid #DisbursalGrid fieldID="DisbursalGrid"
-        [displayTitle]="false"></app-DisbursInputGrid>
-    </div> -->
-    <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DisbursalGrid.isHidden()">
-      <app-DisbursInputGrid #DisbursalGrid fieldID="DisbursalGrid" [formCode]="formCode"></app-DisbursInputGrid>
+      <app-PreCPVInputGrid #PreCPVGrid fieldID="PreCPVGrid" [formCode]="formCode" [displayTitle]="false">
+      </app-PreCPVInputGrid>
     </div>
     <app-hidden #HideCurrentStage fieldID="HideCurrentStage"></app-hidden>
     <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
@@ -52,5 +45,5 @@
     <app-hidden #HideServiceCodeComplete fieldID="HideServiceCodeComplete"></app-hidden>
     <app-hidden #hideDirection fieldID="hideDirection"></app-hidden>
     <app-hidden #HideDecision fieldID="HideDecision"></app-hidden>
-    </div>
+  </div>
 </form>
