@@ -117,32 +117,6 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     );
   }
 
-  // City_blur(element, $event, rowNo){
-  //   this.fetchAgencyList(element);
-  // }
-  fetchAgencyList(selectedCity) {
-    let inputMap = new Map();
-    // this.AList=[];
-    inputMap.set('QueryParam.lookup', 1);
-    inputMap.set('QueryParam.CityCode', selectedCity.value);
-    this.services.http.fetchApi('/AgencyDtls', 'GET', inputMap, '/masters').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        let tempList = res['Data'];
-        if (tempList) {
-          this.cityDropDownList = tempList;
-          this.cityDropDownList.unshift({ id: undefined, text: "" });
-          //  this.LocalCurEq.toArray()[element.rowNo].
-          this.City.forEach(element => {
-            element.setStaticListOptions(this.cityDropDownList);
-          });
-          // tempList.forEach(element => {
-          //   this.vrfnDropDownList.push({id: element.id, text: element.text });
-          // });
-        }
-      }
-    );
-  }
 
   async fetchVrfnCodeList() {
     let inputMap = new Map();
@@ -275,8 +249,10 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     if (noOfError == 0) {
       this.Initiate.toArray()[rowNo].setDisabled(true);
       inputMap = this.generateInitiateReqJSON(inputMap, rowNo);
+      
       console.log("shweta :: intiation req json", inputMap)
-      this.services.http.fetchApi('/EducationLoan', 'POST', inputMap, '/rlo-de').subscribe(
+      inputMap.set('PathParam.proposal-id', this.ApplicationId);
+      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.precpv-initiate', 5000);
