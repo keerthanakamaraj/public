@@ -81,10 +81,10 @@
       <td></td>
       <td> {{ 'FundsAvailableGrid.Total' | translate }}</td>
         <td><app-amount #TotalAmount fieldID="TotalAmount" 
-          (blur)="genericOnBlur('TotalAmount', $event)"></app-amount></td>
+          (blur)="genericOnBlur('TotalAmount', $event,undefined)"></app-amount></td>
         
         <td><app-amount #TotalLocalCurEq fieldID="TotalLocalCurEq" 
-          (blur)="genericOnBlur('TotalLocalCurEq', $event)"></app-amount></td>
+          (blur)="genericOnBlur('TotalLocalCurEq', $event,undefined)"></app-amount></td>
       </tr>
 </tfoot>
 </table>
