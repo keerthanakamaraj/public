@@ -15,3 +15,13 @@ export interface verificationInterface{
 verificationCode?:any,
 details?:any,
 }
+
+export interface CPVGlobalInterface {
+  city?:any,
+  type?:any,
+  customerSeq?:any,
+  customerName?:any,
+  customerType?:any,
+  verificationList?:verificationInterface[],
+  mobileNumberflag?:boolean;
+}

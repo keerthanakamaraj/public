@@ -252,7 +252,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
       
       console.log("shweta :: intiation req json", inputMap)
       inputMap.set('PathParam.proposal-id', this.ApplicationId);
-      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap, '/rlo-de').subscribe(
+      this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap, '/los-verification').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.precpv-initiate', 5000);
@@ -285,20 +285,20 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
 
   GenerateProposalVrfnJson(rowNo) {
     let verificationSummList = [];
-    let CPVReqObj = {};
-    CPVReqObj['BorrowerSeq'] = this.CustomerName.toArray()[rowNo].getFieldValue();
-    CPVReqObj['CpvType'] = this.VerificationType.toArray()[rowNo].getFieldValue();
-    // CPVReqObj['City']=this.City.toArray()[rowNo].getFieldValue();
-    CPVReqObj['AgencyName'] = this.Agency.toArray()[rowNo].getFieldValue();
-    CPVReqObj['SpecificInstructions'] = this.RemarksForAgency.toArray()[rowNo].getFieldValue();
-    CPVReqObj['VerificationWaived'] = this.WaiveOff.toArray()[rowNo].getFieldValue();
-
     let vrfnSummObj = {}
+    vrfnSummObj['BorrowerSeq'] = this.CustomerName.toArray()[rowNo].getFieldValue();
+    vrfnSummObj['CpvType'] = this.VerificationType.toArray()[rowNo].getFieldValue();
+    // vrfnSummObj['City']=this.City.toArray()[rowNo].getFieldValue();
+    vrfnSummObj['AgencyName'] = this.Agency.toArray()[rowNo].getFieldValue();
+    vrfnSummObj['SpecificInstructions'] = this.RemarksForAgency.toArray()[rowNo].getFieldValue();
+    vrfnSummObj['VerificationWaived'] = this.WaiveOff.toArray()[rowNo].getFieldValue();
+    vrfnSummObj['ProposalVerificationID'] = ''
+
     vrfnSummObj['AppRefNum'] = '1030MOR08840990';
     vrfnSummObj['ProposalId'] = this.ApplicationId;
-    vrfnSummObj['VerificationType'] = 'CPV';
+    vrfnSummObj['VerificationType'] = 'CpvReq';
     vrfnSummObj['VerificationStatus'] = 'Initiated';
-    vrfnSummObj['CpvReq'] = CPVReqObj;
+   // vrfnSummObj['CpvReq'] = CPVReqObj;
 
     verificationSummList.push(vrfnSummObj);
     return verificationSummList;
@@ -326,3 +326,4 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
 
 
 }
+

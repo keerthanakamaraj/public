@@ -120,6 +120,11 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
       this.mode = params['mode'];
     }
   }
+
+  async headerState(event) {
+    this.showExpandedHeader = event.headerState;
+  }
+  
   async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'PreCPV';
     await super.submit(path, apiCode, serviceCode);

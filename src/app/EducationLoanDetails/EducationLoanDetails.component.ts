@@ -391,6 +391,9 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.LTotLoanPeriod.setValue(EducationDtlsSumm.loanDtls.TotalLoanPeriod);
   }
   parsePersuingCourseDtls(PursuingCourse) {
+    if(PursuingCourse==undefined){
+      return;
+    }
     this.PursuingCourseSeq = PursuingCourse.PursuingCourseSeq;
     this.PCInstitutionName.setValue(PursuingCourse.PrInstituteName);
     this.PCInstituteAddress.setValue(PursuingCourse.PrAddress);
@@ -659,10 +662,10 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     let inputObj = {};
     inputObj['TenurePeriod'] = "MTHS";
     inputObj['LoanSeq'] = this.LoanSeq;
-    inputObj['ApplicationId']=this.ApplicationId;
+  //  inputObj['ApplicationId']=this.ApplicationId;
     inputObj['TotalLoanPeriod'] = this.LTotLoanPeriod.getFieldValue();
     inputObj['TotalMoratoriumPeriod'] = this.LTotMoratorium.getFieldValue();
-    inputObj['LoanRequiredAmt'] = this.LoanRequied.getFieldValue();
+  //  inputObj['LoanRequiredAmt'] = this.LoanRequied.getFieldValue();
 
 
     return inputObj;
