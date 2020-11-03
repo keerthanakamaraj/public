@@ -45,6 +45,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_PHYSICAL_FRM_NO', { static: false }) BAD_PHYSICAL_FRM_NO: TextBoxComponent;
   @ViewChild('BAD_DATE_OF_RCPT', { static: false }) BAD_DATE_OF_RCPT: DateComponent;
   @ViewChild('BAD_SRC_CHANNEL', { static: false }) BAD_SRC_CHANNEL: ComboBoxComponent;
+  @ViewChild('BAD_CARD_TYPE', { static: false }) BAD_CARD_TYPE: ComboBoxComponent;
+  @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
+  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: ComboBoxComponent;
+  @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
+  
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: ComboBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
   @ViewChild('BAD_PROD_CAT', { static: false }) BAD_PROD_CAT: RLOUIRadioComponent;
@@ -69,7 +74,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_MOBILE', { static: false }) CD_MOBILE: RloUiMobileComponent;
   @ViewChild('CD_DOB', { static: false }) CD_DOB: DateComponent;
   @ViewChild('CD_CUST_SGMT', { static: false }) CD_CUST_SGMT: ComboBoxComponent;
-
+  @ViewChild('CD_CUST_SUB_SGMT', { static: false }) CD_CUST_SUB_SGMT: ComboBoxComponent;
+  @ViewChild('REF_CIF', { static: false }) REF_CIF: TextBoxComponent;
+  
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   @ViewChild('CD_LOAN_OWNERSHIP', { static: false }) CD_LOAN_OWNERSHIP: AmountComponent;
   @ViewChild('CD_ADD', { static: false }) CD_ADD: ButtonComponent;
@@ -114,12 +121,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('hidTitle', { static: false }) hidTitle: HiddenComponent;
   @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
   @ViewChild('hidCustSeg', { static: false }) hidCustSeg: HiddenComponent;
+  @ViewChild('hidCustSubSgmnt', { static: false }) hidCustSubSgmnt: HiddenComponent;
+  
   @ViewChild('hideExsCust', { static: false }) hideExsCust: HiddenComponent;
   @ViewChild('hideAppPurpose', { static: false }) hideAppPurpose: HiddenComponent;
   @ViewChild('hideTenurePeriod', { static: false }) hideTenurePeriod: HiddenComponent;
   @ViewChild('INIT_ACCORD', { static: false }) INIT_ACCORD: RloUiAccordionComponent;
   @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
   @ViewChild('allowCoBorrower', { static: false }) allowCoBorrower: HiddenComponent;
+  @ViewChild('hideCardType', { static: false }) hideCardType: HiddenComponent;
+  @ViewChild('hideCardCustomerType', { static: false }) hideCardCustomerType: HiddenComponent;
 
   //custom
   @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: RloUiCurrencyComponent;
@@ -162,7 +173,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('CD_DOB'),
       this.revalidateBasicField('CD_GENDER'),
       this.revalidateBasicField('CD_MOBILE'),
-      this.revalidateBasicField('CD_TAX_ID'),
+      // this.revalidateBasicField('CD_TAX_ID'),
       this.revalidateBasicField('CD_DEBIT_SCORE'),
       this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('CD_EMAIL_ID'),
@@ -271,7 +282,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_PROMOTION'),
         this.revalidateBasicField('RD_REFERRER_NAME'),
         this.revalidateBasicField('RD_REFERRER_NO'),
-        this.revalidateBasicField('BAD_PRIME_USAGE')
+        this.revalidateBasicField('BAD_PRIME_USAGE'),
+        this.revalidateBasicField('BAD_CARD_NUMBER'),
+        this.revalidateBasicField('BAD_CARD_TYPE'),
+        this.revalidateBasicField('BAD_CUSTOMER_TYPE'),
+        this.revalidateBasicField('BAD_REQ_CARD_LIMIT')
       ]).then((errorCounts) => {
         errorCounts.forEach((errorCount) => {
           totalErrors += errorCount;
@@ -325,11 +340,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hidTitle.setValue('TITLE');
     this.hidGender.setValue('GENDER');
     this.hidCustSeg.setValue('CUST_SEGMENT');
+    this.hidCustSubSgmnt.setValue('CUST_SEGMENT');
     this.hideExsCust.setValue('YES_NO');
     this.hideAppPurpose.setValue('APPLICATION_PURPOSE');
     this.hideTenurePeriod.setValue('PERIOD');
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
-
+    this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
+    this.hideCardType.setValue('EXISTING_CARD_TYPE');
 
     this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
@@ -456,7 +473,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     this.services.rloui.openCustomerSearch();
 
-    return;
     this.searchbutton = 'Y';
     let inputMap = new Map();
     inputMap.clear();
@@ -786,6 +802,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
+
+
+        inputMap.set('Body.ApplicationDetails.RequsetedCardLimit', this.BAD_REQ_CARD_LIMIT.getFieldValue());
+        inputMap.set('Body.ApplicationDetails.ExistingCardNumber', this.BAD_CARD_NUMBER.getFieldValue());
+        inputMap.set('Body.ApplicationDetails.ExistingCardType', this.BAD_CARD_TYPE.getFieldValue());
+        inputMap.set('Body.ApplicationDetails.CustomerType', this.BAD_CUSTOMER_TYPE.getFieldValue());
+        
         // inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
@@ -1242,6 +1265,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
+    CD_CUST_SUB_SGMT: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "CD_CUST_SUB_SGMT", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidCustSeg", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
     LD_TENURE_PERIOD: {
       inDep: [
 
@@ -1271,7 +1304,31 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
       ]
+    },
+
+
+    BAD_CARD_TYPE: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "BAD_CARD_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCardType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    BAD_CUSTOMER_TYPE: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCardCustomerType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
     }
+
+
     // CD_COUNTRY_CODE: {
     //   inDep: [
 

@@ -1589,6 +1589,14 @@
     "CD_DOB": "Date Of Birth",
     "CD_RESET": "Reset",
     "BAD_SUB_PROD": "Sub Product",
+
+    "BAD_CARD_TYPE": "Card Type",
+    "BAD_CARD_NUMBER": "Card Number",
+    "BAD_CUSTOMER_TYPE": "Customer Type",
+    "BAD_REQ_CARD_LIMIT": "Requested Card Limit",
+
+    "CD_CUST_SUB_SGMT": "Customer Subsegment",
+    
     "CD_STAFF": "Is the Customer an employee?",
     "LD_TENURE": "Tenure",
     "RD_REFERRER_NO": "Referrer Mobile No.",
@@ -1653,6 +1661,7 @@
     "LD_CHK_ELGBTY_BTN": "CHECK ELIGIBILITY",
     "CD_LOAN_OWNERSHIP": "Loan Ownership (%)",
     "CD_CIF": "CIF No.",
+    "REF_CIF": "CIF No.",
     "LD_INTEREST_RATE": "Interest Rate",
     "LD_LTV_DBR": "LTV / DBR (%)",
     "PROMOTION_LABEL": "Have a promotion to apply?",

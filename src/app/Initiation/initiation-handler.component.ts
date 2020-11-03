@@ -264,6 +264,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_MOBILE.setComponentSpecificValue(customer.mobileNumber, customer.countryCode);
     this.MainComponent.CD_DEBIT_SCORE.setValue(customer.debitScore);
     this.MainComponent.CD_CUST_SGMT.setValue(customer.customerSegment.value, customer.customerSegment.label);
+    this.MainComponent.CD_CUST_SUB_SGMT.setValue(customer.customerSubSegment.value, customer.customerSubSegment.label);
     this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
@@ -440,6 +441,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.mobileNumber = this.MainComponent.CD_MOBILE.getFieldValue();
     customer.debitScore = this.MainComponent.CD_DEBIT_SCORE.getFieldValue();
     customer.customerSegment = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_SGMT);
+    customer.customerSubSegment = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_SUB_SGMT);    
     customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
     customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
@@ -513,6 +515,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['MobileNo'] = this.customers[i].mobileNumber;
         tempObj['DebitScore'] = this.customers[i].debitScore;
         tempObj['CustomerSegment'] = this.customers[i].customerSegment.value;
+        tempObj['CustSubSegment'] = this.customers[i].customerSubSegment.value;        
         tempObj['IsStaff'] = this.customers[i].staff.value;
         tempObj['StaffID'] = this.customers[i].staffId;
         tempObj['ICIFNumber'] = this.customers[i].customerId;
@@ -537,6 +540,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         CustomerType: 'R',
         FullName: this.MainComponent.RD_REFERRER_NAME.getFieldValue(),
         MobileNo: this.MainComponent.RD_REFERRER_NO.getFieldValue(),
+        CIF: this.MainComponent.REF_CIF.getFieldValue(),
         ISDCountryCode: this.MainComponent.RD_REFERRER_NO.countryCode
       });
     }
@@ -688,6 +692,7 @@ class Customer {
   mobileNumber: string;
   debitScore: string;
   customerSegment: ValueLabel;
+  customerSubSegment: ValueLabel;
   staff: ValueLabel;
   staffId: string;
   loanOwnership: string;
