@@ -10,11 +10,18 @@ Run `start-server.bat` for a dev server. Navigate to `http://localhost:1841/`. T
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-Build Command for Standalone ( Currently demo )
+Build Command for Demo Deployment
 
 ```sh
 ng build --configuration demo --base-href /rlo/ --sourceMap=true
 ```
+
+Build Command for Canara IUT Deployment
+
+```sh
+ng build --configuration canara-iut --base-href /rlo/ --sourceMap=true
+```
+
 
 ## Tools for development
 
