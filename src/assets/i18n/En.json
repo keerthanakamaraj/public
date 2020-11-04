@@ -1781,7 +1781,9 @@
     "MaidenName" : "Maiden Name",
     "EmbLine4" : "Embossing line4",
     "EmbLineFlag" : "Embossing Line Applicable",
-    "CustSubSegment" : "Customer Sub Segment"
+    "CustSubSegment" : "Customer Sub Segment",
+    "CardDispatchMode" : "Pickup Instruction",
+    "RequestedAmountLimit" : "Requested Amount Limit"
   },
   "QDE": {
     "FieldId_1": "null",
@@ -1815,9 +1817,11 @@
     "CC_CHANNEL": "Channel",
     "CC_PRIME_USAGE": "Prime Usage",
     "CC_CARD_TYPE": "Type Of Card",
-    "CC_CARD_ASSOCIATION": " Card Association"
-
-
+    "CC_CARD_ASSOCIATION": " Card Association",
+    "CARD_NUMBER" : "Card Number",
+    "SANCTION_CREDIT_LIMIT" : "Sanctioned Credit Number",
+    "SANCTION_CASH_LIMIT"  :  "Sactioned Cas Limit",
+    "REQ_CARD_LIMIT" : "Requested Card Limit"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",

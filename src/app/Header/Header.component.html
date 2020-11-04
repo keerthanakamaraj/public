@@ -223,9 +223,51 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('CC_CARD_ASSOCIATION', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
+                              
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CARD_NUMBER.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CARD_NUMBER' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CARD_NUMBER fieldID="CARD_NUMBER"
+                                        [formCode]="formCode" (blur)="genericOnBlur('CARD_NUMBER', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="REQ_CARD_LIMIT.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.REQ_CARD_LIMIT' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #REQ_CARD_LIMIT fieldID="REQ_CARD_LIMIT"
+                                        [formCode]="formCode" (blur)="genericOnBlur('REQ_CARD_LIMIT', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="SANCTION_CREDIT_LIMIT.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.SANCTION_CREDIT_LIMIT' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #SANCTION_CREDIT_LIMIT fieldID="SANCTION_CREDIT_LIMIT"
+                                        [formCode]="formCode" (blur)="genericOnBlur('SANCTION_CREDIT_LIMIT', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="SANCTION_CASH_LIMIT.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.SANCTION_CASH_LIMIT' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #SANCTION_CASH_LIMIT fieldID="SANCTION_CASH_LIMIT"
+                                        [formCode]="formCode" (blur)="genericOnBlur('SANCTION_CASH_LIMIT', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
                                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                             </div>
+
 
                         </div>
                         <div class="col-12  col-sm-4 col-md-4 res-pr-hide">

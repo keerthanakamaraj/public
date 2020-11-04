@@ -23,6 +23,7 @@ import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.co
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { Subject } from 'rxjs';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss = '';
 
@@ -65,6 +66,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   // @ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
   @ViewChild('CD_CUST_SEGMENT', { static: false }) CD_CUST_SEGMENT: ComboBoxComponent;
+ 
   @ViewChild('CD_LOAN_OWN', { static: false }) CD_LOAN_OWN: TextBoxComponent;
   // @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
   @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
@@ -101,6 +103,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('hideISDCode', { static: false }) hideISDCode: HiddenComponent;
   @ViewChild('hideCitizenship', { static: false }) hideCitizenship: HiddenComponent;
   @ViewChild('CD_MOBILE_NO', { static: false }) CD_MOBILE_NO: RloUiMobileComponent;
+  @ViewChild('RequestedAmountLimit', { static: false }) RequestedAmountLimit: RloUiCurrencyComponent;
+  @ViewChild('CardDispatchMode', { static: false }) CardDispatchMode: ComboBoxComponent;
+  @ViewChild('hidCardDispatch', { static: false }) hidCardDispatch: HiddenComponent;
 
   @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
@@ -201,6 +206,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
     this.hideEmbLineFlag.setValue('Y_N');
     this.hideCustSubSegment.setValue('CUST_SUB_SEGMENT');
+    this.hidCardDispatch.setValue('CARD_DISPATACH');
 
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
@@ -534,6 +540,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustSubSegment', this.CustSubSegment.getFieldValue());
         inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.RequestedCreditLimit', this.RequestedAmountLimit.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.PickUpInstruction', this.CardDispatchMode.getFieldValue());
 
 
         console.log(inputMap, this.CD_MOBILE_NO.countryCode);
@@ -655,6 +663,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustSubSegment', this.CustSubSegment.getFieldValue());
         inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.RequestedCreditLimit', this.RequestedAmountLimit.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.PickUpInstruction', this.CardDispatchMode.getFieldValue());
 
 
 
@@ -880,7 +890,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_DOB.setValue(customer.DOB);
     this.CD_TAX_ID.setValue(customer.TaxID);
     this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
-    this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment);
+    this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment.id);
     this.CD_CUST_ID.setValue(customer.ICIFNumber);
     this.CD_STAFF_ID.setValue(customer.StaffID);
     // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
@@ -908,6 +918,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_STAFF.setValue(customer.IsStaff);
     this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
     this.CD_CIF.setValue(customer.CIF);
+   
+    this.CustSubSegment.setValue(customer.CustSubSegment.id);
+    this.RequestedAmountLimit.setValue(customer.RequestedCreditLimit);
+    this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
+
 
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
@@ -1090,16 +1105,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
-    CD_CUST_SEGMENT: {
-      inDep: [
-
-        { paramKey: "VALUE1", depFieldID: "CD_CUST_SEGMENT", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidCusSgmt", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+   
     CD_PREF_COM_CH: {
       inDep: [
 
@@ -1150,12 +1156,23 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
+    
+
+    CD_CUST_SEGMENT: {
+      inDep: [
+
+        { paramKey: "CustSegmentCd", depFieldID: "CD_CUST_SEGMENT"},
+       
+      ],
+      outDep: [
+      ]
+    },
+   
     CustSubSegment: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CustSubSegment", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideCustSubSegment", paramType: "QueryParam" },
+        { paramKey: "SubProductCd", depFieldID: "CustSubSegment", paramType: "PathParam" },
+        { paramKey: "SEGMENT_CD", depFieldID: "CD_CUST_SEGMENT", paramType: "QueryParam" },
       ],
       outDep: [
       ]
@@ -1170,6 +1187,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
+    CardDispatchMode: {
+      inDep: [
+          { paramKey: "VALUE1", depFieldID: "CardDispatchMode", paramType: "PathParam" },
+          { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+          { paramKey: "KEY1", depFieldID: "hidCardDispatch", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+  },
+
   }
   /* Write Custom Scripts Here */
 

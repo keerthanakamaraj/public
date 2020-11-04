@@ -1258,23 +1258,23 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     CD_CUST_SGMT: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_CUST_SGMT", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidCustSeg", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "CustSegmentCd", depFieldID: "CD_CUST_SGMT"},
+       
       ],
       outDep: [
       ]
     },
+   
     CD_CUST_SUB_SGMT: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_CUST_SUB_SGMT", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidCustSeg", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "SubProductCd", depFieldID: "CD_CUST_SUB_SGMT", paramType: "PathParam" },
+        { paramKey: "SEGMENT_CD", depFieldID: "CD_CUST_SGMT", paramType: "QueryParam" },
       ],
       outDep: [
       ]
     },
+    
     LD_TENURE_PERIOD: {
       inDep: [
 

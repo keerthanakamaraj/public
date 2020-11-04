@@ -547,8 +547,10 @@
                         {{ 'Initiation.CD_CUST_SGMT' | translate}}</label>
                     </div>
                     <app-combo-box #CD_CUST_SGMT category="2" fieldID="CD_CUST_SGMT" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"></app-combo-box>
+                    placeholder="Select" domainObjectUrl="/CustSegmentDetails/{CustSegmentCd}" doServerUrl="/masters"
+                     domainObjectCode="CustSegmentDetails" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"
+                    (change)="CD_CUST_SGMT_change('CD_CUST_SGMT', $event)"></app-combo-box>
+               
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SUB_SGMT.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -556,8 +558,8 @@
                         {{ 'Initiation.CD_CUST_SUB_SGMT' | translate}}</label>
                     </div>
                     <app-combo-box #CD_CUST_SUB_SGMT category="2" fieldID="CD_CUST_SUB_SGMT" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_SUB_SGMT', $event)"></app-combo-box>
+                      placeholder="Select" domainObjectUrl="/MstCustSubSegmentDtls/{SubSegmentCd}" doServerUrl="/masters"
+                      domainObjectCode="MstCustSubSegmentDtls" (blur)="genericOnBlur('CD_CUST_SUB_SGMT', $event)"></app-combo-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DEBIT_SCORE.isHidden()">
                     <div class="clr-brown fieldLegend">

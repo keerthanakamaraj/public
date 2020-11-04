@@ -59,6 +59,11 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('LD_TENURE', { static: false }) LD_TENURE: ReadOnlyComponent;
   @ViewChild('LD_SYS_RCMD_AMT', { static: false }) LD_SYS_RCMD_AMT: ReadOnlyComponent;
   @ViewChild('LD_USR_RCMD_AMT', { static: false }) LD_USR_RCMD_AMT: ReadOnlyComponent;
+  @ViewChild('REQ_CARD_LIMIT', { static: false }) REQ_CARD_LIMIT: ReadOnlyComponent;
+  @ViewChild('CARD_NUMBER', { static: false }) CARD_NUMBER: ReadOnlyComponent;
+  // @ViewChild('CARD_TYPE', { static: false }) CARD_TYPE: ReadOnlyComponent;
+  @ViewChild('SANCTION_CREDIT_LIMIT', { static: false }) SANCTION_CREDIT_LIMIT: ReadOnlyComponent;
+  @ViewChild('SANCTION_CASH_LIMIT', { static: false }) SANCTION_CASH_LIMIT: ReadOnlyComponent;
   @ViewChild('Handler', { static: false }) Handler: HeaderHandlerComponent;
   //Credt Card variables
   @ViewChild('CC_CUST_TYPE', { static: false }) CC_CUST_TYPE: ReadOnlyComponent;
@@ -248,8 +253,13 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
           this.CC_CHANNEL.setValue('Offline');
           this.channel = this.CC_CHANNEL.getFieldValue();
-          this.CC_CARD_TYPE.setValue('NA');
           this.CC_CARD_ASSOCIATION.setValue('NA');
+          this.CC_CARD_TYPE.setValue(header.CardTypename);
+          this.CARD_NUMBER.setValue(header.CardNumber);
+          this.SANCTION_CREDIT_LIMIT.setValue(header.SanctionCreditLimit);
+          this.SANCTION_CASH_LIMIT.setValue(header.SanctionCashLimit);
+          this.REQ_CARD_LIMIT.setValue(header.ReqCardLimit);
+
         }
         this.currency =localStorage.getItem("currency.code.default");
         this.apiSuccessCallback();
