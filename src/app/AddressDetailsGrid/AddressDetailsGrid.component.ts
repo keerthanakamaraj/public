@@ -298,7 +298,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
 						tempObj['AD_Address'] = this.services.rloutil.concatenate(fullAddressArr, ", ");
 
-						if (address[i].ResidenceDuration == undefined && address[i].Period.id == undefined) {
+						if (address[i].ResidenceDuration == undefined || address[i].ResidenceDuration == '' ) {
 							tempObj['AD_Residence_Duration'] = " ";
 						}// tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress;
 						else {

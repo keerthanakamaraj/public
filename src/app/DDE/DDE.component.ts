@@ -765,7 +765,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.disableMenus = false;
-    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
+    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
   }
 
   getCustomerId(customerType, borrowerSeq): string {
