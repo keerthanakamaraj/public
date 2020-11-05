@@ -10,6 +10,7 @@ import { InitiationComponent } from './Initiation.component';
 import { CustDtlsGridModule } from '../CustDtlsGrid/CustDtlsGrid.module';
 import { InitiationHandlerModule } from '../Initiation/initiation-handler.module';
 import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.module';
+import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.modul
     RloUiAccordionModule
   ],
   declarations: [
-    InitiationComponent
+    InitiationComponent,
+    RloUiCustomerSearchComponent
   ],
   exports: [
     InitiationComponent,

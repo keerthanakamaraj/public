@@ -9,7 +9,7 @@ import { Http } from '@angular/http';
 import { IModalData } from '../popup-alert/popup-interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
-import { IGeneralCardData } from '../Interface/masterInterface';
+import { ICustomSearchObject, IGeneralCardData } from '../Interface/masterInterface';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RloCommonData } from './rloCommonData.service';
@@ -58,7 +58,7 @@ export class RlouiService {
     { componentName: "Amortization", iconClass: "icon-generate-amortization" },//called from UW->card-tile
     { componentName: "FeesAndChargesDetails", iconClass: "icon-fees-charges" },//called from UW->card-tile
     { componentName: "DisbursementDetails", iconClass: "icon-disbursement-details" },//called from UW->card-tile
-    
+
     { componentName: "PropertyDetails", iconClass: "icon-property" },
     { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" },
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
@@ -256,7 +256,7 @@ export class RlouiService {
                     .map( val => val.value)[0];
   }
 
-  formatAmount(amount, languageCode?: string, minFraction?, currency?: string,hideSymbol?:boolean) {
+  formatAmount(amount, languageCode?: string, minFraction?, currency?: string, hideSymbol?: boolean) {
     // console.log("Format Amount " , amount);
     let amt: number;
     if (typeof amount == "string") {
@@ -353,7 +353,7 @@ export class RlouiService {
 
   confirmationModal(modalObj: IModalData) {
     let promise = new Promise<any>((resolve, reject) => {
-      console.log(modalObj);
+      // console.log(modalObj);
       var onSuccessOrFailure = async (response) => {
         console.log(response);
         if (response === 0) {
@@ -467,15 +467,18 @@ export class RlouiService {
   }
 
   //customerSearch
-  openCustomerSearch() {
+  openCustomerSearch(customerSearchObject: ICustomSearchObject) {
+    console.log(customerSearchObject);
+    let obj: ICustomSearchObject = customerSearchObject;
+    
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
         title: '',
         mainMessage: undefined,
-        modalSize: 'modal-doc-upload-width',
+        modalSize: 'modal-customer-search-width',
         buttons: [],
         componentName: 'CustomerSearch',
-        data: ''
+        data: obj
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);
@@ -483,6 +486,7 @@ export class RlouiService {
           if (response.id === 1) {
             this.closeAllConfirmationModal();
           }
+          resolve(response)
         }
         resolve(true);
       });

@@ -26,7 +26,8 @@ import { DocumentUploadModule } from '../document-upload/document-upload.module'
 import { PropertyDetailsModule } from '../PropertyDetails/PropertyDetails.module';
 import { PolicyCheckResultModule } from '../policy-check-result/policy-check-result.module';
 import { ScoreCardResultModule } from '../score-card-result/score-card-result.module';
-import { CustomerSearchModule } from '../customer-search/customer-search.module'
+import { CustomerSearchModule } from '../customer-search/customer-search.module';
+import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-search-fileds.module';
 
 @NgModule({
     imports: [
@@ -53,7 +54,8 @@ import { CustomerSearchModule } from '../customer-search/customer-search.module'
         PropertyDetailsModule,
         PolicyCheckResultModule,
         ScoreCardResultModule,
-        CustomerSearchModule
+        CustomerSearchModule,
+        CustomerSearchFieldsModule
     ],
     declarations: [
         PopupAlertComponent,

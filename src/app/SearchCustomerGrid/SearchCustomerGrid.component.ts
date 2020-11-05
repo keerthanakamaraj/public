@@ -7,6 +7,8 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ICustomSearchObject } from '../Interface/masterInterface';
 const customCss: string = '';
 @Component({
   selector: 'app-SearchCustomerGrid',
@@ -22,13 +24,17 @@ const customCss: string = '';
 })
 export class SearchCustomerGridComponent implements AfterViewInit {
   recordsFound: boolean = false;
-  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
+
+  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal) { }
+
   @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
   @Input('formCode') formCode: string;
   @Input('displayTitle') displayTitle: boolean = true;
   @Input('displayToolbar') displayToolbar: boolean = true;
   @Input('fieldID') fieldID: string;
+
+  showRecordCount: boolean = false;//show div which indicates the number of records found 
 
   componentCode: string = 'SearchCustomerGrid';
   openedFilterForm: string = '';
@@ -38,6 +44,14 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     gridCode: "SearchCustomerGrid",
     paginationReq: true
   };
+
+  documentCount: number = 0;
+  loadSpinner = false;
+
+  customSearchObj: ICustomSearchObject = {};
+
+  customerSearchType: 'Internal' | 'External';
+
   columnDefs: any[] = [{
     field: "TaxID",
     width: 11,
@@ -232,12 +246,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
     // show spinner
     this.showSpinner();
+    this.showRecordCount = true;
 
     let inputMap = new Map();
     inputMap.clear();
-    inputMap.set('QueryParam.TaxId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'TaxId'));
-    inputMap.set('QueryParam.MobileNumber', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'MobileNo'));
-    inputMap.set('QueryParam.ExistingCIF', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'CifNo'));
+
     if (gridReqMap.get("FilterCriteria")) {
       var obj = gridReqMap.get("FilterCriteria");
       for (var i = 0; i < obj.length; i++) {
@@ -272,14 +285,85 @@ export class SearchCustomerGridComponent implements AfterViewInit {
         }
       }
     }
-    this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-    this.services.http.fetchApi('/dedupe', 'GET', inputMap, "/initiation").subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        var res = httpResponse.body;
-        console.log("res", res);
-        if (res != null) {
+
+    console.log("DEEP | customSearchObj", this.customSearchObj);
+    if (this.customSearchObj.searchType == "Internal") {
+      //ExistingCIF
+      inputMap.set('QueryParam.TaxId', this.customSearchObj.taxId);
+      inputMap.set('QueryParam.MobileNumber', this.customSearchObj.mobileNumber);
+      inputMap.set('QueryParam.FirstName', this.customSearchObj.firstName);
+      inputMap.set('QueryParam.LastName', this.customSearchObj.lastName);
+      inputMap.set('QueryParam.TaxId', this.customSearchObj.taxId);
+      inputMap.set('QueryParam.dob', this.customSearchObj.dob);
+      inputMap.set('QueryParam.StaffId', this.customSearchObj.staffId);
+
+      if(this.customerSearchType == "Internal"){
+        inputMap.set('QueryParam.CustomerId', this.customSearchObj.customerId);
+      }else{
+        inputMap.set('QueryParam.ExistingCIF', this.customSearchObj.cifId);
+      }
+
+      console.log("Search Customer Grid", inputMap);
+
+      this.readonlyGrid.combineMaps(gridReqMap, inputMap);
+
+      this.services.rloCommonData.getSearchedCustomerData(this.customSearchObj.searchType, inputMap)
+        .then((response: any) => {
+          console.log("Deep | Response", response);
+          if (response != null) {
+            this.recordsFound = true;
+            var loopVar7 = response['Dedupe'];
+            this.documentCount = 0;
+
+            var loopDataVar7 = [];
+            if (loopVar7) {
+              for (var i = 0; i < loopVar7.length; i++) {
+                var tempObj = {};
+                tempObj['TaxID'] = loopVar7[i].TaxId;
+                tempObj['CustName'] = loopVar7[i].FullName;
+                tempObj['AccNo'] = loopVar7[i].AccountNumber;
+                tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+                tempObj['AccType'] = loopVar7[i].AccountType;
+                tempObj['Status'] = loopVar7[i].ApplicationStatus;
+                tempObj['Mobile'] = loopVar7[i].MobileNumber;
+                tempObj['Cif'] = loopVar7[i].ExistingCIF;
+                tempObj['Dob'] = loopVar7[i].DateOfBirth;
+                tempObj['FirstName'] = loopVar7[i].FirstName;
+                tempObj['MiddleName'] = loopVar7[i].MiddleName;
+                tempObj['LastName'] = loopVar7[i].LastName;
+                tempObj['Title'] = loopVar7[i].Title;
+                tempObj['Gender'] = loopVar7[i].Gender;
+                tempObj['EmailID'] = loopVar7[i].EmailID;
+                tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
+                tempObj['ICIF'] = loopVar7[i].ICIF;
+                loopDataVar7.push(tempObj);
+              }
+            }
+            this.documentCount = loopDataVar7.length;
+            this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+          } else {
+            this.hideGridData();
+          }
+           // hide spinner
+           this.hideSpinner();
+        });
+    }
+    else {
+      inputMap.set('Body.interfaceId', 'CUSTOMER_SEARCH');
+      inputMap.set('Body.inputdata.firstName', 'Testing');
+      inputMap.set('Body.inputdata.lastName', 'test');
+      inputMap.set('Body.inputdata.mobileNumber', '9899999999');
+      inputMap.set('Body.inputdata.nationalId', '111111111111111');
+      inputMap.set('Body.inputdata.customerSubType', '001');
+
+
+      this.services.rloCommonData.getSearchedCustomerData(this.customSearchObj.searchType, inputMap)
+      .then((response: any) => {
+        console.log("Deep | Response", response);
+        if (response != null) {
           this.recordsFound = true;
-          var loopVar7 = res['Dedupe'];
+          var loopVar7 = response.ouputdata.CustomerList;
+          this.documentCount = 0;
 
           var loopDataVar7 = [];
           if (loopVar7) {
@@ -305,23 +389,70 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               loopDataVar7.push(tempObj);
             }
           }
+          this.documentCount = loopDataVar7.length;
           this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+        } else {
+          this.hideGridData();
         }
+         // hide spinner
+         this.hideSpinner();
+      });
 
-        // hide spinner
-        this.hideSpinner();
-      },
-      async (httpError) => {
-        var err = httpError['error']
-        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        }
+      // this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      //   async (httpResponse: HttpResponse<any>) => {
+      //     var res = httpResponse.body;
+      //     console.log("res", res);
 
-        // hide spinner
-        this.hideSpinner();
-      }
-    );
+      //     if (res != null) {
+      //       this.recordsFound = true;
+      //       var loopVar7 = res.ouputdata.CustomerList;
+      //       this.documentCount = 0;
 
+      //       var loopDataVar7 = [];
+      //       if (loopVar7) {
+      //         for (var i = 0; i < loopVar7.length; i++) {
+      //           var tempObj = {};
+      //           tempObj['TaxID'] = loopVar7[i].TaxId;
+      //           tempObj['CustName'] = loopVar7[i].FullName;
+      //           tempObj['AccNo'] = loopVar7[i].AccountNumber;
+      //           tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+      //           tempObj['AccType'] = loopVar7[i].AccountType;
+      //           tempObj['Status'] = loopVar7[i].ApplicationStatus;
+      //           tempObj['Mobile'] = loopVar7[i].MobileNumber;
+      //           tempObj['Cif'] = loopVar7[i].ExistingCIF;
+      //           tempObj['Dob'] = loopVar7[i].DateOfBirth;
+      //           tempObj['FirstName'] = loopVar7[i].FirstName;
+      //           tempObj['MiddleName'] = loopVar7[i].MiddleName;
+      //           tempObj['LastName'] = loopVar7[i].LastName;
+      //           tempObj['Title'] = loopVar7[i].Title;
+      //           tempObj['Gender'] = loopVar7[i].Gender;
+      //           tempObj['EmailID'] = loopVar7[i].EmailID;
+      //           tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
+      //           tempObj['ICIF'] = loopVar7[i].ICIF;
+      //           loopDataVar7.push(tempObj);
+      //         }
+      //       }
+      //       this.documentCount = loopDataVar7.length;
+      //       this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+      //     }
+      //     else {
+      //       this.hideGridData();
+      //     }
+      //     // hide spinner
+      //     this.hideSpinner();
+      //   },
+      //   async (httpError) => {
+      //     var err = httpError['error']
+      //     if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+      //     }
+
+      //     // hide spinner
+      //     this.hideSpinner();
+      //   }
+      // );
+    }
   }
+
   async rowClicked(event) {
     let inputMap = new Map();
     const selectedData0 = this.readonlyGrid.getSelectedData();
@@ -344,16 +475,17 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['icif'] = selectedData0['ICIF'];
       tempVar['emailid'] = selectedData0['EmailID'];
       tempVar['nameoncard'] = selectedData0['NameOnCard'];
+      console.log("DEEP| Selcted customer,", tempVar);
 
       this.services.dataStore.setData('selectedData', tempVar);
       for (var i = this.services.routing.currModal; i > 0; i--) {
         await this.services.dataStore.getModalReference(i).componentInstance.closeModal();
       }
-    }
 
+      this.activeModal.close(tempVar);
+    }
   }
 
-  loadSpinner = true;
   showSpinner() {
     this.loadSpinner = true;
   }
@@ -362,4 +494,12 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     this.loadSpinner = false;
   }
 
+  hideGridData() {
+    this.documentCount = 0;
+    this.recordsFound = false;
+  }
+
+  removeCountDisplayTxt() {
+    this.showRecordCount = false;
+  }
 }

@@ -49,14 +49,14 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
   ngAfterViewInit() {
     if (this.emittedOptions.length > 0) {
-    //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      console.log("shweta :: onetimeoption : ", this.emittedOptions, this.defaultValue);
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
-       if(this.defaultValue!=undefined){
+      if (this.defaultValue != undefined) {
         this.setValue(this.defaultValue);
-       }
+      }
     }
-    
+
     // setTimeout(async ()=>{
     //   if (this.category == '1') {
     //     if (this.doCustomScript) {
@@ -74,7 +74,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   // }
   async ngOnInit() {
     if (this.emittedOptions && this.emittedOptions.length > 0) {
-    //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
     }
@@ -144,16 +144,16 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
             // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
             // }
             this.dropDownOptions.Options = this.dropDownOptions.Options = result;
-           // this.isOptionsLoaded = true;
-            if(!this.isOptionsLoaded){
-            if (this.valuePending) {
-              this.setValue(this.valuePending);
-              this.valuePending = undefined;
-            } else if (this.getDefault() != '') {
-              this.setValue(this.getDefault());
+            // this.isOptionsLoaded = true;
+            if (!this.isOptionsLoaded) {
+              if (this.valuePending) {
+                this.setValue(this.valuePending);
+                this.valuePending = undefined;
+              } else if (this.getDefault() != '') {
+                this.setValue(this.getDefault());
+              }
             }
-          }
-          this.isOptionsLoaded=true;
+            this.isOptionsLoaded = true;
           }
         },
         err => { },

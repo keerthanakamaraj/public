@@ -49,6 +49,7 @@ import { DatePipe } from '@angular/common';
 import { appDataProvider } from './services/appDataProvider.service';
 import { WorkflowViewerModule } from './workflow-viewer/workflow-viewer.module';
 import { CachingInterceptor } from './Cache-Interceptor/CachingInterceptor';
+import { RloUiCustomerSearchComponent } from './rlo-ui-customer-search/rlo-ui-customer-search.component';
 //import { CustomerSearchFieldsComponent } from './customer-search-fields/customer-search-fields.component';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
@@ -102,7 +103,7 @@ const keycloakService = new KeycloakService();
     // LoginPageComponent,
     // PwdChangeComponent,
     GridWithFormComponent,
-    AlertsComponent,
+    AlertsComponent
     //CustomerSearchFieldsComponent,
     // RloUiCardTileComponent
     //MyTrayPageComponent
@@ -215,11 +216,13 @@ export class AppModule implements DoBootstrap {
 
   }
 }
+
 // export class AppModule implements DoBootstrap{
 //   ngDoBootstrap(appRef: ApplicationRef){
 //     appRef.bootstrap(AppComponent);
 //   }
 // }
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

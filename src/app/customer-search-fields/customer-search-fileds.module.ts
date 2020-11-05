@@ -8,6 +8,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.module';
 import { CustomerSearchFieldsRoutingModule } from './customer-search-fileds.routing.module';
 import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module';
+import { SearchCustomerGridModule } from '../SearchCustomerGrid/SearchCustomerGrid.module';
+import { RAFormModule } from '../ra-form/ra-form.module';
 
 @NgModule({
   declarations: [
@@ -15,10 +17,11 @@ import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module'
   ],
   imports: [
     CommonModule,
-    // RAFormModule,
+    RAFormModule,
     FormsModule,
     HttpClientModule,
     CustomerSearchFieldsRoutingModule,
+    SearchCustomerGridModule,
     IgcbDatepickerModule,
     TranslateModule.forChild({
       loader: {

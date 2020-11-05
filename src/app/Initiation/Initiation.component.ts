@@ -26,6 +26,8 @@ import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { element } from 'protractor';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
+import { ICustomSearchObject } from '../Interface/masterInterface';
+import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
 
 const customCss: string = '';
 
@@ -58,11 +60,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_SCHEME', { static: false }) BAD_SCHEME: ComboBoxComponent;
   @ViewChild('BAD_PROMOTION', { static: false }) BAD_PROMOTION: ComboBoxComponent;
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
-  @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
-  @ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;
-  @ViewChild('CD_CIF', { static: false }) CD_CIF: TextBoxComponent;
+
+  //@ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent; // removed for customer search
+  //@ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;// removed for customer search
+
+  // @ViewChild('CD_CIF', { static: false }) CD_CIF: TextBoxComponent;
   @ViewChild('CD_CUSTOMER_ID', { static: false }) CD_CUSTOMER_ID: TextBoxComponent;
   @ViewChild('CD_STAFF_ID', { static: false }) CD_STAFF_ID: TextBoxComponent;
+
+  @ViewChild('CD_CIF', { static: false }) CD_CIF: RloUiCustomerSearchComponent;
+  //@ViewChild('CD_CUSTOMER_ID', { static: false }) CD_CUSTOMER_ID: RloUiCustomerSearchComponent;
+  //@ViewChild('CD_STAFF_ID', { static: false }) CD_STAFF_ID: RloUiCustomerSearchComponent;
+
   @ViewChild('CD_TITLE', { static: false }) CD_TITLE: ComboBoxComponent;
   @ViewChild('CD_FIRST_NAME', { static: false }) CD_FIRST_NAME: TextBoxComponent;
   @ViewChild('CD_MIDDLE_NAME', { static: false }) CD_MIDDLE_NAME: TextBoxComponent;
@@ -159,11 +168,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     super.beforeRevalidate();
     await Promise.all([
       this.revalidateBasicField('CD_CUST_TYPE'),
-      this.revalidateBasicField('CD_EXISTING_CUST'),
-      this.revalidateBasicField('CD_STAFF'),
-      this.revalidateBasicField('CD_CIF'),
-      this.revalidateBasicField('CD_STAFF_ID'),
-      this.revalidateBasicField('CD_CUSTOMER_ID'),
+      //this.revalidateBasicField('CD_EXISTING_CUST'),
+      //this.revalidateBasicField('CD_STAFF'),
+
+      //this.revalidateBasicField('CD_CIF'),
+      //this.revalidateBasicField('CD_STAFF_ID'),
+      //this.revalidateBasicField('CD_CUSTOMER_ID'),
+
+      // this.validateCustomerId(),
+      // this.validateStaffId(),
+
       this.revalidateBasicField('CD_TITLE'),
       this.revalidateBasicField('CD_FIRST_NAME'),
       this.revalidateBasicField('CD_MIDDLE_NAME'),
@@ -348,12 +362,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
 
-    this.CD_EXISTING_CUST.setDefault('N');
+    //this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
 
-    this.CD_STAFF.setDefault('N');
+    //this.CD_STAFF.setDefault('N');
     this.Handler.isStaff({});
-
+    this.tempUnableCustId();
 
     let inputMap = new Map();
     await this.Handler.onFormLoad({
@@ -411,6 +425,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+
+    this.tempUnableCustId()
   }
   clearError() {
     super.clearBasicFieldsError();
@@ -430,8 +446,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.value = new InitiationModel();
     this.passNewValue(this.value);
     //this.setReadOnly(false);
-    this.CD_EXISTING_CUST.isOptionsLoaded = false;
-    this.CD_STAFF.isOptionsLoaded = false;
+    //this.CD_EXISTING_CUST.isOptionsLoaded = false;
+    // this.CD_STAFF.isOptionsLoaded = false;
     this.Handler.customers = [];
     this.CUST_DTLS_GRID.setValue(Object.assign([], this.Handler.customers));
     this.onFormLoad();
@@ -470,8 +486,21 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async SEARCH_CUST_BTN_click(event) {
-
-    this.services.rloui.openCustomerSearch();
+    let obj: ICustomSearchObject = {
+      mobileNumber: this.SRC_MOBILE_NO.getFieldValue(),
+      taxId: this.SRC_TAX_ID.getFieldValue(),
+      cifId: this.SRC_CIF_NO.getFieldValue(),
+      searchType: "External"
+    }
+    this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+      if (response != null) {
+        console.log(response);
+        this.setValuesOfCustomer(response);
+      }
+      else {
+        console.warn("DEEP | No customer selected");
+      }
+    });
 
     this.searchbutton = 'Y';
     let inputMap = new Map();
@@ -504,8 +533,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
               this.CD_EMAIL_ID.setValue(tempVar['emailid']);
               this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
-              if (tempVar != '' || tempVar != undefined)
-                this.CD_EXISTING_CUST.setValue('Y');
+              //if (tempVar != '' || tempVar != undefined)
+              //this.CD_EXISTING_CUST.setValue('Y');
               // this.Handler.existingCustomer({});
             }
             this.services.dataStore.setData('selectedData', undefined);
@@ -520,6 +549,28 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     } else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
+  }
+
+  //called when a customer is selected for customer search
+  setValuesOfCustomer(data) {
+    let tempVar: any = data;
+    this.CD_DOB.setValue(tempVar['dob']);
+    this.CD_TAX_ID.setValue(tempVar['taxId']);
+    this.CD_FULL_NAME.setValue(tempVar['custName']);
+    this.CD_MOBILE.setValue(tempVar['mobileNum']);
+    this.CD_CIF.setValue(tempVar['cif']);
+    this.CD_FIRST_NAME.setValue(tempVar['firsName']);
+    this.CD_MIDDLE_NAME.setValue(tempVar['midName']);
+    this.CD_LAST_NAME.setValue(tempVar['lastName']);
+    this.CD_GENDER.setValue(tempVar['gender']);
+    this.CD_TITLE.setValue(tempVar['title']);
+    this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
+    this.CD_EMAIL_ID.setValue(tempVar['emailid']);
+    this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
+    if (tempVar != '' || tempVar != undefined)
+      //this.CD_EXISTING_CUST.setValue('Y');
+
+      this.services.dataStore.setData('selectedData', undefined);
   }
 
   async BAD_PROD_CAT_change(fieldID, value) {
@@ -688,12 +739,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     //   }
     // }
 
+    console.log(this.CD_CUST_TYPE.getFieldInfo(),
+      this.CD_CIF.getFieldValue(),
+      this.CD_CUSTOMER_ID.getFieldValue(),
+      this.CD_STAFF_ID.getFieldValue());
+
     await this.Handler.onAddCustomer({
     });
 
     this.loanTotal = 0
   }
-  async CD_RESET_click(event) {
+  async CD_RESET_click() {
     let inputMap = new Map();
     await this.Handler.onResetCustomer({
     });
@@ -933,9 +989,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               else if (err['ErrorElementPath'] == 'BorrowerDetails.StaffID') {
                 this.CD_STAFF_ID.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'BorrowerDetails.IsStaff') {
-                this.CD_STAFF.setError(err['ErrorDescription']);
-              }
+              // else if (err['ErrorElementPath'] == 'BorrowerDetails.IsStaff') {
+              //   this.CD_STAFF.setError(err['ErrorDescription']);
+              // }
               else if (err['ErrorElementPath'] == 'BorrowerDetails.CustomerSegment') {
                 this.CD_CUST_SGMT.setError(err['ErrorDescription']);
               }
@@ -1215,26 +1271,26 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
-    CD_EXISTING_CUST: {
-      inDep: [
+    // CD_EXISTING_CUST: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideExsCust", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_STAFF: {
-      inDep: [
+    //     { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideExsCust", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+    // CD_STAFF: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidYesNo", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidYesNo", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     CD_TITLE: {
       inDep: [
 
@@ -1351,6 +1407,98 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.Handler.calculateNetIncome({});
     }
     this.genericOnBlur(event.field, event.textFieldValue);
+  }
+
+  //default code disabled;Temparary enabling it for customer search
+  tempUnableCustId() {
+    this.CD_CUSTOMER_ID.readOnly = false;
+    this.CD_CIF.readOnly = false;
+  }
+
+  customerInputTabOut() {
+    console.log("DEEP | customerInputTabOut()");
+
+  }
+
+  searchForCustomer(type: any) {
+    let obj: ICustomSearchObject = {};
+
+    console.log("searchForCustomer()", type);
+    if (type.inputBtn == "CD_CUSTOMER_ID") {
+      obj.searchType = "Internal";
+    } else {
+      obj.searchType = "External";
+    }
+
+    obj.cifId = this.CD_CIF.getFieldValue();
+    obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
+    obj.staffId = this.CD_STAFF_ID.getFieldValue();
+
+    console.log(obj);
+    if ((obj.cifId != "" && obj.cifId != undefined)) {
+
+      // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
+
+      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+        if (response != null) {
+          console.log(response);
+          if (typeof response != "boolean") {
+            this.setValuesOfCustomer(response);
+          }
+          else {
+            if(response)
+            this.CD_RESET_click();
+          }
+        }
+        else {
+          console.warn("DEEP | No customer selected");
+        }
+      });
+    }
+  }
+
+  validateCustomerId() {
+    var totalErrors = 0;
+    return totalErrors;
+  }
+
+  validateStaffId() {
+    var totalErrors = 0;
+    return totalErrors;
+  }
+
+  validateSelctedCustomer(searchType: 'Internal' | 'External') {
+    let obj: ICustomSearchObject = {};
+    obj.cifId = this.CD_CIF.getFieldValue();
+    obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
+    obj.staffId = this.CD_STAFF_ID.getFieldValue();
+
+    let inputMap = new Map();
+
+    if (searchType == "Internal") {
+      inputMap.set('QueryParam.TaxId', this.CD_TAX_ID.getFieldValue());
+      inputMap.set('QueryParam.MobileNumber', this.CD_MOBILE.getFieldValue());
+      inputMap.set('QueryParam.FirstName', this.CD_FIRST_NAME.getFieldValue());
+      inputMap.set('QueryParam.LastName', this.CD_LAST_NAME.getFieldValue());
+      inputMap.set('QueryParam.dob', this.CD_DOB.getFieldValue());
+      inputMap.set('QueryParam.StaffId', this.CD_STAFF_ID.getFieldValue());
+      inputMap.set('QueryParam.ExistingCIF', this.CD_CIF.getFieldValue());
+      inputMap.set('QueryParam.CustomerId', this.CD_CUSTOMER_ID.getFieldValue());
+    } else {
+      inputMap.set('Body.interfaceId', 'CUSTOMER_SEARCH');
+      inputMap.set('Body.inputdata.firstName', 'Testing');
+      inputMap.set('Body.inputdata.lastName', 'test');
+      inputMap.set('Body.inputdata.mobileNumber', '9899999999');
+      inputMap.set('Body.inputdata.nationalId', '111111111111111');
+      inputMap.set('Body.inputdata.customerSubType', '001');
+    }
+
+    let promise = new Promise<boolean>((resolve, reject) => {
+      this.services.rloCommonData.getSearchedCustomerData(searchType, inputMap).then((response) => {
+        console.log(response);
+
+      });
+    });
 
   }
 

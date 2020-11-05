@@ -402,7 +402,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
                 // this.AT_OWNED_BY.setValue(res['AssetDetails']['OwnedBy']);
                 this.ASSET_ID.setValue(res['AssetDetails']['AssetSeq']);
                 this.hideSpinner();
-                this.revalidateBasicField('AT_CURRENCY', true)
+                //this.revalidateBasicField('AT_CURRENCY', true)
 
                 //custom
                 this.AT_FAIR_MRKT_VALUE.setComponentSpecificValue(res['AssetDetails']['FairMarketValue'], res['AssetDetails']['Currency']);

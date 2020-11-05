@@ -29,6 +29,7 @@ import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.com
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
 import { CustomerSearchComponent } from '../customer-search/customer-search.component';
+import { CustomerSearchFieldsComponent } from '../customer-search-fields/customer-search-fields.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -49,7 +50,6 @@ export class PopupAlertComponent implements OnInit {
   ngOnInit() {
     this.modalObject = this.services.rloui.modalObject;
     console.error(this.modalObject);
-    console.warn(this.modalObject.buttons, this.modalObject.componentName);
   }
 
   async onClick(buttonObj: AnyNaptrRecord): Promise<any> {
@@ -82,7 +82,7 @@ export class PopupAlertComponent implements OnInit {
       isLoanCategory = headerObj.isLoanCategory;
     }
 
-    console.log("DEEP | popup alert object______", this.modalObject);
+    // console.log("DEEP | popup alert object______", this.modalObject);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentRef.component);
 
     const viewContainerRef = this.FormHost;
@@ -120,6 +120,8 @@ export class PopupAlertComponent implements OnInit {
         componentInstance.parentFormCode = "DDE";//used in condition to check score acc. to stage
       } else if (this.modalObject.componentName == 'CreditCardDetails') {
         componentInstance.enableApproveLimit = true;
+      } else if (this.modalObject.componentName == 'CustomerSearch') {
+        //componentInstance.passedFieldData=componentInstance.parentData
       }
 
       // async brodcastProdCategory(event) {
@@ -220,7 +222,8 @@ export class PopupAlertComponent implements OnInit {
         return new AddSpecificComponent(ScoreCardResultComponent);
         break;
       case 'CustomerSearch':
-        return new AddSpecificComponent(CustomerSearchComponent);
+        // return new AddSpecificComponent(CustomerSearchComponent);
+        return new AddSpecificComponent(CustomerSearchFieldsComponent);
         break;
 
     }

@@ -22,6 +22,7 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
+import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
 
 //import { ModalComponent } from 'src/app/modal/modal.component';
 
@@ -58,6 +59,7 @@ export class FormComponent {
   @ViewChildren(RloUiMobileComponent) countryCodeMobile: QueryList<RloUiMobileComponent>;
   @ViewChildren(ReadOnlyComponent) labelFields: QueryList<ReadOnlyComponent>;
   @ViewChildren(RloUiCardFieldComponent) cardTile: QueryList<RloUiCardFieldComponent>;
+  @ViewChildren(RloUiCustomerSearchComponent) CustomerSearch: QueryList<RloUiCustomerSearchComponent>;
 
   //formCode : string;
   errors = 0;
@@ -214,6 +216,7 @@ export class FormComponent {
     this.radioFields.forEach(fn);
     this.labelFields.forEach(fn)
     this.countryCodeMobile.forEach(fn);
+    this.CustomerSearch.forEach(fn);
   }
 
   setBasicFieldsReadOnly(readOnly) {

@@ -357,7 +357,7 @@
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"
                       (change)="CD_CUST_TYPE_change('CD_CUST_TYPE', $event)"></rlo-ui-radio>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
+                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_EXISTING_CUST.mandatory}">
                         {{ 'Initiation.CD_EXISTING_CUST' | translate}}</label>
@@ -367,8 +367,8 @@
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_EXISTING_CUST', $event)"
                       (change)="CD_EXISTING_CUST_change('CD_EXISTING_CUST', $event)">
                     </rlo-ui-radio>
-                  </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
+                  </div> -->
+                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_STAFF.mandatory}">
                         {{ 'Initiation.CD_STAFF' | translate}}</label>
@@ -378,7 +378,7 @@
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_STAFF', $event)"
                       (change)="CD_STAFF_change('CD_STAFF', $event)">
                     </rlo-ui-radio>
-                  </div>
+                  </div> -->
 
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #CD_INLINE_HEADER parentCompCode="Initiation" fieldID="CD_INLINE_HEADER"
@@ -390,9 +390,12 @@
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_CIF.mandatory}">
                         {{ 'Initiation.CD_CIF' | translate}}</label>
                     </div>
-                    <app-text-box #CD_CIF fieldID="CD_CIF" [formCode]="formCode"
+                    <!-- <app-text-box #CD_CIF fieldID="CD_CIF" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_CIF', $event)">
-                    </app-text-box>
+                    </app-text-box> -->
+
+                    <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF" (blur)="genericOnBlur('CD_CIF', $event)" [searchType]="'CD_CIF'"  (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUSTOMER_ID.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -401,6 +404,9 @@
                     </div>
                     <app-text-box #CD_CUSTOMER_ID fieldID="CD_CUSTOMER_ID" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_CUSTOMER_ID', $event)"></app-text-box>
+         
+                    <!-- <app-rlo-ui-customer-search #CD_CUSTOMER_ID fieldID="CD_CUSTOMER_ID" (blur)="genericOnBlur('CD_CUSTOMER_ID', $event)" [searchType]="'CD_CUSTOMER_ID'"    (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search> -->
+
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -409,6 +415,9 @@
                     </div>
                     <app-text-box #CD_STAFF_ID fieldID="CD_STAFF_ID" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_STAFF_ID', $event)"></app-text-box>
+
+                    <!-- <app-rlo-ui-customer-search #CD_STAFF_ID fieldID="CD_STAFF_ID" (blur)="genericOnBlur('CD_STAFF_ID', $event)" [searchType]="'CD_STAFF_ID'"    (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search> -->
+
                   </div>
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #FieldId_65 parentCompCode="Initiation" fieldID="FieldId_65" [formCode]="formCode"

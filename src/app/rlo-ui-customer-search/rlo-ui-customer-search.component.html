@@ -1,0 +1,18 @@
+<div style="width:100%" class="wgt-input-ui-customer-search input-group">
+
+    <div class="input-text-group">
+        <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" (change)="onChange()" [maxlength]="maxLength"
+            [ngClass]="{'error' : error, 'input-readonly':readOnly}" [(ngModel)]="value" (focus)="onFocus()"
+            (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}" [disabled]="readOnly"
+            [ngStyle]="{'text-align' : valueAlign}" />
+    </div>
+
+    <div class="input-group-btn">
+        <button type="button" name="CD_COUNTRY_CODE" class="btn btn-customer-search" data-toggle="dropdown"
+            (click)="validateCustomer()" aria-haspopup="true" aria-expanded="false" [disabled]="readOnly">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+
+    <span class="errorMessagespan" *ngIf="error">{{errorCode | translate}}</span>
+</div>

@@ -8,25 +8,25 @@ import { ReadonlyGridModule } from '../readonly-grid/readonly-grid.module';
 import { GridPaginationModule } from '../grid-pagination/grid-pagination.module';
 import { SearchCustomerGridComponent } from './SearchCustomerGrid.component';
 @NgModule({
-imports: [
-CommonModule,
-ReadonlyGridModule,
-GridPaginationModule,
-RAFormModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-SearchCustomerGridComponent,
-],
-exports:[
-SearchCustomerGridComponent,
-],
+    imports: [
+        CommonModule,
+        ReadonlyGridModule,
+        GridPaginationModule,
+        RAFormModule,
+        HttpClientModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+    ],
+    declarations: [
+        SearchCustomerGridComponent,
+    ],
+    exports: [
+        SearchCustomerGridComponent,
+    ],
 })
 export class SearchCustomerGridModule { }

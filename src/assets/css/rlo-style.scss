@@ -6,10 +6,9 @@ RLO Project SCSS File
 
 /* Variable Definitions */
 
-$default-font-family: "Open Sans",
-sans-serif;
+$default-font-family: "Open Sans", sans-serif;
 $default-text-color: #000;
-$light-color:#cccccc;
+$light-color: #cccccc;
 $border-light: 1px solid $light-color;
 $body-bg-color: #fff;
 $primary-color: #0079b8;
@@ -37,7 +36,7 @@ $mq-xxlarge: "(min-width: #{$bp-xxlarge})";
 $mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 /* Class Definitions */
 
-$card-field-margin:5px;
+$card-field-margin: 5px;
 
 body {
   font-family: $default-font-family !important;
@@ -124,7 +123,7 @@ body {
       }
     }
 
-    &.ng-select-disabled>.ng-select-container {
+    &.ng-select-disabled > .ng-select-container {
       background-color: #f9f9f9 !important;
     }
   }
@@ -294,7 +293,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       background-size: 64px 64px;
     }
 
-    input:checked~.checkmark {
+    input:checked ~ .checkmark {
       border: 1px solid $primary-color !important;
 
       &::after {
@@ -318,7 +317,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
       color: #595959;
     }
 
-    input:checked~.radio-text {
+    input:checked ~ .radio-text {
       color: $primary-color;
     }
 
@@ -399,9 +398,6 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
         vertical-align: middle;
         margin-right: 14px;
       }
-
-
-
 
       &.loan-cat::before {
         width: 20px;
@@ -619,11 +615,11 @@ width: 681px !important; */
 }
 
 .currencySymbol span {
-  color: #F8E71C;
+  color: #f8e71c;
   font-size: 18px;
   line-height: 24px;
   font-weight: 500;
-  border: 2px solid #F8E71C;
+  border: 2px solid #f8e71c;
   width: 50px;
   display: inline-block;
   margin-top: 20px;
@@ -644,8 +640,6 @@ width: 681px !important; */
 //   max-width: 15% !important;
 //   height: 43px;
 // }
-
-
 
 .horizontal {
   display: inline;
@@ -877,16 +871,16 @@ width: 681px !important; */
 .loan-container {
   box-sizing: border-box;
   height: 15.4em;
-  border: 1px solid #DFD7D7;
+  border: 1px solid #dfd7d7;
   border-radius: 0.267em;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   margin: 1em;
 
   .loan-group {
     box-sizing: border-box;
     height: 13em;
-    margin-top: 1.000em;
-    border-right: 1px solid #DFD7D7;
+    margin-top: 1em;
+    border-right: 1px solid #dfd7d7;
 
     &:last-of-type {
       border: none;
@@ -1007,8 +1001,8 @@ a.back {
   height: 33px;
   border-radius: 4px 4px 4px 4px;
   width: 201px;
-  border: 1px solid #0079B8;
-  background-color: #0079B8;
+  border: 1px solid #0079b8;
+  background-color: #0079b8;
   color: #ffffff;
   font-family: "Open Sans";
   font-size: 12px;
@@ -1023,10 +1017,10 @@ a.back {
   height: 33px;
   border-radius: 4px 4px 4px 4px;
   width: 201px;
-  border: 1px solid #0079B8;
+  border: 1px solid #0079b8;
   //border-radius: 4px 0 0 4px;
   background-color: #ffffff;
-  color: #0079B8;
+  color: #0079b8;
   font-family: "Open Sans";
   font-size: 12px;
   font-weight: 600;
@@ -1079,9 +1073,9 @@ a.back {
 @mixin card-header() {
   font-size: 20px;
   line-height: 27px;
-  color: #0079B8;
+  color: #0079b8;
   padding: 18px 18px 18px 21px;
-  border-bottom: 2px solid #EEEEEE;
+  border-bottom: 2px solid #eeeeee;
   position: relative;
   background: white;
 
@@ -1108,7 +1102,7 @@ a.back {
 }
 
 .z-0 {
-  z-index: 0
+  z-index: 0;
 }
 
 .d-flex {
@@ -1173,6 +1167,11 @@ a.back {
 //set width of doc upload modal
 .modal-doc-upload-width .modal-dialog {
   width: 75%;
+}
+
+//set width of doc upload modal
+.modal-customer-search-width .modal-dialog {
+  width: 80%;
 }
 
 .wgt-scores {
@@ -1286,7 +1285,7 @@ a.back {
     width: 47%;
     display: inline-block;
     height: 0.35rem;
-    background: #E2E2E2;
+    background: #e2e2e2;
 
     div {
       width: 70%;
@@ -1333,7 +1332,7 @@ a.back {
 
 .small-menu {
   .menu & {
-    margin: 4px 0 12px 12px !important
+    margin: 4px 0 12px 12px !important;
   }
 }
 
@@ -1381,7 +1380,7 @@ a.back {
         // visibility: visible;
         // opacity: 1;
         span {
-          color: #B7B7B7;
+          color: #b7b7b7;
           font-size: 12px;
         }
 
@@ -1435,7 +1434,7 @@ a.back {
     color: white !important;
 
     .txt span {
-      color: white !important
+      color: white !important;
     }
   }
 
@@ -1444,7 +1443,7 @@ a.back {
     color: white !important;
 
     .txt span {
-      color: white !important
+      color: white !important;
     }
   }
 
@@ -1455,8 +1454,8 @@ a.back {
     padding: 24px 7px;
     background: #f8f8f8;
     transition-property: width;
-    transition-duration: .15s;
-    transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+    transition-duration: 0.15s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .main-container:hover {
@@ -1635,7 +1634,7 @@ rlo-ui-card-field {
       right: 18px;
       border: none;
       background-color: white;
-      color: #0079B8;
+      color: #0079b8;
     }
 
     // .iconStatus{
@@ -1688,11 +1687,11 @@ rlo-ui-card-field {
       }
 
       &.failure {
-        color: #D0021B;
+        color: #d0021b;
       }
 
       &.pending {
-        color: #F5A623
+        color: #f5a623;
       }
 
       &.icon-only {
@@ -1745,7 +1744,7 @@ rlo-ui-card-field {
     font-size: 12px !important;
     font-weight: 100 !important;
     border-right: none !important;
-    background-color: #EEEEEE !important;
+    background-color: #eeeeee !important;
     outline: none !important;
   }
 
@@ -1758,7 +1757,7 @@ rlo-ui-card-field {
 
   .dropdown-menu li {
     background-color: #fff;
-    color: rgba(0, 0, 0, .87);
+    color: rgba(0, 0, 0, 0.87);
     padding: 8px 10px;
     box-sizing: border-box;
     cursor: pointer;
@@ -1793,7 +1792,7 @@ rlo-ui-card-field {
   }
 }
 
-// page navigation thrushold 
+// page navigation thrushold
 .wgt-top-navigator {
   position: sticky;
   top: 57px;
@@ -1817,11 +1816,11 @@ rlo-ui-card-field {
   overflow: hidden;
   height: 16px;
   border-radius: 0;
-  background: #EEEEEE;
+  background: #eeeeee;
   box-shadow: none;
 
   .progress-bar {
-    background: #00B500;
+    background: #00b500;
     font-size: 10px;
     line-height: 14px;
   }
@@ -1858,10 +1857,10 @@ rlo-ui-card-field {
   .modal-header {
     display: block;
     padding: 18px 24px;
-    background: #F4F4F4;
+    background: #f4f4f4;
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
-    border-bottom: 1px solid #CDCDCD;
+    border-bottom: 1px solid #cdcdcd;
 
     .header-icon {
       font-size: 28px;
@@ -1870,7 +1869,7 @@ rlo-ui-card-field {
       top: 11px;
     }
 
-    .header-icon+.modal-header-name {
+    .header-icon + .modal-header-name {
       margin-left: 45px;
       font-size: 18px;
     }
@@ -1880,7 +1879,7 @@ rlo-ui-card-field {
       right: 26px;
       top: 23px;
       cursor: pointer;
-      color: #8E8E8E;
+      color: #8e8e8e;
     }
   }
 
@@ -1890,7 +1889,7 @@ rlo-ui-card-field {
       right: 16px;
       top: 17px;
       cursor: pointer;
-      color: #8E8E8E;
+      color: #8e8e8e;
     }
 
     padding: 15px 24px 15px 24px;
@@ -1900,7 +1899,7 @@ rlo-ui-card-field {
     border: none;
     padding: 15px 24px;
 
-    .btn+.btn {
+    .btn + .btn {
       margin-left: 14px;
     }
   }
@@ -1921,12 +1920,12 @@ rlo-ui-card-field {
   box-sizing: border-box;
   height: 60px;
   width: 180px;
-  border: 1px solid #0079B8;
+  border: 1px solid #0079b8;
   border-radius: 4px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   box-shadow: 0 2px 4px 1px rgba(33, 139, 194, 0.3);
   white-space: normal;
-  color: #0079B8;
+  color: #0079b8;
   font-family: "Open Sans";
   font-size: 12px;
   letter-spacing: 0;
@@ -2002,9 +2001,8 @@ rlo-ui-card-field {
         }
       }
 
-
       .heading-container {
-        background: #E4F0F9;
+        background: #e4f0f9;
         font-size: 16px;
         line-height: 22px;
         padding: 9px 0;
@@ -2046,7 +2044,7 @@ rlo-ui-card-field {
       .card-tile-body:before {
         height: 38px;
         width: 1px;
-        background: #CCC;
+        background: #ccc;
         content: "";
         position: absolute;
         left: -1px;
@@ -2060,10 +2058,10 @@ rlo-ui-card-field {
 .uw-cust-list-container {
   box-sizing: border-box;
   height: 48px; // width: 100%;
-  border-top: 1.5px solid #C8C8C8;
-  border-bottom: 1.5px solid #C8C8C8;
+  border-top: 1.5px solid #c8c8c8;
+  border-bottom: 1.5px solid #c8c8c8;
   border-radius: 4px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   .cust-list-container {
     height: 48px;
@@ -2076,7 +2074,7 @@ rlo-ui-card-field {
       width: 25%;
       padding-left: 2%;
       height: 45px;
-      border-right: 1.5px solid #C8C8C8;
+      border-right: 1.5px solid #c8c8c8;
 
       .cust-tag {
         height: 24px;
@@ -2102,15 +2100,15 @@ rlo-ui-card-field {
       float: left;
       width: 25%;
       padding-left: 2%;
-      background-color: #0079B8;
+      background-color: #0079b8;
       height: 45px;
-      border-right: 1.5px solid #C8C8C8;
+      border-right: 1.5px solid #c8c8c8;
 
       .cust-tag {
         height: 24px;
         width: 24px;
         border-radius: 2px;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         display: inline-block;
         text-align: center;
         line-height: 24px;
@@ -2121,7 +2119,7 @@ rlo-ui-card-field {
 
       .cust-name {
         margin-left: 12px;
-        color: #FFFFFF;
+        color: #ffffff;
       }
     }
   }
@@ -2216,13 +2214,13 @@ rlo-ui-card-field {
 
     div {
       margin: 3px 0;
-      background-color: #FAFAFA;
+      background-color: #fafafa;
     }
 
     .actual-result {
       padding: 3px 0;
       margin: 0 !important;
-      background: #E4F0F9;
+      background: #e4f0f9;
       opacity: 0.6;
 
       span {
@@ -2231,9 +2229,7 @@ rlo-ui-card-field {
     }
   }
 
-
   .policy-row:first-child {
-
     div {
       margin-top: 6px;
     }
@@ -2244,7 +2240,6 @@ rlo-ui-card-field {
   }
 
   .policy-row:last-child {
-
     div {
       margin-bottom: 6px;
     }
@@ -2293,7 +2288,7 @@ rlo-ui-card-field {
     .value-container {
       .col-header-txt {
         height: 17px; // width: 86px;
-        color: #8E8E8E;
+        color: #8e8e8e;
         font-family: "Open Sans";
         font-size: 12px;
         letter-spacing: 0;
@@ -2311,7 +2306,7 @@ rlo-ui-card-field {
 
       .pass-txt {
         height: 17px; //   width: 27px;
-        color: #00B500;
+        color: #00b500;
         font-family: "Open Sans";
         font-size: 12px;
         font-weight: 600;
@@ -2321,7 +2316,7 @@ rlo-ui-card-field {
 
       .fail-txt {
         height: 17px; // width: 21px;
-        color: #D0021B;
+        color: #d0021b;
         font-family: "Open Sans";
         font-size: 12px;
         font-weight: 600;
@@ -2345,7 +2340,7 @@ rlo-ui-card-field {
   .total-container {
     height: 52px; // width: 1213px;
     border-radius: 4px;
-    background-color: #E4F0F9;
+    background-color: #e4f0f9;
     //line-height: 51px;
 
     .total-label {
@@ -2361,7 +2356,7 @@ rlo-ui-card-field {
     .total-value {
       //  height: 17px; //  width: 57px;
       padding-left: 3rem;
-      color: #00B500;
+      color: #00b500;
       font-family: "Open Sans";
       font-size: 12px;
       font-weight: 600;
@@ -2409,7 +2404,7 @@ rlo-ui-card-field {
     padding: 0px !important; //width: 47%;
     display: inline-block;
     height: 10px;
-    background-color: #F6F6F7;
+    background-color: #f6f6f7;
 
     .progress-bar {
       //width: 70%;
@@ -2445,7 +2440,7 @@ rlo-ui-card-field {
         height: 16px;
         width: 16px;
         border-radius: 50%;
-        float: left
+        float: left;
       }
 
       .index-label {
@@ -2498,7 +2493,7 @@ rlo-ui-card-field {
 .wgt-header-status-card {
   display: flex;
   padding: 21px 33px;
-  border-bottom: 1px solid #EEEEEE;
+  border-bottom: 1px solid #eeeeee;
   margin: 0 6px;
   position: relative;
 
@@ -2518,11 +2513,11 @@ rlo-ui-card-field {
     }
 
     &.failure {
-      color: #D0021B;
+      color: #d0021b;
     }
 
     &.pending {
-      color: #F5A623
+      color: #f5a623;
     }
 
     span {
@@ -2557,7 +2552,7 @@ rlo-ui-card-field {
 
 .header-status-container {
   padding: 0;
-  border: 1px solid #E4F0F9;
+  border: 1px solid #e4f0f9;
   border-radius: 8px;
   margin: 0 auto;
 
@@ -2617,7 +2612,7 @@ rlo-ui-card-field {
       .cards {
         padding: 20px 33px;
         margin: 0 6px;
-        border-bottom: 1px solid #EEEEEE;
+        border-bottom: 1px solid #eeeeee;
       }
     }
   }
@@ -2711,7 +2706,7 @@ rlo-ui-card-field {
 }
 
 .cards-section {
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   display: inline-block;
   padding: 28px 0px 80px 28px;
 
@@ -2747,11 +2742,11 @@ rlo-ui-card-field {
   }
 
   &.failure {
-    color: #D0021B;
+    color: #d0021b;
   }
 
   &.pending {
-    color: #F5A623
+    color: #f5a623;
   }
 }
 
@@ -2820,15 +2815,13 @@ rlo-ui-card-field {
   width: 56px;
   height: 56px;
   background-color: white;
-  -webkit-transition: -webkit-transform .4s ease-in-out;
-  transition: transform .4s ease-in-out;
+  -webkit-transition: -webkit-transform 0.4s ease-in-out;
+  transition: transform 0.4s ease-in-out;
   position: fixed;
   bottom: 5%;
   right: 5%;
   // border: 1px solid #1b223e;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-  0 1px 5px 0 rgba(0, 0, 0, 0.12),
-  0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
   border-radius: 50px;
 
   .fab-row {
@@ -2841,12 +2834,12 @@ rlo-ui-card-field {
   bottom: 0;
   width: 56px;
   height: 56px;
-  background-color: #0079B8;
-  box-shadow: 4px -4px 2px #0079B8;
+  background-color: #0079b8;
+  box-shadow: 4px -4px 2px #0079b8;
   position: fixed;
   bottom: 5%;
   right: 5%;
-  border: 1px solid #0079B8;
+  border: 1px solid #0079b8;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
   border-radius: 50px;
 }
@@ -2858,9 +2851,9 @@ rlo-ui-card-field {
   right: 0;
   bottom: 50px;
   list-style: none;
-  box-shadow: 2px 4px 8px #F2F8FD;
-  background-color: #F2F8FD;
-  border: 1px solid #55C5FF;
+  box-shadow: 2px 4px 8px #f2f8fd;
+  background-color: #f2f8fd;
+  border: 1px solid #55c5ff;
   border-radius: 50px;
   border-bottom-right-radius: 25px;
   margin-bottom: -20px;
@@ -2871,19 +2864,19 @@ rlo-ui-card-field {
 }
 
 .fab-row {
-  box-shadow: 2px 4px 8px #0079B8;
+  box-shadow: 2px 4px 8px #0079b8;
   display: flex;
   align-items: stretch;
   position: fixed;
   opacity: 1;
   visibility: hidden;
-  background-color: #0079B8;
+  background-color: #0079b8;
   bottom: 4.5%;
   right: 4.5%;
   height: 65px;
   border-radius: 50px;
   transition: 0.2s;
-  transition: transform .4s ease-in-out;
+  transition: transform 0.4s ease-in-out;
 
   div {
     padding: 10px;
@@ -2935,10 +2928,10 @@ rlo-ui-card-field {
   height: 40px;
   text-decoration: none;
   transform: scaleY(0.5) scaleX(0.5) translateY(0px) translateX(0px);
-  -moz-transition: .3s;
-  -webkit-transition: .3s;
-  -o-transition: .3s;
-  transition: .3s;
+  -moz-transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
 }
 
 [data-tooltip] {
@@ -2961,7 +2954,7 @@ rlo-ui-card-field {
     right: 100%;
     white-space: nowrap;
     transform-origin: top right;
-    transition: all .3s cubic-bezier(.25, .8, .25, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   &:hover {
@@ -3036,7 +3029,7 @@ rlo-ui-card-field {
 
 /*amortization css start*/
 .horizontal-line {
-  border-bottom: 1px solid #E9E9E9;
+  border-bottom: 1px solid #e9e9e9;
   margin: 0 1.25rem 15px 1.25rem;
 }
 
@@ -3053,12 +3046,12 @@ rlo-ui-card-field {
   // height: 205px;
   padding-top: 22px;
   padding-bottom: 22px;
-  border: 1px solid #DFD7D7;
+  border: 1px solid #dfd7d7;
   border-radius: 4px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   .section {
-    border-right: 1px solid #DFD7D7;
+    border-right: 1px solid #dfd7d7;
 
     .field-container {
       margin-bottom: 10px;
@@ -3146,7 +3139,7 @@ rlo-ui-card-field {
 
       .decision-header {
         height: 17px;
-        color: #8E8E8E;
+        color: #8e8e8e;
         font-family: "Open Sans";
         font-size: 12px;
         letter-spacing: 0;
@@ -3160,7 +3153,7 @@ rlo-ui-card-field {
       .param-Question {
         height: 52px;
         border-radius: 4px;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
         line-height: 52px;
 
         .questions-txt {
@@ -3170,7 +3163,6 @@ rlo-ui-card-field {
           font-size: 12px;
           letter-spacing: 0;
           margin-left: 20px;
-
         }
       }
 
@@ -3182,7 +3174,7 @@ rlo-ui-card-field {
 
         .lbl-deviaton {
           background-color: $primary-color;
-          color: #FFFFFF;
+          color: #ffffff;
           height: 30px;
           font-size: 12px;
           width: 100%;
@@ -3198,7 +3190,7 @@ rlo-ui-card-field {
         height: 52px;
         opacity: 0.8;
         border-radius: 4px;
-        background-color: #EEF8FF;
+        background-color: #eef8ff;
 
         .param-answer {
           padding: 0px;
@@ -3244,7 +3236,7 @@ rlo-ui-card-field {
     .param-Question {
       height: 42px;
       border-radius: 4px;
-      background-color: #FAFAFA;
+      background-color: #fafafa;
       margin-top: 1.25rem;
       line-height: 42px;
 
@@ -3278,7 +3270,6 @@ rlo-ui-card-field {
   .primary_lable {
     height: auto;
   }
-
 }
 
 .lyt-underwriter {
@@ -3322,7 +3313,7 @@ rlo-ui-card-field {
 
     li {
       background-color: #999;
-      background-color: rgba(70, 70, 70, .25);
+      background-color: rgba(70, 70, 70, 0.25);
       margin-bottom: -57px;
       margin-left: 5px;
       margin-right: 5px;
@@ -3332,7 +3323,7 @@ rlo-ui-card-field {
   }
 
   .carousel-indicators .active {
-    background-color: #0079B8;
+    background-color: #0079b8;
     margin-bottom: -57px;
     margin-left: 5px;
     margin-right: 5px;
@@ -3541,7 +3532,7 @@ rlo-ui-card-field {
   }
 }
 
-// seperate doc. upload component 
+// seperate doc. upload component
 .wgt-doc-upload {
   // z-index: 99;
   position: absolute;
@@ -3566,10 +3557,10 @@ rlo-ui-card-field {
 
 .lyt-doc-upload {
   .doc-container {
-    background: #FAFCFF;
+    background: #fafcff;
     border-radius: 10px;
     padding: 24px;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #dddddd;
   }
 
   .file-upload {
@@ -3582,9 +3573,9 @@ rlo-ui-card-field {
       position: relative;
       width: 39px;
       height: 36px;
-      background: #EEEEEE;
+      background: #eeeeee;
       margin-top: 1.25rem;
-      border: 1px solid #CCCCCC;
+      border: 1px solid #cccccc;
       border-left: none;
       border-bottom-right-radius: 5px;
       border-top-right-radius: 5px;
@@ -3592,7 +3583,7 @@ rlo-ui-card-field {
 
       &.icon-folder-open:before {
         margin: auto;
-        color: #4F4E4E;
+        color: #4f4e4e;
       }
     }
   }
@@ -3634,7 +3625,7 @@ rlo-ui-card-field {
       font-size: 20px;
       line-height: 27px;
       text-align: center;
-      color: #0079B8;
+      color: #0079b8;
       margin: 22px 0 19px 0;
     }
   }
@@ -3650,10 +3641,10 @@ rlo-ui-card-field {
 
       thead {
         tr {
-          background: #E4F0F9;
+          background: #e4f0f9;
           font-size: 12px;
           line-height: 12px;
-          color: #7C7C7C;
+          color: #7c7c7c;
           font-weight: unset;
           height: 40px;
         }
@@ -3661,7 +3652,7 @@ rlo-ui-card-field {
 
       tbody {
         tr {
-          background-color: #FAFAFA;
+          background-color: #fafafa;
         }
 
         .download-img {
@@ -3719,10 +3710,10 @@ rlo-ui-card-field {
 
     thead {
       tr {
-        background: #E4F0F9;
+        background: #e4f0f9;
         font-size: 12px;
         line-height: 12px;
-        color: #7C7C7C;
+        color: #7c7c7c;
         font-weight: unset;
         height: 40px;
       }
@@ -3766,7 +3757,6 @@ rlo-ui-card-field {
     }
   }
 }
-
 
 #ApplicationInfo {
   font-size: 16px;
@@ -3820,7 +3810,7 @@ rlo-ui-card-field {
   }
 
   tbody {
-    tr>td {
+    tr > td {
       border: 0px;
 
       .row-add-icon {
@@ -3886,7 +3876,7 @@ rlo-ui-card-field {
   }
 
   tfoot {
-    tr>td {
+    tr > td {
       border: 0px;
 
       .read-only-field {
@@ -3951,9 +3941,9 @@ rlo-ui-card-field {
   // }
   .selected-btn {
     box-sizing: border-box;
-    background-color: #0079B8 !important;
-    color: #FFFFFF !important;
-    border: 1px solid #0079B8 !important;
+    background-color: #0079b8 !important;
+    color: #ffffff !important;
+    border: 1px solid #0079b8 !important;
     border-radius: 4px !important;
     font-family: "Open Sans";
     font-size: 12px;
@@ -3962,7 +3952,7 @@ rlo-ui-card-field {
     text-align: center;
     width: 100%;
     height: fit-content;
-    padding: .35rem 1rem;
+    padding: 0.35rem 1rem;
   }
 
   label {
@@ -4004,7 +3994,7 @@ rlo-ui-card-field {
     left: 0;
     height: 16px;
     width: 16px;
-    background: #FFF;
+    background: #fff;
     border: 1px solid #9a9a9a;
     border-radius: 50%;
     opacity: 1;
@@ -4019,7 +4009,7 @@ rlo-ui-card-field {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: #FFF;
+    background: #fff;
   }
 
   .radio-container input {
@@ -4031,28 +4021,28 @@ rlo-ui-card-field {
     margin: 0;
   }
 
-  .radio-container input:checked~.checkmark {
+  .radio-container input:checked ~ .checkmark {
     background-color: #0079b8;
     border: 1px solid #0079b8;
   }
 
-  .radio-container input:focus~.checkmark {
+  .radio-container input:focus ~ .checkmark {
     outline: 0;
   }
 
-  .radio-container input:focus~.checkmark {
+  .radio-container input:focus ~ .checkmark {
     box-shadow: 0 0 2px 2px #004d8a;
   }
 
-  .radio-container input:disabled:not(:checked)~.checkmark {
+  .radio-container input:disabled:not(:checked) ~ .checkmark {
     cursor: not-allowed;
   }
 
-  .radio-container input:disabled:not(:checked)~.checkmark {
+  .radio-container input:disabled:not(:checked) ~ .checkmark {
     background: #ccc;
   }
 
-  .radio-container input:checked~.checkmark:after {
+  .radio-container input:checked ~ .checkmark:after {
     display: block;
   }
 
@@ -4092,13 +4082,12 @@ rlo-ui-card-field {
 }
 
 .collateral {
-
   thead tr {
-    background-color: #E4F0F9;
+    background-color: #e4f0f9;
   }
 
   tbody tr:nth-child(even) {
-    background-color: #FAFAFA;
+    background-color: #fafafa;
   }
 
   td {
@@ -4107,8 +4096,7 @@ rlo-ui-card-field {
   }
 }
 
-
-// CLO Collateral Styles - END 
+// CLO Collateral Styles - END
 
 .cust-acknwlg-Container {
   padding-left: 0px !important;
@@ -4230,7 +4218,7 @@ rlo-ui-card-field {
 
 // .modal-end-btn-container {
 //   padding-left: 2.56rem;
-// 
+//
 // }
 
 // .clr-btn{
@@ -4281,7 +4269,8 @@ rlo-ui-card-field {
   margin-left: 0px;
 }
 
-.wgt-date-multiselect {}
+.wgt-date-multiselect {
+}
 
 .credit-card-only-save {
   float: right;
@@ -4314,10 +4303,10 @@ rlo-ui-card-field {
 
     thead {
       tr {
-        background: #E4F0F9;
+        background: #e4f0f9;
         font-size: 12px;
         line-height: 12px;
-        color: #7C7C7C;
+        color: #7c7c7c;
         font-weight: unset;
         height: 40px;
       }
@@ -4369,11 +4358,11 @@ rlo-ui-card-field {
     padding: 6px 18px;
     cursor: pointer;
 
-    &[role="treeitem"][aria-expanded="false"]>ul {
+    &[role="treeitem"][aria-expanded="false"] > ul {
       display: none;
     }
 
-    &[role="treeitem"][aria-expanded="true"]>ul {
+    &[role="treeitem"][aria-expanded="true"] > ul {
       display: block;
     }
 
@@ -4390,7 +4379,7 @@ rlo-ui-card-field {
     &:focus {
       outline: none;
 
-      >span {
+      > span {
         outline: none;
         font-weight: bold;
         text-decoration: underline;
@@ -4399,7 +4388,7 @@ rlo-ui-card-field {
     }
 
     &[tabindex="0"] {
-      >span {
+      > span {
         border: 1px solid black;
       }
     }
@@ -4407,13 +4396,12 @@ rlo-ui-card-field {
 }
 
 .lyt-interface-result {
-
   .section:nth-of-type(2) {
     margin-top: 15px;
   }
 
   .section {
-    border-bottom: 1px solid #CCCCCC;
+    border-bottom: 1px solid #cccccc;
 
     table {
       margin-bottom: 23px;
@@ -4439,11 +4427,11 @@ rlo-ui-card-field {
     }
 
     &.warning {
-      background: #F5A623;
+      background: #f5a623;
     }
 
     &.danger {
-      background: #D0021B;
+      background: #d0021b;
     }
 
     &.black {
@@ -4451,7 +4439,7 @@ rlo-ui-card-field {
     }
 
     &.disabled {
-      background: #B7B7B7;
+      background: #b7b7b7;
     }
   }
 
@@ -4483,7 +4471,7 @@ rlo-ui-card-field {
   .header-txt {
     line-height: 52px;
     height: 17px;
-    color: #8E8E8E;
+    color: #8e8e8e;
     font-size: 12px;
     letter-spacing: 0;
   }
@@ -4494,7 +4482,7 @@ rlo-ui-card-field {
 
     td {
       border: none;
-      background: #FAFAFA;
+      background: #fafafa;
       padding: 1rem;
       position: relative;
 
@@ -4523,7 +4511,6 @@ rlo-ui-card-field {
         line-height: 17px;
         font-weight: normal;
       }
-
     }
   }
 
@@ -4531,7 +4518,7 @@ rlo-ui-card-field {
     display: flex;
 
     .index-container {
-      background: #F8F8F8;
+      background: #f8f8f8;
       display: inline-block;
       margin: 0 auto;
       margin-top: 15.5px;
@@ -4552,15 +4539,15 @@ rlo-ui-card-field {
           padding: 0 4px;
 
           &.success {
-            background: #00B500;
+            background: #00b500;
           }
 
           &.warning {
-            background: #F5A623;
+            background: #f5a623;
           }
 
           &.danger {
-            background: #D0021B;
+            background: #d0021b;
           }
 
           &.black {
@@ -4568,7 +4555,7 @@ rlo-ui-card-field {
           }
 
           &.disabled {
-            background: #B7B7B7;
+            background: #b7b7b7;
           }
         }
       }
@@ -4586,15 +4573,15 @@ rlo-ui-card-field {
   margin: auto;
 
   &.success {
-    background: #00B500;
+    background: #00b500;
   }
 
   &.warning {
-    background: #F5A623;
+    background: #f5a623;
   }
 
   &.danger {
-    background: #D0021B;
+    background: #d0021b;
   }
 
   &.black {
@@ -4602,7 +4589,7 @@ rlo-ui-card-field {
   }
 
   &.disabled {
-    background: #B7B7B7;
+    background: #b7b7b7;
   }
 }
 
@@ -4613,7 +4600,7 @@ rlo-ui-card-field {
 
   .count-section {
     float: right;
-    background: #0079B8;
+    background: #0079b8;
     border-radius: 50%;
     height: 34px;
     width: 34px;
@@ -4638,6 +4625,90 @@ rlo-ui-card-field {
 
     .icon-left-arrow {
       margin-right: 8px;
+    }
+  }
+}
+
+.wgt-customer-search {
+  .records-count {
+    font-size: 20px;
+    color: #00b500;
+    text-align: center;
+    margin: 22px 0;
+  }
+
+  .title {
+    font-size: 20px;
+    text-align: center;
+    margin: 24px 0;
+  }
+
+  .field-container {
+    background: #fafcff;
+    padding: 0px 22px 22px 22px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+  }
+
+  .input-fields {
+    margin-top: 22px;
+  }
+
+  .search-submit-container {
+    margin-top: 44px;
+    text-align: right;
+
+    button:first-of-type {
+      margin-right: 13px;
+    }
+
+    button {
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  ag-grid-angular {
+    padding-top: 0 !important;
+  }
+
+  .search-type-section {
+    margin-top: 22px;
+
+    rlo-ui-radio {
+      .rlo-ui-radio-container {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.wgt-input-ui-customer-search {
+  .input-text-group {
+    .form-control {
+      border-right: none !important;
+      // border-radius: 0 !important;
+      border-bottom-right-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+      z-index: 0 !important;
+    }
+  }
+
+  .input-group-btn {
+    padding-top: 1.3rem; // padding-bottom: 1.5rem;
+
+    .btn-customer-search {
+      z-index: 2;
+      margin-left: -1px;
+      border: 1px solid #cccccc !important;
+      height: 36px;
+      border-left: 0 !important;
+    }
+
+    .dropdown-menu {
+      box-shadow: none;
+      border-top: 0;
     }
   }
 }

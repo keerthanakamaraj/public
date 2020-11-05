@@ -3,6 +3,7 @@ import { InitiationComponent } from './Initiation.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
 import { RlouiService } from '../rlo-services/rloui.service';
+import { RloCommonData } from '../rlo-services/rloCommonData.service';
 
 @Component({
   selector: 'app-initiation-handler',
@@ -29,7 +30,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // allowLoanOwnership: boolean;
 
 
-  constructor(rloui: RlouiService) {
+  constructor(rloui: RlouiService, rloCommonData: RloCommonData) {
     super(rloui);
   }
 
@@ -104,27 +105,27 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
 
   existingCustomer({ }) {
-    if (this.MainComponent.CD_EXISTING_CUST.getFieldValue() == null || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == undefined
-      || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == '' || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N') {
-      this.MainComponent.CD_CUSTOMER_ID.onReset();
-      this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
-    }
-    else {
-      this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
-    }
+    // if (this.MainComponent.CD_EXISTING_CUST.getFieldValue() == null || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == undefined
+    //   || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == '' || this.MainComponent.CD_EXISTING_CUST.getFieldValue() == 'N') {
+    //   this.MainComponent.CD_CUSTOMER_ID.onReset();
+    //   this.MainComponent.CD_CUSTOMER_ID.readOnly = true;
+    // }
+    // else {
+    //   this.MainComponent.CD_CUSTOMER_ID.readOnly = false;
+    // }
 
   }
 
 
   isStaff({ }) {
-    if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
-      || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
-      this.MainComponent.CD_STAFF_ID.onReset();
-      this.MainComponent.CD_STAFF_ID.readOnly = true;
-    }
-    else {
-      this.MainComponent.CD_STAFF_ID.readOnly = false;
-    }
+    // if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined
+    //   || this.MainComponent.CD_STAFF.getFieldValue() == '' || this.MainComponent.CD_STAFF.getFieldValue() == 'N') {
+    //   this.MainComponent.CD_STAFF_ID.onReset();
+    //   this.MainComponent.CD_STAFF_ID.readOnly = true;
+    // }
+    // else {
+    //   this.MainComponent.CD_STAFF_ID.readOnly = false;
+    // }
   }
   //onClickOfCheckElgibility
   onCheckEligibilityClick({ }) {
@@ -199,12 +200,16 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_NAME_ON_CARD.onReset();
     this.MainComponent.CD_MOBILE.onResetMobileNo();
 
+    //reset fields customerId and staffId  
+    this.MainComponent.CD_CUSTOMER_ID.onReset();
+    this.MainComponent.CD_STAFF_ID.onReset();
+
     this.onProdCategoryChange({});
 
-    this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
+    //this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
     this.existingCustomer({});
 
-    this.MainComponent.CD_STAFF.setValue(this.MainComponent.CD_STAFF.getDefault());
+    //this.MainComponent.CD_STAFF.setValue(this.MainComponent.CD_STAFF.getDefault());
     this.isStaff({});
     this.DisableLoanOwnerShip();
   }
@@ -248,7 +253,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     // TODO: add logic to handle in loop
 
     this.MainComponent.CD_CUST_TYPE.setValue(customer.customerType.value, customer.customerType.label);
-    this.MainComponent.CD_EXISTING_CUST.setValue(customer.existingCustomer.value, customer.existingCustomer.label);
+    //this.MainComponent.CD_EXISTING_CUST.setValue(customer.existingCustomer.value, customer.existingCustomer.label);
     this.existingCustomer({});
     this.MainComponent.CD_CIF.setValue(customer.CIF);
     this.MainComponent.CD_CUSTOMER_ID.setValue(customer.customerId);
@@ -264,8 +269,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_MOBILE.setComponentSpecificValue(customer.mobileNumber, customer.countryCode);
     this.MainComponent.CD_DEBIT_SCORE.setValue(customer.debitScore);
     this.MainComponent.CD_CUST_SGMT.setValue(customer.customerSegment.value, customer.customerSegment.label);
+   
     this.MainComponent.CD_CUST_SUB_SGMT.setValue(customer.customerSubSegment.value, customer.customerSubSegment.label);
-    this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
+    // this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
+   
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
@@ -334,6 +341,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
           }
         }
       }
+    
       if (this.editId) {
         let index = this.customers.findIndex(cust => cust.tempId === this.editId);
         this.customers[index] = customer;
@@ -342,11 +350,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       } else {
 
         this.customers.push(customer);
-
-
-
         this.tempId = undefined;
-
         console.log("this.customers", this.customers);
       }
 
@@ -361,7 +365,6 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.resetCustomerDetails();
       this.DisableLoanOwnerShip();
     }
-
   }
 
   updateCustomerTags() {
@@ -426,9 +429,19 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     let customer = new Customer();
     customer.customerType = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_TYPE);
     customer.CUST_TYPE_LBL = this.MainComponent.CD_CUST_TYPE.getFieldInfo();
-    customer.existingCustomer = this.getValueLabelFromDropdown(this.MainComponent.CD_EXISTING_CUST);
+
+    //customer.existingCustomer = this.getValueLabelFromDropdown(this.MainComponent.CD_EXISTING_CUST);
+    //customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
+    //customer.CIF = this.MainComponent.CD_CIF.getFieldValue();
+    //customer.customerId = this.MainComponent.CD_CUSTOMER_ID.getFieldValue();
+
+    //custom
+    customer.existingCustomer = new ValueLabel("Y","Yes");//default to Y for canara bank demo
     customer.CIF = this.MainComponent.CD_CIF.getFieldValue();
     customer.customerId = this.MainComponent.CD_CUSTOMER_ID.getFieldValue();
+    customer.staff = new ValueLabel("Y","Yes");//default to Y for canara bank demo
+    customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
+
     customer.title = this.getValueLabelFromDropdown(this.MainComponent.CD_TITLE);
     customer.firstName = this.MainComponent.CD_FIRST_NAME.getFieldValue();
     customer.middleName = this.MainComponent.CD_MIDDLE_NAME.getFieldValue();
@@ -441,9 +454,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.mobileNumber = this.MainComponent.CD_MOBILE.getFieldValue();
     customer.debitScore = this.MainComponent.CD_DEBIT_SCORE.getFieldValue();
     customer.customerSegment = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_SGMT);
+
     customer.customerSubSegment = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_SUB_SGMT);    
-    customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
-    customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
+    // customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
+    // customer.staffId = this.MainComponent.CD_STAFF_ID.getFieldValue();
+
     customer.loanOwnership = this.MainComponent.CD_LOAN_OWNERSHIP.getFieldValue();
     customer.email = this.MainComponent.CD_EMAIL_ID.getFieldValue();
     customer.countryCode = this.MainComponent.CD_MOBILE.countryCode;

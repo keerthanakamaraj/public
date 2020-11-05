@@ -9,6 +9,7 @@ import { promise } from 'protractor';
 import { string } from '@amcharts/amcharts4/core';
 import { ProvidehttpService } from '../providehttp.service';
 import { HttpResponse } from '@angular/common/http';
+import { resolve } from 'dns';
 
 export interface subjectParamsInterface {
   action: string;
@@ -531,7 +532,7 @@ export class RloCommonData {
           // if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
           //   commonObj.isSectionValid = true;
           // } else
-           if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
+          if (eachOccupation.IncomeType && 'PRI' === eachOccupation.IncomeType.toString()) {
             commonObj.isSectionValid = true;
           }
         }
@@ -1024,6 +1025,35 @@ export class RloCommonData {
       commonObj.isSectionValid = false;
     }
     return commonObj;
+  }
+
+  async getSearchedCustomerData(searchType: 'Internal' | 'External', inputMap: any) {
+    const promise = new Promise((resolve, reject) => {
+      if (searchType == 'Internal') {
+        this.http.fetchApi('/dedupe', 'GET', inputMap, "/initiation").subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+            console.log("Deep | Service - getSearchedCustomerData() INTERNAL SEARCH RESPONSE:", res);
+            resolve(res);
+          },
+          async (httpError) => {
+            resolve(null);
+          }
+        );
+      } else { 
+        this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+            console.log("Deep | Service - getSearchedCustomerData() EXTERNAL SEARCH RESPONSE:", res);
+            resolve(res);
+          },
+          async (httpError) => {
+            resolve(null);
+          }
+        );
+      }
+    });
+    return promise;
   }
 
 

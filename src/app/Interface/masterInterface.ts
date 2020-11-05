@@ -105,3 +105,15 @@ export interface IGlobalComponentLvlDataHandler {
   data: any;
   BorrowerSeq: number;
 }
+
+export interface ICustomSearchObject {
+  mobileNumber?: any;
+  firstName?: string;
+  lastName?: string;
+  taxId?: any;
+  customerId?: any;
+  cifId?: any;//both can have values bt either customerId or CIFNumber values to be used depending upon the customerSearchType
+  dob?: any;
+  staffId?: any;
+  searchType?: 'Internal' | 'External';
+}

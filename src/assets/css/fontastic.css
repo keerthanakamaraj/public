@@ -209,3 +209,7 @@
 .icon-property:before{
     content: "\e925";
 }
+
+.icon-search:before{
+    content: "\e927";
+}

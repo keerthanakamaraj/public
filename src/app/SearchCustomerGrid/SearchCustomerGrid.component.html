@@ -1,18 +1,18 @@
 <div class="MakeRelative">
+    <div class="records-count" *ngIf="showRecordCount">{{documentCount}} records found</div>
     <div class="ShowLoading" *ngIf="loadSpinner">
         <div class="loader"></div>
     </div>
-    <div class="row reference-div">
+    <!-- <div class="row reference-div">
         <div class="col-xs-12 col-sm-12">
             <h4 *ngIf="displayTitle">{{'SearchCustomerGrid.GridTitle' | translate}}</h4>
         </div>
-
-    </div>
+    </div> -->
     <div [hidden]="!recordsFound || loadSpinner">
         <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode"
             [gridConsts]="gridConsts"></app-readonly-grid>
     </div>
-    <div style="text-align: center" [hidden]="recordsFound || loadSpinner">
+    <!-- <div style="text-align: center" [hidden]="recordsFound || loadSpinner">
         <label>No Record Found</label>
-    </div>
+    </div> -->
 </div>

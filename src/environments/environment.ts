@@ -26,7 +26,8 @@ export const environment = {
     "/rlo-de" : "/olive/publisher",
    "/los-integrator":"/los-integrator",
     "/lettermangement" :"/lettermangement/publisher",
-    "los-verification":"/los-verification"
+    "los-verification":"/los-verification",
+    "/common-de": "/los-verification"
   }
 
   // serviceMap: {
