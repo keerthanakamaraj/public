@@ -36,8 +36,6 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
   MstDataMap: Map<string, customerInterface> = new Map();
   customerDropDownList = [];
   vrfnDropDownList = [];
-  cityDropDownList = [];
-  agencyDropDownList = [];
   ApplicationId = undefined;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
@@ -97,27 +95,27 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     return addInfo;
   }
 
-  async fetchMstCityList() {
-    let inputMap = new Map();
-    this.cityDropDownList = [];
-    inputMap.set('QueryParam.lookup', 1);
-    this.services.http.fetchApi('/MstCityDetails', 'GET', inputMap, '/masters').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        let res = httpResponse.body;
-        let tempList = res['Data'];
-        if (tempList) {
-          this.cityDropDownList = tempList;
-          this.cityDropDownList.unshift({ id: undefined, text: "" });
-          this.City.forEach(element => {
-            element.setStaticListOptions(this.cityDropDownList);
-          });
-          // tempList.forEach(element => {
-          //   this.vrfnDropDownList.push({id: element.id, text: element.text });
-          // });
-        }
-      }
-    );
-  }
+  // async fetchMstCityList() {
+  //   let inputMap = new Map();
+  //   this.cityDropDownList = [];
+  //   inputMap.set('QueryParam.lookup', 1);
+  //   this.services.http.fetchApi('/MstCityDetails', 'GET', inputMap, '/masters').subscribe(
+  //     async (httpResponse: HttpResponse<any>) => {
+  //       let res = httpResponse.body;
+  //       let tempList = res['Data'];
+  //       if (tempList) {
+  //         this.cityDropDownList = tempList;
+  //         this.cityDropDownList.unshift({ id: undefined, text: "" });
+  //         this.City.forEach(element => {
+  //           element.setStaticListOptions(this.cityDropDownList);
+  //         });
+  //         // tempList.forEach(element => {
+  //         //   this.vrfnDropDownList.push({id: element.id, text: element.text });
+  //         // });
+  //       }
+  //     }
+  //   );
+  // }
 
 
   async fetchVrfnCodeList() {
