@@ -1717,7 +1717,7 @@
     "PaymentOption": "Payment Option",
     "FrontPageCategory": "Category on the Front page",
     "CCD_Clear": "CLEAR",
-    "ApprovedLimit": "Approved Limit ",
+    "ApprovedLimit": "Approved Cash Limit ",
     "SettlementAccountType": "Settlement Account Type",
     "FieldId_31": "null",
     "MaximumCardLimit": "Maximum Card Limit",
@@ -1727,7 +1727,17 @@
     "EcsPercentage" :"Percentage to be settled",
     "EcsAccNo" : "Account number",
     "EcsType" : "ECS Type",
-    "EcsMandateFlag" : "ECS Applicable"
+    "EcsMandateFlag" : "ECS Applicable",
+    "CustomerType" : "Customer Type",
+    "RequestedCardLimit" :"Requested Card Limit",
+    "MaxCashLimit":  "Maximum Cash Limit",
+    "ApprovedCashLimit" : "Approved Card Limit",
+    "NomineeRequired":"Nominee Required",
+    "NomineeName" :"Nominee Name",
+    "NomineeRelationship" :"Nominee Relationship",
+    "NomineeDOB" :"Nominee Date Of Birth",
+    "GuardianName" : "Guardian Name",
+    "GuadianRelationship" : "Guadian Relationship"
   },
   "CustomerDtls": {
     "CARD_DTLS_LBL": "Card Details",
@@ -2467,5 +2477,10 @@
           "PostCPV_Cancel" : "CANCEL",
           "PostCPV_Reset" : "RESET",
           "PostCPV_Submit" : "SUBMIT"
-          }
+          },
+          "DecisionAlert" : {
+            "FormTitle" : "DecisionAlert",
+            "DecisionReason" : "Decision Reason",
+            "Remarks" : "Remarks"
+            }
 }

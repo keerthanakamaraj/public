@@ -34,7 +34,17 @@
             <app-text-box #Branch fieldID="Branch" [formCode]="formCode" (blur)="genericOnBlur('Branch', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FrontPageCategory.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.CustomerType' | translate}}
+              </label>
+            </div>
+            <app-text-box #CustomerType fieldID="CustomerType" [formCode]="formCode"
+              (blur)="genericOnBlur('CustomerType', $event)">
+            </app-text-box>
+          </div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FrontPageCategory.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': FrontPageCategory.mandatory}">
                 {{ 'CreditCardDetails.FrontPageCategory' | translate}}
@@ -43,38 +53,66 @@
             <app-combo-box #FrontPageCategory category="2" fieldID="FrontPageCategory" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('FrontPageCategory', $event)"></app-combo-box>
-          </div>
+          </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaximumCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.MaximumCardLimit' | translate}}
               </label>
             </div>
-
             <!-- <app-amount #MaximumCardLimit fieldID="MaximumCardLimit" [formCode]="formCode"
               (blur)="genericOnBlur('MaximumCardLimit', $event)"></app-amount> -->
-
             <app-rlo-ui-currency #MaximumCardLimit fieldID="MaximumCardLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'MaximumCardLimit'" [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
-
+              [componentFieldId]="'MaximumCardLimit'" [inputReadOnly]="false" [formCode]="formCode">
+            </app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequestedCardLimit.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.RequestedCardLimit' | translate}}
+              </label>
+            </div>
+            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('RequestedCardLimit', $event)">
+            </app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
+                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}
+              </label>
+            </div>
+            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('ApprovedCashLimit', $event)">
+            </app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.MaxCashLimit' | translate}}
+              </label>
+            </div>
+            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('MaxCashLimit', $event)">
+            </app-rlo-ui-currency>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedLimit.mandatory}">
+              <label class="clr-brown">
                 {{ 'CreditCardDetails.ApprovedLimit' | translate}}
               </label>
             </div>
 
-            <app-rlo-ui-currency #ApprovedLimit fieldID="ApprovedLimit" [currencyReadOnly]="true" 
-            [componentFieldId]="'ApprovedLimit'" (onBlurEvent)="customGenericOnBlur($event)"
-            [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+            <app-rlo-ui-currency #ApprovedLimit fieldID="ApprovedLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'ApprovedLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="false"
+              [formCode]="formCode"></app-rlo-ui-currency>
 
             <!-- <app-amount #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
               (blur)="genericOnBlur('ApprovedLimit', $event);approveLimitBlur($event)"></app-amount> -->
 
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.SettlementAccountType' | translate}}
@@ -83,7 +121,7 @@
             <app-combo-box #SettlementAccountType category="2" fieldID="SettlementAccountType" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('SettlementAccountType', $event)"></app-combo-box>
-          </div>
+          </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SettlementAccountNo.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -114,7 +152,7 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('StmtDispatchMode', $event)"></app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ExistingCreditCard.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ExistingCreditCard.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.ExistingCreditCard' | translate}}
@@ -123,7 +161,7 @@
             <app-combo-box #ExistingCreditCard category="2" fieldID="ExistingCreditCard" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('ExistingCreditCard', $event)"></app-combo-box>
-          </div>
+          </div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardDispatchMode.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -135,7 +173,67 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('CardDispatchMode', $event)"></app-combo-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CRLine.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeRequired.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+                {{ 'CreditCardDetails.NomineeRequired' | translate}}
+              </label>
+            </div>
+            <app-combo-box #NomineeRequired category="2" fieldID="NomineeRequired" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('NomineeRequired', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeName.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+                {{ 'CreditCardDetails.NomineeName' | translate}}
+              </label>
+            </div>
+            <app-text-box #NomineeName fieldID="NomineeName" [formCode]="formCode"
+              (blur)="genericOnBlur('NomineeName', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeRelationship.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+                {{ 'CreditCardDetails.NomineeRelationship' | translate}}
+              </label>
+            </div>
+            <app-combo-box #NomineeRelationship category="2" fieldID="NomineeRelationship" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('NomineeRelationship', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeDOB.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+                {{ 'CreditCardDetails.NomineeDOB' | translate}}
+              </label>
+            </div>
+            <app-date #NomineeDOB fieldID="NomineeDOB" [formCode]="formCode"
+              (blur)="genericOnBlur('NomineeDOB', $event)">
+            </app-date>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="GuardianName.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': GuardianName.mandatory}">
+                {{ 'CreditCardDetails.GuardianName' | translate}}
+              </label>
+            </div>
+            <app-text-box #GuardianName fieldID="GuardianName" [formCode]="formCode"
+              (blur)="genericOnBlur('GuardianName', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="GuadianRelationship.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': GuardianName.mandatory}">
+                {{ 'CreditCardDetails.GuadianRelationship' | translate}}
+              </label>
+            </div>
+            <app-combo-box #GuadianRelationship category="2" fieldID="GuadianRelationship" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('GuadianRelationship', $event)"></app-combo-box>
+          </div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CRLine.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CRLine.mandatory}">
                 {{ 'CreditCardDetails.CRLine' | translate}}
@@ -143,8 +241,8 @@
             </div>
             <app-text-box #CRLine fieldID="CRLine" [formCode]="formCode" (blur)="genericOnBlur('CRLine', $event)">
             </app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardAdvLine.isHidden() || isLoanCategory">
+          </div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardAdvLine.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CardAdvLine.mandatory}">
                 {{ 'CreditCardDetails.CardAdvLine' | translate}}
@@ -152,8 +250,8 @@
             </div>
             <app-text-box #CardAdvLine fieldID="CardAdvLine" [formCode]="formCode" (blur)="genericOnBlur('CardAdvLine', $event)">
             </app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsMandateFlag.isHidden() || isLoanCategory">
+          </div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsMandateFlag.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': EcsMandateFlag.mandatory}">
                 {{ 'CreditCardDetails.EcsMandateFlag' | translate}}
@@ -163,8 +261,8 @@
               (change)="EcsMandateFlag_change('EcsMandateFlag', $event)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
               doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('EcsMandateFlag', $event)">
             </rlo-ui-radio>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsType.isHidden() || isLoanCategory">
+          </div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsType.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': EcsType.mandatory}">
                 {{ 'CreditCardDetails.EcsType' | translate}}
@@ -173,8 +271,8 @@
             <app-combo-box #EcsType category="2" fieldID="EcsType" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('EcsType', $event)"></app-combo-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsPercentage.isHidden() || isLoanCategory">
+          </div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsPercentage.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': EcsPercentage.mandatory}">
                 {{ 'CreditCardDetails.EcsPercentage' | translate}}
@@ -182,8 +280,8 @@
             </div>
             <app-text-box #EcsPercentage fieldID="EcsPercentage" [formCode]="formCode" (blur)="genericOnBlur('EcsPercentage', $event)">
             </app-text-box>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsAccNo.isHidden() || isLoanCategory">
+          </div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EcsAccNo.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': EcsAccNo.mandatory}">
                 {{ 'CreditCardDetails.EcsAccNo' | translate}}
@@ -191,9 +289,9 @@
             </div>
             <app-text-box #EcsAccNo fieldID="EcsAccNo" [formCode]="formCode" (blur)="genericOnBlur('EcsAccNo', $event)">
             </app-text-box>
-          </div>
+          </div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
           <ng-container>
             <div *ngIf="!readOnly" class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
               [hidden]="CCD_Save.isHidden()">
@@ -228,7 +326,10 @@
         <app-hidden #hidCardDispatch fieldID="hidCardDispatch"></app-hidden>
         <app-hidden #hidECSMandateFlag fieldID="hidECSMandateFlag"></app-hidden>
         <app-hidden #hidECSType fieldID="hidECSType"></app-hidden>
-
+        <app-hidden #hidNomineeReq fieldID="hidNomineeReq"></app-hidden>
+        <app-hidden #hidNomineeReltion fieldID="hidNomineeReltion"></app-hidden>
+        <app-hidden #hidGurdianRel fieldID="hidGurdianRel"></app-hidden>
+        <app-hidden #hidNomineeSeq fieldID="hidNomineeSeq"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
       </div>
     </div>
