@@ -6,28 +6,28 @@
 <table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
   [ngClass]="{'gridError':error}" (click)="clearGridError()">
   <thead>
-    <tr class="tr-blue tr-td-l">
-      <th [hidden]="isColumnHidden('SrNo')" width="10">
+    <tr>
+      <th [hidden]="isColumnHidden('SrNo')" width="4%">
         {{ 'PreCPVInputGrid.SrNo' | translate }}</th>
-      <th [hidden]="isColumnHidden('CustomerName')" width="30">
+      <th [hidden]="isColumnHidden('CustomerName')" width="12%">
         {{ 'PreCPVInputGrid.CustomerName' | translate }}</th>
-      <th [hidden]="isColumnHidden('VerificationType')" width="30">
+      <th [hidden]="isColumnHidden('VerificationType')" width="10%">
         {{ 'PreCPVInputGrid.VerificationType' | translate }}</th>
-      <th [hidden]="isColumnHidden('Details')" width="40">
+      <th [hidden]="isColumnHidden('Details')" width="15%">
         {{ 'PreCPVInputGrid.Details' | translate }}</th>
-      <th [hidden]="isColumnHidden('SelectCity')" width="30">
+      <th [hidden]="isColumnHidden('SelectCity')" width="10%">
         {{ 'PreCPVInputGrid.SelectCity' | translate }}</th>
-      <th [hidden]="isColumnHidden('SelectAgency')" width="30">
+      <th [hidden]="isColumnHidden('SelectAgency')" width="12%">
         {{ 'PreCPVInputGrid.SelectAgency' | translate }}</th>
-      <th [hidden]="isColumnHidden('RemarksForAgency')" width="30">
+      <th [hidden]="isColumnHidden('RemarksForAgency')" width="10%">
         {{ 'PreCPVInputGrid.RemarksForAgency' | translate }}</th>
-      <th [hidden]="isColumnHidden('WaiveOff')" width="10">
+      <th [hidden]="isColumnHidden('WaiveOff')" width="5%">
         {{ 'PreCPVInputGrid.WaiveOff' | translate }}</th>
-      <th [hidden]="isColumnHidden('RetriggerStatus')" width="30">
+      <th [hidden]="isColumnHidden('RetriggerStatus')" width="8%">
         {{ 'PreCPVInputGrid.RetriggerStatus' | translate }}</th>
-      <th [hidden]="isColumnHidden('AddVerificationType')" width="10">
+      <th [hidden]="isColumnHidden('AddVerificationType')" width="6%">
         {{ 'PreCPVInputGrid.AddVerificationType' | translate }}</th>
-      <th [hidden]="isColumnHidden('Initiate')" width="10">
+      <th [hidden]="isColumnHidden('Initiate')" width="8%">
         {{ 'PreCPVInputGrid.Initiate' | translate }}</th>
     </tr>
   </thead>
@@ -61,8 +61,7 @@
             [hidden]="isCellReadOnly[rowNo]['VerificationType']" [formCode]="formCode" placeholder="Placeholder"
             [mandatory]="true" (blur)="genericOnBlur('VerificationType', $event, rowNo)"></app-combo-box> -->
           <app-combo-box #VerificationType category="4" fieldID="VerificationType_{{rowNo}}" placeholder="Select"
-            [emittedOptions]="vrfnDropDownList" (change)="VerificationType_Change()"
-            (blur)="genericOnBlur('VerificationType', $event, rowNo)">
+            [emittedOptions]="vrfnDropDownList" (blur)="genericOnBlur('VerificationType', $event, rowNo)">
           </app-combo-box>
           <div *ngIf="isCellReadOnly[rowNo]['VerificationType']">
             <p class="label-text" [title]="this['VerificationType'].toArray()[rowNo].getFieldInfo()">
@@ -74,8 +73,12 @@
           <!-- <app-combo-box #Details category="2" fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
             [formCode]="formCode" placeholder="Placeholder" [mandatory]="true"
             (blur)="genericOnBlur('Details', $event, rowNo)"></app-combo-box> -->
-          <app-text-area #Details fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
-            [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('Details', $event, rowNo)"></app-text-area>
+          <!-- <app-text-area #Details fieldID="Details_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['Details']"
+            [formCode]="formCode" cols="10" rows="2" (blur)="genericOnBlur('Details', $event, rowNo)"></app-text-area> -->
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #Details fieldID="Details_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['Details']" [formCode]="formCode"
+            (blur)="genericOnBlur('Details', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['Details']">
             <p class="label-text" [title]="this['Details'].toArray()[rowNo].getFieldInfo()">
               {{this['Details'].toArray()[rowNo].getFieldInfo()}}
@@ -113,7 +116,7 @@
         </td>
         <td [hidden]="isColumnHidden('RemarksForAgency')">
           <app-text-box #RemarksForAgency fieldID="RemarksForAgency_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['RemarksForAgency']" [formCode]="formCode" placeholder="Placeholder"
+            [hidden]="isCellReadOnly[rowNo]['RemarksForAgency']" [formCode]="formCode"
             [mandatory]="true" (blur)="genericOnBlur('RemarksForAgency', $event, rowNo)"></app-text-box>
           <div *ngIf="isCellReadOnly[rowNo]['RemarksForAgency']">
             <p class="label-text" [title]="this['RemarksForAgency'].toArray()[rowNo].getFieldInfo()">
@@ -123,7 +126,7 @@
         </td>
         <td [hidden]="isColumnHidden('WaiveOff')">
           <app-check-box #WaiveOff fieldID="WaiveOff_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['WaiveOff']"
-            [formCode]="formCode" placeholder="Placeholder" (blur)="genericOnBlur('WaiveOff', $event, rowNo)">
+            [formCode]="formCode" (blur)="genericOnBlur('WaiveOff', $event, rowNo)">
           </app-check-box>
           <div *ngIf="isCellReadOnly[rowNo]['WaiveOff']">
             <p class="label-text" [title]="this['WaiveOff'].toArray()[rowNo].getFieldInfo()">
@@ -132,9 +135,13 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('RetriggerStatus')">
-          <app-text-box #RetriggerStatus fieldID="RetriggerStatus_{{rowNo}}"
+          <!-- <app-text-box #RetriggerStatus fieldID="RetriggerStatus_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['RetriggerStatus']" [formCode]="formCode" placeholder="Placeholder"
-            [mandatory]="true" (blur)="genericOnBlur('RetriggerStatus', $event, rowNo)"></app-text-box>
+            [mandatory]="true" (blur)="genericOnBlur('RetriggerStatus', $event, rowNo)"></app-text-box> -->
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #RetriggerStatus
+            fieldID="RetriggerStatus_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['RetriggerStatus']"
+            [formCode]="formCode" (blur)="genericOnBlur('RetriggerStatus', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['RetriggerStatus']">
             <p class="label-text" [title]="this['RetriggerStatus'].toArray()[rowNo].getFieldInfo()">
               {{this['RetriggerStatus'].toArray()[rowNo].getFieldInfo()}}
@@ -143,19 +150,13 @@
         </td>
         <td [hidden]="isColumnHidden('AddVerificationType')">
           <app-button #AddVerificationType fieldName="{{ 'PreCPVInputGrid.Plus' | translate}}"
-            fieldID="AddVerificationType_{{rowNo}}" [formCode]="formCode" customClass="btn btn-primary"
+            fieldID="AddVerificationType_{{rowNo}}" [formCode]="formCode" customClass="btn cpv-add-btn"
             (buttonClick)="addEmptyRow(rowNo)">
           </app-button>
-          <!-- AddVerificationType_click(rowNo,$event) -->
-          <div *ngIf="isCellReadOnly[rowNo]['AddVerificationType']">
-            <p class="label-text" [title]="this['AddVerificationType'].toArray()[rowNo].getFieldInfo()">
-              {{this['AddVerificationType'].toArray()[rowNo].getFieldInfo()}}
-            </p>
-          </div>
         </td>
         <td [hidden]="isColumnHidden('Initiate')">
           <app-button #Initiate fieldName="{{ 'PreCPVInputGrid.INITIATE' | translate}}" fieldID="Initiate_{{rowNo}}"
-            [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Initiate_click(rowNo,$event)">
+            [formCode]="formCode" customClass="btn cpv-initiate-btn" (buttonClick)="Initiate_click(rowNo,$event)">
           </app-button>
           <div *ngIf="isCellReadOnly[rowNo]['Initiate']">
             <p class="label-text" [title]="this['Initiate'].toArray()[rowNo].getFieldInfo()">

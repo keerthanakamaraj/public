@@ -57,6 +57,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   @ViewChild('PCRanking', { static: false }) PCRanking: TextBoxComponent;
   @ViewChild('PCIsAttending', { static: false }) PCIsAttending: CheckBoxComponent;
   @ViewChild('PCCollegeName', { static: false }) PCCollegeName: TextBoxComponent;
+  @ViewChild('PCCollegeAddress', { static: false }) PCCollegeAddress: TextBoxComponent;
   @ViewChild('PCName2', { static: false }) PCName2: TextBoxComponent;
   @ViewChild('PCCompeteDate', { static: false }) PCCompeteDate: DateComponent;
   @ViewChild('LCurrency', { static: false }) LCurrency: ComboBoxComponent;
@@ -82,7 +83,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   @ViewChild('hidCourseCategory', { static: false }) hidCourseCategory: HiddenComponent;
   @ViewChild('hidCourseType', { static: false }) hidCourseType: HiddenComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
-  @ViewChild('PCCollegeAddress', { static: false }) PCCollegeAddress: TextBoxComponent;
   @ViewChild('PE_SAVE_BTN', { static: false }) PE_SAVE_BTN: ButtonComponent;
   @ViewChild('PE_CLEAR_BTN', { static: false }) PE_CLEAR_BTN: ButtonComponent;
   @ViewChild('ED_SAVE_BTN', { static: false }) ED_SAVE_BTN: ButtonComponent;
@@ -651,6 +651,8 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     inputMap.set('Body.EducationLoan.TotalFund', this.FundsAvailableGrid.TotalAmount.getFieldValue());
     inputMap.set('Body.EducationLoan.TotalFundEq', this.FundsAvailableGrid.TotalLocalCurEq.getFieldValue());
     inputMap.set('Body.EducationLoan.InterestCapitalizedFlag', this.LIsInterestCaptalized.getFieldValue());
+    inputMap.set('Body.EducationLoan.MoratoriumAfterCourse', this.LMoratoriumPostCoursePeriod.getFieldValue());
+    inputMap.set('Body.EducationLoan.MoratoriumDuringCourse', this.LMoratoriumDurCoursePeriod.getFieldValue());
     inputMap.set('Body.EducationLoan.Currency', this.LCurrency.getFieldValue());
     inputMap.set('Body.EducationLoan.pursuingCourseDtls', this.generatePersuingCourseSaveReq());
     inputMap.set('Body.EducationLoan.costAndFundsGridDtls', this.generateCostAndFundsReq());

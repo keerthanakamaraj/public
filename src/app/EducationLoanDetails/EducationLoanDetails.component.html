@@ -87,7 +87,7 @@
                   </div>
                   <app-combo-box #PEClassObtained category="2" fieldID="PEClassObtained" [formCode]="formCode"
                   domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PEClassObtained', $event)"></app-combo-box>
+                  placeholder="select" (blur)="genericOnBlur('PEClassObtained', $event)"></app-combo-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PEPrizes.isHidden()">
                   <div class="clr-brown fieldLegend">
@@ -95,7 +95,7 @@
                       {{ 'EducationLoanDetails.PEPrizes' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PEPrizes fieldID="PEPrizes" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PEPrizes fieldID="PEPrizes" [formCode]="formCode" 
                     (blur)="genericOnBlur('PEPrizes', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
@@ -143,7 +143,7 @@
 
                     </label>
                   </div>
-                  <app-text-box #PCPinCode fieldID="PCPinCode" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCPinCode fieldID="PCPinCode" [formCode]="formCode" 
                    (blur)="genericOnBlur('PCPinCode', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCInstitutionName.isHidden()">
@@ -166,7 +166,7 @@
                     </label>
                   </div>
                   <app-text-box #PCInstituteAddress fieldID="PCInstituteAddress" [formCode]="formCode"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PCInstituteAddress', $event)">
+                     (blur)="genericOnBlur('PCInstituteAddress', $event)">
                   </app-text-box>
                   
                 </div>
@@ -177,7 +177,7 @@
                       {{ 'EducationLoanDetails.PCRegion' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PCRegion fieldID="PCRegion" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCRegion fieldID="PCRegion" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCRegion', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCity.isHidden()">
@@ -186,7 +186,7 @@
                       {{ 'EducationLoanDetails.PCCity' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PCCity fieldID="PCCity" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCCity fieldID="PCCity" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCCity', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCState.isHidden()">
@@ -195,7 +195,7 @@
                       {{ 'EducationLoanDetails.PCState' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PCState fieldID="PCState" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCState fieldID="PCState" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCState', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCAdmissionStatus.isHidden()">
@@ -207,7 +207,7 @@
                   </div>
                   <app-combo-box #PCAdmissionStatus category="2" fieldID="PCAdmissionStatus" [formCode]="formCode"
                   domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PCAdmissionStatus', $event)">
+                  placeholder="select" (blur)="genericOnBlur('PCAdmissionStatus', $event)">
                   </app-combo-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="RecognizedAuthority.isHidden()">
@@ -218,7 +218,7 @@
                     </label>
                   </div>
                   <app-text-box #RecognizedAuthority fieldID="RecognizedAuthority" [formCode]="formCode"
-                    placeholder="Placeholder" (blur)="genericOnBlur('RecognizedAuthority', $event)">
+                     (blur)="genericOnBlur('RecognizedAuthority', $event)">
                   </app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCContactPerson.isHidden()">
@@ -229,7 +229,7 @@
                     </label>
                   </div>
                   <app-text-box #PCContactPerson fieldID="PCContactPerson" [formCode]="formCode"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PCContactPerson', $event)">
+                     (blur)="genericOnBlur('PCContactPerson', $event)">
                   </app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCAppliedFor.isHidden()">
@@ -238,9 +238,9 @@
                       {{ 'EducationLoanDetails.PCAppliedFor' | translate}}
                     </label>
                   </div>
-                  <app-combo-box #PCAppliedFor category="2" fieldID="PCAppliedFor" [formCode]="formCode" placeholder="Placeholder"
+                  <app-combo-box #PCAppliedFor category="2" fieldID="PCAppliedFor" [formCode]="formCode" 
                   domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" 
-                  (blur)="genericOnBlur('PCAppliedFor', $event)"></app-combo-box>
+                  placeholder="select" (blur)="genericOnBlur('PCAppliedFor', $event)"></app-combo-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCName.isHidden()">
                   <div class="clr-brown fieldLegend">
@@ -249,7 +249,7 @@
 
                     </label>
                   </div>
-                  <app-text-box #PCName fieldID="PCName" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCName fieldID="PCName" [formCode]="formCode" 
                    (blur)="genericOnBlur('PCName', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCAdmitionThrough.isHidden()">
@@ -261,7 +261,7 @@
                   </div>
                   <app-combo-box #PCAdmitionThrough category="2" fieldID="PCAdmitionThrough" [formCode]="formCode"
                   domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PCAdmitionThrough', $event)">
+                  placeholder="select" (blur)="genericOnBlur('PCAdmitionThrough', $event)">
                   </app-combo-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCategory.isHidden()">
@@ -273,7 +273,7 @@
                   </div>
                   <app-combo-box #PCCategory category="2" fieldID="PCCategory" [formCode]="formCode"
                   domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PCCategory', $event)">
+                  placeholder="select"  (blur)="genericOnBlur('PCCategory', $event)">
                   </app-combo-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCourseType.isHidden()">
@@ -285,7 +285,7 @@
                   </div>
                   <app-combo-box #PCCourseType category="2" fieldID="PCCourseType" [formCode]="formCode"
                   domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                    placeholder="Placeholder" (blur)="genericOnBlur('PCCourseType', $event)">
+                  placeholder="select" (blur)="genericOnBlur('PCCourseType', $event)">
                   </app-combo-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCStartDate.isHidden()">
@@ -295,7 +295,7 @@
 
                     </label>
                   </div>
-                  <app-date #PCStartDate fieldID="PCStartDate" [formCode]="formCode" placeholder="Placeholder"
+                  <app-date #PCStartDate fieldID="PCStartDate" [formCode]="formCode" 
                    (blur)="genericOnBlur('PCStartDate', $event)"></app-date>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCEndDate.isHidden()">
@@ -305,7 +305,7 @@
 
                     </label>
                   </div>
-                  <app-date #PCEndDate fieldID="PCEndDate" [formCode]="formCode" placeholder="Placeholder"
+                  <app-date #PCEndDate fieldID="PCEndDate" [formCode]="formCode" 
                    (blur)="genericOnBlur('PCEndDate', $event)"></app-date>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCRanking.isHidden()">
@@ -315,7 +315,7 @@
 
                     </label>
                   </div>
-                  <app-text-box #PCRanking fieldID="PCRanking" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCRanking fieldID="PCRanking" [formCode]="formCode" 
                    (blur)="genericOnBlur('PCRanking', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCIsAttending.isHidden()"
@@ -325,7 +325,7 @@
                       {{ 'EducationLoanDetails.PCIsAttending' | translate}}
                     </label>
                   </div>
-                  <app-check-box #PCIsAttending fieldID="PCIsAttending" [formCode]="formCode" placeholder="Placeholder"
+                  <app-check-box #PCIsAttending fieldID="PCIsAttending" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCIsAttending', $event)"></app-check-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCollegeName.isHidden()">
@@ -334,7 +334,7 @@
                       {{ 'EducationLoanDetails.PCCollegeName' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PCCollegeName fieldID="PCCollegeName" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCCollegeName fieldID="PCCollegeName" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCCollegeName', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCollegeAddress.isHidden()">
@@ -343,7 +343,7 @@
                       {{ 'EducationLoanDetails.PCCollegeAddress' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PCCollegeAddress fieldID="PCCollegeAddress" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCCollegeAddress fieldID="PCCollegeAddress" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCCollegeAddress', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCName2.isHidden()">
@@ -352,7 +352,7 @@
                       {{ 'EducationLoanDetails.PCName2' | translate}}
                     </label>
                   </div>
-                  <app-text-box #PCName2 fieldID="PCName2" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #PCName2 fieldID="PCName2" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCName2', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCompeteDate.isHidden()">
@@ -361,7 +361,7 @@
                       {{ 'EducationLoanDetails.PCCompeteDate' | translate}}
                     </label>
                   </div>
-                  <app-date #PCCompeteDate fieldID="PCCompeteDate" [formCode]="formCode" placeholder="Placeholder"
+                  <app-date #PCCompeteDate fieldID="PCCompeteDate" [formCode]="formCode" 
                     (blur)="genericOnBlur('PCCompeteDate', $event)"></app-date>
                 </div>
               </div>
@@ -405,7 +405,7 @@
 
                     </label>
                   </div>
-                  <app-text-box #LoanRequied fieldID="LoanRequied" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #LoanRequied fieldID="LoanRequied" [formCode]="formCode" 
                    (blur)="genericOnBlur('LoanRequied', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LMoratoriumDurCoursePeriod.isHidden()">
@@ -439,7 +439,7 @@
 
                     </label>
                   </div>
-                  <app-text-box #LTotMoratorium fieldID="LTotMoratorium" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #LTotMoratorium fieldID="LTotMoratorium" [formCode]="formCode" 
                    (blur)="genericOnBlur('LTotMoratorium', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LEMIPeriod.isHidden()">
@@ -448,7 +448,7 @@
                       {{ 'EducationLoanDetails.LEMIPeriod' | translate}}
                     </label>
                   </div>
-                  <app-text-box #LEMIPeriod fieldID="LEMIPeriod" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #LEMIPeriod fieldID="LEMIPeriod" [formCode]="formCode" 
                   (blur)="genericOnBlur('LEMIPeriod', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LTotLoanPeriod.isHidden()">
@@ -458,7 +458,7 @@
 
                     </label>
                   </div>
-                  <app-text-box #LTotLoanPeriod fieldID="LTotLoanPeriod" [formCode]="formCode" placeholder="Placeholder"
+                  <app-text-box #LTotLoanPeriod fieldID="LTotLoanPeriod" [formCode]="formCode" 
                    (blur)="genericOnBlur('LTotLoanPeriod', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="LIsInterestCaptalized.isHidden()"
@@ -469,17 +469,17 @@
                     </label>
                   </div>
                   <app-check-box #LIsInterestCaptalized fieldID="LIsInterestCaptalized" [formCode]="formCode"
-                    placeholder="Placeholder" (blur)="genericOnBlur('LIsInterestCaptalized', $event)"></app-check-box>
+                     (blur)="genericOnBlur('LIsInterestCaptalized', $event)"></app-check-box>
                 </div>
                 <div class="col-12 col-sm-9 col-md-9"></div>
                 <ng-container *ngIf="!readOnly">
                   <div class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide">
-                    <app-button #ED_SAVE_BTN fieldName="{{ 'LoanDetailsForm.ED_SAVE_BTN' | translate}}" fieldID="ED_SAVE_BTN"
+                    <app-button #ED_SAVE_BTN fieldName="{{ 'EducationLoanDetails.ED_SAVE_BTN' | translate}}" fieldID="ED_SAVE_BTN"
                       [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ED_SAVE_BTN_click($event)">
                     </app-button>
                   </div>
                   <div class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide">
-                    <app-button #ED_CLEAR_BTN fieldName="{{ 'LoanDetailsForm.ED_CLEAR_BTN' | translate}}"
+                    <app-button #ED_CLEAR_BTN fieldName="{{ 'EducationLoanDetails.ED_CLEAR_BTN' | translate}}"
                       fieldID="ED_CLEAR_BTN" [formCode]="formCode" customClass="btn-warning-outline"
                       (buttonClick)="ED_CLEAR_BTN_click($event)">
                     </app-button>

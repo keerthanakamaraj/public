@@ -12,7 +12,8 @@ import { ServiceStock } from '../service-stock.service';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ButtonComponent } from '../button/button.component';
-import { DefaultDataInterface, verificationInterface } from '../pre-cpv/pre-cpv-interface';
+import { DefaultDataInterface, verificationInterface, customerInterface } from '../pre-cpv/pre-cpv-interface';
+import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 
 const customCss: string = '';
 @Component({
@@ -22,16 +23,17 @@ const customCss: string = '';
 export class PreCPVInputGridComponent extends GridComponent implements OnInit {
   @ViewChildren('CustomerName') CustomerName: QueryList<ComboBoxComponent>;
   @ViewChildren('VerificationType') VerificationType: QueryList<ComboBoxComponent>;
-  @ViewChildren('Details') Details: QueryList<TextAreaComponent>;
+  // @ViewChildren('Details') Details: QueryList<TextAreaComponent>;
+  @ViewChildren('Details') Details: QueryList<ReadOnlyComponent>;
   @ViewChildren('City') City: QueryList<ComboBoxComponent>;
   @ViewChildren('Agency') Agency: QueryList<ComboBoxComponent>;
   @ViewChildren('RemarksForAgency') RemarksForAgency: QueryList<TextBoxComponent>;
   @ViewChildren('WaiveOff') WaiveOff: QueryList<CheckBoxComponent>;
-  @ViewChildren('RetriggerStatus') RetriggerStatus: QueryList<TextBoxComponent>;
+  @ViewChildren('RetriggerStatus') RetriggerStatus: QueryList<ReadOnlyComponent>;
   @ViewChildren('AddVerificationType') AddVerificationType: QueryList<ButtonComponent>;
   @ViewChildren('Initiate') Initiate: QueryList<ButtonComponent>;
 
-  MstDataMap: Map<string, DefaultDataInterface> = new Map();
+  MstDataMap: Map<string, customerInterface> = new Map();
   customerDropDownList = [];
   vrfnDropDownList = [];
   cityDropDownList = [];
@@ -42,7 +44,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     super(services, cdRef);
     this.value = new PreCPVInputGridModel();
     this.componentCode = 'PreCPVInputGrid';
-    this.initRowCount = 1;
+    this.initRowCount = 0;
     this.uniqueColumns = [];
     this.primaryColumns = [];
   }
@@ -76,7 +78,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
 
   }
   async onRowAdd(rowNo) {
-    this.RetriggerStatus.toArray()[rowNo].setReadOnly(true);
+    this.Details.toArray()[rowNo].setReadOnly(true);
   }
   async onRowDelete(rowNo) {
   }
@@ -135,6 +137,10 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
           this.VerificationType.forEach(element => {
             element.setStaticListOptions(this.vrfnDropDownList);
           });
+          if (this.vrfnDropDownList != undefined) {
+            this.fetchDefaultData();
+          }
+
           // tempList.forEach(element => {
           //   this.vrfnDropDownList.push({id: element.id, text: element.text });
           // });
@@ -171,9 +177,10 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
         this.services.http.fetchApi('/v1/proposal/3322/CPV/verification', 'GET', inputMap, "/los-verification").subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            let defaultData = res['verfReqDataList'];
+            let defaultData = res['CPVResp'];
             console.log("shweta :: verification data", defaultData);
-            this.parseDefaultData(defaultData);
+            // this.parseDefaultData(defaultData);
+            this.parseVerificationResp(defaultData);
           },
           async (httpError) => {
             var err = httpError['error']
@@ -186,57 +193,168 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     }
   }
 
-
-  parseDefaultData(defaultDataJson) {
-    this.customerDropDownList.push({ id: undefined, text: "" });
-    defaultDataJson.forEach(element => {
-      let customerDtls: DefaultDataInterface = {}
-      let newCustomerFlag: boolean = false;
-      if (this.MstDataMap.has(element.verfAdditionalDetails.field1)) {
-        customerDtls = this.MstDataMap.get(element.verfAdditionalDetails.field1);
-      } else {
-        customerDtls.mobileNumberflag = false;
-        newCustomerFlag = true;
+  parseVerificationResp(defaultData) {
+    let existingVrfnList = undefined;
+    if (defaultData['CustomerRecords'] != undefined) {
+      if (defaultData['CPVRecords'] != undefined) {
+        existingVrfnList = defaultData['CPVRecords'];
       }
-      customerDtls.customerSeq = element.verfAdditionalDetails.field1;
-      customerDtls.customerType = element.verfAdditionalDetails.field2;
-      customerDtls.customerName = element.verfAdditionalDetails.field3;
-      if (newCustomerFlag) {
-        this.customerDropDownList.push({
-          id: customerDtls.customerSeq,
-          text: customerDtls.customerType + '-' + customerDtls.customerName
+      defaultData['CustomerRecords'].forEach(eachCustomer => {
+        let customerDtls: customerInterface = {}
+        let newCustomerFlag: boolean = false;
+        if (this.MstDataMap.has(eachCustomer.FIELD1)) {
+          customerDtls = this.MstDataMap.get(eachCustomer.FIELD1);
+        } else {
+          newCustomerFlag = true;
+        }
+        customerDtls.customerSeq = eachCustomer.FIELD1;
+        customerDtls.customerType = eachCustomer.FIELD2;
+        customerDtls.customerName = eachCustomer.FIELD3;
+
+        if (newCustomerFlag) {
+          this.customerDropDownList.push({
+            id: customerDtls.customerSeq,
+            text: customerDtls.customerType + '-' + customerDtls.customerName
+          });
+        }
+
+        if (customerDtls.verificationList == undefined) {
+          customerDtls.verificationList = [];
+        }
+
+        if (eachCustomer.FIELD4 != undefined) {
+          customerDtls.verificationList.push(
+            this.mergeCustAndVrfnDtls('MOBVR', eachCustomer.FIELD4, existingVrfnList, customerDtls.customerSeq));
+        }
+        if (eachCustomer.FIELD6 != undefined) {
+          customerDtls.verificationList.push(
+            this.mergeCustAndVrfnDtls('BVR', eachCustomer.FIELD6, existingVrfnList, customerDtls.customerSeq));
+          if (eachCustomer.FIELD6 == eachCustomer.FIELD8 || eachCustomer.FIELD6 == eachCustomer.FIELD10) {
+            customerDtls.verificationList.push(
+              this.mergeCustAndVrfnDtls('ROVR', eachCustomer.FIELD6, existingVrfnList, customerDtls.customerSeq));
+          }
+        }
+        if (eachCustomer.FIELD8 != undefined) {
+          customerDtls.verificationList.push(
+            this.mergeCustAndVrfnDtls('RVR', eachCustomer.FIELD8, existingVrfnList, customerDtls.customerSeq));
+        }
+        this.MstDataMap.set(eachCustomer.FIELD1, customerDtls);
+      });
+      this.customerDropDownList.unshift({ id: undefined, text: "" });
+      this.CustomerName.forEach(element => {
+        element.setStaticListOptions(this.customerDropDownList);
+      });
+      this.loadRecords();
+      console.log("shweta :: mstDataMap", this.MstDataMap);
+    }
+  }
+
+  loadRecords() {
+    let rowCounter = 0;
+    this.MstDataMap.forEach(eachCustomer => {
+      if (eachCustomer.verificationList.length > 0) {
+        eachCustomer.verificationList.forEach(eachVrfn => {
+          let rowData = {};
+          if (eachVrfn.ProposalVerificationID) {
+            rowData['CustomerName'] = eachCustomer.customerSeq;
+            rowData['VerificationType'] = eachVrfn.verificationCode;
+            rowData['Details'] = eachVrfn.details;
+            rowData['City'] = eachVrfn.City;
+            rowData['Agency'] = eachVrfn.AgencyCode;
+            rowData['RemarksForAgency'] = eachVrfn.SpecificInstructions;
+            rowData['WaiveOff'] = eachVrfn.VerificationWaived == 'true' ? true : false;
+            //rowData['WaiveOff'] = true;
+            //rowData['RetriggerStatus']=eachVrfn.aa;
+            rowCounter = this.addRow(rowData);
+            this.disableRow(rowCounter);
+
+          }
         });
       }
-      if (customerDtls.verificationList == undefined) {
-        customerDtls.verificationList = [];
-      }
-
-      if (element.verfAdditionalDetails.field7 != undefined) {
-        let verificationDtls: verificationInterface = {}
-        verificationDtls.verificationCode = 'AD' + element.verfAdditionalDetails.field5 + element.verfAdditionalDetails.field6;
-        verificationDtls.details = element.verfAdditionalDetails.field7;
-        customerDtls.verificationList.push(verificationDtls);
-
-      }
-      if (!customerDtls.mobileNumberflag && element.verfAdditionalDetails.field4 != undefined) {
-        let verificationDtls: verificationInterface = {}
-        verificationDtls.verificationCode = 'MBPR';
-        verificationDtls.details = element.verfAdditionalDetails.field4;
-        customerDtls.verificationList.push(verificationDtls);
-        customerDtls.mobileNumberflag = true;
-      }
-
-      this.MstDataMap.set(element.verfAdditionalDetails.field1, customerDtls);
     });
-    this.CustomerName.forEach(element => {
-      element.setStaticListOptions(this.customerDropDownList);
-    });
-
-    console.log("shweta :: mstDataMap", this.MstDataMap);
-    console.log("shweta :: mstDataMap", this.customerDropDownList);
-
-    // this.PreCPVGrid.setDropdownLists(this.MstDataMap);
+    this.addEmptyRow(rowCounter);
   }
+  disableRow(rowNo) {
+    this.CustomerName.toArray()[rowNo].setReadOnly(true);
+    this.VerificationType.toArray()[rowNo].setReadOnly(true);
+    this.Details.toArray()[rowNo].setReadOnly(true);
+    this.City.toArray()[rowNo].setReadOnly(true);
+    this.Agency.toArray()[rowNo].setReadOnly(true);
+    this.RemarksForAgency.toArray()[rowNo].setReadOnly(true);
+    this.WaiveOff.toArray()[rowNo].setReadOnly(true);
+    this.RetriggerStatus.toArray()[rowNo].setReadOnly(true);
+    this.AddVerificationType.toArray()[rowNo].setDisabled(true);
+    this.Initiate.toArray()[rowNo].setDisabled(true);
+  }
+  mergeCustAndVrfnDtls(tempVrfnCode, details, ExistingVrfnList, borrowerSeq) {
+    let verificationDtls: verificationInterface = {}
+    verificationDtls.verificationCode = tempVrfnCode;
+    verificationDtls.details = details;
+    if (ExistingVrfnList != undefined) {
+      let existingVrfn = ExistingVrfnList.find(eachRecord => eachRecord.VerfnCode == tempVrfnCode && eachRecord.BorrowerSeq == borrowerSeq);
+      if (existingVrfn != undefined) {
+        verificationDtls.ProposalVerificationID = existingVrfn.ProposalVerificationID;
+        verificationDtls.VerificationStatus = existingVrfn.VerificationStatus;
+        verificationDtls.SpecificInstructions = existingVrfn.SpecificInstructions;
+        verificationDtls.VerificationTxnId = existingVrfn.VerificationTxnId;
+        verificationDtls.VerificationType = existingVrfn.VerificationType;
+        verificationDtls.VerificationWaived = existingVrfn.VerificationWaived;
+        verificationDtls.City = existingVrfn.City;
+        verificationDtls.AgencyCode = existingVrfn.AgencyCode;
+      }
+    }
+    return verificationDtls;
+  }
+  // parseDefaultData(defaultDataJson) {
+  //   this.customerDropDownList.push({ id: undefined, text: "" });
+  //   defaultDataJson.forEach(element => {
+  //     let customerDtls: DefaultDataInterface = {}
+  //     let newCustomerFlag: boolean = false;
+  //     if (this.MstDataMap.has(element.verfAdditionalDetails.field1)) {
+  //       customerDtls = this.MstDataMap.get(element.verfAdditionalDetails.field1);
+  //     } else {
+  //       customerDtls.mobileNumberflag = false;
+  //       newCustomerFlag = true;
+  //     }
+  //     customerDtls.customerSeq = element.verfAdditionalDetails.field1;
+  //     customerDtls.customerType = element.verfAdditionalDetails.field2;
+  //     customerDtls.customerName = element.verfAdditionalDetails.field3;
+  //     if (newCustomerFlag) {
+  //       this.customerDropDownList.push({
+  //         id: customerDtls.customerSeq,
+  //         text: customerDtls.customerType + '-' + customerDtls.customerName
+  //       });
+  //     }
+  //     if (customerDtls.verificationList == undefined) {
+  //       customerDtls.verificationList = [];
+  //     }
+
+  //     if (element.verfAdditionalDetails.field7 != undefined) {
+  //       let verificationDtls: verificationInterface = {}
+  //       verificationDtls.verificationCode = 'AD' + element.verfAdditionalDetails.field5 + element.verfAdditionalDetails.field6;
+  //       verificationDtls.details = element.verfAdditionalDetails.field7;
+  //       customerDtls.verificationList.push(verificationDtls);
+
+  //     }
+  //     if (!customerDtls.mobileNumberflag && element.verfAdditionalDetails.field4 != undefined) {
+  //       let verificationDtls: verificationInterface = {}
+  //       verificationDtls.verificationCode = 'MBPR';
+  //       verificationDtls.details = element.verfAdditionalDetails.field4;
+  //       customerDtls.verificationList.push(verificationDtls);
+  //       customerDtls.mobileNumberflag = true;
+  //     }
+
+  //     this.MstDataMap.set(element.verfAdditionalDetails.field1, customerDtls);
+  //   });
+  //   this.CustomerName.forEach(element => {
+  //     element.setStaticListOptions(this.customerDropDownList);
+  //   });
+
+  //   console.log("shweta :: mstDataMap", this.MstDataMap);
+  //   console.log("shweta :: mstDataMap", this.customerDropDownList);
+
+  //   // this.PreCPVGrid.setDropdownLists(this.MstDataMap);
+  // }
   ClearMapsAndList() {
     this.MstDataMap.clear();
     this.customerDropDownList = [];
@@ -249,15 +367,18 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     if (noOfError == 0) {
       this.Initiate.toArray()[rowNo].setDisabled(true);
       inputMap = this.generateInitiateReqJSON(inputMap, rowNo);
-      
+
       console.log("shweta :: intiation req json", inputMap)
       inputMap.set('PathParam.proposal-id', this.ApplicationId);
       this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap, '/los-verification').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.services.alert.showAlert(1, 'rlo.success.precpv-initiate', 5000);
-          this.onReset();
-          this.Initiate.toArray()[rowNo].setDisabled(true);
+          //  this.onReset();
+          //  this.fetchVrfnCodeList();
+          this.disableRow(rowNo);
+          this.addEmptyRow(rowNo);
+          //  this.Initiate.toArray()[rowNo].setDisabled(true);
         },
         async (httpError) => {
           // this.parseResponseError(httpError['error']);
@@ -270,9 +391,12 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
       this.Initiate.toArray()[rowNo].setDisabled(false);
     }
-
-
   }
+
+
+  // checkDuplicateData(rowNo){
+
+  // }
 
   generateInitiateReqJSON(inputMap, rowNo) {
     inputMap.clear();
@@ -288,26 +412,30 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     let vrfnSummObj = {}
     vrfnSummObj['BorrowerSeq'] = this.CustomerName.toArray()[rowNo].getFieldValue();
     vrfnSummObj['CpvType'] = this.VerificationType.toArray()[rowNo].getFieldValue();
-    // vrfnSummObj['City']=this.City.toArray()[rowNo].getFieldValue();
+    vrfnSummObj['City'] = this.City.toArray()[rowNo].getFieldValue();
     vrfnSummObj['AgencyName'] = this.Agency.toArray()[rowNo].getFieldValue();
     vrfnSummObj['SpecificInstructions'] = this.RemarksForAgency.toArray()[rowNo].getFieldValue();
     vrfnSummObj['VerificationWaived'] = this.WaiveOff.toArray()[rowNo].getFieldValue();
-    vrfnSummObj['ProposalVerificationID'] = ''
+    console.log("shweta :: ", this.MstDataMap);
 
+    vrfnSummObj['ProposalVerificationID'] = '';
     vrfnSummObj['AppRefNum'] = '1030MOR08840990';
     vrfnSummObj['ProposalId'] = this.ApplicationId;
     vrfnSummObj['VerificationType'] = 'CpvReq';
     vrfnSummObj['VerificationStatus'] = 'Initiated';
-   // vrfnSummObj['CpvReq'] = CPVReqObj;
+    // vrfnSummObj['CpvReq'] = CPVReqObj;
 
     verificationSummList.push(vrfnSummObj);
     return verificationSummList;
   }
 
+  City_blur(City, event, rowNo) {
+    console.log("Shweta : City", City);
+  }
+
   fieldDependencies = {
     City: {
       inDep: [
-
         { paramKey: "CityCd", depFieldID: "City", paramType: "PathParam" },
       ],
       outDep: [
@@ -315,7 +443,6 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     },
     Agency: {
       inDep: [
-
         { paramKey: "AgencySeq", depFieldID: "Agency", paramType: "PathParam" },
         { paramKey: "CityCode", depFieldID: "City", paramType: "QueryParam" },
       ],
@@ -323,7 +450,6 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
       ]
     }
   }
-
 
 }
 
