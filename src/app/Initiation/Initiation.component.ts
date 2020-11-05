@@ -51,7 +51,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: ComboBoxComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
-  
+
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: ComboBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
   @ViewChild('BAD_PROD_CAT', { static: false }) BAD_PROD_CAT: RLOUIRadioComponent;
@@ -85,7 +85,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_CUST_SGMT', { static: false }) CD_CUST_SGMT: ComboBoxComponent;
   @ViewChild('CD_CUST_SUB_SGMT', { static: false }) CD_CUST_SUB_SGMT: ComboBoxComponent;
   @ViewChild('REF_CIF', { static: false }) REF_CIF: TextBoxComponent;
-  
+
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   @ViewChild('CD_LOAN_OWNERSHIP', { static: false }) CD_LOAN_OWNERSHIP: AmountComponent;
   @ViewChild('CD_ADD', { static: false }) CD_ADD: ButtonComponent;
@@ -131,7 +131,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('hidGender', { static: false }) hidGender: HiddenComponent;
   @ViewChild('hidCustSeg', { static: false }) hidCustSeg: HiddenComponent;
   @ViewChild('hidCustSubSgmnt', { static: false }) hidCustSubSgmnt: HiddenComponent;
-  
+
   @ViewChild('hideExsCust', { static: false }) hideExsCust: HiddenComponent;
   @ViewChild('hideAppPurpose', { static: false }) hideAppPurpose: HiddenComponent;
   @ViewChild('hideTenurePeriod', { static: false }) hideTenurePeriod: HiddenComponent;
@@ -455,6 +455,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.updateCustomerTags();
     this.Handler.updateAmountTags();
 
+    this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
   }
 
   async CANCEL_MAIN_BTN_click(event) {
@@ -864,7 +865,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ExistingCardNumber', this.BAD_CARD_NUMBER.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ExistingCardType', this.BAD_CARD_TYPE.getFieldValue());
         inputMap.set('Body.ApplicationDetails.CustomerType', this.BAD_CUSTOMER_TYPE.getFieldValue());
-        
+
         // inputMap.set('Body.ApplicationDetails.AppSubmissionDate', this.getTimeStamp());
         inputMap.set('Body.LoanDetails.LoanAmount', this.LD_LOAN_AMOUNT.getFieldValue());
         inputMap.set('Body.LoanDetails.InterestRate', this.LD_INTEREST_RATE.getFieldValue());
@@ -1314,13 +1315,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     CD_CUST_SGMT: {
       inDep: [
 
-        { paramKey: "CustSegmentCd", depFieldID: "CD_CUST_SGMT"},
-       
+        { paramKey: "CustSegmentCd", depFieldID: "CD_CUST_SGMT" },
+
       ],
       outDep: [
       ]
     },
-   
+
     CD_CUST_SUB_SGMT: {
       inDep: [
 
@@ -1330,7 +1331,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
-    
+
     LD_TENURE_PERIOD: {
       inDep: [
 
@@ -1405,6 +1406,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.Handler.updateAmountTags();
     } else if (event.field == "LD_GROSS_INCOME" || event.field == "LD_EXST_LBLT_AMT" || event.field == "LD_OTH_DEDUCTIONS") {
       this.Handler.calculateNetIncome({});
+    } else if (event.field == "BAD_REQ_CARD_LIMIT") {
+      this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
     }
     this.genericOnBlur(event.field, event.textFieldValue);
   }
@@ -1446,8 +1449,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             this.setValuesOfCustomer(response);
           }
           else {
-            if(response)
-            this.CD_RESET_click();
+            if (response)
+              this.CD_RESET_click();
           }
         }
         else {

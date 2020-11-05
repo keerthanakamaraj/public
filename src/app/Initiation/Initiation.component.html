@@ -257,9 +257,10 @@
                       {{ 'Initiation.BAD_REQ_CARD_LIMIT' | translate}}
                     </label>
                   </div>
-                  <app-rlo-ui-currency #BAD_REQ_CARD_LIMIT fieldID="BAD_REQ_CARD_LIMIT" [currencyReadOnly]="true"
-                    [componentFieldId]="'BAD_REQ_CARD_LIMIT'" [formCode]="formCode">
-                  </app-rlo-ui-currency>
+               
+                  <app-rlo-ui-currency #BAD_REQ_CARD_LIMIT fieldID="BAD_REQ_CARD_LIMIT" [currencyReadOnly]="true" 
+                  [componentFieldId]="'BAD_REQ_CARD_LIMIT'" (onBlurEvent)="customGenericOnBlur($event)"
+                   [formCode]="formCode"></app-rlo-ui-currency>
                 </div>
                   <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #BAD_PROD_LBL parentCompCode="Initiation" fieldID="BAD_PROD_LBL" [formCode]="formCode"
