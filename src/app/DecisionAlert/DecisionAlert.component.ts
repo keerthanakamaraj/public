@@ -124,32 +124,32 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.setReadOnly(false);
         this.onFormLoad();
     }
-    
-    Decision_SUBMIT_click(){
-    const inputMap = new Map();
 
-    inputMap.clear();
-    inputMap.set('HeaderParam.Decision', this.DecisionReason.getFieldValue());
-    inputMap.set('HeaderParam.Remark', this.Remarks.getFieldValue());
+    Decision_SUBMIT_click() {
+        const inputMap = new Map();
 
-    this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
-      async (httpResponse: HttpResponse<any>) => {
-        const res = httpResponse.body;
+        inputMap.clear();
+        inputMap.set('HeaderParam.Decision', this.DecisionReason.getFieldValue());
+        inputMap.set('HeaderParam.Remark', this.Remarks.getFieldValue());
 
-      },
-      async (httpError) => {
-        const err = httpError['error'];
-        if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-          if (err['ErrorElementPath'] === 'ApplicationStatus') {
-            this.DecisionReason.setError(err['ErrorDescription']);
-          } else if (err['ErrorElementPath'] === 'ApplicationId') {
-            this.Remarks.setError(err['ErrorDescription']);
-          } 
-          this.services.alert.showAlert(2, 'Fail to Submit', -1);
-        }
-      }
-    );
-}
+        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                const res = httpResponse.body;
+
+            },
+            async (httpError) => {
+                const err = httpError['error'];
+                if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
+                    if (err['ErrorElementPath'] === 'ApplicationStatus') {
+                        this.DecisionReason.setError(err['ErrorDescription']);
+                    } else if (err['ErrorElementPath'] === 'ApplicationId') {
+                        this.Remarks.setError(err['ErrorDescription']);
+                    }
+                    this.services.alert.showAlert(2, 'Fail to Submit', -1);
+                }
+            }
+        );
+    }
 
     fieldDependencies = {
         DecisionReason: {
@@ -162,5 +162,14 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             ]
         }
     }
+
+    async pageSpecificData() {
+        const inputMap = new Map();
+        inputMap.set('HeaderParam.Decision', this.DecisionReason.getFieldValue());
+        inputMap.set('HeaderParam.Remark', this.Remarks.getFieldValue());
+        return Promise.resolve(inputMap);
+    }
+
+
 
 }

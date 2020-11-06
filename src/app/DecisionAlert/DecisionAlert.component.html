@@ -36,13 +36,13 @@
             <app-text-area #Remarks fieldID="Remarks" [formCode]="formCode" cols="10"  placeholder="Enter" [mandatory]="true" rows="15"
               (blur)="genericOnBlur('Remarks', $event)"></app-text-area>
           </div>
-              <div class="modal-footer">
+              <!-- <div class="modal-footer">
                 <app-button #Done fieldName="{{ 'DecisionAlert.Done' | translate}}" fieldID="Done"
                   [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Decision_SUBMIT_click($event)">
                 </app-button>
                 <app-button #Close fieldName="{{ 'DecisionAlert.Close' | translate}}" fieldID="Close"
                   [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
-              </div>
+              </div> -->
         </div>
         <app-hidden #hidDecisionRem fieldID="hidDecisionRem"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>

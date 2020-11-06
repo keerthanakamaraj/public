@@ -498,6 +498,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async QDE_SUBMIT_click(event) {
+
+    this.services.rloui.openDecisionAlert().then((response) => {
+      console.log(response);
+    });
+    
+    return;
     this.services.rloCommonData.isFormValid().then((dataObj) => {
       console.warn(dataObj);
       if (dataObj.isAppValid) {

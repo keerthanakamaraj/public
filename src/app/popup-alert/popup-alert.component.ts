@@ -44,6 +44,7 @@ export class PopupAlertComponent implements OnInit {
   @ViewChild('OCCUPATION_DTLS', { static: false }) OCCUPATION_DTLS: OccupationDtlsFormComponent;
 
   modalObject: IModalData;
+  dynamicallyLoadableComponent: any;//instance of the component that will be loaded dynamically
 
   constructor(public activeModal: NgbActiveModal, public services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private cdRef: ChangeDetectorRef) {
   }
@@ -65,8 +66,17 @@ export class PopupAlertComponent implements OnInit {
       WinPrint.print();
       WinPrint.close();
     }
-    this.activeModal.close(buttonObj);
-    //on click of modal button send the button obj eg: {id: 1, text: 'Save';, type: "success", class: "btn-primary"}. Depending on which btn click(id); perform actions. Respnse snt where the component/ngModal is invoked 
+
+    if (this.modalObject.componentName == "DecisionAlert") {
+      this.dynamicallyLoadableComponent.pageSpecificData().then((response: any) => {
+        console.warn('DEEP | modal closed  for' + this.modalObject.componentName, response);
+        this.activeModal.close(response);
+      });
+    } else {
+      this.activeModal.close(buttonObj);
+      //on click of modal button send the button obj eg: {id: 1, text: 'Save';, type: "success", class: "btn-primary"}.
+      //Depending on which btn click(id); perform actions. Respnse snt where the component/ngModal is invoked 
+    }
   }
 
   ngAfterViewInit() {
@@ -92,46 +102,46 @@ export class PopupAlertComponent implements OnInit {
     viewContainerRef.clear();
 
     const dynamicComponent = viewContainerRef.createComponent(componentFactory);
-    var componentInstance = dynamicComponent.instance;
-    componentInstance.parentData = this.modalObject.data;
+    this.dynamicallyLoadableComponent = dynamicComponent.instance;
+    this.dynamicallyLoadableComponent.parentData = this.modalObject.data;
 
     if (this.modalObject.componentName != 'AmortizationScheduleComponent' && this.modalObject.componentName != 'DisbursementDetailsComponent' && this.modalObject.componentName != 'FeesChargesDetailsComponent') {
-      componentInstance.isLoanCategory = isLoanCategory;
-      componentInstance.parentFormCode = this.modalObject.componentCode;
-      componentInstance.ApplicationId = this.modalObject.applicationId;
-      componentInstance.activeBorrowerSeq = this.modalObject.borrowerSeq;
-      componentInstance.readOnly = true;
+      this.dynamicallyLoadableComponent.isLoanCategory = isLoanCategory;
+      this.dynamicallyLoadableComponent.parentFormCode = this.modalObject.componentCode;
+      this.dynamicallyLoadableComponent.ApplicationId = this.modalObject.applicationId;
+      this.dynamicallyLoadableComponent.activeBorrowerSeq = this.modalObject.borrowerSeq;
+      this.dynamicallyLoadableComponent.readOnly = true;
 
       if (this.modalObject.componentName == "CustomerDetails") {
         setTimeout(() => {
-          componentInstance.loanCategoryChanged(isLoanCategory);
+          this.dynamicallyLoadableComponent.loanCategoryChanged(isLoanCategory);
         }, 1000);
       } else if (this.modalObject.componentName == "FeesAndChargesDetails") {
         const parentData: IAmortizationForm = undefined;
         let obj = {
           "ApplicationId": this.modalObject.applicationId
         }
-        componentInstance.parentData = obj;
+        this.dynamicallyLoadableComponent.parentData = obj;
       } else if (this.modalObject.componentName == 'Amortization') {
-        componentInstance.parentData = this.services.rloCommonData.amortizationModalDataUW
+        this.dynamicallyLoadableComponent.parentData = this.services.rloCommonData.amortizationModalDataUW
       } else if (this.modalObject.componentName == 'ObligationDetails') {
-        componentInstance.setTypeObligation = true;
+        this.dynamicallyLoadableComponent.setTypeObligation = true;
       } else if (this.modalObject.componentName == 'ScorecardResults') {
-        componentInstance.openInModal = true;
+        this.dynamicallyLoadableComponent.openInModal = true;
       } else if (this.modalObject.componentName == 'PolicyCheckResults') {
-        componentInstance.openInModal = true;
-        componentInstance.parentFormCode = "DDE";//used in condition to check score acc. to stage
+        this.dynamicallyLoadableComponent.openInModal = true;
+        this.dynamicallyLoadableComponent.parentFormCode = "DDE";//used in condition to check score acc. to stage
       } else if (this.modalObject.componentName == 'CreditCardDetails') {
-        componentInstance.enableApproveLimit = true;
+        this.dynamicallyLoadableComponent.enableApproveLimit = true;
       } else if (this.modalObject.componentName == 'CustomerSearch') {
-        //componentInstance.passedFieldData=componentInstance.parentData
+        //this.dynamicallyLoadableComponent.passedFieldData=this.dynamicallyLoadableComponent.parentData
       }
 
       // async brodcastProdCategory(event) {
       //   //  event.isLoanCategory false when type is 'CC'
       //   this.isLoanCategory = event.isLoanCategory;
       //   if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
-      //   componentInstance.loanCategoryChanged(event.isLoanCategory);
+      //   this.dynamicallyLoadableComponent.loanCategoryChanged(event.isLoanCategory);
       //     // this.services.rloCommonData.childToParentSubject.next({
       //     //     action: 'loanCategoryUpdated',
       //     //     data: { 'isLoanCategory':  event.isLoanCategory }
