@@ -28,6 +28,8 @@ import { PolicyCheckResultModule } from '../policy-check-result/policy-check-res
 import { ScoreCardResultModule } from '../score-card-result/score-card-result.module';
 import { CustomerSearchModule } from '../customer-search/customer-search.module';
 import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-search-fileds.module';
+import { DecisionAlertModule } from '../DecisionAlert/DecisionAlert.module';
+
 
 @NgModule({
     imports: [
@@ -55,7 +57,8 @@ import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-s
         PolicyCheckResultModule,
         ScoreCardResultModule,
         CustomerSearchModule,
-        CustomerSearchFieldsModule
+        CustomerSearchFieldsModule,
+        DecisionAlertModule
     ],
     declarations: [
         PopupAlertComponent,

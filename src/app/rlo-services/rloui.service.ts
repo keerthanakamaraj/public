@@ -63,7 +63,8 @@ export class RlouiService {
     { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" },
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
     { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" },
-    { componentName: "CustomerSearch", iconClass: "icon-Scorecard-Results" }
+    { componentName: "CustomerSearch", iconClass: "icon-Scorecard-Results" },
+    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -493,5 +494,30 @@ export class RlouiService {
     });
     return promise;
   }
-
+  openDecisionAlert() {
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: "Alert",
+        mainMessage: undefined,
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: 'DONE', type: "success", class: "btn-primary" },
+          { id: 2, text: 'CLOSE', type: "failure", class: "btn-warning-outline" }
+        ],
+        componentName: 'DecisionAlert',
+        // data: obj
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+          resolve(response)
+        }
+        resolve(true);
+      });
+    });
+    return promise;
+  }
 }

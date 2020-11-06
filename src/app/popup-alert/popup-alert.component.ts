@@ -30,6 +30,7 @@ import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
 import { CustomerSearchComponent } from '../customer-search/customer-search.component';
 import { CustomerSearchFieldsComponent } from '../customer-search-fields/customer-search-fields.component';
+import { DecisionAlertComponent } from '../DecisionAlert/DecisionAlert.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -50,6 +51,8 @@ export class PopupAlertComponent implements OnInit {
   ngOnInit() {
     this.modalObject = this.services.rloui.modalObject;
     console.error(this.modalObject);
+    // console.log(this.modalObject.rawHtml);
+    console.warn(this.modalObject.buttons, this.modalObject.componentName);
   }
 
   async onClick(buttonObj: AnyNaptrRecord): Promise<any> {
@@ -224,6 +227,9 @@ export class PopupAlertComponent implements OnInit {
       case 'CustomerSearch':
         // return new AddSpecificComponent(CustomerSearchComponent);
         return new AddSpecificComponent(CustomerSearchFieldsComponent);
+        break;
+      case 'DecisionAlert':
+        return new AddSpecificComponent(DecisionAlertComponent);
         break;
 
     }
