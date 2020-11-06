@@ -1622,6 +1622,7 @@
     "RD_REFERRER_NAME": "Referrer Name",
     "CD_FULL_NAME": "Full Name",
     "CD_CUST_TYPE": "Customer Type",
+    "CD_CARD_CUST_TYPE" : "Customer Type",
     "CD_CUSTOMER_ID": "Customer ID",
     "RD_HEAD_LBL": "Referral Information",
     "CD_MOBILE": "Mobile No.",

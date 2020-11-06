@@ -175,8 +175,8 @@
                       </label>
                     </div>
                     <app-combo-box #BAD_DSA_ID category="2" fieldID="BAD_DSA_ID" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_DSA_ID', $event)">
+                      placeholder="Select" domainObjectUrl="/MstDsaIdDtls/{DSACd}" doServerUrl="/masters"
+                      domainObjectCode="MstDsaIdDtls" (blur)="genericOnBlur('BAD_DSA_ID', $event)">
                     </app-combo-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_BRANCH.isHidden()">
@@ -198,8 +198,8 @@
                       </label>
                     </div>
                     <app-combo-box #BAD_APP_PRPSE category="2" fieldID="BAD_APP_PRPSE" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_APP_PRPSE', $event)">
+                      placeholder="Select" domainObjectUrl="/MstApplnPurposeDetails/{ApplicationCd}" doServerUrl="/masters"
+                      domainObjectCode="MstApplnPurposeDetails" (blur)="genericOnBlur('BAD_APP_PRPSE', $event)">
                     </app-combo-box>
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
@@ -210,8 +210,8 @@
                       </label>
                     </div>
                     <app-combo-box #BAD_PRIME_USAGE category="2" fieldID="BAD_PRIME_USAGE" [formCode]="formCode"
-                      placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
+                      placeholder="Select" domainObjectUrl="/MstApplnPurposeDetails/{ApplicationCd}" doServerUrl="/masters"
+                      domainObjectCode="MstApplnPurposeDetails" (blur)="genericOnBlur('BAD_PRIME_USAGE', $event)">
                     </app-combo-box>
                   </div>
                   <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide-line"> -->
@@ -347,7 +347,7 @@
             <rlo-ui-accordion-group #ACC_CUSTOMER id="ACC_CUSTOMER" title="{{ 'Initiation.CD_HEAD_LABEL' | translate}}">
               <div #CD_GROUP id="CD_GROUP">
                 <div class="form-group">
-                  <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden()">
+                  <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden() || !isLoanCategory">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
                         {{ 'Initiation.CD_CUST_TYPE' | translate}}
@@ -357,6 +357,17 @@
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CUST_TYPE', $event)"
                       (change)="CD_CUST_TYPE_change('CD_CUST_TYPE', $event)"></rlo-ui-radio>
+                  </div>
+                  <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CARD_CUST_TYPE.isHidden() || isLoanCategory">
+                    <div class="clr-brown fieldLegend">
+                      <label class="clr-brown" [ngClass]="{'mandatory': CD_CARD_CUST_TYPE.mandatory}">
+                        {{ 'Initiation.CD_CARD_CUST_TYPE' | translate}}
+                      </label>
+                    </div>
+                    <rlo-ui-radio #CD_CARD_CUST_TYPE fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode"
+                      domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CARD_CUST_TYPE', $event)"
+                      (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)"></rlo-ui-radio>
                   </div>
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -906,6 +917,8 @@
         <app-hidden #hideCardType fieldID="hideCardType"></app-hidden>
         <app-hidden #hidCustSubSgmnt fieldID="hidCustSubSgmnt"></app-hidden>
         <app-hidden #allowCoBorrower fieldID="allowCoBorrower"></app-hidden>
+        <app-hidden #hideCardCustType fieldID="hideCardCustType"></app-hidden>
+
 
       </div>
     </div>

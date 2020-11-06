@@ -264,6 +264,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           case "Mobile": obj[i].columnName = "MobileNumber"; break;
           case "Cif": obj[i].columnName = "ExistingCIF"; break;
           case "Dob": obj[i].columnName = "DateOfBirth"; break;
+          // case "AppRefNum": obj[i].columnName = "ARN"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -280,7 +281,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           case "Status": obj[i].columnName = "ApplicationStatus"; break;
           case "Mobile": obj[i].columnName = "MobileNumber"; break;
           case "Cif": obj[i].columnName = "ExistingCIF"; break;
-          case "Dob": obj[i].columnName = "DateOfBirth"; break;
+          // case "AppRefNum": obj[i].columnName = "ARN"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -336,6 +337,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['EmailID'] = loopVar7[i].EmailID;
                 tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
                 tempObj['ICIF'] = loopVar7[i].ICIF;
+                tempObj['AppRefNum'] = loopVar7[i].AppRefNUm;
                 loopDataVar7.push(tempObj);
               }
             }
@@ -386,6 +388,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               tempObj['EmailID'] = loopVar7[i].EmailID;
               tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
               tempObj['ICIF'] = loopVar7[i].ICIF;
+              tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
+              tempObj['CBSProductCode'] = 'GOLD';
               loopDataVar7.push(tempObj);
             }
           }

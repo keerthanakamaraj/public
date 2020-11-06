@@ -60,6 +60,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_SCHEME', { static: false }) BAD_SCHEME: ComboBoxComponent;
   @ViewChild('BAD_PROMOTION', { static: false }) BAD_PROMOTION: ComboBoxComponent;
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
+  @ViewChild('CD_CARD_CUST_TYPE', { static: false }) CD_CARD_CUST_TYPE: RLOUIRadioComponent;
+
 
   //@ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent; // removed for customer search
   //@ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;// removed for customer search
@@ -120,6 +122,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('Handler', { static: false }) Handler: InitiationHandlerComponent;
   @ViewChild('hiddenProductId', { static: false }) hiddenProductId: HiddenComponent;
   @ViewChild('hideCustomerType', { static: false }) hideCustomerType: HiddenComponent;
+  @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
+
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidSourceingChannel', { static: false }) hidSourceingChannel: HiddenComponent;
   @ViewChild('IndexHideField', { static: false }) IndexHideField: HiddenComponent;
@@ -151,6 +155,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: RloUiCurrencyComponent;
   @ViewChild('LD_NET_INCOME', { static: false }) LD_NET_INCOME: RloUiCurrencyComponent;
   @ViewChild('LD_SYS_AMT_RCMD', { static: false }) LD_SYS_AMT_RCMD: RloUiCurrencyComponent;
+  // @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
+
 
   disableLoanOwnership: boolean = true
   eligeData = [];
@@ -163,6 +169,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   custMaxAge: number = 100;
   loanTotal: number;
   readOnly: boolean = false;
+  appRefNum: any;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -177,7 +184,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
       // this.validateCustomerId(),
       // this.validateStaffId(),
-
+      this.revalidateBasicField('CD_CARD_CUST_TYPE'),
       this.revalidateBasicField('CD_TITLE'),
       this.revalidateBasicField('CD_FIRST_NAME'),
       this.revalidateBasicField('CD_MIDDLE_NAME'),
@@ -287,7 +294,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_PHYSICAL_FRM_NO'),
         this.revalidateBasicField('BAD_DATE_OF_RCPT'),
         this.revalidateBasicField('BAD_SRC_CHANNEL'),
-        this.revalidateBasicField('BAD_DSA_ID'),
+         this.revalidateBasicField('BAD_DSA_ID'),
         this.revalidateBasicField('BAD_BRANCH'),
         this.revalidateBasicField('BAD_PROD_CAT'),
         this.revalidateBasicField('BAD_PRODUCT'),
@@ -344,6 +351,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.LD_EMI_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.LD_EMI_AMT.setReadOnly(true);
     this.hideCustomerType.setValue('CUSTOMER_TYPE');
+    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+
     this.hidAppId.setValue('RLO');
     this.hidSourceingChannel.setValue('Branch');
     this.IndexHideField.setValue(-1);
@@ -361,7 +370,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
-
+    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    this.BAD_PROD_CAT.setDefault('CC');
+    this.Handler.onProdCategoryChange({});
     //this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
 
@@ -505,6 +516,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     this.searchbutton = 'Y';
     let inputMap = new Map();
+    let appRefNumMap = new Map();
     inputMap.clear();
     var noofErrors: number = await this.revalidate();
     if (noofErrors == 0) {
@@ -534,6 +546,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
               this.CD_EMAIL_ID.setValue(tempVar['emailid']);
               this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
+              this.appRefNum  = tempVar['AppRefNum'];
+              this.CBSProductCode = tempVar['CBSProductCode']
+              this.ApplicationStatus(this.appRefNum);
+              this.CBSProductCode(this.CBSProductCode);
               //if (tempVar != '' || tempVar != undefined)
               //this.CD_EXISTING_CUST.setValue('Y');
               // this.Handler.existingCustomer({});
@@ -545,12 +561,57 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           console.log(modalRef, modalRef.componentInstance);
           this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
         }, 1500);
+
         this.searchbutton = '';
+       
+      
       }
     } else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
   }
+  ApplicationStatus(AppRefNum){
+    let appRefNumMap = new Map();
+    appRefNumMap.set('QueryParam.AppRefNum',AppRefNum);
+    this.services.http.fetchApi('/fetchApp', 'GET', appRefNumMap, '/initiation').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        let applicationStatus = res.Outputdata['status'];
+        if(applicationStatus == '' || applicationStatus == 'Pending' ){
+          this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
+          this.SUBMIT_MAIN_BTN.setDisabled(true);
+          return;
+        }
+        else{
+          this.SUBMIT_MAIN_BTN.setDisabled(false);
+        }
+    }
+  );
+  }
+  
+  CBSProductCode(CBSProductCode){
+  
+    this.services.http.fetchApi('/fetchCBSProdDetails', 'GET', null, '/initiation').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        let CPBProductDetails = res.Outputdata;
+       for(let i = 0 ; i < CPBProductDetails.length; i++){
+         if(CPBProductDetails[i].CBS_PRODUCT_CODE == CBSProductCode){
+           if(CPBProductDetails[i].INITIATION_ALLOWED == 'N'){
+            this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+            this.SUBMIT_MAIN_BTN.setDisabled(true);
+            return;
+           }
+           else{
+            this.SUBMIT_MAIN_BTN.setDisabled(false);
+           }
+         }
+       }
+
+    }
+  );
+  }
+
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
@@ -1194,11 +1255,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     BAD_DSA_ID: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "BAD_DSA_ID", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidDSAId", paramType: "QueryParam" },
+        { paramKey: "DSACd", depFieldID: "BAD_DSA_ID"} 
       ],
       outDep: [
+        
       ]
     },
     BAD_BRANCH: {
@@ -1345,9 +1405,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     BAD_APP_PRPSE: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "BAD_APP_PRPSE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType: "QueryParam" },
+        { paramKey: "ApplicationCd", depFieldID: "BAD_APP_PRPSE", paramType: "PathParam" },
+        { paramKey: "PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
       ],
       outDep: [
       ]
@@ -1355,13 +1414,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     BAD_PRIME_USAGE: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "BAD_PRIME_USAGE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideAppPurpose", paramType: "QueryParam" },
+        { paramKey: "ApplicationCd", depFieldID: "BAD_PRIME_USAGE", paramType: "PathParam" },
+        { paramKey: "PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
       ],
       outDep: [
       ]
     },
+   
 
 
     BAD_CARD_TYPE: {
@@ -1383,7 +1442,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
       ]
-    }
+    },
+    CD_CARD_CUST_TYPE: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "CD_CARD_CUST_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCardCustType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
 
 
     // CD_COUNTRY_CODE: {

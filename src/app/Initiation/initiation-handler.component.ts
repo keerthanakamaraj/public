@@ -47,7 +47,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   // onChangeOfProduct Category
   onProdCategoryChange({ }) {
-    if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
+    if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC' || this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC') {
       this.MainComponent.isLoanCategory = false;
       this.MainComponent.CD_CUST_TYPE.setValue('B');
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
@@ -56,7 +56,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_APP_PRPSE.mandatory = false;
       this.MainComponent.BAD_PRIME_USAGE.mandatory = true;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
-    } else if (this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
+      this.MainComponent.CD_CUST_TYPE.mandatory = false
+    } else if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
@@ -64,6 +65,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_PRIME_USAGE.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(undefined);
+      this.MainComponent.CD_CUST_TYPE.mandatory = true
 
 
     }
@@ -318,7 +320,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == undefined) {
         this.MainComponent.services.alert.showAlert(2, 'rlo.error.ProductCategory.invalid', 5000);
         return;
-      } else if (this.MainComponent.BAD_SCHEME.getFieldValue() == undefined) {
+      } else if (this.MainComponent.BAD_SCHEME.getFieldValue() == undefined && this.MainComponent.BAD_PROD_CAT.getFieldValue() != 'CC') {
         this.MainComponent.services.alert.showAlert(2, 'rlo.error.Scheme.invalid', 5000);
         return;
       }
