@@ -479,7 +479,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['icif'] = selectedData0['ICIF'];
       tempVar['emailid'] = selectedData0['EmailID'];
       tempVar['nameoncard'] = selectedData0['NameOnCard'];
-      console.log("DEEP| Selcted customer,", tempVar);
+      tempVar['AppRefNum'] = selectedData0['AppRefNum'];
+      tempVar['CBSProductCode'] = selectedData0['CBSProductCode'];
+     
 
       this.services.dataStore.setData('selectedData', tempVar);
       for (var i = this.services.routing.currModal; i > 0; i--) {

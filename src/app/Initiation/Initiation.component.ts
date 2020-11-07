@@ -546,10 +546,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
               this.CD_EMAIL_ID.setValue(tempVar['emailid']);
               this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
-              this.appRefNum  = tempVar['AppRefNum'];
-              this.CBSProductCode = tempVar['CBSProductCode']
-              this.ApplicationStatus(this.appRefNum);
-              this.CBSProductCode(this.CBSProductCode);
+             
               //if (tempVar != '' || tempVar != undefined)
               //this.CD_EXISTING_CUST.setValue('Y');
               // this.Handler.existingCustomer({});
@@ -576,7 +573,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.services.http.fetchApi('/fetchApp', 'GET', appRefNumMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
+        
         let applicationStatus = res.Outputdata['status'];
+        
         if(applicationStatus == '' || applicationStatus == 'Pending' ){
           this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
           this.SUBMIT_MAIN_BTN.setDisabled(true);
@@ -629,6 +628,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
+    this.appRefNum  = tempVar['AppRefNum'];
+    this.CBSProductCode = tempVar['CBSProductCode']
+    this.ApplicationStatus(this.appRefNum);
+    this.CBSProductCode(this.CBSProductCode);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 

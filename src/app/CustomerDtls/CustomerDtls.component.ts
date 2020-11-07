@@ -881,12 +881,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
     const customer = customerDtlsObj;
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
-    this.CD_TITLE.setValue(customer.Title);
+    this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
     this.CD_MIDDLE_NAME.setValue(customer.MiddleName);
     this.CD_LAST_NAME.setValue(customer.LastName);
     this.CD_FULL_NAME.setValue(customer.FullName);
-    this.CD_GENDER.setValue(customer.Gender);
+    this.CD_GENDER.setValue(customer.Gender.id);
     this.CD_DOB.setValue(customer.DOB);
     this.CD_TAX_ID.setValue(customer.TaxID);
     this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
@@ -896,18 +896,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
     // this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
     this.CD_PMRY_EMBSR_NAME.setValue(customer.PrimaryEmbosserName1);
-    this.CD_NATIONALITY.setValue(customer.Nationality);
-    this.CD_CITIZENSHIP.setValue(customer.CitizenShip);
-    this.CD_MARITAL_STATUS.setValue(customer.MaritalStatus);
+    this.CD_NATIONALITY.setValue(customer.Nationality.id);
+    this.CD_CITIZENSHIP.setValue(customer.CitizenShip.id);
+    this.CD_MARITAL_STATUS.setValue(customer.MaritalStatus.id);
     // this.CD_NATIONAL_ID.setValue(customer.CitizenID);
     this.CD_PASSPORT_NO.setValue(customer.PassportNumber);
     this.CD_PASSPORT_EXPIRY.setValue(customer.PassportExpiryDt);
     this.CD_DRIVING_LICENSE.setValue(customer.DrivingLicense);
     this.CD_DRVNG_LCNSE_EXP_DT.setValue(customer.DrivingLicenseExpiryDt);
-    this.CD_PREF_COM_CH.setValue(customer.CommunicationAlertChannel);
+    this.CD_PREF_COM_CH.setValue(customer.CommunicationAlertChannel.id);
     this.CD_EMAIL.setValue(customer.Email);
     this.HidCustomerId.setValue(customer.BorrowerSeq);
-    this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
+    this.CD_PREF_LANG.setValue(customer.PreferredLanguage.id);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
 
     this.activeBorrowerSeq = customer.BorrowerSeq;
