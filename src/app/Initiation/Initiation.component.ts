@@ -925,7 +925,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
 
 
-        inputMap.set('Body.ApplicationDetails.RequsetedCardLimit', this.BAD_REQ_CARD_LIMIT.getFieldValue());
+        inputMap.set('Body.ApplicationDetails.RequestedCardLimit', this.BAD_REQ_CARD_LIMIT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ExistingCardNumber', this.BAD_CARD_NUMBER.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ExistingCardType', this.BAD_CARD_TYPE.getFieldValue());
         inputMap.set('Body.ApplicationDetails.CustomerType', this.BAD_CUSTOMER_TYPE.getFieldValue());
