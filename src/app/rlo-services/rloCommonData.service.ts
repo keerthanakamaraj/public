@@ -293,10 +293,10 @@ export class RloCommonData {
     const tags = [];
     event.data.forEach(address => {
       let tagText = '';
-      if (address.MailingAddress === 'Y') {
-        if (address.AddressType === 'OF') {
+      if (address.MailingAddress.id === 'Y') {
+        if (address.AddressType.id === 'OF') {
           tagText = 'Office; ';
-        } else if (address.AddressType === 'RS') {
+        } else if (address.AddressType.id === 'RS') {
           tagText = 'Residence; ';
         }
 
@@ -320,14 +320,14 @@ export class RloCommonData {
     const tags = [];
     const maxAddress = 2;
     event.data.forEach(occupation => {
-      switch (occupation.Occupation) {
+      switch (occupation.Occupation.id) {
         case 'RT': tags.push({ text: 'Retired' }); break;
         case 'HW': tags.push({ text: 'Housewife' }); break;
         case 'ST': tags.push({ text: 'Student' }); break;
         case 'SL': tags.push({ text: 'Salaried' }); break;
         case 'SE': tags.push({ text: 'Self Employed' }); break;
         case 'OT': tags.push({ text: 'Others' }); break;
-        default: tags.push({ text: occupation.Occupation });
+        default: tags.push({ text: occupation.Occupation.id });
       }
     });
     return this.trimTagsIfRequired(tags, 4);
@@ -410,12 +410,12 @@ export class RloCommonData {
       let tagText = '';
       let vistPlace = '';
       console.log("RM Visit Tags : ", Visit);
-      switch (Visit.PlaceofVisit) {
+      switch (Visit.PlaceofVisit.id) {
         case 'OF': vistPlace = 'Office'; break;
         case 'PL': vistPlace = 'Plant'; break;
         case 'RS': vistPlace = 'Residence'; break;
         case 'WH': vistPlace = 'Warehouse'; break;
-        default: vistPlace = Visit.PlaceofVisit;
+        default: vistPlace = Visit.PlaceofVisit.id;
       }
       tagText = tagText + this.rloutil.concatenate([Visit.NameOfPerson, vistPlace], '; ');
       tags.push({ text: tagText });
@@ -521,7 +521,7 @@ export class RloCommonData {
     }
 
     const LoanOwnership = customerData.LoanOwnership;
-    const custType = customerData.CustomerType.id;
+    const custType = customerData.CustomerType;
 
     if (LoanOwnership !== undefined && LoanOwnership != 0) {
       commonObj.isSectionValid = false;
@@ -565,7 +565,7 @@ export class RloCommonData {
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
       for (const eachAddress of addressList) {
-        if (eachAddress.MailingAddress && eachAddress.MailingAddress === 'Y') {
+        if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
           addrValidationObj.isMailing = true;
         }
         if ('CR' === ('' + eachAddress.OccupancyType.id)) {
