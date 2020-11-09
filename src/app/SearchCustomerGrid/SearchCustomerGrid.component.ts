@@ -364,7 +364,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
         console.log("Deep | Response", response);
         if (response != null) {
           this.recordsFound = true;
-          var loopVar7 = response.ouputdata.CustomerList;
+          var loopVar7 = response.outputdata.CustomerList;
           this.documentCount = 0;
 
           var loopDataVar7 = [];

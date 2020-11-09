@@ -192,19 +192,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
               modifiedData.fieldData.push(element);
             }
           });
-          let additional = {
-            "regex": "",
-            "fieldName": "Staff ID",
-            "customerSegment": "1",
-            "groupId": "6",
-            "attributeName": "staffId",
-            "id": "6",
-            "fieldType": "T",
-            "mandatory": "0",
-            "maxLength": "50"
-          }
-          modifiedData.fieldData.push(additional);
-
+         
           console.warn(modifiedData);
           this.fieldData = modifiedData['fieldData'];
           this.groupFields(modifiedData['fieldData']);
