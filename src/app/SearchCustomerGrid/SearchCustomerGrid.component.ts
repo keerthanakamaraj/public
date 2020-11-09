@@ -389,7 +389,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
               tempObj['ICIF'] = loopVar7[i].ICIF;
               tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
-              tempObj['CBSProductCode'] = 'GOLD';
+              tempObj['CBSProductCode'] =  loopVar7[i].CBSProductCode;
               tempObj['StaffID'] = loopVar7[i].StaffID;
               loopDataVar7.push(tempObj);
             }

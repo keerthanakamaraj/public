@@ -170,6 +170,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   loanTotal: number;
   readOnly: boolean = false;
   appRefNum: any;
+  CBSProductCd: any;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -632,9 +633,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
     this.appRefNum  = tempVar['AppRefNum'];
-    this.CBSProductCode = tempVar['CBSProductCode']
+    this.CBSProductCd = tempVar['CBSProductCode']
     this.ApplicationStatus(this.appRefNum);
-    this.CBSProductCode(this.CBSProductCode);
+    this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');

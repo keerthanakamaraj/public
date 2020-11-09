@@ -29,10 +29,15 @@
                                 <div class="currencySymbol">
                                     <span>{{ currencySymbol }}</span>
                                 </div>
-                                <label>
+                                <label [style.display]="isLoanCategory ? 'block': 'none">
                                     <rlo-ui-readonlyfield #LD_LOAN_AMT fieldID="LD_LOAN_AMT" [formCode]="formCode"
                                         (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield>
                                 </label>
+                                <label [style.display]="!isLoanCategory ? 'block': 'none">
+                                        <rlo-ui-readonlyfield #REQ_CARD_LIMIT fieldID="REQ_CARD_LIMIT" 
+                                        [formCode]="formCode" (blur)="genericOnBlur('REQ_CARD_LIMIT', $event)">
+                                       </rlo-ui-readonlyfield>
+                                    </label>
                                 <div class="col-12  col-sm-12 col-md-12 border">
                                     <div></div>
                                 </div>
@@ -41,6 +46,8 @@
                                     <img class='loanimage' src="{{PRODUCT_CATEGORY_IMG}}" />
                                 </div>
 
+                               
+                               
                                 <rlo-ui-readonlyfield #HD_PROD_CAT_NAME fieldID="HD_PROD_CAT_NAME" [formCode]="formCode"
                                     (blur)="genericOnBlur('HD_PROD_CAT_NAME', $event)"></rlo-ui-readonlyfield>
 
@@ -234,16 +241,7 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('CARD_NUMBER', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="REQ_CARD_LIMIT.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'Header.REQ_CARD_LIMIT' | translate}}
-                                        </label>
-                                    </div>
-                                    <rlo-ui-readonlyfield #REQ_CARD_LIMIT fieldID="REQ_CARD_LIMIT"
-                                        [formCode]="formCode" (blur)="genericOnBlur('REQ_CARD_LIMIT', $event)">
-                                    </rlo-ui-readonlyfield>
-                                </div>
+                               
                                 <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="SANCTION_CREDIT_LIMIT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
