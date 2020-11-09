@@ -29,11 +29,11 @@
                                 <div class="currencySymbol">
                                     <span>{{ currencySymbol }}</span>
                                 </div>
-                                <label [style.display]="isLoanCategory ? 'block': 'none">
+                                <label [ngStyle]="{'display': (isLoanCategory) ? 'block' :'none'}" >
                                     <rlo-ui-readonlyfield #LD_LOAN_AMT fieldID="LD_LOAN_AMT" [formCode]="formCode"
                                         (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield>
                                 </label>
-                                <label [style.display]="!isLoanCategory ? 'block': 'none">
+                                <label [ngStyle]="{'display': (!isLoanCategory) ? 'block' :'none'}">
                                         <rlo-ui-readonlyfield #REQ_CARD_LIMIT fieldID="REQ_CARD_LIMIT" 
                                         [formCode]="formCode" (blur)="genericOnBlur('REQ_CARD_LIMIT', $event)">
                                        </rlo-ui-readonlyfield>
@@ -298,7 +298,7 @@
                         <div [ngClass]="!isLoanCategory?'active':'inactive'">
                             <div class="arn">
                                 <span>ARN | </span>{{ ARN }}</div>
-                            <div class="loan-amt">{{ LOAN_AMT }}</div>
+                            <div class="loan-amt">{{ ReqCardLimit }}</div>
                             <div class="loan-cat limit-width {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY_NAME }}</div>
                             <div>{{ customerType }}</div>
                             <div>{{ channel }}</div>

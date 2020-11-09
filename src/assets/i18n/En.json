@@ -1831,7 +1831,7 @@
     "CC_CARD_ASSOCIATION": " Card Association",
     "CARD_NUMBER" : "Card Number",
     "SANCTION_CREDIT_LIMIT" : "Sanctioned Credit Limit",
-    "SANCTION_CASH_LIMIT"  :  "Sactioned Cash Limit",
+    "SANCTION_CASH_LIMIT"  :  "Sanctioned Cash Limit",
     "REQ_CARD_LIMIT" : "Requested Card Limit"
   },
   "CustomerDtlsGrid": {
