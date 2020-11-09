@@ -97,7 +97,7 @@ export class RlouiService {
           this.tenantconfig[element["TCName"]] = element["TCValue"];
         });
         console.log("tenantconfig ", this.tenantconfig, this.tenantconfig["language.default"]);
-        
+
         // this.tenantconfig["language.default"] = "en-US";
         // this.tenantconfig["locale.default"] = "en-US";
         // this.tenantconfig["currency.code.default"] = "USD";
@@ -245,16 +245,16 @@ export class RlouiService {
     });
   }
 
-  getCurrencyChar(languageCode?: string, minFraction?, currency?: string){
+  getCurrencyChar(languageCode?: string, minFraction?, currency?: string) {
     if (!languageCode) { languageCode = this.getConfig("language.default", "en-IN"); }
     if (!currency) { currency = this.getConfig("currency.code.default", "INR"); }
 
     // default currency symbol at first element of array
     // return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(0)[0]['value'];
     return new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency })
-                    .formatToParts(0)
-                    .filter( part => part.type == 'currency')
-                    .map( val => val.value)[0];
+      .formatToParts(0)
+      .filter(part => part.type == 'currency')
+      .map(val => val.value)[0];
   }
 
   formatAmount(amount, languageCode?: string, minFraction?, currency?: string, hideSymbol?: boolean) {
@@ -284,10 +284,10 @@ export class RlouiService {
     if (!currency) { currency = this.getConfig("currency.code.default", "EUR"); }
 
     let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt);
-   
-    if(hideSymbol){
+    
+    if (hideSymbol) {
       //val.splice(0,1);
-      val.filter( part => part.type !== 'currency');
+      val = val.filter(part => part.type != 'currency');
     }
     let mapValue = val.map(val => val.value).join('')
     return mapValue;
@@ -471,7 +471,7 @@ export class RlouiService {
   openCustomerSearch(customerSearchObject: ICustomSearchObject) {
     console.log(customerSearchObject);
     let obj: ICustomSearchObject = customerSearchObject;
-    
+
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
         title: '',
