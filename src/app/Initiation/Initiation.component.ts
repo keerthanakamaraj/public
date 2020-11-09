@@ -869,8 +869,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           return;
         }
         if (res.status == 'S') {
-          this.eligeData = res.ouputdata.LOAN_ELIGIBILITY;
-          this.EligibilityDecision = res.ouputdata.OVERALLDECISION;
+          this.eligeData = res.outputdata.LOAN_ELIGIBILITY;
+          this.EligibilityDecision = res.outputdata.OVERALLDECISION;
           // for (let i = 0; i < res.ouputdata.LOAN_ELIGIBILITY.length; i++) {
           //   const Data = res.ouputdata.LOAN_ELIGIBILITY[i];
           //   if (Data.DECISION == 'Reject') {
