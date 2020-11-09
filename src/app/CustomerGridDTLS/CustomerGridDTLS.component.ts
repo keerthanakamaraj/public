@@ -26,7 +26,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() ApplicationId: string = undefined;
-  @Input() isLoanCategory: boolean = true;
+  @Input() isLoanCategory: boolean = undefined;
   @Input() parentFormCode: string;
   @Input() readOnly: boolean = false;//used only when user comes to DDE from operations page
 
