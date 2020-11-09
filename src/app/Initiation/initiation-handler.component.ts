@@ -429,8 +429,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   private getFormCustomerDetails(): Customer {
     let customer = new Customer();
-    customer.customerType = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_TYPE);
-    customer.CUST_TYPE_LBL = this.MainComponent.CD_CUST_TYPE.getFieldInfo();
+
+    if (this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
+      customer.customerType = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_TYPE);
+      customer.CUST_TYPE_LBL = this.MainComponent.CD_CUST_TYPE.getFieldInfo();
+    } else { // Credit Card Customer
+      customer.customerType = this.getValueLabelFromDropdown(this.MainComponent.CD_CARD_CUST_TYPE);
+      customer.CUST_TYPE_LBL = this.MainComponent.CD_CARD_CUST_TYPE.getFieldInfo();
+    }
 
     //customer.existingCustomer = this.getValueLabelFromDropdown(this.MainComponent.CD_EXISTING_CUST);
     //customer.staff = this.getValueLabelFromDropdown(this.MainComponent.CD_STAFF);
