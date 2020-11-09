@@ -1231,7 +1231,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       //     data: { 'isLoanCategory':  event.isLoanCategory }
       // });
     }
-    this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+    //this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
+
+    //this.CUSTOMER_GRID.isLoanCategory = false; //TESTING;
+    //this.isLoanCategory = false;
 
     this.validateSectionForApplication();
     this.validateSectionForCustomer();
@@ -1287,6 +1290,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             section.isOptional = false;
             this.progressStatusObject.manditorySection += 1;
           } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
+        if ((section.id == "VehicalLoanDetails" || section.id == "GoldLoanDetails" || section.id == "EducationLoanDetails") && section.isOptional) {
+          if (!this.isLoanCategory) {
             element.splice(i, 1);
             i--;
           }
