@@ -520,49 +520,52 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     inputMap.clear();
     var noofErrors: number = await this.revalidate();
     if (noofErrors == 0) {
-      inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
-      inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
-      inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
-      if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
-        this.services.alert.showAlert(2, '', -1, 'Please fill at least one field');
-      } else {
-        setTimeout(() => {
-          inputMap.set('component', 'SearchForm');
-          const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
-          var onModalClose = async (reason) => {
-            (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
-            if (this.services.dataStore.getData('selectedData')) {
-              let tempVar: any = this.services.dataStore.getData('selectedData');
-              this.CD_DOB.setValue(tempVar['dob']);
-              this.CD_TAX_ID.setValue(tempVar['taxId']);
-              this.CD_FULL_NAME.setValue(tempVar['custName']);
-              this.CD_MOBILE.setValue(tempVar['mobileNum']);
-              this.CD_CIF.setValue(tempVar['cif']);
-              this.CD_FIRST_NAME.setValue(tempVar['firsName']);
-              this.CD_MIDDLE_NAME.setValue(tempVar['midName']);
-              this.CD_LAST_NAME.setValue(tempVar['lastName']);
-              this.CD_GENDER.setValue(tempVar['gender']);
-              this.CD_TITLE.setValue(tempVar['title']);
-              this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
-              this.CD_EMAIL_ID.setValue(tempVar['emailid']);
-              this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
-             
-              //if (tempVar != '' || tempVar != undefined)
-              //this.CD_EXISTING_CUST.setValue('Y');
-              // this.Handler.existingCustomer({});
-            }
-            this.services.dataStore.setData('selectedData', undefined);
-          }
-          modalRef.result.then(onModalClose, onModalClose);
-          modalRef.componentInstance.rotueToComponent(inputMap);
-          console.log(modalRef, modalRef.componentInstance);
-          this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
-        }, 1500);
+      // inputMap.set('MobileNo', this.SRC_MOBILE_NO.getFieldValue());
+      // inputMap.set('TaxId', this.SRC_TAX_ID.getFieldValue());
+      // inputMap.set('CifNo', this.SRC_CIF_NO.getFieldValue());
+      // if ((this.SRC_TAX_ID.getFieldValue() == undefined || this.SRC_TAX_ID.getFieldValue() == "") && (this.SRC_CIF_NO.getFieldValue() == undefined || this.SRC_CIF_NO.getFieldValue() == "") && (this.SRC_MOBILE_NO.getFieldValue() == undefined || this.SRC_MOBILE_NO.getFieldValue() == "")) {
+      //   this.services.alert.showAlert(2, '', -1, 'Please fill at least one field');
+      // } else {
+      //   setTimeout(() => {
+      //     inputMap.set('component', 'SearchForm');
+      //     const modalRef = this.services.modal.open(PopupModalComponent, { windowClass: 'modal-width-lg' });
+      //     var onModalClose = async (reason) => {
+      //       (reason == 0 || reason == 1) ? await this.services.routing.removeOutlet() : undefined;
+      //       if (this.services.dataStore.getData('selectedData')) {
+      //         let tempVar: any = this.services.dataStore.getData('selectedData');
+      //         this.CD_DOB.setValue(tempVar['dob']);
+      //         this.CD_TAX_ID.setValue(tempVar['taxId']);
+      //         this.CD_FULL_NAME.setValue(tempVar['custName']);
+      //         this.CD_MOBILE.setValue(tempVar['mobileNum']);
+      //         this.CD_CIF.setValue(tempVar['cif']);
+      //         this.CD_FIRST_NAME.setValue(tempVar['firsName']);
+      //         this.CD_MIDDLE_NAME.setValue(tempVar['midName']);
+      //         this.CD_LAST_NAME.setValue(tempVar['lastName']);
+      //         this.CD_GENDER.setValue(tempVar['gender']);
+      //         this.CD_TITLE.setValue(tempVar['title']);
+      //         this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
+      //         this.CD_EMAIL_ID.setValue(tempVar['emailid']);
+      //         this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
+      //         this.appRefNum  = tempVar['AppRefNum'];
+      //         this.CBSProductCode = tempVar['CBSProductCode']
+      //         this.ApplicationStatus(this.appRefNum);
+      //         this.CBSProductCode(this.CBSProductCode);
+      //         //if (tempVar != '' || tempVar != undefined)
+      //         //this.CD_EXISTING_CUST.setValue('Y');
+      //         // this.Handler.existingCustomer({});
+      //       }
+      //       this.services.dataStore.setData('selectedData', undefined);
+      //     }
+      //     modalRef.result.then(onModalClose, onModalClose);
+      //     modalRef.componentInstance.rotueToComponent(inputMap);
+      //     console.log(modalRef, modalRef.componentInstance);
+      //     this.services.dataStore.setModalReference(this.services.routing.currModal, modalRef);
+      //   }, 1500);
 
-        this.searchbutton = '';
+      //   this.searchbutton = '';
        
       
-      }
+      // }
     } else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
@@ -632,6 +635,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CBSProductCode = tempVar['CBSProductCode']
     this.ApplicationStatus(this.appRefNum);
     this.CBSProductCode(this.CBSProductCode);
+    this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 

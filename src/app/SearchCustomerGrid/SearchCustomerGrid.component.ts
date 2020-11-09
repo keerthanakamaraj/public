@@ -390,6 +390,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               tempObj['ICIF'] = loopVar7[i].ICIF;
               tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
               tempObj['CBSProductCode'] = 'GOLD';
+              tempObj['StaffID'] = loopVar7[i].StaffID;
               loopDataVar7.push(tempObj);
             }
           }
@@ -482,6 +483,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['AppRefNum'] = selectedData0['AppRefNum'];
       tempVar['CBSProductCode'] = selectedData0['CBSProductCode'];
      
+      tempVar['staffId'] = selectedData0['StaffID'];//StaffID: "9870"
+      console.log("DEEP| Selcted customer,", tempVar);
 
       this.services.dataStore.setData('selectedData', tempVar);
       for (var i = this.services.routing.currModal; i > 0; i--) {

@@ -29,7 +29,7 @@ export class InterfaceResultsComponent implements OnInit {
       { type: "external interface", name: "Google", status: 'favourable' },
       { type: "internal interface", name: "AMLOCK", status: 'favourable' }
     ]
-  },
+  }
 ]
 
   constructor() { }

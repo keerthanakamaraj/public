@@ -24,6 +24,8 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { Subject } from 'rxjs';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
+import { ICustomSearchObject } from '../Interface/masterInterface';
+import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
 
 const customCss = '';
 
@@ -39,11 +41,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.componentCode = 'CustomerDtls';
   }
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
-  @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
-  @ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;
-  @ViewChild('CD_CIF', { static: false }) CD_CIF: TextBoxComponent;
+  
+  // @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
+  // @ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;
+  // @ViewChild('CD_CIF', { static: false }) CD_CIF: TextBoxComponent;
+  
+  @ViewChild('CD_CIF', { static: false }) CD_CIF: RloUiCustomerSearchComponent;
+
   @ViewChild('CD_STAFF_ID', { static: false }) CD_STAFF_ID: TextBoxComponent;
   @ViewChild('CD_CUST_ID', { static: false }) CD_CUST_ID: TextBoxComponent;
+
   @ViewChild('CD_TITLE', { static: false }) CD_TITLE: ComboBoxComponent;
   @ViewChild('CD_FIRST_NAME', { static: false }) CD_FIRST_NAME: TextBoxComponent;
   @ViewChild('CD_MIDDLE_NAME', { static: false }) CD_MIDDLE_NAME: TextBoxComponent;
@@ -66,7 +73,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   // @ViewChild('CD_NATIONAL_ID', { static: false }) CD_NATIONAL_ID: TextBoxComponent;
   @ViewChild('CD_CUST_SEGMENT', { static: false }) CD_CUST_SEGMENT: ComboBoxComponent;
- 
+
   @ViewChild('CD_LOAN_OWN', { static: false }) CD_LOAN_OWN: TextBoxComponent;
   // @ViewChild('CD_PRIME_USAGE', { static: false }) CD_PRIME_USAGE: TextBoxComponent;
   @ViewChild('CD_PMRY_EMBSR_NAME', { static: false }) CD_PMRY_EMBSR_NAME: TextBoxComponent;
@@ -138,8 +145,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     super.beforeRevalidate();
     await Promise.all([
       // this.revalidateBasicField('CD_CUST_TYPE'),
-      this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
-      this.revalidateBasicField('CD_STAFF', false, showErrors),
+      // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
+      // this.revalidateBasicField('CD_STAFF', false, showErrors),
       this.revalidateBasicField('CD_CIF', false, showErrors),
       this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
       this.revalidateBasicField('CD_CUST_ID', false, showErrors),
@@ -214,11 +221,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
-    this.CD_EXISTING_CUST.setDefault('N');
+    //this.CD_EXISTING_CUST.setDefault('N');
     // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID);
 
-    this.CD_STAFF.setDefault('N');
-    this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
+    //this.CD_STAFF.setDefault('N');
+    //this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
 
     this.Handler.onFormLoad({
     });
@@ -324,8 +331,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.value = new CustomerDtlsModel();
     this.passNewValue(this.value);
     // this.setReadOnly(false);
-    this.CD_EXISTING_CUST.isOptionsLoaded = false;
-    this.CD_STAFF.isOptionsLoaded = false;
+    //this.CD_EXISTING_CUST.isOptionsLoaded = false;
+    //this.CD_STAFF.isOptionsLoaded = false;
     //  this.setNonEditableFields(false);
     this.onFormLoad(event);
   }
@@ -451,7 +458,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
   async CD_STAFF_change(fieldID, value) {
     const inputMap = new Map();
-    await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
+    //await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
   }
 
 
@@ -510,7 +517,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
+
+        // inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.IsStaff', "Y");
+
         inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName1', this.CD_PMRY_EMBSR_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
@@ -521,7 +531,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.PassportExpiryDt', this.CD_PASSPORT_EXPIRY.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+        
+        // inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.ExistingCustomer', "Y");
+
         inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
 
@@ -571,7 +584,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.CommunicationAlertChannel') {
                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.ExistingCustomer') {
-                this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
+                //this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicenseExpiryDt') {
                 this.CD_DRVNG_LCNSE_EXP_DT.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicense') {
@@ -589,9 +602,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.PrimaryEmbosserName1') {
                 this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.StaffID') {
-                this.CD_STAFF_ID.setError(err['ErrorDescription']);
+                //this.CD_STAFF_ID.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.IsStaff') {
-                this.CD_STAFF.setError(err['ErrorDescription']);
+                //this.CD_STAFF.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.CustomerSegment') {
                 this.CD_CUST_SEGMENT.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.DebitScore') {
@@ -635,7 +648,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DebitScore', this.CD_DEBIT_SCORE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustomerSegment', this.CD_CUST_SEGMENT.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
+
+        // inputMap.set('Body.BorrowerDetails.IsStaff', this.CD_STAFF.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.IsStaff', "Y");
+
         inputMap.set('Body.BorrowerDetails.StaffID', this.CD_STAFF_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PrimaryEmbosserName1', this.CD_PMRY_EMBSR_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.Nationality', this.CD_NATIONALITY.getFieldValue());
@@ -646,7 +662,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.DrivingLicense', this.CD_DRIVING_LICENSE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DrivingLicenseExpiryDt', this.CD_DRVNG_LCNSE_EXP_DT.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+
+        // inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.ExistingCustomer', "Y");
+
         inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
         inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
@@ -687,7 +706,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
               if (err['ErrorElementPath'] === 'BorrowerDetails.Email') {
                 this.CD_EMAIL.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.ExistingCustomer') {
-                this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
+                //this.CD_EXISTING_CUST.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.CommunicationAlertChannel') {
                 this.CD_PREF_COM_CH.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.DrivingLicenseExpiryDt') {
@@ -707,9 +726,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.PrimaryEmbosserName1') {
                 this.CD_PMRY_EMBSR_NAME.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.StaffID') {
-                this.CD_STAFF_ID.setError(err['ErrorDescription']);
+                //this.CD_STAFF_ID.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.IsStaff') {
-                this.CD_STAFF.setError(err['ErrorDescription']);
+                //this.CD_STAFF.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.CustomerSegment') {
                 this.CD_CUST_SEGMENT.setError(err['ErrorDescription']);
               } else if (err['ErrorElementPath'] === 'BorrowerDetails.DebitScore') {
@@ -915,10 +934,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
     this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
 
-    this.CD_STAFF.setValue(customer.IsStaff);
-    this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
+    //this.CD_STAFF.setValue(customer.IsStaff);
+    //this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
+    
     this.CD_CIF.setValue(customer.CIF);
-   
+
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
     this.RequestedAmountLimit.setValue(customer.RequestedCreditLimit);
     this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
@@ -927,7 +947,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
-    
+
     this.passBorrowerSeq.emit({
       'BorrowerSeq': customer.BorrowerSeq,
     });
@@ -1045,26 +1065,26 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
   }
   fieldDependencies = {
-    CD_EXISTING_CUST: {
-      inDep: [
+    // CD_EXISTING_CUST: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    CD_STAFF: {
-      inDep: [
+    //     { paramKey: "VALUE1", depFieldID: "CD_EXISTING_CUST", paramType: "PathParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidExistCust", paramType: "QueryParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+    // CD_STAFF: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hideStaffId", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "CD_STAFF", paramType: "PathParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideStaffId", paramType: "QueryParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     CD_TITLE: {
       inDep: [
 
@@ -1105,7 +1125,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
-   
+
     CD_PREF_COM_CH: {
       inDep: [
 
@@ -1146,28 +1166,29 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
-    CD_CUST_TYPE: {
-      inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
-    
+    // CD_CUST_TYPE: {
+    //   inDep: [
+
+    //     { paramKey: "VALUE1", depFieldID: "CD_CUST_TYPE", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideCustomerType", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+
 
     CD_CUST_SEGMENT: {
       inDep: [
 
-        { paramKey: "CustSegmentCd", depFieldID: "CD_CUST_SEGMENT"},
-       
+        { paramKey: "CustSegmentCd", depFieldID: "CD_CUST_SEGMENT" },
+
       ],
       outDep: [
       ]
     },
-   
+
     CustSubSegment: {
       inDep: [
 
@@ -1189,13 +1210,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     },
     CardDispatchMode: {
       inDep: [
-          { paramKey: "VALUE1", depFieldID: "CardDispatchMode", paramType: "PathParam" },
-          { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-          { paramKey: "KEY1", depFieldID: "hidCardDispatch", paramType: "QueryParam" },
+        { paramKey: "VALUE1", depFieldID: "CardDispatchMode", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hidCardDispatch", paramType: "QueryParam" },
       ],
       outDep: [
       ]
-  },
+    },
 
   }
   /* Write Custom Scripts Here */
@@ -1203,8 +1224,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   fieldArrayFunction() {
     this.fieldArray = [];
     this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
-      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_CUST_ID
+      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF
     );
+    // this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
+    //   this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_CUST_ID
+    // );
     return this.fieldArray;
   }
   disableLoanOwnership(customerType) {
@@ -1231,4 +1255,40 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       return false;
     }
   }
+
+  searchForCustomer(type: any) {
+    let obj: ICustomSearchObject = {};
+
+    console.log("searchForCustomer()", type);
+    if (type.inputBtn == "CD_CUSTOMER_ID") {
+      obj.searchType = "Internal";
+    } else {
+      obj.searchType = "External";
+    }
+
+    obj.cifId = this.CD_CIF.getFieldValue();
+
+    console.log(obj);
+    if ((obj.cifId != "" && obj.cifId != undefined)) {
+
+      // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
+
+      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+        if (response != null) {
+          console.log(response);
+          if (typeof response != "boolean") {
+            //this.setValuesOfCustomer(response);
+          }
+          else {
+            // if (response)
+              //this.CD_RESET_click();
+          }
+        }
+        else {
+          console.warn("DEEP | No customer selected");
+        }
+      });
+    }
+  }
+
 }

@@ -13,6 +13,7 @@ import { CustomerDtlsGridModule } from '../CustomerDtlsGrid/CustomerDtlsGrid.mod
 import { CustomerHandlerModule } from '../CustomerDtls/customer-handler.module';
 import { RloUiAccordionGroupComponent } from '../rlo-ui-accordion/rlo-ui-accordion-group.component';
 import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.component';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -29,10 +30,10 @@ import { RloUiAccordionComponent } from '../rlo-ui-accordion/rlo-ui-accordion.co
         }),
 
         CustomerDtlsGridModule,
-        CustomerHandlerModule,
+        CustomerHandlerModule
     ],
     declarations: [
-        CustomerDtlsComponent,
+        CustomerDtlsComponent
         // RloUiAccordionComponent,
         // RloUiAccordionGroupComponent
     ],
