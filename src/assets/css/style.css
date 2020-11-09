@@ -634,7 +634,7 @@ template {
 }
 
 [hidden] {
-    display: none
+    display: none !important;
 }
 
 .list-inline {
