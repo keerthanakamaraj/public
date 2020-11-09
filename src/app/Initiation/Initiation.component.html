@@ -122,7 +122,7 @@
                   </div>
                   <div class="col-12  col-sm-6 col-md-6 group-default" style="padding: 4px 23px 10px 18px;">
                     <div #FieldId_73 id="FieldId_73">
-                      <div class="form-group pb10 PROMOTION_GROUP">
+                      <div class="form-group pb10 PROMOTION_GROUP" [hidden]="BAD_PROMOTION.isHidden()">
                         <div class="col-12  col-sm-6 col-md-6 res-pr-hide">
                           <app-label #PROMOTION_LABEL parentCompCode="Initiation" legendAlign="text-center"
                             fieldID="PROMOTION_LABEL" [formCode]="formCode"></app-label>

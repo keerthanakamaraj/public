@@ -43,7 +43,8 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
   //public chartPendingContext: CanvasRenderingContext2D;
   //public chartCountContext: CanvasRenderingContext2D;
   //public chartPluginService: PluginServiceRegistrationOptions;
-
+  
+  dashboardStatusHide = false;
   menuList = [];
   promotionLists = [
     {
