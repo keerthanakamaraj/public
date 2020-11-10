@@ -15,6 +15,8 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+
 
 const customCss: string = '';
 
@@ -27,6 +29,13 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     @ViewChild('Remarks', { static: false }) Remarks: TextAreaComponent;
     @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
     @ViewChild('hidDecisionRem', { static: false }) hidDecisionRem: HiddenComponent;
+    @ViewChild('ApprovalReq', { static: false }) ApprovalReq: RLOUIRadioComponent;
+    @ViewChild('DesignationAuthority', { static: false }) DesignationAuthority: ComboBoxComponent;
+    @ViewChild('ApproverName', { static: false }) ApproverName: TextBoxComponent;
+    @ViewChild('hidApprovalReq', { static: false }) hidApprovalReq: HiddenComponent;
+
+    @Input() parentFormCode: string;
+    showUW: boolean = false;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -54,6 +63,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
         this.hidDecisionRem.setValue('DESICION');
+        this.hidApprovalReq.setValue('Y_N');
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -102,6 +112,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             this.subsBFldsValueUpdates();
             this.onFormLoad();
             this.checkForHTabOverFlow();
+            console.log(this.parentFormCode);
         });
     }
     clearError() {
@@ -124,32 +135,18 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.setReadOnly(false);
         this.onFormLoad();
     }
-
-    Decision_SUBMIT_click() {
-        const inputMap = new Map();
-
-        inputMap.clear();
-        inputMap.set('HeaderParam.Decision', this.DecisionReason.getFieldValue());
-        inputMap.set('HeaderParam.Remark', this.Remarks.getFieldValue());
-
-        this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-                const res = httpResponse.body;
-
-            },
-            async (httpError) => {
-                const err = httpError['error'];
-                if (err != null && err['ErrorElementPath'] !== undefined && err['ErrorDescription'] !== undefined) {
-                    if (err['ErrorElementPath'] === 'ApplicationStatus') {
-                        this.DecisionReason.setError(err['ErrorDescription']);
-                    } else if (err['ErrorElementPath'] === 'ApplicationId') {
-                        this.Remarks.setError(err['ErrorDescription']);
-                    }
-                    this.services.alert.showAlert(2, 'Fail to Submit', -1);
-                }
-            }
-        );
-    }
+    
+    async ApprovalReq_blur() {
+        if (this.ApprovalReq.getFieldValue() == 'Y') {
+          this.DesignationAuthority.mandatory = true;
+          this.ApproverName.mandatory = true;
+    
+        }
+        else {
+          this.DesignationAuthority.mandatory = false;
+          this.ApproverName.mandatory = false;
+        }
+      }
 
     fieldDependencies = {
         DecisionReason: {
@@ -160,14 +157,33 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             ],
             outDep: [
             ]
+        },
+        ApprovalReq: {
+            inDep: [
+                { paramKey: "VALUE1", depFieldID: "ApprovalReq", paramType: "PathParam" },
+                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                { paramKey: "KEY1", depFieldID: "hidApprovalReq", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+        },
+        DesignationAuthority: {
+            inDep: [
+
+                { paramKey: "AuthoritySeq", depFieldID: "DesignationAuthority", paramType: "PathParam" },
+            ],
+            outDep: [
+            ]
         }
     }
 
     async pageSpecificData() {
-        const inputMap = new Map();
-        inputMap.set('HeaderParam.Decision', this.DecisionReason.getFieldValue());
-        inputMap.set('HeaderParam.Remark', this.Remarks.getFieldValue());
-        return Promise.resolve(inputMap);
+        // const inputMap = new Map();
+        let Decision = {
+            'DecisionReason': this.DecisionReason.getFieldValue(),
+            'Remarks' : this.Remarks.getFieldValue()
+        }
+        return Promise.resolve(Decision);
     }
 
 

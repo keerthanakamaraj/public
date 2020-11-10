@@ -11,10 +11,10 @@
     </div>
   </div> -->
   <div class="clearfix content">
-
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div *ngIf = "parentFormCode != 'UnderWriter'">
         <div class="form-group pb10">
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DecisionReason.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -44,8 +44,66 @@
                   [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
               </div> -->
         </div>
+      </div>
+        <div *ngIf = "parentFormCode == 'UnderWriter'">
+        <div class="form-group pb10" >
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DecisionReason.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DecisionAlert.DecisionReason' | translate}}
+              </label>
+            </div>
+            <app-combo-box #DecisionReason category="2" fieldID="DecisionReason"  placeholder="Select" [formCode]="formCode"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+            [mandatory]="true" (blur)="genericOnBlur('DecisionReason', $event)"></app-combo-box>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="Remarks.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DecisionAlert.Remarks' | translate}}
+              </label>
+            </div>
+            <app-text-area #Remarks fieldID="Remarks" [formCode]="formCode" cols="10"  placeholder="Enter" [mandatory]="true" rows="15"
+              (blur)="genericOnBlur('Remarks', $event)"></app-text-area>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="ApprovalReq.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ApprovalReq.mandatory}">
+                {{ 'DecisionAlert.ApprovalReq' | translate}}
+              </label>
+            </div>
+            <rlo-ui-radio #ApprovalReq category="2" fieldID="ApprovalReq" [formCode]="formCode"
+              (change)="AD_ADD_TYPE_change('ApprovalReq', $event)" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"
+              doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ApprovalReq', $event)">
+            </rlo-ui-radio>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DesignationAuthority.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DecisionAlert.DesignationAuthority' | translate}}
+              </label>
+            </div>
+            <app-combo-box #DesignationAuthority category="2" fieldID="DesignationAuthority"  placeholder="Select" [formCode]="formCode"
+            domainObjectUrl="/MstAuthorityDesignation/{AuthoritySeq}" doServerUrl="/masters"
+            domainObjectCode="MstAuthorityDesignation"
+            [mandatory]="true" (blur)="genericOnBlur('DesignationAuthority', $event)"></app-combo-box>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="ApproverName.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'DecisionAlert.ApproverName' | translate}}
+              </label>
+            </div>
+            <app-text-box #ApproverName fieldID="ApproverName" [formCode]="formCode"  placeholder="Enter" 
+              (blur)="genericOnBlur('ApproverName', $event)"></app-text-box>
+          </div>
+        </div>
+      </div>
         <app-hidden #hidDecisionRem fieldID="hidDecisionRem"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hidApprovalReq fieldID="hidApprovalReq"></app-hidden>
       </div>
     </div>
   </div>

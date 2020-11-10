@@ -489,7 +489,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitQDE(requestParams);
+            this.submitQDE(requestParams, null);
           }
         }
       });
@@ -498,20 +498,33 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async QDE_SUBMIT_click(event) {
+    // this.services.rloui.openDecisionAlert().then((Response:any) => {
+    //         console.log(Response);
+    //         const inputMap = new Map();
+    //         inputMap.clear();
+    //         inputMap.set('HeaderParam.Decision', Response.DecisionReason);
+    //         inputMap.set('HeaderParam.Remark', Response.Remarks);
 
-    // this.services.rloui.openDecisionAlert().then((response) => {
-    //   console.log(response);
+    //         this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+    //           async (httpResponse: HttpResponse<any>) => {
+    //             const res = httpResponse.body;
+    //             if (res != null) {
+    //               // this.submitQDE(requestParams);
+    //             }
+    //           },
+    //         );
     // });
-    
-    // return;
     this.services.rloCommonData.isFormValid().then((dataObj) => {
       console.warn(dataObj);
       if (dataObj.isAppValid) {
         const requestParams = new Map();
         requestParams.set('Body.ApplicationStatus', 'Approve');
         requestParams.set('Body.direction', 'AP');
+        this.services.rloui.openDecisionAlert().then((Response: any) => {
+          console.log(Response);
+          this.submitQDE(requestParams, Response);
 
-        this.submitQDE(requestParams);
+        });
       } else {
         let errorMsg = "";
         dataObj.errorsList.forEach(element => {
@@ -546,8 +559,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       }
     });
   }
-
-  async submitQDE(requestParams) {
+  async submitQDE(requestParams, decisionResponse) {
     const inputMap = new Map();
 
     inputMap.clear();
@@ -559,7 +571,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.SchemeId', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
-
+    if (decisionResponse != null) {
+      inputMap.set('Body.Decision', decisionResponse.DecisionReason);
+      inputMap.set('Body.Remark', decisionResponse.Remarks);
+    }
 
     if (requestParams) {
       requestParams.forEach((val, key) => {

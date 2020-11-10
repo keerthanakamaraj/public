@@ -494,7 +494,7 @@ export class RlouiService {
     });
     return promise;
   }
-  openDecisionAlert() {
+  openDecisionAlert(componentCode?) {
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
         title: "Alert",
@@ -505,6 +505,7 @@ export class RlouiService {
           { id: 2, text: 'CLOSE', type: "failure", class: "btn-warning-outline" }
         ],
         componentName: 'DecisionAlert',
+        componentCode : componentCode
         // data: obj
       };
       this.confirmationModal(modalObj).then((response) => {
