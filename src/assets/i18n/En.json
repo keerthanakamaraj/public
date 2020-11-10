@@ -1794,7 +1794,8 @@
     "EmbLineFlag" : "Embossing Line Applicable",
     "CustSubSegment" : "Customer Sub Segment",
     "CardDispatchMode" : "Pickup Instruction",
-    "RequestedAmountLimit" : "Requested Amount Limit"
+    "RequestedAmountLimit" : "Requested Amount Limit",
+    "CD_CARD_CUST_TYPE" : "Customer Type"
   },
   "QDE": {
     "FieldId_1": "null",
@@ -1988,7 +1989,7 @@
     "VR_Type": "Type",
     "VR_Photograph": "Photograph",
     "GridTitle": "Visit Report Grid",
-    "VR_DELETE_BTN": "",
+    "VR_dTE_BTN": "",
     "VR_PlaceOfVisit": "Place of Visit",
     "VR_OfficialName": "Official Name"
   },
@@ -2482,6 +2483,11 @@
           "DecisionAlert" : {
             "FormTitle" : "DecisionAlert",
             "DecisionReason" : "Decision Reason",
-            "Remarks" : "Remarks"
+            "Remarks" : "Remark",
+            "Done" :"DONE",
+            "Close" : "CLOSE",
+            "ApprovalReq": "Approval from a higher authority required",
+            "DesignationAuthority" : "Designation of Sanctioning Authority",
+            "ApproverName": "Approver Name"
             }
 }

@@ -113,6 +113,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('RequestedAmountLimit', { static: false }) RequestedAmountLimit: RloUiCurrencyComponent;
   @ViewChild('CardDispatchMode', { static: false }) CardDispatchMode: ComboBoxComponent;
   @ViewChild('hidCardDispatch', { static: false }) hidCardDispatch: HiddenComponent;
+  @ViewChild('CD_CARD_CUST_TYPE', { static: false }) CD_CARD_CUST_TYPE: RLOUIRadioComponent;
+  @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
 
   @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
@@ -147,7 +149,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // this.revalidateBasicField('CD_CUST_TYPE'),
       // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
       // this.revalidateBasicField('CD_STAFF', false, showErrors),
-      this.revalidateBasicField('CD_CIF', false, showErrors),
+      // this.revalidateBasicField('CD_CIF', false, showErrors),
       this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
       this.revalidateBasicField('CD_CUST_ID', false, showErrors),
       this.revalidateBasicField('CD_TITLE', false, showErrors),
@@ -214,7 +216,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hideEmbLineFlag.setValue('Y_N');
     this.hideCustSubSegment.setValue('CUST_SUB_SEGMENT');
     this.hidCardDispatch.setValue('CARD_DISPATACH');
-
+    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCitizenship.setValue('CITIZENSHIP');
     if (this.isLoanCategory !== undefined) {
       this.hideCustomerType.setValue((!this.isLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
@@ -932,7 +934,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.activeBorrowerSeq = customer.BorrowerSeq;
 
     this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
-    this.CD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
+    this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
 
     //this.CD_STAFF.setValue(customer.IsStaff);
     //this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
@@ -1217,7 +1219,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
+    CD_CARD_CUST_TYPE: {
+      inDep: [
 
+        { paramKey: "VALUE1", depFieldID: "CD_CARD_CUST_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCardCustType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    }
   }
   /* Write Custom Scripts Here */
 
