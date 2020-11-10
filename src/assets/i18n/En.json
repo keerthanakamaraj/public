@@ -2026,7 +2026,8 @@
     "RD_DELETE": "Delete",
     "RD_REFERRER_NAME": "Referrer Name",
     "RD_EDIT_ButtonName": "Edit",
-    "RD_REFERRER_MOBILE_NO": "Referrer Mobile No."
+    "RD_REFERRER_MOBILE_NO": "Referrer Mobile No.",
+    "RD_CIF" : "CBS CUST ID"
   },
   "ReferralDetailsForm": {
     "RD_COUNTRY_CODE1": "Country Code",
@@ -2050,7 +2051,8 @@
     "RD_PHONE2": "Phone 2",
     "RD_REF_NO": "Referrer Mobile No.",
     "RD_REFRRER_EMAILID": "Referrer Email ID",
-    "RD_HEADING": "Referral Details"
+    "RD_HEADING": "Referral Details",
+    "RD_CIF" : "CBS CUST ID"
   },
   "CustomerGridDTLS": {
     "BorrowerTag": "B",
