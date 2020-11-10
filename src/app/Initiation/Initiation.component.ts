@@ -179,7 +179,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
 
-      //this.revalidateBasicField('CD_CIF'),
+      this.revalidateBasicField('CD_CIF'),
       //this.revalidateBasicField('CD_STAFF_ID'),
       //this.revalidateBasicField('CD_CUSTOMER_ID'),
 
@@ -195,7 +195,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('CD_DOB'),
       this.revalidateBasicField('CD_GENDER'),
       this.revalidateBasicField('CD_MOBILE'),
-      // this.revalidateBasicField('CD_TAX_ID'),
+      this.revalidateBasicField('CD_TAX_ID'),
       this.revalidateBasicField('CD_DEBIT_SCORE'),
       this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('CD_EMAIL_ID'),
@@ -258,7 +258,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // this.revalidateBasicField('CD_LAST_NAME'),
         // this.revalidateBasicField('CD_FULL_NAME'),
         // this.revalidateBasicField('CD_GENDER'),
-        // this.revalidateBasicField('CD_TAX_ID'),
+        this.revalidateBasicField('CD_TAX_ID'),
         // this.revalidateBasicField('CD_MOBILE'),
         // this.revalidateBasicField('CD_DOB'),
         // this.revalidateBasicField('CD_CUST_SGMT'),
@@ -295,7 +295,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.revalidateBasicField('BAD_PHYSICAL_FRM_NO'),
         this.revalidateBasicField('BAD_DATE_OF_RCPT'),
         this.revalidateBasicField('BAD_SRC_CHANNEL'),
-         this.revalidateBasicField('BAD_DSA_ID'),
+        this.revalidateBasicField('BAD_DSA_ID'),
         this.revalidateBasicField('BAD_BRANCH'),
         this.revalidateBasicField('BAD_PROD_CAT'),
         this.revalidateBasicField('BAD_PRODUCT'),
@@ -564,55 +564,55 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       //   }, 1500);
 
       //   this.searchbutton = '';
-       
-      
+
+
       // }
     } else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
   }
-  ApplicationStatus(AppRefNum){
+  ApplicationStatus(AppRefNum) {
     let appRefNumMap = new Map();
-    appRefNumMap.set('QueryParam.AppRefNum',AppRefNum);
+    appRefNumMap.set('QueryParam.AppRefNum', AppRefNum);
     this.services.http.fetchApi('/fetchApp', 'GET', appRefNumMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        
+
         let applicationStatus = res.Outputdata['status'];
-        
-        if(applicationStatus == '' || applicationStatus == 'Pending' ){
+
+        if (applicationStatus == '' || applicationStatus == 'Pending') {
           this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
           this.SUBMIT_MAIN_BTN.setDisabled(true);
           return;
         }
-        else{
+        else {
           this.SUBMIT_MAIN_BTN.setDisabled(false);
         }
-    }
-  );
+      }
+    );
   }
-  
-  CBSProductCode(CBSProductCode){
-  
+
+  CBSProductCode(CBSProductCode) {
+
     this.services.http.fetchApi('/fetchCBSProdDetails', 'GET', null, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         let CPBProductDetails = res.Outputdata;
-       for(let i = 0 ; i < CPBProductDetails.length; i++){
-         if(CPBProductDetails[i].CBS_PRODUCT_CODE == CBSProductCode){
-           if(CPBProductDetails[i].INITIATION_ALLOWED == 'N'){
-            this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
-            this.SUBMIT_MAIN_BTN.setDisabled(true);
-            return;
-           }
-           else{
-            this.SUBMIT_MAIN_BTN.setDisabled(false);
-           }
-         }
-       }
+        for (let i = 0; i < CPBProductDetails.length; i++) {
+          if (CPBProductDetails[i].CBS_PRODUCT_CODE == CBSProductCode) {
+            if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
+              this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+              this.SUBMIT_MAIN_BTN.setDisabled(true);
+              return;
+            }
+            else {
+              this.SUBMIT_MAIN_BTN.setDisabled(false);
+            }
+          }
+        }
 
-    }
-  );
+      }
+    );
   }
 
 
@@ -632,7 +632,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
-    this.appRefNum  = tempVar['AppRefNum'];
+    this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
     this.ApplicationStatus(this.appRefNum);
     this.CBSProductCode(this.CBSProductCd);
@@ -1263,10 +1263,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     BAD_DSA_ID: {
       inDep: [
 
-        { paramKey: "DSACd", depFieldID: "BAD_DSA_ID"} 
+        { paramKey: "DSACd", depFieldID: "BAD_DSA_ID" }
       ],
       outDep: [
-        
+
       ]
     },
     BAD_BRANCH: {
@@ -1428,7 +1428,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
-   
+
 
 
     BAD_CARD_TYPE: {
@@ -1489,6 +1489,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.genericOnBlur(event.field, event.textFieldValue);
   }
 
+  //
+  customerSearchGenericOnBlur(fieldName: any, textFieldValue: any) {
+    console.log("Deep | customerSearchGenericOnBlur", fieldName, textFieldValue);
+    this.genericOnBlur(fieldName, textFieldValue);
+  }
+
   //default code disabled;Temparary enabling it for customer search
   tempUnableCustId() {
     this.CD_CUSTOMER_ID.readOnly = false;
@@ -1524,6 +1530,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           console.log(response);
           if (typeof response != "boolean") {
             this.setValuesOfCustomer(response);
+            this.revalidateCustomers();
           }
           else {
             if (response)
@@ -1534,6 +1541,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           console.warn("DEEP | No customer selected");
         }
       });
+    } else {
+      this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
     }
   }
 

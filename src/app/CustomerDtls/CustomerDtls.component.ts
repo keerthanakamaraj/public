@@ -149,7 +149,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // this.revalidateBasicField('CD_CUST_TYPE'),
       // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
       // this.revalidateBasicField('CD_STAFF', false, showErrors),
-      // this.revalidateBasicField('CD_CIF', false, showErrors),
+      this.revalidateBasicField('CD_CIF', false, showErrors),
       this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
       this.revalidateBasicField('CD_CUST_ID', false, showErrors),
       this.revalidateBasicField('CD_TITLE', false, showErrors),
@@ -802,6 +802,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_MOBILE_NO.onResetMobileNo();
     //this.CD_MOBILE_NO.onReset();
     //this.CD_COUNTRY_CODE.onReset();
+    this.CD_CIF.onReset();
   }
 
   async CUST_DTLS_GRID_custDtlsEdit(event) {
@@ -1288,7 +1289,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         if (response != null) {
           console.log(response);
           if (typeof response != "boolean") {
-            //this.setValuesOfCustomer(response);
+            this.setValuesOfCustomer(response);
           }
           else {
             // if (response)
@@ -1300,6 +1301,30 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         }
       });
     }
+  }
+
+  setValuesOfCustomer(data) {
+    let tempVar: any = data;
+    this.CD_DOB.setValue(tempVar['dob']);
+    this.CD_TAX_ID.setValue(tempVar['taxId']);
+    this.CD_FULL_NAME.setValue(tempVar['custName']);
+    this.CD_MOBILE_NO.setComponentSpecificValue(tempVar['mobileNum'],null);
+    this.CD_CIF.setValue(tempVar['cif']);
+    this.CD_FIRST_NAME.setValue(tempVar['firsName']);
+    this.CD_MIDDLE_NAME.setValue(tempVar['midName']);
+    this.CD_LAST_NAME.setValue(tempVar['lastName']);
+    this.CD_GENDER.setValue(tempVar['gender']);
+    this.CD_TITLE.setValue(tempVar['title']);
+    this.CD_CUST_ID.setValue(tempVar['icif']);
+    this.CD_EMAIL.setValue(tempVar['emailid']);
+    this.CD_PMRY_EMBSR_NAME.setValue(tempVar['nameoncard']);
+    // this.appRefNum  = tempVar['AppRefNum'];
+
+    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+    if (tempVar != '' || tempVar != undefined)
+      //this.CD_EXISTING_CUST.setValue('Y');
+
+      this.services.dataStore.setData('selectedData', undefined);
   }
 
 }

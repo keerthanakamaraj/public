@@ -585,7 +585,8 @@ width: 681px !important; */
 //  line-height: 42px !important;
 // //  text-align: center !important;
 // }
-#LD_LOAN_AMT,#REQ_CARD_LIMIT {
+#LD_LOAN_AMT,
+#REQ_CARD_LIMIT {
   color: #ffffff !important;
   font-family: "Open Sans" !important;
   font-size: 36px !important;
@@ -3837,9 +3838,9 @@ rlo-ui-card-field {
       //selected-btn
       .cpv-add-btn {
         box-sizing: border-box;
-        background-color: #0079B8 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #0079B8 !important;
+        background-color: #0079b8 !important;
+        color: #ffffff !important;
+        border: 1px solid #0079b8 !important;
         border-radius: 4px !important;
         font-family: "Open Sans";
         font-size: 12px;
@@ -3852,9 +3853,9 @@ rlo-ui-card-field {
 
       .cpv-initiate-btn {
         box-sizing: border-box;
-        background-color: #0079B8 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #0079B8 !important;
+        background-color: #0079b8 !important;
+        color: #ffffff !important;
+        border: 1px solid #0079b8 !important;
         border-radius: 4px !important;
         font-family: "Open Sans";
         font-size: 12px;
@@ -4685,6 +4686,12 @@ rlo-ui-card-field {
 }
 
 .wgt-input-ui-customer-search {
+  .input-container{
+    position: relative;
+    display: table;
+    border-collapse: separate;
+  }
+
   .input-text-group {
     .form-control {
       border-right: none !important;
