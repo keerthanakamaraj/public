@@ -298,7 +298,11 @@
                         <div [ngClass]="!isLoanCategory?'active':'inactive'">
                             <div class="arn">
                                 <span>ARN | </span>{{ ARN }}</div>
-                            <div class="loan-amt">{{ ReqCardLimit }}</div>
+                                <div class="currencySymbol">
+                                        <span>{{ currencySymbol }}</span>
+                                        <div class="loan-amt" >{{ REQ_LIMIT }}</div>
+                                </div>
+                           
                             <div class="loan-cat limit-width {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY_NAME }}</div>
                             <div>{{ customerType }}</div>
                             <div>{{ channel }}</div>

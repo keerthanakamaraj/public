@@ -26,6 +26,7 @@ const customCss: string = '';
   templateUrl: './Header.component.html'
 })
 export class HeaderComponent extends FormComponent implements OnInit, AfterViewInit {
+  REQ_LIMIT: any;
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -428,6 +429,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     this.LOAN_CATEGORY_NAME = header.TypeOfLoanName;
     this.SCHEME_NAME = header.SchemeName;
     this.SUB_PRODUCT_NAME = header.SubProductName;
+    this.REQ_LIMIT = header.ReqCardLimit;
 
   }
 
