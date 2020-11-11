@@ -47,7 +47,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
   // onChangeOfProduct Category
   onProdCategoryChange({ }) {
-    if (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC' || this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC') {
+    if ((this.MainComponent.BAD_PROD_CAT.getFieldValue() == undefined && this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC') || (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') ) {
       this.MainComponent.isLoanCategory = false;
       this.MainComponent.CD_CUST_TYPE.setValue('B');
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
@@ -56,8 +56,11 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_APP_PRPSE.mandatory = false;
       this.MainComponent.BAD_PRIME_USAGE.mandatory = true;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
-      this.MainComponent.CD_CUST_TYPE.mandatory = false
-    } else if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
+      this.MainComponent.CD_CUST_TYPE.mandatory = false;
+      this.MainComponent.CD_CARD_CUST_TYPE.mandatory = true;
+      this.MainComponent.BAD_CARD_TYPE.mandatory = true;
+      this.MainComponent.BAD_REQ_CARD_LIMIT.mandatory = true;
+    } else if(this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC' ) {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
@@ -65,7 +68,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_PRIME_USAGE.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
       this.MainComponent.CD_LOAN_OWNERSHIP.setValue(undefined);
-      this.MainComponent.CD_CUST_TYPE.mandatory = true
+      this.MainComponent.CD_CUST_TYPE.mandatory = true;
+      this.MainComponent.CD_CARD_CUST_TYPE.mandatory = false;
+      this.MainComponent.BAD_CARD_TYPE.mandatory = false;
+      this.MainComponent.BAD_REQ_CARD_LIMIT.mandatory = false;
 
 
     }
@@ -689,7 +695,19 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       return '-';
     }
   }
+  CardNumberEnable(){
+    if(this.MainComponent.BAD_CARD_TYPE.getFieldValue() == 'ICNP')
+    {
+      this.MainComponent.BAD_CARD_NUMBER.setHidden(false);
+      this.MainComponent.BAD_CARD_NUMBER.mandatory =  true;
 
+    }
+    else{
+      this.MainComponent.BAD_CARD_NUMBER.setHidden(true);
+      this.MainComponent.BAD_CARD_NUMBER.mandatory =  false;
+    }
+  }
+  
 
 }
 

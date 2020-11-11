@@ -28,6 +28,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 import { ICustomSearchObject } from '../Interface/masterInterface';
 import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
+import { truncateWithEllipsis } from '@amcharts/amcharts4/.internal/core/utils/Utils';
 
 const customCss: string = '';
 
@@ -41,6 +42,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   // eligibilityData= [];
   EligibilityDecision: string;
   @ViewChild('SRC_MOBILE_NO', { static: false }) SRC_MOBILE_NO: TextBoxComponent;
+  @ViewChild('BAD_CBS_PROD_CD', { static: false }) BAD_CBS_PROD_CD: TextBoxComponent;
+
   @ViewChild('SRC_TAX_ID', { static: false }) SRC_TAX_ID: TextBoxComponent;
   @ViewChild('SRC_CIF_NO', { static: false }) SRC_CIF_NO: TextBoxComponent;
   @ViewChild('SEARCH_CUST_BTN', { static: false }) SEARCH_CUST_BTN: ButtonComponent;
@@ -497,6 +500,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     });
   }
+  BAD_CARD_TYPE_change(){
+    this.Handler.CardNumberEnable();
+  }
+   
 
   async SEARCH_CUST_BTN_click(event) {
     let obj: ICustomSearchObject = {
@@ -632,8 +639,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue(tempVar['nameoncard']);
+    this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
+    this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+
+    // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
+    this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.ApplicationStatus(this.appRefNum);
     this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);

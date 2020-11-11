@@ -338,6 +338,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
                 tempObj['ICIF'] = loopVar7[i].ICIF;
                 tempObj['AppRefNum'] = loopVar7[i].AppRefNUm;
+                tempObj['CustomerType'] = loopVar7[i].CustomerType;
                 loopDataVar7.push(tempObj);
               }
             }
@@ -391,6 +392,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
               tempObj['CBSProductCode'] =  loopVar7[i].CBSProductCode;
               tempObj['StaffID'] = loopVar7[i].StaffID;
+              tempObj['CustomerType'] = loopVar7[i].CustomerType;
               loopDataVar7.push(tempObj);
             }
           }
@@ -482,7 +484,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['nameoncard'] = selectedData0['NameOnCard'];
       tempVar['AppRefNum'] = selectedData0['AppRefNum'];
       tempVar['CBSProductCode'] = selectedData0['CBSProductCode'];
-     
+      tempVar['CustomerType'] = selectedData0['CustomerType'];
+
       tempVar['staffId'] = selectedData0['StaffID'];//StaffID: "9870"
       console.log("DEEP| Selcted customer,", tempVar);
 

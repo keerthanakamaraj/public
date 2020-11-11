@@ -648,15 +648,15 @@ export class RloCommonData {
         this.validateGoNoGoSection(dataToValidate),
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
         this.validatePropertyDetailsSection(dataToValidate),
-        this.validateScoreCard(dataToValidate),
-        this.validatePolicyCheck(dataToValidate)
+        // this.validateScoreCard(dataToValidate),
+        // this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
         console.error(data);
         isGoNoGoSectionValid = data[0].isSectionValid;
         isLoadOrCreditCardValid = data[1].isSectionValid;
         isPropertyDetailsValid = data[2].isSectionValid;
-        isScoreCardDetailsValid = data[3].isSectionValid;
-        isPolicyCheckValid = data[4].isSectionValid;
+        // isScoreCardDetailsValid = data[3].isSectionValid;
+        // isPolicyCheckValid = data[4].isSectionValid;
 
         let errorCounter = 1;
         for (let i = 0; i < data.length; i++) {

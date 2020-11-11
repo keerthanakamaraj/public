@@ -1589,9 +1589,10 @@
     "CD_DOB": "Date Of Birth",
     "CD_RESET": "Reset",
     "BAD_SUB_PROD": "Sub Product",
+    "BAD_CBS_PROD_CD" :"CBS Product Code",
 
     "BAD_CARD_TYPE": "Card Type",
-    "BAD_CARD_NUMBER": "Card Number",
+    "BAD_CARD_NUMBER": "Reference Number",
     "BAD_CUSTOMER_TYPE": "Customer Type",
     "BAD_REQ_CARD_LIMIT": "Requested Card Limit",
 

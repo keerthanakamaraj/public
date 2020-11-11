@@ -225,7 +225,8 @@
                   </div>
                   <app-combo-box #BAD_CARD_TYPE category="2" fieldID="BAD_CARD_TYPE" [formCode]="formCode"
                     placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                    domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CARD_TYPE', $event)">
+                    domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CARD_TYPE', $event)"
+                    (change)="BAD_CARD_TYPE_change('BAD_CARD_TYPE', $event)">
                   </app-combo-box>
                 </div>
 
@@ -261,6 +262,14 @@
                   <app-rlo-ui-currency #BAD_REQ_CARD_LIMIT fieldID="BAD_REQ_CARD_LIMIT" [currencyReadOnly]="true" 
                   [componentFieldId]="'BAD_REQ_CARD_LIMIT'" (onBlurEvent)="customGenericOnBlur($event)"
                    [formCode]="formCode"></app-rlo-ui-currency>
+                </div>
+                <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_CBS_PROD_CD.isHidden() || isLoanCategory">
+                  <div class="clr-brown fieldLegend">
+                    <label class="clr-brown" [ngClass]="{'mandatory': BAD_CBS_PROD_CD.mandatory}">
+                      {{ 'Initiation.BAD_CBS_PROD_CD' | translate}}</label>
+                  </div>
+                  <app-text-box #BAD_CBS_PROD_CD fieldID="BAD_CBS_PROD_CD" [formCode]="formCode"
+                    (blur)="genericOnBlur('BAD_CBS_PROD_CD', $event)"></app-text-box>
                 </div>
                   <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
                     <app-label #BAD_PROD_LBL parentCompCode="Initiation" fieldID="BAD_PROD_LBL" [formCode]="formCode"
