@@ -199,7 +199,7 @@ export class NotepadDetailsGridComponent implements AfterViewInit {
                     if (loopVar9) {
                         for (var i = 0; i < loopVar9.length; i++) {
                             var tempObj = {};
-                            tempObj['Comment_Category'] = loopVar9[i].CommentCategory;
+                            tempObj['Comment_Category'] = loopVar9[i].CommentCategory.text;
                             //tempObj['ND_SR_NO'] = loopVar9[i].NotepadSeq;
                             tempObj['ND_SR_NO'] = i + 1;
                             tempObj['ND_COMMENTS'] = loopVar9[i].Comments;
