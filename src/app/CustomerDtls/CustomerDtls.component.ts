@@ -1320,6 +1320,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
           console.warn("DEEP | No customer selected");
         }
       });
+    } else {
+      this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
     }
   }
 
@@ -1345,6 +1347,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       //this.CD_EXISTING_CUST.setValue('Y');
 
       this.services.dataStore.setData('selectedData', undefined);
+  }
+
+  customerSearchGenericOnBlur(fieldName: any, textFieldValue: any) {
+    console.log("Deep | customerSearchGenericOnBlur", fieldName, textFieldValue);
+    this.genericOnBlur(fieldName, textFieldValue);
   }
 
 }
