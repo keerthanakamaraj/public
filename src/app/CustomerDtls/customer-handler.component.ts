@@ -146,6 +146,16 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     });
   }
 
+  embLineFlagselected(){
+    if(this.MainComponent.EmbLineFlag.getFieldValue() == 'Y'){
+      this.MainComponent.EmbLine4.setHidden(false);
+      this.MainComponent.EmbLine4.mandatory =  true;
+    }
+    else{
+      this.MainComponent.EmbLine4.setHidden(true);
+      this.MainComponent.EmbLine4.mandatory =  false;
+    }
+  }
 
   // isStaffEnabled({ }) {
   //   if (this.MainComponent.CD_STAFF.getFieldValue() == null || this.MainComponent.CD_STAFF.getFieldValue == undefined

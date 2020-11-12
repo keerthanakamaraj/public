@@ -451,7 +451,8 @@
             </div>
             <rlo-ui-radio #EmbLineFlag fieldID="EmbLineFlag" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('EmbLineFlag', $event)">
+              (blur)="genericOnBlur('EmbLineFlag', $event)"
+              (change)="EmbLineFlag_change('EmbLineFlag', $event)">
             </rlo-ui-radio>
           </div>
 

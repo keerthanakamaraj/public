@@ -231,13 +231,20 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         // this.HD_APP_REF_NUM.setValue(header.ApplicationRefernceNo);
         this.HD_PROD.setValue(header.Product);
         this.HD_SUB_PROD.setValue(this.SUB_PRODUCT);
-        this.HD_SCHEME.setValue(this.SCHEME);
-        if (this.HD_PROMOTION.getFieldValue() == undefined && this.HD_PROMOTION.getFieldValue() == null) {
-          this.HD_PROMOTION.setValue("NA");
-        }
-        else {
-          this.HD_PROMOTION.setValue(header.Promotion);
-        }
+        // this.HD_SCHEME.setValue(this.SCHEME);
+        // if (this.HD_PROMOTION.getFieldValue() == undefined || this.HD_PROMOTION.getFieldValue() == null) {
+        //   this.HD_PROMOTION.setValue("NA");
+        // }
+        // else {
+        //   this.HD_PROMOTION.setValue(header.Promotion);
+        // }
+        // if (this.HD_SCHEME.getFieldValue() == undefined || this.HD_SCHEME.getFieldValue() == null) {
+        //   this.HD_SCHEME.setValue("NA");
+        // }
+        // else{
+        //   this.HD_SCHEME.setValue(header.Scheme);
+        // }
+       
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
         this.LD_APP_PRPSE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
 
@@ -259,7 +266,21 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.CARD_NUMBER.setValue(header.CardNumber);
           this.SANCTION_CREDIT_LIMIT.setValue(header.SanctionCreditLimit);
           this.SANCTION_CASH_LIMIT.setValue(header.SanctionCashLimit);
-          this.REQ_CARD_LIMIT.setValue(header.ReqCardLimit);
+          if (this.SANCTION_CREDIT_LIMIT.getFieldValue() == undefined && this.SANCTION_CREDIT_LIMIT.getFieldValue() == null) {
+            this.SANCTION_CREDIT_LIMIT.setValue("NA");
+          }
+          if (this.SANCTION_CASH_LIMIT.getFieldValue() == undefined && this.SANCTION_CASH_LIMIT.getFieldValue() == null) {
+            this.SANCTION_CASH_LIMIT.setValue("NA");
+          }
+          if (this.SANCTION_CREDIT_LIMIT.getFieldValue() == undefined && this.SANCTION_CREDIT_LIMIT.getFieldValue() == null) {
+            this.SANCTION_CREDIT_LIMIT.setValue("NA");
+          }
+          // if (this.HD_SCHEME.getFieldValue() == undefined && this.HD_SCHEME.getFieldValue() == null) {
+          //   this.HD_SCHEME.setValue("NA");
+          // }
+         
+          
+          this.REQ_CARD_LIMIT.setValue(this.services.formatAmount(header.ReqCardLimit, null, null, false));
 
         }
         this.currency =localStorage.getItem("currency.code.default");
@@ -413,6 +434,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     else {
       this.HD_PROMOTION_NAME.setValue(header.PromotionName);
     }
+    if (this.HD_SCHEME_NAME.getFieldValue() == undefined && this.HD_SCHEME_NAME.getFieldValue() == null) {
+      this.HD_SCHEME_NAME.setValue("NA");
+    }
+    else {
+      this.HD_SCHEME_NAME.setValue(header.SchemeName);
+    }
 
     this.TENURE = '';
     if (header.Tenure) {
@@ -429,7 +456,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     this.LOAN_CATEGORY_NAME = header.TypeOfLoanName;
     this.SCHEME_NAME = header.SchemeName;
     this.SUB_PRODUCT_NAME = header.SubProductName;
-    this.REQ_LIMIT = header.ReqCardLimit;
+    this.REQ_LIMIT = this.services.formatAmount(header.ReqCardLimit, null, null, false);
 
   }
 

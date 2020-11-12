@@ -41,7 +41,7 @@
                     <label class="clr-brown" [ngClass]="{'mandatory': SRC_CIF_NO.mandatory}">
                       {{ 'Initiation.SRC_CIF_NO' | translate}}</label>
                   </div>
-                  <app-text-box #SRC_CIF_NO fieldID="SRC_CIF_NO" [formCode]="formCode" placeholder="(Optional)"
+                  <app-text-box #SRC_CIF_NO fieldID="SRC_CIF_NO" [formCode]="formCode" 
                     (blur)="genericOnBlur('SRC_CIF_NO', $event)"></app-text-box>
                 </div>
                 <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="SEARCH_CUST_BTN.isHidden()">
@@ -591,7 +591,7 @@
                       placeholder="Select" domainObjectUrl="/MstCustSubSegmentDtls/{SubSegmentCd}" doServerUrl="/masters"
                       domainObjectCode="MstCustSubSegmentDtls" (blur)="genericOnBlur('CD_CUST_SUB_SGMT', $event)"></app-combo-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DEBIT_SCORE.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DEBIT_SCORE.isHidden() || !isLoanCategory">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_DEBIT_SCORE.mandatory}">
                         {{ 'Initiation.CD_DEBIT_SCORE' | translate}}</label>

@@ -462,6 +462,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     const inputMap = new Map();
     //await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
   }
+  async EmbLineFlag_change(fieldID, value) {
+    const inputMap = new Map();
+    this.Handler.embLineFlagselected();
+    //await this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
+  }
 
 
   async CD_SAVE_BTN_click(event) {
@@ -902,6 +907,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.setNonEditableFields(false)
     }
     const customer = customerDtlsObj;
+    this.dispalyAddonField(customer.CustomerType)
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
     this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
@@ -950,6 +956,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
+   
+    this.Handler.embLineFlagselected();
 
     this.passBorrowerSeq.emit({
       'BorrowerSeq': customer.BorrowerSeq,
@@ -1029,6 +1037,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_CUST_TYPE.setValue(event.customerType, undefined, true);
     this.setNonEditableFields(false);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
+    this.dispalyAddonField(event.customerType);
+  }
+
+  dispalyAddonField(custType){
+    if(custType ==  'A'){
+      this.RequestedAmountLimit.setHidden(false);
+      this.CardDispatchMode.setHidden(false);
+    }
+    else{
+      this.RequestedAmountLimit.setHidden(true);
+      this.CardDispatchMode.setHidden(true);
+    }
   }
 
   async CD_FULL_NAME_change(fullName, customerType) {
