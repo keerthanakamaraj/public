@@ -10,27 +10,27 @@ import { PostCPVComponent } from './PostCPV.component';
 import { HeaderModule } from '../Header/Header.module';
 import { PostCPVInputGridModule } from '../PostCPVInputGrid/PostCPVInputGrid.module';
 @NgModule({
-imports: [
-CommonModule,
-PostCPVRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-HeaderModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-PostCPVInputGridModule,
-],
-declarations: [
-PostCPVComponent,
-],
-exports:[
-PostCPVComponent,
-],
+  imports: [
+    CommonModule,
+    PostCPVRoutingModule,
+    RAFormModule,
+    FormsModule,
+    HttpClientModule,
+    HeaderModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    PostCPVInputGridModule,
+  ],
+  declarations: [
+    PostCPVComponent,
+  ],
+  exports: [
+    PostCPVComponent,
+  ],
 })
 export class PostCPVModule { }

@@ -14,30 +14,30 @@ import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.
 import { PreCPVInputGridModule } from '../PreCPVInputGrid/PreCPVInputGrid.module';
 
 @NgModule({
-imports: [
-CommonModule,
-PreCPVRoutingModule,
-RAFormModule,
-FormsModule,
-HttpClientModule,
-HeaderModule,
-ApplicationDtlsModule,
-CustGridModule,
-CreditCardDetailsModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-PreCPVInputGridModule
-],
-declarations: [
-PreCPVComponent,
-],
-exports:[
-PreCPVComponent,
-],
+  imports: [
+    CommonModule,
+    PreCPVRoutingModule,
+    RAFormModule,
+    FormsModule,
+    HttpClientModule,
+    HeaderModule,
+    ApplicationDtlsModule,
+    CustGridModule,
+    CreditCardDetailsModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    PreCPVInputGridModule
+  ],
+  declarations: [
+    PreCPVComponent,
+  ],
+  exports: [
+    PreCPVComponent,
+  ],
 })
 export class PreCPVModule { }

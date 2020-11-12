@@ -101,9 +101,9 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-   // this.ApplicationId = '3322';
-  //  this.ApplicationId = '3722';
-    
+    //  this.ApplicationId = '3322';
+    //  this.ApplicationId = '3722';
+
     this.PreCPVGrid.ApplicationId = this.ApplicationId;
     //this.PreCPVGrid.fetchDefaultData();
     if (this.userId === undefined || this.userId === '') {
@@ -126,7 +126,7 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   async headerState(event) {
     this.showExpandedHeader = event.headerState;
   }
-  
+
   async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'PreCPV';
     await super.submit(path, apiCode, serviceCode);
@@ -201,24 +201,24 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
     this.services.rloui.goBack();
   }
 
-  async PreCPV_SUBMIT_click(event) {
-    console.log("submit clicked");
-  }
-  async PreCPV_WITHDRAW_click(event) {
-    console.log("withdraw clicked");
-  }
+  // async PreCPV_SUBMIT_click(event) {
+  //   console.log("submit clicked");
+  // }
+  // async PreCPV_WITHDRAW_click(event) {
+  //   console.log("withdraw clicked");
+  // }
 
 
-  async PreCPV_SENDBACK_click(event) {
-    console.log("sendback clicked")
-  }
+  // async PreCPV_SENDBACK_click(event) {
+  //   console.log("sendback clicked")
+  // }
 
-  async PreCPV_CLOSE_click(event) {
-    console.log("close clicked");
-  }
+  // async PreCPV_CLOSE_click(event) {
+  //   console.log("close clicked");
+  // }
 
   broadcastProdCategory(event) {
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    //console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
     this.isLoanCategory = event.isLoanCategory;
   }

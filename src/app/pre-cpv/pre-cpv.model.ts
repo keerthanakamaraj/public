@@ -1,6 +1,6 @@
 export class PreCPVModel {
-setValue(res){
-if(res){
-}
-}
+  setValue(res) {
+    if (res) {
+    }
+  }
 }

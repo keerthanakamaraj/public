@@ -3,32 +3,34 @@
     <h4>{{ 'PostCPVInputGrid.GridTitle' | translate }}</h4>
   </div> -->
 </div>
-<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}" [ngClass]="{'gridError':error}"
-    (click)="clearGridError()">
+<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+  [ngClass]="{'gridError':error}" (click)="clearGridError()">
   <thead>
     <tr class="tr-blue tr-td-l">
-      <th [hidden]="isColumnHidden('SrNo')" width="25%">
+      <th [hidden]="isColumnHidden('SrNo')" width="4%">
         {{ 'PostCPVInputGrid.SrNo' | translate }}</th>
-      <th [hidden]="isColumnHidden('CustomerName')" width="25%">
+      <th [hidden]="isColumnHidden('CustomerName')" width="12%">
         {{ 'PostCPVInputGrid.CustomerName' | translate }}</th>
-      <th [hidden]="isColumnHidden('VerificationType')" width="25%">
+      <th [hidden]="isColumnHidden('VerificationType')" width="8%">
         {{ 'PostCPVInputGrid.VerificationType' | translate }}</th>
-      <th [hidden]="isColumnHidden('Details')" width="25%">
+      <th [hidden]="isColumnHidden('Details')" width="15%">
         {{ 'PostCPVInputGrid.Details' | translate }}</th>
-      <th [hidden]="isColumnHidden('AgencyName')" width="25%">
+      <th [hidden]="isColumnHidden('Agency')" width="10%">
         {{ 'PostCPVInputGrid.AgencyName' | translate }}</th>
-      <th [hidden]="isColumnHidden('InitiatorRemarks')" width="25%">
+      <th [hidden]="isColumnHidden('InitiatorRemarks')" width="12%">
         {{ 'PostCPVInputGrid.InitiatorRemarks' | translate }}</th>
-      <th [hidden]="isColumnHidden('VerificationResult')" width="25%">
+      <th [hidden]="isColumnHidden('VerificationResult')" width="5%">
         {{ 'PostCPVInputGrid.VerificationResult' | translate }}</th>
-      <th [hidden]="isColumnHidden('VerificationRemarks')" width="25%">
+      <th [hidden]="isColumnHidden('VerificationRemarks')" width="10%">
         {{ 'PostCPVInputGrid.VerificationRemarks' | translate }}</th>
-      <th [hidden]="isColumnHidden('CompletionResult')" width="25%">
+      <th [hidden]="isColumnHidden('CompletionResult')" width="9%">
         {{ 'PostCPVInputGrid.CompletionResult' | translate }}</th>
-      <th [hidden]="isColumnHidden('CompletionRemarks')" width="25%">
+      <th [hidden]="isColumnHidden('CompletionRemarks')" width="10%">
         {{ 'PostCPVInputGrid.CompletionRemarks' | translate }}</th>
-      <th [hidden]="isColumnHidden('Report')" width="25%">
-        {{ 'PostCPVInputGrid.Report' | translate }}</th>
+      <th [hidden]="isColumnHidden('SaveVrfn')" width="5%">
+        {{ 'PostCPVInputGrid.SaveVrfn' | translate }}</th>
+      <!-- <th [hidden]="isColumnHidden('hidAppId')" width="0%">
+            {{ 'PostCPVInputGrid.hidAppId' | translate }}</th> -->
     </tr>
   </thead>
   <tbody>
@@ -41,22 +43,13 @@
       <tr (click)="clearRowError(rowNo)" class="tr-td-l"
         [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
         <td [hidden]="isColumnHidden('SrNo')">
-          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #SrNo fieldID="SrNo_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['SrNo']" [formCode]="formCode"
-            (blur)="genericOnBlur('SrNo', $event, rowNo)">
-          </rlo-ui-readonlyfield>
-          <div *ngIf="isCellReadOnly[rowNo]['SrNo']">
-            <p class="label-text" [title]="this['SrNo'].toArray()[rowNo].getFieldInfo()">
-              {{this['SrNo'].toArray()[rowNo].getFieldInfo()}}
-            </p>
-          </div>
+          {{rowNo + 1}}
         </td>
         <td [hidden]="isColumnHidden('CustomerName')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #CustomerName fieldID="CustomerName_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['CustomerName']"
-            [formCode]="formCode"
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #CustomerName fieldID="CustomerName_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['CustomerName']" [formCode]="formCode"
             (blur)="genericOnBlur('CustomerName', $event, rowNo)">
-            </rlo-ui-readonlyfield>
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['CustomerName']">
             <p class="label-text" [title]="this['CustomerName'].toArray()[rowNo].getFieldInfo()">
               {{this['CustomerName'].toArray()[rowNo].getFieldInfo()}}
@@ -64,11 +57,10 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('VerificationType')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VerificationType fieldID="VerificationType_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['VerificationType']"
-            [formCode]="formCode"
-            (blur)="genericOnBlur('VerificationType', $event, rowNo)">
-            </rlo-ui-readonlyfield> 
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VerificationType
+            fieldID="VerificationType_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['VerificationType']"
+            [formCode]="formCode" (blur)="genericOnBlur('VerificationType', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['VerificationType']">
             <p class="label-text" [title]="this['VerificationType'].toArray()[rowNo].getFieldInfo()">
               {{this['VerificationType'].toArray()[rowNo].getFieldInfo()}}
@@ -76,35 +68,32 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('Details')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #Details fieldID="Details_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['Details']"
-            [formCode]="formCode"
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #Details fieldID="Details_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['Details']" [formCode]="formCode"
             (blur)="genericOnBlur('Details', $event, rowNo)">
-            </rlo-ui-readonlyfield> 
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['Details']">
             <p class="label-text" [title]="this['Details'].toArray()[rowNo].getFieldInfo()">
               {{this['Details'].toArray()[rowNo].getFieldInfo()}}
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('AgencyName')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #AgencyName fieldID="AgencyName_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['AgencyName']"
-            [formCode]="formCode"
-            (blur)="genericOnBlur('AgencyName', $event, rowNo)">
-            </rlo-ui-readonlyfield> 
-          <div *ngIf="isCellReadOnly[rowNo]['AgencyName']">
-            <p class="label-text" [title]="this['AgencyName'].toArray()[rowNo].getFieldInfo()">
-              {{this['AgencyName'].toArray()[rowNo].getFieldInfo()}}
+        <td [hidden]="isColumnHidden('Agency')">
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #Agency fieldID="Agency_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['Agency']" [formCode]="formCode"
+            (blur)="genericOnBlur('Agency', $event, rowNo)">
+          </rlo-ui-readonlyfield>
+          <div *ngIf="isCellReadOnly[rowNo]['Agency']">
+            <p class="label-text" [title]="this['Agency'].toArray()[rowNo].getFieldInfo()">
+              {{this['Agency'].toArray()[rowNo].getFieldInfo()}}
             </p>
           </div>
         </td>
         <td [hidden]="isColumnHidden('InitiatorRemarks')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #InitiatorRemarks fieldID="InitiatorRemarks_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['InitiatorRemarks']"
-            [formCode]="formCode"
-            (blur)="genericOnBlur('InitiatorRemarks', $event, rowNo)">
-            </rlo-ui-readonlyfield> 
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #InitiatorRemarks
+            fieldID="InitiatorRemarks_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['InitiatorRemarks']"
+            [formCode]="formCode" (blur)="genericOnBlur('InitiatorRemarks', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['InitiatorRemarks']">
             <p class="label-text" [title]="this['InitiatorRemarks'].toArray()[rowNo].getFieldInfo()">
               {{this['InitiatorRemarks'].toArray()[rowNo].getFieldInfo()}}
@@ -112,11 +101,10 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('VerificationResult')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VerificationResult fieldID="VerificationResult_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['VerificationResult']"
-            [formCode]="formCode"
-            (blur)="genericOnBlur('VerificationResult', $event, rowNo)">
-            </rlo-ui-readonlyfield> 
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VerificationResult
+            fieldID="VerificationResult_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['VerificationResult']"
+            [formCode]="formCode" (blur)="genericOnBlur('VerificationResult', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['VerificationResult']">
             <p class="label-text" [title]="this['VerificationResult'].toArray()[rowNo].getFieldInfo()">
               {{this['VerificationResult'].toArray()[rowNo].getFieldInfo()}}
@@ -124,11 +112,10 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('VerificationRemarks')">
-            <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VerificationRemarks fieldID="VerificationRemarks_{{rowNo}}" 
-            [hidden]="isCellReadOnly[rowNo]['VerificationRemarks']"
-            [formCode]="formCode"
-            (blur)="genericOnBlur('VerificationRemarks', $event, rowNo)">
-            </rlo-ui-readonlyfield> 
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #VerificationRemarks
+            fieldID="VerificationRemarks_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['VerificationRemarks']"
+            [formCode]="formCode" (blur)="genericOnBlur('VerificationRemarks', $event, rowNo)">
+          </rlo-ui-readonlyfield>
           <div *ngIf="isCellReadOnly[rowNo]['VerificationRemarks']">
             <p class="label-text" [title]="this['VerificationRemarks'].toArray()[rowNo].getFieldInfo()">
               {{this['VerificationRemarks'].toArray()[rowNo].getFieldInfo()}}
@@ -136,9 +123,16 @@
           </div>
         </td>
         <td [hidden]="isColumnHidden('CompletionResult')">
-          <app-combo-box #CompletionResult category="1" fieldID="CompletionResult_{{rowNo}}"
+          <!-- <app-combo-box #CompletionResult category="2" fieldID="CompletionResult_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['CompletionResult']" [formCode]="formCode"
-            (blur)="genericOnBlur('CompletionResult', $event, rowNo)"></app-combo-box>
+            (blur)="genericOnBlur('CompletionResult', $event, rowNo)"></app-combo-box> -->
+          <!-- <app-combo-box #CompletionResult category="2" fieldID="CompletionResult_{{rowNo}}" [formCode]="formCode" placeholder="Select"
+            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}"  domainObjectCode="MSTGENERALPARAM" doServerUrl="/masters"
+            (blur)="genericOnBlur('CompletionResult', $event, rowNo)" [hidden]="isCellReadOnly[rowNo]['CompletionResult']">
+          </app-combo-box> -->
+          <app-combo-box #CompletionResult category="4" fieldID="CompletionResult_{{rowNo}}" placeholder="Select"
+            [emittedOptions]="ComplnRsltDropDownList" (blur)="genericOnBlur('CompletionResult', $event, rowNo)">
+          </app-combo-box>
           <div *ngIf="isCellReadOnly[rowNo]['CompletionResult']">
             <p class="label-text" [title]="this['CompletionResult'].toArray()[rowNo].getFieldInfo()">
               {{this['CompletionResult'].toArray()[rowNo].getFieldInfo()}}
@@ -155,7 +149,17 @@
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('Report')">
+        <td [hidden]="isColumnHidden('SaveVrfn')">
+          <app-button #SaveVrfn fieldName="{{ 'PostCPVInputGrid.SaveVrfn' | translate}}" fieldID="SaveVrfn_{{rowNo}}"
+            [formCode]="formCode" customClass="btn cpv-initiate-btn" (buttonClick)="SaveVrfn_click(rowNo,$event)">
+          </app-button>
+          <div *ngIf="isCellReadOnly[rowNo]['SaveVrfn']">
+            <p class="label-text" [title]="this['SaveVrfn'].toArray()[rowNo].getFieldInfo()">
+              {{this['SaveVrfn'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <!-- <td [hidden]="isColumnHidden('Report')">
           <app-text-box #Report fieldID="Report_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['Report']" [formCode]="formCode"
             (blur)="genericOnBlur('Report', $event, rowNo)"></app-text-box>
@@ -164,7 +168,10 @@
               {{this['Report'].toArray()[rowNo].getFieldInfo()}}
             </p>
           </div>
-        </td>
+        </td> -->
+        <!-- <td [hidden]="isColumnHidden('hidAppId')">
+          <app-hidden #hidAppId fieldID="hidAppId_{{rowNo}}"></app-hidden>
+        </td> -->
       </tr>
       <tr *ngIf="rowError[rowNo].hasError">
         <td colspan=12 style="text-align: center;">
@@ -175,3 +182,5 @@
   </tbody>
 </table>
 <span class="errorMessagespan">{{errorCode| translate}}</span>
+
+<!-- <app-hidden #hidCompletionResult fieldID="hidCompletionResult"></app-hidden> -->

@@ -31,13 +31,14 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
-            <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
-                <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
-                  (productCategoryFound)="brodcastProdCategory($event)">
-                </app-Header>
-              </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="HEADER.isHidden()">
+            <app-Header #HEADER fieldID="HEADER" [formCode]="formCode" (headerStateEvent)="headerState($event)"
+              (productCategoryFound)="broadcastProdCategory($event)">
+            </app-Header>
+          </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="PostCPVInputGrid.isHidden()">
-            <app-PostCPVInputGrid #PostCPVInputGrid fieldID="PostCPVInputGrid" [formCode]="formCode" [displayTitle]="false">
+            <app-PostCPVInputGrid #PostCPVInputGrid fieldID="PostCPVInputGrid" [formCode]="formCode"
+              [displayTitle]="false">
             </app-PostCPVInputGrid>
           </div>
           <div class="col-12  col-sm-12 col-md-12 group-default op-button">
@@ -65,5 +66,15 @@
         </div>
       </div>
     </div>
+    <app-hidden #HideCurrentStage fieldID="HideCurrentStage"></app-hidden>
+    <app-hidden #HideProcessId fieldID="HideProcessId"></app-hidden>
+    <app-hidden #HideServiceCode fieldID="HideServiceCode"></app-hidden>
+    <!-- <app-hidden #HideTaskId fieldID="HideTaskId"></app-hidden> -->
+    <app-hidden #HideTenantId fieldID="HideTenantId"></app-hidden>
+    <app-hidden #HideUserId fieldID="HideUserId"></app-hidden>
+    <app-hidden #HideAppId fieldID="HideAppId"></app-hidden>
+    <app-hidden #HideServiceCodeComplete fieldID="HideServiceCodeComplete"></app-hidden>
+    <app-hidden #hideDirection fieldID="hideDirection"></app-hidden>
+    <app-hidden #HideDecision fieldID="HideDecision"></app-hidden>
   </div>
 </form>

@@ -202,7 +202,9 @@
     "rlo.error.precpv-initiate":"Verification Initiation failed. Please try again.",
     "rlo.success.save.precpv-retrigged":"Verification retriggered successfully",
     "rlo.error.vrfndtls-not-found":"details not available for selected verifacation. Please try another",
-
+    "rlo.success.postcpv-dicisionsave":"Disision Submitted successfully",
+    "rlo.error.postcpv-dicisionsave":"Disision Submission failed. Please try again.",
+    
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -2475,7 +2477,8 @@
         "CustomerName" : "Customer Name",
         "VerificationResult" : "Verification Result ",
         "VerificationRemarks" : "Verification Remarks",
-        "SrNo" : "Sr. No"
+        "SrNo" : "Sr. No",
+        "SaveVrfn" : "Save"
         },
         "PostCPV" : {
           "FormTitle" : "PostCPV",

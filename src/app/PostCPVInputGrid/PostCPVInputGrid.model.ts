@@ -24,30 +24,30 @@ setValue(input){
 for(var i = 0; i < input.length; i++){
 let row = input[i];
 this.addRecord();
-this.rowData[i].POSTCPV_SrNo = row['POSTCPV_SrNo'];
-this.rowData[i].POSTCPV_CustomerName = row['POSTCPV_CustomerName'];
-this.rowData[i].POSTCPV_VerificationType = row['POSTCPV_VerificationType'];
-this.rowData[i].POSTCPV_Details = row['POSTCPV_Details'];
-this.rowData[i].POSTCPV_AgencyName = row['POSTCPV_AgencyName'];
-this.rowData[i].POSTCPV_InitiatorRemarks = row['POSTCPV_InitiatorRemarks'];
-this.rowData[i].POSTCPV_VerificationResult_ = row['POSTCPV_VerificationResult_'];
-this.rowData[i].POSTCPV_VerificationRemarks = row['POSTCPV_VerificationRemarks'];
-this.rowData[i].POSTCPV_CompletionResult = row['POSTCPV_CompletionResult'];
-this.rowData[i].POSTCPV_CompletionRemarks = row['POSTCPV_CompletionRemarks'];
-this.rowData[i].POSTCPV_Report = row['POSTCPV_Report'];
+//this.rowData[i].SrNo = row['SrNo'];
+this.rowData[i].CustomerName = row['CustomerName'];
+this.rowData[i].VerificationType = row['VerificationType'];
+this.rowData[i].Details = row['Details'];
+this.rowData[i].Agency = row['Agency'];
+this.rowData[i].InitiatorRemarks = row['InitiatorRemarks'];
+this.rowData[i].VerificationResult = row['VerificationResult'];
+this.rowData[i].VerificationRemarks = row['VerificationRemarks'];
+this.rowData[i].CompletionResult = row['CompletionResult'];
+this.rowData[i].CompletionRemarks = row['CompletionRemarks'];
+this.rowData[i].SaveVrfn = row['SaveVrfn'];
 }
 }
 }
 class row{
-POSTCPV_SrNo : string = undefined;
-POSTCPV_CustomerName : string = undefined;
-POSTCPV_VerificationType : string = undefined;
-POSTCPV_Details : string = undefined;
-POSTCPV_AgencyName : string = undefined;
-POSTCPV_InitiatorRemarks : string = undefined;
-POSTCPV_VerificationResult_ : string = undefined;
-POSTCPV_VerificationRemarks : string = undefined;
-POSTCPV_CompletionResult : string = undefined;
-POSTCPV_CompletionRemarks : string = undefined;
-POSTCPV_Report : string = undefined;
+//SrNo : string = undefined;
+CustomerName : string = undefined;
+VerificationType : string = undefined;
+Details : string = undefined;
+Agency : string = undefined;
+InitiatorRemarks : string = undefined;
+VerificationResult : string = undefined;
+VerificationRemarks : string = undefined;
+CompletionResult : string = undefined;
+CompletionRemarks : string = undefined;
+SaveVrfn : string = undefined;
 }

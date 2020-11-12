@@ -137,7 +137,7 @@ export var componentRoutes: Routes = [
 		loadChildren: 'src/app/CustomizationConsole/customization-console.module#CustomizationConsoleModule'
 	},
 	{
-		path: 'Reject',
+		path: 'withdraw',
 		loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
 	}	
 ];
