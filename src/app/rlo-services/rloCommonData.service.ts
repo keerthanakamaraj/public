@@ -521,7 +521,7 @@ export class RloCommonData {
     }
 
     const LoanOwnership = customerData.LoanOwnership;
-    const custType = customerData.CustomerType.id;
+    const custType = customerData.CustomerType;
 
     if (LoanOwnership !== undefined && LoanOwnership != 0) {
       commonObj.isSectionValid = false;
@@ -556,7 +556,7 @@ export class RloCommonData {
     let customerData = sectionData.get('CustomerDetails');
 
     const LoanOwnership = customerData.LoanOwnership;
-    const custType = customerData.CustomerType.id;
+    const custType = customerData.CustomerType;
 
     if (!sectionData.has('AddressDetails')) {
       commonObj.isSectionValid = false;
@@ -791,7 +791,7 @@ export class RloCommonData {
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
 
-    if (this.currentRoute == "DDE" && (customerData.CustomerType.id == "B" || customerData.CustomerType.id == "CB")) {
+    if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
       if (!customerTabSectionData.has('IncomeSummary')) {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = "Details from income summary section required";
