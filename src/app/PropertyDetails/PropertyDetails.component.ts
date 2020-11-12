@@ -215,6 +215,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async Pincode_blur(event) {
     let inputMap = new Map();
+    inputMap.set('QueryParam.CountryCode', 'IND');
     inputMap.set('PathParam.PinCd', event.value)
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {

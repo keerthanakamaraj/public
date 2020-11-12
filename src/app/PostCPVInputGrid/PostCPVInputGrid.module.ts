@@ -7,24 +7,24 @@ import { PostCPVInputGridComponent } from './PostCPVInputGrid.component';
 import { RAFormModule } from '../ra-form/ra-form.module';
 import { GridModule } from '../grid/grid.module';
 @NgModule({
-imports: [
-CommonModule,
-RAFormModule,
-GridModule,
-HttpClientModule,
-TranslateModule.forChild({
-loader: {
-provide: TranslateLoader,
-useFactory: HttpLoaderFactory,
-deps: [HttpClient]
-}
-}),
-],
-declarations: [
-PostCPVInputGridComponent,
-],
-exports:[
-PostCPVInputGridComponent,
-],
+  imports: [
+    CommonModule,
+    RAFormModule,
+    GridModule,
+    HttpClientModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+  ],
+  declarations: [
+    PostCPVInputGridComponent,
+  ],
+  exports: [
+    PostCPVInputGridComponent,
+  ],
 })
 export class PostCPVInputGridModule { }
