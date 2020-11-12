@@ -415,7 +415,8 @@
                       (blur)="genericOnBlur('CD_CIF', $event)">
                     </app-text-box> -->
 
-                    <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF" (blur)="customerSearchGenericOnBlur($event)" [searchType]="'CD_CIF'"  (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
+                    <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF" (blur)="customerSearchGenericOnBlur($event)" 
+                    [searchType]="'CD_CIF'"  (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
 
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUSTOMER_ID.isHidden()">

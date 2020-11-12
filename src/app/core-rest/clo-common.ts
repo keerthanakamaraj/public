@@ -664,7 +664,9 @@ export class CLOCommonService extends CoreREST {
 		return this.http.post(this.getUrl('/documentsByCustomer?userId=' + sessionStorage.getItem('USERID')), pFormData, this.getDefaultOptions());
 	}
 	getImagesForUpdateAction(id) {
-		let url = this.getUrl('/documentUploads?docId=' + id);
+		// let url = this.getUrl('/documentUploads?docId=' + id);
+		// return this.http.get(url, this.getDefaultOptions());
+		let url = this.getUrl('/documentUploads?seqId='+ id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
 	public updateDocumentDetails(pFormData) {
@@ -687,4 +689,7 @@ export class CLOCommonService extends CoreREST {
 		// return this.http.get(url, this.getDefaultOptions());
 	}
 
+	public getStage() {
+		return this.http.get(this.getUrl('/proposals/stages'), this.getDefaultOptions());
+	}
 }

@@ -84,6 +84,8 @@ export class RloCommonData {
 
   reloadUWSections = new Subject<any>();
 
+  viewMode: boolean = false;//used in DDE
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -1040,7 +1042,7 @@ export class RloCommonData {
             resolve(null);
           }
         );
-      } else { 
+      } else {
         this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -1056,5 +1058,9 @@ export class RloCommonData {
     return promise;
   }
 
+  //used in Document upload
+  setViewMode(data: boolean) {
+    this.viewMode = data
+  }
 
 }

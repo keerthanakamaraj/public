@@ -1347,4 +1347,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.services.dataStore.setData('selectedData', undefined);
   }
 
+  customerSearchGenericOnBlur(fieldName: any, textFieldValue: any) {
+    console.log("Deep | customerSearchGenericOnBlur", fieldName, textFieldValue);
+    this.genericOnBlur(fieldName, textFieldValue);
+  }
+
 }
