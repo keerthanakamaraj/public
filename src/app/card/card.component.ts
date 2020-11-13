@@ -109,6 +109,7 @@ export class CardComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    console.log(this.cardMetaData);
     if (this.cardMetaData != undefined)
       this.cardName = this.cardMetaData.name;
   }

@@ -57,7 +57,7 @@
 
           <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='customer'">
             <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngClass]="{'d-block' : customerSectionLoaded}">
-              <div class="card-layout-container">
+              <div class="card-layout-container" *ngIf="customerSectionLoaded">
                 <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
               </div>
             </div>

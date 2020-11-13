@@ -2052,6 +2052,20 @@ rlo-ui-card-field {
       }
     }
   }
+
+  &.customer360-card {
+    .cards-body {
+      border-bottom: 0;
+
+      rlo-ui-card-field {
+        &:last-of-type {
+          .card-tile-container {
+            border-bottom: 1px solid #ddd;
+          }
+        }
+      }
+    }
+  }
 }
 
 /* underwriter customer list component*/
@@ -3281,6 +3295,61 @@ rlo-ui-card-field {
   .scroll-margin {
     margin-top: 4.5rem;
   }
+
+  .relationship-pannel {
+    background: white;
+    padding: 19px;
+    border: 1px solid rgba(0, 121, 184, 0.25);
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top: 0;
+
+    .relationship-table {
+      margin-top: 9px;
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0 3px;
+
+        thead {
+          tr {
+            background: #e4f0f9;
+            font-size: 12px;
+            line-height: 12px;
+            color: #7c7c7c;
+            font-weight: unset;
+          }
+
+          th {
+            border: none;
+            font-weight: inherit;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 17px;
+            padding: 6px 14px;
+          }
+        }
+
+        tbody {
+          tr {
+            background: #fafafa;
+
+            td {
+              border: none;
+              color: #4f4f4f;
+              line-height: 12px;
+              font-size: 12px;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .lyt-operation-queue {
@@ -3557,13 +3626,6 @@ rlo-ui-card-field {
 }
 
 .lyt-doc-upload {
-  .doc-container {
-    background: #fafcff;
-    border-radius: 10px;
-    padding: 24px;
-    border: 1px solid #dddddd;
-  }
-
   .file-upload {
     position: relative;
     display: flex;
@@ -4686,7 +4748,7 @@ rlo-ui-card-field {
 }
 
 .wgt-input-ui-customer-search {
-  .input-container{
+  .input-container {
     position: relative;
     display: table;
     border-collapse: separate;
@@ -4718,4 +4780,12 @@ rlo-ui-card-field {
       border-top: 0;
     }
   }
+}
+
+//Manual table styling used in operations and UW
+.doc-Container {
+  background: #fafcff;
+  border-radius: 10px;
+  padding: 24px;
+  border: 1px solid #dddddd;
 }

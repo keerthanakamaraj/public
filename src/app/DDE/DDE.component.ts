@@ -213,7 +213,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
-      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
       // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
       // { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
       { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
@@ -228,7 +228,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
   progressStatusObject: any = {
-    manditorySection: 8,
+    manditorySection: 6,
     completedSection: 0,
     borrowerCompletedSection: 0,
     coBorrowerCompletedSection: 0
