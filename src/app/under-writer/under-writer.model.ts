@@ -377,6 +377,55 @@ export class RmVisitDetails implements IDeserializable {
     }
 }
 
+export class AccountDetails implements IDeserializable {
+    public accountDetailsList = [];
+
+    deserialize(input: any): this {
+        this.accountDetailsList = input;
+        return Object.assign(this, input);
+    }
+
+    getTableData() {
+        let tableRowData = [];
+
+        this.accountDetailsList.forEach(element => {
+            let tableData = {};
+            if (element.hasOwnProperty("AccountType")) {
+                tableData['AccountType'] = element['AccountType'].length ? element['AccountType'] : 'NA';
+            } else {
+                tableData['AccountType'] = "NA";
+            }
+
+            if (element.hasOwnProperty("AccountId")) {
+                tableData['AccountNo'] = element['AccountId'].length ? element['AccountId'] : 'NA';
+            } else {
+                tableData['AccountNo'] = "NA";
+            }
+
+            if (element.hasOwnProperty("AvailableBalance")) {
+                tableData['AvailableBalance'] = element['AvailableBalance'].length ? element['AvailableBalance'] : 'NA';
+            } else {
+                tableData['AvailableBalance'] = "NA";
+            }
+
+            if (element.hasOwnProperty("OpeningDate")) {
+                tableData['OpeningDate'] = element['OpeningDate'].length ? element['OpeningDate'] : 'NA';
+            } else {
+                tableData['OpeningDate'] = "NA";
+            }
+
+            if (element.hasOwnProperty("AccountStatus")) {
+                tableData['AccountStatus'] = element['AccountStatus'].length ? element['AccountStatus'] : 'NA';
+            } else {
+                tableData['AccountStatus'] = "NA";
+            }
+
+            tableRowData.push(tableData);
+        });
+        return tableRowData;
+    }
+}
+
 //APPLICATION SECTION CLASSES
 
 export class LoanDetails implements IDeserializable {
@@ -969,6 +1018,7 @@ export class CustomerDetails implements IDeserializable {
     public FamilyDetails: FamilyDetails;
     public PersonalInterview: PersonalInterview;
     public RmVisitDetails: RmVisitDetails;
+    public AccountDetails: AccountDetails;//Relationship details table
 
     public FullName: string = "NA";
     public ExistingCustomer: string = "NA";
@@ -1007,6 +1057,13 @@ export class CustomerDetails implements IDeserializable {
             this.PersonalInterview = new PersonalInterview().deserialize(input.UWPersonalInterview);//this 'UWPersonalInterview' obj is manually created in Master 
         } else {
             this.PersonalInterview = new PersonalInterview().deserialize([]);
+        }
+
+        if (input.hasOwnProperty("UWAccountDetails")) {
+            this.AccountDetails = new AccountDetails().deserialize(input.UWAccountDetails);
+        }
+        else {
+            this.AccountDetails = new AccountDetails().deserialize([]);
         }
 
         //obj

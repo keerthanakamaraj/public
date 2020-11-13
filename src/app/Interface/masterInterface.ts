@@ -16,6 +16,7 @@ export interface IGeneralCardData {
   applicationId?: number;
   componentCode?: string;
   canShowModal?: boolean;
+  accountDetails?: IAccountDetails[];//used for 'Customer 360' -> Relationship Details
 }
 
 export interface ICardListData {
@@ -116,4 +117,12 @@ export interface ICustomSearchObject {
   dob?: any;
   staffId?: any;
   searchType?: 'Internal' | 'External';
+}
+
+export interface IAccountDetails {
+  AccountNo?: any;
+  AccountStatus?: any;
+  AccountType?: any;
+  AvailableBalance?: any;
+  OpeningDate?: any;
 }

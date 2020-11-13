@@ -490,6 +490,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             this.customerCardDataWithFields.applicationId = this.applicationId;
             this.customerCardDataWithFields.borrowerSeq = this.borrowerSeq;
             this.customerCardDataWithFields.componentCode = this.componentCode;
+
+            this.customerCardDataWithFields.accountDetails = singleCustomer['AccountDetails'].getTableData();
             console.error(this.customerCardDataWithFields);
             break;
 

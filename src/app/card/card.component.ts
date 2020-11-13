@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
-import { ICardMetaData, IGeneralCardData } from '../Interface/masterInterface';
+import { IAccountDetails, ICardMetaData, IGeneralCardData } from '../Interface/masterInterface';
 import { CardModule } from './card.module';
 import { IModalData } from '../popup-alert/popup-interface';
 import { ServiceStock } from '../service-stock.service';
@@ -49,7 +49,7 @@ export class CardComponent implements OnInit {
       data: [
         {
           type: "External Interface Results",
-          class:"external",
+          class: "external",
           data: [
             { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
             { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
@@ -57,7 +57,7 @@ export class CardComponent implements OnInit {
         },
         {
           type: "Internal Interface Results",
-          class:"internal",
+          class: "internal",
           data: [
             { type: "icon", title: "PAN", subTitle: 'pending', modalSectionName: "" },
             { type: "icon", title: "CIBIL", subTitle: 'completed', modalSectionName: "" },
@@ -72,7 +72,7 @@ export class CardComponent implements OnInit {
       data: [
         {
           type: "External Interface Results",
-          class:"external",
+          class: "external",
           data: [
             { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
             { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
@@ -80,7 +80,7 @@ export class CardComponent implements OnInit {
         },
         {
           type: "Internal Interface Results",
-          class:"internal",
+          class: "internal",
           data: [
             { type: "icon", title: "PAN", subTitle: 'completed', modalSectionName: "" },
             { type: "icon", title: "CIBIL", subTitle: 'pending', modalSectionName: "" },
@@ -94,14 +94,14 @@ export class CardComponent implements OnInit {
   selectedCustomerData: { name: string, index: number } = { name: "", index: 0 };
   commonCardSectionData: Array<ICardConfig>;
 
+  accountDetailsList:IAccountDetails[] = [];
+
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);
     this.cardConfig.set("interfaceResults", this.interface);
 
     //get interface data;
     this.getInterfaceData();
-
-    console.log("testJson", this.testJson);
   }
 
   ngOnInit() {
@@ -109,9 +109,12 @@ export class CardComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.cardMetaData);
     if (this.cardMetaData != undefined)
       this.cardName = this.cardMetaData.name;
+
+    if (this.cardMetaData.modalSectionName == "CustomerDetails") {
+      this.accountDetailsList = this.cardMetaData.accountDetails;
+    }
   }
 
   ngAfterViewChecked() { this.changeDetector.detectChanges(); }
@@ -140,7 +143,6 @@ export class CardComponent implements OnInit {
     });
     this.selectedCustomerData.index = 0;
     this.selectedCustomerData.name = this.customerList[0];
-    console.clear();
     console.log(this.testJson[this.selectedCustomerData.index]);
   }
 }
