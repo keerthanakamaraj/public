@@ -326,7 +326,7 @@
                     </label>
                   </div>
                   <app-check-box #PCIsAttending fieldID="PCIsAttending" [formCode]="formCode" 
-                    (blur)="genericOnBlur('PCIsAttending', $event)"></app-check-box>
+                    (blur)="genericOnBlur('PCIsAttending', $event)" (change)="PCIsAttending_change($event)"></app-check-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCollegeName.isHidden()">
                   <div class="clr-brown fieldLegend">

@@ -177,6 +177,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.hidCourseType.setValue('COURSE_TYPE');
     this.hidCourseField.setValue('ED_FIELD');
     this.hidAppId.setValue('RLO');
+    this.showHideSecondaryCourseFields(true);
     await this.Handler.onFormLoad({
     });
     await this.PastEducationGrid.gridDataLoad({
@@ -414,6 +415,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.PCEndDate.setValue(PursuingCourse.PrCourseEndDt);
     this.PCRanking.setValue(PursuingCourse.PrCourseRank);
     this.PCIsAttending.setValue(PursuingCourse.SecCourseFlag);
+    this.showHideSecondaryCourseFields(PursuingCourse.SecCourseFlag);
     this.PCCollegeName.setValue(PursuingCourse.SecInstituteName);
     this.PCCollegeAddress.setValue(PursuingCourse.SecAddress);
     this.PCName2.setValue(PursuingCourse.SecCourseName);
@@ -827,7 +829,23 @@ async LEMIPeriod_blur(event){
     this.clearFieldsFlag = true;
     this.onReset();
   }
+  PCIsAttending_change(){
+     this.showHideSecondaryCourseFields(this.PCIsAttending.getFieldValue());
+  }
 
+  showHideSecondaryCourseFields(flag){
+    flag=!flag;
+    this.PCCollegeName.setHidden(flag);
+    this.PCCollegeAddress.setHidden(flag);
+    this.PCName2.setHidden(flag);
+    this.PCCompeteDate.setHidden(flag);
+    if(!flag){
+      this.PCCollegeName.onReset();
+    this.PCCollegeAddress.onReset();
+    this.PCName2.onReset();
+    this.PCCompeteDate.onReset();
+    }
+  }
   fieldDependencies = {
     LCurrency: {
       inDep: [
