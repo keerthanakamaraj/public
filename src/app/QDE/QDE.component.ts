@@ -522,8 +522,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         requestParams.set('Body.direction', 'AP');
         this.services.rloui.openDecisionAlert().then((Response: any) => {
           console.log(Response);
+          if(typeof Response == 'object'){
+          if(Response != undefined || Response != null){
           this.submitQDE(requestParams, Response);
-
+          }
+        }
         });
       } else {
         let errorMsg = "";

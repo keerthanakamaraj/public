@@ -64,6 +64,8 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.hidAppId.setValue('RLO');
         this.hidDecisionRem.setValue('DESICION');
         this.hidApprovalReq.setValue('Y_N');
+        this.DesignationAuthority.setHidden(true);
+        this.ApproverName.setHidden(true);
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -138,14 +140,13 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     
     async ApprovalReq_blur() {
         if (this.ApprovalReq.getFieldValue() == 'Y') {
-          this.DesignationAuthority.mandatory = true;
-          this.ApproverName.mandatory = true;
-    
+          this.DesignationAuthority.setHidden(false);
+          this.ApproverName.setHidden(false);
         }
         else {
-          this.DesignationAuthority.mandatory = false;
-          this.ApproverName.mandatory = false;
-        }
+            this.DesignationAuthority.setHidden(true);
+            this.ApproverName.setHidden(true);
+          }
       }
 
     fieldDependencies = {
@@ -178,10 +179,27 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     }
 
     async pageSpecificData() {
-        // const inputMap = new Map();
-        let Decision = {
-            'DecisionReason': this.DecisionReason.getFieldValue(),
-            'Remarks' : this.Remarks.getFieldValue()
+
+        const inputMap = new Map();
+        let Decision;
+        // let Decision = {
+        //     'DecisionReason': this.DecisionReason.getFieldValue(),
+        //     'Remarks' : this.Remarks.getFieldValue()
+        // }
+        if (this.parentFormCode == 'UnderWriter'){
+             Decision = {
+                'DecisionReason': this.DecisionReason.getFieldValue(),
+                'Remarks' : this.Remarks.getFieldValue(),
+                'ApprovalReq' :this.ApprovalReq.getFieldValue(),
+                'DesignationAuthority':this.DesignationAuthority.getFieldValue(),
+                'ApproverName' : this.ApproverName.getFieldValue()
+            }  
+        }
+        else{
+             Decision = {
+                'DecisionReason': this.DecisionReason.getFieldValue(),
+                'Remarks' : this.Remarks.getFieldValue()
+            }
         }
         return Promise.resolve(Decision);
     }

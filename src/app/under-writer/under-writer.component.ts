@@ -720,7 +720,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams);
+            this.submitDDE(requestParams,null);
           }
         }
       });
@@ -756,7 +756,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams);
+            this.submitDDE(requestParams,null);
           }
         }
       });
@@ -797,15 +797,29 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         });
       }
       else {
-        this.submitDDE(requestParams);
+        this.services.rloui.openDecisionAlert(this.componentCode).then((Response :any) =>{
+          console.log(Response);
+          if(typeof Response == 'object'){
+          if(Response != undefined || Response != null){
+          this.submitDDE(requestParams,null);
+          }
+        }
+        });
       }
     }
     else {
-      this.submitDDE(requestParams);
+      this.services.rloui.openDecisionAlert(this.componentCode).then((Response :any) =>{
+        console.log(Response);
+        if(typeof Response == 'object'){
+        if(Response != undefined || Response != null){
+        this.submitDDE(requestParams,null);
+        }
+      }
+      });
     }
   }
 
-  async submitDDE(requestParams) {
+  async submitDDE(requestParams,DecisionResponse) {
     const inputMap = new Map();
 
     inputMap.clear();
@@ -818,6 +832,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     inputMap.set('Body.ApplicationId', this.applicationId);
     inputMap.set('Body.ApplicationStatus', this.applicationStatus);
     inputMap.set('Body.CreatedBy', this.userId);
+    inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
+    inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
+    inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
 
     if (requestParams) {
       requestParams.forEach((val, key) => {

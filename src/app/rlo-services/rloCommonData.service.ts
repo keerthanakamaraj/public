@@ -54,6 +54,8 @@ export interface IGlobalApllicationDtls {
   Tenure?: string;
   TenurePeriodCd?: string;
   TenurePeriodName?: string;
+  MinCashLimit?: string;
+  MaxCashLimit?: string;
 }
 @Injectable({
   providedIn: 'root'
