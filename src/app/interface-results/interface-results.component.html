@@ -1,276 +1,41 @@
 <div class="lyt-interface-result">
-    <div class="section">
-        <span class="interface-types">Internal Interface Result</span>
-        <div style="overflow-x:auto;">
-            <table>
-                <tbody>
-                    <tr>
-                        <th><span></span></th>
-                        <th><span>PAN</span></th>
-                        <th><span>CIBIL</span></th>
-                        <!-- <th><span>MLOCK</span></th>
-                        <th><span>K-SCOPE</span></th>
-                        <th><span>RBI Neg. Check</span></th>
-                        <th><span>ROC</span></th>
-                        <th><span>Smart bank reject</span></th> -->
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="cust-tag">
-                                <span>B</span>
-                            </span>
-                            <span>Tim Cook</span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <!-- <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td> -->
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="cust-tag">
-                                <span>CB</span>
-                            </span>
-                            <span>Stone cook</span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <!-- <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td> -->
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="section">
+    <span class="interface-types">Internal Interface Result</span>
+    <div style="overflow-x:auto;">
+      <table>
+        <tbody>
+          <tr>
+            <th><span></span></th>
+            <th><span>Experian</span></th>
+            <th><span>CIBIL</span></th>
+          </tr>
+          <ng-container *ngIf="MstInterfaceResultMap != undefined">
+            <!-- <tr  *ngFor="let customer of MstInterfaceResultMap; let i = index;"> -->
+            <tr *ngFor="let customer of MstInterfaceResultMap | keyvalue">
+              <td>
+                <span class="cust-tag">
+                  <span>{{customer.value.CustomerType}}</span>
+                </span>
+                <span>{{customer.value.FullName}}</span>
+              </td>
+              <td>
+                <span class="d-flex">
+                  <app-status-indicator [iconType]="'basic'"
+                    [status]="customer.value.InterfaceResultDataMap.has('Experian')?customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus:'disabled'">
+                  </app-status-indicator>
+                </span>
+              </td>
+              <td>
+                <span class="d-flex">
+                  <app-status-indicator [iconType]="'basic'"
+                    [status]="customer.value.InterfaceResultDataMap.has('CIBIL001')?customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus:'disabled'">
+                  </app-status-indicator>
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
     </div>
-    <!-- <div class="section">
-        <span class="interface-types">External Interface Result</span>
-        <div style="overflow-x:auto;">
-            <table>
-                <tbody>
-                    <tr>
-                        <th><span></span></th>
-                        <th><span>PAN</span></th>
-                        <th><span>CIBIL</span></th>
-                        <th><span>MLOCK</span></th>
-                        <th><span>K-SCOPE</span></th>
-                        <th><span>RBI Neg. Check</span></th>
-                        <th><span>ROC</span></th>
-                        <th><span>Smart bank reject</span></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="cust-tag">
-                                <span>B</span>
-                            </span>
-                            <span>Tim Cook</span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'pending'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'disabled'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="cust-tag">
-                                <span>CB</span>
-                            </span>
-                            <span>Stone cook</span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="d-flex">
-                                 <app-status-indicator [iconType]="'basic'" [status]="'completed'">
-                                </app-status-indicator>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="interface-index">
-        <span class="index-container">
-            <div class="d-inline-flex">
-                <span class="index-indicator success"></span>
-                <span>Favourable</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator warning"></span>
-                <span>Neutral</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator danger"></span>
-                <span>Non Favourable</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator black"></span>
-                <span>Not Applicable(N/A)</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator disabled"></span>
-                <span>Not Triggered</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator success"></span>
-                <span>In Progress</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator success"></span>
-                <span>Error</span>
-            </div>
-            <div class="d-inline-flex">
-                <span class="index-indicator success"></span>
-                <span>Retrigger</span>
-            </div>
-        </span>
-    </div> -->
+  </div>
 </div>
