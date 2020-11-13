@@ -76,6 +76,16 @@
               (blur)="genericOnBlur('RequestedCardLimit', $event)">
             </app-rlo-ui-currency>
           </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Add_RequestedCardLimit.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.Add_RequestedCardLimit' | translate}}
+              </label>
+            </div>
+            <app-rlo-ui-currency #Add_RequestedCardLimit fieldID="Add_RequestedCardLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('Add_RequestedCardLimit', $event)">
+            </app-rlo-ui-currency>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
@@ -185,7 +195,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeName.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeName.mandatory}">
                 {{ 'CreditCardDetails.NomineeName' | translate}}
               </label>
             </div>
@@ -195,7 +205,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeRelationship.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRelationship.mandatory}">
                 {{ 'CreditCardDetails.NomineeRelationship' | translate}}
               </label>
             </div>
@@ -205,7 +215,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeDOB.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': NomineeRequired.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': NomineeDOB.mandatory}">
                 {{ 'CreditCardDetails.NomineeDOB' | translate}}
               </label>
             </div>
