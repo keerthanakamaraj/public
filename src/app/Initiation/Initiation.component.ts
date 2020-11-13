@@ -467,11 +467,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.CD_STAFF.isOptionsLoaded = false;
     this.Handler.customers = [];
     this.CUST_DTLS_GRID.setValue(Object.assign([], this.Handler.customers));
+    this.BAD_PROD_CAT.setValue('CC');
     this.onFormLoad();
     this.Handler.updateLoanTag();
     this.Handler.updateCustomerTags();
     this.Handler.updateAmountTags();
-
     this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
   }
 
