@@ -803,7 +803,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           console.log(Response);
           if(typeof Response == 'object'){
           if(Response != undefined || Response != null){
-          this.submitDDE(requestParams,null);
+          this.submitDDE(requestParams,Response);
           }
         }
         });
@@ -814,7 +814,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         console.log(Response);
         if(typeof Response == 'object'){
         if(Response != undefined || Response != null){
-        this.submitDDE(requestParams,null);
+        this.submitDDE(requestParams,Response);
         }
       }
       });
