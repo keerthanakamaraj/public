@@ -919,7 +919,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_TAX_ID.setValue(customer.TaxID);
     this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
     this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment.id);
-    // this.CD_CUST_ID.setValue(customer.ICIFNumber);
+    this.CD_CUST_ID.setValue(customer.ICIFNumber);
     this.CD_STAFF_ID.setValue(customer.StaffID);
     // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
     // this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
