@@ -55,7 +55,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: ComboBoxComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
 
-  @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: ComboBoxComponent;
+  @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: TextBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
   @ViewChild('BAD_PROD_CAT', { static: false }) BAD_PROD_CAT: RLOUIRadioComponent;
   @ViewChild('BAD_PRODUCT', { static: false }) BAD_PRODUCT: ComboBoxComponent;
@@ -594,6 +594,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
     this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
     this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+    this.BAD_SRC_CHANNEL.setValue('BRANCH');
     
 
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
@@ -949,7 +950,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               }
               this.icif = CustData.ICIFNumber;
             }
-            var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully With ICIF Number " + this.borrowericif
+            var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully";
             //  var title = this.services.rloui.getAlertMessage('');
             var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
             var button1 = this.services.rloui.getAlertMessage('', 'OK');
@@ -1235,15 +1236,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
-    BAD_DSA_ID: {
-      inDep: [
+    // BAD_DSA_ID: {
+    //   inDep: [
 
-        { paramKey: "DSACd", depFieldID: "BAD_DSA_ID" }
-      ],
-      outDep: [
+    //     { paramKey: "DSACd", depFieldID: "BAD_DSA_ID" }
+    //   ],
+    //   outDep: [
 
-      ]
-    },
+    //   ]
+    // },
     BAD_BRANCH: {
       inDep: [
 

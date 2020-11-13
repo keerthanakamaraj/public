@@ -479,7 +479,7 @@ my-date-picker {
   color: #0079B8 !important;
   font-family: "Open Sans";
   line-height: 27px !important;
-  text-align: center;
+  text-align: left;
 }
 
 .sub-section-header {

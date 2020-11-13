@@ -80,7 +80,7 @@
               [searchType]="'CD_CIF'" (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
           </div>
 
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_ID.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_ID' | translate}}
@@ -88,7 +88,7 @@
             </div>
             <app-text-box #CD_CUST_ID fieldID="CD_CUST_ID" [formCode]="formCode"
               (blur)="genericOnBlur('CD_CUST_ID', $event)"></app-text-box>
-          </div>
+          </div> -->
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -154,7 +154,16 @@
             <app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
           </div>
-          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaidenName.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CustomerDtls.MaidenName' | translate}}
+              </label>
+            </div>
+            <app-text-box #MaidenName fieldID="MaidenName" [formCode]="formCode"
+              (blur)="genericOnBlur('MaidenName', $event)"></app-text-box>
+          </div>
+          <!-- <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -164,15 +173,7 @@
             <app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MaidenName.isHidden() || isLoanCategory">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'CustomerDtls.MaidenName' | translate}}
-              </label>
-            </div>
-            <app-text-box #MaidenName fieldID="MaidenName" [formCode]="formCode"
-              (blur)="genericOnBlur('MaidenName', $event)"></app-text-box>
-          </div>
+        
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
@@ -194,7 +195,7 @@
             </app-combo-box>
           </div>
 
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MARITAL_STATUS.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">

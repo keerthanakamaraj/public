@@ -183,7 +183,7 @@ body {
 
 .res-pr-hide {
   .icon-button {
-    margin-top: 50px;
+    margin-top: 16px !important;
     align-self: start;
     width: $input-height !important;
     height: $input-height;
@@ -192,7 +192,7 @@ body {
     color: $primary-color;
     background-color: #ffffff;
     border: 1px solid $primary-color;
-    margin-top: 37px;
+    // margin-top: 37px;
   }
 }
 
