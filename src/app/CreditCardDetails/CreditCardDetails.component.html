@@ -76,7 +76,8 @@
               (blur)="genericOnBlur('RequestedCardLimit', $event)">
             </app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Add_RequestedCardLimit.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+            [hidden]="Add_RequestedCardLimit.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.Add_RequestedCardLimit' | translate}}
@@ -321,11 +322,13 @@
           </div>
         </div>
         <div>
-          <div *ngIf="readOnly" class="credit-card-only-save" [hidden]="CCD_Save.isHidden()">
+          <!-- Changes for Canara bank -->
+          <!-- <div *ngIf="readOnly" class="credit-card-only-save" [hidden]="CCD_Save.isHidden()">
             <app-button #CCD_Save fieldName="{{ 'CreditCardDetails.CCD_Save' | translate}}" fieldID="CCD_Save"
               [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="CCD_Save_click($event)">
             </app-button>
-          </div>
+          </div> -->
+          <!-- Changes for Canara bank -->
         </div>
         <app-hidden #hidCreditSeq fieldID="hidCreditSeq"></app-hidden>
         <app-hidden #hidCatgory fieldID="hidCatgory"></app-hidden>

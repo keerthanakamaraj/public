@@ -649,7 +649,8 @@ export class CardDetails implements IDeserializable {
             },
             {
                 title: "Category on the front page",
-                subTitle: this.FrontPageCategory,
+                subTitle: this.FrontPageCategory.length ? this.FrontPageCategory : "NA"
+                ,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -1327,7 +1328,7 @@ export class ApplicationDetails implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "Physical Form No.",
-                subTitle: this.PhysicalFormNumber,
+                subTitle: this.PhysicalFormNumber.length ? this.PhysicalFormNumber : "NA",
                 type: "basic",
                 modalSectionName: ""
             },

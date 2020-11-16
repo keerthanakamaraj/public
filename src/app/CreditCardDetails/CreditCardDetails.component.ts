@@ -46,7 +46,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('CustomerType', { static: false }) CustomerType: TextBoxComponent;
     @ViewChild('RequestedCardLimit', { static: false }) RequestedCardLimit: TextBoxComponent;
     @ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: TextBoxComponent;
-    @ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: TextBoxComponent;
+    //@ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: TextBoxComponent;
     @ViewChild('NomineeRequired', { static: false }) NomineeRequired: ComboBoxComponent;
     @ViewChild('NomineeName', { static: false }) NomineeName: TextBoxComponent;
     @ViewChild('NomineeRelationship', { static: false }) NomineeRelationship: ComboBoxComponent;
@@ -76,6 +76,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     //custom
     @ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: RloUiCurrencyComponent;
     @ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: RloUiCurrencyComponent;
+    @ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: RloUiCurrencyComponent;
 
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
@@ -149,20 +150,25 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
         setTimeout(() => {
             if (this.readOnly) {
-                if (this.enableApproveLimit) {
-                    this.MaximumCardLimit.setReadOnly(true);
-                    this.ApprovedLimit.setReadOnly(false);
-                } else {
-                    this.MaximumCardLimit.setReadOnly(true);
-                    this.ApprovedLimit.setReadOnly(true);
-                    this.ApprovedLimit.mandatory = false;
-                }
+                //changes for Canara bank
+                this.MaximumCardLimit.setReadOnly(true);
+                this.ApprovedCashLimit.setReadOnly(true);
+                this.ApprovedLimit.setReadOnly(true);
+                // if (this.enableApproveLimit) {
+                //     this.MaximumCardLimit.setReadOnly(true);
+                //     this.ApprovedLimit.setReadOnly(false);
+                // } else {
+                //     this.MaximumCardLimit.setReadOnly(true);
+                //     this.ApprovedLimit.setReadOnly(true);
+                //     this.ApprovedLimit.mandatory = false;
+                // }
+                //changes for Canara bank
             } else {
                 this.ApprovedLimit.setReadOnly(true);
                 this.ApprovedLimit.mandatory = false;
             }
 
-        }, 1000);
+        }, 500);
 
         this.fetchCarditCardDetails();
         this.dispalyAddonField();

@@ -73,7 +73,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         { className: "ApplicationDetails" },
 
         { className: "ReferalDetails" },
-        { className: "Notes" },
+        // { className: "Notes" }, // changes for canara bank
       ]
     }
   ];

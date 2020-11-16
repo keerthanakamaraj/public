@@ -47,14 +47,14 @@ export class CardComponent implements OnInit {
       CustomerType: "B",
       FullName: "Tim cook",
       data: [
-        {
-          type: "External Interface Results",
-          class: "external",
-          data: [
-            { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
-            { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
-          ]
-        },
+        // {
+        //   type: "External Interface Results",
+        //   class: "external",
+        //   data: [
+        //     { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
+        //     { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
+        //   ]
+        // }
         {
           type: "Internal Interface Results",
           class: "internal",
@@ -70,14 +70,14 @@ export class CardComponent implements OnInit {
       CustomerType: "CB",
       FullName: "Ron cook",
       data: [
-        {
-          type: "External Interface Results",
-          class: "external",
-          data: [
-            { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
-            { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
-          ]
-        },
+        // {
+        //   type: "External Interface Results",
+        //   class: "external",
+        //   data: [
+        //     { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
+        //     { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
+        //   ]
+        // }
         {
           type: "Internal Interface Results",
           class: "internal",
@@ -94,7 +94,7 @@ export class CardComponent implements OnInit {
   selectedCustomerData: { name: string, index: number } = { name: "", index: 0 };
   commonCardSectionData: Array<ICardConfig>;
 
-  accountDetailsList:IAccountDetails[] = [];
+  accountDetailsList: IAccountDetails[] = [];
 
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);

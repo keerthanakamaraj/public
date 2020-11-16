@@ -1994,13 +1994,15 @@ rlo-ui-card-field {
 
     .columns {
       flex-grow: 1;
-      max-width: 50%;
+      //max-width: 50%;//temp comment
+      max-width: 100%;
 
-      &:first-of-type {
-        .heading-container {
-          border-right: 1px solid #fff;
-        }
-      }
+      //temp comment
+      // &:first-of-type {
+      //   .heading-container {
+      //     border-right: 1px solid #fff;
+      //   }
+      // }
 
       .heading-container {
         background: #e4f0f9;
@@ -2020,7 +2022,7 @@ rlo-ui-card-field {
               // padding: 7px 0 9px 14px !important;
               margin-left: $card-field-margin !important;
               margin-right: 0;
-              border-right: 1px solid #ddd;
+              // border-right: 1px solid #ddd; //Chnages for canara bank
               border-bottom: 1px solid #ddd;
             }
           }
@@ -2064,6 +2066,18 @@ rlo-ui-card-field {
           }
         }
       }
+    }
+  }
+
+  &.interface-card {
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+
+    .cards-header {
+      box-shadow: none;
+    }
+
+    .cards-body {
+      box-shadow: none;
     }
   }
 }
@@ -3309,8 +3323,8 @@ rlo-ui-card-field {
       margin-top: 9px;
 
       table {
-        display: block;
-        overflow-x: auto;
+        // display: block; //temp comment
+        // overflow-x: auto; //temp comment
         white-space: nowrap;
         border-collapse: separate;
         border-spacing: 0 3px;
