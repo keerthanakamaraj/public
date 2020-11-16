@@ -349,7 +349,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SEGMENT.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_SEGMENT.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_SEGMENT' | translate}}
               </label>
             </div>
@@ -360,7 +360,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustSubSegment.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown"  [ngClass]="{'mandatory': CustSubSegment.mandatory}">
                 {{ 'CustomerDtls.CustSubSegment' | translate}}
               </label>
             </div>
@@ -385,7 +385,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardDispatchMode.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': CardDispatchMode.mandatory}">
                 {{ 'CustomerDtls.CardDispatchMode' | translate}}
               </label>
             </div>
@@ -395,7 +395,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWN.isHidden() || !isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_LOAN_OWN.mandatory}">
                 {{ 'CustomerDtls.CD_LOAN_OWN' | translate}}
               </label>
             </div>
