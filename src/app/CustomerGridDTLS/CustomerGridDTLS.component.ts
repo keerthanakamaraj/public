@@ -34,6 +34,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   isFirstAPICall: boolean = true;
   CustomerDetailsMap = new Map<string, any>();
   PlusFlag: boolean = false;
+  AddOnSectionFlag:boolean=true;
 
   //activeCustomer:{}={};
   //activeBorrowerSeq:string=undefined;
@@ -255,9 +256,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         // }
       }
     });
-    // if (borrowerSeq != undefined) {
-    //   this.selectCustId.emit({ 'selectedCustId': borrowerSeq });
-    // }
+   if(!this.customerTypeMap.has('A') && this.parentFormCode=='QDE'){
+     this.AddOnSectionFlag=false;
+   }
   }
 
   categoriseCustomers(customerType: String, customer: {}) {
