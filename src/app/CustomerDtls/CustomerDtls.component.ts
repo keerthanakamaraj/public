@@ -49,7 +49,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_CIF', { static: false }) CD_CIF: RloUiCustomerSearchComponent;
 
   @ViewChild('CD_STAFF_ID', { static: false }) CD_STAFF_ID: TextBoxComponent;
-  @ViewChild('CD_CUST_ID', { static: false }) CD_CUST_ID: TextBoxComponent;
+  // @ViewChild('CD_CUST_ID', { static: false }) CD_CUST_ID: TextBoxComponent;
 
   @ViewChild('CD_TITLE', { static: false }) CD_TITLE: ComboBoxComponent;
   @ViewChild('CD_FIRST_NAME', { static: false }) CD_FIRST_NAME: TextBoxComponent;
@@ -151,7 +151,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       // this.revalidateBasicField('CD_STAFF', false, showErrors),
       this.revalidateBasicField('CD_CIF', false, showErrors),
       this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
-      this.revalidateBasicField('CD_CUST_ID', false, showErrors),
+      // this.revalidateBasicField('CD_CUST_ID', false, showErrors),
       this.revalidateBasicField('CD_TITLE', false, showErrors),
       this.revalidateBasicField('CD_FIRST_NAME', false, showErrors),
       this.revalidateBasicField('CD_MIDDLE_NAME', false, showErrors),
@@ -546,7 +546,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
 
         inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
+        // inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
         inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
@@ -675,7 +675,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
+        // inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PreferredLanguage', this.CD_PREF_LANG.getFieldValue());
         inputMap.set('Body.BorrowerDetails.LoanOwnership', this.CD_LOAN_OWN.getFieldValue());
@@ -919,7 +919,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_TAX_ID.setValue(customer.TaxID);
     this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
     this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment.id);
-    this.CD_CUST_ID.setValue(customer.ICIFNumber);
+    // this.CD_CUST_ID.setValue(customer.ICIFNumber);
     this.CD_STAFF_ID.setValue(customer.StaffID);
     // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
     // this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
@@ -1337,7 +1337,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_LAST_NAME.setValue(tempVar['lastName']);
     this.CD_GENDER.setValue(tempVar['gender']);
     this.CD_TITLE.setValue(tempVar['title']);
-    this.CD_CUST_ID.setValue(tempVar['icif']);
+    // this.CD_CUST_ID.setValue(tempVar['icif']);
     this.CD_EMAIL.setValue(tempVar['emailid']);
     this.CD_PMRY_EMBSR_NAME.setValue(tempVar['nameoncard']);
     // this.appRefNum  = tempVar['AppRefNum'];

@@ -158,6 +158,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('LD_EMI_AMT', { static: false }) LD_EMI_AMT: RloUiCurrencyComponent;
   @ViewChild('LD_NET_INCOME', { static: false }) LD_NET_INCOME: RloUiCurrencyComponent;
   @ViewChild('LD_SYS_AMT_RCMD', { static: false }) LD_SYS_AMT_RCMD: RloUiCurrencyComponent;
+  @ViewChild('MaxCredLimit', { static: false }) MaxCredLimit: HiddenComponent;
+  @ViewChild('MinCredLimit', { static: false }) MinCredLimit: HiddenComponent;
+
+
   // @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
 
 
@@ -174,6 +178,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   readOnly: boolean = false;
   appRefNum: any;
   CBSProductCd: any;
+  applicationArray: any;
+  CustomerType: any;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -520,7 +526,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.services.rloui.openCustomerSearch(obj).then((response: any) => {
       if (response != null) {
         console.log(response);
-        this.setValuesOfCustomer(response);
+        this.ApplicationStatus(response);
+        //  this.setValuesOfCustomer(response);
       }
       else {
         console.warn("DEEP | No customer selected");
@@ -531,42 +538,54 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
   }
   }
-  ApplicationStatus(AppRefNum) {
+  ApplicationStatus(data) {
+    let tempVar: any = data;
     let appRefNumMap = new Map();
-    appRefNumMap.set('QueryParam.AppRefNum', AppRefNum);
+   
+    appRefNumMap.set('QueryParam.AppRefNum', tempVar['cif']);
     this.services.http.fetchApi('/fetchApp', 'GET', appRefNumMap, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-
-        let applicationStatus = res.Outputdata['status'];
-
-        if (applicationStatus == '' || applicationStatus == 'Pending') {
-          this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
-          this.SUBMIT_MAIN_BTN.setDisabled(true);
-          return;
+        this.applicationArray = res.Outputdata;
+        // let applicationStatus = res.Outputdata['status'];
+        for(let i = 0 ; i < this.applicationArray.length; i++){
+          if(this.applicationArray[i].status == 'AP'){
+            this.CBSProductCode(data);
+            this.SUBMIT_MAIN_BTN.setDisabled(false);
+           
+          }
+          else{
+            this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
+            this.SUBMIT_MAIN_BTN.setDisabled(true);
+            return;
+          }
+         
         }
-        else {
-          this.SUBMIT_MAIN_BTN.setDisabled(false);
-        }
+     
       }
     );
   }
 
-  CBSProductCode(CBSProductCode) {
-
+  CBSProductCode(data) {
+    let tempVar: any = data;
+    this.CustomerType = (tempVar['CustomerType']);
     this.services.http.fetchApi('/fetchCBSProdDetails', 'GET', null, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         let CPBProductDetails = res.Outputdata;
         for (let i = 0; i < CPBProductDetails.length; i++) {
-          if (CPBProductDetails[i].CBS_PRODUCT_CODE == CBSProductCode) {
+          if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
             if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
               this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
-              this.SUBMIT_MAIN_BTN.setDisabled(true);
+              // this.SUBMIT_MAIN_BTN.setDisabled(true);
               return;
             }
             else {
+              this.checkEligibleforAddon(data);
+              // this.setValuesOfCustomer(data);
+            
               this.SUBMIT_MAIN_BTN.setDisabled(false);
+
             }
           }
         }
@@ -601,14 +620,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
     this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
-    this.ApplicationStatus(this.appRefNum);
-    this.CBSProductCode(this.CBSProductCd);
+    // this.ApplicationStatus(this.CD_CIF.getFieldValue());
+    // this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
       this.services.dataStore.setData('selectedData', undefined);
-  }
+ 
+   }
 
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
@@ -746,7 +766,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   //     let inputMap = new Map();
   //     await this.Handler.calculateEMI({});
   //     }
+  async BAD_REQ_CARD_LIMIT_blur(event)
+  {
+    let inputMap = new Map();
+    if(this.BAD_REQ_CARD_LIMIT.getFieldValue() > this.MaxCredLimit.getFieldValue() || this.BAD_REQ_CARD_LIMIT.getFieldValue() < this.MinCredLimit.getFieldValue()){
+      this.services.alert.showAlert(1, 'please enter valid amount', 1000);
 
+    }
+  } 
   async CD_FIRST_NAME_blur(event) {
     let inputMap = new Map();
     await this.Handler.updateFullName({
@@ -1114,6 +1141,26 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
 
+  checkEligibleforAddon(data){
+   
+    var primaryCheck = this.Handler.getBorrowerPostData();
+    if(this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I'){
+      for (let i = 0; i < primaryCheck.length; i++) {
+        if (primaryCheck[i]['CustomerType'] == 'B') {
+          if(this.CustomerType == 'C'){
+            this.services.alert.showAlert(2, '', -1, 'We Cannot Add Addon for Corporate because exist record is for Individual');
+            break;
+          }
+          else{ 
+            this.setValuesOfCustomer(data);
+          }
+          
+        }
+      } 
+    }
+   
+   }
+
   async Reset_click(event) {
     let inputMap = new Map();
     var mainMessage = this.services.rloui.getAlertMessage('rlo.reset.comfirmation');
@@ -1268,10 +1315,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
         { paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType: "PathParam" },
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
+       
       ],
       outDep: [
+        { paramKey: "MstProductDetails.MaxCredLimit", depFieldID: "MaxCredLimit" },
+        { paramKey: "MstProductDetails.MinCredLimit", depFieldID: "MinCredLimit" }
       ]
     },
+   
     BAD_SUB_PROD: {
       inDep: [
 
@@ -1505,6 +1556,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         if (response != null) {
           console.log(response);
           if (typeof response != "boolean") {
+            // this.ApplicationStatus(response);
+           
             this.setValuesOfCustomer(response);
             this.revalidateCustomers();
           }

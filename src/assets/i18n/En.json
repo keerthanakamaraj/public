@@ -1927,7 +1927,7 @@
     "MT_SCHEME": "Scheme",
     "MT_PRODUCT": "Product",
     "MT_INITIATED_ON": "Initiated On",
-    "MT_LOAN_AMOUNT": "Loan Amount",
+    "MT_LOAN_AMOUNT": "Requested Credit Amount",
     "MT_PENDING_WITH": "Pending With",
     "MT_INITIATED_BY": "Initiated By",
     "toolbar_MyTrayGrid": "null",

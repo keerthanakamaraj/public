@@ -80,7 +80,7 @@
               [searchType]="'CD_CIF'" (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
           </div>
 
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_ID.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_ID' | translate}}
@@ -88,7 +88,7 @@
             </div>
             <app-text-box #CD_CUST_ID fieldID="CD_CUST_ID" [formCode]="formCode"
               (blur)="genericOnBlur('CD_CUST_ID', $event)"></app-text-box>
-          </div>
+          </div> -->
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
             <div class="clr-brown fieldLegend">
