@@ -204,6 +204,7 @@
     "rlo.error.vrfndtls-not-found":"details not available for selected verifacation. Please try another",
     "rlo.success.postcpv-dicisionsave":"Disision Submitted successfully",
     "rlo.error.postcpv-dicisionsave":"Disision Submission failed. Please try again.",
+    "rlo.error.amount.limit" :  "Please Enter valid amount",
     
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

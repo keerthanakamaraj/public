@@ -526,8 +526,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.services.rloui.openCustomerSearch(obj).then((response: any) => {
       if (response != null) {
         console.log(response);
-        this.ApplicationStatus(response);
-        //  this.setValuesOfCustomer(response);
+        // this.ApplicationStatus(response);
+         this.setValuesOfCustomer(response);
       }
       else {
         console.warn("DEEP | No customer selected");
@@ -770,7 +770,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   {
     let inputMap = new Map();
     if(this.BAD_REQ_CARD_LIMIT.getFieldValue() > this.MaxCredLimit.getFieldValue() || this.BAD_REQ_CARD_LIMIT.getFieldValue() < this.MinCredLimit.getFieldValue()){
-      this.services.alert.showAlert(1, 'please enter valid amount', 1000);
+      this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit');
+      return 1;
 
     }
   } 
