@@ -17,6 +17,8 @@ export interface IGeneralCardData {
   componentCode?: string;
   canShowModal?: boolean;
   accountDetails?: IAccountDetails[];//used for 'Customer 360' -> Relationship Details
+  customerList?: any;
+  interfaceDataList?: any;
 }
 
 export interface ICardListData {
@@ -125,4 +127,17 @@ export interface IAccountDetails {
   AccountType?: any;
   AvailableBalance?: any;
   OpeningDate?: any;
+}
+
+export interface IInterfaceListData {
+  type: string;
+  class: string;
+  data?: any;
+}
+
+export interface IInterfaceDataIndicator {
+  type: string;
+  title: string;
+  subTitle: string;
+  modalSectionName: string;
 }

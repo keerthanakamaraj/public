@@ -975,33 +975,17 @@ export class PropertyDetails implements IDeserializable {
 }
 
 export class InterfaceResults implements IDeserializable {
-    public TotalWeight: string = "NA";
-    public TotalValue: string = "NA";
-    public common: Common;
+    public interfaceList: any = [];
 
     deserialize(input: any): this {
+        this.interfaceList = input;
         return Object.assign(this, input);
     }
-
     getCardData() {
-        let fieldList: ICardListData[] = [
-            {
-                title: "Total Weight",
-                subTitle: this.TotalWeight,
-                type: "basic",
-                modalSectionName: ""
-            },
-            {
-                title: "Total Value",
-                subTitle: this.TotalValue,
-                type: "basic",
-                modalSectionName: ""
-            }
-        ];
         const returnObj: IGeneralCardData = {
             name: "Interface Results",
             modalSectionName: "",
-            data: [],
+            interfaceDataList: this.interfaceList,
             canShowModal: true
         };
         return returnObj;
@@ -1310,8 +1294,15 @@ export class ApplicationDetails implements IDeserializable {
             this.LoanDetails.Disbursals = "NA";
         }
 
+        // this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterfaceResult);
 
-        this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
+        if (input.hasOwnProperty("UWInterfaceResult")) {
+            this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterfaceResult);
+        }
+        else {
+            this.InterfaceResults = new InterfaceResults().deserialize([]);
+        }
+
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
         this.PropertyDetails = new PropertyDetails().deserialize(input.UWProperty);
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { RloUiCardFieldComponent } from '../rlo-ui-card-field/rlo-ui-card-field.component';
-import { IAccountDetails, ICardMetaData, IGeneralCardData } from '../Interface/masterInterface';
+import { IAccountDetails, ICardMetaData, IGeneralCardData, IInterfaceDataIndicator, IInterfaceListData } from '../Interface/masterInterface';
 import { CardModule } from './card.module';
 import { IModalData } from '../popup-alert/popup-interface';
 import { ServiceStock } from '../service-stock.service';
@@ -55,15 +55,15 @@ export class CardComponent implements OnInit {
         //     { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
         //   ]
         // }
-        {
-          type: "Internal Interface Results",
-          class: "internal",
-          data: [
-            { type: "icon", title: "PAN", subTitle: 'pending', modalSectionName: "" },
-            { type: "icon", title: "CIBIL", subTitle: 'completed', modalSectionName: "" },
-            { type: "icon", title: "AMLOCK", subTitle: 'completed', modalSectionName: "" }
-          ]
-        }
+        // {
+        //   type: "Internal Interface Results",
+        //   class: "internal",
+        //   data: [
+        //     { type: "icon", title: "PAN", subTitle: 'pending', modalSectionName: "" },
+        //     { type: "icon", title: "CIBIL", subTitle: 'completed', modalSectionName: "" },
+        //     { type: "icon", title: "AMLOCK", subTitle: 'completed', modalSectionName: "" }
+        //   ]
+        // }
       ]
     },
     {
@@ -78,18 +78,20 @@ export class CardComponent implements OnInit {
         //     { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
         //   ]
         // }
-        {
-          type: "Internal Interface Results",
-          class: "internal",
-          data: [
-            { type: "icon", title: "PAN", subTitle: 'completed', modalSectionName: "" },
-            { type: "icon", title: "CIBIL", subTitle: 'pending', modalSectionName: "" },
-            { type: "icon", title: "AMLOCK", subTitle: 'disabled', modalSectionName: "" }
-          ]
-        }
+        // {
+        //   type: "Internal Interface Results",
+        //   class: "internal",
+        //   data: [
+        //     { type: "icon", title: "PAN", subTitle: 'completed', modalSectionName: "" },
+        //     { type: "icon", title: "CIBIL", subTitle: 'pending', modalSectionName: "" },
+        //     { type: "icon", title: "AMLOCK", subTitle: 'disabled', modalSectionName: "" }
+        //   ]
+        // }
       ]
     },
   ];
+
+  interfaceResultsData = [];//interface results predefined json
 
   selectedCustomerData: { name: string, index: number } = { name: "", index: 0 };
   commonCardSectionData: Array<ICardConfig>;
@@ -101,7 +103,7 @@ export class CardComponent implements OnInit {
     this.cardConfig.set("interfaceResults", this.interface);
 
     //get interface data;
-    this.getInterfaceData();
+    //this.getInterfaceData();
   }
 
   ngOnInit() {
@@ -114,6 +116,8 @@ export class CardComponent implements OnInit {
 
     if (this.cardMetaData.modalSectionName == "CustomerDetails") {
       this.accountDetailsList = this.cardMetaData.accountDetails;
+    } else if (this.cardMetaData.name == "Interface Results") {
+      this.generateInterfaceJson(this.cardMetaData.customerList, this.cardMetaData.interfaceDataList);
     }
   }
 
@@ -137,12 +141,53 @@ export class CardComponent implements OnInit {
     }
   }
 
-  getInterfaceData() {
-    this.testJson.map((data) => {
+  getInterfaceData(predefinedJson: any) {
+    predefinedJson.map((data) => {
       this.customerList.push(data.FullName);
     });
     this.selectedCustomerData.index = 0;
     this.selectedCustomerData.name = this.customerList[0];
-    console.log(this.testJson[this.selectedCustomerData.index]);
+  }
+
+  generateInterfaceJson(customerList: any, interfaceDataList: any) {
+    customerList.forEach(customer => {
+      let interfaceInnerSections = [];
+      let interfaceTypeObject: IInterfaceListData = {
+        type: "Internal Interface Results",
+        class: "internal",
+        data: []
+      };
+
+      let customerObj = {
+        CustomerType: customer.CD_CUSTOMER_TYPE,
+        FullName: customer.CD_CUSTOMER_NAME,
+        data: []
+      }
+
+      if (interfaceDataList.length) {
+        let customerInterfaceData = interfaceDataList.filter(interfaceData => interfaceData.BorrowerSeq == customer.BorrowerSeq);
+
+        customerInterfaceData.forEach(element => {
+          let obj: IInterfaceDataIndicator = { type: "icon", title: "", subTitle: '', modalSectionName: "" };
+          if (element.InterfaceId != 'CUSTOMER_360') {
+            if (element.InterfaceId == 'CIBIL001') {
+              element.InterfaceId = "CIBIL";
+            }
+            obj.title = element.InterfaceId;
+            if (element.Status == "S" || element.Status == "Success") {
+              obj.subTitle = 'completed';
+            }
+
+            interfaceInnerSections.push(obj);
+          }
+        });
+      }
+
+      interfaceTypeObject.data = interfaceInnerSections;
+      customerObj.data.push(interfaceTypeObject);
+      this.interfaceResultsData.push(customerObj);
+    });
+    console.log("DEEP | mainJson", this.interfaceResultsData);
+    this.getInterfaceData(this.interfaceResultsData);
   }
 }

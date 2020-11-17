@@ -548,6 +548,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             this.interfaceResultCardData.applicationId = this.applicationId;
             this.interfaceResultCardData.borrowerSeq = this.borrowerSeq;
             this.interfaceResultCardData.componentCode = this.componentCode;
+            this.interfaceResultCardData.customerList = this.customerList;
             console.log(this.interfaceResultCardData);
             break;
 
@@ -722,7 +723,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams,null);
+            this.submitDDE(requestParams, null);
           }
         }
       });
@@ -758,7 +759,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams,null);
+            this.submitDDE(requestParams, null);
           }
         }
       });
@@ -799,29 +800,29 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         });
       }
       else {
-        this.services.rloui.openDecisionAlert(this.componentCode).then((Response :any) =>{
+        this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
           console.log(Response);
-          if(typeof Response == 'object'){
-          if(Response != undefined || Response != null){
-          this.submitDDE(requestParams,Response);
+          if (typeof Response == 'object') {
+            if (Response != undefined || Response != null) {
+              this.submitDDE(requestParams, Response);
+            }
           }
-        }
         });
       }
     }
     else {
-      this.services.rloui.openDecisionAlert(this.componentCode).then((Response :any) =>{
+      this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
         console.log(Response);
-        if(typeof Response == 'object'){
-        if(Response != undefined || Response != null){
-        this.submitDDE(requestParams,Response);
+        if (typeof Response == 'object') {
+          if (Response != undefined || Response != null) {
+            this.submitDDE(requestParams, Response);
+          }
         }
-      }
       });
     }
   }
 
-  async submitDDE(requestParams,DecisionResponse) {
+  async submitDDE(requestParams, DecisionResponse) {
     const inputMap = new Map();
 
     inputMap.clear();
