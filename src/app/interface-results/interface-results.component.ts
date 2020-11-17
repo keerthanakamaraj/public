@@ -40,7 +40,7 @@ export class InterfaceResultsComponent implements OnInit {
       });
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
 
-      this.services.http.fetchApi('/InterfaceResult', 'GET', inputMap).subscribe(
+      this.services.http.fetchApi('/InterfaceResult', 'GET', inputMap,'/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           this.MstInterfaceResultMap.clear();
           let res = httpResponse.body;
