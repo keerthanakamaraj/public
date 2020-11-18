@@ -169,7 +169,7 @@ export class CardComponent implements OnInit {
 
         customerInterfaceData.forEach(element => {
           let obj: IInterfaceDataIndicator = { type: "icon", title: "", subTitle: '', modalSectionName: "" };
-          if (element.InterfaceId != 'CUSTOMER_360') {
+          if (!element.InterfaceId.includes("CUSTOMER")) {
             if (element.InterfaceId == 'CIBIL001') {
               element.InterfaceId = "CIBIL";
             }

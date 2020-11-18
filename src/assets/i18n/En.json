@@ -1441,8 +1441,8 @@
     "TotaDistlAmt": "Total Disbursement Amount"
   },
   "SearchCustomerGrid": {
-    "AccNo": "Account Number",
-    "Status": "Status",
+    "AccNo": "Account No.",
+    "CustName": "Full Name",
     "toolbar_SearchCustomerGrid": "null",
     "Cif": "CBS Cust ID",
     "FirstName": "First Name",
@@ -1450,8 +1450,8 @@
     "AccType": "Account Type",
     "Dob": "Date of Birth",
     "GridTitle": "SearchCustomerGrid",
-    "TaxID": "PAN Number",
-    "Mobile": "Mobile Number",
+    "TaxID": "PAN No.",
+    "Mobile": "Mobile No.",
     "Branch": "Branch",
     "CreditCard": "Credit Card"
   },

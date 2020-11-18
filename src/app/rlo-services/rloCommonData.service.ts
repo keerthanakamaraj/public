@@ -1042,7 +1042,7 @@ export class RloCommonData {
             resolve(null);
           }
         );
-      } else { 
+      } else {
         this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -1054,6 +1054,22 @@ export class RloCommonData {
           }
         );
       }
+    });
+    return promise;
+  }
+
+  getInterfaceResposes(inputMap) {
+    const promise = new Promise((resolve, reject) => {
+      this.http.fetchApi('/CIBILResponse', 'GET', inputMap, "/rlo-de").subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          console.log("Deep | Service - getInterfaceResposes()", res);
+          resolve(res);
+        },
+        async (httpError) => {
+          resolve(null);
+        }
+      );
     });
     return promise;
   }

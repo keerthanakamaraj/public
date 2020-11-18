@@ -67,8 +67,23 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
+  {
+    field: "CustName",
+    width: 11,
+    sortable: true,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    },
+  },
   // {
-  //   field: "CustName",
+  //   field: "FirstName",
   //   width: 11,
   //   sortable: true,
   //   resizable: true,
@@ -81,37 +96,22 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   //     filterOptions: ["contains"],
   //     caseSensitive: true,
   //   },
-  // },First Name
-  {
-    field: "FirstName",
-    width: 11,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
-  {
-    field: "LastName",
-    width: 11,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
+  // },
+  // {
+  //   field: "LastName",
+  //   width: 11,
+  //   sortable: true,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: "agTextColumnFilter",
+  //   filterParams: {
+  //     suppressAndOrCondition: true,
+  //     applyButton: true,
+  //     clearButton: true,
+  //     filterOptions: ["contains"],
+  //     caseSensitive: true,
+  //   },
+  // },
   {
     field: "AccNo",
     width: 11,
@@ -144,7 +144,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   // },
   {
     field: "AccType",
-    width: 11,
+    width: 14,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -157,21 +157,21 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
-  {
-    field: "Status",
-    width: 11,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
+  // {
+  //   field: "Status",
+  //   width: 11,
+  //   sortable: true,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: "agTextColumnFilter",
+  //   filterParams: {
+  //     suppressAndOrCondition: true,
+  //     applyButton: true,
+  //     clearButton: true,
+  //     filterOptions: ["contains"],
+  //     caseSensitive: true,
+  //   },
+  // },
   {
     field: "Mobile",
     width: 11,
@@ -219,7 +219,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   },
   {
     field: "Branch",
-    width: 12,
+    width: 8,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -381,7 +381,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               for (var i = 0; i < loopVar7.length; i++) {
                 var tempObj = {};
                 tempObj['TaxID'] = loopVar7[i].TaxId;
-                //tempObj['CustName'] = loopVar7[i].FullName;
+                tempObj['CustName'] = loopVar7[i].FullName;
                 tempObj['AccNo'] = loopVar7[i].AccountNumber;
                 //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
                 tempObj['AccType'] = loopVar7[i].AccountType;
@@ -389,9 +389,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['Mobile'] = loopVar7[i].MobileNumber;
                 tempObj['Cif'] = loopVar7[i].ExistingCIF;
                 tempObj['Dob'] = loopVar7[i].DateOfBirth;
-                tempObj['FirstName'] = loopVar7[i].FirstName;
+                //tempObj['FirstName'] = loopVar7[i].FirstName;
                 tempObj['MiddleName'] = loopVar7[i].MiddleName;
-                tempObj['LastName'] = loopVar7[i].LastName;
+                //tempObj['LastName'] = loopVar7[i].LastName;
                 tempObj['Title'] = loopVar7[i].Title;
                 tempObj['Gender'] = loopVar7[i].Gender;
                 tempObj['EmailID'] = loopVar7[i].EmailID;
@@ -431,7 +431,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               for (var i = 0; i < loopVar7.length; i++) {
                 var tempObj = {};
                 tempObj['TaxID'] = loopVar7[i].TaxId;
-                ///tempObj['CustName'] = loopVar7[i].FullName;
+                tempObj['CustName'] = loopVar7[i].FullName;
                 tempObj['AccNo'] = loopVar7[i].AccountNumber;
                 //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
                 tempObj['AccType'] = loopVar7[i].AccountType;
@@ -439,9 +439,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['Mobile'] = loopVar7[i].MobileNumber;
                 tempObj['Cif'] = loopVar7[i].ExistingCIF;
                 tempObj['Dob'] = loopVar7[i].DateOfBirth;
-                tempObj['FirstName'] = loopVar7[i].FirstName;
+                //tempObj['FirstName'] = loopVar7[i].FirstName;
                 tempObj['MiddleName'] = loopVar7[i].MiddleName;
-                tempObj['LastName'] = loopVar7[i].LastName;
+                //tempObj['LastName'] = loopVar7[i].LastName;
                 tempObj['Title'] = loopVar7[i].Title;
                 tempObj['Gender'] = loopVar7[i].Gender;
                 tempObj['EmailID'] = loopVar7[i].EmailID;

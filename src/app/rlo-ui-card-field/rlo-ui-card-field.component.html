@@ -32,7 +32,7 @@
           <app-status-indicator [iconType]="'basic'" [status]="cardFieldMetaData.subTitle">
           </app-status-indicator>
         </div>
-        <span class="icon-link"></span>
+        <span class="icon-link" *ngIf="cardFieldMetaData.subTitle == 'completed' || cardFieldMetaData.subTitle == 'Success'" (click)="getInterfaceData()"></span>
       </div>
     </ng-container>
 

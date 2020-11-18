@@ -63,8 +63,9 @@ export class RlouiService {
     { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" },
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
     { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" },
-    { componentName: "CustomerSearch", iconClass: "icon-Scorecard-Results" },
-    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" }
+    { componentName: "CustomerSearch", iconClass: "icon-Customer-Details" },
+    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" },
+    { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal

@@ -31,6 +31,7 @@ import { ScoreCardResultComponent } from '../score-card-result/score-card-result
 import { CustomerSearchComponent } from '../customer-search/customer-search.component';
 import { CustomerSearchFieldsComponent } from '../customer-search-fields/customer-search-fields.component';
 import { DecisionAlertComponent } from '../DecisionAlert/DecisionAlert.component';
+import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -135,6 +136,8 @@ export class PopupAlertComponent implements OnInit {
         this.dynamicallyLoadableComponent.enableApproveLimit = true;
       } else if (this.modalObject.componentName == 'CustomerSearch') {
         //this.dynamicallyLoadableComponent.passedFieldData=this.dynamicallyLoadableComponent.parentData
+      } else if (this.modalObject.componentName == 'InterfaceResults') {
+        this.dynamicallyLoadableComponent.ApplicationId = this.modalObject.applicationId;
       }
 
       // async brodcastProdCategory(event) {
@@ -241,7 +244,9 @@ export class PopupAlertComponent implements OnInit {
       case 'DecisionAlert':
         return new AddSpecificComponent(DecisionAlertComponent);
         break;
-
+      case 'InterfaceResults':
+        return new AddSpecificComponent(InterfaceResultsComponent);
+        break;
     }
   }
   // ngOnDestroy() {

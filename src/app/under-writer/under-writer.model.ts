@@ -984,7 +984,7 @@ export class InterfaceResults implements IDeserializable {
     getCardData() {
         const returnObj: IGeneralCardData = {
             name: "Interface Results",
-            modalSectionName: "",
+            modalSectionName: this.interfaceList.length ? "InterfaceResults" : "",
             interfaceDataList: this.interfaceList,
             canShowModal: true
         };
