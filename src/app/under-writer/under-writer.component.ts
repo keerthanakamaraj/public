@@ -800,29 +800,62 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         });
       }
       else {
-        this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
-          console.log(Response);
-          if (typeof Response == 'object') {
-            if (Response != undefined || Response != null) {
-              this.submitDDE(requestParams, Response);
-            }
-          }
-        });
-      }
+        this.doSubmitConfirmation();
+      //   this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
+      //     console.log(Response);
+      //     if (typeof Response == 'object') {
+      //       if (Response != undefined || Response != null) {
+      //         this.submitDDE(requestParams, Response);
+      //       }
+      //     }
+      //   });
+       }
     }
     else {
-      this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
-        console.log(Response);
-        if (typeof Response == 'object') {
-          if (Response != undefined || Response != null) {
-            this.submitDDE(requestParams, Response);
+      this.doSubmitConfirmation();
+    //   this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
+    //     console.log(Response);
+    //     if (typeof Response == 'object') {
+    //       if (Response != undefined || Response != null) {
+    //         this.submitDDE(requestParams, Response);
+    //       }
+    //     }
+    //   });
+   }
+  }
+
+  async doSubmitConfirmation(){
+    const requestParams = new Map();
+    requestParams.set('Body.ApplicationStatus', 'Approve');
+    requestParams.set('Body.direction', 'AP');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.services.rloui.closeAllConfirmationModal()
+            this.submitDDE(requestParams);
           }
         }
       });
-    }
+    });
   }
-
-  async submitDDE(requestParams, DecisionResponse) {
+  async submitDDE(requestParams) {
     const inputMap = new Map();
 
     inputMap.clear();
@@ -835,9 +868,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     inputMap.set('Body.ApplicationId', this.applicationId);
     inputMap.set('Body.ApplicationStatus', this.applicationStatus);
     inputMap.set('Body.CreatedBy', this.userId);
-    inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
-    inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
-    inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
+    // inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
+    // inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
+    // inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
 
     if (requestParams) {
       requestParams.forEach((val, key) => {

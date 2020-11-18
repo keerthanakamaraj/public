@@ -154,6 +154,7 @@
     "rlo.cancel.comfirmation": "Are you sure you want to cancel?",
     "rlo.sentback.comfirmation": "Are you sure you want to sentback?",
     "rlo.reset.comfirmation": "Are you sure you want to reset the form?",
+    "rlo.submit.comfirmation": "Are you sure you want to submit the Application ?",
     "rlo.error.relationship.invalid": "Please select the relationship according to the gender selected.",
     "rlo.error.questionnaire.decision-pending": "Decision for all questions are mandatory.",
     "rlo.error.questionnaire.Remark-pending": "Remarks for Deviation questions are mandatory.",

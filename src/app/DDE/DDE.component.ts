@@ -1462,7 +1462,32 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (data.isAppValid) {
         requestParams.set('Body.ApplicationStatus', 'AP');
         requestParams.set('Body.direction', 'AP');
-        this.submitDDE(requestParams);
+       // this.submitDDE(requestParams);
+       var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+       Promise.all([mainMessage, button1, button2]).then(values => {
+        console.log(values);
+        let modalObj = {
+          title: "Alert",
+          mainMessage: values[0],
+          modalSize: "modal-width-sm",
+          buttons: [
+            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+            { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+          ]
+        }
+  
+        this.services.rloui.confirmationModal(modalObj).then((response) => {
+          console.log(response);
+          if (response != null) {
+            if (response.id === 1) {
+              this.services.rloui.closeAllConfirmationModal()
+              this.submitDDE(requestParams);
+            }
+          }
+        });
+      });
       }
       else {
         let errorMsg = "";
