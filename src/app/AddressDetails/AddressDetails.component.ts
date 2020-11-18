@@ -363,8 +363,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   async AD_PINCODE_blur(event) {
     const inputMap = new Map();
     inputMap.set('PathParam.PinCd', event.value);
-  //  inputMap.set('QueryParam.CountryCode', );
-    inputMap.set('QueryParam.CountryCode', 'IND');
+   // inputMap.set('QueryParam.CountryCode',this.services.rloui.getConfig('country.code.default'));
+  //  console.log('shweta :: def country',this.services.rloui.getConfig('country.code.default'));
+    inputMap.set('QueryParam.CountryCode', this.services.rloui.getConfig('country.code.default'));
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;

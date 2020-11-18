@@ -218,9 +218,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hidCardDispatch.setValue('CARD_DISPATACH');
     this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCitizenship.setValue('CITIZENSHIP');
-    if (this.isLoanCategory !== undefined) {
-      this.hideCustomerType.setValue((!this.isLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
-      this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
+   
+    if (this.isLoanCategory != undefined) {
+      this.loanCategoryChanged();
+      // this.hideCustomerType.setValue((!this.isLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+      // this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
+      // this.MaidenName.mandatory = (!this.isLoanCategory) ? true : false;
     }
 
     //this.CD_EXISTING_CUST.setDefault('N');
@@ -907,12 +910,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.setNonEditableFields(false)
     }
     const customer = customerDtlsObj;
-    this.dispalyAddonField(customer.CustomerType)
+    this.dispalyAddonField(customer.CustomerType);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
     this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
     this.CD_MIDDLE_NAME.setValue(customer.MiddleName);
     this.CD_LAST_NAME.setValue(customer.LastName);
+    this.MaidenName.setValue(customer.MaidenName);
     this.CD_FULL_NAME.setValue(customer.FullName);
     this.CD_GENDER.setValue(customer.Gender.id);
     this.CD_DOB.setValue(customer.DOB);
@@ -924,8 +928,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // this.setYesNoTypeDependency(this.CD_EXISTING_CUST, this.CD_CUST_ID, customer.ICIFNumber);
     // this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID, customer.StaffID);
     this.CD_PMRY_EMBSR_NAME.setValue(customer.PrimaryEmbosserName1);
-    this.CD_NATIONALITY.setValue(customer.Nationality.id);
-    this.CD_CITIZENSHIP.setValue(customer.CitizenShip.id);
+    this.CD_NATIONALITY.setValue(customer.Nationality.id!=undefined?customer.Nationality.id:this.services.rloui.getConfig('country.code.default'));
+    this.CD_CITIZENSHIP.setValue(customer.CitizenShip.id!=undefined?customer.CitizenShip.id:this.services.rloui.getConfig('country.code.default'));
+    //this.CD_NATIONALITY.setValue(customer.Nationality.id);
+   // this.CD_CITIZENSHIP.setValue(customer.CitizenShip.id);
     this.CD_MARITAL_STATUS.setValue(customer.MaritalStatus.id);
     // this.CD_NATIONAL_ID.setValue(customer.CitizenID);
     this.CD_PASSPORT_NO.setValue(customer.PassportNumber);
@@ -942,6 +948,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
     this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
+    if(customer.CustomerType=='B'){
+        this.CD_CIF.setReadOnly(true);
+    }
 
     //this.CD_STAFF.setValue(customer.IsStaff);
     //this.CD_EXISTING_CUST.setValue(customer.ExistingCustomer);
@@ -1065,10 +1074,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     // }
   }
 
-  loanCategoryChanged(newLoanCategory) {
-    this.isLoanCategory = newLoanCategory;
+  loanCategoryChanged(newLoanCategory?:boolean) {
+    if(newLoanCategory!=undefined){
+      this.isLoanCategory = newLoanCategory;
+    }
+    if(this.isLoanCategory!=undefined){
     this.hideCustomerType.setValue((!newLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
-    this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
+    // this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
+    // this.MaidenName.mandatory = (!this.isLoanCategory) ? true : false;
+    this.CD_PMRY_EMBSR_NAME.mandatory = !this.isLoanCategory;
+    this.MaidenName.mandatory =!this.isLoanCategory;
+}
   }
 
   CD_LOAN_OWN_blur(fieldName, event) {
@@ -1138,17 +1154,32 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
+    // CD_NATIONALITY: {
+    //   inDep: [
+
+    //     { paramKey: "VALUE1", depFieldID: "CD_NATIONALITY", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidNationality", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     CD_NATIONALITY: {
       inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_NATIONALITY", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hidNationality", paramType: "QueryParam" },
+        { paramKey: "CountryCd", depFieldID: "CD_NATIONALITY", paramType: "PathParam" },
       ],
       outDep: [
       ]
     },
+    CD_CITIZENSHIP: {
+      inDep: [
 
+        { paramKey: "CountryCd", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
+      ],
+      outDep: [
+      ]
+    },
     CD_PREF_COM_CH: {
       inDep: [
 
@@ -1179,16 +1210,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //     outDep: [
     //     ]
     // },
-    CD_CITIZENSHIP: {
-      inDep: [
+    // CD_CITIZENSHIP: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideCitizenship", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "CD_CITIZENSHIP", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideCitizenship", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+   // },
 
     // CD_CUST_TYPE: {
     //   inDep: [
@@ -1332,6 +1363,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_FULL_NAME.setValue(tempVar['custName']);
     this.CD_MOBILE_NO.setComponentSpecificValue(tempVar['mobileNum'],null);
     this.CD_CIF.setValue(tempVar['cif']);
+  
     this.CD_FIRST_NAME.setValue(tempVar['firsName']);
     this.CD_MIDDLE_NAME.setValue(tempVar['midName']);
     this.CD_LAST_NAME.setValue(tempVar['lastName']);
@@ -1341,6 +1373,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_EMAIL.setValue(tempVar['emailid']);
     this.CD_PMRY_EMBSR_NAME.setValue(tempVar['nameoncard']);
     // this.appRefNum  = tempVar['AppRefNum'];
+    this.MaidenName.setValue(tempVar['MaidenName']);
+    
 
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)

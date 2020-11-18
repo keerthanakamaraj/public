@@ -156,7 +156,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaidenName.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': MaidenName.mandatory}">
                 {{ 'CustomerDtls.MaidenName' | translate}}
               </label>
             </div>
@@ -240,8 +240,12 @@
                 {{ 'CustomerDtls.CD_NATIONALITY' | translate}}
               </label>
             </div>
-            <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
+            <!-- <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('CD_NATIONALITY', $event)">
+            </app-combo-box> -->
+            <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
+            domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('CD_NATIONALITY', $event)">
             </app-combo-box>
           </div>
@@ -252,9 +256,12 @@
               </label>
             </div>
             <!-- <app-text-box #CD_CITIZENSHIP fieldID="CD_CITIZENSHIP" [formCode]="formCode" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)"></app-text-box> -->
-            <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
+            <!-- <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
+            </app-combo-box> -->
+            <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_EXPIRY.isHidden()">
