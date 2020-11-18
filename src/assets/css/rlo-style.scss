@@ -1614,8 +1614,8 @@ rlo-ui-card-field {
 
     .interface-status-container {
       position: absolute;
-      top: 11px;
-      right: 16px;
+      // top: 11px;
+      right: 24px;
     }
   }
 
@@ -1709,7 +1709,7 @@ rlo-ui-card-field {
     }
 
     &.interface-icon-only {
-      padding: 9px 0 9px 14px !important;
+      padding: 10px 0 10px 14px !important;
     }
   }
 }
@@ -2037,6 +2037,7 @@ rlo-ui-card-field {
               margin-right: $card-field-margin !important;
               margin-left: 0;
               border-bottom: 1px solid #ddd;
+              display: flex;
             }
           }
         }
@@ -2044,14 +2045,14 @@ rlo-ui-card-field {
     }
 
     .internal {
-      .card-tile-body:before {
-        height: 38px;
-        width: 1px;
-        background: #ccc;
-        content: "";
-        position: absolute;
-        left: -1px;
-      }
+      // .card-tile-body:before {
+      //   height: 38px;
+      //   width: 1px;
+      //   background: #ccc;
+      //   content: "";
+      //   position: absolute;
+      //   left: -1px;
+      // }
     }
   }
 
@@ -2078,6 +2079,19 @@ rlo-ui-card-field {
 
     .cards-body {
       box-shadow: none;
+    }
+  }
+
+  .interface-actions {
+    display: flex;
+    position: absolute;
+    right: 24px;
+
+    .icon-link {
+      color: #0079b8;
+      position: relative;
+      top: -1px;
+      cursor: pointer;
     }
   }
 }
@@ -4638,6 +4652,19 @@ rlo-ui-card-field {
       }
     }
   }
+
+  .d-flex {
+    .indicator-section {
+      display: flex;
+      margin: 0 auto;
+      position: relative;
+
+      .indicator-options {
+        position: absolute;
+        left: 28px;
+      }
+    }
+  }
 }
 
 .interface-status-indicator {
@@ -4794,12 +4821,4 @@ rlo-ui-card-field {
       border-top: 0;
     }
   }
-}
-
-//Manual table styling used in operations and UW
-.doc-Container {
-  background: #fafcff;
-  border-radius: 10px;
-  padding: 24px;
-  border: 1px solid #dddddd;
 }

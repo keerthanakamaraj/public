@@ -5,5 +5,6 @@
 </ng-container>
 <ng-container *ngIf="iconType == 'basic'">
   <span class="interface-status-indicator"
-    [ngClass]="{'success': status == 'completed' || status == 'Success', 'danger': status == 'pending', 'disabled': status == 'disabled'}"></span>
+    [ngClass]="{'success': status == 'completed' || status == 'Success', 'danger': status == 'pending', 'disabled': status == 'disabled'}"
+    data-toggle="tooltip" data-placement="right" title="{{status}}"></span>
 </ng-container>

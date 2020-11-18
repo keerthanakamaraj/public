@@ -67,8 +67,38 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
+  // {
+  //   field: "CustName",
+  //   width: 11,
+  //   sortable: true,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: "agTextColumnFilter",
+  //   filterParams: {
+  //     suppressAndOrCondition: true,
+  //     applyButton: true,
+  //     clearButton: true,
+  //     filterOptions: ["contains"],
+  //     caseSensitive: true,
+  //   },
+  // },First Name
   {
-    field: "CustName",
+    field: "FirstName",
+    width: 11,
+    sortable: true,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    },
+  },
+  {
+    field: "LastName",
     width: 11,
     sortable: true,
     resizable: true,
@@ -97,21 +127,21 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
-  {
-    field: "AccVintage",
-    width: 11,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
+  // {
+  //   field: "AccVintage",
+  //   width: 11,
+  //   sortable: true,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: "agTextColumnFilter",
+  //   filterParams: {
+  //     suppressAndOrCondition: true,
+  //     applyButton: true,
+  //     clearButton: true,
+  //     filterOptions: ["contains"],
+  //     caseSensitive: true,
+  //   },
+  // },
   {
     field: "AccType",
     width: 11,
@@ -174,6 +204,36 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   },
   {
     field: "Dob",
+    width: 12,
+    sortable: true,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    },
+  },
+  {
+    field: "Branch",
+    width: 12,
+    sortable: true,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    },
+  },
+  {
+    field: "CreditCard",
     width: 12,
     sortable: true,
     resizable: true,
@@ -256,9 +316,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       for (var i = 0; i < obj.length; i++) {
         switch (obj[i].columnName) {
           case "TaxID": obj[i].columnName = "TaxId"; break;
-          case "CustName": obj[i].columnName = "FullName"; break;
+          //case "CustName": obj[i].columnName = "FullName"; break;
           case "AccNo": obj[i].columnName = "AccountNumber"; break;
-          case "AccVintage": obj[i].columnName = "AccountVintage"; break;
+          // case "AccVintage": obj[i].columnName = "AccountVintage"; break;
           case "AccType": obj[i].columnName = "AccountType"; break;
           case "Status": obj[i].columnName = "ApplicationStatus"; break;
           case "Mobile": obj[i].columnName = "MobileNumber"; break;
@@ -274,9 +334,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       for (var i = 0; i < obj.length; i++) {
         switch (obj[i].columnName) {
           case "TaxID": obj[i].columnName = "TaxId"; break;
-          case "CustName": obj[i].columnName = "FullName"; break;
+          //case "CustName": obj[i].columnName = "FullName"; break;
           case "AccNo": obj[i].columnName = "AccountNumber"; break;
-          case "AccVintage": obj[i].columnName = "AccountVintage"; break;
+          //case "AccVintage": obj[i].columnName = "AccountVintage"; break;
           case "AccType": obj[i].columnName = "AccountType"; break;
           case "Status": obj[i].columnName = "ApplicationStatus"; break;
           case "Mobile": obj[i].columnName = "MobileNumber"; break;
@@ -298,9 +358,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       inputMap.set('QueryParam.dob', this.customSearchObj.dob);
       inputMap.set('QueryParam.StaffId', this.customSearchObj.staffId);
 
-      if(this.customerSearchType == "Internal"){
+      if (this.customerSearchType == "Internal") {
         inputMap.set('QueryParam.CustomerId', this.customSearchObj.customerId);
-      }else{
+      } else {
         inputMap.set('QueryParam.ExistingCIF', this.customSearchObj.cifId);
       }
 
@@ -321,9 +381,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               for (var i = 0; i < loopVar7.length; i++) {
                 var tempObj = {};
                 tempObj['TaxID'] = loopVar7[i].TaxId;
-                tempObj['CustName'] = loopVar7[i].FullName;
+                //tempObj['CustName'] = loopVar7[i].FullName;
                 tempObj['AccNo'] = loopVar7[i].AccountNumber;
-                tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+                //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
                 tempObj['AccType'] = loopVar7[i].AccountType;
                 tempObj['Status'] = loopVar7[i].ApplicationStatus;
                 tempObj['Mobile'] = loopVar7[i].MobileNumber;
@@ -339,6 +399,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['ICIF'] = loopVar7[i].ICIF;
                 tempObj['AppRefNum'] = loopVar7[i].AppRefNUm;
                 tempObj['CustomerType'] = loopVar7[i].CustomerType;
+                tempObj['Branch'] = loopVar7[i].Branch;
+                tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 loopDataVar7.push(tempObj);
               }
             }
@@ -347,63 +409,61 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           } else {
             this.hideGridData();
           }
-           // hide spinner
-           this.hideSpinner();
+          // hide spinner
+          this.hideSpinner();
         });
     }
     else {
       inputMap.set('Body.interfaceId', 'CUSTOMER_SEARCH');
-      inputMap.set('Body.inputdata.firstName', 'Testing');
-      inputMap.set('Body.inputdata.lastName', 'test');
-      inputMap.set('Body.inputdata.mobileNumber', '9899999999');
-      inputMap.set('Body.inputdata.nationalId', '111111111111111');
+      inputMap.set('Body.inputdata.CifID', this.customSearchObj.customerId);
       inputMap.set('Body.inputdata.customerSubType', '001');
 
-
       this.services.rloCommonData.getSearchedCustomerData(this.customSearchObj.searchType, inputMap)
-      .then((response: any) => {
-        console.log("Deep | Response", response);
-        if (response != null) {
-          this.recordsFound = true;
-          var loopVar7 = response.outputdata.CustomerList;
-          this.documentCount = 0;
+        .then((response: any) => {
+          console.log("Deep | Response", response);
+          if (response != null) {
+            this.recordsFound = true;
+            var loopVar7 = response.outputdata.CustomerList;
+            this.documentCount = 0;
 
-          var loopDataVar7 = [];
-          if (loopVar7) {
-            for (var i = 0; i < loopVar7.length; i++) {
-              var tempObj = {};
-              tempObj['TaxID'] = loopVar7[i].TaxId;
-              tempObj['CustName'] = loopVar7[i].FullName;
-              tempObj['AccNo'] = loopVar7[i].AccountNumber;
-              tempObj['AccVintage'] = loopVar7[i].AccountVintage;
-              tempObj['AccType'] = loopVar7[i].AccountType;
-              tempObj['Status'] = loopVar7[i].ApplicationStatus;
-              tempObj['Mobile'] = loopVar7[i].MobileNumber;
-              tempObj['Cif'] = loopVar7[i].ExistingCIF;
-              tempObj['Dob'] = loopVar7[i].DateOfBirth;
-              tempObj['FirstName'] = loopVar7[i].FirstName;
-              tempObj['MiddleName'] = loopVar7[i].MiddleName;
-              tempObj['LastName'] = loopVar7[i].LastName;
-              tempObj['Title'] = loopVar7[i].Title;
-              tempObj['Gender'] = loopVar7[i].Gender;
-              tempObj['EmailID'] = loopVar7[i].EmailID;
-              tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
-              tempObj['ICIF'] = loopVar7[i].ICIF;
-              tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
-              tempObj['CBSProductCode'] =  loopVar7[i].CBSProductCode;
-              tempObj['StaffID'] = loopVar7[i].StaffID;
-              tempObj['CustomerType'] = loopVar7[i].CustomerType;
-              loopDataVar7.push(tempObj);
+            var loopDataVar7 = [];
+            if (loopVar7) {
+              for (var i = 0; i < loopVar7.length; i++) {
+                var tempObj = {};
+                tempObj['TaxID'] = loopVar7[i].TaxId;
+                ///tempObj['CustName'] = loopVar7[i].FullName;
+                tempObj['AccNo'] = loopVar7[i].AccountNumber;
+                //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+                tempObj['AccType'] = loopVar7[i].AccountType;
+                tempObj['Status'] = loopVar7[i].ApplicationStatus;
+                tempObj['Mobile'] = loopVar7[i].MobileNumber;
+                tempObj['Cif'] = loopVar7[i].ExistingCIF;
+                tempObj['Dob'] = loopVar7[i].DateOfBirth;
+                tempObj['FirstName'] = loopVar7[i].FirstName;
+                tempObj['MiddleName'] = loopVar7[i].MiddleName;
+                tempObj['LastName'] = loopVar7[i].LastName;
+                tempObj['Title'] = loopVar7[i].Title;
+                tempObj['Gender'] = loopVar7[i].Gender;
+                tempObj['EmailID'] = loopVar7[i].EmailID;
+                tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
+                tempObj['ICIF'] = loopVar7[i].ICIF;
+                tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
+                tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
+                tempObj['StaffID'] = loopVar7[i].StaffID;
+                tempObj['CustomerType'] = loopVar7[i].CustomerType;
+                tempObj['Branch'] = loopVar7[i].Branch;
+                tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                loopDataVar7.push(tempObj);
+              }
             }
+            this.documentCount = loopDataVar7.length;
+            this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+          } else {
+            this.hideGridData();
           }
-          this.documentCount = loopDataVar7.length;
-          this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
-        } else {
-          this.hideGridData();
-        }
-         // hide spinner
-         this.hideSpinner();
-      });
+          // hide spinner
+          this.hideSpinner();
+        });
 
       // this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
       //   async (httpResponse: HttpResponse<any>) => {

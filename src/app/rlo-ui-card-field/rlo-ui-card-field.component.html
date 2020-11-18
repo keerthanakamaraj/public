@@ -27,9 +27,12 @@
     </ng-container>
 
     <ng-container *ngIf="parentCardName == 'Interface Results'">
-      <div class="interface-status-container">
-        <app-status-indicator [iconType]="'basic'" [status]="cardFieldMetaData.subTitle">
-        </app-status-indicator>
+      <div class="interface-actions">
+        <div class="interface-status-container">
+          <app-status-indicator [iconType]="'basic'" [status]="cardFieldMetaData.subTitle">
+          </app-status-indicator>
+        </div>
+        <span class="icon-link"></span>
       </div>
     </ng-container>
 
