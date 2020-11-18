@@ -941,9 +941,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_PREF_COM_CH.setValue(customer.CommunicationAlertChannel.id);
     this.CD_EMAIL.setValue(customer.Email);
     this.HidCustomerId.setValue(customer.BorrowerSeq);
-    this.CD_PREF_LANG.setValue(customer.PreferredLanguage.id);
+    this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
-
+    this.EmbLine4.setValue(customer.EmbLine4);
+    this.EmbLineFlag.setValue(customer.EmbLineFlag.id,undefined,true);
     this.activeBorrowerSeq = customer.BorrowerSeq;
 
     this.CD_LOAN_OWN.setValue(customer.LoanOwnership);
