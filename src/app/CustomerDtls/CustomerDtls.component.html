@@ -17,14 +17,14 @@
               (blur)="genericOnBlur('CD_CUST_TYPE', $event)">
             </rlo-ui-radio>
           </div>
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CARD_CUST_TYPE.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CARD_CUST_TYPE.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CARD_CUST_TYPE.mandatory}">
                 {{ 'CustomerDtls.CD_CARD_CUST_TYPE' | translate}}
               </label>
             </div>
             <rlo-ui-radio #CD_CARD_CUST_TYPE fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CARD_CUST_TYPE', $event)"
               (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)"></rlo-ui-radio>
           </div>
