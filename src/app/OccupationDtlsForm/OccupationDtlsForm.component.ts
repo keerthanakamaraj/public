@@ -345,7 +345,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.clear();
         inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Employment Type', this.OD_EMPLT_TYPE.getFieldValue());
+        inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
         inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
@@ -476,7 +476,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       else {
         inputMap.clear();
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Employment Type', this.OD_EMPLT_TYPE.getFieldValue());
+        inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.Self Employed Type', this.OD_SELF_EMPLD_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
@@ -622,30 +622,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']['id']);
-        if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
-          this.OD_EMPLT_TYPE.mandatory = true;
-          this.OD_EMPLT_TYPE.setReadOnly(false);
-          if (this.readOnly) {
-            this.OD_EMPLT_TYPE.mandatory = false;
-            setTimeout(() => {
-              this.OD_EMPLT_TYPE.setReadOnly(true);
-            }, 500);
-          }
-        } else if (this.OD_OCCUPATION.getFieldValue() == 'SE') {
-          this.OD_SELF_EMPLD_TYPE.mandatory = true;
-          this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
-          this.OD_SELF_EMPLD_PROF.setReadOnly(false);
-          if (this.readOnly) {
-            this.OD_SELF_EMPLD_TYPE.mandatory = false;
-            setTimeout(() => {
-              this.OD_SELF_EMPLD_TYPE.setReadOnly(true);
-              this.OD_SELF_EMPLD_PROF.setReadOnly(true);
-            }, 500);
-          }
-        }
-
-
-        this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']['id']);
+        this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['EmploymentType']['id']);
         this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
         this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']['id']);
         this.OD_EMPLOYEE_ID.setValue(res['OccupationDetails']['EmployeeID']);
@@ -680,6 +657,28 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
 
         this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
+        if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
+          this.OD_EMPLT_TYPE.mandatory = true;
+          this.OD_EMPLT_TYPE.setReadOnly(false);
+          if (this.readOnly) {
+            this.OD_EMPLT_TYPE.mandatory = false;
+            setTimeout(() => {
+              this.OD_EMPLT_TYPE.setReadOnly(true);
+            }, 500);
+          }
+        } else if (this.OD_OCCUPATION.getFieldValue() == 'SE') {
+          this.OD_SELF_EMPLD_TYPE.mandatory = true;
+          this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
+          this.OD_SELF_EMPLD_PROF.setReadOnly(false);
+          if (this.readOnly) {
+            this.OD_SELF_EMPLD_TYPE.mandatory = false;
+            setTimeout(() => {
+              this.OD_SELF_EMPLD_TYPE.setReadOnly(true);
+              this.OD_SELF_EMPLD_PROF.setReadOnly(true);
+            }, 500);
+          }
+        }
+
       },
       async (httpError) => {
         var err = httpError['error']
