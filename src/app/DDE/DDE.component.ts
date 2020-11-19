@@ -519,7 +519,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.setReadOnly(this.readOnly);
     }
 
-    this.getScores();//get scores on page load
+    //Changes for canara
+    //this.getScores();//get scores on page load
   }
 
   ngOnDestroy() {
@@ -1309,7 +1310,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   async headerState(event) {
     console.warn("DEEP | Header state", event);
     this.showExpandedHeader = event.headerState;
-    this.scoreCardComponent.headerChanges(event);
+    //this.scoreCardComponent.headerChanges(event);
 
     //TO IMPLEMENT
     // this.scoreCardComponent.forEach(element => {
