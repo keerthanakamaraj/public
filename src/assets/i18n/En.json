@@ -1983,7 +1983,7 @@
     "VR_Type": "Type",
     "VR_Photograph": "Photograph",
     "GridTitle": "Visit Report Grid",
-    "VR_dTE_BTN": "",
+    "VR_DELETE_BTN": "",
     "VR_PlaceOfVisit": "Place of Visit",
     "VR_OfficialName": "Official Name"
   },
