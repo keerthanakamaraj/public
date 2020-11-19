@@ -79,10 +79,11 @@
                 *ngFor="let list of cardMetaData.data"></rlo-ui-card-field> -->
             <div class="interface-customer-selector">
                 <span>{{selectedCustomerData.name}}</span>
-                <span class="count-section">
-                    <span>+{{this.customerList.length-(selectedCustomerData.index+1)}}</span>
+                <span class="count-section" *ngIf="interfaceCount">
+                    <span>+{{interfaceCount}}</span>
                 </span>
-                <span class="menu-btn">
+
+                <span class="menu-btn" *ngIf="customerList.length>1">
                     <span class="icon-left-arrow" (click)="showPrev()"></span>
                     <span class="icon-right-arrow" (click)="showNxt()"></span>
                 </span>

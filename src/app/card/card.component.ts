@@ -47,48 +47,48 @@ export class CardComponent implements OnInit {
       CustomerType: "B",
       FullName: "Tim cook",
       data: [
-        // {
-        //   type: "External Interface Results",
-        //   class: "external",
-        //   data: [
-        //     { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
-        //     { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
-        //   ]
-        // }
-        // {
-        //   type: "Internal Interface Results",
-        //   class: "internal",
-        //   data: [
-        //     { type: "icon", title: "PAN", subTitle: 'pending', modalSectionName: "" },
-        //     { type: "icon", title: "CIBIL", subTitle: 'completed', modalSectionName: "" },
-        //     { type: "icon", title: "AMLOCK", subTitle: 'completed', modalSectionName: "" }
-        //   ]
-        // }
+        {
+          type: "External Interface Results",
+          class: "external",
+          data: [
+            { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "Google", subTitle: 'completed', modalSectionName: "" },
+          ]
+        },
+        {
+          type: "Internal Interface Results",
+          class: "internal",
+          data: [
+            { type: "icon", title: "PAN", subTitle: 'pending', modalSectionName: "" },
+            { type: "icon", title: "CIBIL", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "AMLOCK", subTitle: 'completed', modalSectionName: "" }
+          ]
+        }
       ]
     },
     {
       CustomerType: "CB",
       FullName: "Ron cook",
       data: [
-        // {
-        //   type: "External Interface Results",
-        //   class: "external",
-        //   data: [
-        //     { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
-        //     { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
-        //   ]
-        // }
-        // {
-        //   type: "Internal Interface Results",
-        //   class: "internal",
-        //   data: [
-        //     { type: "icon", title: "PAN", subTitle: 'completed', modalSectionName: "" },
-        //     { type: "icon", title: "CIBIL", subTitle: 'pending', modalSectionName: "" },
-        //     { type: "icon", title: "AMLOCK", subTitle: 'disabled', modalSectionName: "" }
-        //   ]
-        // }
+        {
+          type: "External Interface Results",
+          class: "external",
+          data: [
+            { type: "icon", title: "watchout", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "Google2", subTitle: 'completed', modalSectionName: "" },
+          ]
+        },
+        {
+          type: "Internal Interface Results",
+          class: "internal",
+          data: [
+            { type: "icon", title: "PAN", subTitle: 'completed', modalSectionName: "" },
+            { type: "icon", title: "CIBIL", subTitle: 'pending', modalSectionName: "" },
+            { type: "icon", title: "AMLOCK", subTitle: 'disabled', modalSectionName: "" }
+          ]
+        }
       ]
-    },
+    }
   ];
 
   interfaceResultsData = [];//interface results predefined json
@@ -97,13 +97,14 @@ export class CardComponent implements OnInit {
   commonCardSectionData: Array<ICardConfig>;
 
   accountDetailsList: IAccountDetails[] = [];
+  interfaceCount: number = 0;
 
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);
     this.cardConfig.set("interfaceResults", this.interface);
 
     //get interface data;
-    //this.getInterfaceData();
+    //this.getInterfaceData(this.testJson);
   }
 
   ngOnInit() {
@@ -116,8 +117,13 @@ export class CardComponent implements OnInit {
 
     if (this.cardMetaData.modalSectionName == "CustomerDetails") {
       this.accountDetailsList = this.cardMetaData.accountDetails;
+      console.log("DEEP | accountDetailsList", this.accountDetailsList);
+      this.accountDetailsList.forEach(element => {
+        element.AvailableBalance = this.services.formatAmount(element.AvailableBalance, null, null, false)
+      });
     } else if (this.cardMetaData.name == "Interface Results") {
       this.generateInterfaceJson(this.cardMetaData.customerList, this.cardMetaData.interfaceDataList);
+      //this.getInterfaceData(this.testJson);
     }
   }
 
@@ -128,17 +134,22 @@ export class CardComponent implements OnInit {
   }
 
   showNxt() {
-    if (this.selectedCustomerData.index < (this.customerList.length - 1)) {
+    if (this.selectedCustomerData.index < (this.customerList.length - 1) && this.interfaceCount != 0) {
       this.selectedCustomerData.index += 1;
-      this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index]
+      this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index];
+      this.interfaceCount = this.interfaceCount - 1;
     }
+    console.warn("DEEP | Count", this.interfaceCount)
   }
 
   showPrev() {
-    if (this.selectedCustomerData.index != 0) {
+    if (this.selectedCustomerData.index != 0 && this.interfaceCount < this.customerList.length - 1) {
       this.selectedCustomerData.index -= 1;
-      this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index]
+      this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index];
+      this.interfaceCount = this.interfaceCount + 1;
     }
+
+    console.warn("DEEP | Count", this.interfaceCount)
   }
 
   getInterfaceData(predefinedJson: any) {
@@ -147,6 +158,11 @@ export class CardComponent implements OnInit {
     });
     this.selectedCustomerData.index = 0;
     this.selectedCustomerData.name = this.customerList[0];
+
+    this.interfaceCount = this.customerList.length - 1;
+
+    console.log("selectedCustomerData", this.selectedCustomerData)
+    console.warn("DEEP | Count", this.interfaceCount)
   }
 
   generateInterfaceJson(customerList: any, interfaceDataList: any) {
@@ -159,8 +175,8 @@ export class CardComponent implements OnInit {
       };
 
       let customerObj = {
-        CustomerType: customer.CD_CUSTOMER_TYPE,
-        FullName: customer.CD_CUSTOMER_NAME,
+        CustomerType: customer.CustomerType,
+        FullName: customer.FullName,
         data: []
       }
 
@@ -169,7 +185,7 @@ export class CardComponent implements OnInit {
 
         customerInterfaceData.forEach(element => {
           let obj: IInterfaceDataIndicator = { type: "icon", title: "", subTitle: '', modalSectionName: "" };
-          if (!element.InterfaceId.includes("CUSTOMER")) {
+          if (!element.InterfaceId.toLowerCase().includes("customer")) {
             if (element.InterfaceId == 'CIBIL001') {
               element.InterfaceId = "CIBIL";
             }

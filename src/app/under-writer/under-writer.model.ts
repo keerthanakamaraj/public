@@ -403,7 +403,7 @@ export class AccountDetails implements IDeserializable {
             }
 
             if (element.hasOwnProperty("AvailableBalance")) {
-                tableData['AvailableBalance'] = element['AvailableBalance'].length ? element['AvailableBalance'] : 'NA';
+                tableData['AvailableBalance'] = element['AvailableBalance'];
             } else {
                 tableData['AvailableBalance'] = "NA";
             }

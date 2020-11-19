@@ -138,6 +138,7 @@ export class PopupAlertComponent implements OnInit {
         //this.dynamicallyLoadableComponent.passedFieldData=this.dynamicallyLoadableComponent.parentData
       } else if (this.modalObject.componentName == 'InterfaceResults') {
         this.dynamicallyLoadableComponent.ApplicationId = this.modalObject.applicationId;
+        this.dynamicallyLoadableComponent.uwCustomerList = this.modalObject.customerList;
       }
 
       // async brodcastProdCategory(event) {
