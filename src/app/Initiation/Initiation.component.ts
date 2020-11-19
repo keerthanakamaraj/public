@@ -769,7 +769,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async BAD_REQ_CARD_LIMIT_blur(event)
   {
     let inputMap = new Map();
-    if(this.BAD_REQ_CARD_LIMIT.getFieldValue() > this.MaxCredLimit.getFieldValue() || this.BAD_REQ_CARD_LIMIT.getFieldValue() < this.MinCredLimit.getFieldValue()){
+    if(parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) > parseFloat(this.MaxCredLimit.getFieldValue()) || parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) < parseFloat(this.MinCredLimit.getFieldValue())){
       this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit');
       return 1;
 
