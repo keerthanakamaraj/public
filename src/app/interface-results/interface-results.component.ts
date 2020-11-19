@@ -14,6 +14,7 @@ export class InterfaceResultsComponent implements OnInit {
   @Input() ApplicationId: string = undefined;
   MstInterfaceResultMap: Map<string, IInterfaceResultCustomer> = new Map();
 
+  uwCustomerList: any = [];
 
   constructor(public services: ServiceStock) { }
 
@@ -21,6 +22,7 @@ export class InterfaceResultsComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.loadInterfaceResult();
+    console.log("DEEP | uwCustomerList", this.uwCustomerList);
   }
 
   loadInterfaceResult() {
@@ -40,7 +42,7 @@ export class InterfaceResultsComponent implements OnInit {
       });
       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
 
-      this.services.http.fetchApi('/InterfaceResult', 'GET', inputMap,'/rlo-de').subscribe(
+      this.services.http.fetchApi('/InterfaceResult', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           this.MstInterfaceResultMap.clear();
           let res = httpResponse.body;
@@ -59,7 +61,9 @@ export class InterfaceResultsComponent implements OnInit {
     }
   }
   parseInterfaceResultJson(tempInterfaceResultList) {
-    let CustomerList = this.services.rloCommonData.getCustomerList();
+    let CustomerList = this.uwCustomerList.length ? this.uwCustomerList : this.services.rloCommonData.getCustomerList();
+    
+    console.log("DEEP | CustomerList", CustomerList);
     tempInterfaceResultList.forEach(eachResult => {
       let CustomerDtls: IInterfaceResultCustomer = {};
       if (this.MstInterfaceResultMap.has(eachResult.BorrowerSeq)) {

@@ -10,6 +10,7 @@ export interface IModalData {
   applicationId?: number;//while passing to modal(cards)
   borrowerSeq?: number;//while passing to modal(cards)
   componentCode?: string;
+  customerList?:any;//used to send list of customer to interface results from UW
 }
 
 export interface IButtonObj {

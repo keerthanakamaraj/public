@@ -285,7 +285,7 @@ export class RlouiService {
     if (!currency) { currency = this.getConfig("currency.code.default", "EUR"); }
 
     let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt);
-    
+
     if (hideSymbol) {
       //val.splice(0,1);
       val = val.filter(part => part.type != 'currency');
@@ -402,6 +402,11 @@ export class RlouiService {
         borrowerSeq: cardMetaData.borrowerSeq,
         componentCode: cardMetaData.componentCode
       }
+
+      if (cardMetaData.modalSectionName == "InterfaceResults") {
+        modalObj.customerList = cardMetaData.customerList;
+      }
+
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);
         if (response != null) {
@@ -506,7 +511,7 @@ export class RlouiService {
           { id: 2, text: 'CLOSE', type: "failure", class: "btn-warning-outline" }
         ],
         componentName: 'DecisionAlert',
-        componentCode : componentCode
+        componentCode: componentCode
         // data: obj
       };
       this.confirmationModal(modalObj).then((response) => {

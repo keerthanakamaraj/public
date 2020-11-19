@@ -544,11 +544,23 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "InterfaceResults":
+            let customCustomerList = [];
             this.interfaceResultCardData = application.InterfaceResults.getCardData();
             this.interfaceResultCardData.applicationId = this.applicationId;
             this.interfaceResultCardData.borrowerSeq = this.borrowerSeq;
             this.interfaceResultCardData.componentCode = this.componentCode;
-            this.interfaceResultCardData.customerList = this.customerList;
+
+            if (this.customerList.length) {
+              this.customerList.forEach(element => {
+                let obj = {};
+                obj["BorrowerSeq"] = element.BorrowerSeq;
+                obj["CustomerType"] = element.CD_CUSTOMER_TYPE;
+                obj["FullName"] = element.CD_CUSTOMER_NAME;
+
+                customCustomerList.push(obj);
+              })         
+            }
+            this.interfaceResultCardData.customerList = customCustomerList;
             console.log(this.interfaceResultCardData);
             break;
 
@@ -801,6 +813,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       }
       else {
         this.doSubmitConfirmation();
+        //   this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
+        //     console.log(Response);
+        //     if (typeof Response == 'object') {
+        //       if (Response != undefined || Response != null) {
+        //         this.submitDDE(requestParams, Response);
+        //       }
+        //     }
+        //   });
+      }
+    }
+    else {
+      this.doSubmitConfirmation();
       //   this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
       //     console.log(Response);
       //     if (typeof Response == 'object') {
@@ -809,22 +833,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       //       }
       //     }
       //   });
-       }
     }
-    else {
-      this.doSubmitConfirmation();
-    //   this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
-    //     console.log(Response);
-    //     if (typeof Response == 'object') {
-    //       if (Response != undefined || Response != null) {
-    //         this.submitDDE(requestParams, Response);
-    //       }
-    //     }
-    //   });
-   }
   }
 
-  async doSubmitConfirmation(){
+  async doSubmitConfirmation() {
     const requestParams = new Map();
     requestParams.set('Body.ApplicationStatus', 'Approve');
     requestParams.set('Body.direction', 'AP');
