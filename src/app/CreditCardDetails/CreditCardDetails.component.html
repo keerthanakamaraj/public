@@ -59,7 +59,7 @@
               <label class="clr-brown">
                 {{ 'CreditCardDetails.MaximumCardLimit' | translate}}</label>
             </div>
-            <app-rlo-ui-currency #MaximumCardLimit fieldID="MaximumCardLimit" [currencyReadOnly]="readOnly"
+            <app-rlo-ui-currency #MaximumCardLimit fieldID="MaximumCardLimit" [currencyReadOnly]="true"
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'MaximumCardLimit'"
               (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
@@ -68,7 +68,7 @@
               <label class="clr-brown">
                 {{ 'CreditCardDetails.RequestedCardLimit' | translate}}</label>
             </div>
-            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit" [currencyReadOnly]="readOnly"
+            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit" [currencyReadOnly]="true"
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'RequestedCardLimit'"
               (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
@@ -77,7 +77,7 @@
               <label class="clr-brown">
                 {{ 'CreditCardDetails.Add_RequestedCardLimit' | translate}}</label>
             </div>
-            <app-rlo-ui-currency #Add_RequestedCardLimit fieldID="Add_RequestedCardLimit" [currencyReadOnly]="readOnly"
+            <app-rlo-ui-currency #Add_RequestedCardLimit fieldID="Add_RequestedCardLimit" [currencyReadOnly]="true"
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'Add_RequestedCardLimit'"
               (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
@@ -87,7 +87,7 @@
                 {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}</label>
             </div>
 
-            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="false"
+            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="true"
               [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
           </div>
