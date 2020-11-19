@@ -223,7 +223,7 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
                         tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
-                        tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship.text;
+                        tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship;
                         tempObj['FD_NAME'] = loopVar4[i].FullName;
                         tempObj['FD_DOB'] = loopVar4[i].DOB;
                         tempObj['Full_NAME'] = loopVar4[i].CustFullName;
