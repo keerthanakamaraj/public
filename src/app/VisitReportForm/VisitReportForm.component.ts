@@ -35,7 +35,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     //@ViewChild('VRF_OfficialId', {static: false}) VRF_OfficialId: ComboBoxComponent;
     @ViewChild('VRF_OfficialBusinessGroup', { static: false }) VRF_OfficialBusinessGroup: ComboBoxComponent;
     @ViewChild('VRF_PlaceOfVisit', { static: false }) VRF_PlaceOfVisit: ComboBoxComponent;
-    @ViewChild('VRF_Photograph', { static: false }) VRF_Photograph: RLOUIRadioComponent;
+   // @ViewChild('VRF_Photograph', { static: false }) VRF_Photograph: RLOUIRadioComponent;
     @ViewChild('VRF_AdverseObservation', { static: false }) VRF_AdverseObservation: RLOUIRadioComponent;
     @ViewChild('VRF_Observations', { static: false }) VRF_Observations: TextAreaComponent;
     @ViewChild('VRF_Save', { static: false }) VRF_Save: ButtonComponent;
@@ -51,7 +51,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
     @ViewChild('HidReportType', { static: false }) HidReportType: HiddenComponent;
     @ViewChild('HidVisitReportSeqId', { static: false }) HidVisitReportSeqId: HiddenComponent;
     @ViewChild('HidPlaceOfVisit', { static: false }) HidPlaceOfVisit: HiddenComponent;
-    @ViewChild('VRF_UPLOAD_BTN', { static: false }) VRF_UPLOAD_BTN: ButtonComponent;
+   // @ViewChild('VRF_UPLOAD_BTN', { static: false }) VRF_UPLOAD_BTN: ButtonComponent;
 
     @Input() ApplicationId: string = undefined;
     @Input() activeBorrowerSeq: string = undefined;
@@ -70,7 +70,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             //this.revalidateBasicField('VRF_OfficialId'),
             this.revalidateBasicField('VRF_OfficialBusinessGroup'),
             this.revalidateBasicField('VRF_PlaceOfVisit'),
-            this.revalidateBasicField('VRF_Photograph'),
+       //     this.revalidateBasicField('VRF_Photograph'),
             this.revalidateBasicField('VRF_AdverseObservation'),
             this.revalidateBasicField('VRF_Observations'),
         ]).then((errorCounts) => {
@@ -101,10 +101,10 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.HidReportType.setValue('REPORT_TYPE');
         this.HidPlaceOfVisit.setValue('PLACE_OF_VISIT');
         let inputMap = new Map();
-        this.VRF_UPLOAD_BTN.setDisabled(true);
-        this.VRF_Photograph.setDefault('N');
+      //  this.VRF_UPLOAD_BTN.setDisabled(true);
+     //   this.VRF_Photograph.setDefault('N');
         this.VRF_AdverseObservation.setDefault('N');
-        this.VRF_Photograph.setReadOnly(true);
+     //   this.VRF_Photograph.setReadOnly(true);
         await this.Visit_Report_Grid.gridDataLoad({
             'BorrowerSeq': this.activeBorrowerSeq
         });
@@ -191,7 +191,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         this.value = new VisitReportFormModel();
         this.passNewValue(this.value);
         //this.setReadOnly(false);
-        this.VRF_Photograph.setValue(this.VRF_Photograph.getDefault());
+      //  this.VRF_Photograph.setValue(this.VRF_Photograph.getDefault());
         this.VRF_AdverseObservation.setValue(this.VRF_AdverseObservation.getDefault());
         this.onFormLoad();
     }
@@ -267,7 +267,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         inputMap.set('Body.RMRADetails.DesignationOfPerson', this.VRF_Designation.getFieldValue());
         inputMap.set('Body.RMRADetails.BankRepVertical', this.VRF_OfficialBusinessGroup.getFieldValue());
         inputMap.set('Body.RMRADetails.PlaceofVisit', this.VRF_PlaceOfVisit.getFieldValue());
-        inputMap.set('Body.RMRADetails.AttVRPhoto', this.VRF_Photograph.getFieldValue());
+     //   inputMap.set('Body.RMRADetails.AttVRPhoto', this.VRF_Photograph.getFieldValue());
         inputMap.set('Body.RMRADetails.AdverseObservation', this.VRF_AdverseObservation.getFieldValue());
         inputMap.set('Body.RMRADetails.GistofDiscussion', this.VRF_Observations.getFieldValue());
         return inputMap;
@@ -282,9 +282,9 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             else if (err['ErrorElementPath'] == 'RMRADetails.AdverseObservation') {
                 this.VRF_AdverseObservation.setError(err['ErrorDescription']);
             }
-            else if (err['ErrorElementPath'] == 'RMRADetails.AttVRPhoto') {
-                this.VRF_Photograph.setError(err['ErrorDescription']);
-            }
+            // else if (err['ErrorElementPath'] == 'RMRADetails.AttVRPhoto') {
+            //     this.VRF_Photograph.setError(err['ErrorDescription']);
+            // }
             else if (err['ErrorElementPath'] == 'RMRADetails.PlaceofVisit') {
                 this.VRF_PlaceOfVisit.setError(err['ErrorDescription']);
             }
@@ -333,7 +333,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
                 this.VRF_Designation.setValue(res['DesignationOfPerson']);
                 this.VRF_OfficialBusinessGroup.setValue(res['BankRepVertical']['id']);
                 this.VRF_PlaceOfVisit.setValue(res['PlaceofVisit']['id']);
-                this.VRF_Photograph.setValue(res['AttVRPhoto']);
+            //    this.VRF_Photograph.setValue(res['AttVRPhoto']);
                 this.VRF_AdverseObservation.setValue(res['AdverseObservation']);
                 this.VRF_Observations.setValue(res['GistofDiscussion']);
                 this.HidVisitReportSeqId.setValue(res['Id']);
@@ -455,16 +455,16 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
             outDep: [
             ]
         },
-        VRF_Photograph: {
-            inDep: [
+        // VRF_Photograph: {
+        //     inDep: [
 
-                { paramKey: "VALUE1", depFieldID: "VRF_Photograph", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "HidAppid", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "HidAttachPhoto", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+        //         { paramKey: "VALUE1", depFieldID: "VRF_Photograph", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "HidAppid", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "HidAttachPhoto", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
         VRF_AdverseObservation: {
             inDep: [
 
