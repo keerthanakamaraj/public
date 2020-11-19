@@ -389,9 +389,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['Mobile'] = loopVar7[i].MobileNumber;
                 tempObj['Cif'] = loopVar7[i].ExistingCIF;
                 tempObj['Dob'] = loopVar7[i].DateOfBirth;
-                //tempObj['FirstName'] = loopVar7[i].FirstName;
+                tempObj['FirstName'] = loopVar7[i].FirstName;
                 tempObj['MiddleName'] = loopVar7[i].MiddleName;
-                //tempObj['LastName'] = loopVar7[i].LastName;
+                tempObj['LastName'] = loopVar7[i].LastName;
                 tempObj['Title'] = loopVar7[i].Title;
                 tempObj['Gender'] = loopVar7[i].Gender;
                 tempObj['EmailID'] = loopVar7[i].EmailID;
@@ -439,9 +439,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['Mobile'] = loopVar7[i].MobileNumber;
                 tempObj['Cif'] = loopVar7[i].ExistingCIF;
                 tempObj['Dob'] = loopVar7[i].DateOfBirth;
-                //tempObj['FirstName'] = loopVar7[i].FirstName;
+                tempObj['FirstName'] = loopVar7[i].FirstName;
                 tempObj['MiddleName'] = loopVar7[i].MiddleName;
-                //tempObj['LastName'] = loopVar7[i].LastName;
+                tempObj['LastName'] = loopVar7[i].LastName;
                 tempObj['Title'] = loopVar7[i].Title;
                 tempObj['Gender'] = loopVar7[i].Gender;
                 tempObj['EmailID'] = loopVar7[i].EmailID;

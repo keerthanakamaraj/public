@@ -778,12 +778,19 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   async CD_CLEAR_BTN_click(event) {
     let array = this.fieldArrayFunction();
     const inputMap = new Map();
-    if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
-      this.clearQDEFields();
-    } else {
+    // if (this.CD_CUST_TYPE.getFieldValue() !== 'G' && this.CD_CUST_TYPE.getFieldValue() !== 'OP' && this.parentFormCode !== 'DDE' && this.CD_CUST_TYPE.getFieldValue() !== 'A') {
+    //   this.clearQDEFields();
+    // } else {
+    //   this.clearQDEFields();
+    //   array.forEach(function (arrayreset) { arrayreset.onReset() });
+    //   this.setNonEditableFields(false);
+    // }
+    if(this.activeBorrowerSeq==undefined){
       this.clearQDEFields();
       array.forEach(function (arrayreset) { arrayreset.onReset() });
-      this.setNonEditableFields(false);
+    }
+    else{
+    this.clearQDEFields();
     }
     //   this.onReset();
     //  this.Handler.deactivateClasses();
@@ -791,9 +798,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   clearQDEFields() {
     this.CD_MARITAL_STATUS.onReset();
-    this.CD_EMAIL.onReset();
-    this.CD_NATIONALITY.onReset();
-    this.CD_CITIZENSHIP.onReset();
+  //  this.CD_EMAIL.onReset();
+    this.CD_NATIONALITY.setValue(this.services.rloui.getConfig('country.code.default'));
+    this.CD_CITIZENSHIP.setValue(this.services.rloui.getConfig('country.code.default'));
     this.CD_PASSPORT_EXPIRY.onReset();
     this.CD_PASSPORT_NO.onReset();
     this.CD_VISA_VALID.onReset();
@@ -803,15 +810,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_DEBIT_SCORE.onReset();
     // this.CD_NATIONAL_ID.onReset();
     this.CD_CUST_SEGMENT.onReset();
+    this.CustSubSegment.onReset();
     //  this.CD_PRIME_USAGE.onReset();
     this.CD_PMRY_EMBSR_NAME.onReset();
     this.CD_PREF_COM_CH.onReset();
     this.CD_PREF_LANG.onReset();
-
-    this.CD_MOBILE_NO.onResetMobileNo();
-    //this.CD_MOBILE_NO.onReset();
+    this.CD_STAFF_ID.onReset();
+    this.RequestedAmountLimit.resetFieldAndDropDown();
+    this.CardDispatchMode.onReset();
+    this.MaidenName.onReset();
+   // this.CD_MOBILE_NO.onResetMobileNo();
     //this.CD_COUNTRY_CODE.onReset();
-    this.CD_CIF.onReset();
+   // this.CD_CIF.onReset();
   }
 
   async CUST_DTLS_GRID_custDtlsEdit(event) {
@@ -907,9 +917,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   LoadCustomerDetailsonFormLoad(customerDtlsObj) {
     console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
-    if (this.parentFormCode == 'DDE') {
-      this.setNonEditableFields(false)
-    }
+   // if (this.parentFormCode == 'DDE') {
+   //   this.setNonEditableFields(true)
+  //  }
     const customer = customerDtlsObj;
     this.dispalyAddonField(customer.CustomerType);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
@@ -1048,10 +1058,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     if(this.isLoanCategory){
       this.CD_CUST_TYPE.setValue(event.customerType, undefined, true);
     }else{ 
-      this.CD_CARD_CUST_TYPE.setValue(event.customerType, undefined, true)
-    }
+    this.CD_CARD_CUST_TYPE.setValue(event.customerType, undefined, true)
+   this.CD_NATIONALITY.setValue(this.services.rloui.getConfig('country.code.default'));
+   this.CD_CITIZENSHIP.setValue(this.services.rloui.getConfig('country.code.default'));  
+  }
   
-    this.setNonEditableFields(false);
+  //  this.setNonEditableFields(false);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
     this.dispalyAddonField(event.customerType);
     this.manageEmmb4Flag()
@@ -1301,7 +1313,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   fieldArrayFunction() {
     this.fieldArray = [];
     this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
-      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF
+      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF,this.CD_EMAIL,this.CD_MOBILE_NO
     );
     // this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
     //   this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_CUST_ID
