@@ -45,7 +45,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     // @ViewChild('EcsAccNo', { static: false }) EcsAccNo: TextBoxComponent;
     @ViewChild('CustomerType', { static: false }) CustomerType: TextBoxComponent;
     @ViewChild('RequestedCardLimit', { static: false }) RequestedCardLimit: TextBoxComponent;
-    @ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: TextBoxComponent;
+    //@ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: TextBoxComponent;
     //@ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: TextBoxComponent;
     @ViewChild('NomineeRequired', { static: false }) NomineeRequired: ComboBoxComponent;
     @ViewChild('NomineeName', { static: false }) NomineeName: TextBoxComponent;
@@ -77,6 +77,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: RloUiCurrencyComponent;
     @ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: RloUiCurrencyComponent;
     @ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: RloUiCurrencyComponent;
+    @ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: RloUiCurrencyComponent;
 
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
@@ -85,7 +86,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     isApproveLimitValid: boolean = true;
     custMinAge = 18;
     custMaxAge = 100;
-   customerList : any;
+    customerList: any;
     async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -325,18 +326,18 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         }
     }
     dispalyAddonField() {
-     this.customerList = this.services.rloCommonData.getCustomerList();
-      for (let element of this.customerList) {
-        if (element.CustomerType == 'A') {
-            this.Add_RequestedCardLimit.setHidden(false);
-            this.CardDispatchMode.setHidden(false);
+        this.customerList = this.services.rloCommonData.getCustomerList();
+        for (let element of this.customerList) {
+            if (element.CustomerType == 'A') {
+                this.Add_RequestedCardLimit.setHidden(false);
+                this.CardDispatchMode.setHidden(false);
+            }
+            else {
+                this.Add_RequestedCardLimit.setHidden(true);
+                this.CardDispatchMode.setHidden(true);
+            }
         }
-        else {
-            this.Add_RequestedCardLimit.setHidden(true);
-            this.CardDispatchMode.setHidden(true);
-        }
-      }
-        
+
     }
     ApproveCashLimit_() {
         let MaxApprovedCashLimit: any;
@@ -392,13 +393,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']['id']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
                         this.CustomerType.setValue(CreditElement['CustomerType']['text']);
-                        if(this.customerList.CustomerType == 'A'){
-                        this.Add_RequestedCardLimit.setValue(CreditElement['RequestedCardLimit']);    
+                        if (this.customerList.CustomerType == 'A') {
+                            this.Add_RequestedCardLimit.setValue(CreditElement['RequestedCardLimit']);
                         }
-                        else{
-                        this.RequestedCardLimit.setValue(CreditElement['RequestedCardLimit']);
+                        else {
+                            this.RequestedCardLimit.setValue(CreditElement['RequestedCardLimit']);
                         }
-                        this.MaxCashLimit.setValue(CreditElement['MaxCashLimit']);
+                        //this.MaxCashLimit.setValue(CreditElement['MaxCashLimit']);
                         this.ApprovedCashLimit.setValue(CreditElement['ApprovedCashLimit']);
                         this.NomineeRequired.setValue(CreditElement['NomineeRequired']['id']);
                         this.NomineeName.setValue(CreditElement['NomineeDetails']['NomineeName']);
@@ -407,9 +408,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         this.GuardianName.setValue(CreditElement['NomineeDetails']['GuardianName']);
                         this.GuadianRelationship.setValue(CreditElement['NomineeDetails']['GuadianRelationship']['id']);
                         this.hidNomineeSeq.setValue(CreditElement['NomineeDetails']['NomineeSeq']);
+
                         //custom
                         this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
-                        
+                        this.MaxCashLimit.setComponentSpecificValue(CreditElement['MaxCashLimit'], null);
+
                     });
 
                     this.revalidate(false).then((errors) => {
@@ -442,16 +445,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
                 async (httpResponse: HttpResponse<any>) => {
                     var res = httpResponse.body;
-                    console.log(res);
+                    console.log("DEEP | header value", res);
                     let header = res.Header;
 
                     this.Branch.setValue(header.ApplicationBranch);
                     //this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
 
                     //custom
-                    this.MaximumCardLimit.setValue(header.Product_min_cash_limit);
-                    this.MaxCashLimit.setValue(header.Product_max_cash_limit);
-
+                    this.MaximumCardLimit.setComponentSpecificValue(header.Product_min_cash_limit, null);
+                    this.MaxCashLimit.setComponentSpecificValue(header.Product_max_cash_limit, null);
+                   
                 },
                 async (httpError) => {
                     var err = httpError['error']
@@ -517,11 +520,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 // inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
-                if(this.customerList.CustomerType == 'A'){
-                inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
+                if (this.customerList.CustomerType == 'A') {
+                    inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
                 }
-                else{
-                inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.RequestedCardLimit.getFieldValue());
+                else {
+                    inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.RequestedCardLimit.getFieldValue());
                 }
                 inputMap.set('Body.CreditCardDetails.MaxCashLimit', this.MaxCashLimit.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.ApprovedCashLimit', this.ApprovedCashLimit.getFieldValue());
@@ -638,10 +641,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 // inputMap.set('Body.CreditCardDetails.CardAdvLine', this.CardAdvLine.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.CRLine', this.CRLine.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
-                if(this.customerList.CustomerType == 'A'){
+                if (this.customerList.CustomerType == 'A') {
                     inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
                 }
-                else{
+                else {
                     inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.RequestedCardLimit.getFieldValue());
                 }
                 inputMap.set('Body.CreditCardDetails.MaxCashLimit', this.MaxCashLimit.getFieldValue());

@@ -93,9 +93,10 @@
                 {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}
               </label>
             </div>
-            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('ApprovedCashLimit', $event)">
-            </app-rlo-ui-currency>
+
+            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="false"
+              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
@@ -103,9 +104,15 @@
                 {{ 'CreditCardDetails.MaxCashLimit' | translate}}
               </label>
             </div>
-            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
+
+            <!-- <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
               (blur)="genericOnBlur('MaxCashLimit', $event)">
-            </app-rlo-ui-currency>
+            </app-rlo-ui-currency> -->
+
+            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'MaxCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
