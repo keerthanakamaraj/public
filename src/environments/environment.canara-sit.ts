@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  name: 'canara IUT',
+  name: 'canara SIT',
   production: true,
   // baseURL: 'http://10.11.12.53:9090', // LOCAL
   // baseURL: 'http://10.11.10.42:20052', // Canara IUT
