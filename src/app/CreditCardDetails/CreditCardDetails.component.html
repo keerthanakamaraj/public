@@ -57,54 +57,45 @@
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaximumCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
-                {{ 'CreditCardDetails.MaximumCardLimit' | translate}}
-              </label>
+                {{ 'CreditCardDetails.MaximumCardLimit' | translate}}</label>
             </div>
-            <!-- <app-amount #MaximumCardLimit fieldID="MaximumCardLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('MaximumCardLimit', $event)"></app-amount> -->
-            <app-rlo-ui-currency #MaximumCardLimit fieldID="MaximumCardLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'MaximumCardLimit'" [inputReadOnly]="false" [formCode]="formCode">
-            </app-rlo-ui-currency>
+            <app-rlo-ui-currency #MaximumCardLimit fieldID="MaximumCardLimit" [currencyReadOnly]="readOnly"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'MaximumCardLimit'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequestedCardLimit.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequestedCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
-                {{ 'CreditCardDetails.RequestedCardLimit' | translate}}
-              </label>
+                {{ 'CreditCardDetails.RequestedCardLimit' | translate}}</label>
             </div>
-            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('RequestedCardLimit', $event)">
-            </app-rlo-ui-currency>
+            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit" [currencyReadOnly]="readOnly"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'RequestedCardLimit'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
-            [hidden]="Add_RequestedCardLimit.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Add_RequestedCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
-                {{ 'CreditCardDetails.Add_RequestedCardLimit' | translate}}
-              </label>
+                {{ 'CreditCardDetails.Add_RequestedCardLimit' | translate}}</label>
             </div>
-            <app-rlo-ui-currency #Add_RequestedCardLimit fieldID="Add_RequestedCardLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('Add_RequestedCardLimit', $event)">
-            </app-rlo-ui-currency>
+            <app-rlo-ui-currency #Add_RequestedCardLimit fieldID="Add_RequestedCardLimit" [currencyReadOnly]="readOnly"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'Add_RequestedCardLimit'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
-                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}
-              </label>
+                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}</label>
             </div>
 
             <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="false"
               [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
-                {{ 'CreditCardDetails.MaxCashLimit' | translate}}
-              </label>
+                {{ 'CreditCardDetails.MaxCashLimit' | translate}}</label>
             </div>
-
             <!-- <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
               (blur)="genericOnBlur('MaxCashLimit', $event)">
             </app-rlo-ui-currency> -->
