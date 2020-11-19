@@ -133,7 +133,7 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
   }
 
   //replaced generic 'setValue' fn used (in eg: CustomerDtls)
-  setComponentSpecificValue(value, countryCode: string, additionalInfo = undefined) {
+  setComponentSpecificValue(value, countryCode?: string, additionalInfo = undefined) {
     this.amountTextbox.setValue(value);
     this.amountTextbox.value = value;
 

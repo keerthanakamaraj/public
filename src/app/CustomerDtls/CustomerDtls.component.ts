@@ -547,8 +547,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.ExistingCustomer', "Y");
 
         inputMap.set('Body.BorrowerDetails.CommunicationAlertChannel', this.CD_PREF_COM_CH.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
-
+       // inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.CustomerType', this.isLoanCategory ? this.CD_CUST_TYPE.getFieldValue() : this.CD_CARD_CUST_TYPE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
         // inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
@@ -676,8 +676,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
         // inputMap.set('Body.BorrowerDetails.ExistingCustomer', this.CD_EXISTING_CUST.getFieldValue());
         inputMap.set('Body.BorrowerDetails.ExistingCustomer', "Y");
-
-        inputMap.set('Body.BorrowerDetails.CustomerType', this.CD_CUST_TYPE.getFieldValue());
+  
+        inputMap.set('Body.BorrowerDetails.CustomerType', this.isLoanCategory ? this.CD_CUST_TYPE.getFieldValue() : this.CD_CARD_CUST_TYPE.getFieldValue());
+     
         inputMap.set('Body.BorrowerDetails.CIF', this.CD_CIF.getFieldValue());
         // inputMap.set('Body.BorrowerDetails.ICIFNumber', this.CD_CUST_ID.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CitizenShip', this.CD_CITIZENSHIP.getFieldValue());
@@ -970,8 +971,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_CIF.setValue(customer.CIF);
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
-    this.RequestedAmountLimit.setValue(customer.RequestedCreditLimit);
-    this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
+    this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit,);
+    this.CardDispatchMode.setValue(customer.PickUpInstruction);
 
 
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
