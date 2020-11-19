@@ -126,6 +126,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @Input() parentFormCode: string = undefined;
   @Input() readOnly: boolean = false;
   @Input() activeBorrowerSeq: any;//used when dynamically loading component in modal ie:UW
+  @Input() cardType:string=this.services.rloCommonData.globalApplicationDtls.CardType;
   showAddOn: boolean = false;
   //CustomerDetailsArray: any;
   appId: any;
@@ -966,7 +967,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
     this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
-   
+    this.manageEmmb4Flag();
     this.Handler.embLineFlagselected();
 
     this.passBorrowerSeq.emit({
@@ -1048,8 +1049,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.setNonEditableFields(false);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
     this.dispalyAddonField(event.customerType);
+    this.manageEmmb4Flag()
   }
-
+  manageEmmb4Flag(){
+    let cardType=this.services.rloCommonData.globalApplicationDtls.CardType;
+    if(cardType=='ICNP' || cardType=='ICP'){
+      this.EmbLineFlag.setValue('N',undefined,true);
+      this.EmbLineFlag.setReadOnly(true);
+    }
+  }
   dispalyAddonField(custType){
     if(custType ==  'A'){
       this.RequestedAmountLimit.setHidden(false);

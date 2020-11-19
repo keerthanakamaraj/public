@@ -56,6 +56,8 @@ export interface IGlobalApllicationDtls {
   TenurePeriodName?: string;
   MinCashLimit?: string;
   MaxCashLimit?: string;
+  CardType?:string;
+  CardTypename?:string;
 }
 @Injectable({
   providedIn: 'root'

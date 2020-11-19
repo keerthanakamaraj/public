@@ -479,6 +479,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       LoanTenurePeriodName: header.TenurePeriodName,
       ARN: header.ApplicationRefernceNo,
       LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount,
+      CardType: header.CardType,
+      CardTypename:header.CardTypename,
 
       InterestRate: header.InterestRate,
       Tenure: header.Tenure,
