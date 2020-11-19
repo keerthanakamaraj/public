@@ -584,7 +584,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
               this.checkEligibleforAddon(data);
               // this.setValuesOfCustomer(data);
             
-              this.SUBMIT_MAIN_BTN.setDisabled(false);
+              // this.SUBMIT_MAIN_BTN.setDisabled(false);
 
             }
           }
@@ -1145,19 +1145,20 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   checkEligibleforAddon(data){
    
     var primaryCheck = this.Handler.getBorrowerPostData();
-    if(this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I'){
+    if(this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I' && this.CustomerType == 'C'){
       for (let i = 0; i < primaryCheck.length; i++) {
         if (primaryCheck[i]['CustomerType'] == 'B') {
-          if(this.CustomerType == 'C'){
+         
             this.services.alert.showAlert(2, '', -1, 'We Cannot Add Addon for Corporate because exist record is for Individual');
             break;
-          }
+          } 
           else{ 
             this.setValuesOfCustomer(data);
           }
-          
-        }
       } 
+    }
+    else{ 
+      this.setValuesOfCustomer(data);
     }
    
    }

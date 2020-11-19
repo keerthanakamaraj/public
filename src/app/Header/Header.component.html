@@ -77,7 +77,26 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('HD_SUB_PROD_NAME', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_TYPE.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CC_CARD_TYPE' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CC_CARD_TYPE fieldID="CC_CARD_TYPE" [formCode]="formCode"
+                                        (blur)="genericOnBlur('CC_CARD_TYPE', $event)"></rlo-ui-readonlyfield>
+                                </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CARD_NUMBER.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CARD_NUMBER' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CARD_NUMBER fieldID="CARD_NUMBER"
+                                        [formCode]="formCode" (blur)="genericOnBlur('CARD_NUMBER', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
+                                <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
                                     [hidden]="HD_SCHEME_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
@@ -97,7 +116,7 @@
                                     <rlo-ui-readonlyfield #HD_PROMOTION_NAME fieldID="HD_PROMOTION_NAME"
                                         [formCode]="formCode" (blur)="genericOnBlur('HD_PROMOTION_NAME', $event)">
                                     </rlo-ui-readonlyfield>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class='rightheader' [className]="isLoanCategory?'active':'inactive'">
@@ -199,49 +218,6 @@
                                     <rlo-ui-readonlyfield #CC_CHANNEL fieldID="CC_CHANNEL" [formCode]="formCode"
                                         (blur)="genericOnBlur('CC_CHANNEL', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_PRIME_USAGE.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'Header.CC_PRIME_USAGE' | translate}}
-                                        </label>
-                                    </div>
-                                    <rlo-ui-readonlyfield #CC_PRIME_USAGE fieldID="CC_PRIME_USAGE" [formCode]="formCode"
-                                        (blur)="genericOnBlur('CC_PRIME_USAGE', $event)">
-                                    </rlo-ui-readonlyfield>
-                                </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_TYPE.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'Header.CC_CARD_TYPE' | translate}}
-                                        </label>
-                                    </div>
-                                    <rlo-ui-readonlyfield #CC_CARD_TYPE fieldID="CC_CARD_TYPE" [formCode]="formCode"
-                                        (blur)="genericOnBlur('CC_CARD_TYPE', $event)"></rlo-ui-readonlyfield>
-                                </div>
-                            </div>
-                            <div class='subrightheader2'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_ASSOCIATION.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'Header.CC_CARD_ASSOCIATION' | translate}}
-                                        </label>
-                                    </div>
-                                    <rlo-ui-readonlyfield #CC_CARD_ASSOCIATION fieldID="CC_CARD_ASSOCIATION"
-                                        [formCode]="formCode" (blur)="genericOnBlur('CC_CARD_ASSOCIATION', $event)">
-                                    </rlo-ui-readonlyfield>
-                                </div>
-                              
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CARD_NUMBER.isHidden()">
-                                    <div class="clr-brown fieldLegend">
-                                        <label class="clr-brown">
-                                            {{ 'Header.CARD_NUMBER' | translate}}
-                                        </label>
-                                    </div>
-                                    <rlo-ui-readonlyfield #CARD_NUMBER fieldID="CARD_NUMBER"
-                                        [formCode]="formCode" (blur)="genericOnBlur('CARD_NUMBER', $event)">
-                                    </rlo-ui-readonlyfield>
-                                </div>
-                               
                                 <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="SANCTION_CREDIT_LIMIT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
@@ -262,6 +238,42 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('SANCTION_CASH_LIMIT', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
+                                
+                                <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_TYPE.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CC_CARD_TYPE' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CC_CARD_TYPE fieldID="CC_CARD_TYPE" [formCode]="formCode"
+                                        (blur)="genericOnBlur('CC_CARD_TYPE', $event)"></rlo-ui-readonlyfield>
+                                </div> -->
+                            </div>
+                            <div class='subrightheader2'>
+                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_PRIME_USAGE.isHidden()">
+                                            <div class="clr-brown fieldLegend">
+                                                <label class="clr-brown">
+                                                    {{ 'Header.CC_PRIME_USAGE' | translate}}
+                                                </label>
+                                            </div>
+                                            <rlo-ui-readonlyfield #CC_PRIME_USAGE fieldID="CC_PRIME_USAGE" [formCode]="formCode"
+                                                (blur)="genericOnBlur('CC_PRIME_USAGE', $event)">
+                                            </rlo-ui-readonlyfield>
+                                        </div>
+                                <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_ASSOCIATION.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CC_CARD_ASSOCIATION' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CC_CARD_ASSOCIATION fieldID="CC_CARD_ASSOCIATION"
+                                        [formCode]="formCode" (blur)="genericOnBlur('CC_CARD_ASSOCIATION', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div> -->
+                              
+                               
+                               
+                                
                                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                             </div>

@@ -1824,9 +1824,9 @@
     "CC_PRIME_USAGE": "Prime Usage",
     "CC_CARD_TYPE": "Type Of Card",
     "CC_CARD_ASSOCIATION": " Card Association",
-    "CARD_NUMBER": "Card Number",
-    "SANCTION_CREDIT_LIMIT": "Sanctioned Credit Limit",
-    "SANCTION_CASH_LIMIT": "Sanctioned Cash Limit",
+    "CARD_NUMBER": "Reference Number",
+    "SANCTION_CREDIT_LIMIT": "Approved Credit Limit",
+    "SANCTION_CASH_LIMIT": "Approved Cash Limit",
     "REQ_CARD_LIMIT": "Requested Card Limit"
   },
   "CustomerDtlsGrid": {

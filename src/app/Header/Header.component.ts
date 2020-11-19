@@ -255,13 +255,15 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null, false));
           this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null, false));
         } else {
-          this.CC_CUST_TYPE.setValue(header.ExistingCustomer != undefined && header.ExistingCustomer == 'Y' ? 'Existing' : 'New');
-          this.customerType = this.CC_CUST_TYPE.getFieldValue();
+          
           this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
           this.CC_CHANNEL.setValue('Offline');
           this.channel = this.CC_CHANNEL.getFieldValue();
-          this.CC_CARD_ASSOCIATION.setValue('NA');
+          // this.CC_CARD_ASSOCIATION.setValue('NA');
+          this.CC_CUST_TYPE.setValue(header.CardCustName);
+          this.customerType = this.CC_CUST_TYPE.getFieldValue();
+         
           this.CC_CARD_TYPE.setValue(header.CardTypename);
           this.CARD_NUMBER.setValue(header.CardNumber);
           this.SANCTION_CREDIT_LIMIT.setValue(header.SanctionCreditLimit);
@@ -424,22 +426,22 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     this.HD_PROD_CAT_NAME.setValue(header.TypeOfLoanName);
     this.HD_PROD_NAME.setValue(header.ProductName);
     this.HD_SUB_PROD_NAME.setValue(header.SubProductName);
-    this.HD_SCHEME_NAME.setValue(header.SchemeName);
-    this.HD_PROMOTION_NAME.setValue(header.PromotionName);
+    // this.HD_SCHEME_NAME.setValue(header.SchemeName);
+    // this.HD_PROMOTION_NAME.setValue(header.PromotionName);
     this.LD_TENURE_PERIOD_NAME.setValue(header.TenurePeriodName);
     this.LD_APP_PRPSE_NAME.setValue(header.ApplicationPurposeName);
-    if (this.HD_PROMOTION_NAME.getFieldValue() == undefined && this.HD_PROMOTION_NAME.getFieldValue() == null) {
-      this.HD_PROMOTION_NAME.setValue("NA");
-    }
-    else {
-      this.HD_PROMOTION_NAME.setValue(header.PromotionName);
-    }
-    if (this.HD_SCHEME_NAME.getFieldValue() == undefined && this.HD_SCHEME_NAME.getFieldValue() == null) {
-      this.HD_SCHEME_NAME.setValue("NA");
-    }
-    else {
-      this.HD_SCHEME_NAME.setValue(header.SchemeName);
-    }
+    // if (this.HD_PROMOTION_NAME.getFieldValue() == undefined && this.HD_PROMOTION_NAME.getFieldValue() == null) {
+    //   this.HD_PROMOTION_NAME.setValue("NA");
+    // }
+    // else {
+    //   this.HD_PROMOTION_NAME.setValue(header.PromotionName);
+    // }
+    // if (this.HD_SCHEME_NAME.getFieldValue() == undefined && this.HD_SCHEME_NAME.getFieldValue() == null) {
+    //   this.HD_SCHEME_NAME.setValue("NA");
+    // }
+    // else {
+    //   this.HD_SCHEME_NAME.setValue(header.SchemeName);
+    // }
 
     this.TENURE = '';
     if (header.Tenure) {
