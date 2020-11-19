@@ -724,7 +724,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
 
-    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
+    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
     this.disableMenus = true;
     //this.CUST_DTLS.setNewCustomerFrom(event);
   }

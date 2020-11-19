@@ -1045,7 +1045,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   setNewCustomerFrom(event) {
     this.onReset();
     this.onFullNameblur.emit({});
-    this.CD_CUST_TYPE.setValue(event.customerType, undefined, true);
+    if(this.isLoanCategory){
+      this.CD_CUST_TYPE.setValue(event.customerType, undefined, true);
+    }else{ 
+      this.CD_CARD_CUST_TYPE.setValue(event.customerType, undefined, true)
+    }
+  
     this.setNonEditableFields(false);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
     this.dispalyAddonField(event.customerType);
