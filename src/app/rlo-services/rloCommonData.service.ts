@@ -54,8 +54,8 @@ export interface IGlobalApllicationDtls {
   Tenure?: string;
   TenurePeriodCd?: string;
   TenurePeriodName?: string;
-  MinCashLimit?: string;
-  MaxCashLimit?: string;
+  MinCashLimit?: any;
+  MaxCashLimit?: any;
   CardType?:string;
   CardTypename?:string;
 }
