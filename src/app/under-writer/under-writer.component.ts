@@ -817,7 +817,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             console.log(Response);
             if (typeof Response == 'object') {
               if (Response.ApprovalReq != undefined || Response.ApprovalReq != null || Response.buttonObj.type != "failure") {
-                // this.submitDDE(requestParams, Response);
+                this.submitDDE(requestParams, Response);
               }
             }
           });
@@ -829,7 +829,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         console.log(Response);
         if (typeof Response == 'object') {
           if (Response != undefined ||Response.ApprovalReq != undefined || Response.ApprovalReq != null || Response.buttonObj.type != "failure") {
-            // this.submitDDE(requestParams, Response);
+            this.submitDDE(requestParams, Response);
           }
         }
       });

@@ -42,6 +42,9 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         await Promise.all([
             // this.revalidateBasicField('DecisionReason'),
             // this.revalidateBasicField('Remarks'),
+             this.revalidateBasicField('ApprovalReq'),
+            this.revalidateBasicField('DesignationAuthority'), 
+            this.revalidateBasicField('ApproverName'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -143,12 +146,12 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         if (this.ApprovalReq.getFieldValue() == 'Y') {
           this.DesignationAuthority.setHidden(false);
           this.ApproverName.setHidden(false);
-          setTimeout(() => {
-           let focusName = document.getElementById("ApproverName");  
-           console.log(focusName);
-           const firstInput = focusName.getElementsByTagName('input')[0];
-           firstInput.focus();
-          }, 0);
+        //   setTimeout(() => {
+        //    let focusName = document.getElementById("ApproverName");  
+        //    console.log(focusName);
+        //    const firstInput = focusName.getElementsByTagName('input')[0];
+        //    firstInput.focus();
+        //   }, 0);
           
         }
         else {
@@ -156,7 +159,12 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             this.ApproverName.setHidden(true);
           }
       }
+      async ALTER_SUBMIT_click(event){
+        var numberOfErrors: number = await this.revalidate();
+        if (numberOfErrors == 0) {
 
+        }
+      }
     fieldDependencies = {
         // DecisionReason: {
         //     inDep: [
