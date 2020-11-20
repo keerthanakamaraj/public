@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { IPopUpModalResponse } from '../Interface/masterInterface';
 
 
 const customCss: string = '';
@@ -35,6 +36,8 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     @ViewChild('hidApprovalReq', { static: false }) hidApprovalReq: HiddenComponent;
 
     @Input() parentFormCode: string;
+    @Output() decisionAction: EventEmitter<any> = new EventEmitter<any>();
+
     showUW: boolean = false;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
@@ -42,8 +45,8 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         await Promise.all([
             // this.revalidateBasicField('DecisionReason'),
             // this.revalidateBasicField('Remarks'),
-             this.revalidateBasicField('ApprovalReq'),
-            this.revalidateBasicField('DesignationAuthority'), 
+            this.revalidateBasicField('ApprovalReq'),
+            this.revalidateBasicField('DesignationAuthority'),
             this.revalidateBasicField('ApproverName'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
@@ -140,31 +143,41 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.setReadOnly(false);
         this.onFormLoad();
     }
-    
+
     async ApprovalReq_blur() {
-        
+
         if (this.ApprovalReq.getFieldValue() == 'Y') {
-          this.DesignationAuthority.setHidden(false);
-          this.ApproverName.setHidden(false);
-        //   setTimeout(() => {
-        //    let focusName = document.getElementById("ApproverName");  
-        //    console.log(focusName);
-        //    const firstInput = focusName.getElementsByTagName('input')[0];
-        //    firstInput.focus();
-        //   }, 0);
-          
+            this.DesignationAuthority.setHidden(false);
+            this.ApproverName.setHidden(false);
+            //   setTimeout(() => {
+            //    let focusName = document.getElementById("ApproverName");  
+            //    console.log(focusName);
+            //    const firstInput = focusName.getElementsByTagName('input')[0];
+            //    firstInput.focus();
+            //   }, 0);
+
         }
         else {
             this.DesignationAuthority.setHidden(true);
             this.ApproverName.setHidden(true);
-          }
-      }
-      async ALTER_SUBMIT_click(event){
-        var numberOfErrors: number = await this.revalidate();
-        if (numberOfErrors == 0) {
-
         }
-      }
+    }
+    async ALTER_SUBMIT_click(event) {
+        var numberOfErrors: number = await this.revalidate();
+        let Decision = {
+            'ApprovalReq': this.ApprovalReq.getFieldValue(),
+            'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
+            'ApproverName': this.ApproverName.getFieldValue()
+        }
+
+        if (numberOfErrors == 0) {
+            let obj: IPopUpModalResponse = {
+                "action": "btn-submit",
+                "response": Decision
+            }
+            this.decisionAction.emit(obj);
+        }
+    }
     fieldDependencies = {
         // DecisionReason: {
         //     inDep: [
@@ -202,24 +215,30 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         //     'DecisionReason': this.DecisionReason.getFieldValue(),
         //     'Remarks' : this.Remarks.getFieldValue()
         // }
-        if (this.parentFormCode == 'UnderWriter'){
-             Decision = {
+        if (this.parentFormCode == 'UnderWriter') {
+            Decision = {
                 // 'DecisionReason': this.DecisionReason.getFieldValue(),
                 // 'Remarks' : this.Remarks.getFieldValue(),
-                'ApprovalReq' :this.ApprovalReq.getFieldValue(),
-                'DesignationAuthority':this.DesignationAuthority.getFieldValue(),
-                'ApproverName' : this.ApproverName.getFieldValue()
-            }  
+                'ApprovalReq': this.ApprovalReq.getFieldValue(),
+                'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
+                'ApproverName': this.ApproverName.getFieldValue()
+            }
         }
-        else{
-             Decision = {
+        else {
+            Decision = {
                 'DecisionReason': this.DecisionReason.getFieldValue(),
-                'Remarks' : this.Remarks.getFieldValue()
+                'Remarks': this.Remarks.getFieldValue()
             }
         }
         return Promise.resolve(Decision);
     }
 
-
+    close() {
+        let obj: IPopUpModalResponse = {
+            "action": "btn-close",
+            "response": null
+        }
+        this.decisionAction.emit(obj);
+    }
 
 }

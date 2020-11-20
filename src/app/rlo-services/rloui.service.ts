@@ -506,10 +506,7 @@ export class RlouiService {
         title: "Alert",
         mainMessage: undefined,
         modalSize: "modal-width-sm",
-        buttons: [
-          { id: 1, text: 'DONE', type: "success", class: "btn-primary" },
-          { id: 2, text: 'CLOSE', type: "failure", class: "btn-warning-outline" }
-        ],
+        buttons: [],
         componentName: 'DecisionAlert',
         componentCode: componentCode
         // data: obj

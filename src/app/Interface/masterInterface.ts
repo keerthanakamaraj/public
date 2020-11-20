@@ -141,3 +141,8 @@ export interface IInterfaceDataIndicator {
   subTitle: string;
   modalSectionName: string;
 }
+
+export interface IPopUpModalResponse {
+  action: "btn-submit" | "btn-close" | "icon-close";
+  response: any;
+}

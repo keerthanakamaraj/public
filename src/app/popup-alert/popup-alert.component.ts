@@ -24,7 +24,7 @@ import { DisbursementDetailsComponent } from '../DisbursementDetails/Disbursemen
 import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
-import { IAmortizationForm } from '../Interface/masterInterface';
+import { IAmortizationForm, IPopUpModalResponse } from '../Interface/masterInterface';
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
@@ -71,9 +71,9 @@ export class PopupAlertComponent implements OnInit {
     if (this.modalObject.componentName == "DecisionAlert") {
       this.dynamicallyLoadableComponent.pageSpecificData().then((response: any) => {
         console.warn('DEEP | modal closed  for' + this.modalObject.componentName, response);
-        let closeModelResponse = {};
-        closeModelResponse["response"]= response;
-        closeModelResponse["buttonObj"]= buttonObj;
+        let closeModelResponse: IPopUpModalResponse;
+        closeModelResponse["action"] = "icon-close";
+        closeModelResponse["response"] = null;
         this.activeModal.close(closeModelResponse);
       });
     } else {
@@ -158,12 +158,15 @@ export class PopupAlertComponent implements OnInit {
       // }
     }
 
-    setTimeout(() => {
-      const activePanel = document.getElementsByClassName("pop-up-components");
-      const firstInput = activePanel[0].getElementsByTagName('input')[0];
-      if (firstInput != undefined)
-        firstInput.blur();
-    }, 10);
+    if (this.modalObject.componentName == 'DecisionAlert') {
+      setTimeout(() => {
+        //event emitter added for in decisionAlert
+        this.dynamicallyLoadableComponent.decisionAction.subscribe((data) => {
+          console.log("DEEP | decisionAction()", data);
+          this.activeModal.close(data);
+        });
+      }, 1000);
+    }
   }
 
   getComponentClassRef(componentId: string): AddSpecificComponent {

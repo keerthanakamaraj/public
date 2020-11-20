@@ -84,9 +84,11 @@
               [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
             </app-button>
             <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}" fieldID="ALTER_CANCEL"
-              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
+              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="close($event)"></app-button>
           </div>
         </div>
+        <!-- <div (click)="saveSections()">SAVE</div>
+        <div (click)="cancelSections()">CANCEL</div> -->
       </div>
         <app-hidden #hidDecisionRem fieldID="hidDecisionRem"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>

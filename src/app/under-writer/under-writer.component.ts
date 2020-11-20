@@ -735,7 +735,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams,null);
+            //this.submitUwSection(requestParams,null);
           }
         }
       });
@@ -771,7 +771,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams,null);
+            //this.submitUwSection(requestParams,null);
           }
         }
       });
@@ -817,7 +817,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             console.log(Response);
             if (typeof Response == 'object') {
               if (Response.ApprovalReq != undefined || Response.ApprovalReq != null || Response.buttonObj.type != "failure") {
-                this.submitDDE(requestParams, Response);
+                // this.submitUwSection(requestParams, Response);
               }
             }
           });
@@ -829,7 +829,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         console.log(Response);
         if (typeof Response == 'object') {
           if (Response != undefined ||Response.ApprovalReq != undefined || Response.ApprovalReq != null || Response.buttonObj.type != "failure") {
-            this.submitDDE(requestParams, Response);
+            // this.submitUwSection(requestParams, Response);
           }
         }
       });
@@ -861,13 +861,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitDDE(requestParams,null);
+            //this.submitUwSection(requestParams,null);
           }
         }
       });
     });
   }
-  async submitDDE(requestParams,DecisionResponse) {
+  async submitUwSection(requestParams,DecisionResponse) {
     const inputMap = new Map();
 
     inputMap.clear();
