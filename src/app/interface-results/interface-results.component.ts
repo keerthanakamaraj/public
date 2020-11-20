@@ -12,6 +12,7 @@ import { IInterfaceResultCustomer, IInterfaceResultData } from './InterfaceResul
 export class InterfaceResultsComponent implements OnInit {
 
   @Input() ApplicationId: string = undefined;
+  @Input() isLoanCatagory: boolean=this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
   MstInterfaceResultMap: Map<string, IInterfaceResultCustomer> = new Map();
 
   uwCustomerList: any = [];

@@ -29,7 +29,9 @@
   <div class="cust-list-container">
     <div [ngClass]="customer.isActive?'active-customer':'cust-name-container'"
       *ngFor="let customer of tagsArr;let last = last;let index = index" (click)="showCustomer(customer.custId,index);">
-      <span class="cust-tag">{{ customer.label }}</span>
+       <span class="cust-tag"> 
+      <span  *ngIf="isLoanCategory && customer.label!='B';else showPrimary">{{customer.label}}</span>
+      </span> 
       <span class="cust-name">{{ customer.text }}</span>
     </div>
   </div>
@@ -48,9 +50,16 @@
     <div class="only-cust-list-container">
       <div [ngClass]="customer.isActive?'active-customer':'cust-name-container'"
         *ngFor="let customer of tagsArr;let index=index" (click)="showCustomer(customer.custId,index);">
-        <span class="cust-tag">{{ customer.label }}</span>
+        <span class="cust-tag">
+            <span *ngIf="isLoanCategory || customer.label!='B';else showPrimary">{{customer.label}}</span>
+            </span>
+        <!-- <span class="cust-tag">{{ customer.label }}</span> -->
         <span class="cust-name">{{ customer.text }}</span>
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #showPrimary>
+    <span>{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
 </ng-template>

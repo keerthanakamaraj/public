@@ -21,6 +21,7 @@ export class ITag {
 export class UWCustomerTabComponent implements OnInit, AfterViewInit {
 
   @Output() customerChanged = new EventEmitter<any>();
+  @Input() isLoanCategory=this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
 
   customerDataArr: any[];
   isFirstAPICall: boolean = true;
