@@ -40,8 +40,8 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         var totalErrors = 0;
         super.beforeRevalidate();
         await Promise.all([
-            this.revalidateBasicField('DecisionReason'),
-            this.revalidateBasicField('Remarks'),
+            // this.revalidateBasicField('DecisionReason'),
+            // this.revalidateBasicField('Remarks'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -62,7 +62,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
-        this.hidDecisionRem.setValue('DESICION');
+        // this.hidDecisionRem.setValue('DESICION');
         this.hidApprovalReq.setValue('Y_N');
         this.DesignationAuthority.setHidden(true);
         this.ApproverName.setHidden(true);
@@ -139,9 +139,17 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     }
     
     async ApprovalReq_blur() {
+        
         if (this.ApprovalReq.getFieldValue() == 'Y') {
           this.DesignationAuthority.setHidden(false);
           this.ApproverName.setHidden(false);
+          setTimeout(() => {
+           let focusName = document.getElementById("ApproverName");  
+           console.log(focusName);
+           const firstInput = focusName.getElementsByTagName('input')[0];
+           firstInput.focus();
+          }, 0);
+          
         }
         else {
             this.DesignationAuthority.setHidden(true);
@@ -150,15 +158,15 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
       }
 
     fieldDependencies = {
-        DecisionReason: {
-            inDep: [
-                { paramKey: "VALUE1", depFieldID: "DecisionReason", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidDecisionRem", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+        // DecisionReason: {
+        //     inDep: [
+        //         { paramKey: "VALUE1", depFieldID: "DecisionReason", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "hidDecisionRem", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
         ApprovalReq: {
             inDep: [
                 { paramKey: "VALUE1", depFieldID: "ApprovalReq", paramType: "PathParam" },
@@ -188,8 +196,8 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         // }
         if (this.parentFormCode == 'UnderWriter'){
              Decision = {
-                'DecisionReason': this.DecisionReason.getFieldValue(),
-                'Remarks' : this.Remarks.getFieldValue(),
+                // 'DecisionReason': this.DecisionReason.getFieldValue(),
+                // 'Remarks' : this.Remarks.getFieldValue(),
                 'ApprovalReq' :this.ApprovalReq.getFieldValue(),
                 'DesignationAuthority':this.DesignationAuthority.getFieldValue(),
                 'ApproverName' : this.ApproverName.getFieldValue()

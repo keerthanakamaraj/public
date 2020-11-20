@@ -179,6 +179,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         });
         this.CardDispatchMode.setHidden(false);
         this.Add_RequestedCardLimit.setHidden(true);
+        this.StmtDispatchMode.setValue('Email');
         this.OnLoanFormLoad()
         this.setDependencies();
     }
@@ -348,7 +349,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let MaxCardLimit: any;
         MaxCardLimit = this.header.Product_max_cash_limit;
         let MinCardLimit: any;
-        MinCardLimit = this.services.rloCommonData.globalApplicationDtls.MinCashLimit;
+        MinCardLimit = this.header.Product_min_cash_limit;
 
         if (this.ApprovedCashLimit.getFieldValue() != undefined) {
             MaxApprovedCashLimit = ((this.ApprovedCashLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);

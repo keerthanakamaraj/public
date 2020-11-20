@@ -71,7 +71,10 @@ export class PopupAlertComponent implements OnInit {
     if (this.modalObject.componentName == "DecisionAlert") {
       this.dynamicallyLoadableComponent.pageSpecificData().then((response: any) => {
         console.warn('DEEP | modal closed  for' + this.modalObject.componentName, response);
-        this.activeModal.close(response);
+        let closeModelResponse = {};
+        closeModelResponse["response"]= response;
+        closeModelResponse["buttonObj"]= buttonObj;
+        this.activeModal.close(closeModelResponse);
       });
     } else {
       this.activeModal.close(buttonObj);

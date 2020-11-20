@@ -14,7 +14,7 @@
     <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
-        <div *ngIf = "parentFormCode != 'UnderWriter'">
+        <!-- <div *ngIf = "parentFormCode != 'UnderWriter'">
         <div class="form-group pb10">
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DecisionReason.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -35,7 +35,7 @@
             </div>
             <app-text-area #Remarks fieldID="Remarks" [formCode]="formCode" cols="10"  placeholder="Enter" [mandatory]="true" rows="15"
               (blur)="genericOnBlur('Remarks', $event)"></app-text-area>
-          </div>
+          </div> -->
               <!-- <div class="modal-footer">
                 <app-button #Done fieldName="{{ 'DecisionAlert.Done' | translate}}" fieldID="Done"
                   [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="Decision_SUBMIT_click($event)">
@@ -43,30 +43,10 @@
                 <app-button #Close fieldName="{{ 'DecisionAlert.Close' | translate}}" fieldID="Close"
                   [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="goBack($event)"></app-button>
               </div> -->
-        </div>
-      </div>
-        <div *ngIf = "parentFormCode == 'UnderWriter'">
+        <!-- </div>
+      </div> -->
+        <div>
         <div class="form-group pb10" >
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="DecisionReason.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'DecisionAlert.DecisionReason' | translate}}
-              </label>
-            </div>
-            <app-combo-box #DecisionReason category="2" fieldID="DecisionReason"  placeholder="Select" [formCode]="formCode"
-            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-            [mandatory]="true" (blur)="genericOnBlur('DecisionReason', $event)"></app-combo-box>
-          </div>
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="Remarks.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'DecisionAlert.Remarks' | translate}}
-              </label>
-            </div>
-            <app-text-area #Remarks fieldID="Remarks" [formCode]="formCode" cols="10"  placeholder="Enter" [mandatory]="true" rows="15"
-              (blur)="genericOnBlur('Remarks', $event)"></app-text-area>
-          </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="ApprovalReq.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': ApprovalReq.mandatory}">
@@ -87,7 +67,7 @@
             <app-combo-box #DesignationAuthority category="2" fieldID="DesignationAuthority"  placeholder="Select" [formCode]="formCode"
             domainObjectUrl="/MstAuthorityDesignation/{AuthoritySeq}" doServerUrl="/masters"
             domainObjectCode="MstAuthorityDesignation"
-            [mandatory]="true" (blur)="genericOnBlur('DesignationAuthority', $event)"></app-combo-box>
+             (blur)="genericOnBlur('DesignationAuthority', $event)"></app-combo-box>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="ApproverName.isHidden()">
@@ -96,7 +76,7 @@
                 {{ 'DecisionAlert.ApproverName' | translate}}
               </label>
             </div>
-            <app-text-box #ApproverName fieldID="ApproverName" [formCode]="formCode"  placeholder="Enter" 
+            <app-text-box #ApproverName id="ApproverName" fieldID="ApproverName" [formCode]="formCode"  placeholder="Enter" 
               (blur)="genericOnBlur('ApproverName', $event)"></app-text-box>
           </div>
         </div>
