@@ -735,7 +735,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            //this.submitUwSection(requestParams,null);
+            this.submitUwSection(requestParams,null);
           }
         }
       });
@@ -771,7 +771,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            //this.submitUwSection(requestParams,null);
+            this.submitUwSection(requestParams,null);
           }
         }
       });
