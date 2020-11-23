@@ -592,9 +592,8 @@
                     </div>
                     <app-combo-box #CD_CUST_SGMT category="2" fieldID="CD_CUST_SGMT" [formCode]="formCode"
                     placeholder="Select" domainObjectUrl="/CustSegmentDetails/{CustSegmentCd}" doServerUrl="/masters"
-                     domainObjectCode="CustSegmentDetails" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"
-                    (change)="CD_CUST_SGMT_change('CD_CUST_SGMT', $event)"></app-combo-box>
-               
+                     domainObjectCode="CustSegmentDetails" (blur)="genericOnBlur('CD_CUST_SGMT', $event)"></app-combo-box>
+                   <!-- (change)="CD_CUST_SGMT_change('CD_CUST_SGMT', $event)" -->
                   </div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SUB_SGMT.isHidden()">
                     <div class="clr-brown fieldLegend">

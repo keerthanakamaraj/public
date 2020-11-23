@@ -383,6 +383,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
     this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    await this.Handler.onFormLoad({
+    });
     this.BAD_PROD_CAT.setDefault('CC');
     this.Handler.onProdCategoryChange({});
     //this.CD_EXISTING_CUST.setDefault('N');
@@ -393,8 +395,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.tempUnableCustId();
 
     let inputMap = new Map();
-    await this.Handler.onFormLoad({
-    });
+   
     this.setDependencies();
     this.EligibilityDecision = '';
 
@@ -818,8 +819,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     let inputMap = new Map();
     await this.Handler.onResetCustomer({
     });
-    this.BAD_PROD_CAT.setDefault('CC');
-    this.Handler.onProdCategoryChange({});
+  //  this.BAD_PROD_CAT.setDefault('CC');
+  //  this.Handler.onProdCategoryChange({});
 
   }
   async CUST_DTLS_GRID_DeleteCustDetails(event) {

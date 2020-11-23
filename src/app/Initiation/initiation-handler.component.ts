@@ -63,7 +63,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       // this.MainComponent.BAD_SRC_CHANNEL.setValue("BRANCH");
       // this.MainComponent.BAD_CUSTOMER_TYPE.setValue("I");
       // this.MainComponent.CD_DEBIT_SCORE.isHidden
-    } else if(this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC' ) {
+    } else if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC' ) {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
@@ -215,7 +215,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_CUSTOMER_ID.onReset();
     this.MainComponent.CD_STAFF_ID.onReset();
 
-    this.onProdCategoryChange({});
+   // this.onProdCategoryChange({});
 
     //this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
     this.existingCustomer({});
