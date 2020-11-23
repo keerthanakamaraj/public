@@ -639,7 +639,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_INC_DOC_TYPE.setValue(res['OccupationDetails']['IncomeDocumentType']['id']);
         this.OD_NET_INCOME.setValue(res['OccupationDetails']['NetIncome']);
         this.OD_INCOME_FREQ.setValue(res['OccupationDetails']['IncomeFrequecy']['id']);
-        this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']);
+        this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']['id']);
         this.OD_INCOME_TYPE.setValue(res['OccupationDetails']['IncomeType']['id']);
         this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
         this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);

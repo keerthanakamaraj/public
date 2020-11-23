@@ -953,7 +953,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_PREF_COM_CH.setValue(customer.CommunicationAlertChannel.id);
     this.CD_EMAIL.setValue(customer.Email);
     this.HidCustomerId.setValue(customer.BorrowerSeq);
-    this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
+    this.CD_PREF_LANG.setValue(customer.PreferredLanguage.id);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
     this.EmbLine4.setValue(customer.EmbLine4);
     this.EmbLineFlag.setValue(customer.EmbLineFlag.id,undefined,true);
@@ -971,8 +971,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_CIF.setValue(customer.CIF);
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
-    this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit,);
-    this.CardDispatchMode.setValue(customer.PickUpInstruction);
+    this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
+    this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
 
 
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
