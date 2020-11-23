@@ -79,12 +79,24 @@
             <app-text-box #ApproverName id="ApproverName" fieldID="ApproverName" [formCode]="formCode"  placeholder="Enter" 
               (blur)="genericOnBlur('ApproverName', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-12 col-md-12 text-right">
+          <!-- <div class="col-12  col-sm-12 col-md-12 text-right">
             <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
               [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
             </app-button>
             <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}" fieldID="ALTER_CANCEL"
               [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="close($event)"></app-button>
+          </div> -->
+          <div class="save-btn-container col-12  col-sm-1 col-md-1">
+            <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
+              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-1 col-md-1"></div>
+          <div class="clr-btn-container col-12  col-sm-1 col-md-1  text-right">
+            <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}"
+              fieldID="ALTER_CANCEL" [formCode]="formCode" customClass="btn-warning-outline"
+              (buttonClick)="close($event)">
+            </app-button>
           </div>
         </div>
         <!-- <div (click)="saveSections()">SAVE</div>

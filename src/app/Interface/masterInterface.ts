@@ -143,6 +143,6 @@ export interface IInterfaceDataIndicator {
 }
 
 export interface IPopUpModalResponse {
-  action: "btn-submit" | "btn-close" | "icon-close";
-  response: any;
+  action?: "btn-submit" | "btn-close" | "icon-close";
+  response?: any;
 }

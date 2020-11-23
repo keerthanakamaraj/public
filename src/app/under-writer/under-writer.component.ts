@@ -558,7 +558,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
                 obj["FullName"] = element.CD_CUSTOMER_NAME;
 
                 customCustomerList.push(obj);
-              })         
+              })
             }
             this.interfaceResultCardData.customerList = customCustomerList;
             console.log(this.interfaceResultCardData);
@@ -813,23 +813,25 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       }
       else {
         // this.doSubmitConfirmation();
-          this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
-            console.log(Response);
-            if (typeof Response == 'object') {
-              if (Response.ApprovalReq != undefined || Response.ApprovalReq != null || Response.buttonObj.type != "failure") {
-                // this.submitUwSection(requestParams, Response);
-              }
+        this.services.rloui.openDecisionAlert(this.componentCode).then((response: any) => {
+          console.log(response);
+          if (typeof response == 'object') {
+            let modalResponse = response.response;
+            if (modalResponse.ApprovalReq != undefined || modalResponse.ApprovalReq != null || response.action != "btn-close") {
+              this.submitUwSection(requestParams, Response);
             }
-          });
+          }
+        });
       }
     }
     else {
       // this.doSubmitConfirmation();
-      this.services.rloui.openDecisionAlert(this.componentCode).then((Response: any) => {
-        console.log(Response);
-        if (typeof Response == 'object') {
-          if (Response != undefined ||Response.ApprovalReq != undefined || Response.ApprovalReq != null || Response.buttonObj.type != "failure") {
-            // this.submitUwSection(requestParams, Response);
+      this.services.rloui.openDecisionAlert(this.componentCode).then((response: any) => {
+        console.log(response);
+        if (typeof response == 'object') {
+          let modalResponse = response.response;
+          if (modalResponse.ApprovalReq != undefined || modalResponse.ApprovalReq != null || response.action != "btn-close") {
+            this.submitUwSection(requestParams, Response);
           }
         }
       });
@@ -861,13 +863,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            //this.submitUwSection(requestParams,null);
+            this.submitUwSection(requestParams,null);
           }
         }
       });
     });
   }
-  async submitUwSection(requestParams,DecisionResponse) {
+  async submitUwSection(requestParams, DecisionResponse) {
     const inputMap = new Map();
 
     inputMap.clear();
