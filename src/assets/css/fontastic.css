@@ -10,7 +10,6 @@
 
     font-weight: normal;
     font-style: normal;
-
 }
 
 [data-icon]:before {
@@ -36,7 +35,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
 
 .icon-Address-Details:before {
     content: "\e900";
@@ -182,7 +180,7 @@
     content: "\e91e";
 }
 
-.icon_eye_visibility:before {
+.icon-eye-visibility:before {
     content: "\e91f";
 }
 
@@ -206,10 +204,18 @@
     content: "\e924";
 }
 
-.icon-property:before{
+.icon-property:before {
     content: "\e925";
 }
 
-.icon-search:before{
+.icon-search:before {
     content: "\e927";
+}
+
+.icon-file-download:before {
+    content: "\e928";
+}
+
+.icon-arrow-back:before {
+    content: "\e929";
 }

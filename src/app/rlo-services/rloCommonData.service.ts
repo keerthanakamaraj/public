@@ -89,6 +89,8 @@ export class RloCommonData {
 
   reloadUWSections = new Subject<any>();
 
+  viewMode: boolean = false;//used in DDE
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -1066,6 +1068,10 @@ export class RloCommonData {
     return promise;
   }
 
+  setViewMode(data: boolean) {
+    this.viewMode = data
+  }
+
   getInterfaceResposes(inputMap) {
     const promise = new Promise((resolve, reject) => {
       this.http.fetchApi('/CIBILResponse', 'GET', inputMap, "/rlo-de").subscribe(
@@ -1111,6 +1117,4 @@ export class RloCommonData {
         });
       }
     });
-  }
-
 }

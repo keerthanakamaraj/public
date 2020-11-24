@@ -61,6 +61,12 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     // 005	Deferred
     // 006	Waived
 
+    preview: boolean;
+    fileDetails: any;
+    disableEnforcementStage = false;
+    sequenceId: any;
+    Stages = [];
+
     public showMessage(msg) {
         this.modalMessage = msg;
         jQuery(this.myModal.nativeElement).modal('show');
@@ -172,6 +178,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             console.log(this.docDetailsObject);
         }, 500);
 
+        this.getStages();
     }
     // This method is to get the document types
     getDocumentTypes(demographicId) {
@@ -225,6 +232,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.validateField(this.docDetailsObject.DocType, 'DocType');
         this.validateField(this.docDetailsObject.DocName, 'DocName');
         this.validateField(this.docUploadObject.status, 'status');
+        this.validateField(this.docUploadObject.enforcementStageId, 'enforcementStageId');
+        this.validateField(this.docUploadObject.mandatory, 'mandatory');
     }
     // This methos is to submit the documents
     async onSubmit() {
@@ -271,9 +280,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             msgList.push(" document");
         }
 
-        if (this.docUploadObject.relationshipToBorrower == undefined || !this.docUploadObject.relationshipToBorrower.length) {
-            msgList.push(" relationship to borrower");
-        }
+        // if (this.docUploadObject.relationshipToBorrower == undefined || !this.docUploadObject.relationshipToBorrower.length) {
+        //     msgList.push(" relationship to borrower");
+        // }
 
         if (this.docUploadObject.status == undefined || !this.docUploadObject.status.length) {
             msgList.push(" status");
@@ -536,5 +545,72 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         //clear all the fields from form
         this.docDetailsObject.clear();
         this.docUploadObject.clear();
+    }
+
+    //UPDATE 10-11-20
+
+    getUrlThumbnail(seqNo) {
+        return "/igcb-dms/v1/documents/" + seqNo + "/preview?driveType=GLOBALDRIVE";
+    }
+
+    getImagePreview(Id) {
+        this.preview = true;
+        this.sequenceId = Id
+        this.utility.getCommonService().getImagesForUpdateAction(Id).subscribe(
+            data => {
+                if (data && data['Status_Cd'] == "S") {
+                    this.fileDetails = data['fileDetails'];
+                    for (let i = 0; i < this.fileDetails.length; i++) {
+                        if (i == 0) {
+                            this.fileDetails[i].sequence = 'a'
+                        }
+                        else {
+                            this.fileDetails[i].sequence = this.nextChar(this.fileDetails[i - 1].sequence);
+                        }
+                    }
+                }
+            }
+        );
+
+    }
+
+    deleteImages(seqId) {
+        this.utility.getCommonService().deleteUploadedImage(seqId).subscribe(
+            data => {
+                if (data && data['Status_Cd'] == "S") {
+                    //this.appService.success(this.getLabel('FILE_DELETED_SUCCESSFULLY'));
+                    this.getImagePreview(this.sequenceId);
+                } else {
+                    //this.utility.getAppService().error(this.getLabel('UNABLE_TO_DELETE_FILE'));
+                }
+            }
+        )
+    }
+
+    nextChar(char) {
+        return String.fromCharCode(char.charCodeAt(0) + 1);
+    }
+
+    getStages() {
+        this.utility.getCommonService().getStage().subscribe(
+            data => {
+                this.Stages = data['Stages']
+
+                if (this.taskName == 'DetailProposalEntry' || this.taskName == 'ProposalInitiation') {
+                    return;
+                }
+                else if (this.taskName == 'RiskAnalyst') {
+                    this.Stages.splice(0, 1);
+                }
+                else {
+                    this.Stages.splice(0, 2);
+                }
+
+            });
+    }
+
+    disablepreview() {
+        this.preview = false;
+        this.ngOnInit();
     }
 }

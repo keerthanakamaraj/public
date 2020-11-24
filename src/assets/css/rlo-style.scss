@@ -3771,11 +3771,57 @@ rlo-ui-card-field {
         span {
           font-size: 23px;
           cursor: pointer;
+          margin-right: 7px;
 
           &.icon-edit {
             color: #0079b8;
           }
         }
+      }
+    }
+  }
+
+  .img-list-preview {
+    .cards-md {
+      padding-bottom: 1em;
+      position: relative;
+
+      .img-responsive {
+        height: 150px;
+      }
+
+      .caption {
+        position: absolute;
+        bottom: 1em;
+        left: 0;
+        right: 0;
+        background-color: #c5c5c5;
+        padding: 0.5em;
+
+        .delete-sequence {
+          opacity: 0.5;
+
+          .text-left {
+            position: fixed;
+            text-align: left;
+          }
+
+          .text-right {
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .back-container {
+      height: 19px;
+      .go-back {
+        height: 19px;
+        width: 15px;
+        margin-right: 9px;
+        font-size: 19px;
+        float: right;
+        text-align: end;
       }
     }
   }
