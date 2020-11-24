@@ -102,37 +102,6 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
 
   getInterfaceData() {
     let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-    console.log(appId);
-    let inputMap = new Map();
-
-    inputMap.set('Body.proposalId', appId);
-
-    this.services.rloCommonData.getInterfaceResposes(inputMap).then((response: any) => {
-      let responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
-      //let rawHtml = window.atob(this.testCibilResponse);//testing
-      let rawHtml = window.atob(responseData[0].BureauResponseXml);
-
-      console.log(responseData);
-      console.log(rawHtml);
-
-      if (rawHtml.length) {
-        const modalObj: IModalData = {
-          title: "Interface Result",
-          rawHtml: rawHtml,
-          modalSize: "modal-width-lg",
-          buttons: []
-        }
-
-        this.services.rloui.confirmationModal(modalObj).then((response) => {
-          console.log(response);
-          if (response != null) {
-            if (response.id === 1) {
-              this.services.rloui.closeAllConfirmationModal();
-            }
-          }
-        });
-      }
-
-    });
+    this.services.rloCommonData.getInterfaceModalData(appId);
   }
 }

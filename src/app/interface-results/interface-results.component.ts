@@ -3,6 +3,7 @@ import { IScoreColor } from '../score-card-result/ScoreCardInterface';
 import { ServiceStock } from '../service-stock.service';
 import { HttpResponse } from '@angular/common/http';
 import { IInterfaceResultCustomer, IInterfaceResultData } from './InterfaceResultInterface';
+import { IModalData } from '../popup-alert/popup-interface';
 
 @Component({
   selector: 'app-interface-results',
@@ -12,7 +13,7 @@ import { IInterfaceResultCustomer, IInterfaceResultData } from './InterfaceResul
 export class InterfaceResultsComponent implements OnInit {
 
   @Input() ApplicationId: string = undefined;
-  @Input() isLoanCatagory: boolean=this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
+  @Input() isLoanCatagory: boolean = this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
   MstInterfaceResultMap: Map<string, IInterfaceResultCustomer> = new Map();
 
   uwCustomerList: any = [];
@@ -50,6 +51,19 @@ export class InterfaceResultsComponent implements OnInit {
           let tempInterfaceResultList = res['InterfaceResult'];
           this.parseInterfaceResultJson(tempInterfaceResultList);
 
+          if (res != null) {
+            if (res['InterfaceResult'].length) {
+              let array = [];
+              array.push({ isValid: true, sectionData: res['InterfaceResult'] });
+              let obj = {
+                "name": "InterfaceResults",
+                "data": array,
+                "sectionName": "InterfaceResults"
+              }
+              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+            }
+          }
+
         },
         async (httpError) => {
           var err = httpError['error']
@@ -63,7 +77,7 @@ export class InterfaceResultsComponent implements OnInit {
   }
   parseInterfaceResultJson(tempInterfaceResultList) {
     let CustomerList = this.uwCustomerList.length ? this.uwCustomerList : this.services.rloCommonData.getCustomerList();
-    
+
     console.log("DEEP | CustomerList", CustomerList);
     tempInterfaceResultList.forEach(eachResult => {
       let CustomerDtls: IInterfaceResultCustomer = {};
@@ -94,6 +108,11 @@ export class InterfaceResultsComponent implements OnInit {
     });
 
     console.log("shweta :: Interface result", this.MstInterfaceResultMap);
+  }
+
+  getInterfaceData() {
+    let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+    this.services.rloCommonData.getInterfaceModalData(appId);
   }
 
 }

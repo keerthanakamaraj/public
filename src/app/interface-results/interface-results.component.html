@@ -14,22 +14,39 @@
             <tr *ngFor="let customer of MstInterfaceResultMap | keyvalue">
               <td>
                 <span class="cust-tag">
-                    <span *ngIf="isLoanCategory || customer.value.CustomerType!='B';else showPrimary">{{customer.value.CustomerType}}</span>
+                  <span
+                    *ngIf="isLoanCategory || customer.value.CustomerType!='B';else showPrimary">{{customer.value.CustomerType}}</span>
                 </span>
-                  <span>{{customer.value.FullName}}</span>
+                <span>{{customer.value.FullName}}</span>
               </td>
               <td>
-                <span class="d-flex">
+                <!-- <span class="d-flex">
                   <app-status-indicator [iconType]="'basic'"
                     [status]="customer.value.InterfaceResultDataMap.has('Experian')?customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus:'disabled'">
                   </app-status-indicator>
+                </span> -->
+                <span class="d-flex">
+                  <div class="indicator-section">
+                    <app-status-indicator [iconType]="'basic'"
+                      [status]="customer.value.InterfaceResultDataMap.has('Experian')?customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus:'disabled'">
+                    </app-status-indicator>
+                    <span class="icon-link interface-modal" *ngIf="customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'Success'" (click)="getInterfaceData()"></span>
+                  </div>
                 </span>
               </td>
               <td>
-                <span class="d-flex">
+                <!-- <span class="d-flex">
                   <app-status-indicator [iconType]="'basic'"
                     [status]="customer.value.InterfaceResultDataMap.has('CIBIL001')?customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus:'disabled'">
                   </app-status-indicator>
+                </span> -->
+                <span class="d-flex">
+                  <div class="indicator-section">
+                    <app-status-indicator [iconType]="'basic'"
+                      [status]="customer.value.InterfaceResultDataMap.has('CIBIL001')?customer.value.InterfaceResultDataMap.get('CIBIL001').ResponseStatus:'disabled'">
+                    </app-status-indicator>
+                    <span class="icon-link interface-modal" *ngIf="customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'completed' || customer.value.InterfaceResultDataMap.get('Experian').ResponseStatus == 'Success'" (click)="getInterfaceData()"></span>
+                  </div>
                 </span>
               </td>
             </tr>
@@ -41,7 +58,7 @@
 </div>
 
 <ng-template #showPrimary>
-    <span>{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
+  <span>{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
 </ng-template>
 <!-- Modal Sections -->
 <!-- <td>

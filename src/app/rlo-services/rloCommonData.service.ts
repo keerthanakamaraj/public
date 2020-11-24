@@ -10,6 +10,7 @@ import { string } from '@amcharts/amcharts4/core';
 import { ProvidehttpService } from '../providehttp.service';
 import { HttpResponse } from '@angular/common/http';
 import { resolve } from 'dns';
+import { IModalData } from '../popup-alert/popup-interface';
 
 export interface subjectParamsInterface {
   action: string;
@@ -56,8 +57,8 @@ export interface IGlobalApllicationDtls {
   TenurePeriodName?: string;
   MinCashLimit?: any;
   MaxCashLimit?: any;
-  CardType?:string;
-  CardTypename?:string;
+  CardType?: string;
+  CardTypename?: string;
 }
 @Injectable({
   providedIn: 'root'
@@ -248,6 +249,11 @@ export class RloCommonData {
         case 'ScorecardResults':
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
+        case 'InterfaceResults':
+          mapValue = componentData.data;
+          console.log(" DEEP | InterfaceResults", mapValue);
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
       }
 
@@ -1076,5 +1082,35 @@ export class RloCommonData {
     return promise;
   }
 
+  getInterfaceModalData(appId: any) {
+    console.log(appId);
+    let inputMap = new Map();
+    inputMap.set('Body.proposalId', appId);
+
+    this.getInterfaceResposes(inputMap).then((response: any) => {
+      let responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
+      //let rawHtml = window.atob(this.testCibilResponse);//testing
+      console.log("DEEP | Interface modal response", responseData);
+      let rawHtml = window.atob(responseData[0].BureauResponseXml);
+
+      if (rawHtml.length) {
+        const modalObj: IModalData = {
+          title: "Interface Result",
+          rawHtml: rawHtml,
+          modalSize: "modal-width-lg",
+          buttons: []
+        }
+
+        this.rloui.confirmationModal(modalObj).then((response) => {
+          console.log(response);
+          if (response != null) {
+            if (response.id === 1) {
+              this.rloui.closeAllConfirmationModal();
+            }
+          }
+        });
+      }
+    });
+  }
 
 }

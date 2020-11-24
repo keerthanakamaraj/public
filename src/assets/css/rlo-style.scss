@@ -1942,7 +1942,7 @@ rlo-ui-card-field {
 }
 
 .header-expanded-dde {
-  // margin-top: 127px !important; 
+  // margin-top: 127px !important;
   margin-top: 66px !important; //Changes for canara bank
 }
 
@@ -2093,6 +2093,12 @@ rlo-ui-card-field {
       position: relative;
       top: -1px;
       cursor: pointer;
+
+      &.interface-modal {
+        color: #0079b8;
+        font-size: 14px;
+        margin-left: 9px;
+      }
     }
   }
 }
@@ -4663,6 +4669,13 @@ rlo-ui-card-field {
       .indicator-options {
         position: absolute;
         left: 28px;
+      }
+
+      .interface-modal {
+        color: #0079b8;
+        font-size: 14px;
+        margin-left: 9px;
+        cursor: pointer;
       }
     }
   }
