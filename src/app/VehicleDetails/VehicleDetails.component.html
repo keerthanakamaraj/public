@@ -32,7 +32,7 @@
               </label>
             </div>
             <app-combo-box #VehicleCategory category="2" fieldID="VehicleCategory" [formCode]="formCode"
-            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('VehicleCategory', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Manufacturer.isHidden()">
@@ -42,8 +42,8 @@
               </label>
             </div>
             <app-combo-box #Manufacturer category="2" fieldID="Manufacturer" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstVehicleManufacturer/{ManufacturerCode}" doServerUrl="/masters" domainObjectCode="MstVehicleManufacturer" 
-            (blur)="genericOnBlur('Manufacturer', $event)"></app-combo-box>
+              domainObjectUrl="/MstVehicleManufacturer/{ManufacturerCode}" doServerUrl="/masters"
+              domainObjectCode="MstVehicleManufacturer" (blur)="genericOnBlur('Manufacturer', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Make.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -52,18 +52,18 @@
               </label>
             </div>
             <app-combo-box #Make category="2" fieldID="Make" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstVehicleMake/{VehicleMakeCode}" doServerUrl="/masters" domainObjectCode="MstVehicleMake"
-              (blur)="genericOnBlur('Make', $event)"></app-combo-box>
+              domainObjectUrl="/MstVehicleMake/{VehicleMakeCode}" doServerUrl="/masters"
+              domainObjectCode="MstVehicleMake" (blur)="genericOnBlur('Make', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Model.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': Model.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': Model.mandatory}">
                 {{ 'VehicleDetails.Model' | translate}}
               </label>
             </div>
             <app-combo-box #Model category="2" fieldID="Model" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstVehicleModel/{VehicleModelCode}" doServerUrl="/masters" domainObjectCode="MstVehicleModel"
-              (blur)="genericOnBlur('Model', $event)"></app-combo-box>
+              domainObjectUrl="/MstVehicleModel/{VehicleModelCode}" doServerUrl="/masters"
+              domainObjectCode="MstVehicleModel" (blur)="genericOnBlur('Model', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Variant.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -72,8 +72,8 @@
               </label>
             </div>
             <app-combo-box #Variant category="2" fieldID="Variant" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstVehicleVariant/{VehicleVariantCode}" doServerUrl="/masters" domainObjectCode="MstVehicleVariant"
-              (blur)="genericOnBlur('Variant', $event)"></app-combo-box>
+              domainObjectUrl="/MstVehicleVariant/{VehicleVariantCode}" doServerUrl="/masters"
+              domainObjectCode="MstVehicleVariant" (blur)="genericOnBlur('Variant', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AssetType.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -82,7 +82,7 @@
               </label>
             </div>
             <app-combo-box #AssetType category="2" fieldID="AssetType" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('AssetType', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AssetLife.isHidden()">
@@ -97,35 +97,36 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="City.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': City.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': City.mandatory}">
                 {{ 'VehicleDetails.City' | translate}}
               </label>
             </div>
             <app-combo-box #City category="2" fieldID="City" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstCityDetails/{CityCd}" doServerUrl="/masters" domainObjectCode="MstCityDetails"
-            (blur)="genericOnBlur('City', $event)"></app-combo-box>
+              domainObjectUrl="/MstCityDetails/{CityCd}" doServerUrl="/masters" domainObjectCode="MstCityDetails"
+              (blur)="genericOnBlur('City', $event)"></app-combo-box>
           </div>
-		  
-		   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address.isHidden()">
+
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Address.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': Address.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': Address.mandatory}">
                 {{ 'VehicleDetails.Address' | translate}}
               </label>
             </div>
-           <app-text-box #Address fieldID="Address" [formCode]="formCode"
-              (blur)="genericOnBlur('Address', $event)"></app-text-box>
+            <app-text-box #Address fieldID="Address" [formCode]="formCode" (blur)="genericOnBlur('Address', $event)">
+            </app-text-box>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NameoftheDealer.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': NameoftheDealer.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': NameoftheDealer.mandatory}">
                 {{ 'VehicleDetails.NameoftheDealer' | translate}}
               </label>
             </div>
             <app-combo-box #NameoftheDealer category="2" fieldID="NameoftheDealer" [formCode]="formCode"
-            domainObjectUrl="/MstVehicleDealer/{VehicleDealerCode}" doServerUrl="/masters" domainObjectCode="MstVehicleDealer" 
-            placeholder="Select" (blur)="genericOnBlur('NameoftheDealer', $event)"></app-combo-box>
+              domainObjectUrl="/MstVehicleDealer/{VehicleDealerCode}" doServerUrl="/masters"
+              domainObjectCode="MstVehicleDealer" placeholder="Select"
+              (blur)="genericOnBlur('NameoftheDealer', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DealerCode.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -139,17 +140,17 @@
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Currency.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': Currency.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': Currency.mandatory}">
                 {{ 'VehicleDetails.Currency' | translate}}
               </label>
             </div>
             <app-combo-box #Currency category="2" fieldID="Currency" [formCode]="formCode" placeholder="Select"
-            domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
-              domainObjectCode="MstCurrencyDetails"
-              (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
+              domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
+              domainObjectCode="MstCurrencyDetails" (blur)="genericOnBlur('Currency', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="VehicaleCostDetails.isHidden()">
-            <app-VehicleIPGrid #VehicaleCostDetails fieldID="VehicaleCostDetails" [formCode]="formCode"></app-VehicleIPGrid>
+            <app-VehicleIPGrid #VehicaleCostDetails fieldID="VehicaleCostDetails" [formCode]="formCode">
+            </app-VehicleIPGrid>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FundsbyCustomer.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -158,8 +159,8 @@
               </label>
             </div>
             <app-rlo-ui-currency #FundsbyCustomer fieldID="FundsbyCustomer" [currencyReadOnly]="true"
-            [componentFieldId]="FundsbyCustomer" (onBlurEvent)="customGenericOnBlur($event)"
-            [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
+              [componentFieldId]="FundsbyCustomer" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LocalCurrencyEquivalent.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -168,8 +169,8 @@
               </label>
             </div>
             <app-rlo-ui-currency #LocalCurrencyEquivalent fieldID="LocalCurrencyEquivalent" [currencyReadOnly]="true"
-            [componentFieldId]="LocalCurrencyEquivalent" (onBlurEvent)="customGenericOnBlur($event)"
-            [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
+              [componentFieldId]="LocalCurrencyEquivalent" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LoanRequired.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -178,8 +179,8 @@
               </label>
             </div>
             <app-rlo-ui-currency #LoanRequired fieldID="LoanRequired" [currencyReadOnly]="true"
-            [componentFieldId]="LoanRequired" (onBlurEvent)="customGenericOnBlur($event)"
-            [inputReadOnly]="true" [formCode]="formCode"></app-rlo-ui-currency>
+              [componentFieldId]="LoanRequired" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="true"
+              [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
@@ -187,14 +188,16 @@
           <ng-container>
             <div *ngIf="!readOnly" class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
               [hidden]="Vehicle_Save.isHidden()">
-              <app-button #Vehicle_Save fieldName="{{ 'VehicleDetails.Vehicle_Save' | translate}}" fieldID="Vehicle_Save"
-                [formCode]="formCode" customClass="btn btn-primary btn-sm" (buttonClick)="Vehicle_Save_click($event)">
+              <app-button #Vehicle_Save fieldName="{{ 'VehicleDetails.Vehicle_Save' | translate}}"
+                fieldID="Vehicle_Save" [formCode]="formCode" customClass="btn btn-primary btn-sm"
+                (buttonClick)="Vehicle_Save_click($event)">
               </app-button>
             </div>
             <div *ngIf="!readOnly" class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
               [hidden]="Vehicle_clear.isHidden()">
-              <app-button #Vehicle_clear fieldName="{{ 'VehicleDetails.Vehicle_clear' | translate}}" fieldID="Vehicle_clear"
-                [formCode]="formCode" (buttonClick)="Vehicle_Clear_click($event)" customClass="btn-warning-outline">
+              <app-button #Vehicle_clear fieldName="{{ 'VehicleDetails.Vehicle_clear' | translate}}"
+                fieldID="Vehicle_clear" [formCode]="formCode" (buttonClick)="Vehicle_Clear_click($event)"
+                customClass="btn-warning-outline">
               </app-button>
             </div>
           </ng-container>
@@ -209,7 +212,7 @@
         <app-hidden #HidVAssetType fieldID="HidVAssetType"></app-hidden>
         <app-hidden #hidExchangeRate fieldID="hidExchangeRate"></app-hidden>
         <app-hidden #VehicleDtlsSeq fieldID="VehicleDtlsSeq"></app-hidden>
-        
+
       </div>
     </div>
   </div>

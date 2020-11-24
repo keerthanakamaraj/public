@@ -206,7 +206,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.Handler.FundsbyCustomerOnblur()
     // await this.Handler.onAddTypeChange();
   }
- 
+
   async FetcVehicelLoanDtls() {
     let inputMap = new Map();
     inputMap.clear();
@@ -230,7 +230,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             if (VehicleDtls) {
               console.log("hjgj :: Education loan fetched : ", VehicleDtls);
               this.parseFetchVehicleResp(VehicleDtls);
-              
+
               // let array = [];
               // array.push({ isValid: true, sectionData: this.getFieldValue() });
               // let obj = {
@@ -243,7 +243,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             }
           }
           else {
-            this.fetchLoanDtls(); 
+            this.fetchLoanDtls();
           }
         },
         async (httpError) => {
@@ -273,7 +273,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
       this.services.http.fetchApi('/VehicleLoanDtls', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
-          console.log("newwwwww" , res);
+          console.log("newwwwww", res);
           let LoanDtls = res['VehicleLoanDtls'];
           if (LoanDtls) {
             console.log("hgh :: only loan fetched : ", LoanDtls);
@@ -344,8 +344,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
           //  tempObj.SrNo=costSrNo+1;
         }
         if (Object.keys(tempObj).length != 0) {
-          tempObj.VehicleCostSeq=element.VehicleCostSeq;
-         // tempObj.VehicleDtlsSeq = this.VehicleDtlsSeq.getFieldValue();
+          tempObj.VehicleCostSeq = element.VehicleCostSeq;
+          // tempObj.VehicleDtlsSeq = this.VehicleDtlsSeq.getFieldValue();
           tempObj.VehicleDtlsSeq = element.VehicleDtlsSeq;
           tempObj.ApplicationId = element.ApplicationId;
           tempObj.TransactionType = element.TransactionType;
@@ -422,7 +422,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.VehicleDetails.CustomerFunds', this.FundsbyCustomer.getFieldValue());
     inputMap.set('Body.VehicleDetails.TotalCost', this.VehicaleCostDetails.TotalAmount.getFieldValue());
     inputMap.set('Body.VehicleDetails.TotalCostEq', this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue());
-    
+
     // inputMap.set('Body.VehicleDetails.TotalCost', this.LoanRequired.getFieldValue());
     inputMap.set('Body.VehicleDetails.LocalCurrenyAmount', this.LocalCurrencyEquivalent.getFieldValue());
     inputMap.set('Body.VehicleDetails.VehicaleCostDetails', this.generateCostAndFundsReq());
@@ -430,14 +430,14 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     return inputMap;
   }
 
-   generateLoanReq() {
+  generateLoanReq() {
     let inputObj = {};
     // inputObj['TenurePeriod'] = "MTHS";
     inputObj['LoanSeq'] = this.LoanSeq;
-  //  inputObj['ApplicationId']=this.ApplicationId;
+    //  inputObj['ApplicationId']=this.ApplicationId;
     inputObj['LoanRequiredAmt'] = this.LoanRequired.getFieldValue();
     // inputObj['TotalMoratoriumPeriod'] = this.LTotMoratorium.getFieldValue();
-  //  inputObj['LoanRequiredAmt'] = this.LoanRequied.getFieldValue();
+    //  inputObj['LoanRequiredAmt'] = this.LoanRequied.getFieldValue();
     return inputObj;
   }
   parseResponseError(err) {
@@ -520,13 +520,13 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
         this.services.http.fetchApi('/VehicleDetails/{VehicleDtlsSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.update.vehicle', 5000);
             this.Vehicle_Clear_click({});
             this.Vehicle_Save.setDisabled(false);
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
-            this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
+            this.services.alert.showAlert(2, 'rlo.error.update.vehicle', -1);
             this.Vehicle_Save.setDisabled(false);
           }
         );
@@ -536,16 +536,16 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
         this.services.http.fetchApi('/VehicleDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.save.vehicle', 5000);
             // this.PastEducationGrid.gridDataLoad({
             //     'ApplicationId': this.ApplicationId
             // });
-          //  this.Vehicle_Clear_click({});
+            //  this.Vehicle_Clear_click({});
             this.Vehicle_Save.setDisabled(false);
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
-            this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
+            this.services.alert.showAlert(2, 'rlo.error.save.vehicle', -1);
             this.Vehicle_Save.setDisabled(false);
           }
         );
@@ -556,19 +556,18 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
       this.Vehicle_Save.setDisabled(false);
     }
   }
-  customGenericOnBlur(event: any) {
-    console.log("Deep | customGenericOnBlur", event);
-    // if (event.field == "ApprovedLimit") {
-    //     this.approveLimitBlur(event.textFieldValue);
-    // }
-    this.genericOnBlur(event.field, event.textFieldValue);
-}
-async AssetType_blur(event){
-  let inputMap = new Map();
-  if(this.AssetType.getFieldValue() == "B_Transfer"){
-    this.AssetLife.mandatory = true;
+
+
+  async AssetType_blur(event) {
+    const inputMap = new Map();
+    console.log("nominee", this.AssetType.getFieldValue());
+    if (this.AssetType.getFieldValue() == 'B_Transfer' || this.AssetType.getFieldValue() == 'Refinance' || this.AssetType.getFieldValue() == 'Used') {
+      this.AssetLife.mandatory = true;
+    }
+    else {
+      this.AssetLife.mandatory = false;
+    }
   }
-}
   fieldDependencies = {
     VehicleCategory: {
       inDep: [
@@ -621,6 +620,8 @@ async AssetType_blur(event){
         { paramKey: "DEALER_CODE", depFieldID: "NameoftheDealer", paramType: "PathParam" },
       ],
       outDep: [
+
+        { paramKey: "MstVehicleDealer.VehicleDealerCode", depFieldID: "DealerCode" },
       ]
     },
     AssetType: {
@@ -651,6 +652,42 @@ async AssetType_blur(event){
       ],
       outDep: [
       ]
+    }
+  }
+  calculateLocalCurrEquv() {
+    if (this.hidExchangeRate.getFieldValue() !== undefined && this.FundsbyCustomer.getFieldValue() !== undefined) {
+      let CurrenyExchangeValue = this.hidExchangeRate.getFieldValue() * this.FundsbyCustomer.getFieldValue();
+      this.LocalCurrencyEquivalent.setComponentSpecificValue(CurrenyExchangeValue.toFixed(2));
+    }
+  }
+  async Currencyblur(event) {
+    let inputMap = new Map();
+    this.calculateLocalCurrEquv()
+  }
+  async FundsbyCustomerblur(event) {
+    let inputMap = new Map();
+
+    // this.calculateLocalCurrEquv()
+    // await this.Handler.onAddTypeChange();
+  }
+  customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+    // if (event.field == "LocalCurrencyEquivalent") {
+    if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+      this.hidExchangeRate.setValue(event.exchangeRate);
+
+      let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+      console.log(localCurrencyEq);
+
+      this.LocalCurrencyEquivalent.setComponentSpecificValue(localCurrencyEq, null);
+    }
+    this.FundsbyCustomer.currencyCode = this.LocalCurrencyEquivalent.currencyCode;
+    // }
+    this.genericOnBlur(event.field, event.textFieldValue);
+    let LoanRequied
+    if (this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != undefined || this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() != null) {
+      LoanRequied = (this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue() - this.LocalCurrencyEquivalent.getFieldValue())
+      this.LoanRequired.setComponentSpecificValue(LoanRequied);
     }
   }
 

@@ -202,6 +202,10 @@
     "rlo.success.postcpv-dicisionsave":"Disision Submitted successfully",
     "rlo.error.postcpv-dicisionsave":"Disision Submission failed. Please try again.",
     "rlo.error.amount.limit" :  "Please Enter valid amount",
+    "rlo.success.update.vehicle": "The Vehicle Details have been updated successfully.",
+    "rlo.error.update.vehicle": "The Vehicle Details could not be updated. Please try again.",
+    "rlo.success.save.vehicle": "The Vehicle Details have been saved successfully.",
+    "rlo.error.save.vehicle": "The Vehicle Details could not be saved. Please try again.",
     
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
