@@ -86,18 +86,20 @@
             <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}" fieldID="ALTER_CANCEL"
               [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="close($event)"></app-button>
           </div> -->
-          <div class="save-btn-container col-12  col-sm-1 col-md-1">
+          <div class="col-12  col-sm-1 col-md-1"></div>
+          <div class="col-12  col-sm-4 col-md-4">
             <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
               [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
             </app-button>
           </div>
-          <div class="col-12  col-sm-1 col-md-1"></div>
-          <div class="clr-btn-container col-12  col-sm-1 col-md-1  text-right">
+          <!-- <div class="col-12  col-sm-1 col-md-1"></div> -->
+          <div class="col-12  col-sm-4 col-md-4">
             <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}"
               fieldID="ALTER_CANCEL" [formCode]="formCode" customClass="btn-warning-outline"
               (buttonClick)="close($event)">
             </app-button>
           </div>
+          <!-- <div class="col-12  col-sm-1 col-md-1"></div> -->
         </div>
         <!-- <div (click)="saveSections()">SAVE</div>
         <div (click)="cancelSections()">CANCEL</div> -->
