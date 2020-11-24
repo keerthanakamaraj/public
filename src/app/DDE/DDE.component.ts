@@ -54,6 +54,7 @@ import { EducationLoanDetailsComponent } from '../EducationLoanDetails/Education
 import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.component';
 import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
+import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -211,6 +212,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
+      { id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
       { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
@@ -1031,6 +1033,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'InterfaceResults':
         return new AddSpecificComponent(InterfaceResultsComponent);
+        break;
+        case 'BusinessDetails':
+        return new AddSpecificComponent(BusinessDtlsFormComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);

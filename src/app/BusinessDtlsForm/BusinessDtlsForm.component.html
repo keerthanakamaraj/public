@@ -1,0 +1,127 @@
+<form class="MakeRelative">
+  <!-- <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+    </div>
+  </div> -->
+  <div class="clearfix content">
+    <!-- <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <div class="col-sm-5 col-md-5">
+        <h4 class="FormTitle">
+          {{ 'BusinessDtlsForm.FormTitle' | translate }}
+        </h4>
+      </div>
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div> -->
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="GSTNumber.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'BusinessDtlsForm.GSTNumber' | translate}}
+              </label>
+            </div>
+            <app-text-box #GSTNumber fieldID="GSTNumber" [formCode]="formCode"
+              (blur)="genericOnBlur('GSTNumber', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="UAadhaar.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'BusinessDtlsForm.UAadhaar' | translate}}
+              </label>
+            </div>
+            <app-text-box #UAadhaar fieldID="UAadhaar" [formCode]="formCode" (blur)="genericOnBlur('UAadhaar', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PaidUpCapital.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'BusinessDtlsForm.PaidUpCapital' | translate}}
+              </label>
+            </div>
+            <app-text-box #PaidUpCapital fieldID="PaidUpCapital" [formCode]="formCode"
+              (blur)="genericOnBlur('PaidUpCapital', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FYTurnover.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': FYTurnover.mandatory}">
+                {{ 'BusinessDtlsForm.FYTurnover' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #FYTurnover fieldID="FYTurnover" [formCode]="formCode"
+              (blur)="genericOnBlur('FYTurnover', $event)"></app-text-box> -->
+              <app-rlo-ui-currency #FYTurnover fieldID="FYTurnover" [currencyReadOnly]="true" 
+              [inputReadOnly]="false" [formCode]="formCode" [componentFieldId]="'FYTurnover'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="FYNetProfit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': FYNetProfit.mandatory}">
+                {{ 'BusinessDtlsForm.FYNetProfit' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #FYNetProfit fieldID="FYNetProfit" [formCode]="formCode"
+              (blur)="genericOnBlur('FYNetProfit', $event)"></app-text-box> -->
+              <app-rlo-ui-currency #FYNetProfit fieldID="FYNetProfit" [currencyReadOnly]="true" 
+              [inputReadOnly]="false" [formCode]="formCode" [componentFieldId]="'FYNetProfit'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+  
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="OrgNature.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': OrgNature.mandatory}">
+                {{ 'BusinessDtlsForm.OrgNature' | translate}}
+              </label>
+            </div>
+            <app-combo-box #OrgNature category="2" fieldID="OrgNature" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('OrgNature', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Constitution.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Constitution.mandatory}">
+                {{ 'BusinessDtlsForm.Constitution' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Constitution category="2" fieldID="Constitution" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('Constitution', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="Industry.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': Industry.mandatory}">
+                {{ 'BusinessDtlsForm.Industry' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Industry category="2" fieldID="Industry" [formCode]="formCode"
+              placeholder="Select"  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('Industry', $event)"></app-combo-box>
+          </div>
+          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12 col-sm-9 col-md-9"></div>
+          <div class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="BD_SAVE_BTN.isHidden()"
+            *ngIf="!readOnly">
+            <app-button #BD_SAVE_BTN fieldName="{{ 'CustomerDtls.BD_SAVE_BTN' | translate}}" fieldID="BD_SAVE_BTN"
+              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="BD_SAVE_BTN_click($event)">
+            </app-button>
+          </div>
+          <div class="clr-btn-container col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="BD_CLEAR_BTN.isHidden()"
+            *ngIf="!readOnly">
+            <app-button #BD_CLEAR_BTN fieldName="{{ 'CustomerDtls.BD_CLEAR_BTN' | translate}}" fieldID="BD_CLEAR_BTN"
+              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="BD_CLEAR_BTN_click($event)">
+            </app-button>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+            <app-business-handler #Handler [MainComponent]="this"></app-business-handler>
+          </div>
+          <app-hidden #hidOrgNature fieldID="hidOrgNature"></app-hidden>
+          <app-hidden #hidConstitution fieldID="hidConstitution"></app-hidden>
+          <app-hidden #hidIndustry fieldID="hidIndustry"></app-hidden>
+          <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -202,7 +202,10 @@
     "rlo.success.postcpv-dicisionsave":"Disision Submitted successfully",
     "rlo.error.postcpv-dicisionsave":"Disision Submission failed. Please try again.",
     "rlo.error.amount.limit" :  "Please Enter valid amount",
-    
+    "rlo.success.update.businessdtls": "The business details has been updated successfully.",
+    "rlo.error.update.businessdtls": "The business details could not be updated. Please try again.",
+    "rlo.success.save.businessdtls": "The business details has been saved successfully.",
+
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -2485,5 +2488,21 @@
     "ApprovalReq": "Approval from a higher authority required",
     "DesignationAuthority": "Designation of Sanctioning Authority",
     "ApproverName": "Approver Name"
+  },
+  "BusinessDtlsForm" : {
+    "Industry" : "Industry",
+    "FYTurnover" : "Turnover as per last FY",
+    "FormTitle" : "BusinessDtlsForm",
+    "GSTNumber" : "GST Number",
+    "OrgNature_FP_placeholder" : "Select",
+    "Constitution_FP_placeholder" : "Select",
+    "OrgNature" : "Nature of Organization",
+    "UAadhaar" : "U-Aadhar",
+    "Industry_FP_placeholder" : "Placeholder",
+    "FYNetProfit" : "Net Profit as per last FY",
+    "PaidUpCapital" : "Paid-Up Capital",
+    "Constitution" : "Constitution",
+    "BD_SAVE_BTN":"SAVE",
+    "BD_CLEAR_BTN":"CLEAR"  
   }
 }
