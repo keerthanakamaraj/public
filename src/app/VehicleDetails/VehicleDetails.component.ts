@@ -57,7 +57,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
 
 
   childToEduSubscription: Subscription;
-  VehicelSummSeq: number = undefined;
+  //VehicelSummSeq: number = undefined;
   clearFieldsFlag: boolean = false;
   tempCostFundsList = [];
   LoanSeq: number = undefined;
@@ -308,7 +308,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     }
   }
   ParseVehicleSummDtls(VehicleDtlsSumm) {
-    this.VehicleDtlsSeq = VehicleDtlsSumm.VehicleDtlsSeq;
+    this.VehicleDtlsSeq.setValue(VehicleDtlsSumm.VehicleDtlsSeq);
     this.Manufacturer.setValue(VehicleDtlsSumm.Manufacturer.id);
     this.VehicleCategory.setValue(VehicleDtlsSumm.VehicleCategory.id);
     this.Make.setValue(VehicleDtlsSumm.VehicleMake.id);
@@ -320,7 +320,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.DealerCode.setValue(VehicleDtlsSumm.DealerCode);
     this.City.setValue(VehicleDtlsSumm.DealerCity.id);
     this.AssetLife.setValue(VehicleDtlsSumm.AssetLife);
-    this.VehicelSummSeq = VehicleDtlsSumm.VehicleInputSeq;
+    // this.VehicelSummSeq = VehicleDtlsSumm.VehicleInputSeq;
     this.NameoftheDealer.setValue(VehicleDtlsSumm.DealerName.id);
     this.Currency.setValue(VehicleDtlsSumm.Currency);
     this.Address.setValue(VehicleDtlsSumm.DealerAddress);
@@ -329,6 +329,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.FundsbyCustomer.setComponentSpecificValue(VehicleDtlsSumm.CustomerFunds);
     this.LoanSeq = VehicleDtlsSumm.vehicleLoanDtls.LoanSeq;
     this.LoanRequired.setComponentSpecificValue(VehicleDtlsSumm.vehicleLoanDtls.LoanRequiredAmt);
+    this.VehicaleCostDetails.TotalAmount.setValue(VehicleDtlsSumm.TotalCost);
+    this.VehicaleCostDetails.TotalLocalCurEq.setValue(VehicleDtlsSumm.TotalCostEq);
   }
   generateCostAndFundsList(VehicleList) {
     console.log("abc :: cost and funds list", VehicleList);
@@ -342,11 +344,13 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
           //  tempObj.SrNo=costSrNo+1;
         }
         if (Object.keys(tempObj).length != 0) {
-          tempObj.VehicleDtlsSeq = element.EdTransactionSeq;
+          tempObj.VehicleCostSeq=element.VehicleCostSeq;
+         // tempObj.VehicleDtlsSeq = this.VehicleDtlsSeq.getFieldValue();
+          tempObj.VehicleDtlsSeq = element.VehicleDtlsSeq;
           tempObj.ApplicationId = element.ApplicationId;
           tempObj.TransactionType = element.TransactionType;
           tempObj.TransactionDescription = element.TransactionDescription;
-          tempObj.VehicleInputSeq = this.VehicelSummSeq;
+          //tempObj.VehicleInputSeq = this.VehicelSummSeq;
           tempObj.Amount = element.Amount;
           tempObj.Version = element.Version;
           tempObj.Currency = element.Currency;
@@ -354,7 +358,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
           tempObj.CreatedOn = element.CreatedOn;
           tempObj.UpdatedBy = element.UpdatedBy;
           tempObj.UpdatedOn = element.UpdatedOn;
-          tempObj.LocalCurrencyEquivalent = element.CurrencyEquivalentAmt;
+          tempObj.CurrencyEquivalentAmt = element.CurrencyEquivalentAmt;
         }
       });
     }
@@ -372,20 +376,19 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   }
   generateCostAndFundsReq() {
     let VehicleDtlsList = [];
-    VehicleDtlsList = this.mapCostandFundsRecords(VehicleDtlsList, this.VehicaleCostDetails.VehicleDetailsMap, 'C');
+    VehicleDtlsList = this.mapCostandFundsRecords(VehicleDtlsList, this.VehicaleCostDetails.VehicleDetailsMap, 'V');
     return VehicleDtlsList;
   }
   mapCostandFundsRecords(VehicleDtlsList, TransactionList, TransactionType) {
     TransactionList.forEach(element => {
       let inputObj: VehicleIPInterface = {};
       inputObj.ApplicationId = this.ApplicationId;
-      inputObj.VehicleInputSeq = element.VehicleInputSeq;
-      inputObj.VehicleDtlsSeq = element.VehicleDtlsSeq;
+      inputObj.VehicleDtlsSeq = this.VehicleDtlsSeq.getFieldValue();
       inputObj.TransactionDescription = element.mstId;
       inputObj.TransactionType = element.TransactionType == undefined ? TransactionType : element.TransactionType;
       inputObj.Amount = element.Amount;
       inputObj.Currency = this.Currency.getFieldValue();
-      inputObj.LocalCurrencyEquivalent = element.LocalCurrenyAmt;
+      inputObj.CurrencyEquivalentAmt = element.CurrencyEquivalentAmt;
       VehicleDtlsList.push(inputObj);
       // inputMap.set('CreatedBy',element.);
       //  inputMap.set('UpdatedBy',element.);
@@ -397,8 +400,8 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
   }
   generateVehicleSaveUpdateReq(inputMap) {
     inputMap.clear();
-    if (this.VehicleDtlsSeq != undefined) {
-      inputMap.set('PathParam.VehicleDtlsSeq', this.VehicleDtlsSeq);
+    if (this.VehicleDtlsSeq.getFieldValue() != undefined) {
+      inputMap.set('PathParam.VehicleDtlsSeq', this.VehicleDtlsSeq.getFieldValue());
     }
     inputMap.set('Body.VehicleDetails.ApplicationId', this.ApplicationId);
     // inputMap.set('Body.VehicleDetails.VehicleDtlsSeq', this.VehicleDtlsSeq.getFieldValue());
@@ -417,6 +420,9 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     // inputMap.set('Body.VehicleDetails.AssetLife', this.NameoftheDealer.getFieldValue());
     inputMap.set('Body.VehicleDetails.DealerAddress', this.Address.getFieldValue());
     inputMap.set('Body.VehicleDetails.CustomerFunds', this.FundsbyCustomer.getFieldValue());
+    inputMap.set('Body.VehicleDetails.TotalCost', this.VehicaleCostDetails.TotalAmount.getFieldValue());
+    inputMap.set('Body.VehicleDetails.TotalCostEq', this.VehicaleCostDetails.TotalLocalCurEq.getFieldValue());
+    
     // inputMap.set('Body.VehicleDetails.TotalCost', this.LoanRequired.getFieldValue());
     inputMap.set('Body.VehicleDetails.LocalCurrenyAmount', this.LocalCurrencyEquivalent.getFieldValue());
     inputMap.set('Body.VehicleDetails.VehicaleCostDetails', this.generateCostAndFundsReq());
@@ -507,7 +513,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     this.Vehicle_Save.setDisabled(true);
     let numberOfErrors: number = 0;
     if (numberOfErrors == 0) {
-      if (this.VehicleDtlsSeq != undefined) {
+      if (this.VehicleDtlsSeq.getFieldValue() != undefined) {
 
         inputMap = this.generateVehicleSaveUpdateReq(inputMap);
 
@@ -534,7 +540,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
             // this.PastEducationGrid.gridDataLoad({
             //     'ApplicationId': this.ApplicationId
             // });
-            this.Vehicle_Clear_click({});
+          //  this.Vehicle_Clear_click({});
             this.Vehicle_Save.setDisabled(false);
           },
           async (httpError) => {

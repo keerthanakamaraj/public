@@ -2,7 +2,7 @@ export interface VehicleIPInterface {
   ApplicationId?: any,
   TransactionType?: any,
   TransactionDescription?: any,
-  VehicleInputSeq?: any,
+  VehicleCostSeq?: any,
   VehicleDtlsSeq?: any,
   CreatedBy?: any,
   Amount?: any,
@@ -11,7 +11,7 @@ export interface VehicleIPInterface {
   Currency?: any,
   UpdatedOn?: any,
   CreatedOn?: any,
-  LocalCurrencyEquivalent?: any,
+  CurrencyEquivalentAmt?: any,
   mstId?: string,
   mstText?: string
 }
