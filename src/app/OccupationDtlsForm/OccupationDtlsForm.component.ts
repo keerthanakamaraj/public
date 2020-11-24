@@ -345,7 +345,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.clear();
         inputMap.set('PathParam.OccupationSeq', this.HidOccupationSeq.getFieldValue());
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Employment Type', this.OD_EMPLT_TYPE.getFieldValue());
+        inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
         inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
@@ -476,7 +476,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       else {
         inputMap.clear();
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Employment Type', this.OD_EMPLT_TYPE.getFieldValue());
+        inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.Self Employed Type', this.OD_SELF_EMPLD_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
@@ -622,6 +622,41 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']['id']);
+        this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['EmploymentType']['id']);
+        this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
+        this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']['id']);
+        this.OD_EMPLOYEE_ID.setValue(res['OccupationDetails']['EmployeeID']);
+        this.OD_DEPARTMENT.setValue(res['OccupationDetails']['Department']);
+        this.OD_DESIGNATION.setValue(res['OccupationDetails']['Designation']);
+        this.OD_DATE_OF_JOINING.setValue(res['OccupationDetails']['DateofJoining']);
+        this.OD_DT_OF_INCPTN.setValue(res['OccupationDetails']['DateofInception']);
+        this.OD_INDUSTRY.setValue(res['OccupationDetails']['Industry']['id']);
+        this.OD_NTR_OF_BUSS.setValue(res['OccupationDetails']['NatureofBusiness']['id']);
+        this.OD_COMPANY_CODE.setValue(res['OccupationDetails']['CompanyLicenseNo']);
+        this.OD_COMP_CAT.setValue(res['OccupationDetails']['Grade']);
+        this.OD_COMP_NAME.setValue(res['OccupationDetails']['CompanyName']);
+        this.OD_LENGTH_OF_EXST.setValue(res['OccupationDetails']['LengthOfExistance']);
+        this.OD_INC_DOC_TYPE.setValue(res['OccupationDetails']['IncomeDocumentType']['id']);
+        this.OD_NET_INCOME.setValue(res['OccupationDetails']['NetIncome']);
+        this.OD_INCOME_FREQ.setValue(res['OccupationDetails']['IncomeFrequecy']['id']);
+        this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']['id']);
+        this.OD_INCOME_TYPE.setValue(res['OccupationDetails']['IncomeType']['id']);
+        this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
+        this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
+        //this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
+        //this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
+
+        this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
+        this.Handler.occupationOnchange();
+        this.Handler.companyCodeChange();
+        this.OD_OCCUPATION_change('OD_OCCUPATION', event);
+        this.revalidateBasicField('OD_NET_INCOME', true)
+
+        //custom
+        this.OD_NET_INCOME.setComponentSpecificValue(res['OccupationDetails']['NetIncome'], res['OccupationDetails']['Currency']);
+        this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
+
+        this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
         if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
           this.OD_EMPLT_TYPE.mandatory = true;
           this.OD_EMPLT_TYPE.setReadOnly(false);
@@ -644,42 +679,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
           }
         }
 
-
-        this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['Employment Type']['id']);
-        this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
-        this.OD_SELF_EMPLD_TYPE.setValue(res['OccupationDetails']['Self Employed Type']['id']);
-        this.OD_EMPLOYEE_ID.setValue(res['OccupationDetails']['EmployeeID']);
-        this.OD_DEPARTMENT.setValue(res['OccupationDetails']['Department']);
-        this.OD_DESIGNATION.setValue(res['OccupationDetails']['Designation']);
-        this.OD_DATE_OF_JOINING.setValue(res['OccupationDetails']['DateofJoining']);
-        this.OD_DT_OF_INCPTN.setValue(res['OccupationDetails']['DateofInception']);
-        this.OD_INDUSTRY.setValue(res['OccupationDetails']['Industry']['id']);
-        this.OD_NTR_OF_BUSS.setValue(res['OccupationDetails']['NatureofBusiness']['id']);
-        this.OD_COMPANY_CODE.setValue(res['OccupationDetails']['CompanyLicenseNo']);
-        this.OD_COMP_CAT.setValue(res['OccupationDetails']['Grade']);
-        this.OD_COMP_NAME.setValue(res['OccupationDetails']['CompanyName']);
-        this.OD_LENGTH_OF_EXST.setValue(res['OccupationDetails']['LengthOfExistance']);
-        this.OD_INC_DOC_TYPE.setValue(res['OccupationDetails']['IncomeDocumentType']['id']);
-        this.OD_NET_INCOME.setValue(res['OccupationDetails']['NetIncome']);
-        this.OD_INCOME_FREQ.setValue(res['OccupationDetails']['IncomeFrequecy']['id']);
-        this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']);
-        this.OD_INCOME_TYPE.setValue(res['OccupationDetails']['IncomeType']['id']);
-        this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
-        this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
-        //this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
-        //this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
-
-        this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
-        this.Handler.occupationOnchange();
-        this.Handler.companyCodeChange();
-        this.OD_OCCUPATION_change('OD_OCCUPATION', event);
-        this.revalidateBasicField('OD_NET_INCOME', true)
-
-        //custom
-        this.OD_NET_INCOME.setComponentSpecificValue(res['OccupationDetails']['NetIncome'], res['OccupationDetails']['Currency']);
-        this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
-
-        this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
       },
       async (httpError) => {
         var err = httpError['error']

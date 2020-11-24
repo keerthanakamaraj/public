@@ -259,7 +259,8 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
       if (this.customerSearchType == "Internal") {//customerId
         this.SearchFormGrid.customSearchObj.customerId = this.searchParameters.customerId;
       } else {//CIF Id
-        this.SearchFormGrid.customSearchObj.customerId = this.searchParameters.cifId;
+        //this.SearchFormGrid.customSearchObj.customerId = this.searchParameters.cifId;
+        this.SearchFormGrid.customSearchObj.customerId = this.searchParameters.customerId;
       }
 
       console.log(this.SearchFormGrid.customSearchObj);

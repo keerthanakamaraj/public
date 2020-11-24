@@ -16,6 +16,9 @@ export interface IGeneralCardData {
   applicationId?: number;
   componentCode?: string;
   canShowModal?: boolean;
+  accountDetails?: IAccountDetails[];//used for 'Customer 360' -> Relationship Details
+  customerList?: any;
+  interfaceDataList?: any;
 }
 
 export interface ICardListData {
@@ -116,4 +119,30 @@ export interface ICustomSearchObject {
   dob?: any;
   staffId?: any;
   searchType?: 'Internal' | 'External';
+}
+
+export interface IAccountDetails {
+  AccountNo?: any;
+  AccountStatus?: any;
+  AccountType?: any;
+  AvailableBalance?: any;
+  OpeningDate?: any;
+}
+
+export interface IInterfaceListData {
+  type: string;
+  class: string;
+  data?: any;
+}
+
+export interface IInterfaceDataIndicator {
+  type: string;
+  title: string;
+  subTitle: string;
+  modalSectionName: string;
+}
+
+export interface IPopUpModalResponse {
+  action?: "btn-submit" | "btn-close" | "icon-close";
+  response?: any;
 }

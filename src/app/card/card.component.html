@@ -68,7 +68,7 @@
         </div>
     </div> -->
 
-    <div class="wgt-cards" *ngIf="cardName == 'Interface Results'">
+    <div class="wgt-cards interface-card" *ngIf="cardName == 'Interface Results'">
         <div class="cards-header">
             <span>{{cardMetaData.name}}</span>
             <span class="icon-link" (click)="openModal()"
@@ -79,21 +79,21 @@
                 *ngFor="let list of cardMetaData.data"></rlo-ui-card-field> -->
             <div class="interface-customer-selector">
                 <span>{{selectedCustomerData.name}}</span>
-                <span class="count-section">
-                    <span>+{{this.customerList.length-(selectedCustomerData.index+1)}}</span>
+                <span class="count-section" *ngIf="interfaceCount">
+                    <span>+{{interfaceCount}}</span>
                 </span>
-                <span class="menu-btn">
+
+                <span class="menu-btn" *ngIf="customerList.length>1">
                     <span class="icon-left-arrow" (click)="showPrev()"></span>
                     <span class="icon-right-arrow" (click)="showNxt()"></span>
                 </span>
             </div>
             <div class="table-section">
-                <div class="columns" *ngFor="let interfaceType of testJson[selectedCustomerData.index].data">
+                <div class="columns" *ngFor="let interfaceType of interfaceResultsData[selectedCustomerData.index].data">
                     <div class="heading-container">
                         <span>{{interfaceType.type}}</span>
                     </div>
-                    <div [ngClass]="interfaceType.type === 'External Interface Results' ? 'external' : 'internal'"
-                   >
+                    <div [ngClass]="interfaceType.type === 'External Interface Results' ? 'external' : 'internal'">
                         <div *ngFor="let dataList of interfaceType.data">
                             <rlo-ui-card-field [parentCardName]="'Interface Results'" [componentCode]="''"
                                 [applicationId]="cardMetaData.applicationId" [borrowerSeq]="''"
@@ -131,7 +131,45 @@
         </div>
     </div>
 
-    <div class="wgt-cards" *ngIf="cardName != 'Interface Results'">
+    <div class="wgt-cards customer360-card" *ngIf="cardName == 'Customer 360 degrees'">
+        <div class="cards-header">
+            <span>{{cardMetaData.name}}</span>
+            <span *ngIf="cardMetaData.canShowModal" class="icon-link" (click)="openModal()"
+                [ngClass]="{'disable-card' : !cardMetaData.modalSectionName.length}"></span>
+        </div>
+        <div class="cards-body row">
+            <rlo-ui-card-field [parentCardName]="cardMetaData.name" [componentCode]="cardMetaData.componentCode"
+                [applicationId]="cardMetaData.applicationId" [borrowerSeq]="cardMetaData.borrowerSeq"
+                [cardFieldMetaData]="list" *ngFor="let list of cardMetaData.data"></rlo-ui-card-field>
+        </div>
+        <div class="relationship-pannel" *ngIf="accountDetailsList.length">
+            <span>Relationship Details</span>
+            <div class="relationship-table">
+                <table>
+                    <thead>
+                        <tr class="grid-comments">
+                            <th>Account Type</th>
+                            <th>Account No.</th>
+                            <th>Balance</th>
+                            <!-- <th>Opening Date</th> -->
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let accDetails of accountDetailsList">
+                            <td>{{accDetails.AccountType}}</td>
+                            <td>{{accDetails.AccountNo}}</td>
+                            <td>{{accDetails.AvailableBalance}}</td>
+                            <!-- <td>{{accDetails.OpeningDate}}</td> -->
+                            <td>{{accDetails.AccountStatus}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="wgt-cards" *ngIf="cardName != 'Interface Results' && cardName != 'Customer 360 degrees' ">
         <div class="cards-header">
             <span>{{cardMetaData.name}}</span>
             <span *ngIf="cardMetaData.canShowModal" class="icon-link" (click)="openModal()"

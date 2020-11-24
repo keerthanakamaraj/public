@@ -389,7 +389,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
         this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']['id'],['text']);
+                this.AT_ASSET_TYPE.setValue(res['AssetDetails']['AssetType']['id']);
                 this.AT_ASSET_SUBTYPE.setValue(res['AssetDetails']['AssetSubtype']['id']);
                 this.AT_ASSET_LOCATION.setValue(res['AssetDetails']['AssetLocation']);
                 this.AT_ASSET_STATUS.setValue(res['AssetDetails']['AssetStatus']['id']);

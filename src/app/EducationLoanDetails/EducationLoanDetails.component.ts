@@ -177,6 +177,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.hidCourseType.setValue('COURSE_TYPE');
     this.hidCourseField.setValue('ED_FIELD');
     this.hidAppId.setValue('RLO');
+    this.showHideSecondaryCourseFields(true);
     await this.Handler.onFormLoad({
     });
     await this.PastEducationGrid.gridDataLoad({
@@ -383,7 +384,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.FundsAvailableGrid.TotalAmount.setValue(EducationDtlsSumm.TotalFund);
     this.FundsAvailableGrid.TotalLocalCurEq.setValue(EducationDtlsSumm.TotalCostEq);
     this.LEMIPeriod.setValue(EducationDtlsSumm.EMIPeriod);
-    this.LIsInterestCaptalized.setValue(EducationDtlsSumm.InterestCapitalizedFlag);
+    this.LIsInterestCaptalized.setValue(EducationDtlsSumm.InterestCapitalizedFlag=='true'?true:false);
     this.LoanRequied.setValue(EducationDtlsSumm.loanDtls.LoanRequiredAmt);
     this.TenurePeriod = EducationDtlsSumm.loanDtls.TenurePeriod;
     this.LoanSeq = EducationDtlsSumm.loanDtls.LoanSeq;
@@ -413,7 +414,8 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.PCStartDate.setValue(PursuingCourse.PrCourseStartDt);
     this.PCEndDate.setValue(PursuingCourse.PrCourseEndDt);
     this.PCRanking.setValue(PursuingCourse.PrCourseRank);
-    this.PCIsAttending.setValue(PursuingCourse.SecCourseFlag);
+    this.PCIsAttending.setValue(PursuingCourse.SecCourseFlag=='true'?true:false);
+    this.showHideSecondaryCourseFields(this.PCIsAttending.getFieldValue());
     this.PCCollegeName.setValue(PursuingCourse.SecInstituteName);
     this.PCCollegeAddress.setValue(PursuingCourse.SecAddress);
     this.PCName2.setValue(PursuingCourse.SecCourseName);
@@ -653,6 +655,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     inputMap.set('Body.EducationLoan.InterestCapitalizedFlag', this.LIsInterestCaptalized.getFieldValue());
     inputMap.set('Body.EducationLoan.MoratoriumAfterCourse', this.LMoratoriumPostCoursePeriod.getFieldValue());
     inputMap.set('Body.EducationLoan.MoratoriumDuringCourse', this.LMoratoriumDurCoursePeriod.getFieldValue());
+    inputMap.set('Body.EducationLoan.EMIPeriod', this.LEMIPeriod.getFieldValue());
     inputMap.set('Body.EducationLoan.Currency', this.LCurrency.getFieldValue());
     inputMap.set('Body.EducationLoan.pursuingCourseDtls', this.generatePersuingCourseSaveReq());
     inputMap.set('Body.EducationLoan.costAndFundsGridDtls', this.generateCostAndFundsReq());
@@ -827,7 +830,23 @@ async LEMIPeriod_blur(event){
     this.clearFieldsFlag = true;
     this.onReset();
   }
+  PCIsAttending_change(){
+     this.showHideSecondaryCourseFields(this.PCIsAttending.getFieldValue());
+  }
 
+  showHideSecondaryCourseFields(flag){
+    flag=!flag;
+    this.PCCollegeName.setHidden(flag);
+    this.PCCollegeAddress.setHidden(flag);
+    this.PCName2.setHidden(flag);
+    this.PCCompeteDate.setHidden(flag);
+    if(!flag){
+      this.PCCollegeName.onReset();
+    this.PCCollegeAddress.onReset();
+    this.PCName2.onReset();
+    this.PCCompeteDate.onReset();
+    }
+  }
   fieldDependencies = {
     LCurrency: {
       inDep: [

@@ -318,7 +318,7 @@
                   <app-text-box #PCRanking fieldID="PCRanking" [formCode]="formCode" 
                    (blur)="genericOnBlur('PCRanking', $event)"></app-text-box>
                 </div>
-                <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCIsAttending.isHidden()"
+                <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="PCIsAttending.isHidden()"
                   [ngClass]="'checkboxLeft'">
                   <div class="clr-brown fieldLegend">
                     <label class="clr-brown">
@@ -326,7 +326,7 @@
                     </label>
                   </div>
                   <app-check-box #PCIsAttending fieldID="PCIsAttending" [formCode]="formCode" 
-                    (blur)="genericOnBlur('PCIsAttending', $event)"></app-check-box>
+                    (blur)="genericOnBlur('PCIsAttending', $event)" (change)="PCIsAttending_change($event)"></app-check-box>
                 </div>
                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PCCollegeName.isHidden()">
                   <div class="clr-brown fieldLegend">

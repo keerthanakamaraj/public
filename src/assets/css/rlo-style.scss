@@ -183,7 +183,7 @@ body {
 
 .res-pr-hide {
   .icon-button {
-    margin-top: 50px;
+    margin-top: 16px !important;
     align-self: start;
     width: $input-height !important;
     height: $input-height;
@@ -192,7 +192,7 @@ body {
     color: $primary-color;
     background-color: #ffffff;
     border: 1px solid $primary-color;
-    margin-top: 37px;
+    // margin-top: 37px;
   }
 }
 
@@ -1614,8 +1614,8 @@ rlo-ui-card-field {
 
     .interface-status-container {
       position: absolute;
-      top: 11px;
-      right: 16px;
+      // top: 11px;
+      right: 24px;
     }
   }
 
@@ -1709,7 +1709,7 @@ rlo-ui-card-field {
     }
 
     &.interface-icon-only {
-      padding: 9px 0 9px 14px !important;
+      padding: 10px 0 10px 14px !important;
     }
   }
 }
@@ -1942,7 +1942,8 @@ rlo-ui-card-field {
 }
 
 .header-expanded-dde {
-  margin-top: 127px !important;
+  // margin-top: 127px !important;
+  margin-top: 66px !important; //Changes for canara bank
 }
 
 .header-expanded-qde {
@@ -1994,13 +1995,15 @@ rlo-ui-card-field {
 
     .columns {
       flex-grow: 1;
-      max-width: 50%;
+      //max-width: 50%;//temp comment
+      max-width: 100%;
 
-      &:first-of-type {
-        .heading-container {
-          border-right: 1px solid #fff;
-        }
-      }
+      //temp comment
+      // &:first-of-type {
+      //   .heading-container {
+      //     border-right: 1px solid #fff;
+      //   }
+      // }
 
       .heading-container {
         background: #e4f0f9;
@@ -2020,7 +2023,7 @@ rlo-ui-card-field {
               // padding: 7px 0 9px 14px !important;
               margin-left: $card-field-margin !important;
               margin-right: 0;
-              border-right: 1px solid #ddd;
+              // border-right: 1px solid #ddd; //Chnages for canara bank
               border-bottom: 1px solid #ddd;
             }
           }
@@ -2035,6 +2038,7 @@ rlo-ui-card-field {
               margin-right: $card-field-margin !important;
               margin-left: 0;
               border-bottom: 1px solid #ddd;
+              display: flex;
             }
           }
         }
@@ -2042,13 +2046,58 @@ rlo-ui-card-field {
     }
 
     .internal {
-      .card-tile-body:before {
-        height: 38px;
-        width: 1px;
-        background: #ccc;
-        content: "";
-        position: absolute;
-        left: -1px;
+      // .card-tile-body:before {
+      //   height: 38px;
+      //   width: 1px;
+      //   background: #ccc;
+      //   content: "";
+      //   position: absolute;
+      //   left: -1px;
+      // }
+    }
+  }
+
+  &.customer360-card {
+    .cards-body {
+      border-bottom: 0;
+
+      rlo-ui-card-field {
+        &:last-of-type {
+          .card-tile-container {
+            border-bottom: 1px solid #ddd;
+          }
+        }
+      }
+    }
+  }
+
+  &.interface-card {
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+
+    .cards-header {
+      box-shadow: none;
+    }
+
+    .cards-body {
+      box-shadow: none;
+    }
+  }
+
+  .interface-actions {
+    display: flex;
+    position: absolute;
+    right: 24px;
+
+    .icon-link {
+      color: #0079b8;
+      position: relative;
+      top: -1px;
+      cursor: pointer;
+
+      &.interface-modal {
+        color: #0079b8;
+        font-size: 14px;
+        margin-left: 9px;
       }
     }
   }
@@ -3281,6 +3330,61 @@ rlo-ui-card-field {
   .scroll-margin {
     margin-top: 4.5rem;
   }
+
+  .relationship-pannel {
+    background: white;
+    padding: 19px;
+    border: 1px solid rgba(0, 121, 184, 0.25);
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.18);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top: 0;
+
+    .relationship-table {
+      margin-top: 9px;
+
+      table {
+        // display: block; //temp comment
+        // overflow-x: auto; //temp comment
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0 3px;
+
+        thead {
+          tr {
+            background: #e4f0f9;
+            font-size: 12px;
+            line-height: 12px;
+            color: #7c7c7c;
+            font-weight: unset;
+          }
+
+          th {
+            border: none;
+            font-weight: inherit;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 17px;
+            padding: 6px 8px;
+          }
+        }
+
+        tbody {
+          tr {
+            background: #fafafa;
+
+            td {
+              border: none;
+              color: #4f4f4f;
+              line-height: 12px;
+              font-size: 12px;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .lyt-operation-queue {
@@ -3557,13 +3661,6 @@ rlo-ui-card-field {
 }
 
 .lyt-doc-upload {
-  .doc-container {
-    background: #fafcff;
-    border-radius: 10px;
-    padding: 24px;
-    border: 1px solid #dddddd;
-  }
-
   .file-upload {
     position: relative;
     display: flex;
@@ -4605,6 +4702,26 @@ rlo-ui-card-field {
             background: #b7b7b7;
           }
         }
+      }
+    }
+  }
+
+  .d-flex {
+    .indicator-section {
+      display: flex;
+      margin: 0 auto;
+      position: relative;
+
+      .indicator-options {
+        position: absolute;
+        left: 28px;
+      }
+
+      .interface-modal {
+        color: #0079b8;
+        font-size: 14px;
+        margin-left: 9px;
+        cursor: pointer;
       }
     }
   }

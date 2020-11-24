@@ -213,7 +213,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
-      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
+      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
       // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
       // { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
       { id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
@@ -228,7 +228,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   showExpandedHeader: boolean = true;//state of header i.e expanded-1 or collapsed-0 
 
   progressStatusObject: any = {
-    manditorySection: 8,
+    manditorySection: 6,
     completedSection: 0,
     borrowerCompletedSection: 0,
     coBorrowerCompletedSection: 0
@@ -519,7 +519,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.setReadOnly(this.readOnly);
     }
 
-    this.getScores();//get scores on page load
+    //Changes for canara
+    //this.getScores();//get scores on page load
   }
 
   ngOnDestroy() {
@@ -724,7 +725,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
     this.reCalculateMenuSections(this.ActiveBorrowerSeq, true);
 
-    this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
+    this.injectDynamicComponent('CustomerDetails', false, 0, 0);
     this.disableMenus = true;
     //this.CUST_DTLS.setNewCustomerFrom(event);
   }
@@ -1309,7 +1310,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   async headerState(event) {
     console.warn("DEEP | Header state", event);
     this.showExpandedHeader = event.headerState;
-    this.scoreCardComponent.headerChanges(event);
+    //this.scoreCardComponent.headerChanges(event);
 
     //TO IMPLEMENT
     // this.scoreCardComponent.forEach(element => {
@@ -1462,7 +1463,32 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (data.isAppValid) {
         requestParams.set('Body.ApplicationStatus', 'AP');
         requestParams.set('Body.direction', 'AP');
-        this.submitDDE(requestParams);
+       // this.submitDDE(requestParams);
+       var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+       Promise.all([mainMessage, button1, button2]).then(values => {
+        console.log(values);
+        let modalObj = {
+          title: "Alert",
+          mainMessage: values[0],
+          modalSize: "modal-width-sm",
+          buttons: [
+            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+            { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+          ]
+        }
+  
+        this.services.rloui.confirmationModal(modalObj).then((response) => {
+          console.log(response);
+          if (response != null) {
+            if (response.id === 1) {
+              this.services.rloui.closeAllConfirmationModal()
+              this.submitDDE(requestParams);
+            }
+          }
+        });
+      });
       }
       else {
         let errorMsg = "";

@@ -133,7 +133,7 @@ export class MyTrayGridComponent implements AfterViewInit {
 
   {
     field: "MT_LOAN_AMOUNT",
-    width: 12,
+    width: 14,
     sortable: false,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
@@ -405,7 +405,13 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_PRODUCT'] = loopVar7[i].PRODUCT;
               tempObj['MT_SUB_PRODUCT'] = loopVar7[i].SUB_PRODUCT;
               tempObj['MT_SCHEME'] = loopVar7[i].SCHEME;
-              tempObj['MT_LOAN_AMOUNT'] = loopVar7[i].LOAN_AMOUNT;
+              if(loopVar7[i].LOAN_AMOUNT == undefined || loopVar7[i].LOAN_AMOUNT == ''){
+                tempObj['MT_LOAN_AMOUNT'] = loopVar7[i].REQUESTED_CARDLIMIT;
+              }
+              else{
+                tempObj['MT_LOAN_AMOUNT'] = loopVar7[i].LOAN_AMOUNT;
+              }
+             
               tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar7[i].CREATED_BY;
@@ -497,7 +503,13 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_PRODUCT'] = loopVar32[i].PRODUCT;
               tempObj['MT_SUB_PRODUCT'] = loopVar32[i].SUB_PRODUCT;
               tempObj['MT_SCHEME'] = loopVar32[i].SCHEME;
-              tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].LOAN_AMOUNT;
+              if(loopVar32[i].LOAN_AMOUNT == undefined || loopVar32[i].LOAN_AMOUNT == ''){
+                tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].REQUESTED_CARDLIMIT;
+              }
+              else{
+                tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].LOAN_AMOUNT;
+              }
+              // tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].LOAN_AMOUNT;
               tempObj['MT_CAM_TYPE'] = loopVar32[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar32[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar32[i].CREATED_BY;

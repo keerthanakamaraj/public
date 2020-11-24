@@ -377,6 +377,55 @@ export class RmVisitDetails implements IDeserializable {
     }
 }
 
+export class AccountDetails implements IDeserializable {
+    public accountDetailsList = [];
+
+    deserialize(input: any): this {
+        this.accountDetailsList = input;
+        return Object.assign(this, input);
+    }
+
+    getTableData() {
+        let tableRowData = [];
+
+        this.accountDetailsList.forEach(element => {
+            let tableData = {};
+            if (element.hasOwnProperty("AccountType")) {
+                tableData['AccountType'] = element['AccountType'].length ? element['AccountType'] : 'NA';
+            } else {
+                tableData['AccountType'] = "NA";
+            }
+
+            if (element.hasOwnProperty("AccountId")) {
+                tableData['AccountNo'] = element['AccountId'].length ? element['AccountId'] : 'NA';
+            } else {
+                tableData['AccountNo'] = "NA";
+            }
+
+            if (element.hasOwnProperty("AvailableBalance")) {
+                tableData['AvailableBalance'] = element['AvailableBalance'];
+            } else {
+                tableData['AvailableBalance'] = "NA";
+            }
+
+            if (element.hasOwnProperty("OpeningDate")) {
+                tableData['OpeningDate'] = element['OpeningDate'].length ? element['OpeningDate'] : 'NA';
+            } else {
+                tableData['OpeningDate'] = "NA";
+            }
+
+            if (element.hasOwnProperty("AccountStatus")) {
+                tableData['AccountStatus'] = element['AccountStatus'].length ? element['AccountStatus'] : 'NA';
+            } else {
+                tableData['AccountStatus'] = "NA";
+            }
+
+            tableRowData.push(tableData);
+        });
+        return tableRowData;
+    }
+}
+
 //APPLICATION SECTION CLASSES
 
 export class LoanDetails implements IDeserializable {
@@ -600,7 +649,8 @@ export class CardDetails implements IDeserializable {
             },
             {
                 title: "Category on the front page",
-                subTitle: this.FrontPageCategory,
+                subTitle: this.FrontPageCategory.length ? this.FrontPageCategory : "NA"
+                ,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -925,33 +975,17 @@ export class PropertyDetails implements IDeserializable {
 }
 
 export class InterfaceResults implements IDeserializable {
-    public TotalWeight: string = "NA";
-    public TotalValue: string = "NA";
-    public common: Common;
+    public interfaceList: any = [];
 
     deserialize(input: any): this {
+        this.interfaceList = input;
         return Object.assign(this, input);
     }
-
     getCardData() {
-        let fieldList: ICardListData[] = [
-            {
-                title: "Total Weight",
-                subTitle: this.TotalWeight,
-                type: "basic",
-                modalSectionName: ""
-            },
-            {
-                title: "Total Value",
-                subTitle: this.TotalValue,
-                type: "basic",
-                modalSectionName: ""
-            }
-        ];
         const returnObj: IGeneralCardData = {
             name: "Interface Results",
-            modalSectionName: "",
-            data: [],
+            modalSectionName: this.interfaceList.length ? "InterfaceResults" : "",
+            interfaceDataList: this.interfaceList,
             canShowModal: true
         };
         return returnObj;
@@ -969,6 +1003,7 @@ export class CustomerDetails implements IDeserializable {
     public FamilyDetails: FamilyDetails;
     public PersonalInterview: PersonalInterview;
     public RmVisitDetails: RmVisitDetails;
+    public AccountDetails: AccountDetails;//Relationship details table
 
     public FullName: string = "NA";
     public ExistingCustomer: string = "NA";
@@ -1007,6 +1042,13 @@ export class CustomerDetails implements IDeserializable {
             this.PersonalInterview = new PersonalInterview().deserialize(input.UWPersonalInterview);//this 'UWPersonalInterview' obj is manually created in Master 
         } else {
             this.PersonalInterview = new PersonalInterview().deserialize([]);
+        }
+
+        if (input.hasOwnProperty("UWAccountDetails")) {
+            this.AccountDetails = new AccountDetails().deserialize(input.UWAccountDetails);
+        }
+        else {
+            this.AccountDetails = new AccountDetails().deserialize([]);
         }
 
         //obj
@@ -1252,8 +1294,15 @@ export class ApplicationDetails implements IDeserializable {
             this.LoanDetails.Disbursals = "NA";
         }
 
+        // this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterfaceResult);
 
-        this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterface);
+        if (input.hasOwnProperty("UWInterfaceResult")) {
+            this.InterfaceResults = new InterfaceResults().deserialize(input.UWInterfaceResult);
+        }
+        else {
+            this.InterfaceResults = new InterfaceResults().deserialize([]);
+        }
+
         this.VehicalDetails = new VehicalDetails().deserialize(input.UWIncomeSummary);
         this.PropertyDetails = new PropertyDetails().deserialize(input.UWProperty);
 
@@ -1270,7 +1319,7 @@ export class ApplicationDetails implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "Physical Form No.",
-                subTitle: this.PhysicalFormNumber,
+                subTitle: this.PhysicalFormNumber.length ? this.PhysicalFormNumber : "NA",
                 type: "basic",
                 modalSectionName: ""
             },

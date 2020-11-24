@@ -29,6 +29,7 @@ import { ScoreCardResultModule } from '../score-card-result/score-card-result.mo
 import { CustomerSearchModule } from '../customer-search/customer-search.module';
 import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-search-fileds.module';
 import { DecisionAlertModule } from '../DecisionAlert/DecisionAlert.module';
+import { InterfaceResultsModule } from '../interface-results/interface-results.module';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { DecisionAlertModule } from '../DecisionAlert/DecisionAlert.module';
         ScoreCardResultModule,
         CustomerSearchModule,
         CustomerSearchFieldsModule,
-        DecisionAlertModule
+        DecisionAlertModule,
+        InterfaceResultsModule
     ],
     declarations: [
         PopupAlertComponent,

@@ -457,15 +457,15 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.FD_TITLE.setValue(res['BorrowerDetails']['Title']['id']);
+                this.FD_TITLE.setValue(res['BorrowerDetails']['Title']);
                 this.FD_FIRST_NAME.setValue(res['BorrowerDetails']['FirstName']);
                 this.FD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
                 this.FD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
                 this.FD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
-                this.FD_GENDER.setValue(res['BorrowerDetails']['Gender']['id']);
+                this.FD_GENDER.setValue(res['BorrowerDetails']['Gender']);
                 this.FD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.FD_MOBILE.setValue(res['BorrowerDetails']['MobileNo']);
-                this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']['id']);
+                this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']);
                 // this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
                 this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['Nationality']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);

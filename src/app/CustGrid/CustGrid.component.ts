@@ -153,7 +153,12 @@ export class CustGridComponent implements AfterViewInit {
           tempObj['Cust_Name'] = loopVar4[i].FullName;
           tempObj['Cust_DOB'] = loopVar4[i].DOB;
           tempObj['Cust_ID'] = loopVar4[i].ICIFNumber; 
-          tempObj['Cust_Type'] = loopVar4[i].CustomerType;
+          if(loopVar4[i].CustomerType == 'B'){
+          tempObj['Cust_Type'] = 'Primary'
+          }
+          if(loopVar4[i].CustomerType == 'A'){
+            tempObj['Cust_Type'] = 'Add On'
+            }
         loopDataVar4.push(tempObj);}
       }
       this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);

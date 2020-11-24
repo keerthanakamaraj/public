@@ -24,13 +24,14 @@ import { DisbursementDetailsComponent } from '../DisbursementDetails/Disbursemen
 import { IncomeSummaryFormComponent } from '../IncomeSummaryForm/IncomeSummaryForm.component';
 import { LiabilityDtlsFormComponent } from '../LiabilityDtlsForm/LiabilityDtlsForm.component';
 import { DocumentUploadComponent } from '../document-upload/document-upload.component';
-import { IAmortizationForm } from '../Interface/masterInterface';
+import { IAmortizationForm, IPopUpModalResponse } from '../Interface/masterInterface';
 import { PropertyDetailsComponent } from '../PropertyDetails/PropertyDetails.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
 import { ScoreCardResultComponent } from '../score-card-result/score-card-result.component';
 import { CustomerSearchComponent } from '../customer-search/customer-search.component';
 import { CustomerSearchFieldsComponent } from '../customer-search-fields/customer-search-fields.component';
 import { DecisionAlertComponent } from '../DecisionAlert/DecisionAlert.component';
+import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -70,7 +71,10 @@ export class PopupAlertComponent implements OnInit {
     if (this.modalObject.componentName == "DecisionAlert") {
       this.dynamicallyLoadableComponent.pageSpecificData().then((response: any) => {
         console.warn('DEEP | modal closed  for' + this.modalObject.componentName, response);
-        this.activeModal.close(response);
+        let closeModelResponse: IPopUpModalResponse = {};
+        closeModelResponse["action"] = "icon-close";
+        closeModelResponse["response"] = null;
+        this.activeModal.close(closeModelResponse);
       });
     } else {
       this.activeModal.close(buttonObj);
@@ -135,6 +139,9 @@ export class PopupAlertComponent implements OnInit {
         this.dynamicallyLoadableComponent.enableApproveLimit = true;
       } else if (this.modalObject.componentName == 'CustomerSearch') {
         //this.dynamicallyLoadableComponent.passedFieldData=this.dynamicallyLoadableComponent.parentData
+      } else if (this.modalObject.componentName == 'InterfaceResults') {
+        this.dynamicallyLoadableComponent.ApplicationId = this.modalObject.applicationId;
+        this.dynamicallyLoadableComponent.uwCustomerList = this.modalObject.customerList;
       }
 
       // async brodcastProdCategory(event) {
@@ -151,12 +158,15 @@ export class PopupAlertComponent implements OnInit {
       // }
     }
 
-    setTimeout(() => {
-      const activePanel = document.getElementsByClassName("pop-up-components");
-      const firstInput = activePanel[0].getElementsByTagName('input')[0];
-      if (firstInput != undefined)
-        firstInput.blur();
-    }, 10);
+    if (this.modalObject.componentName == 'DecisionAlert') {
+      setTimeout(() => {
+        //event emitter added for in decisionAlert
+        this.dynamicallyLoadableComponent.decisionAction.subscribe((data) => {
+          console.log("DEEP | decisionAction()", data);
+          this.activeModal.close(data);
+        });
+      }, 1000);
+    }
   }
 
   getComponentClassRef(componentId: string): AddSpecificComponent {
@@ -241,7 +251,9 @@ export class PopupAlertComponent implements OnInit {
       case 'DecisionAlert':
         return new AddSpecificComponent(DecisionAlertComponent);
         break;
-
+      case 'InterfaceResults':
+        return new AddSpecificComponent(InterfaceResultsComponent);
+        break;
     }
   }
   // ngOnDestroy() {

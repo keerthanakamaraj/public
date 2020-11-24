@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { IPopUpModalResponse } from '../Interface/masterInterface';
 
 
 const customCss: string = '';
@@ -35,13 +36,18 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     @ViewChild('hidApprovalReq', { static: false }) hidApprovalReq: HiddenComponent;
 
     @Input() parentFormCode: string;
+    @Output() decisionAction: EventEmitter<any> = new EventEmitter<any>();
+
     showUW: boolean = false;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
         await Promise.all([
-            this.revalidateBasicField('DecisionReason'),
-            this.revalidateBasicField('Remarks'),
+            // this.revalidateBasicField('DecisionReason'),
+            // this.revalidateBasicField('Remarks'),
+            this.revalidateBasicField('ApprovalReq'),
+            this.revalidateBasicField('DesignationAuthority'),
+            this.revalidateBasicField('ApproverName'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -62,8 +68,10 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
-        this.hidDecisionRem.setValue('DESICION');
+        // this.hidDecisionRem.setValue('DESICION');
         this.hidApprovalReq.setValue('Y_N');
+        this.DesignationAuthority.setHidden(true);
+        this.ApproverName.setHidden(true);
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -135,29 +143,51 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.setReadOnly(false);
         this.onFormLoad();
     }
-    
+
     async ApprovalReq_blur() {
+
         if (this.ApprovalReq.getFieldValue() == 'Y') {
-          this.DesignationAuthority.mandatory = true;
-          this.ApproverName.mandatory = true;
-    
+            this.DesignationAuthority.setHidden(false);
+            this.ApproverName.setHidden(false);
+            //   setTimeout(() => {
+            //    let focusName = document.getElementById("ApproverName");  
+            //    console.log(focusName);
+            //    const firstInput = focusName.getElementsByTagName('input')[0];
+            //    firstInput.focus();
+            //   }, 0);
+
         }
         else {
-          this.DesignationAuthority.mandatory = false;
-          this.ApproverName.mandatory = false;
+            this.DesignationAuthority.setHidden(true);
+            this.ApproverName.setHidden(true);
         }
-      }
+    }
+    async ALTER_SUBMIT_click(event) {
+        var numberOfErrors: number = await this.revalidate();
+        let Decision = {
+            'ApprovalReq': this.ApprovalReq.getFieldValue(),
+            'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
+            'ApproverName': this.ApproverName.getFieldValue()
+        }
 
+        if (numberOfErrors == 0) {
+            let obj: IPopUpModalResponse = {
+                "action": "btn-submit",
+                "response": Decision
+            }
+            this.decisionAction.emit(obj);
+        }
+    }
     fieldDependencies = {
-        DecisionReason: {
-            inDep: [
-                { paramKey: "VALUE1", depFieldID: "DecisionReason", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidDecisionRem", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
+        // DecisionReason: {
+        //     inDep: [
+        //         { paramKey: "VALUE1", depFieldID: "DecisionReason", paramType: "PathParam" },
+        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //         { paramKey: "KEY1", depFieldID: "hidDecisionRem", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        // },
         ApprovalReq: {
             inDep: [
                 { paramKey: "VALUE1", depFieldID: "ApprovalReq", paramType: "PathParam" },
@@ -178,14 +208,37 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     }
 
     async pageSpecificData() {
-        // const inputMap = new Map();
-        let Decision = {
-            'DecisionReason': this.DecisionReason.getFieldValue(),
-            'Remarks' : this.Remarks.getFieldValue()
+
+        const inputMap = new Map();
+        let Decision;
+        // let Decision = {
+        //     'DecisionReason': this.DecisionReason.getFieldValue(),
+        //     'Remarks' : this.Remarks.getFieldValue()
+        // }
+        if (this.parentFormCode == 'UnderWriter') {
+            Decision = {
+                // 'DecisionReason': this.DecisionReason.getFieldValue(),
+                // 'Remarks' : this.Remarks.getFieldValue(),
+                'ApprovalReq': this.ApprovalReq.getFieldValue(),
+                'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
+                'ApproverName': this.ApproverName.getFieldValue()
+            }
+        }
+        else {
+            Decision = {
+                'DecisionReason': this.DecisionReason.getFieldValue(),
+                'Remarks': this.Remarks.getFieldValue()
+            }
         }
         return Promise.resolve(Decision);
     }
 
-
+    close() {
+        let obj: IPopUpModalResponse = {
+            "action": "btn-close",
+            "response": null
+        }
+        this.decisionAction.emit(obj);
+    }
 
 }

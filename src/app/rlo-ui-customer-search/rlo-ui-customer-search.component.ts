@@ -41,6 +41,8 @@ export class RloUiCustomerSearchComponent extends FieldComponent implements OnIn
 
   validateCustomer() {
     console.log('DEEP | btn click searchType', this.searchType, this.value);
+    if (this.readOnly)
+      return;
 
     this.searchCustomer.emit({ type: 'btnClick', inputBtn: this.searchType });
     return;
@@ -77,7 +79,7 @@ export class RloUiCustomerSearchComponent extends FieldComponent implements OnIn
   }
 
   onBlur() {
-    console.log("DEEP | __onBlur", this.searchType); 
+    console.log("DEEP | __onBlur", this.searchType);
     this.searchCustomer.emit({ type: 'blur', inputBtn: this.searchType });
   }
 

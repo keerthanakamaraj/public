@@ -49,10 +49,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   onProdCategoryChange({ }) {
     if ((this.MainComponent.BAD_PROD_CAT.getFieldValue() == undefined && this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC') || (this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') ) {
       this.MainComponent.isLoanCategory = false;
-      this.MainComponent.CD_CUST_TYPE.setValue('B');
-      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
+    //  this.MainComponent.CD_CUST_TYPE.setValue('B');
+    //  this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.CD_CUST_TYPE.setReadOnly(true);
-      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
+    //  this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
       this.MainComponent.BAD_APP_PRPSE.mandatory = false;
       this.MainComponent.BAD_PRIME_USAGE.mandatory = true;
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
@@ -60,8 +60,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_CARD_CUST_TYPE.mandatory = true;
       this.MainComponent.BAD_CARD_TYPE.mandatory = true;
       this.MainComponent.BAD_REQ_CARD_LIMIT.mandatory = true;
+      // this.MainComponent.BAD_SRC_CHANNEL.setValue("BRANCH");
+      // this.MainComponent.BAD_CUSTOMER_TYPE.setValue("I");
       // this.MainComponent.CD_DEBIT_SCORE.isHidden
-    } else if(this.MainComponent.BAD_PROD_CAT.getDefault() == 'CC' && this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC' ) {
+    } else if(this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC' ) {
       this.MainComponent.isLoanCategory = true;
       this.MainComponent.CD_CUST_TYPE.setReadOnly(false);
       this.MainComponent.CD_CUST_TYPE.onReset();
@@ -73,8 +75,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_CARD_CUST_TYPE.mandatory = false;
       this.MainComponent.BAD_CARD_TYPE.mandatory = false;
       this.MainComponent.BAD_REQ_CARD_LIMIT.mandatory = false;
-
-
+      this.MainComponent.CD_LOAN_OWNERSHIP.setValue(100);
+      this.MainComponent.CD_CUST_TYPE.setValue('B');
     }
   }
 
@@ -213,7 +215,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_CUSTOMER_ID.onReset();
     this.MainComponent.CD_STAFF_ID.onReset();
 
-    this.onProdCategoryChange({});
+   // this.onProdCategoryChange({});
 
     //this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
     this.existingCustomer({});

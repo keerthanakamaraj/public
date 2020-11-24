@@ -489,7 +489,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitQDE(requestParams, null);
+            this.submitQDE(requestParams);
           }
         }
       });
@@ -497,34 +497,112 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   }
 
-  async QDE_SUBMIT_click(event) {
-    // this.services.rloui.openDecisionAlert().then((Response:any) => {
-    //         console.log(Response);
-    //         const inputMap = new Map();
-    //         inputMap.clear();
-    //         inputMap.set('HeaderParam.Decision', Response.DecisionReason);
-    //         inputMap.set('HeaderParam.Remark', Response.Remarks);
+  // async QDE_SUBMIT_click(event) {
+  //   // this.services.rloui.openDecisionAlert().then((Response:any) => {
+  //   //         console.log(Response);
+  //   //         const inputMap = new Map();
+  //   //         inputMap.clear();
+  //   //         inputMap.set('HeaderParam.Decision', Response.DecisionReason);
+  //   //         inputMap.set('HeaderParam.Remark', Response.Remarks);
 
-    //         this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
-    //           async (httpResponse: HttpResponse<any>) => {
-    //             const res = httpResponse.body;
-    //             if (res != null) {
-    //               // this.submitQDE(requestParams);
-    //             }
-    //           },
-    //         );
-    // });
+  //   //         this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+  //   //           async (httpResponse: HttpResponse<any>) => {
+  //   //             const res = httpResponse.body;
+  //   //             if (res != null) {
+  //   //               // this.submitQDE(requestParams);
+  //   //             }
+  //   //           },
+  //   //         );
+  //   // });
+  //   this.services.rloCommonData.isFormValid().then((dataObj) => {
+  //     console.warn(dataObj);
+  //     if (dataObj.isAppValid) {
+  //       const requestParams = new Map();
+  //       requestParams.set('Body.ApplicationStatus', 'Approve');
+  //       requestParams.set('Body.direction', 'AP');
+  //       // this.services.rloui.openDecisionAlert().then((Response: any) => {
+  //       //   console.log(Response);
+  //       //   if(typeof Response == 'object'){
+  //       //   if(Response != undefined || Response != null){
+  //       //   this.submitQDE(requestParams, Response);
+  //       //   }
+  //       // }
+  //       // });
+  //       this.submitQDE(requestParams, undefined);
+  //     } else {
+  //       let errorMsg = "";
+  //       dataObj.errorsList.forEach(element => {
+  //         errorMsg += element;
+  //       });
+  //       // this.services.alert.showAlert(2, '', -1, errorMsg);
+  //       // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+  //       var mainMessage = this.services.rloui.getAlertMessage('', errorMsg);
+  //       var button1 = this.services.rloui.getAlertMessage('', 'OK');
+  //       // var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+  //       Promise.all([mainMessage, button1]).then(values => {
+  //         console.log(values);
+  //         let modalObj = {
+  //           title: "Alert",
+  //           rawHtml: values[0],
+  //           modalSize: "modal-width-sm",
+  //           buttons: [
+  //             { id: 1, text: values[1], type: "success", class: "btn-primary" },
+  //             //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+  //           ]
+  //         }
+  //         this.services.rloui.confirmationModal(modalObj).then((response) => {
+  //           console.log(response);
+  //           if (response != null) {
+  //             if (response.id === 1) {
+  //               this.services.rloui.closeAllConfirmationModal();
+  //             }
+  //           }
+  //         });
+  //       });
+  //     }
+  //   });
+  // }
+  async QDE_SUBMIT_click(event) {
+
+    //  this.services.rloui.openDecisionAlert().then((response) => {
+    //    console.log(response);
+    //  });
+    
+    // return;
     this.services.rloCommonData.isFormValid().then((dataObj) => {
       console.warn(dataObj);
       if (dataObj.isAppValid) {
         const requestParams = new Map();
         requestParams.set('Body.ApplicationStatus', 'Approve');
         requestParams.set('Body.direction', 'AP');
-        this.services.rloui.openDecisionAlert().then((Response: any) => {
-          console.log(Response);
-          this.submitQDE(requestParams, Response);
-
+        var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+    
+        Promise.all([mainMessage, button1, button2]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+          }
+    
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.rloui.closeAllConfirmationModal()
+                this.submitQDE(requestParams);
+              }
+            }
+          });
         });
+       // this.submitQDE(requestParams);
       } else {
         let errorMsg = "";
         dataObj.errorsList.forEach(element => {
@@ -559,7 +637,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       }
     });
   }
-  async submitQDE(requestParams, decisionResponse) {
+
+  async submitQDE(requestParams) {
     const inputMap = new Map();
 
     inputMap.clear();
@@ -571,10 +650,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     inputMap.set('Body.CurrentStage', this.HideCurrentStage.getFieldValue());
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.SchemeId', this.services.rloCommonData.globalApplicationDtls.SchemeCode);
-    if (decisionResponse != null) {
-      inputMap.set('Body.Decision', decisionResponse.DecisionReason);
-      inputMap.set('Body.Remark', decisionResponse.Remarks);
-    }
+  //  if (decisionResponse != null) {
+      // inputMap.set('Body.Decision', 'APRO');
+      // inputMap.set('Body.Remark', 'tefhfh123');
+  //  }
 
     if (requestParams) {
       requestParams.forEach((val, key) => {

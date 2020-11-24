@@ -20,8 +20,8 @@
     </div>
   </div>
 
-
-  <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
+  <!-- Changes for canara bank -->
+  <!-- <div class="col-sm-12 col-md-12 col-lg-12 d-flex status-section" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
     <div class="header-status-container vertical-layout col-sm-6 col-md-6 col-lg-6">
       <app-score-card #scorecard [scoreData]="data" [layoutType]="'vertical'" [applicationId]="applicationId" [borrowersBorrowerSeq]="borrowersBorrowerSeq" *ngFor="let data of headerScoreCard">
       </app-score-card>
@@ -29,7 +29,8 @@
     <div class="header-status-container col-sm-6 col-md-6 col-lg-6">
       <app-header-status-card [statusData]="data" *ngFor="let data of headerStatusData"></app-header-status-card>
     </div>
-  </div>
+  </div> -->
+  <!-- Changes for canara bank -->
 
   <div class="row">
     <div class="col-12  col-sm-12 col-md-12 uw-tabs">
@@ -56,8 +57,9 @@
         <div class="cards-section" style="width:100% !important;height:100% !important;">
 
           <ngx-masonry [options]="myOptions" [ordered]="true" *ngIf="selectedTab =='customer'">
-            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngClass]="{'d-block' : customerSectionLoaded}">
-              <div class="card-layout-container">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : customerSectionLoaded}">
+              <div class="card-layout-container" *ngIf="customerSectionLoaded">
                 <app-card [cardMetaData]="customerCardDataWithFields"></app-card>
               </div>
             </div>
@@ -68,7 +70,8 @@
               </div>
             </div>
 
-            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto" [ngClass]="{'d-block' : customerSectionLoaded}">
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : customerSectionLoaded}">
               <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
                 <div class="blank-container" *ngIf="cBlankCardData.length">
                   <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>

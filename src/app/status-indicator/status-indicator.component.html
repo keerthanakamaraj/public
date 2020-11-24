@@ -1,8 +1,10 @@
 <ng-container *ngIf="iconType == 'icon'">
-    <span class="wgt-status-indicator icon-check-circle"
-        [ngClass]="{'success': status == 'completed', 'failure': status == 'pending', 'pending': status == 'deviation'}">
-    </span>
+  <span class="wgt-status-indicator icon-check-circle"
+    [ngClass]="{'success': status == 'completed', 'failure': status == 'pending', 'pending': status == 'deviation'}">
+  </span>
 </ng-container>
 <ng-container *ngIf="iconType == 'basic'">
-    <span class="interface-status-indicator" [ngClass]="{'success': status == 'completed', 'danger': status == 'pending', 'disabled': status == 'disabled'}"></span>
+  <span class="interface-status-indicator"
+    [ngClass]="{'success': status == 'completed' || status == 'Success', 'danger': status == 'pending', 'disabled': status == 'disabled'}"
+    data-toggle="tooltip" data-placement="right" title="{{status}}"></span>
 </ng-container>

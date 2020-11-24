@@ -63,8 +63,9 @@ export class RlouiService {
     { componentName: "ObligationDetails", iconClass: "icon-Liability-Details" },
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
     { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" },
-    { componentName: "CustomerSearch", iconClass: "icon-Scorecard-Results" },
-    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" }
+    { componentName: "CustomerSearch", iconClass: "icon-Customer-Details" },
+    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" },
+    { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" }
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -284,7 +285,7 @@ export class RlouiService {
     if (!currency) { currency = this.getConfig("currency.code.default", "EUR"); }
 
     let val = new Intl.NumberFormat(languageCode, { style: 'currency', currency: currency }).formatToParts(amt);
-    
+
     if (hideSymbol) {
       //val.splice(0,1);
       val = val.filter(part => part.type != 'currency');
@@ -401,6 +402,11 @@ export class RlouiService {
         borrowerSeq: cardMetaData.borrowerSeq,
         componentCode: cardMetaData.componentCode
       }
+
+      if (cardMetaData.modalSectionName == "InterfaceResults") {
+        modalObj.customerList = cardMetaData.customerList;
+      }
+
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);
         if (response != null) {
@@ -500,12 +506,9 @@ export class RlouiService {
         title: "Alert",
         mainMessage: undefined,
         modalSize: "modal-width-sm",
-        buttons: [
-          { id: 1, text: 'DONE', type: "success", class: "btn-primary" },
-          { id: 2, text: 'CLOSE', type: "failure", class: "btn-warning-outline" }
-        ],
+        buttons: [],
         componentName: 'DecisionAlert',
-        componentCode : componentCode
+        componentCode: componentCode
         // data: obj
       };
       this.confirmationModal(modalObj).then((response) => {

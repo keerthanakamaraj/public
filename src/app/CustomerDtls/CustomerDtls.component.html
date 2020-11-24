@@ -17,14 +17,14 @@
               (blur)="genericOnBlur('CD_CUST_TYPE', $event)">
             </rlo-ui-radio>
           </div>
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CARD_CUST_TYPE.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CARD_CUST_TYPE.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CARD_CUST_TYPE.mandatory}">
                 {{ 'CustomerDtls.CD_CARD_CUST_TYPE' | translate}}
               </label>
             </div>
             <rlo-ui-radio #CD_CARD_CUST_TYPE fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CARD_CUST_TYPE', $event)"
               (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)"></rlo-ui-radio>
           </div>
@@ -76,11 +76,12 @@
                 {{ 'CustomerDtls.CD_CIF' | translate}}
               </label>
             </div>
-            <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF" (blur)="customerSearchGenericOnBlur($event)"
+
+            <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF"
               [searchType]="'CD_CIF'" (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
           </div>
 
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_ID.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_ID' | translate}}
@@ -88,7 +89,7 @@
             </div>
             <app-text-box #CD_CUST_ID fieldID="CD_CUST_ID" [formCode]="formCode"
               (blur)="genericOnBlur('CD_CUST_ID', $event)"></app-text-box>
-          </div>
+          </div> -->
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_STAFF_ID.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -154,7 +155,16 @@
             <app-text-box #CD_LAST_NAME fieldID="CD_LAST_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('CD_LAST_NAME', $event)"></app-text-box>
           </div>
-          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaidenName.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': MaidenName.mandatory}">
+                {{ 'CustomerDtls.MaidenName' | translate}}
+              </label>
+            </div>
+            <app-text-box #MaidenName fieldID="MaidenName" [formCode]="formCode"
+              (blur)="genericOnBlur('MaidenName', $event)"></app-text-box>
+          </div>
+          <!-- <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_FULL_NAME.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -164,15 +174,7 @@
             <app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="MaidenName.isHidden() || isLoanCategory">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'CustomerDtls.MaidenName' | translate}}
-              </label>
-            </div>
-            <app-text-box #MaidenName fieldID="MaidenName" [formCode]="formCode"
-              (blur)="genericOnBlur('MaidenName', $event)"></app-text-box>
-          </div>
+        
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
@@ -194,7 +196,7 @@
             </app-combo-box>
           </div>
 
-          <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <!-- <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MARITAL_STATUS.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -239,8 +241,12 @@
                 {{ 'CustomerDtls.CD_NATIONALITY' | translate}}
               </label>
             </div>
-            <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
+            <!-- <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('CD_NATIONALITY', $event)">
+            </app-combo-box> -->
+            <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
+            domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('CD_NATIONALITY', $event)">
             </app-combo-box>
           </div>
@@ -251,9 +257,12 @@
               </label>
             </div>
             <!-- <app-text-box #CD_CITIZENSHIP fieldID="CD_CITIZENSHIP" [formCode]="formCode" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)"></app-text-box> -->
-            <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
+            <!-- <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
+            </app-combo-box> -->
+            <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_EXPIRY.isHidden()">
@@ -348,7 +357,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SEGMENT.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_SEGMENT.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_SEGMENT' | translate}}
               </label>
             </div>
@@ -359,7 +368,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustSubSegment.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown"  [ngClass]="{'mandatory': CustSubSegment.mandatory}">
                 {{ 'CustomerDtls.CustSubSegment' | translate}}
               </label>
             </div>
@@ -373,7 +382,7 @@
                 {{ 'CustomerDtls.RequestedAmountLimit' | translate}}
               </label>
             </div>
-
+          
             <app-rlo-ui-currency #RequestedAmountLimit fieldID="RequestedAmountLimit" [currencyReadOnly]="true"
               [componentFieldId]="'RequestedAmountLimit'" (onBlurEvent)="customGenericOnBlur($event)"
               [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
@@ -384,7 +393,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CardDispatchMode.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': CardDispatchMode.mandatory}">
                 {{ 'CustomerDtls.CardDispatchMode' | translate}}
               </label>
             </div>
@@ -394,7 +403,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_LOAN_OWN.isHidden() || !isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_LOAN_OWN.mandatory}">
                 {{ 'CustomerDtls.CD_LOAN_OWN' | translate}}
               </label>
             </div>

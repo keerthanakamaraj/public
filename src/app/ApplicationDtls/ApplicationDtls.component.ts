@@ -28,14 +28,15 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   @ViewChild('AD_DATE_OF_RECIEPT', { static: false }) AD_DATE_OF_RECIEPT: DateComponent;
   // @ViewChild('AD_EXISTING_CUSTOMER', { static: false }) AD_EXISTING_CUSTOMER: ComboBoxComponent;
   @ViewChild('AD_SOURCING_CHANNEL', { static: false }) AD_SOURCING_CHANNEL: ComboBoxComponent;
-  @ViewChild('AD_DSA_ID', { static: false }) AD_DSA_ID: ComboBoxComponent;
+  //@ViewChild('AD_DSA_ID', { static: false }) AD_DSA_ID: ComboBoxComponent;
+  @ViewChild('AD_DSA_ID', { static: false }) AD_DSA_ID: TextBoxComponent;
   @ViewChild('AD_BRANCH', { static: false }) AD_BRANCH: ComboBoxComponent;
   @ViewChild('AD_Save', { static: false }) AD_Save: ButtonComponent;
   @ViewChild('Handler', { static: false }) Handler: ApplicationHandlerComponent;
   //  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidSourcingChannel', { static: false }) hidSourcingChannel: HiddenComponent;
-  @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
+//  @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
   @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
 
   @Input() ApplicationId: string = undefined;
@@ -77,7 +78,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     //   this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
     this.hidSourcingChannel.setValue('Branch');
-    this.hidDsaId.setValue('DSA_ID');
+   // this.hidDsaId.setValue('DSA_ID');
     this.hidAccBranch.setValue('ACC_BRANCH');
     this.setDependencies();
     await this.Handler.onFormLoad({});
@@ -262,16 +263,16 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       outDep: [
       ]
     },
-    AD_DSA_ID: {
-      inDep: [
+    // AD_DSA_ID: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "AD_DSA_ID", paramType: "PathParam" },
-        { paramKey: "KEY1", depFieldID: "hidDsaId", paramType: "QueryParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "AD_DSA_ID", paramType: "PathParam" },
+    //     { paramKey: "KEY1", depFieldID: "hidDsaId", paramType: "QueryParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     AD_BRANCH: {
       inDep: [
         { paramKey: "BranchCd", depFieldID: "AD_BRANCH", paramType: "PathParam" },

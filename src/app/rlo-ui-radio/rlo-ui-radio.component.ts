@@ -17,6 +17,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
   @Input('category') category: string;
   @Input('emittedOptions') emittedOptions: any[] = [];
   dropDownOptions: DropDown = new DropDown();
+  @Input('reverseFlag') reverseFlag :boolean=false;
 
   paginating = false;
   default: String = '';
@@ -142,8 +143,10 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
             //   this.dropDownOptions.Options = this.dropDownOptions.Options.concat([{ id: undefined, text: '' }]);
             // if (result) {
             // this.dropDownOptions.Options = this.dropDownOptions.Options.concat(result);
-            // }
-            this.dropDownOptions.Options = this.dropDownOptions.Options = result;
+            // } 
+           
+            this.dropDownOptions.Options  = !this.reverseFlag?result:result.reverse(this.compareKeys);
+
             // this.isOptionsLoaded = true;
             if (!this.isOptionsLoaded) {
               if (this.valuePending) {
@@ -301,4 +304,20 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     this.readOnly = flag;
     this.isDisabled = flag;
   }
+  compareKeys(val1, val2) {
+  //console.log("shweta :: reverse options ",(b.id > a.id));
+  let a=val1.id;
+  let b=val2.id;
+ let compare = a.localeCompare(b);
+  if (compare < 0){
+     console.log(a," is before ",b);
+     return val2;
+  }
+  else if (compare > 0) {
+     console.log(a," is after",b);
+     return val1;
+  }
+  //console.log("shweta compare : compare>0 ",(compare>0)," :: compare<0 :",(compare<0));
+  //return compare>0?val1:val2;
+}
 }
