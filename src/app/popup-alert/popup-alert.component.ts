@@ -46,6 +46,7 @@ export class PopupAlertComponent implements OnInit {
 
   modalObject: IModalData;
   dynamicallyLoadableComponent: any;//instance of the component that will be loaded dynamically
+  hideModalHeader: boolean = false;//used to hide the header in modals
 
   constructor(public activeModal: NgbActiveModal, public services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private cdRef: ChangeDetectorRef) {
   }
@@ -55,6 +56,10 @@ export class PopupAlertComponent implements OnInit {
     console.error(this.modalObject);
     // console.log(this.modalObject.rawHtml);
     console.warn(this.modalObject.buttons, this.modalObject.componentName);
+    if (this.modalObject.hasOwnProperty("hideModalHeader")) {
+      if (this.modalObject.hideModalHeader)
+        this.hideModalHeader = true;
+    }
   }
 
   async onClick(buttonObj: AnyNaptrRecord): Promise<any> {
