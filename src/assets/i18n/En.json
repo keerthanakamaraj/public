@@ -1602,7 +1602,7 @@
     "BAD_CARD_NUMBER": "Reference Number",
     "BAD_CUSTOMER_TYPE": "Customer Type",
     "BAD_REQ_CARD_LIMIT": "Requested Card Limit",
-    "CD_CUST_SUB_SGMT": "Customer Subsegment",
+    "CD_CUST_SUB_SGMT": "Customer Sub Segment",
     "CD_STAFF": "Is the Customer an employee?",
     "LD_TENURE": "Tenure",
     "RD_REFERRER_NO": "Referrer Mobile No.",

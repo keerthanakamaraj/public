@@ -180,6 +180,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
       this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
       this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
+      this.revalidateBasicField('MaidenName',false,showErrors),
       //this.revalidateBasicField('CD_COUNTRY_CODE'),
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
@@ -1398,9 +1399,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_TITLE.setValue(tempVar['title']);
     // this.CD_CUST_ID.setValue(tempVar['icif']);
     this.CD_EMAIL.setValue(tempVar['emailid']);
-    this.CD_PMRY_EMBSR_NAME.setValue(tempVar['nameoncard']);
+    this.CD_PMRY_EMBSR_NAME.setValue(tempVar['custName']);
     // this.appRefNum  = tempVar['AppRefNum'];
-    this.MaidenName.setValue(tempVar['MaidenName']);
+   
     
 
     this.CD_STAFF_ID.setValue(tempVar['staffId']);

@@ -581,7 +581,7 @@ export class RloCommonData {
         if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
           addrValidationObj.isMailing = true;
         }
-        if ('CR' === ('' + eachAddress.OccupancyType.id)) {
+        if ('CR' === ('' + eachAddress.OccupancyType.id) ) {
           addrValidationObj.isCurrent = true;
         }
         if ('PR' === ('' + eachAddress.OccupancyType.id)) {
@@ -594,12 +594,15 @@ export class RloCommonData {
 
       if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
         addrValidationObj.isOffice = true;
+        addrValidationObj.isPermenet = true;
+        addrValidationObj.isCurrent = true;
+
       }
 
       // if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
       //   addrValidationObj.isOffice = true;
       // }
-
+      
       for (const flag in addrValidationObj) {
         if (!addrValidationObj[flag]) {
           commonObj.isSectionValid = false;

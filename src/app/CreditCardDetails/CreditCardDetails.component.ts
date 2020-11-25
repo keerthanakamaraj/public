@@ -28,7 +28,7 @@ const customCss: string = '';
     templateUrl: './CreditCardDetails.component.html'
 })
 export class CreditCardDetailsComponent extends FormComponent implements OnInit, AfterViewInit {
-    @ViewChild('Branch', { static: false }) Branch: TextBoxComponent;
+    @ViewChild('Branch', { static: false }) Branch: ComboBoxComponent;
     // @ViewChild('FrontPageCategory', { static: false }) FrontPageCategory: ComboBoxComponent;
     //@ViewChild('MaximumCardLimit', { static: false }) MaximumCardLimit: TextBoxComponent;
     //@ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: TextBoxComponent;
@@ -44,7 +44,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     // @ViewChild('EcsType', { static: false }) EcsType: ComboBoxComponent;
     // @ViewChild('EcsPercentage', { static: false }) EcsPercentage: TextBoxComponent;
     // @ViewChild('EcsAccNo', { static: false }) EcsAccNo: TextBoxComponent;
-    @ViewChild('CustomerType', { static: false }) CustomerType: TextBoxComponent;
+    @ViewChild('CustomerType', { static: false }) CustomerType: ComboBoxComponent;
     @ViewChild('RequestedCardLimit', { static: false }) RequestedCardLimit: RloUiCurrencyComponent;
     //@ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: TextBoxComponent;
     //@ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: TextBoxComponent;
@@ -79,6 +79,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('ApprovedLimit', { static: false }) ApprovedLimit: RloUiCurrencyComponent;
     @ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: RloUiCurrencyComponent;
     @ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: RloUiCurrencyComponent;
+    @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
+
+  
 
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
@@ -148,6 +151,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.hidNomineeReq.setValue('Y_N');
         this.hidNomineeReltion.setValue('RELATIONSHIP');
         this.hidGurdianRel.setValue('GUADIAN');
+        this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
         // this.hidECSMandateFlag.setValue('Y_N');
         // this.hidECSType.setValue('ECS_TYPE');
 
@@ -395,7 +399,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
                         this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
-                        this.CustomerType.setValue(CreditElement['CustomerType']['text']);
+                        this.CustomerType.setValue(CreditElement['CustomerType']['id']);
                         if (this.customerList.CustomerType == 'A') {
                             this.Add_RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);
                         }
@@ -453,6 +457,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     this.header = res.Header;
 
                     this.Branch.setValue(this.header.ApplicationBranch);
+                    //  this.CustomerType.setValue(this.header.CardCustType)
                     //this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
 
                     //custom
@@ -523,7 +528,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
-                inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
+                 inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
                 if (this.customerList.CustomerType == 'A') {
                     inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
                 }
@@ -838,6 +843,26 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             outDep: [
             ]
         },
+        // Branch: {
+        //     inDep: [
+        //       { paramKey: "BranchCd", depFieldID: "Branch", paramType: "PathParam" },
+        //       // { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
+        //       // { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
+        //       // { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        //   },
+          CustomerType: {
+            inDep: [
+      
+              { paramKey: "VALUE1", depFieldID: "CustomerType", paramType: "PathParam" },
+              { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+              { paramKey: "KEY1", depFieldID: "hideCardCustType", paramType: "QueryParam" },
+            ],
+            outDep: [
+            ]
+          },
 
         // EcsMandateFlag: {
         //     inDep: [

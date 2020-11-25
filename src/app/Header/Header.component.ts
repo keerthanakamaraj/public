@@ -258,7 +258,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           
           this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
-          this.CC_CHANNEL.setValue('Offline');
+          this.CC_CHANNEL.setValue(header.SourcingChannel);
           this.channel = this.CC_CHANNEL.getFieldValue();
           // this.CC_CARD_ASSOCIATION.setValue('NA');
           this.CC_CUST_TYPE.setValue(header.CardCustName);
