@@ -3825,6 +3825,14 @@ rlo-ui-card-field {
       }
     }
   }
+
+  .radio-wrapper {
+    display: flex;
+    margin-top: 1.25rem;
+    .radio-container {
+      display: inline-block;
+    }
+  }
 }
 
 //document table used in doc mngt and operations

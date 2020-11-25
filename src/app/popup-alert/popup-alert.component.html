@@ -1,13 +1,20 @@
 <div class="wgt-alert-modal">
-  <div class="modal-header" *ngIf="modalObject.title">
+  <div class="modal-header" *ngIf="modalObject.title != 'Alert'">
     <span [ngClass]="modalObject.iconClass"></span>
     <span class="modal-header-name">{{modalObject.title}}</span>
     <span class="fa fa-times" (click)="onClick(0)"></span>
   </div>
+  <ng-container *ngIf="modalObject.title == 'Alert'">
+    <div class="modal-header">
+      <span class="modal-header-name">Alert</span>
+      <span class="fa fa-times" (click)="onClick(0)"></span>
+    </div>
+  </ng-container>
+
   <div class="modal-body">
     <span class="msg-span fa fa-times" *ngIf="!modalObject.title" (click)="onClick(0)"></span>
     <h5>{{modalObject.mainMessage}}</h5>
-    <div id="printdiv"  [innerHTML]="modalObject.rawHtml">
+    <div id="printdiv" [innerHTML]="modalObject.rawHtml">
     </div>
 
     <!-- components added here -->

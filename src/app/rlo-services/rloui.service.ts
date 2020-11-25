@@ -64,7 +64,7 @@ export class RlouiService {
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
     { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" },
     { componentName: "CustomerSearch", iconClass: "icon-Customer-Details" },
-    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" },
+    { componentName: "DecisionAlert", iconClass: "" },
     { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" }
   ];
 

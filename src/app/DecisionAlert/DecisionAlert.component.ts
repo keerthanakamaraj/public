@@ -162,7 +162,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             this.ApproverName.setHidden(true);
         }
     }
-    async ALTER_SUBMIT_click(event) {
+    async ALTER_SUBMIT_click() {
         var numberOfErrors: number = await this.revalidate();
         let Decision = {
             'ApprovalReq': this.ApprovalReq.getFieldValue(),
