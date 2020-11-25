@@ -59,6 +59,7 @@ export interface IGlobalApllicationDtls {
   MaxCashLimit?: any;
   CardType?: string;
   CardTypename?: string;
+  MaxCredit?: any;
 }
 @Injectable({
   providedIn: 'root'

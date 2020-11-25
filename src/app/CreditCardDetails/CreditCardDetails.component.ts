@@ -179,7 +179,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         });
         this.CardDispatchMode.setHidden(false);
         this.Add_RequestedCardLimit.setHidden(true);
-        this.StmtDispatchMode.setValue('Email');
+        // this.StmtDispatchMode.setValue('Email');
         this.OnLoanFormLoad()
         this.setDependencies();
     }
@@ -347,7 +347,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let MaxCashLimit: any;
         MaxCashLimit = this.header.Product_max_cash_limit;
         let MaxCardLimit: any;
-        MaxCardLimit = this.header.Product_max_cash_limit;
+        MaxCardLimit = this.header.Product_max_credit;
         let MinCardLimit: any;
         MinCardLimit = this.header.Product_min_cash_limit;
 
@@ -393,7 +393,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
                         this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
                         // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
-                        this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']['id']);
+                        this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
                         this.CustomerType.setValue(CreditElement['CustomerType']['text']);
                         if (this.customerList.CustomerType == 'A') {
@@ -457,8 +457,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
                     //custom
                     this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
-                    this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
-
+                    this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
+                    
                 },
                 async (httpError) => {
                     var err = httpError['error']
