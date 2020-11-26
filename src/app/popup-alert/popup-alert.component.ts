@@ -163,6 +163,11 @@ export class PopupAlertComponent implements OnInit {
       // }
     }
 
+    //Dirty code ::: Used to hide the "UNKNOWN" error msgs that come @UW -> modal open  
+    setTimeout(() => {
+      this.removeValidationErrorMsg(this.modalObject.componentName)
+    }, 1500);
+
     if (this.modalObject.componentName == 'DecisionAlert') {
       setTimeout(() => {
         //event emitter added for in decisionAlert
@@ -264,4 +269,28 @@ export class PopupAlertComponent implements OnInit {
   // ngOnDestroy() {
   //   this.services.rloCommonData.modalDataSubject.unsubscribe();
   // }
+
+  removeValidationErrorMsg(sectionName: string) {
+    let errorMsgEle = document.getElementsByClassName("injected-component");
+
+    switch (sectionName) {
+      case "AddressDetails":
+        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+        break;
+
+      case "AssetDetails":
+        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+
+        var errorMsgClass = errorMsgEle[0].getElementsByClassName("error")[0];
+        errorMsgClass.classList.remove("error");
+        break;
+
+      case "ReferrerDetails":
+        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+        break;
+
+      default:
+        break;
+    }
+  }
 }

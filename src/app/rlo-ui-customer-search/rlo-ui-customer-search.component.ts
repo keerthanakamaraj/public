@@ -80,7 +80,8 @@ export class RloUiCustomerSearchComponent extends FieldComponent implements OnIn
 
   onBlur() {
     console.log("DEEP | __onBlur", this.searchType);
-    this.searchCustomer.emit({ type: 'blur', inputBtn: this.searchType });
+    if (!this.readOnly)
+      this.searchCustomer.emit({ type: 'blur', inputBtn: this.searchType });
   }
 
   getFieldValue() {
