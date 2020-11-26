@@ -399,7 +399,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
                         this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
-                        this.CustomerType.setValue(CreditElement['CustomerType']['id']);
+                        this.CustomerType.setValue(CreditElement['CustomerType']['text']);
                         if (this.customerList.CustomerType == 'A') {
                             this.Add_RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);
                         }
@@ -528,7 +528,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
-                 inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
+                if(this.CustomerType.getFieldValue() == 'INDIVIDUAL'){
+                    inputMap.set('Body.CreditCardDetails.CustomerType', 'I');
+                }
+                else{
+                    inputMap.set('Body.CreditCardDetails.CustomerType', 'C');
+                }
                 if (this.customerList.CustomerType == 'A') {
                     inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
                 }
@@ -853,16 +858,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         //     outDep: [
         //     ]
         //   },
-          CustomerType: {
-            inDep: [
+        //   CustomerType: {
+        //     inDep: [
       
-              { paramKey: "VALUE1", depFieldID: "CustomerType", paramType: "PathParam" },
-              { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-              { paramKey: "KEY1", depFieldID: "hideCardCustType", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-          },
+        //       { paramKey: "VALUE1", depFieldID: "CustomerType", paramType: "PathParam" },
+        //       { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        //       { paramKey: "KEY1", depFieldID: "hideCardCustType", paramType: "QueryParam" },
+        //     ],
+        //     outDep: [
+        //     ]
+        //   },
 
         // EcsMandateFlag: {
         //     inDep: [

@@ -44,7 +44,7 @@
               domainObjectUrl="/MstBranchDetails/{BranchCd}" doServerUrl="/masters" domainObjectCode="MstBranchDetails"
               placeholder="Select" (blur)="genericOnBlur('Branch', $event)"></app-combo-box>
           </div>
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.CustomerType' | translate}}
@@ -53,8 +53,8 @@
             <app-text-box #CustomerType fieldID="CustomerType" [formCode]="formCode"
               (blur)="genericOnBlur('CustomerType', $event)">
             </app-text-box>
-          </div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
+          </div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.CustomerType' | translate}}
@@ -63,7 +63,7 @@
             <app-combo-box #CustomerType category="2" fieldID="CustomerType" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('CustomerType', $event)"></app-combo-box>
-          </div>
+          </div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FrontPageCategory.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': FrontPageCategory.mandatory}">
