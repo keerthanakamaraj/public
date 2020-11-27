@@ -171,7 +171,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 // }
                 //changes for Canara bank
             } else {
-                this.ApprovedLimit.setReadOnly(true);
+                this.ApprovedCashLimit.setReadOnly(true);
                 this.ApprovedLimit.mandatory = false;
             }
 
@@ -347,6 +347,15 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     }
     ApproveCashLimit_() {
+      // Validate if Approved Limit is greater than product Credit Limit
+      if(+this.ApprovedLimit.getFieldValue() > +this.header.Product_max_credit){
+        // this.ApprovedLimit.setComponentSpecificValue("");
+        // this.ApprovedCashLimit.setComponentSpecificValue("");
+        this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
+        return;
+      }
+
+
         let MaxApprovedCashLimit: any;
         let MaxCashLimit: any;
         MaxCashLimit = this.header.Product_max_cash_limit;
@@ -355,14 +364,17 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let MinCardLimit: any;
         MinCardLimit = this.header.Product_min_cash_limit;
 
-        if (this.ApprovedCashLimit.getFieldValue() != undefined) {
-            MaxApprovedCashLimit = ((this.ApprovedCashLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);
+        if (this.ApprovedLimit.getFieldValue() != undefined) {
+          // MaxApprovedCashLimit = ((this.ApprovedCashLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);
+          MaxApprovedCashLimit = ((this.ApprovedLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);
         }
         if (MaxApprovedCashLimit > MinCardLimit) {
-            this.ApprovedLimit.setComponentSpecificValue(MinCardLimit, null);
+          // this.ApprovedLimit.setComponentSpecificValue(MinCardLimit, null);
+          this.ApprovedCashLimit.setComponentSpecificValue(MinCardLimit, null);
         }
         else {
-            this.ApprovedLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
+          //this.ApprovedLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
+          this.ApprovedCashLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
         }
     }
     OnLoanFormLoad() {
@@ -461,9 +473,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     //this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
 
                     //custom
-                    this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
-                    this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
+                    // this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
+                    // this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
                     
+                    this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
+                    this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
                 },
                 async (httpError) => {
                     var err = httpError['error']
@@ -654,7 +668,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 // inputMap.set('Body.CreditCardDetails.EcsAccNo', this.EcsAccNo.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.CardAdvLine', this.CardAdvLine.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.CRLine', this.CRLine.getFieldValue());
-                inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
+
+                // Credit Card - Customer Type Getting updated wrongly as Value - Not Required to update the existing value
+                // inputMap.set('Body.CreditCardDetails.CustomerType', this.CustomerType.getFieldValue());
                 if (this.customerList.CustomerType == 'A') {
                     inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
                 }
@@ -891,13 +907,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     }
 
     customGenericOnBlur(event: any) {
-        console.log("Deep | customGenericOnBlur", event);
+        console.log("Deep ---- | customGenericOnBlur", event);
         // if (event.field == "ApprovedLimit") {
         //     this.approveLimitBlur(event.textFieldValue);
         // }
         this.genericOnBlur(event.field, event.textFieldValue);
-        if (event.field == "ApprovedCashLimit") {
-        this.ApproveCashLimit_();
+        // if (event.field == "ApprovedCashLimit") {
+        if (event.field == "ApprovedLimit") {
+          this.ApproveCashLimit_();
         }
     }
 }

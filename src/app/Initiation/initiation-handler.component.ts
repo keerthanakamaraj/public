@@ -204,6 +204,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
     this.MainComponent.CD_CUST_SGMT.onReset();
+    this.MainComponent.CD_CUST_SUB_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.MainComponent.CD_EMAIL_ID.onReset();

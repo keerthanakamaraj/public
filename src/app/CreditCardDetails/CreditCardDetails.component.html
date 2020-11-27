@@ -101,30 +101,6 @@
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'Add_RequestedCardLimit'"
               (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
-                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}</label>
-            </div>
-
-            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
-              [formCode]="formCode"></app-rlo-ui-currency>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'CreditCardDetails.MaxCashLimit' | translate}}</label>
-            </div>
-            <!-- <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('MaxCashLimit', $event)">
-            </app-rlo-ui-currency> -->
-
-            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'MaxCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
-              [formCode]="formCode"></app-rlo-ui-currency>
-
-          </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -140,6 +116,30 @@
             <!-- <app-amount #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
               (blur)="genericOnBlur('ApprovedLimit', $event);approveLimitBlur($event)"></app-amount> -->
 
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.MaxCashLimit' | translate}}</label>
+            </div>
+            <!-- <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('MaxCashLimit', $event)">
+            </app-rlo-ui-currency> -->
+
+            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'MaxCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
+                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}</label>
+            </div>
+
+            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
             <div class="clr-brown fieldLegend">
