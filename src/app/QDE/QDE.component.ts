@@ -416,15 +416,18 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     console.log("deep === load address n occupation grid", event);
     const inputMap = new Map();
 
-    await this.FieldId_6.AddressGrid.gridDataLoad({
-      'passBorrowerSeqToGrid': event.BorrowerSeq
-    });
     this.FieldId_6.activeBorrowerSeq = event.BorrowerSeq;
-
-    await this.FieldId_5.OCC_DTLS_GRID.gridDataLoad({
-      'refNumToGrid': event.BorrowerSeq,
-    });
     this.FieldId_5.activeBorrowerSeq = event.BorrowerSeq;
+    this.FieldId_6.onReset();
+    this.FieldId_5.onReset();
+    
+    // await this.FieldId_6.AddressGrid.gridDataLoad({
+    //   'passBorrowerSeqToGrid': event.BorrowerSeq
+    // });
+
+    // await this.FieldId_5.OCC_DTLS_GRID.gridDataLoad({
+    //   'refNumToGrid': event.BorrowerSeq,
+    // });
   }
   // async CUSTOMER_DETAILS_passNewCustomer(){
   //   this.FieldId_6.AddressGrid.addressDetails = [];
