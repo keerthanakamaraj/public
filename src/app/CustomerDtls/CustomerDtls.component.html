@@ -6,7 +6,7 @@
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10 row">
 
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden() || !isLoanCategory" >
+          <div class="col-12  col-sm-6 col-md-6 res-pr-hide" [hidden]="CD_CUST_TYPE.isHidden() || !isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_TYPE.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_TYPE' | translate}}
@@ -76,8 +76,8 @@
                 {{ 'CustomerDtls.CD_CIF' | translate}}
               </label>
             </div>
-            <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF"
-              [searchType]="'CD_CIF'" (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
+            <app-rlo-ui-customer-search #CD_CIF fieldID="CD_CIF" [searchType]="'CD_CIF'"
+              (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search>
           </div>
 
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_ID.isHidden()">
@@ -105,6 +105,35 @@
               fontWeight="400" customClass="sub-section-header"></app-label>
           </div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
+          <!-- for corporate start-->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_REGISTERED_NAME.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_REGISTERED_NAME.mandatory}">
+                {{ 'CustomerDtls.CD_REGISTERED_NAME' | translate}}
+              </label>
+            </div>
+            <app-text-box #CD_REGISTERED_NAME fieldID="CD_REGISTERED_NAME" [formCode]="formCode"
+              (blur)="genericOnBlur('CD_REGISTERED_NAME', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_INCORPORATE_TYPE.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_INCORPORATE_TYPE.mandatory}">
+                {{ 'CustomerDtls.CD_INCORPORATE_TYPE' | translate}}
+              </label>
+            </div>
+            <app-text-box #CD_INCORPORATE_TYPE fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
+              (blur)="genericOnBlur('CD_INCORPORATE_TYPE', $event)"></app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_INCORPORATE_DATE.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': CD_INCORPORATE_DATE.mandatory}">
+                {{ 'CustomerDtls.CD_INCORPORATE_DATE' | translate}}
+              </label>
+            </div>
+            <app-date #CD_INCORPORATE_DATE fieldID="CD_INCORPORATE_DATE" [formCode]="formCode" placeholder="dd-mm-yyyy"
+              (blur)="genericOnBlur('CD_INCORPORATE_DATE', $event)"></app-date>
+          </div>
+          <!-- for corporate end -->
           <div class="col-12  col-sm-2 col-md-2 res-pr-hide" [hidden]="CD_TITLE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_TITLE.mandatory}">
@@ -173,7 +202,7 @@
             <app-text-box #CD_FULL_NAME fieldID="CD_FULL_NAME" [formCode]="formCode"
               (blur)="genericOnBlur('CD_FULL_NAME', $event)"></app-text-box>
           </div>
-        
+
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DOB.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_DOB.mandatory}">
@@ -245,7 +274,7 @@
               (blur)="genericOnBlur('CD_NATIONALITY', $event)">
             </app-combo-box> -->
             <app-combo-box #CD_NATIONALITY category="2" fieldID="CD_NATIONALITY" [formCode]="formCode"
-            domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('CD_NATIONALITY', $event)">
             </app-combo-box>
           </div>
@@ -261,7 +290,8 @@
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
             </app-combo-box> -->
             <app-combo-box #CD_CITIZENSHIP category="2" fieldID="CD_CITIZENSHIP" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
+              placeholder="Select" domainObjectUrl="/MstCountryDetails/{CountryCd}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CITIZENSHIP', $event)">
             </app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PASSPORT_EXPIRY.isHidden()">
@@ -367,7 +397,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustSubSegment.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown"  [ngClass]="{'mandatory': CustSubSegment.mandatory}">
+              <label class="clr-brown" [ngClass]="{'mandatory': CustSubSegment.mandatory}">
                 {{ 'CustomerDtls.CustSubSegment' | translate}}
               </label>
             </div>
@@ -381,7 +411,7 @@
                 {{ 'CustomerDtls.RequestedAmountLimit' | translate}}
               </label>
             </div>
-          
+
             <app-rlo-ui-currency #RequestedAmountLimit fieldID="RequestedAmountLimit" [currencyReadOnly]="true"
               [componentFieldId]="'RequestedAmountLimit'" (onBlurEvent)="customGenericOnBlur($event)"
               [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
@@ -444,8 +474,6 @@
                 {{ 'CustomerDtls.CD_PREF_LANG' | translate}}
               </label>
             </div>
-
-
             <app-combo-box #CD_PREF_LANG category="2" fieldID="CD_PREF_LANG" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               (blur)="genericOnBlur('CD_PREF_LANG', $event)">
@@ -459,8 +487,7 @@
             </div>
             <rlo-ui-radio #EmbLineFlag fieldID="EmbLineFlag" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('EmbLineFlag', $event)"
-              (change)="EmbLineFlag_change('EmbLineFlag', $event)">
+              (blur)="genericOnBlur('EmbLineFlag', $event)" (change)="EmbLineFlag_change('EmbLineFlag', $event)">
             </rlo-ui-radio>
           </div>
 
