@@ -119,7 +119,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                 var colDefClone = [];
                 for (var i = 0; i < this.columnDefs.length; i++) {
                     colDefClone[i] = Object.assign({}, this.columnDefs[i]);
-                    console.log("columen ", colDefClone[i] )
+                    console.log("columen ", colDefClone[i])
                 }
                 this.readonlyGrid.loadColums(colDefClone);
             });
@@ -227,7 +227,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                     this.goldRecord = false
                 }
                 if (loopVar10) {
-                    var totalValue = { 'GoldOrnamentType': 'Total', 'Weight': 0, 'GoldDetailSeq': 0, 'Count': 0, 'TotalWeight': (+"0"), 'Value': 0 ,'MarketRate': 0};
+                    var totalValue = { 'GoldOrnamentType': 'Total', 'Weight': 0, 'GoldDetailSeq': 0, 'Count': 0, 'TotalWeight': (+"0"), 'Value': 0, 'MarketRate': 0 };
                     for (var i = 0; i < loopVar10.length; i++) {
                         var tempObj = {};
                         tempObj['GoldDetailSeq'] = loopVar10[i].GoldDetailSeq;
@@ -238,7 +238,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                         tempObj['MarketRate'] = loopVar10[i].MarketRate;
                         tempObj['GoldOrnamentType'] = loopVar10[i].GoldOrnamentType.text;
                         loopDataVar10.push(tempObj);
-                        
+
                         totalValue['GoldOrnamentType'] = 'Total';
                         totalValue['GoldDetailSeq'] = totalValue['GoldDetailSeq'] + loopVar10[i].GoldDetailSeq;
                         totalValue['Weight'] += loopVar10[i].Weight;
@@ -247,13 +247,19 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                         totalValue['Value'] += loopVar10[i].Value;
                         totalValue['MarketRate'] += loopVar10[i].MarketRate;
                         // this.columnDefs = this.columnDefs.slice(0, 6);
-                    
+
                     }
                     loopDataVar10.push(totalValue);
                     console.log("new object", totalValue);
                 }
                 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
-                console.log("newwwwwww" , this.readonlyGrid);
+                console.log("newwwwwww", this.readonlyGrid);
+                console.log(this.readonlyGrid.getAllRows());
+
+                setTimeout(() => {
+                    this.hideLastColCells(); 
+                }, 100);
+                
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -311,5 +317,14 @@ export class GoldDetailsGridComponent implements AfterViewInit {
         }
     }
 
+    //make edit and del icons hidden
+    hideLastColCells() {
+        let tableRow = document.getElementsByClassName('ag-center-cols-container')[0].children;
+        let lastRow = tableRow[tableRow.length - 1].children
 
+        console.error(tableRow);
+        console.error("last", lastRow);
+        lastRow[lastRow.length-1].classList.add("d-none");
+        lastRow[lastRow.length-2].classList.add("d-none");
+    }
 }

@@ -326,4 +326,9 @@ export class ReadonlyGridComponent {
     }
   }
 
+  getAllRows() {
+    let rowData = [];
+    this.agGrid.api.forEachNode(node => rowData.push(node.data));
+    return rowData;
+  }
 }
