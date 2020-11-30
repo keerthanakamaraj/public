@@ -29,6 +29,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
 
+    goldRecord: boolean = false;
     componentCode: string = 'GoldDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -118,6 +119,7 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                 var colDefClone = [];
                 for (var i = 0; i < this.columnDefs.length; i++) {
                     colDefClone[i] = Object.assign({}, this.columnDefs[i]);
+                    console.log("columen ", colDefClone[i] )
                 }
                 this.readonlyGrid.loadColums(colDefClone);
             });
@@ -213,12 +215,19 @@ export class GoldDetailsGridComponent implements AfterViewInit {
             }
         }
         this.readonlyGrid.combineMaps(gridReqMap, inputMap);
-        this.services.http.fetchApi('/GoldDetails', 'GET', inputMap,'/rlo-de').subscribe(
+        this.services.http.fetchApi('/GoldDetails', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 var loopDataVar10 = [];
-                var loopVar10 = res['GoldDetails'];
+                if (res !== null) {
+                    this.goldRecord = true
+                    var loopVar10 = res['GoldDetails'];
+                }
+                else {
+                    this.goldRecord = false
+                }
                 if (loopVar10) {
+                    var totalValue = { 'GoldOrnamentType': 'Total', 'Weight': 0, 'GoldDetailSeq': 0, 'Count': 0, 'TotalWeight': (+"0"), 'Value': 0 ,'MarketRate': 0};
                     for (var i = 0; i < loopVar10.length; i++) {
                         var tempObj = {};
                         tempObj['GoldDetailSeq'] = loopVar10[i].GoldDetailSeq;
@@ -229,9 +238,22 @@ export class GoldDetailsGridComponent implements AfterViewInit {
                         tempObj['MarketRate'] = loopVar10[i].MarketRate;
                         tempObj['GoldOrnamentType'] = loopVar10[i].GoldOrnamentType.text;
                         loopDataVar10.push(tempObj);
+                        
+                        totalValue['GoldOrnamentType'] = 'Total';
+                        totalValue['GoldDetailSeq'] = totalValue['GoldDetailSeq'] + loopVar10[i].GoldDetailSeq;
+                        totalValue['Weight'] += loopVar10[i].Weight;
+                        totalValue['Count'] += loopVar10[i].Count;
+                        totalValue['TotalWeight'] += +(loopVar10[i].TotalWeight);
+                        totalValue['Value'] += loopVar10[i].Value;
+                        totalValue['MarketRate'] += loopVar10[i].MarketRate;
+                        // this.columnDefs = this.columnDefs.slice(0, 6);
+                    
                     }
+                    loopDataVar10.push(totalValue);
+                    console.log("new object", totalValue);
                 }
                 this.readonlyGrid.apiSuccessCallback(params, loopDataVar10);
+                console.log("newwwwwww" , this.readonlyGrid);
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -283,11 +305,11 @@ export class GoldDetailsGridComponent implements AfterViewInit {
 
     formatAmount(number) {
         if (number.value) {
-            return this.services.formatAmount(number.value, null, null,false);
+            return this.services.formatAmount(number.value, null, null, false);
         } else {
             return '-';
         }
     }
-    
+
 
 }
