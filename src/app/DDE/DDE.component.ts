@@ -1718,17 +1718,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   // Seperate way for setting tags for customer
   setCustomerTags() {
-    // console.log("Active Borrower ", this.ActiveCustomerDtls);
 
+    const tags = [];
     if (this.ActiveCustomerDtls) {
-      const customerTags = [{
-        label: this.ActiveCustomerDtls['CustomerType'],
-        text: this.ActiveCustomerDtls['FullName']
-      }];
-      this.setTags(customerTags);
-    } else {
-      this.setTags([]);
-    }
+      if(this.ActiveCustomerDtls['CustomerType']=='B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
+      tags.push({label: 'P', text: this.ActiveCustomerDtls['FullName']});
+      }else{
+      tags.push({label: this.ActiveCustomerDtls['CustomerType'], text: this.ActiveCustomerDtls['FullName']});
+      }
+   //   this.setTags(customerTags);
+    } 
+      this.setTags(tags);
+   
   }
 
   AddressDetails_SetTag(event) {
