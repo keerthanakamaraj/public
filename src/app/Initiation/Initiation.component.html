@@ -390,7 +390,7 @@
                     <rlo-ui-radio #CD_CARD_CUST_TYPE fieldID="CD_CARD_CUST_TYPE" [formCode]="formCode"
                       domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
                       domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_CARD_CUST_TYPE', $event)"
-                      (change)="CD_CARD_CUST_TYPE_change('CD_CARD_CUST_TYPE', $event)"></rlo-ui-radio>
+                      ></rlo-ui-radio>
                   </div>
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_EXISTING_CUST.isHidden()">
                     <div class="clr-brown fieldLegend">
@@ -421,9 +421,13 @@
                   </div>
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CIF.isHidden()">
-                    <div class="clr-brown fieldLegend">
+                    <div class="clr-brown fieldLegend" >
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_CIF.mandatory}">
                         {{ 'Initiation.CD_CIF' | translate}}</label>
+                      <!-- <ng-template #elseBlock> *ngIf="customerStatusFlag; else elseBlock"
+                          <label class="clr-brown" [ngClass]="{'mandatory': CD_CBS_CUST_ID.mandatory}">
+                              {{ 'Initiation.CD_CBS_CUST_ID' | translate}}</label>
+                      </ng-template> -->
                     </div>
                     <!-- <app-text-box #CD_CIF fieldID="CD_CIF" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_CIF', $event)">
@@ -479,7 +483,7 @@
                     <app-text-box #CD_FIRST_NAME fieldID="CD_FIRST_NAME" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_FIRST_NAME', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MIDDLE_NAME.isHidden()">
+                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MIDDLE_NAME.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_MIDDLE_NAME.mandatory}">
                         {{ 'Initiation.CD_MIDDLE_NAME' | translate}}</label>
@@ -487,6 +491,78 @@
                     <app-text-box #CD_MIDDLE_NAME fieldID="CD_MIDDLE_NAME" [formCode]="formCode"
                       placeholder="(Optional)" (blur)="genericOnBlur('CD_MIDDLE_NAME', $event)"></app-text-box>
                   </div>
+                 <!-- Written By Sikandar -->
+                  <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CBS_CUST_ID.isHidden()">
+                      <div class="clr-brown fieldLegend">
+                        <label class="clr-brown" [ngClass]="{'mandatory':CD_CBS_CUST_ID.mandatory }">
+                          {{'Initiation.CD_CBS_CUST_ID' | translate}}
+                        </label>
+                      </div>
+                      <app-text-box #CD_CBS_CUST_ID fieldID="CD_CBS_CUST_ID" [formCode]="formCode"
+                       placeholder="(Optional)" (blur)="genericOnBlur('CD_CBS_CUST_ID', $event)">
+                      </app-text-box>
+                  </div> -->
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_REGISTERED_NAME.isHidden()">
+                      <div class="clr-brown fieldLegend">
+                        <label class="clr-brown" [ngClass]="{'mandatory':CD_REGISTERED_NAME.mandatory }">
+                          {{'Initiation.CD_REGISTERED_NAME' | translate}}
+                        </label>
+                      </div>
+                      <app-text-box #CD_REGISTERED_NAME fieldID="CD_REGISTERED_NAME" [formCode]="formCode"
+                        (blur)="genericOnBlur('CD_REGISTERED_NAME', $event)">
+                      </app-text-box>
+                    </div>
+                    <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_TYPE_OF_INCORPORATION.isHidden()">
+                        <div class="clr-brown fieldLegend">
+                          <label class="clr-brown" [ngClass]="{'mandatory':CD_TYPE_OF_INCORPORATION.mandatory }">
+                            {{'Initiation.CD_TYPE_OF_INCORPORATION' | translate}}
+                          </label>
+                        </div>
+                        <app-text-box #CD_TYPE_OF_INCORPORATION fieldID="CD_TYPE_OF_INCORPORATION" [formCode]="formCode"
+                          (blur)="genericOnBlur('CD_TYPE_OF_INCORPORATION', $event)">
+                        </app-text-box>
+                      </div>
+                      <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DATE_OF_INCORPORATION.isHidden()">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory':CD_DATE_OF_INCORPORATION.mandatory }">
+                              {{'Initiation.CD_DATE_OF_INCORPORATION' | translate}}
+                            </label>
+                          </div>
+                          <app-date #CD_DATE_OF_INCORPORATION fieldID="CD_DATE_OF_INCORPORATION" [formCode]="formCode" placeholder="dd-mm-yyyy"
+                            (blur)="genericOnBlur('CD_DATE_OF_INCORPORATION', $event)">
+                          </app-date>
+                        </div>
+                        <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_PAN_NUMBER.isHidden()">
+                            <div class="clr-brown fieldLegend">
+                              <label class="clr-brown" [ngClass]="{'mandatory':CD_PAN_NUMBER.mandatory }">
+                                {{'Initiation.CD_PAN_NUMBER' | translate}}
+                              </label>
+                            </div>
+                            <app-text-box #CD_PAN_NUMBER fieldID="CD_PAN_NUMBER" [formCode]="formCode"
+                              (blur)="genericOnBlur('CD_PAN_NUMBER', $event)">
+                            </app-text-box>
+                          </div> -->
+                          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_COUNTRY_CODE.isHidden()">
+                              <div class="clr-brown fieldLegend">
+                                <label class="clr-brown" [ngClass]="{'mandatory':CD_COUNTRY_CODE.mandatory }">
+                                  {{'Initiation.CD_COUNTRY_CODE' | translate}}
+                                </label>
+                              </div>
+                              <app-text-box #CD_COUNTRY_CODE fieldID="CD_COUNTRY_CODE" [formCode]="formCode"
+                                (blur)="genericOnBlur('CD_COUNTRY_CODE', $event)">
+                              </app-text-box>
+                            </div> -->
+                            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_MOBILE_NUMBER.isHidden()">
+                                <div class="clr-brown fieldLegend">
+                                  <label class="clr-brown" [ngClass]="{'mandatory':CD_MOBILE_NUMBER.mandatory }">
+                                    {{'Initiation.CD_MOBILE_NUMBER' | translate}}
+                                  </label>
+                                </div>
+                                <app-text-box #CD_MOBILE_NUMBER fieldID="CD_MOBILE_NUMBER" [formCode]="formCode"
+                                  (blur)="genericOnBlur('CD_MOBILE_NUMBER', $event)">
+                                </app-text-box>
+                              </div> -->
+                    <!-- Corporate related fields -->
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_THIRD_NAME.isHidden()">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': CD_THIRD_NAME.mandatory}">
@@ -532,6 +608,7 @@
                     <app-text-box #CD_TAX_ID fieldID="CD_TAX_ID" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_TAX_ID', $event)"></app-text-box>
                   </div>
+                  <!-- Corporate related fields ends -->
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_COUNTRY_CODE.isHidden()">
                     <div class="clr-brown fieldLegend">
                         <label class="clr-brown" [ngClass]="{'mandatory': CD_COUNTRY_CODE.mandatory}">

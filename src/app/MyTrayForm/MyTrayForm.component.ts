@@ -317,7 +317,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     console.warn(startDate, moment().format(this.dateFormat));
     this.getGraphData(startDate, moment().format(this.dateFormat)).then((response: any) => {
       console.log(response);
-      this.plotDoughnutChart(response);
+     // this.plotDoughnutChart(response);
     })
   }
 
@@ -333,7 +333,7 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     console.warn(startDate, endDate);
     this.getGraphData(startDate, endDate).then((response: any) => {
       console.log(response);
-      this.plotDoughnutChart(response);
+     // this.plotDoughnutChart(response);
     });
   }
 

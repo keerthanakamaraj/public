@@ -68,6 +68,13 @@ export class CustDtlsGridComponent implements AfterViewInit {
     filter: false,
   },
   {
+    field: "CD_DATE_OF_INCORPORATION",
+    width: 22,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: false,
+  },
+  {
     width: 6,
     field: "",
     sortable: false,

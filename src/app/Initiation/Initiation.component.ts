@@ -64,8 +64,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_PROMOTION', { static: false }) BAD_PROMOTION: ComboBoxComponent;
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
   @ViewChild('CD_CARD_CUST_TYPE', { static: false }) CD_CARD_CUST_TYPE: RLOUIRadioComponent;
-
-
   //@ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent; // removed for customer search
   //@ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;// removed for customer search
 
@@ -90,6 +88,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_CUST_SGMT', { static: false }) CD_CUST_SGMT: ComboBoxComponent;
   @ViewChild('CD_CUST_SUB_SGMT', { static: false }) CD_CUST_SUB_SGMT: ComboBoxComponent;
   @ViewChild('REF_CIF', { static: false }) REF_CIF: TextBoxComponent;
+
+  // for Corporate Cards
+ // @ViewChild('CD_CBS_CUST_ID', { static: false }) CD_CBS_CUST_ID: TextBoxComponent;
+  // @ViewChild('CD_TITLE', { static: false                 }) CD_TITLE: ComboBoxComponent;
+  @ViewChild('CD_REGISTERED_NAME', { static: false }) CD_REGISTERED_NAME: TextBoxComponent;
+  @ViewChild('CD_TYPE_OF_INCORPORATION', { static: false }) CD_TYPE_OF_INCORPORATION: TextBoxComponent;
+  @ViewChild('CD_DATE_OF_INCORPORATION', { static: false }) CD_DATE_OF_INCORPORATION: DateComponent;
+ // @ViewChild('CD_PAN_NUMBER', { static: false }) CD_PAN_NUMBER: TextBoxComponent;
+  @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: TextBoxComponent;
+  @ViewChild('CD_MOBILE_NUMBER', { static: false }) CD_MOBILE_NUMBER: RloUiMobileComponent;
+  // @ViewChild('CD_EMAIL_ID', { static: false              }) CD_EMAIL_ID: TextBoxComponent;
 
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   @ViewChild('CD_LOAN_OWNERSHIP', { static: false }) CD_LOAN_OWNERSHIP: AmountComponent;
@@ -184,7 +193,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('CD_CUST_TYPE'),
+     // this.revalidateBasicField('CD_CUST_TYPE'),
       // this.revalidateBasicField('CD_CARD_CUST_TYPE'),
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
@@ -199,7 +208,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('CD_TITLE'),
       this.revalidateBasicField('CD_FIRST_NAME'),
       this.revalidateBasicField('CD_MIDDLE_NAME'),
-      this.revalidateBasicField('CD_THIRD_NAME'),
+     // this.revalidateBasicField('CD_THIRD_NAME'),
       this.revalidateBasicField('CD_LAST_NAME'),
       this.revalidateBasicField('CD_FULL_NAME'),
       this.revalidateBasicField('CD_DOB'),
@@ -210,6 +219,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       // this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('CD_EMAIL_ID'),
       this.revalidateBasicField('CD_NAME_ON_CARD'),
+    //  this.revalidateBasicField('CD_CBS_CUST_ID'),
+    //  this.revalidateBasicField('CD_REGISTERED_NAME'),
+    //  this.revalidateBasicField('CD_TYPE_OF_INCORPORATION'),
+    //  this.revalidateBasicField('CD_DATE_OF_INCORPORATION'),
+     // this.revalidateBasicField('CD_PAN_NUMBER'),
 
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
@@ -389,7 +403,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.onProdCategoryChange({});
     //this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
-
     //this.CD_STAFF.setDefault('N');
     this.Handler.isStaff({});
     this.tempUnableCustId();
@@ -406,6 +419,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.mode = params['mode'];
     }
   }
+
+
   async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'New Application Initiation';
     await super.submit(path, apiCode, serviceCode);
@@ -448,6 +463,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
+    //  this.toggleColumn();
     });
 
     this.tempUnableCustId()
@@ -512,7 +528,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   BAD_CARD_TYPE_change(){
     this.Handler.CardNumberEnable();
   }
-   
+
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -525,10 +541,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       searchType: "External"
     }
     this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+      this.toggleColumn();
       if (response != null) {
         console.log(response);
-        // this.ApplicationStatus(response);
-         this.setValuesOfCustomer(response);
+        this.setValuesOfCustomer(response);
+        this.toggleColumn();
       }
       else {
         console.warn("DEEP | No customer selected");
@@ -598,6 +615,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
+    console.log('searched data =================', data);
     let tempVar: any = data;
     this.CD_DOB.setValue(tempVar['dob']);
     this.CD_TAX_ID.setValue(tempVar['taxId']);
@@ -617,6 +635,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
     
 
+    // Corporate Type Customer
+    this.CD_REGISTERED_NAME.setValue(tempVar['firsName'] + ' ' + tempVar['midName'] + ' ' + tempVar['lastName']);
+    this.CD_TYPE_OF_INCORPORATION.setValue(tempVar['accType']);
+    this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dob']);
+   // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
+    this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
+
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
@@ -624,6 +649,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
+    this.Handler.enableFieldBasedOnCustomerType();
+   // this.customerStatusFlag = this.Handler.customerTypeStatus;
+   // console.log('Customer Status ', this.customerStatusFlag);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
@@ -798,6 +826,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
   async CD_ADD_click(event) {
     let inputMap = new Map();
+   // this.toggleColumn();
     // if(this.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined){
     //   if(this.loanTotal > 100){
     //     this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
@@ -1621,6 +1650,22 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     });
 
+  }
+  toggleColumn() {
+    console.log('Customer typesss:- ', this.Handler.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue());
+   if (this.Handler.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() === 'I') {
+    this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
+    this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
+   // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('CD_DATE_OF_iNCORPORATION'));
+   } else if( this.Handler.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() === 'C') {
+    this.CUST_DTLS_GRID.setColumnHidden('DOB', true);
+    this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', false);
+   // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('DOB'));
+   } else {
+     // TODO: 
+     this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
+    this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
+   }
   }
 
 }
