@@ -1869,7 +1869,8 @@
     "FD_Save": "Save",
     "FD_clear": "clear",
     "FD_NATIONAL_ID": "National ID",
-    "FD_LAST_NAME": "Last Name"
+    "FD_LAST_NAME": "Last Name",
+    "FD_EMAIL" : "Email"
   },
   "FamilyDetailsGrid": {
     "FD_NAME": "Name",

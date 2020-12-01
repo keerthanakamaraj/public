@@ -25,7 +25,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10">
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Branch.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Branch.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': Branch.mandatory}">
                 {{ 'CreditCardDetails.Branch' | translate}}
@@ -33,7 +33,17 @@
             </div>
             <app-text-box #Branch fieldID="Branch" [formCode]="formCode" (blur)="genericOnBlur('Branch', $event)">
             </app-text-box>
-          </div>
+          </div> -->
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Branch.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.Branch' | translate}}
+              </label>
+            </div>
+            <app-combo-box #Branch category="2" fieldID="Branch" [formCode]="formCode"
+              domainObjectUrl="/MstBranchDetails/{BranchCd}" doServerUrl="/masters" domainObjectCode="MstBranchDetails"
+              placeholder="Select" (blur)="genericOnBlur('Branch', $event)"></app-combo-box>
+          </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -44,6 +54,16 @@
               (blur)="genericOnBlur('CustomerType', $event)">
             </app-text-box>
           </div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.CustomerType' | translate}}
+              </label>
+            </div>
+            <app-combo-box #CustomerType category="2" fieldID="CustomerType" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              placeholder="Select" (blur)="genericOnBlur('CustomerType', $event)"></app-combo-box>
+          </div> -->
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FrontPageCategory.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': FrontPageCategory.mandatory}">
@@ -81,30 +101,6 @@
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'Add_RequestedCardLimit'"
               (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
-                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}</label>
-            </div>
-
-            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
-              [formCode]="formCode"></app-rlo-ui-currency>
-          </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'CreditCardDetails.MaxCashLimit' | translate}}</label>
-            </div>
-            <!-- <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
-              (blur)="genericOnBlur('MaxCashLimit', $event)">
-            </app-rlo-ui-currency> -->
-
-            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'MaxCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
-              [formCode]="formCode"></app-rlo-ui-currency>
-
-          </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -120,6 +116,30 @@
             <!-- <app-amount #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
               (blur)="genericOnBlur('ApprovedLimit', $event);approveLimitBlur($event)"></app-amount> -->
 
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaxCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.MaxCashLimit' | translate}}</label>
+            </div>
+            <!-- <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [formCode]="formCode"
+              (blur)="genericOnBlur('MaxCashLimit', $event)">
+            </app-rlo-ui-currency> -->
+
+            <app-rlo-ui-currency #MaxCashLimit fieldID="MaxCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'MaxCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedCashLimit.mandatory}">
+                {{ 'CreditCardDetails.ApprovedCashLimit' | translate}}</label>
+            </div>
+
+            <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -299,8 +319,8 @@
             <app-text-box #EcsAccNo fieldID="EcsAccNo" [formCode]="formCode" (blur)="genericOnBlur('EcsAccNo', $event)">
             </app-text-box>
           </div> -->
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <ng-container>
             <div *ngIf="!readOnly" class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
               [hidden]="CCD_Save.isHidden()">
@@ -342,6 +362,7 @@
         <app-hidden #hidGurdianRel fieldID="hidGurdianRel"></app-hidden>
         <app-hidden #hidNomineeSeq fieldID="hidNomineeSeq"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hideCardCustType fieldID="hideCardCustType"></app-hidden>
       </div>
     </div>
   </div>

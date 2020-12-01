@@ -489,7 +489,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       TenurePeriodCd: header.TenurePeriod,
       TenurePeriodName: header.TenurePeriodName,
       MinCashLimit : header.MinCashLimit,
-      MaxCashLimit : header.MaxCashLimit
+      MaxCashLimit : header.MaxCashLimit,
+      MaxCredit : header.MaxCredit
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);

@@ -52,6 +52,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('hidISDCode', { static: false }) hidISDCode: HiddenComponent;
     @ViewChild('CUST_DTLS', { static: false }) CUST_DTLS: CustomerDtlsComponent;
     @ViewChild('CUSTOMER_GRID', { static: false }) CUSTOMER_GRID: CustomerGridDTLSComponent;
+    @ViewChild('FD_EMAIL', { static: false }) FD_EMAIL: TextBoxComponent;
     @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
     @Input() Cust_FullName: any;
     @Input() activeBorrowerSeq: string = undefined;
@@ -80,7 +81,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('FD_RELATIONSHIP'),
             this.revalidateBasicField('FD_NATIONAL_ID'),
             this.revalidateBasicField('FD_TAX_ID'),
-            // this.revalidateBasicField('FD_ISD_Code'),
+            this.revalidateBasicField('FD_EMAIL'),
         ]).then((errorCounts) => {
             errorCounts.forEach((errorCount) => {
                 totalErrors += errorCount;
@@ -311,6 +312,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Relationship', this.FD_RELATIONSHIP.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.Email', this.FD_EMAIL.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerRelated', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'PUT', inputMap, '/initiation').subscribe(
@@ -328,6 +330,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                             if (err['ErrorElementPath'] == 'BorrowerDetails.TaxID') {
                                 this.FD_TAX_ID.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
+                                this.FD_EMAIL.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
                                 this.FD_NATIONAL_ID.setError(err['ErrorDescription']);
@@ -383,6 +388,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.DOB', this.FD_DOB.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.Email', this.FD_EMAIL.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.CustomerRelated', this.activeBorrowerSeq);
                 this.services.http.fetchApi('/BorrowerDetails', 'POST', inputMap, '/initiation').subscribe(
@@ -400,6 +406,9 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                             if (err['ErrorElementPath'] == 'BorrowerDetails.TaxID') {
                                 this.FD_TAX_ID.setError(err['ErrorDescription']);
+                            }
+                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
+                                this.FD_EMAIL.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
                                 this.FD_NATIONAL_ID.setError(err['ErrorDescription']);
@@ -457,18 +466,19 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.FD_TITLE.setValue(res['BorrowerDetails']['Title']);
+                this.FD_TITLE.setValue(res['BorrowerDetails']['Title']['id']);
                 this.FD_FIRST_NAME.setValue(res['BorrowerDetails']['FirstName']);
                 this.FD_MIDDLE_NAME.setValue(res['BorrowerDetails']['MiddleName']);
                 this.FD_LAST_NAME.setValue(res['BorrowerDetails']['LastName']);
                 this.FD_FULL_NAME.setValue(res['BorrowerDetails']['FullName']);
-                this.FD_GENDER.setValue(res['BorrowerDetails']['Gender']);
+                this.FD_GENDER.setValue(res['BorrowerDetails']['Gender']['id']);
                 this.FD_DOB.setValue(res['BorrowerDetails']['DOB']);
                 this.FD_MOBILE.setValue(res['BorrowerDetails']['MobileNo']);
-                this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']);
+                this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']['id']);
                 // this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
                 this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['Nationality']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
+                this.FD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.hiddenFamilySeq.setValue(res['BorrowerDetails']['BorrowerSeq']);
                 this.hideSpinner();
             },
