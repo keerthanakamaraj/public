@@ -45,6 +45,8 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
   @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
 
   @Input() ApplicationId:string=undefined;
+  @Input() activeBorrowerSeq:string=undefined;
+  
   BusinessSeq:number=undefined;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -83,8 +85,9 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
     this.hidConstitution.setValue('CONSTITUTION');
     this.hidIndustry.setValue('INDUSTRY');
     this.hidAppId.setValue('RLO');
+    if(this.activeBorrowerSeq!=undefined){
     this.FetchBusinessDtls();
-
+    }
     await this.Handler.onFormLoad({
     });
 
@@ -233,6 +236,7 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
         inputMap.set('PathParam.BusinessDtlsSeq', this.BusinessSeq);
       }
       inputMap.set('Body.BusinessDtls.ApplicationId', this.ApplicationId);
+      inputMap.set('Body.BusinessDtls.BorrowerSeq', this.activeBorrowerSeq);
       inputMap.set('Body.BusinessDtls.GSTNumber', this.GSTNumber.getFieldValue());
       inputMap.set('Body.BusinessDtls.UAadhaar', this.UAadhaar.getFieldValue());
       inputMap.set('Body.BusinessDtls.PaidUpCapitals', this.PaidUpCapital.getFieldValue());
@@ -281,14 +285,14 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
     async FetchBusinessDtls() {
       let inputMap = new Map();
       inputMap.clear();
-      if (this.ApplicationId) {
+      if (this.activeBorrowerSeq) {
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
         criteriaJson.FilterCriteria.push({
-          "columnName": "ApplicationId",
+          "columnName": "BorrowerSeq",
           "columnType": "String",
           "conditions": {
             "searchType": "equals",
-            "searchText": this.ApplicationId
+            "searchText": this.activeBorrowerSeq
           }
         });
         inputMap.set('QueryParam.criteriaDetails', criteriaJson);

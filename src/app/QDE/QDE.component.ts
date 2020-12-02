@@ -68,6 +68,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
 
+  
   // public ProductCategory: String;
   ApplicationId: string = undefined;
   taskId: any;
@@ -428,6 +429,10 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async CUSTOMER_DETAILS_passBorrowerSeq(event) {
     console.log("deep === load address n occupation grid", event);
     const inputMap = new Map();
+
+
+    this.BUSINESS_DETAILS.activeBorrowerSeq = event.BorrowerSeq;
+    this.BUSINESS_DETAILS.onReset();
 
     await this.FieldId_6.AddressGrid.gridDataLoad({
       'passBorrowerSeqToGrid': event.BorrowerSeq

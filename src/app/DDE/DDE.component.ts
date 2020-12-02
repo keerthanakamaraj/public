@@ -212,7 +212,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
-      { id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
+      //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
       { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
@@ -1258,7 +1258,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       let sectionindex:number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id=='OccupationDetails')));
       if((undefined == this.CustomerType ||this.CustomerType =='B') && sectionindex >= 0 ){
-      this.customerMenu[0].splice(sectionindex,1);
+      this.customerMenu[0].splice(sectionindex,1,{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true });
     }
     else if(this.CustomerType !='B' && sectionindex < 0){
       this.customerMenu[0].splice(2,0,{ id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
