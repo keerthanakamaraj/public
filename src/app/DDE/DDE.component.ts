@@ -722,6 +722,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ActiveCustomerDtls = undefined;
     this.ActiveBorrowerSeq = undefined;
     this.CustomerType = event.customerType;
+    this.doCardTypeBasedChanges();
 
     this.setTags([]);
 
@@ -742,6 +743,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ActiveCustomerDtls = event.CustomerArray;
     this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
     this.CustomerType = event.CustomerArray.CustomerType;
+    this.doCardTypeBasedChanges();
     // this.ActiveCustomerName = event.CustomerArray.FullName;
     // this.ActiveCustomerDOB = event.CustomerArray.DOB;
     // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
@@ -1229,6 +1231,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //   SchemeCode: event.SchemeCode,
     // };
     console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    console.log("shweta :: cust type",this.CustomerType);
+    // if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && (undefined == this.CustomerType || 'B'==this.CustomerType)){
+    //   this.customerMenu[0].splice(2,1);
+    // }
+    this.doCardTypeBasedChanges();
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
@@ -1246,6 +1253,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.validateSectionForCustomer();
   }
 
+  doCardTypeBasedChanges(){
+    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+
+      let sectionindex:number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id=='OccupationDetails')));
+      if((undefined == this.CustomerType ||this.CustomerType =='B') && sectionindex >= 0 ){
+      this.customerMenu[0].splice(2,1);
+    }
+    else if(this.CustomerType !='B' && sectionindex <= 0){
+      this.customerMenu[0].splice(2,0,{ id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
+    }
+  }
+  }
   validateSectionForCustomer() {
     let formsMenuList = this.customerMenu;
     formsMenuList.forEach(element => {
@@ -1264,6 +1283,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
   }
 
+  
   validateSectionForApplication() {
     let formsMenuList = this.applicationMenu;
     formsMenuList.forEach(element => {

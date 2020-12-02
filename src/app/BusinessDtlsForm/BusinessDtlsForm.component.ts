@@ -26,9 +26,11 @@ const customCss: string = '';
 export class BusinessDtlsFormComponent extends FormComponent implements OnInit, AfterViewInit {
   @ViewChild('GSTNumber', { static: false }) GSTNumber: TextBoxComponent;
   @ViewChild('UAadhaar', { static: false }) UAadhaar: TextBoxComponent;
-  @ViewChild('PaidUpCapital', { static: false }) PaidUpCapital: TextBoxComponent;
+  @ViewChild('PaidUpCapital', { static: false }) PaidUpCapital: RloUiCurrencyComponent;
   @ViewChild('FYTurnover', { static: false }) FYTurnover: RloUiCurrencyComponent;
+  @ViewChild('FYTurnoverEq', { static: false }) FYTurnoverEq: RloUiCurrencyComponent;
   @ViewChild('FYNetProfit', { static: false }) FYNetProfit: RloUiCurrencyComponent;
+  @ViewChild('FYNetProfitEq', { static: false }) FYNetProfitEq: RloUiCurrencyComponent;
   @ViewChild('OrgNature', { static: false }) OrgNature: ComboBoxComponent;
   @ViewChild('Constitution', { static: false }) Constitution: ComboBoxComponent;
   @ViewChild('Industry', { static: false }) Industry: ComboBoxComponent;
@@ -39,7 +41,10 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
   @ViewChild('Handler', { static: false }) Handler: BusinessHandlerComponent;
   @ViewChild('BD_SAVE_BTN', { static: false }) BD_SAVE_BTN: ButtonComponent;
   @ViewChild('BD_CLEAR_BTN', { static: false }) BD_CLEAR_BTN: ButtonComponent;
+  @ViewChild('CIN', { static: false }) CIN: TextBoxComponent;
+  @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
 
+  @Input() ApplicationId:string=undefined;
   BusinessSeq:number=undefined;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -52,7 +57,9 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
       this.revalidateBasicField('FYNetProfit'),
       this.revalidateBasicField('OrgNature'),
       this.revalidateBasicField('Constitution'),
-      this.revalidateBasicField('Industry'),
+      this.revalidateBasicField('FYTurnoverEq'),
+      this.revalidateBasicField('FYNetProfitEq'),
+      this.revalidateBasicField('CIN')
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -151,10 +158,25 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
     this.setReadOnly(false);
     this.FYTurnover.resetFieldAndDropDown();
     this.FYNetProfit.resetFieldAndDropDown();
+    this.FYTurnoverEq.resetFieldAndDropDown();
+    this.FYNetProfitEq.resetFieldAndDropDown();
+    this.PaidUpCapital.resetFieldAndDropDown();
     this.onFormLoad();
   }
 
   customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+    if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
+    //  this.hidExchangeRate.setValue(event.exchangeRate);
+
+      let localCurrencyEq = event.textFieldValue * event.exchangeRate;
+      if(event.field== "FYTurnover"){
+        this.FYTurnoverEq.setComponentSpecificValue(localCurrencyEq);
+      }else if(event.field== "FYNetProfit"){
+        this.FYNetProfitEq.setComponentSpecificValue(localCurrencyEq);
+      }
+      console.log(localCurrencyEq);  
+    }
     this.genericOnBlur(event.field, event.textFieldValue);
   }
 
@@ -219,6 +241,11 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
       inputMap.set('Body.BusinessDtls.OrganizationNature', this.OrgNature.getFieldValue());
       inputMap.set('Body.BusinessDtls.Constitution', this.Constitution.getFieldValue());
       inputMap.set('Body.BusinessDtls.Industry', this.Industry.getFieldValue());
+      inputMap.set('Body.BusinessDtls.CIN', this.CIN.getFieldValue());
+      inputMap.set('Body.BusinessDtls.FYNetProfitEquivalent', this.FYNetProfitEq.getFieldValue());
+      inputMap.set('Body.BusinessDtls.FYTurnoverEquivalent', this.FYTurnoverEq.getFieldValue());
+      inputMap.set('Body.BusinessDtls.FYTurnoverCurrency', this.FYTurnover.currencyCode);
+      inputMap.set('Body.BusinessDtls.FYNetProfitCurrency', this.FYNetProfit.currencyCode);
       return inputMap;
     }
     parseResponseError(err) {
@@ -290,13 +317,17 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
       this.BusinessSeq = BusinessDtls.BusinessDtlsSeq;
       this.GSTNumber.setValue(BusinessDtls.GSTNumber);
       this.UAadhaar.setValue(BusinessDtls.UAadhaar);
-      this.PaidUpCapital.setValue(BusinessDtls.PaidUpCapitals);
-      this.FYTurnover.setComponentSpecificValue(BusinessDtls.FYTurnover);
-      this.FYNetProfit.setComponentSpecificValue(BusinessDtls.FYNetProfit);
+      this.PaidUpCapital.setComponentSpecificValue(BusinessDtls.PaidUpCapitals);
+      this.FYTurnover.setComponentSpecificValue(BusinessDtls.FYTurnover,BusinessDtls.FYTurnoverCurrency);
+      this.FYNetProfit.setComponentSpecificValue(BusinessDtls.FYNetProfit,BusinessDtls.FYNetProfitCurrency);
+      this.FYTurnoverEq.setComponentSpecificValue(BusinessDtls.FYTurnoverEquivalent);
+      this.FYNetProfitEq.setComponentSpecificValue(BusinessDtls.FYNetProfitEquivalent);
+      this.CIN.setValue(BusinessDtls.CIN);
       this.OrgNature.setValue(BusinessDtls.OrganizationNature);
       this.Constitution.setValue(BusinessDtls.Constitution);
       this.Industry.setValue(BusinessDtls.Industry);
     }
+
   fieldDependencies = {
     OrgNature: {
       inDep: [

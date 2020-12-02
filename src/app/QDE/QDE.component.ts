@@ -27,6 +27,7 @@ import { OccupationDtlsFormComponent } from '../OccupationDtlsForm/OccupationDtl
 import { ReferralDetailsFormComponent } from '../ReferralDetailsForm/ReferralDetailsForm.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { NotepadDetailsFormComponent } from '../NotepadDetailsForm/NotepadDetailsForm.component';
+import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
 import { Subscription } from 'rxjs';
 import { array } from '@amcharts/amcharts4/core';
 import { IModalData } from '../popup-alert/popup-interface';
@@ -61,6 +62,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('QDE_ACCORD2', { static: false }) QDE_ACCORD2: RloUiAccordionComponent;
   @ViewChild('APPLICATION_DETAILS', { static: false }) APPLICATION_DETAILS: ApplicationDtlsComponent;
   @ViewChild('NOTEPAD_DETAILS', { static: false }) NOTEPAD_DETAILS: NotepadDetailsFormComponent;
+  @ViewChild('BUSINESS_DETAILS', { static: false }) BUSINESS_DETAILS: BusinessDtlsFormComponent;
   // @ViewChild('FieldId_29', { static: false }) FieldId_29: AddressDetailsComponent;
   @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
   @ViewChild('HideAppId', { static: false }) HideAppId: HiddenComponent;
@@ -80,7 +82,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   ActiveCustomerDtls: {} = undefined;
   disableEnableAccordian: any;
   disableAccordian: boolean = false;
-
+  isCorporateApplicant:boolean=undefined;
+  isCorporateProposal:boolean=undefined;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -94,6 +97,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.FieldId_10.revalidate(),
       this.APPLICATION_DETAILS.revalidate(),
       this.NOTEPAD_DETAILS.revalidate(),
+      this.BUSINESS_DETAILS.revalidate(),
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -180,6 +184,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.FieldId_10.setReadOnly(readOnly);
     this.APPLICATION_DETAILS.setReadOnly(readOnly);
     this.NOTEPAD_DETAILS.setReadOnly(readOnly);
+    this.BUSINESS_DETAILS.setReadOnly(readOnly);
   }
 
   async onFormLoad() {
@@ -206,6 +211,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.FieldId_9.doAPIForCustomerList({});
     //this.FieldId_10.fetchReferalDetails();
     this.APPLICATION_DETAILS.fetchApplicationDetails();
+    this.BUSINESS_DETAILS.FetchBusinessDtls();
     await this.NOTEPAD_DETAILS.FieldId_7.gridDataLoad({
       'ApplicationId': this.ApplicationId
     });
@@ -302,6 +308,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.additionalInfo['FieldId_10_desc'] = this.FieldId_10.getFieldInfo();
     this.additionalInfo['APPLICATION_DETAILS_desc'] = this.APPLICATION_DETAILS.getFieldInfo();
     this.additionalInfo['NOTEPAD_DETAILS_desc'] = this.NOTEPAD_DETAILS.getFieldInfo();
+    this.additionalInfo['BUSINESS_DETAILS_desc'] = this.BUSINESS_DETAILS.getFieldInfo();
     return this.additionalInfo;
   }
   getFieldValue() {
@@ -313,6 +320,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.value.FieldId_10 = this.FieldId_10.getFieldValue();
     this.value.APPLICATION_DETAILS = this.APPLICATION_DETAILS.getFieldValue();
     this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
+    this.value.BUSINESS_DETAILS = this.BUSINESS_DETAILS.getFieldValue();
     return this.value;
   }
   // tslint:disable-next-line:no-unnecessary-initializer
@@ -326,6 +334,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.FieldId_10.setValue(inputValue['FieldId_10'], inputDesc['FieldId_10_desc']);
     this.APPLICATION_DETAILS.setValue(inputValue['APPLICATION_DETAILS'], inputDesc['APPLICATION_DETAILS_desc']);
     this.NOTEPAD_DETAILS.setValue(inputValue['NOTEPAD_DETAILS'], inputDesc['NOTEPAD_DETAILS_desc']);
+    this.BUSINESS_DETAILS.setValue(inputValue['BUSINESS_DETAILS'], inputDesc['BUSINESS_DETAILS_desc']);
     this.value = new QDEModel();
     this.value.setValue(inputValue);
     this.setDependencies();
@@ -371,6 +380,8 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.APPLICATION_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.APPLICATION_DETAILS = value; });
       this.value.NOTEPAD_DETAILS = this.NOTEPAD_DETAILS.getFieldValue();
       this.NOTEPAD_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.NOTEPAD_DETAILS = value; });
+      this.value.BUSINESS_DETAILS = this.BUSINESS_DETAILS.getFieldValue();
+      this.BUSINESS_DETAILS.valueChangeUpdates().subscribe((value) => { this.value.BUSINESS_DETAILS = value; });
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
@@ -387,6 +398,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.FieldId_10.clearError();
     this.APPLICATION_DETAILS.clearError();
     this.NOTEPAD_DETAILS.clearError();
+    this.BUSINESS_DETAILS.clearError();
     this.errors = 0;
     this.errorMessage = [];
   }
@@ -401,6 +413,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.FieldId_10.onReset();
     this.APPLICATION_DETAILS.onReset();
     this.NOTEPAD_DETAILS.onReset();
+    this.BUSINESS_DETAILS.onReset();
     this.clearHTabErrors();
     this.clearVTabErrors();
     this.errors = 0;
@@ -458,6 +471,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
+    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'&&event.CustomerArray.CustomerType=='B'){
+      this.isCorporateApplicant=true;
+    }else{
+      this.isCorporateApplicant=false;
+    }
     this.disableAccordian = false
     this.UpdateAccordian();
     this.CustomerDetailsArray = event.CustomerArray;
@@ -737,6 +755,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
+    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+      this.isCorporateProposal=true;
+    }else{
+      this.isCorporateProposal=false;
+    }
     // this.services.rloCommonData.globalApplicationDtls = {
     //   isLoanCategory: event.isLoanCategory,
     //   ProductCode: event.ProductCode,
@@ -756,6 +779,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.APPLICATION_DETAILS.ApplicationId = this.ApplicationId;
     this.FieldId_10.ApplicationId = this.ApplicationId;
     this.NOTEPAD_DETAILS.ApplicationId = this.ApplicationId;
+    this.BUSINESS_DETAILS.ApplicationId = this.ApplicationId;
   }
 
   async CUSTOMER_DETAILS_onFullNameblur(event) {

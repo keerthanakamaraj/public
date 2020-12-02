@@ -256,7 +256,7 @@ export class RloCommonData {
           console.log(" DEEP | InterfaceResults", mapValue);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
-          case 'BusinessDetails':
+        case 'BusinessDetails':
           mapValue = componentData.data;
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
@@ -537,8 +537,9 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
-
-    if (LoanOwnership !== undefined && LoanOwnership != 0) {
+    if (this.globalApplicationDtls.CardType == 'CORP') {
+      commonObj.isSectionValid = true;
+    } else if (LoanOwnership !== undefined && LoanOwnership != 0) {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails')) {
         const occupationList = customerSectionData.get('OccupationDetails');
@@ -572,7 +573,7 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
-
+    
     if (!sectionData.has('AddressDetails')) {
       commonObj.isSectionValid = false;
       // commonObj.errorMessage += '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';

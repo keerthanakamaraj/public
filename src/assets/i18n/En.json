@@ -2501,6 +2501,7 @@
     "ApproverName": "Approver Name"
   },
   "BusinessDtlsForm": {
+    "BD_HEADING":"Business Details",
     "Industry": "Industry",
     "FYTurnover": "Turnover as per last FY",
     "FormTitle": "BusinessDtlsForm",
@@ -2514,6 +2515,9 @@
     "PaidUpCapital": "Paid-Up Capital",
     "Constitution": "Constitution",
     "BD_SAVE_BTN": "SAVE",
-    "BD_CLEAR_BTN": "CLEAR"
+    "BD_CLEAR_BTN": "CLEAR",
+    "FYTurnoverEq":"Turnover - Local Currency Equivalent",
+    "FYNetProfitEq":"Net Profit - Local Currency Equivalent",
+    "CIN":"CIN"
   }
 }
