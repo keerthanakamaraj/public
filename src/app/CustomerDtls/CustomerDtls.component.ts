@@ -1404,7 +1404,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
    
     
 
-    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+   // this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 

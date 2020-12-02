@@ -529,9 +529,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         console.log(response);
         // this.ApplicationStatus(response);
          this.setValuesOfCustomer(response);
+         this.SRC_CIF_NO.onReset();
       }
       else {
         console.warn("DEEP | No customer selected");
+        this.SRC_CIF_NO.onReset();
       }
     });
   }
@@ -623,7 +625,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
-    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+   // this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
