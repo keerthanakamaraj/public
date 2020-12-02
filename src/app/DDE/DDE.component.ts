@@ -1235,7 +1235,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     // if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && (undefined == this.CustomerType || 'B'==this.CustomerType)){
     //   this.customerMenu[0].splice(2,1);
     // }
-    this.doCardTypeBasedChanges();
+    //
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
@@ -1258,9 +1258,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       let sectionindex:number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id=='OccupationDetails')));
       if((undefined == this.CustomerType ||this.CustomerType =='B') && sectionindex >= 0 ){
-      this.customerMenu[0].splice(2,1);
+      this.customerMenu[0].splice(sectionindex,1);
     }
-    else if(this.CustomerType !='B' && sectionindex <= 0){
+    else if(this.CustomerType !='B' && sectionindex < 0){
       this.customerMenu[0].splice(2,0,{ id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
     }
   }
@@ -1280,6 +1280,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
       }
     });
+    this.doCardTypeBasedChanges();
     this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
   }
 
@@ -1320,6 +1321,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
+        if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+        if(section.id=='ReferrerDetails'||section.id=='Notes'||section.id=='GoNoGoDetails'){
+        section.isOptional = true;
+        element.splice(i, 1);
+        i--;
+      }
+    }
         if ((section.id == "VehicalLoanDetails" || section.id == "GoldLoanDetails" || section.id == "EducationLoanDetails") && section.isOptional) {
           if (!this.isLoanCategory) {
             element.splice(i, 1);
