@@ -486,7 +486,8 @@ export class RlouiService {
         modalSize: 'modal-customer-search-width',
         buttons: [],
         componentName: 'CustomerSearch',
-        data: obj
+        data: obj,
+        hideModalHeader: true
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);
