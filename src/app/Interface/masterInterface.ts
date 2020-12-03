@@ -146,3 +146,8 @@ export interface IPopUpModalResponse {
   action?: "btn-submit" | "btn-close" | "icon-close";
   response?: any;
 }
+
+export interface IUnderwriterActionObject {
+  action?: "sentBack" | "approve" | "withdraw";
+  componentCode? : any;
+}

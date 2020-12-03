@@ -36,6 +36,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     @ViewChild('hidApprovalReq', { static: false }) hidApprovalReq: HiddenComponent;
 
     @Input() parentFormCode: string;
+    @Input() parentData: string;
     @Output() decisionAction: EventEmitter<any> = new EventEmitter<any>();
 
     showUW: boolean = false;
@@ -68,11 +69,49 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.hidAppId.setValue('RLO');
-        // this.hidDecisionRem.setValue('DESICION');
-        this.hidApprovalReq.setValue('Y_N');
-        this.DesignationAuthority.setHidden(true);
-        this.ApproverName.setHidden(true);
-        this.setDependencies();
+        console.log("nhj", this.fieldDependencies);
+        if (this.parentData == 'sentBack') {
+            let object = {
+                inDep: [
+                    { paramKey: "VALUE1", depFieldID: "DecisionReason", paramType: "PathParam" },
+                    { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                    { paramKey: "KEY1", depFieldID: "hidDecisionRem", paramType: "QueryParam" },
+                ],
+                outDep: [
+                ]
+            }
+            this.fieldDependencies['DecisionReason'] = object;
+            this.hidDecisionRem.setValue('DESICION');
+        }
+        else {
+
+            let ApprovalReq = {
+                inDep: [
+                    { paramKey: "VALUE1", depFieldID: "ApprovalReq", paramType: "PathParam" },
+                    { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+                    { paramKey: "KEY1", depFieldID: "hidApprovalReq", paramType: "QueryParam" },
+                ],
+                outDep: [
+                ]
+            }
+            let DesignationAuthority = {
+                inDep: [
+
+                    { paramKey: "AuthoritySeq", depFieldID: "DesignationAuthority", paramType: "PathParam" },
+                ],
+                outDep: [
+                ]
+            }
+            this.fieldDependencies['ApprovalReq'] = ApprovalReq;
+            this.fieldDependencies['DesignationAuthority'] = DesignationAuthority;
+            this.hidApprovalReq.setValue('Y_N');
+            this.DesignationAuthority.setHidden(true);
+            this.ApproverName.setHidden(true);
+        }
+        setTimeout(() => {
+            this.setDependencies();
+        }, 1000);
+
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -120,7 +159,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             this.subsBFldsValueUpdates();
             this.onFormLoad();
             this.checkForHTabOverFlow();
-            console.log(this.parentFormCode);
+            console.log(this.parentFormCode, this.parentData);
         });
     }
     clearError() {
@@ -179,42 +218,17 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         }
     }
     fieldDependencies = {
-        // DecisionReason: {
-        //     inDep: [
-        //         { paramKey: "VALUE1", depFieldID: "DecisionReason", paramType: "PathParam" },
-        //         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        //         { paramKey: "KEY1", depFieldID: "hidDecisionRem", paramType: "QueryParam" },
-        //     ],
-        //     outDep: [
-        //     ]
-        // },
-        ApprovalReq: {
-            inDep: [
-                { paramKey: "VALUE1", depFieldID: "ApprovalReq", paramType: "PathParam" },
-                { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-                { paramKey: "KEY1", depFieldID: "hidApprovalReq", paramType: "QueryParam" },
-            ],
-            outDep: [
-            ]
-        },
-        DesignationAuthority: {
-            inDep: [
 
-                { paramKey: "AuthoritySeq", depFieldID: "DesignationAuthority", paramType: "PathParam" },
-            ],
-            outDep: [
-            ]
-        }
     }
 
     async pageSpecificData() {
 
         const inputMap = new Map();
         let Decision;
-        // let Decision = {
-        //     'DecisionReason': this.DecisionReason.getFieldValue(),
-        //     'Remarks' : this.Remarks.getFieldValue()
-        // }
+        Decision = {
+            'DecisionReason': this.DecisionReason.getFieldValue(),
+            'Remarks': this.Remarks.getFieldValue()
+        }
         if (this.parentFormCode == 'UnderWriter') {
             Decision = {
                 // 'DecisionReason': this.DecisionReason.getFieldValue(),

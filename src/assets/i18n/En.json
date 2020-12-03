@@ -2493,7 +2493,7 @@
   "DecisionAlert": {
     "FormTitle": "DecisionAlert",
     "DecisionReason": "Decision Reason",
-    "Remarks": "Remark",
+    "Remarks": " Recommendation/Comments",
     "ALTER_SUBMIT": "DONE",
     "ALTER_CANCEL": "CLOSE",
     "ApprovalReq": "Approval from a higher authority required",

@@ -9,7 +9,7 @@ import { Http } from '@angular/http';
 import { IModalData } from '../popup-alert/popup-interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
-import { ICustomSearchObject, IGeneralCardData } from '../Interface/masterInterface';
+import { ICustomSearchObject, IGeneralCardData, IUnderwriterActionObject } from '../Interface/masterInterface';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RloCommonData } from './rloCommonData.service';
@@ -501,7 +501,7 @@ export class RlouiService {
     });
     return promise;
   }
-  openDecisionAlert(componentCode?) {
+  openDecisionAlert(actionObject:IUnderwriterActionObject) {
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
         title: "Alert",
@@ -509,8 +509,8 @@ export class RlouiService {
         modalSize: "modal-width-sm",
         buttons: [],
         componentName: 'DecisionAlert',
-        componentCode: componentCode
-        // data: obj
+        componentCode: actionObject.componentCode,
+        data :actionObject.action
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);

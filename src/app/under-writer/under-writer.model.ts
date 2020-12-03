@@ -641,19 +641,19 @@ export class CardDetails implements IDeserializable {
 
     getCardData() {
         let fieldList: ICardListData[] = [
-            {
-                title: "Branch",
-                subTitle: this.Branch,
-                type: "basic",
-                modalSectionName: ""
-            },
-            {
-                title: "Category on the front page",
-                subTitle: this.FrontPageCategory.length ? this.FrontPageCategory : "NA"
-                ,
-                type: "basic",
-                modalSectionName: ""
-            },
+            // {
+            //     title: "Branch",
+            //     subTitle: this.Branch,
+            //     type: "basic",
+            //     modalSectionName: ""
+            // },
+            // {
+            //     title: "Category on the front page",
+            //     subTitle: this.FrontPageCategory.length ? this.FrontPageCategory : "NA"
+            //     ,
+            //     type: "basic",
+            //     modalSectionName: ""
+            // },
             {
                 title: "Maximum Card Limit",
                 subTitle: this.MaxCardLimit,
@@ -679,7 +679,7 @@ export class CardDetails implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.Branch == 'NA' && this.FrontPageCategory == 'NA' && this.MaxCardLimit == 'NA' && this.ApprovedLimit == 'NA') {
+        if (this.FrontPageCategory == 'NA' && this.MaxCardLimit == 'NA' && this.ApprovedLimit == 'NA') {
             return ""
         } else {
             return "CreditCardDetails";
