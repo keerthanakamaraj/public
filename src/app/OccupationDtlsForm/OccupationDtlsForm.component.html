@@ -58,7 +58,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLOYEE_ID.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': OD_EMPLOYEE_ID.mandatory}">
                 {{ 'OccupationDtlsForm.OD_EMPLOYEE_ID' | translate}}</label>
             </div>
             <app-text-box #OD_EMPLOYEE_ID fieldID="OD_EMPLOYEE_ID" [formCode]="formCode" placeholder="(Optional)"
@@ -66,7 +66,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DEPARTMENT.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': OD_DEPARTMENT.mandatory}">
                 {{ 'OccupationDtlsForm.OD_DEPARTMENT' | translate}}</label>
             </div>
             <app-text-box #OD_DEPARTMENT fieldID="OD_DEPARTMENT" [formCode]="formCode" placeholder="(Optional)"
@@ -74,7 +74,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DESIGNATION.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': OD_DESIGNATION.mandatory}">
                 {{ 'OccupationDtlsForm.OD_DESIGNATION' | translate}}</label>
             </div>
             <app-text-box #OD_DESIGNATION fieldID="OD_DESIGNATION" [formCode]="formCode" placeholder="(Optional)"
@@ -82,7 +82,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_DATE_OF_JOINING.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown"  [ngClass]="{'mandatory': OD_DATE_OF_JOINING.mandatory}">
                 {{ 'OccupationDtlsForm.OD_DATE_OF_JOINING' | translate}}</label>
             </div>
             <app-date #OD_DATE_OF_JOINING fieldID="OD_DATE_OF_JOINING" [formCode]="formCode" placeholder="dd-mm-yyyy"
@@ -270,6 +270,7 @@
               (blur)="genericOnBlur('OD_RES_PRT_NO', $event)"></app-text-box>
           </div>
 
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
             <app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}"
               fieldID="OD_CLEAR_BTN" [formCode]="formCode" imagePath="./assets/icons/refresh-form.svg" [type]="2"

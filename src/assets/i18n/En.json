@@ -205,7 +205,7 @@
     "rlo.success.update.businessdtls": "The business details has been updated successfully.",
     "rlo.error.update.businessdtls": "The business details could not be updated. Please try again.",
     "rlo.success.save.businessdtls": "The business details has been saved successfully.",
-
+    "rlo.error.corp-occupation.exist":"More than 1 occupation cannot be saved.",
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -1569,7 +1569,11 @@
     "INCOME_FREQ": "Income Frequency",
     "OD_DELETE_ButtonName": "Delete",
     "OD_INDUSTRY": "Industry",
-    "OD_COMPANY_NAME": "Company Name"
+    "OD_COMPANY_NAME": "Company Name",
+    "EMPLOYEE_ID":"Employee Id",
+    "DEPARTMENT":"Department",
+    "DESIGNATION":"Designation",
+    "DATE_OF_JOINING":"Date Of Joining"
   },
   "LiabilityDtlsGrid": {
     "LD_AMOUNT": "Amount",

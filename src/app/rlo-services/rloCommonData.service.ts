@@ -334,7 +334,12 @@ export class RloCommonData {
   async UpdateOccupationTags(event) {
     const tags = [];
     const maxAddress = 2;
+    console.log("shweta :: occ tags ",event.data);
     event.data.forEach(occupation => {
+      if(this.globalApplicationDtls.CardType=='CORP'){
+        tags.push({ text: occupation.EmployeeID+', '+ occupation.Designation });
+
+      }else{
       switch (occupation.Occupation.id) {
         case 'RT': tags.push({ text: 'Retired' }); break;
         case 'HW': tags.push({ text: 'Housewife' }); break;
@@ -343,7 +348,7 @@ export class RloCommonData {
         case 'SE': tags.push({ text: 'Self Employed' }); break;
         case 'OT': tags.push({ text: 'Others' }); break;
         default: tags.push({ text: occupation.Occupation.id });
-      }
+      }}
     });
     return this.trimTagsIfRequired(tags, 4);
   }

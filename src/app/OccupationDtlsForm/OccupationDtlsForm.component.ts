@@ -155,6 +155,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       await this.OCC_DTLS_GRID.gridDataLoad({
         'refNumToGrid': this.activeBorrowerSeq
       });
+      this.CorporateCardBasedHandling();
     }
 
     // if (this.occBorrowerSeq !== undefined) {
@@ -474,6 +475,10 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         );
       }
       else {
+        if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && occupationGridData.length>=1){
+          this.services.alert.showAlert(2, 'rlo.error.corp-occupation.exist', -1);
+          return;
+        }
         inputMap.clear();
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
@@ -678,7 +683,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
             }, 500);
           }
         }
-
+        this.CorporateCardBasedHandling();
       },
       async (httpError) => {
         var err = httpError['error']
@@ -693,6 +698,55 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     await this.OCC_DTLS_GRID.gridDataLoad({
       'refNumToGrid': event.refNum,
     });
+  }
+
+  CorporateCardBasedHandling(){
+    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+      this.OD_OCCUPATION.setHidden(true);
+      this.OD_OCCUPATION.mandatory=false;
+      this.OD_EMPLT_TYPE.setHidden(true);
+      this.OD_EMPLT_TYPE.mandatory=false;
+      this.OD_SELF_EMPLD_PROF.setHidden(true);
+      this.OD_SELF_EMPLD_PROF.mandatory=false;
+      this.OD_SELF_EMPLD_TYPE.setHidden(true);
+      this.OD_SELF_EMPLD_TYPE.mandatory=false;
+      this.OD_DT_OF_INCPTN.setHidden(true);
+      this.OD_DT_OF_INCPTN.mandatory=false;
+      this.OD_INDUSTRY.setHidden(true);
+      this.OD_INDUSTRY.mandatory=false;
+      this.OD_NTR_OF_BUSS.setHidden(true);
+      this.OD_NTR_OF_BUSS.mandatory=false;
+      this.OD_COMPANY_CODE.setHidden(true);
+      this.OD_COMPANY_CODE.mandatory=false;
+      this.OD_COMP_CAT.setHidden(true);
+      this.OD_COMP_CAT.mandatory=false;
+      this.OD_COMP_NAME.setHidden(true);
+      this.OD_COMP_NAME.mandatory=false;
+      this.OD_LENGTH_OF_EXST.setHidden(true);
+      this.OD_LENGTH_OF_EXST.mandatory=false;
+      this.OD_INC_DOC_TYPE.setHidden(true);
+      this.OD_INC_DOC_TYPE.mandatory=false;
+      this.OD_NET_INCOME.setHidden(true);
+      this.OD_NET_INCOME.mandatory=false;
+      this.OD_INCOME_FREQ.setHidden(true);
+      this.OD_INCOME_FREQ.mandatory=false;
+      this.OD_EMP_STATUS.setHidden(true);
+      this.OD_EMP_STATUS.mandatory=false;
+      this.OD_INCOME_TYPE.setHidden(true);
+      this.OD_INCOME_TYPE.mandatory=false;
+      this.OD_WRK_PERMIT_NO.setHidden(true);
+      this.OD_WRK_PERMIT_NO.mandatory=false;
+      this.OD_RES_PRT_NO.setHidden(true);
+      this.OD_RES_PRT_NO.mandatory=false;
+      this.OD_LOC_CURR_EQ.setHidden(true);
+      this.OD_LOC_CURR_EQ.mandatory=false;
+
+      this.OD_EMPLOYEE_ID.mandatory=true;
+      this.OD_DEPARTMENT.mandatory=true;
+      this.OD_DESIGNATION.mandatory=true;
+      this.OD_DATE_OF_JOINING.mandatory=true;
+    }
+    this.OCC_DTLS_GRID.toggleColumn();
   }
 
   // async loadOccupationGrid(event) {

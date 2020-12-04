@@ -141,6 +141,66 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     // },
   },
   {
+    field: "EMPLOYEE_ID",
+    width: 22,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    // 	suppressAndOrCondition: true,
+    // 	applyButton: true,
+    // 	clearButton: true,
+    // 	filterOptions: ["contains"],
+    // 	caseSensitive: true,
+    // },
+  },
+  {
+    field: "DEPARTMENT",
+    width: 22,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    // 	suppressAndOrCondition: true,
+    // 	applyButton: true,
+    // 	clearButton: true,
+    // 	filterOptions: ["contains"],
+    // 	caseSensitive: true,
+    // },
+  },
+  {
+    field: "DESIGNATION",
+    width: 22,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    // 	suppressAndOrCondition: true,
+    // 	applyButton: true,
+    // 	clearButton: true,
+    // 	filterOptions: ["contains"],
+    // 	caseSensitive: true,
+    // },
+  },
+  {
+    field: "DATE_OF_JOINING",
+    width: 22,
+    sortable: false,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    // filter: "agTextColumnFilter",
+    // filterParams: {
+    // 	suppressAndOrCondition: true,
+    // 	applyButton: true,
+    // 	clearButton: true,
+    // 	filterOptions: ["contains"],
+    // 	caseSensitive: true,
+    // },
+  },
+  {
     width: 6,
     field: "OD_EDIT_BTN",
     sortable: false,
@@ -308,6 +368,12 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
             tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
             tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy.text;
             tempObj['NET_INCOME'] = occupationDetails[i].LocalCurrencyEquivalent;
+
+            tempObj['EMPLOYEE_ID'] = occupationDetails[i].EmployeeID;
+            tempObj['DEPARTMENT'] = occupationDetails[i].Department;
+            tempObj['DESIGNATION'] = occupationDetails[i].Designation;
+            tempObj['DATE_OF_JOINING'] = occupationDetails[i].DateofJoining;
+
             this.occupation.push(tempObj);
 
             // if (!i)
@@ -386,6 +452,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   recordShow() {
     this.recordDisplay = true;
   }
+
   recordHide() {
     this.recordDisplay = false;
   }
@@ -396,10 +463,23 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
   formatAmount(number) {
     if (number.value) {
-      return this.services.formatAmount(number.value, null, null,false);
+      return this.services.formatAmount(number.value, null, null, false);
     } else {
       return '-';
     }
   }
 
+  toggleColumn() {
+    let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP' ? true : false;
+
+    this.setColumnHidden('OD_OCCUPATION', CorporateFlag);
+    this.setColumnHidden('NET_INCOME', CorporateFlag);
+    this.setColumnHidden('INCOME_FREQ', CorporateFlag);
+    this.setColumnHidden('OD_COMPANY_NAME', CorporateFlag);
+    this.setColumnHidden('OD_DELETE', CorporateFlag);
+    this.setColumnHidden('EMPLOYEE_ID', !CorporateFlag);
+    this.setColumnHidden('DEPARTMENT', !CorporateFlag);
+    this.setColumnHidden('DESIGNATION', !CorporateFlag);
+    this.setColumnHidden('DATE_OF_JOINING', !CorporateFlag);
+  }
 }
