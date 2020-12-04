@@ -330,7 +330,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
               this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);
               return;
-            } else if (this.OD_INCOME_TYPE.getFieldValue() === 'PRI' && occupationGridData[i].OD_INCOME_TYPE === 'PRI') {
+            } else if (this.OD_INCOME_TYPE.getFieldValue() === 'PRI' && occupationGridData[i].INCOMETYPE_ID === 'PRI') {
               this.services.alert.showAlert(2, 'rlo.error.occupation.primaryIncome.exist', -1);
               return;
             }

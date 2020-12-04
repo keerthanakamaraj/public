@@ -7,6 +7,7 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HiddenComponent } from '../hidden/hidden.component';
 
 const customCss: string = '';
 @Component({
@@ -26,7 +27,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   occupation: any[];
   constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
   @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
-
+ 
   @Output() occDtlsEdit: EventEmitter<any> = new EventEmitter<any>();
   @Input('formCode') formCode: string;
   @Input('displayTitle') displayTitle: boolean = true;
@@ -300,13 +301,14 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
             tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation.text;
+            tempObj['OCCUPATION_ID'] = occupationDetails[i].Occupation.id;
             console.log("Occupation ", occupationDetails[i].Occupation);
-
-
+            tempObj['INCOMETYPE_ID'] = occupationDetails[i].IncomeType.id;
             tempObj['OD_INCOME_TYPE'] = occupationDetails[i].IncomeType.text;
             // tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
             tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
             tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy.text;
+            tempObj['INCOME_FREQ_ID'] = occupationDetails[i].IncomeFrequecy.id;
             tempObj['NET_INCOME'] = occupationDetails[i].LocalCurrencyEquivalent;
             this.occupation.push(tempObj);
 

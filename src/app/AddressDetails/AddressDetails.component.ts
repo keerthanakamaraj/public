@@ -439,17 +439,17 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
         for (let i = 0; i < addGridData.length; i++) {
           if (addGridData[i].AD_ADD_ID !== this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
-            if (this.AD_MAILING_ADDRESS.getFieldValue() === 'Y' && addGridData[i].AD_MAILING_ADDRESS === 'Y') {
+            if (this.AD_MAILING_ADDRESS.getFieldValue() === 'Y' && addGridData[i].MAILING_ADDRESS_ID === 'Y') {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
-            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].AD_OCCUP_TYPE === 'CR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].OCCUP_TYPE_ID === 'CR') {
               this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
               return;
-            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].AD_OCCUP_TYPE === 'PR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].OCCUP_TYPE_ID === 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             }
-            if (this.AD_ADD_TYPE.getFieldValue() === 'OF' && addGridData[i].AD_Address_Type === 'OF') {
+            if (this.AD_ADD_TYPE.getFieldValue() === 'OF' && addGridData[i].Address_Type_ID === 'OF') {
               if (addGridData[i].AD_Address === this.Handler.getFullAddress()) {
                 this.services.alert.showAlert(2, 'rlo.error.address.exist', -1);
                 return;
