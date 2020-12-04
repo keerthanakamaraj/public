@@ -12,7 +12,7 @@
 
   <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
     <div class="form-group pb10 row">
-      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+      <div class="col-12  col-sm-12 col-md-12">
         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
           (productCategoryFound)="broadcastProdCategory($event)" (headerStateEvent)="headerState($event)">
         </app-Header>
@@ -32,8 +32,9 @@
   </div> -->
   <!-- Changes for canara bank -->
 
+  <!-- Changes for canara bank => showExpandedHeader-->
   <div class="row">
-    <div class="col-12  col-sm-12 col-md-12 uw-tabs">
+    <div class="col-12  col-sm-12 col-md-12 uw-tabs" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
       <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
         <a href="javascript:void(0);" class="icon-folder-open"></a>
       </div>

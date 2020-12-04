@@ -803,7 +803,7 @@ export class GoNoGoDetails implements IDeserializable {
     getCardData() {
         let fieldList: ICardListData[] = [
             {
-                title: "Master Parameters",
+                title: "Parameters",//Changes for canara
                 subTitle: this.getStatusAndCount(),
                 type: "statusCount",
                 modalSectionName: ""

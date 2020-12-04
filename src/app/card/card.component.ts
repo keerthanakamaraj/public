@@ -169,7 +169,7 @@ export class CardComponent implements OnInit {
     customerList.forEach(customer => {
       let interfaceInnerSections = [];
       let interfaceTypeObject: IInterfaceListData = {
-        type: "Internal Interface Results",
+        type: "External Interface Results",
         class: "internal",
         data: []
       };
