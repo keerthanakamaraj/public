@@ -1261,7 +1261,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.customerMenu[0].splice(sectionindex,1,{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true });
     }
     else if(this.CustomerType !='B' && sectionindex < 0){
-      this.customerMenu[0].splice(2,0,{ id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
+       sectionindex = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id=='BusinessDetails')));
+      this.customerMenu[0].splice(sectionindex,1,{ id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
     }
   }
   }
