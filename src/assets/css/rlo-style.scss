@@ -4838,17 +4838,29 @@ rlo-ui-card-field {
   }
 }
 
+.wgt-decision-alert {
+  .approver-docs {
+    margin-bottom: 16px;
+    .doc-label {
+      cursor: pointer;
+      margin: 6px;
+      display: inline-block;
+    }
+  }
+}
 
-.SameAdd , .CorrAdd {
+.SameAdd,
+.CorrAdd {
   box-sizing: border-box;
   // height: 36px;
   width: 610px;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 4px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   margin-top: 16px;
 }
-.addcheckbox{
+
+.addcheckbox {
   // margin-top: 6px;
   // height: 19px;
   // width: 313px;
@@ -4857,5 +4869,4 @@ rlo-ui-card-field {
   font-size: 14px;
   letter-spacing: 0;
   line-height: 19px;
-}
 }
