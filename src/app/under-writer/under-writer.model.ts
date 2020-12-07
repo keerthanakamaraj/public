@@ -630,10 +630,12 @@ export class VehicalDetails implements IDeserializable {
 }
 
 export class CardDetails implements IDeserializable {
-    public Branch: string = "NA";
-    public FrontPageCategory: string = "NA";
+    // public Branch: string = "NA";
+    // public FrontPageCategory: string = "NA";
     public MaxCardLimit: string = "NA";
     public ApprovedLimit: string = "NA";
+    public RequestedCardLimit: string = "NA";
+    public ApprovedCashLimit: string = "NA";
 
     deserialize(input: any): this {
         return Object.assign(this, input);
@@ -662,8 +664,22 @@ export class CardDetails implements IDeserializable {
                 formatToCurrency: true
             },
             {
-                title: "Approved Limit",
+                title: "Requested Card Limit",
+                subTitle: this.RequestedCardLimit,
+                type: "basic",
+                modalSectionName: "",
+                formatToCurrency: true
+            },
+            {
+                title: "Approved Card Limit",
                 subTitle: this.ApprovedLimit,
+                type: "basic",
+                modalSectionName: "",
+                formatToCurrency: true
+            },
+            {
+                title: "Approved Cash Limit",
+                subTitle: this.ApprovedCashLimit,
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true
@@ -679,7 +695,7 @@ export class CardDetails implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.FrontPageCategory == 'NA' && this.MaxCardLimit == 'NA' && this.ApprovedLimit == 'NA') {
+        if (this.MaxCardLimit == 'NA' && this.RequestedCardLimit == 'NA' && this.ApprovedLimit == 'NA' && this.ApprovedCashLimit == 'NA') {
             return ""
         } else {
             return "CreditCardDetails";
@@ -1185,7 +1201,7 @@ export class ApplicationDetails implements IDeserializable {
     public DateOfReceipt: string = "NA";
     public SourcingChannel: string = "NA";
     public DSAId: string = "NA";
-    public Branch: string = "NA";
+    public Branch: any = "NA";
 
     public Common: Common = new Common();
 
@@ -1307,7 +1323,7 @@ export class ApplicationDetails implements IDeserializable {
         this.PropertyDetails = new PropertyDetails().deserialize(input.UWProperty);
 
         this.CardDetails = new CardDetails().deserialize(input.UWCreditCard);
-        this.CardDetails.Branch = this.Branch;
+        // this.CardDetails.Branch = this.Branch;
 
         this.GoldDetails = new GoldDetails().deserialize(input.UWIncomeSummary);
         this.EducationDetails = new EducationDetails().deserialize(input.UWIncomeSummary);
@@ -1343,7 +1359,7 @@ export class ApplicationDetails implements IDeserializable {
             },
             {
                 title: "Branch",
-                subTitle: this.Branch,
+                subTitle: this.Branch.text,
                 type: "basic",
                 modalSectionName: ""
             },

@@ -501,7 +501,7 @@ export class RlouiService {
     });
     return promise;
   }
-  openDecisionAlert(actionObject:IUnderwriterActionObject) {
+  openDecisionAlert(actionObject: IUnderwriterActionObject, applicationId: number) {
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
         title: "Alert",
@@ -510,7 +510,8 @@ export class RlouiService {
         buttons: [],
         componentName: 'DecisionAlert',
         componentCode: actionObject.componentCode,
-        data :actionObject.action
+        data: actionObject.action,
+        applicationId: applicationId
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);

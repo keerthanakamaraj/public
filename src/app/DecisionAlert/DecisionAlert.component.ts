@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { IPopUpModalResponse } from '../Interface/masterInterface';
+import { UtilityService } from '../services/utility.service';
 
 
 const customCss: string = '';
@@ -37,9 +38,46 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
 
     @Input() parentFormCode: string;
     @Input() parentData: string;
+    @Input() ApplicationId: number;
     @Output() decisionAction: EventEmitter<any> = new EventEmitter<any>();
 
     showUW: boolean = false;
+    fieldDependencies = {};
+    uplodedDocs: Array<{ fileName: string }> = [];
+
+    constructor(services: ServiceStock, public utility: UtilityService) {
+        super(services);
+        this.value = new DecisionAlertModel();
+        this.componentCode = 'DecisionAlert';
+    }
+
+    ngOnInit() {
+        if (this.formCode == undefined) { this.formCode = 'DecisionAlert'; }
+        if (this.formOnLoadError) { return; }
+        var styleElement = document.createElement('style');
+        styleElement.type = 'text/css';
+        styleElement.innerHTML = customCss;
+        styleElement.id = 'DecisionAlert_customCss';
+        document.getElementsByTagName('head')[0].appendChild(styleElement);
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+        var styleElement = document.getElementById('DecisionAlert_customCss');
+        styleElement.parentNode.removeChild(styleElement);
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.subsBFldsValueUpdates();
+            this.onFormLoad();
+            this.checkForHTabOverFlow();
+            console.log(this.parentFormCode, this.parentData);
+            this.getUplodedDocuments();
+        });
+    }
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -58,11 +96,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         super.afterRevalidate();
         return totalErrors;
     }
-    constructor(services: ServiceStock) {
-        super(services);
-        this.value = new DecisionAlertModel();
-        this.componentCode = 'DecisionAlert';
-    }
+
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
     }
@@ -139,29 +173,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.setDependencies();
         this.passNewValue(this.value);
     }
-    ngOnInit() {
-        if (this.formCode == undefined) { this.formCode = 'DecisionAlert'; }
-        if (this.formOnLoadError) { return; }
-        var styleElement = document.createElement('style');
-        styleElement.type = 'text/css';
-        styleElement.innerHTML = customCss;
-        styleElement.id = 'DecisionAlert_customCss';
-        document.getElementsByTagName('head')[0].appendChild(styleElement);
-    }
-    ngOnDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
-        var styleElement = document.getElementById('DecisionAlert_customCss');
-        styleElement.parentNode.removeChild(styleElement);
-    }
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.subsBFldsValueUpdates();
-            this.onFormLoad();
-            this.checkForHTabOverFlow();
-            console.log(this.parentFormCode, this.parentData);
-        });
-    }
+
     clearError() {
         super.clearBasicFieldsError();
         super.clearHTabErrors();
@@ -184,7 +196,6 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     }
 
     async ApprovalReq_blur() {
-
         if (this.ApprovalReq.getFieldValue() == 'Y') {
             this.DesignationAuthority.setHidden(false);
             this.ApproverName.setHidden(false);
@@ -210,15 +221,17 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         }
 
         if (numberOfErrors == 0) {
-            let obj: IPopUpModalResponse = {
-                "action": "btn-submit",
-                "response": Decision
+            if (!this.uplodedDocs.length) {
+                alert("upload a Doc")
             }
-            this.decisionAction.emit(obj);
+            else {
+                let obj: IPopUpModalResponse = {
+                    "action": "btn-submit",
+                    "response": Decision
+                }
+                this.decisionAction.emit(obj);
+            }
         }
-    }
-    fieldDependencies = {
-
     }
 
     async pageSpecificData() {
@@ -255,4 +268,31 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.decisionAction.emit(obj);
     }
 
+    //upload document before submitting
+    uploadDoc() {
+        this.services.rloui.openFileUpload(this.ApplicationId).then((response: any) => {
+            console.error(response);
+            this.getUplodedDocuments();
+        });
+    }
+
+    getUplodedDocuments() {
+        this.utility.getCommonService().getDocumentUploadDtls(this.ApplicationId).subscribe(
+            data => {
+                if (data['status'] === 'F' || data['Status_Cd'] === 'F') {
+                    //this.services.alert.showAlert(2, '', 3000, 'Unable to get records.');
+                } else {
+                    let documents = data['DocList'];
+                    if (documents) {
+                        documents.forEach(element => {
+                            let obj = { "fileName": element.DocName };
+                            this.uplodedDocs.push(obj);
+                        });
+                    } else {
+                        this.uplodedDocs = [];
+                    }
+                    console.log("DEEP | uplodedDocs", this.uplodedDocs);
+                }
+            });
+    }
 }

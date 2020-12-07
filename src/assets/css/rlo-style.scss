@@ -2025,6 +2025,7 @@ rlo-ui-card-field {
               margin-right: 0;
               // border-right: 1px solid #ddd; //Chnages for canara bank
               border-bottom: 1px solid #ddd;
+              display: inherit;
             }
           }
         }
@@ -4833,6 +4834,17 @@ rlo-ui-card-field {
     .dropdown-menu {
       box-shadow: none;
       border-top: 0;
+    }
+  }
+}
+
+.wgt-decision-alert {
+  .approver-docs {
+    margin-bottom: 16px;
+    .doc-label {
+      cursor: pointer;
+      margin: 6px;
+      display: inline-block;
     }
   }
 }

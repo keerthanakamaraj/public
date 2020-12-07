@@ -333,7 +333,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    //this.applicationId = 2962;
+    //this.applicationId = 4461;
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -793,13 +793,14 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
         Promise.all([mainMessage, button1]).then(values => {
           console.log(values);
-          let modalObj = {
+          let modalObj: IModalData = {
             title: "Alert",
             mainMessage: values[0],
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
-            ]
+            ],
+            applicationId: Number(this.applicationId)
           }
 
           this.services.rloui.confirmationModal(modalObj).then((response) => {
@@ -815,7 +816,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // this.doSubmitConfirmation();
         var componentCode = this.componentCode
         let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'approve' };
-        this.services.rloui.openDecisionAlert(actionObject).then((response: any) => {
+        this.services.rloui.openDecisionAlert(actionObject,Number(this.applicationId)).then((response: any) => {
           console.log(response);
           if (typeof response == 'object') {
             let modalResponse = response.response;
@@ -830,7 +831,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       // this.doSubmitConfirmation();
       var componentCode = this.componentCode
       let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'approve' };
-      this.services.rloui.openDecisionAlert(actionObject).then((response: any) => {
+      this.services.rloui.openDecisionAlert(actionObject,Number(this.applicationId)).then((response: any) => {
         console.log(response);
         if (typeof response == 'object') {
           let modalResponse = response.response;
@@ -1070,7 +1071,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     var componentCode = this.componentCode
     let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'sentBack' };
     const inputMap = new Map();
-    this.services.rloui.openDecisionAlert(actionObject).then((Response: any) => {
+    this.services.rloui.openDecisionAlert(actionObject,this.applicationId).then((Response: any) => {
       console.log(Response);
       if (typeof Response == 'object') {
         let modalResponse = Response.response;
