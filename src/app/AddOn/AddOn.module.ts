@@ -11,6 +11,7 @@ import { SearchCustomerGridModule } from '../SearchCustomerGrid/SearchCustomerGr
 import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module';
 import { CustomerSearchModule } from '../customer-search/customer-search.module';
 import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-search-fileds.module';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
     imports: [
         CommonModule,
@@ -34,5 +35,8 @@ import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-s
     exports: [
         AddOnComponent
     ],
+    providers:[
+        NgbActiveModal
+    ]
 })
 export class AddOnModule { }

@@ -4870,3 +4870,22 @@ rlo-ui-card-field {
   letter-spacing: 0;
   line-height: 19px;
 }
+
+.lyt-add-on {
+  app-customer-search-fields { 
+    width: 100%;
+    .form-group {
+      label {
+        color: inherit;
+        font-size: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+        margin-bottom: 0.2571rem !important;
+      }
+
+      input {
+        margin-top: 0 !important;
+      }
+    }
+  }
+}
