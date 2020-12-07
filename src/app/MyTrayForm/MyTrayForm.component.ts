@@ -261,6 +261,14 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
     let inputMap = new Map();
     this.redirect();
   }
+  AddOn_click() {
+    var id = "AddOn";
+    if (id && id != "") {
+      this.router.navigate(['/home/' + id]);
+    } else {
+      this.navigateToHome();
+    }
+  }
   navigateToHome() {
     this.router.navigate(['/home/LANDING']);
   }

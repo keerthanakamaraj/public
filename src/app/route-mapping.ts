@@ -139,6 +139,10 @@ export var componentRoutes: Routes = [
 	{
 		path: 'withdraw',
 		loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
+	},
+	{
+		path: 'AddOn',
+		loadChildren: 'src/app/AddOn/AddOn.module#AddOnModule'
 	}	
 ];
 export class AppRoutingModule { }

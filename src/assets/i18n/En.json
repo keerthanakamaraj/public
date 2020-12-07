@@ -1953,7 +1953,8 @@
   "MyTrayForm": {
     "MT_SLIDER": "Pending with Self",
     "FormTitle": "My Tray",
-    "MT_Proposal": "NEW PROPOSAL"
+    "MT_Proposal": "NEW PROPOSAL",
+    "ADDON" : "Add-on Request"
   },
   "NotepadDetailsGrid": {
     "ND_SR_NO": "S No.",
@@ -2525,5 +2526,45 @@
     "FYTurnoverEq":"Turnover - Local Currency Equivalent",
     "FYNetProfitEq":"Net Profit - Local Currency Equivalent",
     "CIN":"CIN"
-  }
+  },
+  "AddOn" : {
+    "FormTitle" : "AddOn",
+    "ADD_DOB": "Date Of Birth",
+    "ADD_RESET": "Reset",
+    "SRC_MOBILE_NO": "Mobile No.",
+    "SRC_CIF_NO": "CBS Customer ID",
+    "ADD_FIRST_NAME": "First Name",
+    "SUBMIT_MAIN_BTN": "SUBMIT",
+    "ADD_ADD": "Save",
+    "ADD_GENDER": "Gender",
+    "Handler": "null",
+    "ADD_STAFF_ID": "Staff ID",
+    "ADD_TITLE": "Title",
+    "ADD_THIRD_NAME": "Third Name",
+    "ADD_FULL_NAME": "Full Name",
+    "ADD_CARD_CUST_TYPE": "Applicant Type",
+    "ADD_CUSTOMER_ID": "Customer ID",
+    "ADD_MOBILE": "Mobile No.",
+    "SEARCH_CUST_BTN": "Search",
+    "ADD_INLINE_HEADER": "Please enter any of the following details you have to help identify the customer",
+    "ADD_TAX_ID": "PAN Number",
+    "ADD_LAST_NAME": "Last Name",
+    "ADD_MIDDLE_NAME": "Middle Name",
+    "ADD_PAN_NUMBER": "PAN Number",
+    "ADD_MOBILE_NUMBER": "Mobile Number",
+    "ADD_HEAD_LABEL": "Customer Information",
+    "CANCEL_MAIN_BTN": "CANCEL",
+    "Reset": "RESET",
+    "ADD_CIF": "CBS Customer ID",
+    "ADD_EMAIL_ID": "Email ID",
+    "ADD_COUNTRY_CODE": "Country Code",
+    "ADD_NAME_ON_CARD": "Name on Card",
+    "ADD_REGISTERED_NAME": "Registered Name",
+    "ADD_TYPE_OF_INCORPORATION": "Type of Incorporation",
+    "ADD_DATE_OF_INCORPORATION": "Date of Incorporation",
+    "ADD_CUST_SGMT": "Customer Segment",
+    "ADD_CUST_SUB_SGMT": "Customer Subsegment",
+    "FieldId_66": "Other Details",
+    "FieldId_65": "Customer Details"
+    }
 }
