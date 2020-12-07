@@ -659,7 +659,7 @@ li .a {
 } */
 
 
-.AD_EMAIL1 {
+.AD_EMAIL1,#SAME_ADDRESS,#CORR_ADD_CHECKBOX {
   margin-left: 10px;
   margin-top: 6px;
 }

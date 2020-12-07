@@ -189,6 +189,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   CBSProductCd: any;
   applicationArray: any;
   CustomerType: any;
+  UserBranch : string = 'Andheri';
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -544,8 +545,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.toggleColumn();
       if (response != null) {
         console.log(response);
-        this.setValuesOfCustomer(response);
-        this.toggleColumn();
+        //  this.ApplicationStatus(response);
+        //  this.setValuesOfCustomer(response);
+        this.CBSProductCode(response);
+        // this.DOBIsValid(response);
+        //  this.NoOfCardAllowed(response);
+        // this.IsInitiationAllowedForBranch(response);
+         this.toggleColumn();
       }
       else {
         console.warn("DEEP | No customer selected");
@@ -568,13 +574,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // let applicationStatus = res.Outputdata['status'];
         for(let i = 0 ; i < this.applicationArray.length; i++){
           if(this.applicationArray[i].status == 'AP'){
-            this.CBSProductCode(data);
-            this.SUBMIT_MAIN_BTN.setDisabled(false);
+            this.DOBIsValid(data)
+          
+            // this.SUBMIT_MAIN_BTN.setDisabled(false);
            
           }
           else{
             this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
-            this.SUBMIT_MAIN_BTN.setDisabled(true);
+            // this.SUBMIT_MAIN_BTN.setDisabled(true);
             return;
           }
          
@@ -583,33 +590,90 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     );
   }
+  
+  IsInitiationAllowedForBranch(data){
+    let tempVar: any = data;
+    if(this.UserBranch !== tempVar['Branch']){
+      this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
+      return;
+    }
+    else{
+      this.ApplicationStatus(data);
+    }
+
+  }
 
   CBSProductCode(data) {
     let tempVar: any = data;
     this.CustomerType = (tempVar['CustomerType']);
+    var primaryCheck = this.Handler.getBorrowerPostData();
+    
     this.services.http.fetchApi('/fetchCBSProdDetails', 'GET', null, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         let CPBProductDetails = res.Outputdata;
-        for (let i = 0; i < CPBProductDetails.length; i++) {
-          if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
-            if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
-              this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
-              // this.SUBMIT_MAIN_BTN.setDisabled(true);
-              return;
-            }
-            else {
-              this.checkEligibleforAddon(data);
-              // this.setValuesOfCustomer(data);
-            
-              // this.SUBMIT_MAIN_BTN.setDisabled(false);
-
+        if(primaryCheck.length == 0){
+          for (let i = 0; i < CPBProductDetails.length; i++) {
+            if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
+              if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
+                this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+                // this.SUBMIT_MAIN_BTN.setDisabled(true);
+                return;
+              }
+              else {
+                this.isInitiattionAllowedforAccount(data);
+                // this.SUBMIT_MAIN_BTN.setDisabled(false);
+  
+              }
             }
           }
         }
+        else{
+          this.setValuesOfCustomer(data);
+        }
+       
 
       }
     );
+  }
+
+  DOBIsValid(data){
+    let tempVar: any = data;
+    if (!this.isMinValid(tempVar['dob'])) {
+      // this.CD_DOB.setError('rlo.error.Age.invalid');
+      this.services.alert.showAlert(2, '', -1, 'Minor Account Is not Eligible for Initiation');          
+      return 
+    }
+    else{
+      this.CBSProductCode(data);
+    }
+  }
+
+  NoOfCardAllowed(data){
+    let tempVar: any = data;
+    var noOfCard : number = 0
+    noOfCard = Number(localStorage.getItem("card.allowed"));
+    if(Number(tempVar['NoOfCard']) >= noOfCard){
+      this.services.alert.showAlert(2, '', -1, 'No of card limit is alerady exceeded so we cannot allow user to apply for new card');          
+      return;
+    }
+    else{
+      this.CD_CUST_TYPE.setValue('B');
+      this.setValuesOfCustomer(data);
+      this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+      this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);    
+    }
+  }
+
+  isInitiattionAllowedforAccount(data){
+    let tempVar: any = data;
+    if(tempVar['AccType'] == 'current'){
+      this.services.alert.showAlert(2, '', -1, 'For Selected Record Account Type is not Eligible to apply for Credit Card');          
+      return;
+    }
+    else{
+      this.NoOfCardAllowed(data);
+    }
   }
 
 
@@ -617,6 +681,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   setValuesOfCustomer(data) {
     console.log('searched data =================', data);
     let tempVar: any = data;
+   
+   
     this.CD_DOB.setValue(tempVar['dob']);
     this.CD_TAX_ID.setValue(tempVar['taxId']);
     this.CD_FULL_NAME.setValue(tempVar['custName']);
@@ -630,9 +696,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
-    this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
-    this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+   
+    // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
+   
     
 
     // Corporate Type Customer
@@ -645,13 +712,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
-    this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+    // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
-    this.Handler.enableFieldBasedOnCustomerType();
-   // this.customerStatusFlag = this.Handler.customerTypeStatus;
-   // console.log('Customer Status ', this.customerStatusFlag);
+    // this.CBSProductCode(data);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
@@ -724,16 +789,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.isStaff({});
 
   }
-  async CD_DOB_blur(event) {
-    if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('rlo.error.DOB.invalid');
-      return 1;
-    } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('rlo.error.Age.invalid');
-      return 1
-    }
-  }
+  // async CD_DOB_blur(event) {
+  //   if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
+  //     this.CD_DOB.setError('rlo.error.DOB.invalid');
+  //     return 1;
+  //   } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
+  //     this.CD_DOB.setError('rlo.error.Age.invalid');
+  //     return 1
+  //   }
+  // }
 
+  
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
 
@@ -1263,6 +1329,23 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
+  isMinValid(selectedDate) {
+    const moment = require('moment');
+    let currentDate = moment();
+    currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+    this.age = currentDate.diff(selectedDate, 'years');
+    console.log("age is:", this.age);
+    console.log("cif min age is:", this.custMinAge);
+    console.log("cif max age is:", this.custMaxAge);
+    if (this.age < this.custMinAge) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
 
   async CD_CUST_TYPE_change(fieldID, value) {
     this.Handler.CustomerTypeOnChange();
@@ -1589,8 +1672,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           console.log(response);
           if (typeof response != "boolean") {
             // this.ApplicationStatus(response);
-           
-            this.setValuesOfCustomer(response);
+           this.CBSProductCode(response);
+            // this.setValuesOfCustomer(response);
             this.revalidateCustomers();
           }
           else {

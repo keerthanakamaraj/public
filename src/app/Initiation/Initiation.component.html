@@ -72,6 +72,20 @@
                   <div class="col-12  col-sm-12 col-md-12 group-default">
                     <div #PRDUCT_GROUP id="PRDUCT_GROUP">
                       <div class="form-group pb10 PRDUCT_GROUP">
+                     
+                          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_CUSTOMER_TYPE.isHidden() || isLoanCategory">
+                                <div class="clr-brown fieldLegend">
+                                  <label class="clr-brown" [ngClass]="{'mandatory': BAD_CUSTOMER_TYPE.mandatory}">
+                                    {{ 'Initiation.BAD_CUSTOMER_TYPE' | translate}}
+                                  </label>
+                                </div>
+                                <rlo-ui-radio #BAD_CUSTOMER_TYPE fieldID="BAD_CUSTOMER_TYPE" [formCode]="formCode"
+                                  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
+                                  domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CUSTOMER_TYPE', $event)"
+                                  (change)="BAD_CUSTOMER_TYPE_change('BAD_CUSTOMER_TYPE', $event)"></rlo-ui-radio>
+                              </div>
+                     
+            
                         <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="BAD_PROD_CAT.isHidden()">
                           <div class="clr-brown fieldLegend">
                             <!-- <label class="clr-brown" [ngClass]="{'mandatory': BAD_PROD_CAT.mandatory}">
@@ -106,7 +120,7 @@
                             (blur)="genericOnBlur('BAD_CARD_NUMBER', $event)"></app-text-box>
                         </div>
         
-                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_CUSTOMER_TYPE.isHidden() || isLoanCategory">
+                        <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_CUSTOMER_TYPE.isHidden() || isLoanCategory">
                           <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': BAD_CUSTOMER_TYPE.mandatory}">
                               {{ 'Initiation.BAD_CUSTOMER_TYPE' | translate}}
@@ -116,8 +130,8 @@
                             placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
                             domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_CUSTOMER_TYPE', $event)">
                           </app-combo-box>
-                        </div>
-        
+                        </div> -->
+                       
         
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_REQ_CARD_LIMIT.isHidden() || isLoanCategory">
                           <div class="clr-brown fieldLegend">

@@ -204,6 +204,8 @@ export class RlouiService {
         localStorage.setItem("currency.code.default", this.tenantconfig["currency.code.default"]);
         localStorage.setItem("mob.default.country.code", this.tenantconfig["mob.default.country.code"]);
         localStorage.setItem("language.default", this.tenantconfig["language.default"]);
+        localStorage.setItem("card.allowed", this.tenantconfig["card.allowed"]);
+
 
 
 

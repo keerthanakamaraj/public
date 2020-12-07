@@ -39,7 +39,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: RLOUIRadioComponent;
   @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: RLOUIRadioComponent;
   @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: RLOUIRadioComponent;
-  @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
+  // @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
   @ViewChild('AD_ADDRESS_LINE1', { static: false }) AD_ADDRESS_LINE1: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE2', { static: false }) AD_ADDRESS_LINE2: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE3', { static: false }) AD_ADDRESS_LINE3: TextBoxComponent;
@@ -61,6 +61,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_Alternative_Email', { static: false }) AD_Alternative_Email: CheckBoxComponent;
   @ViewChild('AD_EMAIL1_CHECKBOX', { static: false }) AD_EMAIL1_CHECKBOX: CheckBoxComponent;
   @ViewChild('AD_EMAIL2_CHECKBOX', { static: false }) AD_EMAIL2_CHECKBOX: CheckBoxComponent;
+  @ViewChild('SAME_ADDRESS', { static: false }) SAME_ADDRESS: CheckBoxComponent;
+  @ViewChild('CORR_ADD_CHECKBOX', { static: false }) CORR_ADD_CHECKBOX: CheckBoxComponent;
+
   @ViewChild('AD_SAVE_ADDRESS', { static: false }) AD_SAVE_ADDRESS: ButtonComponent;
   @ViewChild('AD_CLEAR_BTN', { static: false }) AD_CLEAR_BTN: ButtonComponent;
   @ViewChild('AddressGrid', { static: false }) AddressGrid: AddressDetailsGridComponent;
@@ -119,16 +122,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       outDep: [
       ]
     },
-    AD_MAILING_ADDRESS: {
-      inDep: [
+    // AD_MAILING_ADDRESS: {
+    //   inDep: [
 
-        { paramKey: 'VALUE1', depFieldID: 'AD_MAILING_ADDRESS', paramType: 'PathParam' },
-        { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
-        { paramKey: 'KEY1', depFieldID: 'hidMailingAddress', paramType: 'QueryParam' },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: 'VALUE1', depFieldID: 'AD_MAILING_ADDRESS', paramType: 'PathParam' },
+    //     { paramKey: 'APPID', depFieldID: 'hidAppId', paramType: 'QueryParam' },
+    //     { paramKey: 'KEY1', depFieldID: 'hidMailingAddress', paramType: 'QueryParam' },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
     AD_PINCODE: {
       inDep: [
 
@@ -191,7 +194,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_ADD_TYPE'),
       this.revalidateBasicField('AD_OCCUPANCY_TYPE'),
       this.revalidateBasicField('AD_OCCUPANCY_STATUS'),
-      this.revalidateBasicField('AD_MAILING_ADDRESS'),
+      // this.revalidateBasicField('AD_MAILING_ADDRESS'),
       // this.revalidateBasicField('AD_RESIDENCE_TYPE'),
       this.revalidateBasicField('AD_ADDRESS_LINE1'),
       this.revalidateBasicField('AD_ADDRESS_LINE2'),
@@ -202,7 +205,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_CITY'),
       this.revalidateBasicField('AD_STATE'),
       this.revalidateBasicField('AD_LANDMARK'),
-      this.revalidateBasicField('AD_MAILING_ADDRESS'),
+      // this.revalidateBasicField('AD_MAILING_ADDRESS'),
       this.revalidateBasicField('AD_RES_DUR'),
       this.revalidateBasicField('AD_RES_DUR_UNIT'),
       // this.revalidateBasicField('AD_LAND_COUNTRY_CODE'),
@@ -239,7 +242,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
     this.AD_EMAIL1_CHECKBOX.setValue(true);
-    this.AD_MAILING_ADDRESS.setDefault('N');
+    // this.AD_MAILING_ADDRESS.setDefault('N');
     this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
@@ -339,7 +342,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.passNewValue(this.value);
     this.setReadOnly(this.readOnly);
     this.onFormLoad();
-    this.AD_MAILING_ADDRESS.isOptionsLoaded = false;
+    // this.AD_MAILING_ADDRESS.isOptionsLoaded = false;
     
   }
 
@@ -416,7 +419,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue().toUpperCase());
     inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
     inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
-    inputMap.set('Body.AddressDetails.MailingAddress', this.AD_MAILING_ADDRESS.getFieldValue());
+    inputMap.set('Body.AddressDetails.UDF3', this.CORR_ADD_CHECKBOX.getFieldValue());
     inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
     inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
     // inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
@@ -439,7 +442,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
         for (let i = 0; i < addGridData.length; i++) {
           if (addGridData[i].AD_ADD_ID !== this.AD_HIDE_ID.getFieldValue()) { // Check if Editing Existing Address
-            if (this.AD_MAILING_ADDRESS.getFieldValue() === 'Y' && addGridData[i].AD_MAILING_ADDRESS === 'Y') {
+            if ((this.CORR_ADD_CHECKBOX.getFieldValue() === true && addGridData[i].AD_MAILING_ADDRESS === 'true')  ) {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
             } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].AD_OCCUP_TYPE === 'CR') {
@@ -488,17 +491,17 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
           return;
         }
-      
-      const requestdata = this.requestParameterForAddressDetails();
+        inputMap.set('Body.AddressDetails', this.Handler.getAddressPostData());
+      // const requestdata = this.requestParameterForAddressDetails();
       this.AD_SAVE_ADDRESS.setDisabled(true);
-      if (this.AD_HIDE_ID.getFieldValue() !== undefined) {
-        serviceName = '/AddressDetails/{AddressDetailsSeq}';
-        method = 'PUT';
-      } else {
-        serviceName = '/AddressDetails';
-        method = 'POST';
-      }
-      this.services.http.fetchApi(serviceName, method, requestdata, '/rlo-de').subscribe(
+      // if (this.AD_HIDE_ID.getFieldValue() !== undefined) {
+      //   serviceName = '/AddressDetails/{AddressDetailsSeq}';
+      //   method = 'PUT';
+      // } else {
+      //   serviceName = '/AddressDetails';
+      //   method = 'POST';
+      // }
+      this.services.http.fetchApi('/SaveAddressDetails', 'POST', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           const res = httpResponse.body;
           if (this.AD_HIDE_ID.getFieldValue() == undefined) {
@@ -528,7 +531,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             } else if (err['ErrorElementPath'] === 'AddressDetails.EmailId1') {
               // this.AD_EMAIL_ID1.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.MailingAddress') {
-              this.AD_MAILING_ADDRESS.setError(err['ErrorDescription']);
+              this.CORR_ADD_CHECKBOX.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.LandlineNumber') {
               this.AD_LANDLINE_NUMBER.setError(err['ErrorDescription']);
             } else if (err['ErrorElementPath'] === 'AddressDetails.Landmark') {
@@ -598,24 +601,36 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
         this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
         this.AD_OCCUPANCY_TYPE.setValue(res['AddressDetails']['OccupancyType']['id']);
-        this.AD_PREF_TIME.setValue(res['AddressDetails']['PreferredTime']['id']);
-        this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
-        this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
-        this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
-        this.AD_ADDRESS_LINE4.setValue(res['AddressDetails']['AddressLine4']);
-        this.AD_PINCODE.setValue(res['AddressDetails']['PinCode']);
-        this.AD_REGION.setValue(res['AddressDetails']['Region']);
-        this.AD_CITY.setValue(res['AddressDetails']['City']);
-        this.AD_STATE.setValue(res['AddressDetails']['State']);
-        this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
-        // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
-        this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
-        this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
-        this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']['id']);
-        // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
-        // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
-        this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
+        // this.AD_PREF_TIME.setValue(res['AddressDetails']['PreferredTime']['id']);
+        // this.AD_ADDRESS_LINE1.setValue(res['AddressDetails']['AddressLine1']);
+        // this.AD_ADDRESS_LINE2.setValue(res['AddressDetails']['AddressLine2']);
+        // this.AD_ADDRESS_LINE3.setValue(res['AddressDetails']['AddressLine3']);
+        // this.AD_ADDRESS_LINE4.setValue(res['AddressDetails']['AddressLine4']);
+        // this.AD_PINCODE.setValue(res['AddressDetails']['PinCode']);
+        // this.AD_REGION.setValue(res['AddressDetails']['Region']);
+        // this.AD_CITY.setValue(res['AddressDetails']['City']);
+        // this.AD_STATE.setValue(res['AddressDetails']['State']);
+        // this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
+        // // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
+        // this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
+        // this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
+        // this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
+     
+        // // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
+        // // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
+        // this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
+        const CorrsAdd = res['AddressDetails']['UDF3'];
+        const IsSameAdd = res['AddressDetails']['IsSameAddress']
+        if (CorrsAdd == 'true'){
+          this.CORR_ADD_CHECKBOX.setValue(true);
+        }else{ 
+          this.CORR_ADD_CHECKBOX.setValue(false);
+        }
+        if (IsSameAdd == 'true'){
+          this.SAME_ADDRESS.setValue(true);
+        }else{ 
+          this.SAME_ADDRESS.setValue(false);
+        }
         const array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
         if (array[0] === 'true') {
           this.AD_EMAIL1_CHECKBOX.setValue(true);

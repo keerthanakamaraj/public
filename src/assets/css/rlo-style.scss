@@ -4838,13 +4838,24 @@ rlo-ui-card-field {
   }
 }
 
-.wgt-decision-alert {
-  .approver-docs {
-    margin-bottom: 16px;
-    .doc-label {
-      cursor: pointer;
-      margin: 6px;
-      display: inline-block;
-    }
-  }
+
+.SameAdd , .CorrAdd {
+  box-sizing: border-box;
+  // height: 36px;
+  width: 610px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background-color: #FAFAFA;
+  margin-top: 16px;
+}
+.addcheckbox{
+  // margin-top: 6px;
+  // height: 19px;
+  // width: 313px;
+  color: #000000;
+  font-family: "Open Sans";
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 19px;
+}
 }

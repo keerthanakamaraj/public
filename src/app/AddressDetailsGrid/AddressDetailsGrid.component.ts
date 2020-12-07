@@ -282,7 +282,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 						var tempObj = {};
 						tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
 						tempObj['AD_Address_Type'] = address[i].AddressType.text;
-						tempObj['AD_MAILING_ADDRESS'] = address[i].MailingAddress.text;
+						tempObj['AD_MAILING_ADDRESS'] = address[i].UDF3;
 						tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
 						tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
 

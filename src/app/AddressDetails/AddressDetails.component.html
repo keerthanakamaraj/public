@@ -30,6 +30,17 @@
               doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_ADD_TYPE', $event)">
             </rlo-ui-radio>
           </div>
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_MAILING_ADDRESS.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': AD_MAILING_ADDRESS.mandatory}">
+                {{ 'AddressDetails.AD_MAILING_ADDRESS' | translate}}
+              </label>
+            </div>
+            <rlo-ui-radio #AD_MAILING_ADDRESS category="2" fieldID="AD_MAILING_ADDRESS" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_MAILING_ADDRESS', $event)"></rlo-ui-radio>
+          </div> -->
+          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_OCCUPANCY_TYPE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AD_OCCUPANCY_TYPE.mandatory}">
@@ -50,16 +61,8 @@
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_OCCUPANCY_STATUS', $event)"></rlo-ui-radio>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_MAILING_ADDRESS.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': AD_MAILING_ADDRESS.mandatory}">
-                {{ 'AddressDetails.AD_MAILING_ADDRESS' | translate}}
-              </label>
-            </div>
-            <rlo-ui-radio #AD_MAILING_ADDRESS category="2" fieldID="AD_MAILING_ADDRESS" [formCode]="formCode"
-              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_MAILING_ADDRESS', $event)"></rlo-ui-radio>
-          </div>
+          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+     
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_ADDRESS_LINE1.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -167,6 +170,35 @@
             <app-combo-box #AD_RES_DUR_UNIT category="2" fieldID="AD_RES_DUR_UNIT" [formCode]="formCode"
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('AD_RES_DUR_UNIT', $event)"></app-combo-box>
+          </div>
+          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+          <div class="rlo-ui-radio-container form-group SameAdd">
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_EMAIL1_CHECKBOX.isHidden()" [ngClass]="'checkboxLeft'"> -->
+            <app-check-box #SAME_ADDRESS #SAME_ADDRESS fieldID="SAME_ADDRESS" [formCode]="formCode"
+              [uncheckedValue]="false" [checkedValue]="true" checked='true'
+              (blur)="genericOnBlur('SAME_ADDRESS', $event)"></app-check-box>
+            <!-- </div> -->
+            <div class="clr-brown fieldLegend emailCheck1">
+              <label class="clr-brown">
+                {{ 'AddressDetails.SAME_ADDRESS' | translate}}
+              </label>
+            </div>
+          </div>
+          </div>
+          <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+          <div class="rlo-ui-radio-container form-group CorrAdd">
+              <app-check-box  #CORR_ADD_CHECKBOX fieldID="CORR_ADD_CHECKBOX" [formCode]="formCode"
+              [uncheckedValue]="false" [checkedValue]="true" (blur)="genericOnBlur('CORR_ADD_CHECKBOX', $event)"
+              ></app-check-box>
+            <!-- </div> -->
+             <div class="clr-brown fieldLegend emailCheck1">
+              <label class="clr-brown">
+                {{ 'AddressDetails.CORR_ADD_CHECKBOX' | translate}}
+              </label>
+            </div>
+          </div>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
             <app-label #FieldId_30 parentCompCode="AddressDetails" fieldID="FieldId_30" [formCode]="formCode"
