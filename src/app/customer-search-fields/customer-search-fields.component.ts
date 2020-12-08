@@ -192,7 +192,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
               modifiedData.fieldData.push(element);
             }
           });
-         
+
           console.warn(modifiedData);
           this.fieldData = modifiedData['fieldData'];
           this.groupFields(modifiedData['fieldData']);
@@ -462,6 +462,11 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
         }
       }
     });
+  }
+
+  selectedCustomer(data: any) {
+    console.log(data);
+    this.customerData.emit(data);
   }
 
 }

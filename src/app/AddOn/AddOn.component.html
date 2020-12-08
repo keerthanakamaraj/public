@@ -27,7 +27,7 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10 customer-search-comp">
-          <app-customer-search-fields #custSearchFields (customerData)="returnData($event)"
+          <app-customer-search-fields #custSearchFields (customerData)="selectedCustomer($event)"
             [customerSubType]="custSubType">
           </app-customer-search-fields>
           <div class="form-group">

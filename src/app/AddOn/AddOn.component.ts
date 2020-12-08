@@ -34,7 +34,7 @@ const customCss: string = '';
 export class AddOnComponent extends FormComponent implements OnInit, AfterViewInit {
     @ViewChild('SearchFormGrid', { static: false }) SearchFormGrid: SearchCustomerGridComponent;
     @ViewChild('search_Type', { static: false }) search_Type: RLOUIRadioComponent;
-    @ViewChild('custSearchFields', { static: false }) custSearchFields:CustomerSearchFieldsComponent;
+    @ViewChild('custSearchFields', { static: false }) custSearchFields: CustomerSearchFieldsComponent;
     @ViewChild('ADD_CARD_CUST_TYPE', { static: false }) ADD_CARD_CUST_TYPE: RLOUIRadioComponent;
     @ViewChild('ADD_CUSTOMER_ID', { static: false }) ADD_CUSTOMER_ID: TextBoxComponent;
     @ViewChild('ADD_STAFF_ID', { static: false }) ADD_STAFF_ID: TextBoxComponent;
@@ -50,11 +50,13 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     @ViewChild('ADD_DOB', { static: false }) ADD_DOB: DateComponent;
     @ViewChild('ADD_CUST_SGMT', { static: false }) ADD_CUST_SGMT: ComboBoxComponent;
     @ViewChild('ADD_CUST_SUB_SGMT', { static: false }) ADD_CUST_SUB_SGMT: ComboBoxComponent;
-    parentData : ICustomSearchObject = { 'cifId': undefined,
+    parentData: ICustomSearchObject = {
+        'cifId': undefined,
         'mobileNumber': undefined,
         'searchType': 'External',
-        'taxId': undefined};
-   
+        'taxId': undefined
+    };
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -127,8 +129,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
             this.onFormLoad();
             this.checkForHTabOverFlow();
         });
-       this.custSearchFields.parentData = this.parentData;
-       console.log("kjgjh",this.parentData);
+        this.custSearchFields.parentData = this.parentData;
+        console.log("kjgjh", this.parentData);
     }
     clearError() {
         super.clearBasicFieldsError();
@@ -153,4 +155,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     fieldDependencies = {
     }
 
+    //event passed from searchCustomerGrid.ts -> customer-search-fields.ts -> AddOn.ts 
+    selectedCustomer(data) {
+        console.log(data);
+    }
 }

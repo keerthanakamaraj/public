@@ -34,6 +34,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   @Input('displayToolbar') displayToolbar: boolean = true;
   @Input('fieldID') fieldID: string;
 
+  @Output('selectedCustomer') selectedCustomer: EventEmitter<Object> = new EventEmitter();
+
   showRecordCount: boolean = false;//show div which indicates the number of records found 
 
   componentCode: string = 'SearchCustomerGrid';
@@ -401,7 +403,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['CustomerType'] = loopVar7[i].CustomerType;
                 tempObj['Branch'] = loopVar7[i].Branch;
                 tempObj['CreditCard'] = loopVar7[i].CreditCard;
-              
+
                 loopDataVar7.push(tempObj);
               }
             }
@@ -455,7 +457,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['Branch'] = loopVar7[i].Branch;
                 tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
-                              
+
                 loopDataVar7.push(tempObj);
               }
             }
@@ -550,7 +552,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['CustomerType'] = selectedData0['CustomerType'];
       tempVar['Branch'] = selectedData0['Branch'];
       tempVar['NoOfCard'] = selectedData0['NoOfCard'];
-    
+
 
 
       tempVar['staffId'] = selectedData0['StaffID'];//StaffID: "9870"
@@ -562,6 +564,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       }
 
       this.activeModal.close(tempVar);
+      this.selectedCustomer.emit(tempVar);
     }
   }
 
