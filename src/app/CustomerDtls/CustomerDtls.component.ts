@@ -808,7 +808,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_VISA_VALID.onReset();
     this.CD_DRIVING_LICENSE.onReset();
     this.CD_DRVNG_LCNSE_EXP_DT.onReset();
-    this.CD_TAX_ID.onReset();
+   // this.CD_TAX_ID.onReset();
     this.CD_DEBIT_SCORE.onReset();
     // this.CD_NATIONAL_ID.onReset();
     this.CD_CUST_SEGMENT.onReset();
@@ -1315,7 +1315,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   fieldArrayFunction() {
     this.fieldArray = [];
     this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
-      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF,this.CD_EMAIL,this.CD_MOBILE_NO
+      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF,this.CD_EMAIL,this.CD_MOBILE_NO,this.CD_TAX_ID
     );
     // this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
     //   this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_CUST_ID
