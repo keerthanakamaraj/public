@@ -332,6 +332,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.documentUploadObject.DocDetail = [];
         this.documentUploadObject.DocUploadDetails = [];
 
+        this.documentUploadObject.ProposalId = this.ApplicationId;
+
         this.documentUploadObject.DocDetail.push(this.docDetailsObject);
         this.documentUploadObject.DocUploadDetails.push(this.docUploadObject);
 
