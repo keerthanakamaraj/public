@@ -321,7 +321,7 @@ export class LiabilityDtlsFormComponent extends FormComponent implements OnInit,
             if (this.LD_LIABILITY_TYPE.getFieldValue() !== undefined) {
                 if (liabilityGridData) {
                     for (let i = 0; i < liabilityGridData.length; i++) {
-                        if (liabilityGridData[i].LD_LIABILITY_TYPE == this.LD_LIABILITY_TYPE.getFieldValue() && liabilityGridData[i].LD_AMOUNT == this.LD_LOAN_AMOUNT.getFieldValue() && liabilityGridData[i].LIABILITY_ID !== this.hiddenLiabilitySeq.getFieldValue()) {
+                        if (liabilityGridData[i].LIABILITY_TYPE_ID == this.LD_LIABILITY_TYPE.getFieldValue() && liabilityGridData[i].LD_AMOUNT == this.LD_LOAN_AMOUNT.getFieldValue() && liabilityGridData[i].LIABILITY_ID !== this.hiddenLiabilitySeq.getFieldValue()) {
                             this.services.alert.showAlert(2, 'rlo.error.exits.liability', -1);
                             return;
                         }
