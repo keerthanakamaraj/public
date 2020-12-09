@@ -1524,7 +1524,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
     const requestParams = new Map();
     requestParams.set('Body.ApplicationStatus', 'Withdraw');
-    requestParams.set('Body.direction', 'PRE-CPV');
+   // requestParams.set('Body.direction', 'PRE-CPV');
+   requestParams.set('Body.direction', 'W');
     var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
     var button1 = this.services.rloui.getAlertMessage('', 'OK');
     var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
