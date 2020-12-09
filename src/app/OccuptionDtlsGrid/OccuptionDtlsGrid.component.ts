@@ -42,8 +42,24 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     gridCode: "OccuptionDtlsGrid",
     paginationReq: false
   };
-  columnDefs: any[] = [{
-    field: "OD_OCCUPATION",
+   columnDefs: any[] = [
+  //{
+  //   field: "OD_OCCUPATION",
+  //   width: 22,
+  //   sortable: false,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   // filter: "agTextColumnFilter",
+  //   // filterParams: {
+  //   // 	suppressAndOrCondition: true,
+  //   // 	applyButton: true,
+  //   // 	clearButton: true,
+  //   // 	filterOptions: ["contains"],
+  //   // 	caseSensitive: true,
+  //   // },
+  // },
+  {
+    field: "OD_INCOME_TYPE",
     width: 22,
     sortable: false,
     resizable: true,
@@ -57,28 +73,12 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     // 	caseSensitive: true,
     // },
   },
-  // {
-  // field:"OD_INDUSTRY",
-  // width:17,
-  // sortable: true,
-  // resizable: true,
-  // cellStyle: {'text-align': 'left'},
-  // filter: "agTextColumnFilter",
-  // filterParams:{
-  // suppressAndOrCondition : true,
-  // applyButton: true,
-  // clearButton: true,
-  // filterOptions:["contains"] ,
-  // caseSensitive:true,
-  // },
-  // },
   {
-    field: "NET_INCOME",
+    field: "OD_INCOME_SOURCE",
     width: 22,
     sortable: false,
     resizable: true,
-    cellStyle: { 'text-align': 'right' },
-    valueFormatter: this.formatAmount.bind(this),
+    cellStyle: { 'text-align': 'left' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     // 	suppressAndOrCondition: true,
@@ -86,17 +86,6 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     // 	clearButton: true,
     // 	filterOptions: ["contains"],
     // 	caseSensitive: true,
-    // },
-    // cellRenderer: (params) => {
-    // 	let result = params.node.data ? this.NET_INCOME_getCellContent(params.node.data) : "";
-    // 	if (typeof result === 'string') {
-    // 		let eDiv = document.createElement('div');
-    // 		eDiv.style.display = 'contents';
-    // 		eDiv.innerHTML = result;
-    // 		return eDiv;
-    // 	}
-    // 	return result;
-
     // },
   },
   {
@@ -126,20 +115,34 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     // },
   },
   {
-    field: "OD_COMPANY_NAME",
+    field: "NET_INCOME",
     width: 22,
     sortable: false,
     resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    // 	suppressAndOrCondition: true,
-    // 	applyButton: true,
-    // 	clearButton: true,
-    // 	filterOptions: ["contains"],
-    // 	caseSensitive: true,
-    // },
+    cellStyle: { 'text-align': 'right' },
+    valueFormatter: this.formatAmount.bind(this),
+    headerComponentParams: {
+      template:
+        '<div class="ag-cell-label-container" role="presentation">' +
+        '<span ref="eText" class="ag-header-cell-text" role="columnheader"></span>' +
+        '</div>'
+    }
   },
+  // {
+  //   field: "OD_COMPANY_NAME",
+  //   width: 22,
+  //   sortable: false,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   // filter: "agTextColumnFilter",
+  //   // filterParams: {
+  //   // 	suppressAndOrCondition: true,
+  //   // 	applyButton: true,
+  //   // 	clearButton: true,
+  //   // 	filterOptions: ["contains"],
+  //   // 	caseSensitive: true,
+  //   // },
+  // },
   {
     field: "EMPLOYEE_ID",
     width: 22,
@@ -355,14 +358,13 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
           // 	"name": "occupationLoad",
           // 	"data": occupationDetails
           // });
-
+          var totalValue = { 'OD_INCOME_TYPE': 'Total', 'NET_INCOME': 0};
           for (var i = 0; i < occupationDetails.length; i++) {
             var tempObj = {};
             tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
-            tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation.text;
-            console.log("Occupation ", occupationDetails[i].Occupation);
-
-
+           // tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation.text;
+           
+           tempObj['OD_INCOME_SOURCE'] = occupationDetails[i].IncomeSource.text;
             tempObj['OD_INCOME_TYPE'] = occupationDetails[i].IncomeType.text;
             // tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
             tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
@@ -376,9 +378,12 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
             this.occupation.push(tempObj);
 
+            totalValue['OD_INCOME_TYPE'] = 'Total';
+            totalValue['NET_INCOME'] += occupationDetails[i].LocalCurrencyEquivalent;
             // if (!i)
             // 	this.services.rloCommonData.updateValuesFundLineGraph("add");
           }
+          this.occupation.push(totalValue);
         } else {
           // this.occupation = [];
           // this.occupationLoaded.emit({
@@ -472,10 +477,10 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   toggleColumn() {
     let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP' ? true : false;
 
-    this.setColumnHidden('OD_OCCUPATION', CorporateFlag);
+    this.setColumnHidden('OD_INCOME_TYPE', CorporateFlag);
     this.setColumnHidden('NET_INCOME', CorporateFlag);
     this.setColumnHidden('INCOME_FREQ', CorporateFlag);
-    this.setColumnHidden('OD_COMPANY_NAME', CorporateFlag);
+    this.setColumnHidden('OD_INCOME_SOURCE', CorporateFlag);
     this.setColumnHidden('OD_DELETE', CorporateFlag);
     this.setColumnHidden('EMPLOYEE_ID', !CorporateFlag);
     this.setColumnHidden('DEPARTMENT', !CorporateFlag);

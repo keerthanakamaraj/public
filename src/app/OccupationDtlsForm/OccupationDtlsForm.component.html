@@ -31,7 +31,7 @@
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_EMPLT_TYPE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory':OD_EMPLT_TYPE.mandatory}">
-                {{ 'OccupationDtlsForm.OD_EMPLT_TYPE' | translate}}</label>
+                {{( isRetired ?   'OccupationDtlsForm.OD_EMPLT_TYPE_BEFORE_RETIRE' : 'OccupationDtlsForm.OD_EMPLT_TYPE') | translate}}</label>
             </div>
             <app-combo-box #OD_EMPLT_TYPE category="2" fieldID="OD_EMPLT_TYPE" [formCode]="formCode"
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
@@ -45,6 +45,15 @@
             </div>
             <app-text-box #OD_SELF_EMPLD_PROF fieldID="OD_SELF_EMPLD_PROF" [formCode]="formCode"
               placeholder="(Optional)" (blur)="genericOnBlur('OD_SELF_EMPLD_PROF', $event)">
+            </app-text-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_OCCUPATION_OTHERS.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':OD_OCCUPATION_OTHERS.mandatory}">
+                {{ 'OccupationDtlsForm.OD_OCCUPATION_OTHERS' | translate}}</label>
+            </div>
+            <app-text-box #OD_OCCUPATION_OTHERS fieldID="OD_OCCUPATION_OTHERS" [formCode]="formCode"
+              placeholder="(Optional)" (blur)="genericOnBlur('OD_OCCUPATION_OTHERS', $event)">
             </app-text-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_SELF_EMPLD_TYPE.isHidden()">
@@ -163,10 +172,11 @@
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)">
             </app-combo-box>
           </div> -->
+          
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_NET_INCOME.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': OD_NET_INCOME.mandatory}">
-                {{ 'OccupationDtlsForm.OD_NET_INCOME' | translate}}</label>
+                {{ (isRetired ? 'OccupationDtlsForm.OD_PENSION_AMT' : 'OccupationDtlsForm.OD_NET_INCOME') | translate}}</label>
             </div>
             <!-- <app-combo-box #OD_CURRENCY category="2" fieldID="OD_CURRENCY" [formCode]="formCode" placeholder="Select"
               domainObjectUrl="/MstCurrencyDetails/{CurrencySrc}" doServerUrl="/masters"
@@ -211,10 +221,22 @@
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INC_DOC_TYPE', $event)">
             </app-combo-box>
           </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_SOURCE.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory':OD_INCOME_SOURCE.mandatory}">
+                {{ 'OccupationDtlsForm.OD_INCOME_SOURCE' | translate}}</label>
+            </div>
+
+            <app-combo-box #OD_INCOME_SOURCE category="2" fieldID="OD_INCOME_SOURCE" [formCode]="formCode"
+              placeholder="Select"domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('OD_INCOME_SOURCE', $event)"
+              (change)="OD_INCOME_SOURCE_change('OD_INCOME_SOURCE', $event)"></app-combo-box>
+
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INCOME_FREQ.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': OD_INCOME_FREQ.mandatory}">
-                {{ 'OccupationDtlsForm.OD_INCOME_FREQ' | translate}}</label>
+                {{ (isRetired ? 'OccupationDtlsForm.OD_PENSION_FREQ' : 'OccupationDtlsForm.OD_INCOME_FREQ') | translate}}</label>
             </div>
             <app-combo-box #OD_INCOME_FREQ category="2" fieldID="OD_INCOME_FREQ" [formCode]="formCode"
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
@@ -261,14 +283,14 @@
               (blur)="genericOnBlur('OD_WRK_PERMIT_NO', $event)"></app-text-box>
           </div>
 
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_RES_PRT_NO.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_RES_PRT_NO.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'OccupationDtlsForm.OD_RES_PRT_NO' | translate}}</label>
             </div>
             <app-text-box #OD_RES_PRT_NO fieldID="OD_RES_PRT_NO" [formCode]="formCode" placeholder="(Optional)"
               (blur)="genericOnBlur('OD_RES_PRT_NO', $event)"></app-text-box>
-          </div>
+          </div> -->
 
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
@@ -305,6 +327,7 @@
         <app-hidden #HidIncomeType fieldID="HidIncomeType"></app-hidden>
         <app-hidden #HidCurrency fieldID="HidCurrency"></app-hidden>
         <app-hidden #HidOccupationSeq fieldID="HidOccupationSeq"></app-hidden>
+        <app-hidden #HidIncomeSource fieldID="HidIncomeSource"></app-hidden>
       </div>
     </div>
   </div>

@@ -31,6 +31,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('OD_EMPLT_TYPE', { static: false }) OD_EMPLT_TYPE: ComboBoxComponent;
   @ViewChild('OD_SELF_EMPLD_PROF', { static: false }) OD_SELF_EMPLD_PROF: TextBoxComponent;
   @ViewChild('OD_SELF_EMPLD_TYPE', { static: false }) OD_SELF_EMPLD_TYPE: ComboBoxComponent;
+  @ViewChild('OD_OCCUPATION_OTHERS', { static: false }) OD_OCCUPATION_OTHERS: TextBoxComponent;
   @ViewChild('OD_EMPLOYEE_ID', { static: false }) OD_EMPLOYEE_ID: TextBoxComponent;
   @ViewChild('OD_DEPARTMENT', { static: false }) OD_DEPARTMENT: TextBoxComponent;
   @ViewChild('OD_DESIGNATION', { static: false }) OD_DESIGNATION: ComboBoxComponent;
@@ -43,14 +44,14 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('OD_COMP_NAME', { static: false }) OD_COMP_NAME: TextBoxComponent;
   @ViewChild('OD_LENGTH_OF_EXST', { static: false }) OD_LENGTH_OF_EXST: TextBoxComponent;
   @ViewChild('OD_INC_DOC_TYPE', { static: false }) OD_INC_DOC_TYPE: ComboBoxComponent;
-  // @ViewChild('OD_NET_INCOME', { static: false }) OD_NET_INCOME: TextBoxComponent;
   @ViewChild('OD_INCOME_FREQ', { static: false }) OD_INCOME_FREQ: ComboBoxComponent;
   @ViewChild('OD_EMP_STATUS', { static: false }) OD_EMP_STATUS: ComboBoxComponent;
   @ViewChild('OD_INCOME_TYPE', { static: false }) OD_INCOME_TYPE: ComboBoxComponent;
   @ViewChild('OD_WRK_PERMIT_NO', { static: false }) OD_WRK_PERMIT_NO: TextBoxComponent;
-  @ViewChild('OD_RES_PRT_NO', { static: false }) OD_RES_PRT_NO: TextBoxComponent;
-  //@ViewChild('OD_CURRENCY', { static: false }) OD_CURRENCY: ComboBoxComponent;
-  //@ViewChild('OD_LOC_CURR_EQ', { static: false }) OD_LOC_CURR_EQ: TextBoxComponent;
+  //@ViewChild('OD_RES_PRT_NO', { static: false }) OD_RES_PRT_NO: TextBoxComponent;
+  @ViewChild('OD_NET_INCOME', { static: false }) OD_NET_INCOME: RloUiCurrencyComponent;
+  @ViewChild('OD_LOC_CURR_EQ', { static: false }) OD_LOC_CURR_EQ: RloUiCurrencyComponent;
+  @ViewChild('OD_INCOME_SOURCE', { static: false }) OD_INCOME_SOURCE: ComboBoxComponent;
   @ViewChild('OD_SAVE_BTN', { static: false }) OD_SAVE_BTN: ButtonComponent;
   @ViewChild('OD_CLEAR_BTN', { static: false }) OD_CLEAR_BTN: ButtonComponent;
   @ViewChild('OCC_DTLS_GRID', { static: false }) OCC_DTLS_GRID: OccuptionDtlsGridComponent;
@@ -71,18 +72,18 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('HidIncomeType', { static: false }) HidIncomeType: HiddenComponent;
   @ViewChild('HidCurrency', { static: false }) HidCurrency: HiddenComponent;
   @ViewChild('HidOccupationSeq', { static: false }) HidOccupationSeq: HiddenComponent;
+  @ViewChild('HidIncomeSource', { static: false }) HidIncomeSource: HiddenComponent;
   @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
 
   //custom
-  @ViewChild('OD_NET_INCOME', { static: false }) OD_NET_INCOME: RloUiCurrencyComponent;
-  @ViewChild('OD_LOC_CURR_EQ', { static: false }) OD_LOC_CURR_EQ: RloUiCurrencyComponent;
-
+ 
   @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() parentFormCode: string;
   @Input('readOnly') readOnly: boolean = false;
   fieldArray: any[];
   activeBorrowerSeq: any;
+  isRetired:boolean=false;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -104,12 +105,13 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.revalidateBasicField('OD_COMP_NAME'),
       this.revalidateBasicField('OD_LENGTH_OF_EXST'),
       this.revalidateBasicField('OD_INC_DOC_TYPE'),
-      // this.revalidateBasicField('OD_NET_INCOME'),
       this.revalidateBasicField('OD_INCOME_FREQ'),
       this.revalidateBasicField('OD_EMP_STATUS'),
       this.revalidateBasicField('OD_INCOME_TYPE'),
       this.revalidateBasicField('OD_WRK_PERMIT_NO'),
-      this.revalidateBasicField('OD_RES_PRT_NO'),
+      this.revalidateBasicField('OD_INCOME_SOURCE'),
+      this.revalidateBasicField('OD_OCCUPATION_OTHERS'),
+      //this.revalidateBasicField('OD_RES_PRT_NO'),
       this.revalidateBasicField('OD_NET_INCOME'),
       //this.revalidateBasicField('OD_LOC_CURR_EQ'),
     ]).then((errorCounts) => {
@@ -145,6 +147,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     this.HidIncomeFrequency.setValue('FREQUENCY');
     this.HidIncomeType.setValue('INCOME_TYPE');
     this.HidCurrency.setValue('CURRENCY');
+    this.HidIncomeSource.setValue('INCOME_SOURCE');
     let inputMap = new Map();
 
     await this.Handler.onFormLoad({
@@ -327,7 +330,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       if (occupationGridData) {
         for (let i = 0; i < occupationGridData.length; i++) {
           if (occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()) {
-            if (this.OD_COMP_NAME.getFieldValue() !== undefined && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()) {
+            if (this.OD_COMP_NAME.getFieldValue() !== undefined && this.OD_COMP_NAME.getFieldValue() != '' && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()) {
 
               this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);
               return;
@@ -365,7 +368,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.EmploymentStatus', this.OD_EMP_STATUS.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
-        inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
+        inputMap.set('Body.OccupationDetails.IncomeSource', this.OD_INCOME_SOURCE.getFieldValue());
+        inputMap.set('Body.OccupationDetails.Others', this.OD_OCCUPATION_OTHERS.getFieldValue());
+        //inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
         // inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
         inputMap.set('Body.OccupationDetails.BorrowerSeq', this.activeBorrowerSeq);
         //inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
@@ -402,9 +407,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
               else if (err['ErrorElementPath'] == 'OccupationDetails.Currency') {
                 //this.OD_CURRENCY.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber') {
-                this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
-              }
+              // else if (err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber') {
+              //   this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
+              // }
               else if (err['ErrorElementPath'] == 'OccupationDetails.WorkPermitNumber') {
                 this.OD_WRK_PERMIT_NO.setError(err['ErrorDescription']);
               }
@@ -501,9 +506,11 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.EmploymentStatus', this.OD_EMP_STATUS.getFieldValue());
         inputMap.set('Body.OccupationDetails.IncomeType', this.OD_INCOME_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.WorkPermitNumber', this.OD_WRK_PERMIT_NO.getFieldValue());
-        inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
+        //inputMap.set('Body.OccupationDetails.ResidencePermitNumber', this.OD_RES_PRT_NO.getFieldValue());
         //inputMap.set('Body.OccupationDetails.Currency', this.OD_CURRENCY.getFieldValue());
         inputMap.set('Body.OccupationDetails.BorrowerSeq', this.activeBorrowerSeq);
+        inputMap.set('Body.OccupationDetails.IncomeSource', this.OD_INCOME_SOURCE.getFieldValue());
+        inputMap.set('Body.OccupationDetails.Others', this.OD_OCCUPATION_OTHERS.getFieldValue());
         //inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
 
         //custom
@@ -537,9 +544,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
               else if (err['ErrorElementPath'] == 'OccupationDetails.Currency') {
                 //this.OD_CURRENCY.setError(err['ErrorDescription']);
               }
-              else if (err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber') {
-                this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
-              }
+              // else if (err['ErrorElementPath'] == 'OccupationDetails.ResidencePermitNumber') {
+              //   this.OD_RES_PRT_NO.setError(err['ErrorDescription']);
+              // }
               else if (err['ErrorElementPath'] == 'OccupationDetails.WorkPermitNumber') {
                 this.OD_WRK_PERMIT_NO.setError(err['ErrorDescription']);
               }
@@ -647,14 +654,16 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_EMP_STATUS.setValue(res['OccupationDetails']['EmploymentStatus']['id']);
         this.OD_INCOME_TYPE.setValue(res['OccupationDetails']['IncomeType']['id']);
         this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
-        this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
+        this.OD_INCOME_SOURCE.setValue(res['OccupationDetails']['IncomeSource']['id']);
+        this.OD_OCCUPATION_OTHERS.setValue(res['OccupationDetails']['Others']);
+       // this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
         //this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
         //this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
         this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
-        this.Handler.occupationOnchange();
+      //  this.Handler.occupationOnchange(res['OccupationDetails']['Occupation']['id']);
         this.Handler.companyCodeChange();
-        this.OD_OCCUPATION_change('OD_OCCUPATION', event);
+       // this.OD_OCCUPATION_change('OD_OCCUPATION', event);
         this.revalidateBasicField('OD_NET_INCOME', true)
 
         //custom
@@ -662,27 +671,27 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
 
         this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
-        if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
-          this.OD_EMPLT_TYPE.mandatory = true;
-          this.OD_EMPLT_TYPE.setReadOnly(false);
-          if (this.readOnly) {
-            this.OD_EMPLT_TYPE.mandatory = false;
-            setTimeout(() => {
-              this.OD_EMPLT_TYPE.setReadOnly(true);
-            }, 500);
-          }
-        } else if (this.OD_OCCUPATION.getFieldValue() == 'SE') {
-          this.OD_SELF_EMPLD_TYPE.mandatory = true;
-          this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
-          this.OD_SELF_EMPLD_PROF.setReadOnly(false);
-          if (this.readOnly) {
-            this.OD_SELF_EMPLD_TYPE.mandatory = false;
-            setTimeout(() => {
-              this.OD_SELF_EMPLD_TYPE.setReadOnly(true);
-              this.OD_SELF_EMPLD_PROF.setReadOnly(true);
-            }, 500);
-          }
-        }
+        // if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
+        //   this.OD_EMPLT_TYPE.mandatory = true;
+        //   this.OD_EMPLT_TYPE.setReadOnly(false);
+        //   if (this.readOnly) {
+        //     this.OD_EMPLT_TYPE.mandatory = false;
+        //     setTimeout(() => {
+        //       this.OD_EMPLT_TYPE.setReadOnly(true);
+        //     }, 500);
+        //   }
+        // } else if (this.OD_OCCUPATION.getFieldValue() == 'SE') {
+        //   this.OD_SELF_EMPLD_TYPE.mandatory = true;
+        //   this.OD_SELF_EMPLD_TYPE.setReadOnly(false);
+        //   this.OD_SELF_EMPLD_PROF.setReadOnly(false);
+        //   if (this.readOnly) {
+        //     this.OD_SELF_EMPLD_TYPE.mandatory = false;
+        //     setTimeout(() => {
+        //       this.OD_SELF_EMPLD_TYPE.setReadOnly(true);
+        //       this.OD_SELF_EMPLD_PROF.setReadOnly(true);
+        //     }, 500);
+        //   }
+        // }
         this.CorporateCardBasedHandling();
       },
       async (httpError) => {
@@ -736,8 +745,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.OD_INCOME_TYPE.mandatory=false;
       this.OD_WRK_PERMIT_NO.setHidden(true);
       this.OD_WRK_PERMIT_NO.mandatory=false;
-      this.OD_RES_PRT_NO.setHidden(true);
-      this.OD_RES_PRT_NO.mandatory=false;
+      // this.OD_RES_PRT_NO.setHidden(true);
+      // this.OD_RES_PRT_NO.mandatory=false;
       this.OD_LOC_CURR_EQ.setHidden(true);
       this.OD_LOC_CURR_EQ.mandatory=false;
 
@@ -745,6 +754,11 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.OD_DEPARTMENT.mandatory=true;
       this.OD_DESIGNATION.mandatory=true;
       this.OD_DATE_OF_JOINING.mandatory=true;
+      this.OD_OCCUPATION_OTHERS.setHidden(true);
+      this.OD_INCOME_SOURCE.setHidden(true);
+      this.OD_INCOME_SOURCE.mandatory=false;
+    }else{
+      this.Handler.occupationOnchange();
     }
     this.OCC_DTLS_GRID.toggleColumn();
   }
@@ -875,6 +889,16 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         { paramKey: "MstCompanyDetails.CompanyCategory", depFieldID: "OD_COMP_CAT" },
         { paramKey: "MstCompanyDetails.CompnayName", depFieldID: "OD_COMP_NAME" }
 
+      ]
+    },
+    OD_INCOME_SOURCE: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "OD_INCOME_SOURCE", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "HidIncomeSource", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "HidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
       ]
     },
 

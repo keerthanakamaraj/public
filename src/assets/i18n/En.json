@@ -1066,6 +1066,7 @@
     "OD_EMPLOYEE_ID": "Employee ID",
     "OD_OCCUPATION": "Occupation",
     "OD_EMPLT_TYPE": "Employment Type",
+    "OD_EMPLT_TYPE_BEFORE_RETIRE": "Employment Type Before Retirement",
     "OD_LENGTH_OF_EXST": "Length Of Existence (yrs.)",
     "OD_COMP_CAT": "Company Category",
     "OD_EMP_STATUS": "Employment Status",
@@ -1081,8 +1082,12 @@
     "OD_DT_OF_INCPTN": "Date Of Inception",
     "OD_NTR_OF_BUSS": "Nature Of Business",
     "OD_LOC_CURR_EQ": "Local Currency Equivalent",
+    "OD_INCOME_SOURCE":"Income Source",
+    "OD_OCCUPATION_OTHERS":"Others",
     "OD_INDUSTRY": "Industry",
-    "OD_CLEAR_BTN": "Clear"
+    "OD_CLEAR_BTN": "Clear",
+    "OD_PENSION_FREQ":"Pension Frequency",
+    "OD_PENSION_AMT":"Pension Amount"
   },
   "EntRelAssGrid": {
     "select": "Select",
@@ -1575,7 +1580,9 @@
     "EMPLOYEE_ID":"Employee Id",
     "DEPARTMENT":"Department",
     "DESIGNATION":"Designation",
-    "DATE_OF_JOINING":"Date Of Joining"
+    "DATE_OF_JOINING":"Date Of Joining",
+    "OD_INCOME_TYPE":"Income Type",
+    "OD_INCOME_SOURCE":"Income Source"
   },
   "LiabilityDtlsGrid": {
     "LD_AMOUNT": "Amount",
