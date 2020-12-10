@@ -54,13 +54,13 @@
               </label>
             </div>
             <rlo-ui-radio #ApprovalReq category="2" fieldID="ApprovalReq" [formCode]="formCode"
-              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM" (change)="ApprovalReq_change('ApprovalReq', $event)"
               (blur)="genericOnBlur('ApprovalReq', $event)">
             </rlo-ui-radio>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide p-0" [hidden]="DesignationAuthority.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': DesignationAuthority.mandatory}">
                 {{ 'DecisionAlert.DesignationAuthority' | translate}}
               </label>
             </div>
@@ -72,7 +72,7 @@
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide p-0" [hidden]="ApproverName.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown"  [ngClass]="{'mandatory': ApproverName.mandatory}">
                 {{ 'DecisionAlert.ApproverName' | translate}}
               </label>
             </div>
