@@ -215,6 +215,7 @@
     "rlo.success.save.pastEduLoan": "The Past Education has been saved successfully.",
     "rlo.error.save.pastEduLoan": "The Past Education could not be saved. Please try again.",
     "rlo.error.approvedlimit.gt.product": "Approved Limit can not be greater than Max Product Limit",
+    "rlo.success.sentBack" : "The application has been successfully Sentback",
     
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
