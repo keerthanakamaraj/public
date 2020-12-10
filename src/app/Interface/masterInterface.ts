@@ -19,6 +19,7 @@ export interface IGeneralCardData {
   accountDetails?: IAccountDetails[];//used for 'Customer 360' -> Relationship Details
   customerList?: any;
   interfaceDataList?: any;
+  addressDetails?: any;
 }
 
 export interface ICardListData {
@@ -149,5 +150,5 @@ export interface IPopUpModalResponse {
 
 export interface IUnderwriterActionObject {
   action?: "sentBack" | "approve" | "withdraw";
-  componentCode? : any;
+  componentCode?: any;
 }

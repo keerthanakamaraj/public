@@ -73,6 +73,13 @@
 
             <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
               [ngClass]="{'d-block' : customerSectionLoaded}">
+              <div class="card-layout-container" *ngIf="customerSectionLoaded">
+                <app-card [cardMetaData]="addressDetailsCardDetails"></app-card>
+              </div>
+            </div>
+
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : customerSectionLoaded}">
               <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
                 <div class="blank-container" *ngIf="cBlankCardData.length">
                   <app-blank-card [cardMetaData]="data" *ngFor="let data of cBlankCardData"></app-blank-card>
@@ -143,7 +150,7 @@
         </span>
       </li>
       <li class="fab-buttons__item">
-        <span  class="fab-buttons__link" (click)="sentBackForm()">
+        <span class="fab-buttons__link" (click)="sentBackForm()">
           <span class="icon-material icon-material_sentback"></span>
           <span style="margin-left: -3px;  color:black;font-size: 12px;">Sent Back</span>
         </span>

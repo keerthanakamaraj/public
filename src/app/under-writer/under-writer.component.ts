@@ -93,7 +93,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
   customerCardDataWithFields: IGeneralCardData;//store customer related data
-
+  addressDetailsCardDetails: IGeneralCardData = null;
   loanDetailsCardData: IGeneralCardData = null//stores loan Details card data
   interfaceResultCardData: IGeneralCardData;
 
@@ -280,11 +280,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     let globlaObj = this.services.rloCommonData.globalApplicationDtls;
 
     this.isLoanCategory = event.isLoanCategory;
-    if (globlaObj.TypeOfLoanCode == "CC") {
-      if (globlaObj.LoanAmount != undefined) {
-        this.maxCardLimit = globlaObj.LoanAmount;
-      }
-    }
+    //changes for canara
+    // if (globlaObj.TypeOfLoanCode == "CC") {
+    //   if (globlaObj.LoanAmount != undefined) {
+    //     this.maxCardLimit = globlaObj.LoanAmount;
+    //   }
+    // }
+    //changes for canara
     this.getUnderWriterData();
   }
 
@@ -333,7 +335,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    //this.applicationId = 4461;
+    // this.applicationId = 2484; //4424
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -495,8 +497,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             console.error(this.customerCardDataWithFields);
             break;
 
-          case "FinancialSummary":
           case "AddressDetails":
+            this.addressDetailsCardDetails = singleCustomer[element.className].getCardData();
+            this.addressDetailsCardDetails.applicationId = this.applicationId;
+            this.addressDetailsCardDetails.borrowerSeq = this.borrowerSeq;
+            this.addressDetailsCardDetails.componentCode = this.componentCode;
+            console.error(this.addressDetailsCardDetails);
+            break;
+
+          case "FinancialSummary":
           case "FinancialDetails":
           case "CollateralDetails":
             data = singleCustomer[element.className].getCardData();
@@ -525,7 +534,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         this.customerSectionLoaded = true;
         console.warn("****");
         this.reloadCardGrid();
-      }, 500);
+      }, 1000);
     }
     else {
       this.aCardDataWithFields = [];
@@ -585,9 +594,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "CardDetails":
+            let maxCardLimit = this.services.rloCommonData.globalApplicationDtls.Product_max_credit;
             data = application[element.className].getCardData();
             let obj = data.data.find(a => a.title == "Maximum Card Limit");
-            obj.subTitle = this.maxCardLimit;
+            obj.subTitle = maxCardLimit == "" || maxCardLimit == undefined ? "NA" : maxCardLimit;
             console.warn("DEEP | card details", obj);
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;
@@ -816,7 +826,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // this.doSubmitConfirmation();
         var componentCode = this.componentCode
         let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'approve' };
-        this.services.rloui.openDecisionAlert(actionObject,Number(this.applicationId)).then((response: any) => {
+        this.services.rloui.openDecisionAlert(actionObject, Number(this.applicationId)).then((response: any) => {
           console.log(response);
           if (typeof response == 'object') {
             let modalResponse = response.response;
@@ -831,7 +841,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       // this.doSubmitConfirmation();
       var componentCode = this.componentCode
       let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'approve' };
-      this.services.rloui.openDecisionAlert(actionObject,Number(this.applicationId)).then((response: any) => {
+      this.services.rloui.openDecisionAlert(actionObject, Number(this.applicationId)).then((response: any) => {
         console.log(response);
         if (typeof response == 'object') {
           let modalResponse = response.response;
@@ -1071,7 +1081,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     var componentCode = this.componentCode
     let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'sentBack' };
     const inputMap = new Map();
-    this.services.rloui.openDecisionAlert(actionObject,this.applicationId).then((Response: any) => {
+    this.services.rloui.openDecisionAlert(actionObject, this.applicationId).then((Response: any) => {
       console.log(Response);
       if (typeof Response == 'object') {
         let modalResponse = Response.response;

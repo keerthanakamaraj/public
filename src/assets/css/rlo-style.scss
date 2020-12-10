@@ -2102,6 +2102,25 @@ rlo-ui-card-field {
       }
     }
   }
+
+  &.address-card {
+    .cards-body {
+      .interface-customer-selector {
+        height: 44px;
+        background: white !important;
+
+        .menu-btn {
+          position: absolute;
+          top: 16px;
+          right: 15px;
+        }
+      }
+
+      .secondary_lable{
+        line-height: 16px;
+      }
+    }
+  }
 }
 
 /* underwriter customer list component*/
@@ -2772,6 +2791,7 @@ rlo-ui-card-field {
   margin-bottom: 18px;
   padding: 0;
   height: 3.5em;
+  margin-top: 66px !important;
 
   .wgt-doc-upload {
     top: 0;
@@ -3133,7 +3153,7 @@ rlo-ui-card-field {
 //   display:block;
 // }
 
-.disable-card {
+.disabled {
   color: #979797 !important;
   cursor: default !important;
 }
@@ -4746,6 +4766,22 @@ rlo-ui-card-field {
       margin-right: 8px;
     }
   }
+
+  + .table-section {
+    .no-interface-data {
+      padding: 10px 0 10px 14px !important;
+      margin-left: 5px !important;
+      span {
+        height: 13px;
+        padding: 3px;
+        width: 123px;
+        color: $input-lbl-color;
+        font-size: 12px;
+        letter-spacing: 0;
+        line-height: 12px;
+      }
+    }
+  }
 }
 
 .wgt-customer-search {
@@ -4872,7 +4908,7 @@ rlo-ui-card-field {
 }
 
 .lyt-add-on {
-  app-customer-search-fields { 
+  app-customer-search-fields {
     width: 100%;
     .form-group {
       label {

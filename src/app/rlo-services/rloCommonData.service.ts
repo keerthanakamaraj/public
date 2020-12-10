@@ -60,6 +60,7 @@ export interface IGlobalApllicationDtls {
   CardType?: string;
   CardTypename?: string;
   MaxCredit?: any;
+  Product_max_credit?:any;//in Credit card maxiumun card limit->UW card
 }
 @Injectable({
   providedIn: 'root'

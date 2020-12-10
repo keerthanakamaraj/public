@@ -142,51 +142,79 @@ export class AddressDetails implements IDeserializable {
     }
 
     getCardData() {
-        let fieldList: ICardListData[] = [
-            {
-                title: "Address Type",
-                subTitle: "NA",
-                type: "basic",
-                modalSectionName: ""
-            },
-            {
-                title: "Mailing Address",
-                subTitle: "NA",
-                type: "basic",
-                modalSectionName: ""
-            },
-            {
-                title: "Occupancy Type",
-                subTitle: "NA",
-                type: "basic",
-                modalSectionName: ""
-            },
-            {
-                title: "Verification",
-                subTitle: "pending",
-                type: "icon",
-                modalSectionName: ""
-            }
-        ];
-
-        if (this.addressesList.length) {
-            this.addressesList.forEach(element => {
-                if (element.AddressType == "RS") {
-                    fieldList[0].subTitle = "Residence";
-                    fieldList[1].subTitle = this.getFullAddress(element);
-                    fieldList[2].subTitle = this.getOccupancy(element)
-                    fieldList[3].subTitle = "pending";
-                }
-            });
-        }
-
         const returnObj: IGeneralCardData = {
             name: "Address Details",
             modalSectionName: this.addressesList.length ? "AddressDetails" : "",
-            data: fieldList,
+            data: this.getDetailedAddress(this.addressesList),
             canShowModal: true
         };
         return returnObj;
+    }
+
+    // getCardData() {
+    //     let fieldList: ICardListData[] = [
+    //         {
+    //             title: "Address Type",
+    //             subTitle: "NA",
+    //             type: "basic",
+    //             modalSectionName: ""
+    //         },
+    //         {
+    //             title: "Mailing Address",
+    //             subTitle: "NA",
+    //             type: "basic",
+    //             modalSectionName: ""
+    //         },
+    //         {
+    //             title: "Occupancy Type",
+    //             subTitle: "NA",
+    //             type: "basic",
+    //             modalSectionName: ""
+    //         },
+    //         {
+    //             title: "Verification",
+    //             subTitle: "pending",
+    //             type: "icon",
+    //             modalSectionName: ""
+    //         }
+    //     ];
+
+    //     if (this.addressesList.length) {
+    //         this.addressesList.forEach(element => {
+    //             if (element.AddressType == "RS") {
+    //                 fieldList[0].subTitle = "Residence";
+    //                 fieldList[1].subTitle = this.getFullAddress(element);
+    //                 fieldList[2].subTitle = this.getOccupancy(element)
+    //                 fieldList[3].subTitle = "pending";
+    //             }
+    //         });
+    //     }
+
+    //     const returnObj: IGeneralCardData = {
+    //         name: "Address Details",
+    //         modalSectionName: this.addressesList.length ? "AddressDetails" : "",
+    //         data: fieldList,
+    //         canShowModal: true
+    //     };
+    //     return returnObj;
+    // }
+
+    getDetailedAddress(customerAddressList: any) {
+        if (customerAddressList.length) {
+            let addresssList = [];
+            customerAddressList.forEach(element => {
+                let obj = {};
+                let address = this.getFullAddress(element);
+                let occupancy = this.getOccupancy(element);
+                obj['address'] = address;
+                // obj['occupancy'] = occupancy;
+                addresssList.push(obj);
+            });
+            return addresssList;
+        }
+        else {
+            return customerAddressList
+        }
     }
 
     getFullAddress(data) {
@@ -632,7 +660,7 @@ export class VehicalDetails implements IDeserializable {
 export class CardDetails implements IDeserializable {
     // public Branch: string = "NA";
     // public FrontPageCategory: string = "NA";
-    public MaxCardLimit: string = "NA";
+    public MaximumCardLimit: string = "NA";
     public ApprovedLimit: string = "NA";
     public RequestedCardLimit: string = "NA";
     public ApprovedCashLimit: string = "NA";
@@ -658,7 +686,7 @@ export class CardDetails implements IDeserializable {
             // },
             {
                 title: "Maximum Card Limit",
-                subTitle: this.MaxCardLimit,
+                subTitle: this.MaximumCardLimit,
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true
@@ -672,14 +700,14 @@ export class CardDetails implements IDeserializable {
             },
             {
                 title: "Approved Card Limit",
-                subTitle: this.ApprovedLimit,
+                subTitle: this.ApprovedCashLimit,//need to change
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true
             },
             {
                 title: "Approved Cash Limit",
-                subTitle: this.ApprovedCashLimit,
+                subTitle: this.ApprovedLimit,
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true
@@ -695,7 +723,7 @@ export class CardDetails implements IDeserializable {
     }
 
     isSectionAvaliable() {
-        if (this.MaxCardLimit == 'NA' && this.RequestedCardLimit == 'NA' && this.ApprovedLimit == 'NA' && this.ApprovedCashLimit == 'NA') {
+        if (this.MaximumCardLimit == 'NA' && this.RequestedCardLimit == 'NA' && this.ApprovedLimit == 'NA' && this.ApprovedCashLimit == 'NA') {
             return ""
         } else {
             return "CreditCardDetails";
