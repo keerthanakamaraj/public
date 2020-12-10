@@ -882,10 +882,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     inputMap.set('Body.ApplicationId', this.applicationId);
     inputMap.set('Body.ApplicationStatus', this.applicationStatus);
     inputMap.set('Body.CreatedBy', this.userId);
+    if(DecisionResponse != null || DecisionResponse !=undefined) {
     inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
     inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
     inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
-
+    }
     if (requestParams) {
       requestParams.forEach((val, key) => {
         inputMap.set(key, val);
