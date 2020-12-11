@@ -60,7 +60,10 @@ export interface IGlobalApllicationDtls {
   CardType?: string;
   CardTypename?: string;
   MaxCredit?: any;
-  Product_max_credit?:any;//in Credit card maxiumun card limit->UW card
+  Product_max_credit?: any;//in Credit card maxiumun card limit->UW card
+  CardCustName?: string;
+  PrimaryUsage?: string;
+  ReqCardLimit?: any;
 }
 @Injectable({
   providedIn: 'root'
@@ -335,21 +338,22 @@ export class RloCommonData {
   async UpdateOccupationTags(event) {
     const tags = [];
     const maxAddress = 2;
-    console.log("shweta :: occ tags ",event.data);
+    console.log("shweta :: occ tags ", event.data);
     event.data.forEach(occupation => {
-      if(this.globalApplicationDtls.CardType=='CORP'){
-        tags.push({ text: occupation.EmployeeID+', '+ occupation.Designation });
+      if (this.globalApplicationDtls.CardType == 'CORP') {
+        tags.push({ text: occupation.EmployeeID + ', ' + occupation.Designation });
 
-      }else{
-      switch (occupation.Occupation.id) {
-        case 'RT': tags.push({ text: 'Retired' }); break;
-        case 'HW': tags.push({ text: 'Housewife' }); break;
-        case 'ST': tags.push({ text: 'Student' }); break;
-        case 'SL': tags.push({ text: 'Salaried' }); break;
-        case 'SE': tags.push({ text: 'Self Employed' }); break;
-        case 'OT': tags.push({ text: 'Others' }); break;
-        default: tags.push({ text: occupation.Occupation.id });
-      }}
+      } else {
+        switch (occupation.Occupation.id) {
+          case 'RT': tags.push({ text: 'Retired' }); break;
+          case 'HW': tags.push({ text: 'Housewife' }); break;
+          case 'ST': tags.push({ text: 'Student' }); break;
+          case 'SL': tags.push({ text: 'Salaried' }); break;
+          case 'SE': tags.push({ text: 'Self Employed' }); break;
+          case 'OT': tags.push({ text: 'Others' }); break;
+          default: tags.push({ text: occupation.Occupation.id });
+        }
+      }
     });
     return this.trimTagsIfRequired(tags, 4);
   }
@@ -579,7 +583,7 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
-    
+
     if (!sectionData.has('AddressDetails')) {
       commonObj.isSectionValid = false;
       // commonObj.errorMessage += '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';

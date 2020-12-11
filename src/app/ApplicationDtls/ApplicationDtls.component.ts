@@ -16,6 +16,7 @@ import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ApplicationHandlerComponent } from '../ApplicationDtls/application-handler.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 const moment = require('moment');
@@ -36,13 +37,22 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   //  @ViewChild('hidExistCust', { static: false }) hidExistCust: HiddenComponent;
   @ViewChild('hidAppId', { static: false }) hidAppId: HiddenComponent;
   @ViewChild('hidSourcingChannel', { static: false }) hidSourcingChannel: HiddenComponent;
-//  @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
+  //  @ViewChild('hidDsaId', { static: false }) hidDsaId: HiddenComponent;
   @ViewChild('hidAccBranch', { static: false }) hidAccBranch: HiddenComponent;
 
-  @Input() ApplicationId: string = undefined;
-  CustomerConfirmationStatus:string=undefined;
-            CustomerConfirmationRemarks:string=undefined;
+  //new changes canara
+  @ViewChild('BAD_CARD_TYPE', { static: false }) BAD_CARD_TYPE: TextBoxComponent;
+  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: TextBoxComponent;
+  @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
+  @ViewChild('BAD_CBS_PROD_CD', { static: false }) BAD_CBS_PROD_CD: TextBoxComponent;
+  @ViewChild('BAD_PRODUCT_APP', { static: false }) BAD_PRODUCT_APP: TextBoxComponent;
+  @ViewChild('BAD_SUB_PROD_APP', { static: false }) BAD_SUB_PROD_APP: TextBoxComponent;
+  @ViewChild('BAD_PRIME_USAGE', { static: false }) BAD_PRIME_USAGE: TextBoxComponent;
 
+  @Input() ApplicationId: string = undefined;
+  CustomerConfirmationStatus: string = undefined;
+  CustomerConfirmationRemarks: string = undefined;
+  isLoanCategory: boolean = false;
 
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -78,7 +88,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     //   this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
     this.hidSourcingChannel.setValue('Branch');
-   // this.hidDsaId.setValue('DSA_ID');
+    // this.hidDsaId.setValue('DSA_ID');
     this.hidAccBranch.setValue('ACC_BRANCH');
     this.setDependencies();
     await this.Handler.onFormLoad({});
@@ -106,16 +116,16 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             //   this.AD_PHYSICAL_FORM_NO.setValue("NA");
             // }
             // else {
-              // this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
+            // this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
             // }
-            if(applDtls.ApplicationInfo.PhysicalFormNo){
+            if (applDtls.ApplicationInfo.PhysicalFormNo) {
               this.AD_PHYSICAL_FORM_NO.setValue(applDtls.ApplicationInfo.PhysicalFormNo);
-            }else{
+            } else {
               this.AD_PHYSICAL_FORM_NO.setValue("NA");
             }
 
-            this.CustomerConfirmationStatus=applDtls.CustomerConfirmationStatus;
-            this.CustomerConfirmationRemarks=applDtls.CustomerConfirmationRemarks;
+            this.CustomerConfirmationStatus = applDtls.CustomerConfirmationStatus;
+            this.CustomerConfirmationRemarks = applDtls.CustomerConfirmationRemarks;
             let array = [];
             array.push({ isValid: true, sectionData: this.getFieldValue() });
             let obj = {
@@ -133,6 +143,17 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
           }
         }
       );
+
+      console.log(this.services.rloCommonData.globalApplicationDtls);
+      let headerData = this.services.rloCommonData.globalApplicationDtls;
+      this.BAD_CARD_TYPE.setValue(headerData.CardType);
+      this.BAD_PRODUCT_APP.setValue(headerData.ProductName);
+      this.BAD_CBS_PROD_CD.setValue(headerData.SubProductName);
+      this.BAD_CUSTOMER_TYPE.setValue(headerData.CardCustName);
+      this.BAD_PRIME_USAGE.setValue(headerData.PrimaryUsage);
+      this.BAD_REQ_CARD_LIMIT.setComponentSpecificValue(headerData.ReqCardLimit);
+      this.BAD_SUB_PROD_APP.setValue(headerData.SubProductName);
+
       this.setDependencies();
     }
   }
@@ -204,6 +225,22 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     this.setReadOnly(false);
     this.onFormLoad(event);
   }
+
+
+  customGenericOnBlur(event: any) {
+    console.log("Deep | customGenericOnBlur", event);
+
+    if (event.field == "LD_LOAN_AMOUNT") {
+      // if (event.textFieldValue != "")
+      //this.Handler.updateAmountTags();
+    } else if (event.field == "LD_GROSS_INCOME" || event.field == "LD_EXST_LBLT_AMT" || event.field == "LD_OTH_DEDUCTIONS") {
+      //this.Handler.calculateNetIncome({});
+    } else if (event.field == "BAD_REQ_CARD_LIMIT") {
+      this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
+    }
+    this.genericOnBlur(event.field, event.textFieldValue);
+  }
+
   // async AD_Save_click(event) {
   //   let inputMap = new Map();
   //   inputMap.clear();
@@ -282,6 +319,36 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
       ],
       outDep: [
       ]
-    },
+    }
+
+    // BAD_PRIME_USAGE: {
+    //   inDep: [
+
+    //     { paramKey: "ApplicationCd", depFieldID: "BAD_PRIME_USAGE", paramType: "PathParam" },
+    //     { paramKey: "PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+    // BAD_CARD_TYPE: {
+    //   inDep: [
+
+    //     { paramKey: "VALUE1", depFieldID: "BAD_CARD_TYPE", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideCardType", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+    // BAD_CUSTOMER_TYPE: {
+    //   inDep: [
+
+    //     { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideCardCustomerType", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
   }
 }

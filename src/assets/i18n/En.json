@@ -205,7 +205,21 @@
     "rlo.success.update.businessdtls": "The business details has been updated successfully.",
     "rlo.error.update.businessdtls": "The business details could not be updated. Please try again.",
     "rlo.success.save.businessdtls": "The business details has been saved successfully.",
-    "rlo.error.corp-occupation.exist":"More than 1 occupation cannot be saved.",
+    "rlo.error.corp-occupation.exist": "More than 1 occupation cannot be saved.",
+    "rlo.success.update.vehicle": "The Vehicle Details have been updated successfully.",
+    "rlo.error.update.vehicle": "The Vehicle Details could not be updated. Please try again.",
+    "rlo.success.save.vehicle": "The Vehicle Details have been saved successfully.",
+    "rlo.error.save.vehicle": "The Vehicle Details could not be saved. Please try again.",
+    "rlo.success.update.eduLoan": "The Education Details has been updated successfully.",
+    "rlo.error.update.eduLoan": "The Education Details could not be updated. Please try again.",
+    "rlo.success.save.eduLoan": "The Education Details has been saved successfully.",
+    "rlo.error.save.eduLoan": "The Education Details could not be saved. Please try again.",
+    "rlo.success.update.pastEduLoan": "The Past Education has been updated successfully.",
+    "rlo.error.update.pastEduLoan": "The Past Education could not be updated. Please try again.",
+    "rlo.success.save.pastEduLoan": "The Past Education has been saved successfully.",
+    "rlo.error.save.pastEduLoan": "The Past Education could not be saved. Please try again.",
+    "rlo.error.approvedlimit.gt.product": "Approved Limit can not be greater than Max Product Limit",
+    "rlo.success.sentBack": "The application has been successfully Sentback",
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -1082,12 +1096,12 @@
     "OD_DT_OF_INCPTN": "Date Of Inception",
     "OD_NTR_OF_BUSS": "Nature Of Business",
     "OD_LOC_CURR_EQ": "Local Currency Equivalent",
-    "OD_INCOME_SOURCE":"Income Source",
-    "OD_OCCUPATION_OTHERS":"Others",
+    "OD_INCOME_SOURCE": "Income Source",
+    "OD_OCCUPATION_OTHERS": "Others",
     "OD_INDUSTRY": "Industry",
     "OD_CLEAR_BTN": "Clear",
-    "OD_PENSION_FREQ":"Pension Frequency",
-    "OD_PENSION_AMT":"Pension Amount"
+    "OD_PENSION_FREQ": "Pension Frequency",
+    "OD_PENSION_AMT": "Pension Amount"
   },
   "EntRelAssGrid": {
     "select": "Select",
@@ -1476,11 +1490,18 @@
     "AD_BRANCH": "Branch",
     "AD_DATE_OF_RECIEPT": "Date of Receipt",
     "AD_DSA_ID": "DSA ID",
-    "AD_HEADING": "Application Information"
+    "AD_HEADING": "Application Information",
+    "BAD_CARD_TYPE": "Card Type",
+    "BAD_CUSTOMER_TYPE": "Customer Type",
+    "BAD_REQ_CARD_LIMIT": "Requested Card Limit",
+    "BAD_CBS_PROD_CD": "CBS Product Code",
+    "BAD_PRODUCT_APP": "Product",
+    "BAD_SUB_PROD_APP": "Sub Product",
+    "BAD_PRIME_USAGE": "Prime Usage"
   },
   "AddressDetails": {
-    "SAME_ADDRESS" : "Is permanent address same as a current address?",
-    "CORR_ADD_CHECKBOX" : "Is this the correspondence address?",
+    "SAME_ADDRESS": "Is permanent address same as a current address?",
+    "CORR_ADD_CHECKBOX": "Is this the correspondence address?",
     "AD_OCCUPANCY_TYPE": "Occupancy Type",
     "AD_OCCUPANCY_STATUS": "Occupancy Status",
     "AD_ADD_TYPE": "Address Type",
@@ -1577,12 +1598,12 @@
     "OD_DELETE_ButtonName": "Delete",
     "OD_INDUSTRY": "Industry",
     "OD_COMPANY_NAME": "Company Name",
-    "EMPLOYEE_ID":"Employee Id",
-    "DEPARTMENT":"Department",
-    "DESIGNATION":"Designation",
-    "DATE_OF_JOINING":"Date Of Joining",
-    "OD_INCOME_TYPE":"Income Type",
-    "OD_INCOME_SOURCE":"Income Source"
+    "EMPLOYEE_ID": "Employee Id",
+    "DEPARTMENT": "Department",
+    "DESIGNATION": "Designation",
+    "DATE_OF_JOINING": "Date Of Joining",
+    "OD_INCOME_TYPE": "Income Type",
+    "OD_INCOME_SOURCE": "Income Source"
   },
   "LiabilityDtlsGrid": {
     "LD_AMOUNT": "Amount",
@@ -1883,7 +1904,7 @@
     "FD_clear": "clear",
     "FD_NATIONAL_ID": "National ID",
     "FD_LAST_NAME": "Last Name",
-    "FD_EMAIL" : "Email"
+    "FD_EMAIL": "Email"
   },
   "FamilyDetailsGrid": {
     "FD_NAME": "Name",
@@ -1961,7 +1982,7 @@
     "MT_SLIDER": "Pending with Self",
     "FormTitle": "My Tray",
     "MT_Proposal": "NEW PROPOSAL",
-    "ADDON" : "Add-on Request"
+    "ADDON": "Add-on Request"
   },
   "NotepadDetailsGrid": {
     "ND_SR_NO": "S No.",
@@ -2515,7 +2536,7 @@
     "ApproverName": "Approver Name"
   },
   "BusinessDtlsForm": {
-    "BD_HEADING":"Business Details",
+    "BD_HEADING": "Business Details",
     "Industry": "Industry",
     "FYTurnover": "Turnover as per last FY",
     "FormTitle": "BusinessDtlsForm",
@@ -2530,12 +2551,12 @@
     "Constitution": "Constitution",
     "BD_SAVE_BTN": "SAVE",
     "BD_CLEAR_BTN": "CLEAR",
-    "FYTurnoverEq":"Turnover - Local Currency Equivalent",
-    "FYNetProfitEq":"Net Profit - Local Currency Equivalent",
-    "CIN":"CIN"
+    "FYTurnoverEq": "Turnover - Local Currency Equivalent",
+    "FYNetProfitEq": "Net Profit - Local Currency Equivalent",
+    "CIN": "CIN"
   },
-  "AddOn" : {
-    "FormTitle" : "AddOn",
+  "AddOn": {
+    "FormTitle": "AddOn",
     "ADD_DOB": "Date Of Birth",
     "ADD_RESET": "Reset",
     "SRC_MOBILE_NO": "Mobile No.",
@@ -2573,5 +2594,5 @@
     "ADD_CUST_SUB_SGMT": "Customer Subsegment",
     "FieldId_66": "Other Details",
     "FieldId_65": "Customer Details"
-    }
+  }
 }
