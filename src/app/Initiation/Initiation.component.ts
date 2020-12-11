@@ -623,6 +623,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
     this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+    this.searchbutton = 'N';
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
    // this.CD_STAFF_ID.setValue(tempVar['staffId']);
