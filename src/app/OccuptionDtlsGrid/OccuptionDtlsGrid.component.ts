@@ -358,7 +358,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
           // 	"name": "occupationLoad",
           // 	"data": occupationDetails
           // });
-          var totalValue = { 'OD_INCOME_TYPE': 'Total', 'NET_INCOME': 0};
+         
           for (var i = 0; i < occupationDetails.length; i++) {
             var tempObj = {};
             tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
@@ -378,12 +378,21 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
             this.occupation.push(tempObj);
 
-            totalValue['OD_INCOME_TYPE'] = 'Total';
-            totalValue['NET_INCOME'] += occupationDetails[i].LocalCurrencyEquivalent;
+            // totalValue['OD_INCOME_TYPE'] = 'Total';
+            // totalValue['NET_INCOME'] += occupationDetails[i].LocalCurrencyEquivalent;
             // if (!i)
             // 	this.services.rloCommonData.updateValuesFundLineGraph("add");
           }
-          this.occupation.push(totalValue);
+          if(this.services.rloCommonData.globalApplicationDtls.CardType!='CORP'){
+            let totalValue = { 'OD_INCOME_TYPE': 'Total', 'NET_INCOME': 0};
+            this.occupation.forEach(element => {
+              if(element['NET_INCOME']!=undefined && element['NET_INCOME']!=''){
+              totalValue['NET_INCOME']+=element['NET_INCOME'];
+              }
+            });
+            this.occupation.push(totalValue);
+          }
+          
         } else {
           // this.occupation = [];
           // this.occupationLoaded.emit({
@@ -481,7 +490,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     this.setColumnHidden('NET_INCOME', CorporateFlag);
     this.setColumnHidden('INCOME_FREQ', CorporateFlag);
     this.setColumnHidden('OD_INCOME_SOURCE', CorporateFlag);
-    this.setColumnHidden('OD_DELETE', CorporateFlag);
+    //this.setColumnHidden('OD_DELETE', CorporateFlag);
     this.setColumnHidden('EMPLOYEE_ID', !CorporateFlag);
     this.setColumnHidden('DEPARTMENT', !CorporateFlag);
     this.setColumnHidden('DESIGNATION', !CorporateFlag);
