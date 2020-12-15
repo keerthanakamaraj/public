@@ -144,6 +144,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.count = 0;
         this.fileUploadErrorMsg = '';
         this.documentUploadObject.InputterId = sessionStorage.getItem('userId');
+        this.documentUploadObject.AppRefNumber = this.services.rloCommonData.globalApplicationDtls.ARN;
         console.log('this.documentUploadObject', this.documentUploadObject, this.ApplicationId);
 
 
@@ -498,7 +499,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.docUploadObject.deferredUntil = docDetail['deferredUntil'];
         this.docUploadObject.collectionDate = docDetail['collectionDate'];
         this.docUploadObject.remarks = docDetail['remarks'];
-        this.docUploadObject.mandatory=docDetail['mandatory'];
+        this.docUploadObject.mandatory = docDetail['mandatory'];
 
         this.docDetailsObject.DocName = docDetail['DocName'];
         console.log(docDetail['collectionDate']);
@@ -555,9 +556,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             });
     }
     // This method is to download file
-    downloadFile(inventoryNumber) {
+    downloadFile(inventoryNumber, fileName) {
         // @CLO-RLO-Merge - Download Document
-        this.utility.getCommonService().download(inventoryNumber);
+        this.utility.getCommonService().download(inventoryNumber, fileName);
     }
     // This method is called when we click on delete icon
     confirmDelete(id) {
@@ -618,11 +619,11 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             data => {
                 if (data && data['Status_Cd'] == "S") {
                     //this.appService.success(this.getLabel('FILE_DELETED_SUCCESSFULLY'));
-                    this.services.alert.showAlert(2, '', 3000, 'File  Deleted Successfully');
+                    this.services.alert.showAlert(1, '', 3000, 'File  Deleted Successfully');
                     this.getImagePreview(this.sequenceId);
                 } else {
                     //this.utility.getAppService().error(this.getLabel('UNABLE_TO_DELETE_FILE'));
-                    this.services.alert.showAlert(1, '', 3000, 'Unable to Delete File Details');
+                    this.services.alert.showAlert(2, '', 3000, 'Unable to Delete File Details');
                 }
             }
         )

@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
 export class CLOCommonService extends CoreREST {
 
 	// public baseContext: string = '/clo-commons';
-  // public baseContext: string = '/common-de';
-  public baseContext: string = environment.serviceMap['/common-de'];
+	// public baseContext: string = '/common-de';
+	public baseContext: string = environment.serviceMap['/common-de'];
 	public context: string = (this.baseContext + '/v1');
 	private domainAttributesCache = {};
 	private tenantDACache = {};
@@ -212,11 +212,14 @@ export class CLOCommonService extends CoreREST {
 		});
 	}
 
-	public download(inventoryNumber) {
+	public download(inventoryNumber, fileNameWithExt) {
 		this.subscribeDownload(inventoryNumber).subscribe((resp: HttpResponse<Blob>) => {
 			const data = resp.body;
 			const contentDisposition = resp.headers.get('content-disposition');
-			let fileName = 'default.unknown';
+
+			let onlyFileName = fileNameWithExt.slice(fileNameWithExt.lastIndexOf('.'), fileNameWithExt.length);
+			let fileName = onlyFileName;
+
 			if (contentDisposition) {
 				const spl = contentDisposition.split("filename=");
 				if (spl && spl.length == 2 && spl[1]) {
@@ -666,7 +669,7 @@ export class CLOCommonService extends CoreREST {
 	getImagesForUpdateAction(id) {
 		// let url = this.getUrl('/documentUploads?docId=' + id);
 		// return this.http.get(url, this.getDefaultOptions());
-		let url = this.getUrl('/documentUploads?seqId='+ id);
+		let url = this.getUrl('/documentUploads?seqId=' + id);
 		return this.http.get(url, this.getDefaultOptions());
 	}
 	public updateDocumentDetails(pFormData) {

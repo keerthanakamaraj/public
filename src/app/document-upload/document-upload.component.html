@@ -381,7 +381,7 @@
                                 <div data-toggle="tooltip" [title]="item.fileName">{{item.fileName}}</div>
                             </div>
                             <div class="text-right">
-                                <span class="icon-file-download" (click)="downloadFile(item.seqId)"></span>
+                                <span class="icon-file-download" (click)="downloadFile(item.seqId,item.fileName)"></span>
                                 <span class="icon-delete-bin" (click)="deleteImages(item.seqId)"></span>
                             </div>
                         </div>
