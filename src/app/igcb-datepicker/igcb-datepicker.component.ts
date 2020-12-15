@@ -59,7 +59,7 @@ export class IGCBDatepickerI18n extends NgbDatepickerI18n {
     template: `
     <div class="igcb-datepicker input-group">
     <input tabindex="-1" autocomplete="off" type="text" [container]="body" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="hiddenValue" name="hiddenDatepicker" #d="ngbDatepicker" ngbDatepicker (dateSelect)="onDateSelect($event)" style="position: absolute;left: 0;width: 100%;height: 100%;opacity: 0;" (ngModelChange)="modelChangeEvent(value)">
-    <input class="form-control" autocomplete="off" type="text" (blur)="myBlurEvent($event)" [(ngModel)]="innerValue" #input name="datepicker" (ngModelChange)="changeHiddenValue($event)" />
+    <input class="form-control" disabled="true" autocomplete="off" type="text" (blur)="myBlurEvent($event)" [(ngModel)]="innerValue" #input name="datepicker" (ngModelChange)="changeHiddenValue($event)" />
     <span class="input-group-addon" (click)="d.toggle()">
     <span class="glyphicon glyphicon-calendar"></span>
     </span>

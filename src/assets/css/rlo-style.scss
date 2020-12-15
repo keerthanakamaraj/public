@@ -3670,9 +3670,9 @@ rlo-ui-card-field {
     .folder-icon {
       position: relative;
       width: 39px;
-      height: 36px;
+      height: 34px;
       background: #eeeeee;
-      margin-top: 1.25rem;
+      margin-top: 24px;
       border: 1px solid #cccccc;
       border-left: none;
       border-bottom-right-radius: 5px;
@@ -3788,6 +3788,7 @@ rlo-ui-card-field {
 
       .img-responsive {
         height: 150px;
+        margin: auto;
       }
 
       .caption {
@@ -3804,10 +3805,27 @@ rlo-ui-card-field {
           .text-left {
             position: fixed;
             text-align: left;
+            cursor: default;
+            
+            div {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 163px;
+            }
           }
 
           .text-right {
             text-align: right;
+
+            .icon-file-download {
+              margin-right: 5px;
+              cursor: pointer;
+            }
+
+            .icon-delete-bin {
+              cursor: pointer;
+            }
           }
         }
       }
@@ -3824,6 +3842,12 @@ rlo-ui-card-field {
         text-align: end;
       }
     }
+
+    .no-doc {
+      text-align: center;
+      margin: 15px;
+      font-size: 14px;
+    }
   }
 
   .radio-wrapper {
@@ -3831,6 +3855,12 @@ rlo-ui-card-field {
     margin-top: 1.25rem;
     .radio-container {
       display: inline-block;
+    }
+  }
+
+  .igcb-datepicker {
+    input[type="text"]:disabled {
+      background: white !important;
     }
   }
 }
