@@ -212,13 +212,19 @@ export class CLOCommonService extends CoreREST {
 		});
 	}
 
-	public download(inventoryNumber, fileNameWithExt) {
+	public download(inventoryNumber, fileNameWithExt?) {
 		this.subscribeDownload(inventoryNumber).subscribe((resp: HttpResponse<Blob>) => {
 			const data = resp.body;
 			const contentDisposition = resp.headers.get('content-disposition');
 
-			let onlyFileName = fileNameWithExt.slice(fileNameWithExt.lastIndexOf('.'), fileNameWithExt.length);
-			let fileName = onlyFileName;
+			let fileName;
+			if (fileNameWithExt != undefined || fileNameWithExt != null) {
+				let onlyFileName = fileNameWithExt.slice(0, fileNameWithExt.lastIndexOf('.'));
+				fileName = onlyFileName;
+			}
+			else {
+				fileName = 'default.unknown';
+			}
 
 			if (contentDisposition) {
 				const spl = contentDisposition.split("filename=");
@@ -235,7 +241,7 @@ export class CLOCommonService extends CoreREST {
 				document.body.appendChild(a);
 				a.setAttribute('style', 'display: none');
 				a.href = url;
-				a.download = fileName;
+				a.download = fileNameWithExt != undefined ? fileNameWithExt : fileName;
 				a.click();
 				a.remove(); // remove the element
 				window.URL.revokeObjectURL(url);
