@@ -8,6 +8,8 @@ export class FileDetails {
     remarks: string;
     Document: string;
     status: string;
+    enforcementStageId: string;
+    mandatory: string;
     collectionDate: string;
     Udf1: string;
     Udf2: string;
@@ -23,7 +25,9 @@ export class FileDetails {
     public clear() {
         this.id = '';
         this.DocId = '';
+        this.mandatory = '';
         this.trnDemographicId = '';
+        this.enforcementStageId = '';
         this.collectionDate = '';
         this.deferredUntil = '';
         this.remarks = '';

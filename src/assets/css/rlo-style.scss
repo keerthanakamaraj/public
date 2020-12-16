@@ -3691,9 +3691,9 @@ rlo-ui-card-field {
     .folder-icon {
       position: relative;
       width: 39px;
-      height: 36px;
+      height: 34px;
       background: #eeeeee;
-      margin-top: 1.25rem;
+      margin-top: 24px;
       border: 1px solid #cccccc;
       border-left: none;
       border-bottom-right-radius: 5px;
@@ -3792,12 +3792,96 @@ rlo-ui-card-field {
         span {
           font-size: 23px;
           cursor: pointer;
+          margin-right: 7px;
 
           &.icon-edit {
             color: #0079b8;
           }
         }
       }
+    }
+  }
+
+  .img-list-preview {
+    .cards-md {
+      padding-bottom: 1em;
+      position: relative;
+
+      .img-responsive {
+        height: 150px;
+        margin: auto;
+      }
+
+      .caption {
+        position: absolute;
+        bottom: 1em;
+        left: 0;
+        right: 0;
+        background-color: #c5c5c5;
+        padding: 0.5em;
+
+        .delete-sequence {
+          opacity: 0.5;
+
+          .text-left {
+            position: fixed;
+            text-align: left;
+            cursor: default;
+            
+            div {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 163px;
+            }
+          }
+
+          .text-right {
+            text-align: right;
+
+            .icon-file-download {
+              margin-right: 5px;
+              cursor: pointer;
+            }
+
+            .icon-delete-bin {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    .back-container {
+      height: 19px;
+      .go-back {
+        height: 19px;
+        width: 15px;
+        margin-right: 9px;
+        font-size: 19px;
+        float: right;
+        text-align: end;
+      }
+    }
+
+    .no-doc {
+      text-align: center;
+      margin: 15px;
+      font-size: 14px;
+    }
+  }
+
+  .radio-wrapper {
+    display: flex;
+    margin-top: 1.25rem;
+    .radio-container {
+      display: inline-block;
+    }
+  }
+
+  .igcb-datepicker {
+    input[type="text"]:disabled {
+      background: white !important;
     }
   }
 }

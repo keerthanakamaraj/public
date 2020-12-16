@@ -9,6 +9,7 @@ import { DocumentUpload } from './document-upload.model';
 import { FileDetails } from './file-details.model';
 import { ServiceStock } from '../service-stock.service';
 import { DateComponent } from '../date/date.component';
+import { environment } from 'src/environments/environment';
 declare var jQuery: any;
 
 
@@ -60,6 +61,13 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     // 003	Verified
     // 005	Deferred
     // 006	Waived
+
+    preview: boolean;
+    fileDetails: any;
+    disableEnforcementStage = false;
+    sequenceId: any;
+    Stages = [];
+    selectedFileInvalid: boolean = false;//check if the selected doc. is valid
 
     public showMessage(msg) {
         this.modalMessage = msg;
@@ -136,6 +144,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.count = 0;
         this.fileUploadErrorMsg = '';
         this.documentUploadObject.InputterId = sessionStorage.getItem('userId');
+        this.documentUploadObject.AppRefNumber = this.services.rloCommonData.globalApplicationDtls.ARN;
         console.log('this.documentUploadObject', this.documentUploadObject, this.ApplicationId);
 
 
@@ -172,6 +181,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             console.log(this.docDetailsObject);
         }, 500);
 
+        this.getStages();
     }
     // This method is to get the document types
     getDocumentTypes(demographicId) {
@@ -225,18 +235,29 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.validateField(this.docDetailsObject.DocType, 'DocType');
         this.validateField(this.docDetailsObject.DocName, 'DocName');
         this.validateField(this.docUploadObject.status, 'status');
+        this.validateField(this.docUploadObject.enforcementStageId, 'enforcementStageId');
+        this.validateField(this.docUploadObject.mandatory, 'mandatory');
     }
     // This methos is to submit the documents
     async onSubmit() {
         this.fileUploadErrorFlag = false;
         this.fileUploadErrorMsg = '';
-        //this.revalidation();
+        this.revalidation();
+        console.error("DEEP | onSubmit", this.docUploadObject, this.documentUploadObject, this.selectedFileInvalid);
+        console.error("DEEP | this.flag ", this.flag);
+        console.warn("DEEP | selectedFilesToUpload", this.selectedFilesToUpload);
         // if (this.flag === 1) {
         //     return;
         // } else {
-        //     this.processUplaodImage();
+        //     if (!this.selectedFileInvalid)
+        //         console.error("DEEP | UPLOAD IT")
+        //     // this.processUplaodImage();
         // }
         //this.saveImageDetails();
+
+        // if (!this.selectedFileInvalid) {
+        //     this.processUplaodImage();
+        // }
 
         this.processUplaodImage();
     }
@@ -247,17 +268,23 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     // This method is to upload file
     processUplaodImage() {
         //this.uploader.uploadAll();
+
+        // if (this.selectedFileInvalid) {
+        //     this.services.alert.showAlert(2, '', 3000, 'Select a document to upload rocessUplaodImage()');
+        //     return;
+        // }
+
         console.log(this.docDetailsObject, this.docUploadObject);
         let msg = "Please select ";
         let msgList = [];
+        const moment = require('moment');
 
-        if (this.docUploadObject.status == "005") {
-            this.docUploadObject.deferredUntil = this.deffered_date.getFieldValue();
+        if (this.docUploadObject.deferredUntil != "") {
+            this.docUploadObject.deferredUntil = moment(this.docUploadObject.deferredUntil).format('DD-MMM-YYYY');
         }
-
-        if (this.docUploadObject.status == "002" || this.docUploadObject.status == "003" || this.docUploadObject.status == "001")
-            this.docUploadObject.collectionDate = this.collection_date.getFieldValue();
-
+        if (this.docUploadObject.collectionDate != "") {
+            this.docUploadObject.collectionDate = moment(this.docUploadObject.collectionDate).format('DD-MMM-YYYY');
+        }
 
         if (this.docUploadObject.trnDemographicId == undefined || !this.docUploadObject.trnDemographicId.length) {
             msgList.push(" owner");
@@ -271,18 +298,22 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             msgList.push(" document");
         }
 
-        if (this.docUploadObject.relationshipToBorrower == undefined || !this.docUploadObject.relationshipToBorrower.length) {
-            msgList.push(" relationship to borrower");
+        // if (this.docUploadObject.relationshipToBorrower == undefined || !this.docUploadObject.relationshipToBorrower.length) {
+        //     msgList.push(" relationship to borrower");
+        // }
+
+        if (this.docUploadObject.mandatory == undefined) {
+            msgList.push(" is manditory");
         }
 
         if (this.docUploadObject.status == undefined || !this.docUploadObject.status.length) {
             msgList.push(" status");
         }
         else {
-            if ((this.docUploadObject.status == "001" || this.docUploadObject.status == "002" || this.docUploadObject.status == "003") && !this.docUploadObject.collectionDate.length) {
+            if ((this.docUploadObject.status == "001" || this.docUploadObject.status == "002" || this.docUploadObject.status == "003") && this.docUploadObject.collectionDate == "") {
                 msgList.push(" collection date");
             }
-            else if (this.docUploadObject.status == "005" && !this.docUploadObject.deferredUntil.length) {
+            else if (this.docUploadObject.status == "005" && this.docUploadObject.deferredUntil == "") {
                 msgList.push(" deferred date");
             } if (this.docUploadObject.status == "006" && !this.docUploadObject.remarks.length) {
                 msgList.push(" remarks");
@@ -295,7 +326,11 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             this.services.alert.showAlert(2, '', 3000, msg + msgList.join());
         }
         else {
-            console.error("DEEP |", this.selectedFilesToUpload)
+            console.error("DEEP |", this.selectedFilesToUpload);
+            if (this.selectedFilesToUpload === undefined) {
+                this.services.alert.showAlert(2, '', 3000, 'Select a document to upload');
+                return;
+            }
 
             if (this.docDetailsObject.DocName == undefined || this.docDetailsObject.DocName == "") {
                 this.saveImageDetails();
@@ -322,6 +357,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     saveImageDetails() {
         this.documentUploadObject.DocDetail = [];
         this.documentUploadObject.DocUploadDetails = [];
+
+        this.documentUploadObject.ProposalId = this.ApplicationId + "";
 
         this.documentUploadObject.DocDetail.push(this.docDetailsObject);
         this.documentUploadObject.DocUploadDetails.push(this.docUploadObject);
@@ -359,15 +396,20 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.selectedFilesToUpload = file;
         const sizeInKB = Math.round(file.size / 1024);
         if (Number(sizeInKB) > 5120) {
-
             this.uploader.queue[0].remove();
             // @CLO-RLO-Merge - 
             // this.tooltipError.tooltiperrorshow('DocName', this.getLabel('FILE_SIZE_EXCEEDS_5MB'));
+            this.services.alert.showAlert(2, '', 3000, 'File size exceeds more than 5 MB');
+            this.selectedFileInvalid = true;
+            this.selectedFilesToUpload = undefined;
             return;
         } else if (Number(file.name.length) > 100) {
             this.uploader.queue[0].remove();
             // @CLO-RLO-Merge - 
             // this.tooltipError.tooltiperrorshow('DocName', this.getLabel('FILE_NAME_EXCEEDS_100_CHARS'));
+            this.services.alert.showAlert(2, '', 3000, 'Max length of File Name is 100 characters only');
+            this.selectedFileInvalid = true;
+            this.selectedFilesToUpload = undefined;
             return;
         }
 
@@ -387,8 +429,12 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             if (!isValidfile) {
                 // @CLO-RLO-Merge - 
                 // this.tooltipError.tooltiperrorshow('DocName', this.getLabel('INVALID_FILE_FORMAT'));
+                this.selectedFileInvalid = true;
+                this.services.alert.showAlert(2, '', 3000, 'Invalid file format');
+                this.selectedFilesToUpload = undefined;
                 return;
             } else {
+                this.selectedFileInvalid = false;
                 // @CLO-RLO-Merge - 
                 // this.tooltipError.tooltiperrorhide('DocName');
             }
@@ -409,7 +455,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         //this.docUploadObject.clear();
         this.fileName = '';
         this.cfsNum = '';
-
+        this.selectedFileInvalid = false;
+        this.selectedFilesToUpload = undefined;
         // @CLO-RLO-Merge - 
         // if (this.uploader.queue.length >= 1) {
         //     this.uploader.queue[0].remove();
@@ -450,8 +497,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.docUploadObject.relationshipToBorrower = docDetail['relationId'];
         this.docUploadObject.status = docDetail['status'];
         this.docUploadObject.deferredUntil = docDetail['deferredUntil'];
-        //this.docUploadObject.collectionDate = docDetail['collectionDate'];
+        this.docUploadObject.collectionDate = docDetail['collectionDate'];
         this.docUploadObject.remarks = docDetail['remarks'];
+        this.docUploadObject.mandatory = docDetail['mandatory'];
 
         this.docDetailsObject.DocName = docDetail['DocName'];
         console.log(docDetail['collectionDate']);
@@ -470,17 +518,17 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         //     }, 100);
         // }
 
-        if (docDetail['collectionDate'] != undefined) {
-            setTimeout(() => {
-                this.collection_date.setValue(docDetail['collectionDate']);
-            }, 100);
-        }
+        // if (docDetail['collectionDate'] != undefined) {
+        //     setTimeout(() => {
+        //         this.collection_date.setValue(docDetail['collectionDate']);
+        //     }, 100);
+        // }
 
-        if (docDetail['deferredUntil'] != undefined) {
-            setTimeout(() => {
-                this.deffered_date.setValue(docDetail['deferredUntil']);
-            }, 100);
-        }
+        // if (docDetail['deferredUntil'] != undefined) {
+        //     setTimeout(() => {
+        //         this.deffered_date.setValue(docDetail['deferredUntil']);
+        //     }, 100);
+        // }
 
         if (this.UserId !== this.checkUserId) {
             this.checkStatus = true;
@@ -508,9 +556,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             });
     }
     // This method is to download file
-    downloadFile(inventoryNumber) {
+    downloadFile(inventoryNumber, fileName) {
         // @CLO-RLO-Merge - Download Document
-        this.utility.getCommonService().download(inventoryNumber);
+        this.utility.getCommonService().download(inventoryNumber, fileName);
     }
     // This method is called when we click on delete icon
     confirmDelete(id) {
@@ -536,5 +584,75 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         //clear all the fields from form
         this.docDetailsObject.clear();
         this.docUploadObject.clear();
+    }
+
+    //UPDATE 10-11-20
+
+    getUrlThumbnail(seqNo) {
+        const baseURL: string = environment.baseURL;
+        return baseURL + "/igcb-dms/v1/documents/" + seqNo + "/preview?driveType=GLOBALDRIVE";
+    }
+
+    getImagePreview(Id) {
+        this.preview = true;
+        this.sequenceId = Id
+        this.utility.getCommonService().getImagesForUpdateAction(Id).subscribe(
+            data => {
+                if (data && data['Status_Cd'] == "S") {
+                    this.fileDetails = data['fileDetails'];
+                    for (let i = 0; i < this.fileDetails.length; i++) {
+                        if (i == 0) {
+                            this.fileDetails[i].sequence = 'a'
+                        }
+                        else {
+                            this.fileDetails[i].sequence = this.nextChar(this.fileDetails[i - 1].sequence);
+                        }
+                    }
+                }
+            }
+        );
+
+    }
+
+    deleteImages(seqId) {
+        this.utility.getCommonService().deleteUploadedImage(seqId).subscribe(
+            data => {
+                if (data && data['Status_Cd'] == "S") {
+                    //this.appService.success(this.getLabel('FILE_DELETED_SUCCESSFULLY'));
+                    this.services.alert.showAlert(1, '', 3000, 'File  Deleted Successfully');
+                    this.getImagePreview(this.sequenceId);
+                } else {
+                    //this.utility.getAppService().error(this.getLabel('UNABLE_TO_DELETE_FILE'));
+                    this.services.alert.showAlert(2, '', 3000, 'Unable to Delete File Details');
+                }
+            }
+        )
+    }
+
+    nextChar(char) {
+        return String.fromCharCode(char.charCodeAt(0) + 1);
+    }
+
+    getStages() {
+        this.utility.getCommonService().getStage().subscribe(
+            data => {
+                this.Stages = data['Stages']
+
+                if (this.taskName == 'DetailProposalEntry' || this.taskName == 'ProposalInitiation') {
+                    return;
+                }
+                else if (this.taskName == 'RiskAnalyst') {
+                    this.Stages.splice(0, 1);
+                }
+                else {
+                    this.Stages.splice(0, 2);
+                }
+
+            });
+    }
+
+    disablepreview() {
+        this.preview = false;
+        this.ngOnInit();
     }
 }
