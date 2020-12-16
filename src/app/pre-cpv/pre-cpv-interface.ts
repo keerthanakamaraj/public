@@ -27,6 +27,7 @@ export interface verificationInterface {
   DecisionType?: any;
   RLODecision?: any;
   DecisionRemarks?: any;
+  AddressSequence?:number;
 }
 
 

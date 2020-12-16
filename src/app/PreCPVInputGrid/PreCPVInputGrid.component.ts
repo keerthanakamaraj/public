@@ -226,18 +226,18 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
         if (eachCustomer.FIELD6 != undefined) {
           // customerDtls.verificationList.push(
           //   this.mergeCustAndVrfnDtls('BVR', eachCustomer.FIELD6, existingVrfnList, customerDtls.customerSeq));
-          customerDtls.verificationList = this.mergeCustAndVrfnDtls('BVR', eachCustomer.FIELD6, existingVrfnList, customerDtls);
+          customerDtls.verificationList = this.mergeCustAndVrfnDtls('BVR', eachCustomer.FIELD6, existingVrfnList, customerDtls, eachCustomer.OF_SEQ);
           if (eachCustomer.FIELD6 == eachCustomer.FIELD8 || eachCustomer.FIELD6 == eachCustomer.FIELD10) {
             // customerDtls.verificationList.push(
             //   this.mergeCustAndVrfnDtls('ROVR', eachCustomer.FIELD6, existingVrfnList, customerDtls.customerSeq));
-            customerDtls.verificationList = this.mergeCustAndVrfnDtls('ROVR', eachCustomer.FIELD6, existingVrfnList, customerDtls);
+            customerDtls.verificationList = this.mergeCustAndVrfnDtls('ROVR', eachCustomer.FIELD6, existingVrfnList, customerDtls, eachCustomer.OF_SEQ);
 
           }
         }
         if (eachCustomer.FIELD8 != undefined) {
           // customerDtls.verificationList.push(
           //   this.mergeCustAndVrfnDtls('RVR', eachCustomer.FIELD8, existingVrfnList, customerDtls.customerSeq));
-          customerDtls.verificationList = this.mergeCustAndVrfnDtls('RVR', eachCustomer.FIELD8, existingVrfnList, customerDtls);
+          customerDtls.verificationList = this.mergeCustAndVrfnDtls('RVR', eachCustomer.FIELD8, existingVrfnList, customerDtls,eachCustomer.RSCR_SEQ);
 
         }
         this.MstDataMap.set(eachCustomer.FIELD1, customerDtls);
@@ -293,7 +293,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     this.AddVerificationType.toArray()[rowNo].setDisabled(true);
     this.Initiate.toArray()[rowNo].setDisabled(true);
   }
-  mergeCustAndVrfnDtls(tempVrfnCode, details, ExistingVrfnList, customer) {
+  mergeCustAndVrfnDtls(tempVrfnCode, details, ExistingVrfnList, customer, addresSeq?:number) {
     let tempVerificationList = customer.verificationList;
 
     if (ExistingVrfnList != undefined) {
@@ -303,6 +303,9 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
         filteredVrfns.forEach(eachVrfn => {
           let verificationDtls: verificationInterface = {}
           verificationDtls.verificationCode = tempVrfnCode;
+          if(addresSeq!=undefined){
+            verificationDtls.AddressSequence=addresSeq;
+          }
           verificationDtls.details = details;
           verificationDtls.ProposalVerificationID = eachVrfn.ProposalVerificationID;
           verificationDtls.VerificationStatus = eachVrfn.VerificationStatus;
@@ -385,7 +388,14 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     console.log('shweta ::: checking duplicates', duplicateList != undefined ? duplicateList.length : undefined);
     return duplicateList != undefined && duplicateList.length != 0 ? duplicateList.length : undefined;
   }
-
+  getAddressSequence(rowNo){
+    let customerSeq = this.CustomerName.toArray()[rowNo].getFieldValue();
+    let vrfnCode = this.VerificationType.toArray()[rowNo].getFieldValue();
+    let tempVrfnObj = this.MstDataMap.get(customerSeq).verificationList.find(eachVrfn =>
+      eachVrfn.verificationCode == vrfnCode 
+    );
+    return tempVrfnObj.AddressSequence;
+  }
   generateInitiateReqJSON(inputMap, rowNo) {
     inputMap.clear();
     inputMap.set('Body.ProposalVerfnHolder.ProposalId', this.ApplicationId);
@@ -404,8 +414,9 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     vrfnSummObj['AgencyName'] = this.Agency.toArray()[rowNo].getFieldValue();
     vrfnSummObj['SpecificInstructions'] = this.RemarksForAgency.toArray()[rowNo].getFieldValue();
     vrfnSummObj['VerificationWaived'] = this.WaiveOff.toArray()[rowNo].getFieldValue();
-    console.log("shweta :: ", this.MstDataMap);
-
+    if( this.VerificationType.toArray()[rowNo].getFieldValue()!='MOBVR'){
+    vrfnSummObj['ADDRESS_DETAILS_SEQ'] = this.getAddressSequence(rowNo);
+    }
     vrfnSummObj['ProposalVerificationID'] = '';
     vrfnSummObj['AppRefNum'] = this.services.rloCommonData.globalApplicationDtls.ARN;
     vrfnSummObj['ProposalId'] = this.ApplicationId;

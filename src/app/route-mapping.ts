@@ -138,7 +138,8 @@ export var componentRoutes: Routes = [
 	},
 	{
 		path: 'withdraw',
-		loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
+    //loadChildren: 'src/app/PostCPV/PostCPV.module#PostCPVModule'
+    loadChildren: 'src/app/pre-cpv/pre-cpv.module#PreCPVModule'
 	},
 	{
 		path: 'AddOn',
