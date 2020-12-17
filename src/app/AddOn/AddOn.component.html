@@ -42,7 +42,7 @@
                   domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ADD_CUST_TYPE', $event)"
                   (change)="ADD_CUST_TYPE_change('ADD_CUST_TYPE', $event)"></rlo-ui-radio>
               </div> -->
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
               [hidden]="ADD_CARD_CUST_TYPE.isHidden() || isLoanCategory">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_CARD_CUST_TYPE.mandatory}">
@@ -53,7 +53,7 @@
                 domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" reverseFlag="true"
                 domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('ADD_CARD_CUST_TYPE', $event)">
               </rlo-ui-radio>
-            </div>
+            </div> -->
             <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_EXISTING_CUST.isHidden()">
                 <div class="clr-brown fieldLegend">
                   <label class="clr-brown" [ngClass]="{'mandatory': ADD_EXISTING_CUST.mandatory}">
@@ -110,17 +110,17 @@
               <!-- <app-rlo-ui-customer-search #ADD_CUSTOMER_ID fieldID="ADD_CUSTOMER_ID" (blur)="genericOnBlur('ADD_CUSTOMER_ID', $event)" [searchType]="'ADD_CUSTOMER_ID'"    (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search> -->
 
             </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_STAFF_ID.isHidden()">
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_STAFF_ID.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_STAFF_ID.mandatory}">
                   {{ 'AddOn.ADD_STAFF_ID' | translate}}</label>
               </div>
               <app-text-box #ADD_STAFF_ID fieldID="ADD_STAFF_ID" [formCode]="formCode"
-                (blur)="genericOnBlur('ADD_STAFF_ID', $event)"></app-text-box>
+                (blur)="genericOnBlur('ADD_STAFF_ID', $event)"></app-text-box> -->
 
               <!-- <app-rlo-ui-customer-search #ADD_STAFF_ID fieldID="ADD_STAFF_ID" (blur)="genericOnBlur('ADD_STAFF_ID', $event)" [searchType]="'ADD_STAFF_ID'"    (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search> -->
 
-            </div>
+            <!-- </div> -->
             <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
               <app-label #FieldId_65 parentCompCode="AddOn" fieldID="FieldId_65" [formCode]="formCode"
                 customClass="sub-section-header"></app-label>
@@ -131,10 +131,12 @@
                   {{ 'AddOn.ADD_TITLE' | translate}}
                 </label>
               </div>
-              <app-combo-box #ADD_TITLE category="2" fieldID="ADD_TITLE" [formCode]="formCode" placeholder="Select"
+              <!-- <app-combo-box #ADD_TITLE category="2" fieldID="ADD_TITLE" [formCode]="formCode" placeholder="Select"
                 domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
                 (blur)="genericOnBlur('ADD_TITLE', $event)">
-              </app-combo-box>
+              </app-combo-box> -->
+              <app-text-box #ADD_TITLE fieldID="ADD_TITLE" [formCode]="formCode"
+              (blur)="genericOnBlur('ADD_TITLE', $event)"></app-text-box>
             </div>
             <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
             <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_FIRST_NAME.isHidden()">
@@ -165,7 +167,7 @@
                    placeholder="(Optional)" (blur)="genericOnBlur('ADD_CBS_CUST_ID', $event)">
                   </app-text-box>
               </div> -->
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_REGISTERED_NAME.isHidden()">
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_REGISTERED_NAME.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory':ADD_REGISTERED_NAME.mandatory }">
                   {{'AddOn.ADD_REGISTERED_NAME' | translate}}
@@ -174,8 +176,8 @@
               <app-text-box #ADD_REGISTERED_NAME fieldID="ADD_REGISTERED_NAME" [formCode]="formCode"
                 (blur)="genericOnBlur('ADD_REGISTERED_NAME', $event)">
               </app-text-box>
-            </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_TYPE_OF_INCORPORATION.isHidden()">
+            </div> -->
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_TYPE_OF_INCORPORATION.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory':ADD_TYPE_OF_INCORPORATION.mandatory }">
                   {{'AddOn.ADD_TYPE_OF_INCORPORATION' | translate}}
@@ -184,8 +186,8 @@
               <app-text-box #ADD_TYPE_OF_INCORPORATION fieldID="ADD_TYPE_OF_INCORPORATION" [formCode]="formCode"
                 (blur)="genericOnBlur('ADD_TYPE_OF_INCORPORATION', $event)">
               </app-text-box>
-            </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_DATE_OF_INCORPORATION.isHidden()">
+            </div> -->
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_DATE_OF_INCORPORATION.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory':ADD_DATE_OF_INCORPORATION.mandatory }">
                   {{'AddOn.ADD_DATE_OF_INCORPORATION' | translate}}
@@ -194,7 +196,7 @@
               <app-date #ADD_DATE_OF_INCORPORATION fieldID="ADD_DATE_OF_INCORPORATION" [formCode]="formCode"
                 placeholder="dd-mm-yyyy" (blur)="genericOnBlur('ADD_DATE_OF_INCORPORATION', $event)">
               </app-date>
-            </div>
+            </div> -->
             <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_PAN_NUMBER.isHidden()">
                         <div class="clr-brown fieldLegend">
                           <label class="clr-brown" [ngClass]="{'mandatory':ADD_PAN_NUMBER.mandatory }">
@@ -226,14 +228,14 @@
                             </app-text-box>
                           </div> -->
             <!-- Corporate related fields -->
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_THIRD_NAME.isHidden()">
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_THIRD_NAME.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_THIRD_NAME.mandatory}">
                   {{ 'AddOn.ADD_THIRD_NAME' | translate}}</label>
               </div>
               <app-text-box #ADD_THIRD_NAME fieldID="ADD_THIRD_NAME" [formCode]="formCode" placeholder="(Optional)"
                 (blur)="genericOnBlur('ADD_THIRD_NAME', $event)"></app-text-box>
-            </div>
+            </div> -->
             <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_LAST_NAME.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_LAST_NAME.mandatory}">
@@ -258,9 +260,11 @@
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_GENDER.mandatory}">
                   {{ 'AddOn.ADD_GENDER' | translate}}</label>
               </div>
-              <app-combo-box #ADD_GENDER category="2" fieldID="ADD_GENDER" [formCode]="formCode" placeholder="Select"
+              <!-- <app-combo-box #ADD_GENDER category="2" fieldID="ADD_GENDER" [formCode]="formCode" placeholder="Select"
                 domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-                (blur)="genericOnBlur('ADD_GENDER', $event)"></app-combo-box>
+                (blur)="genericOnBlur('ADD_GENDER', $event)"></app-combo-box> -->
+                <app-text-box #ADD_GENDER fieldID="ADD_GENDER" [formCode]="formCode"
+                (blur)="genericOnBlur('ADD_GENDER', $event)"></app-text-box>
             </div>
             <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_TAX_ID.isHidden()">
               <div class="clr-brown fieldLegend">
@@ -320,22 +324,22 @@
               <app-date #ADD_DOB fieldID="ADD_DOB" [formCode]="formCode" placeholder="dd-mm-yyyy"
                 (blur)="genericOnBlur('ADD_DOB', $event)"></app-date>
             </div>
-            <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+            <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
               <app-label #FieldId_66 parentCompCode="AddOn" fieldID="FieldId_66" [formCode]="formCode"
                 customClass="sub-section-header"></app-label>
-            </div>
+            </div> -->
             <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_CUST_SGMT.isHidden()">
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_CUST_SGMT.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_CUST_SGMT.mandatory}">
                   {{ 'AddOn.ADD_CUST_SGMT' | translate}}</label>
               </div>
               <app-combo-box #ADD_CUST_SGMT category="2" fieldID="ADD_CUST_SGMT" [formCode]="formCode"
                 placeholder="Select" domainObjectUrl="/CustSegmentDetails/{CustSegmentCd}" doServerUrl="/masters"
-                domainObjectCode="CustSegmentDetails" (blur)="genericOnBlur('ADD_CUST_SGMT', $event)"></app-combo-box>
+                domainObjectCode="CustSegmentDetails" (blur)="genericOnBlur('ADD_CUST_SGMT', $event)"></app-combo-box> -->
               <!-- (change)="ADD_CUST_SGMT_change('ADD_CUST_SGMT', $event)" -->
-            </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_CUST_SUB_SGMT.isHidden()">
+            <!-- </div> -->
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_CUST_SUB_SGMT.isHidden()">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown">
                   {{ 'AddOn.ADD_CUST_SUB_SGMT' | translate}}</label>
@@ -344,16 +348,16 @@
                 placeholder="Select" domainObjectUrl="/MstCustSubSegmentDtls/{SubSegmentCd}" doServerUrl="/masters"
                 domainObjectCode="MstCustSubSegmentDtls" (blur)="genericOnBlur('ADD_CUST_SUB_SGMT', $event)">
               </app-combo-box>
-            </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_DEBIT_SCORE.isHidden() || !isLoanCategory">
+            </div> -->
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_DEBIT_SCORE.isHidden() || !isLoanCategory">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_DEBIT_SCORE.mandatory}">
                   {{ 'AddOn.ADD_DEBIT_SCORE' | translate}}</label>
               </div>
               <app-text-box #ADD_DEBIT_SCORE inputType="number" fieldID="ADD_DEBIT_SCORE" [formCode]="formCode"
                 placeholder="(Optional)" (blur)="genericOnBlur('ADD_DEBIT_SCORE', $event)"></app-text-box>
-            </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+            </div> -->
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
               [hidden]="ADD_LOAN_OWNERSHIP.isHidden() || !isLoanCategory">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_LOAN_OWNERSHIP.mandatory}">
@@ -361,8 +365,8 @@
               </div>
               <app-text-box #ADD_LOAN_OWNERSHIP fieldID="ADD_LOAN_OWNERSHIP" [formCode]="formCode"
                 placeholder="(Optional)" (blur)="genericOnBlur('ADD_LOAN_OWNERSHIP', $event)"></app-text-box>
-            </div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_NAME_ON_CARD.isHidden()|| isLoanCategory">
+            </div> -->
+            <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_NAME_ON_CARD.isHidden()|| isLoanCategory">
               <div class="clr-brown fieldLegend">
                 <label class="clr-brown" [ngClass]="{'mandatory': ADD_NAME_ON_CARD.mandatory}">
                   {{ 'AddOn.ADD_NAME_ON_CARD' | translate}}
@@ -370,10 +374,10 @@
               </div>
               <app-text-box #ADD_NAME_ON_CARD fieldID="ADD_NAME_ON_CARD" [formCode]="formCode"
                 (blur)="genericOnBlur('ADD_NAME_ON_CARD', $event)"></app-text-box>
-            </div>
+            </div> -->
             <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
             <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
-            <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ADD_ADD.isHidden()">
+            <!-- <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ADD_ADD.isHidden()">
               <app-button #ADD_ADD fieldName="{{ 'AddOn.ADD_ADD' | translate}}" fieldID="ADD_ADD" [formCode]="formCode"
                 iconClass="fa fa-plus" [type]="2" customClass="icon-button plus" (buttonClick)="ADD_ADD_click($event)"
                 imagePath="./assets/icons/plus.svg"></app-button>
@@ -382,12 +386,36 @@
               <app-button #ADD_RESET fieldName="{{ 'AddOn.ADD_RESET' | translate}}" fieldID="ADD_RESET"
                 [formCode]="formCode" iconClass="fas fa-undo" [type]="2" customClass="icon-button reset"
                 (buttonClick)="ADD_RESET_click($event)" imagePath="./assets/icons/refresh-form.svg"></app-button>
-            </div>
+            </div> -->
             <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CUST_DTLS_GRID.isHidden()">
                 <app-CustDtlsGrid #CUST_DTLS_GRID fieldID="CUST_DTLS_GRID" [formCode]="formCode"
                   (DeleteCustDetails)="CUST_DTLS_GRID_DeleteCustDetails($event)"
                   (ModifyCustDetails)="CUST_DTLS_GRID_ModifyCustDetails($event)"></app-CustDtlsGrid>
               </div> -->
+              <div class="col-12  col-sm-12 col-md-12 group-default">
+                <div #BUTTON_SECTION id="BUTTON_SECTION">
+                  <div class="form-group pb10 button-group">
+                    <div class="col-12  col-sm-4 col-md-4"></div>
+                    <div class="col-12  col-sm-4 col-md-4 text-center">
+          
+                      <app-button #SUBMIT_BTN fieldName="{{ 'AddOn.SUBMIT_MAIN_BTN' | translate}}"
+                        fieldID="SUBMIT_MAIN_BTN" [formCode]="formCode" customClass="btn btn-primary"
+                        (buttonClick)="SUBMIT_MAIN_BTN_click($event)"></app-button>
+          
+                      <app-button #CANCEL_BTN fieldName="{{ 'AddOn.CANCEL_MAIN_BTN' | translate}}"
+                        (buttonClick)="CANCEL_MAIN_BTN_click($event)" fieldID="CANCEL_MAIN_BTN" [formCode]="formCode"
+                        customClass="btn-warning-outline"></app-button>
+          
+                      <app-button #Reset fieldName="{{ 'AddOn.Reset' | translate}}" fieldID="Reset" [formCode]="formCode"
+                        customClass="btn-warning-outline"  (buttonClick)="clear_click($event)"></app-button>
+          
+                    </div>
+          
+                    <div class="col-12  col-sm-4 col-md-4"></div>
+                  </div>
+          
+                </div>
+              </div>
           </div>
         </div>
       </div>

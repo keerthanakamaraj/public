@@ -584,4 +584,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   removeCountDisplayTxt() {
     this.showRecordCount = false;
   }
+
+  hidgrid(){
+    // this.loadSpinner = true;
+    this.showRecordCount = false;
+    this.recordsFound = false;
+    console.log("new",this.loadSpinner,this.recordsFound);
+  }
 }

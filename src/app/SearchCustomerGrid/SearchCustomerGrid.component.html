@@ -11,6 +11,7 @@
     <div [hidden]="!recordsFound || loadSpinner">
         <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode"
             [gridConsts]="gridConsts"></app-readonly-grid>
+           
     </div>
     <!-- <div style="text-align: center" [hidden]="recordsFound || loadSpinner">
         <label>No Record Found</label>

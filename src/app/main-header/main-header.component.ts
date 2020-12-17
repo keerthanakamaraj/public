@@ -126,6 +126,14 @@ export class MainHeaderComponent implements OnInit {
 
   // }
 
+  AddOn_click() {
+    var id = "AddOn";
+    if (id && id != "") {
+      this.router.navigate(['/home/' + id]);
+    } else {
+      this.navigateToHome();
+    }
+  }
   navigateToHome() {
     this.router.navigate(['/home/LANDING']);
   }

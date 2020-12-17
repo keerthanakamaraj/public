@@ -1775,7 +1775,10 @@
     "NomineeRelationship": "Nominee Relationship",
     "NomineeDOB": "Nominee Date Of Birth",
     "GuardianName": "Guardian Name",
-    "GuadianRelationship": "Guadian Relationship"
+    "GuadianRelationship": "Guadian Relationship",
+    "CurrentCorporateCardLimit" : "Current Corporate Card Limit",
+    "AvailableLimit" : "Available Limit",
+    "MaskedCardNumber" : "Masked Card Number"
   },
   "CustomerDtls": {
     "CARD_DTLS_LBL": "Card Details",
@@ -2594,5 +2597,12 @@
     "ADD_CUST_SUB_SGMT": "Customer Subsegment",
     "FieldId_66": "Other Details",
     "FieldId_65": "Customer Details"
-  }
+  },
+  "RealignmentRequest" : {
+    "FormTitle" : "Re-alignmentRequest",
+    "A_MaximumCardLimit" : "Maximum Card Limit",
+    "ApprovedCorporateCardLimit" :"Approved Corporate Card Limit",
+    "ApprovedCorporateCashLimit" : "Approved Corporate Cash Limit",
+    "MaximumCashLimit" : "Maximum Cash Limit"
+    }
 }

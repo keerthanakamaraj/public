@@ -22,6 +22,7 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { CustomerSearchFieldsComponent } from '../customer-search-fields/customer-search-fields.component';
 import { ICustomSearchObject } from '../Interface/masterInterface';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
+import { Data } from '../DataService';
 // import { PasswordComponent } from '../password/password.component';
 // import { RadioButtonComponent } from '../radio-button/radio-button.component';
 
@@ -38,25 +39,25 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     @ViewChild('ADD_CARD_CUST_TYPE', { static: false }) ADD_CARD_CUST_TYPE: RLOUIRadioComponent;
     @ViewChild('ADD_CUSTOMER_ID', { static: false }) ADD_CUSTOMER_ID: TextBoxComponent;
     @ViewChild('ADD_STAFF_ID', { static: false }) ADD_STAFF_ID: TextBoxComponent;
-    @ViewChild('ADD_TITLE', { static: false }) ADD_TITLE: ComboBoxComponent;
+    @ViewChild('ADD_TITLE', { static: false }) ADD_TITLE: TextBoxComponent;
     @ViewChild('ADD_FIRST_NAME', { static: false }) ADD_FIRST_NAME: TextBoxComponent;
     @ViewChild('ADD_MIDDLE_NAME', { static: false }) ADD_MIDDLE_NAME: TextBoxComponent;
     @ViewChild('ADD_THIRD_NAME', { static: false }) ADD_THIRD_NAME: TextBoxComponent;
     @ViewChild('ADD_LAST_NAME', { static: false }) ADD_LAST_NAME: TextBoxComponent;
     @ViewChild('ADD_FULL_NAME', { static: false }) ADD_FULL_NAME: TextBoxComponent;
-    @ViewChild('ADD_GENDER', { static: false }) ADD_GENDER: ComboBoxComponent;
+    @ViewChild('ADD_GENDER', { static: false }) ADD_GENDER: TextBoxComponent;
     @ViewChild('ADD_TAX_ID', { static: false }) ADD_TAX_ID: TextBoxComponent;
     @ViewChild('ADD_MOBILE', { static: false }) ADD_MOBILE: RloUiMobileComponent;
     @ViewChild('ADD_DOB', { static: false }) ADD_DOB: DateComponent;
-    @ViewChild('ADD_CUST_SGMT', { static: false }) ADD_CUST_SGMT: ComboBoxComponent;
-    @ViewChild('ADD_CUST_SUB_SGMT', { static: false }) ADD_CUST_SUB_SGMT: ComboBoxComponent;
+    @ViewChild('ADD_EMAIL_ID', { static: false }) ADD_EMAIL_ID: TextBoxComponent;
+    @ViewChild('ADD_CIF', { static: false }) ADD_CIF: TextBoxComponent;
     parentData: ICustomSearchObject = {
         'cifId': undefined,
         'mobileNumber': undefined,
         'searchType': 'External',
         'taxId': undefined
     };
-
+    gridData: any;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -81,6 +82,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.setDependencies();
+        this.setHTabDisabled();
+        // this.setDataFields();
     }
     setInputs(param: any) {
         let params = this.services.http.mapToJson(param);
@@ -158,5 +161,75 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     //event passed from searchCustomerGrid.ts -> customer-search-fields.ts -> AddOn.ts 
     selectedCustomer(data) {
         console.log(data);
+        // this.gridData = data;
+        // console.log("new obj", this.gridData);
+        this.setDataFields(data);
     }
+
+    setHTabDisabled(){
+        this.ADD_CUSTOMER_ID.setReadOnly(true);
+        this.ADD_FIRST_NAME.setReadOnly(true);
+        this.ADD_LAST_NAME.setReadOnly(true);
+        this.ADD_MIDDLE_NAME.setReadOnly(true);
+        this.ADD_FULL_NAME.setReadOnly(true);
+        this.ADD_GENDER.setReadOnly(true);
+        this.ADD_TITLE.setReadOnly(true);
+        this.ADD_MOBILE.setReadOnly(true);
+        this.ADD_DOB.setReadOnly(true);
+        this.ADD_TAX_ID.setReadOnly(true);
+        this.ADD_EMAIL_ID.setReadOnly(true);
+        this.ADD_CIF.setReadOnly(true);
+    }
+
+    setDataFields(data){
+        let tempVar: any = data;
+   
+   
+        this.ADD_DOB.setValue(tempVar['dob']);
+        this.ADD_TAX_ID.setValue(tempVar['taxId']);
+        this.ADD_FULL_NAME.setValue(tempVar['custName']);
+        this.ADD_MOBILE.setValue(tempVar['mobileNum']);
+        this.ADD_CIF.setValue(tempVar['cif']);
+        this.ADD_FIRST_NAME.setValue(tempVar['firsName']);
+        this.ADD_MIDDLE_NAME.setValue(tempVar['midName']);
+        this.ADD_LAST_NAME.setValue(tempVar['lastName']);
+        this.ADD_GENDER.setValue(tempVar['gender']);
+        this.ADD_TITLE.setValue(tempVar['title']);
+        this.ADD_CUSTOMER_ID.setValue(tempVar['icif']);
+        this.ADD_EMAIL_ID.setValue(tempVar['emailid']);
+    }
+
+    async clear_click(event) {
+        let inputMap = new Map();
+        this.onReset();
+    }
+    async CANCEL_MAIN_BTN_click(event) {
+        // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+        var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
+        var button1 = this.services.rloui.getAlertMessage('', 'OK');
+        var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+    
+        Promise.all([mainMessage, button1, button2]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
+          }
+    
+          console.log("deep ===", modalObj);
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.router.navigate(['home', 'LANDING']);
+              }
+            }
+          });
+        });
+      }
 }

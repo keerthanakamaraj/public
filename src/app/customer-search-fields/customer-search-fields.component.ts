@@ -467,6 +467,8 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
   selectedCustomer(data: any) {
     console.log(data);
     this.customerData.emit(data);
+    this.SearchFormGrid.hidgrid();
+     
   }
 
 }
