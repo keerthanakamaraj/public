@@ -234,7 +234,7 @@
                             <span *ngIf="readOnly" class="folder-icon icon-folder-open"></span>
                             <input class="d-none img-upload-input" type="file" name="txtTabAddr_cfs" #fileInput
                                 ng2FileSelect [uploader]="uploader" (change)="validateFile($event)" id="docId"
-                                maxFileSize="5000000" [disabled]="readOnly" />
+                                 [disabled]="readOnly" />
                         </div>
                     </div>
                 </div>

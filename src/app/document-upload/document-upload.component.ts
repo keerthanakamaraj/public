@@ -279,10 +279,10 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         let msgList = [];
         const moment = require('moment');
 
-        if (this.docUploadObject.deferredUntil != "") {
+        if (this.docUploadObject.deferredUntil != "" && this.docUploadObject.deferredUntil != undefined) {
             this.docUploadObject.deferredUntil = moment(this.docUploadObject.deferredUntil).format('DD-MMM-YYYY');
         }
-        if (this.docUploadObject.collectionDate != "") {
+        if (this.docUploadObject.collectionDate != "" && this.docUploadObject.collectionDate != undefined) {
             this.docUploadObject.collectionDate = moment(this.docUploadObject.collectionDate).format('DD-MMM-YYYY');
         }
 
@@ -399,6 +399,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             this.uploader.queue[0].remove();
             // @CLO-RLO-Merge - 
             // this.tooltipError.tooltiperrorshow('DocName', this.getLabel('FILE_SIZE_EXCEEDS_5MB'));
+            actualFileName = file.name;
+            this.docDetailsObject.DocName = actualFileName;
             this.services.alert.showAlert(2, '', 3000, 'File size exceeds more than 5 MB');
             this.selectedFileInvalid = true;
             this.selectedFilesToUpload = undefined;
@@ -407,8 +409,10 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
             this.uploader.queue[0].remove();
             // @CLO-RLO-Merge - 
             // this.tooltipError.tooltiperrorshow('DocName', this.getLabel('FILE_NAME_EXCEEDS_100_CHARS'));
+            actualFileName = file.name;
             this.services.alert.showAlert(2, '', 3000, 'Max length of File Name is 100 characters only');
             this.selectedFileInvalid = true;
+            this.docDetailsObject.DocName = actualFileName;
             this.selectedFilesToUpload = undefined;
             return;
         }
@@ -432,6 +436,8 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
                 this.selectedFileInvalid = true;
                 this.services.alert.showAlert(2, '', 3000, 'Invalid file format');
                 this.selectedFilesToUpload = undefined;
+                actualFileName = file.name;
+                this.docDetailsObject.DocName = actualFileName;
                 return;
             } else {
                 this.selectedFileInvalid = false;
