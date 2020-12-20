@@ -1,5 +1,5 @@
 <div class="MakeRelative">
-    <!-- <div class="ShowLoading " *ngIf="loadSpinner">
+  <!-- <div class="ShowLoading " *ngIf="loadSpinner">
         <div class="lds-roller MakeItMiddle">
             <div></div>
             <div></div>
@@ -11,15 +11,16 @@
             <div></div>
         </div>
     </div> -->
-    <div class="row reference-div">
-        <div class="col-xs-12 col-sm-5">
-        </div>
-        <div *ngIf="displayToolbar" class="col-xs-12 col-sm-7 inside-micons pending-page">
-            <ul class="list-inline list-unstyled handle-items text-right">
-            </ul>
-        </div>
+  <div class="row reference-div">
+    <div class="col-xs-12 col-sm-5">
     </div>
-    <div [hidden]="!addressRecord || recordDisplay">
-        <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+    <div *ngIf="displayToolbar" class="col-xs-12 col-sm-7 inside-micons pending-page">
+      <ul class="list-inline list-unstyled handle-items text-right">
+      </ul>
     </div>
+  </div>
+  <div [hidden]="!addressRecord || recordDisplay">
+    <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode"
+      [gridConsts]="gridConsts"></app-readonly-grid>
+  </div>
 </div>
