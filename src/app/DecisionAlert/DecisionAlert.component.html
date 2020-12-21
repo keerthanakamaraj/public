@@ -41,7 +41,7 @@
             </div>
             <div class="save-btn-container col-12  col-sm-4 col-md-4">
               <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
-                [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
+                [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click_sendback($event)">
               </app-button>
             </div>
             <!-- <div class="col-12  col-sm-4 col-md-4"></div> -->
@@ -109,7 +109,7 @@
           </div>
           <div class="save-btn-container col-12 col-sm-4 col-md-4" *ngIf="uplodedDocs.length">
             <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
-              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
+              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click_approve($event)">
             </app-button>
           </div>
           <div class="col-12  col-sm-1 col-md-1"></div>

@@ -212,7 +212,9 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             this.ApproverName.setHidden(true);
         }
     }
-    async ALTER_SUBMIT_click(event) {
+
+    //approve btn
+    async ALTER_SUBMIT_click_approve(event) {
         var numberOfErrors: number = await this.revalidate();
         let Decision = {
             'ApprovalReq': this.ApprovalReq.getFieldValue(),
@@ -222,7 +224,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
 
         if (numberOfErrors == 0) {
             if (!this.uplodedDocs.length) {
-                alert("upload a Doc")
+                this.services.alert.showAlert(2, '', 3000, 'Upload the required docuemnt.');
             }
             else {
                 let obj: IPopUpModalResponse = {
@@ -234,22 +236,41 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         }
     }
 
-    async pageSpecificData() {
-
-        const inputMap = new Map();
-        let Decision;
-        Decision = {
+    //send back
+    async ALTER_SUBMIT_click_sendback(event) {
+        var numberOfErrors: number = await this.revalidate();
+        let Decision = {
             'DecisionReason': this.DecisionReason.getFieldValue(),
             'Remarks': this.Remarks.getFieldValue()
         }
-        if (this.parentFormCode == 'UnderWriter') {
-            Decision = {
-                // 'DecisionReason': this.DecisionReason.getFieldValue(),
-                // 'Remarks' : this.Remarks.getFieldValue(),
-                'ApprovalReq': this.ApprovalReq.getFieldValue(),
-                'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
-                'ApproverName': this.ApproverName.getFieldValue()
+
+        if (numberOfErrors == 0) {
+            let obj: IPopUpModalResponse = {
+                "action": "btn-submit",
+                "response": Decision
             }
+            this.decisionAction.emit(obj);
+        }
+    }
+
+    async pageSpecificData() {
+        const inputMap = new Map();
+        let Decision;
+        console.warn("DEEP | paremt data", this.parentData);
+    
+        if (this.parentFormCode == 'UnderWriter') {
+            if(this.parentData == "sentBack"){
+                Decision = {
+                    'DecisionReason': this.DecisionReason.getFieldValue(),
+                    'Remarks': this.Remarks.getFieldValue()
+                }
+            }else if(this.parentData == "approve"){
+                Decision = {         
+                    'ApprovalReq': this.ApprovalReq.getFieldValue(),
+                    'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
+                    'ApproverName': this.ApproverName.getFieldValue()
+                }
+            }      
         }
         else {
             Decision = {
