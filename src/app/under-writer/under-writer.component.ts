@@ -594,7 +594,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "CardDetails":
-            let maxCardLimit = this.services.rloCommonData.globalApplicationDtls.Product_max_credit;
+            let maxCardLimit = this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit;
             data = application[element.className].getCardData();
             let obj = data.data.find(a => a.title == "Maximum Card Limit");
             obj.subTitle = maxCardLimit == "" || maxCardLimit == undefined ? "NA" : maxCardLimit;

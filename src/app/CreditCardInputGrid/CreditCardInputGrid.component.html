@@ -1,0 +1,191 @@
+<ng-container *ngIf="showGrid">
+<table class="rlo-ip-table" [ngStyle]="{'table-layout': (getRowsCount()>0)?'fixed':'auto'}"
+  [ngClass]="{'gridError':error}" (click)="clearGridError()">
+  <thead>
+    <tr>
+      <th [hidden]="isColumnHidden('SrNo')" width="5%" [ngStyle]="{display: 'none'}">
+        {{ 'CostOfCourseGrid.SrNo' | translate }}</th>
+      <th [hidden]="isColumnHidden('MemberName')" width="isExpanded?12%:25%">
+        {{ 'CreditCardInputGrid.MemberName' | translate }}</th>
+      <th [hidden]="isColumnHidden('CardNumber')" width="12%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        {{ 'CreditCardInputGrid.CardNumber' | translate }}</th>
+      <th [hidden]="isColumnHidden('CardStatus')" width="12%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        {{ 'CreditCardInputGrid.CardStatus' | translate }}</th>
+      <th [hidden]="isColumnHidden('LatestLimitDate')" width="12%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        {{ 'CreditCardInputGrid.LatestLimitDate' | translate }}</th>
+      <th [hidden]="isColumnHidden('ExistingCardLimit')" width="13%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        {{ 'CreditCardInputGrid.ExistingCardLimit' | translate }}</th>
+      <th [hidden]="isColumnHidden('ExistingCashLimit')" width="13%" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        {{ 'CreditCardInputGrid.ExistingCashLimit' | translate }}</th>
+        <th [hidden]="isColumnHidden('RequestedCardLimit')" width="25%" [ngStyle]="{display: isExpanded ? 'none' : ''}">
+            {{ 'CreditCardInputGrid.RequestedCardLimit' | translate }}</th>
+      <th [hidden]="isColumnHidden('ProposedCardLimit')" width="isExpanded?13%:25%">
+        {{ 'CreditCardInputGrid.ProposedCardLimit' | translate }}</th>
+      <th [hidden]="isColumnHidden('ProposedCashLimit')" width="isExpanded?13%:25%">
+        {{ 'CreditCardInputGrid.ProposedCashLimit' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="getRowsCount()==0">
+      <td colspan=12 style="text-align: center;">
+        <span>No data has been added</span>
+      </td>
+    </tr>
+    <ng-container *ngFor="let row of value.rowData;let rowNo = index;let even = even; let odd = odd;">
+      <tr (click)="clearRowError(rowNo)" class="tr-td-l"
+        [ngClass]="{'rlb_white' : even ,'tr-lt-pwhite' : odd, 'rowError': rowError[rowNo].hasError}">
+        <td [hidden]="isColumnHidden('SrNo')" [ngStyle]="{display: 'none'}">
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #SrNo fieldID="SrNo_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['SrNo']" [formCode]="formCode"
+            (blur)="genericOnBlur('SrNo', $event, rowNo)">
+          </rlo-ui-readonlyfield>
+          <div *ngIf="isCellReadOnly[rowNo]['SrNo']">
+            <p class="label-text" [title]="this['SrNo'].toArray()[rowNo].getFieldInfo()">
+              {{this['SrNo'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('MemberName')">
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #MemberName fieldID="MemberName_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['MemberName']" [formCode]="formCode"
+            (blur)="genericOnBlur('MemberName', $event, rowNo)">
+          </rlo-ui-readonlyfield>
+          <div *ngIf="isCellReadOnly[rowNo]['MemberName']">
+            <p class="label-text" [title]="this['MemberName'].toArray()[rowNo].getFieldInfo()">
+              {{this['MemberName'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('CardNumber')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #CardNumber fieldID="CardNumber_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['CardNumber']" [formCode]="formCode"
+            (blur)="genericOnBlur('CardNumber', $event, rowNo)">
+          </rlo-ui-readonlyfield>
+          <div *ngIf="isCellReadOnly[rowNo]['CardNumber']">
+            <p class="label-text" [title]="this['CardNumber'].toArray()[rowNo].getFieldInfo()">
+              {{this['CardNumber'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('CardStatus')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #CardStatus fieldID="CardStatus_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['CardStatus']" [formCode]="formCode"
+            (blur)="genericOnBlur('CardStatus', $event, rowNo)">
+          </rlo-ui-readonlyfield>
+          <div *ngIf="isCellReadOnly[rowNo]['CardStatus']">
+            <p class="label-text" [title]="this['CardStatus'].toArray()[rowNo].getFieldInfo()">
+              {{this['CardStatus'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('LatestLimitDate')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+          <rlo-ui-readonlyfield fontSize="13px" class="general-text" #LatestLimitDate
+            fieldID="LatestLimitDate_{{rowNo}}" [hidden]="isCellReadOnly[rowNo]['LatestLimitDate']"
+            [formCode]="formCode" (blur)="genericOnBlur('LatestLimitDate', $event, rowNo)">
+          </rlo-ui-readonlyfield>
+          <div *ngIf="isCellReadOnly[rowNo]['LatestLimitDate']">
+            <p class="label-text" [title]="this['LatestLimitDate'].toArray()[rowNo].getFieldInfo()">
+              {{this['LatestLimitDate'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('ExistingCardLimit')">
+          <app-rlo-ui-currency #ExistingCardLimit fieldID="ExistingCardLimit_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['ExistingCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+            [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="true"
+            (onBlurEvent)="genericOnBlur('ExistingCardLimit', $event, rowNo)"></app-rlo-ui-currency>
+          <div *ngIf="isCellReadOnly[rowNo]['ExistingCardLimit']">
+            <p class="label-text" [title]="this['ExistingCardLimit'].toArray()[rowNo].getFieldInfo()">
+              {{this['ExistingCardLimit'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('ExistingCashLimit')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+          <app-rlo-ui-currency #ExistingCashLimit fieldID="ExistingCashLimit_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['ExistingCashLimit']" [formCode]="formCode" placeholder="Enter"
+            [DecimalLength]="0" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="true"
+            (onBlurEvent)="genericOnBlur('ExistingCashLimit', $event, rowNo)"></app-rlo-ui-currency>
+          <div *ngIf="isCellReadOnly[rowNo]['ExistingCashLimit']">
+            <p class="label-text" [title]="this['ExistingCashLimit'].toArray()[rowNo].getFieldInfo()">
+              {{this['ExistingCashLimit'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('RequestedCardLimit')" [ngStyle]="{display: isExpanded ? 'none' : ''}">
+            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit_{{rowNo}}"
+              [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+              [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="false"
+              (onBlurEvent)="genericOnBlur('RequestedCardLimit',$event,rowNo)"></app-rlo-ui-currency>
+            <div *ngIf="isCellReadOnly[rowNo]['RequestedCardLimit']">
+              <p class="label-text" [title]="this['RequestedCardLimit'].toArray()[rowNo].getFieldInfo()">
+                {{this['RequestedCardLimit'].toArray()[rowNo].getFieldInfo()}}
+              </p>
+            </div>
+          </td>
+        <td [hidden]="isColumnHidden('ProposedCardLimit')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+          <app-rlo-ui-currency #ProposedCardLimit fieldID="ProposedCardLimit_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['ProposedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+            [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="false"
+            (onBlurEvent)="genericOnBlur('ProposedCardLimit',$event,rowNo)"></app-rlo-ui-currency>
+          <div *ngIf="isCellReadOnly[rowNo]['ProposedCardLimit']">
+            <p class="label-text" [title]="this['ProposedCardLimit'].toArray()[rowNo].getFieldInfo()">
+              {{this['ProposedCardLimit'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+        <td [hidden]="isColumnHidden('ProposedCashLimit')">
+          <app-rlo-ui-currency #ProposedCashLimit fieldID="ProposedCashLimit_{{rowNo}}"
+            [hidden]="isCellReadOnly[rowNo]['ProposedCashLimit']" [formCode]="formCode" placeholder="Placeholder"
+            [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="true"
+            (blur)="genericOnBlur('ProposedCashLimit', $event, rowNo)"></app-rlo-ui-currency>
+          <div *ngIf="isCellReadOnly[rowNo]['ProposedCashLimit']">
+            <p class="label-text" [title]="this['ProposedCashLimit'].toArray()[rowNo].getFieldInfo()">
+              {{this['ProposedCashLimit'].toArray()[rowNo].getFieldInfo()}}
+            </p>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="rowError[rowNo].hasError">
+        <td colspan=12 style="text-align: center;">
+          <span class="errorMessagespan">{{rowError[rowNo].errorCode | translate}}</span>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td [ngStyle]="{display : 'none'}"></td>
+      <td>{{ 'CreditCardInputGrid.Total' | translate }}</td>
+      <td [ngStyle]="{display: isExpanded ? '' : 'none'}"></td>
+      <td [ngStyle]="{display: isExpanded ? '' : 'none'}"></td>
+      <td [ngStyle]="{display: isExpanded ? '' : 'none'}"></td>
+      <td [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        <app-rlo-ui-currency #TotalExistingCardLimit fieldID="TotalExistingCardLimit" [currencyReadOnly]="true"
+          [inputReadOnly]="true" (blur)="genericOnBlur('TotalExistingCardLimit', $event, undefined)">
+        </app-rlo-ui-currency>
+      </td>
+      <td [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        <app-rlo-ui-currency #TotalExistingCashLimit fieldID="TotalExistingCashLimit" [currencyReadOnly]="true"
+          [inputReadOnly]="true" (blur)="genericOnBlur('TotalExistingCashLimit', $event, undefined)">
+        </app-rlo-ui-currency>
+      </td>
+      <td [ngStyle]="{display: isExpanded ? 'none' : ''}">
+          <app-rlo-ui-currency #TotalRequestedCardLimit fieldID="TotalRequestedCardLimit" [currencyReadOnly]="true"
+            [inputReadOnly]="true" (blur)="genericOnBlur('TotalRequestedCardLimit', $event, undefined)">
+          </app-rlo-ui-currency>
+        </td>
+      <td>
+        <app-rlo-ui-currency #TotalProposedCardLimit fieldID="TotalProposedCardLimit" [currencyReadOnly]="true"
+          [inputReadOnly]="true" (blur)="genericOnBlur('TotalProposedCardLimit', $event, undefined)">
+        </app-rlo-ui-currency>
+      </td>
+      <td>
+        <app-rlo-ui-currency #TotalProposedCashLimit fieldID="TotalProposedCashLimit" [currencyReadOnly]="true"
+          [inputReadOnly]="true" (blur)="genericOnBlur('TotalProposedCashLimit', $event, undefined)">
+        </app-rlo-ui-currency>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+<span class="errorMessagespan">{{errorCode| translate}}</span>
+</ng-container>

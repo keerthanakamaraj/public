@@ -262,6 +262,7 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('GuadianRelationship', $event)"></app-combo-box>
           </div>
+          
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CRLine.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CRLine.mandatory}">
@@ -335,6 +336,10 @@
               </app-button>
             </div>
           </ng-container>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CreditCardInputGrid.isHidden()">
+            <app-CreditCardInputGrid #CreditCardInputGrid fieldID="CreditCardInputGrid" [formCode]="formCode"
+              [displayTitle]="false"></app-CreditCardInputGrid>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-creditcard-handler #Handler [MainComponent]="this"></app-creditcard-handler>
           </div>

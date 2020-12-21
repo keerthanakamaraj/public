@@ -59,8 +59,7 @@ export interface IGlobalApllicationDtls {
   MaxCashLimit?: any;
   CardType?: string;
   CardTypename?: string;
-  MaxCredit?: any;
-  Product_max_credit?: any;//in Credit card maxiumun card limit->UW card
+  MaxCreditLimit?: any;
   CardCustName?: string;
   PrimaryUsage?: string;
   ReqCardLimit?: any;

@@ -35,6 +35,7 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
   currencyList: any = [];
   dependencyMap2 = new Map<string, any>();
   exchangeRate: number = 1;
+  componentName: string = 'RloUiCurrencyComponent';
 
   staticData: any = {
     "CD_COUNTRY_CODE": {
@@ -133,7 +134,7 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
   }
 
   //replaced generic 'setValue' fn used (in eg: CustomerDtls)
-  setComponentSpecificValue(value, countryCode?: string, additionalInfo = undefined) {
+  setComponentSpecificValue(value, countryCode?: string, additionalInfo?:string) {
     this.amountTextbox.setValue(value);
     this.amountTextbox.value = value;
 

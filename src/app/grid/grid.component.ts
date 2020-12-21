@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import { HiddenComponent } from '../hidden/hidden.component';
 import { ButtonComponent } from '../button/button.component';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 @Component({
   selector: 'app-grid',
@@ -32,7 +33,7 @@ export class GridComponent implements OnInit {
   @ViewChildren(HiddenComponent) hiddenComponent: QueryList<HiddenComponent>;
   @ViewChildren(ButtonComponent) buttonComponent: ButtonComponent;
   @ViewChildren(ReadOnlyComponent) readOnlyComponent: ReadOnlyComponent;
-
+  @ViewChildren(ReadOnlyComponent) rloUiCurrencyComponent:RloUiCurrencyComponent;
   @Input('formCode') formCode: string;
   @Input('displayTitle') displayTitle: boolean = true;
   readOnly: boolean = false;
@@ -115,6 +116,9 @@ export class GridComponent implements OnInit {
     var totalErrors = 0;
 
     var thisField = this[columnId].toArray()[rowNo];
+    if(thisField.componentName='RloUiCurrencyComponent'){
+      value=value.textFieldValue;
+    }
     thisField.clearError();
 
     var gridModelObject = this.value.rowData[rowNo]; //add gridCode in generated file
@@ -532,7 +536,12 @@ export class GridComponent implements OnInit {
     rowDesc = (rowDesc || {}); //chagned --added 
     for (let colId in this.value.rowData[rowNo]) {
       this.value.rowData[rowNo][colId] = rowData[colId];
-      this[colId].toArray()[rowNo].setValue(rowData[colId], rowDesc[colId + '_desc']);
+      //if currency component then use currency method
+     console.log("shweta :: in set row data  ",this[colId].toArray()[rowNo].componentName);
+     if('RloUiCurrencyComponent'==this[colId].toArray()[rowNo].componentName){
+      this[colId].toArray()[rowNo].setComponentSpecificValue(rowData[colId], rowDesc[colId + '_desc'])
+     }
+      this[colId].toArray()[rowNo].setValue(rowData[colId], undefined, rowDesc[colId + '_desc']);
     }
     if (this.gridType == 2) { this.setRowReadOnly(rowNo, true); }
   }
