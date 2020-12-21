@@ -2534,6 +2534,7 @@
     "DecisionReason": "Decision Reason",
     "Remarks": " Recommendation/Comments",
     "ALTER_SUBMIT": "DONE",
+    "ALTER_ADD_DOC": "ADD DOCUMENT",
     "ALTER_CANCEL": "CLOSE",
     "ApprovalReq": "Approval from a higher authority required",
     "DesignationAuthority": "Designation of Sanctioning Authority",

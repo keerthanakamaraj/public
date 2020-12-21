@@ -99,21 +99,15 @@
               placeholder="Enter" (blur)="genericOnBlur('ApproverName', $event)"></app-text-box>
           </div>
           <div class="approver-docs d-block w-100 d-block">
-            <span class="doc-label" (click)="uploadDoc()">Upload Document</span>
-            <div #docList>
-              <span>Uploded Document</span>
-              <div>{{uplodedDocs|json}}</div>
-            </div>
-
+            <span *ngIf="uplodedDocs.length">Required document uploaded</span>
           </div>
-          <!-- <div class="col-12  col-sm-12 col-md-12 text-right">
-            <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
-              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
+          
+          <div class="save-btn-container col-12 col-sm-4 col-md-4 add-new-doc" *ngIf="!uplodedDocs.length">
+            <app-button fieldName="{{ 'DecisionAlert.ALTER_ADD_DOC' | translate}}" fieldID="ALTER_ADD_DOC"
+              [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="uploadDocument($event)">
             </app-button>
-            <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}" fieldID="ALTER_CANCEL"
-              [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="close($event)"></app-button>
-          </div> -->
-          <div class="save-btn-container col-12  col-sm-4 col-md-4">
+          </div>
+          <div class="save-btn-container col-12 col-sm-4 col-md-4" *ngIf="uplodedDocs.length">
             <app-button #ALTER_SUBMIT fieldName="{{ 'DecisionAlert.ALTER_SUBMIT' | translate}}" fieldID="ALTER_SUBMIT"
               [formCode]="formCode" customClass="btn btn-primary" (buttonClick)="ALTER_SUBMIT_click($event)">
             </app-button>

@@ -43,7 +43,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
 
     showUW: boolean = false;
     fieldDependencies = {};
-    uplodedDocs: Array<{ fileName: string }> = [];
+    uplodedDocs: Array<{ docType: string }> = [];
 
     constructor(services: ServiceStock, public utility: UtilityService) {
         super(services);
@@ -285,8 +285,12 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
                     let documents = data['DocList'];
                     if (documents) {
                         documents.forEach(element => {
-                            let obj = { "fileName": element.DocName };
-                            this.uplodedDocs.push(obj);
+                            if (element.docTypeDesc == "Card Approval Document") {
+                                let obj = {
+                                    "docType": element.docTypeDesc
+                                };
+                                this.uplodedDocs.push(obj);
+                            }
                         });
                     } else {
                         this.uplodedDocs = [];
@@ -294,5 +298,9 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
                     console.log("DEEP | uplodedDocs", this.uplodedDocs);
                 }
             });
+    }
+
+    uploadDocument() {
+        this.uploadDoc();
     }
 }
