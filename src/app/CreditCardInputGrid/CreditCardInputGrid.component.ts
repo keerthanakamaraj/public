@@ -13,7 +13,7 @@ import { HiddenComponent } from '../hidden/hidden.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { CustomerDtlsIntrface } from './CreditCardInputGridInterface';
-import {RloUiCurrencyComponent} from '../rlo-ui-currency/rlo-ui-currency.component';
+import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 
 const customCss: string = '';
 @Component({
@@ -22,15 +22,15 @@ const customCss: string = '';
 })
 export class CreditCardInputGridComponent extends GridComponent implements OnInit {
   @ViewChildren('SrNo') SrNo: QueryList<ReadOnlyComponent>;
-  @ViewChildren('MemberName') MemberName : QueryList<ReadOnlyComponent>;
-  @ViewChildren('CardNumber') CardNumber : QueryList<ReadOnlyComponent>;
-  @ViewChildren('CardStatus') CardStatus : QueryList<ReadOnlyComponent>;
-  @ViewChildren('LatestLimitDate') LatestLimitDate : QueryList<ReadOnlyComponent>;
-  @ViewChildren('ExistingCardLimit') ExistingCardLimit : QueryList<RloUiCurrencyComponent>;
-  @ViewChildren('ExistingCashLimit') ExistingCashLimit : QueryList<RloUiCurrencyComponent>;
-  @ViewChildren('RequestedCardLimit') RequestedCardLimit : QueryList<RloUiCurrencyComponent>;
-  @ViewChildren('ProposedCardLimit') ProposedCardLimit : QueryList<RloUiCurrencyComponent>;
-  @ViewChildren('ProposedCashLimit') ProposedCashLimit : QueryList<RloUiCurrencyComponent>;
+  @ViewChildren('MemberName') MemberName: QueryList<ReadOnlyComponent>;
+  @ViewChildren('CardNumber') CardNumber: QueryList<ReadOnlyComponent>;
+  @ViewChildren('CardStatus') CardStatus: QueryList<ReadOnlyComponent>;
+  @ViewChildren('LatestLimitDate') LatestLimitDate: QueryList<ReadOnlyComponent>;
+  @ViewChildren('ExistingCardLimit') ExistingCardLimit: QueryList<RloUiCurrencyComponent>;
+  @ViewChildren('ExistingCashLimit') ExistingCashLimit: QueryList<RloUiCurrencyComponent>;
+  @ViewChildren('RequestedCardLimit') RequestedCardLimit: QueryList<RloUiCurrencyComponent>;
+  @ViewChildren('ProposedCardLimit') ProposedCardLimit: QueryList<RloUiCurrencyComponent>;
+  @ViewChildren('ProposedCashLimit') ProposedCashLimit: QueryList<RloUiCurrencyComponent>;
   @ViewChild('TotalExistingCardLimit', { static: false }) TotalExistingCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalExistingCashLimit', { static: false }) TotalExistingCashLimit: RloUiCurrencyComponent;
   @ViewChild('TotalRequestedCardLimit', { static: false }) TotalRequestedCardLimit: RloUiCurrencyComponent;
@@ -38,8 +38,8 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
   showAdd: boolean = false;
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
-  isExpanded:boolean=false;
-  showGrid=false;
+  isExpanded: boolean = false;
+  showGrid = false;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
@@ -80,7 +80,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   async onRowAdd(rowNo) {
-this.showHideAddRowIcon(0);
+    this.showHideAddRowIcon(0);
   }
 
   showHideAddRowIcon(rowlimit) {
@@ -108,57 +108,63 @@ this.showHideAddRowIcon(0);
   }
 
   loadRecords() {
-    let CustomerDtlsList=this.services.rloCommonData.getCustomerList();
-    if(CustomerDtlsList.length>1){
-      this.showGrid=true;
-    console.log("Shweta:: for credit card cust dtls ",CustomerDtlsList);
-    this.CustomerDtlsMap.clear();
-    CustomerDtlsList.forEach((element,index) => {
-      if(element.CustomerType != 'B'){
-      let rowData = {};
-      let customerObj:CustomerDtlsIntrface={};
-      customerObj.SrNo=index+1;
-      customerObj.FullName=element.FullName;
-      customerObj.CardNumber=element.CardNumber;
-      customerObj.BorrowerSeq=element.BorrowerSeq;
-      customerObj.RequestedCreditLimit=element.RequestedCreditLimit;
-      customerObj.RequestedCardLimit=element.RequestedCreditLimit;
-      customerObj.ProposedCashLimit=element.ProposedCashLimit;
-      this.CustomerDtlsMap.set(customerObj.BorrowerSeq,customerObj);
-      
-      rowData['SrNo']=index+1;
-      rowData['MemberName']=element.FullName;
-      rowData['CardNumber']=123654;
-      rowData['CardStatus']='Pending';
-      rowData['LatestLimitDate']='21/12/2020';
-      rowData['ExistingCardLimit']=20000;
-      rowData['ExistingCashLimit']=10000;
-      rowData['RequestedCardLimit']=element.RequestedCreditLimit;
-      rowData['ProposedCardLimit']=element.RequestedCreditLimit;
-      rowData['ProposedCashLimit']=element.RequestedCashLimit;
-      let rowCounter = this.addRow(rowData);
-      //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
-      }
-    });
-    // console.log("shweta :: complete record fetched", this.value.rowData);
-    let paramsList = this.isExpanded ? ['ExistingCardLimit','ExistingCashLimit','ProposedCardLimit',
-    'ProposedCashLimit'] : ['RequestedCardLimit','ProposedCardLimit','ProposedCashLimit']
-    this.updateTotal(paramsList);
-  }
+    let CustomerDtlsList = this.services.rloCommonData.getCustomerList();
+    if (CustomerDtlsList.length > 1) {
+      this.showGrid = true;
+      console.log("Shweta:: for credit card cust dtls ", CustomerDtlsList);
+      this.CustomerDtlsMap.clear();
+      CustomerDtlsList.forEach((element, index) => {
+        if (element.CustomerType != 'B') {
+          let rowData = {};
+          let customerObj: CustomerDtlsIntrface = {};
+          customerObj.SrNo = index + 1;
+          customerObj.FullName = element.FullName;
+          customerObj.CardNumber = element.CardNumber;
+          customerObj.BorrowerSeq = element.BorrowerSeq;
+          customerObj.RequestedCreditLimit = element.RequestedCreditLimit;
+          customerObj.RequestedCardLimit = element.RequestedCreditLimit;
+          customerObj.ProposedCashLimit = element.ProposedCashLimit;
+          this.CustomerDtlsMap.set(customerObj.BorrowerSeq, customerObj);
+
+          rowData['SrNo'] = index + 1;
+          rowData['MemberName'] = element.FullName;
+          rowData['CardNumber'] = 123654;
+          rowData['CardStatus'] = 'Pending';
+          rowData['LatestLimitDate'] = '21/12/2020';
+          rowData['ExistingCardLimit'] = 20000;
+          rowData['ExistingCashLimit'] = 10000;
+          rowData['RequestedCardLimit'] = element.RequestedCreditLimit;
+          rowData['ProposedCardLimit'] = element.RequestedCreditLimit;
+          rowData['ProposedCashLimit'] = element.RequestedCashLimit;
+          let rowCounter = this.addRow(rowData);
+          //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
+        }
+      });
+      // console.log("shweta :: complete record fetched", this.value.rowData);
+      let paramsList = this.isExpanded ? ['ExistingCardLimit', 'ExistingCashLimit', 'ProposedCardLimit',
+        'ProposedCashLimit'] : ['RequestedCardLimit', 'ProposedCardLimit', 'ProposedCashLimit']
+      this.updateTotal(paramsList);
+    }
   }
 
-  ProposedCardLimit_blur(element, $event, rowNo){
-console.log("Shweta :: on blur",element);
-//let tempExistingCashLimit=parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
-let tempExistingCashLimit=parseFloat(this.services.rloCommonData.globalApplicationDtls.LoanAmount);
-let tempExistingCardLimit=parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
-let tempProposedCardLimit= parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
-let tempProposedCashLimit = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit).toFixed();
- this.ProposedCashLimit.toArray()[element.rowNo].setComponentSpecificValue(tempProposedCashLimit);
- this.updateSelectedObj(element, tempProposedCashLimit);
- this.updateTotal(['ProposedCardLimit','ProposedCashLimit']);
+  ProposedCardLimit_blur(element, $event, rowNo) {
+    console.log("Shweta :: on blur", element);
+    let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
+    let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
+    //let tempExistingCashLimit=parseFloat(this.services.rloCommonData.globalApplicationDtls.LoanAmount);
+    let tempExistingCardLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
+    let tempProposedCardLimit:number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
+    
+    let tempProposedCashLimit: number = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit);
+
+    if (tempProposedCashLimit > tempMinCashLimit) {
+      tempProposedCashLimit = tempMinCashLimit;
+    }
+    this.ProposedCashLimit.toArray()[element.rowNo].setComponentSpecificValue(tempProposedCashLimit.toFixed(2));
+    this.updateSelectedObj(element, tempProposedCashLimit.toFixed(2));
+    this.updateTotal(['ProposedCardLimit', 'ProposedCashLimit']);
   }
-  
+
 
   Amount_blur(element, $event, rowNo) {
     // console.log(this.Amount.toArray()[element.rowNo]);
@@ -171,13 +177,13 @@ let tempProposedCashLimit = ((tempProposedCardLimit * tempExistingCashLimit) / t
   updateTotal(listOfColumns) {
     listOfColumns.forEach(columnId => {
       let totAmount: number = 0;
-    this[columnId].forEach((element: any) => {
-      if(element.getFieldValue()!=undefined){
-      totAmount += parseFloat(element.getFieldValue());
-    }
+      this[columnId].forEach((element: any) => {
+        if (element.getFieldValue() != undefined) {
+          totAmount += parseFloat(element.getFieldValue());
+        }
+      });
+      this['Total' + columnId].setComponentSpecificValue(totAmount.toFixed(2));
     });
-    this['Total'+columnId].setComponentSpecificValue(totAmount.toFixed(2));
-  });
   }
 
   updateSelectedObj(EditedElement, affectedElementValue) {
