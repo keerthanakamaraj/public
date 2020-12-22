@@ -18,31 +18,31 @@ export const environment = {
   arxAuthURL: 'http://tcldevapp77.intellectdesign.com:20047/ARXAL/AALIndex.jsp',
 
   // Canara IUT
-  // serviceMap: {
-  //   'default': '/olive/publisher/rlo-initiation',
-  //   '/masters': '/olive/publisher/rlo-masters',
-  //   '/ui': '/olive/publisher/rlo-initiation',
-  //   '/los-wf': '/los-wf/rest',
-  //   '/initiation': '/olive/publisher/rlo-initiation',
-  //   '/rlo-de': '/olive/publisher/rlo-data-enrich',
-  //   '/los-integrator': '/los-integrator',
-  //   '/lettermangement' : '/olive/publisher/rlo-letter-mgmt',
-  //   '/common-de': '/olive/publisher/rlo-common-de'
-  // }
+  serviceMap: {
+    'default': '/olive/publisher/rlo-initiation',
+    '/masters': '/olive/publisher/rlo-masters',
+    '/ui': '/olive/publisher/rlo-initiation',
+    '/los-wf': '/los-wf/rest',
+    '/initiation': '/olive/publisher/rlo-initiation',
+    '/rlo-de': '/olive/publisher/rlo-data-enrich',
+    '/los-integrator': '/los-integrator',
+    '/lettermangement' : '/olive/publisher/rlo-letter-mgmt',
+    '/common-de': '/olive/publisher/rlo-common-de'
+  }
 
   // DIT
-  serviceMap : {
-    "default" : "/olive/publisher",
-    "/masters" : "/masters",
-    "/ui" : "/olive/publisher",
-    "/los-wf" : "/los-wf/",
-    "/initiation": "/olive/publisher",
-    "/rlo-de" : "/olive/publisher",
-   "/los-integrator":"/los-integrator",
-    "/lettermangement" :"/lettermangement/publisher",
-    "los-verification":"/los-verification",
-    "/common-de": "/los-verification"
-  }
+  // serviceMap : {
+  //   "default" : "/olive/publisher",
+  //   "/masters" : "/masters",
+  //   "/ui" : "/olive/publisher",
+  //   "/los-wf" : "/los-wf/",
+  //   "/initiation": "/olive/publisher",
+  //   "/rlo-de" : "/olive/publisher",
+  //  "/los-integrator":"/los-integrator",
+  //   "/lettermangement" :"/lettermangement/publisher",
+  //   "los-verification":"/los-verification",
+  //   "/common-de": "/los-verification"
+  // }
 
 
 };
