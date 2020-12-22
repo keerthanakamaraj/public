@@ -58,6 +58,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         'taxId': undefined
     };
     gridData: any;
+    hidForm: boolean = true;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -82,7 +83,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     async onFormLoad() {
         this.setInputs(this.services.dataStore.getData(this.services.routing.currModal));
         this.setDependencies();
-        this.setHTabDisabled();
+
         // this.setDataFields();
     }
     setInputs(param: any) {
@@ -134,6 +135,12 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         });
         this.custSearchFields.parentData = this.parentData;
         console.log("kjgjh", this.parentData);
+
+        console.log(this.readOnly);
+
+        if (this.readOnly) {
+            this.setReadOnly(this.readOnly);
+        }
     }
     clearError() {
         super.clearBasicFieldsError();
@@ -163,10 +170,19 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         console.log(data);
         // this.gridData = data;
         // console.log("new obj", this.gridData);
-        this.setDataFields(data);
+        console.log("jdbs", this.hidForm);
+        this.hidForm = false;
+        setTimeout(() => {
+            this.setDataFields(data);
+            this.setHTabDisabled();
+        }, 1000);
+
+
+
+
     }
 
-    setHTabDisabled(){
+    setHTabDisabled() {
         this.ADD_CUSTOMER_ID.setReadOnly(true);
         this.ADD_FIRST_NAME.setReadOnly(true);
         this.ADD_LAST_NAME.setReadOnly(true);
@@ -181,10 +197,10 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         this.ADD_CIF.setReadOnly(true);
     }
 
-    setDataFields(data){
+    setDataFields(data) {
         let tempVar: any = data;
-   
-   
+
+
         this.ADD_DOB.setValue(tempVar['dob']);
         this.ADD_TAX_ID.setValue(tempVar['taxId']);
         this.ADD_FULL_NAME.setValue(tempVar['custName']);
@@ -208,28 +224,28 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-    
+
         Promise.all([mainMessage, button1, button2]).then(values => {
-          console.log(values);
-          let modalObj = {
-            title: "Alert",
-            mainMessage: values[0],
-            modalSize: "modal-width-sm",
-            buttons: [
-              { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-            ]
-          }
-    
-          console.log("deep ===", modalObj);
-          this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
+            console.log(values);
+            let modalObj = {
+                title: "Alert",
+                mainMessage: values[0],
+                modalSize: "modal-width-sm",
+                buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                    { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                ]
             }
-          });
+
+            console.log("deep ===", modalObj);
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+                console.log(response);
+                if (response != null) {
+                    if (response.id === 1) {
+                        this.services.router.navigate(['home', 'LANDING']);
+                    }
+                }
+            });
         });
-      }
+    }
 }
