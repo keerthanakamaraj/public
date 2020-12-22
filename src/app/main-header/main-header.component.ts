@@ -100,7 +100,19 @@ export class MainHeaderComponent implements OnInit {
   ngOnInit() {
     this.fullName = sessionStorage.getItem('fullName');
     this.userID = sessionStorage.getItem('userId');
-    this.LastLogin = sessionStorage.getItem('lastloginDate');
+
+    const  lastLoginTime = sessionStorage.getItem('lastloginDate');
+
+    if(lastLoginTime) {
+      try {
+        const lastLoginTimeInt = parseInt(lastLoginTime);
+        this.LastLogin = this.services.formatDateTime(lastLoginTimeInt);
+      } catch(e){ // ignore error and use last login as it is
+        this.LastLogin = this.services.formatDateTime(lastLoginTime);
+      }
+    } else {
+      this.LastLogin = this.services.formatDateTime(new Date());
+    }
 
   }
 

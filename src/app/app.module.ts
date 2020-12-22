@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, DoBootstrap, ApplicationRef } from '@angular/core';
+import { NgModule, DoBootstrap, ApplicationRef, Injector } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient, HttpResponse } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule, FormBuilder } from '@angular/forms';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
@@ -50,6 +50,7 @@ import { appDataProvider } from './services/appDataProvider.service';
 import { WorkflowViewerModule } from './workflow-viewer/workflow-viewer.module';
 import { CachingInterceptor } from './Cache-Interceptor/CachingInterceptor';
 import { RloUiCustomerSearchComponent } from './rlo-ui-customer-search/rlo-ui-customer-search.component';
+import { ARXService } from './rlo-services/arxservice.service';
 //import { CustomerSearchFieldsComponent } from './customer-search-fields/customer-search-fields.component';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
@@ -89,6 +90,9 @@ const appRoutes: Routes = [
 ];
 
 const keycloakService = new KeycloakService();
+// const arxService = new ARXService();
+
+export let AppInjector: Injector;
 
 @NgModule({
   declarations: [
@@ -145,7 +149,7 @@ const keycloakService = new KeycloakService();
       provide: KeycloakService,
       useValue: keycloakService
     },
-      
+    ARXService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInceptor, multi: true },
     //{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
 
@@ -159,6 +163,9 @@ const keycloakService = new KeycloakService();
   ],
 })
 export class AppModule implements DoBootstrap {
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
+  }
   ngDoBootstrap(appRef: ApplicationRef): void {
     let config = {
       //url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'angular-test-app'
@@ -169,7 +176,7 @@ export class AppModule implements DoBootstrap {
       redirectUri: environment.redirectURL
     };
 
-    // if(!environment.production && environment.enableKeycloak) {
+    if(environment.enableKeycloak) {
     keycloakService
       .init({ config, enableBearerInterceptor: true })
       .then((auth) => {
@@ -206,13 +213,37 @@ export class AppModule implements DoBootstrap {
         }
       })
       .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));
-    // } else {
-    //   sessionStorage.setItem('userId', "vishal.kardode@inttellectdesign.com");
-    //   sessionStorage.setItem('fullName', "Vishal Kardode" );
+    } else {
 
-    //   appRef.bootstrap(AppComponent);
-    // }
+      const arxservice = AppInjector.get(ARXService);
 
+      // console.log("ARX Service ", arxservice);
+
+      arxservice.getUserInfo().subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          // console.log("ARX User Info ", httpResponse);
+
+          const userInfo = httpResponse['userInfo'];
+
+          // console.log('userinfo ', userInfo);
+
+          // sessionStorage.setItem('userId', "vishal.kardode@intellectdesign.com");
+          // sessionStorage.setItem('fullName', "Vishal Kardode" );
+
+          sessionStorage.setItem('userId', userInfo.ViewUserInfo.userId);
+          sessionStorage.setItem('fullName', userInfo.ViewUserInfo.firstName + ' ' + userInfo.ViewUserInfo.lastName);
+          sessionStorage.setItem('lastloginDate', userInfo.ViewUserInfo.lastLoginDate);
+
+          appRef.bootstrap(AppComponent);
+
+        },
+        async (errorResponse: HttpResponse<any>) => {
+          // Error from Service - open ARX login page
+          // TODO: Enhance Logout Experiance
+          window.location.href = environment.arxAuthURL;
+        }
+      );
+    }
 
   }
 }
