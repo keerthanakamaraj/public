@@ -68,6 +68,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     sequenceId: any;
     Stages = [];
     selectedFileInvalid: boolean = false;//check if the selected doc. is valid
+    ownerfield: boolean;
 
     public showMessage(msg) {
         this.modalMessage = msg;
@@ -128,7 +129,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
 
     ngOnInit() {
-
+        this.ownerfield = false;
         //only when navigating to DDE from Operations
         if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
             this.readOnly = true;
@@ -457,6 +458,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         this.checkUserId = this.UserId;
         this.documents = [];
         this.docTypes = [];
+        this.ownerfield = false;
         //this.docDetailsObject.clear();
         //this.docUploadObject.clear();
         this.fileName = '';
@@ -493,6 +495,7 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This methos is to populate the date in the fields on click of edit button in grid
     editDocumentDetails(docDetail) {
+        this.ownerfield = false;
         this.docUploadObject.id = docDetail['id'];
         this.docUploadObject.trnDemographicId = docDetail['demographicId'];
         this.checkUserId = docDetail['InputterId'];
