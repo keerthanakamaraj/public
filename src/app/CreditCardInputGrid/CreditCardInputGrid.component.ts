@@ -38,7 +38,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
   showAdd: boolean = false;
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
-  isExpanded: boolean = false;
+  isExpanded: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
   showGrid = false;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
@@ -164,16 +164,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     this.updateSelectedObj(element, tempProposedCashLimit.toFixed(2));
     this.updateTotal(['ProposedCardLimit', 'ProposedCashLimit']);
   }
-
-
-  Amount_blur(element, $event, rowNo) {
-    // console.log(this.Amount.toArray()[element.rowNo]);
-    // let newEquivalentAmt = this.ConvertInLocalCurrency(element.value);
-    // this.LocalCurEq.toArray()[element.rowNo].setValue(newEquivalentAmt);
-    // this.updateSelectedObj(element, newEquivalentAmt);
-    // this.updateTotal();
-  }
-
   updateTotal(listOfColumns) {
     listOfColumns.forEach(columnId => {
       let totAmount: number = 0;

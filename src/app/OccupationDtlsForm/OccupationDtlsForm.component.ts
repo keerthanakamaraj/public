@@ -74,6 +74,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('HidOccupationSeq', { static: false }) HidOccupationSeq: HiddenComponent;
   @ViewChild('HidIncomeSource', { static: false }) HidIncomeSource: HiddenComponent;
   @ViewChild('OCCP_ACCORD', { static: false }) OCCP_ACCORD: RloUiAccordionComponent;
+  @ViewChild('OD_ANNUAL_NET_INCOME', { static: false }) OD_ANNUAL_NET_INCOME: RloUiCurrencyComponent;
 
   //custom
  
@@ -84,6 +85,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   fieldArray: any[];
   activeBorrowerSeq: any;
   isRetired:boolean=false;
+  populatingDataFlag:boolean=true;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -379,6 +381,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.Currency', this.OD_NET_INCOME.currencyCode);
         inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getFieldValue());
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+        inputMap.set('Body.OccupationDetails.AnnualNetIncome', this.OD_ANNUAL_NET_INCOME.getFieldValue());
         //custom
 
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
@@ -633,6 +636,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
+        this.populatingDataFlag=true;
         this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']['id']);
         this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['EmploymentType']['id']);
         this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
@@ -656,6 +660,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_WRK_PERMIT_NO.setValue(res['OccupationDetails']['WorkPermitNumber']);
         this.OD_INCOME_SOURCE.setValue(res['OccupationDetails']['IncomeSource']['id']);
         this.OD_OCCUPATION_OTHERS.setValue(res['OccupationDetails']['Others']);
+        this.OD_ANNUAL_NET_INCOME.setComponentSpecificValue(res['OccupationDetails']['AnnualNetIncome']);
        // this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
         //this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
         //this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
@@ -671,7 +676,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_LOC_CURR_EQ.setComponentSpecificValue(res['OccupationDetails']['LocalCurrencyEquivalent'], null);
 
         this.OD_NET_INCOME.selectedCode(res['OccupationDetails']['Currency']);
-        // if (this.OD_OCCUPATION.getFieldValue() == 'SL') {
+        // if (this.OD_OCCUPATION.getFieldValue() == 'SL') {    //Commented for Canara
         //   this.OD_EMPLT_TYPE.mandatory = true;
         //   this.OD_EMPLT_TYPE.setReadOnly(false);
         //   if (this.readOnly) {
@@ -749,6 +754,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       // this.OD_RES_PRT_NO.mandatory=false;
       this.OD_LOC_CURR_EQ.setHidden(true);
       this.OD_LOC_CURR_EQ.mandatory=false;
+      this.OD_ANNUAL_NET_INCOME.setHidden(true);
 
       this.OD_EMPLOYEE_ID.mandatory=true;
       this.OD_DEPARTMENT.mandatory=true;
@@ -921,5 +927,9 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     //this.resetBasicFields();
     //let inputMap = new Map();
     //this.Handler.netIncomeOnblur();
+  }
+
+  OD_INCOME_FREQ_change(fieldId, event){
+    this.Handler.setAnnualNetIncome();
   }
 }

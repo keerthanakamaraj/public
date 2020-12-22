@@ -332,7 +332,8 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
           // case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
           case "OD_COMPANY_NAME": obj[i].columnName = "CompanyName"; break;
           case "INCOME_FREQ": obj[i].columnName = "IncomeFrequecy"; break;
-          case "NET_INCOME": obj[i].columnName = "NetIncome"; break;
+        //  case "NET_INCOME": obj[i].columnName = "NetIncome"; break;
+        case "NET_INCOME": obj[i].columnName = "AnnualNetIncome"; break;
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -369,7 +370,8 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
             // tempObj['OD_INDUSTRY'] = occupationDetails[i].Industry;
             tempObj['OD_COMPANY_NAME'] = occupationDetails[i].CompanyName;
             tempObj['INCOME_FREQ'] = occupationDetails[i].IncomeFrequecy.text;
-            tempObj['NET_INCOME'] = occupationDetails[i].LocalCurrencyEquivalent;
+           // tempObj['NET_INCOME'] = occupationDetails[i].LocalCurrencyEquivalent;
+           tempObj['NET_INCOME'] = occupationDetails[i].AnnualNetIncome;
 
             tempObj['EMPLOYEE_ID'] = occupationDetails[i].EmployeeID;
             tempObj['DEPARTMENT'] = occupationDetails[i].Department;

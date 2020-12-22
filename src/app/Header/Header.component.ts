@@ -491,6 +491,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       MinCashLimit: header.Product_min_cash_limit,
       MaxCashLimit: header.Product_max_cash_limit,
       MaxCreditLimit: header.Product_max_credit,
+      isCamType: false
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);

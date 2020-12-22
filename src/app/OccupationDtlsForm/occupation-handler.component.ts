@@ -68,32 +68,21 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
   occupationOnchange() {
     let newOccupation=this.MainComponent.OD_OCCUPATION.getFieldValue();
     this.MainComponent.isRetired = newOccupation == 'RT'?true:false;
-    let fieldList = this.fieldArrayFunction();
-
+  
     switch (newOccupation) {
       case 'SL':
-      
-        fieldList.forEach(function (eachField) {
-          eachField.onReset();
-          eachField.setHidden(false);
-        });
+        this.doBasicFieldSetting(false);
         this.MainComponent.OD_OCCUPATION_OTHERS.setHidden(true);
         this.MainComponent.OD_SELF_EMPLD_PROF.setHidden(true);
         this.MainComponent.OD_SELF_EMPLD_TYPE.setHidden(true);
         break;
       case 'SE':
-        fieldList.forEach(function (eachField) {
-          eachField.onReset();
-          eachField.setHidden(false);
-        });
+      this.doBasicFieldSetting(false);
         this.MainComponent.OD_OCCUPATION_OTHERS.setHidden(true);
         this.MainComponent.OD_EMPLT_TYPE.setHidden(true);
         break;
       case 'RT':
-        fieldList.forEach(function (eachField) {
-          eachField.onReset();
-          eachField.setHidden(true);
-        });
+      this.doBasicFieldSetting(true);
         this.MainComponent.OD_EMPLT_TYPE.setHidden(false);
         this.MainComponent.OD_INDUSTRY.setHidden(false);
         this.MainComponent.OD_NTR_OF_BUSS.setHidden(false);
@@ -102,28 +91,32 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
         this.MainComponent.OD_COMP_NAME.setHidden(false);
         break;
       case 'OT':
-        fieldList.forEach(function (eachField) {
-          eachField.onReset();
-          eachField.setHidden(true);
-        });
+      this.doBasicFieldSetting(true);
         this.MainComponent.OD_OCCUPATION_OTHERS.setHidden(false);
         break;
-      case 'HW': case 'ST': fieldList.forEach(function (eachField) {
-        eachField.onReset();
-        eachField.setHidden(true);
-      });
+      case 'HW': case 'ST': 
+      this.doBasicFieldSetting(true);
         break;
         default:
-        fieldList.forEach(function (eachField) {
-          eachField.onReset();
-          eachField.setHidden(false);
-        });
+        this.doBasicFieldSetting(false);
         this.MainComponent.OD_OCCUPATION_OTHERS.setHidden(true);
         this.MainComponent.OD_SELF_EMPLD_PROF.setHidden(true);
         this.MainComponent.OD_SELF_EMPLD_TYPE.setHidden(true);
     }
 
     this.adjustMandatoryFields();
+  }
+
+  doBasicFieldSetting(hiddenFlag){
+    let fieldList = this.fieldArrayFunction();
+    fieldList.forEach(function (eachField) {
+      if(!this.MainComponent.populatingDataFlag){
+        eachField.onReset();
+      }else{
+        this.MainComponent.populatingDataFlag=false;
+      }       
+      eachField.setHidden(hiddenFlag);
+    });
   }
   adjustMandatoryFields(){
   this.MainComponent.OD_EMPLT_TYPE.mandatory=!this.MainComponent.OD_EMPLT_TYPE.isHidden();
@@ -188,7 +181,23 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
   netIncomeOnblur() {
     if (this.MainComponent.hidExchangeRate.getFieldValue() !== undefined && this.MainComponent.OD_NET_INCOME.getFieldValue() !== undefined) {
       let CurrenyExchangeValue = this.MainComponent.hidExchangeRate.getFieldValue() * this.MainComponent.OD_NET_INCOME.getFieldValue();
-      this.MainComponent.OD_LOC_CURR_EQ.setValue(CurrenyExchangeValue);
+      this.MainComponent.OD_LOC_CURR_EQ.setComponentSpecificValue(CurrenyExchangeValue);
+      this.setAnnualNetIncome();
     }
+  }
+
+  setAnnualNetIncome(){
+let NetIncome:number = this.MainComponent.OD_LOC_CURR_EQ.getFieldValue();
+let IncomeFreq:string =this.MainComponent.OD_INCOME_FREQ.getFieldValue();
+let AnnualIncome:number=0;
+if(NetIncome!=undefined && NetIncome>0 && IncomeFreq != undefined){
+  switch(IncomeFreq){
+    case 'D': AnnualIncome= NetIncome*7*4*12;break;
+    case 'W': AnnualIncome= NetIncome*4*12;break;
+    case 'M': AnnualIncome= NetIncome*12;break;
+    case 'Y': AnnualIncome= NetIncome;break;
+    }
+}
+this.MainComponent.OD_ANNUAL_NET_INCOME.setComponentSpecificValue(AnnualIncome.toFixed(2));
   }
 }

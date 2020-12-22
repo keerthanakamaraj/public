@@ -1105,7 +1105,8 @@
     "OD_INDUSTRY": "Industry",
     "OD_CLEAR_BTN": "Clear",
     "OD_PENSION_FREQ": "Pension Frequency",
-    "OD_PENSION_AMT": "Pension Amount"
+    "OD_PENSION_AMT": "Pension Amount",
+    "OD_ANNUAL_NET_INCOME": "Annual Net Income"
   },
   "EntRelAssGrid": {
     "select": "Select",
@@ -1597,7 +1598,7 @@
     "OD_EDIT_BTN_ButtonName": "Edit",
     "toolbar_OccuptionDtlsGrid": "null",
     "OD_OCCUPATION": "Occupation",
-    "NET_INCOME": "Net Income",
+    "NET_INCOME": "Net Income (Annual)",
     "INCOME_FREQ": "Income Frequency",
     "OD_DELETE_ButtonName": "Delete",
     "OD_INDUSTRY": "Industry",
