@@ -217,7 +217,7 @@ export class AppModule implements DoBootstrap {
 
       const arxservice = AppInjector.get(ARXService);
 
-      console.log("ARX Service ", arxservice);
+      // console.log("ARX Service ", arxservice);
 
       arxservice.getUserInfo().subscribe(
         async (httpResponse: HttpResponse<any>) => {
@@ -225,7 +225,7 @@ export class AppModule implements DoBootstrap {
 
           const userInfo = httpResponse['userInfo'];
 
-          console.log('userinfo ', userInfo);
+          // console.log('userinfo ', userInfo);
 
           // sessionStorage.setItem('userId', "vishal.kardode@intellectdesign.com");
           // sessionStorage.setItem('fullName', "Vishal Kardode" );
@@ -240,9 +240,9 @@ export class AppModule implements DoBootstrap {
         async (errorResponse: HttpResponse<any>) => {
           // Error from Service - open ARX login page
           // TODO: Enhance Logout Experiance
-          // window.location.href = environment.arxAuthURL;
-          console.log("error occured while fething user info" , errorResponse);
-          
+          window.location.href = environment.arxAuthURL;
+          // console.log("error occured while fething user info" , errorResponse);
+
         }
       );
     }
