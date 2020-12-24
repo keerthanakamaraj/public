@@ -221,8 +221,10 @@
     "rlo.error.save.pastEduLoan": "The Past Education could not be saved. Please try again.",
     "rlo.error.approvedlimit.gt.product": "Approved Limit can not be greater than Max Product Limit",
     "rlo.success.sentBack": "The application has been successfully Sentback",
-    "rlo.error.totCardLimit": "Sum of Proposed card limit should not be more than Approved Card Limit",
-    "rlo.error.update.credit-card-grid": "The Members details could not be updated. Please try again",
+    "rlo.error.totCardLimit":"Sum of Proposed card limit should not be more than Approved Card Limit",
+   "rlo.error.update.credit-card-grid":"The Members details could not be updated. Please try again",
+   "rlo.error.limit-enhancement" : " Limit Reduction should be done throughCard Management System",
+
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -1787,9 +1789,11 @@
     "NomineeDOB": "Nominee Date Of Birth",
     "GuardianName": "Guardian Name",
     "GuadianRelationship": "Guadian Relationship",
-    "CurrentCorporateCardLimit": "Current Corporate Card Limit",
-    "AvailableLimit": "Available Limit",
-    "MaskedCardNumber": "Masked Card Number"
+    "CurrentCorporateCardLimit" : "Current Corporate Card Limit",
+    "AvailableLimit" : "Available Limit",
+    "MaskedCardNumber" : "Masked Card Number",
+    "Add_RequestedCardLimit" :"Requested Card Limit",
+    "CurrentCardLimit" : "Current Card Limit"
   },
   "CustomerDtls": {
     "CARD_DTLS_LBL": "Card Details",
@@ -2608,7 +2612,9 @@
     "ADD_CUST_SGMT": "Customer Segment",
     "ADD_CUST_SUB_SGMT": "Customer Subsegment",
     "FieldId_66": "Other Details",
-    "FieldId_65": "Customer Details"
+    "FieldId_65": "Customer Details",
+    "ADD_ApplicantType" : "Applicant Type",
+    "LimitEN" : "Limit Enhahncement"
   },
   "RealignmentRequest": {
     "FormTitle": "Re-alignmentRequest",

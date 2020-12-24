@@ -15,8 +15,13 @@
 
     <div class="wgt-top-navigator row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
       <div class="col-sm-12 col-md-12">
-        <div class="FormTitle">
+        <div class="FormTitle" *ngIf = "services.rloCommonData.currentRoute == 'AddOn'">
           <span>{{ 'AddOn.FormTitle' | translate }}</span>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12">
+        <div class="FormTitle"  *ngIf = "services.rloCommonData.currentRoute == 'LimitEnhancement'">
+          <span>{{ 'AddOn.LimitEN' | translate }}</span>
         </div>
       </div>
     </div>
@@ -111,6 +116,18 @@
 
                 <!-- <app-rlo-ui-customer-search #ADD_CUSTOMER_ID fieldID="ADD_CUSTOMER_ID" (blur)="genericOnBlur('ADD_CUSTOMER_ID', $event)" [searchType]="'ADD_CUSTOMER_ID'"    (searchCustomer)="searchForCustomer($event)"></app-rlo-ui-customer-search> -->
 
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_ApplicantType.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': ADD_ApplicantType.mandatory}">
+                    {{ 'AddOn.ADD_ApplicantType' | translate}}
+                  </label>
+                </div>
+                <app-text-box #ADD_ApplicantType fieldID="ADD_ApplicantType" [formCode]="formCode"
+                (blur)="genericOnBlur('ADD_ApplicantType', $event)"></app-text-box>
+                <!-- <app-combo-box #ADD_ApplicantType category="2" placeholder="Select" fieldID="ADD_ApplicantType" [formCode]="formCode"
+                  domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                  (blur)="genericOnBlur('ADD_ApplicantType', $event)"></app-combo-box> -->
               </div>
               <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_STAFF_ID.isHidden()">
               <div class="clr-brown fieldLegend">
@@ -421,6 +438,8 @@
             </div>
           </div>
         </div>
+        <app-hidden #HidAppId fieldID="HidAppId"></app-hidden>
+        <app-hidden #HidAppType fieldID="HidAppType"></app-hidden>
       </div>
     </div>
   </div>

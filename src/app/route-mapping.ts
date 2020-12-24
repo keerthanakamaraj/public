@@ -144,6 +144,10 @@ export var componentRoutes: Routes = [
 	{
 		path: 'AddOn',
 		loadChildren: 'src/app/AddOn/AddOn.module#AddOnModule'
-	}	
+	},
+	{
+		path: 'LimitEnhancement',
+		loadChildren: 'src/app/AddOn/AddOn.module#AddOnModule'
+	}		
 ];
 export class AppRoutingModule { }
