@@ -1036,7 +1036,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       case 'InterfaceResults':
         return new AddSpecificComponent(InterfaceResultsComponent);
         break;
-        case 'BusinessDetails':
+      case 'BusinessDetails':
         return new AddSpecificComponent(BusinessDtlsFormComponent);
         break;
       default:
@@ -1231,7 +1231,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //   SchemeCode: event.SchemeCode,
     // };
     console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
-    console.log("shweta :: cust type",this.CustomerType);
+    console.log("shweta :: cust type", this.CustomerType);
     // if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && (undefined == this.CustomerType || 'B'==this.CustomerType)){
     //   this.customerMenu[0].splice(2,1);
     // }
@@ -1253,18 +1253,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.validateSectionForCustomer();
   }
 
-  doCardTypeBasedChanges(){
-    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+  doCardTypeBasedChanges() {
+    if (this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP') {
 
-      let sectionindex:number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id=='OccupationDetails')));
-      if((undefined == this.CustomerType ||this.CustomerType =='B') && sectionindex >= 0 ){
-      this.customerMenu[0].splice(sectionindex,1,{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true });
+      let sectionindex: number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'OccupationDetails')));
+      if ((undefined == this.CustomerType || this.CustomerType == 'B') && sectionindex >= 0) {
+        this.customerMenu[0].splice(sectionindex, 1, { id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true });
+      }
+      else if (this.CustomerType != 'B' && sectionindex < 0) {
+        sectionindex = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'BusinessDetails')));
+        this.customerMenu[0].splice(sectionindex, 1, { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
+      }
     }
-    else if(this.CustomerType !='B' && sectionindex < 0){
-       sectionindex = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id=='BusinessDetails')));
-      this.customerMenu[0].splice(sectionindex,1,{ id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
-    }
-  }
   }
   validateSectionForCustomer() {
     let formsMenuList = this.customerMenu;
@@ -1285,7 +1285,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
   }
 
-  
+
   validateSectionForApplication() {
     let formsMenuList = this.applicationMenu;
     formsMenuList.forEach(element => {
@@ -1322,13 +1322,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-        if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
-        if(section.id=='ReferrerDetails'||section.id=='Notes'||section.id=='GoNoGoDetails'){
-        section.isOptional = true;
-        element.splice(i, 1);
-        i--;
-      }
-    }
+        if (this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP') {
+          if (section.id == 'ReferrerDetails' || section.id == 'Notes' || section.id == 'GoNoGoDetails') {
+            section.isOptional = true;
+            element.splice(i, 1);
+            i--;
+          }
+        }
         if ((section.id == "VehicalLoanDetails" || section.id == "GoldLoanDetails" || section.id == "EducationLoanDetails") && section.isOptional) {
           if (!this.isLoanCategory) {
             element.splice(i, 1);
@@ -1497,32 +1497,32 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (data.isAppValid) {
         requestParams.set('Body.ApplicationStatus', 'AP');
         requestParams.set('Body.direction', 'AP');
-       // this.submitDDE(requestParams);
-       var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+        // this.submitDDE(requestParams);
+        var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-       Promise.all([mainMessage, button1, button2]).then(values => {
-        console.log(values);
-        let modalObj = {
-          title: "Alert",
-          mainMessage: values[0],
-          modalSize: "modal-width-sm",
-          buttons: [
-            { id: 1, text: values[1], type: "success", class: "btn-primary" },
-            { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-          ]
-        }
-  
-        this.services.rloui.confirmationModal(modalObj).then((response) => {
-          console.log(response);
-          if (response != null) {
-            if (response.id === 1) {
-              this.services.rloui.closeAllConfirmationModal()
-              this.submitDDE(requestParams);
-            }
+        Promise.all([mainMessage, button1, button2]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
           }
+
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.rloui.closeAllConfirmationModal()
+                this.submitDDE(requestParams);
+              }
+            }
+          });
         });
-      });
       }
       else {
         let errorMsg = "";

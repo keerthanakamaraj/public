@@ -66,7 +66,8 @@ export class RlouiService {
     { componentName: "CustomerSearch", iconClass: "icon-Customer-Details" },
     { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" },
     { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" },
-    { componentName: "BusinessDetails", iconClass: "icon-Credit-Card-Details" }
+    { componentName: "BusinessDetails", iconClass: "icon-Credit-Card-Details" },
+    { componentName: "CustomerCards", iconClass: "icon-Customer-Details" },
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -503,6 +504,7 @@ export class RlouiService {
     });
     return promise;
   }
+
   openDecisionAlert(actionObject: IUnderwriterActionObject, applicationId: number) {
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
@@ -514,6 +516,34 @@ export class RlouiService {
         componentCode: actionObject.componentCode,
         data: actionObject.action,
         applicationId: applicationId
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+          resolve(response)
+        }
+        resolve(true);
+      });
+    });
+    return promise;
+  }
+
+  //used to show list of avaliable cards for customer 
+  customerCardDetails(customerCardDetailsList) {
+    console.log(customerCardDetailsList);
+    let obj = customerCardDetailsList;
+
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: '',
+        mainMessage: undefined,
+        modalSize: 'modal-customer-avaliable-cards',
+        buttons: [],
+        componentName: 'CustomerCards',
+        data: obj
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);

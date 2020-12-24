@@ -221,9 +221,8 @@
     "rlo.error.save.pastEduLoan": "The Past Education could not be saved. Please try again.",
     "rlo.error.approvedlimit.gt.product": "Approved Limit can not be greater than Max Product Limit",
     "rlo.success.sentBack": "The application has been successfully Sentback",
-    "rlo.error.totCardLimit":"Sum of Proposed card limit should not be more than Approved Card Limit",
-   "rlo.error.update.credit-card-grid":"The Members details could not be updated. Please try again",
-
+    "rlo.error.totCardLimit": "Sum of Proposed card limit should not be more than Approved Card Limit",
+    "rlo.error.update.credit-card-grid": "The Members details could not be updated. Please try again",
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
     "DUPLICATE": "This has already been added. Please add other details.",
@@ -1480,7 +1479,14 @@
     "TaxID": "PAN No.",
     "Mobile": "Mobile No.",
     "Branch": "Branch",
-    "CreditCard": "Credit Card"
+    "CreditCard": "Credit Card",
+    "CmsDetails": "CMS Details"
+  },
+  "CustomerAvaliableCardGrid": {
+    "CardSubProduct": "Card Sub Product",
+    "PrimaryCardLimit": "Primary Card Limit",
+    "PrimaryCardStatus": "Primary Card Status",
+    "PrimaryCardNumber": "Primary Card Number"
   },
   "SearchForm": {
     "FormTitle": "SearchForm",
@@ -1781,9 +1787,9 @@
     "NomineeDOB": "Nominee Date Of Birth",
     "GuardianName": "Guardian Name",
     "GuadianRelationship": "Guadian Relationship",
-    "CurrentCorporateCardLimit" : "Current Corporate Card Limit",
-    "AvailableLimit" : "Available Limit",
-    "MaskedCardNumber" : "Masked Card Number"
+    "CurrentCorporateCardLimit": "Current Corporate Card Limit",
+    "AvailableLimit": "Available Limit",
+    "MaskedCardNumber": "Masked Card Number"
   },
   "CustomerDtls": {
     "CARD_DTLS_LBL": "Card Details",
@@ -2604,29 +2610,29 @@
     "FieldId_66": "Other Details",
     "FieldId_65": "Customer Details"
   },
-  "RealignmentRequest" : {
-    "FormTitle" : "Re-alignmentRequest",
-    "A_MaximumCardLimit" : "Maximum Card Limit",
-    "ApprovedCorporateCardLimit" :"Approved Corporate Card Limit",
-    "ApprovedCorporateCashLimit" : "Approved Corporate Cash Limit",
-    "MaximumCashLimit" : "Maximum Cash Limit"
-    },
-  "CreditCardInputGrid" :{
-    "MemberName" :"Member Name",
-"CardNumber" :"Card Number",
-"CardStatus" :"Card Status",
-"LatestLimitDate" :"Latest Limit Date",
-"ExistingCardLimit" :"Existing Card Limit",
-"ExistingCashLimit" :"Existing Cash Limit",
-"ProposedCardLimit" :"Proposed Card Limit",
-"ProposedCashLimit" :"Proposed Cash Limit",
-"ApprovedCardLimit" :"Approved Card Limit",
-"ApprovedCashLimit" :"Approved Cash Limit",
-"TotalExistingCardLimit" :"Total Existing Card Limit",
-"TotalExistingCashLimit" :"Total Existing Cash Limit",
-"TotalProposedCardLimit" :"Total Proposed Card Limit",
-"TotalProposedCashLimit" :"Total Proposed Cash Limit",
-"Total":"Total",
-"RequestedCardLimit": "Requested Card Limit"
-}
+  "RealignmentRequest": {
+    "FormTitle": "Re-alignmentRequest",
+    "A_MaximumCardLimit": "Maximum Card Limit",
+    "ApprovedCorporateCardLimit": "Approved Corporate Card Limit",
+    "ApprovedCorporateCashLimit": "Approved Corporate Cash Limit",
+    "MaximumCashLimit": "Maximum Cash Limit"
+  },
+  "CreditCardInputGrid": {
+    "MemberName": "Member Name",
+    "CardNumber": "Card Number",
+    "CardStatus": "Card Status",
+    "LatestLimitDate": "Latest Limit Date",
+    "ExistingCardLimit": "Existing Card Limit",
+    "ExistingCashLimit": "Existing Cash Limit",
+    "ProposedCardLimit": "Proposed Card Limit",
+    "ProposedCashLimit": "Proposed Cash Limit",
+    "ApprovedCardLimit": "Approved Card Limit",
+    "ApprovedCashLimit": "Approved Cash Limit",
+    "TotalExistingCardLimit": "Total Existing Card Limit",
+    "TotalExistingCashLimit": "Total Existing Cash Limit",
+    "TotalProposedCardLimit": "Total Proposed Card Limit",
+    "TotalProposedCashLimit": "Total Proposed Cash Limit",
+    "Total": "Total",
+    "RequestedCardLimit": "Requested Card Limit"
+  }
 }

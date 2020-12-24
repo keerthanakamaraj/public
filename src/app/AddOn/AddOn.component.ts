@@ -23,6 +23,7 @@ import { CustomerSearchFieldsComponent } from '../customer-search-fields/custome
 import { ICustomSearchObject } from '../Interface/masterInterface';
 import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 import { Data } from '../DataService';
+import { Subscription } from 'rxjs';
 // import { PasswordComponent } from '../password/password.component';
 // import { RadioButtonComponent } from '../radio-button/radio-button.component';
 
@@ -59,6 +60,9 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     };
     gridData: any;
     hidForm: boolean = true;
+
+    selectedCardDetailsModalSubscription: Subscription;
+
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -76,6 +80,10 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         super(services);
         this.value = new AddOnModel();
         this.componentCode = 'AddOn';
+
+        this.selectedCardDetailsModalSubscription = this.services.rloCommonData.selectedCardDetailsSubject.subscribe(data => {
+            console.warn("DEEP | selectedCardDetailsModalSubscription", data);
+        });
     }
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
@@ -126,6 +134,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         this.unsubscribe$.complete();
         var styleElement = document.getElementById('AddOn_customCss');
         styleElement.parentNode.removeChild(styleElement);
+        this.selectedCardDetailsModalSubscription.unsubscribe();
     }
     ngAfterViewInit() {
         setTimeout(() => {

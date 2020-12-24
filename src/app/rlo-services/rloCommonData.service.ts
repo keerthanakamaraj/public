@@ -63,7 +63,7 @@ export interface IGlobalApllicationDtls {
   CardCustName?: string;
   PrimaryUsage?: string;
   ReqCardLimit?: any;
-  isCamType?:boolean;
+  isCamType?: any
 }
 @Injectable({
   providedIn: 'root'
@@ -93,6 +93,8 @@ export class RloCommonData {
   amortizationModalDataUW: any;//stored data used for amortization schedule modal  
 
   reloadUWSections = new Subject<any>();
+
+  selectedCardDetailsSubject = new Subject<any>();//in addon page -> on click of modal's row data.
 
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
@@ -1127,6 +1129,67 @@ export class RloCommonData {
         });
       }
     });
+  }
+
+  //get member card details
+  getMultipleCustomerIcif(multipleIcif: Array<any>) {
+    // {
+    //   "interfaceId": "CIF_SEARCH",
+    //   "prposalid": "1234",
+    //  "inputdata": {
+    // "ICIFNumber":
+    // [
+    // "1234","5678","4585"
+    // ]
+
+    //  }
+    // }
+
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let testData = ["4585"];
+    inputMap.set('Body.inputdata.ICIFNumber', multipleIcif);
+    inputMap.set('Body.interfaceId', 'CIF_SEARCH');
+    inputMap.set('Body.prposalid', '1234');
+
+    const promise = new Promise((resolve, reject) => {
+      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          console.log("Deep | Service - getInterfaceResposes()", res);
+          resolve(res);
+        },
+        async (httpError) => {
+          resolve(null);
+        }
+      );
+    });
+    return promise;
+  }
+
+  getMemberCardDetail() {
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let testData = "4585";
+    inputMap.set('Body.inputdata.CifID', testData);
+    inputMap.set('Body.interfaceId', 'CUSTOMER_360');
+    inputMap.set('Body.prposalid', '3322');
+
+    const promise = new Promise((resolve, reject) => {
+      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          console.log("Deep | Service - getMemberCardDetail()", res);
+          resolve(res);
+        },
+        async (httpError) => {
+          resolve(null);
+        }
+      );
+    });
+    return promise;
   }
 
 }
