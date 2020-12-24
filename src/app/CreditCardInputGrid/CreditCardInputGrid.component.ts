@@ -108,10 +108,10 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   loadRecords() {
-    let CustomerDtlsList = this.services.rloCommonData.getCustomerList();
-    if (CustomerDtlsList.length > 1) {
+    let CustomerDtlsList = this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType !== 'B' });
+    console.log("Shweta:: for credit card cust dtls ", CustomerDtlsList);
+    if (CustomerDtlsList.length > 0) {
       this.showGrid = true;
-      console.log("Shweta:: for credit card cust dtls ", CustomerDtlsList);
       this.CustomerDtlsMap.clear();
       CustomerDtlsList.forEach((element, index) => {
         if (element.CustomerType != 'B') {
@@ -149,12 +149,13 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   ProposedCardLimit_blur(element, $event, rowNo) {
     console.log("Shweta :: on blur", element);
-    let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
-    let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
-    //let tempExistingCashLimit=parseFloat(this.services.rloCommonData.globalApplicationDtls.LoanAmount);
-    let tempExistingCardLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
-    let tempProposedCardLimit:number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
-    
+    //let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
+    //let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
+    let tempExistingCashLimit = parseFloat(this.services.rloCommonData.globalApplicationDtls.LoanAmount);
+    let tempMinCashLimit: number = parseFloat('5000');
+    let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
+    let tempProposedCardLimit: number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
+
     let tempProposedCashLimit: number = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit);
 
     if (tempProposedCashLimit > tempMinCashLimit) {

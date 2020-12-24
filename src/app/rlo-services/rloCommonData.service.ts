@@ -215,7 +215,10 @@ export class RloCommonData {
           mapValue.set('RmVisitDetails', componentData.data);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
-
+        case 'BusinessDetails':
+          mapValue.set('BusinessDetails', componentData.data);
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
         ///APPLICATION SECTIONS
 
         case 'GoNoGoDetails':
@@ -261,10 +264,6 @@ export class RloCommonData {
           mapValue = componentData.data;
           console.log(" DEEP | InterfaceResults", mapValue);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
-          break;
-        case 'BusinessDetails':
-          mapValue = componentData.data;
-          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
       }
 
@@ -550,26 +549,31 @@ export class RloCommonData {
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
     if (this.globalApplicationDtls.CardType == 'CORP') {
-      commonObj.isSectionValid = true;
-    } else if (LoanOwnership !== undefined && LoanOwnership != 0) {
+      commonObj.isSectionValid = false;
+      if (customerSectionData.has('OccupationDetails') || customerSectionData.has('BusinessDetails')) {
+        commonObj.isSectionValid = true;
+      }
+    } else if (LoanOwnership !== undefined && LoanOwnership > 0) {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails')) {
         const occupationList = customerSectionData.get('OccupationDetails');
-
+        console.log("shweta :: occ list", occupationList);
         for (const eachOccupation of occupationList) {
-          // if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
-          //   commonObj.isSectionValid = true;
-          // } else
-          if (eachOccupation.IncomeType.id && 'PRI' === eachOccupation.IncomeType.id.toString()) {
+
+          if (eachOccupation.NetIncome != undefined && parseFloat(eachOccupation.NetIncome) > 0) {
             commonObj.isSectionValid = true;
           }
+          // if (eachOccupation.IncomeType.id && 'PRI' === eachOccupation.IncomeType.id.toString()) {
+          //   commonObj.isSectionValid = true;
+          // }
         }
       }
-      if (!commonObj.isSectionValid) {
-        if ((LoanOwnership != undefined && LoanOwnership != 0) && (custType == 'B' || custType == 'CB')) {
-          commonObj.errorMessage = " 1 primary occupation"
-        }
-
+    }
+    if (!commonObj.isSectionValid) {
+      if (this.globalApplicationDtls.CardType == 'CORP') {
+        commonObj.errorMessage = custType == 'B' ? "Business Details" : "1 occupation";
+      } else if (LoanOwnership != undefined && LoanOwnership != 0) {
+        commonObj.errorMessage = "Atleast 1 occupation with Net Income";
       }
     }
     return commonObj;
@@ -586,12 +590,21 @@ export class RloCommonData {
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
 
-    if (!sectionData.has('AddressDetails')) {
+    if (!sectionData.has('AddressDetails')) { //added for canara
       commonObj.isSectionValid = false;
-      // commonObj.errorMessage += '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     } else {
       const addressList = sectionData.get('AddressDetails');
-      const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+      const addrValidationObj = { isMailing: false, isPermenet: false };
+      for (const eachAddress of addressList) {
+        if ('ML' === ('' + eachAddress.AddressType.id)) {
+          addrValidationObj.isMailing = true;
+        }
+        if ('PR' === ('' + eachAddress.AddressType.id)) {
+          addrValidationObj.isPermenet = true;
+        }
+      }
+      // commented for Canara
+      /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
       for (const eachAddress of addressList) {
         if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
           addrValidationObj.isMailing = true;
@@ -609,11 +622,8 @@ export class RloCommonData {
 
       if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
         addrValidationObj.isOffice = true;
-      }
+      }*/
 
-      // if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
-      //   addrValidationObj.isOffice = true;
-      // }
 
       for (const flag in addrValidationObj) {
         if (!addrValidationObj[flag]) {
@@ -621,10 +631,14 @@ export class RloCommonData {
         }
       }
     }
-    if (!commonObj.isSectionValid) {
+    // commented for canara
+    /*if (!commonObj.isSectionValid) {
       commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
         '1 correspondence address'
         : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
+    }*/
+    if (!commonObj.isSectionValid) {
+      commonObj.errorMessage += '1 Mailing and 1 Permenent address';
     }
     return commonObj;
   }
