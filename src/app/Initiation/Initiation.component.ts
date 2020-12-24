@@ -54,7 +54,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: ComboBoxComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
-
+  @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
+  
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: TextBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
   @ViewChild('BAD_PROD_CAT', { static: false }) BAD_PROD_CAT: RLOUIRadioComponent;
@@ -156,7 +157,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('allowCoBorrower', { static: false }) allowCoBorrower: HiddenComponent;
   @ViewChild('hideCardType', { static: false }) hideCardType: HiddenComponent;
   @ViewChild('hideCardCustomerType', { static: false }) hideCardCustomerType: HiddenComponent;
-
+  @ViewChild('hideCamType', { static: false }) hideCamType: HiddenComponent;
+  
   //custom
   @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: RloUiCurrencyComponent;
   @ViewChild('LD_GROSS_INCOME', { static: false }) LD_GROSS_INCOME: RloUiCurrencyComponent;
@@ -398,6 +400,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
     this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    this.hideCamType.setValue('CAM_TYPE');
+    
     await this.Handler.onFormLoad({
     });
     this.BAD_PROD_CAT.setDefault('CC');
@@ -1022,7 +1026,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
-
+        inputMap.set('Body.ApplicationDetails.CAMType', 'NAPP');
+        
 
         inputMap.set('Body.ApplicationDetails.RequestedCardLimit', this.BAD_REQ_CARD_LIMIT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ExistingCardNumber', this.BAD_CARD_NUMBER.getFieldValue());
@@ -1538,6 +1543,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
         { paramKey: "SubProductCd", depFieldID: "CD_CUST_SUB_SGMT", paramType: "PathParam" },
         { paramKey: "SEGMENT_CD", depFieldID: "CD_CUST_SGMT", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+
+    BAD_CAM_TYPE: {
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "BAD_CAM_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideCamType", paramType: "QueryParam" },
       ],
       outDep: [
       ]
