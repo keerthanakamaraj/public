@@ -598,7 +598,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return;
     }
     else{
-      this.ApplicationStatus(data);
+     // this.ApplicationStatus(data);
+     this.DOBIsValid(data)
     }
 
   }
@@ -1672,7 +1673,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           console.log(response);
           if (typeof response != "boolean") {
             // this.ApplicationStatus(response);
-           this.CBSProductCode(response);
+           //this.CBSProductCode(response);
+           this.IsInitiationAllowedForBranch(response);
             // this.setValuesOfCustomer(response);
             this.revalidateCustomers();
           }
