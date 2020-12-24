@@ -12,9 +12,10 @@
     <div *ngIf="!formOnLoadError">
       <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
         <div class="form-group pb10 row">
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
-            <div style="width:100%; background:null;height:1px;"></div>
-          </div>
+            <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                <app-label #FieldId_71 parentCompCode="Initiation" legendAlign="text-center" fieldID="FieldId_71"
+                [formCode]="formCode" customClass="section-header-search"></app-label>          
+              </div>
           <div class="col-12  col-sm-12 col-md-12 group-default">
             <div #FieldId_68 id="FieldId_68">
               <div class="form-group pb10 form-group-initiation-header">
@@ -35,15 +36,12 @@
                   <app-text-box #SRC_TAX_ID fieldID="SRC_TAX_ID" [formCode]="formCode"
                     (blur)="genericOnBlur('SRC_TAX_ID', $event)"></app-text-box>
                 </div>
-                <div class="col-12  col-sm-5 col-md-5 res-pr-hide">
-                  <app-label #FieldId_71 parentCompCode="Initiation" legendAlign="text-left" fieldID="FieldId_71"
-                    [formCode]="formCode" customClass="section-header-search"></app-label>
-                </div>
+               
                 <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SRC_CIF_NO.isHidden()">
-                  <!-- <div class="clr-brown fieldLegend">
+                  <div class="clr-brown fieldLegend">
                     <label class="clr-brown" [ngClass]="{'mandatory': SRC_CIF_NO.mandatory}">
                       {{ 'Initiation.SRC_CIF_NO' | translate}}</label>
-                  </div> -->
+                  </div>
                   <app-text-box #SRC_CIF_NO fieldID="SRC_CIF_NO" [formCode]="formCode" 
                     (blur)="genericOnBlur('SRC_CIF_NO', $event)"></app-text-box>
                 </div>
