@@ -158,6 +158,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('hideCardType', { static: false }) hideCardType: HiddenComponent;
   @ViewChild('hideCardCustomerType', { static: false }) hideCardCustomerType: HiddenComponent;
   @ViewChild('hideCamType', { static: false }) hideCamType: HiddenComponent;
+  @ViewChild('hideTypeofIncorp', { static: false }) hideTypeofIncorp: HiddenComponent;
   
   //custom
   @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: RloUiCurrencyComponent;
@@ -401,6 +402,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
     this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCamType.setValue('CAM_TYPE');
+    this.hideTypeofIncorp.setValue('INCORPORATION_TYPE');
+    
     
     await this.Handler.onFormLoad({
     });
@@ -708,9 +711,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     
 
     // Corporate Type Customer
-    this.CD_REGISTERED_NAME.setValue(tempVar['firsName'] + ' ' + tempVar['midName'] + ' ' + tempVar['lastName']);
-    this.CD_TYPE_OF_INCORPORATION.setValue(tempVar['accType']);
-    this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dob']);
+    this.CD_REGISTERED_NAME.setValue(tempVar['registeredName']);
+    this.CD_TYPE_OF_INCORPORATION.setValue('IT');
+    this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
    // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 

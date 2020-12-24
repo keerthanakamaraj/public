@@ -559,6 +559,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['CustomerType'] = selectedData0['CustomerType'];
       tempVar['Branch'] = selectedData0['Branch'];
       tempVar['NoOfCard'] = selectedData0['NoOfCard'];
+      
+      tempVar['custType'] = selectedData0['CustType'];      
+      tempVar['registeredName'] = selectedData0['RegisteredName'];
+      tempVar['dateOfIncorporation'] = selectedData0['DateOfIncorporation'];
+      tempVar['typeOfIncorporation'] = selectedData0['TypeOfIncorporation'];
 
       tempVar['staffId'] = selectedData0['StaffID'];//StaffID: "9870"
       console.log("DEEP| Selcted customer,", tempVar);
