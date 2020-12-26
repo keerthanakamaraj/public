@@ -86,7 +86,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
-
+  @Input() activeApplicantType=undefined;
+  isCorporate:boolean=undefined;
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
@@ -241,6 +242,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
+    this.isCorporate=this.services.rloCommonData.globalApplicationDtls.CustomerType=='CORPORATE'?true:false;
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
     // this.AD_MAILING_ADDRESS.setDefault('N');
@@ -660,7 +662,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-
+        
         // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
         this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);

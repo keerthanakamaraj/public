@@ -38,7 +38,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
   showAdd: boolean = false;
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
-  isExpanded: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
+  isExpanded: boolean = undefined;
   showGrid = false;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
@@ -114,9 +114,11 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
       this.showGrid = true;
       this.CustomerDtlsMap.clear();
       CustomerDtlsList.forEach((element, index) => {
-        if (element.CustomerType != 'B') {
           let rowData = {};
           let customerObj: CustomerDtlsIntrface = {};
+          if(element.CardNumber!=undefined){
+            this.isExpanded=true;
+          }
           customerObj.SrNo = index + 1;
           customerObj.FullName = element.FullName;
           customerObj.CardNumber = element.CardNumber;
@@ -138,7 +140,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
           rowData['ProposedCashLimit'] = element.RequestedCashLimit;
           let rowCounter = this.addRow(rowData);
           //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
-        }
       });
       // console.log("shweta :: complete record fetched", this.value.rowData);
       let paramsList = this.isExpanded ? ['ExistingCardLimit', 'ExistingCashLimit', 'ProposedCardLimit',

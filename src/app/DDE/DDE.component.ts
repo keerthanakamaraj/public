@@ -892,6 +892,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
       componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
+      componentInstance.activeApplicantType=this.CustomerType;
     }
     // if (componentId == 'FamilyDetails') {
     //     componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
@@ -1223,32 +1224,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async brodcastProdCategory(event) {
-    //  event.isLoanCategory false when type is 'CC'
-    // this.services.rloCommonData.globalApplicationDtls = {
-    //   isLoanCategory: event.isLoanCategory,
-    //   ProductCode: event.ProductCode,
-    //   SubProductCode: event.SubProductCode,
-    //   SchemeCode: event.SchemeCode,
-    // };
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
-    console.log("shweta :: cust type", this.CustomerType);
-    // if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && (undefined == this.CustomerType || 'B'==this.CustomerType)){
-    //   this.customerMenu[0].splice(2,1);
-    // }
-    //
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
-      // this.services.rloCommonData.childToParentSubject.next({
-      //     action: 'loanCategoryUpdated',
-      //     data: { 'isLoanCategory':  event.isLoanCategory }
-      // });
     }
-    //this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
-
-    //this.CUSTOMER_GRID.isLoanCategory = false; //TESTING;
-    //this.isLoanCategory = false;
-
     this.validateSectionForApplication();
     this.validateSectionForCustomer();
   }

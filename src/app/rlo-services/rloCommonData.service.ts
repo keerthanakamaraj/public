@@ -63,7 +63,7 @@ export interface IGlobalApllicationDtls {
   CardCustName?: string;
   PrimaryUsage?: string;
   ReqCardLimit?: any;
-  isCamType?: any
+  CustomerType?:any;
 }
 @Injectable({
   providedIn: 'root'

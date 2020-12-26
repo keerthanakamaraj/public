@@ -1514,6 +1514,8 @@
   },
   "AddressDetails": {
     "SAME_ADDRESS": "Is permanent address same as a current address?",
+    "CORP_BORR_SAME_ADDRESS": "Is registration address same as mailing address?",
+    "CANARA_SAME_ADDRESS": "Is permanent address same as a mailing address?",
     "CORR_ADD_CHECKBOX": "Is this the correspondence address?",
     "AD_OCCUPANCY_TYPE": "Occupancy Type",
     "AD_OCCUPANCY_STATUS": "Occupancy Status",
