@@ -1007,6 +1007,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
     this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
+    this.RequestedAmountLimit.mandatory=customer.CustomerType=='A'?true:false;
     this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
 
 

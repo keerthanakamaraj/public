@@ -23,10 +23,6 @@ const customCss: string = '';
   ],
 })
 export class SearchCustomerGridComponent implements AfterViewInit {
-  recordsFound: boolean = false;
-
-  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal) { }
-
   @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
 
   @Input('formCode') formCode: string;
@@ -249,8 +245,62 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
+  {
+    field: "CmsDetails",
+    width: 12,
+    sortable: true,
+    resizable: true,
+    cellStyle: { 'text-align': 'left' },
+    filter: "agTextColumnFilter",
+    filterParams: {
+      suppressAndOrCondition: true,
+      applyButton: true,
+      clearButton: true,
+      filterOptions: ["contains"],
+      caseSensitive: true,
+    },
+  }
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
+  recordsFound: boolean = false;
+
+  multipleCifJson: any = {
+    "CustomerList": [
+      {
+        "ICIFNumber": "4566793",
+        "FirstName": "Amit",
+        "FullName": "Amit Rathod",
+        "Title": "Mr",
+        "LastName": "Rathod",
+        "MiddleName": "Trived",
+        "CustomerType": "Individual"
+      },
+      {
+        "ICIFNumber": "90000196",
+        "FirstName": "Suhas",
+        "FullName": " Suhas Patil ",
+        "Title": "Mr",
+        "LastName": "Patil",
+        "MiddleName": "Ketan",
+        "CustomerType": "Individual"
+      },
+      {
+        "ICIFNumber": "4566789",
+        "FirstName": "Sayli",
+        "FullName": " Sayli Singh ",
+        "Title": "Ms",
+        "LastName": "Singh",
+        "MiddleName": "Prakash",
+        "CustomerType": " Individual "
+      }
+    ],
+    "Status": "Success",
+    "ErrCode": "",
+    "ErrMsg": ""
+  }
+
+  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal) { }
+
   ngAfterViewInit() {
     this.services.translate.onLangChange
       .pipe(takeUntil(this.unsubscribe$))
@@ -376,6 +426,10 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           if (response != null) {
             this.recordsFound = true;
             var loopVar7 = response['Dedupe'];
+            loopVar7.forEach(element => {
+              element['CMS'] = 'N'
+            });
+            this.getMultipleCifId(loopVar7, params); // Addon and limit enhance
             this.documentCount = 0;
 
             var loopDataVar7 = [];
@@ -403,6 +457,10 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['CustomerType'] = loopVar7[i].CustomerType;
                 tempObj['Branch'] = loopVar7[i].Branch;
                 tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                tempObj['CmsDetails'] = loopVar7[i].CMS;
+                tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
+                tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+                tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
 
                 loopDataVar7.push(tempObj);
               }
@@ -427,6 +485,10 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           if (response != null) {
             this.recordsFound = true;
             var loopVar7 = response.outputdata.CustomerList;
+            loopVar7.forEach(element => {
+              element['CMS'] = 'N'
+            });
+            this.getMultipleCifId(loopVar7, params); // Addon and limit enhance
             this.documentCount = 0;
 
             var loopDataVar7 = [];
@@ -456,7 +518,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['CustomerType'] = loopVar7[i].CustomerType;
                 tempObj['Branch'] = loopVar7[i].Branch;
                 tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                tempObj['CmsDetails'] = loopVar7[i].CMS;
                 tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
+                tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
+                tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+                tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
 
                 loopDataVar7.push(tempObj);
               }
@@ -469,59 +535,6 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           // hide spinner
           this.hideSpinner();
         });
-
-      // this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
-      //   async (httpResponse: HttpResponse<any>) => {
-      //     var res = httpResponse.body;
-      //     console.log("res", res);
-
-      //     if (res != null) {
-      //       this.recordsFound = true;
-      //       var loopVar7 = res.ouputdata.CustomerList;
-      //       this.documentCount = 0;
-
-      //       var loopDataVar7 = [];
-      //       if (loopVar7) {
-      //         for (var i = 0; i < loopVar7.length; i++) {
-      //           var tempObj = {};
-      //           tempObj['TaxID'] = loopVar7[i].TaxId;
-      //           tempObj['CustName'] = loopVar7[i].FullName;
-      //           tempObj['AccNo'] = loopVar7[i].AccountNumber;
-      //           tempObj['AccVintage'] = loopVar7[i].AccountVintage;
-      //           tempObj['AccType'] = loopVar7[i].AccountType;
-      //           tempObj['Status'] = loopVar7[i].ApplicationStatus;
-      //           tempObj['Mobile'] = loopVar7[i].MobileNumber;
-      //           tempObj['Cif'] = loopVar7[i].ExistingCIF;
-      //           tempObj['Dob'] = loopVar7[i].DateOfBirth;
-      //           tempObj['FirstName'] = loopVar7[i].FirstName;
-      //           tempObj['MiddleName'] = loopVar7[i].MiddleName;
-      //           tempObj['LastName'] = loopVar7[i].LastName;
-      //           tempObj['Title'] = loopVar7[i].Title;
-      //           tempObj['Gender'] = loopVar7[i].Gender;
-      //           tempObj['EmailID'] = loopVar7[i].EmailID;
-      //           tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
-      //           tempObj['ICIF'] = loopVar7[i].ICIF;
-      //           loopDataVar7.push(tempObj);
-      //         }
-      //       }
-      //       this.documentCount = loopDataVar7.length;
-      //       this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
-      //     }
-      //     else {
-      //       this.hideGridData();
-      //     }
-      //     // hide spinner
-      //     this.hideSpinner();
-      //   },
-      //   async (httpError) => {
-      //     var err = httpError['error']
-      //     if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-      //     }
-
-      //     // hide spinner
-      //     this.hideSpinner();
-      //   }
-      // );
     }
   }
 
@@ -552,8 +565,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['CustomerType'] = selectedData0['CustomerType'];
       tempVar['Branch'] = selectedData0['Branch'];
       tempVar['NoOfCard'] = selectedData0['NoOfCard'];
-
-
+      
+      tempVar['custType'] = selectedData0['CustType'];      
+      tempVar['registeredName'] = selectedData0['RegisteredName'];
+      tempVar['dateOfIncorporation'] = selectedData0['DateOfIncorporation'];
+      tempVar['typeOfIncorporation'] = selectedData0['TypeOfIncorporation'];
 
       tempVar['staffId'] = selectedData0['StaffID'];//StaffID: "9870"
       console.log("DEEP| Selcted customer,", tempVar);
@@ -565,6 +581,26 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
       this.activeModal.close(tempVar);
       this.selectedCustomer.emit(tempVar);
+
+      if (selectedData0['CmsDetails'] == 'Y') {
+        console.error("DEEP | Open 360 modal");
+        this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
+          console.log(response);
+          if (response != null) {
+            let cardDetails = response.outputdata.AccountList;
+            console.error(cardDetails);
+
+            this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
+              if (response != null) {
+                console.log(response);
+              }
+              else {
+                console.warn("DEEP | No customer selected");
+              }
+            });
+          }
+        })
+      }
     }
   }
 
@@ -585,10 +621,69 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     this.showRecordCount = false;
   }
 
-  hidgrid(){
+  hidgrid() {
     // this.loadSpinner = true;
     this.showRecordCount = false;
     this.recordsFound = false;
-    console.log("new",this.loadSpinner,this.recordsFound);
+    console.log("new", this.loadSpinner, this.recordsFound);
+  }
+
+  getMultipleCifId(customerList: any, params) {
+    let multipleIcif = [];
+    console.log('DEEP | customerList', customerList);
+    customerList.forEach(element => {
+      if (element.ICIF != undefined && element.ICIF.length)
+        multipleIcif.push(element.ICIF);
+    });
+
+    this.services.rloCommonData.getMultipleCustomerIcif(multipleIcif).then((response:any) => {
+      console.log("DEEP | getMultipleCifId", response);
+      let testJson = response.outputdata.CustomerList;
+      testJson.forEach(responseEle => {
+        customerList.forEach(element => {
+          if (responseEle.ICIFNumber == element.ICIF) {
+            element.CMS = "Y";
+          }
+        });
+      });
+
+      var loopVar7 = customerList;
+      console.log("loopVar7", loopVar7);
+      var loopDataVar7 = [];
+      if (loopVar7) {
+        for (var i = 0; i < loopVar7.length; i++) {
+          var tempObj = {};
+          tempObj['TaxID'] = loopVar7[i].TaxId;
+          tempObj['CustName'] = loopVar7[i].FullName;
+          tempObj['AccNo'] = loopVar7[i].AccountNumber;
+          //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+          tempObj['AccType'] = loopVar7[i].AccountType;
+          tempObj['Status'] = loopVar7[i].ApplicationStatus;
+          tempObj['Mobile'] = loopVar7[i].MobileNumber;
+          tempObj['Cif'] = loopVar7[i].ExistingCIF;
+          tempObj['Dob'] = loopVar7[i].DateOfBirth;
+          tempObj['FirstName'] = loopVar7[i].FirstName;
+          tempObj['MiddleName'] = loopVar7[i].MiddleName;
+          tempObj['LastName'] = loopVar7[i].LastName;
+          tempObj['Title'] = loopVar7[i].Title;
+          tempObj['Gender'] = loopVar7[i].Gender;
+          tempObj['EmailID'] = loopVar7[i].EmailID;
+          tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
+          tempObj['ICIF'] = loopVar7[i].ICIF;
+          tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
+          tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
+          tempObj['StaffID'] = loopVar7[i].StaffID;
+          tempObj['CustomerType'] = loopVar7[i].CustomerType;
+          tempObj['Branch'] = loopVar7[i].Branch;
+          tempObj['CreditCard'] = loopVar7[i].CreditCard;
+          tempObj['CmsDetails'] = loopVar7[i].CMS;
+          tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
+
+          loopDataVar7.push(tempObj);
+        }
+      }
+      this.documentCount = loopDataVar7.length;
+      this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+    });
   }
 }

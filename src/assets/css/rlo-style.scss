@@ -1170,9 +1170,14 @@ a.back {
   width: 75%;
 }
 
-//set width of doc upload modal
+//set width of customer search ->  Initaition page -> customerId component
 .modal-customer-search-width .modal-dialog {
   width: 80%;
+}
+
+//set width of doc avaliable customers -> card list
+.modal-customer-avaliable-cards .modal-dialog {
+  width: 60%;
 }
 
 .wgt-scores {
@@ -5159,5 +5164,15 @@ rlo-ui-card-field {
   */
   #menuToggle input:checked ~ ul {
     transform: none;
+  }
+}
+
+.wgt-avaliable-cards {
+  .title {
+    font-size: 16px;
+    margin: 24px 0;
+  }
+  ag-grid-angular {
+    padding-top: 0 !important;
   }
 }

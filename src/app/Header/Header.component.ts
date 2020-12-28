@@ -483,15 +483,14 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount,
       CardType: header.CardType,
       CardTypename: header.CardTypename,
-
+      CustomerType: header.CardCustType,
       InterestRate: header.InterestRate,
       Tenure: header.Tenure,
       TenurePeriodCd: header.TenurePeriod,
       TenurePeriodName: header.TenurePeriodName,
       MinCashLimit: header.Product_min_cash_limit,
       MaxCashLimit: header.Product_max_cash_limit,
-      MaxCreditLimit: header.Product_max_credit,
-      isCamType: false
+      MaxCreditLimit: header.Product_max_credit
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);

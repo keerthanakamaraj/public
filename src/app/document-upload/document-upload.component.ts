@@ -487,6 +487,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
     // This methos is to populate the date in the fields on click of edit button in grid
     editDocumentDetails(docDetail) {
+        if (this.readOnly)
+            return;
+
         this.docUploadObject.id = docDetail['id'];
         this.docUploadObject.trnDemographicId = docDetail['demographicId'];
         this.checkUserId = docDetail['InputterId'];
@@ -566,6 +569,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // Alert Service - Confirmation
         // this.utility.getAppService().delete(this.getLabel('WARNING_DELETE'),
         //     () => this.onDeleteConfirm(id));
+        if (this.readOnly)
+            return;
+
         this.onDeleteConfirm(id);
     }
     // This methos is to clear fields which depends on status
@@ -615,6 +621,9 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
     }
 
     deleteImages(seqId) {
+        if (this.readOnly)
+            return;
+
         this.utility.getCommonService().deleteUploadedImage(seqId).subscribe(
             data => {
                 if (data && data['Status_Cd'] == "S") {

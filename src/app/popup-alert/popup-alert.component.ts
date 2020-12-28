@@ -32,6 +32,7 @@ import { CustomerSearchComponent } from '../customer-search/customer-search.comp
 import { CustomerSearchFieldsComponent } from '../customer-search-fields/customer-search-fields.component';
 import { DecisionAlertComponent } from '../DecisionAlert/DecisionAlert.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
+import { CustomerAvaliableCardsComponent } from '../customer-avaliable-cards/customer-avaliable-cards.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -144,6 +145,10 @@ export class PopupAlertComponent implements OnInit {
         this.dynamicallyLoadableComponent.uwCustomerList = this.modalObject.customerList;
       } else if (this.modalObject.componentName == "DecisionAlert") {
         this.dynamicallyLoadableComponent.ApplicationId = this.modalObject.applicationId;
+      } else if (this.modalObject.componentName == 'CustomerCards') {
+        setTimeout(() => {
+          this.dynamicallyLoadableComponent.gridDataLoad({});
+        }, 500);
       }
 
       // async brodcastProdCategory(event) {
@@ -255,6 +260,9 @@ export class PopupAlertComponent implements OnInit {
         break;
       case 'InterfaceResults':
         return new AddSpecificComponent(InterfaceResultsComponent);
+        break;
+      case 'CustomerCards':
+        return new AddSpecificComponent(CustomerAvaliableCardsComponent);
         break;
     }
   }

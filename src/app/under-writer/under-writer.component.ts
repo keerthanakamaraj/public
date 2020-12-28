@@ -1061,7 +1061,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         break;
     }
   }
-  async sentBackForm(event) {
+  async sentBackForm() {
     // this.services.rloui.openDecisionAlert(actionObject).then((Response: any) => {
     //   console.log(Response);
     //   const inputMap = new Map();

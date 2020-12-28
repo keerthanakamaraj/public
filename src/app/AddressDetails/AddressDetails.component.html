@@ -190,9 +190,12 @@
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [ngClass]="'checkboxLeft'"
             [hidden]="SAME_ADDRESS.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'AddressDetails.SAME_ADDRESS' | translate}}
+              <label class="clr-brown" *ngIf="activeApplicantType =='B' && isCorporate" >
+                {{ 'AddressDetails.CORP_BORR_SAME_ADDRESS' | translate}}
               </label>
+              <label class="clr-brown" *ngIf="!(activeApplicantType =='B' && isCorporate)">
+                  {{ 'AddressDetails.CANARA_SAME_ADDRESS' | translate}}
+                </label>
             </div>
             <app-check-box #SAME_ADDRESS fieldID="SAME_ADDRESS" [formCode]="formCode"
               (blur)="genericOnBlur('SAME_ADDRESS', $event)"></app-check-box>

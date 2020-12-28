@@ -468,7 +468,16 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     console.log(data);
     this.customerData.emit(data);
     this.SearchFormGrid.hidgrid();
-     
+  }
+
+  getMultipleCustomerIcif(){
+    // {
+    //   "ICIFNumber":
+    //   [
+    //   "1234","5678","4585"
+    //   ]
+    // }
+
   }
 
 }

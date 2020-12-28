@@ -38,7 +38,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
   showAdd: boolean = false;
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
-  isExpanded: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
+  isExpanded: boolean = undefined;
   showGrid = false;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
@@ -108,15 +108,17 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   loadRecords() {
-    let CustomerDtlsList = this.services.rloCommonData.getCustomerList();
-    if (CustomerDtlsList.length > 1) {
+    let CustomerDtlsList = this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType !== 'B' });
+    console.log("Shweta:: for credit card cust dtls ", CustomerDtlsList);
+    if (CustomerDtlsList.length > 0) {
       this.showGrid = true;
-      console.log("Shweta:: for credit card cust dtls ", CustomerDtlsList);
       this.CustomerDtlsMap.clear();
       CustomerDtlsList.forEach((element, index) => {
-        if (element.CustomerType != 'B') {
           let rowData = {};
           let customerObj: CustomerDtlsIntrface = {};
+          if(element.CardNumber!=undefined){
+            this.isExpanded=true;
+          }
           customerObj.SrNo = index + 1;
           customerObj.FullName = element.FullName;
           customerObj.CardNumber = element.CardNumber;
@@ -138,7 +140,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
           rowData['ProposedCashLimit'] = element.RequestedCashLimit;
           let rowCounter = this.addRow(rowData);
           //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
-        }
       });
       // console.log("shweta :: complete record fetched", this.value.rowData);
       let paramsList = this.isExpanded ? ['ExistingCardLimit', 'ExistingCashLimit', 'ProposedCardLimit',
@@ -149,12 +150,13 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   ProposedCardLimit_blur(element, $event, rowNo) {
     console.log("Shweta :: on blur", element);
-    let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
-    let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
-    //let tempExistingCashLimit=parseFloat(this.services.rloCommonData.globalApplicationDtls.LoanAmount);
-    let tempExistingCardLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
-    let tempProposedCardLimit:number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
-    
+    //let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
+    //let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
+    let tempExistingCashLimit = parseFloat(this.services.rloCommonData.globalApplicationDtls.LoanAmount);
+    let tempMinCashLimit: number = parseFloat('5000');
+    let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
+    let tempProposedCardLimit: number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
+
     let tempProposedCashLimit: number = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit);
 
     if (tempProposedCashLimit > tempMinCashLimit) {

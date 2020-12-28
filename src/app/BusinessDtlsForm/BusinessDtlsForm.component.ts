@@ -15,7 +15,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import {BusinessHandlerComponent} from './business-handler.component';
+import { BusinessHandlerComponent } from './business-handler.component';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 const customCss: string = '';
 
@@ -44,24 +44,24 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
   @ViewChild('CIN', { static: false }) CIN: TextBoxComponent;
   @ViewChild('hidExchangeRate', { static: false }) hidExchangeRate: HiddenComponent;
 
-  @Input() ApplicationId:string=undefined;
-  @Input() activeBorrowerSeq:string=undefined;
-  
-  BusinessSeq:number=undefined;
-  async revalidate(): Promise<number> {
+  @Input() ApplicationId: string = undefined;
+  @Input() activeBorrowerSeq: string = undefined;
+
+  BusinessSeq: number = undefined;
+  async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('GSTNumber'),
-      this.revalidateBasicField('UAadhaar'),
-      this.revalidateBasicField('PaidUpCapital'),
-      this.revalidateBasicField('FYTurnover'),
-      this.revalidateBasicField('FYNetProfit'),
-      this.revalidateBasicField('OrgNature'),
-      this.revalidateBasicField('Constitution'),
-      this.revalidateBasicField('FYTurnoverEq'),
-      this.revalidateBasicField('FYNetProfitEq'),
-      this.revalidateBasicField('CIN')
+      this.revalidateBasicField('GSTNumber', false, showErrors),
+      this.revalidateBasicField('UAadhaar', false, showErrors),
+      this.revalidateBasicField('PaidUpCapital', false, showErrors),
+      this.revalidateBasicField('FYTurnover', false, showErrors),
+      this.revalidateBasicField('FYNetProfit', false, showErrors),
+      this.revalidateBasicField('OrgNature', false, showErrors),
+      this.revalidateBasicField('Constitution', false, showErrors),
+      this.revalidateBasicField('FYTurnoverEq', false, showErrors),
+      this.revalidateBasicField('FYNetProfitEq', false, showErrors),
+      this.revalidateBasicField('CIN', false, showErrors)
     ]).then((errorCounts) => {
       errorCounts.forEach((errorCount) => {
         totalErrors += errorCount;
@@ -85,8 +85,8 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
     this.hidConstitution.setValue('CONSTITUTION');
     this.hidIndustry.setValue('INDUSTRY');
     this.hidAppId.setValue('RLO');
-    if(this.activeBorrowerSeq!=undefined){
-    this.FetchBusinessDtls();
+    if (this.activeBorrowerSeq != undefined) {
+      this.FetchBusinessDtls();
     }
     await this.Handler.onFormLoad({
     });
@@ -170,20 +170,20 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
   customGenericOnBlur(event: any) {
     console.log("Deep | customGenericOnBlur", event);
     if (event.exchangeRate != undefined && event.textFieldValue != undefined) {
-    //  this.hidExchangeRate.setValue(event.exchangeRate);
+      //  this.hidExchangeRate.setValue(event.exchangeRate);
 
       let localCurrencyEq = event.textFieldValue * event.exchangeRate;
-      if(event.field== "FYTurnover"){
+      if (event.field == "FYTurnover") {
         this.FYTurnoverEq.setComponentSpecificValue(localCurrencyEq);
-      }else if(event.field== "FYNetProfit"){
+      } else if (event.field == "FYNetProfit") {
         this.FYNetProfitEq.setComponentSpecificValue(localCurrencyEq);
       }
-      console.log(localCurrencyEq);  
+      console.log(localCurrencyEq);
     }
     this.genericOnBlur(event.field, event.textFieldValue);
   }
 
- async BD_SAVE_BTN_click(event){
+  async BD_SAVE_BTN_click(event) {
     let inputMap = new Map();
     inputMap.clear();
     this.BD_SAVE_BTN.setDisabled(true);
@@ -198,6 +198,15 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.update.businessdtls', 5000);
             this.onReset();
+            let array = [];
+            array.push({ isValid: true, sectionData: this.getFieldValue() });
+            let obj = {
+              "name": "BusinessDetails",
+              "data": array,
+              "BorrowerSeq": this.activeBorrowerSeq,
+              "sectionName": "BusinessDetails",
+            }
+            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             this.BD_SAVE_BTN.setDisabled(false);
           },
           async (httpError) => {
@@ -214,6 +223,15 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
             var res = httpResponse.body;
             this.services.alert.showAlert(1, 'rlo.success.save.businessdtls', 5000);
             this.onReset();
+            let array = [];
+            array.push({ isValid: true, sectionData: this.getFieldValue() });
+            let obj = {
+              "name": "BusinessDetails",
+              "data": array,
+              "BorrowerSeq": this.activeBorrowerSeq,
+              "sectionName": "BusinessDetails",
+            }
+            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             this.BD_SAVE_BTN.setDisabled(false);
           },
           async (httpError) => {
@@ -228,109 +246,120 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
       this.BD_SAVE_BTN.setDisabled(false);
     }
-    }
+  }
 
-    generateBusinessSaveUpdateReq(inputMap) {
-      inputMap.clear();
-      if (this.BusinessSeq != undefined) {
-        inputMap.set('PathParam.BusinessDtlsSeq', this.BusinessSeq);
+  generateBusinessSaveUpdateReq(inputMap) {
+    inputMap.clear();
+    if (this.BusinessSeq != undefined) {
+      inputMap.set('PathParam.BusinessDtlsSeq', this.BusinessSeq);
+    }
+    inputMap.set('Body.BusinessDtls.ApplicationId', this.ApplicationId);
+    inputMap.set('Body.BusinessDtls.BorrowerSeq', this.activeBorrowerSeq);
+    inputMap.set('Body.BusinessDtls.GSTNumber', this.GSTNumber.getFieldValue());
+    inputMap.set('Body.BusinessDtls.UAadhaar', this.UAadhaar.getFieldValue());
+    inputMap.set('Body.BusinessDtls.PaidUpCapitals', this.PaidUpCapital.getFieldValue());
+    inputMap.set('Body.BusinessDtls.FYTurnover', this.FYTurnover.getFieldValue());
+    inputMap.set('Body.BusinessDtls.FYNetProfit', this.FYNetProfit.getFieldValue());
+    inputMap.set('Body.BusinessDtls.OrganizationNature', this.OrgNature.getFieldValue());
+    inputMap.set('Body.BusinessDtls.Constitution', this.Constitution.getFieldValue());
+    inputMap.set('Body.BusinessDtls.Industry', this.Industry.getFieldValue());
+    inputMap.set('Body.BusinessDtls.CIN', this.CIN.getFieldValue());
+    inputMap.set('Body.BusinessDtls.FYNetProfitEquivalent', this.FYNetProfitEq.getFieldValue());
+    inputMap.set('Body.BusinessDtls.FYTurnoverEquivalent', this.FYTurnoverEq.getFieldValue());
+    inputMap.set('Body.BusinessDtls.FYTurnoverCurrency', this.FYTurnover.currencyCode);
+    inputMap.set('Body.BusinessDtls.FYNetProfitCurrency', this.FYNetProfit.currencyCode);
+    return inputMap;
+  }
+  parseResponseError(err) {
+
+    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+      if (err['ErrorElementPath'] == 'BusinessDtls.GSTNumber') {
+        this.GSTNumber.setError(err['ErrorDescription']);
       }
-      inputMap.set('Body.BusinessDtls.ApplicationId', this.ApplicationId);
-      inputMap.set('Body.BusinessDtls.BorrowerSeq', this.activeBorrowerSeq);
-      inputMap.set('Body.BusinessDtls.GSTNumber', this.GSTNumber.getFieldValue());
-      inputMap.set('Body.BusinessDtls.UAadhaar', this.UAadhaar.getFieldValue());
-      inputMap.set('Body.BusinessDtls.PaidUpCapitals', this.PaidUpCapital.getFieldValue());
-      inputMap.set('Body.BusinessDtls.FYTurnover', this.FYTurnover.getFieldValue());
-      inputMap.set('Body.BusinessDtls.FYNetProfit', this.FYNetProfit.getFieldValue());
-      inputMap.set('Body.BusinessDtls.OrganizationNature', this.OrgNature.getFieldValue());
-      inputMap.set('Body.BusinessDtls.Constitution', this.Constitution.getFieldValue());
-      inputMap.set('Body.BusinessDtls.Industry', this.Industry.getFieldValue());
-      inputMap.set('Body.BusinessDtls.CIN', this.CIN.getFieldValue());
-      inputMap.set('Body.BusinessDtls.FYNetProfitEquivalent', this.FYNetProfitEq.getFieldValue());
-      inputMap.set('Body.BusinessDtls.FYTurnoverEquivalent', this.FYTurnoverEq.getFieldValue());
-      inputMap.set('Body.BusinessDtls.FYTurnoverCurrency', this.FYTurnover.currencyCode);
-      inputMap.set('Body.BusinessDtls.FYNetProfitCurrency', this.FYNetProfit.currencyCode);
-      return inputMap;
-    }
-    parseResponseError(err) {
-
-      if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-        if (err['ErrorElementPath'] == 'BusinessDtls.GSTNumber') {
-          this.GSTNumber.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.UAadhaar') {
-          this.UAadhaar.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.PaidUpCapitals') {
-          this.PaidUpCapital.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.FYTurnover') {
-          this.FYTurnover.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.FYNetProfit') {
-          this.FYNetProfit.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.OrganizationNature') {
-          this.OrgNature.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.Constitution') {
-          this.Constitution.setError(err['ErrorDescription']);
-        }
-        else if (err['ErrorElementPath'] == 'BusinessDtls.Industry') {
-          this.Industry.setError(err['ErrorDescription']);
-        }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.UAadhaar') {
+        this.UAadhaar.setError(err['ErrorDescription']);
+      }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.PaidUpCapitals') {
+        this.PaidUpCapital.setError(err['ErrorDescription']);
+      }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.FYTurnover') {
+        this.FYTurnover.setError(err['ErrorDescription']);
+      }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.FYNetProfit') {
+        this.FYNetProfit.setError(err['ErrorDescription']);
+      }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.OrganizationNature') {
+        this.OrgNature.setError(err['ErrorDescription']);
+      }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.Constitution') {
+        this.Constitution.setError(err['ErrorDescription']);
+      }
+      else if (err['ErrorElementPath'] == 'BusinessDtls.Industry') {
+        this.Industry.setError(err['ErrorDescription']);
       }
     }
+  }
 
-    async FetchBusinessDtls() {
-      let inputMap = new Map();
-      inputMap.clear();
-      if (this.activeBorrowerSeq) {
-        let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-        criteriaJson.FilterCriteria.push({
-          "columnName": "BorrowerSeq",
-          "columnType": "String",
-          "conditions": {
-            "searchType": "equals",
-            "searchText": this.activeBorrowerSeq
-          }
-        });
-        inputMap.set('QueryParam.criteriaDetails', criteriaJson);
-        this.services.http.fetchApi('/BusinessDtls', 'GET', inputMap, '/rlo-de').subscribe(
-          async (httpResponse: HttpResponse<any>) => {
-            let res = httpResponse.body;
-            if (res) {
-              let BusinessDtls = res['BusinessDtls'];
-              if (BusinessDtls) {
-                console.log("shweta :: Education loan fetched : ", BusinessDtls);
-                this.parseGetBusinessResp(BusinessDtls[0]);
-              }
-            } 
-          },
-          async (httpError) => {
-            var err = httpError['error']
-            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+  async FetchBusinessDtls() {
+    let inputMap = new Map();
+    inputMap.clear();
+    if (this.activeBorrowerSeq) {
+      let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+      criteriaJson.FilterCriteria.push({
+        "columnName": "BorrowerSeq",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": this.activeBorrowerSeq
+        }
+      });
+      inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+      this.services.http.fetchApi('/BusinessDtls', 'GET', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          let res = httpResponse.body;
+          if (res) {
+            let BusinessDtls = res['BusinessDtls'];
+            if (BusinessDtls) {
+              console.log("shweta :: Education loan fetched : ", BusinessDtls);
+              this.parseGetBusinessResp(BusinessDtls[0]);
+              this.revalidate(false).then((errors) => {
+                let array = [];
+                array.push({ isValid: true, sectionData: BusinessDtls });
+                let obj = {
+                  "name": "BusinessDetails",
+                  "data": array,
+                  "BorrowerSeq": this.activeBorrowerSeq,
+                  "sectionName": "BusinessDetails",
+                }
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+              });
             }
           }
-        );
-        this.setDependencies();
-      }
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+        }
+      );
+      this.setDependencies();
     }
+  }
 
-    parseGetBusinessResp(BusinessDtls) {
-      this.BusinessSeq = BusinessDtls.BusinessDtlsSeq;
-      this.GSTNumber.setValue(BusinessDtls.GSTNumber);
-      this.UAadhaar.setValue(BusinessDtls.UAadhaar);
-      this.PaidUpCapital.setComponentSpecificValue(BusinessDtls.PaidUpCapitals);
-      this.FYTurnover.setComponentSpecificValue(BusinessDtls.FYTurnover,BusinessDtls.FYTurnoverCurrency);
-      this.FYNetProfit.setComponentSpecificValue(BusinessDtls.FYNetProfit,BusinessDtls.FYNetProfitCurrency);
-      this.FYTurnoverEq.setComponentSpecificValue(BusinessDtls.FYTurnoverEquivalent);
-      this.FYNetProfitEq.setComponentSpecificValue(BusinessDtls.FYNetProfitEquivalent);
-      this.CIN.setValue(BusinessDtls.CIN);
-      this.OrgNature.setValue(BusinessDtls.OrganizationNature);
-      this.Constitution.setValue(BusinessDtls.Constitution);
-      this.Industry.setValue(BusinessDtls.Industry);
-    }
+  parseGetBusinessResp(BusinessDtls) {
+    this.BusinessSeq = BusinessDtls.BusinessDtlsSeq;
+    this.GSTNumber.setValue(BusinessDtls.GSTNumber);
+    this.UAadhaar.setValue(BusinessDtls.UAadhaar);
+    this.PaidUpCapital.setComponentSpecificValue(BusinessDtls.PaidUpCapitals);
+    this.FYTurnover.setComponentSpecificValue(BusinessDtls.FYTurnover, BusinessDtls.FYTurnoverCurrency);
+    this.FYNetProfit.setComponentSpecificValue(BusinessDtls.FYNetProfit, BusinessDtls.FYNetProfitCurrency);
+    this.FYTurnoverEq.setComponentSpecificValue(BusinessDtls.FYTurnoverEquivalent);
+    this.FYNetProfitEq.setComponentSpecificValue(BusinessDtls.FYNetProfitEquivalent);
+    this.CIN.setValue(BusinessDtls.CIN);
+    this.OrgNature.setValue(BusinessDtls.OrganizationNature);
+    this.Constitution.setValue(BusinessDtls.Constitution);
+    this.Industry.setValue(BusinessDtls.Industry);
+  }
 
   fieldDependencies = {
     OrgNature: {
