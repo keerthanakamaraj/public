@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UWCustomerTabComponent } from '../uw-cust-tab/uw-cust-tab.component';
 //import { UWCustomerListComponent } from '../UWCustomerList/UWCustomerList.component';
-import { ICardMetaData, IUwCustomerTab, IGeneralCardData, IheaderScoreCard, IAmortizationForm } from '../Interface/masterInterface';
+import { ICardMetaData, IUwCustomerTab, IGeneralCardData, IheaderScoreCard, IAmortizationForm, IUnderwriterActionObject } from '../Interface/masterInterface';
 import { RloCommonData } from '../rlo-services/rloCommonData.service';
 import { Master } from './under-writer.model';
 import { HeaderComponent } from '../Header/Header.component';
@@ -93,7 +93,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   customerList: IUwCustomerTab[] = [];//used in uw-cust-tab
   customerCardDataWithFields: IGeneralCardData;//store customer related data
-
+  addressDetailsCardDetails: IGeneralCardData = null;
   loanDetailsCardData: IGeneralCardData = null//stores loan Details card data
   interfaceResultCardData: IGeneralCardData;
 
@@ -280,11 +280,13 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     let globlaObj = this.services.rloCommonData.globalApplicationDtls;
 
     this.isLoanCategory = event.isLoanCategory;
-    if (globlaObj.TypeOfLoanCode == "CC") {
-      if (globlaObj.LoanAmount != undefined) {
-        this.maxCardLimit = globlaObj.LoanAmount;
-      }
-    }
+    //changes for canara
+    // if (globlaObj.TypeOfLoanCode == "CC") {
+    //   if (globlaObj.LoanAmount != undefined) {
+    //     this.maxCardLimit = globlaObj.LoanAmount;
+    //   }
+    // }
+    //changes for canara
     this.getUnderWriterData();
   }
 
@@ -333,7 +335,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    //this.applicationId = 2962;
+    // this.applicationId = 2484; //4424
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -495,8 +497,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             console.error(this.customerCardDataWithFields);
             break;
 
-          case "FinancialSummary":
           case "AddressDetails":
+            this.addressDetailsCardDetails = singleCustomer[element.className].getCardData();
+            this.addressDetailsCardDetails.applicationId = this.applicationId;
+            this.addressDetailsCardDetails.borrowerSeq = this.borrowerSeq;
+            this.addressDetailsCardDetails.componentCode = this.componentCode;
+            console.error(this.addressDetailsCardDetails);
+            break;
+
+          case "FinancialSummary":
           case "FinancialDetails":
           case "CollateralDetails":
             data = singleCustomer[element.className].getCardData();
@@ -525,7 +534,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         this.customerSectionLoaded = true;
         console.warn("****");
         this.reloadCardGrid();
-      }, 500);
+      }, 1000);
     }
     else {
       this.aCardDataWithFields = [];
@@ -585,9 +594,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "CardDetails":
+            let maxCardLimit = this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit;
             data = application[element.className].getCardData();
             let obj = data.data.find(a => a.title == "Maximum Card Limit");
-            obj.subTitle = this.maxCardLimit;
+            obj.subTitle = maxCardLimit == "" || maxCardLimit == undefined ? "NA" : maxCardLimit;
             console.warn("DEEP | card details", obj);
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;
@@ -735,7 +745,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitUwSection(requestParams,null);
+            this.submitUwSection(requestParams, null);
           }
         }
       });
@@ -771,7 +781,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitUwSection(requestParams,null);
+            this.submitUwSection(requestParams, null);
           }
         }
       });
@@ -793,13 +803,14 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
         Promise.all([mainMessage, button1]).then(values => {
           console.log(values);
-          let modalObj = {
+          let modalObj: IModalData = {
             title: "Alert",
             mainMessage: values[0],
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
-            ]
+            ],
+            applicationId: Number(this.applicationId)
           }
 
           this.services.rloui.confirmationModal(modalObj).then((response) => {
@@ -813,7 +824,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       }
       else {
         // this.doSubmitConfirmation();
-        this.services.rloui.openDecisionAlert(this.componentCode).then((response: any) => {
+        var componentCode = this.componentCode
+        let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'approve' };
+        this.services.rloui.openDecisionAlert(actionObject, Number(this.applicationId)).then((response: any) => {
           console.log(response);
           if (typeof response == 'object') {
             let modalResponse = response.response;
@@ -826,7 +839,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     }
     else {
       // this.doSubmitConfirmation();
-      this.services.rloui.openDecisionAlert(this.componentCode).then((response: any) => {
+      var componentCode = this.componentCode
+      let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'approve' };
+      this.services.rloui.openDecisionAlert(actionObject, Number(this.applicationId)).then((response: any) => {
         console.log(response);
         if (typeof response == 'object') {
           let modalResponse = response.response;
@@ -863,7 +878,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         if (response != null) {
           if (response.id === 1) {
             this.services.rloui.closeAllConfirmationModal()
-            this.submitUwSection(requestParams,null);
+            this.submitUwSection(requestParams, null);
           }
         }
       });
@@ -882,10 +897,10 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     inputMap.set('Body.ApplicationId', this.applicationId);
     inputMap.set('Body.ApplicationStatus', this.applicationStatus);
     inputMap.set('Body.CreatedBy', this.userId);
-    if(DecisionResponse != null || DecisionResponse !=undefined) {
-    inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
-    inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
-    inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
+    if (DecisionResponse != null) {
+      inputMap.set('Body.ApprovalReq', DecisionResponse.ApprovalReq);
+      inputMap.set('Body.AuthorityDesignation', DecisionResponse.DesignationAuthority);
+      inputMap.set('Body.ApproverName', DecisionResponse.ApproverName);
     }
     if (requestParams) {
       requestParams.forEach((val, key) => {
@@ -1046,4 +1061,94 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         break;
     }
   }
+  async sentBackForm() {
+    // this.services.rloui.openDecisionAlert(actionObject).then((Response: any) => {
+    //   console.log(Response);
+    //   const inputMap = new Map();
+    //   inputMap.clear();
+    //   inputMap.set('HeaderParam.Decision', Response.DecisionReason);
+    //   inputMap.set('HeaderParam.Remark', Response.Remarks);
+
+    //   this.services.http.fetchApi('/acceptQDE', 'POST', inputMap, '/rlo-de').subscribe(
+    //     async (httpResponse: HttpResponse<any>) => {
+    //       const res = httpResponse.body;
+    //       if (res != null) {
+    //         // this.submitQDE(requestParams);
+    //       }
+    //     },
+    //   );
+    // });
+    var componentCode = this.componentCode
+    let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'sentBack' };
+    const inputMap = new Map();
+    this.services.rloui.openDecisionAlert(actionObject, this.applicationId).then((Response: any) => {
+      console.log(Response);
+
+      if (typeof Response == 'object') {
+        let modalResponse = Response.response;
+        if (modalResponse.DecisionReason != undefined || Response.action != "btn-close") {
+          const inputMap = new Map();
+          inputMap.clear();
+          inputMap.clear();
+          inputMap.set('Body.UserId', this.userId);
+          inputMap.set('Body.TENANT_ID', this.tenantId);
+          inputMap.set('Body.TaskId', this.taskId);
+          inputMap.set('HeaderParam.ProcessId', this.processId);
+          inputMap.set('Body.direction', 'SB');
+          inputMap.set('Body.ApplicationId', this.ApplicationId);
+          inputMap.set('Body.ApplicationStatus', 'Sendback');
+          inputMap.set('Body.CurrentStage', 'UW');
+          inputMap.set('HeaderParam.ServiceCode', this.serviceCode);
+          inputMap.set('HeaderParam.Decision', Response.DecisionReason);
+          inputMap.set('HeaderParam.Remark', Response.Remarks);
+
+          this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+              const res = httpResponse.body;
+              if (res != null) {
+                this.services.router.navigate(['home', 'LANDING']);
+                // this.submitQDE(requestParams);
+              }
+            },
+          );
+        }
+      }
+    });
+
+    // this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
+    //   async (httpResponse: HttpResponse<any>) => {
+    //     const res = httpResponse.body;
+
+    //     if (httpResponse.status == 200) {
+    //       // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    //       var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
+    //       var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    //       var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    //       Promise.all([mainMessage, button1, button2]).then(values => {
+    //         console.log(values);
+    //         let modalObj = {
+    //           title: "Alert",
+    //           mainMessage: values[0],
+    //           modalSize: "modal-width-sm",
+    //           buttons: [
+    //             { id: 1, text: values[1], type: "success", class: "btn-primary" },
+    //             { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+    //           ]
+    //         }
+
+    //         this.services.rloui.confirmationModal(modalObj).then((response) => {
+    //           console.log(response);
+    //           if (response != null) {
+    //             if (response.id === 1) {
+    //               this.services.router.navigate(['home', 'LANDING']);
+    //             }
+    //           }
+    //         });
+    //       });
+    //     }
+    //   }
+    // );
+  }
+
 }

@@ -1,0 +1,71 @@
+<form class="MakeRelative">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <!-- <div class="col-sm-5 col-md-5">
+        <h4 class="FormTitle">
+          {{ 'RealignmentRequest.FormTitle' | translate }}
+        </h4>
+      </div> -->
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError">
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="A_MaximumCardLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'RealignmentRequest.A_MaximumCardLimit' | translate}}</label>
+            </div>
+            <app-rlo-ui-currency #A_MaximumCardLimit fieldID="A_MaximumCardLimit" [currencyReadOnly]="true"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'A_MaximumCardLimit'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="ApprovedCorporateCardLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'RealignmentRequest.ApprovedCorporateCardLimit' | translate}}
+              </label>
+            </div>
+            <app-rlo-ui-currency #ApprovedCorporateCardLimit fieldID="ApprovedCorporateCardLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'ApprovedCorporateCardLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="false"
+              [formCode]="formCode"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="MaximumCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'RealignmentRequest.MaximumCashLimit' | translate}}</label>
+            </div>
+            <app-rlo-ui-currency #MaximumCashLimit fieldID="MaximumCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'MaximumCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="ApprovedCorporateCashLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'RealignmentRequest.ApprovedCorporateCashLimit' | translate}}
+              </label>
+            </div>
+
+            <app-rlo-ui-currency #ApprovedCorporateCashLimit fieldID="ApprovedCorporateCashLimit" [currencyReadOnly]="true"
+              [componentFieldId]="'ApprovedCorporateCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="false"
+              [formCode]="formCode"></app-rlo-ui-currency>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

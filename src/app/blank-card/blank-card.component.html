@@ -1,4 +1,4 @@
-<div class="blank-card-header" [ngClass]="{'disable-card' : !cardMetaData.modalSectionName.length}">
+<div class="blank-card-header" [ngClass]="{'disabled' : !cardMetaData.modalSectionName.length}">
     <span>{{cardMetaData.name}}</span>
-    <span class="icon-link" (click)="openModal()" [ngClass]="{'disable-card' : !cardMetaData.modalSectionName.length}"></span>
+    <span class="icon-link" (click)="openModal()" [ngClass]="{'disabled' : !cardMetaData.modalSectionName.length}"></span>
 </div>

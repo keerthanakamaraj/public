@@ -54,6 +54,7 @@ import { EducationLoanDetailsComponent } from '../EducationLoanDetails/Education
 import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.component';
 import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
+import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
 //import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -211,6 +212,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
+      //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
       { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
@@ -720,6 +722,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ActiveCustomerDtls = undefined;
     this.ActiveBorrowerSeq = undefined;
     this.CustomerType = event.customerType;
+    this.doCardTypeBasedChanges();
 
     this.setTags([]);
 
@@ -740,6 +743,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ActiveCustomerDtls = event.CustomerArray;
     this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
     this.CustomerType = event.CustomerArray.CustomerType;
+    this.doCardTypeBasedChanges();
     // this.ActiveCustomerName = event.CustomerArray.FullName;
     // this.ActiveCustomerDOB = event.CustomerArray.DOB;
     // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
@@ -888,6 +892,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
     if (this.isCustomerTab && this.ActiveBorrowerSeq != undefined) {
       componentInstance.activeBorrowerSeq = this.ActiveBorrowerSeq;
+      componentInstance.activeApplicantType=this.CustomerType;
     }
     // if (componentId == 'FamilyDetails') {
     //     componentInstance.ActiveCustomerDtls = this.ActiveCustomerDtls;
@@ -1031,6 +1036,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'InterfaceResults':
         return new AddSpecificComponent(InterfaceResultsComponent);
+        break;
+      case 'BusinessDetails':
+        return new AddSpecificComponent(BusinessDtlsFormComponent);
         break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
@@ -1216,31 +1224,27 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async brodcastProdCategory(event) {
-    //  event.isLoanCategory false when type is 'CC'
-    // this.services.rloCommonData.globalApplicationDtls = {
-    //   isLoanCategory: event.isLoanCategory,
-    //   ProductCode: event.ProductCode,
-    //   SubProductCode: event.SubProductCode,
-    //   SchemeCode: event.SchemeCode,
-    // };
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
     this.isLoanCategory = event.isLoanCategory;
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
-      // this.services.rloCommonData.childToParentSubject.next({
-      //     action: 'loanCategoryUpdated',
-      //     data: { 'isLoanCategory':  event.isLoanCategory }
-      // });
     }
-    //this.CUSTOMER_GRID.isLoanCategory = event.isLoanCategory;
-
-    //this.CUSTOMER_GRID.isLoanCategory = false; //TESTING;
-    //this.isLoanCategory = false;
-
     this.validateSectionForApplication();
     this.validateSectionForCustomer();
   }
 
+  doCardTypeBasedChanges() {
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+
+      let sectionindex: number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'OccupationDetails')));
+      if ((undefined == this.CustomerType || this.CustomerType == 'B') && sectionindex >= 0) {
+        this.customerMenu[0].splice(sectionindex, 1, { id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true });
+      }
+      else if (this.CustomerType != 'B' && sectionindex < 0) {
+        sectionindex = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'BusinessDetails')));
+        this.customerMenu[0].splice(sectionindex, 1, { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
+      }
+    }
+  }
   validateSectionForCustomer() {
     let formsMenuList = this.customerMenu;
     formsMenuList.forEach(element => {
@@ -1254,10 +1258,19 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+          if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails'|| section.id == 'IncomeSummary' || section.id=='PersonalInterviewDetails'|| section.id=='RmVisitDetails') {
+            section.isOptional = true;
+            element.splice(i, 1);
+            i--;
+          }
+        }
       }
     });
+    this.doCardTypeBasedChanges();
     this.formsMenuList = JSON.parse(JSON.stringify(this.customerMenu));
   }
+
 
   validateSectionForApplication() {
     let formsMenuList = this.applicationMenu;
@@ -1291,6 +1304,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             section.isOptional = false;
             this.progressStatusObject.manditorySection += 1;
           } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+          if (section.id == 'ReferrerDetails' || section.id == 'Notes' || section.id == 'GoNoGoDetails' ||  section.id == 'GoNoGoDetails' || section.id == "InterfaceResults") {
+            section.isOptional = true;
             element.splice(i, 1);
             i--;
           }
@@ -1463,32 +1483,32 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (data.isAppValid) {
         requestParams.set('Body.ApplicationStatus', 'AP');
         requestParams.set('Body.direction', 'AP');
-       // this.submitDDE(requestParams);
-       var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
+        // this.submitDDE(requestParams);
+        var mainMessage = this.services.rloui.getAlertMessage('rlo.submit.comfirmation');
         var button1 = this.services.rloui.getAlertMessage('', 'OK');
         var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-       Promise.all([mainMessage, button1, button2]).then(values => {
-        console.log(values);
-        let modalObj = {
-          title: "Alert",
-          mainMessage: values[0],
-          modalSize: "modal-width-sm",
-          buttons: [
-            { id: 1, text: values[1], type: "success", class: "btn-primary" },
-            { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-          ]
-        }
-  
-        this.services.rloui.confirmationModal(modalObj).then((response) => {
-          console.log(response);
-          if (response != null) {
-            if (response.id === 1) {
-              this.services.rloui.closeAllConfirmationModal()
-              this.submitDDE(requestParams);
-            }
+        Promise.all([mainMessage, button1, button2]).then(values => {
+          console.log(values);
+          let modalObj = {
+            title: "Alert",
+            mainMessage: values[0],
+            modalSize: "modal-width-sm",
+            buttons: [
+              { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+            ]
           }
+
+          this.services.rloui.confirmationModal(modalObj).then((response) => {
+            console.log(response);
+            if (response != null) {
+              if (response.id === 1) {
+                this.services.rloui.closeAllConfirmationModal()
+                this.submitDDE(requestParams);
+              }
+            }
+          });
         });
-      });
       }
       else {
         let errorMsg = "";

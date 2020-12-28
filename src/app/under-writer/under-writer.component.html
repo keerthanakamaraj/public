@@ -12,7 +12,7 @@
 
   <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
     <div class="form-group pb10 row">
-      <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+      <div class="col-12  col-sm-12 col-md-12">
         <app-Header #FieldId_1 fieldID="FieldId_1" [formCode]="formCode"
           (productCategoryFound)="broadcastProdCategory($event)" (headerStateEvent)="headerState($event)">
         </app-Header>
@@ -32,8 +32,9 @@
   </div> -->
   <!-- Changes for canara bank -->
 
+  <!-- Changes for canara bank => showExpandedHeader-->
   <div class="row">
-    <div class="col-12  col-sm-12 col-md-12 uw-tabs">
+    <div class="col-12  col-sm-12 col-md-12 uw-tabs" [ngClass]="showExpandedHeader ? '' : 'scroll-margin'">
       <div class="wgt-doc-upload open-folder" (click)="openFileUpload()">
         <a href="javascript:void(0);" class="icon-folder-open"></a>
       </div>
@@ -67,6 +68,13 @@
             <div ngxMasonryItem class="p-0 w-25" style="height:auto" *ngFor="let data of cCardDataWithFields">
               <div class="card-layout-container">
                 <app-card [cardMetaData]="data"></app-card>
+              </div>
+            </div>
+
+            <div ngxMasonryItem class="p-0 w-25 d-none" style="height:auto"
+              [ngClass]="{'d-block' : customerSectionLoaded}">
+              <div class="card-layout-container" *ngIf="customerSectionLoaded">
+                <app-card [cardMetaData]="addressDetailsCardDetails"></app-card>
               </div>
             </div>
 
@@ -141,11 +149,12 @@
           <span style="margin-left: -5px;  color:black;font-size: 12px;">Withdraw</span>
         </span>
       </li>
-      <!-- <li class="fab-buttons__item">
-        <a  class="fab-buttons__link">
-          <span class="icon-material icon-material_sentback">Sent Back</span>
-        </a>
-      </li> -->
+      <li class="fab-buttons__item">
+        <span class="fab-buttons__link" (click)="sentBackForm()">
+          <span class="icon-material icon-material_sentback"></span>
+          <span style="margin-left: -3px;  color:black;font-size: 12px;">Sent Back</span>
+        </span>
+      </li>
       <!-- <li class="fab-buttons__item mb-4">
         <a href="#" class="fab-buttons__link">
           <span class="icon-material icon-material_refer">Refer/ Review</span>

@@ -30,6 +30,7 @@ import { CustomerSearchModule } from '../customer-search/customer-search.module'
 import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-search-fileds.module';
 import { DecisionAlertModule } from '../DecisionAlert/DecisionAlert.module';
 import { InterfaceResultsModule } from '../interface-results/interface-results.module';
+import { CustomerAvaliableCardsModule } from '../customer-avaliable-cards/customer-avaliable-cards.module';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { InterfaceResultsModule } from '../interface-results/interface-results.m
         CustomerSearchModule,
         CustomerSearchFieldsModule,
         DecisionAlertModule,
-        InterfaceResultsModule
+        InterfaceResultsModule,
+        CustomerAvaliableCardsModule
     ],
     declarations: [
         PopupAlertComponent,

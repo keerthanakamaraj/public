@@ -15,6 +15,28 @@
         <div class="navbar-header">
             <!-- <img class="navbar-logo" [src]="logoPath" alt="Intellect Logo" /> -->
             <!-- <span class="navbar-logo"></span> -->
+            <nav role="navigation" class="menuNavigator">
+                <div id="menuToggle">      
+                    <input type="checkbox" />
+                    <!--
+                    Some spans to act as a hamburger.
+                    
+                    They are acting like a real hamburger,
+                    not that McDonalds stuff.
+                    -->
+                    <span></span>
+                    <span></span>
+                    <span></span>    
+                  <!--
+                  Too bad the menu has to be inside of the button
+                  but hey, it's pure CSS magic.
+                  -->
+                  <ul id="menu">
+                    <a (click)="AddOn_click('AddOn')"><li>Add On Member</li></a>
+                    <a (click)="AddOn_click('LimitEnhancement')"><li>Limit Enhancement</li></a>
+                  </ul>
+                </div>
+              </nav>
             <a href="javascript:void(0)">
                 <img src="assets/icons/Intellect-Logo.png" alt="RLO" style="height: 36px;" />
             </a>

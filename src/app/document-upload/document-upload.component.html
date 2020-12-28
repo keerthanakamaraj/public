@@ -51,7 +51,10 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label [ngClass]="{ 'mandatory': isMandatory('status')}">{{getLabel('DOC_STATUS')}}</label>
+                    <ng-select class="ngselect" [(ngModel)]="docUploadObject.status" name="status"
+                    <!-- #PR-38 Dev
                     <ng-select class="ngselect" [disabled]="ownerfield" [(ngModel)]="docUploadObject.status" name="status"
+                    -->
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
                         (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')" [readonly]="readOnly">
                     </ng-select>
@@ -94,14 +97,14 @@
                     <label class="radio-container">
                         <input type="radio" name="mandatory"
                             (blur)="validateField(docUploadObject.mandatory, 'mandatory')"
-                            [(ngModel)]="docUploadObject.mandatory" value="1" [readonly]="readOnly"/>
+                            [(ngModel)]="docUploadObject.mandatory" value="1" [disabled]="readOnly"/>
                         {{getLabel('YES')}}
                         <span class="checkmark"></span>
                     </label>
                     <label class="radio-container">
                         <input type="radio" name="mandatory"
                             (blur)="validateField(docUploadObject.mandatory, 'mandatory')"
-                            [(ngModel)]="docUploadObject.mandatory" value="0" [readonly]="readOnly"/>
+                            [(ngModel)]="docUploadObject.mandatory" value="0" [disabled]="readOnly"/>
                         {{getLabel('NO')}}
                         <span class="checkmark"></span>
                     </label>
@@ -234,7 +237,7 @@
                             <span *ngIf="readOnly" class="folder-icon icon-folder-open"></span>
                             <input class="d-none img-upload-input" type="file" name="txtTabAddr_cfs" #fileInput
                                 ng2FileSelect [uploader]="uploader" (change)="validateFile($event)" id="docId"
-                                 [disabled]="readOnly" />
+                                maxFileSize="5000000" [disabled]="readOnly" />
                         </div>
                     </div>
                 </div>

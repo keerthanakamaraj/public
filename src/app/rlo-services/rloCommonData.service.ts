@@ -59,7 +59,15 @@ export interface IGlobalApllicationDtls {
   MaxCashLimit?: any;
   CardType?: string;
   CardTypename?: string;
-  MaxCredit?: any;
+  MaxCreditLimit?: any;
+  CardCustName?: string;
+  PrimaryUsage?: string;
+  CustomerType?:any;
+  ReqCardLimit?: any;
+  
+  // #PR-38 - dev
+  //MaxCredit?: any;
+  //
 }
 @Injectable({
   providedIn: 'root'
@@ -90,6 +98,7 @@ export class RloCommonData {
 
   reloadUWSections = new Subject<any>();
 
+  selectedCardDetailsSubject = new Subject<any>();//in addon page -> on click of modal's row data.
   viewMode: boolean = false;//used in DDE
 
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
@@ -211,7 +220,10 @@ export class RloCommonData {
           mapValue.set('RmVisitDetails', componentData.data);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
           break;
-
+        case 'BusinessDetails':
+          mapValue.set('BusinessDetails', componentData.data);
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break;
         ///APPLICATION SECTIONS
 
         case 'GoNoGoDetails':
@@ -306,16 +318,19 @@ export class RloCommonData {
     const tags = [];
     event.data.forEach(address => {
       let tagText = '';
-      if (address.MailingAddress.id === 'Y') {
-        if (address.AddressType.id === 'OF') {
-          tagText = 'Office; ';
-        } else if (address.AddressType.id === 'RS') {
-          tagText = 'Residence; ';
-        }
-
+      // if (address.MailingAddress.id === 'Y') {
+      //   if (address.AddressType === 'OF') {
+      //     tagText = 'Office; ';
+      //   } else if (address.AddressType === 'RS') {
+      //     tagText = 'Residence; ';
+      //   }
+      // }
+        if(address.AddressType === 'ML'){
+          tagText = 'Registered; ';
+        
         tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
-      }
+        }
     });
     return this.trimTagsIfRequired(tags, 2);
   }
@@ -332,15 +347,21 @@ export class RloCommonData {
   async UpdateOccupationTags(event) {
     const tags = [];
     const maxAddress = 2;
+    console.log("shweta :: occ tags ", event.data);
     event.data.forEach(occupation => {
-      switch (occupation.Occupation.id) {
-        case 'RT': tags.push({ text: 'Retired' }); break;
-        case 'HW': tags.push({ text: 'Housewife' }); break;
-        case 'ST': tags.push({ text: 'Student' }); break;
-        case 'SL': tags.push({ text: 'Salaried' }); break;
-        case 'SE': tags.push({ text: 'Self Employed' }); break;
-        case 'OT': tags.push({ text: 'Others' }); break;
-        default: tags.push({ text: occupation.Occupation.id });
+      if (this.globalApplicationDtls.CustomerType == 'C') {
+        tags.push({ text: occupation.EmployeeID + ', ' + occupation.Designation });
+
+      } else {
+        switch (occupation.Occupation.id) {
+          case 'RT': tags.push({ text: 'Retired' }); break;
+          case 'HW': tags.push({ text: 'Housewife' }); break;
+          case 'ST': tags.push({ text: 'Student' }); break;
+          case 'SL': tags.push({ text: 'Salaried' }); break;
+          case 'SE': tags.push({ text: 'Self Employed' }); break;
+          case 'OT': tags.push({ text: 'Others' }); break;
+          default: tags.push({ text: occupation.Occupation.id });
+        }
       }
     });
     return this.trimTagsIfRequired(tags, 4);
@@ -535,26 +556,32 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
-
-    if (LoanOwnership !== undefined && LoanOwnership != 0) {
+    if (this.globalApplicationDtls.CustomerType == 'C') {
+      commonObj.isSectionValid = false;
+      if (customerSectionData.has('OccupationDetails') || customerSectionData.has('BusinessDetails')) {
+        commonObj.isSectionValid = true;
+      }
+    } else if (LoanOwnership !== undefined && LoanOwnership > 0) {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails')) {
         const occupationList = customerSectionData.get('OccupationDetails');
-
+        console.log("shweta :: occ list", occupationList);
         for (const eachOccupation of occupationList) {
-          // if (eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "ST" || eachOccupation.Occupation == "RT") {
-          //   commonObj.isSectionValid = true;
-          // } else
-          if (eachOccupation.IncomeType.id && 'PRI' === eachOccupation.IncomeType.id.toString()) {
+
+          if (eachOccupation.NetIncome != undefined && parseFloat(eachOccupation.NetIncome) > 0) {
             commonObj.isSectionValid = true;
           }
+          // if (eachOccupation.IncomeType.id && 'PRI' === eachOccupation.IncomeType.id.toString()) {
+          //   commonObj.isSectionValid = true;
+          // }
         }
       }
-      if (!commonObj.isSectionValid) {
-        if ((LoanOwnership != undefined && LoanOwnership != 0) && (custType == 'B' || custType == 'CB')) {
-          commonObj.errorMessage = " 1 primary occupation"
-        }
-
+    }
+    if (!commonObj.isSectionValid) {
+      if (this.globalApplicationDtls.CustomerType == 'C') {
+        commonObj.errorMessage = custType == 'B' ? "Business Details" : "1 occupation";
+      } else if (LoanOwnership != undefined && LoanOwnership != 0) {
+        commonObj.errorMessage = "Atleast 1 occupation with Net Income";
       }
     }
     return commonObj;
@@ -569,14 +596,26 @@ export class RloCommonData {
     let customerData = sectionData.get('CustomerDetails');
 
     const LoanOwnership = customerData.LoanOwnership;
-    const custType = customerData.CustomerType;
+    const applicantType = customerData.CustomerType;
 
-    if (!sectionData.has('AddressDetails')) {
+    if (!sectionData.has('AddressDetails')) { //added for canara
       commonObj.isSectionValid = false;
-      // commonObj.errorMessage += '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     } else {
       const addressList = sectionData.get('AddressDetails');
-      const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };
+      const addrValidationObj = { isMailing: false, isPermenet: false };
+      for (const eachAddress of addressList) {
+        if ('ML' === ('' + eachAddress.AddressType)) {
+          addrValidationObj.isMailing = true;
+        }
+        if ('PR' === ('' + eachAddress.AddressType)) {
+          addrValidationObj.isPermenet = true;
+        }
+      }
+      if(applicantType=='A' && this.globalApplicationDtls.CustomerType=='C'){
+          addrValidationObj.isMailing = true;
+      }
+      // commented for Canara
+      /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
       for (const eachAddress of addressList) {
         if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
           addrValidationObj.isMailing = true;
@@ -594,25 +633,22 @@ export class RloCommonData {
 
       if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
         addrValidationObj.isOffice = true;
-        addrValidationObj.isPermenet = true;
-        addrValidationObj.isCurrent = true;
+      }*/
 
-      }
-
-      // if (LoanOwnership === undefined && custType !== 'B' && custType !== 'CB') {
-      //   addrValidationObj.isOffice = true;
-      // }
-      
       for (const flag in addrValidationObj) {
         if (!addrValidationObj[flag]) {
           commonObj.isSectionValid = false;
         }
       }
     }
-    if (!commonObj.isSectionValid) {
+    // commented for canara
+    /*if (!commonObj.isSectionValid) {
       commonObj.errorMessage += ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') ?
         '1 correspondence address'
         : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
+    }*/
+    if (!commonObj.isSectionValid) {
+      commonObj.errorMessage += '1 Mailing and 1 Permenent address';
     }
     return commonObj;
   }
@@ -661,16 +697,16 @@ export class RloCommonData {
       let errorMessage = '';
 
       forkJoin(
-        this.validateGoNoGoSection(dataToValidate),
+        //this.validateGoNoGoSection(dataToValidate), //removed for canara
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
         this.validatePropertyDetailsSection(dataToValidate),
         // this.validateScoreCard(dataToValidate),
         // this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
         console.error(data);
-        isGoNoGoSectionValid = data[0].isSectionValid;
-        isLoadOrCreditCardValid = data[1].isSectionValid;
-        isPropertyDetailsValid = data[2].isSectionValid;
+        //isGoNoGoSectionValid = data[0].isSectionValid;  //removed for canara
+        isLoadOrCreditCardValid = data[0].isSectionValid;
+        isPropertyDetailsValid = data[1].isSectionValid;
         // isScoreCardDetailsValid = data[3].isSectionValid;
         // isPolicyCheckValid = data[4].isSectionValid;
 
@@ -806,8 +842,10 @@ export class RloCommonData {
       errorMessage: ''
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
-
-    if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+    if(this.globalApplicationDtls.CustomerType=='C'){
+      commonObj.isSectionValid = true;
+    }
+    else if(this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
       if (!customerTabSectionData.has('IncomeSummary')) {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = "Details from income summary section required";
@@ -1122,4 +1160,67 @@ export class RloCommonData {
       }
     });
   }
+
+  //get member card details
+  getMultipleCustomerIcif(multipleIcif: Array<any>) {
+    // {
+    //   "interfaceId": "CIF_SEARCH",
+    //   "prposalid": "1234",
+    //  "inputdata": {
+    // "ICIFNumber":
+    // [
+    // "1234","5678","4585"
+    // ]
+
+    //  }
+    // }
+
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let testData = ["4585"];
+    inputMap.set('Body.inputdata.ICIFNumber', multipleIcif);
+    inputMap.set('Body.interfaceId', 'CIF_SEARCH');
+    inputMap.set('Body.prposalid', '1234');
+
+    const promise = new Promise((resolve, reject) => {
+      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          console.log("Deep | Service - getInterfaceResposes()", res);
+          resolve(res);
+        },
+        async (httpError) => {
+          resolve(null);
+        }
+      );
+    });
+    return promise;
+  }
+
+  getMemberCardDetail() {
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let testData = "4585";
+    inputMap.set('Body.inputdata.CifID', testData);
+    inputMap.set('Body.interfaceId', 'CUSTOMER_360');
+    inputMap.set('Body.prposalid', '3322');
+
+    const promise = new Promise((resolve, reject) => {
+      this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          console.log("Deep | Service - getMemberCardDetail()", res);
+          resolve(res);
+        },
+        async (httpError) => {
+          resolve(null);
+        }
+      );
+    });
+    return promise;
+  }
+
+
 }

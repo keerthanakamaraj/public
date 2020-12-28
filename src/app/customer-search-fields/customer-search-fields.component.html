@@ -73,7 +73,7 @@
 
     <div>
         <app-SearchCustomerGrid #SearchFormGrid fieldID="SearchFormGrid" [formCode]="'SearchForm'"
-            [displayToolbar]="false" [displayTitle]="false"></app-SearchCustomerGrid>
+            [displayToolbar]="false" [displayTitle]="false" (selectedCustomer)="selectedCustomer($event)"></app-SearchCustomerGrid>
     </div>
 
     <!-- 

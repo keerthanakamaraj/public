@@ -34,7 +34,7 @@
             <app-text-box #Branch fieldID="Branch" [formCode]="formCode" (blur)="genericOnBlur('Branch', $event)">
             </app-text-box>
           </div> -->
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Branch.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Branch.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.Branch' | translate}}
@@ -43,7 +43,7 @@
             <app-combo-box #Branch category="2" fieldID="Branch" [formCode]="formCode"
               domainObjectUrl="/MstBranchDetails/{BranchCd}" doServerUrl="/masters" domainObjectCode="MstBranchDetails"
               placeholder="Select" (blur)="genericOnBlur('Branch', $event)"></app-combo-box>
-          </div>
+          </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CustomerType.isHidden() || isLoanCategory">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -262,6 +262,7 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('GuadianRelationship', $event)"></app-combo-box>
           </div>
+          
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CRLine.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CRLine.mandatory}">
@@ -319,8 +320,8 @@
             <app-text-box #EcsAccNo fieldID="EcsAccNo" [formCode]="formCode" (blur)="genericOnBlur('EcsAccNo', $event)">
             </app-text-box>
           </div> -->
-          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
-          <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <ng-container>
             <div *ngIf="!readOnly" class="save-btn-container col-12  col-sm-1 col-md-1 res-pr-hide"
               [hidden]="CCD_Save.isHidden()">
@@ -335,6 +336,10 @@
               </app-button>
             </div>
           </ng-container>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CreditCardInputGrid.isHidden()">
+            <app-CreditCardInputGrid #CreditCardInputGrid fieldID="CreditCardInputGrid" [formCode]="formCode"
+              [displayTitle]="false"></app-CreditCardInputGrid>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-creditcard-handler #Handler [MainComponent]="this"></app-creditcard-handler>
           </div>

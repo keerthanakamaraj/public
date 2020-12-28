@@ -17,7 +17,8 @@ import { OccupationDtlsFormModule } from '../OccupationDtlsForm/OccupationDtlsFo
 import { CustomerGridDTLSModule } from '../CustomerGridDTLS/CustomerGridDTLS.module';
 import { CustomerDtlsModule } from '../CustomerDtls/CustomerDtls.module';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
-import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module'
+import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module';
+import { BusinessDtlsFormModule } from '../BusinessDtlsForm/BusinessDtlsForm.module';
 import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.module';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { RloUiAccordionModule } from '../rlo-ui-accordion/rlo-ui-accordion.modul
         CustomerDtlsModule,
         ApplicationDtlsModule,
         NotepadDetailsFormModule,
-        RloUiAccordionModule
+        RloUiAccordionModule,
+        BusinessDtlsFormModule
     ],
     declarations: [
         QDEComponent

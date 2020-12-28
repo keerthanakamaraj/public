@@ -80,12 +80,17 @@
               [checkedValue]="true" (blur)="genericOnBlur('MT_SLIDER', $event)" (change)="MT_SLIDER_change($event)">
             </app-check-box>
           </div>
-          <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
+ 
+          <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
+            <!-- <app-button #ADDON fieldName="{{ 'MyTrayForm.ADDON' | translate}}"
+              (buttonClick)="AddOn_click($event)" fieldID="ADDON" [formCode]="formCode"
+              customClass="btn btn-primary btn-lg"></app-button> -->
+          </div>
+
           <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
             <app-button #MT_Proposal fieldName="{{ 'MyTrayForm.MT_Proposal' | translate}}"
               (buttonClick)="MT_Proposal_click($event)" fieldID="MT_Proposal" [formCode]="formCode"
               customClass="btn btn-primary btn-lg"></app-button>
-            <!-- <h4 (click)="cc()">CC</h4> -->
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
             <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>

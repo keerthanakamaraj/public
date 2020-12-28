@@ -8,6 +8,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
 import { CreditCardDetailsRoutingModule } from './CreditCardDetails-routing.module';
 import { CreditCardDetailsComponent } from '../CreditCardDetails/CreditCardDetails.component';
 import { CreditCardHandlerModule } from '../CreditCardDetails/creditcard-handler.module';
+import { CreditCardInputGridModule } from '../CreditCardInputGrid/CreditCardInputGrid.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -23,6 +24,7 @@ import { CreditCardHandlerModule } from '../CreditCardDetails/creditcard-handler
                 deps: [HttpClient]
             }
         }),
+        CreditCardInputGridModule,
     ],
     declarations: [
         CreditCardDetailsComponent,

@@ -223,21 +223,8 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
                         tempObj['Family_ID'] = loopVar4[i].BorrowerSeq;
-                        if( loopVar4[i].Relationship == 'FR'){
-                        tempObj['FD_RELATIONSHIP'] = 'Father'
-                        }
-                        else if( loopVar4[i].Relationship == 'SO'){
-                            tempObj['FD_RELATIONSHIP'] = 'Son'
-                        }
-                        else if( loopVar4[i].Relationship == 'MR'){
-                            tempObj['FD_RELATIONSHIP'] = 'Mother'
-                        }
-                        else if( loopVar4[i].Relationship == 'DR'){
-                            tempObj['FD_RELATIONSHIP'] = 'Daughter'
-                        }
-                        else if( loopVar4[i].Relationship == 'SP'){
-                            tempObj['FD_RELATIONSHIP'] = 'Spouse'
-                        }
+                        // if( loopVar4[i].Relationship == 'FR'){
+                        tempObj['FD_RELATIONSHIP'] = loopVar4[i].Relationship.text
                         tempObj['FD_NAME'] = loopVar4[i].FullName;
                         tempObj['FD_DOB'] = loopVar4[i].DOB;
                         tempObj['Full_NAME'] = loopVar4[i].CustFullName;

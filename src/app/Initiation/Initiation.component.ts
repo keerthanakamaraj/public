@@ -54,7 +54,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: ComboBoxComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
-
+  @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
+  
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: TextBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
   @ViewChild('BAD_PROD_CAT', { static: false }) BAD_PROD_CAT: RLOUIRadioComponent;
@@ -64,8 +65,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_PROMOTION', { static: false }) BAD_PROMOTION: ComboBoxComponent;
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
   @ViewChild('CD_CARD_CUST_TYPE', { static: false }) CD_CARD_CUST_TYPE: RLOUIRadioComponent;
-
-
+  @ViewChild('BAD_MASK_CARD_NUMBER', { static: false }) BAD_MASK_CARD_NUMBER: TextBoxComponent;
   //@ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent; // removed for customer search
   //@ViewChild('CD_STAFF', { static: false }) CD_STAFF: RLOUIRadioComponent;// removed for customer search
 
@@ -90,6 +90,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('CD_CUST_SGMT', { static: false }) CD_CUST_SGMT: ComboBoxComponent;
   @ViewChild('CD_CUST_SUB_SGMT', { static: false }) CD_CUST_SUB_SGMT: ComboBoxComponent;
   @ViewChild('REF_CIF', { static: false }) REF_CIF: TextBoxComponent;
+
+  // for Corporate Cards
+ // @ViewChild('CD_CBS_CUST_ID', { static: false }) CD_CBS_CUST_ID: TextBoxComponent;
+  // @ViewChild('CD_TITLE', { static: false                 }) CD_TITLE: ComboBoxComponent;
+  @ViewChild('CD_REGISTERED_NAME', { static: false }) CD_REGISTERED_NAME: TextBoxComponent;
+  @ViewChild('CD_TYPE_OF_INCORPORATION', { static: false }) CD_TYPE_OF_INCORPORATION: TextBoxComponent;
+  @ViewChild('CD_DATE_OF_INCORPORATION', { static: false }) CD_DATE_OF_INCORPORATION: DateComponent;
+ // @ViewChild('CD_PAN_NUMBER', { static: false }) CD_PAN_NUMBER: TextBoxComponent;
+  @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: TextBoxComponent;
+  @ViewChild('CD_MOBILE_NUMBER', { static: false }) CD_MOBILE_NUMBER: RloUiMobileComponent;
+  // @ViewChild('CD_EMAIL_ID', { static: false              }) CD_EMAIL_ID: TextBoxComponent;
 
   @ViewChild('CD_DEBIT_SCORE', { static: false }) CD_DEBIT_SCORE: TextBoxComponent;
   @ViewChild('CD_LOAN_OWNERSHIP', { static: false }) CD_LOAN_OWNERSHIP: AmountComponent;
@@ -147,7 +158,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('allowCoBorrower', { static: false }) allowCoBorrower: HiddenComponent;
   @ViewChild('hideCardType', { static: false }) hideCardType: HiddenComponent;
   @ViewChild('hideCardCustomerType', { static: false }) hideCardCustomerType: HiddenComponent;
-
+  @ViewChild('hideCamType', { static: false }) hideCamType: HiddenComponent;
+  @ViewChild('hideTypeofIncorp', { static: false }) hideTypeofIncorp: HiddenComponent;
+  
   //custom
   @ViewChild('LD_LOAN_AMOUNT', { static: false }) LD_LOAN_AMOUNT: RloUiCurrencyComponent;
   @ViewChild('LD_GROSS_INCOME', { static: false }) LD_GROSS_INCOME: RloUiCurrencyComponent;
@@ -180,11 +193,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   CBSProductCd: any;
   applicationArray: any;
   CustomerType: any;
+  UserBranch : string = 'Juhu';
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
     await Promise.all([
-      this.revalidateBasicField('CD_CUST_TYPE'),
+     // this.revalidateBasicField('CD_CUST_TYPE'),
       // this.revalidateBasicField('CD_CARD_CUST_TYPE'),
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
@@ -199,7 +213,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.revalidateBasicField('CD_TITLE'),
       this.revalidateBasicField('CD_FIRST_NAME'),
       this.revalidateBasicField('CD_MIDDLE_NAME'),
-      this.revalidateBasicField('CD_THIRD_NAME'),
+     // this.revalidateBasicField('CD_THIRD_NAME'),
       this.revalidateBasicField('CD_LAST_NAME'),
       this.revalidateBasicField('CD_FULL_NAME'),
       this.revalidateBasicField('CD_DOB'),
@@ -210,6 +224,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       // this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('CD_EMAIL_ID'),
       this.revalidateBasicField('CD_NAME_ON_CARD'),
+      this.revalidateBasicField('CD_REGISTERED_NAME'),
+      this.revalidateBasicField('CD_DATE_OF_INCORPORATION'),
+      this.revalidateBasicField('CD_TYPE_OF_INCORPORATION'),
+
+
+
+    //  this.revalidateBasicField('CD_CBS_CUST_ID'),
+    //  this.revalidateBasicField('CD_REGISTERED_NAME'),
+    //  this.revalidateBasicField('CD_TYPE_OF_INCORPORATION'),
+    //  this.revalidateBasicField('CD_DATE_OF_INCORPORATION'),
+     // this.revalidateBasicField('CD_PAN_NUMBER'),
 
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
@@ -383,13 +408,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
     this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    this.hideCamType.setValue('CAM_TYPE');
+    this.hideTypeofIncorp.setValue('INCORPORATION_TYPE');
+    
+    
     await this.Handler.onFormLoad({
     });
     this.BAD_PROD_CAT.setDefault('CC');
     this.Handler.onProdCategoryChange({});
     //this.CD_EXISTING_CUST.setDefault('N');
     // this.Handler.existingCustomer({});
-
     //this.CD_STAFF.setDefault('N');
     this.Handler.isStaff({});
     this.tempUnableCustId();
@@ -406,6 +434,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.mode = params['mode'];
     }
   }
+
+
   async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'New Application Initiation';
     await super.submit(path, apiCode, serviceCode);
@@ -448,6 +478,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.subsBFldsValueUpdates();
       this.onFormLoad();
       this.checkForHTabOverFlow();
+    //  this.toggleColumn();
     });
 
     this.tempUnableCustId()
@@ -512,7 +543,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   BAD_CARD_TYPE_change(){
     this.Handler.CardNumberEnable();
   }
-   
+
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';
@@ -525,11 +556,23 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       searchType: "External"
     }
     this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+      this.toggleColumn();
       if (response != null) {
         console.log(response);
+        //  this.ApplicationStatus(response);
+        //  this.setValuesOfCustomer(response);
+        // this.CBSProductCode(response);
+        this.IsInitiationAllowedForBranch(response);
+
+        //  this.NoOfCardAllowed(response);
+        // this.IsInitiationAllowedForBranch(response);
+         this.toggleColumn();
+
+        /* PR-38 dev
         // this.ApplicationStatus(response);
          this.setValuesOfCustomer(response);
          this.SRC_CIF_NO.onReset();
+        */
       }
       else {
         console.warn("DEEP | No customer selected");
@@ -553,13 +596,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         // let applicationStatus = res.Outputdata['status'];
         for(let i = 0 ; i < this.applicationArray.length; i++){
           if(this.applicationArray[i].status == 'AP'){
-            this.CBSProductCode(data);
-            this.SUBMIT_MAIN_BTN.setDisabled(false);
+            this.DOBIsValid(data)
+          
+            // this.SUBMIT_MAIN_BTN.setDisabled(false);
            
           }
           else{
             this.services.alert.showAlert(2, '', -1, 'This Application is already in In-Progres so we cannot initiate this proposal');
-            this.SUBMIT_MAIN_BTN.setDisabled(true);
+            // this.SUBMIT_MAIN_BTN.setDisabled(true);
             return;
           }
          
@@ -568,39 +612,101 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       }
     );
   }
+  
+  IsInitiationAllowedForBranch(data){
+    let tempVar: any = data;
+    if(this.UserBranch !== tempVar['Branch']){
+      this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
+      return;
+    }
+    else{
+     // this.ApplicationStatus(data);
+     this.DOBIsValid(data)
+    }
+
+  }
 
   CBSProductCode(data) {
     let tempVar: any = data;
     this.CustomerType = (tempVar['CustomerType']);
+    var primaryCheck = this.Handler.getBorrowerPostData();
+    
     this.services.http.fetchApi('/fetchCBSProdDetails', 'GET', null, '/initiation').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
         let CPBProductDetails = res.Outputdata;
-        for (let i = 0; i < CPBProductDetails.length; i++) {
-          if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
-            if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
-              this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
-              // this.SUBMIT_MAIN_BTN.setDisabled(true);
-              return;
-            }
-            else {
-              this.checkEligibleforAddon(data);
-              // this.setValuesOfCustomer(data);
-            
-              // this.SUBMIT_MAIN_BTN.setDisabled(false);
-
+        if(primaryCheck.length == 0){
+          for (let i = 0; i < CPBProductDetails.length; i++) {
+            if (CPBProductDetails[i].CBS_PRODUCT_CODE == tempVar['CBSProductCode']) {
+              if (CPBProductDetails[i].INITIATION_ALLOWED == 'N') {
+                this.services.alert.showAlert(2, '', -1, 'For Specified Product Code we cannot initiate the Proposal');
+                // this.SUBMIT_MAIN_BTN.setDisabled(true);
+                return;
+              }
+              else {
+                this.isInitiattionAllowedforAccount(data);
+                // this.SUBMIT_MAIN_BTN.setDisabled(false);
+  
+              }
             }
           }
         }
+        else{
+          this.setValuesOfCustomer(data);
+        }
+       
 
       }
     );
   }
 
+  DOBIsValid(data){
+    let tempVar: any = data;
+    if (!this.isMinValid(tempVar['dob'])) {
+      // this.CD_DOB.setError('rlo.error.Age.invalid');
+      this.services.alert.showAlert(2, '', -1, 'Minor Account Is not Eligible for Initiation');          
+      return 
+    }
+    else{
+      this.CBSProductCode(data);
+    }
+  }
+
+  NoOfCardAllowed(data){
+    let tempVar: any = data;
+    var noOfCard : number = 0
+    noOfCard = Number(localStorage.getItem("card.allowed"));
+    if(Number(tempVar['NoOfCard']) >= noOfCard){
+      this.services.alert.showAlert(2, '', -1, 'No of card limit is alerady exceeded so we cannot allow user to apply for new card');          
+      return;
+    }
+    else{
+      this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+      this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']); 
+      this.CD_CARD_CUST_TYPE.setValue('B');
+      this.setValuesOfCustomer(data);
+         
+    }
+  }
+
+  isInitiattionAllowedforAccount(data){
+    let tempVar: any = data;
+    if(tempVar['AccType'] == 'current'){
+      this.services.alert.showAlert(2, '', -1, 'For Selected Record Account Type is not Eligible to apply for Credit Card');          
+      return;
+    }
+    else{
+      this.NoOfCardAllowed(data);
+    }
+  }
+
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
+    console.log('searched data =================', data);
     let tempVar: any = data;
+   
+   
     this.CD_DOB.setValue(tempVar['dob']);
     this.CD_TAX_ID.setValue(tempVar['taxId']);
     this.CD_FULL_NAME.setValue(tempVar['custName']);
@@ -614,19 +720,29 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
-    this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
-    this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+   
+    // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
+   
     
+
+    // Corporate Type Customer
+    this.CD_REGISTERED_NAME.setValue(tempVar['registeredName']);
+    this.CD_TYPE_OF_INCORPORATION.setValue(['typeOfIncorporation']);
+    this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
+   // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
+    this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
-    this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
-    this.searchbutton = 'N';
+    // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
-   // this.CD_STAFF_ID.setValue(tempVar['staffId']);
+    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+     this.Handler.HideFieldBasedOnCorporate();
+    // this.CBSProductCode(data);
+    this.searchbutton = 'N';
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
@@ -699,16 +815,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.isStaff({});
 
   }
-  async CD_DOB_blur(event) {
-    if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('rlo.error.DOB.invalid');
-      return 1;
-    } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
-      this.CD_DOB.setError('rlo.error.Age.invalid');
-      return 1
-    }
-  }
+  // async CD_DOB_blur(event) {
+  //   if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
+  //     this.CD_DOB.setError('rlo.error.DOB.invalid');
+  //     return 1;
+  //   } else if (!this.isAgeValid(this.CD_DOB.getFieldValue())) {
+  //     this.CD_DOB.setError('rlo.error.Age.invalid');
+  //     return 1
+  //   }
+  // }
 
+  
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
 
@@ -801,6 +918,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
   async CD_ADD_click(event) {
     let inputMap = new Map();
+   // this.toggleColumn();
     // if(this.CD_LOAN_OWNERSHIP.getFieldValue() !== undefined){
     //   if(this.loanTotal > 100){
     //     this.CD_LOAN_OWNERSHIP.setError('rlo.error.loanownership.onblur');
@@ -929,7 +1047,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.BAD_DATE_OF_RCPT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.BAD_BRANCH.getFieldValue());
-
+        inputMap.set('Body.ApplicationDetails.CAMType', 'NAPP');
+        
 
         inputMap.set('Body.ApplicationDetails.RequestedCardLimit', this.BAD_REQ_CARD_LIMIT.getFieldValue());
         inputMap.set('Body.ApplicationDetails.ExistingCardNumber', this.BAD_CARD_NUMBER.getFieldValue());
@@ -1237,9 +1356,27 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
+  isMinValid(selectedDate) {
+    const moment = require('moment');
+    let currentDate = moment();
+    currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    selectedDate = moment(selectedDate, 'DD-MM-YYYY');
+    this.age = currentDate.diff(selectedDate, 'years');
+    console.log("age is:", this.age);
+    console.log("cif min age is:", this.custMinAge);
+    console.log("cif max age is:", this.custMaxAge);
+    if (this.age < this.custMinAge) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
 
   async CD_CUST_TYPE_change(fieldID, value) {
     this.Handler.CustomerTypeOnChange();
+    this.Handler.HideFieldBasedOnCorporate();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
       this.CD_LOAN_OWNERSHIP.setValue(100);
 
@@ -1257,6 +1394,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
 
   }
+
+  async CD_CARD_CUST_TYPE_change(fieldID, value) {
+    this.Handler.HideFieldBasedOnCorporate();
+  }
+
 
   async CD_LOAN_OWNERSHIP_blur() {
 
@@ -1433,6 +1575,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ]
     },
 
+    // BAD_CAM_TYPE: {
+    //   inDep: [
+
+    //     { paramKey: "VALUE1", depFieldID: "BAD_CAM_TYPE", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideCamType", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
+
     LD_TENURE_PERIOD: {
       inDep: [
 
@@ -1563,8 +1716,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           console.log(response);
           if (typeof response != "boolean") {
             // this.ApplicationStatus(response);
-           
-            this.setValuesOfCustomer(response);
+           //this.CBSProductCode(response);
+                       // this.setValuesOfCustomer(response);
             this.revalidateCustomers();
           }
           else {
@@ -1624,6 +1777,69 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     });
 
+  }
+  toggleColumn() {
+    console.log('Customer typesss:- ', this.Handler.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue());
+   if (this.Handler.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() === 'I') {
+    this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
+    this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
+   // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('CD_DATE_OF_iNCORPORATION'));
+   } else if( this.Handler.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() === 'C') {
+    this.CUST_DTLS_GRID.setColumnHidden('DOB', true);
+    this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', false);
+   // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('DOB'));
+   } else {
+     // TODO: 
+     this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
+    this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
+   }
+  }
+
+  async BAD_CARD_NUMBER_change(refNumber, event) {
+    this.BAD_PRODUCT.onReset();
+    this.BAD_SUB_PROD.onReset();
+    this.BAD_SCHEME.onReset();
+    this.BAD_PRODUCT.setReadOnly(false);
+    this.BAD_SUB_PROD.setReadOnly(false);
+    this.BAD_SCHEME.setReadOnly(false);
+  }
+  async BAD_CARD_NUMBER_blur(refNumber, event) {
+    // Request JSON structure
+    // const requestJson = {
+    //   "interfaceId": "REF_SEARCH",
+    //   "prposalid": "3322",
+    //   "inputdata": {
+    //     "RefNumber": "545852"
+    //   }
+    // };
+
+    let inputMap = new Map();
+    inputMap.set('Body.interfaceId', 'REF_SEARCH');
+    inputMap.set('Body.inputdata.RefNumber', this.BAD_CARD_NUMBER.getFieldValue());
+    this.services.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        if (res.status === 'S') {
+          this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['MaskCardNumber']);
+          this.BAD_MASK_CARD_NUMBER.setHidden(true);
+          this.BAD_PRODUCT.setValue(res['outputdata']['ProductFranchise']);
+          this.BAD_PRODUCT.setReadOnly(true);
+          this.BAD_SUB_PROD.setValue(res['outputdata']['ProdcutClass']);
+          this.BAD_SUB_PROD.setReadOnly(true);
+          this.BAD_SCHEME.setValue(res['outputdata']['ProductCode']);
+          this.BAD_SCHEME.setReadOnly(true);
+        }
+        if (res.status === 'F') {
+          this.BAD_PRODUCT.onReset();
+          this.BAD_SUB_PROD.onReset();
+          this.BAD_SCHEME.onReset();
+          this.BAD_PRODUCT.setReadOnly(false);
+          this.BAD_SUB_PROD.setReadOnly(false);
+          this.BAD_SCHEME.setReadOnly(false);
+          this.services.alert.showAlert(2, 'rlo.error.ReferenceNumber.invalid', -1);
+        }
+      }
+    );
   }
 
 }

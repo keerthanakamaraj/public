@@ -280,6 +280,12 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         let msgList = [];
         const moment = require('moment');
 
+        /* #PR-38 Sprint 6
+        if (this.docUploadObject.deferredUntil != "") {
+            this.docUploadObject.deferredUntil = moment(this.docUploadObject.deferredUntil).format('DD-MMM-YYYY');
+        }
+        if (this.docUploadObject.collectionDate != "") {
+        */
         if (this.docUploadObject.deferredUntil != "" && this.docUploadObject.deferredUntil != undefined) {
             this.docUploadObject.deferredUntil = moment(this.docUploadObject.deferredUntil).format('DD-MMM-YYYY');
         }
@@ -578,7 +584,6 @@ export class DocumentUploadComponent extends FormCommonComponent implements OnIn
         // Alert Service - Confirmation
         // this.utility.getAppService().delete(this.getLabel('WARNING_DELETE'),
         //     () => this.onDeleteConfirm(id));
-
         if (this.readOnly)
             return;
 

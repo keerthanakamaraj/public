@@ -9,7 +9,7 @@ import { Http } from '@angular/http';
 import { IModalData } from '../popup-alert/popup-interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupAlertComponent } from '../popup-alert/popup-alert.component';
-import { ICustomSearchObject, IGeneralCardData } from '../Interface/masterInterface';
+import { ICustomSearchObject, IGeneralCardData, IUnderwriterActionObject } from '../Interface/masterInterface';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { RloCommonData } from './rloCommonData.service';
@@ -64,8 +64,10 @@ export class RlouiService {
     { componentName: "PolicyCheckResults", iconClass: "icon-Policy-Check-Results" },
     { componentName: "ScorecardResults", iconClass: "icon-Scorecard-Results" },
     { componentName: "CustomerSearch", iconClass: "icon-Customer-Details" },
-    { componentName: "DecisionAlert", iconClass: "" },
-    { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" }
+    { componentName: "DecisionAlert", iconClass: "icon-Scorecard-Results" },
+    { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" },
+    { componentName: "BusinessDetails", iconClass: "icon-Credit-Card-Details" },
+    { componentName: "CustomerCards", iconClass: "icon-Customer-Details" },
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -203,6 +205,8 @@ export class RlouiService {
         localStorage.setItem("currency.code.default", this.tenantconfig["currency.code.default"]);
         localStorage.setItem("mob.default.country.code", this.tenantconfig["mob.default.country.code"]);
         localStorage.setItem("language.default", this.tenantconfig["language.default"]);
+        localStorage.setItem("card.allowed", this.tenantconfig["card.allowed"]);
+
 
 
 
@@ -502,7 +506,8 @@ export class RlouiService {
     });
     return promise;
   }
-  openDecisionAlert(componentCode?) {
+
+  openDecisionAlert(actionObject: IUnderwriterActionObject, applicationId: number) {
     let promise = new Promise<boolean>((resolve, reject) => {
       let modalObj: IModalData = {
         title: "Alert",
@@ -510,8 +515,37 @@ export class RlouiService {
         modalSize: "modal-width-sm",
         buttons: [],
         componentName: 'DecisionAlert',
-        componentCode: componentCode
-        // data: obj
+        componentCode: actionObject.componentCode,
+        data: actionObject.action,
+        applicationId: applicationId
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+          resolve(response)
+        }
+        resolve(true);
+      });
+    });
+    return promise;
+  }
+
+  //used to show list of avaliable cards for customer 
+  customerCardDetails(customerCardDetailsList) {
+    console.log(customerCardDetailsList);
+    let obj = customerCardDetailsList;
+
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: '',
+        mainMessage: undefined,
+        modalSize: 'modal-customer-avaliable-cards',
+        buttons: [],
+        componentName: 'CustomerCards',
+        data: obj
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);

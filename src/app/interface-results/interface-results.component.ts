@@ -14,6 +14,8 @@ export class InterfaceResultsComponent implements OnInit {
 
   @Input() ApplicationId: string = undefined;
   @Input() isLoanCatagory: boolean = this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
+  @Input() readOnly: boolean = false;//used in UW modal section
+
   MstInterfaceResultMap: Map<string, IInterfaceResultCustomer> = new Map();
 
   uwCustomerList: any = [];
@@ -111,8 +113,10 @@ export class InterfaceResultsComponent implements OnInit {
   }
 
   getInterfaceData() {
-    let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-    this.services.rloCommonData.getInterfaceModalData(appId);
+    if (!this.readOnly) {
+      let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+      this.services.rloCommonData.getInterfaceModalData(appId);
+    }
   }
 
 }

@@ -65,15 +65,22 @@
                     </app-AddressDetails>
                   </div>
                 </rlo-ui-accordion-group>
-                <rlo-ui-accordion-group #OCC_DETAILS id="OCC_DETAILS"
+                <rlo-ui-accordion-group #OCC_DETAILS id="OCC_DETAILS"  [hidden]="FieldId_5.isHidden() || isCorporateApplicant"
                   title="{{ 'OccupationDtlsForm.OD_HEADING' | translate}}">
 
-                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide occp_st" [hidden]="FieldId_5.isHidden()">
+                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide occp_st">
                     <app-OccupationDtlsForm #FieldId_5 fieldID="FieldId_5" (occpOnBlur)="FieldId_5_occpOnBlur($event)"
                       [formCode]="formCode">
                     </app-OccupationDtlsForm>
                   </div>
                 </rlo-ui-accordion-group>
+                <rlo-ui-accordion-group #BUSINESS_DTLS id="BUSINESS_DTLS" [hidden]="BUSINESS_DETAILS.isHidden() || !isCorporateApplicant"
+                title="{{ 'BusinessDtlsForm.BD_HEADING' | translate}}">
+                <div class="col-12  col-sm-12 col-md-12 res-pr-hide BusinessDtls " >
+                  <app-BusinessDtlsForm #BUSINESS_DETAILS fieldID="BUSINESS_DETAILS" [formCode]="formCode">
+                  </app-BusinessDtlsForm>
+                </div>
+              </rlo-ui-accordion-group>
               </rlo-ui-accordion>
             </div>
             <div class="tab-pane" id="application-panel">
@@ -86,15 +93,15 @@
                     </app-ApplicationDtls>
                   </div>
                 </rlo-ui-accordion-group>
-                <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS"
+                <rlo-ui-accordion-group #REF_DETAILS id="REF_DETAILS"  [hidden]="FieldId_10.isHidden() || isCorporateProposal"
                   title="{{ 'ReferralDetailsForm.RD_HEADING' | translate}}">
-                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide refDtls " [hidden]="FieldId_10.isHidden()">
+                  <div class="col-12  col-sm-12 col-md-12 res-pr-hide refDtls ">
                     <app-ReferralDetailsForm #FieldId_10 fieldID="FieldId_10"
                       (passArrayToCustomer)="FieldId_9_passArrayToCustomer($event)" [formCode]="formCode">
                     </app-ReferralDetailsForm>
                   </div>
                 </rlo-ui-accordion-group>
-                <rlo-ui-accordion-group #NOTE_DETAILS id="NOTE_DETAILS"
+                <rlo-ui-accordion-group #NOTE_DETAILS id="NOTE_DETAILS"  [hidden]="NOTEPAD_DETAILS.isHidden() || isCorporateProposal"
                   title="{{ 'NotepadDetailsForm.ND_HEADING' | translate}}">
                   <div class="col-12  col-sm-12 col-md-12 res-pr-hide noteDtls " [hidden]="NOTEPAD_DETAILS.isHidden()">
                     <app-NotepadDetailsForm #NOTEPAD_DETAILS fieldID="NOTEPAD_DETAILS" [formCode]="formCode">

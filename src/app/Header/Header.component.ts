@@ -116,7 +116,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   SUB_PRODUCT_NAME: string
 
   currentPageName: string;
-  currency : string;
+  currency: string;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -184,7 +184,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
-    //inputMap.set('PathParam.ApplicationId', 2962);
+    //inputMap.set('PathParam.ApplicationId', 4461);
     console.log('inputmaap', inputMap);
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -244,7 +244,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
         // else{
         //   this.HD_SCHEME.setValue(header.Scheme);
         // }
-       
+
         this.LD_LOAN_AMT.setValue(this.LOAN_AMT);
         this.LD_APP_PRPSE.setValue(header.ApplicationPurpose != undefined ? header.ApplicationPurpose : 'NA');
 
@@ -255,7 +255,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null, false));
           this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null, false));
         } else {
-          
+
           this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
           this.CC_CHANNEL.setValue(header.SourcingChannel);
@@ -263,7 +263,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           // this.CC_CARD_ASSOCIATION.setValue('NA');
           this.CC_CUST_TYPE.setValue(header.CardCustName);
           this.customerType = this.CC_CUST_TYPE.getFieldValue();
-         
+
           this.CC_CARD_TYPE.setValue(header.CardTypename);
           this.CARD_NUMBER.setValue(header.CardNumber);
           // this.SANCTION_CREDIT_LIMIT.setValue(header.SanctionCreditLimit);
@@ -284,12 +284,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           // if (this.HD_SCHEME.getFieldValue() == undefined && this.HD_SCHEME.getFieldValue() == null) {
           //   this.HD_SCHEME.setValue("NA");
           // }
-         
-          
+
+
           this.REQ_CARD_LIMIT.setValue(this.services.formatAmount(header.ReqCardLimit, null, null, false));
 
         }
-        this.currency =localStorage.getItem("currency.code.default");
+        this.currency = localStorage.getItem("currency.code.default");
         this.apiSuccessCallback();
       },
       async (httpError) => {
@@ -377,7 +377,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   }
 
   apiSuccessCallback() {
-  
+
     switch (localStorage.getItem("currency.code.default")) {
       case 'EUR': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
         break;
@@ -389,7 +389,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       case 'ZWL': this.CURRENCY_IMG = './assets/icons/Euro Header icon.svg';
         break;
     }
-    
+
 
     switch (this.HD_PROD_CAT.getFieldValue()) {
       case 'AL': this.PRODUCT_CATEGORY_IMG = './assets/icons/autoloan-yellow.svg';
@@ -486,15 +486,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       ARN: header.ApplicationRefernceNo,
       LoanAmount: this.isLoanCategory ? header.LoanAmount : header.S_MaxLoanAmount,
       CardType: header.CardType,
-      CardTypename:header.CardTypename,
-
+      CardTypename: header.CardTypename,
+      CustomerType: header.CardCustType,
+     // CustomerType: 'C',
       InterestRate: header.InterestRate,
       Tenure: header.Tenure,
       TenurePeriodCd: header.TenurePeriod,
       TenurePeriodName: header.TenurePeriodName,
-      MinCashLimit : header.MinCashLimit,
-      MaxCashLimit : header.MaxCashLimit,
-      MaxCredit : header.MaxCredit
+      MinCashLimit: header.Product_min_cash_limit,
+      MaxCashLimit: header.Product_max_cash_limit,
+      MaxCreditLimit: header.Product_max_credit
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
