@@ -129,6 +129,7 @@
     "rlo.error.geneder.invalid": "Please select the Gender according to the Title selected",
     "rlo.error.DOB.invalid": "The Date of Birth selected is not valid for the Product selected. Please add other details.",
     "rlo.error.Age.invalid": "The Age entered is invalid. Please correct it",
+    "rlo.error.ReferenceNumber.invalid": "Reference number invalid",
     "rlo.error.DateOfRecipt.invalid": "The Date of Receipt entered is invalid. Please correct it.",
     "rlo.error.grossIncome.invalid": "Gross Income entered is invalid. Please correct it.",
     "rlo.error.formdetails.invalid": "All the form errors have been highlighted. Please correct them",
@@ -1710,7 +1711,8 @@
     "PROMOTION_LABEL": "Have a promotion to apply?",
     "CD_EMAIL_ID": "Email ID",
     "CD_COUNTRY_CODE": "Country Code",
-    "CD_NAME_ON_CARD": "Name on Card"
+    "CD_NAME_ON_CARD": "Name on Card",
+    "BAD_MASK_CARD_NUMBER": "Mask Card Number"
   },
   "AddressDetailsGrid": {
     "AD_Residence_Duration": "Duration of Occupancy",

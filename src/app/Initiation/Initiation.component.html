@@ -117,9 +117,19 @@
                               {{ 'Initiation.BAD_CARD_NUMBER' | translate}}</label>
                           </div>
                           <app-text-box #BAD_CARD_NUMBER fieldID="BAD_CARD_NUMBER" [formCode]="formCode"
-                            (blur)="genericOnBlur('BAD_CARD_NUMBER', $event)"></app-text-box>
+                            (blur)="genericOnBlur('BAD_CARD_NUMBER', $event)" (change)="BAD_CARD_NUMBER_change('BAD_CARD_NUMBER', $event)"></app-text-box>
                         </div>
-        
+                        <!-- Start adding hidden input field for mask card number -->
+                        <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_MASK_CARD_NUMBER.isHidden() || isLoanCategory">
+                          <div class="clr-brown fieldLegend">
+                            <label class="clr-brown" [ngClass]="{'mandatory': BAD_MASK_CARD_NUMBER.mandatory}">
+                              {{ 'Initiation.BAD_MASK_CARD_NUMBER' | translate}}</label>
+                          </div>
+                          <app-text-box #BAD_MASK_CARD_NUMBER fieldID="BAD_MASK_CARD_NUMBER" [formCode]="formCode"
+                            (blur)="genericOnBlur('BAD_MASK_CARD_NUMBER', $event)"></app-text-box>
+                        </div>
+                        <!-- End adding hidden input field for mask card number -->
+                        
                         <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_CUSTOMER_TYPE.isHidden() || isLoanCategory">
                           <div class="clr-brown fieldLegend">
                             <label class="clr-brown" [ngClass]="{'mandatory': BAD_CUSTOMER_TYPE.mandatory}">
