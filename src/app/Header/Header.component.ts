@@ -484,6 +484,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       CardType: header.CardType,
       CardTypename: header.CardTypename,
       CustomerType: header.CardCustType,
+     // CustomerType: 'C',
       InterestRate: header.InterestRate,
       Tenure: header.Tenure,
       TenurePeriodCd: header.TenurePeriod,

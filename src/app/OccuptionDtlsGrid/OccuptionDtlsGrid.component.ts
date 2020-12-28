@@ -385,7 +385,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
             // if (!i)
             // 	this.services.rloCommonData.updateValuesFundLineGraph("add");
           }
-          if(this.services.rloCommonData.globalApplicationDtls.CardType!='CORP'){
+          if(this.services.rloCommonData.globalApplicationDtls.CustomerType!='C'){
             let totalValue = { 'OD_INCOME_TYPE': 'Total', 'NET_INCOME': 0};
             this.occupation.forEach(element => {
               if(element['NET_INCOME']!=undefined && element['NET_INCOME']!=''){
@@ -486,7 +486,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   }
 
   toggleColumn() {
-    let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP' ? true : false;
+    let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' ? true : false;
 
     this.setColumnHidden('OD_INCOME_TYPE', CorporateFlag);
     this.setColumnHidden('NET_INCOME', CorporateFlag);

@@ -130,7 +130,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @Input() parentFormCode: string = undefined;
   @Input() readOnly: boolean = false;
   @Input() activeBorrowerSeq: any;//used when dynamically loading component in modal ie:UW
-  @Input() cardType: string = this.services.rloCommonData.globalApplicationDtls.CardType;
+  @Input() appCustomerType: string = this.services.rloCommonData.globalApplicationDtls.CustomerType;
 
 
   showAddOn: boolean = false;
@@ -518,17 +518,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.ApplicationId', this.ApplicationId);
         inputMap.set('Body.BorrowerDetails.Title', this.CD_TITLE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustomerType', this.isLoanCategory ? this.CD_CUST_TYPE.getFieldValue() : this.CD_CARD_CUST_TYPE.getFieldValue());
-        //  if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'&&inputMap.get('Body.BorrowerDetails.CustomerType')=='B'){
+        
         inputMap.set('Body.BorrowerDetails.RegisteredName', this.CD_REGISTERED_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.TypeOfIncorporation', this.CD_INCORPORATE_TYPE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.CD_INCORPORATE_DATE.getFieldValue());
-        //  }else{
+        
         inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.FullName', this.CD_FULL_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
-        //  }
+        
 
         inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
 
@@ -663,17 +663,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
         // inputMap.set('Body.BorrowerDetails.FullName', this.CD_FULL_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustomerType', this.isLoanCategory ? this.CD_CUST_TYPE.getFieldValue() : this.CD_CARD_CUST_TYPE.getFieldValue());
-        //  if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && inputMap.get('Body.BorrowerDetails.CustomerType')=='B'){
+       
         inputMap.set('Body.BorrowerDetails.RegisteredName', this.CD_REGISTERED_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.TypeOfIncorporation', this.CD_INCORPORATE_TYPE.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.CD_INCORPORATE_DATE.getFieldValue());
-        //   }else{
+        
         inputMap.set('Body.BorrowerDetails.FirstName', this.CD_FIRST_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.MiddleName', this.CD_MIDDLE_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.LastName', this.CD_LAST_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.FullName', this.CD_FULL_NAME.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
-        //  }
+       
         inputMap.set('Body.BorrowerDetails.Gender', this.CD_GENDER.getFieldValue());
         inputMap.set('Body.BorrowerDetails.DOB', this.CD_DOB.getFieldValue());
         inputMap.set('Body.BorrowerDetails.TaxID', this.CD_TAX_ID.getFieldValue());
@@ -947,12 +947,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     const customer = customerDtlsObj;
     this.dispalyAddonField(customer.CustomerType);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
-    //  if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && customer.CustomerType=='B'){
+   
     this.CD_REGISTERED_NAME.setValue(customer.RegisteredName);
     this.CD_INCORPORATE_DATE.setValue(customer.DateOfIncorporation);
     this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
 
-    //   }else{
+   
     this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
     this.CD_MIDDLE_NAME.setValue(customer.MiddleName);
@@ -961,7 +961,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_FULL_NAME.setValue(customer.FullName);
     this.CD_DOB.setValue(customer.DOB);
     this.CD_GENDER.setValue(customer.Gender.id);
-    //   }
+    
     this.CD_TAX_ID.setValue(customer.TaxID);
     this.CD_DEBIT_SCORE.setValue(customer.DebitScore);
     this.CD_CUST_SEGMENT.setValue(customer.CustomerSegment.id);
@@ -1007,7 +1007,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
     this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
-    this.RequestedAmountLimit.mandatory=customer.CustomerType=='A'?true:false;
     this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
 
 
@@ -1104,11 +1103,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.dispalyAddonField(event.customerType);
     this.ManageCardTypeBasedFields(event.customerType)
   }
-  ManageCardTypeBasedFields(customerType) {
-    let cardType = this.services.rloCommonData.globalApplicationDtls.CardType;
+  ManageCardTypeBasedFields(applicantType) {
+    let appCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
     let CorporateApplicantFlag: boolean = undefined;
     this.EmbLineFlag.setValue('N', undefined, true);
-    if (cardType == 'CORP' && customerType == 'B') {
+    if (appCustomerType == 'C' && applicantType == 'B') {
       //  this.EmbLineFlag.setReadOnly(true);
       CorporateApplicantFlag = true;
     } else {
@@ -1140,10 +1139,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   dispalyAddonField(custType) {
     if (custType == 'A') {
       this.RequestedAmountLimit.setHidden(false);
+      this.RequestedAmountLimit.mandatory=true;
       this.CardDispatchMode.setHidden(false);
     }
     else {
       this.RequestedAmountLimit.setHidden(true);
+      this.RequestedAmountLimit.mandatory=false;
       this.CardDispatchMode.setHidden(true);
     }
   }

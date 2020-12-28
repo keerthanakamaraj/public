@@ -86,11 +86,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
-  @Input() activeApplicantType=undefined;
+  @Input() activeApplicantType=undefined; // canara changes
   isCorporate:boolean=undefined;
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
+  
 
   // tslint:disable-next-line:member-ordering
   fieldDependencies = {
@@ -239,10 +240,16 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
-    this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
+    this.AddressGrid.activeApplicantType=this.activeApplicantType;
+    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
+      this.hidAddType.setValue(this.activeApplicantType=='B'?'CORP_PRIM_ADDRESS_TYPE':'CORP_ADON_ADDRESS_TYPE');  //changed for canara
+      }else{
+        this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
+      }
+   
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
-    this.isCorporate=this.services.rloCommonData.globalApplicationDtls.CustomerType=='CORPORATE'?true:false;
+    this.isCorporate=this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'?true:false;
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
     // this.AD_MAILING_ADDRESS.setDefault('N');
@@ -278,24 +285,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     }
   }
 
-  //   doCanaraBasedChanges(){
-  //     let isCorporateFlag=undefined;
-  //     if(this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP')
-  //     {
-  //     this.hidAddType.setValue('CORP_ADDRESS_TYPE'); 
-  //     isCorporateFlag=true;
-
-  //   } 
-  //   else{
-  //     this.hidAddType.setValue('ADDRESS_TYPE');
-  //     isCorporateFlag=false;
-  // }
-  // this.AD_OCCUPANCY_TYPE.setHidden(isCorporateFlag);
-  // this.AD_OCCUPANCY_STATUS.setHidden(isCorporateFlag);
-  // this.CORR_ADD_CHECKBOX.setHidden(isCorporateFlag);
-  // this.AD_REGION.setHidden(isCorporateFlag);
-  // this.AD_STATE.setHidden(!isCorporateFlag);
-  //   }
   setInputs(param: any) {
     const params = this.services.http.mapToJson(param);
     if (params['mode']) {
@@ -643,7 +632,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
-        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']['id']);
+        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
         this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
@@ -693,6 +682,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         }
         this.hideSpinner();
         // await this.Handler.onAddTypeChange(); // removed for canara 
+        this.AD_ADD_TYPE.setReadOnly(true); // changes to adjust canara requirements loop hole
         this.onCanaraAddressTypeChange(); // called for canara
 
       },

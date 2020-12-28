@@ -508,7 +508,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     async CCD_Save_click(event) {
         let inputMap = new Map();
         let decisionsParamArray = [];
-        this.doUpdateMemberAPICall();
+       // this.doUpdateMemberAPICall();
         var noOfError: number = await this.revalidate();
         console.log(this.ApprovedLimit.getFieldValue());
         if (this.readOnly) {

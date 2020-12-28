@@ -85,6 +85,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   disableAccordian: boolean = false;
   isCorporateApplicant:boolean=undefined;
   isCorporateProposal:boolean=undefined;
+  activeApplicantType:string=undefined;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -435,6 +436,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.BUSINESS_DETAILS.onReset();
 
     this.FieldId_6.activeBorrowerSeq = event.BorrowerSeq;
+    this.FieldId_6.activeApplicantType=this.activeApplicantType;
     this.FieldId_6.onReset();
 
     this.FieldId_5.activeBorrowerSeq = event.BorrowerSeq;
@@ -464,6 +466,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   async FieldId_9_resetCustForm(event) {
+    this.activeApplicantType=event.customerType;
     this.CUSTOMER_DETAILS.setNewCustomerFrom(event);
     this.disableAccordian = true;
     this.UpdateAccordian();
@@ -478,11 +481,12 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
-    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'&&event.CustomerArray.CustomerType=='B'){
+    if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' &&event.CustomerArray.CustomerType=='B'){
       this.isCorporateApplicant=true;
     }else{
       this.isCorporateApplicant=false;
     }
+    this.activeApplicantType=event.CustomerArray.CustomerType;
     this.disableAccordian = false
     this.UpdateAccordian();
     this.CustomerDetailsArray = event.CustomerArray;
@@ -762,7 +766,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
-    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+    if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'){
       this.isCorporateProposal=true;
     }else{
       this.isCorporateProposal=false;

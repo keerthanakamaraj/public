@@ -1233,7 +1233,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   doCardTypeBasedChanges() {
-    if (this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP') {
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
 
       let sectionindex: number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'OccupationDetails')));
       if ((undefined == this.CustomerType || this.CustomerType == 'B') && sectionindex >= 0) {
@@ -1254,6 +1254,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         if (section.id == "CollateralDetails" && section.isOptional) {
           //Hide Collateral details for Personal loan
           if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "CC") {
+            element.splice(i, 1);
+            i--;
+          }
+        }
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+          if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails'|| section.id == 'IncomeSummary' || section.id=='PersonalInterviewDetails'|| section.id=='RmVisitDetails') {
+            section.isOptional = true;
             element.splice(i, 1);
             i--;
           }
@@ -1301,7 +1308,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-        if (this.services.rloCommonData.globalApplicationDtls.CardType == 'CORP') {
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
           if (section.id == 'ReferrerDetails' || section.id == 'Notes' || section.id == 'GoNoGoDetails') {
             section.isOptional = true;
             element.splice(i, 1);

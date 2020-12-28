@@ -483,7 +483,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         );
       }
       else {
-        if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP' && occupationGridData.length>=1){
+        if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && occupationGridData.length>=1){
           this.services.alert.showAlert(2, 'rlo.error.corp-occupation.exist', -1);
           return;
         }
@@ -715,7 +715,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   }
 
   CorporateCardBasedHandling(){
-    if(this.services.rloCommonData.globalApplicationDtls.CardType=='CORP'){
+    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
       this.OD_OCCUPATION.setHidden(true);
       this.OD_OCCUPATION.mandatory=false;
       this.OD_EMPLT_TYPE.setHidden(true);

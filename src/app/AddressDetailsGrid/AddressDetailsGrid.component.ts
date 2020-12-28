@@ -34,6 +34,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
   addressDetails = [];
   componentCode: string = 'AddressDetailsGrid';
   openedFilterForm: string = '';
+  activeApplicantType:string=undefined;   // canara changes
   hidden: boolean = false;
   gridConsts: any = {
     paginationPageSize: 10,
@@ -281,11 +282,28 @@ export class AddressDetailsGridComponent implements AfterViewInit {
 
             var tempObj = {};
             tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
-            tempObj['AD_Address_Type'] = address[i].AddressType.text;
+            tempObj['AddressTypeId'] = address[i].AddressType;
+            if( this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' ){
+              if(this.activeApplicantType=='B' && address[i].AddressType=='ML' ){
+                tempObj['AD_Address_Type'] =  'Registered Address';
+              }else if(this.activeApplicantType=='B' && address[i].AddressType=='PR'){
+                  tempObj['AD_Address_Type'] = 'Communication Address';
+              }else if(this.activeApplicantType=='B' && address[i].AddressType=='PR'){
+                tempObj['AD_Address_Type'] = 'Office Address';
+              }
+            }else{
+              if(address[i].AddressType=='ML' ){
+                tempObj['AD_Address_Type'] =  'Mailing Address';
+              }else if(address[i].AddressType=='PR'){
+                tempObj['AD_Address_Type'] =  'Permenent Address';
+              }
+            }
+         
+            
             tempObj['AD_MAILING_ADDRESS'] = address[i].UDF3;
             tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
             tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
-            tempObj['AddressTypeId'] = address[i].AddressType.id;
+
 
             let fullAddressArr = [];
             fullAddressArr.push(address[i].AddressLine1);

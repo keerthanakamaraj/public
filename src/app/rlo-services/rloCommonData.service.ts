@@ -314,16 +314,19 @@ export class RloCommonData {
     const tags = [];
     event.data.forEach(address => {
       let tagText = '';
-      if (address.MailingAddress.id === 'Y') {
-        if (address.AddressType.id === 'OF') {
-          tagText = 'Office; ';
-        } else if (address.AddressType.id === 'RS') {
-          tagText = 'Residence; ';
-        }
-
+      // if (address.MailingAddress.id === 'Y') {
+      //   if (address.AddressType === 'OF') {
+      //     tagText = 'Office; ';
+      //   } else if (address.AddressType === 'RS') {
+      //     tagText = 'Residence; ';
+      //   }
+      // }
+        if(address.AddressType === 'ML'){
+          tagText = 'Registered; ';
+        
         tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
-      }
+        }
     });
     return this.trimTagsIfRequired(tags, 2);
   }
@@ -589,7 +592,7 @@ export class RloCommonData {
     let customerData = sectionData.get('CustomerDetails');
 
     const LoanOwnership = customerData.LoanOwnership;
-    const custType = customerData.CustomerType;
+    const applicantType = customerData.CustomerType;
 
     if (!sectionData.has('AddressDetails')) { //added for canara
       commonObj.isSectionValid = false;
@@ -597,12 +600,15 @@ export class RloCommonData {
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: false };
       for (const eachAddress of addressList) {
-        if ('ML' === ('' + eachAddress.AddressType.id)) {
+        if ('ML' === ('' + eachAddress.AddressType)) {
           addrValidationObj.isMailing = true;
         }
-        if ('PR' === ('' + eachAddress.AddressType.id)) {
+        if ('PR' === ('' + eachAddress.AddressType)) {
           addrValidationObj.isPermenet = true;
         }
+      }
+      if(applicantType=='A' && this.globalApplicationDtls.CustomerType=='C'){
+          addrValidationObj.isMailing = true;
       }
       // commented for Canara
       /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
