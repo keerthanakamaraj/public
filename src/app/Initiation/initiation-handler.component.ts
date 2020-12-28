@@ -767,9 +767,60 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_CARD_NUMBER.mandatory = false;
     }
   }
+  HideFieldBasedOnCorporate(){
+  if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
+    this.MainComponent.CD_REGISTERED_NAME.setHidden(false);
+    this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(false);
+    this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(false);
+    this.MainComponent.CD_FIRST_NAME.setHidden(true);
+    this.MainComponent.CD_MIDDLE_NAME.setHidden(true);
+    this.MainComponent.CD_LAST_NAME.setHidden(true);
+    this.MainComponent.CD_DOB.setHidden(true);
+    this.MainComponent.CD_FULL_NAME.setHidden(true);
+    this.MainComponent.CD_GENDER.setHidden(true);
+    this.MainComponent.CD_FIRST_NAME.setValue(undefined);
+    this.MainComponent.CD_MIDDLE_NAME.setValue(undefined);
+    this.MainComponent.CD_LAST_NAME.setValue(undefined);
+    this.MainComponent.CD_DOB.setValue(undefined);
+    this.MainComponent.CD_FULL_NAME.setValue(undefined);
+    this.MainComponent.CD_GENDER.setValue(undefined);
+    this.MainComponent.CD_FIRST_NAME.mandatory = false;
+    this.MainComponent.CD_LAST_NAME.mandatory = false;
+    this.MainComponent.CD_GENDER.mandatory = false;
+    this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
+    this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
 
+    
+  }
+  else{
+    this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
+    this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(true);
+    this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(true);
+    this.MainComponent.CD_FIRST_NAME.setHidden(false);
+    this.MainComponent.CD_MIDDLE_NAME.setHidden(false);
+    this.MainComponent.CD_LAST_NAME.setHidden(false);
+    this.MainComponent.CD_DOB.setHidden(false);
+    this.MainComponent.CD_FULL_NAME.setHidden(false);
+    this.MainComponent.CD_GENDER.setHidden(false);
+    this.MainComponent.CD_REGISTERED_NAME.setValue(undefined);
+    this.MainComponent.CD_TYPE_OF_INCORPORATION.setValue(undefined);
+    this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(undefined);
+    this.MainComponent.CD_FIRST_NAME.mandatory = true;
+    this.MainComponent.CD_LAST_NAME.mandatory = true;
+    this.MainComponent.CD_GENDER.mandatory = true;
+    this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
+    this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
+    
+
+    
+    
+  }
+
+  }
 
 }
+
+
 
 
 

@@ -192,7 +192,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   CBSProductCd: any;
   applicationArray: any;
   CustomerType: any;
-  UserBranch : string = 'Andheri';
+  UserBranch : string = 'Juhu';
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -223,6 +223,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       // this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('CD_EMAIL_ID'),
       this.revalidateBasicField('CD_NAME_ON_CARD'),
+      this.revalidateBasicField('CD_REGISTERED_NAME'),
+      this.revalidateBasicField('CD_DATE_OF_INCORPORATION'),
+      this.revalidateBasicField('CD_TYPE_OF_INCORPORATION'),
+
+
+
     //  this.revalidateBasicField('CD_CBS_CUST_ID'),
     //  this.revalidateBasicField('CD_REGISTERED_NAME'),
     //  this.revalidateBasicField('CD_TYPE_OF_INCORPORATION'),
@@ -554,8 +560,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         console.log(response);
         //  this.ApplicationStatus(response);
         //  this.setValuesOfCustomer(response);
-        this.CBSProductCode(response);
-        // this.DOBIsValid(response);
+        // this.CBSProductCode(response);
+        this.IsInitiationAllowedForBranch(response);
+
         //  this.NoOfCardAllowed(response);
         // this.IsInitiationAllowedForBranch(response);
          this.toggleColumn();
@@ -666,10 +673,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return;
     }
     else{
-      this.CD_CUST_TYPE.setValue('B');
-      this.setValuesOfCustomer(data);
       this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
-      this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);    
+      this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']); 
+      this.CD_CARD_CUST_TYPE.setValue('B');
+      this.setValuesOfCustomer(data);
+         
     }
   }
 
@@ -712,7 +720,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     // Corporate Type Customer
     this.CD_REGISTERED_NAME.setValue(tempVar['registeredName']);
-    this.CD_TYPE_OF_INCORPORATION.setValue('IT');
+    this.CD_TYPE_OF_INCORPORATION.setValue(['typeOfIncorporation']);
     this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
    // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
@@ -724,7 +732,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
+     this.Handler.HideFieldBasedOnCorporate();
     // this.CBSProductCode(data);
+    this.searchbutton = 'N';
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
@@ -1358,6 +1368,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async CD_CUST_TYPE_change(fieldID, value) {
     this.Handler.CustomerTypeOnChange();
+    this.Handler.HideFieldBasedOnCorporate();
     if (this.CD_CUST_TYPE.getFieldValue() == 'B') {
       this.CD_LOAN_OWNERSHIP.setValue(100);
 
@@ -1375,6 +1386,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
 
   }
+
+  async CD_CARD_CUST_TYPE_change(fieldID, value) {
+    this.Handler.HideFieldBasedOnCorporate();
+  }
+
 
   async CD_LOAN_OWNERSHIP_blur() {
 
@@ -1551,16 +1567,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ]
     },
 
-    BAD_CAM_TYPE: {
-      inDep: [
+    // BAD_CAM_TYPE: {
+    //   inDep: [
 
-        { paramKey: "VALUE1", depFieldID: "BAD_CAM_TYPE", paramType: "PathParam" },
-        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
-        { paramKey: "KEY1", depFieldID: "hideCamType", paramType: "QueryParam" },
-      ],
-      outDep: [
-      ]
-    },
+    //     { paramKey: "VALUE1", depFieldID: "BAD_CAM_TYPE", paramType: "PathParam" },
+    //     { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+    //     { paramKey: "KEY1", depFieldID: "hideCamType", paramType: "QueryParam" },
+    //   ],
+    //   outDep: [
+    //   ]
+    // },
 
     LD_TENURE_PERIOD: {
       inDep: [
@@ -1693,8 +1709,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           if (typeof response != "boolean") {
             // this.ApplicationStatus(response);
            //this.CBSProductCode(response);
-           this.IsInitiationAllowedForBranch(response);
-            // this.setValuesOfCustomer(response);
+                       // this.setValuesOfCustomer(response);
             this.revalidateCustomers();
           }
           else {

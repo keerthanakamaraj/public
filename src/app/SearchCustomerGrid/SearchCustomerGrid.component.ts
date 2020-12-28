@@ -458,6 +458,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['Branch'] = loopVar7[i].Branch;
                 tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
+                tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
+                tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+                tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
 
                 loopDataVar7.push(tempObj);
               }
@@ -517,6 +520,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
                 tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
+                tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
+                tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+                tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
 
                 loopDataVar7.push(tempObj);
               }
