@@ -198,7 +198,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               let customer = {};
               this.CustomerDetailsMap.set(eachBorrower.BorrowerSeq, eachBorrower);
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
-              customer['CD_CUSTOMER_NAME'] = eachBorrower.FullName;
+              customer['CD_CUSTOMER_NAME'] = eachBorrower.RegisteredName ? eachBorrower.RegisteredName :eachBorrower.FullName;
               customer['editing'] = false;
               customer['loanOwnerFlag'] = false;
               if (eachBorrower.LoanOwnership != undefined && eachBorrower.LoanOwnership != 0) {
