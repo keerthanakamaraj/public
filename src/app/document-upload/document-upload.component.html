@@ -11,7 +11,7 @@
                         [ngClass]="{ 'mandatory': isMandatory('trnDemographicId')}">{{getLabel('DOC_UP_OWNER')}}</label>
                     <ng-select [disabled]="ownerfield" class="ngselect" [(ngModel)]="docUploadObject.trnDemographicId"
                         [items]="ownersName" bindValue="ID" bindLabel="DISPLAY_NAME" name="trnDemographicId"
-                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')"></ng-select>
+                        (blur)="validateField(docUploadObject.trnDemographicId, 'trnDemographicId')" [readonly]="readOnly"></ng-select>
                 </div>
             </div>
             <div class="col-md-4 ">
@@ -53,7 +53,7 @@
                     <label [ngClass]="{ 'mandatory': isMandatory('status')}">{{getLabel('DOC_STATUS')}}</label>
                     <ng-select class="ngselect" [(ngModel)]="docUploadObject.status" name="status"
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
-                        (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')">
+                        (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')" [readonly]="readOnly">
                     </ng-select>
                 </div>
             </div>
@@ -94,14 +94,14 @@
                     <label class="radio-container">
                         <input type="radio" name="mandatory"
                             (blur)="validateField(docUploadObject.mandatory, 'mandatory')"
-                            [(ngModel)]="docUploadObject.mandatory" value="1" />
+                            [(ngModel)]="docUploadObject.mandatory" value="1" [disabled]="readOnly"/>
                         {{getLabel('YES')}}
                         <span class="checkmark"></span>
                     </label>
                     <label class="radio-container">
                         <input type="radio" name="mandatory"
                             (blur)="validateField(docUploadObject.mandatory, 'mandatory')"
-                            [(ngModel)]="docUploadObject.mandatory" value="0" />
+                            [(ngModel)]="docUploadObject.mandatory" value="0" [disabled]="readOnly"/>
                         {{getLabel('NO')}}
                         <span class="checkmark"></span>
                     </label>
