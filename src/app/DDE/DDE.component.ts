@@ -1309,7 +1309,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
         }
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
-          if (section.id == 'ReferrerDetails' || section.id == 'Notes' || section.id == 'GoNoGoDetails') {
+          if (section.id == 'ReferrerDetails' || section.id == 'Notes' || section.id == 'GoNoGoDetails' ||  section.id == 'GoNoGoDetails' || section.id == "InterfaceResults") {
             section.isOptional = true;
             element.splice(i, 1);
             i--;
