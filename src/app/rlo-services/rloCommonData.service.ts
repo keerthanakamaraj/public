@@ -62,8 +62,9 @@ export interface IGlobalApllicationDtls {
   MaxCreditLimit?: any;
   CardCustName?: string;
   PrimaryUsage?: string;
-  ReqCardLimit?: any;
   CustomerType?:any;
+  ReqCardLimit?: any;
+  
 }
 @Injectable({
   providedIn: 'root'
@@ -341,7 +342,7 @@ export class RloCommonData {
     const maxAddress = 2;
     console.log("shweta :: occ tags ", event.data);
     event.data.forEach(occupation => {
-      if (this.globalApplicationDtls.CardType == 'CORP') {
+      if (this.globalApplicationDtls.CustomerType == 'C') {
         tags.push({ text: occupation.EmployeeID + ', ' + occupation.Designation });
 
       } else {
@@ -548,7 +549,7 @@ export class RloCommonData {
 
     const LoanOwnership = customerData.LoanOwnership;
     const custType = customerData.CustomerType;
-    if (this.globalApplicationDtls.CardType == 'CORP') {
+    if (this.globalApplicationDtls.CustomerType == 'C') {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails') || customerSectionData.has('BusinessDetails')) {
         commonObj.isSectionValid = true;
@@ -570,7 +571,7 @@ export class RloCommonData {
       }
     }
     if (!commonObj.isSectionValid) {
-      if (this.globalApplicationDtls.CardType == 'CORP') {
+      if (this.globalApplicationDtls.CustomerType == 'C') {
         commonObj.errorMessage = custType == 'B' ? "Business Details" : "1 occupation";
       } else if (LoanOwnership != undefined && LoanOwnership != 0) {
         commonObj.errorMessage = "Atleast 1 occupation with Net Income";
@@ -687,16 +688,16 @@ export class RloCommonData {
       let errorMessage = '';
 
       forkJoin(
-        this.validateGoNoGoSection(dataToValidate),
+        //this.validateGoNoGoSection(dataToValidate), //removed for canara
         this.validateLoanOrCreditCardSection(dataToValidate, isCategoryTypeLoan),
         this.validatePropertyDetailsSection(dataToValidate),
         // this.validateScoreCard(dataToValidate),
         // this.validatePolicyCheck(dataToValidate)
       ).subscribe((data) => {
         console.error(data);
-        isGoNoGoSectionValid = data[0].isSectionValid;
-        isLoadOrCreditCardValid = data[1].isSectionValid;
-        isPropertyDetailsValid = data[2].isSectionValid;
+        //isGoNoGoSectionValid = data[0].isSectionValid;  //removed for canara
+        isLoadOrCreditCardValid = data[0].isSectionValid;
+        isPropertyDetailsValid = data[1].isSectionValid;
         // isScoreCardDetailsValid = data[3].isSectionValid;
         // isPolicyCheckValid = data[4].isSectionValid;
 
@@ -832,8 +833,10 @@ export class RloCommonData {
       errorMessage: ''
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
-
-    if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+    if(this.globalApplicationDtls.CustomerType=='C'){
+      commonObj.isSectionValid = true;
+    }
+    else if(this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
       if (!customerTabSectionData.has('IncomeSummary')) {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = "Details from income summary section required";
