@@ -1083,6 +1083,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     const inputMap = new Map();
     this.services.rloui.openDecisionAlert(actionObject, this.applicationId).then((Response: any) => {
       console.log(Response);
+
       if (typeof Response == 'object') {
         let modalResponse = Response.response;
         if (modalResponse.DecisionReason != undefined || Response.action != "btn-close") {

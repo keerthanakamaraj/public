@@ -97,6 +97,25 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         return totalErrors;
     }
 
+    async revalidateSendBack(): Promise<number> {
+        var totalErrors = 0;
+        super.beforeRevalidate();
+        await Promise.all([
+            this.revalidateBasicField('DecisionReason'),
+            this.revalidateBasicField('Remarks'),
+            // this.revalidateBasicField('ApprovalReq'),
+            // this.revalidateBasicField('DesignationAuthority'),
+            // this.revalidateBasicField('ApproverName'),
+        ]).then((errorCounts) => {
+            errorCounts.forEach((errorCount) => {
+                totalErrors += errorCount;
+            });
+        });
+        this.errors = totalErrors;
+        super.afterRevalidate();
+        return totalErrors;
+    }
+
     setReadOnly(readOnly) {
         super.setBasicFieldsReadOnly(readOnly);
     }
@@ -238,7 +257,7 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
 
     //send back
     async ALTER_SUBMIT_click_sendback(event) {
-        var numberOfErrors: number = await this.revalidate();
+        var numberOfErrors: number = await this.revalidateSendBack();
         let Decision = {
             'DecisionReason': this.DecisionReason.getFieldValue(),
             'Remarks': this.Remarks.getFieldValue()
