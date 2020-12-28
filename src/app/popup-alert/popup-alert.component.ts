@@ -47,6 +47,7 @@ export class PopupAlertComponent implements OnInit {
 
   modalObject: IModalData;
   dynamicallyLoadableComponent: any;//instance of the component that will be loaded dynamically
+  hideModalHeader: boolean = false;//used to hide the header in modals
 
   constructor(public activeModal: NgbActiveModal, public services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private cdRef: ChangeDetectorRef) {
   }
@@ -56,6 +57,10 @@ export class PopupAlertComponent implements OnInit {
     console.error(this.modalObject);
     // console.log(this.modalObject.rawHtml);
     console.warn(this.modalObject.buttons, this.modalObject.componentName);
+    if (this.modalObject.hasOwnProperty("hideModalHeader")) {
+      if (this.modalObject.hideModalHeader)
+        this.hideModalHeader = true;
+    }
   }
 
   async onClick(buttonObj: AnyNaptrRecord): Promise<any> {
@@ -165,6 +170,11 @@ export class PopupAlertComponent implements OnInit {
       // }
     }
 
+    //Dirty code ::: Used to hide the "UNKNOWN" error msgs that come @UW -> modal open  
+    setTimeout(() => {
+      this.removeValidationErrorMsg(this.modalObject.componentName)
+    }, 1500);
+
     if (this.modalObject.componentName == 'DecisionAlert') {
       setTimeout(() => {
         //event emitter added for in decisionAlert
@@ -269,4 +279,28 @@ export class PopupAlertComponent implements OnInit {
   // ngOnDestroy() {
   //   this.services.rloCommonData.modalDataSubject.unsubscribe();
   // }
+
+  removeValidationErrorMsg(sectionName: string) {
+    let errorMsgEle = document.getElementsByClassName("injected-component");
+
+    switch (sectionName) {
+      case "AddressDetails":
+        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+        break;
+
+      case "AssetDetails":
+        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+
+        var errorMsgClass = errorMsgEle[0].getElementsByClassName("error")[0];
+        errorMsgClass.classList.remove("error");
+        break;
+
+      case "ReferrerDetails":
+        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+        break;
+
+      default:
+        break;
+    }
+  }
 }

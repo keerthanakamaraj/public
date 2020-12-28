@@ -59,7 +59,6 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     @ViewChild('CCD_Save', { static: false }) CCD_Save: ButtonComponent;
     @ViewChild('CCD_Clear', { static: false }) CCD_Clear: ButtonComponent;
-    @ViewChild('hidCreditSeq', { static: false }) hidCreditSeq: HiddenComponent;
     @ViewChild('hidECSMandateFlag', { static: false }) hidECSMandateFlag: HiddenComponent;
     @ViewChild('hidECSType', { static: false }) hidECSType: HiddenComponent;
     @ViewChild('Handler', { static: false }) Handler: CreditCardHandlerComponent;
@@ -81,9 +80,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: RloUiCurrencyComponent;
     @ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: RloUiCurrencyComponent;
     @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
-    @ViewChild('CreditCardInputGrid', { static: false }) CreditCardInputGrid: CreditCardInputGridComponent;
 
-    
+    @ViewChild('CreditCardInputGrid', { static: false }) CreditCardInputGrid: CreditCardInputGridComponent;
 
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
@@ -94,6 +92,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     custMinAge = 18;
     custMaxAge = 100;
     customerList: any;
+    clearFieldsFlag:boolean=false;
+    CreditCardSeq:string=undefined;
     async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -156,6 +156,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
         // this.hidECSMandateFlag.setValue('Y_N');
         // this.hidECSType.setValue('ECS_TYPE');
+      
 
         setTimeout(() => {
             if (this.readOnly) {
@@ -186,7 +187,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.CardDispatchMode.setHidden(false);
         this.Add_RequestedCardLimit.setHidden(true);
         // this.StmtDispatchMode.setValue('Email');
-        this.OnLoanFormLoad()
+
+        // Sprint-6
+        //this.OnLoanFormLoad()
+        if(!this.clearFieldsFlag){
+          this.OnLoanFormLoad();
+        }
+
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -259,6 +266,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.passNewValue(this.value);
         this.setReadOnly(false);
         this.onFormLoad();
+        this.ApprovedLimit.resetFieldAndDropDown();
+        this.ApprovedCashLimit.resetFieldAndDropDown();
     }
     isFutureDate(selectedDate) {
         const moment = require('moment');
@@ -413,6 +422,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
                         this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
                         this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+                        this.CreditCardSeq=CreditElement['CreditCardDetailSeq'];
                         this.CustomerType.setValue(CreditElement['CustomerType']['text']);
                         if (this.customerList.CustomerType == 'A') {
                             this.Add_RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);
@@ -471,6 +481,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     this.header = res.Header;
 
                     // this.Branch.setValue(this.header.ApplicationBranch);
+
                     //  this.CustomerType.setValue(this.header.CardCustType)
                     //this.MaximumCardLimit.setValue(header.S_MaxLoanAmount);
 
@@ -479,6 +490,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     // this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
                     this.services.rloCommonData.globalApplicationDtls.MaxCashLimit =this.header.Product_max_cash_limit;
                     this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit=this.header.Product_max_credit;
+
                     this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
                     this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
                 },
@@ -494,6 +506,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         }
     }
     CCD_Clear_click(event) {
+      this.clearFieldsFlag = true;
         this.onReset();
     }
 
@@ -663,7 +676,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             }
             else {
                 inputMap.clear();
-                inputMap.set('PathParam.CreditCardDetailSeq', this.hidCreditSeq.getFieldValue());
+                inputMap.set('PathParam.CreditCardDetailSeq', this.CreditCardSeq);
                 inputMap.set('Body.CreditCardDetails.NomineeDetails.NomineeSeq', this.hidNomineeSeq.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
                 //inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());

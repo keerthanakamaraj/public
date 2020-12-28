@@ -8,13 +8,14 @@ export const environment = {
   // baseURL: 'http://10.11.12.53:9090', // LOCAL
   // baseURL: 'http://10.11.10.42:20052', // Canara IUT
   baseURL: window.location.origin,
-  enableKeycloak: true,
+  enableKeycloak: false,
   // authURL: 'https://iam.intellectseecapps.com/auth', // IUT
   authURL: 'http://10.11.12.15:18080/auth', // Demo 1
   realm: 'rlorealm',
   clientId: 'rloclient',
   // redirectURL: 'http://localhost:1841/#/home/LANDING',
   redirectURL: window.location.hash.replace('#/', '') === '' ? window.location.href + '#/home/LANDING' : window.location.href,
+  arxAuthURL: 'http://tcldemoapp41.intellectdesign.com:20023/ARXAL/AALIndex.jsp',
 
   serviceMap: {
     'default': '/olive/publisher/rlo-initiation',

@@ -567,9 +567,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         //  this.NoOfCardAllowed(response);
         // this.IsInitiationAllowedForBranch(response);
          this.toggleColumn();
+
+        /* PR-38 dev
+        // this.ApplicationStatus(response);
+         this.setValuesOfCustomer(response);
+         this.SRC_CIF_NO.onReset();
+        */
       }
       else {
         console.warn("DEEP | No customer selected");
+        this.SRC_CIF_NO.onReset();
       }
     });
   }

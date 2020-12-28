@@ -305,6 +305,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
             tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
 
 
+
             let fullAddressArr = [];
             fullAddressArr.push(address[i].AddressLine1);
             fullAddressArr.push(address[i].AddressLine2);

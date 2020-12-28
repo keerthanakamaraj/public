@@ -184,7 +184,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
                   element.fieldName = "Customer Id"
                 }
                 else {
-                  element.fieldName = "CIF Id"
+                  element.fieldName = "CBS Customer ID"
                 }
               }
               element.regex = "";
@@ -457,7 +457,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
           //this.searchParameters.customerId = this.parentData.customerId;
         }
         else {
-          element.fieldName = "CIF Id"
+          element.fieldName = "CBS Customer ID"
           //this.searchParameters.customerId = this.parentData.cifId;
         }
       }

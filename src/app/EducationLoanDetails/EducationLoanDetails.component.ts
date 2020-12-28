@@ -511,7 +511,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           this.services.http.fetchApi('/PastEducation/{PastEdSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
               var res = httpResponse.body;
-              this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
+              this.services.alert.showAlert(1, 'rlo.success.update.pastEduLoan', 5000);
               this.PastEducationGrid.gridDataLoad({
                 'ApplicationId': this.ApplicationId
               });
@@ -520,7 +520,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
             },
             async (httpError) => {
               this.parseResponseError(httpError['error']);
-              this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
+              this.services.alert.showAlert(2, 'rlo.error.update.pastEduLoan', -1);
               this.PE_SAVE_BTN.setDisabled(false);
             }
           );
@@ -530,7 +530,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           this.services.http.fetchApi('/PastEducation', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
               var res = httpResponse.body;
-              this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
+              this.services.alert.showAlert(1, 'rlo.success.save.pastEduLoan', 5000);
               this.PastEducationGrid.gridDataLoad({
                 'ApplicationId': this.ApplicationId
               });
@@ -539,7 +539,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
             },
             async (httpError) => {
               this.parseResponseError(httpError['error']);
-              this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
+              this.services.alert.showAlert(2, 'rlo.error.save.pastEduLoan', -1);
               this.PE_SAVE_BTN.setDisabled(false);
             }
           );
@@ -755,7 +755,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
         this.services.http.fetchApi('/EducationLoan/{EducationLoanSummSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.update.visitreport', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.update.eduLoan', 5000);
             this.PastEducationGrid.gridDataLoad({
               'ApplicationId': this.ApplicationId
             });
@@ -764,7 +764,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
-            this.services.alert.showAlert(2, 'rlo.error.update.visitreport', -1);
+            this.services.alert.showAlert(2, 'rlo.error.update.eduLoan', -1);
             this.ED_SAVE_BTN.setDisabled(false);
           }
         );
@@ -774,7 +774,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
         this.services.http.fetchApi('/EducationLoan', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
-            this.services.alert.showAlert(1, 'rlo.success.save.visitreport', 5000);
+            this.services.alert.showAlert(1, 'rlo.success.save.eduLoan', 5000);
             this.PastEducationGrid.gridDataLoad({
               'ApplicationId': this.ApplicationId
             });
@@ -783,7 +783,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           },
           async (httpError) => {
             this.parseResponseError(httpError['error']);
-            this.services.alert.showAlert(2, 'rlo.error.save.visitreport', -1);
+            this.services.alert.showAlert(2, 'rlo.error.save.eduLoan', -1);
             this.ED_SAVE_BTN.setDisabled(false);
           }
         );

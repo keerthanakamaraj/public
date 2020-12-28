@@ -223,7 +223,7 @@ export class AssetDetailsFormComponent extends FormComponent implements OnInit, 
             if (this.AT_ASSET_TYPE.getFieldValue() !== undefined) {
                 if (assetGridData) {
                     for (let i = 0; i < assetGridData.length; i++) {
-                        if (assetGridData[i].AT_Asset_Type == this.AT_ASSET_TYPE.getFieldValue() && assetGridData[i].AT_Asset_Value == this.AT_ASSET_VALUE.getFieldValue() && assetGridData[i].AT_Asset_Subtype == this.AT_ASSET_SUBTYPE.getFieldValue() && assetGridData[i].ASSET_ID !== this.ASSET_ID.getFieldValue()) {
+                        if (assetGridData[i].Asset_Type_ID == this.AT_ASSET_TYPE.getFieldValue() && assetGridData[i].AT_Asset_Value == this.AT_ASSET_VALUE.getFieldValue() && assetGridData[i].Asset_Subtype_ID == this.AT_ASSET_SUBTYPE.getFieldValue() && assetGridData[i].ASSET_ID !== this.ASSET_ID.getFieldValue()) {
                             this.services.alert.showAlert(2, 'rlo.error.exits.asset', -1);
                             return;
                         }

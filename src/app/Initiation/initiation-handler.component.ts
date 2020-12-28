@@ -204,6 +204,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_TAX_ID.onReset();
     this.MainComponent.CD_DOB.onReset();
     this.MainComponent.CD_CUST_SGMT.onReset();
+    this.MainComponent.CD_CUST_SUB_SGMT.onReset();
     this.MainComponent.CD_DEBIT_SCORE.onReset();
     this.MainComponent.CD_LOAN_OWNERSHIP.onReset();
     this.MainComponent.CD_EMAIL_ID.onReset();
@@ -434,7 +435,12 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   updateCustomerTags() {
     let tags = [];
     this.customers.forEach(c => {
-      tags.push({ label: c.customerType.value, text: c.firstName });
+   //   tags.push({ label: c.customerType.value, text: c.firstName });
+   if(c.customerType.value=='B' && this.MainComponent.BAD_PROD_CAT.getFieldValue()=='CC'){
+    tags.push({ label: 'P', text: c.firstName });
+  }else{
+  tags.push({ label: c.customerType.value, text: c.firstName });
+  }
     });
     this.MainComponent.INIT_ACCORD.setTags("ACC_CUSTOMER", tags);
   }

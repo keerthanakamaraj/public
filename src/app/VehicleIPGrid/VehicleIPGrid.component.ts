@@ -109,7 +109,7 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
       let rowData = {};
       rowData['VehicleCostBreakup'] = element.mstText;
       rowData['Amount'] = element.Amount;
-      rowData['LocalCurEq'] = element.LocalCurrencyEquivalent;
+      rowData['LocalCurrencyEquivalent'] = element.CurrencyEquivalentAmt;
       let rowCounter = this.addRow(rowData);
       //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
     });
@@ -169,7 +169,7 @@ export class VehicleIPGridComponent extends GridComponent implements OnInit {
     this.VehicleDetailsMap.forEach(element => {
       if (element.mstText == selectedDesc) {
         element.Amount = FieldId.value;
-        element.LocalCurrencyEquivalent = newEquivalentAmt;
+        element.CurrencyEquivalentAmt = newEquivalentAmt;
       }
     });
   }

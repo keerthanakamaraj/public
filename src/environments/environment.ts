@@ -19,6 +19,7 @@ export const environment = {
   realm: 'rlorealm',
   clientId: 'rloclient',
   redirectURL: 'http://localhost:1841/#/home/LANDING',
+  arxAuthURL: 'http://tcldevapp173.intellectdesign.com:10751/ARXAL/AALIndex.jsp',
 
   //DIT
   // serviceMap : {

@@ -336,7 +336,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
               this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);
               return;
-            } else if (this.OD_INCOME_TYPE.getFieldValue() === 'PRI' && occupationGridData[i].OD_INCOME_TYPE === 'PRI') {
+            } else if (this.OD_INCOME_TYPE.getFieldValue() === 'PRI' && occupationGridData[i].INCOMETYPE_ID === 'PRI') {
               this.services.alert.showAlert(2, 'rlo.error.occupation.primaryIncome.exist', -1);
               return;
             }
@@ -353,6 +353,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
+        inputMap.set('Body.OccupationDetails.Self Employed Type', this.OD_SELF_EMPLD_TYPE.getFieldValue());        
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
         inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
         inputMap.set('Body.OccupationDetails.Designation', this.OD_DESIGNATION.getFieldValue());
@@ -495,7 +496,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
         inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
         inputMap.set('Body.OccupationDetails.Designation', this.OD_DESIGNATION.getFieldValue());
-        inputMap.set('Body.OccupationDetails.DateOfJoining', this.OD_DATE_OF_JOINING.getFieldValue());
+        inputMap.set('Body.OccupationDetails.DateofJoining', this.OD_DATE_OF_JOINING.getFieldValue());
         inputMap.set('Body.OccupationDetails.DateofInception', this.OD_DT_OF_INCPTN.getFieldValue());
         inputMap.set('Body.OccupationDetails.Industry', this.OD_INDUSTRY.getFieldValue());
         inputMap.set('Body.OccupationDetails.NatureofBusiness', this.OD_NTR_OF_BUSS.getFieldValue());

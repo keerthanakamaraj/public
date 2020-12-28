@@ -247,6 +247,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 					}
 					let VisitDtlsList = [];
 					if (loopVar10) {
+						console.log("hjgjhf",loopVar10)
 						this.VisitRecordsList = loopVar10;
 						for (var i = 0; i < loopVar10.length; i++) {
 							var tempObj = {};
@@ -256,6 +257,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 							tempObj['VR_NameOfPersonMet'] = loopVar10[i].NameOfPerson;
 							tempObj['VR_Designation'] = loopVar10[i].DesignationOfPerson;
 							tempObj['VR_PlaceOfVisit'] = loopVar10[i].PlaceofVisit.text;
+							tempObj['PlaceOfVisit_ID'] = loopVar10[i].PlaceofVisit.id;
 							tempObj['VR_AddressOfVisit'] = loopVar10[i].AddressOfVisit;
 							tempObj['HidVisitReportId'] = loopVar10[i].Id;
 							// tempObj['VR_NameBankRep'] = loopVar10[i].NameBankRep;

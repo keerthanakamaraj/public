@@ -431,7 +431,6 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     console.log("deep === load address n occupation grid", event);
     const inputMap = new Map();
 
-
     this.BUSINESS_DETAILS.activeBorrowerSeq = event.BorrowerSeq;
     this.BUSINESS_DETAILS.onReset();
 
@@ -800,7 +799,11 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   updateCustomerTags(event) {
     const tags = [];
     if (event.fullName !== undefined && event.customerType !== undefined) {
+      if(event.customerType=='B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
+        tags.push({ label: 'P', text: event.fullName });
+      }else{
       tags.push({ label: event.customerType, text: event.fullName });
+      }
     }
     // if (this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldValue() !== undefined && this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue() !== undefined) {
     //   tags.push({ label: this.CUSTOMER_DETAILS.CD_CUST_TYPE.getFieldValue(), text: this.CUSTOMER_DETAILS.CD_FULL_NAME.getFieldInfo() });

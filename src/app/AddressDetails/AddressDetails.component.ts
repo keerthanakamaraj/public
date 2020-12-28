@@ -253,6 +253,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
     // this.AD_MAILING_ADDRESS.setDefault('N');
+    this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
+    this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
     await this.Handler.onFormLoad({
@@ -475,10 +477,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
             if ((this.CORR_ADD_CHECKBOX.getFieldValue() === true && addGridData[i].AD_MAILING_ADDRESS === 'true')) {
               this.services.alert.showAlert(2, 'rlo.error.mailing.address', -1);
               return;
-            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].AD_OCCUP_TYPE === 'CR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'CR' && addGridData[i].OCCUP_TYPE_ID === 'CR') {
               this.services.alert.showAlert(2, 'rlo.error.current.address', -1);
               return;
-            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].AD_OCCUP_TYPE === 'PR') {
+            } else if (this.AD_OCCUPANCY_TYPE.getFieldValue() === 'PR' && addGridData[i].OCCUP_TYPE_ID === 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'ML' && addGridData[i].AddressTypeId === 'ML') {
@@ -651,7 +653,8 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        
+        this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']['id'],undefined,true);
+
         // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
         this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);

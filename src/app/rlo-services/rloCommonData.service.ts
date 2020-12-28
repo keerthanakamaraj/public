@@ -65,6 +65,9 @@ export interface IGlobalApllicationDtls {
   CustomerType?:any;
   ReqCardLimit?: any;
   
+  // #PR-38 - dev
+  //MaxCredit?: any;
+  //
 }
 @Injectable({
   providedIn: 'root'
@@ -96,6 +99,7 @@ export class RloCommonData {
   reloadUWSections = new Subject<any>();
 
   selectedCardDetailsSubject = new Subject<any>();//in addon page -> on click of modal's row data.
+  viewMode: boolean = false;//used in DDE
 
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
@@ -616,7 +620,7 @@ export class RloCommonData {
         if (eachAddress.MailingAddress.id && eachAddress.MailingAddress.id === 'Y') {
           addrValidationObj.isMailing = true;
         }
-        if ('CR' === ('' + eachAddress.OccupancyType.id)) {
+        if ('CR' === ('' + eachAddress.OccupancyType.id) ) {
           addrValidationObj.isCurrent = true;
         }
         if ('PR' === ('' + eachAddress.OccupancyType.id)) {
@@ -630,7 +634,6 @@ export class RloCommonData {
       if ((LoanOwnership == undefined || LoanOwnership == 0) && custType !== 'B' && custType !== 'CB') {
         addrValidationObj.isOffice = true;
       }*/
-
 
       for (const flag in addrValidationObj) {
         if (!addrValidationObj[flag]) {
@@ -1107,6 +1110,10 @@ export class RloCommonData {
     return promise;
   }
 
+  setViewMode(data: boolean) {
+    this.viewMode = data
+  }
+
   getInterfaceResposes(inputMap) {
     const promise = new Promise((resolve, reject) => {
       this.http.fetchApi('/CIBILResponse', 'GET', inputMap, "/rlo-de").subscribe(
@@ -1214,5 +1221,6 @@ export class RloCommonData {
     });
     return promise;
   }
+
 
 }

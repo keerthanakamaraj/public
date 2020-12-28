@@ -1544,7 +1544,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
     const requestParams = new Map();
     requestParams.set('Body.ApplicationStatus', 'Withdraw');
-    requestParams.set('Body.direction', 'PRE-CPV');
+   // requestParams.set('Body.direction', 'PRE-CPV');
+   requestParams.set('Body.direction', 'W');
     var mainMessage = this.services.rloui.getAlertMessage('rlo.withdraw.comfirmation');
     var button1 = this.services.rloui.getAlertMessage('', 'OK');
     var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
@@ -1738,17 +1739,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   // Seperate way for setting tags for customer
   setCustomerTags() {
-    // console.log("Active Borrower ", this.ActiveCustomerDtls);
 
+    const tags = [];
     if (this.ActiveCustomerDtls) {
-      const customerTags = [{
-        label: this.ActiveCustomerDtls['CustomerType'],
-        text: this.ActiveCustomerDtls['FullName']
-      }];
-      this.setTags(customerTags);
-    } else {
-      this.setTags([]);
-    }
+      if(this.ActiveCustomerDtls['CustomerType']=='B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
+      tags.push({label: 'P', text: this.ActiveCustomerDtls['FullName']});
+      }else{
+      tags.push({label: this.ActiveCustomerDtls['CustomerType'], text: this.ActiveCustomerDtls['FullName']});
+      }
+   //   this.setTags(customerTags);
+    } 
+      this.setTags(tags);
+   
   }
 
   AddressDetails_SetTag(event) {

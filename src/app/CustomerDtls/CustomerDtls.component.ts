@@ -179,6 +179,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.revalidateBasicField('CD_PMRY_EMBSR_NAME', false, showErrors),
       this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
       this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
+      this.revalidateBasicField('MaidenName',false,showErrors),
       //this.revalidateBasicField('CD_COUNTRY_CODE'),
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
@@ -830,7 +831,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_VISA_VALID.onReset();
     this.CD_DRIVING_LICENSE.onReset();
     this.CD_DRVNG_LCNSE_EXP_DT.onReset();
-    this.CD_TAX_ID.onReset();
+   // this.CD_TAX_ID.onReset();
     this.CD_DEBIT_SCORE.onReset();
     // this.CD_NATIONAL_ID.onReset();
     this.CD_CUST_SEGMENT.onReset();
@@ -983,7 +984,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_PREF_COM_CH.setValue(customer.CommunicationAlertChannel.id);
     this.CD_EMAIL.setValue(customer.Email);
     this.HidCustomerId.setValue(customer.BorrowerSeq);
-    this.CD_PREF_LANG.setValue(customer.PreferredLanguage.id);
+    this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
     this.EmbLine4.setValue(customer.EmbLine4);
     this.EmbLineFlag.setValue(customer.EmbLineFlag.id, undefined, true);
@@ -1007,7 +1008,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
     this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
-    this.CardDispatchMode.setValue(customer.PickUpInstruction.id);
+    this.CardDispatchMode.setValue(customer.PickUpInstruction);
 
 
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
@@ -1377,7 +1378,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   fieldArrayFunction() {
     this.fieldArray = [];
     this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
-      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_EMAIL, this.CD_MOBILE_NO
+      // #PR-38 Sprint-6
+      //this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_EMAIL, this.CD_MOBILE_NO
+      this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF,this.CD_EMAIL,this.CD_MOBILE_NO,this.CD_TAX_ID
     );
     // this.fieldArray.push(this.CD_TITLE, this.CD_FIRST_NAME, this.CD_LAST_NAME, this.CD_MIDDLE_NAME,
     //   this.CD_FULL_NAME, this.CD_DOB, this.CD_GENDER, this.CD_CIF, this.CD_CUST_ID
@@ -1461,12 +1464,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_TITLE.setValue(tempVar['title']);
     // this.CD_CUST_ID.setValue(tempVar['icif']);
     this.CD_EMAIL.setValue(tempVar['emailid']);
-    this.CD_PMRY_EMBSR_NAME.setValue(tempVar['nameoncard']);
+    this.CD_PMRY_EMBSR_NAME.setValue(tempVar['custName']);
     // this.appRefNum  = tempVar['AppRefNum'];
+
     this.MaidenName.setValue(tempVar['MaidenName']);
 
-
-    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+   // this.CD_STAFF_ID.setValue(tempVar['staffId']);
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 

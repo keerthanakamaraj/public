@@ -7,6 +7,7 @@ import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HiddenComponent } from '../hidden/hidden.component';
 
 const customCss: string = '';
 @Component({
@@ -26,7 +27,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   occupation: any[];
   constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
   @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
-
+ 
   @Output() occDtlsEdit: EventEmitter<any> = new EventEmitter<any>();
   @Input('formCode') formCode: string;
   @Input('displayTitle') displayTitle: boolean = true;

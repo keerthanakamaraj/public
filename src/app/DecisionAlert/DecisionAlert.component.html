@@ -79,7 +79,7 @@
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide p-0" [hidden]="DesignationAuthority.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': DesignationAuthority.mandatory}">
                 {{ 'DecisionAlert.DesignationAuthority' | translate}}
               </label>
             </div>
@@ -91,7 +91,7 @@
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide p-0" [hidden]="ApproverName.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown"  [ngClass]="{'mandatory': ApproverName.mandatory}">
                 {{ 'DecisionAlert.ApproverName' | translate}}
               </label>
             </div>
@@ -117,8 +117,16 @@
             <app-button #ALTER_CANCEL fieldName="{{ 'DecisionAlert.ALTER_CANCEL' | translate}}" fieldID="ALTER_CANCEL"
               [formCode]="formCode" customClass="btn-warning-outline" (buttonClick)="close($event)">
             </app-button>
-          </div>
+          </div> -->
         </div>
+
+        <div class="modal-footer ng-star-inserted p-0">
+          <button class="btn btn-primary ng-star-inserted" type="button" (click)="ALTER_SUBMIT_click($event)">
+            {{ 'DecisionAlert.ALTER_SUBMIT' | translate}}</button>
+          <button class="btn btn-warning-outline ng-star-inserted" type="button" (click)="close($event)">
+            {{ 'DecisionAlert.ALTER_CANCEL' | translate}}</button>
+        </div>
+
         <!-- <div (click)="saveSections()">SAVE</div>
         <div (click)="cancelSections()">CANCEL</div> -->
       </div>

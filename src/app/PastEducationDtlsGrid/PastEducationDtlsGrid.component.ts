@@ -233,6 +233,7 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
       this.services.http.fetchApi('/PastEducation', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
+        if(res){
           let loopVar10 = res['PastEducation'];
           let tempPastEducationList = [];
 
@@ -250,7 +251,7 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
               tempPastEducationList.push(tempObj);
             }
             this.readonlyGrid.apiSuccessCallback(params, tempPastEducationList);
-          }
+          }}
           else {
             this.pastRecord = false;
           }
