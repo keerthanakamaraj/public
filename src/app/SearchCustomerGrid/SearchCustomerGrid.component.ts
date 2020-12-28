@@ -186,21 +186,6 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     },
   },
   {
-    field: "Cif",
-    width: 11,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    },
-  },
-  {
     field: "Dob",
     width: 12,
     sortable: true,
@@ -230,9 +215,24 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
+  // {
+  //   field: "CreditCard",
+  //   width: 12,
+  //   sortable: true,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: "agTextColumnFilter",
+  //   filterParams: {
+  //     suppressAndOrCondition: true,
+  //     applyButton: true,
+  //     clearButton: true,
+  //     filterOptions: ["contains"],
+  //     caseSensitive: true,
+  //   },
+  // },
   {
-    field: "CreditCard",
-    width: 12,
+    field: "Cif",
+    width: 11,
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
@@ -456,7 +456,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['AppRefNum'] = loopVar7[i].AppRefNUm;
                 tempObj['CustomerType'] = loopVar7[i].CustomerType;
                 tempObj['Branch'] = loopVar7[i].Branch;
-                tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
                 tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
                 tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
@@ -517,7 +517,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['StaffID'] = loopVar7[i].StaffID;
                 tempObj['CustomerType'] = loopVar7[i].CustomerType;
                 tempObj['Branch'] = loopVar7[i].Branch;
-                tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
                 tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
                 tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
@@ -675,7 +675,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           tempObj['StaffID'] = loopVar7[i].StaffID;
           tempObj['CustomerType'] = loopVar7[i].CustomerType;
           tempObj['Branch'] = loopVar7[i].Branch;
-          tempObj['CreditCard'] = loopVar7[i].CreditCard;
+          // tempObj['CreditCard'] = loopVar7[i].CreditCard;
           tempObj['CmsDetails'] = loopVar7[i].CMS;
           tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
 
