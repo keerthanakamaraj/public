@@ -9,7 +9,7 @@ export const environment = {
   //baseURL: 'http://10.11.12.53:9090', // LOCAL
   // baseURL: 'https://rlfc.intellectseecapps.com', //LIVE
     baseURL: 'http://10.11.10.42:20052',
-     enableKeycloak: false,
+     enableKeycloak: true,
   //  authURL: 'https://iam.intellectseecapps.com/auth',
    authURL: 'http://10.11.12.15:18080/auth',
   //authURL: 'https://iam.intellectqacloud.com/auth', // QA
