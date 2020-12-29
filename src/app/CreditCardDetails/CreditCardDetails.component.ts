@@ -421,7 +421,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
                         // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
                         this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
-                        this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+                   //     this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
                         this.CreditCardSeq=CreditElement['CreditCardDetailSeq'];
                         this.CustomerType.setValue(CreditElement['CustomerType']['text']);
                         if (this.customerList.CustomerType == 'A') {
@@ -550,13 +550,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         }
         if (noOfError == 0) {
           if(this.CreditCardInputGrid.CustomerDtlsMap.size!=0){
-          if(this.CreditCardInputGrid.TotalProposedCardLimit>this.ApprovedLimit){
+          if(parseFloat(this.CreditCardInputGrid.TotalProposedCardLimit.getFieldValue())>parseFloat(this.ApprovedLimit.getFieldValue())){
             this.services.alert.showAlert(2, 'rlo.error.totCardLimit', -1);
             return;
           }
           this.doUpdateMemberAPICall();
           }
-            if (this.hidCreditSeq.getFieldValue() == undefined) {
+            if (this.CreditCardSeq == undefined) {
                 inputMap.clear();
                 // inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
                 //inputMap.set('Body.CreditCardDetails.ApprovedLimit', this.ApprovedLimit.getFieldValue());

@@ -252,8 +252,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.isCorporate=this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'?true:false;
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
-    // this.AD_MAILING_ADDRESS.setDefault('N');
-    this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
+   // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
     this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
@@ -653,7 +652,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
         this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']['id'],undefined,true);
+    //    this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']['id'],undefined,true);
 
         // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
         // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
