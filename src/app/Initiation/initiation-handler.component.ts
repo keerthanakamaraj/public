@@ -292,6 +292,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(false);
       // this.MainComponent.CD_PAN_NUMBER.mandatory = true;
       // this.MainComponent.CD_PAN_NUMBER.setHidden(false);
+     
       this.MainComponent.CD_FIRST_NAME.mandatory = false;
       this.MainComponent.CD_FIRST_NAME.setHidden(true);
       this.MainComponent.CD_MIDDLE_NAME.setHidden(true);
@@ -305,6 +306,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_GENDER.mandatory = false;
       this.MainComponent.CD_GENDER.setHidden(true);
       this.MainComponent.CD_DEBIT_SCORE.setHidden(true);
+      
     } else {
       // TODO....
     }
@@ -795,7 +797,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     this.MainComponent.CD_GENDER.mandatory = false;
     this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
     this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
-
+    this.MainComponent.CD_STAFF_ID.setHidden(true);
     
   }
   else{

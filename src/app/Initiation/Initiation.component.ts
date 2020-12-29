@@ -181,6 +181,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   disableLoanOwnership: boolean = true
   eligeData = [];
   isLoanCategory: boolean;
+  isCustomerCorporate : any = 'I';
+  isReferrer : boolean = false;
   borrower: any;
   borrowericif: any;
   icif: any;
@@ -363,6 +365,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.componentCode = 'Initiation';
     this.displayBorder = false;
     this.isLoanCategory = true;
+    // this.isCustomerCorporate = true;
   }
 
   setReadOnly(readOnly) {
@@ -426,7 +429,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
    
     this.setDependencies();
     this.EligibilityDecision = '';
-
+   
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);
@@ -704,6 +707,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
     console.log('searched data =================', data);
+    
+   if (data.CustomerType == 'C'){
+    this.isReferrer = true;
+   }
     let tempVar: any = data;
    
    
@@ -727,7 +734,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     
 
     // Corporate Type Customer
-    this.CD_REGISTERED_NAME.setValue(tempVar['registeredName']);
+    this.CD_REGISTERED_NAME.setValue(tempVar['custName']);
     this.CD_TYPE_OF_INCORPORATION.setValue(['typeOfIncorporation']);
     this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
    // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
