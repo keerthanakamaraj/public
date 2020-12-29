@@ -52,12 +52,11 @@
                 <div class="form-group">
                     <label [ngClass]="{ 'mandatory': isMandatory('status')}">{{getLabel('DOC_STATUS')}}</label>
                     <ng-select class="ngselect" [(ngModel)]="docUploadObject.status" name="status"
-                    <!-- #PR-38 Dev
-                    <ng-select class="ngselect" [disabled]="ownerfield" [(ngModel)]="docUploadObject.status" name="status"
-                    -->
                         [items]="lookupVariableOptions['STATUS']" bindValue="id" bindLabel="text"
                         (change)="clearDependentfields()" (blur)="validateField(docUploadObject.status, 'status')" [readonly]="readOnly">
                     </ng-select>
+                     <!-- #PR-38 Dev
+                    <ng-select class="ngselect" [disabled]="ownerfield" [(ngModel)]="docUploadObject.status" name="status" -->
                 </div>
             </div>
             <div class="col-md-4"
