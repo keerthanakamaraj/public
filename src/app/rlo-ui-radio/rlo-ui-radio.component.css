@@ -11,6 +11,7 @@
   display:inline-block; 
   margin-top: 1.25rem;
   /* margin-bottom: 1.167rem; */
+  padding: 0 10px;
 }
 
 .rlo-ui-radio-container .radio-text {
