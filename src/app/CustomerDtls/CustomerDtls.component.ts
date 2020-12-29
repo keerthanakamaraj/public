@@ -1122,7 +1122,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_MIDDLE_NAME.setHidden(CorporateApplicantFlag);
     this.CD_LAST_NAME.setHidden(CorporateApplicantFlag);
     this.MaidenName.setHidden(CorporateApplicantFlag);
-    this.MaidenName.mandatory= !CorporateApplicantFlag;
     this.CD_FULL_NAME.setHidden(CorporateApplicantFlag);
     this.CD_DOB.setHidden(CorporateApplicantFlag);
     this.CD_GENDER.setHidden(CorporateApplicantFlag);
