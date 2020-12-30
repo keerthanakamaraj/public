@@ -140,6 +140,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   customerDetailMap: any;
   custMinAge = 18;
   custMaxAge = 100;
+  isCorporateBorrower=false;
 
 
   async revalidate(showErrors: boolean = true): Promise<number> {
@@ -238,6 +239,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.setDependencies();
     if ('DDE' == this.parentFormCode) {
       this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq) < 100 ? false : true);
+    }else if ('QDE' == this.parentFormCode) {
+      this.CD_CUST_SEGMENT.setHidden(true);
+      this.CD_CUST_SEGMENT.mandatory=false;
+      this.CustSubSegment.setHidden(true);
     }
 
     // this.Handler.displayCustomerTag();
@@ -1113,8 +1118,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     if (appCustomerType == 'C' && applicantType == 'B') {
       //  this.EmbLineFlag.setReadOnly(true);
       CorporateApplicantFlag = true;
+      this.isCorporateBorrower=true;
     } else {
       CorporateApplicantFlag = false;    // As Corporate Applicant not going to be new customer on QDE and DDE stage
+      this.isCorporateBorrower=false;
       //  this.EmbLineFlag.setReadOnly(true);
     }
 
@@ -1129,7 +1136,17 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_GENDER.setHidden(CorporateApplicantFlag);
     this.CD_MARITAL_STATUS.setHidden(CorporateApplicantFlag);
     this.CD_STAFF_ID.setHidden(CorporateApplicantFlag);
-
+    this.CD_CITIZENSHIP.setHidden(CorporateApplicantFlag);
+    this.CD_CITIZENSHIP.mandatory=!CorporateApplicantFlag;
+    this.CD_NATIONALITY.setHidden(CorporateApplicantFlag);
+    this.CD_NATIONALITY.mandatory=!CorporateApplicantFlag;
+    this.CD_PASSPORT_EXPIRY.setHidden(CorporateApplicantFlag);
+    this.CD_PASSPORT_NO.setHidden(CorporateApplicantFlag);
+    this.CD_DRIVING_LICENSE.setHidden(CorporateApplicantFlag);
+    this.CD_DRVNG_LCNSE_EXP_DT.setHidden(CorporateApplicantFlag);
+    this.CD_VISA_VALID.setHidden(CorporateApplicantFlag);
+    this.CD_PMRY_EMBSR_NAME.setHidden(CorporateApplicantFlag);
+    this.CD_PMRY_EMBSR_NAME.mandatory=!CorporateApplicantFlag;
     //corporate fields
     this.CD_REGISTERED_NAME.setHidden(!CorporateApplicantFlag);
     this.CD_INCORPORATE_DATE.setHidden(!CorporateApplicantFlag);

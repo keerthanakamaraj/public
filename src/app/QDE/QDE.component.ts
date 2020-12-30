@@ -479,13 +479,14 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
   //when clicked on edit
   async FieldId_9_passArrayToCustomer(event) {
     //  setTimeout(() => {
+      if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' &&event.CustomerArray.CustomerType=='B'){
+        this.isCorporateApplicant=true;
+      }else{
+        this.isCorporateApplicant=false;
+      }
+      this.activeApplicantType=event.CustomerArray.CustomerType;
     this.CUSTOMER_DETAILS.LoadCustomerDetailsonFormLoad(event.CustomerArray);
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' &&event.CustomerArray.CustomerType=='B'){
-      this.isCorporateApplicant=true;
-    }else{
-      this.isCorporateApplicant=false;
-    }
-    this.activeApplicantType=event.CustomerArray.CustomerType;
+    
     this.disableAccordian = false
     this.UpdateAccordian();
     this.CustomerDetailsArray = event.CustomerArray;

@@ -1857,7 +1857,8 @@
     "CD_CARD_CUST_TYPE": "Applicant Type",
     "CD_REGISTERED_NAME": "Registered Name",
     "CD_INCORPORATE_DATE": "Date of Incorporate",
-    "CD_INCORPORATE_TYPE": "Type of Incorporate"
+    "CD_INCORPORATE_TYPE": "Type of Incorporate",
+    "CorporateLine4":"Corporate Name for Member Cards"
   },
   "QDE": {
     "FieldId_1": "null",

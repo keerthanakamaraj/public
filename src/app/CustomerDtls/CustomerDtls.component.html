@@ -493,9 +493,13 @@
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EmbLine4.isHidden()|| isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" [ngClass]="{'mandatory': EmbLine4.mandatory}">
+              <label class="clr-brown" *ngIf="!isCorporateBorrower"[ngClass]="{'mandatory': EmbLine4.mandatory}">
                 {{ 'CustomerDtls.EmbLine4' | translate}}
               </label>
+              <label class="clr-brown" *ngIf="isCorporateBorrower" [ngClass]="{'mandatory': EmbLine4.mandatory}">
+                {{ 'CustomerDtls.CorporateLine4' | translate}}
+              </label>
+              
             </div>
             <app-text-box #EmbLine4 fieldID="EmbLine4" [formCode]="formCode" (blur)="genericOnBlur('EmbLine4', $event)">
             </app-text-box>
