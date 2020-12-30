@@ -158,6 +158,9 @@ export class CustomerAvaliableCardsComponent implements OnInit {
         tempObj['PrimaryCardLimit'] = loopVar7[i].CreditLimit;
         tempObj['PrimaryCardStatus'] = loopVar7[i].CardStatus;
         tempObj['PrimaryCardNumber'] = loopVar7[i].MaskedCardNo == undefined ? '-' : loopVar7[i].MaskedCardNo;
+        tempObj['CardEmbossingDate'] = loopVar7[i].CardEmbossingDate;
+        tempObj['AvailableLimit'] = loopVar7[i].AvailableLimit;
+        tempObj['CashLimit'] = loopVar7[i].CashLimit;
 
         loopDataVar7.push(tempObj);
       }
