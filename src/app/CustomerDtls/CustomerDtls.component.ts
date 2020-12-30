@@ -729,7 +729,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.HidCustomerId.setValue(res['BorrowerDetails']['BorrowerSeq']);
             this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
             this.CD_SAVE_BTN.setDisabled(false);
-            this.CD_FULL_NAME_change(this.CD_FULL_NAME.getFieldValue(), this.CD_CUST_TYPE.getFieldValue());
+            let fullName= this.CD_REGISTERED_NAME.getFieldValue()!=undefined?this.CD_REGISTERED_NAME.getFieldValue():this.CD_FULL_NAME.getFieldValue();
+            this.CD_FULL_NAME_change(fullName, this.CD_CUST_TYPE.getFieldValue());
             this.services.rloCommonData.childToParentSubject.next({
               action: 'updateCustGrid',
               data: { 'borrowerSeq': this.HidCustomerId.getFieldValue() }
@@ -1013,7 +1014,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     //this.CD_COUNTRY_CODE.setValue(customer.ISDCountryCode);
     this.CD_MOBILE_NO.setComponentSpecificValue(customer.MobileNo, customer.ISDCountryCode);
-    this.CD_FULL_NAME_change(customer.FullName, customer.CustomerType);
+    let fullName= customer.RegisteredName!=undefined && customer.RegisteredName!=''?customer.RegisteredName : customer.FullName;
+    this.CD_FULL_NAME_change(fullName, customer.CustomerType);
 
     this.Handler.embLineFlagselected();
 
