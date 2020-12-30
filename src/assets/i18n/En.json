@@ -1696,7 +1696,7 @@
     "CD_CBS_CUST_ID": "CBS Cust ID",
     "CD_REGISTERED_NAME": "Registered Name",
     "CD_TYPE_OF_INCORPORATION": "Type of Incorporation",
-    "CD_DATE_OF_INCORPORATION": "Date of Incorporation/Birth",
+    "CD_DATE_OF_INCORPORATION": "Date of Incorporation",
     "CD_PAN_NUMBER": "PAN Number",
     "CD_MOBILE_NUMBER": "Mobile Number",
     "CD_HEAD_LABEL": "Customer Information",
@@ -1982,7 +1982,7 @@
     "CUST_TYPE_LBL": "Customer Type",
     "CD_Delete": "Delete",
     "CD_Delete_ButtonName": "Delete",
-    "CD_DATE_OF_INCORPORATION": "Date Of Incorporation"
+    "CD_DATE_OF_INCORPORATION": "Date Of Incorporation/Birth"
   },
   "MyTrayGrid": {
     "MT_SCHEME": "Scheme",

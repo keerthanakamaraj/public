@@ -196,6 +196,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   applicationArray: any;
   CustomerType: any;
   UserBranch : string = 'Juhu';
+  refferalValid :boolean = false;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -565,8 +566,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         //  this.ApplicationStatus(response);
         //  this.setValuesOfCustomer(response);
         // this.CBSProductCode(response);
-        this.IsInitiationAllowedForBranch(response);
-
+        if (typeof response != "boolean")
+            this.IsInitiationAllowedForBranch(response);
         //  this.NoOfCardAllowed(response);
         // this.IsInitiationAllowedForBranch(response);
          this.toggleColumn();
@@ -734,9 +735,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     
 
     // Corporate Type Customer
-    this.CD_REGISTERED_NAME.setValue(tempVar['custName']);
-    this.CD_TYPE_OF_INCORPORATION.setValue('IT');
-    this.CD_DATE_OF_INCORPORATION.setValue('22-08-2020');
+    this.CD_REGISTERED_NAME.setValue(tempVar['registeredName']);
+    this.CD_TYPE_OF_INCORPORATION.setValue(tempVar['typeOfIncorporation']);
+    this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
    // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 
@@ -1724,7 +1725,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           if (typeof response != "boolean") {
             // this.ApplicationStatus(response);
            //this.CBSProductCode(response);
+          //  this.IsInitiationAllowedForBranch(response);
                        // this.setValuesOfCustomer(response);
+            // if (typeof response != "boolean")
+            this.IsInitiationAllowedForBranch(response);
             this.revalidateCustomers();
           }
           else {
