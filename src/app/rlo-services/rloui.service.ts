@@ -545,7 +545,8 @@ export class RlouiService {
         modalSize: 'modal-customer-avaliable-cards',
         buttons: [],
         componentName: 'CustomerCards',
-        data: obj
+        data: obj,
+        hideModalHeader: true
       };
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);

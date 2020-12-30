@@ -51,6 +51,7 @@ import { WorkflowViewerModule } from './workflow-viewer/workflow-viewer.module';
 import { CachingInterceptor } from './Cache-Interceptor/CachingInterceptor';
 import { RloUiCustomerSearchComponent } from './rlo-ui-customer-search/rlo-ui-customer-search.component';
 import { ARXService } from './rlo-services/arxservice.service';
+import { CustomerSearchGridBtnComponent } from './customer-search-grid-btn/customer-search-grid-btn.component';
 //import { CustomerSearchFieldsComponent } from './customer-search-fields/customer-search-fields.component';
 // import { RloUiCardTileComponent } from './rlo-ui-card-tile/rlo-ui-card-tile.component';
 // import { MyTrayGridModule } from './MyTrayGrid/MyTrayGrid.module';
@@ -107,7 +108,8 @@ export let AppInjector: Injector;
     // LoginPageComponent,
     // PwdChangeComponent,
     GridWithFormComponent,
-    AlertsComponent
+    AlertsComponent,
+    CustomerSearchGridBtnComponent
     //CustomerSearchFieldsComponent,
     // RloUiCardTileComponent
     //MyTrayPageComponent
@@ -159,7 +161,8 @@ export let AppInjector: Injector;
     AppComponent,
     PopupModalComponent,
     PopupContentComponent,
-    PopupAlertComponent
+    PopupAlertComponent,
+    CustomerSearchGridBtnComponent
   ],
 })
 export class AppModule implements DoBootstrap {

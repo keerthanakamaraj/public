@@ -62,9 +62,9 @@ export interface IGlobalApllicationDtls {
   MaxCreditLimit?: any;
   CardCustName?: string;
   PrimaryUsage?: string;
-  CustomerType?:any;
+  CustomerType?: any;
   ReqCardLimit?: any;
-  isCamType?:boolean;
+  isCamType?: boolean;
   CamType?: string;
 }
 @Injectable({
@@ -323,12 +323,12 @@ export class RloCommonData {
       //     tagText = 'Residence; ';
       //   }
       // }
-        if(address.AddressType === 'ML'){
-          tagText = 'Registered; ';
-        
+      if (address.AddressType === 'ML') {
+        tagText = 'Registered; ';
+
         tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
-        }
+      }
     });
     return this.trimTagsIfRequired(tags, 2);
   }
@@ -609,8 +609,8 @@ export class RloCommonData {
           addrValidationObj.isPermenet = true;
         }
       }
-      if(applicantType=='A' && this.globalApplicationDtls.CustomerType=='C'){
-          addrValidationObj.isMailing = true;
+      if (applicantType == 'A' && this.globalApplicationDtls.CustomerType == 'C') {
+        addrValidationObj.isMailing = true;
       }
       // commented for Canara
       /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
@@ -675,6 +675,10 @@ export class RloCommonData {
 
   getCurrentRoute() {
     this.currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
+  }
+
+  getActiveRouteName(): string {
+    return this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length)
   }
 
   async validateApplicationSections(isCategoryTypeLoan: boolean) {
@@ -840,10 +844,10 @@ export class RloCommonData {
       errorMessage: ''
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
-    if(this.globalApplicationDtls.CustomerType=='C'){
+    if (this.globalApplicationDtls.CustomerType == 'C') {
       commonObj.isSectionValid = true;
     }
-    else if(this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+    else if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
       if (!customerTabSectionData.has('IncomeSummary')) {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = "Details from income summary section required";

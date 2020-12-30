@@ -74,7 +74,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   };
   gridData: any;
   hidForm: boolean = true;
-  cardInfo : any;
+  cardInfo: any;
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -94,13 +94,15 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.componentCode = 'AddOn';
     this.selectedCardDetailsModalSubscription = this.services.rloCommonData.selectedCardDetailsSubject.subscribe(data => {
       console.warn("DEEP | selectedCardDetailsModalSubscription", data);
-      this.cardInfo = data;
-      console.log("card data",this.cardInfo);
+      let obj = {
+        'currentCardLimit': data.PrimaryCardLimit,
+        'maskedCardNumber': data.PrimaryCardNumber,
+        'availableLimit': data.AvailableLimit
+      }
+      this.setCardRelatedData(obj);
     });
-    
-    
   }
- 
+
   setReadOnly(readOnly) {
     super.setBasicFieldsReadOnly(readOnly);
   }
@@ -208,21 +210,23 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   //event passed from searchCustomerGrid.ts -> customer-search-fields.ts -> AddOn.ts 
   selectedCustomer(data) {
     console.log(data);
-    console.log("card data",this.cardInfo);
-    // this.gridData = data;
-    // console.log("new obj", this.gridData);
-    console.log("jdbs", this.hidForm);
-    if(this.cardInfo != null){
+    console.log("DEEP | selectedCustomer() Event");
+    console.log("hidForm", this.hidForm);
+
+    // JUHI :: check this condition the form does not get visible
+    // if (this.cardInfo != null) {
+    //   this.hidForm = false;
+    // }
+
+    //JUHI :: clearing the card details section Bcoz not all section has card details.
+    this.clearCardDetails(); 
+
     this.hidForm = false;
-    }
+
     setTimeout(() => {
       this.setDataFields(data);
       this.setHTabDisabled();
     }, 500);
-
-
-
-
   }
 
   setHTabDisabled() {
@@ -247,7 +251,6 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   setDataFields(data) {
     let tempVar: any = data;
 
-
     this.ADD_DOB.setValue(tempVar['dob']);
     this.ADD_TAX_ID.setValue(tempVar['taxId']);
     this.ADD_FULL_NAME.setValue(tempVar['custName']);
@@ -261,9 +264,13 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.ADD_EMAIL_ID.setValue(tempVar['emailid']);
     this.ADD_ApplicantType.setValue('Limit Enhancement');
-    this.ADD_MaskedCardNumber.setValue(this.cardInfo.PrimaryCardNumber);
-    this.ADD_CurrentCardLimit.setValue(this.cardInfo.PrimaryCardLimit);
-    this.ADD_AvailableLimit.setValue(this.cardInfo.AvailableLimit);
+  }
+
+  //set values specifically for "Card Details" section
+  setCardRelatedData(cardData) {
+    this.ADD_MaskedCardNumber.setValue(cardData.maskedCardNumber);
+    this.ADD_CurrentCardLimit.setValue(cardData.currentCardLimit);
+    this.ADD_AvailableLimit.setValue(cardData.availableLimit);
   }
 
   async clear_click(event) {
@@ -271,6 +278,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.onReset();
     this.hidForm = true;
   }
+
   async CANCEL_MAIN_BTN_click(event) {
     // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
     var mainMessage = this.services.rloui.getAlertMessage('rlo.cancel.comfirmation');
@@ -311,278 +319,283 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   }
 
   async Limit_click(event) {
-        // this.SUBMIT_MAIN_BTN.setDisabled(true);
-        let inputMap = new Map();
+    // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    let inputMap = new Map();
 
-        // if (this.EligibilityDecision != 'Reject') {
-        //   this.EligibilityDecision = 'Approve';
-        // }
-        var noofErrors: number = await this.revalidate();
-        // var borrowercheck = this.Handler.getBorrowerPostData();
-        // for (let i = 0; i < borrowercheck.length; i++) {
-        //   if (borrowercheck[i]['CustomerType'] == 'B') {
-        //     this.borrower = true
-        //     break;
-        //   }
-        // }
-        if (noofErrors == 0) {
-          //   let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
-          //   if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
-          //     this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
-          //     return;
-          //   }
-          inputMap.clear();
-    
-    
-          inputMap.set('HeaderParam.tenant-id', 'SB1');
-          inputMap.set('HeaderParam.user-id', 'Vishal');
-    
-          inputMap.set('Body.LoanDetails.Decision', 'Approve');
-          inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
-          // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.Email', this.ADD_MOBILE.getFieldValue());
-          inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_EMAIL_ID.getFieldValue());
-          inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
-          inputMap.set('Body.ApplicationDetails.SourcingChannel', 'BRANCH');
-          inputMap.set('Body.ApplicationDetails.DSACode', 'JUHI');
-          inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '30-12-2020');
-          inputMap.set('Body.LoanDetails.Product', 'PCC');
-          inputMap.set('Body.LoanDetails.ProductCategory', 'CC');
-          inputMap.set('Body.LoanDetails.SubProduct', 'Millennia');
-          inputMap.set('Body.LoanDetails.Scheme', 'Millennia');
-          inputMap.set('Body.LoanDetails.TypeOfLoan', 'CC');
-          inputMap.set('Body.LoanDetails.TypeOfLoanName', 'Credit Card');
-          inputMap.set('Body.LoanDetails.ApplicationPurpose', 'FOOD');
-          // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
-          inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
-          // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
-          inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
-          inputMap.set('Body.ApplicationDetails.MaskedCardNumber', this.ADD_MaskedCardNumber.getFieldValue());
-          inputMap.set('Body.ApplicationDetails.AvailableLimit', this.ADD_AvailableLimit.getFieldValue());
-          inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
-          inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
-          inputMap.set('Body.ApplicationDetails.CustomerType', 'I');
-          inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
-          inputMap.set('Body.ApplicationDetails.CAMType', 'LE');
-    
-          this.services.http.fetchApi('/v1/proposal/initiate/limit-Enhancement', 'POST', inputMap, '/initiation').subscribe(
-            async (httpResponse: HttpResponse<any>) => {
-              var res = httpResponse.body;
-              for (let i = 0; i < res.Data.length; i++) {
-                const CustData = res.Data[i];
-                if (CustData.CustomerType == 'B') {
-                  this.borrowericif = CustData.ICIFNumber
-                }
-                this.icif = CustData.ICIFNumber;
-              }
-              var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully";
-              //  var title = this.services.rloui.getAlertMessage('');
-              var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
-              var button1 = this.services.rloui.getAlertMessage('', 'OK');
-              Promise.all([mainMessage, button1]).then(values => {
-                console.log(values);
-                let modalObj = {
-                  title: "Alert",
-                  mainMessage: values[0],
-                  modalSize: "modal-width-sm",
-                  buttons: [
-                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                  ]
-                }
-    
-                this.services.rloui.confirmationModal(modalObj).then((response) => {
-                  console.log(response);
-                  if (response != null) {
-                    if (response.id === 1) {
-                      this.services.router.navigate(['home', 'LANDING']);
-                    }
-                  }
-                });
-              });
-    
-    
-              inputMap = new Map();
-              this.onReset();
-              // this.SUBMIT_MAIN_BTN.setDisabled(false);
-    
-            },
-            async (httpError) => {
-              var err = httpError['error']
-              if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-    
-              }
-              Promise.all([this.services.rloui.getAlertMessage('', 'Unable to save form!'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
-                console.log(values);
-                let modalObj = {
-                  title: "Alert",
-                  mainMessage: values[0],
-                  modalSize: "modal-width-sm",
-                  buttons: [
-                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                  ]
-                }
-                this.services.rloui.confirmationModal(modalObj).then((response) => {
-                  console.log(response);
-                  if (response != null) {
-                    if (response.id === 1) {
-                      this.services.rloui.closeAllConfirmationModal();
-                    }
-                  }
-                });
-              });
-              // this.SUBMIT_MAIN_BTN.setDisabled(false);
+    // if (this.EligibilityDecision != 'Reject') {
+    //   this.EligibilityDecision = 'Approve';
+    // }
+    var noofErrors: number = await this.revalidate();
+    // var borrowercheck = this.Handler.getBorrowerPostData();
+    // for (let i = 0; i < borrowercheck.length; i++) {
+    //   if (borrowercheck[i]['CustomerType'] == 'B') {
+    //     this.borrower = true
+    //     break;
+    //   }
+    // }
+    if (noofErrors == 0) {
+      //   let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
+      //   if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
+      //     this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
+      //     return;
+      //   }
+      inputMap.clear();
+
+
+      inputMap.set('HeaderParam.tenant-id', 'SB1');
+      inputMap.set('HeaderParam.user-id', 'Vishal');
+
+      inputMap.set('Body.LoanDetails.Decision', 'Approve');
+      inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
+      // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Email', this.ADD_MOBILE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_EMAIL_ID.getFieldValue());
+      inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
+      inputMap.set('Body.ApplicationDetails.SourcingChannel', 'BRANCH');
+      inputMap.set('Body.ApplicationDetails.DSACode', 'JUHI');
+      inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '30-12-2020');
+      inputMap.set('Body.LoanDetails.Product', 'PCC');
+      inputMap.set('Body.LoanDetails.ProductCategory', 'CC');
+      inputMap.set('Body.LoanDetails.SubProduct', 'Millennia');
+      inputMap.set('Body.LoanDetails.Scheme', 'Millennia');
+      inputMap.set('Body.LoanDetails.TypeOfLoan', 'CC');
+      inputMap.set('Body.LoanDetails.TypeOfLoanName', 'Credit Card');
+      inputMap.set('Body.LoanDetails.ApplicationPurpose', 'FOOD');
+      // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
+      // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
+      inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.MaskedCardNumber', this.ADD_MaskedCardNumber.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.AvailableLimit', this.ADD_AvailableLimit.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
+      inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
+      inputMap.set('Body.ApplicationDetails.CustomerType', 'I');
+      inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
+      inputMap.set('Body.ApplicationDetails.CAMType', 'LE');
+
+      this.services.http.fetchApi('/v1/proposal/initiate/limit-Enhancement', 'POST', inputMap, '/initiation').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          for (let i = 0; i < res.Data.length; i++) {
+            const CustData = res.Data[i];
+            if (CustData.CustomerType == 'B') {
+              this.borrowericif = CustData.ICIFNumber
             }
-          );
-    
-    
-        }
-        else {
-          this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+            this.icif = CustData.ICIFNumber;
+          }
+          var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully";
+          //  var title = this.services.rloui.getAlertMessage('');
+          var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          Promise.all([mainMessage, button1]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              ]
+            }
+
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.router.navigate(['home', 'LANDING']);
+                }
+              }
+            });
+          });
+
+
+          inputMap = new Map();
+          this.onReset();
           // this.SUBMIT_MAIN_BTN.setDisabled(false);
-    
+
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+
+          }
+          Promise.all([this.services.rloui.getAlertMessage('', 'Unable to save form!'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              ]
+            }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.rloui.closeAllConfirmationModal();
+                }
+              }
+            });
+          });
+          // this.SUBMIT_MAIN_BTN.setDisabled(false);
         }
+      );
+
+
+    }
+    else {
+      this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+      // this.SUBMIT_MAIN_BTN.setDisabled(false);
+
+    }
   }
   async ADD_ON_click(event) {
-     // this.SUBMIT_MAIN_BTN.setDisabled(true);
-     let inputMap = new Map();
+    // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    let inputMap = new Map();
 
-     // if (this.EligibilityDecision != 'Reject') {
-     //   this.EligibilityDecision = 'Approve';
-     // }
-     var noofErrors: number = await this.revalidate();
-     // var borrowercheck = this.Handler.getBorrowerPostData();
-     // for (let i = 0; i < borrowercheck.length; i++) {
-     //   if (borrowercheck[i]['CustomerType'] == 'B') {
-     //     this.borrower = true
-     //     break;
-     //   }
-     // }
-     if (noofErrors == 0) {
-       //   let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
-       //   if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
-       //     this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
-       //     return;
-       //   }
-       inputMap.clear();
- 
- 
-       inputMap.set('HeaderParam.tenant-id', 'SB1');
-       inputMap.set('HeaderParam.user-id', 'Vishal');
- 
-       inputMap.set('Body.LoanDetails.Decision', 'Approve');
-       inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
-       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.Email', this.ADD_MOBILE.getFieldValue());
-       inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_EMAIL_ID.getFieldValue());
-       inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
-       inputMap.set('Body.ApplicationDetails.SourcingChannel', 'BRANCH');
-       inputMap.set('Body.ApplicationDetails.DSACode', 'JUHI');
-       inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '15-12-2020');
-       inputMap.set('Body.LoanDetails.Product', 'PCC');
-       inputMap.set('Body.LoanDetails.ProductCategory', 'CC');
-       inputMap.set('Body.LoanDetails.SubProduct', 'Millennia');
-       inputMap.set('Body.LoanDetails.Scheme', 'Millennia');
-       inputMap.set('Body.LoanDetails.TypeOfLoan', 'CC');
-       inputMap.set('Body.LoanDetails.TypeOfLoanName', 'Credit Card');
-       inputMap.set('Body.LoanDetails.ApplicationPurpose', 'FOOD');
-       // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
-       inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
-       inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
-       inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
-       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
-       inputMap.set('Body.ApplicationDetails.CustomerType', 'I');
-       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
-       inputMap.set('Body.ApplicationDetails.CAMType', 'MEMC');
- 
-       this.services.http.fetchApi('/v1/proposal/initiate/member-card', 'POST', inputMap, '/initiation').subscribe(
-         async (httpResponse: HttpResponse<any>) => {
-           var res = httpResponse.body;
-           for (let i = 0; i < res.Data.length; i++) {
-             const CustData = res.Data[i];
-             if (CustData.CustomerType == 'B') {
-               this.borrowericif = CustData.ICIFNumber
-             }
-             this.icif = CustData.ICIFNumber;
-           }
-           var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully";
-           //  var title = this.services.rloui.getAlertMessage('');
-           var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
-           var button1 = this.services.rloui.getAlertMessage('', 'OK');
-           Promise.all([mainMessage, button1]).then(values => {
-             console.log(values);
-             let modalObj = {
-               title: "Alert",
-               mainMessage: values[0],
-               modalSize: "modal-width-sm",
-               buttons: [
-                 { id: 1, text: values[1], type: "success", class: "btn-primary" },
-               ]
-             }
- 
-             this.services.rloui.confirmationModal(modalObj).then((response) => {
-               console.log(response);
-               if (response != null) {
-                 if (response.id === 1) {
-                   this.services.router.navigate(['home', 'LANDING']);
-                 }
-               }
-             });
-           });
- 
- 
-           inputMap = new Map();
-           this.onReset();
-           // this.SUBMIT_MAIN_BTN.setDisabled(false);
- 
-         },
-         async (httpError) => {
-           var err = httpError['error']
-           if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
- 
-           }
-           Promise.all([this.services.rloui.getAlertMessage('', 'Unable to save form!'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
-             console.log(values);
-             let modalObj = {
-               title: "Alert",
-               mainMessage: values[0],
-               modalSize: "modal-width-sm",
-               buttons: [
-                 { id: 1, text: values[1], type: "success", class: "btn-primary" },
-               ]
-             }
-             this.services.rloui.confirmationModal(modalObj).then((response) => {
-               console.log(response);
-               if (response != null) {
-                 if (response.id === 1) {
-                   this.services.rloui.closeAllConfirmationModal();
-                 }
-               }
-             });
-           });
-           // this.SUBMIT_MAIN_BTN.setDisabled(false);
-         }
-       );
- 
- 
-     }
-     else {
-       this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
-       // this.SUBMIT_MAIN_BTN.setDisabled(false);
- 
-     }
+    // if (this.EligibilityDecision != 'Reject') {
+    //   this.EligibilityDecision = 'Approve';
+    // }
+    var noofErrors: number = await this.revalidate();
+    // var borrowercheck = this.Handler.getBorrowerPostData();
+    // for (let i = 0; i < borrowercheck.length; i++) {
+    //   if (borrowercheck[i]['CustomerType'] == 'B') {
+    //     this.borrower = true
+    //     break;
+    //   }
+    // }
+    if (noofErrors == 0) {
+      //   let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
+      //   if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
+      //     this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
+      //     return;
+      //   }
+      inputMap.clear();
+
+
+      inputMap.set('HeaderParam.tenant-id', 'SB1');
+      inputMap.set('HeaderParam.user-id', 'Vishal');
+
+      inputMap.set('Body.LoanDetails.Decision', 'Approve');
+      inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
+      // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Email', this.ADD_MOBILE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_EMAIL_ID.getFieldValue());
+      inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
+      inputMap.set('Body.ApplicationDetails.SourcingChannel', 'BRANCH');
+      inputMap.set('Body.ApplicationDetails.DSACode', 'JUHI');
+      inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '15-12-2020');
+      inputMap.set('Body.LoanDetails.Product', 'PCC');
+      inputMap.set('Body.LoanDetails.ProductCategory', 'CC');
+      inputMap.set('Body.LoanDetails.SubProduct', 'Millennia');
+      inputMap.set('Body.LoanDetails.Scheme', 'Millennia');
+      inputMap.set('Body.LoanDetails.TypeOfLoan', 'CC');
+      inputMap.set('Body.LoanDetails.TypeOfLoanName', 'Credit Card');
+      inputMap.set('Body.LoanDetails.ApplicationPurpose', 'FOOD');
+      // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
+      inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
+      inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
+      inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
+      inputMap.set('Body.ApplicationDetails.CustomerType', 'I');
+      inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
+      inputMap.set('Body.ApplicationDetails.CAMType', 'MEMC');
+
+      this.services.http.fetchApi('/v1/proposal/initiate/member-card', 'POST', inputMap, '/initiation').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          var res = httpResponse.body;
+          for (let i = 0; i < res.Data.length; i++) {
+            const CustData = res.Data[i];
+            if (CustData.CustomerType == 'B') {
+              this.borrowericif = CustData.ICIFNumber
+            }
+            this.icif = CustData.ICIFNumber;
+          }
+          var successmessage = "Proposal " + res.ApplicationReferenceNumber + " Submitted Successfully";
+          //  var title = this.services.rloui.getAlertMessage('');
+          var mainMessage = this.services.rloui.getAlertMessage('', successmessage);
+          var button1 = this.services.rloui.getAlertMessage('', 'OK');
+          Promise.all([mainMessage, button1]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              ]
+            }
+
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.router.navigate(['home', 'LANDING']);
+                }
+              }
+            });
+          });
+
+
+          inputMap = new Map();
+          this.onReset();
+          // this.SUBMIT_MAIN_BTN.setDisabled(false);
+
+        },
+        async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+
+          }
+          Promise.all([this.services.rloui.getAlertMessage('', 'Unable to save form!'), this.services.rloui.getAlertMessage('', 'OK')]).then(values => {
+            console.log(values);
+            let modalObj = {
+              title: "Alert",
+              mainMessage: values[0],
+              modalSize: "modal-width-sm",
+              buttons: [
+                { id: 1, text: values[1], type: "success", class: "btn-primary" },
+              ]
+            }
+            this.services.rloui.confirmationModal(modalObj).then((response) => {
+              console.log(response);
+              if (response != null) {
+                if (response.id === 1) {
+                  this.services.rloui.closeAllConfirmationModal();
+                }
+              }
+            });
+          });
+          // this.SUBMIT_MAIN_BTN.setDisabled(false);
+        }
+      );
+
+
+    }
+    else {
+      this.services.alert.showAlert(2, 'rlo.error.invalid.form', -1);
+      // this.SUBMIT_MAIN_BTN.setDisabled(false);
+
+    }
   }
 
+  //JUHI :: add code to clear only the three section of card details
+  //clear card details section
+  clearCardDetails(){
+    
+  }
 
 }

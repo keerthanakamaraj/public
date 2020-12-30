@@ -172,8 +172,10 @@ export class CustomerAvaliableCardsComponent implements OnInit {
   async rowClicked(event) {
     let inputMap = new Map();
     const selectedData = this.readonlyGrid.getSelectedData();
-
-    this.activeModal.close();
     this.services.rloCommonData.selectedCardDetailsSubject.next(selectedData);//subscribed in addon card details page
+
+    let currentRoute = this.services.rloCommonData.getActiveRouteName();
+    if (currentRoute != 'Initiation')
+      this.activeModal.close();
   }
 }

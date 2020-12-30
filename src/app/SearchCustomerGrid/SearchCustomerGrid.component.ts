@@ -9,6 +9,9 @@ import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ICustomSearchObject } from '../Interface/masterInterface';
+import { CustomerSearchGridBtnComponent } from '../customer-search-grid-btn/customer-search-grid-btn.component';
+import { cos } from '@amcharts/amcharts4/.internal/core/utils/Math';
+import { Router } from '@angular/router';
 const customCss: string = '';
 @Component({
   selector: 'app-SearchCustomerGrid',
@@ -50,6 +53,9 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
   customerSearchType: 'Internal' | 'External';
 
+  clickedShowCustomerDetails: boolean = false;//when user clicks on 'Y' in customer serach
+  showCustomerCardDetails: boolean = false;//show card details section
+
   columnDefs: any[] = [{
     field: "TaxID",
     width: 11,
@@ -80,36 +86,6 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
-  // {
-  //   field: "FirstName",
-  //   width: 11,
-  //   sortable: true,
-  //   resizable: true,
-  //   cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-  // },
-  // {
-  //   field: "LastName",
-  //   width: 11,
-  //   sortable: true,
-  //   resizable: true,
-  //   cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-  // },
   {
     field: "AccNo",
     width: 11,
@@ -125,21 +101,6 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
-  // {
-  //   field: "AccVintage",
-  //   width: 11,
-  //   sortable: true,
-  //   resizable: true,
-  //   cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-  // },
   {
     field: "AccType",
     width: 14,
@@ -155,21 +116,6 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
-  // {
-  //   field: "Status",
-  //   width: 11,
-  //   sortable: true,
-  //   resizable: true,
-  //   cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-  // },
   {
     field: "Mobile",
     width: 11,
@@ -215,21 +161,6 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       caseSensitive: true,
     },
   },
-  // {
-  //   field: "CreditCard",
-  //   width: 12,
-  //   sortable: true,
-  //   resizable: true,
-  //   cellStyle: { 'text-align': 'left' },
-  //   filter: "agTextColumnFilter",
-  //   filterParams: {
-  //     suppressAndOrCondition: true,
-  //     applyButton: true,
-  //     clearButton: true,
-  //     filterOptions: ["contains"],
-  //     caseSensitive: true,
-  //   },
-  // },
   {
     field: "Cif",
     width: 11,
@@ -251,13 +182,13 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    cellRenderer: 'buttonRenderer',
+    cellRendererFramework: CustomerSearchGridBtnComponent,
     cellRendererParams: {
       gridCode: 'OccuptionDtlsGrid',
       columnId: 'OD_EDIT_BTN',
       Type: '1',
       CustomClass: 'btn-edit',
-      onClick: this.getCMSDetailsType.bind(this),
+      onClick: this.CmsDetails_click.bind(this),
     },
   }
   ];
@@ -299,7 +230,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     "ErrMsg": ""
   }
 
-  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal) { }
+  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal, public router: Router) { }
 
   ngAfterViewInit() {
     this.services.translate.onLangChange
@@ -462,7 +393,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
                 // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
-               
+
                 loopDataVar7.push(tempObj);
               }
             }
@@ -524,7 +455,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
                 tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
-               
+
 
                 loopDataVar7.push(tempObj);
               }
@@ -544,6 +475,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     console.error(event);
     let inputMap = new Map();
     const selectedData0 = this.readonlyGrid.getSelectedData();
+    console.log(selectedData0);
+
     if (selectedData0) {
       let tempVar: any = {};
       tempVar['firsName'] = selectedData0['FirstName'];
@@ -577,33 +510,74 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['staffId'] = selectedData0['staffId'];//StaffID: "9870"
       console.log("DEEP| Selcted customer,", tempVar);
 
-      this.services.dataStore.setData('selectedData', tempVar);
-      for (var i = this.services.routing.currModal; i > 0; i--) {
-        await this.services.dataStore.getModalReference(i).componentInstance.closeModal();
+      let currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
+
+      if (currentRoute != 'Initiation') {
+        this.selectedCustomer.emit(tempVar);
+
+        if (selectedData0['CmsDetails'] == 'Y') {
+          console.error("DEEP | Open 360 modal");
+          this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
+            console.log(response);
+            if (response != null) {
+              let cardDetails = response.outputdata.AccountList;
+              console.error(cardDetails);
+
+              this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
+                if (response != null) {
+                  console.log(response);
+                }
+                else {
+                  console.warn("DEEP | No customer selected");
+                }
+              });
+            }
+          });
+        }
+      } else {
+        this.services.dataStore.setData('selectedData', tempVar);
+        for (var i = this.services.routing.currModal; i > 0; i--) {
+          await this.services.dataStore.getModalReference(i).componentInstance.closeModal();
+        }
+
+        if (this.clickedShowCustomerDetails) {
+          console.warn("DEEP | SHOW SEPERATE CUSTOMER CARD UI");
+          this.clickedShowCustomerDetails = false;
+          this.selectedCustomer.emit({ showCustomerCard: true });
+        } else {
+          this.clickedShowCustomerDetails = false;
+          this.selectedCustomer.emit(tempVar);
+          this.activeModal.close(tempVar);
+        }
       }
 
-      this.activeModal.close(tempVar);
-      this.selectedCustomer.emit(tempVar);
+      // this.services.dataStore.setData('selectedData', tempVar);
+      // for (var i = this.services.routing.currModal; i > 0; i--) {
+      //   await this.services.dataStore.getModalReference(i).componentInstance.closeModal();
+      // }
 
-      if (selectedData0['CmsDetails'] == 'Y') {
-        console.error("DEEP | Open 360 modal");
-        this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
-          console.log(response);
-          if (response != null) {
-            let cardDetails = response.outputdata.AccountList;
-            console.error(cardDetails);
+      // this.activeModal.close(tempVar);
+      // this.selectedCustomer.emit(tempVar);
 
-            this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
-              if (response != null) {
-                console.log(response);
-              }
-              else {
-                console.warn("DEEP | No customer selected");
-              }
-            });
-          }
-        })
-      }
+      // if (selectedData0['CmsDetails'] == 'Y') {
+      //   console.error("DEEP | Open 360 modal");
+      //   this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
+      //     console.log(response);
+      //     if (response != null) {
+      //       let cardDetails = response.outputdata.AccountList;
+      //       console.error(cardDetails);
+
+      //       this.services.rloui.customerCardDetails(cardDetails).then((response: any) => {
+      //         if (response != null) {
+      //           console.log(response);
+      //         }
+      //         else {
+      //           console.warn("DEEP | No customer selected");
+      //         }
+      //       });
+      //     }
+      //   });
+      // }
     }
   }
 
@@ -686,7 +660,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           tempObj['registeredName'] = loopVar7[i].RegisteredName;
           tempObj['dateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
           tempObj['typeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
-    
+
           tempObj['staffId'] = loopVar7[i].StaffID;//StaffID: "9870"
 
           loopDataVar7.push(tempObj);
@@ -697,7 +671,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     });
   }
 
-  getCMSDetailsType() {
+  CmsDetails_click(event) {
+    console.error('CmsDetails_click', event);
     console.error("************");
+    this.clickedShowCustomerDetails = true;
   }
+
+
 }

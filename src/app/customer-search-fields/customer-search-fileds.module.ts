@@ -10,6 +10,7 @@ import { CustomerSearchFieldsRoutingModule } from './customer-search-fileds.rout
 import { IgcbDatepickerModule } from '../igcb-datepicker/igcb-datepicker.module';
 import { SearchCustomerGridModule } from '../SearchCustomerGrid/SearchCustomerGrid.module';
 import { RAFormModule } from '../ra-form/ra-form.module';
+import { CustomerAvaliableCardsModule } from '../customer-avaliable-cards/customer-avaliable-cards.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { RAFormModule } from '../ra-form/ra-form.module';
     CustomerSearchFieldsRoutingModule,
     SearchCustomerGridModule,
     IgcbDatepickerModule,
+    CustomerAvaliableCardsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

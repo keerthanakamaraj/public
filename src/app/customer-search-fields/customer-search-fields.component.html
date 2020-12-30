@@ -1,94 +1,50 @@
-<div class="wgt-customer-search">
-    <!-- START - Header Banner -->
-    <!-- <div>
-        <div class="row well">
-            <div class="col-md-4 col-xs-12 col-sm-6 form-group">
-                <p><strong>{{getLabel('SEARCH_TYPE')}}</strong></p>
-                <label class="radio-container">{{getLabel("INTERNAL_SEARCH")}}
-                    <input type="radio" name="searchType" [(ngModel)]="searchType" value='001' />
-                    <span class="checkmark"></span>
-                </label>
-                <label class="radio-container">{{getLabel("EXTERNAL_SEARCH")}}
-                    <input type="radio" name="searchType" [(ngModel)]="searchType" value='002' />
-                    <span class="checkmark"></span>
-                </label>
+<ng-container *ngIf="!showCustomerCardSection; else customerCardsDetails">
+    <div class="wgt-customer-search" *ngIf="!showCustomerCardSection">
+        <div class="title">Who would you like to create the application for?</div>
+        <div class="field-container">
+            <div class="row fluid-row d-none">
+                <div class="search-type-section col-12  col-sm-3 col-md-3 res-pr-hide">
+                    <div class="clr-brown fieldLegend">
+                        <label class="clr-brown">
+                            Search Type
+                        </label>
+                    </div>
+                    <rlo-ui-radio #search_Type fieldID="search_Type" [emittedOptions]="searchOptionsList"
+                        defaultValue="Internal" (change)="onDecisionChange($event)"></rlo-ui-radio>
+                </div>
             </div>
-            <div class="col-md-4 col-xs-12 col-sm-6 form-group">
-                <p><strong>{{getLabel('CUSTOMER_SUB_TYPE')}}</strong></p>
-                <label class="radio-container">{{getLabel("INDIVIDUAL")}}
-                    <input type="radio" name="customerSubType" [(ngModel)]="customerSubType" value='001'
-                        (change)="onCustSubTypeChange(customerSubType)" />
-                    <span class="checkmark"></span>
-                </label>
-                <label class="radio-container">{{getLabel("CORPORATE")}}
-                    <input type="radio" name="customerSubType" [(ngModel)]="customerSubType" value='002'
-                        (change)="onCustSubTypeChange(customerSubType)" />
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="col-md-12 col-xs-12 col-sm-12" *ngIf="searchType === '001'">
-                <p><strong>Note: </strong>{{getLabel('CUSTOMER_SEARCH_LOGIC')}}
-                </p>
-            </div>
-        </div>
-    </div> -->
-    <!-- END - Header Banner -->
-    <div class="title">Who would you like to create the application for?</div>
 
-
-    <div class="field-container">
-        <!-- <ng-container *ngFor="let group of objectKey(groupedFields);let j = index">
-            <div class="row fluid-row searchGroup col-md-12" *ngIf="searchType === '001'">
-                <ng-container *ngFor="let field of groupedFields[group]; let i = index">
+            <div class="row fluid-row" *ngIf="searchType === '001'">
+                <ng-container *ngFor="let field of fieldData; let i = index">
                     <ng-container *ngTemplateOutlet="fields;context:{field:field}"></ng-container>
                 </ng-container>
-            </div>
-        </ng-container> -->
-        <div class="row fluid-row d-none">
-            <div class="search-type-section col-12  col-sm-3 col-md-3 res-pr-hide">
-                <div class="clr-brown fieldLegend">
-                    <label class="clr-brown">
-                        Search Type
-                    </label>
-                </div>
-                <rlo-ui-radio #search_Type fieldID="search_Type" [emittedOptions]="searchOptionsList" defaultValue="Internal"
-                    (change)="onDecisionChange($event)"></rlo-ui-radio>
-            </div>
-        </div>
-
-        <div class="row fluid-row" *ngIf="searchType === '001'">
-            <ng-container *ngFor="let field of fieldData; let i = index">
-                <ng-container *ngTemplateOutlet="fields;context:{field:field}"></ng-container>
-            </ng-container>
-            <div class="col-md-3 col-xs-12 col-sm-6 search-submit-container">
-                <!-- <button class="btn-secondary" (click)="searchCustomers()">{{getLabel("SEARCH")}}</button>
+                <div class="col-md-3 col-xs-12 col-sm-6 search-submit-container">
+                    <!-- <button class="btn-secondary" (click)="searchCustomers()">{{getLabel("SEARCH")}}</button>
                 <button class="btn-warning-outline" (click)="clearData()">{{getLabel("CLEAR")}}</button> -->
-                <button (click)="searchCustomers()" type="button" class="btn btn-primary">
-                    <i class="fa fa-search"></i>{{getLabel('SEARCH')}}</button>
-                <button (click)="clearData()" type="button" class="btn-secondary">{{getLabel('CLEAR')}}</button>
+                    <button (click)="searchCustomers()" type="button" class="btn btn-primary">
+                        <i class="fa fa-search"></i>{{getLabel('SEARCH')}}</button>
+                    <button (click)="clearData()" type="button" class="btn-secondary">{{getLabel('CLEAR')}}</button>
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div>
-        <app-SearchCustomerGrid #SearchFormGrid fieldID="SearchFormGrid" [formCode]="'SearchForm'"
-            [displayToolbar]="false" [displayTitle]="false" (selectedCustomer)="selectedCustomer($event)"></app-SearchCustomerGrid>
-    </div>
-
-    <!-- 
-    <div class="row">
-        <div class="col-md-12 btn-group-right">
-            <button class="btn-secondary" (click)="searchCustomers()">{{getLabel("SEARCH")}}</button>
-            <button class="btn-warning-outline" (click)="clearData()">{{getLabel("CLEAR")}}</button>
+        <div>
+            <app-SearchCustomerGrid #SearchFormGrid fieldID="SearchFormGrid" [formCode]="'SearchForm'"
+                [displayToolbar]="false" [displayTitle]="false" (selectedCustomer)="selectedCustomer($event)">
+            </app-SearchCustomerGrid>
         </div>
-    </div> -->
+    </div>
+</ng-container>
 
-    <!-- <div class="row" *ngIf="showCustomerData">
-        <app-cust-search-results-grid #custResultsGrid [rowData]="rowData" (customerData)="callFunction($event)">
-        </app-cust-search-results-grid>
-    </div> -->
-</div>
+<ng-template #customerCardsDetails>
+    <div>
+        <div class="back-container">
+            <span class="go-back icon-arrow-back" (click)="gotoPreviousView()" data-toggle="tooltip"
+                data-placement="bottom" title="Back"></span>
+        </div>
+        <app-customer-avaliable-cards #CustomerAvaliableCards [parentData]="customerCardDetails"></app-customer-avaliable-cards>
+    </div>
+</ng-template>
 
 <ng-template #fields let-field="field">
     <!-- START - Date fields -->

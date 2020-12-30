@@ -8,6 +8,8 @@ import { ICustomSearchObject } from '../Interface/masterInterface';
 import { isEmpty } from "lodash"
 import * as _ from 'lodash';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
+import { object } from '@amcharts/amcharts4/core';
+import { CustomerAvaliableCardsComponent } from '../customer-avaliable-cards/customer-avaliable-cards.component';
 
 @Component({
   selector: 'app-customer-search-fields',
@@ -17,6 +19,7 @@ import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 export class CustomerSearchFieldsComponent extends FormCommonComponent implements OnInit {
   @ViewChild('SearchFormGrid', { static: false }) SearchFormGrid: SearchCustomerGridComponent;
   @ViewChild('search_Type', { static: false }) search_Type: RLOUIRadioComponent;
+  @ViewChild('CustomerAvaliableCards', { static: false }) CustomerAvaliableCards: CustomerAvaliableCardsComponent;
 
   @Input() customerSubType: string = "001";
   @Output() customerData: EventEmitter<Object> = new EventEmitter();
@@ -46,6 +49,9 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
   ];
 
   customerSearchType: 'Internal' | 'External' = 'External';
+  showCustomerCardSection: boolean = false;//shows customer card details
+
+  customerCardDetails: any;//shows the list of card details
 
   constructor(public utility: UtilityService, services: ServiceStock) {
     // super(utility);
@@ -466,11 +472,29 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
 
   selectedCustomer(data: any) {
     console.log(data);
+
+    if (object.keys(data).includes('showCustomerCard')) {
+      this.showCustomerCardSection = true;
+
+      this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
+        console.log(response);
+        if (response != null) {
+          let cardDetails = response.outputdata.AccountList;
+          console.error(cardDetails);
+          this.customerCardDetails = cardDetails;
+
+          setTimeout(() => {
+            this.CustomerAvaliableCards.gridDataLoad({});
+          }, 100);
+        }
+      });
+    }
+
     this.customerData.emit(data);
     this.SearchFormGrid.hidgrid();
   }
 
-  getMultipleCustomerIcif(){
+  getMultipleCustomerIcif() {
     // {
     //   "ICIFNumber":
     //   [
@@ -478,6 +502,13 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     //   ]
     // }
 
+  }
+
+  gotoPreviousView() {
+    this.showCustomerCardSection = false;
+    setTimeout(() => {
+      this.searchCustomers();
+    }, 500);
   }
 
 }

@@ -1154,6 +1154,12 @@ a.back {
   display: inline-block;
 }
 
+.anchor-link {
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
 .d-inline-flex {
   display: inline-block;
 }
@@ -3869,6 +3875,7 @@ rlo-ui-card-field {
         font-size: 19px;
         float: right;
         text-align: end;
+        cursor: pointer;
       }
     }
 
@@ -5062,7 +5069,7 @@ rlo-ui-card-field {
   }
 
   #menuToggle a:hover {
-    color: white;
+    color: #0079B8 !important;
   }
 
   #menuToggle input {
@@ -5117,7 +5124,7 @@ rlo-ui-card-field {
   #menuToggle input:checked ~ span {
     opacity: 1;
     transform: rotate(45deg) translate(-2px, -1px);
-    //  background: #232323;
+    background: #232323;
   }
 
   /*
