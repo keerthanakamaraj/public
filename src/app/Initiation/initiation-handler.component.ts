@@ -215,6 +215,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     //reset fields customerId and staffId  
     this.MainComponent.CD_CUSTOMER_ID.onReset();
     this.MainComponent.CD_STAFF_ID.onReset();
+this.MainComponent.CD_TYPE_OF_INCORPORATION.onReset();
+this.MainComponent.CD_DATE_OF_INCORPORATION.onReset();
+this.MainComponent.CD_REGISTERED_NAME.onReset();
 
    // this.onProdCategoryChange({});
 
@@ -541,6 +544,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     customer.email = this.MainComponent.CD_EMAIL_ID.getFieldValue();
     customer.countryCode = this.MainComponent.CD_MOBILE.countryCode;
     customer.nameOnCard = this.MainComponent.CD_NAME_ON_CARD.getFieldValue();
+    customer.registeredName = this.MainComponent.CD_REGISTERED_NAME.getFieldValue();
+    customer.typeofIncorporation = this.MainComponent.CD_TYPE_OF_INCORPORATION.getFieldValue();
+    customer.dateOfIncorporation = this.MainComponent.CD_DATE_OF_INCORPORATION.getFieldValue();
+    
     customer.tempId = this.tempId;
     return customer;
   }
@@ -618,9 +625,12 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
 
         // Corporate fields data
-        tempObj['accType'] = this.customers[i].typeofIncorporation;
-        tempObj['dob'] = this.customers[i].dateOfIncorporation;
+        tempObj['TypeOfIncorporation'] = this.customers[i].typeofIncorporation;
+        tempObj['DateOfIncorporation'] = this.customers[i].dateOfIncorporation;
         tempObj['taxId'] = this.customers[i].panNumber;
+        tempObj['RegisteredName'] = this.customers[i].registeredName;
+        
+
 
         if (this.customers[i].customerType.value == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
           tempObj['LoanOwnership'] = 100;

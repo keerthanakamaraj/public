@@ -735,8 +735,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
     // Corporate Type Customer
     this.CD_REGISTERED_NAME.setValue(tempVar['custName']);
-    this.CD_TYPE_OF_INCORPORATION.setValue(['typeOfIncorporation']);
-    this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
+    this.CD_TYPE_OF_INCORPORATION.setValue('IT');
+    this.CD_DATE_OF_INCORPORATION.setValue('22-08-2020');
    // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 
