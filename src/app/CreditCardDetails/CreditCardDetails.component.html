@@ -138,8 +138,8 @@
             </div>
 
             <app-rlo-ui-currency #ApprovedCashLimit fieldID="ApprovedCashLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
-              [formCode]="formCode"></app-rlo-ui-currency>
+              [componentFieldId]="'ApprovedCashLimit'" (onBlurEvent)="customGenericOnBlur($event)"
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -151,6 +151,45 @@
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
               placeholder="Select" (blur)="genericOnBlur('SettlementAccountType', $event)"></app-combo-box>
           </div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CurrentCorporateCardLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.CurrentCorporateCardLimit' | translate}}</label>
+            </div>
+            <app-rlo-ui-currency #CurrentCorporateCardLimit fieldID="CurrentCorporateCardLimit"
+              [currencyReadOnly]="true" [inputReadOnly]="readOnly" [formCode]="formCode"
+              [componentFieldId]="'CurrentCorporateCardLimit'" (onBlurEvent)="customGenericOnBlur($event)">
+            </app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CurrentCardLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.CurrentCardLimit' | translate}}</label>
+            </div>
+            <app-rlo-ui-currency #CurrentCardLimit fieldID="CurrentCardLimit"
+              [currencyReadOnly]="true" [inputReadOnly]="readOnly" [formCode]="formCode"
+              [componentFieldId]="'CurrentCardLimit'" (onBlurEvent)="customGenericOnBlur($event)">
+            </app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AvailableLimit.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.AvailableLimit' | translate}}</label>
+            </div>
+            <app-rlo-ui-currency #AvailableLimit fieldID="AvailableLimit" [currencyReadOnly]="true"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'AvailableLimit'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+          </div>
+
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaskedCardNumber.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'CreditCardDetails.MaskedCardNumber' | translate}}</label>
+            </div>
+            <app-rlo-ui-currency #MaskedCardNumber fieldID="MaskedCardNumber" [currencyReadOnly]="true"
+              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'MaskedCardNumber'"
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="SettlementAccountNo.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -368,6 +407,7 @@
         <app-hidden #hidNomineeSeq fieldID="hidNomineeSeq"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
         <app-hidden #hideCardCustType fieldID="hideCardCustType"></app-hidden>
+        <app-hidden #hidCreditSeq fieldID="hidCreditSeq"></app-hidden>
       </div>
     </div>
   </div>

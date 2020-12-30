@@ -39,7 +39,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_OCCUPANCY_TYPE', { static: false }) AD_OCCUPANCY_TYPE: RLOUIRadioComponent;
   @ViewChild('AD_OCCUPANCY_STATUS', { static: false }) AD_OCCUPANCY_STATUS: RLOUIRadioComponent;
   @ViewChild('AD_CUST_TYPE', { static: false }) AD_CUST_TYPE: RLOUIRadioComponent;
-  // @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
+  @ViewChild('AD_MAILING_ADDRESS', { static: false }) AD_MAILING_ADDRESS: RLOUIRadioComponent;
   @ViewChild('AD_ADDRESS_LINE1', { static: false }) AD_ADDRESS_LINE1: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE2', { static: false }) AD_ADDRESS_LINE2: TextBoxComponent;
   @ViewChild('AD_ADDRESS_LINE3', { static: false }) AD_ADDRESS_LINE3: TextBoxComponent;

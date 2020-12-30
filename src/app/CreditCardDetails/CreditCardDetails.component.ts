@@ -80,8 +80,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('ApprovedCashLimit', { static: false }) ApprovedCashLimit: RloUiCurrencyComponent;
     @ViewChild('MaxCashLimit', { static: false }) MaxCashLimit: RloUiCurrencyComponent;
     @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
-
     @ViewChild('CreditCardInputGrid', { static: false }) CreditCardInputGrid: CreditCardInputGridComponent;
+    @ViewChild('CurrentCorporateCardLimit', { static: false }) CurrentCorporateCardLimit: RloUiCurrencyComponent;
+    @ViewChild('AvailableLimit', { static: false }) AvailableLimit: RloUiCurrencyComponent;
+    @ViewChild('MaskedCardNumber', { static: false }) MaskedCardNumber: RloUiCurrencyComponent;
+    @ViewChild('CurrentCardLimit', { static: false }) CurrentCardLimit: RloUiCurrencyComponent;
+    
+
+    // @ViewChild('CreditCardInputGrid', { static: false }) CreditCardInputGrid: CreditCardInputGridComponent;
 
     @Input() ApplicationId: string = undefined;
     @Input() readOnly: boolean = false;
@@ -94,6 +100,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     customerList: any;
     clearFieldsFlag:boolean=false;
     CreditCardSeq:string=undefined;
+    isShow: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
+
     async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -142,6 +150,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.RequestedCardLimit.setReadOnly(true);
         this.MaxCashLimit.setReadOnly(true);
         this.MaximumCardLimit.setReadOnly(true);
+        this.CurrentCorporateCardLimit.setReadOnly(true);
+        this.AvailableLimit.setReadOnly(true);
+        this.MaskedCardNumber.setReadOnly(true);
+        this.CurrentCardLimit.setReadOnly(true);
+        this.CurrentCorporateCardLimit.setHidden(true);
+        this.AvailableLimit.setHidden(true);
+        this.MaskedCardNumber.setHidden(true);
+        this.CurrentCardLimit.setHidden(true);
+        this.CardDispatchMode.setHidden(false);
+        this.Add_RequestedCardLimit.setHidden(true);
 
         this.hidAppId.setValue('RLO');
         this.hidCatgory.setValue('FRONT_PAGE_CATG');
@@ -179,13 +197,29 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             }
 
         }, 500);
+        console.log("camtype", this.services.rloCommonData.globalApplicationDtls.CamType);
+        setTimeout(() => {
+            if(this.services.rloCommonData.globalApplicationDtls.CamType == 'LE'){
+                this.CurrentCardLimit.setHidden(false);
+                this.MaskedCardNumber.setHidden(false);
+                this.Add_RequestedCardLimit.setHidden(false)
+                this.RequestedCardLimit.setHidden(true);
+                this.CurrentCardLimit.setComponentSpecificValue('50000');
+                this.MaskedCardNumber.setComponentSpecificValue('S3435545');
+            }
+            else if(this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC')
+            {
+                this.CurrentCorporateCardLimit.setHidden(false);
+                this.MaskedCardNumber.setHidden(false);
+                this.AvailableLimit.setHidden(false);   
+            }
+        }, 500);
 
         this.fetchCarditCardDetails();
-        this.dispalyAddonField();
+        // this.dispalyAddonField();
         await this.Handler.onFormLoad({
         });
-        this.CardDispatchMode.setHidden(false);
-        this.Add_RequestedCardLimit.setHidden(true);
+
         // this.StmtDispatchMode.setValue('Email');
 
         // Sprint-6
@@ -343,20 +377,22 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     //         this.ApproveCashLimit_();
     //     }
     // }
-    dispalyAddonField() {
-        this.customerList = this.services.rloCommonData.getCustomerList();
-        for (let element of this.customerList) {
-            if (element.CustomerType == 'A') {
-                this.Add_RequestedCardLimit.setHidden(false);
-                this.CardDispatchMode.setHidden(false);
-            }
-            else {
-                this.Add_RequestedCardLimit.setHidden(true);
-                this.CardDispatchMode.setHidden(true);
-            }
-        }
+    // dispalyAddonField() {
+    //     this.customerList = this.services.rloCommonData.getCustomerList();
+    //     for (let element of this.customerList) {
+    //         if (element.CustomerType == 'A') {
+    //             this.Add_RequestedCardLimit.setHidden(false);
+    //             this.CardDispatchMode.setHidden(false);
+    //         }
+    //         else {
+    //             this.Add_RequestedCardLimit.setHidden(true);
+    //             this.CardDispatchMode.setHidden(true);
+    //         }
+    //     }
 
-    }
+    // }
+
+
     ApproveCashLimit_() {
       // Validate if Approved Limit is greater than product Credit Limit
       if(+this.ApprovedLimit.getFieldValue() > +this.header.Product_max_credit){
@@ -424,7 +460,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                    //     this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
                         this.CreditCardSeq=CreditElement['CreditCardDetailSeq'];
                         this.CustomerType.setValue(CreditElement['CustomerType']['text']);
-                        if (this.customerList.CustomerType == 'A') {
+                        if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
                             this.Add_RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);
                         }
                         else {
@@ -520,9 +556,18 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     async CCD_Save_click(event) {
         let inputMap = new Map();
+        
         let decisionsParamArray = [];
        // this.doUpdateMemberAPICall();
         var noOfError: number = await this.revalidate();
+        if(this.Add_RequestedCardLimit.getFieldValue() != null && this.CurrentCardLimit.getFieldValue() != null){
+            if(this.Add_RequestedCardLimit.getFieldValue() > this.CurrentCardLimit.getFieldValue())
+            {
+                this.services.alert.showAlert(1, 'rlo.error.limit-enhancement', -1);
+            }
+
+        }
+
         console.log(this.ApprovedLimit.getFieldValue());
         if (this.readOnly) {
             //let approveLimit = this.ApprovedLimit.getFieldValue();
@@ -564,7 +609,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.SettlementAccountNo', this.SettlementAccountNo.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.PaymentOption', this.PaymentOption.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
-                // inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.MaximumCardLimit', this.MaximumCardLimit.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
                 if(this.CustomerType.getFieldValue() == 'INDIVIDUAL'){
                     inputMap.set('Body.CreditCardDetails.CustomerType', 'I');
@@ -572,7 +617,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 else{
                     inputMap.set('Body.CreditCardDetails.CustomerType', 'C');
                 }
-                if (this.customerList.CustomerType == 'A') {
+                if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
                     inputMap.set('Body.CreditCardDetails.RequestedCardLimit', this.Add_RequestedCardLimit.getFieldValue());
                 }
                 else {
@@ -685,6 +730,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.PaymentOption', this.PaymentOption.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
+                inputMap.set('Body.CreditCardDetails.MaximumCardLimit', this.MaximumCardLimit.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.EcsMandateFlag', this.EcsMandateFlag.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.EcsMandateFlag', this.EcsMandateFlag.getFieldValue());

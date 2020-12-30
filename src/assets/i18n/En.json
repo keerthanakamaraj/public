@@ -2618,7 +2618,11 @@
     "FieldId_66": "Other Details",
     "FieldId_65": "Customer Details",
     "ADD_ApplicantType" : "Applicant Type",
-    "LimitEN" : "Limit Enhahncement"
+    "LimitEN" : "Limit Enhahncement",
+    "CardDetails": "Card Details",
+    "ADD_CurrentCardLimit" : "Current Card Limit",
+    "ADD_MaskedCardNumber" : "Masked Card Number",
+    "ADD_AvailableLimit" : "Available Limit"
   },
   "RealignmentRequest": {
     "FormTitle": "Re-alignmentRequest",

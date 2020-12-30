@@ -2,6 +2,8 @@
 // ng build ---prod replaces environment.ts with environment.prod.ts.
 // The list of file replacements can be found in angular.json.
 
+import { truncateWithEllipsis } from "@amcharts/amcharts4/.internal/core/utils/Utils";
+
 export const environment = {
   production: false,
   // baseURL: 'http://10.11.12.26:8180/olive/'
