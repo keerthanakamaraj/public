@@ -288,7 +288,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
                 tempObj['AD_Address_Type'] =  'Registered Address';
               }else if(this.activeApplicantType=='B' && address[i].AddressType=='PR'){
                   tempObj['AD_Address_Type'] = 'Communication Address';
-              }else if(this.activeApplicantType=='B' && address[i].AddressType=='PR'){
+              }else if(this.activeApplicantType=='A' && address[i].AddressType=='PR'){
                 tempObj['AD_Address_Type'] = 'Office Address';
               }
             }else{
