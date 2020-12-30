@@ -215,9 +215,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     //reset fields customerId and staffId  
     this.MainComponent.CD_CUSTOMER_ID.onReset();
     this.MainComponent.CD_STAFF_ID.onReset();
-    this.MainComponent.CD_DATE_OF_INCORPORATION.onReset();
-    this.MainComponent.CD_TYPE_OF_INCORPORATION.onReset();
-    this.MainComponent.CD_REGISTERED_NAME.onReset();
+
    // this.onProdCategoryChange({});
 
     //this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
