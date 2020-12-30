@@ -251,6 +251,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
+    cellRenderer: 'buttonRenderer',
     cellRendererParams: {
       gridCode: 'OccuptionDtlsGrid',
       columnId: 'OD_EDIT_BTN',
@@ -566,12 +567,12 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['Branch'] = selectedData0['Branch'];
       tempVar['NoOfCard'] = selectedData0['NoOfCard'];
 
-      tempVar['custType'] = selectedData0['CustType'];
-      tempVar['registeredName'] = selectedData0['RegisteredName'];
-      tempVar['dateOfIncorporation'] = selectedData0['DateOfIncorporation'];
-      tempVar['typeOfIncorporation'] = selectedData0['TypeOfIncorporation'];
+      tempVar['custType'] = selectedData0['custType'];
+      tempVar['registeredName'] = selectedData0['registeredName'];
+      tempVar['dateOfIncorporation'] = selectedData0['dateOfIncorporation'];
+      tempVar['typeOfIncorporation'] = selectedData0['typeOfIncorporation'];
 
-      tempVar['staffId'] = selectedData0['StaffID'];//StaffID: "9870"
+      tempVar['staffId'] = selectedData0['staffId'];//StaffID: "9870"
       console.log("DEEP| Selcted customer,", tempVar);
 
       this.services.dataStore.setData('selectedData', tempVar);
