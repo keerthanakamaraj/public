@@ -251,13 +251,12 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     sortable: true,
     resizable: true,
     cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    cellRendererParams: {
+      gridCode: 'OccuptionDtlsGrid',
+      columnId: 'OD_EDIT_BTN',
+      Type: '1',
+      CustomClass: 'btn-edit',
+      onClick: this.getCMSDetailsType.bind(this),
     },
   }
   ];
@@ -539,6 +538,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   }
 
   async rowClicked(event) {
+    console.error(event);
     let inputMap = new Map();
     const selectedData0 = this.readonlyGrid.getSelectedData();
     if (selectedData0) {
@@ -565,8 +565,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['CustomerType'] = selectedData0['CustomerType'];
       tempVar['Branch'] = selectedData0['Branch'];
       tempVar['NoOfCard'] = selectedData0['NoOfCard'];
-      
-      tempVar['custType'] = selectedData0['CustType'];      
+
+      tempVar['custType'] = selectedData0['CustType'];
       tempVar['registeredName'] = selectedData0['RegisteredName'];
       tempVar['dateOfIncorporation'] = selectedData0['DateOfIncorporation'];
       tempVar['typeOfIncorporation'] = selectedData0['TypeOfIncorporation'];
@@ -636,7 +636,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
         multipleIcif.push(element.ICIF);
     });
 
-    this.services.rloCommonData.getMultipleCustomerIcif(multipleIcif).then((response:any) => {
+    this.services.rloCommonData.getMultipleCustomerIcif(multipleIcif).then((response: any) => {
       console.log("DEEP | getMultipleCifId", response);
       let testJson = response.outputdata.CustomerList;
       testJson.forEach(responseEle => {
@@ -679,11 +679,22 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           tempObj['CmsDetails'] = loopVar7[i].CMS;
           tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
 
+          tempObj['custType'] = loopVar7[i].CustType;
+          tempObj['registeredName'] = loopVar7[i].RegisteredName;
+          tempObj['dateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+          tempObj['typeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
+    
+          tempObj['staffId'] = loopVar7[i].StaffID;//StaffID: "9870"
+
           loopDataVar7.push(tempObj);
         }
       }
       this.documentCount = loopDataVar7.length;
       this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
     });
+  }
+
+  getCMSDetailsType() {
+    console.error("************");
   }
 }
