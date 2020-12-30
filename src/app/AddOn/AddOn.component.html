@@ -343,7 +343,7 @@
                 <app-date #ADD_DOB fieldID="ADD_DOB" [formCode]="formCode" placeholder="dd-mm-yyyy"
                   (blur)="genericOnBlur('ADD_DOB', $event)"></app-date>
               </div>
-            </div>
+           
             <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
               <app-label #FieldId_66 parentCompCode="AddOn" fieldID="FieldId_66" [formCode]="formCode"
                 customClass="sub-section-header"></app-label>
@@ -395,8 +395,8 @@
               <app-text-box #ADD_NAME_ON_CARD fieldID="ADD_NAME_ON_CARD" [formCode]="formCode"
                 (blur)="genericOnBlur('ADD_NAME_ON_CARD', $event)"></app-text-box>
             </div> -->
-            <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
-            <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
+            <!-- <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
+            <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
             <!-- <div class="col-12  col-sm-1 col-md-1 res-pr-hide" [hidden]="ADD_ADD.isHidden()">
               <app-button #ADD_ADD fieldName="{{ 'AddOn.ADD_ADD' | translate}}" fieldID="ADD_ADD" [formCode]="formCode"
                 iconClass="fa fa-plus" [type]="2" customClass="icon-button plus" (buttonClick)="ADD_ADD_click($event)"
@@ -412,6 +412,38 @@
                   (DeleteCustDetails)="CUST_DTLS_GRID_DeleteCustDetails($event)"
                   (ModifyCustDetails)="CUST_DTLS_GRID_ModifyCustDetails($event)"></app-CustDtlsGrid>
               </div> -->
+              <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
+                <app-label #CardDetails parentCompCode="AddOn" fieldID="CardDetails" [formCode]="formCode"
+                  customClass="sub-section-header"></app-label>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_CurrentCardLimit.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': ADD_CurrentCardLimit.mandatory}">
+                    {{ 'AddOn.ADD_CurrentCardLimit' | translate}}
+                  </label>
+                </div>
+                <app-text-box #ADD_CurrentCardLimit fieldID="ADD_CurrentCardLimit" [formCode]="formCode"
+                  (blur)="genericOnBlur('ADD_CurrentCardLimit', $event)"></app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_MaskedCardNumber.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': ADD_MaskedCardNumber.mandatory}">
+                    {{ 'AddOn.ADD_MaskedCardNumber' | translate}}
+                  </label>
+                </div>
+                <app-text-box #ADD_MaskedCardNumber fieldID="ADD_MaskedCardNumber" [formCode]="formCode"
+                  (blur)="genericOnBlur('ADD_MaskedCardNumber', $event)"></app-text-box>
+              </div>
+              <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ADD_AvailableLimit.isHidden()">
+                <div class="clr-brown fieldLegend">
+                  <label class="clr-brown" [ngClass]="{'mandatory': ADD_AvailableLimit.mandatory}">
+                    {{ 'AddOn.ADD_AvailableLimit' | translate}}
+                  </label>
+                </div>
+                <app-text-box #ADD_AvailableLimit fieldID="ADD_AvailableLimit" [formCode]="formCode"
+                  (blur)="genericOnBlur('ADD_AvailableLimit', $event)"></app-text-box>
+              </div>
+            </div>
             <div class="col-12  col-sm-12 col-md-12 group-default">
               <div #BUTTON_SECTION id="BUTTON_SECTION">
                 <div class="form-group pb10 button-group">
