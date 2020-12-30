@@ -1135,7 +1135,7 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "Primary Applicant",
+                title: "Customer Type",
                 subTitle: this.getCustomerType(this.CustomerType),
                 type: "basic",
                 modalSectionName: ""
@@ -1180,7 +1180,7 @@ export class CustomerDetails implements IDeserializable {
     getCustomerType(type: string) {
         switch (type) {
             case "B":
-                return "Borrower"
+                return "Primary Applicant"
                 break;
 
             case "CB":
