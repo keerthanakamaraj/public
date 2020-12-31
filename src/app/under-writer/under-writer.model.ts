@@ -1135,7 +1135,7 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "Customer Type",
+                title: "Applicant Type",
                 subTitle: this.getCustomerType(this.CustomerType),
                 type: "basic",
                 modalSectionName: ""
