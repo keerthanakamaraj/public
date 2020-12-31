@@ -89,7 +89,7 @@
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('ExistingCardLimit')">
+        <td [hidden]="isColumnHidden('ExistingCardLimit')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
           <app-rlo-ui-currency #ExistingCardLimit fieldID="ExistingCardLimit_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['ExistingCardLimit']" [formCode]="formCode" placeholder="Placeholder"
             [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="true"
@@ -111,7 +111,18 @@
             </p>
           </div>
         </td>
-        <td [hidden]="isColumnHidden('RequestedCardLimit')" [ngStyle]="{display: isExpanded ? 'none' : ''}">
+        <!-- <td [hidden]="isColumnHidden('RequestedCardLimit')" [ngStyle]="{display: isExpanded ? 'none' : ''}">
+            <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit_{{rowNo}}"
+              [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+              [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="false"
+              (onBlurEvent)="genericOnBlur('RequestedCardLimit',$event,rowNo)"></app-rlo-ui-currency>
+            <div *ngIf="isCellReadOnly[rowNo]['RequestedCardLimit']">
+              <p class="label-text" [title]="this['RequestedCardLimit'].toArray()[rowNo].getFieldInfo()">
+                {{this['RequestedCardLimit'].toArray()[rowNo].getFieldInfo()}}
+              </p>
+            </div>
+          </td> -->
+          <td [hidden]="isColumnHidden('RequestedCardLimit')" [ngStyle]="{display: isExpanded ? 'none' : ''}">
             <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit_{{rowNo}}"
               [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
               [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="false"
@@ -122,7 +133,7 @@
               </p>
             </div>
           </td>
-        <td [hidden]="isColumnHidden('ProposedCardLimit')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
+        <td [hidden]="isColumnHidden('ProposedCardLimit')">
           <app-rlo-ui-currency #ProposedCardLimit fieldID="ProposedCardLimit_{{rowNo}}"
             [hidden]="isCellReadOnly[rowNo]['ProposedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
             [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="false"

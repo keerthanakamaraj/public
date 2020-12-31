@@ -101,6 +101,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     for (var i = 0; i < this.getRowsCount(); i++) {
       let row = {};
       row['ProposedCardLimit_desc'] = this.ProposedCardLimit.toArray()[i].getFieldInfo();
+      row['RequestedCardLimit_desc'] = this.RequestedCardLimit.toArray()[i].getFieldInfo();
       addInfo.push(row);
     }
     this.additionalInfo = addInfo;
@@ -116,7 +117,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
       CustomerDtlsList.forEach((element, index) => {
           let rowData = {};
           let customerObj: CustomerDtlsIntrface = {};
-          if(element.CardNumber!=undefined){
+          if(element.CardNumber!=undefined && element.CardNumber!= ''){
             this.isExpanded=true;
           }
           customerObj.SrNo = index + 1;

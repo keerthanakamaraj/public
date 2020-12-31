@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ApplicationHandlerComponent } from '../ApplicationDtls/application-handler.component';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
+import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 
 const customCss: string = '';
 const moment = require('moment');
@@ -42,12 +43,13 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
 
   //new changes canara
   @ViewChild('BAD_CARD_TYPE', { static: false }) BAD_CARD_TYPE: TextBoxComponent;
-  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: TextBoxComponent;
+  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
   @ViewChild('BAD_CBS_PROD_CD', { static: false }) BAD_CBS_PROD_CD: TextBoxComponent;
   @ViewChild('BAD_PRODUCT_APP', { static: false }) BAD_PRODUCT_APP: TextBoxComponent;
   @ViewChild('BAD_SUB_PROD_APP', { static: false }) BAD_SUB_PROD_APP: TextBoxComponent;
   @ViewChild('BAD_PRIME_USAGE', { static: false }) BAD_PRIME_USAGE: TextBoxComponent;
+  @ViewChild('hidCustType', { static: false }) hidCustType: HiddenComponent;
 
   @Input() ApplicationId: string = undefined;
   CustomerConfirmationStatus: string = undefined;
@@ -88,6 +90,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
     //   this.hidExistCust.setValue('Y/N');
     this.hidAppId.setValue('RLO');
     this.hidSourcingChannel.setValue('Branch');
+    this.hidCustType.setValue('CARD_CUSTOMER_TYPE');
     // this.hidDsaId.setValue('DSA_ID');
     this.hidAccBranch.setValue('ACC_BRANCH');
     this.setDependencies();
@@ -112,6 +115,15 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
+            console.log(this.services.rloCommonData.globalApplicationDtls);
+            let headerData = this.services.rloCommonData.globalApplicationDtls;
+            this.BAD_CARD_TYPE.setValue(headerData.CardTypename);
+            this.BAD_PRODUCT_APP.setValue(headerData.ProductName);
+            this.BAD_CBS_PROD_CD.setValue(headerData.SubProductName);
+            this.BAD_CUSTOMER_TYPE.setValue(headerData.CustomerType, undefined, true);
+            this.BAD_PRIME_USAGE.setValue(headerData.PrimaryUsage);
+            this.BAD_REQ_CARD_LIMIT.setComponentSpecificValue(headerData.ReqCardLimit);
+            this.BAD_SUB_PROD_APP.setValue(headerData.SubProductName);
             // if (this.AD_PHYSICAL_FORM_NO.getFieldValue() == undefined && this.AD_PHYSICAL_FORM_NO.getFieldValue() == null) {
             //   this.AD_PHYSICAL_FORM_NO.setValue("NA");
             // }
@@ -143,16 +155,6 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
           }
         }
       );
-
-      console.log(this.services.rloCommonData.globalApplicationDtls);
-      let headerData = this.services.rloCommonData.globalApplicationDtls;
-      this.BAD_CARD_TYPE.setValue(headerData.CardType);
-      this.BAD_PRODUCT_APP.setValue(headerData.ProductName);
-      this.BAD_CBS_PROD_CD.setValue(headerData.SubProductName);
-      this.BAD_CUSTOMER_TYPE.setValue(headerData.CardCustName);
-      this.BAD_PRIME_USAGE.setValue(headerData.PrimaryUsage);
-      this.BAD_REQ_CARD_LIMIT.setComponentSpecificValue(headerData.ReqCardLimit);
-      this.BAD_SUB_PROD_APP.setValue(headerData.SubProductName);
 
       this.setDependencies();
     }
@@ -316,6 +318,15 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
         // { paramKey: "VALUE1", depFieldID: "AD_BRANCH", paramType: "PathParam" },
         // { paramKey: "KEY1", depFieldID: "hidAccBranch", paramType: "QueryParam" },
         // { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    BAD_CUSTOMER_TYPE: {
+      inDep: [
+        { paramKey: "VALUE1", depFieldID: "BAD_CUSTOMER_TYPE", paramType: "PathParam" },
+        { paramKey: "KEY1", depFieldID: "hidCustType", paramType: "QueryParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
       ],
       outDep: [
       ]

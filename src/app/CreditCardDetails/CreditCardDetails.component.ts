@@ -837,7 +837,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     async doUpdateMemberAPICall() {
         let inputMap = new Map();
         inputMap.set('Body.MemberCardDetails', this.generateMemberUpdateRequest());
-        this.services.http.fetchApi('/UpdateMemberCards', 'POST', inputMap, '/rlo-de').subscribe(
+        this.services.http.fetchApi('/UpdateMemberCards', 'POST', inputMap, '/initiation').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
                 this.services.rloCommonData.childToParentSubject.next({
