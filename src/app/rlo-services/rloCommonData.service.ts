@@ -64,8 +64,11 @@ export interface IGlobalApllicationDtls {
   PrimaryUsage?: string;
   CustomerType?: any;
   ReqCardLimit?: any;
-  isCamType?: boolean;
-  CamType?: string;
+  CamType? : any;
+  
+  // #PR-38 - dev
+  //MaxCredit?: any;
+  //
 }
 @Injectable({
   providedIn: 'root'
