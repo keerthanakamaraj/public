@@ -442,7 +442,13 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     this.customers.forEach(c => {
    //   tags.push({ label: c.customerType.value, text: c.firstName });
    if(c.customerType.value=='B' && this.MainComponent.BAD_PROD_CAT.getFieldValue()=='CC'){
-    tags.push({ label: 'P', text: c.firstName });
+     if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C'){
+      tags.push({ label: 'P', text: c.registeredName });
+     }
+     else{
+      tags.push({ label: 'P', text: c.firstName });
+     }
+   
   }else{
   tags.push({ label: c.customerType.value, text: c.firstName });
   }

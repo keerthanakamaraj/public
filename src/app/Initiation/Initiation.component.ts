@@ -1494,8 +1494,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       ],
       outDep: [
 
-        { paramKey: "MstSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        { paramKey: "MstSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
+        // { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+        // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     BAD_PROMOTION: {
