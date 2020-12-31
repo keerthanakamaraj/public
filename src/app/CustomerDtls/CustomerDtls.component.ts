@@ -1001,7 +1001,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.activeBorrowerSeq = customer.BorrowerSeq;
     this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
 
-    this.ManageCardTypeBasedFields(customer.CustomerType);
+    this.ManageCardTypeBasedFields(customer.CustomerType); //called for canara
     if (customer.CustomerType == 'B') {
       this.CD_CIF.setReadOnly(true);
     }
@@ -1113,7 +1113,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //  this.setNonEditableFields(false);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
     this.dispalyAddonField(event.customerType);
-    this.ManageCardTypeBasedFields(event.customerType)
+    this.ManageCardTypeBasedFields(event.customerType) // callled for canara
   }
   ManageCardTypeBasedFields(applicantType) {
     let appCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
@@ -1158,7 +1158,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_INCORPORATE_TYPE.setHidden(!CorporateApplicantFlag);
 
     //common fields
-    this.EmbLineFlag.setReadOnly(!CorporateApplicantFlag);
+    this.EmbLineFlag.setHidden(!CorporateApplicantFlag);
   }
 
   dispalyAddonField(custType) {
