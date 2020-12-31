@@ -240,11 +240,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     if ('DDE' == this.parentFormCode) {
       this.CD_LOAN_OWN.setReadOnly(this.services.rloCommonData.calculateLoanOwnership(this.activeBorrowerSeq) < 100 ? false : true);
     }else if ('QDE' == this.parentFormCode) {
-      this.CD_CUST_SEGMENT.setHidden(true);
       this.CD_CUST_SEGMENT.mandatory=false;
-      this.CustSubSegment.setHidden(true);
     }
-
+    
     // this.Handler.displayCustomerTag();
   }
 
@@ -948,9 +946,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   LoadCustomerDetailsonFormLoad(customerDtlsObj) {
     console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
-    // if (this.parentFormCode == 'DDE') {
-    //   this.setNonEditableFields(true)
-    //  }
+    if ('QDE' == this.parentFormCode) {
+      this.CD_CUST_SEGMENT.setHidden(true);
+      this.CD_CUST_SEGMENT.mandatory=false;
+      this.CustSubSegment.setHidden(true);
+    }
+   
+      console.log("all fields: ",this);
+   
+
     const customer = customerDtlsObj;
     this.dispalyAddonField(customer.CustomerType);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
@@ -1131,6 +1135,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_MIDDLE_NAME.setHidden(CorporateApplicantFlag);
     this.CD_LAST_NAME.setHidden(CorporateApplicantFlag);
     this.MaidenName.setHidden(CorporateApplicantFlag);
+    this.MaidenName.mandatory=!CorporateApplicantFlag;
     this.CD_FULL_NAME.setHidden(CorporateApplicantFlag);
     this.CD_DOB.setHidden(CorporateApplicantFlag);
     this.CD_GENDER.setHidden(CorporateApplicantFlag);
