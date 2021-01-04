@@ -5124,7 +5124,8 @@ rlo-ui-card-field {
   #menuToggle input:checked ~ span {
     opacity: 1;
     transform: rotate(45deg) translate(-2px, -1px);
-    background: #232323;
+    // background: #232323;
+    background: #fff;
   }
 
   /*
@@ -5149,12 +5150,13 @@ rlo-ui-card-field {
   #menu {
     position: absolute;
     width: 300px;
-    margin: -100px 0 0 -50px;
-    padding: 60px;
+    margin: 15px 0 0 -10px;
+    padding: 10px;
     padding-bottom: 600px;
-    padding-top: 125px;
+    padding-top: 0;
 
-    background: #ededed;
+    background: #fff;
+    border: 1px solid #eee;
     list-style-type: none;
     -webkit-font-smoothing: antialiased;
     /* to stop flickering of text in safari */
@@ -5168,6 +5170,7 @@ rlo-ui-card-field {
   #menu li {
     padding: 10px 0;
     font-size: 15px;
+    border-bottom: 1px solid #eee;
   }
 
   /*
