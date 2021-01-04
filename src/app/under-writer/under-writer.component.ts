@@ -335,7 +335,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 2484; //4424
+    this.applicationId = 5587; //4424
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -387,25 +387,21 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       };
 
       if (element.CustomerType != "R") {
-        this.customerList.push(data);
         this.services.rloui.customerListDropDownArray.push({ id: element.BorrowerSeq, text: element.FullName });
 
         if (element.CustomerType == "B") {
+          if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+            data.CD_CUSTOMER_NAME = element.RegisteredName;
+          }
           this.borrowersBorrowerSeq = element.BorrowerSeq;
         }
+
+        this.customerList.push(data);
       }
     });
 
     this.generateCustomerListDropDowns(obj["UWCustomerDetails"]);
 
-    // let serviceObj = {
-    //   "name": "CustomerDetails",
-    //   "data": array,
-    //   "BorrowerSeq": this.HidCustomerId.getFieldValue()
-    // };
-    // this.services.rloCommonData.updateMasterDataMap(serviceObj, true)
-
-    // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
     this.UWTabs.setCustomerList(this.customerList);//pass customer list to component
     this.borrowerSeq = this.customerList[0].BorrowerSeq;
@@ -456,9 +452,27 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           // validSectionList.push(element);
           break;
       }
-
     }
+
     this.allSectionsCardData[1].cardList = validSectionList;
+
+    //co-operate card validation
+    if (productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+      console.error("Coperate card error", validSectionList);
+      let applicationSection = [
+        { className: "InterfaceResults" },
+        { className: "CardDetails" },
+        { className: "ApplicationDetails" }
+      ];
+
+      let customerSection = [
+        { className: "CustomerDetails" },
+        { className: "AddressDetails" },
+      ];
+      this.allSectionsCardData[0].cardList = customerSection;
+      this.allSectionsCardData[1].cardList = applicationSection;
+    }
+
     console.log(this.allSectionsCardData[1].cardList);
 
     this.selectedTabCardData(this.selectedTab, this.customersList[0].BorrowerSeq);
@@ -494,6 +508,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             this.customerCardDataWithFields.componentCode = this.componentCode;
 
             this.customerCardDataWithFields.accountDetails = singleCustomer['AccountDetails'].getTableData();
+
+            if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+              const moment = require('moment');
+              let DOI = moment(singleCustomer.DateOfIncorporation).format('DD-MM-YYYY');
+
+              if (singleCustomer.CustomerType == "B") {
+                let fieldsArray = this.customerCardDataWithFields.data;
+
+                fieldsArray[0].title = "Registered Name";
+                fieldsArray[0].subTitle = singleCustomer.RegisteredName;
+
+                fieldsArray[2].title = "Date Of Incorporation";
+                fieldsArray[2].subTitle = DOI;
+              }
+            }
+
             console.error(this.customerCardDataWithFields);
             break;
 
