@@ -82,7 +82,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
     @ViewChild('CurrentCorporateCardLimit', { static: false }) CurrentCorporateCardLimit: RloUiCurrencyComponent;
     @ViewChild('AvailableLimit', { static: false }) AvailableLimit: RloUiCurrencyComponent;
-    @ViewChild('MaskedCardNumber', { static: false }) MaskedCardNumber: RloUiCurrencyComponent;
+    @ViewChild('MaskedCardNumber', { static: false }) MaskedCardNumber: TextBoxComponent;
     @ViewChild('CurrentCardLimit', { static: false }) CurrentCardLimit: RloUiCurrencyComponent;
 
     @ViewChild('CreditCardInputGrid', { static: false }) CreditCardInputGrid: CreditCardInputGridComponent;
@@ -201,7 +201,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 this.Add_RequestedCardLimit.setHidden(false)
                 this.RequestedCardLimit.setHidden(true);
                 this.CurrentCardLimit.setComponentSpecificValue('50000');
-                this.MaskedCardNumber.setComponentSpecificValue('S3435545');
+                this.MaskedCardNumber.setValue('S3435545');
             }
             else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
                 this.CurrentCorporateCardLimit.setHidden(false);
@@ -584,6 +584,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     return;
                 }
                 this.doUpdateMemberAPICall();
+                if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
+                    if(this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined){
+                        if(this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()){
+                            this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
+                        }
+                    }
+                }
+            
             }
             if (this.CreditCardSeq == undefined) {
                 inputMap.clear();

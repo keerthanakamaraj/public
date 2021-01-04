@@ -225,6 +225,7 @@
     "rlo.error.totCardLimit":"Sum of Proposed card limit should not be more than Approved Card Limit",
     "rlo.error.update.credit-card-grid":"The Members details could not be updated. Please try again",
     "rlo.error.limit-enhancement" : " Limit Reduction should be done throughCard Management System",
+    "rlo.error.Customertype.invalid" : "For Add On Customer type Should be Corporate",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

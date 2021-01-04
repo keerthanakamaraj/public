@@ -60,11 +60,14 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   @ViewChild('ADD_CurrentCardLimit', { static: false }) ADD_CurrentCardLimit: TextBoxComponent;
   @ViewChild('ADD_MaskedCardNumber', { static: false }) ADD_MaskedCardNumber: TextBoxComponent;
   @ViewChild('ADD_AvailableLimit', { static: false }) ADD_AvailableLimit: TextBoxComponent;
-
+  @ViewChild('ADD_REGISTERED_NAME', { static: false }) ADD_REGISTERED_NAME: TextBoxComponent;
+  @ViewChild('ADD_TYPE_OF_INCORPORATION', { static: false }) ADD_TYPE_OF_INCORPORATION: TextBoxComponent;
+  @ViewChild('ADD_DATE_OF_INCORPORATION', { static: false }) ADD_DATE_OF_INCORPORATION: TextBoxComponent;
   borrower: any;
   borrowericif: any;
   icif: any;
   getRoute: any;
+  tempVar: any;
   selectedCardDetailsModalSubscription: Subscription;
   parentData: ICustomSearchObject = {
     'cifId': undefined,
@@ -219,16 +222,49 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     // }
 
     //JUHI :: clearing the card details section Bcoz not all section has card details.
-    this.clearCardDetails(); 
+    // this.clearCardDetails(); 
 
+
+    this.tempVar = data;
+    if (this.services.rloCommonData.currentRoute == 'AddOn') {
+      if (this.tempVar.CustomerType !== 'C') {
+        this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
+        return;
+      }
+    }
     this.hidForm = false;
+    if (this.tempVar.CustomerType == 'C') {
+      // this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
+      setTimeout(() => {
+        this.HideFieldBasedOnCorporate();
+        this.setCoroporateFields(data)
+        this.setCoropDisabled();
 
-    setTimeout(() => {
-      this.setDataFields(data);
-      this.setHTabDisabled();
-    }, 500);
+      }, 500);
+    }
+    else {
+      setTimeout(() => {
+        this.HideFieldBasedOnCorporate();
+        this.setDataFields(data);
+        this.setHTabDisabled();
+      }, 500);
+    }
   }
-
+  setCoropDisabled() {
+    this.ADD_CUSTOMER_ID.setReadOnly(true);
+    this.ADD_TITLE.setReadOnly(true);
+    this.ADD_TAX_ID.setReadOnly(true);
+    this.ADD_MOBILE.setReadOnly(true);
+    this.ADD_EMAIL_ID.setReadOnly(true);
+    this.ADD_CIF.setReadOnly(true);
+    this.ADD_ApplicantType.setReadOnly(true);
+    this.ADD_MaskedCardNumber.setReadOnly(true);
+    this.ADD_CurrentCardLimit.setReadOnly(true);
+    this.ADD_AvailableLimit.setReadOnly(true);
+    this.ADD_REGISTERED_NAME.setReadOnly(true);
+    this.ADD_DATE_OF_INCORPORATION.setReadOnly(true);
+    this.ADD_TYPE_OF_INCORPORATION.setReadOnly(true);
+  }
   setHTabDisabled() {
     this.ADD_CUSTOMER_ID.setReadOnly(true);
     this.ADD_FIRST_NAME.setReadOnly(true);
@@ -247,23 +283,48 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_CurrentCardLimit.setReadOnly(true);
     this.ADD_AvailableLimit.setReadOnly(true);
   }
-
-  setDataFields(data) {
-    let tempVar: any = data;
-
-    this.ADD_DOB.setValue(tempVar['dob']);
-    this.ADD_TAX_ID.setValue(tempVar['taxId']);
-    this.ADD_FULL_NAME.setValue(tempVar['custName']);
-    this.ADD_MOBILE.setValue(tempVar['mobileNum']);
-    this.ADD_CIF.setValue(tempVar['cif']);
-    this.ADD_FIRST_NAME.setValue(tempVar['firsName']);
-    this.ADD_MIDDLE_NAME.setValue(tempVar['midName']);
-    this.ADD_LAST_NAME.setValue(tempVar['lastName']);
-    this.ADD_GENDER.setValue(tempVar['gender']);
-    this.ADD_TITLE.setValue(tempVar['title']);
-    this.ADD_CUSTOMER_ID.setValue(tempVar['icif']);
-    this.ADD_EMAIL_ID.setValue(tempVar['emailid']);
+  setCoroporateFields(data) {
+    this.tempVar = data;
+    this.ADD_TAX_ID.setValue(this.tempVar['taxId']);
+    // if(tempVar.gender == 'F' ){
+    // this.ADD_GENDER.setValue('Female');
+    // }
+    // else if(tempVar.gender == 'M'){
+    //   this.ADD_GENDER.setValue('Male');
+    // }
+    // this.ADD_GENDER.setValue(this.tempVar['gender']);
+    this.ADD_TITLE.setValue(this.tempVar['title']);
+    this.ADD_MOBILE.setValue(this.tempVar['mobileNum']);
+    this.ADD_CUSTOMER_ID.setValue(this.tempVar['icif']);
+    this.ADD_EMAIL_ID.setValue(this.tempVar['emailid']);
     this.ADD_ApplicantType.setValue('Limit Enhancement');
+    this.ADD_REGISTERED_NAME.setValue(this.tempVar.registeredName);
+    this.ADD_DATE_OF_INCORPORATION.setValue(this.tempVar.dateOfIncorporation);
+    this.ADD_TYPE_OF_INCORPORATION.setValue(this.tempVar.typeOfIncorporation);
+  }
+  setDataFields(data) {
+    this.tempVar = data;
+
+    this.ADD_DOB.setValue(this.tempVar['dob']);
+    this.ADD_TAX_ID.setValue(this.tempVar['taxId']);
+    this.ADD_FULL_NAME.setValue(this.tempVar['custName']);
+    this.ADD_MOBILE.setValue(this.tempVar['mobileNum']);
+    this.ADD_CIF.setValue(this.tempVar['cif']);
+    this.ADD_FIRST_NAME.setValue(this.tempVar['firsName']);
+    this.ADD_MIDDLE_NAME.setValue(this.tempVar['midName']);
+    this.ADD_LAST_NAME.setValue(this.tempVar['lastName']);
+    // if(tempVar.gender == 'F' ){
+    // this.ADD_GENDER.setValue('Female');
+    // }
+    // else if(tempVar.gender == 'M'){
+    //   this.ADD_GENDER.setValue('Male');
+    // }
+    this.ADD_GENDER.setValue(this.tempVar['gender']);
+    this.ADD_TITLE.setValue(this.tempVar['title']);
+    this.ADD_CUSTOMER_ID.setValue(this.tempVar['icif']);
+    this.ADD_EMAIL_ID.setValue(this.tempVar['emailid']);
+    this.ADD_ApplicantType.setValue('Limit Enhancement');
+
   }
 
   //set values specifically for "Card Details" section
@@ -354,28 +415,32 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
-      inputMap.set('Body.BorrowerDetails.Email', this.ADD_MOBILE.getFieldValue());
-      inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_EMAIL_ID.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_MOBILE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.DOB', this.ADD_DOB.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.RegisteredName', this.ADD_REGISTERED_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.TypeOfIncorporation', this.ADD_TYPE_OF_INCORPORATION.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.ADD_DATE_OF_INCORPORATION.getFieldValue());
       inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
       inputMap.set('Body.ApplicationDetails.SourcingChannel', 'BRANCH');
       inputMap.set('Body.ApplicationDetails.DSACode', 'JUHI');
-      inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '30-12-2020');
-      inputMap.set('Body.LoanDetails.Product', 'PCC');
+      inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '4-1-2021');
+      inputMap.set('Body.LoanDetails.Product', 'VISA');
       inputMap.set('Body.LoanDetails.ProductCategory', 'CC');
-      inputMap.set('Body.LoanDetails.SubProduct', 'Millennia');
-      inputMap.set('Body.LoanDetails.Scheme', 'Millennia');
+      inputMap.set('Body.LoanDetails.SubProduct', 'CI');
+      inputMap.set('Body.LoanDetails.Scheme', '25508');
       inputMap.set('Body.LoanDetails.TypeOfLoan', 'CC');
       inputMap.set('Body.LoanDetails.TypeOfLoanName', 'Credit Card');
-      inputMap.set('Body.LoanDetails.ApplicationPurpose', 'FOOD');
+      inputMap.set('Body.LoanDetails.ApplicationPurpose', 'TRAVEL');
       // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
       inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
-      // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
+      // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
       inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
       inputMap.set('Body.ApplicationDetails.MaskedCardNumber', this.ADD_MaskedCardNumber.getFieldValue());
       inputMap.set('Body.ApplicationDetails.AvailableLimit', this.ADD_AvailableLimit.getFieldValue());
       inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
-      inputMap.set('Body.ApplicationDetails.CustomerType', 'I');
+      inputMap.set('Body.ApplicationDetails.CustomerType', this.tempVar.CustomerType);
       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
       inputMap.set('Body.ApplicationDetails.CAMType', 'LE');
 
@@ -464,13 +529,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     //   this.EligibilityDecision = 'Approve';
     // }
     var noofErrors: number = await this.revalidate();
-    // var borrowercheck = this.Handler.getBorrowerPostData();
-    // for (let i = 0; i < borrowercheck.length; i++) {
-    //   if (borrowercheck[i]['CustomerType'] == 'B') {
-    //     this.borrower = true
-    //     break;
-    //   }
-    // }
+
     if (noofErrors == 0) {
       //   let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
       //   if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
@@ -492,25 +551,29 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
-      inputMap.set('Body.BorrowerDetails.Email', this.ADD_MOBILE.getFieldValue());
-      inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_EMAIL_ID.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_MOBILE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.DOB', this.ADD_DOB.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.RegisteredName', this.ADD_REGISTERED_NAME.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.TypeOfIncorporation', this.ADD_TYPE_OF_INCORPORATION.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.ADD_DATE_OF_INCORPORATION.getFieldValue());
       inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
       inputMap.set('Body.ApplicationDetails.SourcingChannel', 'BRANCH');
       inputMap.set('Body.ApplicationDetails.DSACode', 'JUHI');
-      inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '15-12-2020');
-      inputMap.set('Body.LoanDetails.Product', 'PCC');
+      inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', '4-1-2021');
+      inputMap.set('Body.LoanDetails.Product', 'VISA');
       inputMap.set('Body.LoanDetails.ProductCategory', 'CC');
-      inputMap.set('Body.LoanDetails.SubProduct', 'Millennia');
-      inputMap.set('Body.LoanDetails.Scheme', 'Millennia');
+      inputMap.set('Body.LoanDetails.SubProduct', 'CI');
+      inputMap.set('Body.LoanDetails.Scheme', '25508');
       inputMap.set('Body.LoanDetails.TypeOfLoan', 'CC');
       inputMap.set('Body.LoanDetails.TypeOfLoanName', 'Credit Card');
-      inputMap.set('Body.LoanDetails.ApplicationPurpose', 'FOOD');
+      inputMap.set('Body.LoanDetails.ApplicationPurpose', 'TRAVEL');
       // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
       inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
-      inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
+      // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '2000');
       inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
-      inputMap.set('Body.ApplicationDetails.CustomerType', 'I');
+      inputMap.set('Body.ApplicationDetails.CustomerType', this.tempVar.CustomerType);
       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
       inputMap.set('Body.ApplicationDetails.CAMType', 'MEMC');
 
@@ -594,8 +657,52 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
 
   //JUHI :: add code to clear only the three section of card details
   //clear card details section
-  clearCardDetails(){
-    
+  clearCardDetails() {
+    this.ADD_CurrentCardLimit.onReset();
+    this.ADD_AvailableLimit.onReset();
+    this.ADD_MaskedCardNumber.onReset();
+  }
+
+  HideFieldBasedOnCorporate() {
+    if (this.tempVar.CustomerType == 'C') {
+      this.ADD_REGISTERED_NAME.setHidden(false);
+      this.ADD_TYPE_OF_INCORPORATION.setHidden(false);
+      this.ADD_DATE_OF_INCORPORATION.setHidden(false);
+      this.ADD_FIRST_NAME.setHidden(true);
+      this.ADD_MIDDLE_NAME.setHidden(true);
+      this.ADD_LAST_NAME.setHidden(true);
+      this.ADD_DOB.setHidden(true);
+      this.ADD_FULL_NAME.setHidden(true);
+      this.ADD_GENDER.setHidden(true);
+      // this.ADD_FIRST_NAME.setValue(undefined);
+      // this.ADD_MIDDLE_NAME.setValue(undefined);
+      // this.ADD_LAST_NAME.setValue(undefined);
+      // this.ADD_DOB.setValue(undefined);
+      // this.ADD_FULL_NAME.setValue(undefined);
+      // this.ADD_GENDER.setValue(undefined);
+      // this.ADD_STAFF_ID.setHidden(true);
+      this.ADD_CurrentCardLimit.setHidden(false);
+      this.ADD_AvailableLimit.setHidden(false);
+      this.ADD_MaskedCardNumber.setHidden(false);
+    }
+    else {
+      this.ADD_REGISTERED_NAME.setHidden(true);
+      this.ADD_TYPE_OF_INCORPORATION.setHidden(true);
+      this.ADD_DATE_OF_INCORPORATION.setHidden(true);
+      this.ADD_FIRST_NAME.setHidden(false);
+      this.ADD_MIDDLE_NAME.setHidden(false);
+      this.ADD_LAST_NAME.setHidden(false);
+      this.ADD_DOB.setHidden(false);
+      this.ADD_FULL_NAME.setHidden(false);
+      this.ADD_GENDER.setHidden(false);
+      // this.ADD_REGISTERED_NAME.setValue(undefined);
+      // this.ADD_TYPE_OF_INCORPORATION.setValue(undefined);
+      // this.ADD_DATE_OF_INCORPORATION.setValue(undefined);
+      this.ADD_CurrentCardLimit.setHidden(false);
+      this.ADD_AvailableLimit.setHidden(false);
+      this.ADD_MaskedCardNumber.setHidden(false);
+    }
+
   }
 
 }
