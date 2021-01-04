@@ -720,9 +720,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
         inputMap.set('Body.BorrowerDetails.RequestedCreditLimit', this.RequestedAmountLimit.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PickUpInstruction', this.CardDispatchMode.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.RegisteredName', this.CD_REGISTERED_NAME.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.TypeOfIncorporation', this.CD_INCORPORATE_TYPE.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.CD_INCORPORATE_DATE.getFieldValue());
 
 
 
@@ -1130,7 +1127,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     }
 
     // individual fields
-    this.CD_TITLE.setHidden(CorporateApplicantFlag);
+    //this.CD_TITLE.setHidden(CorporateApplicantFlag);
     this.CD_FIRST_NAME.setHidden(CorporateApplicantFlag);
     this.CD_MIDDLE_NAME.setHidden(CorporateApplicantFlag);
     this.CD_LAST_NAME.setHidden(CorporateApplicantFlag);
@@ -1505,4 +1502,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.genericOnBlur(fieldName, textFieldValue);
   }
 
+  customGenericOnBlur(event: any) {
+    this.genericOnBlur('RequestedAmountLimit', event.textFieldValue);
+  }
 }

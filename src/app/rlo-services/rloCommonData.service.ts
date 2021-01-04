@@ -649,7 +649,14 @@ export class RloCommonData {
         : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     }*/
     if (!commonObj.isSectionValid) {
-      commonObj.errorMessage += '1 Mailing and 1 Permenent address';
+if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='B'){
+  commonObj.errorMessage +=  '1 Registered and 1 Communication address';
+}else if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='A'){
+  commonObj.errorMessage +=  '1 Office address';
+}else{
+  commonObj.errorMessage +=  '1 Mailing and 1 Permanent address';
+}
+   
     }
     return commonObj;
   }
@@ -847,16 +854,18 @@ export class RloCommonData {
       errorMessage: ''
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
+    if(this.currentRoute == "DDE"){
     if (this.globalApplicationDtls.CustomerType == 'C') {
       commonObj.isSectionValid = true;
     }
-    else if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+    else if  (customerData.CustomerType == "B" || customerData.CustomerType == "CB") {
       if (!customerTabSectionData.has('IncomeSummary')) {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = "Details from income summary section required";
       }
       return commonObj;
     }
+  }
     else {
       return commonObj;
     }
