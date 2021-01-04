@@ -1735,7 +1735,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             // this.setValuesOfCustomer(response);
             // if (typeof response != "boolean")
             this.IsInitiationAllowedForBranch(response);
-            this.revalidateCustomers();
+            // this.revalidateCustomers();
           }
           else {
             if (response)
@@ -1804,10 +1804,20 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
       // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('CD_DATE_OF_iNCORPORATION'));
     } else if (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C') {
-      this.CUST_DTLS_GRID.setColumnHidden('DOB', true);
-      this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', false);
-      this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', false);
-      this.CUST_DTLS_GRID.setColumnHidden('FULL_NAME', true); 
+      if(this.CD_CARD_CUST_TYPE.getFieldValue()== 'A'){
+        this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
+        this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
+        this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', true);
+        this.CUST_DTLS_GRID.setColumnHidden('FULL_NAME', false); 
+       
+      }
+      else{
+        this.CUST_DTLS_GRID.setColumnHidden('DOB', true);
+        this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', false);
+        this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', false);
+        this.CUST_DTLS_GRID.setColumnHidden('FULL_NAME', true); 
+      }
+     
       // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('DOB'));
     } else {
       // TODO: 
