@@ -512,11 +512,11 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
       let currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
 
-      if (currentRoute != 'Initiation') {
+      if (currentRoute != 'Initiation' && currentRoute != 'DDE' && currentRoute != 'QDE' ) {
         this.selectedCustomer.emit(tempVar);
 
         if (selectedData0['CmsDetails'] == 'Y') {
-          console.error("DEEP | Open 360 modal");
+          console.error("DEEP | Open Seperate 360 modal");
           this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
             console.log(response);
             if (response != null) {
@@ -540,7 +540,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           await this.services.dataStore.getModalReference(i).componentInstance.closeModal();
         }
 
-        if (this.clickedShowCustomerDetails) {
+        if (this.clickedShowCustomerDetails && selectedData0['CmsDetails'] == 'Y') {
           console.warn("DEEP | SHOW SEPERATE CUSTOMER CARD UI");
           this.clickedShowCustomerDetails = false;
           this.selectedCustomer.emit({ showCustomerCard: true });
