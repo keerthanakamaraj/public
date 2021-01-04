@@ -847,16 +847,18 @@ export class RloCommonData {
       errorMessage: ''
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
+    if(this.currentRoute == "DDE"){
     if (this.globalApplicationDtls.CustomerType == 'C') {
       commonObj.isSectionValid = true;
     }
-    else if (this.currentRoute == "DDE" && (customerData.CustomerType == "B" || customerData.CustomerType == "CB")) {
+    else if  (customerData.CustomerType == "B" || customerData.CustomerType == "CB") {
       if (!customerTabSectionData.has('IncomeSummary')) {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = "Details from income summary section required";
       }
       return commonObj;
     }
+  }
     else {
       return commonObj;
     }
