@@ -101,13 +101,13 @@ export class MainHeaderComponent implements OnInit {
     this.fullName = sessionStorage.getItem('fullName');
     this.userID = sessionStorage.getItem('userId');
 
-    const  lastLoginTime = sessionStorage.getItem('lastloginDate');
+    const lastLoginTime = sessionStorage.getItem('lastloginDate');
 
-    if(lastLoginTime) {
+    if (lastLoginTime) {
       try {
         const lastLoginTimeInt = parseInt(lastLoginTime);
         this.LastLogin = this.services.formatDateTime(lastLoginTimeInt);
-      } catch(e){ // ignore error and use last login as it is
+      } catch (e) { // ignore error and use last login as it is
         this.LastLogin = this.services.formatDateTime(lastLoginTime);
       }
     } else {
@@ -138,16 +138,23 @@ export class MainHeaderComponent implements OnInit {
 
   // }
 
-  AddOn_click(id : string) {
-    // var id = "AddOn";
+  AddOn_click(id: string) {
+    //checkbox used to trigger sidemenu
+    var sideMenuCheckbox = document.getElementById("SideMenuCheckbox");
+    console.log("DEEP | sideMenuCheckbox", sideMenuCheckbox, sideMenuCheckbox.checked);
+
+    setTimeout(() => {
+      sideMenuCheckbox.checked = false;
+    }, 100);
+
     if (id && id != "") {
       this.router.navigate(['/home/' + id]);
     } else {
       this.navigateToHome();
     }
   }
-  
-  
+
+
 
   navigateToHome() {
     this.router.navigate(['/home/LANDING']);
