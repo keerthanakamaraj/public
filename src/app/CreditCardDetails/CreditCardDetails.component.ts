@@ -848,9 +848,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.services.http.fetchApi('/UpdateMemberCards', 'POST', inputMap, '/initiation').subscribe(
             async (httpResponse: HttpResponse<any>) => {
                 var res = httpResponse.body;
-                this.services.rloCommonData.childToParentSubject.next({
-                    action: 'updateCustGrid'
-                });
+                // this.services.rloCommonData.childToParentSubject.next({
+                //     action: 'updateCustGridViaCreditSection'
+                // });
             },
             async (httpError) => {
                 var err = httpError['error']

@@ -303,6 +303,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     //custom
     this.OD_NET_INCOME.resetFieldAndDropDown();
     this.OD_LOC_CURR_EQ.resetFieldAndDropDown();
+    this.OD_ANNUAL_NET_INCOME.resetFieldAndDropDown();
   }
   async OD_OCCUPATION_change(fieldID, value) {
     let inputMap = new Map();
@@ -670,7 +671,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       //  this.Handler.occupationOnchange(res['OccupationDetails']['Occupation']['id']);
         this.Handler.companyCodeChange();
        // this.OD_OCCUPATION_change('OD_OCCUPATION', event);
-        this.revalidateBasicField('OD_NET_INCOME', true)
+        this.revalidateBasicField('OD_NET_INCOME', true);
 
         //custom
         this.OD_NET_INCOME.setComponentSpecificValue(res['OccupationDetails']['NetIncome'], res['OccupationDetails']['Currency']);

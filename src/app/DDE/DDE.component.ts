@@ -568,7 +568,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       // this.onFormLoad();
       // this.checkForHTabOverFlow();
     });
-
+    
     // setTimeout(() => {
     //   window.scrollTo(0, 0);
     // }, 3000);
@@ -1061,61 +1061,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.formsMenuList = this.customerMenu;
       this.reCalculateMenuSections(this.ActiveBorrowerSeq);
       defaultSection = 'CustomerDetails';
-      // this.formsMenuList.forEach(element => {
-      //   for (let i = 0; i < element.length; i++) {
-      //     const section = element[i];
-      //     section.isActive = false;
-      //     // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-      //     if (this.FieldId_1 && this.FieldId_1.LOAN_CATEGORY == 'CC') {
-      //       if (section.id == "CollateralDetails") {
-      //         element.splice(i, 1);
-      //         i--;
-      //       }
-      //     }
-      //   }
-      // });
-      this.injectDynamicComponent(defaultSection, false, 0, 0);
+      let  data= { 'borrowerSeq': this.ActiveBorrowerSeq }
+      this.CUSTOMER_GRID.doAPIForCustomerList(data);
+      //this.injectDynamicComponent(defaultSection, false, 0, 0);
     }
     else {
       this.formMenuObject.isCustomerTabSelected = false;
       this.formsMenuList = this.applicationMenu;
-      // this.formsMenuList.forEach(element => {
-      //   for (let i = 0; i < element.length; i++) {
-      //     const section = element[i];
-      //     section.isActive = false;
-      //     if (this.isLoanCategory) {//ie. loan type credit card
-      //       if (section.id == "CreditCardDetails") {
-      //         element.splice(i, 1);
-      //         i--;
-      //       }
-      //       // if (section.id == "PropertyDetails" && this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML" && section.isOptional) {
-      //       //   section.isOptional = false;
-      //       //   this.progressStatusObject.manditorySection += 1;
-      //       // }
-
-      //       defaultSection = 'ApplicationDetails';
-
-      //     }
-      //     else {//CC type loan
-      //       if (section.id == "LoanDetails") {
-      //         element.splice(i, 1);
-      //         i--;
-      //       }
-      //       defaultSection = 'ApplicationDetails';
-      //     }
-
-      //     // Hide Propert Details for Loans Other than Propery ( Mortage) Loan
-      //     if (section.id == "PropertyDetails" && section.isOptional) {
-      //       if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == "ML") {
-      //         section.isOptional = false;
-      //         this.progressStatusObject.manditorySection += 1;
-      //       } else {
-      //         element.splice(i, 1);
-      //         i--;
-      //       }
-      //     }
-      //   }
-      // });
       this.injectDynamicComponent('ApplicationDetails', false, 0, 0);
     }
 
