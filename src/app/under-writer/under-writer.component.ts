@@ -335,7 +335,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    //this.applicationId = 5587; //4424
+    // this.applicationId = 5902; //4424
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -665,8 +665,11 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
   customerSelectionChanged(data) {
     console.log(data);
     this.borrowerSeq = data.selectedBorrowerSeq;
+    this.customerSectionLoaded = false;
     this.selectedTabCardData(this.selectedTab, data.selectedBorrowerSeq);
-    setTimeout(() => {
+
+    setTimeout(() => {   
+      this.customerSectionLoaded = true;
       this.reloadCardGrid();
     }, 10);
   }

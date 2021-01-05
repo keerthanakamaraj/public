@@ -224,9 +224,13 @@ export class AddressDetails implements IDeserializable {
             const element = array[i];
             let txt = this.Common.getFieldValueFromObj(data, element, true);
             if (i != array.length - 1) {
-                txt += ", ";
+                if (txt.length)
+                    txt += ", ";
             }
             address += txt;
+        }
+        if (address.length <= 0) {
+            address = "NA";
         }
         return address;
     }

@@ -4995,6 +4995,11 @@ rlo-ui-card-field {
       padding: 0px 32px;
     }
   }
+
+  .decision-upload-doc {
+    width: auto !important;
+    padding: 0 30px;
+  }
 }
 
 .SameAdd,
@@ -5069,7 +5074,7 @@ rlo-ui-card-field {
   }
 
   #menuToggle a:hover {
-    color: #0079B8 !important;
+    color: #0079b8 !important;
   }
 
   #menuToggle input {
