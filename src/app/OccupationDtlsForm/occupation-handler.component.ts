@@ -112,11 +112,10 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
     fieldList.forEach(eachField=> {
       if(!this.MainComponent.populatingDataFlag){
         eachField.onReset();
-      }else{
-        this.MainComponent.populatingDataFlag=false;
-      }       
+      }   
       eachField.setHidden(hiddenFlag);
     });
+      this.MainComponent.populatingDataFlag=false;
   }
   adjustMandatoryFields(){
   this.MainComponent.OD_EMPLT_TYPE.mandatory=!this.MainComponent.OD_EMPLT_TYPE.isHidden();
