@@ -313,13 +313,13 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_FIRST_NAME.setValue(this.tempVar['firsName']);
     this.ADD_MIDDLE_NAME.setValue(this.tempVar['midName']);
     this.ADD_LAST_NAME.setValue(this.tempVar['lastName']);
-    // if(tempVar.gender == 'F' ){
-    // this.ADD_GENDER.setValue('Female');
-    // }
-    // else if(tempVar.gender == 'M'){
-    //   this.ADD_GENDER.setValue('Male');
-    // }
-    this.ADD_GENDER.setValue(this.tempVar['gender']);
+    if(this.tempVar.gender == 'F' ){
+    this.ADD_GENDER.setValue('Female');
+    }
+    else if(this.tempVar.gender == 'M'){
+      this.ADD_GENDER.setValue('Male');
+    }
+    // this.ADD_GENDER.setValue(this.tempVar['gender']);
     this.ADD_TITLE.setValue(this.tempVar['title']);
     this.ADD_CUSTOMER_ID.setValue(this.tempVar['icif']);
     this.ADD_EMAIL_ID.setValue(this.tempVar['emailid']);
@@ -412,7 +412,13 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
-      inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
+      if(this.ADD_GENDER.getFieldValue() == 'Female' ){
+        inputMap.set('Body.BorrowerDetails.Gender', 'F');
+        }
+        else if(this.ADD_GENDER.getFieldValue() == 'Male' ){
+          inputMap.set('Body.BorrowerDetails.Gender', 'M');
+        }
+      
       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
@@ -548,7 +554,12 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
-      inputMap.set('Body.BorrowerDetails.Gender', this.ADD_GENDER.getFieldValue());
+      if(this.ADD_GENDER.getFieldValue() == 'Female' ){
+        inputMap.set('Body.BorrowerDetails.Gender', 'F');
+        }
+        else if(this.ADD_GENDER.getFieldValue() == 'Male' ){
+          inputMap.set('Body.BorrowerDetails.Gender', 'M');
+        }
       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
