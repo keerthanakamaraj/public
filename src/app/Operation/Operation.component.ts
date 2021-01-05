@@ -773,6 +773,11 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.CurrentStage', 'Operation');
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.prposalid', this.ApplicationId);
+    if('C'==this.services.rloCommonData.globalApplicationDtls.CustomerType){
+    inputMap.set('Body.interfaceId','CORP_CARD_BOOKING');}
+    else if('I'==this.services.rloCommonData.globalApplicationDtls.CustomerType){
+      inputMap.set('Body.interfaceId','CARD_BOOKING');
+    }
     inputMap.set('Body.inputdata.downPayment.paymentToBank', '0');
     inputMap.set('Body.inputdata.downPayment.paymentToOthers', '0');
     inputMap.set('Body.inputdata.interestRateDetails.baseRate', '10');
