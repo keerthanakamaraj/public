@@ -1743,7 +1743,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     const tags = [];
     if (this.ActiveCustomerDtls) {
       if(this.ActiveCustomerDtls['CustomerType']=='B' && !this.services.rloCommonData.globalApplicationDtls.isLoanCategory){
-      tags.push({label: 'P', text: this.ActiveCustomerDtls['FullName']});
+      if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
+        tags.push({label: 'P', text: this.ActiveCustomerDtls['RegisteredName']});
+      }else{
+        tags.push({label: 'P', text: this.ActiveCustomerDtls['FullName']});
+      }
       }else{
       tags.push({label: this.ActiveCustomerDtls['CustomerType'], text: this.ActiveCustomerDtls['FullName']});
       }
