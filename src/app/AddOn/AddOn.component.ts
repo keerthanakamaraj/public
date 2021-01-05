@@ -285,6 +285,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   }
   setCoroporateFields(data) {
     this.tempVar = data;
+    this.ADD_CIF.setValue(this.tempVar['cif']);
     this.ADD_TAX_ID.setValue(this.tempVar['taxId']);
     // if(tempVar.gender == 'F' ){
     // this.ADD_GENDER.setValue('Female');
@@ -407,6 +408,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('HeaderParam.user-id', 'Vishal');
 
       inputMap.set('Body.LoanDetails.Decision', 'Approve');
+      
+      inputMap.set('Body.BorrowerDetails.CIF', this.ADD_CIF.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
@@ -549,6 +552,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('HeaderParam.user-id', 'Vishal');
 
       inputMap.set('Body.LoanDetails.Decision', 'Approve');
+      inputMap.set('Body.BorrowerDetails.CIF', this.ADD_CIF.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
