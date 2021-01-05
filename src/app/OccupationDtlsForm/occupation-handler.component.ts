@@ -109,7 +109,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
 
   doBasicFieldSetting(hiddenFlag){
     let fieldList = this.fieldArrayFunction();
-    fieldList.forEach(function (eachField) {
+    fieldList.forEach(eachField=> {
       if(!this.MainComponent.populatingDataFlag){
         eachField.onReset();
       }else{
