@@ -195,9 +195,12 @@
               <label class="clr-brown">
                 {{ 'CreditCardDetails.MaskedCardNumber' | translate}}</label>
             </div>
-            <app-rlo-ui-currency #MaskedCardNumber fieldID="MaskedCardNumber" [currencyReadOnly]="true"
+            <app-text-box #MaskedCardNumber fieldID="MaskedCardNumber" [formCode]="formCode"
+            (blur)="genericOnBlur('MaskedCardNumber', $event)">
+          </app-text-box>
+            <!-- <app-rlo-ui-currency #MaskedCardNumber fieldID="MaskedCardNumber" [currencyReadOnly]="true"
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'MaskedCardNumber'"
-              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
+              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency> -->
           </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="PaymentOption.isHidden()">

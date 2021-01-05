@@ -1057,6 +1057,9 @@ export class CustomerDetails implements IDeserializable {
     public CustomerId: string = "NA";
     public CustomerSince: string = "NA";
 
+    public RegisteredName: string = "NA";//for coperate card ->primary applicant
+    public DateOfIncorporation: string = "NA";//for coperate card ->primary applicant
+
     deserialize(input: any): this {
         Object.assign(this, input);
         console.error(input);
@@ -1135,14 +1138,14 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "Applicant Type",
+                title: "Applicant Type",// for CC coperate cards ->  "Applicant Type",
                 subTitle: this.getCustomerType(this.CustomerType),
                 type: "basic",
                 modalSectionName: ""
             },
             {
                 title: "CIF",
-                subTitle: this.CIF,
+                subTitle: this.CIF.length ? this.CIF : "NA",
                 type: "basic",
                 modalSectionName: ""
             },
@@ -1381,7 +1384,7 @@ export class ApplicationDetails implements IDeserializable {
             },
             {
                 title: "DSA ID",
-                subTitle: this.DSAId,
+                subTitle: this.DSAId.length ? this.DSAId : "NA",
                 type: "basic",
                 modalSectionName: ""
             },

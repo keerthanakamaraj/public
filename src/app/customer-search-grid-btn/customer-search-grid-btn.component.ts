@@ -14,6 +14,7 @@ export class CustomerSearchGridBtnComponent implements OnInit {
 
   agInit(params): void {
     this.params = params;
+    console.log("Param", this.params);
   }
 
   onClick(): void {

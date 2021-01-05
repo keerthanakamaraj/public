@@ -116,7 +116,7 @@
 
             <div ngxMasonryItem class="p-0 w-25" style="height:auto">
               <div class="wgt-blank-card col-sm-3 col-md-3 col-lg-3">
-                <div class="blank-container">
+                <div class="blank-container" *ngIf="aBlankCardData.length">
                   <app-blank-card [cardMetaData]="data" *ngFor="let data of aBlankCardData"></app-blank-card>
                 </div>
               </div>
