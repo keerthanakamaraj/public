@@ -584,14 +584,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                     return;
                 }
                 this.doUpdateMemberAPICall();
-                if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
-                    if(this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined){
-                        if(this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()){
-                            this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
-                        }
+            }
+            if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
+                if(this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined){
+                    if(this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()){
+                        this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
+                        return;
                     }
                 }
-            
             }
             if (this.CreditCardSeq == undefined) {
                 inputMap.clear();
