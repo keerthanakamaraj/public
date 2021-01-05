@@ -558,7 +558,7 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
       customer.REGISTERED_NAME = this.MainComponent.CD_FULL_NAME.getFieldValue();    
     }
     customer.gender = this.getValueLabelFromDropdown(this.MainComponent.CD_GENDER);
-    // customer.DOB = this.MainComponent.CD_DOB.getFieldValue();
+    customer.DOB = this.MainComponent.CD_DOB.getFieldValue();
     
     customer.taxId = this.MainComponent.CD_TAX_ID.getFieldValue();
     customer.mobileNumber = this.MainComponent.CD_MOBILE.getFieldValue();
