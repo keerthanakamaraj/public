@@ -316,12 +316,13 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
   }
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
+    this.HideFieldBasedOnCorporate();
     // this.editId = undefined;
     this.editId = arg0.id;
     let customer = this.customers.find(cust => cust.tempId === arg0.id);
 
     // TODO: add logic to handle in loop
-
+    this.MainComponent.CD_CARD_CUST_TYPE.setValue(customer.customerType.value, customer.customerType.label);
     this.MainComponent.CD_CUST_TYPE.setValue(customer.customerType.value, customer.customerType.label);
     //this.MainComponent.CD_EXISTING_CUST.setValue(customer.existingCustomer.value, customer.existingCustomer.label);
     this.existingCustomer({});
@@ -333,10 +334,20 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     this.MainComponent.CD_THIRD_NAME.setValue(customer.thirdName);
     this.MainComponent.CD_LAST_NAME.setValue(customer.lastName);
     this.MainComponent.CD_FULL_NAME.setValue(customer.FULL_NAME);
-    this.MainComponent.CD_REGISTERED_NAME.setValue(customer.REGISTERED_NAME);    
+    // this.MainComponent.CD_REGISTERED_NAME.setValue(customer.REGISTERED_NAME);    
     this.MainComponent.CD_GENDER.setValue(customer.gender.value, customer.gender.label);
     this.MainComponent.CD_DOB.setValue(customer.DOB);
-    this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(customer.CD_DATE_OF_INCORPORATION);
+    if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
+       this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(customer.CD_DATE_OF_INCORPORATION);
+       this.MainComponent.CD_REGISTERED_NAME.setValue(customer.REGISTERED_NAME);    
+    }
+    else{
+        this.MainComponent.CD_DOB.setValue(customer.CD_DATE_OF_INCORPORATION);
+       this.MainComponent.CD_FULL_NAME.setValue(customer.REGISTERED_NAME);    
+    }
+    // this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(customer.CD_DATE_OF_INCORPORATION);
+    this.MainComponent.CD_TYPE_OF_INCORPORATION.setValue(customer.typeofIncorporation);
+
     this.MainComponent.CD_TAX_ID.setValue(customer.taxId);
     this.MainComponent.CD_MOBILE.setComponentSpecificValue(customer.mobileNumber, customer.countryCode);
     this.MainComponent.CD_DEBIT_SCORE.setValue(customer.debitScore);
@@ -537,10 +548,18 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     customer.thirdName = this.MainComponent.CD_THIRD_NAME.getFieldValue();
     customer.lastName = this.MainComponent.CD_LAST_NAME.getFieldValue();
     customer.FULL_NAME = this.MainComponent.CD_FULL_NAME.getFieldValue();
-    customer.REGISTERED_NAME = this.MainComponent.CD_REGISTERED_NAME.getFieldValue();    
+    
+    if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
+      customer.CD_DATE_OF_INCORPORATION = this.MainComponent.CD_DATE_OF_INCORPORATION.getFieldValue();
+      customer.REGISTERED_NAME = this.MainComponent.CD_REGISTERED_NAME.getFieldValue();    
+    }
+    else{
+      customer.CD_DATE_OF_INCORPORATION = this.MainComponent.CD_DOB.getFieldValue();
+      customer.REGISTERED_NAME = this.MainComponent.CD_FULL_NAME.getFieldValue();    
+    }
     customer.gender = this.getValueLabelFromDropdown(this.MainComponent.CD_GENDER);
-    customer.DOB = this.MainComponent.CD_DOB.getFieldValue();
-    customer.CD_DATE_OF_INCORPORATION = this.MainComponent.CD_DATE_OF_INCORPORATION.getFieldValue();
+    // customer.DOB = this.MainComponent.CD_DOB.getFieldValue();
+    
     customer.taxId = this.MainComponent.CD_TAX_ID.getFieldValue();
     customer.mobileNumber = this.MainComponent.CD_MOBILE.getFieldValue();
     customer.debitScore = this.MainComponent.CD_DEBIT_SCORE.getFieldValue();

@@ -46,14 +46,14 @@ export class CustDtlsGridComponent implements AfterViewInit {
     cellStyle: { 'text-align': 'left' },
     filter: false,
   },
-  {
-    field: "FULL_NAME",
-    width: 20,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: false,
-  },
-  {
+  // {
+  //   field: "FULL_NAME",
+  //   width: 20,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: false,
+  // },
+   {
     field: "REGISTERED_NAME",
     width: 20,
     resizable: true,
@@ -67,13 +67,13 @@ export class CustDtlsGridComponent implements AfterViewInit {
     cellStyle: { 'text-align': 'left' },
     filter: false,
   },
-  {
-    field: "DOB",
-    width: 20,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: false,
-  },
+  // {
+  //   field: "DOB",
+  //   width: 20,
+  //   resizable: true,
+  //   cellStyle: { 'text-align': 'left' },
+  //   filter: false,
+  // },
   {
     field: "CD_DATE_OF_INCORPORATION",
     width: 20,
