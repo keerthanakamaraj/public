@@ -61,7 +61,7 @@
             </div>
             <rlo-ui-radio #ApprovalReq category="2" fieldID="ApprovalReq" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              (blur)="genericOnBlur('ApprovalReq', $event)">
+              (blur)="genericOnBlur('ApprovalReq', $event)" (change)="ApprovalReq_change('ApprovalReq', $event)">
             </rlo-ui-radio>
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide p-0" [hidden]="DesignationAuthority.isHidden()">
@@ -86,25 +86,33 @@
               placeholder="Enter" (blur)="genericOnBlur('ApproverName', $event)"></app-text-box>
           </div>
           <div class="approver-docs d-block w-100 d-block">
-            <span *ngIf="uplodedDocs.length">Required document uploaded</span>
+            <span class="success" *ngIf="uplodedDocs.length">Required document uploaded</span>
+            <span class="error" *ngIf="!uplodedDocs.length && approvalHigherAuthority">Note : Upload a card approval document to proceed</span>
           </div>
         </div>
 
         <div class="modal-footer ng-star-inserted p-0">
-          <button class="btn btn-primary ng-star-inserted decision-upload-doc" type="button"
-            (click)="uploadDocument($event)">
-            {{'DecisionAlert.ALTER_ADD_DOC' | translate}}</button>
+          <ng-container *ngIf="approvalHigherAuthority">
+            <button *ngIf="!uplodedDocs.length else doneBtn"
+              class="btn btn-primary ng-star-inserted decision-upload-doc" type="button"
+              (click)="uploadDocument($event)">
+              {{'DecisionAlert.ALTER_ADD_DOC' | translate}}</button>
 
-          <ng-container *ngIf="uplodedDocs.length else cancelData">
-            <button class="btn btn-warning-outline ng-star-inserted" type="button"
-              (click)="ALTER_SUBMIT_click_approve($event)">
+            <ng-template #doneBtn>
+              <button class="btn btn-primary ng-star-inserted" type="button"
+                (click)="ALTER_SUBMIT_click_approve($event)">
+                {{ 'DecisionAlert.ALTER_SUBMIT' | translate}}</button>
+            </ng-template>
+          </ng-container>
+
+          <ng-container *ngIf="!approvalHigherAuthority">
+            <button class="btn btn-primary ng-star-inserted" type="button" (click)="ALTER_SUBMIT_click_approve($event)">
               {{ 'DecisionAlert.ALTER_SUBMIT' | translate}}</button>
           </ng-container>
 
-          <ng-template #cancelData>
-            <button class="btn btn-warning-outline ng-star-inserted" type="button" (click)="close($event)">
-              {{ 'DecisionAlert.ALTER_CANCEL' | translate}}</button>
-          </ng-template>
+          <button class="btn btn-warning-outline ng-star-inserted" type="button" (click)="close($event)">
+            {{ 'DecisionAlert.ALTER_CANCEL' | translate}}</button>
+
         </div>
       </div>
 

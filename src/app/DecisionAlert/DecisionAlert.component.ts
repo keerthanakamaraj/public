@@ -45,6 +45,8 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
     fieldDependencies = {};
     uplodedDocs: Array<{ docType: string }> = [];
 
+    approvalHigherAuthority: boolean = false;
+
     constructor(services: ServiceStock, public utility: UtilityService) {
         super(services);
         this.value = new DecisionAlertModel();
@@ -74,7 +76,6 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             this.onFormLoad();
             this.checkForHTabOverFlow();
             console.log(this.parentFormCode, this.parentData);
-            this.getUplodedDocuments();
         });
     }
 
@@ -214,10 +215,14 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         this.onFormLoad();
     }
 
-    async ApprovalReq_blur() {
+    async ApprovalReq_change() {
+        console.error("this.ApprovalReq.getFieldValue()", this.ApprovalReq.getFieldValue());
         if (this.ApprovalReq.getFieldValue() == 'Y') {
             this.DesignationAuthority.setHidden(false);
             this.ApproverName.setHidden(false);
+
+            this.approvalHigherAuthority = true;
+            this.getUplodedDocuments();
             //   setTimeout(() => {
             //    let focusName = document.getElementById("ApproverName");  
             //    console.log(focusName);
@@ -227,8 +232,10 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
 
         }
         else {
+            this.approvalHigherAuthority = false;
             this.DesignationAuthority.setHidden(true);
             this.ApproverName.setHidden(true);
+            this.uplodedDocs = [];
         }
     }
 
@@ -276,20 +283,20 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
         const inputMap = new Map();
         let Decision;
         console.warn("DEEP | paremt data", this.parentData);
-    
+
         if (this.parentFormCode == 'UnderWriter') {
-            if(this.parentData == "sentBack"){
+            if (this.parentData == "sentBack") {
                 Decision = {
                     'DecisionReason': this.DecisionReason.getFieldValue(),
                     'Remarks': this.Remarks.getFieldValue()
                 }
-            }else if(this.parentData == "approve"){
-                Decision = {         
+            } else if (this.parentData == "approve") {
+                Decision = {
                     'ApprovalReq': this.ApprovalReq.getFieldValue(),
                     'DesignationAuthority': this.DesignationAuthority.getFieldValue(),
                     'ApproverName': this.ApproverName.getFieldValue()
                 }
-            }      
+            }
         }
         else {
             Decision = {

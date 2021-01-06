@@ -4983,9 +4983,14 @@ rlo-ui-card-field {
       display: inline-block;
     }
 
-    span {
-      font-size: 13px;
+    .success {
+      font-size: 11px;
       color: green;
+    }
+
+    .error {
+      font-size: 11px;
+      color: red;
     }
   }
 
