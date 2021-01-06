@@ -91,9 +91,9 @@
             <app-button #MT_Proposal fieldName="{{ 'MyTrayForm.MT_Proposal' | translate}}"
               (buttonClick)="MT_Proposal_click($event)" fieldID="MT_Proposal" [formCode]="formCode"
               customClass="btn btn-primary btn-lg"></app-button>
-              <app-button #Add fieldName="{{ 'MyTrayForm.Add' | translate}}"
+              <!-- <app-button #Add fieldName="{{ 'MyTrayForm.Add' | translate}}"
               (buttonClick)="Add_click($event)" fieldID="Add" [formCode]="formCode"
-              customClass="btn btn-primary btn-lg"></app-button>
+              customClass="btn btn-primary btn-lg"></app-button> -->
           </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="MT_GRID.isHidden()">
             <app-MyTrayGrid #MT_GRID fieldID="MT_GRID" [formCode]="formCode"></app-MyTrayGrid>
