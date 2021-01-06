@@ -369,7 +369,7 @@ rlo-ui-radio[fieldid="BAD_PROD_CAT"] .rlo-ui-radio-container {
   color: #fff;
   padding: 10px;
   position: fixed;
-  z-index: 10; //top: 56px;
+  z-index: 9; //top: 56px;
   top: 88px;
   left: 15px; // &.top {
 
@@ -1941,6 +1941,10 @@ rlo-ui-card-field {
       margin-bottom: 15px;
     }
   }
+  
+  .icon-arrow-back {
+    cursor: pointer;
+  }
 }
 
 /////
@@ -3012,6 +3016,7 @@ rlo-ui-card-field {
   width: 56px;
   height: 56px;
   background: url(".././icons/float-menu.svg") center no-repeat;
+  cursor: pointer;
 }
 
 .fab-action-button__icon {
@@ -3020,7 +3025,7 @@ rlo-ui-card-field {
   width: 56px;
   height: 56px;
   background: url(".././icons/float-minimize.svg") center no-repeat;
-  // transform: rotate(45deg);
+  cursor: pointer;
 }
 
 .fab-buttons__item {
@@ -5197,6 +5202,7 @@ rlo-ui-card-field {
     transform: translate(-100%, 0);
 
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    z-index: 99;
   }
 
   #menu li {
@@ -5220,5 +5226,13 @@ rlo-ui-card-field {
   }
   ag-grid-angular {
     padding-top: 0 !important;
+  }
+
+  app-grid-pagination {
+    .row {
+      .col-md-5 ~ div {
+        width: 100%;
+      }
+    }
   }
 }
