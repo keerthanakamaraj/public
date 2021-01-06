@@ -33,6 +33,16 @@
       </button>
     </div>
   </ng-container>
+  <div *ngIf = "modalObject.sectionName == 'AddOnCreditCard'">
+    <!-- add on testing  -->
+    <!-- <div  (click)="addclick('0')"> Realignment Section</div> -->
+    <button class="btn"  type="button" (click)="addclick('0')">
+      Realignment Section
+      </button>
+      <button class="btn" type="button" (click)="addclick('1')">
+        Limit Enhacement
+        </button>
+  </div>
 </div>
 <!-- .wgt-alert-modal .modal-body span {
   /* position: absolute; */

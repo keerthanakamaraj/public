@@ -85,11 +85,11 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   showHideAddRowIcon(rowlimit) {
     console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
-    if (this.value.rowData.length <= rowlimit) {
-      this.showAdd = true;
-    } else {
-      this.showAdd = false;
-    }
+    // if (this.value.rowData.length <= rowlimit) {
+    //   this.showAdd = true;
+    // } else {
+    //   this.showAdd = false;
+    // }
   }
 
   async onRowDelete(rowNo) {

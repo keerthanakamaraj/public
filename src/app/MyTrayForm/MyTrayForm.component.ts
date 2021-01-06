@@ -350,7 +350,12 @@ export class MyTrayFormComponent extends FormComponent implements OnInit, AfterV
       element.isSelected = false;
     });
   }
-
+  Add_click(){
+    this.services.rloui.addOnCardDetails().then((response: any) => {
+      console.log(response);
+     // this.plotDoughnutChart(response);
+    });
+  }
   async getGraphData(startDate, endDate) {
     //http://10.11.12.19:18180/olive/publisher/DashboardChart?fromDate=01-APR-20&toDate=06-AUG-20&userId=vishal.kardode@intellectdesign.com&processId=RLO_Process
 

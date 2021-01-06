@@ -68,6 +68,7 @@ export class RlouiService {
     { componentName: "InterfaceResults", iconClass: "icon-Interface-Results" },
     { componentName: "BusinessDetails", iconClass: "icon-Credit-Card-Details" },
     { componentName: "CustomerCards", iconClass: "icon-Customer-Details" },
+    { componentName: "AddOnCreditCard", iconClass: "icon-Customer-Details" },
   ];
 
   customerListDropDownArray: any = [];//used to show data of customerin dropdown.Used from UW to disbursment details modal
@@ -373,10 +374,11 @@ export class RlouiService {
 
       //FOR TESTING
       //this.modalObject.iconClass = "icon-Family-Details";
-
-      if (modalObj.hasOwnProperty('componentName')) {
-        this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
-      }
+      
+        if (modalObj.hasOwnProperty('componentName')) {
+          this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
+        }
+      
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });
@@ -546,6 +548,35 @@ export class RlouiService {
         buttons: [],
         componentName: 'CustomerCards',
         data: obj,
+        hideModalHeader: true
+      };
+      this.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.closeAllConfirmationModal();
+          }
+          resolve(response)
+        }
+        resolve(true);
+      });
+    });
+    return promise;
+  }
+
+  addOnCardDetails() {
+    // console.log(customerCardDetailsList);
+    // let obj = customerCardDetailsList;
+
+    let promise = new Promise<boolean>((resolve, reject) => {
+      let modalObj: IModalData = {
+        title: '',
+        mainMessage: undefined,
+        modalSize: 'modal-customer-avaliable-cards',
+        buttons: [],
+        // componentName: 'AddOnCreditCard',
+        sectionName : 'AddOnCreditCard',
+        // data: obj,
         hideModalHeader: true
       };
       this.confirmationModal(modalObj).then((response) => {

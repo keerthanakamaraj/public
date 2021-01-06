@@ -12,6 +12,7 @@ export interface IModalData {
   componentCode?: string;
   customerList?: any;//used to send list of customer to interface results from UW
   hideModalHeader?: boolean;
+  sectionName? : string; // used for addon details in credit card section
 }
 
 export interface IButtonObj {
@@ -20,3 +21,4 @@ export interface IButtonObj {
   class: string,//classes used for buttons in the project i.e btn-primary | btn-warning-outline
   id: number,
 }
+

@@ -155,6 +155,7 @@ export class PopupAlertComponent implements OnInit {
           this.dynamicallyLoadableComponent.gridDataLoad({});
         }, 500);
       }
+      
 
       // async brodcastProdCategory(event) {
       //   //  event.isLoanCategory false when type is 'CC'
@@ -302,5 +303,8 @@ export class PopupAlertComponent implements OnInit {
       default:
         break;
     }
+  }
+  addclick(index : string){
+    this.activeModal.close(index);
   }
 }

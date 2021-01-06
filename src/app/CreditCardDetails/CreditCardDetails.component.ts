@@ -98,6 +98,47 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     customerList: any;
     clearFieldsFlag: boolean = false;
     CreditCardSeq: string = undefined;
+
+    memberCardData: any = {
+        "status": "S",
+        "prposalid": "3322",
+        "interfaceId": "MEMBER_SEARCH",
+        "outputdata": {
+            "MaximumCardLimit": "500000",
+            "CorporateCIFId": "1234",
+            "MemeberCards": [
+                {
+                    "CardNumber": "************4578",
+                    "CIFID": "5678",
+                    "MemberName": "Salil",
+                    "LatestLimitDate": "30-11-2020",
+                    "ExistingCashLimit": "10000",
+                    "CardStatus": "Active",
+                    "ExistingCardLimit": "50000"
+                },
+                {
+                    "CardNumber": "************6325",
+                    "CIFID": "4752",
+                    "MemberName": "Shriraj",
+                    "LatestLimitDate": "15-10-2020",
+                    "ExistingCashLimit": "20000",
+                    "CardStatus": "Block",
+                    "ExistingCardLimit": "100000"
+                },
+                {
+                    "CardNumber": "************4585",
+                    "CIFID": "6325",
+                    "MemberName": "Saniya",
+                    "LatestLimitDate": "08-05-2020",
+                    "ExistingCashLimit": "50000",
+                    "CardStatus": "Active",
+                    "ExistingCardLimit": "150000"
+                }
+            ],
+            "MaskCardNumber": "************5845",
+            "AvailableCardLimit": "200000"
+        }
+    };
     // isShow: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
     async revalidate(showErrors: boolean = true): Promise<number> {
         var totalErrors = 0;
@@ -200,13 +241,18 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 this.MaskedCardNumber.setHidden(false);
                 this.Add_RequestedCardLimit.setHidden(false)
                 this.RequestedCardLimit.setHidden(true);
-                this.CurrentCardLimit.setComponentSpecificValue('50000');
-                this.MaskedCardNumber.setValue('S3435545');
+                // this.CurrentCardLimit.setComponentSpecificValue('50000');
+                // this.MaskedCardNumber.setValue('3344XXXX3455');
             }
             else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
                 this.CurrentCorporateCardLimit.setHidden(false);
                 this.MaskedCardNumber.setHidden(false);
                 this.AvailableLimit.setHidden(false);
+                this.RequestedCardLimit.setHidden(true);
+                this.CurrentCorporateCardLimit.setComponentSpecificValue('50000');
+                this.MaskedCardNumber.setValue('3344XXXX3455');
+                this.AvailableLimit.setComponentSpecificValue('60000');
+
             }
         }, 500);
         this.fetchCarditCardDetails();
@@ -473,6 +519,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                         this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
                         this.MaxCashLimit.setComponentSpecificValue(CreditElement['MaxCashLimit'], null);
                         this.ApprovedCashLimit.setComponentSpecificValue(CreditElement['ApprovedCashLimit'], null);
+                        this.AvailableLimit.setComponentSpecificValue(CreditElement['AvailableLimit'], null);
+                        this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
+                        this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
+                        this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
 
                     });
 
@@ -552,6 +602,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let decisionsParamArray = [];
         // this.doUpdateMemberAPICall();
         var noOfError: number = await this.revalidate();
+
         console.log(this.ApprovedLimit.getFieldValue());
         if (this.readOnly) {
             //let approveLimit = this.ApprovedLimit.getFieldValue();
@@ -586,13 +637,40 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 this.doUpdateMemberAPICall();
             }
             if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
-                if(this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined){
-                    if(this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()){
+                if (this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined) {
+                    if (this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
                         this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
                         return;
                     }
                 }
             }
+            if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
+                if (this.CurrentCorporateCardLimit.getFieldValue() != undefined) {
+                    let calMaxLimit = 0;
+    
+                    for (let i = 0; i < this.memberCardData; i++) {
+                        calMaxLimit += this.memberCardData.outputdata.MemeberCards[i].ExistingCardLimit;
+                        
+                    }
+                    console.log("adding data", calMaxLimit);
+                    if (calMaxLimit > this.CurrentCorporateCardLimit.getFieldValue()) {
+                    this.services.rloui.addOnCardDetails().then((response: any) => {
+                        console.log(response);
+                        console.log("membercard data", this.memberCardData);
+                        
+                        if (response == '0') {
+                            console.log("realignment , show grid and call member serach api", response);
+                            this.MemberCardCall();
+                        }
+                        else if (response == '1') {
+                            console.log("set camtype le and process as follows", response);
+
+                        }
+                    });
+                    }
+                }
+            }
+            return;
             if (this.CreditCardSeq == undefined) {
                 inputMap.clear();
                 // inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
@@ -603,7 +681,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.CreditCardDetails.StmtDispatchMode', this.StmtDispatchMode.getFieldValue());
                 // inputMap.set('Body.CreditCardDetails.ExistingCreditCard', this.ExistingCreditCard.getFieldValue());
                 inputMap.set('Body.CreditCardDetails.CardDispatchMode', this.CardDispatchMode.getFieldValue());
-                if ( 'I' == this.CustomerType.getFieldValue()) {
+                if ('I' == this.CustomerType.getFieldValue()) {
                     inputMap.set('Body.CreditCardDetails.CustomerType', 'I');
                 }
                 else {
@@ -1004,5 +1082,20 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         if (event.field == "ApprovedLimit") {
             this.ApproveCashLimit_();
         }
+    }
+    MemberCardCall(){
+        let inputMap = new Map();
+        inputMap.clear();
+        let applicationId: any = this.ApplicationId;
+        
+        inputMap.set('Body.interfaceId', "MEMBER_SEARCH");
+        inputMap.set('Body.prposalid', applicationId);
+        inputMap.set('Body.inputdata.CifID', '4001');
+
+        // inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+        this.services.http.fetchApi('/memberSearchCall', 'POST', inputMap, '/rlo-de').subscribe(
+            async (httpResponse: HttpResponse<any>) => {
+                console.log("memmberCard",Response);
+            });
     }
 }
