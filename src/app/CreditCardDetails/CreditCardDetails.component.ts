@@ -237,12 +237,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         console.log("camtype", this.services.rloCommonData.globalApplicationDtls.CamType);
         setTimeout(() => {
             if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
-                this.CurrentCardLimit.setHidden(false);
-                this.MaskedCardNumber.setHidden(false);
-                this.Add_RequestedCardLimit.setHidden(false)
-                this.RequestedCardLimit.setHidden(true);
-                // this.CurrentCardLimit.setComponentSpecificValue('50000');
-                // this.MaskedCardNumber.setValue('3344XXXX3455');
+                this.hideFieldsForLimitEnhancement();
             }
             else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
                 this.CurrentCorporateCardLimit.setHidden(false);
@@ -637,36 +632,44 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 this.doUpdateMemberAPICall();
             }
             if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
-                if (this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined) {
-                    if (this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
-                        this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
-                        return;
-                    }
-                }
+                // if (this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined) {
+                //     if (this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
+                //         this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
+                //         return;
+                //     }
+                // }
+                this.limitReduction();
             }
             if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
                 if (this.CurrentCorporateCardLimit.getFieldValue() != undefined) {
-                    let calMaxLimit = 0;
-    
-                    for (let i = 0; i < this.memberCardData; i++) {
-                        calMaxLimit += this.memberCardData.outputdata.MemeberCards[i].ExistingCardLimit;
-                        
-                    }
-                    console.log("adding data", calMaxLimit);
-                    if (calMaxLimit > this.CurrentCorporateCardLimit.getFieldValue()) {
-                    this.services.rloui.addOnCardDetails().then((response: any) => {
-                        console.log(response);
-                        console.log("membercard data", this.memberCardData);
-                        
-                        if (response == '0') {
-                            console.log("realignment , show grid and call member serach api", response);
-                            this.MemberCardCall();
-                        }
-                        else if (response == '1') {
-                            console.log("set camtype le and process as follows", response);
 
+                    //interface call
+                    let calMaxLimit = 0;
+                    if (this.memberCardData.status) {
+                        let responseData = this.memberCardData.outputdata.MemeberCards;
+
+                        for (let i = 0; i < responseData.length; i++) {
+                            const element = responseData[i];
+                            calMaxLimit += Number(element.ExistingCardLimit);
                         }
-                    });
+                        console.log("adding data", calMaxLimit);
+                    }
+
+                    if (calMaxLimit > this.CurrentCorporateCardLimit.getFieldValue()) {
+                        this.services.rloui.addOnCardDetails().then((response: any) => {
+                            console.log(response);
+                            console.log("membercard data", this.memberCardData);
+
+                            if (response == '0') {
+                                console.log("realignment , show grid and call member serach api", response);
+                                this.MemberCardCall();
+                            }
+                            else if (response == '1') {
+                                console.log("set camtype le and process as follows", response);
+                                this.hideFieldsForLimitEnhancement();
+                                this.limitReduction();
+                            }
+                        });
                     }
                 }
             }
@@ -1083,11 +1086,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.ApproveCashLimit_();
         }
     }
-    MemberCardCall(){
+    MemberCardCall() {
         let inputMap = new Map();
         inputMap.clear();
         let applicationId: any = this.ApplicationId;
-        
+
         inputMap.set('Body.interfaceId', "MEMBER_SEARCH");
         inputMap.set('Body.prposalid', applicationId);
         inputMap.set('Body.inputdata.CifID', '4001');
@@ -1095,7 +1098,28 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         // inputMap.set('QueryParam.criteriaDetails', criteriaJson)
         this.services.http.fetchApi('/memberSearchCall', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
-                console.log("memmberCard",Response);
+                console.log("memmberCard", Response);
             });
     }
+
+    //show or hide form section if camType = 'LE'
+    hideFieldsForLimitEnhancement() {
+        this.CurrentCardLimit.setHidden(false);
+        this.MaskedCardNumber.setHidden(false);
+        this.Add_RequestedCardLimit.setHidden(false)
+        this.RequestedCardLimit.setHidden(true);
+        // this.CurrentCardLimit.setComponentSpecificValue('50000');
+        // this.MaskedCardNumber.setValue('3344XXXX3455');
+    }
+
+    //limit reduction checking on save
+    limitReduction(){
+        if (this.Add_RequestedCardLimit.getFieldValue() != undefined && this.CurrentCardLimit.getFieldValue() != undefined) {
+            if (this.Add_RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
+                this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
+                return;
+            }
+        }
+    }
+
 }

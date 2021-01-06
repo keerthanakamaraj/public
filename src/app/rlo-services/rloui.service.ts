@@ -572,11 +572,9 @@ export class RlouiService {
       let modalObj: IModalData = {
         title: '',
         mainMessage: undefined,
-        modalSize: 'modal-customer-avaliable-cards',
+        modalSize: 'modal-width-sm',
         buttons: [],
-        // componentName: 'AddOnCreditCard',
         sectionName : 'AddOnCreditCard',
-        // data: obj,
         hideModalHeader: true
       };
       this.confirmationModal(modalObj).then((response) => {

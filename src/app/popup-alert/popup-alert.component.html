@@ -33,21 +33,21 @@
       </button>
     </div>
   </ng-container>
-  <div *ngIf = "modalObject.sectionName == 'AddOnCreditCard'">
-    <!-- add on testing  -->
-    <!-- <div  (click)="addclick('0')"> Realignment Section</div> -->
-    <button class="btn"  type="button" (click)="addclick('0')">
-      Realignment Section
-      </button>
-      <button class="btn" type="button" (click)="addclick('1')">
-        Limit Enhacement
-        </button>
+
+  <!-- used in credit card limit enhancement-->
+  <div *ngIf="modalObject.sectionName == 'AddOnCreditCard'">
+    <div class="modal-body credit-card-limit">
+      <div class="txt">Select an option</div>
+      <div>
+        <button class="btn btn-primary ng-star-inserted restore-button btn-m-right" type="button"
+          (click)="addclick('0')">
+          {{ 'PopupAlertComponent.RealignmentSection' | translate}}</button>
+
+        <button class="btn btn-primary ng-star-inserted restore-button" type="button" (click)="addclick('1')">
+          {{ 'PopupAlertComponent.LimitEnhacement' | translate}}</button>
+      </div>
+    </div>
+
   </div>
+
 </div>
-<!-- .wgt-alert-modal .modal-body span {
-  /* position: absolute; */
-  /* right: 16px; */
-  /* top: 17px; */
-  /* cursor: pointer; */
-  /* color: #8E8E8E; */
-} -->

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PopupAlertComponent } from './popup-alert.component';
 import { NotepadDetailsFormModule } from '../NotepadDetailsForm/NotepadDetailsForm.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpLoaderFactory } from '../app.module';
 import { HttpClient } from '@angular/common/http';
 import { AmortizationScheduleModule } from '../amortization-schedule/AmortizationSchedule.module'
@@ -62,7 +62,14 @@ import { CustomerAvaliableCardsModule } from '../customer-avaliable-cards/custom
         CustomerSearchFieldsModule,
         DecisionAlertModule,
         InterfaceResultsModule,
-        CustomerAvaliableCardsModule
+        CustomerAvaliableCardsModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     ],
     declarations: [
         PopupAlertComponent,

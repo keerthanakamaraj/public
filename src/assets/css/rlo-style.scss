@@ -1164,6 +1164,22 @@ a.back {
   display: inline-block;
 }
 
+.restore-button {
+  width: auto !important;
+  padding: 0 22px;
+  &.btn-primary {
+    width: auto !important;
+  }
+}
+
+.btn-m-left {
+  margin-left: 1.25rem;
+}
+
+.btn-m-right {
+  margin-right: 1.25rem;
+}
+
 //overide btn style
 #MT_Proposal {
   margin-left: 0 !important;
@@ -1917,6 +1933,12 @@ rlo-ui-card-field {
 
     .btn + .btn {
       margin-left: 14px;
+    }
+  }
+
+  .credit-card-limit {
+    .txt {
+      margin-bottom: 15px;
     }
   }
 }

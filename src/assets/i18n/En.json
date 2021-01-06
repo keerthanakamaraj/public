@@ -2651,5 +2651,9 @@
     "TotalProposedCashLimit": "Total Proposed Cash Limit",
     "Total": "Total",
     "RequestedCardLimit": "Requested Card Limit"
+  },
+  "PopupAlertComponent":{
+    "RealignmentSection":"Realignment Section",
+    "LimitEnhacement":"Limit Enhacement"
   }
 }
