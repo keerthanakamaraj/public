@@ -454,6 +454,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
       inputMap.set('Body.ApplicationDetails.CustomerType', this.tempVar.CustomerType);
       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
+      inputMap.set('Body.BorrowerDetails.LoanOwnership', '100');
       inputMap.set('Body.ApplicationDetails.CAMType', 'LE');
 
       this.services.http.fetchApi('/v1/proposal/initiate/limit-Enhancement', 'POST', inputMap, '/initiation').subscribe(

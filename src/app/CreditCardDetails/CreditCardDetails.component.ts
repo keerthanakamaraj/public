@@ -668,12 +668,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                                 console.log("set camtype le and process as follows", response);
                                 this.hideFieldsForLimitEnhancement();
                                 this.limitReduction();
+                                this.CurrentCorporateCardLimit.setHidden(true);
                             }
                         });
                     }
                 }
             }
-            return;
+            // return;
             if (this.CreditCardSeq == undefined) {
                 inputMap.clear();
                 // inputMap.set('Body.CreditCardDetails.FrontPageCategory', this.FrontPageCategory.getFieldValue());
@@ -1093,7 +1094,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
         inputMap.set('Body.interfaceId', "MEMBER_SEARCH");
         inputMap.set('Body.prposalid', applicationId);
-        inputMap.set('Body.inputdata.CifID', '4001');
+        inputMap.set('Body.inputdata.CifID', "4001");
 
         // inputMap.set('QueryParam.criteriaDetails', criteriaJson)
         this.services.http.fetchApi('/memberSearchCall', 'POST', inputMap, '/rlo-de').subscribe(
