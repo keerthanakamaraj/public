@@ -522,6 +522,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.Currency', this.OD_NET_INCOME.currencyCode);
         inputMap.set('Body.OccupationDetails.NetIncome', this.OD_NET_INCOME.getTextBoxValue());
         inputMap.set('Body.OccupationDetails.LocalCurrencyEquivalent', this.OD_LOC_CURR_EQ.getFieldValue());
+        inputMap.set('Body.OccupationDetails.AnnualNetIncome', this.OD_ANNUAL_NET_INCOME.getFieldValue());
 
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap);
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
