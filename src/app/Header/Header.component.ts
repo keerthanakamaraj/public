@@ -81,7 +81,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('HD_PROMOTION_NAME', { static: false }) HD_PROMOTION_NAME: ReadOnlyComponent;
   @ViewChild('LD_TENURE_PERIOD_NAME', { static: false }) LD_TENURE_PERIOD_NAME: ReadOnlyComponent;
   @ViewChild('LD_APP_PRPSE_NAME', { static: false }) LD_APP_PRPSE_NAME: ReadOnlyComponent;
+  @ViewChild('CC_CAMPTYPE', { static: false }) CC_CAMPTYPE: ReadOnlyComponent;
 
+  
   // @ViewChild('HD_PROD', { static: false }) HD_PROD: ReadOnlyComponent;
 
 
@@ -258,6 +260,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
           this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
+          if(header.CamType == 'LE'){
+            this.CC_CAMPTYPE.setValue("Limit Enhancement");
+          }
+          else if(header.CamType == 'MEMC'){
+            this.CC_CAMPTYPE.setValue("Member Card");
+          }
+          else if(header.CamType == 'NAPP'){
+            this.CC_CAMPTYPE.setValue("New Application");
+          }
+         
           this.CC_CHANNEL.setValue(header.SourcingChannel);
           this.channel = this.CC_CHANNEL.getFieldValue();
           // this.CC_CARD_ASSOCIATION.setValue('NA');

@@ -260,6 +260,16 @@
                                                 (blur)="genericOnBlur('CC_PRIME_USAGE', $event)">
                                             </rlo-ui-readonlyfield>
                                         </div>
+                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CAMPTYPE.isHidden()">
+                                            <div class="clr-brown fieldLegend">
+                                                <label class="clr-brown">
+                                                    {{ 'Header.CC_CAMPTYPE' | translate}}
+                                                </label>
+                                            </div>
+                                            <rlo-ui-readonlyfield #CC_CAMPTYPE fieldID="CC_CAMPTYPE" [formCode]="formCode"
+                                                (blur)="genericOnBlur('CC_CAMPTYPE', $event)">
+                                            </rlo-ui-readonlyfield>
+                                        </div>
                                 <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_ASSOCIATION.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
