@@ -1473,6 +1473,7 @@
   "SearchCustomerGrid": {
     "AccNo": "Account No.",
     "CustName": "Full Name",
+    "Customer":"Customer",
     "toolbar_SearchCustomerGrid": "null",
     "Cif": "CBS Cust ID",
     "FirstName": "First Name",

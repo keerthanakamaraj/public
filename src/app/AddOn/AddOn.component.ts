@@ -222,29 +222,32 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     // }
 
     //JUHI :: clearing the card details section Bcoz not all section has card details.
-    // this.clearCardDetails(); 
+
 
 
     this.tempVar = data;
     if (this.services.rloCommonData.currentRoute == 'AddOn') {
       if (this.tempVar.CustomerType !== 'C') {
-        this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
+        this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', 4000);
+        this.hidForm = true;
         return;
       }
     }
     this.hidForm = false;
+
     if (this.tempVar.CustomerType == 'C') {
       // this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
       setTimeout(() => {
         this.HideFieldBasedOnCorporate();
+        this.clearCardDetails();
         this.setCoroporateFields(data)
         this.setCoropDisabled();
-
       }, 500);
     }
     else {
       setTimeout(() => {
         this.HideFieldBasedOnCorporate();
+        this.clearCardDetails();
         this.setDataFields(data);
         this.setHTabDisabled();
       }, 500);
@@ -314,10 +317,10 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_FIRST_NAME.setValue(this.tempVar['firsName']);
     this.ADD_MIDDLE_NAME.setValue(this.tempVar['midName']);
     this.ADD_LAST_NAME.setValue(this.tempVar['lastName']);
-    if(this.tempVar.gender == 'F' ){
-    this.ADD_GENDER.setValue('Female');
+    if (this.tempVar.gender == 'F') {
+      this.ADD_GENDER.setValue('Female');
     }
-    else if(this.tempVar.gender == 'M'){
+    else if (this.tempVar.gender == 'M') {
       this.ADD_GENDER.setValue('Male');
     }
     // this.ADD_GENDER.setValue(this.tempVar['gender']);
@@ -408,20 +411,20 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('HeaderParam.user-id', 'Vishal');
 
       inputMap.set('Body.LoanDetails.Decision', 'Approve');
-      
+
       inputMap.set('Body.BorrowerDetails.CIF', this.ADD_CIF.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FirstName', this.ADD_FIRST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.MiddleName', this.ADD_MIDDLE_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
-      if(this.ADD_GENDER.getFieldValue() == 'Female' ){
+      if (this.ADD_GENDER.getFieldValue() == 'Female') {
         inputMap.set('Body.BorrowerDetails.Gender', 'F');
-        }
-        else if(this.ADD_GENDER.getFieldValue() == 'Male' ){
-          inputMap.set('Body.BorrowerDetails.Gender', 'M');
-        }
-      
+      }
+      else if (this.ADD_GENDER.getFieldValue() == 'Male') {
+        inputMap.set('Body.BorrowerDetails.Gender', 'M');
+      }
+
       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
@@ -558,12 +561,12 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.LastName', this.ADD_LAST_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.FullName', this.ADD_FULL_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Title', this.ADD_TITLE.getFieldValue());
-      if(this.ADD_GENDER.getFieldValue() == 'Female' ){
+      if (this.ADD_GENDER.getFieldValue() == 'Female') {
         inputMap.set('Body.BorrowerDetails.Gender', 'F');
-        }
-        else if(this.ADD_GENDER.getFieldValue() == 'Male' ){
-          inputMap.set('Body.BorrowerDetails.Gender', 'M');
-        }
+      }
+      else if (this.ADD_GENDER.getFieldValue() == 'Male') {
+        inputMap.set('Body.BorrowerDetails.Gender', 'M');
+      }
       inputMap.set('Body.BorrowerDetails.TaxID', this.ADD_TAX_ID.getFieldValue());
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
@@ -676,6 +679,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   //JUHI :: add code to clear only the three section of card details
   //clear card details section
   clearCardDetails() {
+    console.warn("clearCardDetails()")
     this.ADD_CurrentCardLimit.onReset();
     this.ADD_AvailableLimit.onReset();
     this.ADD_MaskedCardNumber.onReset();

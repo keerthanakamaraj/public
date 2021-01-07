@@ -72,7 +72,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     },
   },
   {
-    field: "CustName",
+    field: "Customer",
     width: 11,
     sortable: true,
     resizable: true,
@@ -189,8 +189,24 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       Type: '1',
       CustomClass: 'btn-edit',
       onClick: this.CmsDetails_click.bind(this),
-    },
+    }
   }
+    // {
+    //   width: 12,
+    //   field: "CmsDetails",
+    //   sortable: false,
+    //   filter: false,
+    //   resizable: false,
+    //   cellRenderer: 'buttonRenderer',
+    //   cellStyle: { 'text-align': 'left' },
+    //   cellRendererParams: {
+    //     gridCode: 'CmsDetails',
+    //     columnId: 'OD_EDIT_BTN',
+    //     Type: '3',
+    //     CustomClass: 'btn-edit',
+    //     onClick: this.CmsDetails_click.bind(this)
+    //   },
+    // }
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
   recordsFound: boolean = false;
@@ -368,7 +384,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               for (var i = 0; i < loopVar7.length; i++) {
                 var tempObj = {};
                 tempObj['TaxID'] = loopVar7[i].TaxId;
-                tempObj['CustName'] = loopVar7[i].FullName;
+                tempObj['Customer'] = loopVar7[i].CustomerType == "I" ? loopVar7[i].FullName : loopVar7[i].RegisteredName;
                 tempObj['AccNo'] = loopVar7[i].AccountNumber;
                 //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
                 tempObj['AccType'] = loopVar7[i].AccountType;
@@ -428,7 +444,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
               for (var i = 0; i < loopVar7.length; i++) {
                 var tempObj = {};
                 tempObj['TaxID'] = loopVar7[i].TaxId;
-                tempObj['CustName'] = loopVar7[i].FullName;
+                tempObj['Customer'] = loopVar7[i].CustomerType == "I" ? loopVar7[i].FullName : loopVar7[i].RegisteredName;
                 tempObj['AccNo'] = loopVar7[i].AccountNumber;
                 //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
                 tempObj['AccType'] = loopVar7[i].AccountType;
@@ -471,10 +487,17 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     }
   }
 
-  async rowClicked(event) {
+  async rowClicked(event, cmsBtnClick: boolean = false) {
     console.error(event);
     let inputMap = new Map();
-    const selectedData0 = this.readonlyGrid.getSelectedData();
+    let selectedData0;
+    selectedData0 = this.readonlyGrid.getSelectedData();
+    // if (!cmsBtnClick) {
+    //   selectedData0 = this.readonlyGrid.getSelectedData();
+    // } else {
+    //   selectedData0 = event;
+    // }
+
     console.log(selectedData0);
 
     if (selectedData0) {
@@ -514,8 +537,12 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
       if (currentRoute != 'Initiation' && currentRoute != 'DDE' && currentRoute != 'QDE') {
         this.selectedCustomer.emit(tempVar);
+        let showCardModal = true;
+        if (currentRoute == 'AddOn' && selectedData0['CustomerType'] == "I") {
+          showCardModal = false;
+        }
 
-        if (selectedData0['CmsDetails'] == 'Y' ) {
+        if (selectedData0['CmsDetails'] == 'Y' && showCardModal) {
           console.error("DEEP | Open Seperate 360 modal");
           this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
             console.log(response);
@@ -631,7 +658,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
         for (var i = 0; i < loopVar7.length; i++) {
           var tempObj = {};
           tempObj['TaxID'] = loopVar7[i].TaxId;
-          tempObj['CustName'] = loopVar7[i].FullName;
+          tempObj['Customer'] = loopVar7[i].CustomerType == "I" ? loopVar7[i].FullName : loopVar7[i].RegisteredName;
           tempObj['AccNo'] = loopVar7[i].AccountNumber;
           //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
           tempObj['AccType'] = loopVar7[i].AccountType;
@@ -675,6 +702,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     console.error('CmsDetails_click', event);
     console.error("************");
     this.clickedShowCustomerDetails = true;
+    // this.rowClicked(event, true);
   }
 
 
