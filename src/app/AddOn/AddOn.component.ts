@@ -448,7 +448,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
       inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
-      inputMap.set('Body.ApplicationDetails.MaskedCardNumber', '75674646');
+      inputMap.set('Body.ApplicationDetails.MaskedCardNumber', this.ADD_MaskedCardNumber.getFieldValue());
       inputMap.set('Body.ApplicationDetails.AvailableLimit', this.ADD_AvailableLimit.getFieldValue());
       // inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
@@ -591,7 +591,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
       inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
-      inputMap.set('Body.ApplicationDetails.MaskedCardNumber', '677567');
+      inputMap.set('Body.ApplicationDetails.MaskedCardNumber',this.ADD_MaskedCardNumber.getFieldValue());
       inputMap.set('Body.ApplicationDetails.AvailableLimit', this.ADD_AvailableLimit.getFieldValue());
       // inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');

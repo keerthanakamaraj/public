@@ -1899,7 +1899,7 @@
     "SANCTION_CREDIT_LIMIT": "Approved Credit Limit",
     "SANCTION_CASH_LIMIT": "Approved Cash Limit",
     "REQ_CARD_LIMIT": "Requested Card Limit",
-    "CC_CAMPTYPE" : "Cam Type"
+    "CC_CAMPTYPE" : "Application Type"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",
@@ -2003,7 +2003,8 @@
     "MT_CAM_TYPE": "CAM Type",
     "MT_CAD_LOCATION": "Branch",
     "MT_CUSTOMER": "Customer",
-    "MT_STAGE": "Stage"
+    "MT_STAGE": "Stage",
+    "MT_APPLICATION_TYPE" :"Applicantion Type"
   },
   "MyTrayForm": {
     "MT_SLIDER": "Pending with Self",

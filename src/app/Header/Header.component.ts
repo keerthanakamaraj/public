@@ -277,7 +277,14 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.customerType = this.CC_CUST_TYPE.getFieldValue();
 
           this.CC_CARD_TYPE.setValue(header.CardTypename);
-          this.CARD_NUMBER.setValue(header.CardNumber);
+          // this.CARD_NUMBER.setValue(header.CardNumber);
+          if (this.CARD_NUMBER.getFieldValue() == undefined && this.CARD_NUMBER.getFieldValue() == null) {
+            this.CARD_NUMBER.setValue("NA");
+          }
+          else
+          {
+            this.CARD_NUMBER.setValue(header.CardNumber);
+          }
           // this.SANCTION_CREDIT_LIMIT.setValue(header.SanctionCreditLimit);
           // this.SANCTION_CASH_LIMIT.setValue(header.SanctionCashLimit);
 
