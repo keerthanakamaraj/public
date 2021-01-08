@@ -590,9 +590,10 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
       inputMap.set('Body.ApplicationDetails.ApplicationBranch', '101');
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
-      inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
+     // inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue()); // wrong field mapped
+     inputMap.set('Body.ApplicationDetails.CurrentCardLimit', parseFloat(this.ADD_CurrentCardLimit.getFieldValue()));
       inputMap.set('Body.ApplicationDetails.MaskedCardNumber',this.ADD_MaskedCardNumber.getFieldValue());
-      inputMap.set('Body.ApplicationDetails.AvailableLimit', this.ADD_AvailableLimit.getFieldValue());
+      inputMap.set('Body.ApplicationDetails.AvailableLimit', parseFloat(this.ADD_AvailableLimit.getFieldValue()));
       // inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
       inputMap.set('Body.ApplicationDetails.ExistingCardType', 'ICNP');
       inputMap.set('Body.ApplicationDetails.CustomerType', this.tempVar.CustomerType);
