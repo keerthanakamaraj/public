@@ -406,7 +406,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['RegisteredName'] = loopVar7[i].RegisteredName;
                 tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
                 tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
-
+                tempObj['custName'] = loopVar7[i].FullName;
                 // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
 
@@ -509,7 +509,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['gender'] = selectedData0['Gender'];
       tempVar['mobileNum'] = selectedData0['Mobile'];
       tempVar['taxId'] = selectedData0['TaxID'];
-      tempVar['custName'] = selectedData0['CustName'];
+      tempVar['custName'] = selectedData0['custName'];
       tempVar['accNo'] = selectedData0['AccNo'];
       tempVar['accVintage'] = selectedData0['AccVintage'];
       tempVar['accType'] = selectedData0['AccType'];
@@ -689,7 +689,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           tempObj['typeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
 
           tempObj['staffId'] = loopVar7[i].StaffID;//StaffID: "9870"
-
+          tempObj['custName'] = loopVar7[i].FullName;
           loopDataVar7.push(tempObj);
         }
       }
