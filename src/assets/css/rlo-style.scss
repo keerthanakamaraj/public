@@ -3698,6 +3698,16 @@ rlo-ui-card-field {
       color: #6f6f6f;
     }
   }
+  .btn-CamType{
+    background-color: lightgray;;
+    // color: #fff;
+    font-weight: 600;
+    height: 37px;
+    letter-spacing: 0;
+    width: 43px;
+    /* line-height: 17px; */
+    border-radius: 50%;
+  }
 }
 
 // seperate doc. upload component
@@ -5235,4 +5245,5 @@ rlo-ui-card-field {
       }
     }
   }
+ 
 }

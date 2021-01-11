@@ -10,3 +10,6 @@
 <ng-container *ngIf="Type=='3'">
     <div (click)="onClick($event)" [ngClass]="params.value === 'Y' ? 'anchor-link' : ''">{{params.value}}</div>
 </ng-container>
+<ng-container *ngIf="Type=='4'">
+    <div class="{{CustomClass}}">{{params.value}}</div>
+</ng-container>

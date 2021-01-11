@@ -374,11 +374,11 @@ export class RlouiService {
 
       //FOR TESTING
       //this.modalObject.iconClass = "icon-Family-Details";
-      
-        if (modalObj.hasOwnProperty('componentName')) {
-          this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
-        }
-      
+
+      if (modalObj.hasOwnProperty('componentName')) {
+        this.modalObject.iconClass = this.modalIconList.find(el => el.componentName == modalObj.componentName).iconClass + " header-icon";
+      }
+
       const modalRef = this.modal.open(PopupAlertComponent, { windowClass: modalObj.modalSize });
       modalRef.result.then(onSuccessOrFailure, onSuccessOrFailure)
     });
@@ -426,8 +426,8 @@ export class RlouiService {
 
 
   //called when user click on " < back " above header component
-  goBack() {
-    var mainMessage = this.getAlertMessage('rlo.cancel.comfirmation');
+  goBack(Type?: string) {
+    var mainMessage = Type == 'sidemenu' ? "Do you want to change stage" : this.getAlertMessage('rlo.cancel.comfirmation');
     var button1 = this.getAlertMessage('', 'OK');
     var button2 = this.getAlertMessage('', 'CANCEL');
 
@@ -444,14 +444,54 @@ export class RlouiService {
       }
       this.confirmationModal(modalObj).then((response) => {
         console.log(response);
-        if (response != null) {
-          if (response.id === 1) {
-            this.locationRoute.back();
-            //this.router.navigate(['home', 'LANDING']);
+        if (Type == 'sidemenu') {
+          if (response != null) {
+            if (response.id === 1) {
+              this.locationRoute.back();
+              //this.router.navigate(['home', 'LANDING']);
+            }
+          }
+        }
+        else {
+          if (response != null) {
+            if (response.id === 1) {
+              this.locationRoute.back();
+              //this.router.navigate(['home', 'LANDING']);
+            }
           }
         }
       });
     });
+  }
+  sideMenuRouteConfirmation() {
+    var mainMessage = this.getAlertMessage("", 'Do you want to change page?');
+    var button1 = this.getAlertMessage('', 'OK');
+    var button2 = this.getAlertMessage('', 'CANCEL');
+    let promise = new Promise<any>((resolve, reject) => {
+      Promise.all([mainMessage, button1, button2]).then(values => {
+        console.log(values);
+        let modalObj = {
+          title: "Alert",
+          mainMessage: values[0],
+          modalSize: "modal-width-sm",
+          buttons: [
+            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+            { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+          ]
+        }
+        this.confirmationModal(modalObj).then((response) => {
+          console.log(response);
+          resolve(response);
+          // if (response != null) {
+          //   if (response.id === 1) {
+          //     this.locationRoute.back();
+          //     //this.router.navigate(['home', 'LANDING']);
+          //   }
+          // }
+        });
+      });
+    });
+    return promise;
   }
 
   //opening file upload modal
@@ -574,7 +614,7 @@ export class RlouiService {
         mainMessage: undefined,
         modalSize: 'modal-width-sm',
         buttons: [],
-        sectionName : 'AddOnCreditCard',
+        sectionName: 'AddOnCreditCard',
         hideModalHeader: true
       };
       this.confirmationModal(modalObj).then((response) => {

@@ -37,185 +37,155 @@ export class MyTrayGridComponent implements AfterViewInit {
     gridCode: "MyTrayGrid",
     paginationReq: true
   };
-  columnDefs: any[] = [{
-    field: "MT_ARN",
-    width: 12,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+  columnDefs: any[] = [
+    // {
+    //   field: "MT_APPLICATION_TYPE",
+    //   width: 10,
+    //   sortable: true,
+    //   resizable: true,
+    //   cellStyle: { 'text-align': 'center' },
+    //   filter: "agTextColumnFilter",
+    //   filterParams: {
+    //     // suppressAndOrCondition: true,
+    //     columnId: 'MT_APPLICATION_TYPE',
+    //     // Type: '1',
+    //     CustomClass: 'btn-CamType',
+    //     // IconClass: 'fa fa-eye fa-lg',
+    //   }
+    // },
+    {
+      field: "MT_APPLICATION_TYPE",
+      width: 5,
+      sortable: false,
+      filter: false,
+      resizable: true,
+      cellRenderer: 'buttonRenderer',
+      cellStyle: { 'text-align': 'center' },
+      cellRendererParams: {
+        // gridCode: 'AssetDetailsGrid',
+        columnId: 'AT_VIEW',
+        Type: '4',
+        CustomClass: 'btn-CamType',
+        // IconClass: 'fa fa-eye fa-lg',
+        // onClick: this.showWorkflowStage.bind(this),
+      }
     },
-  },
-  {
-    field: "MT_PROPOSAL_ID",
-    width: 12,
-    sortable: true,
-    resizable: true,
-    hide: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    {
+      field: "MT_ARN",
+      width: 12,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
     },
-  },
-  {
-    field: "MT_CUSTOMER",
-    width: 12,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    {
+      field: "MT_PROPOSAL_ID",
+      width: 12,
+      sortable: true,
+      resizable: true,
+      hide: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
     },
-  },
-  {
-    field: "MT_PRODUCT",
-    width: 12,
-    hide: true,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    {
+      field: "MT_CUSTOMER",
+      width: 12,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
     },
-  },
-  {
-    field: "MT_SUB_PRODUCT",
-    width: 12,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    {
+      field: "MT_PRODUCT",
+      width: 12,
+      hide: true,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
     },
-  },
-  {
-    field: "MT_SCHEME",
-    width: 12,
-    sortable: true,
-    hide: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    {
+      field: "MT_SUB_PRODUCT",
+      width: 12,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
     },
-  },
+    {
+      field: "MT_SCHEME",
+      width: 11,
+      sortable: true,
+      hide: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
+    },
 
-  {
-    field: "MT_LOAN_AMOUNT",
-    width: 14,
-    sortable: false,
-    resizable: true,
-    cellStyle: { 'text-align': 'right' },
-    valueFormatter: this.formatAmount.bind(this),
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    // suppressAndOrCondition: true,
-    // applyButton: true,
-    // clearButton: true,
-    // filterOptions: ["contains"],
-    // caseSensitive: true,
-    // },
-  },
-  // {
-  // field: "MT_CAM_TYPE",
-  // width: 12,
-  // sortable: true,
-  // resizable: true,
-  // cellStyle: { 'text-align': 'left' },
-  // filter: "agTextColumnFilter",
-  // filterParams: {
-  // suppressAndOrCondition: true,
-  // applyButton: true,
-  // clearButton: true,
-  // filterOptions: ["contains"],
-  // caseSensitive: true,
-  // },
-  // },
-  {
-    field: "MT_STAGE",
-    width: 12,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",    
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    }
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    // suppressAndOrCondition: true,
-    // applyButton: true,
-    // clearButton: true,
-    // filterOptions: ["contains"],
-    // caseSensitive: true,
-    // },
-  },
-  {
-    field: "MT_INITIATED_BY",
-    width: 12,
-    hide: true,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    {
+      field: "MT_LOAN_AMOUNT",
+      width: 11,
+      sortable: false,
+      resizable: true,
+      cellStyle: { 'text-align': 'right' },
+      valueFormatter: this.formatAmount.bind(this),
+      // filter: "agTextColumnFilter",
+      // filterParams: {
+      // suppressAndOrCondition: true,
+      // applyButton: true,
+      // clearButton: true,
+      // filterOptions: ["contains"],
+      // caseSensitive: true,
+      // },
     },
-  },
-  {
-    field: "MT_INITIATED_ON",
-    width: 10,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // valueFormatter: this.formatDate.bind(this),
-    filter: "agTextColumnFilter",    
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
-    }
+    // {
+    // field: "MT_CAM_TYPE",
+    // width: 12,
+    // sortable: true,
+    // resizable: true,
+    // cellStyle: { 'text-align': 'left' },
     // filter: "agTextColumnFilter",
     // filterParams: {
     // suppressAndOrCondition: true,
@@ -224,38 +194,101 @@ export class MyTrayGridComponent implements AfterViewInit {
     // filterOptions: ["contains"],
     // caseSensitive: true,
     // },
-  },
-  {
-    field: "MT_CAD_LOCATION",
-    width: 10,
-    sortable: true,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    filter: "agTextColumnFilter",
-    filterParams: {
-      suppressAndOrCondition: true,
-      applyButton: true,
-      clearButton: true,
-      filterOptions: ["contains"],
-      caseSensitive: true,
+    // },
+    {
+      field: "MT_STAGE",
+      width: 11,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      }
+      // filter: "agTextColumnFilter",
+      // filterParams: {
+      // suppressAndOrCondition: true,
+      // applyButton: true,
+      // clearButton: true,
+      // filterOptions: ["contains"],
+      // caseSensitive: true,
+      // },
     },
-  },
-  {
-    field: "MT_PENDING_WITH",
-    width: 15,
-    sortable: false,
-    resizable: true,
-    cellStyle: { 'text-align': 'left' },
-    // filter: "agTextColumnFilter",
-    // filterParams: {
-    // suppressAndOrCondition: true,
-    // applyButton: true,
-    // clearButton: true,
-    // filterOptions: ["contains"],
-    // caseSensitive: true,
-    // },
-  },
-  {
+    {
+      field: "MT_INITIATED_BY",
+      width: 11,
+      hide: true,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
+    },
+    {
+      field: "MT_INITIATED_ON",
+      width: 11,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      // valueFormatter: this.formatDate.bind(this),
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      }
+      // filter: "agTextColumnFilter",
+      // filterParams: {
+      // suppressAndOrCondition: true,
+      // applyButton: true,
+      // clearButton: true,
+      // filterOptions: ["contains"],
+      // caseSensitive: true,
+      // },
+    },
+    {
+      field: "MT_CAD_LOCATION",
+      width: 10,
+      sortable: true,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      filter: "agTextColumnFilter",
+      filterParams: {
+        suppressAndOrCondition: true,
+        applyButton: true,
+        clearButton: true,
+        filterOptions: ["contains"],
+        caseSensitive: true,
+      },
+    },
+    {
+      field: "MT_PENDING_WITH",
+      width: 15,
+      sortable: false,
+      resizable: true,
+      cellStyle: { 'text-align': 'left' },
+      // filter: "agTextColumnFilter",
+      // filterParams: {
+      // suppressAndOrCondition: true,
+      // applyButton: true,
+      // clearButton: true,
+      // filterOptions: ["contains"],
+      // caseSensitive: true,
+      // },
+    },
+    {
       width: 8,
       field: " ",
       sortable: false,
@@ -264,14 +297,14 @@ export class MyTrayGridComponent implements AfterViewInit {
       cellRenderer: 'buttonRenderer',
       cellStyle: { 'text-align': 'left' },
       cellRendererParams: {
-          gridCode: 'AssetDetailsGrid',
-          columnId: 'AT_VIEW',
-          Type: '1',
-          CustomClass: 'btn-views',
-          IconClass: 'fa fa-eye fa-lg',
-          onClick: this.showWorkflowStage.bind(this),
+        gridCode: 'AssetDetailsGrid',
+        columnId: 'AT_VIEW',
+        Type: '1',
+        CustomClass: 'btn-views',
+        IconClass: 'fa fa-eye fa-lg',
+        onClick: this.showWorkflowStage.bind(this),
       },
-  }
+    }
 
   ];
   private unsubscribe$: Subject<any> = new Subject<any>();
@@ -395,6 +428,7 @@ export class MyTrayGridComponent implements AfterViewInit {
           var res = httpResponse.body;
           var loopDataVar7 = [];
           var loopVar7 = res['Tasks'];
+          console.log("header res", this.services.rloCommonData.globalApplicationDtls.CamType);
           if (loopVar7) {
             for (var i = 0; i < loopVar7.length; i++) {
               var tempObj = {};
@@ -405,13 +439,13 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_PRODUCT'] = loopVar7[i].PRODUCT;
               tempObj['MT_SUB_PRODUCT'] = loopVar7[i].SUB_PRODUCT;
               tempObj['MT_SCHEME'] = loopVar7[i].SCHEME;
-              if(loopVar7[i].LOAN_AMOUNT == undefined || loopVar7[i].LOAN_AMOUNT == ''){
+              if (loopVar7[i].LOAN_AMOUNT == undefined || loopVar7[i].LOAN_AMOUNT == '') {
                 tempObj['MT_LOAN_AMOUNT'] = loopVar7[i].REQUESTED_CARDLIMIT;
               }
-              else{
+              else {
                 tempObj['MT_LOAN_AMOUNT'] = loopVar7[i].LOAN_AMOUNT;
               }
-             
+
               tempObj['MT_CAM_TYPE'] = loopVar7[i].EXISTING_CUST;
               tempObj['MT_STAGE'] = loopVar7[i].STAGE_NAME;
               tempObj['MT_INITIATED_BY'] = loopVar7[i].CREATED_BY;
@@ -421,6 +455,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
               tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
+              tempObj['MT_APPLICATION_TYPE'] = 'LE';
               loopDataVar7.push(tempObj);
             }
           }
@@ -493,6 +528,7 @@ export class MyTrayGridComponent implements AfterViewInit {
           var res = httpResponse.body;
           var loopDataVar32 = [];
           var loopVar32 = res['Tasks'];
+          console.log("my tray respose", loopVar32);
           if (loopVar32) {
             for (var i = 0; i < loopVar32.length; i++) {
               var tempObj = {};
@@ -503,10 +539,10 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['MT_PRODUCT'] = loopVar32[i].PRODUCT;
               tempObj['MT_SUB_PRODUCT'] = loopVar32[i].SUB_PRODUCT;
               tempObj['MT_SCHEME'] = loopVar32[i].SCHEME;
-              if(loopVar32[i].LOAN_AMOUNT == undefined || loopVar32[i].LOAN_AMOUNT == ''){
+              if (loopVar32[i].LOAN_AMOUNT == undefined || loopVar32[i].LOAN_AMOUNT == '') {
                 tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].REQUESTED_CARDLIMIT;
               }
-              else{
+              else {
                 tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].LOAN_AMOUNT;
               }
               // tempObj['MT_LOAN_AMOUNT'] = loopVar32[i].LOAN_AMOUNT;
@@ -519,6 +555,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenTaskId'] = loopVar32[i].TASK_ID;
               tempObj['hiddenInstanceId'] = loopVar32[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar32[i].STAGE_ID;
+              tempObj['MT_APPLICATION_TYPE'] = 'LE';
               loopDataVar32.push(tempObj);
             }
           }
@@ -588,13 +625,13 @@ export class MyTrayGridComponent implements AfterViewInit {
     this.loadSpinner = false;
   }
 
-  showWorkflowStage(rowdata){
+  showWorkflowStage(rowdata) {
     let inputMap = new Map();
-    console.log('rowdata ' , rowdata);
+    console.log('rowdata ', rowdata);
 
     var navPath = ('/home').split('/');
     navPath = navPath.slice(1);
-    
+
     // let stageId = rowdata['hiddenStageId'];
     // navPath.push('view-wf?stage=' + stageId);
     navPath.push('view-wf');
@@ -617,7 +654,7 @@ export class MyTrayGridComponent implements AfterViewInit {
 
   formatAmount(number) {
     if (number.value) {
-      return this.services.formatAmount(number.value, null, null,false);
+      return this.services.formatAmount(number.value, null, null, false);
     } else {
       return '-';
     }

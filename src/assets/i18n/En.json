@@ -2006,7 +2006,7 @@
     "MT_CAD_LOCATION": "Branch",
     "MT_CUSTOMER": "Customer",
     "MT_STAGE": "Stage",
-    "MT_APPLICATION_TYPE" :"Applicantion Type"
+    "MT_APPLICATION_TYPE" :" "
   },
   "MyTrayForm": {
     "MT_SLIDER": "Pending with Self",

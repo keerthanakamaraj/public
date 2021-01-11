@@ -140,21 +140,34 @@ export class MainHeaderComponent implements OnInit {
 
   AddOn_click(id: string) {
     //checkbox used to trigger sidemenu
+    this.services.rloui.sideMenuRouteConfirmation().then((response) => {
+      console.log("sidemenu", response);
+      if (response != null) {
+        if (response.id == 1) {
+          this.closeSideMenu();
+          if (id && id != "") {
+            this.router.navigate(['/home/' + id]);
+          } else {
+            this.navigateToHome();
+          }
+        }
+        else if (response.id == 2){
+          this.closeSideMenu();
+        }
+      }
+      else {
+        this.closeSideMenu();
+      }
+    });
+  }
+
+  closeSideMenu() {
     var sideMenuCheckbox = document.getElementById("SideMenuCheckbox");
-    console.log("DEEP | sideMenuCheckbox", sideMenuCheckbox, sideMenuCheckbox.checked);
 
     setTimeout(() => {
       sideMenuCheckbox.checked = false;
     }, 100);
-
-    if (id && id != "") {
-      this.router.navigate(['/home/' + id]);
-    } else {
-      this.navigateToHome();
-    }
   }
-
-
 
   navigateToHome() {
     this.router.navigate(['/home/LANDING']);
