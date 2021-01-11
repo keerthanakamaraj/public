@@ -140,6 +140,7 @@ export class MainHeaderComponent implements OnInit {
 
   AddOn_click(id: string) {
     //checkbox used to trigger sidemenu
+    if (this.services.rloCommonData.getActiveRouteName() != 'LANDING'){
     this.services.rloui.sideMenuRouteConfirmation().then((response) => {
       console.log("sidemenu", response);
       if (response != null) {
@@ -159,6 +160,15 @@ export class MainHeaderComponent implements OnInit {
         this.closeSideMenu();
       }
     });
+  }
+  else{
+    this.closeSideMenu();
+    if (id && id != "") {
+      this.router.navigate(['/home/' + id]);
+    } else {
+      this.navigateToHome();
+    }
+  }
   }
 
   closeSideMenu() {
