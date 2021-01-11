@@ -185,7 +185,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     });
     
     if((undefined==this.MainComponent.SubCamType || ''==this.MainComponent.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType && !this.popupFlag ){
-      this.popupFlag=true;
       if ((parseFloat(this.MainComponent.AvailableLimit.getFieldValue()) < parseFloat(this.TotalProposedCardLimit.getFieldValue()))){
         this.doRealignmentOrLimitEnhancementHandling();
       }
@@ -193,6 +192,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   doRealignmentOrLimitEnhancementHandling(){
+    this.popupFlag=true;
               this.services.rloui.addOnCardDetails().then((response: any) => {
                 console.log(response);
                 if (response == '0') {
