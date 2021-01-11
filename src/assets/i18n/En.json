@@ -228,6 +228,7 @@
     "rlo.error.Customertype.invalid" : "For Add On Customer type Should be Corporate",
     "rlo.success.memberSearchCall" : "Existing Customers Fetched Successfully",
     "rlo.error.memberSearchCall" : " Member Search Failed. Please Try again",
+    "rlo.error.CardType.invalid" : "Cusstomer Type not match with Card Type",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

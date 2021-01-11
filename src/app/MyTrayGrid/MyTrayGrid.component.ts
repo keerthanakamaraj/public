@@ -394,6 +394,8 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+            case "MT_APPLICATION_TYPE": obj[i].columnName = "CTP.CAM_TYPE_ID"; break;
+            
             default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
           }
         }
@@ -418,6 +420,8 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+            case "MT_APPLICATION_TYPE": obj[i].columnName = "CTP.CAM_TYPE_ID"; break;
+
             default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
           }
         }
@@ -455,7 +459,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
               tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
-              tempObj['MT_APPLICATION_TYPE'] = 'LE';
+              tempObj['MT_APPLICATION_TYPE'] = loopVar7[i].CAM_TYPE;
               loopDataVar7.push(tempObj);
             }
           }
@@ -492,6 +496,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+            case "MT_APPLICATION_TYPE": obj[i].columnName = "CTP.CAM_TYPE_ID"; break;
             default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
           }
         }
@@ -518,6 +523,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "hiddenTaskId": obj[i].columnName = "TASK_ID"; break;
             case "hiddenInstanceId": obj[i].columnName = "INSTANCE_ID"; break;
             case "hiddenStageId": obj[i].columnName = "STAGE_ID"; break;
+            case "MT_APPLICATION_TYPE": obj[i].columnName = "CTP.CAM_TYPE_ID"; break;
             default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
           }
         }
@@ -555,7 +561,7 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenTaskId'] = loopVar32[i].TASK_ID;
               tempObj['hiddenInstanceId'] = loopVar32[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar32[i].STAGE_ID;
-              tempObj['MT_APPLICATION_TYPE'] = 'LE';
+              tempObj['MT_APPLICATION_TYPE'] = loopVar32[i].CAM_TYPE;
               loopDataVar32.push(tempObj);
             }
           }
