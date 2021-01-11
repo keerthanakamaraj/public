@@ -177,6 +177,15 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
     return this.amountTextbox.value;
   }
 
+  isAmountEmpty(){
+    if(this.amountTextbox.getFieldValue() !=undefined || this.amountTextbox.getFieldValue() !='')
+    {
+      if(parseFloat(this.amountTextbox.getFieldValue())<=0){
+      return true;
+      }
+      return false;
+    }
+  }
   setReadOnly(readOnly) {
     this.inputReadOnly = readOnly;
   }
