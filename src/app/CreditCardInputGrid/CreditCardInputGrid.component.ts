@@ -75,6 +75,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     setTimeout(() => {
       //this.subsToHiddenFieldValues();
       this.gridLoad();
+      
     });
   }
 

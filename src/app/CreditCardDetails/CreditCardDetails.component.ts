@@ -568,12 +568,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
                 }
             }
             }
+            if(this.CreditCardInputGrid.CustomerDtlsMap.size > 0){
             if((undefined==this.SubCamType || ''==this.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType && !this.CreditCardInputGrid.popupFlag ){
               if ((parseFloat(this.AvailableLimit.getFieldValue()) < parseFloat(this.CreditCardInputGrid.TotalProposedCardLimit.getFieldValue())) && this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC'){
                 this.CreditCardInputGrid.doRealignmentOrLimitEnhancementHandling();
               return;
               }
             }
+          }
             this.doSaveCreditCardAPICall();
         }
         else {
