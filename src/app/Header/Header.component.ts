@@ -516,6 +516,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       MaxCashLimit: header.Product_max_cash_limit,
       MaxCreditLimit: header.Product_max_credit,
       CamType : header.CamType,
+      SubCamType : header.SubCamType,
       ReqCardLimit :header.ReqCardLimit,
       PrimaryUsage: header.ApplicationPurpose
     }

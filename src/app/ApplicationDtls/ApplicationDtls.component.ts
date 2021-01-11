@@ -115,6 +115,7 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             this.AD_SOURCING_CHANNEL.setValue(applDtls.SourcingChannel);
             this.AD_DSA_ID.setValue(applDtls.DSACode);
             this.AD_BRANCH.setValue(applDtls.ApplicationBranch);
+            this.services.rloCommonData.globalApplicationDtls.SubCamType=applDtls.SubCamType;
             console.log(this.services.rloCommonData.globalApplicationDtls);
             let headerData = this.services.rloCommonData.globalApplicationDtls;
             this.BAD_CARD_TYPE.setValue(headerData.CardTypename);

@@ -209,6 +209,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != '' && eachBorrower.Relationship == undefined || eachBorrower.ReferrerRelation == undefined
                 ? eachBorrower.CustomerType : 'OP';
 
+                if(customer['CD_CUSTOMER_TYPE'] == 'B'){
+                  this.services.rloCommonData.globalApplicationDtls.PrimaryBorrowerSeq= eachBorrower.BorrowerSeq;
+                }
               if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
                 this.passArrayToCustomer.emit({
                   'actionName': 'gridUpdated',
@@ -312,7 +315,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
 
   EnabledPlusIcon() {
-    if (this.parentFormCode == 'DDE') {
+    if (this.parentFormCode == 'DDE' && this.services.rloCommonData.globalApplicationDtls.CamType!='LE') {
       this.PlusFlag = true;
     }
   }

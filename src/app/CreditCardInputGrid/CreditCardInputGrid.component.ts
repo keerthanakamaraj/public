@@ -14,6 +14,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { CustomerDtlsIntrface } from './CreditCardInputGridInterface';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
+import {CreditCardDetailsComponent} from '../CreditCardDetails/CreditCardDetails.component';
 
 const customCss: string = '';
 @Component({
@@ -36,9 +37,12 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalRequestedCardLimit', { static: false }) TotalRequestedCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalProposedCardLimit', { static: false }) TotalProposedCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
+ 
+  @Input() MainComponent: CreditCardDetailsComponent;
+  //@Input() MainComponent.AvailableLimit.getFieldValue() :any;
   showAdd: boolean = false;
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
-  isExpanded: boolean = undefined;
+  isExpanded: boolean = false;
   showGrid = false;
 
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
@@ -75,7 +79,8 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   async gridLoad() {
-    this.loadRecords();
+  //  this.loadRecords();
+  this.fetchAllApplicantsAPICall();
     this.showHideAddRowIcon(0);
   }
 
@@ -108,13 +113,13 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     return addInfo;
   }
 
-  loadRecords() {
-    let CustomerDtlsList = this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType !== 'B' });
-    console.log("Shweta:: for credit card cust dtls ", CustomerDtlsList);
-    if (CustomerDtlsList.length > 0) {
+  loadRecords(memberList) {
+    
+    console.log("Shweta:: for credit card cust dtls ", memberList);
+    if (memberList.length > 0) {
       this.showGrid = true;
       this.CustomerDtlsMap.clear();
-      CustomerDtlsList.forEach((element, index) => {
+      memberList.forEach((element, index) => {
           let rowData = {};
           let customerObj: CustomerDtlsIntrface = {};
           if(element.CardNumber!=undefined && element.CardNumber!= ''){
@@ -150,7 +155,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   ProposedCardLimit_blur(element, $event, rowNo) {
-    console.log("Shweta :: on blur", element);
+    //console.log("Shweta :: on blur", this.MainComponent.AvailableLimit.getFieldValue());
     let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
     let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
     let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
@@ -164,12 +169,17 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     this.ProposedCashLimit.toArray()[element.rowNo].setComponentSpecificValue(tempProposedCashLimit.toFixed(2));
     this.updateSelectedObj(element, tempProposedCashLimit.toFixed(2));
     this.updateTotal(['ProposedCardLimit', 'ProposedCashLimit']);
+    if((undefined==this.MainComponent.SubCamType || ''==this.MainComponent.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType ){
+      if ((parseFloat(this.MainComponent.AvailableLimit.getFieldValue()) < parseFloat(this.TotalProposedCardLimit.getFieldValue()))){
+        this.doRealignmentOrLimitEnhancementHandling();
+      }
+    }
   }
   updateTotal(listOfColumns) {
     listOfColumns.forEach(columnId => {
       let totAmount: number = 0;
       this[columnId].forEach((element: any) => {
-        if (element.getFieldValue() != undefined) {
+        if (undefined != element.getFieldValue() && ''!=element.getFieldValue()) {
           totAmount += parseFloat(element.getFieldValue());
         }
       });
@@ -177,6 +187,83 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     });
   }
 
+  doRealignmentOrLimitEnhancementHandling(){
+    if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
+           // let customerList = this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType !== 'B' && element.CardNumber!=undefined && element.CardNumber!='' });
+            if(!this.isExpanded){
+              this.services.rloui.addOnCardDetails().then((response: any) => {
+                console.log(response);
+                if (response == '0') {
+                    console.log("realignment , show grid and call member serach api", response);
+                      this.MemberCardCall();
+                      this.MainComponent.SubCamType=='RE';
+                }
+                else if (response == '1') {
+                    console.log(" Add member LE seclected", response);
+                    this.MainComponent.ApprovedLimit.setReadOnly(false);
+                    this.MainComponent.SubCamType=='LE';
+                }
+            });
+            }             
+  }
+  }
+   MemberCardCall() {
+    let inputMap = new Map();
+    inputMap.clear();
+    let applicationId: any = this.MainComponent.ApplicationId;
+this.CustomerDtlsMap.clear();
+    inputMap.set('Body.interfaceId', "MEMBER_SEARCH");
+    inputMap.set('Body.prposalid', applicationId);
+    let BorrowerDtls:any=this.services.rloCommonData.getCustomerDetails(this.services.rloCommonData.globalApplicationDtls.PrimaryBorrowerSeq);
+    inputMap.set('Body.inputdata.CifID', BorrowerDtls.CIF);
+
+    // inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+    this.services.http.fetchApi('/memberSearchCall', 'POST', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+            console.log("memmberCard", Response);
+            this.services.alert.showAlert(1, 'rlo.success.memberSearchCall', 5000);
+           this.fetchAllApplicantsAPICall();
+           
+        }, async (httpError) => {
+          var err = httpError['error']
+          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+          }
+          this.services.alert.showAlert(2, 'rlo.error.memberSearchCall', -1);
+      });
+}
+
+fetchAllApplicantsAPICall(){
+  this.CustomerDtlsMap.clear();
+  let inputMap = new Map();
+  if (this.MainComponent.ApplicationId != undefined) {
+    inputMap.clear();
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (this.MainComponent.ApplicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ApplicationId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": this.MainComponent.ApplicationId
+        }
+      });
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+    this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        let memberList = res['BorrowerDetails'].filter(function (element) { return element.CustomerType !== 'B' });
+        this.loadRecords(memberList);
+      },
+      async (httpError) => {
+        var err = httpError['error']
+        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        }
+        this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+      }
+    );
+}
+}
   updateSelectedObj(EditedElement, affectedElementValue) {
     let tempSrNo = this.SrNo.toArray()[EditedElement.rowNo].getFieldValue();
     this.CustomerDtlsMap.forEach(element => {

@@ -11,6 +11,7 @@ import { ProvidehttpService } from '../providehttp.service';
 import { HttpResponse } from '@angular/common/http';
 import { resolve } from 'dns';
 import { IModalData } from '../popup-alert/popup-interface';
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 
 export interface subjectParamsInterface {
   action: string;
@@ -65,7 +66,8 @@ export interface IGlobalApllicationDtls {
   CustomerType?: any;
   ReqCardLimit?: any;
   CamType? : any;
-  
+  SubCamType?:any;
+  PrimaryBorrowerSeq?:any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -665,6 +667,9 @@ if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='B'){
     let CustomerDtls = {};
     if (this.masterDataMap.has('customerMap')) {
       const customerMap = this.masterDataMap.get('customerMap');
+    // if(activeBorrowerSeq==undefined){
+    //   activeBorrowerSeq= this.globalApplicationDtls.PrimaryApplicantSeq;
+    // }
       if (customerMap.has(activeBorrowerSeq)) {
         let customer = customerMap.get(activeBorrowerSeq);
         CustomerDtls = customer.get('CustomerDetails');

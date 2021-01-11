@@ -92,15 +92,6 @@
               [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'RequestedCardLimit'"
               (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="Add_RequestedCardLimit.isHidden()">
-            <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
-                {{ 'CreditCardDetails.Add_RequestedCardLimit' | translate}}</label>
-            </div>
-            <app-rlo-ui-currency #Add_RequestedCardLimit fieldID="Add_RequestedCardLimit" [currencyReadOnly]="true"
-              [inputReadOnly]="readOnly" [formCode]="formCode" [componentFieldId]="'Add_RequestedCardLimit'"
-              (onBlurEvent)="customGenericOnBlur($event)"></app-rlo-ui-currency>
-          </div>
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -160,7 +151,7 @@
             <app-text-box #SettlementAccountNo fieldID="SettlementAccountNo" [formCode]="formCode"
               (blur)="genericOnBlur('SettlementAccountNo', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CurrentCorporateCardLimit.isHidden()">
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CurrentCorporateCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
                 {{ 'CreditCardDetails.CurrentCorporateCardLimit' | translate}}</label>
@@ -169,7 +160,7 @@
               [currencyReadOnly]="true" [inputReadOnly]="readOnly" [formCode]="formCode"
               [componentFieldId]="'CurrentCorporateCardLimit'" (onBlurEvent)="customGenericOnBlur($event)">
             </app-rlo-ui-currency>
-          </div>
+          </div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CurrentCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown">
@@ -380,7 +371,7 @@
           </ng-container>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CreditCardInputGrid.isHidden()">
             <app-CreditCardInputGrid #CreditCardInputGrid fieldID="CreditCardInputGrid" [formCode]="formCode"
-              [displayTitle]="false"></app-CreditCardInputGrid>
+              [displayTitle]="false" [MainComponent]="this"></app-CreditCardInputGrid>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-creditcard-handler #Handler [MainComponent]="this"></app-creditcard-handler>
@@ -410,6 +401,7 @@
         <app-hidden #hidNomineeSeq fieldID="hidNomineeSeq"></app-hidden>
         <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
         <app-hidden #hideCardCustType fieldID="hideCardCustType"></app-hidden>
+        <app-hidden #SubCamType fieldID = "SubCamType"></app-hidden>
       </div>
     </div>
   </div>

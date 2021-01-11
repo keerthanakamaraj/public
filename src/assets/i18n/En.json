@@ -226,6 +226,8 @@
     "rlo.error.update.credit-card-grid":"The Members details could not be updated. Please try again",
     "rlo.error.limit-enhancement" : " Limit Reduction should be done throughCard Management System",
     "rlo.error.Customertype.invalid" : "For Add On Customer type Should be Corporate",
+    "rlo.success.memberSearchCall" : "Existing Customers Fetched Successfully",
+    "rlo.error.memberSearchCall" : " Member Search Failed. Please Try again",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
