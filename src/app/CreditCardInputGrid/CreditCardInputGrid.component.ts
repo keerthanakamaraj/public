@@ -227,6 +227,9 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
         async (httpResponse: HttpResponse<any>) => {
             console.log("memmberCard", Response);
             this.services.alert.showAlert(1, 'rlo.success.memberSearchCall', 5000);
+            if(this.services.rloCommonData.globalApplicationDtls.CamType=='MEMC'){
+              this.MainComponent.doUpdateApplicationDtls();
+            }
            this.fetchAllApplicantsAPICall();
            
         }, async (httpError) => {

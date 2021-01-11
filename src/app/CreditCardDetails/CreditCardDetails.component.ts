@@ -514,7 +514,6 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       }else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
         this.ApprovedLimit.setReadOnly('LE'==this.SubCamType?false:true);
         this.RequestedCardLimit.setHidden(true);
-      
         this.AvailableLimit.setHidden(false);
         isNewApplication=false;
       }
@@ -593,9 +592,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.doUpdateMemberAPICall();
         
     }
-    if(this.SubCamType!=undefined && this.services.rloCommonData.globalApplicationDtls.SubCamType != this.SubCamType){
-      this.doUpdateApplicationDtls();
-    }
+    // if(this.SubCamType!=undefined && this.services.rloCommonData.globalApplicationDtls.SubCamType != this.SubCamType){
+    //   this.doUpdateApplicationDtls();
+    // }
       if (this.CreditCardSeq != undefined) {
         let inputMap = new Map();
         inputMap.set('Body.CreditCardDetails.ApplicationId', this.ApplicationId);
