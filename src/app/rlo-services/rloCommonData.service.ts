@@ -667,9 +667,6 @@ if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='B'){
     let CustomerDtls = {};
     if (this.masterDataMap.has('customerMap')) {
       const customerMap = this.masterDataMap.get('customerMap');
-    // if(activeBorrowerSeq==undefined){
-    //   activeBorrowerSeq= this.globalApplicationDtls.PrimaryApplicantSeq;
-    // }
       if (customerMap.has(activeBorrowerSeq)) {
         let customer = customerMap.get(activeBorrowerSeq);
         CustomerDtls = customer.get('CustomerDetails');

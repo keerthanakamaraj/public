@@ -44,7 +44,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
   isExpanded: boolean = false;
   showGrid = false;
-
+  popupFlag:boolean=false;
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
     this.value = new CreditCardInputGridModel();
@@ -116,9 +116,11 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   loadRecords(memberList) {
     
     console.log("Shweta:: for credit card cust dtls ", memberList);
+  
     if (memberList.length > 0) {
       this.showGrid = true;
       this.CustomerDtlsMap.clear();
+      this.onReset();
       memberList.forEach((element, index) => {
           let rowData = {};
           let customerObj: CustomerDtlsIntrface = {};
@@ -169,11 +171,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     this.ProposedCashLimit.toArray()[element.rowNo].setComponentSpecificValue(tempProposedCashLimit.toFixed(2));
     this.updateSelectedObj(element, tempProposedCashLimit.toFixed(2));
     this.updateTotal(['ProposedCardLimit', 'ProposedCashLimit']);
-    if((undefined==this.MainComponent.SubCamType || ''==this.MainComponent.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType ){
-      if ((parseFloat(this.MainComponent.AvailableLimit.getFieldValue()) < parseFloat(this.TotalProposedCardLimit.getFieldValue()))){
-        this.doRealignmentOrLimitEnhancementHandling();
-      }
-    }
   }
   updateTotal(listOfColumns) {
     listOfColumns.forEach(columnId => {
@@ -185,37 +182,44 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
       });
       this['Total' + columnId].setComponentSpecificValue(totAmount.toFixed(2));
     });
+    
+    if((undefined==this.MainComponent.SubCamType || ''==this.MainComponent.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType && !this.popupFlag ){
+      this.popupFlag=true;
+      if ((parseFloat(this.MainComponent.AvailableLimit.getFieldValue()) < parseFloat(this.TotalProposedCardLimit.getFieldValue()))){
+        this.doRealignmentOrLimitEnhancementHandling();
+      }
+    }
   }
 
   doRealignmentOrLimitEnhancementHandling(){
-    if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
-           // let customerList = this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType !== 'B' && element.CardNumber!=undefined && element.CardNumber!='' });
-            if(!this.isExpanded){
               this.services.rloui.addOnCardDetails().then((response: any) => {
                 console.log(response);
                 if (response == '0') {
                     console.log("realignment , show grid and call member serach api", response);
                       this.MemberCardCall();
-                      this.MainComponent.SubCamType=='RE';
+                      this.MainComponent.SubCamType='RE';
+                      
                 }
                 else if (response == '1') {
                     console.log(" Add member LE seclected", response);
                     this.MainComponent.ApprovedLimit.setReadOnly(false);
-                    this.MainComponent.SubCamType=='LE';
+                    this.MainComponent.SubCamType='LE';
+                    
+                }else{
+                  console.log("response",response);
+                  this.popupFlag=false;
                 }
-            });
-            }             
-  }
+            });    
   }
    MemberCardCall() {
     let inputMap = new Map();
     inputMap.clear();
     let applicationId: any = this.MainComponent.ApplicationId;
-this.CustomerDtlsMap.clear();
+//this.CustomerDtlsMap.clear();
     inputMap.set('Body.interfaceId', "MEMBER_SEARCH");
     inputMap.set('Body.prposalid', applicationId);
-    let BorrowerDtls:any=this.services.rloCommonData.getCustomerDetails(this.services.rloCommonData.globalApplicationDtls.PrimaryBorrowerSeq);
-    inputMap.set('Body.inputdata.CifID', BorrowerDtls.CIF);
+    let BorrowerDtls:any=this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType == 'B' });
+    inputMap.set('Body.inputdata.CifID', BorrowerDtls[0].CIF);
 
     // inputMap.set('QueryParam.criteriaDetails', criteriaJson)
     this.services.http.fetchApi('/memberSearchCall', 'POST', inputMap, '/rlo-de').subscribe(
@@ -233,7 +237,7 @@ this.CustomerDtlsMap.clear();
 }
 
 fetchAllApplicantsAPICall(){
-  this.CustomerDtlsMap.clear();
+//  this.CustomerDtlsMap.clear();
   let inputMap = new Map();
   if (this.MainComponent.ApplicationId != undefined) {
     inputMap.clear();
@@ -260,6 +264,7 @@ fetchAllApplicantsAPICall(){
         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
         }
         this.services.alert.showAlert(2, 'rlo.error.load.form', -1);
+        this.popupFlag=false;
       }
     );
 }
