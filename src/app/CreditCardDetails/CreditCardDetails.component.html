@@ -85,7 +85,7 @@
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="RequestedCardLimit.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': RequestedCardLimit.mandatory}">
                 {{ 'CreditCardDetails.RequestedCardLimit' | translate}}</label>
             </div>
             <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit" [currencyReadOnly]="true"
@@ -95,7 +95,7 @@
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="ApprovedLimit.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': ApprovedLimit.mandatory}">
                 {{ 'CreditCardDetails.ApprovedLimit' | translate}}
               </label>
             </div>
