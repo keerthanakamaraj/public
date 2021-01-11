@@ -204,7 +204,9 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
                 else if (response == '1') {
                     console.log(" Add member LE seclected", response);
                     this.MainComponent.ApprovedLimit.setReadOnly(false);
+                    this.MainComponent.RequestedCardLimit.setHidden(false);
                     this.MainComponent.SubCamType='LE';
+                      this.MainComponent.doUpdateApplicationDtls();
                     
                 }else{
                   console.log("response",response);
