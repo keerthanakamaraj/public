@@ -731,6 +731,31 @@
                     <app-text-box #CD_NAME_ON_CARD fieldID="CD_NAME_ON_CARD" [formCode]="formCode"
                       (blur)="genericOnBlur('CD_NAME_ON_CARD', $event)"></app-text-box>
                   </div>
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EmbLineFlag.isHidden() || isLoanCategory">
+                    <div class="clr-brown fieldLegend">
+                      <label class="clr-brown" [ngClass]="{'mandatory': EmbLineFlag.mandatory}">
+                        {{ 'CustomerDtls.EmbLineFlag' | translate}}
+                      </label>
+                    </div>
+                    <rlo-ui-radio #EmbLineFlag fieldID="EmbLineFlag" [formCode]="formCode" placeholder="Select"
+                      domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+                      (blur)="genericOnBlur('EmbLineFlag', $event)" (change)="EmbLineFlag_change('EmbLineFlag', $event)">
+                    </rlo-ui-radio>
+                  </div>   
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EmbLine4.isHidden()|| isLoanCategory">
+                    <div class="clr-brown fieldLegend">
+                      <label class="clr-brown" *ngIf="!isCorporateBorrower"[ngClass]="{'mandatory': EmbLine4.mandatory}">
+                        {{ 'CustomerDtls.EmbLine4' | translate}}
+                      </label>
+                      <label class="clr-brown" *ngIf="isCorporateBorrower" [ngClass]="{'mandatory': EmbLine4.mandatory}">
+                        {{ 'CustomerDtls.CorporateLine4' | translate}}
+                      </label>
+                      
+                    </div>
+                    <app-text-box #EmbLine4 fieldID="EmbLine4" [formCode]="formCode" (blur)="genericOnBlur('EmbLine4', $event)">
+                    </app-text-box>
+                  </div>
+
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
                   <div class="col-12  col-sm-6 col-md-6 res-pr-hide"></div>
                   <div class="col-12  col-sm-3 col-md-3 res-pr-hide"></div>
@@ -1045,7 +1070,7 @@
         <app-hidden #MinCredLimit fieldID="MinCredLimit"></app-hidden>
         <app-hidden #hideCamType fieldID="hideCamType"></app-hidden>
         <app-hidden #hideTypeofIncorp fieldID="hideTypeofIncorp"></app-hidden>
-        
+        <app-hidden #hideEmbLineFlag fieldID="hideEmbLineFlag"></app-hidden>
 
 
       </div>

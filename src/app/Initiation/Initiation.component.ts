@@ -173,8 +173,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('LD_SYS_AMT_RCMD', { static: false }) LD_SYS_AMT_RCMD: RloUiCurrencyComponent;
   @ViewChild('MaxCredLimit', { static: false }) MaxCredLimit: HiddenComponent;
   @ViewChild('MinCredLimit', { static: false }) MinCredLimit: HiddenComponent;
-
-
+  @ViewChild('EmbLine4', { static: false }) EmbLine4: TextBoxComponent;
+  @ViewChild('EmbLineFlag', { static: false }) EmbLineFlag: RLOUIRadioComponent;
+  @ViewChild('hideEmbLineFlag', { static: false }) hideEmbLineFlag: HiddenComponent;
   // @ViewChild('hideCardCustType', { static: false }) hideCardCustType: HiddenComponent;
 
 
@@ -227,6 +228,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       // this.revalidateBasicField('CD_LOAN_OWNERSHIP'),
       this.revalidateBasicField('CD_EMAIL_ID'),
       this.revalidateBasicField('CD_NAME_ON_CARD'),
+      this.revalidateBasicField('EmbLine4'),
+      this.revalidateBasicField('EmbLineFlag'),
       this.revalidateBasicField('CD_REGISTERED_NAME'),
       this.revalidateBasicField('CD_DATE_OF_INCORPORATION'),
       this.revalidateBasicField('CD_TYPE_OF_INCORPORATION'),
@@ -414,7 +417,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCamType.setValue('CAM_TYPE');
     this.hideTypeofIncorp.setValue('INCORPORATION_TYPE');
+    this.hideEmbLineFlag.setValue('Y_N');
 
+    
+    this.EmbLine4.setHidden(true);
 
     await this.Handler.onFormLoad({
     });
@@ -1411,9 +1417,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   async CD_CARD_CUST_TYPE_change(fieldID, value) {
     this.Handler.HideFieldBasedOnCorporate();
+
   }
 
-
+  async EmbLineFlag_change(fieldID, value) {
+    const inputMap = new Map();
+    this.Handler.embLineFlagselected();
+  }
   async CD_LOAN_OWNERSHIP_blur() {
 
     this.loanTotal = this.Handler.aggregateLoanOwnerShip();
@@ -1661,8 +1671,16 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       outDep: [
       ]
     },
+    EmbLineFlag: {
+      inDep: [
 
-
+        { paramKey: "VALUE1", depFieldID: "EmbLineFlag", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideEmbLineFlag", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
     // CD_COUNTRY_CODE: {
     //   inDep: [
 

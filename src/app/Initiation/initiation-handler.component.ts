@@ -218,7 +218,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 this.MainComponent.CD_TYPE_OF_INCORPORATION.onReset();
 this.MainComponent.CD_DATE_OF_INCORPORATION.onReset();
 this.MainComponent.CD_REGISTERED_NAME.onReset();
-
+this.MainComponent.EmbLine4.onReset();
+this.MainComponent.EmbLineFlag.onReset();
+this.MainComponent.EmbLine4.setHidden(true);
    // this.onProdCategoryChange({});
 
     //this.MainComponent.CD_EXISTING_CUST.setValue(this.MainComponent.CD_EXISTING_CUST.getDefault());
@@ -355,7 +357,13 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
 
     this.MainComponent.CD_CUST_SUB_SGMT.setValue(customer.customerSubSegment.value, customer.customerSubSegment.label);
     // this.MainComponent.CD_STAFF.setValue(customer.staff.value, customer.staff.label);
-
+    this.MainComponent.EmbLineFlag.setValue(customer.EmbLineFlag,undefined,true);
+    if(customer.EmbLineFlag=='Y'){
+      this.MainComponent.EmbLine4.setValue(customer.EmbLine4);
+      this.MainComponent.EmbLine4.setHidden(false);
+    }else{
+      this.MainComponent.EmbLine4.setHidden(true);
+    }
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
     this.MainComponent.CD_LOAN_OWNERSHIP.setValue(customer.loanOwnership);
@@ -552,6 +560,7 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
       customer.CD_DATE_OF_INCORPORATION = this.MainComponent.CD_DATE_OF_INCORPORATION.getFieldValue();
       customer.REGISTERED_NAME = this.MainComponent.CD_REGISTERED_NAME.getFieldValue();    
+      
     }
     else{
       customer.CD_DATE_OF_INCORPORATION = this.MainComponent.CD_DOB.getFieldValue();
@@ -559,7 +568,7 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     }
     customer.gender = this.getValueLabelFromDropdown(this.MainComponent.CD_GENDER);
     customer.DOB = this.MainComponent.CD_DOB.getFieldValue();
-    
+   
     customer.taxId = this.MainComponent.CD_TAX_ID.getFieldValue();
     customer.mobileNumber = this.MainComponent.CD_MOBILE.getFieldValue();
     customer.debitScore = this.MainComponent.CD_DEBIT_SCORE.getFieldValue();
@@ -576,8 +585,10 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     customer.registeredName = this.MainComponent.CD_REGISTERED_NAME.getFieldValue();
     customer.typeofIncorporation = this.MainComponent.CD_TYPE_OF_INCORPORATION.getFieldValue();
     customer.dateOfIncorporation = this.MainComponent.CD_DATE_OF_INCORPORATION.getFieldValue();
-    
+    customer.EmbLineFlag=this.MainComponent.EmbLineFlag.getFieldValue();
+    customer.EmbLine4=this.MainComponent.EmbLine4.getFieldValue();
     customer.tempId = this.tempId;
+
     return customer;
   }
 
@@ -654,13 +665,15 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
         tempObj['Email'] = this.customers[i].email;
         tempObj['ISDCountryCode'] = this.customers[i].countryCode;
         tempObj['PrimaryEmbosserName1'] = this.customers[i].nameOnCard;
+       
 
         // Corporate fields data
         tempObj['TypeOfIncorporation'] = this.customers[i].typeofIncorporation;
         tempObj['DateOfIncorporation'] = this.customers[i].dateOfIncorporation;
         tempObj['taxId'] = this.customers[i].panNumber;
         tempObj['RegisteredName'] = this.customers[i].registeredName;
-        
+        tempObj['EmbLineFlag'] = this.customers[i].EmbLineFlag;
+        tempObj['EmbLine4'] = this.customers[i].EmbLine4;
 
 
         if (this.customers[i].customerType.value == 'B' && this.MainComponent.BAD_PROD_CAT.getFieldValue() == 'CC') {
@@ -852,7 +865,13 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
     this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
     this.MainComponent.CD_STAFF_ID.setHidden(true);
-    
+    this.MainComponent.CD_NAME_ON_CARD.setHidden(true);
+    this.MainComponent.CD_NAME_ON_CARD.mandatory=false;
+    this.MainComponent.EmbLineFlag.setHidden(false);
+    this.MainComponent.EmbLineFlag.mandatory=true;
+    this.MainComponent.EmbLine4.setHidden(true);
+    this.MainComponent.EmbLine4.mandatory=false;
+    //this.embLineFlagselected();
   }
   else{
     this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
@@ -872,14 +891,29 @@ this.MainComponent.CD_REGISTERED_NAME.onReset();
     this.MainComponent.CD_GENDER.mandatory = true;
     this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
     this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
-    
-
-    
-    
+    this.MainComponent.CD_NAME_ON_CARD.setHidden(false);
+    this.MainComponent.CD_NAME_ON_CARD.mandatory=true;
+    this.MainComponent.EmbLineFlag.setHidden(true);
+    this.MainComponent.EmbLineFlag.mandatory=false;
+    this.MainComponent.EmbLine4.setHidden(true);
+    this.MainComponent.EmbLine4.mandatory=false;
   }
 
   }
 
+  embLineFlagselected(){
+    if(this.MainComponent.EmbLineFlag.getFieldValue() == 'Y'){
+      this.MainComponent.EmbLine4.setHidden(false);
+      this.MainComponent.EmbLine4.mandatory =  true;
+      if(this.MainComponent.EmbLine4.getFieldValue()==undefined || this.MainComponent.EmbLine4.getFieldValue()==''){
+        this.MainComponent.EmbLine4.setValue(this.MainComponent.CD_REGISTERED_NAME.getFieldValue());
+      }
+    }
+    else{
+      this.MainComponent.EmbLine4.setHidden(true);
+      this.MainComponent.EmbLine4.mandatory =  false;
+    }
+  }
 }
 
 
@@ -920,6 +954,8 @@ class Customer {
   typeofIncorporation: string;
   dateOfIncorporation: string;
   panNumber: string;
+  EmbLineFlag:string;
+EmbLine4:string;
 
   constructor() { }
 }
