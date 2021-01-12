@@ -1189,11 +1189,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       let sectionindex: number = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'OccupationDetails')));
       if ((undefined == this.CustomerType || this.CustomerType == 'B') && sectionindex >= 0) {
-        this.customerMenu[0].splice(sectionindex, 1, { id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true });
+        this.customerMenu[0].splice(sectionindex, 1, { id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false });
       }
       else if (this.CustomerType != 'B' && sectionindex < 0) {
         sectionindex = this.customerMenu[0].indexOf(this.customerMenu[0].find(eachSection => (eachSection.id == 'BusinessDetails')));
-        this.customerMenu[0].splice(sectionindex, 1, { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: false });
+        this.customerMenu[0].splice(sectionindex, 1, { id: "OccupationDetails", name: "Occupation Details", completed: false, iconClass: "icon-Occupation-Details", isActive: false, isOptional: true });
       }
     }
   }

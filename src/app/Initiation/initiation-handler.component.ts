@@ -361,8 +361,10 @@ this.MainComponent.EmbLine4.setHidden(true);
     if(customer.EmbLineFlag=='Y'){
       this.MainComponent.EmbLine4.setValue(customer.EmbLine4);
       this.MainComponent.EmbLine4.setHidden(false);
+      this.MainComponent.EmbLine4.mandatory=true;
     }else{
       this.MainComponent.EmbLine4.setHidden(true);
+      this.MainComponent.EmbLine4.mandatory=false;
     }
     this.isStaff({});
     this.MainComponent.CD_STAFF_ID.setValue(customer.staffId);
