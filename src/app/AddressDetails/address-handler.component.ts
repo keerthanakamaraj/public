@@ -123,24 +123,28 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
       if (GridAddress.length > 0) {
         GridAddress.forEach(GridData => {
           if (this.MainComponent.AD_OCCUPANCY_TYPE.getFieldValue() == 'PR') {
-            if (GridData.AD_OCCUP_TYPE == 'CR')
+            if (GridData.AD_OCCUP_TYPE == 'CR'){
               AddType = GridData.AD_OCCUP_TYPE
             GridAddSeq = GridData.AD_ADD_ID;
+            }
           }
           else if (this.MainComponent.AD_OCCUPANCY_TYPE.getFieldValue() == 'CR') {
-            if (GridData.AD_OCCUP_TYPE == 'PR')
+            if (GridData.AD_OCCUP_TYPE == 'PR'){
               AddType = GridData.AD_OCCUP_TYPE
             GridAddSeq = GridData.AD_ADD_ID;
+            }
           }
           else if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'PR') {
-            if (GridData.AddressTypeId == 'ML')
+            if (GridData.AddressTypeId == 'ML'){
               AddType = GridData.AddressTypeId
             GridAddSeq = GridData.AD_ADD_ID;
+            }
           }
           else if (this.MainComponent.AD_ADD_TYPE.getFieldValue() == 'ML') {
-            if (GridData.AddressTypeId == 'PR')
+            if (GridData.AddressTypeId == 'PR'){
               AddType = GridData.AddressTypeId
             GridAddSeq = GridData.AD_ADD_ID;
+            }
           }
         });
       }
