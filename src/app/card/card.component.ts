@@ -103,6 +103,7 @@ export class CardComponent implements OnInit {
   addressList = [];
   formattedAddressList = [];
   selectedAddress: Array<ICardListData> = [];
+  addressTypeOfSelectedAddrress: string;
   addressMap = new Map();//store address in list
   currentAddressIndex: number = 0;
 
@@ -266,10 +267,9 @@ export class CardComponent implements OnInit {
         this.addressMap.set(i, arr);
       }
       console.log(this.addressMap);
-
       console.log(this.formattedAddressList);
-      this.selectedAddress = this.addressMap.get(0);
-      console.log(this.selectedAddress);
+
+      this.fetchCurrentAddressDetails(0);
     }
     else {
 
@@ -282,14 +282,25 @@ export class CardComponent implements OnInit {
       if (this.addressCount > 0) {
         this.addressCount -= 1;
         this.currentAddressIndex += 1;
-        this.selectedAddress = this.addressMap.get(this.currentAddressIndex);
+
+        this.fetchCurrentAddressDetails(this.currentAddressIndex);
       }
     } else {
       if (this.addressCount < this.cardMetaData.data.length - 1) {
         this.addressCount += 1;
         this.currentAddressIndex -= 1;
-        this.selectedAddress = this.addressMap.get(this.currentAddressIndex);
+
+        this.fetchCurrentAddressDetails(this.currentAddressIndex);
       }
     }
+  }
+
+  fetchCurrentAddressDetails(addressIndex) {
+    let address = this.addressMap.get(addressIndex);
+    let addressFieldList = [];
+    addressFieldList.push(address[0]);
+    this.selectedAddress = addressFieldList;
+    this.addressTypeOfSelectedAddrress = address[1].subTitle == "NA" ? "" : address[1].subTitle;
+    console.log(this.selectedAddress);
   }
 }

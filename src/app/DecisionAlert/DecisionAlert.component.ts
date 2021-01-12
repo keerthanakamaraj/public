@@ -248,16 +248,40 @@ export class DecisionAlertComponent extends FormComponent implements OnInit, Aft
             'ApproverName': this.ApproverName.getFieldValue()
         }
 
+        console.log("DEEP | this.ApprovalReq", this.ApprovalReq.getFieldValue())
         if (numberOfErrors == 0) {
-            if (!this.uplodedDocs.length) {
-                this.services.alert.showAlert(2, '', 3000, 'Upload the required docuemnt.');
-            }
-            else {
+            if (this.ApprovalReq.getFieldValue() == 'Y') {
+                if (!this.uplodedDocs.length) {
+                    this.services.alert.showAlert(2, '', 3000, 'Upload the required docuemnt');
+                }
+                else {
+                    console.log(Decision);
+                    let errMsg = "";
+                    if (Decision.DesignationAuthority == undefined) {
+                        errMsg = "Select a designation authority. ";
+                    }
+                    if (Decision.ApproverName == "" || Decision.ApproverName == undefined) {
+                        errMsg += "Enter approver name";
+                    }
+                    if (errMsg.length) {
+                        this.services.alert.showAlert(2, '', 3000, errMsg);
+                    } else {
+
+                        let obj: IPopUpModalResponse = {
+                            "action": "btn-submit",
+                            "response": Decision
+                        }
+                        this.decisionAction.emit(obj);
+                    }
+                }
+            } else if (this.ApprovalReq.getFieldValue() == 'N') {
                 let obj: IPopUpModalResponse = {
                     "action": "btn-submit",
                     "response": Decision
                 }
                 this.decisionAction.emit(obj);
+            } else {
+                this.services.alert.showAlert(2, '', 3000, 'Select an option');
             }
         }
     }

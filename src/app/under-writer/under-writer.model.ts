@@ -207,7 +207,7 @@ export class AddressDetails implements IDeserializable {
                 let address = this.getFullAddress(element);
                 let occupancy = this.getOccupancy(element);
                 obj['address'] = address;
-                // obj['occupancy'] = occupancy;
+                obj['type'] = this.getAddressType(element);
                 addresssList.push(obj);
             });
             return addresssList;
@@ -245,6 +245,18 @@ export class AddressDetails implements IDeserializable {
             }
         }
         else {
+            return "NA";
+        }
+    }
+
+    getAddressType(address) {
+        if (address.AddressType != undefined || address.AddressType != "") {
+            if (address.AddressType == "PR") { 
+                return "Permanent Address";
+            }else{
+                return "Mailing Address";
+            }
+        } else {
             return "NA";
         }
     }
