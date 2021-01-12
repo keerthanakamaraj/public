@@ -668,7 +668,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.customerSectionLoaded = false;
     this.selectedTabCardData(this.selectedTab, data.selectedBorrowerSeq);
 
-    setTimeout(() => {   
+    setTimeout(() => {
       this.customerSectionLoaded = true;
       this.reloadCardGrid();
     }, 10);
@@ -1111,6 +1111,36 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     //     },
     //   );
     // });
+
+    // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
+    var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
+    var button1 = this.services.rloui.getAlertMessage('', 'OK');
+    var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
+
+    Promise.all([mainMessage, button1, button2]).then(values => {
+      console.log(values);
+      let modalObj = {
+        title: "Alert",
+        mainMessage: values[0],
+        modalSize: "modal-width-sm",
+        buttons: [
+          { id: 1, text: values[1], type: "success", class: "btn-primary" },
+          { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+        ]
+      }
+
+      this.services.rloui.confirmationModal(modalObj).then((response) => {
+        console.log(response);
+        if (response != null) {
+          if (response.id === 1) {
+            this.sentbackUW()
+            // this.services.router.navigate(['home', 'LANDING']);
+          }
+        }
+      });
+    });
+  }
+  sentbackUW() {
     var componentCode = this.componentCode
     let actionObject: IUnderwriterActionObject = { componentCode: componentCode, action: 'sentBack' };
     const inputMap = new Map();
@@ -1147,41 +1177,5 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         }
       }
     });
-
-    // this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
-    //   async (httpResponse: HttpResponse<any>) => {
-    //     const res = httpResponse.body;
-
-    //     if (httpResponse.status == 200) {
-    //       // var title = this.services.rloui.getAlertMessage('rlo.error.invalid.regex');
-    //       var mainMessage = this.services.rloui.getAlertMessage('rlo.sentback.comfirmation');
-    //       var button1 = this.services.rloui.getAlertMessage('', 'OK');
-    //       var button2 = this.services.rloui.getAlertMessage('', 'CANCEL');
-
-    //       Promise.all([mainMessage, button1, button2]).then(values => {
-    //         console.log(values);
-    //         let modalObj = {
-    //           title: "Alert",
-    //           mainMessage: values[0],
-    //           modalSize: "modal-width-sm",
-    //           buttons: [
-    //             { id: 1, text: values[1], type: "success", class: "btn-primary" },
-    //             { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
-    //           ]
-    //         }
-
-    //         this.services.rloui.confirmationModal(modalObj).then((response) => {
-    //           console.log(response);
-    //           if (response != null) {
-    //             if (response.id === 1) {
-    //               this.services.router.navigate(['home', 'LANDING']);
-    //             }
-    //           }
-    //         });
-    //       });
-    //     }
-    //   }
-    // );
   }
-
 }
