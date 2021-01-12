@@ -521,12 +521,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let isNewApplication: boolean = true;
         if ('LE' == this.services.rloCommonData.globalApplicationDtls.CamType) {
             this.ApprovedLimit.setReadOnly(false);
-            this.RequestedCardLimit.setHidden(false);
             this.AvailableLimit.setHidden(true);
             isNewApplication = false;
         } else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
             this.ApprovedLimit.setReadOnly('LE' == this.SubCamType ? false : true);
-            this.RequestedCardLimit.setHidden('LE' == this.SubCamType ? false : true);
             this.AvailableLimit.setHidden(false);
             isNewApplication = false;
         }
@@ -534,14 +532,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.ApprovedLimit.setReadOnly(false);
             this.AvailableLimit.setHidden(true);
             isNewApplication = true;
-        }
-        // RE & LE related common fields 
-        this.CurrentCardLimit.setHidden(isNewApplication);
-        this.MaskedCardNumber.setHidden(isNewApplication);
-        this.RequestedCardLimit.mandatory = !this.RequestedCardLimit.isHidden();
-        this.ApprovedLimit.mandatory = !this.ApprovedLimit.isReadOnly();
-
-        //normal FLow Fields
+          }
+          // RE & LE related common fields 
+          this.CurrentCardLimit.setHidden(isNewApplication);
+          this.MaskedCardNumber.setHidden(isNewApplication);
+          this.ApprovedLimit.mandatory = !this.ApprovedLimit.isReadOnly();
+          
+          //normal FLow Fields
+        this.RequestedCardLimit.setHidden(!isNewApplication);
         this.NomineeRequired.setHidden(!isNewApplication);
         this.NomineeRequired.mandatory = isNewApplication;
         this.NomineeName.setHidden(!isNewApplication);
