@@ -295,7 +295,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
               if(address[i].AddressType=='ML' ){
                 tempObj['AD_Address_Type'] =  'Mailing Address';
               }else if(address[i].AddressType=='PR'){
-                tempObj['AD_Address_Type'] =  'Permenent Address';
+                tempObj['AD_Address_Type'] =  'Permanent Address';
               }
             }
          
