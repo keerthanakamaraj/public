@@ -99,7 +99,7 @@
     <div class="wgt-cards interface-card" *ngIf="cardName == 'Interface Results'">
         <div class="cards-header">
             <span>{{cardMetaData.name}}</span>
-            <span class="icon-link" (click)="openModal('interfaceResults')"></span>
+            <span class="icon-link" [ngClass]="{'disabled' : !interfaceDataAvaliable}" (click)="openModal('interfaceResults')"></span>
         </div>
         <div class="cards-body row">
             <!-- <rlo-ui-card-field [parentCardName]="cardMetaData.name" [cardFieldMetaData]="list"

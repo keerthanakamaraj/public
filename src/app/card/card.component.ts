@@ -106,6 +106,7 @@ export class CardComponent implements OnInit {
   addressTypeOfSelectedAddrress: string;
   addressMap = new Map();//store address in list
   currentAddressIndex: number = 0;
+  interfaceDataAvaliable = true;//enable or disable interface card expand icon
 
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);
@@ -200,6 +201,9 @@ export class CardComponent implements OnInit {
   }
 
   generateInterfaceJson(customerList: any, interfaceDataList: any) {
+    let dataLength = [];
+    let count = 0;
+
     customerList.forEach(customer => {
       let interfaceInnerSections = [];
       let interfaceTypeObject: IInterfaceListData = {
@@ -233,12 +237,16 @@ export class CardComponent implements OnInit {
         });
       }
 
+      count += interfaceInnerSections.length;
       interfaceTypeObject.data = interfaceInnerSections;
       customerObj.data.push(interfaceTypeObject);
       this.interfaceResultsData.push(customerObj);
     });
     console.log("DEEP | mainJson", this.interfaceResultsData);
     this.getInterfaceData(this.interfaceResultsData);
+
+    count == 0 ? this.interfaceDataAvaliable = false : this.interfaceDataAvaliable = true;
+    console.log(count);
   }
 
   generateAddressJson(addressData: any) {
