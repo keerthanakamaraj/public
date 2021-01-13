@@ -229,6 +229,7 @@
     "rlo.success.memberSearchCall" : "Existing Customers Fetched Successfully",
     "rlo.error.memberSearchCall" : " Member Search Failed. Please Try again",
     "rlo.error.CardType.invalid" : "Cusstomer Type not match with Card Type",
+    "rlo.error.address.delete-restrict":"This address can not be deleted.",
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",

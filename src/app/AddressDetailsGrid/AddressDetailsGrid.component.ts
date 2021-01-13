@@ -377,7 +377,11 @@ export class AddressDetailsGridComponent implements AfterViewInit {
     // }
   }
   async AD_DELETE_BTN_click(event) {
-
+console.log("shweta :: ",event);
+if('ML'==event.AddressTypeId){  // changes for canara
+  this.services.alert.showAlert(2, 'rlo.error.address.delete-restrict', -1);
+  return ;
+}
     if (confirm("Are you sure you want to delete this record")) {
       let inputMap = new Map();
       inputMap.clear();

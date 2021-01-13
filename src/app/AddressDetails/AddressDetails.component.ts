@@ -253,7 +253,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
    // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
-    this.AD_STATE.setHidden(true);
+   //  this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
     await this.Handler.onFormLoad({
@@ -382,6 +382,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.AD_ADDRESS_LINE4.setReadOnly(readOnlyFlag);
     this.AD_PINCODE.setReadOnly(readOnlyFlag);
     this.AD_PINCODE.mandatory = !readOnlyFlag;
+    this.SAME_ADDRESS.setHidden(!readOnlyFlag);
   }
   // async AD_ADDRESS_LINE1_blur(event) {
   //   let inputMap = new Map();
@@ -633,7 +634,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
-        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
+        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']); 
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
         this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
