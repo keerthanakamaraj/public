@@ -243,7 +243,7 @@
             </div>
             <app-combo-box #NomineeRequired category="2" fieldID="NomineeRequired" [formCode]="formCode"
               domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
-              placeholder="Select" (blur)="genericOnBlur('NomineeRequired', $event)"></app-combo-box>
+              placeholder="Select" (blur)="genericOnBlur('NomineeRequired', $event)" (change)="NomineeRequired_change('NomineeRequired', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="NomineeName.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -272,7 +272,7 @@
               </label>
             </div>
             <app-date #NomineeDOB fieldID="NomineeDOB" [formCode]="formCode"
-              (blur)="genericOnBlur('NomineeDOB', $event)">
+              (blur)="genericOnBlur('NomineeDOB', $event)" (change)="NomineeDOB_change('NomineeDOB', $event)">
             </app-date>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="GuardianName.isHidden()">

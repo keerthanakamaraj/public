@@ -198,11 +198,13 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         if (!this.clearFieldsFlag) {
             this.fetchCreditCardDetails();
         }
-        // this.NomineeName.setHidden(true);
-        // this.NomineeRelationship.setHidden(true);
-        // this.NomineeDOB.setHidden(true);
+        setTimeout(() => {
+        this.NomineeName.setHidden(true);
+        this.NomineeRelationship.setHidden(true);
+        this.NomineeDOB.setHidden(true);
         this.GuardianName.setHidden(true);
         this.GuadianRelationship.setHidden(true);
+        }, 500);
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -303,7 +305,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         }
         return true;
     }
-    async NomineeRequired_blur(event) {
+    async NomineeRequired_change(event) {
         const inputMap = new Map();
         console.log("nominee", this.NomineeRequired.getFieldValue());
         if (this.NomineeRequired.getFieldValue() == 'Y') {
@@ -338,7 +340,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             return true;
         }
     }
-    async NomineeDOB_blur(event) {
+    async NomineeDOB_change(event) {
         const inputMap = new Map();
         if (!this.isPastDate(this.NomineeDOB.getFieldValue())) {
             this.NomineeDOB.setError('rlo.error.dob-invalid');
