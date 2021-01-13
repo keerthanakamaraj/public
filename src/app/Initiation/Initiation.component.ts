@@ -52,7 +52,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_SRC_CHANNEL', { static: false }) BAD_SRC_CHANNEL: ComboBoxComponent;
   @ViewChild('BAD_CARD_TYPE', { static: false }) BAD_CARD_TYPE: ComboBoxComponent;
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
-  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: ComboBoxComponent;
+  @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
   @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
 
@@ -395,7 +395,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     // this.LD_EMI_AMT.setFormatOptions({ currencyCode: 'INR', languageCode: 'en-US', });
     // this.LD_EMI_AMT.setReadOnly(true);
     this.hideCustomerType.setValue('CUSTOMER_TYPE');
-    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
 
     this.hidAppId.setValue('RLO');
     this.hidSourceingChannel.setValue('Branch');
@@ -414,7 +413,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideISDCode.setValue('ISD_COUNTRY_CODE');
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
-    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    this.setCustomerTypeOptions();
+  //  this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCamType.setValue('CAM_TYPE');
     this.hideTypeofIncorp.setValue('INCORPORATION_TYPE');
     this.hideEmbLineFlag.setValue('Y_N');
@@ -445,7 +445,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     }
   }
 
-
+  //method added for Canara Bank functionality
+setCustomerTypeOptions(){
+  if(this.BAD_CUSTOMER_TYPE.getFieldValue()=='C'){
+    this.hideCardCustType.setValue('CORP_CUSTOMER_TYPE');
+  }else if(this.BAD_CUSTOMER_TYPE.getFieldValue()=='I'){
+    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+  }
+}
   async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'New Application Initiation';
     await super.submit(path, apiCode, serviceCode);
@@ -693,9 +700,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return;
     }
     else {
-      this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
+      this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType'],undefined,true);
+      this.setCustomerTypeOptions();
       this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
-      this.CD_CARD_CUST_TYPE.setValue('B');
+      this.CD_CARD_CUST_TYPE.isOptionsLoaded=false;
+      this.CD_CARD_CUST_TYPE.setValue('B',undefined,true);
       this.setValuesOfCustomer(data);
 
     }
@@ -1411,6 +1420,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   
   async BAD_CUSTOMER_TYPE_change(fieldID, value) {
+    this.setCustomerTypeOptions();
     this.toggleColumn();
   }
 

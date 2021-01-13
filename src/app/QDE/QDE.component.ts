@@ -767,6 +767,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
     // this.CUSTOMER_DETAILS.isLoanCategory = event.isLoanCategory;
     this.CUSTOMER_DETAILS.loanCategoryChanged(event.isLoanCategory);
     this.FieldId_9.isLoanCategory = event.isLoanCategory;
+    this.FieldId_9.setApplicantLabelsAndTags();
     if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'){
       this.isCorporateProposal=true;
     }else{

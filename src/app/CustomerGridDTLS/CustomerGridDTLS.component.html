@@ -64,8 +64,8 @@
 <div class="customer-container col-12 col-sm-12 col-md-12" *ngIf="!isLoanCategory;else loanCategoryStyle">
   <div class="cust-group col-12 col-sm-3 col-md-3">
     <div class="cust-header">
-      <span class="cust-tag">{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
-      <span class="cust-label">{{ 'CustomerGridDTLS.PrimaryApplicantLabel' | translate }}</span>
+      <span class="cust-tag"  >{{MstDynamicData.PrimaryTag}}</span>
+      <span class="cust-label">{{MstDynamicData.PrimaryLabel}}</span>
     </div>
     <div class="cust-list">
       <div *ngFor="let customer of customerTypeMap.get('B')" [ngClass]="{'active' : customer.editing }"
@@ -83,8 +83,8 @@
   </div>
   <div class="cust-group col-12 col-sm-3 col-md-3" *ngIf="AddOnSectionFlag">
     <div class="cust-header">
-      <span class="cust-tag">{{ 'CustomerGridDTLS.AddOnDetails' | translate }}</span>
-      <span class="cust-label">{{ 'CustomerGridDTLS.AddOnDetailsLable' | translate }}</span>
+      <span class="cust-tag">{{MstDynamicData.SecondaryTag}}</span>
+      <span class="cust-label">{{MstDynamicData.SecondaryLabel}}</span>
       <span class="cust-add" (click)="doReset('A')" [hidden]="!PlusFlag">
         <img src="assets/icons/add_plus.png" />
       </span>

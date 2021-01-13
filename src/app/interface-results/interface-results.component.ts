@@ -13,7 +13,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 export class InterfaceResultsComponent implements OnInit {
 
   @Input() ApplicationId: string = undefined;
-  @Input() isLoanCatagory: boolean = this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
+  @Input() isLoanCategory: boolean = this.services.rloCommonData.globalApplicationDtls.isLoanCategory;
   @Input() readOnly: boolean = false;//used in UW modal section
 
   MstInterfaceResultMap: Map<string, IInterfaceResultCustomer> = new Map();
@@ -90,7 +90,13 @@ export class InterfaceResultsComponent implements OnInit {
         let staticCustData = CustomerList.find(eachRecord => eachRecord.BorrowerSeq == eachResult.BorrowerSeq);
         if (staticCustData != undefined) {
           CustomerDtls.CustomerId = eachResult.BorrowerSeq;
-          CustomerDtls.CustomerType = staticCustData.CustomerType;
+          if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
+            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'C':'M'
+          }else if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='I'){
+            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'P':'A'
+          }else{
+            CustomerDtls.CustomerType = staticCustData.CustomerType;
+          }
           CustomerDtls.FullName = staticCustData.FullName;
         }
       }

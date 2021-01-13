@@ -35,7 +35,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   CustomerDetailsMap = new Map<string, any>();
   PlusFlag: boolean = false;
   AddOnSectionFlag:boolean=true;
-
+  MstDynamicData:any={};
   //activeCustomer:{}={};
   //activeBorrowerSeq:string=undefined;
 
@@ -211,6 +211,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
                 if(customer['CD_CUSTOMER_TYPE'] == 'B'){
                   this.services.rloCommonData.globalApplicationDtls.PrimaryBorrowerSeq= eachBorrower.BorrowerSeq;
+                  
                 }
               if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
                 this.passArrayToCustomer.emit({
@@ -345,6 +346,21 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         }
       });
     });
+  }
+
+  setApplicantLabelsAndTags(){
+    this.MstDynamicData={};
+    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && !this.isLoanCategory){
+      this.MstDynamicData['PrimaryLabel']='Corporate';
+      this.MstDynamicData['SecondaryLabel']='Member';
+      this.MstDynamicData['PrimaryTag']='C';
+      this.MstDynamicData['SecondaryTag']='M';
+    }else if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='I' && !this.isLoanCategory){
+      this.MstDynamicData['PrimaryLabel']='Primary';
+      this.MstDynamicData['SecondaryLabel']='Add On';
+      this.MstDynamicData['PrimaryTag']='P';
+      this.MstDynamicData['SecondaryTag']='A';
+    }
   }
 
   doDeleteCustomerAPICall(selectedCustomer) {

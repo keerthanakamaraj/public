@@ -128,7 +128,14 @@ export class UWCustomerTabComponent implements OnInit, AfterViewInit {
     this.customerDataArr.forEach(eachCustomer => {
       const tag: ITag = {};
       tag.custId = eachCustomer.BorrowerSeq;
-      tag.label = eachCustomer.CD_CUSTOMER_TYPE;
+      if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
+        tag.label=('B'==eachCustomer.CD_CUSTOMER_TYPE)?'C':'M'
+      }else if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='I'){
+        tag.label=('B'==eachCustomer.CD_CUSTOMER_TYPE)?'P':'A'
+      }else{
+        tag.label = eachCustomer.CD_CUSTOMER_TYPE;
+      }
+   
       tag.text = eachCustomer.CD_CUSTOMER_NAME;
       tag.isActive = eachCustomer.isActive ? eachCustomer.isActive : false;
       this.tagsArr.push(tag);

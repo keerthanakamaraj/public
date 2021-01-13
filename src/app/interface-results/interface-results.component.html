@@ -14,8 +14,7 @@
             <tr *ngFor="let customer of MstInterfaceResultMap | keyvalue">
               <td>
                 <span class="cust-tag">
-                  <span
-                    *ngIf="isLoanCategory || customer.value.CustomerType!='B';else showPrimary">{{customer.value.CustomerType}}</span>
+                  <span>{{customer.value.CustomerType}}</span>
                 </span>
                 <span>{{customer.value.FullName}}</span>
               </td>
@@ -57,9 +56,9 @@
   </div>
 </div>
 
-<ng-template #showPrimary>
+<!-- <ng-template #showPrimary>
   <span>{{ 'CustomerGridDTLS.PrimaryApplicantTag' | translate }}</span>
-</ng-template>
+</ng-template> -->
 <!-- Modal Sections -->
 <!-- <td>
   <span class="d-flex">

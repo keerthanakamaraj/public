@@ -218,7 +218,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hideEmbLineFlag.setValue('Y_N');
     this.hideCustSubSegment.setValue('CUST_SUB_SEGMENT');
     this.hidCardDispatch.setValue('CARD_DISPATACH');
-    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    if(this.isLoanCategory!=undefined && 'C'!=this.services.rloCommonData.globalApplicationDtls.CustomerType){
+      this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    }
+    
     this.hideCitizenship.setValue('CITIZENSHIP');
 
     if (this.isLoanCategory != undefined) {
@@ -1195,7 +1198,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.isLoanCategory = newLoanCategory;
     }
     if (this.isLoanCategory != undefined) {
-      this.hideCustomerType.setValue((!newLoanCategory) ? 'ADD_CUSTOMER_TYPE' : 'CUSTOMER_TYPE');
+      if(!this.isLoanCategory){
+        this.hideCardCustType.setValue(('C'==this.services.rloCommonData.globalApplicationDtls.CustomerType) ? 'CORP_CUSTOMER_TYPE' : 'ADD_CUSTOMER_TYPE');
+      }else{
+        this.hideCustomerType.setValue('CUSTOMER_TYPE')
+      }
       // this.CD_PMRY_EMBSR_NAME.mandatory = (!this.isLoanCategory) ? true : false;
       // this.MaidenName.mandatory = (!this.isLoanCategory) ? true : false;
       this.CD_PMRY_EMBSR_NAME.mandatory = !this.isLoanCategory;
