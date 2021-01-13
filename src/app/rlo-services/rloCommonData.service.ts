@@ -329,7 +329,12 @@ export class RloCommonData {
       //   }
       // }
       if (address.AddressType === 'ML') {
-        tagText = 'Registered; ';
+        if(this.globalApplicationDtls.CustomerType=='C'){
+          tagText = 'Registered; ';
+        }else{
+          tagText = 'Mailing; ';
+        }
+        
 
         tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
