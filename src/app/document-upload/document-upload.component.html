@@ -260,9 +260,10 @@
 
         <div class="row" *ngIf="this.documentTypeGrid.length">
             <div class="doc-count col-md-12">
-                <div *ngIf="count == 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div>
+                <!-- <div *ngIf="count == 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div>
                 <div *ngIf="count > 1" class="text-primary">{{count}} {{getLabel('DOC_UPLOADS')}}</div>
-                <div *ngIf="count == 0" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div>
+                <div *ngIf="count == 0" class="text-primary">{{count}} {{getLabel('DOC_UPLOAD')}}</div> -->
+                <div class="text-primary">{{getLabel('DOC_UPLOAD')}}</div>
             </div>
         </div>
         <!-- END - Section Sub Header -->
