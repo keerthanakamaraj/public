@@ -64,6 +64,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     fullAddressArr.push(this.MainComponent.AD_CITY.getFieldValue().toUpperCase());
     fullAddressArr.push(this.MainComponent.AD_STATE.getFieldValue().toUpperCase());
     fullAddressArr.push(this.MainComponent.AD_PINCODE.getFieldValue());
+    fullAddressArr.push(this.MainComponent.AD_COUNTRY.getFieldValue());
 
     return this.MainComponent.services.rloutil.concatenate(fullAddressArr, ", ");
   }
@@ -92,6 +93,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     tempObj['PinCode'] = this.MainComponent.AD_PINCODE.getFieldValue();
     tempObj['Region'] = this.MainComponent.AD_REGION.getFieldValue();
     tempObj['City'] = this.MainComponent.AD_CITY.getFieldValue();
+    tempObj['Country'] = this.MainComponent.AD_COUNTRY.getFieldValue();
     tempObj['State'] = this.MainComponent.AD_STATE.getFieldValue();
     tempObj['Landmark'] = this.MainComponent.AD_LANDMARK.getFieldValue();
     tempObj['LandlineNumber'] = this.MainComponent.AD_LANDLINE_NUMBER.getFieldValue();
@@ -166,6 +168,7 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
           PinCode: this.MainComponent.AD_PINCODE.getFieldValue(),
           Region: this.MainComponent.AD_REGION.getFieldValue(),
           City: this.MainComponent.AD_CITY.getFieldValue(),
+          Country: this.MainComponent.AD_COUNTRY.getFieldValue(),
           State: this.MainComponent.AD_STATE.getFieldValue(),
           Landmark: this.MainComponent.AD_LANDMARK.getFieldValue(),
           LandlineNumber: this.MainComponent.AD_LANDLINE_NUMBER.getFieldValue(),

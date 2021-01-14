@@ -1561,7 +1561,8 @@
     "AD_EMAIL_ID2": "Alternate Email ID",
     "AddressGrid": "null",
     "AD_STATE": "State",
-    "AD_EMAIL_ID1": "Email ID"
+    "AD_EMAIL_ID1": "Email ID",
+    "AD_COUNTRY": "Country"
   },
   "LiabilityDtlsForm": {
     "LD_FINANCIER_NAME": "Financier Name",
@@ -1729,7 +1730,8 @@
     "CD_EMAIL_ID": "Email ID",
     "CD_COUNTRY_CODE": "Country Code",
     "CD_NAME_ON_CARD": "Name on Card",
-    "BAD_MASK_CARD_NUMBER": "Mask Card Number"
+    "BAD_MASK_CARD_NUMBER": "Mask Card Number",
+    "EmbLine4":"Corporate Name for Member Cards"
   },
   "AddressDetailsGrid": {
     "AD_Residence_Duration": "Duration of Occupancy",

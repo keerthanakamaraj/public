@@ -844,9 +844,14 @@ this.MainComponent.EmbLine4.setHidden(true);
       this.MainComponent.BAD_SCHEME.setReadOnly(false);
     }
   }
-  HideFieldBasedOnCorporate(){
-  if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
-    this.MainComponent.CD_REGISTERED_NAME.setHidden(false);
+  HideFieldBasedOnCorporate(customerType?:string,Borrower?:string){
+    if(customerType==undefined && Borrower==undefined){
+      customerType=this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue();
+      Borrower= this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue();
+    }
+  //if(this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue() == 'B'){
+  if(customerType=='C'&&Borrower=='B'){
+  this.MainComponent.CD_REGISTERED_NAME.setHidden(false);
     this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(false);
     this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(false);
     this.MainComponent.CD_FIRST_NAME.setHidden(true);
@@ -869,6 +874,7 @@ this.MainComponent.EmbLine4.setHidden(true);
     this.MainComponent.CD_STAFF_ID.setHidden(true);
     this.MainComponent.CD_NAME_ON_CARD.setHidden(true);
     this.MainComponent.CD_NAME_ON_CARD.mandatory=false;
+    console.log("init :: 3",this.MainComponent.EmbLineFlag.isHidden());
     this.MainComponent.EmbLineFlag.setHidden(false);
     this.MainComponent.EmbLineFlag.mandatory=true;
     this.MainComponent.EmbLine4.setHidden(true);

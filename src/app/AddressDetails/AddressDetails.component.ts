@@ -46,8 +46,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_ADDRESS_LINE4', { static: false }) AD_ADDRESS_LINE4: TextBoxComponent;
   @ViewChild('AD_PINCODE', { static: false }) AD_PINCODE: TextBoxComponent;
   @ViewChild('AD_REGION', { static: false }) AD_REGION: TextBoxComponent;
-  @ViewChild('AD_CITY', { static: false }) AD_CITY: ComboBoxComponent;
-  @ViewChild('AD_STATE', { static: false }) AD_STATE: ComboBoxComponent;
+  @ViewChild('AD_CITY', { static: false }) AD_CITY: TextBoxComponent;
+  @ViewChild('AD_STATE', { static: false }) AD_STATE: TextBoxComponent;
+  @ViewChild('AD_COUNTRY', { static: false }) AD_COUNTRY: TextBoxComponent;
   @ViewChild('AD_LANDMARK', { static: false }) AD_LANDMARK: TextBoxComponent;
   @ViewChild('AD_RES_DUR', { static: false }) AD_RES_DUR: TextBoxComponent;
   @ViewChild('AD_RES_DUR_UNIT', { static: false }) AD_RES_DUR_UNIT: ComboBoxComponent;
@@ -79,7 +80,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
   @ViewChild('hideOccp_type', { static: false }) hideOccp_type: HiddenComponent;
   @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
-  @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
+ // @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
   @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
@@ -144,6 +145,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         { paramKey: 'MasterPincodeDtls.CityCd.CityName', depFieldID: 'AD_CITY' },
         { paramKey: 'MasterPincodeDtls.StateCd.StateName', depFieldID: 'AD_STATE' },
         { paramKey: 'MasterPincodeDtls.UDF1', depFieldID: 'AD_REGION' },
+        { paramKey: 'MasterPincodeDtls.CountryCd.CountryName', depFieldID: 'AD_COUNTRY' },
       ]
     },
 
@@ -205,6 +207,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       this.revalidateBasicField('AD_PINCODE'),
       this.revalidateBasicField('AD_REGION'),
       this.revalidateBasicField('AD_CITY'),
+      this.revalidateBasicField('AD_COUNTRY'),
       this.revalidateBasicField('AD_STATE'),
       this.revalidateBasicField('AD_LANDMARK'),
       // this.revalidateBasicField('AD_MAILING_ADDRESS'),
@@ -410,13 +413,14 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.AD_REGION.onReset();
           this.AD_CITY.onReset();
           this.AD_STATE.onReset();
-
+          this.AD_COUNTRY.onReset();
           return 1;
 
         } else {
           this.AD_REGION.setValue(res['MasterPincodeDtls']['UDF1']);
           this.AD_STATE.setValue(res['MasterPincodeDtls']['StateCd']['StateName']);
           this.AD_CITY.setValue(res['MasterPincodeDtls']['CityCd']['CityName']);
+          this.AD_COUNTRY.setValue(res['MasterPincodeDtls']['CountryDetails']['CountryName']);
         }
 
       },
@@ -448,6 +452,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
     inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue().toUpperCase());
     inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue().toUpperCase());
+    inputMap.set('Body.AddressDetails.Country', this.AD_COUNTRY.getFieldInfo().toUpperCase());
     inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue().toUpperCase());
     inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
     inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
@@ -647,6 +652,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_PINCODE.setValue(res['AddressDetails']['PinCode']);
         this.AD_REGION.setValue(res['AddressDetails']['Region']);
         this.AD_CITY.setValue(res['AddressDetails']['City']);
+        this.AD_COUNTRY.setValue(res['AddressDetails']['Country']);
         this.AD_STATE.setValue(res['AddressDetails']['State']);
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
         // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);

@@ -447,6 +447,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   //method added for Canara Bank functionality
 setCustomerTypeOptions(){
+  console.log("init:: 1",this.EmbLineFlag.isHidden());
   if(this.BAD_CUSTOMER_TYPE.getFieldValue()=='C'){
     this.hideCardCustType.setValue('CORP_CUSTOMER_TYPE');
   }else if(this.BAD_CUSTOMER_TYPE.getFieldValue()=='I'){
@@ -702,6 +703,7 @@ setCustomerTypeOptions(){
     else {
       this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType'],undefined,true);
       this.setCustomerTypeOptions();
+      console.log("init:: 2", this.BAD_CUSTOMER_TYPE.getFieldValue())
       this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
       this.CD_CARD_CUST_TYPE.isOptionsLoaded=false;
       this.CD_CARD_CUST_TYPE.setValue('B',undefined,true);
@@ -763,7 +765,7 @@ setCustomerTypeOptions(){
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
-    this.Handler.HideFieldBasedOnCorporate();
+    this.Handler.HideFieldBasedOnCorporate(tempVar['CustomerType'],'B');
     // this.CBSProductCode(data);
     this.searchbutton = 'N';
     if (tempVar != '' || tempVar != undefined)
