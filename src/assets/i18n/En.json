@@ -2585,8 +2585,8 @@
     "Constitution": "Constitution",
     "BD_SAVE_BTN": "SAVE",
     "BD_CLEAR_BTN": "CLEAR",
-    "FYTurnoverEq": "Turnover - Local Currency Equivalent",
-    "FYNetProfitEq": "Net Profit - Local Currency Equivalent",
+    "FYTurnoverEq": "Turnover(Local Currency Equivalent)",
+    "FYNetProfitEq": "Net Profit(Local Currency Equivalent)",
     "CIN": "CIN"
   },
   "AddOn": {
