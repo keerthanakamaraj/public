@@ -1515,9 +1515,10 @@
     "BAD_CUSTOMER_TYPE": "Customer Type",
     "BAD_REQ_CARD_LIMIT": "Requested Card Limit",
     "BAD_CBS_PROD_CD": "CBS Product Code",
-    "BAD_PRODUCT_APP": "Product",
-    "BAD_SUB_PROD_APP": "Sub Product",
-    "BAD_PRIME_USAGE": "Prime Usage"
+    "BAD_PRODUCT_APP": "Product Franchise",
+    "BAD_SUB_PROD_APP": "Product Class ",
+    "BAD_PRIME_USAGE": "Prime Usage",
+    "BAD_PROD_CLASS" : "Product"
   },
   "AddressDetails": {
     "SAME_ADDRESS": "Is permanent address same as a current address?",
@@ -1862,8 +1863,8 @@
     "RequestedAmountLimit": "Requested Amount Limit",
     "CD_CARD_CUST_TYPE": "Applicant Type",
     "CD_REGISTERED_NAME": "Registered Name",
-    "CD_INCORPORATE_DATE": "Date of Incorporate",
-    "CD_INCORPORATE_TYPE": "Type of Incorporate",
+    "CD_INCORPORATE_DATE": "Date of Incorporation",
+    "CD_INCORPORATE_TYPE": "Type of Incorporation",
     "CorporateLine4":"Corporate Name for Member Cards"
   },
   "QDE": {
@@ -2278,7 +2279,7 @@
     "OPERATION_CLOSE": "CANCEL"
   },
   "CustGrid": {
-    "Cust_Type": "Customer Type",
+    "Cust_Type": "Applicant Type",
     "toolbar_CustGrid": "null",
     "Cust_ID": "Customer ID",
     "GridTitle": "CustGrid",

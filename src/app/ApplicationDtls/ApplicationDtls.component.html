@@ -97,6 +97,15 @@
 									<app-text-box #BAD_SUB_PROD_APP fieldID="BAD_SUB_PROD_APP" [formCode]="formCode"
 										(blur)="genericOnBlur('BAD_SUB_PROD_APP', $event)"></app-text-box>
 								</div>
+								<div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="BAD_PROD_CLASS.isHidden()">
+									<div class="clr-brown fieldLegend">
+										<label class="clr-brown" [ngClass]="{'mandatory': BAD_PROD_CLASS.mandatory}">
+											{{ 'ApplicationDtls.BAD_PROD_CLASS' | translate}}
+										</label>
+									</div>
+									<app-text-box #BAD_PROD_CLASS fieldID="BAD_PROD_CLASS" [formCode]="formCode"
+										(blur)="genericOnBlur('BAD_PROD_CLASS', $event)"></app-text-box>
+								</div>
 							</div>
 
 							<div class="form-group pb10 ">

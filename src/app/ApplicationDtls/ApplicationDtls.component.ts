@@ -49,8 +49,9 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
   @ViewChild('BAD_PRODUCT_APP', { static: false }) BAD_PRODUCT_APP: TextBoxComponent;
   @ViewChild('BAD_SUB_PROD_APP', { static: false }) BAD_SUB_PROD_APP: TextBoxComponent;
   @ViewChild('BAD_PRIME_USAGE', { static: false }) BAD_PRIME_USAGE: TextBoxComponent;
+  @ViewChild('BAD_PROD_CLASS', { static: false }) BAD_PROD_CLASS: TextBoxComponent;
   @ViewChild('hidCustType', { static: false }) hidCustType: HiddenComponent;
-
+  
   @Input() ApplicationId: string = undefined;
   CustomerConfirmationStatus: string = undefined;
   CustomerConfirmationRemarks: string = undefined;
@@ -120,9 +121,10 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
             let headerData = this.services.rloCommonData.globalApplicationDtls;
             this.BAD_CARD_TYPE.setValue(headerData.CardTypename);
             this.BAD_PRODUCT_APP.setValue(headerData.ProductName);
-            this.BAD_CBS_PROD_CD.setValue(headerData.SubProductName);
+            this.BAD_CBS_PROD_CD.setValue(headerData.CBSProductCode);
+            this.BAD_PROD_CLASS.setValue(headerData.SchemeName);
             this.BAD_CUSTOMER_TYPE.setValue(headerData.CustomerType, undefined, true);
-            this.BAD_PRIME_USAGE.setValue(headerData.PrimaryUsage);
+            this.BAD_PRIME_USAGE.setValue(headerData.ApplicationPurposeName);
             this.BAD_REQ_CARD_LIMIT.setComponentSpecificValue(headerData.ReqCardLimit);
             this.BAD_SUB_PROD_APP.setValue(headerData.SubProductName);
             // if (this.AD_PHYSICAL_FORM_NO.getFieldValue() == undefined && this.AD_PHYSICAL_FORM_NO.getFieldValue() == null) {

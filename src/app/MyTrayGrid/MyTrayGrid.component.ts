@@ -32,6 +32,7 @@ export class MyTrayGridComponent implements AfterViewInit {
   componentCode: string = 'MyTrayGrid';
   openedFilterForm: string = '';
   hidden: boolean = false;
+  CamType : any;
   gridConsts: any = {
     paginationPageSize: 10,
     gridCode: "MyTrayGrid",
@@ -61,6 +62,7 @@ export class MyTrayGridComponent implements AfterViewInit {
       resizable: true,
       cellRenderer: 'buttonRenderer',
       cellStyle: { 'text-align': 'center' },
+      // valueFormatter: this.appType.bind(this),
       cellRendererParams: {
         // gridCode: 'AssetDetailsGrid',
         columnId: 'AT_VIEW',
@@ -432,7 +434,8 @@ export class MyTrayGridComponent implements AfterViewInit {
           var res = httpResponse.body;
           var loopDataVar7 = [];
           var loopVar7 = res['Tasks'];
-          console.log("header res", this.services.rloCommonData.globalApplicationDtls.CamType);
+          this.CamType = loopVar7
+          console.log("header res", this.CamType);
           if (loopVar7) {
             for (var i = 0; i < loopVar7.length; i++) {
               var tempObj = {};
@@ -459,7 +462,16 @@ export class MyTrayGridComponent implements AfterViewInit {
               tempObj['hiddenTaskId'] = loopVar7[i].TASK_ID;
               tempObj['hiddenInstanceId'] = loopVar7[i].INSTANCE_ID;
               tempObj['hiddenStageId'] = loopVar7[i].STAGE_ID;
-              tempObj['MT_APPLICATION_TYPE'] = loopVar7[i].CAM_TYPE;
+              // tempObj['MT_APPLICATION_TYPE'] = loopVar7[i].CAM_TYPE;
+              if(loopVar7[i].CAM_TYPE == "LE"){
+              tempObj['MT_APPLICATION_TYPE'] = 'LE';
+              }
+              else if(loopVar7[i].CAM_TYPE == "NAPP"){
+                tempObj['MT_APPLICATION_TYPE'] = 'NEW';
+              }
+              else if(loopVar7[i].CAM_TYPE == "MEMC"){
+                tempObj['MT_APPLICATION_TYPE'] = 'M';
+              }
               loopDataVar7.push(tempObj);
             }
           }
@@ -673,6 +685,24 @@ export class MyTrayGridComponent implements AfterViewInit {
     else {
       return '-';
     }
+  }
+  appType(type : string) {
+      switch (this.CamType) {
+          case "NAPP":
+              return "New"
+              break;
+
+          case "LE":
+              return "LE"
+              break;
+
+          case "MEMC":
+              return "Member"
+              break;
+
+          default:
+              break;
+  }
   }
 
 }

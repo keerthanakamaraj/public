@@ -518,7 +518,9 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       CamType : header.CamType,
       SubCamType : header.SubCamType,
       ReqCardLimit :header.ReqCardLimit,
-      PrimaryUsage: header.ApplicationPurpose
+      PrimaryUsage: header.ApplicationPurpose,
+      CBSProductCode : header.CBSProductCode,
+      ApplicationPurposeName : header.ApplicationPurposeName
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);

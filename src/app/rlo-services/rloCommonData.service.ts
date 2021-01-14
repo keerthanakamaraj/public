@@ -68,6 +68,8 @@ export interface IGlobalApllicationDtls {
   CamType? : any;
   SubCamType?:any;
   PrimaryBorrowerSeq?:any;
+  CBSProductCode?:any;
+  ApplicationPurposeName? :any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
