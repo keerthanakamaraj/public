@@ -46,7 +46,7 @@
           </div>
           <div class="col-12  col-sm-4 col-md-4 res-pr-hide" [hidden]="PaidUpCapital.isHidden()">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown">
+              <label class="clr-brown" [ngClass]="{'mandatory': PaidUpCapital.mandatory}">
                 {{ 'BusinessDtlsForm.PaidUpCapital' | translate}}
               </label>
             </div>
