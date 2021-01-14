@@ -30,6 +30,7 @@
     "rlo.error.current.address": "Current Address has already been added.",
     "rlo.error.permanent.address": "Permanent Address has already been added.",
     "rlo.error.canara-mailing-address.exist": "Mailing Address has already been added.",
+    "rlo.error.canara-registered-address.exist":"Registered Address has already been added.",
     "rlo.error.email.address": "You have to add an alternate email ID.",
     "rlo.error.load.form": "Failed to load the form. ",
     "rlo.error.load.grid": "Failed to load the grid",

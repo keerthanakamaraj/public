@@ -489,7 +489,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'ML' && addGridData[i].AddressTypeId === 'ML') {
-              this.services.alert.showAlert(2, 'rlo.error.canara-mailing-address.exist', -1);
+              if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+                this.services.alert.showAlert(2, 'rlo.error.canara-registered-address.exist', -1);
+              }else{
+                this.services.alert.showAlert(2, 'rlo.error.canara-mailing-address.exist', -1);
+              }
+             
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'PR' && addGridData[i].AddressTypeId === 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
