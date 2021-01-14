@@ -181,6 +181,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
       this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
       this.revalidateBasicField('MaidenName', false, showErrors),
+      this.revalidateBasicField('RequestedAmountLimit', false, showErrors)
       //this.revalidateBasicField('CD_COUNTRY_CODE'),
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
@@ -1527,6 +1528,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   customGenericOnBlur(event: any) {
-    this.genericOnBlur('RequestedAmountLimit', event.textFieldValue);
+    // this.genericOnBlur('RequestedAmountLimit', event.textFieldValue);
+    this.genericOnBlur(event.field, event.textFieldValue);
   }
 }
