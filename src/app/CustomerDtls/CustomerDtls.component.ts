@@ -119,6 +119,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   @ViewChild('CD_REGISTERED_NAME', { static: false }) CD_REGISTERED_NAME: TextBoxComponent;
   @ViewChild('CD_INCORPORATE_DATE', { static: false }) CD_INCORPORATE_DATE: DateComponent;
   @ViewChild('CD_INCORPORATE_TYPE', { static: false }) CD_INCORPORATE_TYPE: TextBoxComponent;
+  @ViewChild('hideTypeofIncorp', { static: false }) hideTypeofIncorp: HiddenComponent;
 
   @Output() updateCustGrid: EventEmitter<any> = new EventEmitter<any>();
   @Output() onFullNameblur: EventEmitter<any> = new EventEmitter<any>();
@@ -219,6 +220,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.hideEmbLineFlag.setValue('Y_N');
     this.hideCustSubSegment.setValue('CUST_SUB_SEGMENT');
     this.hidCardDispatch.setValue('CARD_DISPATACH');
+    this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
     if (this.isLoanCategory != undefined && 'C' != this.services.rloCommonData.globalApplicationDtls.CustomerType) {
       this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     }
@@ -1414,6 +1416,16 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         { paramKey: "VALUE1", depFieldID: "CD_CARD_CUST_TYPE", paramType: "PathParam" },
         { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
         { paramKey: "KEY1", depFieldID: "hideCardCustType", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    },
+    CD_INCORPORATE_TYPE:{
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "CD_INCORPORATE_TYPE", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideTypeofIncorp", paramType: "QueryParam" },
       ],
       outDep: [
       ]

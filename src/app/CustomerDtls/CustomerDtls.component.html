@@ -132,8 +132,11 @@
                 {{ 'CustomerDtls.CD_INCORPORATE_TYPE' | translate}}
               </label>
             </div>
-            <app-text-box #CD_INCORPORATE_TYPE fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
-              (blur)="genericOnBlur('CD_INCORPORATE_TYPE', $event)"></app-text-box>
+            <!-- <app-text-box #CD_INCORPORATE_TYPE fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
+              (blur)="genericOnBlur('CD_INCORPORATE_TYPE', $event)"></app-text-box> -->
+              <app-combo-box #CD_INCORPORATE_TYPE category="2" fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
+              placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+              domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_INCORPORATE_TYPE', $event)"></app-combo-box>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_INCORPORATE_DATE.isHidden()">
             <div class="clr-brown fieldLegend">
@@ -549,6 +552,7 @@
         <app-hidden #hideEmbLineFlag fieldID="hideEmbLineFlag"></app-hidden>
         <app-hidden #hidCardDispatch fieldID="hidCardDispatch"></app-hidden>
         <app-hidden #hideCardCustType fieldID="hideCardCustType"></app-hidden>
+        <app-hidden #hideTypeofIncorp fieldID="hideTypeofIncorp"></app-hidden>
       </div>
     </div>
   </div>

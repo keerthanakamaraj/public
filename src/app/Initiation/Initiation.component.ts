@@ -95,7 +95,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   // @ViewChild('CD_CBS_CUST_ID', { static: false }) CD_CBS_CUST_ID: TextBoxComponent;
   // @ViewChild('CD_TITLE', { static: false                 }) CD_TITLE: ComboBoxComponent;
   @ViewChild('CD_REGISTERED_NAME', { static: false }) CD_REGISTERED_NAME: TextBoxComponent;
-  @ViewChild('CD_TYPE_OF_INCORPORATION', { static: false }) CD_TYPE_OF_INCORPORATION: TextBoxComponent;
+  @ViewChild('CD_TYPE_OF_INCORPORATION', { static: false }) CD_TYPE_OF_INCORPORATION: ComboBoxComponent;
   @ViewChild('CD_DATE_OF_INCORPORATION', { static: false }) CD_DATE_OF_INCORPORATION: DateComponent;
   // @ViewChild('CD_PAN_NUMBER', { static: false }) CD_PAN_NUMBER: TextBoxComponent;
   @ViewChild('CD_COUNTRY_CODE', { static: false }) CD_COUNTRY_CODE: TextBoxComponent;
@@ -416,7 +416,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.setCustomerTypeOptions();
   //  this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCamType.setValue('CAM_TYPE');
-    this.hideTypeofIncorp.setValue('INCORPORATION_TYPE');
+    this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
     this.hideEmbLineFlag.setValue('Y_N');
 
     
@@ -1693,6 +1693,16 @@ setCustomerTypeOptions(){
       outDep: [
       ]
     },
+    CD_TYPE_OF_INCORPORATION:{
+      inDep: [
+
+        { paramKey: "VALUE1", depFieldID: "CD_TYPE_OF_INCORPORATION", paramType: "PathParam" },
+        { paramKey: "APPID", depFieldID: "hidAppId", paramType: "QueryParam" },
+        { paramKey: "KEY1", depFieldID: "hideTypeofIncorp", paramType: "QueryParam" },
+      ],
+      outDep: [
+      ]
+    }
     // CD_COUNTRY_CODE: {
     //   inDep: [
 

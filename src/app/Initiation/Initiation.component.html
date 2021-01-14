@@ -541,9 +541,12 @@
                             {{'Initiation.CD_TYPE_OF_INCORPORATION' | translate}}
                           </label>
                         </div>
-                        <app-text-box #CD_TYPE_OF_INCORPORATION fieldID="CD_TYPE_OF_INCORPORATION" [formCode]="formCode"
+                        <!-- <app-text-box #CD_TYPE_OF_INCORPORATION fieldID="CD_TYPE_OF_INCORPORATION" [formCode]="formCode"
                           (blur)="genericOnBlur('CD_TYPE_OF_INCORPORATION', $event)">
-                        </app-text-box>
+                        </app-text-box> -->
+                        <app-combo-box #CD_TYPE_OF_INCORPORATION category="2" fieldID="CD_TYPE_OF_INCORPORATION" [formCode]="formCode"
+                        placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
+                        domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_TYPE_OF_INCORPORATION', $event)"></app-combo-box>
                       </div>
                       <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_DATE_OF_INCORPORATION.isHidden()">
                           <div class="clr-brown fieldLegend">
