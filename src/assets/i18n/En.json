@@ -1522,7 +1522,7 @@
   },
   "AddressDetails": {
     "SAME_ADDRESS": "Is permanent address same as a current address?",
-    "CORP_BORR_SAME_ADDRESS": "Is registration address same as mailing address?",
+    "CORP_BORR_SAME_ADDRESS": "Is registration address same as communication address?",
     "CANARA_SAME_ADDRESS": "Is permanent address same as a mailing address?",
     "CORR_ADD_CHECKBOX": "Is this the correspondence address?",
     "AD_OCCUPANCY_TYPE": "Occupancy Type",
