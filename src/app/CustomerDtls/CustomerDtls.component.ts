@@ -142,6 +142,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   custMinAge = 18;
   custMaxAge = 100;
   isCorporateBorrower = false;
+  cardEmbossingData: { EmbLine4?: any, EmbLineFlag?: any } = { EmbLine4: "", EmbLineFlag: "" };
 
 
   async revalidate(showErrors: boolean = true): Promise<number> {
@@ -182,7 +183,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.revalidateBasicField('CD_PREF_COM_CH', false, showErrors),
       this.revalidateBasicField('CD_PREF_LANG', false, showErrors),
       this.revalidateBasicField('MaidenName', false, showErrors),
-      this.revalidateBasicField('RequestedAmountLimit', false, showErrors)
+      this.revalidateBasicField('RequestedAmountLimit', false, showErrors),
+      this.revalidateBasicField('EmbLine4', false, showErrors),
       //this.revalidateBasicField('CD_COUNTRY_CODE'),
       // this.FieldId_29.revalidate(),
       // this.FieldId_30.revalidate(),
@@ -579,13 +581,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.CD_MOBILE_NO.countryCode);
         inputMap.set('Body.BorrowerDetails.MobileNo', this.CD_MOBILE_NO.getFieldValue());
         inputMap.set('Body.BorrowerDetails.VisaExpiryDt', this.CD_VISA_VALID.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.EmbLine4', this.EmbLine4.getFieldValue());
-        inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
         inputMap.set('Body.BorrowerDetails.CustSubSegment', this.CustSubSegment.getFieldValue());
         inputMap.set('Body.BorrowerDetails.MaidenName', this.MaidenName.getFieldValue());
         inputMap.set('Body.BorrowerDetails.RequestedCreditLimit', this.RequestedAmountLimit.getFieldValue());
         inputMap.set('Body.BorrowerDetails.PickUpInstruction', this.CardDispatchMode.getFieldValue());
 
+        inputMap.set('Body.BorrowerDetails.EmbLine4', this.EmbLine4.getFieldValue());
+        inputMap.set('Body.BorrowerDetails.EmbLineFlag', this.EmbLineFlag.getFieldValue());
 
         console.log(inputMap, this.CD_MOBILE_NO.countryCode);
 
@@ -950,18 +952,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   LoadCustomerDetailsonFormLoad(customerDtlsObj) {
     console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
-     if ('QDE' == this.parentFormCode) {
-       this.CD_CUST_SEGMENT.setHidden(true);
-       this.CD_CUST_SEGMENT.mandatory=false;
-       this.CustSubSegment.setHidden(true);
-     }else{
-       if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
+    if ('QDE' == this.parentFormCode) {
+      this.CD_CUST_SEGMENT.setHidden(true);
+      this.CD_CUST_SEGMENT.mandatory = false;
+      this.CustSubSegment.setHidden(true);
+    } else {
+      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
         this.CD_CUST_SEGMENT.setReadOnly(false);
         this.CustSubSegment.setReadOnly(false);
         this.CustSubSegment.mandatory = true;
         this.CD_CUST_SEGMENT.mandatory = true;
-       }
-     }
+      }
+    }
 
     console.log("all fields: ", this);
 
@@ -1009,11 +1011,15 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
     if (customer.EmbLine4 != undefined) {
       this.EmbLine4.setValue(customer.EmbLine4);
+      this.cardEmbossingData.EmbLine4 = customer.EmbLine4;
     }
     else {
       this.EmbLine4.setValue(customer.FullName);
+      this.cardEmbossingData.EmbLine4 = customer.FullName;
     }
     this.EmbLineFlag.setValue(customer.EmbLineFlag.id, undefined, true);
+    this.cardEmbossingData.EmbLineFlag = customer.EmbLineFlag.id;
+
     this.activeBorrowerSeq = customer.BorrowerSeq;
     this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
 
@@ -1134,7 +1140,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   ManageCardTypeBasedFields(applicantType) {
     let appCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
     let CorporateApplicantFlag: boolean = undefined;
-    this.EmbLineFlag.setValue('N', undefined, true);
+
+    console.log("*****ManageCardTypeBasedFields()");
+
+    // this.EmbLineFlag.setValue('N', undefined, true);
+
     if (appCustomerType == 'C' && applicantType == 'B') {
       //  this.EmbLineFlag.setReadOnly(true);
       CorporateApplicantFlag = true;
@@ -1175,6 +1185,20 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     //common fields
     this.EmbLineFlag.setHidden(!CorporateApplicantFlag);
+
+    setTimeout(() => {
+      console.error("*****ManageCardTypeBasedFields()", this.cardEmbossingData)
+      console.log(this.EmbLineFlag.getFieldValue());
+      if (this.cardEmbossingData.EmbLineFlag == 'N') {
+        this.EmbLine4.setHidden(true);
+      } else {
+        this.EmbLine4.setHidden(false);
+        this.EmbLine4.mandatory = true;
+        this.EmbLine4.setValue(this.cardEmbossingData.EmbLine4);
+      }
+    }, 500);
+
+    console.error("EmbLine4.isHidden()", this.EmbLine4.isHidden(), "CorporateApplicantFlag=", CorporateApplicantFlag, "isLoanCategory=", this.isLoanCategory);
   }
 
   dispalyAddonField(custType) {

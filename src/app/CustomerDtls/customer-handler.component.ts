@@ -39,7 +39,7 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     fullNameArr.push(this.MainComponent.CD_THIRD_NAME.getFieldValue());
     fullNameArr.push(this.MainComponent.CD_LAST_NAME.getFieldValue());
 
-    let fullName = this.MainComponent.services.rloutil.concatenate(fullNameArr, " ") ;
+    let fullName = this.MainComponent.services.rloutil.concatenate(fullNameArr, " ");
     this.MainComponent.CD_FULL_NAME.setValue(fullName);
   }
 
@@ -146,14 +146,15 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
     });
   }
 
-  embLineFlagselected(){
-    if(this.MainComponent.EmbLineFlag.getFieldValue() == 'Y'){
+  embLineFlagselected() {
+    if (this.MainComponent.EmbLineFlag.getFieldValue() == 'Y') {
       this.MainComponent.EmbLine4.setHidden(false);
-      this.MainComponent.EmbLine4.mandatory =  true;
+      this.MainComponent.EmbLine4.mandatory = true;
     }
-    else{
+    else {
       this.MainComponent.EmbLine4.setHidden(true);
-      this.MainComponent.EmbLine4.mandatory =  false;
+      this.MainComponent.EmbLine4.mandatory = false;
+      this.MainComponent.EmbLine4.setValue('');
     }
   }
 
@@ -168,10 +169,10 @@ export class CustomerHandlerComponent extends RLOUIHandlerComponent implements O
   //   }
   // }
 
-  
-  
+
+
   // this.MainComponent.QDE_ACCORD.setTags("CUST_APPLICATION", tags);
-  }
+}
 
 
 

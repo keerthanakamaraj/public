@@ -174,3 +174,164 @@
        "ErrCode":""
     }
  }
+
+
+ "CollateralDetails": {
+   "CollateralCode": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "collateralCode",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "Status": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "collateralStatus",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "Scope": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "scope",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "Currency": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "collateralCurrency",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "OriginalValue": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "originalValue",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "FairMarketValue": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "fairMarketValue",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "MaximumLoanablevalue": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "maximumLoanableValue",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "CollateralType": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "collateralType",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "CollateralSubType": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "collateralSubtype",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "AssociatedCustomer": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "customerNumber",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "Restricted": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "restricted",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "N",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "InputDate": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "inputDate",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "ExpiryDate": {
+      "TYPE": "FIELD",
+      "UI_ELEMENT_NAME": "expiryDate",
+      "VALIDATION": "",
+      "MIN_LENGTH": "",
+      "MAX_LENGTH": "",
+      "REGEX": "",
+      "CATEGORY": "K1",
+      "MANDATORY": "Y",
+      "READONLY": "N",
+      "HIDDEN": []
+   },
+   "TYPE": "BO"
+},
