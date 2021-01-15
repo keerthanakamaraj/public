@@ -473,7 +473,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     const inputMap = new Map();
     const addGridData: any = this.AddressGrid.getAddressGridData();
     const noOfError: number = await this.revalidate();
-    this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
+    if(this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false){
+      this.AD_EMAIL1_CHECKBOX.setValue(true);
+      this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue()+ ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue(); 
+    }
+    else{
+      this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
+    }
 
     if (noOfError === 0) {
 
@@ -534,13 +540,13 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       // } else if ((this.AD_ALTERNATE_MOB_NO.getFieldValue() === undefined || this.AD_ALTERNATE_MOB_NO.getFieldValue() === '') && this.AD_COUNTRY_CODE.getFieldValue() !== undefined) {
       //   this.services.alert.showAlert(2, 'rlo.error.mobile.address', -1);
       //   return;
-      if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
-        this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
-        return;
-      } else if (this.AD_EMAIL_ID2.getFieldValue() === undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() === true) {
-        this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
-        return;
-      }
+      // if (this.AD_EMAIL1_CHECKBOX.getFieldValue() === false && this.AD_EMAIL2_CHECKBOX.getFieldValue() === false) {
+      //   this.services.alert.showAlert(2, 'rlo.error.emailcheckbox.address', -1);
+      //   return;
+      // } else if (this.AD_EMAIL_ID2.getFieldValue() === undefined && this.AD_EMAIL2_CHECKBOX.getFieldValue() === true) {
+      //   this.services.alert.showAlert(2, 'rlo.error.email.address', -1);
+      //   return;
+      // }
       inputMap.set('Body.AddressDetails', this.Handler.getAddressPostData());
       // const requestdata = this.requestParameterForAddressDetails();
       this.AD_SAVE_ADDRESS.setDisabled(true);
