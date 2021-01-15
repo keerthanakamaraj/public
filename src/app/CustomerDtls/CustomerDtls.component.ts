@@ -242,6 +242,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //this.CD_STAFF.setDefault('N');
     //this.setYesNoTypeDependency(this.CD_STAFF, this.CD_STAFF_ID);
 
+    // if (this.EmbLineFlag.getFieldValue() == undefined) {
+    //   this.EmbLineFlag.setValue('N');
+    // }
+
     this.Handler.onFormLoad({
     });
     this.setDependencies();
@@ -1009,6 +1013,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.HidCustomerId.setValue(customer.BorrowerSeq);
     this.CD_PREF_LANG.setValue(customer.PreferredLanguage);
     this.CD_VISA_VALID.setValue(customer.VisaExpiryDt);
+
     if (customer.EmbLine4 != undefined) {
       this.EmbLine4.setValue(customer.EmbLine4);
       this.cardEmbossingData.EmbLine4 = customer.EmbLine4;
@@ -1017,8 +1022,14 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       this.EmbLine4.setValue(customer.FullName);
       this.cardEmbossingData.EmbLine4 = customer.FullName;
     }
-    this.EmbLineFlag.setValue(customer.EmbLineFlag.id, undefined, true);
-    this.cardEmbossingData.EmbLineFlag = customer.EmbLineFlag.id;
+
+    if (!customer.EmbLineFlag.hasOwnProperty("id")) {
+      this.EmbLineFlag.setValue("N", undefined, true);
+      this.cardEmbossingData.EmbLineFlag = "N";
+    } else {
+      this.EmbLineFlag.setValue(customer.EmbLineFlag.id, undefined, true);
+      this.cardEmbossingData.EmbLineFlag = customer.EmbLineFlag.id;
+    }
 
     this.activeBorrowerSeq = customer.BorrowerSeq;
     this.CD_CARD_CUST_TYPE.setValue(customer.CustomerType, undefined, true);
@@ -1192,9 +1203,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       if (this.cardEmbossingData.EmbLineFlag == 'N') {
         this.EmbLine4.setHidden(true);
       } else {
-        this.EmbLine4.setHidden(false);
-        this.EmbLine4.mandatory = true;
-        this.EmbLine4.setValue(this.cardEmbossingData.EmbLine4);
+        if (CorporateApplicantFlag) {
+          this.EmbLine4.setHidden(false);
+          this.EmbLine4.mandatory = true;
+          this.EmbLine4.setValue(this.cardEmbossingData.EmbLine4);
+        }
       }
     }, 500);
 
@@ -1444,7 +1457,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       outDep: [
       ]
     },
-    CD_INCORPORATE_TYPE:{
+    CD_INCORPORATE_TYPE: {
       inDep: [
 
         { paramKey: "VALUE1", depFieldID: "CD_INCORPORATE_TYPE", paramType: "PathParam" },

@@ -407,8 +407,21 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['DateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
                 tempObj['TypeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
                 tempObj['custName'] = loopVar7[i].FullName;
+                tempObj['Product'] = loopVar7[i].Product;
+                tempObj['ProductCategory'] = loopVar7[i].ProductCategory;
+                tempObj['SubProduct'] = loopVar7[i].SubProduct;
+                tempObj['Scheme'] = loopVar7[i].Scheme;
+                tempObj['TypeOfLoan'] = loopVar7[i].TypeOfLoan;
+                tempObj['TypeOfLoanName'] = loopVar7[i].TypeOfLoanName;
+                tempObj['ApplicationPurpose'] = loopVar7[i].ApplicationPurpose;
+                tempObj['SourcingChannel'] = loopVar7[i].SourcingChannel;
+                tempObj['DSACode'] = loopVar7[i].DSACode;
+                tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
+                tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
+                tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
                 // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
+               
 
                 loopDataVar7.push(tempObj);
               }
@@ -471,7 +484,18 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 // tempObj['CreditCard'] = loopVar7[i].CreditCard;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
                 tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
-
+                tempObj['Product'] = loopVar7[i].Product;
+                tempObj['ProductCategory'] = loopVar7[i].ProductCategory;
+                tempObj['SubProduct'] = loopVar7[i].SubProduct;
+                tempObj['Scheme'] = loopVar7[i].Scheme;
+                tempObj['TypeOfLoan'] = loopVar7[i].TypeOfLoan;
+                tempObj['TypeOfLoanName'] = loopVar7[i].TypeOfLoanName;
+                tempObj['ApplicationPurpose'] = loopVar7[i].ApplicationPurpose;
+                tempObj['SourcingChannel'] = loopVar7[i].SourcingChannel;
+                tempObj['DSACode'] = loopVar7[i].DSACode;
+                tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
+                tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
+                tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
 
                 loopDataVar7.push(tempObj);
               }
@@ -531,6 +555,18 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['typeOfIncorporation'] = selectedData0['typeOfIncorporation'];
 
       tempVar['staffId'] = selectedData0['staffId'];//StaffID: "9870"
+      tempVar['Product'] = selectedData0['Product'];
+      tempVar['ProductCategory'] = selectedData0['ProductCategory'];
+      tempVar['SubProduct'] = selectedData0['SubProduct'];
+      tempVar['Scheme'] = selectedData0['Scheme'];
+      tempVar['TypeOfLoan'] = selectedData0['TypeOfLoan'];
+      tempVar['TypeOfLoanName'] = selectedData0['TypeOfLoanName'];
+      tempVar['ApplicationPurpose'] = selectedData0['ApplicationPurpose'];
+      tempVar['SourcingChannel'] = selectedData0['SourcingChannel'];
+      tempVar['DSACode'] = selectedData0['DSACode'];
+      tempVar['CreatedOn'] = selectedData0['CreatedOn'];
+      tempVar['ApplicationBranch'] = selectedData0['ApplicationBranch'];
+      tempVar['ExistingCardType'] = selectedData0['ExistingCardType'];
       console.log("DEEP| Selcted customer,", tempVar);
 
       let currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
@@ -687,6 +723,18 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           tempObj['registeredName'] = loopVar7[i].RegisteredName;
           tempObj['dateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
           tempObj['typeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
+          tempObj['Product'] = loopVar7[i].Product;
+          tempObj['ProductCategory'] = loopVar7[i].ProductCategory;
+          tempObj['SubProduct'] = loopVar7[i].SubProduct;
+          tempObj['Scheme'] = loopVar7[i].Scheme;
+          tempObj['TypeOfLoan'] = loopVar7[i].TypeOfLoan;
+          tempObj['TypeOfLoanName'] = loopVar7[i].TypeOfLoanName;
+          tempObj['ApplicationPurpose'] = loopVar7[i].ApplicationPurpose;
+          tempObj['SourcingChannel'] = loopVar7[i].SourcingChannel;
+          tempObj['DSACode'] = loopVar7[i].DSACode;
+          tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
+          tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
+          tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
 
           tempObj['staffId'] = loopVar7[i].StaffID;//StaffID: "9870"
           tempObj['custName'] = loopVar7[i].FullName;
