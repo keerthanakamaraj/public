@@ -746,7 +746,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
      // this.OD_NET_INCOME.setHidden(true);
      this.OD_NET_INCOME.mandatory=false;
     //  this.OD_INCOME_FREQ.setHidden(true);
-    //  this.OD_INCOME_FREQ.mandatory=false;
+      this.OD_INCOME_FREQ.mandatory=false;
     //  this.OD_EMP_STATUS.setHidden(true);
     //  this.OD_EMP_STATUS.mandatory=false;
     //  this.OD_INCOME_TYPE.setHidden(true);
@@ -756,7 +756,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       // this.OD_RES_PRT_NO.setHidden(true);
       // this.OD_RES_PRT_NO.mandatory=false;
      // this.OD_LOC_CURR_EQ.setHidden(true);
-     // this.OD_LOC_CURR_EQ.mandatory=false;
+      this.OD_LOC_CURR_EQ.mandatory=false;
       this.OD_ANNUAL_NET_INCOME.setHidden(true);
 
       this.OD_EMPLOYEE_ID.mandatory=true;
