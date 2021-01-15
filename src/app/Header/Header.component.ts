@@ -519,7 +519,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       SubCamType : header.SubCamType,
       ReqCardLimit :header.ReqCardLimit,
       PrimaryUsage: header.ApplicationPurpose,
-      CBSProductCode : header.CBSProductCode,
+      CBSProductCode : header.CBS_Product_Code,
       ApplicationPurposeName : header.ApplicationPurposeName
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
