@@ -92,7 +92,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
-  
+  IsCorporateApplicant:boolean=undefined;
 
   // tslint:disable-next-line:member-ordering
   fieldDependencies = {
@@ -244,10 +244,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
     this.AddressGrid.activeApplicantType=this.activeApplicantType;
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
-      this.hidAddType.setValue(this.activeApplicantType=='B'?'CORP_PRIM_ADDRESS_TYPE':'CORP_ADON_ADDRESS_TYPE');  //changed for canara
+    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+      this.hidAddType.setValue('CORP_PRIM_ADDRESS_TYPE');  //changed for canara
+      this.IsCorporateApplicant=true;
       }else{
         this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
+        this.IsCorporateApplicant=false;
       }
    
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');

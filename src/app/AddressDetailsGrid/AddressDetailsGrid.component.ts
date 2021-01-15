@@ -283,13 +283,11 @@ export class AddressDetailsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
             tempObj['AddressTypeId'] = address[i].AddressType;
-            if( this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' ){
-              if(this.activeApplicantType=='B' && address[i].AddressType=='ML' ){
+            if( this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+              if(address[i].AddressType=='ML' ){
                 tempObj['AD_Address_Type'] =  'Registered Address';
-              }else if(this.activeApplicantType=='B' && address[i].AddressType=='PR'){
+              }else if(address[i].AddressType=='PR'){
                   tempObj['AD_Address_Type'] = 'Communication Address';
-              }else if(this.activeApplicantType=='A' && address[i].AddressType=='PR'){
-                tempObj['AD_Address_Type'] = 'Office Address';
               }
             }else{
               if(address[i].AddressType=='ML' ){

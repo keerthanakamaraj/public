@@ -162,10 +162,10 @@
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide">
             <app-label #YRS_LABEL parentCompCode="AddressDetails" fieldID="YRS_LABEL" [formCode]="formCode"
               fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"
-              customClass="sub-section-header"></app-label>
+              customClass="sub-section-header" [hidden]="IsCorporateApplicant"></app-label>
           </div>
           <div style="min-height: 0px;height: 15px;" class="col-12 col-sm-12 col-md-12"></div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR.isHidden() || IsCorporateApplicant">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AD_RES_DUR.mandatory}">
                 {{ 'AddressDetails.AD_RES_DUR' | translate}}
@@ -174,7 +174,7 @@
             <app-text-box #AD_RES_DUR fieldID="AD_RES_DUR" [formCode]="formCode"
               (blur)="genericOnBlur('AD_RES_DUR', $event)"></app-text-box>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR_UNIT.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AD_RES_DUR_UNIT.isHidden() || IsCorporateApplicant">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': AD_RES_DUR.mandatory}">
                 {{ 'AddressDetails.AD_RES_DUR_UNIT' | translate}}

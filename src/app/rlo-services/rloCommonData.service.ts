@@ -619,18 +619,18 @@ export class RloCommonData {
       commonObj.isSectionValid = false;
     } else {
       const addressList = sectionData.get('AddressDetails');
-      const addrValidationObj = { isMailing: false, isPermenet: false };
+      const addrValidationObj = { isMailing: false, isPermenet: true };
       for (const eachAddress of addressList) {
         if ('ML' === ('' + eachAddress.AddressType)) {
           addrValidationObj.isMailing = true;
         }
-        if ('PR' === ('' + eachAddress.AddressType)) {
-          addrValidationObj.isPermenet = true;
-        }
+        // if ('PR' === ('' + eachAddress.AddressType)) {
+        //   addrValidationObj.isPermenet = true;
+        // }
       }
-      if (applicantType == 'A' && this.globalApplicationDtls.CustomerType == 'C') {
-        addrValidationObj.isMailing = true;
-      }
+      // if (applicantType == 'A' && this.globalApplicationDtls.CustomerType == 'C') {
+      //   addrValidationObj.isMailing = true;
+      // }
       // commented for Canara
       /*const addrValidationObj = { isMailing: false, isPermenet: false, isCurrent: false, isOffice: false };  
       for (const eachAddress of addressList) {
