@@ -565,13 +565,20 @@ export class RloCommonData {
     }
 
     const LoanOwnership = customerData.LoanOwnership;
-    const custType = customerData.CustomerType;
-    if (this.globalApplicationDtls.CustomerType == 'C') {
+    const applicantType = customerData.CustomerType;
+    // if (this.globalApplicationDtls.CustomerType == 'C') {
+    //   commonObj.isSectionValid = false;
+    //   if (customerSectionData.has('OccupationDetails') || customerSectionData.has('BusinessDetails')) {
+    //     commonObj.isSectionValid = true;
+    //   }
+    // } 
+    if (this.globalApplicationDtls.CustomerType == 'C' && applicantType=='B') {
       commonObj.isSectionValid = false;
-      if (customerSectionData.has('OccupationDetails') || customerSectionData.has('BusinessDetails')) {
+      if (customerSectionData.has('BusinessDetails')) {
         commonObj.isSectionValid = true;
       }
-    } else if (LoanOwnership !== undefined && LoanOwnership > 0) {
+    }
+    else if (LoanOwnership !== undefined && LoanOwnership > 0) {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails')) {
         const occupationList = customerSectionData.get('OccupationDetails');
@@ -588,8 +595,8 @@ export class RloCommonData {
       }
     }
     if (!commonObj.isSectionValid) {
-      if (this.globalApplicationDtls.CustomerType == 'C') {
-        commonObj.errorMessage = custType == 'B' ? "Business Details" : "1 occupation";
+      if (this.globalApplicationDtls.CustomerType == 'C' && applicantType == 'B') {
+        commonObj.errorMessage = "Business Details";
       } else if (LoanOwnership != undefined && LoanOwnership != 0) {
         commonObj.errorMessage = "Atleast 1 occupation with Net Income";
       }
