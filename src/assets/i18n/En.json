@@ -231,6 +231,8 @@
     "rlo.error.memberSearchCall" : " Member Search Failed. Please Try again",
     "rlo.error.CardType.invalid" : "Cusstomer Type not match with Card Type",
     "rlo.error.address.delete-restrict":"This address can not be deleted.",
+    "rlo.error.member.req-amount":"Requested amount for Member Card should be equal or less than Requested amount for Corporate",
+
 
     "999": "Unspecified error",
     "MANDATORY": "This field cannot be left blank.",
