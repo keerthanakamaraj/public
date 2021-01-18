@@ -757,14 +757,14 @@ setCustomerTypeOptions(){
     this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
     // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
-
+    this.BAD_BRANCH.setValue(tempVar['ApplicationBranch'])
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
-    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+    // this.CD_STAFF_ID.setValue(tempVar['staffId']);
     this.Handler.HideFieldBasedOnCorporate(tempVar['CustomerType'],'B');
     // this.CBSProductCode(data);
     this.searchbutton = 'N';

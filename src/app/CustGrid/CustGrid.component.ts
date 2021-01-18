@@ -150,6 +150,7 @@ export class CustGridComponent implements AfterViewInit {
       if (loopVar4) {
         for (var i = 0; i < loopVar4.length; i++) {
           var tempObj = {};
+          if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'B'){
           tempObj['Cust_Name'] = loopVar4[i].FullName;
           tempObj['Cust_DOB'] = loopVar4[i].DOB;
           tempObj['Cust_ID'] = loopVar4[i].ICIFNumber; 
@@ -159,6 +160,18 @@ export class CustGridComponent implements AfterViewInit {
           if(loopVar4[i].CustomerType == 'A'){
             tempObj['Cust_Type'] = 'Add On'
             }
+          }
+          else if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'){
+            tempObj['Cust_Name'] = loopVar4[i].RegisteredName;
+          tempObj['Cust_DOB'] = loopVar4[i].DateOfIncorporation;
+          tempObj['Cust_ID'] = loopVar4[i].ICIFNumber; 
+          if(loopVar4[i].CustomerType == 'B'){
+          tempObj['Cust_Type'] = 'Corporate'
+          }
+          if(loopVar4[i].CustomerType == 'A'){
+            tempObj['Cust_Type'] = 'Member'
+            }
+          }
         loopDataVar4.push(tempObj);}
       }
       this.readonlyGrid.apiSuccessCallback(params, loopDataVar4);
