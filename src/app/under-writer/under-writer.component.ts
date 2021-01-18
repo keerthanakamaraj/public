@@ -335,7 +335,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 6633; //4424
+    // this.applicationId = 6953; //4424
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -519,8 +519,8 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
                 fieldsArray[0].title = "Registered Name";
                 fieldsArray[0].subTitle = singleCustomer.RegisteredName;
 
-                fieldsArray[2].title = "Date Of Incorporation";
-                fieldsArray[2].subTitle = DOI;
+                fieldsArray[1].title = "Date Of Incorporation";
+                fieldsArray[1].subTitle = DOI;
               }
             }
 
