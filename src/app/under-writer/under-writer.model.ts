@@ -1160,7 +1160,7 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "CIF",
+                title: "CBS Customer ID",
                 subTitle: this.CIF.length ? this.CIF : "NA",
                 type: "basic",
                 modalSectionName: ""

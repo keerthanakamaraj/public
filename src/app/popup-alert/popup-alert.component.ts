@@ -155,7 +155,7 @@ export class PopupAlertComponent implements OnInit {
           this.dynamicallyLoadableComponent.gridDataLoad({});
         }, 500);
       }
-      
+
 
       // async brodcastProdCategory(event) {
       //   //  event.isLoanCategory false when type is 'CC'
@@ -283,16 +283,19 @@ export class PopupAlertComponent implements OnInit {
 
   removeValidationErrorMsg(sectionName: string) {
     let errorMsgEle = document.getElementsByClassName("injected-component");
+    let errorMsgClass;
 
-    switch (sectionName) {
+    switch (sectionName) { 
       case "AddressDetails":
         errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+        errorMsgClass = errorMsgEle[0].getElementsByClassName("ng-select-disabled")[0];
+        errorMsgClass.classList.remove("error");
         break;
 
       case "AssetDetails":
         errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
 
-        var errorMsgClass = errorMsgEle[0].getElementsByClassName("error")[0];
+        errorMsgClass = errorMsgEle[0].getElementsByClassName("error")[0];
         errorMsgClass.classList.remove("error");
         break;
 
@@ -304,7 +307,7 @@ export class PopupAlertComponent implements OnInit {
         break;
     }
   }
-  addclick(index : string){
+  addclick(index: string) {
     this.activeModal.close(index);
   }
 }
