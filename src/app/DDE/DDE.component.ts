@@ -215,7 +215,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
     [
-      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: true },
+      { id: "InterfaceResults", name: "Interface Results", completed: false, iconClass: "icon-Interface-Results", isActive: false, isOptional: false },
       // { id: "ScorecardResults", name: "Scorecard Results", completed: false, iconClass: "icon-Scorecard-Results", isActive: false, isOptional: false },
       // { id: "PolicyCheckResults", name: "Policy Check Results", completed: false, iconClass: "icon-Policy-Check-Results", isActive: false, isOptional: false },
       //{ id: "GoNoGoDetails", name: "Go/No-Go Details", completed: false, iconClass: "icon-No-Go-Details", isActive: false, isOptional: false },
@@ -722,7 +722,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ActiveCustomerDtls = undefined;
     this.ActiveBorrowerSeq = undefined;
     this.CustomerType = event.customerType;
-    this.doCardTypeBasedChanges();
+    //this.doCardTypeBasedChanges();
+    this.validateSectionForCustomer();
 
     this.setTags([]);
 
@@ -743,7 +744,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.ActiveCustomerDtls = event.CustomerArray;
     this.ActiveBorrowerSeq = event.CustomerArray.BorrowerSeq;
     this.CustomerType = event.CustomerArray.CustomerType;
-    this.doCardTypeBasedChanges();
+    this.validateSectionForCustomer();
+    //this.doCardTypeBasedChanges();
     // this.ActiveCustomerName = event.CustomerArray.FullName;
     // this.ActiveCustomerDOB = event.CustomerArray.DOB;
     // this.ActiveCustomerMobile = event.CustomerArray.MobileNo;
@@ -1212,12 +1214,22 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
         }
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
-          if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails'|| section.id == 'IncomeSummary' || section.id=='PersonalInterviewDetails'|| section.id=='RmVisitDetails') {
+          if (section.id == 'FamilyDetails' || section.id == 'LiabilityDetails' || section.id == 'AssetDetails'|| section.id == 'IncomeSummary' || section.id=='PersonalInterviewDetails' || section.id=='RmVisitDetails') {
             section.isOptional = true;
             element.splice(i, 1);
             i--;
           }
         }
+        // condition added for Canara IB/MB
+        // if(section.id=='RmVisitDetails'){
+        //   if(this.services.rloCommonData.globalApplicationDtls.CamType=='CHNL'){
+        //     section.isOptional = false;
+        //   }else if(this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'){
+        //     section.isOptional = true;
+        //     element.splice(i, 1);
+        //     i--;
+        //   }
+        // }
       }
     });
     this.doCardTypeBasedChanges();
@@ -1262,7 +1274,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           }
         }
         if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
-          if (section.id == 'ReferrerDetails' || section.id == 'Notes' || section.id == 'GoNoGoDetails' ||  section.id == 'GoNoGoDetails' || section.id == "InterfaceResults") {
+          if (section.id == 'ReferrerDetails' || section.id == 'Notes') {
             section.isOptional = true;
             element.splice(i, 1);
             i--;
