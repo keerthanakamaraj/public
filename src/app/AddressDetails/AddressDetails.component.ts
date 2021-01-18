@@ -273,7 +273,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     }
 
     this.setDependencies();
-
+    this.AddressGrid.toggleColumn();
     //UW
     console.log(this.AddressGrid.columnDefs);
     if (this.readOnly) {

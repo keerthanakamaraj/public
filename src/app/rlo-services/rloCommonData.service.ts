@@ -666,11 +666,10 @@ export class RloCommonData {
     }*/
     if (!commonObj.isSectionValid) {
 if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='B'){
-  commonObj.errorMessage +=  '1 Registered and 1 Communication address';
-}else if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='A'){
-  commonObj.errorMessage +=  '1 Office address';
-}else{
-  commonObj.errorMessage +=  '1 Mailing and 1 Permanent address';
+  commonObj.errorMessage +=  '1 Registered';
+}
+else{
+  commonObj.errorMessage +=  '1 Mailing';
 }
    
     }
