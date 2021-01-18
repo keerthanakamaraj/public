@@ -955,6 +955,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   LoadCustomerDetailsonFormLoad(customerDtlsObj) {
+    const customer = customerDtlsObj;
+    // this.dispalyAddonField(customer.CustomerType);
     console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
     if ('QDE' == this.parentFormCode) {
       this.CD_CUST_SEGMENT.setHidden(true);
@@ -972,7 +974,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     console.log("all fields: ", this);
 
 
-    const customer = customerDtlsObj;
+    // const customer = customerDtlsObj;
     this.dispalyAddonField(customer.CustomerType);
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(customer.CustomerType));
 
@@ -1160,9 +1162,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
       //  this.EmbLineFlag.setReadOnly(true);
       CorporateApplicantFlag = true;
       this.isCorporateBorrower = true;
+      
     } else {
       CorporateApplicantFlag = false;    // As Corporate Applicant not going to be new customer on QDE and DDE stage
       this.isCorporateBorrower = false;
+       
       //  this.EmbLineFlag.setReadOnly(true);
     }
 
@@ -1193,6 +1197,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_REGISTERED_NAME.setHidden(!CorporateApplicantFlag);
     this.CD_INCORPORATE_DATE.setHidden(!CorporateApplicantFlag);
     this.CD_INCORPORATE_TYPE.setHidden(!CorporateApplicantFlag);
+    this.CD_CUST_SEGMENT.setHidden(!CorporateApplicantFlag);
+    this.CustSubSegment.setHidden(!CorporateApplicantFlag);
+
+    // this.CD_CUST_SEGMENT.setHidden(this.isCorporateBorrower);
 
     //common fields
     this.EmbLineFlag.setHidden(!CorporateApplicantFlag);
