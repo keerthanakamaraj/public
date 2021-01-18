@@ -1586,15 +1586,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
   customGenericOnBlur(event: any) {
     // this.genericOnBlur('RequestedAmountLimit', event.textFieldValue);
-    if(event.field=='RequestedAmountLimit' && this.CD_CARD_CUST_TYPE.getFieldValue()=='A'){
-      if(this.services.rloCommonData.globalApplicationDtls.ReqCardLimit != undefined && this.RequestedAmountLimit.isAmountEmpty()){
-if(parseFloat(this.services.rloCommonData.globalApplicationDtls.ReqCardLimit)< parseFloat(this.RequestedAmountLimit.getFieldValue())){
-  this.RequestedAmountLimit.setError('rlo.error.member.req-amount');
-this.services.alert.showAlert(2, 'rlo.error.member.req-amount', -1);
- return 1;
-}
-}
-    }
     this.genericOnBlur(event.field, event.textFieldValue);
   }
 }

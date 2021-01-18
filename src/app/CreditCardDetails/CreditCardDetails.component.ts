@@ -173,18 +173,18 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         //this.CardDispatchMode.setHidden(false);
 
 
-        // setTimeout(() => {
-        //     if (this.readOnly) {
-        //         //changes for Canara bank
-        //         this.MaximumCardLimit.setReadOnly(true);
-        //         this.ApprovedCashLimit.setReadOnly(true);
-        //         this.ApprovedLimit.setReadOnly(true);
-        //     } else {
-        //         this.ApprovedCashLimit.setReadOnly(true);
-        //         this.ApprovedLimit.mandatory = false;
-        //     }
+        setTimeout(() => {
+            if (this.readOnly) {
+                //changes for Canara bank
+                this.MaximumCardLimit.setReadOnly(true);
+                this.ApprovedCashLimit.setReadOnly(true);
+                this.ApprovedLimit.setReadOnly(true);
+            } else {
+                this.ApprovedCashLimit.setReadOnly(true);
+                this.ApprovedLimit.mandatory = false;
+            }
 
-        // }, 500);
+        }, 500);
         console.log("camtype", this.services.rloCommonData.globalApplicationDtls.CamType);
         setTimeout(() => {
 
@@ -555,21 +555,6 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         this.StmtDispatchMode.setHidden(!isNewApplication);
         this.StmtDispatchMode.mandatory = isNewApplication;
         this.CardDispatchMode.setHidden(!isNewApplication);
-
-        setTimeout(() => {
-          if (this.readOnly) {
-              //changes for Canara bank
-              this.ApprovedLimit.setReadOnly(true);
-             // this.ApprovedLimit.mandatory=false;
-              let ele = this.CreditCardInputGrid.ProposedCardLimit.toArray();
-                    ele.forEach(element => {
-                        element.setReadOnly(true);
-                    });
-
-
-          }
-
-      }, 500);
     }
 
     CCD_Clear_click(event) {

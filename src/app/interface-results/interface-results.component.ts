@@ -91,15 +91,13 @@ export class InterfaceResultsComponent implements OnInit {
         if (staticCustData != undefined) {
           CustomerDtls.CustomerId = eachResult.BorrowerSeq;
           if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
-            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'C':'M';
-            CustomerDtls.FullName = ('B'==staticCustData.CustomerType)?staticCustData.RegisteredName:staticCustData.FullName;
+            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'C':'M'
           }else if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='I'){
-            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'P':'A';
-            CustomerDtls.FullName = staticCustData.FullName;
+            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'P':'A'
           }else{
             CustomerDtls.CustomerType = staticCustData.CustomerType;
-            CustomerDtls.FullName = staticCustData.FullName;
           }
+          CustomerDtls.FullName = staticCustData.FullName;
         }
       }
       let interfaceRsltData: IInterfaceResultData = {}
