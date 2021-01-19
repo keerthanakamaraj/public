@@ -766,6 +766,22 @@ setCustomerTypeOptions(){
     // this.CBSProductCode(this.CBSProductCd);
     this.CD_STAFF_ID.setValue(tempVar['staffId']);
     this.Handler.HideFieldBasedOnCorporate(tempVar['CustomerType'],'B');
+    if (tempVar['CustomerType'] == 'C') {
+      this.BAD_PRIME_USAGE.setValue('OFFICE');
+     } //else{
+    //   this.BAD_PRIME_USAGE.onReset();
+    //   this.BAD_CARD_TYPE.onReset();
+    //   this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
+    //   this.BAD_CBS_PROD_CD.onReset();
+    //   this.BAD_PRODUCT.onReset();
+    //   this.BAD_SUB_PROD.onReset();
+    //   this.BAD_SCHEME.onReset();
+    //   this.BAD_PHYSICAL_FRM_NO.onReset();
+    //   this.BAD_DATE_OF_RCPT.onReset();
+    //   this.BAD_SRC_CHANNEL.onReset();
+    //   this.BAD_DSA_ID.onReset();
+    //   this.BAD_BRANCH.onReset();
+    // }
     // this.CBSProductCode(data);
     this.searchbutton = 'N';
     if (tempVar != '' || tempVar != undefined)
@@ -1040,7 +1056,7 @@ setCustomerTypeOptions(){
   }
 
   async SUBMIT_MAIN_BTN_click(event) {
-    this.SUBMIT_MAIN_BTN.setDisabled(true);
+   // this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
     // if (this.EligibilityDecision != 'Reject') {
@@ -1055,6 +1071,7 @@ setCustomerTypeOptions(){
       }
     }
     if (noofErrors == 0) {
+      this.SUBMIT_MAIN_BTN.setDisabled(true);
       let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
       if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
@@ -1062,7 +1079,7 @@ setCustomerTypeOptions(){
       }
       inputMap.clear();
       if (this.borrower == true) {
-
+       // this.SUBMIT_MAIN_BTN.setDisabled(true);
         inputMap.set('HeaderParam.tenant-id', 'SB1');
         // inputMap.set('HeaderParam.user-id', 'Vishal');
         inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
@@ -1269,6 +1286,7 @@ setCustomerTypeOptions(){
             this.SUBMIT_MAIN_BTN.setDisabled(false);
           }
         );
+        this.SUBMIT_MAIN_BTN.setDisabled(true);
       }
       else {
         if (this.isLoanCategory) {
