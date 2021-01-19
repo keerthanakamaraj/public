@@ -881,8 +881,8 @@ export class RloCommonData {
         return commonObj;
       }
     }
-      return commonObj;
-
+   // changes done
+   return commonObj;
   }
 
   goBack() {
