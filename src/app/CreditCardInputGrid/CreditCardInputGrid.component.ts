@@ -159,11 +159,16 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   ProposedCardLimit_blur(element, $event, rowNo) {
     //console.log("Shweta :: on blur", this.MainComponent.AvailableLimit.getFieldValue());
+    // if(this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()){
+    //   this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()
+    //   return 1;
+    // }
     let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
     let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
     let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
     let tempProposedCardLimit: number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
 
+   
     let tempProposedCashLimit: number = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit);
 
     if (tempProposedCashLimit > tempMinCashLimit) {
@@ -285,6 +290,19 @@ fetchAllApplicantsAPICall(){
     });
   }
 
+  validateAmountColumn(){
+    let isValid=true;
+    
+    this.ProposedCardLimit.forEach(element => {
+      element.clearError();
+      if(element.isAmountEmpty()){
+        element.setError('MANDATORY');
+        isValid=false;
+      }
+      
+    });
+    return isValid;
+  }
   fieldDependencies = {}
 
 }

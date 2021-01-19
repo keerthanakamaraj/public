@@ -588,17 +588,25 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let inputMap = new Map();
         let decisionsParamArray = [];
         var noOfError: number = await this.revalidate();
+        let isGridValid:boolean= await this.CreditCardInputGrid.validateAmountColumn();
+        if(!isGridValid){
+          this.services.alert.showAlert(2, 'rlo.error.credit-card-grid.empty-column', -1);
+          return;
+        }
         console.log("shweta", noOfError);
         //var noOfError: number = 0;
 
         console.log(this.ApprovedLimit.getFieldValue());
         if (noOfError == 0) {
             if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE' || this.SubCamType == 'LE') {
-                if (this.RequestedCardLimit.isAmountEmpty() || this.CurrentCardLimit.isAmountEmpty()) {
-                    return;
+                if (this.ApprovedLimit.isAmountEmpty() || this.CurrentCardLimit.isAmountEmpty()) {
+                  this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
+                  this.ApprovedLimit.setError('rlo.error.approved-amount-empty');
+                    return 1;
                 }
-                if (this.RequestedCardLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
+                if (this.ApprovedLimit.getFieldValue() < this.CurrentCardLimit.getFieldValue()) {
                     this.services.alert.showAlert(2, 'rlo.error.limit-enhancement', -1);
+                    this.ApprovedLimit.setError('rlo.error.approved-amount-empty');
                     return;
                 }
             }

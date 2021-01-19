@@ -231,9 +231,10 @@
     "rlo.error.memberSearchCall" : " Member Search Failed. Please Try again",
     "rlo.error.CardType.invalid" : "Cusstomer Type not match with Card Type",
     "rlo.error.address.delete-restrict":"This address can not be deleted.",
+    "rlo.error.credit-card-grid.empty-column":"Please fill the mandatory data in member cards grid properly.",
 
     "999": "Unspecified error",
-    "MANDATORY": "This field cannot be left blank.",
+    "MANDATORY": "Value can not be Empty.",
     "DUPLICATE": "This has already been added. Please add other details.",
     "GRID_MANDATORY": "You need to add at least one row to proceed.",
     "VIEW_RECORD": "View the record to Approve or Reject.",

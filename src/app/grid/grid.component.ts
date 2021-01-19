@@ -125,11 +125,16 @@ export class GridComponent implements OnInit {
     gridModelObject[columnId] = value;
     this.setDependency(columnId, value, rowNo);
 
+  
     if (value != undefined && value.toString() != "") {
       await thisField.validateValue(value).then((errors) => { totalErrors += errors });
       if (totalErrors > 0) { return totalErrors }
     }
 
+    if(thisField.componentName='RloUiCurrencyComponent' && thisField.isMandatory() && thisField.isAmountEmpty()){
+      thisField.setError('MANDATORY');
+      return ++totalErrors;
+    }
     if (thisField.isMandatory() && (value == undefined || value.toString() == '')) {
       thisField.setError('MANDATORY');
       return ++totalErrors;
