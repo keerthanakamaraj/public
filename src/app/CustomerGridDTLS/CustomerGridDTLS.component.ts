@@ -361,6 +361,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
       this.MstDynamicData['PrimaryTag']='P';
       this.MstDynamicData['SecondaryTag']='A';
     }
+    this.EnabledPlusIcon();
   }
 
   doDeleteCustomerAPICall(selectedCustomer) {
