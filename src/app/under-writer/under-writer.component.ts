@@ -335,7 +335,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 6953; //4424
+    // this.applicationId = 6973; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -498,6 +498,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
       let singleCustomer = this.customerMasterJsonData.CustomerDetails[customerIndex];
       console.error(singleCustomer);
+      console.warn(this.allSectionsCardData[0]);
+
+      if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+        if (singleCustomer.CustomerType == "A") {
+          let newList = { className: "FinancialSummary" };
+          this.allSectionsCardData[0].cardList.splice(1, 0, newList);
+        }
+        else {
+          if (this.allSectionsCardData[0].cardList.length == 3)
+            this.allSectionsCardData[0].cardList.splice(1, 1);
+        }
+      }
 
       this.allSectionsCardData[0].cardList.forEach(element => {
         switch (element.className) {

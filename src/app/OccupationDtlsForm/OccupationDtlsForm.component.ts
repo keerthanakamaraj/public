@@ -77,15 +77,15 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
   @ViewChild('OD_ANNUAL_NET_INCOME', { static: false }) OD_ANNUAL_NET_INCOME: RloUiCurrencyComponent;
 
   //custom
- 
+
   @Output() occpOnBlur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() parentFormCode: string;
   @Input('readOnly') readOnly: boolean = false;
   fieldArray: any[];
   activeBorrowerSeq: any;
-  isRetired:boolean=false;
-  populatingDataFlag:boolean=true;
+  isRetired: boolean = false;
+  populatingDataFlag: boolean = true;
 
   async revalidate(): Promise<number> {
     var totalErrors = 0;
@@ -162,7 +162,6 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       });
       this.CorporateCardBasedHandling();
     }
-
     // if (this.occBorrowerSeq !== undefined) {
     //   await this.OCC_DTLS_GRID.gridDataLoad({
     //     'refNumToGrid': this.occBorrowerSeq
@@ -170,10 +169,20 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     // }
     console.log(this.OCC_DTLS_GRID.columnDefs);
     if (this.readOnly) {
-      this.OCC_DTLS_GRID.columnDefs = this.OCC_DTLS_GRID.columnDefs.slice(0, 5);
-      this.OCC_DTLS_GRID.columnDefs[4].width = 12;
-      this.OCC_DTLS_GRID.columnDefs[4].cellRendererParams.CustomClass = "btn-views";
-      this.OCC_DTLS_GRID.columnDefs[4].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+      let editIndex = 0;
+      this.OCC_DTLS_GRID.columnDefs.map((data: any, index) => {
+        console.warn(index);
+        if (data.hasOwnProperty("cellRenderer") && data.field == "OD_EDIT_BTN") {
+          editIndex = index;
+        }
+      });
+
+      this.OCC_DTLS_GRID.columnDefs = this.OCC_DTLS_GRID.columnDefs.slice(0, editIndex + 1);
+      this.OCC_DTLS_GRID.columnDefs[editIndex].width = 12;
+      this.OCC_DTLS_GRID.columnDefs[editIndex].cellRendererParams.CustomClass = "btn-views";
+      this.OCC_DTLS_GRID.columnDefs[editIndex].cellRendererParams.IconClass = 'fas fa-eye fa-lg';
+
+      this.OCC_DTLS_GRID.isGridReadOnly = true;
     }
     this.setDependencies();
   }
@@ -354,7 +363,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         inputMap.set('Body.OccupationDetails.Occupation', this.OD_OCCUPATION.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmploymentType', this.OD_EMPLT_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.SelfEmploymentProfession', this.OD_SELF_EMPLD_PROF.getFieldValue());
-        inputMap.set('Body.OccupationDetails.Self Employed Type', this.OD_SELF_EMPLD_TYPE.getFieldValue());        
+        inputMap.set('Body.OccupationDetails.Self Employed Type', this.OD_SELF_EMPLD_TYPE.getFieldValue());
         inputMap.set('Body.OccupationDetails.EmployeeID', this.OD_EMPLOYEE_ID.getFieldValue());
         inputMap.set('Body.OccupationDetails.Department', this.OD_DEPARTMENT.getFieldValue());
         inputMap.set('Body.OccupationDetails.Designation', this.OD_DESIGNATION.getFieldValue());
@@ -387,7 +396,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         //custom
 
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
-      
+
         this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'PUT', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -485,7 +494,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         );
       }
       else {
-        if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && occupationGridData.length>=1){
+        if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && occupationGridData.length >= 1) {
           this.services.alert.showAlert(2, 'rlo.error.corp-occupation.exist', -1);
           return;
         }
@@ -526,7 +535,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
 
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap);
         console.error("DEEP | OD_SAVE_BTN_click()", inputMap.get('Body.OccupationDetails.Currency'), inputMap.get('Body.OccupationDetails.NetIncome'), inputMap.get('Body.OccupationDetails.LocalCurrencyEquivalent'));
-       
+
         this.services.http.fetchApi('/OccupationDetails', 'POST', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
@@ -639,7 +648,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        this.populatingDataFlag=true;
+        this.populatingDataFlag = true;
         this.OD_OCCUPATION.setValue(res['OccupationDetails']['Occupation']['id']);
         this.OD_EMPLT_TYPE.setValue(res['OccupationDetails']['EmploymentType']['id']);
         this.OD_SELF_EMPLD_PROF.setValue(res['OccupationDetails']['SelfEmploymentProfession']);
@@ -664,14 +673,14 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
         this.OD_INCOME_SOURCE.setValue(res['OccupationDetails']['IncomeSource']['id']);
         this.OD_OCCUPATION_OTHERS.setValue(res['OccupationDetails']['Others']);
         this.OD_ANNUAL_NET_INCOME.setComponentSpecificValue(res['OccupationDetails']['AnnualNetIncome']);
-       // this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
+        // this.OD_RES_PRT_NO.setValue(res['OccupationDetails']['ResidencePermitNumber']);
         //this.OD_CURRENCY.setValue(res['OccupationDetails']['Currency']);
         //this.OD_LOC_CURR_EQ.setValue(res['OccupationDetails']['LocalCurrencyEquivalent']);
 
         this.HidOccupationSeq.setValue(res['OccupationDetails']['OccupationSeq']);
-      //  this.Handler.occupationOnchange(res['OccupationDetails']['Occupation']['id']);
+        //  this.Handler.occupationOnchange(res['OccupationDetails']['Occupation']['id']);
         this.Handler.companyCodeChange();
-       // this.OD_OCCUPATION_change('OD_OCCUPATION', event);
+        // this.OD_OCCUPATION_change('OD_OCCUPATION', event);
         this.revalidateBasicField('OD_NET_INCOME', true);
 
         //custom
@@ -717,56 +726,56 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     });
   }
 
-  CorporateCardBasedHandling(){
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
+  CorporateCardBasedHandling() {
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
       this.OD_OCCUPATION.setHidden(true);
-      this.OD_OCCUPATION.mandatory=false;
+      this.OD_OCCUPATION.mandatory = false;
       this.OD_EMPLT_TYPE.setHidden(true);
-      this.OD_EMPLT_TYPE.mandatory=false;
+      this.OD_EMPLT_TYPE.mandatory = false;
       this.OD_SELF_EMPLD_PROF.setHidden(true);
-      this.OD_SELF_EMPLD_PROF.mandatory=false;
+      this.OD_SELF_EMPLD_PROF.mandatory = false;
       this.OD_SELF_EMPLD_TYPE.setHidden(true);
-      this.OD_SELF_EMPLD_TYPE.mandatory=false;
+      this.OD_SELF_EMPLD_TYPE.mandatory = false;
       this.OD_DT_OF_INCPTN.setHidden(true);
-      this.OD_DT_OF_INCPTN.mandatory=false;
+      this.OD_DT_OF_INCPTN.mandatory = false;
       this.OD_INDUSTRY.setHidden(true);
-      this.OD_INDUSTRY.mandatory=false;
+      this.OD_INDUSTRY.mandatory = false;
       this.OD_NTR_OF_BUSS.setHidden(true);
-      this.OD_NTR_OF_BUSS.mandatory=false;
+      this.OD_NTR_OF_BUSS.mandatory = false;
       this.OD_COMPANY_CODE.setHidden(true);
-      this.OD_COMPANY_CODE.mandatory=false;
+      this.OD_COMPANY_CODE.mandatory = false;
       this.OD_COMP_CAT.setHidden(true);
-      this.OD_COMP_CAT.mandatory=false;
+      this.OD_COMP_CAT.mandatory = false;
       this.OD_COMP_NAME.setHidden(true);
-      this.OD_COMP_NAME.mandatory=false;
+      this.OD_COMP_NAME.mandatory = false;
       this.OD_LENGTH_OF_EXST.setHidden(true);
-      this.OD_LENGTH_OF_EXST.mandatory=false;
-    //  this.OD_INC_DOC_TYPE.setHidden(true);
-      this.OD_INC_DOC_TYPE.mandatory=false;
-     // this.OD_NET_INCOME.setHidden(true);
-     this.OD_NET_INCOME.mandatory=false;
-    //  this.OD_INCOME_FREQ.setHidden(true);
-      this.OD_INCOME_FREQ.mandatory=false;
-    //  this.OD_EMP_STATUS.setHidden(true);
-    //  this.OD_EMP_STATUS.mandatory=false;
-    //  this.OD_INCOME_TYPE.setHidden(true);
-      this.OD_INCOME_TYPE.mandatory=false;
-    //  this.OD_WRK_PERMIT_NO.setHidden(true);
-    //  this.OD_WRK_PERMIT_NO.mandatory=false;
+      this.OD_LENGTH_OF_EXST.mandatory = false;
+      //  this.OD_INC_DOC_TYPE.setHidden(true);
+      this.OD_INC_DOC_TYPE.mandatory = false;
+      // this.OD_NET_INCOME.setHidden(true);
+      this.OD_NET_INCOME.mandatory = false;
+      //  this.OD_INCOME_FREQ.setHidden(true);
+      this.OD_INCOME_FREQ.mandatory = false;
+      //  this.OD_EMP_STATUS.setHidden(true);
+      //  this.OD_EMP_STATUS.mandatory=false;
+      //  this.OD_INCOME_TYPE.setHidden(true);
+      this.OD_INCOME_TYPE.mandatory = false;
+      //  this.OD_WRK_PERMIT_NO.setHidden(true);
+      //  this.OD_WRK_PERMIT_NO.mandatory=false;
       // this.OD_RES_PRT_NO.setHidden(true);
       // this.OD_RES_PRT_NO.mandatory=false;
-     // this.OD_LOC_CURR_EQ.setHidden(true);
-      this.OD_LOC_CURR_EQ.mandatory=false;
+      // this.OD_LOC_CURR_EQ.setHidden(true);
+      this.OD_LOC_CURR_EQ.mandatory = false;
       this.OD_ANNUAL_NET_INCOME.setHidden(true);
 
-      this.OD_EMPLOYEE_ID.mandatory=true;
-      this.OD_DEPARTMENT.mandatory=true;
-      this.OD_DESIGNATION.mandatory=true;
-      this.OD_DATE_OF_JOINING.mandatory=true;
+      this.OD_EMPLOYEE_ID.mandatory = true;
+      this.OD_DEPARTMENT.mandatory = true;
+      this.OD_DESIGNATION.mandatory = true;
+      this.OD_DATE_OF_JOINING.mandatory = true;
       this.OD_OCCUPATION_OTHERS.setHidden(true);
       this.OD_INCOME_SOURCE.setHidden(true);
-      this.OD_INCOME_SOURCE.mandatory=false;
-    }else{
+      this.OD_INCOME_SOURCE.mandatory = false;
+    } else {
       this.Handler.occupationOnchange();
     }
     this.OCC_DTLS_GRID.toggleColumn();
@@ -932,7 +941,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
     //this.Handler.netIncomeOnblur();
   }
 
-  OD_INCOME_FREQ_change(fieldId, event){
+  OD_INCOME_FREQ_change(fieldId, event) {
     this.Handler.setAnnualNetIncome();
   }
 }
