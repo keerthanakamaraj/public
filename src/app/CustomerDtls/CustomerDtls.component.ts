@@ -958,17 +958,26 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     const customer = customerDtlsObj;
     // this.dispalyAddonField(customer.CustomerType);
     console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
-    if ('QDE' == this.parentFormCode) {
-      this.CD_CUST_SEGMENT.setHidden(true);
-      this.CD_CUST_SEGMENT.mandatory = false;
-      this.CustSubSegment.setHidden(true);
-    } else {
-      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+    // if ('QDE' == this.parentFormCode) {
+    //   this.CD_CUST_SEGMENT.setHidden(true);
+    //   this.CD_CUST_SEGMENT.mandatory = false;
+    //   this.CustSubSegment.setHidden(true);
+    //   this.CustSubSegment.mandatory = false;
+    // } else {
+      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && customer.CustomerType == 'B' &&  this.parentFormCode == 'DDE' ) {
         this.CD_CUST_SEGMENT.setReadOnly(false);
         this.CustSubSegment.setReadOnly(false);
+        this.CD_CUST_SEGMENT.setHidden(false);
+        this.CustSubSegment.setHidden(false);
         this.CustSubSegment.mandatory = true;
         this.CD_CUST_SEGMENT.mandatory = true;
+
       }
+      else{
+        this.CD_CUST_SEGMENT.setHidden(true);
+        this.CustSubSegment.setHidden(true);
+        this.CustSubSegment.mandatory = false;
+        this.CD_CUST_SEGMENT.mandatory = false;
     }
 
     console.log("all fields: ", this);
@@ -1197,8 +1206,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_REGISTERED_NAME.setHidden(!CorporateApplicantFlag);
     this.CD_INCORPORATE_DATE.setHidden(!CorporateApplicantFlag);
     this.CD_INCORPORATE_TYPE.setHidden(!CorporateApplicantFlag);
-    this.CD_CUST_SEGMENT.setHidden(!CorporateApplicantFlag);
-    this.CustSubSegment.setHidden(!CorporateApplicantFlag);
+    
 
     // this.CD_CUST_SEGMENT.setHidden(this.isCorporateBorrower);
 
