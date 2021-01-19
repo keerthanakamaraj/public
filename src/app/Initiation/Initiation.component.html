@@ -221,7 +221,7 @@
                     </div>
                   </div>
                   <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_PHYSICAL_FRM_NO.isHidden()"  style="margin-left: 4px;">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_PHYSICAL_FRM_NO.mandatory}">
                         {{ 'Initiation.BAD_PHYSICAL_FRM_NO' | translate}}</label>
@@ -229,7 +229,7 @@
                     <app-text-box #BAD_PHYSICAL_FRM_NO fieldID="BAD_PHYSICAL_FRM_NO" [formCode]="formCode"
                       placeholder="(Optional)" (blur)="genericOnBlur('BAD_PHYSICAL_FRM_NO', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_DATE_OF_RCPT.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_DATE_OF_RCPT.isHidden()" style="margin-left: -6px;">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_DATE_OF_RCPT.mandatory}">
                         {{ 'Initiation.BAD_DATE_OF_RCPT' | translate}}
@@ -238,7 +238,7 @@
                     <app-date #BAD_DATE_OF_RCPT fieldID="BAD_DATE_OF_RCPT" [formCode]="formCode"
                       placeholder="dd-mm-yyyy" (blur)="genericOnBlur('BAD_DATE_OF_RCPT', $event)"></app-date>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SRC_CHANNEL.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_SRC_CHANNEL.isHidden()" style="margin-left: -7px;">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_SRC_CHANNEL.mandatory}">
                         {{ 'Initiation.BAD_SRC_CHANNEL' | translate}}
@@ -246,7 +246,7 @@
                     </div>
                     <app-combo-box #BAD_SRC_CHANNEL category="2" fieldID="BAD_SRC_CHANNEL" [formCode]="formCode"
                       placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
-                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_SRC_CHANNEL', $event)">
+                      domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('BAD_SRC_CHANNEL', $event)" >
                     </app-combo-box>
                   </div>
                   <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_DSA_ID.isHidden()">
@@ -260,7 +260,7 @@
                       domainObjectCode="MstDsaIdDtls" (blur)="genericOnBlur('BAD_DSA_ID', $event)">
                     </app-combo-box>
                   </div> -->
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_DSA_ID.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="BAD_DSA_ID.isHidden()" style="margin-left: -5px;">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_DSA_ID.mandatory}">
                         {{ 'Initiation.BAD_DSA_ID' | translate}}</label>
@@ -268,7 +268,7 @@
                     <app-text-box #BAD_DSA_ID fieldID="BAD_DSA_ID" [formCode]="formCode"
                       (blur)="genericOnBlur('BAD_DSA_ID', $event)"></app-text-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_BRANCH.isHidden()">
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="BAD_BRANCH.isHidden()" style="margin-left: 5px;">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_BRANCH.mandatory}">
                         {{ 'Initiation.BAD_BRANCH' | translate}}
@@ -291,7 +291,7 @@
                       domainObjectCode="MstApplnPurposeDetails" (blur)="genericOnBlur('BAD_APP_PRPSE', $event)">
                     </app-combo-box>
                   </div>
-                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
+                  <div class="col-12  col-sm-3 col-md-3 res-pr-hide" style="margin-left: -6px;"
                     [hidden]="BAD_APP_PRPSE.isHidden() || isLoanCategory">
                     <div class="clr-brown fieldLegend">
                       <label class="clr-brown" [ngClass]="{'mandatory': BAD_PRIME_USAGE.mandatory}">

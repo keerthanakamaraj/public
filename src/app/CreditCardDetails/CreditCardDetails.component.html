@@ -353,6 +353,10 @@
             <app-text-box #EcsAccNo fieldID="EcsAccNo" [formCode]="formCode" (blur)="genericOnBlur('EcsAccNo', $event)">
             </app-text-box>
           </div> -->
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CreditCardInputGrid.isHidden()">
+            <app-CreditCardInputGrid #CreditCardInputGrid fieldID="CreditCardInputGrid" [formCode]="formCode"
+              [displayTitle]="false" [MainComponent]="this"></app-CreditCardInputGrid>
+          </div>
           <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <ng-container>
@@ -369,10 +373,6 @@
               </app-button>
             </div>
           </ng-container>
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="CreditCardInputGrid.isHidden()">
-            <app-CreditCardInputGrid #CreditCardInputGrid fieldID="CreditCardInputGrid" [formCode]="formCode"
-              [displayTitle]="false" [MainComponent]="this"></app-CreditCardInputGrid>
-          </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
             <app-creditcard-handler #Handler [MainComponent]="this"></app-creditcard-handler>
           </div>

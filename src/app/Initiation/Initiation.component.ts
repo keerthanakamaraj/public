@@ -757,14 +757,14 @@ setCustomerTypeOptions(){
     this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
     // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
     this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
-
+    this.BAD_BRANCH.setValue(tempVar['ApplicationBranch'])
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
     this.CBSProductCd = tempVar['CBSProductCode']
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
-    this.CD_STAFF_ID.setValue(tempVar['staffId']);
+    // this.CD_STAFF_ID.setValue(tempVar['staffId']);
     this.Handler.HideFieldBasedOnCorporate(tempVar['CustomerType'],'B');
     if (tempVar['CustomerType'] == 'C') {
       this.BAD_PRIME_USAGE.setValue('OFFICE');
@@ -1742,7 +1742,7 @@ setCustomerTypeOptions(){
     } else if (event.field == "LD_GROSS_INCOME" || event.field == "LD_EXST_LBLT_AMT" || event.field == "LD_OTH_DEDUCTIONS") {
       this.Handler.calculateNetIncome({});
     } else if (event.field == "BAD_REQ_CARD_LIMIT") {
-      this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
+    //  this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
     }
     this.genericOnBlur(event.field, event.textFieldValue);
   }

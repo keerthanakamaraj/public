@@ -3,6 +3,7 @@ import { ServiceStock } from '../service-stock.service';
 import { FieldComponent } from '../field/field.component';
 import { TextBoxComponent } from '../text-box/text-box.component';
 import { HttpResponse } from '@angular/common/http';
+import { AmountComponent } from '../amount/amount.component';
 
 @Component({
   selector: 'app-rlo-ui-currency',
@@ -22,11 +23,11 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
 
   @Input('currencyReadOnly') currencyReadOnly: boolean;
   @Input('inputReadOnly') inputReadOnly: boolean;
-
+  @Input('allowFormat') allowFormat = true;
   @Input('formCode') formCode: any;
   @Input('componentFieldId') componentFieldId: string;// name of the viewChild used in the component
-
-  @ViewChild('amountTextbox', { static: false }) amountTextbox: TextBoxComponent;
+  @Input('regex') regex: string;
+  @ViewChild('amountTextbox', { static: false }) amountTextbox: AmountComponent;
 
   @Output() onBlurEvent: EventEmitter<any> = new EventEmitter<any>();
 
@@ -178,15 +179,76 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
   }
 
   isAmountEmpty(){
-    if(this.amountTextbox.getFieldValue() !=undefined || this.amountTextbox.getFieldValue() !='')
+    if(this.amountTextbox.getFieldValue() !=undefined && this.amountTextbox.getFieldValue() !='')
     {
-      if(parseFloat(this.amountTextbox.getFieldValue())<=0){
-      return true;
-      }
+      if(parseFloat(this.amountTextbox.getFieldValue())>0){
       return false;
+      }
     }
+    return true;
   }
   setReadOnly(readOnly) {
     this.inputReadOnly = readOnly;
   }
+  async validateValue(value, event = undefined): Promise<number> {
+    var totalErrors: number = 0;
+      totalErrors += this.onNumberInput(value, event);
+
+    if(totalErrors == 0){ // Validate Regular Expression if Min Max are valid
+      totalErrors += this.validateRegEx(value, event);
+    }
+
+    if (this.allowFormat && totalErrors === 0 ){ // format
+      this.value =  this.services.rloui.formatText( this.value + '' );
+    }
+
+    return totalErrors;
+  }
+
+  validateRegEx(value, event) {
+    var totalErrors: number = 0;
+    if (this.regex) {
+      try {
+        var patt = new RegExp(this.regex);
+        if (!patt.test(value)) {
+          this.setError('rlo.error.invalid.regex');
+          totalErrors++;
+        }
+      } catch (e) {
+        console.error("Error validating Reg Ex ", e);
+      }
+    }
+    return totalErrors;
+  }
+
+  onNumberInput(value: number, event?): number {
+    var totalErrors: number = 0;
+    value = +value.toLocaleString().length;
+    if (this.minLength && value < this.minLength) {
+      this.setError("Amount length should be greater than "+ this.minLength + " digits");
+      totalErrors++;
+    } else if (this.maxLength && value > this.maxLength) {
+      this.setError("Value should be less than " + this.maxLength + " digits");
+      totalErrors++;
+    } else if ((this.DecimalLength && this.countDecimals(value) >= this.DecimalLength)) {
+      if (event) {
+        event.target.value = value.toFixed(this.DecimalLength);
+        this.value = value.toFixed(this.DecimalLength);
+      } else {
+        this.setError("Maximum " + this.DecimalLength + " decimal are allowed");
+        totalErrors++;
+      }
+    }
+    else {
+      this.clearError();
+    }
+
+    return totalErrors;
+  }
+ // checkNumberFieldLength();
+  countDecimals(value) {
+    if (Math.floor(value) === value) return 0;
+    return value.toString().split(".")[1].length || 0;
+  }
+
 }

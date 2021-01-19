@@ -445,6 +445,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.LoanDetails.TypeOfLoan', this.tempVar.TypeOfLoan);
       inputMap.set('Body.LoanDetails.TypeOfLoanName', this.tempVar.TypeOfLoanName);
       inputMap.set('Body.LoanDetails.ApplicationPurpose', this.tempVar.ApplicationPurpose);
+      inputMap.set('Body.LoanDetails.UDF2', this.tempVar.CBSProductCode);
       // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
       inputMap.set('Body.ApplicationDetails.ApplicationBranch',this.tempVar.ApplicationBranch);
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
@@ -588,7 +589,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.LoanDetails.TypeOfLoan', this.tempVar.TypeOfLoan);
       inputMap.set('Body.LoanDetails.TypeOfLoanName', this.tempVar.TypeOfLoanName);
       inputMap.set('Body.LoanDetails.ApplicationPurpose', this.tempVar.ApplicationPurpose);
-      // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+      inputMap.set('Body.LoanDetails.UDF2', this.tempVar.CBSProductCode);
       inputMap.set('Body.ApplicationDetails.ApplicationBranch',this.tempVar.ApplicationBranch);
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
      // inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue()); // wrong field mapped

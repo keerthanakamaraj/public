@@ -415,4 +415,10 @@ if('ML'==event.AddressTypeId){  // changes for canara
     return this.addressDetails;
   }
 
+  toggleColumn() {
+    let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType=='B'? true : false;
+
+    this.setColumnHidden('AD_Residence_Duration', CorporateFlag);
+  }
+
 }

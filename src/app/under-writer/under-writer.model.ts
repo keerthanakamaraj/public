@@ -251,9 +251,9 @@ export class AddressDetails implements IDeserializable {
 
     getAddressType(address) {
         if (address.AddressType != undefined || address.AddressType != "") {
-            if (address.AddressType == "PR") { 
+            if (address.AddressType == "PR") {
                 return "Permanent Address";
-            }else{
+            } else {
                 return "Mailing Address";
             }
         } else {
@@ -1072,6 +1072,8 @@ export class CustomerDetails implements IDeserializable {
     public CIF: string = "NA";
     public CustomerId: string = "NA";
     public CustomerSince: string = "NA";
+    public gender: string = "NA";
+    public StaffID: string = "NA";
 
     public RegisteredName: string = "NA";//for coperate card ->primary applicant
     public DateOfIncorporation: string = "NA";//for coperate card ->primary applicant
@@ -1080,6 +1082,8 @@ export class CustomerDetails implements IDeserializable {
         Object.assign(this, input);
         console.error(input);
         // arrayList 
+        this.gender = input.hasOwnProperty("CustGender") ? input.CustGender.hasOwnProperty("text") ? input.CustGender.text : "NA" : "NA";
+
         if (input.hasOwnProperty("UWFamily")) {
             this.FamilyDetails = new FamilyDetails().deserialize(input.UWFamily);
         }
@@ -1142,14 +1146,14 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "Existing Customer",
-                subTitle: this.getFormattedExistance(this.ExistingCustomer),
+                title: "Date of Birth",
+                subTitle: this.DOB,
                 type: "basic",
                 modalSectionName: ""
             },
             {
-                title: "Date of Birth",
-                subTitle: this.DOB,
+                title: "Gender",
+                subTitle: this.gender,
                 type: "basic",
                 modalSectionName: ""
             },
@@ -1160,14 +1164,14 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             },
             {
-                title: "CIF",
+                title: "CBS Customer ID",
                 subTitle: this.CIF.length ? this.CIF : "NA",
                 type: "basic",
                 modalSectionName: ""
             },
             {
-                title: "CID",
-                subTitle: this.CustomerId,
+                title: "Staff Id",
+                subTitle: this.StaffID.length ? this.StaffID : "NA",
                 type: "basic",
                 modalSectionName: ""
             },
@@ -1178,6 +1182,7 @@ export class CustomerDetails implements IDeserializable {
                 modalSectionName: ""
             }
         ];
+        console.error("fieldList", fieldList);
         const returnObj: IGeneralCardData = {
             name: "Customer 360 degrees",
             modalSectionName: "CustomerDetails",

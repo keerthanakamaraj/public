@@ -65,11 +65,11 @@ export interface IGlobalApllicationDtls {
   PrimaryUsage?: string;
   CustomerType?: any;
   ReqCardLimit?: any;
-  CamType? : any;
-  SubCamType?:any;
-  PrimaryBorrowerSeq?:any;
-  CBSProductCode?:any;
-  ApplicationPurposeName? :any;
+  CamType?: any;
+  SubCamType?: any;
+  PrimaryBorrowerSeq?: any;
+  CBSProductCode?: any;
+  ApplicationPurposeName?: any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -331,12 +331,12 @@ export class RloCommonData {
       //   }
       // }
       if (address.AddressType === 'ML') {
-        if(this.globalApplicationDtls.CustomerType=='C'){
+        if (this.globalApplicationDtls.CustomerType == 'C') {
           tagText = 'Registered; ';
-        }else{
+        } else {
           tagText = 'Mailing; ';
         }
-        
+
 
         tagText = tagText + this.rloutil.concatenate([address.AddressLine1, address.Region, address.City, address.State, address.PinCode], ', ');
         tags.push({ text: tagText });
@@ -572,7 +572,7 @@ export class RloCommonData {
     //     commonObj.isSectionValid = true;
     //   }
     // } 
-    if (this.globalApplicationDtls.CustomerType == 'C' && applicantType=='B') {
+    if (this.globalApplicationDtls.CustomerType == 'C' && applicantType == 'B') {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('BusinessDetails')) {
         commonObj.isSectionValid = true;
@@ -665,14 +665,13 @@ export class RloCommonData {
         : '1 permanent and 1 current residence address, at least 1 office address and 1 correspondence address';
     }*/
     if (!commonObj.isSectionValid) {
-if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='B'){
-  commonObj.errorMessage +=  '1 Registered and 1 Communication address';
-}else if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='A'){
-  commonObj.errorMessage +=  '1 Office address';
-}else{
-  commonObj.errorMessage +=  '1 Mailing and 1 Permanent address';
-}
-   
+      if (this.globalApplicationDtls.CustomerType == 'C' && applicantType == 'B') {
+        commonObj.errorMessage += '1 Registered';
+      }
+      else {
+        commonObj.errorMessage += '1 Mailing';
+      }
+
     }
     return commonObj;
   }
@@ -870,21 +869,20 @@ if(this.globalApplicationDtls.CustomerType=='C' && applicantType =='B'){
       errorMessage: ''
     }
     let customerData = customerTabSectionData.get("CustomerDetails");
-    if(this.currentRoute == "DDE"){
-    if (this.globalApplicationDtls.CustomerType == 'C') {
-      commonObj.isSectionValid = true;
-    }
-    else if  (customerData.CustomerType == "B" || customerData.CustomerType == "CB") {
-      if (!customerTabSectionData.has('IncomeSummary')) {
-        commonObj.isSectionValid = false;
-        commonObj.errorMessage = "Details from income summary section required";
+    if (this.currentRoute == "DDE") {
+      if (this.globalApplicationDtls.CustomerType == 'C') {
+        commonObj.isSectionValid = true;
       }
-      return commonObj;
+      else if (customerData.CustomerType == "B" || customerData.CustomerType == "CB") {
+        if (!customerTabSectionData.has('IncomeSummary')) {
+          commonObj.isSectionValid = false;
+          commonObj.errorMessage = "Details from income summary section required";
+        }
+        return commonObj;
+      }
     }
-  }
-    else {
-      return commonObj;
-    }
+   // changes done
+   return commonObj;
   }
 
   goBack() {

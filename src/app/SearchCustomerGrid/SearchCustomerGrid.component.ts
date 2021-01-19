@@ -419,7 +419,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
                 tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
                 tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
-                // tempObj['CreditCard'] = loopVar7[i].CreditCard;
+                tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
                
 
@@ -567,6 +567,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
       tempVar['CreatedOn'] = selectedData0['CreatedOn'];
       tempVar['ApplicationBranch'] = selectedData0['ApplicationBranch'];
       tempVar['ExistingCardType'] = selectedData0['ExistingCardType'];
+
       console.log("DEEP| Selcted customer,", tempVar);
 
       let currentRoute = this.router.url.slice(this.router.url.lastIndexOf("/") + 1, this.router.url.length);
