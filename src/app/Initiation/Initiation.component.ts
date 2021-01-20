@@ -198,6 +198,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   CustomerType: any;
   UserBranch: string = 'Juhu';
   refferalValid: boolean = false;
+  FilterOptions = [];
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -414,12 +415,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.hideCardCustomerType.setValue('CARD_CUSTOMER_TYPE');
     this.hideCardType.setValue('EXISTING_CARD_TYPE');
     this.setCustomerTypeOptions();
-  //  this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    //  this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
     this.hideCamType.setValue('CAM_TYPE');
     this.hideTypeofIncorp.setValue('CORPORATION_TYPE');
     this.hideEmbLineFlag.setValue('Y_N');
 
-    
+
     this.EmbLine4.setHidden(true);
 
     await this.Handler.onFormLoad({
@@ -446,14 +447,14 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   //method added for Canara Bank functionality
-setCustomerTypeOptions(){
-  console.log("init:: 1",this.EmbLineFlag.isHidden());
-  if(this.BAD_CUSTOMER_TYPE.getFieldValue()=='C'){
-    this.hideCardCustType.setValue('CORP_CUSTOMER_TYPE');
-  }else if(this.BAD_CUSTOMER_TYPE.getFieldValue()=='I'){
-    this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+  setCustomerTypeOptions() {
+    console.log("init:: 1", this.EmbLineFlag.isHidden());
+    if (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C') {
+      this.hideCardCustType.setValue('CORP_CUSTOMER_TYPE');
+    } else if (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I') {
+      this.hideCardCustType.setValue('ADD_CUSTOMER_TYPE');
+    }
   }
-}
   async submitForm(path, apiCode, serviceCode) {
     this.submitData['formName'] = 'New Application Initiation';
     await super.submit(path, apiCode, serviceCode);
@@ -596,7 +597,7 @@ setCustomerTypeOptions(){
           console.warn("DEEP | No customer selected");
           this.SRC_CIF_NO.onReset();
         }
-      });      
+      });
     }
     else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
@@ -701,12 +702,12 @@ setCustomerTypeOptions(){
       return;
     }
     else {
-      this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType'],undefined,true);
+      this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType'], undefined, true);
       this.setCustomerTypeOptions();
       console.log("init:: 2", this.BAD_CUSTOMER_TYPE.getFieldValue())
       this.BAD_CBS_PROD_CD.setValue(tempVar['CBSProductCode']);
-      this.CD_CARD_CUST_TYPE.isOptionsLoaded=false;
-      this.CD_CARD_CUST_TYPE.setValue('B',undefined,true);
+      this.CD_CARD_CUST_TYPE.isOptionsLoaded = false;
+      this.CD_CARD_CUST_TYPE.setValue('B', undefined, true);
       this.setValuesOfCustomer(data);
 
     }
@@ -722,7 +723,6 @@ setCustomerTypeOptions(){
       this.NoOfCardAllowed(data);
     }
   }
-
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
@@ -765,10 +765,40 @@ setCustomerTypeOptions(){
     // this.ApplicationStatus(this.CD_CIF.getFieldValue());
     // this.CBSProductCode(this.CBSProductCd);
     // this.CD_STAFF_ID.setValue(tempVar['staffId']);
-    this.Handler.HideFieldBasedOnCorporate(tempVar['CustomerType'],'B');
-    if (tempVar['CustomerType'] == 'C') {
-      this.BAD_PRIME_USAGE.setValue('OFFICE');
-     } //else{
+    this.Handler.HideFieldBasedOnCorporate(tempVar['CustomerType'], 'B');
+    // if (tempVar['CustomerType'] == 'C') {
+    // this.BAD_PRIME_USAGE.setValue('OFFICE');
+
+    this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+    let primeUsageMap = new Map();
+    primeUsageMap.set('QueryParam.lookup', 1);
+    primeUsageMap.set('QueryParam.PROD_CAT', "CC");
+    this.services.http.fetchApi('/MstApplnPurposeDetails', 'GET', primeUsageMap, '/olive/publisher/rlo-masters').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        var cardList = res['Data'];
+        this.FilterOptions = [];
+        if (tempVar['CustomerType'] === 'C') {
+          cardList.forEach(element => {
+            if (element['id'] === 'OFFICE' && element['text'] === 'Office Expenses and Business Travel') {
+              this.FilterOptions.push({ id: element['id'], text: element['text'] });
+              this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+              this.BAD_PRIME_USAGE.setValue(element['id']);
+            }
+          });
+        } else {
+          this.FilterOptions = [];
+          this.FilterOptions.push({ id: undefined, text: "" });
+          cardList.forEach(element => {
+            if (element['id'] !== 'OFFICE' && element['text'] !== 'Office Expenses and Business Travel') {
+              this.FilterOptions.push({ id: element['id'], text: element['text'] });
+            }
+          });
+          this.BAD_PRIME_USAGE.setStaticListOptions(this.FilterOptions);
+        }
+      }
+    );
+    // } //else{
     //   this.BAD_PRIME_USAGE.onReset();
     //   this.BAD_CARD_TYPE.onReset();
     //   this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
@@ -790,7 +820,7 @@ setCustomerTypeOptions(){
       this.services.dataStore.setData('selectedData', undefined);
 
   }
-
+  
   async BAD_PROD_CAT_change(fieldID, value) {
     let inputMap = new Map();
     this.revalidateBasicField('BAD_PROD_CAT');
@@ -1056,7 +1086,7 @@ setCustomerTypeOptions(){
   }
 
   async SUBMIT_MAIN_BTN_click(event) {
-   // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    // this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
     // if (this.EligibilityDecision != 'Reject') {
@@ -1079,7 +1109,7 @@ setCustomerTypeOptions(){
       }
       inputMap.clear();
       if (this.borrower == true) {
-       // this.SUBMIT_MAIN_BTN.setDisabled(true);
+        // this.SUBMIT_MAIN_BTN.setDisabled(true);
         inputMap.set('HeaderParam.tenant-id', 'SB1');
         // inputMap.set('HeaderParam.user-id', 'Vishal');
         inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
@@ -1438,7 +1468,7 @@ setCustomerTypeOptions(){
   }
 
 
-  
+
   async BAD_CUSTOMER_TYPE_change(fieldID, value) {
     this.setCustomerTypeOptions();
     this.toggleColumn();
@@ -1711,7 +1741,7 @@ setCustomerTypeOptions(){
       outDep: [
       ]
     },
-    CD_TYPE_OF_INCORPORATION:{
+    CD_TYPE_OF_INCORPORATION: {
       inDep: [
 
         { paramKey: "VALUE1", depFieldID: "CD_TYPE_OF_INCORPORATION", paramType: "PathParam" },
@@ -1742,7 +1772,7 @@ setCustomerTypeOptions(){
     } else if (event.field == "LD_GROSS_INCOME" || event.field == "LD_EXST_LBLT_AMT" || event.field == "LD_OTH_DEDUCTIONS") {
       this.Handler.calculateNetIncome({});
     } else if (event.field == "BAD_REQ_CARD_LIMIT") {
-    //  this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
+      //  this.BAD_REQ_CARD_LIMIT.setValue(event.textFieldValue);
     }
     this.genericOnBlur(event.field, event.textFieldValue);
   }
@@ -1860,15 +1890,15 @@ setCustomerTypeOptions(){
     //   this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', true);
     // }
     //   // this.CUST_DTLS_GRID.setColumnHidden('FULL_NAME', false);      
-      // this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
-      // // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('CD_DATE_OF_iNCORPORATION'));
+    // this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
+    // // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('CD_DATE_OF_iNCORPORATION'));
     // } else if (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C') {
     //   if(this.CD_CARD_CUST_TYPE.getFieldValue()== 'A'){
     //     this.CUST_DTLS_GRID.setColumnHidden('DOB', false);
     //     this.CUST_DTLS_GRID.setColumnHidden('CD_DATE_OF_INCORPORATION', true);
     //     this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', true);
     //     this.CUST_DTLS_GRID.setColumnHidden('FULL_NAME', false); 
-       
+
     //   }
     //   else{
     //     this.CUST_DTLS_GRID.setColumnHidden('DOB', true);
@@ -1876,7 +1906,7 @@ setCustomerTypeOptions(){
     //     this.CUST_DTLS_GRID.setColumnHidden('REGISTERED_NAME', false);
     //     this.CUST_DTLS_GRID.setColumnHidden('FULL_NAME', true); 
     //   }
-     
+
     //   // console.log('is column hidden: ', this.CUST_DTLS_GRID.isColumnHidden('DOB'));
     // } else {
     //   // TODO: 
