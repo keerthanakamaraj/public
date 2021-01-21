@@ -247,7 +247,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 					}
 					let VisitDtlsList = [];
 					if (loopVar10) {
-						console.log("hjgjhf",loopVar10)
+						console.log("hjgjhf", loopVar10)
 						this.VisitRecordsList = loopVar10;
 						for (var i = 0; i < loopVar10.length; i++) {
 							var tempObj = {};
@@ -275,7 +275,7 @@ export class VisitReportGridComponent implements AfterViewInit {
 						"BorrowerSeq": event.BorrowerSeq
 					}
 					this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-					
+
 					this.readonlyGrid.apiSuccessCallback(params, VisitDtlsList);
 				},
 				async (httpError) => {
@@ -299,25 +299,28 @@ export class VisitReportGridComponent implements AfterViewInit {
 	}
 
 	async VR_Delete_click(event) {
-		if (confirm("Are you sure you want to delete this record")) {
-		let inputMap = new Map();
-		inputMap.clear();
-		inputMap.set('PathParam.Id', event.HidVisitReportId);
-		this.services.http.fetchApi('/RMRADetails/{Id}', 'DELETE', inputMap, '/rlo-de').subscribe(
-			async (httpResponse: HttpResponse<any>) => {
-				var res = httpResponse.body;
-				this.services.alert.showAlert(1, 'rlo.success.delete.visitreport', 5000);
-				this.readonlyGrid.refreshGrid();
-			},
-			async (httpError) => {
-				var err = httpError['error']
-				if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-				}
-				this.services.alert.showAlert(2, 'rlo.error.delete.visitreport', -1);
+		await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+			if (response.id == 1) {
+				let inputMap = new Map();
+				inputMap.clear();
+				inputMap.set('PathParam.Id', event.HidVisitReportId);
+				this.services.http.fetchApi('/RMRADetails/{Id}', 'DELETE', inputMap, '/rlo-de').subscribe(
+					async (httpResponse: HttpResponse<any>) => {
+						var res = httpResponse.body;
+						this.services.alert.showAlert(1, 'rlo.success.delete.visitreport', 5000);
+						this.readonlyGrid.refreshGrid();
+					},
+					async (httpError) => {
+						var err = httpError['error']
+						if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+						}
+						this.services.alert.showAlert(2, 'rlo.error.delete.visitreport', -1);
+					}
+				);
 			}
-		);
-		}
+		});
 	}
+
 	loadSpinner = false;
 	showSpinner() {
 		this.loadSpinner = true;

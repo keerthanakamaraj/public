@@ -306,22 +306,26 @@ export class FeesChargesGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.ChargeDtlSeq', event.FC_ID);
-        if (confirm("Are you sure you want to Delete?")) {
-            this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.delete.charge', 5000);
-                    this.readonlyGrid.refreshGrid();
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+
+        await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+            if (response.id == 1) {
+                this.services.http.fetchApi('/ChargeDetails/{ChargeDtlSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.delete.charge', 5000);
+                        this.readonlyGrid.refreshGrid();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.delete.charge', -1);
                     }
-                    this.services.alert.showAlert(2, 'rlo.error.delete.charge', -1);
-                }
-            );
-        }
+                );
+            }
+        });
     }
+
     formatAmount(number) {
         if (number.value) {
             return this.services.formatAmount(number.value, null, null, false);

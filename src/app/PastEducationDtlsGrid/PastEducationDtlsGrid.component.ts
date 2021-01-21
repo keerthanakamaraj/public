@@ -131,7 +131,7 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
       columnId: 'PE_Edit',
       Type: '1',
       CustomClass: 'btn-edit',
-     // IconClass: 'fas fa-edit fa-lg',
+      // IconClass: 'fas fa-edit fa-lg',
       onClick: this.PE_Modify_click.bind(this)
     },
   },
@@ -148,7 +148,7 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
       columnId: 'PE_Delete',
       Type: '1',
       CustomClass: 'btn-delete',
-  //    IconClass: 'fa fa-trash fa-lg',
+      //    IconClass: 'fa fa-trash fa-lg',
       onClick: this.PE_Delete_click.bind(this)
     },
   },
@@ -233,25 +233,26 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
       this.services.http.fetchApi('/PastEducation', 'GET', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
           let res = httpResponse.body;
-        if(res){
-          let loopVar10 = res['PastEducation'];
-          let tempPastEducationList = [];
+          if (res) {
+            let loopVar10 = res['PastEducation'];
+            let tempPastEducationList = [];
 
-          if (loopVar10) {
-            this.PastEducationList = loopVar10;
-            this.pastRecord = true;
-            for (var i = 0; i < loopVar10.length; i++) {
-              var tempObj = {};
-              tempObj['PastEdSeq'] = loopVar10[i].PastEdSeq;
-              tempObj['ExamPassed'] = loopVar10[i].ExamPassed;
-              tempObj['InstitutionOrUniversity'] = loopVar10[i].Institution;
-              tempObj['PassingYear'] = loopVar10[i].PassingYear;
-              tempObj['ClassObtained'] = loopVar10[i].ClassObtained;
-              tempObj['ScholarshipsOrPrizes_'] = loopVar10[i].Scholarships;
-              tempPastEducationList.push(tempObj);
+            if (loopVar10) {
+              this.PastEducationList = loopVar10;
+              this.pastRecord = true;
+              for (var i = 0; i < loopVar10.length; i++) {
+                var tempObj = {};
+                tempObj['PastEdSeq'] = loopVar10[i].PastEdSeq;
+                tempObj['ExamPassed'] = loopVar10[i].ExamPassed;
+                tempObj['InstitutionOrUniversity'] = loopVar10[i].Institution;
+                tempObj['PassingYear'] = loopVar10[i].PassingYear;
+                tempObj['ClassObtained'] = loopVar10[i].ClassObtained;
+                tempObj['ScholarshipsOrPrizes_'] = loopVar10[i].Scholarships;
+                tempPastEducationList.push(tempObj);
+              }
+              this.readonlyGrid.apiSuccessCallback(params, tempPastEducationList);
             }
-            this.readonlyGrid.apiSuccessCallback(params, tempPastEducationList);
-          }}
+          }
           else {
             this.pastRecord = false;
           }
@@ -283,25 +284,28 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
     }
   }
   async PE_Delete_click(event) {
-    if (confirm("Are you sure you want to delete this record")) {
-      let inputMap = new Map();
-      inputMap.clear();
-      inputMap.set('PathParam.PastEdSeq', event.PastEdSeq);
-      this.services.http.fetchApi('/PastEducation/{PastEdSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'rlo.success.delete.visitreport', 5000);
-          this.readonlyGrid.refreshGrid();
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+    await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+      if (response.id == 1) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('PathParam.PastEdSeq', event.PastEdSeq);
+        this.services.http.fetchApi('/PastEducation/{PastEdSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+            this.services.alert.showAlert(1, 'rlo.success.delete.visitreport', 5000);
+            this.readonlyGrid.refreshGrid();
+          },
+          async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, 'rlo.error.delete.visitreport', -1);
           }
-          this.services.alert.showAlert(2, 'rlo.error.delete.visitreport', -1);
-        }
-      );
-    }
+        );
+      }
+    });
   }
+
   gridDataLoad(formInputs) {
     this.readonlyGrid.setFormInputs(formInputs);
   }

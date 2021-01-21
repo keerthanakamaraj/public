@@ -452,27 +452,29 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     // }
   }
   async OD_DELETE_click(event) {
+    await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+      if (response.id == 1) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
+        this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+            this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
 
-    if (confirm("Are you sure you want to delete this record")) {
-      let inputMap = new Map();
-      inputMap.clear();
-      inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
-      this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'rlo.success.delete.occupation', 5000);
-
-          this.readonlyGrid.refreshGrid();
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            this.readonlyGrid.refreshGrid();
+          },
+          async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
           }
-          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-        }
-      );
-    }
+        );
+      }
+    });
   }
+
   recordDisplay = false;
   recordShow() {
     this.recordDisplay = true;

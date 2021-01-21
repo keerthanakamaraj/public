@@ -30,7 +30,7 @@
     "rlo.error.current.address": "Current Address has already been added.",
     "rlo.error.permanent.address": "Permanent Address has already been added.",
     "rlo.error.canara-mailing-address.exist": "Mailing Address has already been added.",
-    "rlo.error.canara-registered-address.exist":"Registered Address has already been added.",
+    "rlo.error.canara-registered-address.exist": "Registered Address has already been added.",
     "rlo.error.email.address": "You have to add an alternate email ID.",
     "rlo.error.load.form": "Failed to load the form. ",
     "rlo.error.load.grid": "Failed to load the grid",
@@ -223,15 +223,16 @@
     "rlo.error.save.pastEduLoan": "The Past Education could not be saved. Please try again.",
     "rlo.error.approvedlimit.gt.product": "Approved Limit can not be greater than Max Product Limit",
     "rlo.success.sentBack": "The application has been successfully Sentback",
-    "rlo.error.totCardLimit":"Sum of Approved Card Limit for Members should not be greater than Approved Card Limit of Corporate",
-    "rlo.error.update.credit-card-grid":"The Members details could not be updated. Please try again",
-    "rlo.error.limit-enhancement" : "Limit Reduction should be done through Card Management System",
-    "rlo.error.Customertype.invalid" : "For Add On Customer type Should be Corporate",
-    "rlo.success.memberSearchCall" : "Existing Customers Fetched Successfully",
-    "rlo.error.memberSearchCall" : " Member Search Failed. Please Try again",
-    "rlo.error.CardType.invalid" : "Cusstomer Type not match with Card Type",
-    "rlo.error.address.delete-restrict":"This address can not be deleted.",
-    "rlo.error.credit-card-grid.empty-column":"Please fill the mandatory data in member cards grid properly.",
+    "rlo.error.totCardLimit": "Sum of Approved Card Limit for Members should not be greater than Approved Card Limit of Corporate",
+    "rlo.error.update.credit-card-grid": "The Members details could not be updated. Please try again",
+    "rlo.error.limit-enhancement": "Limit Reduction should be done through Card Management System",
+    "rlo.error.Customertype.invalid": "For Add On Customer type Should be Corporate",
+    "rlo.success.memberSearchCall": "Existing Customers Fetched Successfully",
+    "rlo.error.memberSearchCall": " Member Search Failed. Please Try again",
+    "rlo.error.CardType.invalid": "Cusstomer Type not match with Card Type",
+    "rlo.error.address.delete-restrict": "This address can not be deleted.",
+    "rlo.error.credit-card-grid.empty-column": "Please fill the mandatory data in member cards grid properly.",
+    "rlo.delete.comfirmation": "Are you sure you want to delete",
 
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",
@@ -1479,7 +1480,7 @@
   "SearchCustomerGrid": {
     "AccNo": "Account No.",
     "CustName": "Full Name",
-    "Customer":"Customer",
+    "Customer": "Customer",
     "toolbar_SearchCustomerGrid": "null",
     "Cif": "CBS Cust ID",
     "FirstName": "First Name",
@@ -1520,7 +1521,7 @@
     "BAD_PRODUCT_APP": "Product Franchise",
     "BAD_SUB_PROD_APP": "Product Class ",
     "BAD_PRIME_USAGE": "Prime Usage",
-    "BAD_PROD_CLASS" : "Product"
+    "BAD_PROD_CLASS": "Product"
   },
   "AddressDetails": {
     "SAME_ADDRESS": "Is permanent address same as a current address?",
@@ -1733,7 +1734,7 @@
     "CD_COUNTRY_CODE": "Country Code",
     "CD_NAME_ON_CARD": "Name on Card",
     "BAD_MASK_CARD_NUMBER": "Mask Card Number",
-    "EmbLine4":"Corporate Name for Member Cards"
+    "EmbLine4": "Corporate Name for Member Cards"
   },
   "AddressDetailsGrid": {
     "AD_Residence_Duration": "Duration of Occupancy",
@@ -1804,11 +1805,11 @@
     "NomineeDOB": "Nominee Date Of Birth",
     "GuardianName": "Guardian Name",
     "GuadianRelationship": "Guadian Relationship",
-    "CurrentCorporateCardLimit" : "Current Corporate Card Limit",
-    "AvailableLimit" : "Available Limit",
-    "MaskedCardNumber" : "Masked Card Number",
-    "Add_RequestedCardLimit" :"Requested Card Limit",
-    "CurrentCardLimit" : "Current Card Limit"
+    "CurrentCorporateCardLimit": "Current Corporate Card Limit",
+    "AvailableLimit": "Available Limit",
+    "MaskedCardNumber": "Masked Card Number",
+    "Add_RequestedCardLimit": "Requested Card Limit",
+    "CurrentCardLimit": "Current Card Limit"
   },
   "CustomerDtls": {
     "CARD_DTLS_LBL": "Card Details",
@@ -1869,7 +1870,7 @@
     "CD_REGISTERED_NAME": "Registered Name",
     "CD_INCORPORATE_DATE": "Date of Incorporation",
     "CD_INCORPORATE_TYPE": "Type of Incorporation",
-    "CorporateLine4":"Corporate Name for Member Cards"
+    "CorporateLine4": "Corporate Name for Member Cards"
   },
   "QDE": {
     "FieldId_1": "null",
@@ -1908,7 +1909,7 @@
     "SANCTION_CREDIT_LIMIT": "Approved Credit Limit",
     "SANCTION_CASH_LIMIT": "Approved Cash Limit",
     "REQ_CARD_LIMIT": "Requested Card Limit",
-    "CC_CAMPTYPE" : "Application Type"
+    "CC_CAMPTYPE": "Application Type"
   },
   "CustomerDtlsGrid": {
     "CD_CUSTOMER_TYPE": "Customer Type",
@@ -1990,7 +1991,7 @@
     "CD_EDIT_BTN": "Edit",
     "toolbar_CustDtlsGrid": "null",
     "DOB": "Date of Birth",
-    "REGISTERED_NAME":"Registered/Customer Name",
+    "REGISTERED_NAME": "Registered/Customer Name",
     "GridTitle": "Customer Details Grid",
     "FULL_NAME": "Customer Name",
     "CUST_TYPE_LBL": "Applicant Type",
@@ -2013,7 +2014,7 @@
     "MT_CAD_LOCATION": "Branch",
     "MT_CUSTOMER": "Customer",
     "MT_STAGE": "Stage",
-    "MT_APPLICATION_TYPE" :" "
+    "MT_APPLICATION_TYPE": " "
   },
   "MyTrayForm": {
     "MT_SLIDER": "Pending with Self",
@@ -2632,12 +2633,12 @@
     "ADD_CUST_SUB_SGMT": "Customer Subsegment",
     "FieldId_66": "Other Details",
     "FieldId_65": "Customer Details",
-    "ADD_ApplicantType" : "Applicant Type",
-    "LimitEN" : "Limit Enhahncement",
+    "ADD_ApplicantType": "Applicant Type",
+    "LimitEN": "Limit Enhahncement",
     "CardDetails": "Card Details",
-    "ADD_CurrentCardLimit" : "Current Card Limit",
-    "ADD_MaskedCardNumber" : "Masked Card Number",
-    "ADD_AvailableLimit" : "Available Limit"
+    "ADD_CurrentCardLimit": "Current Card Limit",
+    "ADD_MaskedCardNumber": "Masked Card Number",
+    "ADD_AvailableLimit": "Available Limit"
   },
   "RealignmentRequest": {
     "FormTitle": "Re-alignmentRequest",
@@ -2664,8 +2665,8 @@
     "Total": "Total",
     "RequestedCardLimit": "Requested Card Limit"
   },
-  "PopupAlertComponent":{
-    "RealignmentSection":"Realignment Section",
-    "LimitEnhacement":"Limit Enhacement"
+  "PopupAlertComponent": {
+    "RealignmentSection": "Realignment Section",
+    "LimitEnhacement": "Limit Enhacement"
   }
 }

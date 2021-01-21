@@ -59,7 +59,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     field: "LD_AMOUNT",
     width: 44,
     sortable: false,
-    hide : true,
+    hide: true,
     resizable: true,
     cellStyle: { 'text-align': 'right' },
     valueFormatter: this.formatAmount.bind(this),
@@ -206,7 +206,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
           case "LD_LIABILITY_TYPE": obj[i].columnName = "LiabilityType"; break;
           case "LD_AMOUNT": obj[i].columnName = "Amount"; break;
           case "LD_EQU_AMOUNT": obj[i].columnName = "LocalEquivalentAmt"; break;
-          
+
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -219,7 +219,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
           case "LD_LIABILITY_TYPE": obj[i].columnName = "LiabilityType"; break;
           case "LD_AMOUNT": obj[i].columnName = "Amount"; break;
           case "LD_EQU_AMOUNT": obj[i].columnName = "LocalEquivalentAmt"; break;
-          
+
           default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
         }
       }
@@ -245,7 +245,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
             tempObj['LD_LIABILITY_TYPE'] = loopVar4[i].LiabilityType.text;
             tempObj['LIABILITY_TYPE_ID'] = loopVar4[i].LiabilityType.id;
             tempObj['LD_AMOUNT'] = loopVar4[i].Amount;
-            tempObj['LD_EQU_AMOUNT'] = loopVar4[i].LocalEquivalentAmt;            
+            tempObj['LD_EQU_AMOUNT'] = loopVar4[i].LocalEquivalentAmt;
             this.loopDataVar4.push(tempObj);
           }
         }
@@ -283,21 +283,24 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.LiabilitySeq', event.LIABILITY_ID);
-    if (confirm("Are you sure you want to delete?")) {
-      this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'rlo.success.delete.liability', 5000);
-          this.readonlyGrid.refreshGrid();
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+
+    await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+      if (response.id == 1) {
+        this.services.http.fetchApi('/LiabilityDetails/{LiabilitySeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+            this.services.alert.showAlert(1, 'rlo.success.delete.liability', 5000);
+            this.readonlyGrid.refreshGrid();
+          },
+          async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
           }
-          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-        }
-      );
-    }
+        );
+      }
+    });
   }
 
   getLiabilityDetails() {
@@ -306,7 +309,7 @@ export class LiabilityDtlsGridComponent implements AfterViewInit {
 
   formatAmount(number) {
     if (number.value) {
-      return this.services.formatAmount(number.value, null, null,false);
+      return this.services.formatAmount(number.value, null, null, false);
     } else {
       return '-';
     }
