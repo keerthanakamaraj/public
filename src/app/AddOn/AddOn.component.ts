@@ -385,7 +385,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   }
 
   async Limit_click(event) {
-    // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
     // if (this.EligibilityDecision != 'Reject') {
@@ -537,7 +537,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     }
   }
   async ADD_ON_click(event) {
-    // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
     // if (this.EligibilityDecision != 'Reject') {
