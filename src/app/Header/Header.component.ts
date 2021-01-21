@@ -83,7 +83,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
   @ViewChild('LD_APP_PRPSE_NAME', { static: false }) LD_APP_PRPSE_NAME: ReadOnlyComponent;
   @ViewChild('CC_CAMPTYPE', { static: false }) CC_CAMPTYPE: ReadOnlyComponent;
 
-  
+  @ViewChild('REAL_PROD_NAME', { static: false }) REAL_PROD_NAME: ReadOnlyComponent;
   // @ViewChild('HD_PROD', { static: false }) HD_PROD: ReadOnlyComponent;
 
 
@@ -260,16 +260,16 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
 
           this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
           this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
-          if(header.CamType == 'LE'){
+          if (header.CamType == 'LE') {
             this.CC_CAMPTYPE.setValue("Limit Enhancement");
           }
-          else if(header.CamType == 'MEMC'){
+          else if (header.CamType == 'MEMC') {
             this.CC_CAMPTYPE.setValue("Member Card");
           }
-          else if(header.CamType == 'NAPP'){
+          else if (header.CamType == 'NAPP') {
             this.CC_CAMPTYPE.setValue("New Application");
           }
-         
+
           this.CC_CHANNEL.setValue(header.SourcingChannel);
           this.channel = this.CC_CHANNEL.getFieldValue();
           // this.CC_CARD_ASSOCIATION.setValue('NA');
@@ -277,14 +277,31 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.customerType = this.CC_CUST_TYPE.getFieldValue();
 
           this.CC_CARD_TYPE.setValue(header.CardTypename);
-          // this.CARD_NUMBER.setValue(header.CardNumber);
-          if (this.CARD_NUMBER.getFieldValue() == undefined && this.CARD_NUMBER.getFieldValue() == null) {
+          if (header.hasOwnProperty("CardNumber") || header.CardNumber != null) {
+            if (header.CardNumber.length) {
+              this.CARD_NUMBER.setValue(header.CardNumber);
+            }
+            else {
+              this.CARD_NUMBER.setValue("NA");
+            }
+          }
+          else {
             this.CARD_NUMBER.setValue("NA");
           }
-          else
-          {
-            this.CARD_NUMBER.setValue(header.CardNumber);
+
+          if (header.hasOwnProperty("SchemeName") || header.SchemeName != null || header.SchemeName.length) {
+            if (header.SchemeName.length) {
+              this.REAL_PROD_NAME.setValue(header.SchemeName);
+            }
+            else {
+              this.REAL_PROD_NAME.setValue(header.SchemeName);
+            }
           }
+          else {
+            this.REAL_PROD_NAME.setValue("NA");
+          }
+
+
           // this.SANCTION_CREDIT_LIMIT.setValue(header.SanctionCreditLimit);
           // this.SANCTION_CASH_LIMIT.setValue(header.SanctionCashLimit);
 
@@ -507,7 +524,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       CardType: header.CardType,
       CardTypename: header.CardTypename,
       CustomerType: header.CardCustType,
-     // CustomerType: 'C',
+      // CustomerType: 'C',
       InterestRate: header.InterestRate,
       Tenure: header.Tenure,
       TenurePeriodCd: header.TenurePeriod,
@@ -515,12 +532,12 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       MinCashLimit: header.Product_min_cash_limit,
       MaxCashLimit: header.Product_max_cash_limit,
       MaxCreditLimit: header.Product_max_credit,
-      CamType : header.CamType,
-      SubCamType : header.SubCamType,
-      ReqCardLimit :header.ReqCardLimit,
+      CamType: header.CamType,
+      SubCamType: header.SubCamType,
+      ReqCardLimit: header.ReqCardLimit,
       PrimaryUsage: header.ApplicationPurpose,
-      CBSProductCode : header.CBS_Product_Code,
-      ApplicationPurposeName : header.ApplicationPurposeName
+      CBSProductCode: header.CBS_Product_Code,
+      ApplicationPurposeName: header.ApplicationPurposeName
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
