@@ -42,44 +42,55 @@ export class RloUiAccordionComponent implements AfterContentInit {
  * Open an accordion group
  * @param group   Group instance
  */
-  
- openGroup(group: RloUiAccordionGroupComponent) {
+
+  openGroup(group: RloUiAccordionGroupComponent) {
     // close other groups
-    this.groups.toArray().forEach((t) => t.opened = false);
+
+    this.groups.toArray().forEach((data) => {
+      console.log(data);
+    })
+
+    // this.groups.toArray().forEach((t) => t.opened = false);
     // open current group
     // group.opened = true;
-    if(group.disableAccordian){
+    // if (group.disableAccordian) {
+    //   group.opened = false;
+    //   this.groups.toArray()[0].opened = true;
+    // } else {
+    //   group.opened = true;
+    // }
+
+    if (group.opened) {
       group.opened = false;
-      this.groups.toArray()[0].opened = true;
-    }else{
+    } else {
       group.opened = true;
     }
-    
-    console.log('group',group);
 
-    setTimeout(function(){
-      // Temp Fix - using native js call change to better approach
-      // let activePanel = document.getElementsByClassName("rlo-panel active")[0];
-      const activePanel = document.getElementById(group.id);
+    console.log('group', group);
 
-      // Sol - 1
-      // let panelHeader = activePanel.getElementsByClassName("acc-header")[0];
-      // panelHeader.scrollIntoView();
+    // setTimeout(function () {
+    //   // Temp Fix - using native js call change to better approach
+    //   // let activePanel = document.getElementsByClassName("rlo-panel active")[0];
+    //   const activePanel = document.getElementById(group.id);
 
-      // Sol - 2
-      const firstInput = activePanel.getElementsByTagName('input')[0];
-      firstInput.focus();
+    //   // Sol - 1
+    //   // let panelHeader = activePanel.getElementsByClassName("acc-header")[0];
+    //   // panelHeader.scrollIntoView();
 
-    }, 100);
+    //   // Sol - 2
+    //   const firstInput = activePanel.getElementsByTagName('input')[0];
+    //   firstInput.focus();
+
+    // }, 100);
 
   }
 
-  setTags(group: any, tags: Array<any>){
+  setTags(group: any, tags: Array<any>) {
     let accordionGroup = this.groups.find(element => { return element.id == group });
     accordionGroup.tags = tags;
   }
 
-  disableAccordian(group: any,flagforAccordian:boolean){
+  disableAccordian(group: any, flagforAccordian: boolean) {
     this.groups.toArray().forEach((t) => t.opened = false);
     this.groups.toArray()[0].opened = true;
     let accordionGroup = this.groups.find(element => { return element.id == group });
