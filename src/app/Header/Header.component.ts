@@ -257,9 +257,13 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
           this.LD_SYS_RCMD_AMT.setValue(this.services.formatAmount(header.SystemRecommendedAmount, null, null, false));
           this.LD_USR_RCMD_AMT.setValue(this.services.formatAmount(header.UserRecommendedAmount, null, null, false));
         } else {
-
-          this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
-          this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
+          if (header.CamType == 'MEMC') {
+            this.CC_PRIME_USAGE.setValue('Offices Expenses and Business Travel');
+            // this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
+          } else {
+            this.CC_PRIME_USAGE.setValue(header.ApplicationPurposeName != undefined ? header.ApplicationPurposeName : 'NA');
+            this.primeUsage = this.CC_PRIME_USAGE.getFieldValue();
+          }
           if (header.CamType == 'LE') {
             this.CC_CAMPTYPE.setValue("Limit Enhancement");
           }
