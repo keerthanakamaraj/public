@@ -78,6 +78,10 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   gridData: any;
   hidForm: boolean = true;
   cardInfo: any;
+
+  //store selected user data in this obj -> when data from card modal is selected populate this data
+  selectedCustomerDetails: any = undefined;
+
   async revalidate(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -102,7 +106,33 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         'maskedCardNumber': data.PrimaryCardNumber,
         'availableLimit': data.AvailableLimit
       }
-      this.setCardRelatedData(obj);
+
+      this.hidForm = false;
+      let customerObj = this.selectedCustomerDetails;
+
+      if (this.tempVar.CustomerType == 'C') {
+        // this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
+        setTimeout(() => {
+          this.HideFieldBasedOnCorporate();
+          this.clearCardDetails();
+          this.setCoroporateFields(customerObj)
+          this.setCoropDisabled();
+
+          this.setCardRelatedData(obj);
+        }, 500);
+      }
+      else {
+        setTimeout(() => {
+          this.HideFieldBasedOnCorporate();
+          this.clearCardDetails();
+          this.setDataFields(customerObj);
+          this.setHTabDisabled();
+
+          this.setCardRelatedData(obj);
+        }, 500);
+      }
+
+
     });
   }
 
@@ -216,15 +246,6 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     console.log("DEEP | selectedCustomer() Event");
     console.log("hidForm", this.hidForm);
 
-    // JUHI :: check this condition the form does not get visible
-    // if (this.cardInfo != null) {
-    //   this.hidForm = false;
-    // }
-
-    //JUHI :: clearing the card details section Bcoz not all section has card details.
-
-
-
     this.tempVar = data;
     if (this.services.rloCommonData.currentRoute == 'AddOn') {
       if (this.tempVar.CustomerType !== 'C') {
@@ -233,26 +254,30 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         return;
       }
     }
-    this.hidForm = false;
+    this.hidForm = true;
 
-    if (this.tempVar.CustomerType == 'C') {
-      // this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
-      setTimeout(() => {
-        this.HideFieldBasedOnCorporate();
-        this.clearCardDetails();
-        this.setCoroporateFields(data)
-        this.setCoropDisabled();
-      }, 500);
-    }
-    else {
-      setTimeout(() => {
-        this.HideFieldBasedOnCorporate();
-        this.clearCardDetails();
-        this.setDataFields(data);
-        this.setHTabDisabled();
-      }, 500);
-    }
+    //add data to temp list
+    this.selectedCustomerDetails = data;
+
+    // if (this.tempVar.CustomerType == 'C') {
+    //   // this.services.alert.showAlert(2, 'rlo.error.Customertype.invalid', -1);
+    //   setTimeout(() => {
+    //     this.HideFieldBasedOnCorporate();
+    //     this.clearCardDetails();
+    //     this.setCoroporateFields(data)
+    //     this.setCoropDisabled();
+    //   }, 500);
+    // }
+    // else {
+    //   setTimeout(() => {
+    //     this.HideFieldBasedOnCorporate();
+    //     this.clearCardDetails();
+    //     this.setDataFields(data);
+    //     this.setHTabDisabled();
+    //   }, 500);
+    // }
   }
+
   setCoropDisabled() {
     this.ADD_CUSTOMER_ID.setReadOnly(true);
     this.ADD_TITLE.setReadOnly(true);
@@ -393,6 +418,11 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   }
 
   async Limit_click(event) {
+    if (this.hidForm) {
+      console.log("*****SUBMIT*****");
+      return;
+    }
+
     this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
@@ -444,7 +474,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.ADD_DATE_OF_INCORPORATION.getFieldValue());
       inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
       inputMap.set('Body.ApplicationDetails.SourcingChannel', this.tempVar.SourcingChannel);
-      inputMap.set('Body.ApplicationDetails.DSACode',this.tempVar.DSACode);
+      inputMap.set('Body.ApplicationDetails.DSACode', this.tempVar.DSACode);
       inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.tempVar.CreatedOn);
       inputMap.set('Body.LoanDetails.Product', this.tempVar.Product);
       inputMap.set('Body.LoanDetails.ProductCategory', this.tempVar.ProductCategory);
@@ -455,7 +485,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.LoanDetails.ApplicationPurpose', this.tempVar.ApplicationPurpose);
       inputMap.set('Body.LoanDetails.UDF2', this.tempVar.CBSProductCode);
       // inputMap.set('Body.ApplicationDetails.ApplicationInfo.PhysicalFormNo', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
-      inputMap.set('Body.ApplicationDetails.ApplicationBranch',this.tempVar.ApplicationBranch);
+      inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.tempVar.ApplicationBranch);
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
       inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue());
       inputMap.set('Body.ApplicationDetails.MaskedCardNumber', this.ADD_MaskedCardNumber.getFieldValue());
@@ -545,6 +575,11 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     }
   }
   async ADD_ON_click(event) {
+    if (this.hidForm) {
+      console.log("*****SUBMIT*****");
+      return;
+    }
+
     this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
@@ -588,7 +623,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.DateOfIncorporation', this.ADD_DATE_OF_INCORPORATION.getFieldValue());
       inputMap.set('HeaderParam.user-id', sessionStorage.getItem('userId'));
       inputMap.set('Body.ApplicationDetails.SourcingChannel', this.tempVar.SourcingChannel);
-      inputMap.set('Body.ApplicationDetails.DSACode',this.tempVar.DSACode);
+      inputMap.set('Body.ApplicationDetails.DSACode', this.tempVar.DSACode);
       inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.tempVar.CreatedOn);
       inputMap.set('Body.LoanDetails.Product', this.tempVar.Product);
       inputMap.set('Body.LoanDetails.ProductCategory', this.tempVar.ProductCategory);
@@ -598,11 +633,11 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.LoanDetails.TypeOfLoanName', this.tempVar.TypeOfLoanName);
       inputMap.set('Body.LoanDetails.ApplicationPurpose', this.tempVar.ApplicationPurpose);
       inputMap.set('Body.LoanDetails.UDF2', this.tempVar.CBSProductCode);
-      inputMap.set('Body.ApplicationDetails.ApplicationBranch',this.tempVar.ApplicationBranch);
+      inputMap.set('Body.ApplicationDetails.ApplicationBranch', this.tempVar.ApplicationBranch);
       // inputMap.set('Body.ApplicationDetails.RequestedCardLimit', '20000');
-     // inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue()); // wrong field mapped
-     inputMap.set('Body.ApplicationDetails.CurrentCardLimit', parseFloat(this.ADD_CurrentCardLimit.getFieldValue()));
-      inputMap.set('Body.ApplicationDetails.MaskedCardNumber',this.ADD_MaskedCardNumber.getFieldValue());
+      // inputMap.set('Body.ApplicationDetails.CurrentCardLimit', this.ADD_AvailableLimit.getFieldValue()); // wrong field mapped
+      inputMap.set('Body.ApplicationDetails.CurrentCardLimit', parseFloat(this.ADD_CurrentCardLimit.getFieldValue()));
+      inputMap.set('Body.ApplicationDetails.MaskedCardNumber', this.ADD_MaskedCardNumber.getFieldValue());
       inputMap.set('Body.ApplicationDetails.AvailableLimit', parseFloat(this.ADD_AvailableLimit.getFieldValue()));
       // inputMap.set('Body.ApplicationDetails.ExistingCardNumber', '5366575777777777');
       inputMap.set('Body.ApplicationDetails.ExistingCardType', this.tempVar.ExistingCardType);
