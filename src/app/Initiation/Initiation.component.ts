@@ -726,12 +726,19 @@ setCustomerTypeOptions(){
 
   //called when a customer is selected for customer search
   setValuesOfCustomer(data) {
+    
     console.log('searched data =================', data);
 
     if (data.CustomerType == 'C') {
       this.isReferrer = true;
+      if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
+        // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
+        this.services.alert.showAlert(2, '', 1000, 'User Cannot Add Corporate Record For Addon Customer');
+        return;
+      }
     }
     let tempVar: any = data;
+    if(tempVar)
 
 
     this.CD_DOB.setValue(tempVar['dob']);
