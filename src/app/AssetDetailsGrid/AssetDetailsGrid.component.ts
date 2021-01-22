@@ -75,7 +75,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         width: 22,
         sortable: false,
         resizable: true,
-        hide: true,        
+        hide: true,
         cellStyle: { 'text-align': 'right' },
         valueFormatter: this.formatAmount.bind(this),
 
@@ -236,7 +236,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                     case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
                     case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
                     case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
-                    case "AT_Local_Curr_Value": obj[i].columnName = "EquivalentAmt"; break;                    
+                    case "AT_Local_Curr_Value": obj[i].columnName = "EquivalentAmt"; break;
                     case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
                     // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
                     case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
@@ -321,21 +321,24 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.ASSET_ID);
-        if (confirm("Are you sure you want to delete?")) {
-            this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
-                    this.readonlyGrid.refreshGrid();
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+
+        await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+            if (response.id == 1) {
+                this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
+                        this.readonlyGrid.refreshGrid();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
                     }
-                    this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
-                }
-            );
-        }
+                );
+            }
+        });
     }
 
     getAssetDetails() {
@@ -344,7 +347,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
 
     formatAmount(number) {
         if (number.value) {
-            return this.services.formatAmount(number.value, null, null,false);
+            return this.services.formatAmount(number.value, null, null, false);
         } else {
             return '-';
         }

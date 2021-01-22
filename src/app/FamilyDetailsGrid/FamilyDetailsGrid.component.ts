@@ -262,27 +262,31 @@ export class FamilyDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.BorrowerSeq', event.Family_ID);
-        if (confirm("Are you sure you want to Delete?")) {
-            this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    console.error("deep ===", this.familyDetails);
-                    this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);
 
-                    // if (this.familyDetails.length == 1)
-                    //     this.services.rloCommonData.updateValuesFundLineGraph("remove");
+        await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+            if (response.id == 1) {
+                this.services.http.fetchApi('/BorrowerDetails/{BorrowerSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        console.error("deep ===", this.familyDetails);
+                        this.services.alert.showAlert(1, 'rlo.success.delete.family', 5000);
 
-                    this.readonlyGrid.refreshGrid();
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        // if (this.familyDetails.length == 1)
+                        //     this.services.rloCommonData.updateValuesFundLineGraph("remove");
+
+                        this.readonlyGrid.refreshGrid();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.delete.family', -1);
                     }
-                    this.services.alert.showAlert(2, 'rlo.error.delete.family', -1);
-                }
-            );
-        }
+                );
+            }
+        });
     }
+
     loadSpinner = false;
     showSpinner() {
         this.loadSpinner = true;

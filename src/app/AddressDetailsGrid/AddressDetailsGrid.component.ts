@@ -34,7 +34,7 @@ export class AddressDetailsGridComponent implements AfterViewInit {
   addressDetails = [];
   componentCode: string = 'AddressDetailsGrid';
   openedFilterForm: string = '';
-  activeApplicantType:string=undefined;   // canara changes
+  activeApplicantType: string = undefined;   // canara changes
   hidden: boolean = false;
   gridConsts: any = {
     paginationPageSize: 10,
@@ -283,21 +283,21 @@ export class AddressDetailsGridComponent implements AfterViewInit {
             var tempObj = {};
             tempObj['AD_ADD_ID'] = address[i].AddressDetailsSeq;
             tempObj['AddressTypeId'] = address[i].AddressType;
-            if( this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
-              if(address[i].AddressType=='ML' ){
-                tempObj['AD_Address_Type'] =  'Registered Address';
-              }else if(address[i].AddressType=='PR'){
-                  tempObj['AD_Address_Type'] = 'Communication Address';
+            if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
+              if (address[i].AddressType == 'ML') {
+                tempObj['AD_Address_Type'] = 'Registered Address';
+              } else if (address[i].AddressType == 'PR') {
+                tempObj['AD_Address_Type'] = 'Communication Address';
               }
-            }else{
-              if(address[i].AddressType=='ML' ){
-                tempObj['AD_Address_Type'] =  'Mailing Address';
-              }else if(address[i].AddressType=='PR'){
-                tempObj['AD_Address_Type'] =  'Permanent Address';
+            } else {
+              if (address[i].AddressType == 'ML') {
+                tempObj['AD_Address_Type'] = 'Mailing Address';
+              } else if (address[i].AddressType == 'PR') {
+                tempObj['AD_Address_Type'] = 'Permanent Address';
               }
             }
-         
-            
+
+
             tempObj['AD_MAILING_ADDRESS'] = address[i].UDF3;
             tempObj['AD_OCCUP_TYPE'] = address[i].OccupancyType.text;
             tempObj['AD_OCC_STATUS'] = address[i].ResidenceType.text;
@@ -375,33 +375,36 @@ export class AddressDetailsGridComponent implements AfterViewInit {
     // }
   }
   async AD_DELETE_BTN_click(event) {
-console.log("shweta :: ",event);
-if('ML'==event.AddressTypeId){  // changes for canara
-  this.services.alert.showAlert(2, 'rlo.error.address.delete-restrict', -1);
-  return ;
-}
-    if (confirm("Are you sure you want to delete this record")) {
-      let inputMap = new Map();
-      inputMap.clear();
-      inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
-      this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-        async (httpResponse: HttpResponse<any>) => {
-          var res = httpResponse.body;
-          this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
-
-          // if (this.addressDetails.length == 1)
-          // 	this.services.rloCommonData.updateValuesFundLineGraph("remove");
-
-          this.readonlyGrid.refreshGrid();
-        },
-        async (httpError) => {
-          var err = httpError['error']
-          if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-          }
-          this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
-        }
-      );
+    console.log("shweta :: ", event);
+    if ('ML' == event.AddressTypeId) {  // changes for canara
+      this.services.alert.showAlert(2, 'rlo.error.address.delete-restrict', -1);
+      return;
     }
+
+    await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+      if (response.id == 1) {
+        let inputMap = new Map();
+        inputMap.clear();
+        inputMap.set('PathParam.AddressDetailsSeq', event.AD_ADD_ID);
+        this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            var res = httpResponse.body;
+            this.services.alert.showAlert(1, 'rlo.success.delete.address', 5000);
+
+            // if (this.addressDetails.length == 1)
+            // 	this.services.rloCommonData.updateValuesFundLineGraph("remove");
+
+            this.readonlyGrid.refreshGrid();
+          },
+          async (httpError) => {
+            var err = httpError['error']
+            if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+            }
+            this.services.alert.showAlert(2, 'rlo.error.wrong.form', -1);
+          }
+        );
+      }
+    });
   }
   recordDisplay = false;
   recordShow() {
@@ -416,7 +419,7 @@ if('ML'==event.AddressTypeId){  // changes for canara
   }
 
   toggleColumn() {
-    let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType=='B'? true : false;
+    let CorporateFlag: boolean = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B' ? true : false;
 
     this.setColumnHidden('AD_Residence_Duration', CorporateFlag);
   }

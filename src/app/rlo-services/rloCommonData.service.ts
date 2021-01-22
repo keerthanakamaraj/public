@@ -881,8 +881,8 @@ export class RloCommonData {
         return commonObj;
       }
     }
-      return commonObj;
-
+    // changes done
+    return commonObj;
   }
 
   goBack() {
@@ -1246,6 +1246,36 @@ export class RloCommonData {
           resolve(null);
         }
       );
+    });
+    return promise;
+  }
+
+
+  async deleteConfirmationAlert(txtMsg: string) {
+    let promise = new Promise<any>((resolve, reject) => {
+      var mainMessage = this.rloui.getAlertMessage(txtMsg);//'rlo.cancel.comfirmation'
+      var button1 = this.rloui.getAlertMessage('', 'OK');
+      var button2 = this.rloui.getAlertMessage('', 'CANCEL');
+
+      Promise.all([mainMessage, button1, button2]).then(values => {
+        console.log(values);
+        let modalObj = {
+          title: "Alert",
+          mainMessage: values[0],
+          modalSize: "modal-width-sm",
+          buttons: [
+            { id: 1, text: values[1], type: "success", class: "btn-primary" },
+            { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+          ]
+        }
+
+        this.rloui.confirmationModal(modalObj).then((response) => {
+          console.log(response);
+          if (response != null) {
+            resolve(response);
+          } 
+        });
+      });
     });
     return promise;
   }

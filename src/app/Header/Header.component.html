@@ -23,21 +23,22 @@
                             <div class='first-child'>
                                 <div class='second-child'>
                                     <div class="arn">
-                                        <span>ARN | </span>{{ ARN }}</div>
+                                        <span>ARN | </span>{{ ARN }}
+                                    </div>
                                     <!-- <rlo-ui-readonlyfield #HD_APP_REF_NUM fieldID="HD_APP_REF_NUM" [formCode]="formCode" (blur)="genericOnBlur('HD_APP_REF_NUM', $event)"></rlo-ui-readonlyfield> -->
                                 </div>
                                 <div class="currencySymbol">
                                     <span>{{ currencySymbol }}</span>
                                 </div>
-                                <label [ngStyle]="{'display': (isLoanCategory) ? 'block' :'none'}" >
+                                <label [ngStyle]="{'display': (isLoanCategory) ? 'block' :'none'}">
                                     <rlo-ui-readonlyfield #LD_LOAN_AMT fieldID="LD_LOAN_AMT" [formCode]="formCode"
                                         (blur)="genericOnBlur('LD_LOAN_AMT', $event)"></rlo-ui-readonlyfield>
                                 </label>
                                 <label [ngStyle]="{'display': (!isLoanCategory) ? 'block' :'none'}">
-                                        <rlo-ui-readonlyfield #REQ_CARD_LIMIT fieldID="REQ_CARD_LIMIT" 
-                                        [formCode]="formCode" (blur)="genericOnBlur('REQ_CARD_LIMIT', $event)">
-                                       </rlo-ui-readonlyfield>
-                                    </label>
+                                    <rlo-ui-readonlyfield #REQ_CARD_LIMIT fieldID="REQ_CARD_LIMIT" [formCode]="formCode"
+                                        (blur)="genericOnBlur('REQ_CARD_LIMIT', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </label>
                                 <div class="col-12  col-sm-12 col-md-12 border">
                                     <div></div>
                                 </div>
@@ -46,8 +47,8 @@
                                     <img class='loanimage' src="{{PRODUCT_CATEGORY_IMG}}" />
                                 </div>
 
-                               
-                               
+
+
                                 <rlo-ui-readonlyfield #HD_PROD_CAT_NAME fieldID="HD_PROD_CAT_NAME" [formCode]="formCode"
                                     (blur)="genericOnBlur('HD_PROD_CAT_NAME', $event)"></rlo-ui-readonlyfield>
 
@@ -56,6 +57,16 @@
                         </div>
                         <div class='leftheader'>
                             <div class='subleftheader'>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="REAL_PROD_NAME.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.REAL_PROD_NAME' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #REAL_PROD_NAME fieldID="REAL_PROD_NAME" [formCode]="formCode"
+                                        (blur)="genericOnBlur('REAL_PROD_NAME', $event)"></rlo-ui-readonlyfield>
+                                </div>
                                 <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
                                     [hidden]="HD_PROD_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
@@ -77,7 +88,8 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('HD_SUB_PROD_NAME', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_TYPE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="CC_CARD_TYPE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CARD_TYPE' | translate}}
@@ -86,16 +98,17 @@
                                     <rlo-ui-readonlyfield #CC_CARD_TYPE fieldID="CC_CARD_TYPE" [formCode]="formCode"
                                         (blur)="genericOnBlur('CC_CARD_TYPE', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CARD_NUMBER.isHidden()">
+                                <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="CARD_NUMBER.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CARD_NUMBER' | translate}}
                                         </label>
                                     </div>
-                                    <rlo-ui-readonlyfield #CARD_NUMBER fieldID="CARD_NUMBER"
-                                        [formCode]="formCode" (blur)="genericOnBlur('CARD_NUMBER', $event)">
+                                    <rlo-ui-readonlyfield #CARD_NUMBER fieldID="CARD_NUMBER" [formCode]="formCode"
+                                        (blur)="genericOnBlur('CARD_NUMBER', $event)">
                                     </rlo-ui-readonlyfield>
-                                </div>
+                                </div> -->
                                 <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
                                     [hidden]="HD_SCHEME_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
@@ -121,7 +134,8 @@
                         </div>
                         <div class='rightheader' [className]="isLoanCategory?'active':'inactive'">
                             <div class='subrightheader1'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_INTEREST_RATE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="LD_INTEREST_RATE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_INTEREST_RATE' | translate}}
@@ -131,7 +145,8 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('LD_INTEREST_RATE', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_TENURE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="LD_TENURE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_TENURE' | translate}}
@@ -140,7 +155,8 @@
                                     <rlo-ui-readonlyfield #LD_TENURE fieldID="LD_TENURE" [formCode]="formCode"
                                         (blur)="genericOnBlur('LD_TENURE', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_TENURE_PERIOD_NAME.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="LD_TENURE_PERIOD_NAME.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_TENURE_PERIOD' | translate}}
@@ -163,7 +179,8 @@
                                 </div>
                             </div>
                             <div class='subrightheader2'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_SYS_RCMD_AMT.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="LD_SYS_RCMD_AMT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_SYS_RCMD_AMT' | translate}}
@@ -173,7 +190,8 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('LD_SYS_RCMD_AMT', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="LD_USR_RCMD_AMT.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="LD_USR_RCMD_AMT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.LD_USR_RCMD_AMT' | translate}}
@@ -197,7 +215,8 @@
                         </div>
                         <div class='rightheader' [className]="!isLoanCategory?'active':'inactive'">
                             <div class='subrightheader1'>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CUST_TYPE.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="CC_CUST_TYPE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CUST_TYPE' | translate}}
@@ -208,7 +227,8 @@
                                         (blur)="genericOnBlur('CC_CUST_TYPE', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CHANNEL.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="CC_CHANNEL.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.CC_CHANNEL' | translate}}
@@ -218,7 +238,8 @@
                                     <rlo-ui-readonlyfield #CC_CHANNEL fieldID="CC_CHANNEL" [formCode]="formCode"
                                         (blur)="genericOnBlur('CC_CHANNEL', $event)"></rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="SANCTION_CREDIT_LIMIT.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="SANCTION_CREDIT_LIMIT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.SANCTION_CREDIT_LIMIT' | translate}}
@@ -228,7 +249,8 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('SANCTION_CREDIT_LIMIT', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="SANCTION_CASH_LIMIT.isHidden()">
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="SANCTION_CASH_LIMIT.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
                                             {{ 'Header.SANCTION_CASH_LIMIT' | translate}}
@@ -238,7 +260,7 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('SANCTION_CASH_LIMIT', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div>
-                                
+
                                 <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_TYPE.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
@@ -250,26 +272,38 @@
                                 </div> -->
                             </div>
                             <div class='subrightheader2'>
-                                    <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_PRIME_USAGE.isHidden()">
-                                            <div class="clr-brown fieldLegend">
-                                                <label class="clr-brown">
-                                                    {{ 'Header.CC_PRIME_USAGE' | translate}}
-                                                </label>
-                                            </div>
-                                            <rlo-ui-readonlyfield #CC_PRIME_USAGE fieldID="CC_PRIME_USAGE" [formCode]="formCode"
-                                                (blur)="genericOnBlur('CC_PRIME_USAGE', $event)">
-                                            </rlo-ui-readonlyfield>
-                                        </div>
-                                        <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CAMPTYPE.isHidden()">
-                                            <div class="clr-brown fieldLegend">
-                                                <label class="clr-brown">
-                                                    {{ 'Header.CC_CAMPTYPE' | translate}}
-                                                </label>
-                                            </div>
-                                            <rlo-ui-readonlyfield #CC_CAMPTYPE fieldID="CC_CAMPTYPE" [formCode]="formCode"
-                                                (blur)="genericOnBlur('CC_CAMPTYPE', $event)">
-                                            </rlo-ui-readonlyfield>
-                                        </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="CC_PRIME_USAGE.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CC_PRIME_USAGE' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CC_PRIME_USAGE fieldID="CC_PRIME_USAGE" [formCode]="formCode"
+                                        (blur)="genericOnBlur('CC_PRIME_USAGE', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text"
+                                    [hidden]="CC_CAMPTYPE.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CC_CAMPTYPE' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CC_CAMPTYPE fieldID="CC_CAMPTYPE" [formCode]="formCode"
+                                        (blur)="genericOnBlur('CC_CAMPTYPE', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
+                                <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CARD_NUMBER.isHidden()">
+                                    <div class="clr-brown fieldLegend">
+                                        <label class="clr-brown">
+                                            {{ 'Header.CARD_NUMBER' | translate}}
+                                        </label>
+                                    </div>
+                                    <rlo-ui-readonlyfield #CARD_NUMBER fieldID="CARD_NUMBER"
+                                        [formCode]="formCode" (blur)="genericOnBlur('CARD_NUMBER', $event)">
+                                    </rlo-ui-readonlyfield>
+                                </div>
                                 <!-- <div class="col-12  col-sm-12 col-md-12 res-pr-hide ellipsis-text" [hidden]="CC_CARD_ASSOCIATION.isHidden()">
                                     <div class="clr-brown fieldLegend">
                                         <label class="clr-brown">
@@ -280,15 +314,9 @@
                                         [formCode]="formCode" (blur)="genericOnBlur('CC_CARD_ASSOCIATION', $event)">
                                     </rlo-ui-readonlyfield>
                                 </div> -->
-                              
-                               
-                               
-                                
                                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                                 <div class="col-12  col-sm-4 col-md-4 res-pr-hide"></div>
                             </div>
-
-
                         </div>
                         <div class="col-12  col-sm-4 col-md-4 res-pr-hide">
                             <app-header-handler #Handler></app-header-handler>
@@ -304,11 +332,12 @@
                     <div class="collapsedHeader" [ngClass]="showProgressBar?'progress-bar-visible':''">
                         <div [ngClass]="isLoanCategory?'active':'inactive'">
                             <div class="arn">
-                                <span>ARN | </span>{{ ARN }}</div>
+                                <span>ARN | </span>{{ ARN }}
+                            </div>
                             <!-- <div class="loan-amt" [ngClass]="{'INR':currency === 'INR','KES':currency === 'KES','EUR':currency === 'EUR','MUR':currency === 'MUR'}">{{ LOAN_AMT }}</div> -->
                             <div class="currencySymbol">
-                              <span>{{ currencySymbol }}</span>
-                              <div class="loan-amt" >{{ LOAN_AMT }}</div>
+                                <span>{{ currencySymbol }}</span>
+                                <div class="loan-amt">{{ LOAN_AMT }}</div>
                             </div>
                             <div class="loan-cat limit-width {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY_NAME }}</div>
                             <div>{{ INTEREST_RATE }}</div>
@@ -319,12 +348,13 @@
                         </div>
                         <div [ngClass]="!isLoanCategory?'active':'inactive'">
                             <div class="arn">
-                                <span>ARN | </span>{{ ARN }}</div>
-                                <div class="currencySymbol">
-                                        <span>{{ currencySymbol }}</span>
-                                        <div class="loan-amt" >{{ REQ_LIMIT }}</div>
-                                </div>
-                           
+                                <span>ARN | </span>{{ ARN }}
+                            </div>
+                            <div class="currencySymbol">
+                                <span>{{ currencySymbol }}</span>
+                                <div class="loan-amt">{{ REQ_LIMIT }}</div>
+                            </div>
+
                             <div class="loan-cat limit-width {{LOAN_CATEGORY}}">{{ LOAN_CATEGORY_NAME }}</div>
                             <div>{{ customerType }}</div>
                             <div>{{ channel }}</div>

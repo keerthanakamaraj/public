@@ -773,6 +773,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.CurrentStage', 'Operation');
     inputMap.set('Body.ApplicationId', this.ApplicationId);
     inputMap.set('Body.prposalid', this.ApplicationId);
+    inputMap.set('Body.CreatedBy', this.userId);
+    inputMap.set('Body.UpdatedBy', this.userId);
     if(this.services.rloCommonData.globalApplicationDtls.CamType == 'NAPP'){
     if('C'==this.services.rloCommonData.globalApplicationDtls.CustomerType){
     inputMap.set('Body.interfaceId','CORP_CARD_BOOKING');}
@@ -798,7 +800,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.inputdata.firstRepaymentDate', '06-DEC-2020');
     inputMap.set('HeaderParam.ServiceCode', this.HideServiceCodeComplete.getFieldValue());
 
-    console.log(" :: debug",inputMap);
+    //console.log(" :: debug",inputMap);
     //return;
     this.services.http.fetchApi('/acceptOperation', 'POST', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {

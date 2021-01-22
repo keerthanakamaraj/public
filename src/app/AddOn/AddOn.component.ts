@@ -301,7 +301,12 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_MOBILE.setValue(this.tempVar['mobileNum']);
     this.ADD_CUSTOMER_ID.setValue(this.tempVar['icif']);
     this.ADD_EMAIL_ID.setValue(this.tempVar['emailid']);
-    this.ADD_ApplicantType.setValue('Member Card Request');
+    if (this.services.rloCommonData.currentRoute == 'AddOn') {
+      this.ADD_ApplicantType.setValue('Member Card Request');
+    }
+    else if (this.services.rloCommonData.currentRoute == 'LimitEnhancement') {
+      this.ADD_ApplicantType.setValue('Limit Enhancement');
+    }
     this.ADD_REGISTERED_NAME.setValue(this.tempVar.registeredName);
     this.ADD_DATE_OF_INCORPORATION.setValue(this.tempVar.dateOfIncorporation);
     this.ADD_TYPE_OF_INCORPORATION.setValue(this.tempVar.typeOfIncorporation);
@@ -327,9 +332,12 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     this.ADD_TITLE.setValue(this.tempVar['title']);
     this.ADD_CUSTOMER_ID.setValue(this.tempVar['icif']);
     this.ADD_EMAIL_ID.setValue(this.tempVar['emailid']);
-
-    this.ADD_ApplicantType.setValue('Limit Enhancement');
-
+    if (this.services.rloCommonData.currentRoute == 'AddOn') {
+      this.ADD_ApplicantType.setValue('Member Card Request');
+    }
+    else if (this.services.rloCommonData.currentRoute == 'LimitEnhancement') {
+      this.ADD_ApplicantType.setValue('Limit Enhancement');
+    }
   }
 
   //set values specifically for "Card Details" section
@@ -385,7 +393,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   }
 
   async Limit_click(event) {
-    // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
     // if (this.EligibilityDecision != 'Reject') {
@@ -537,7 +545,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     }
   }
   async ADD_ON_click(event) {
-    // this.SUBMIT_MAIN_BTN.setDisabled(true);
+    this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
     // if (this.EligibilityDecision != 'Reject') {
