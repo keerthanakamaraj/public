@@ -512,10 +512,11 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
   //make edit and del icons hidden
   hideLastColCells() {
-    let tableRow = document.getElementsByClassName('ag-center-cols-container')[0].children;
-    let lastRow = tableRow[tableRow.length - 1].children
+    let occupationGrid = document.getElementById("OccupationGridData");
+    let occupationGridTableRow = occupationGrid.getElementsByClassName('ag-center-cols-container')[0].children
+    let lastRow = occupationGridTableRow[occupationGridTableRow.length - 1].children;
 
-    console.error(tableRow);
+    console.error("occupationGrid", occupationGrid, occupationGridTableRow);
     console.error("last", lastRow);
 
     let headerDetails = this.services.rloCommonData.globalApplicationDtls;

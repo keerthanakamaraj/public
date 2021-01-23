@@ -20,6 +20,6 @@
         </div>
     </div>
     <div [hidden]="!occupationRecord || recordDisplay">
-    <app-readonly-grid #readonlyGrid (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
+    <app-readonly-grid #readonlyGrid id="OccupationGridData" (gridSizeChanged)="onGridSizeChanged()" [formCode]="formCode" [gridConsts]="gridConsts"></app-readonly-grid>
     </div>
 </div>
