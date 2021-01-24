@@ -106,6 +106,8 @@ export class RloCommonData {
   selectedCardDetailsSubject = new Subject<any>();//in addon page -> on click of modal's row data.
   viewMode: boolean = false;//used in DDE
 
+  deletedCustomerSubject = new Subject<any>();//snd deleted customer
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -131,7 +133,14 @@ export class RloCommonData {
   }
 
 
+  //event fired when customer is deleted
+  deleteStoredCustomerInDDE(BorrowerSeq:number) {
+    this.deletedCustomerSubject.next(BorrowerSeq);
+  }
 
+  getDeletedCustomer(): Observable<any> {
+    return this.deletedCustomerSubject.asObservable();
+  }
 
   ///////////////////////////////////////////////////////////////
   //global fn to get component lvl data (grid load,customerDtls data,etc)
@@ -1273,7 +1282,7 @@ export class RloCommonData {
           console.log(response);
           if (response != null) {
             resolve(response);
-          } 
+          }
         });
       });
     });

@@ -34,8 +34,8 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   isFirstAPICall: boolean = true;
   CustomerDetailsMap = new Map<string, any>();
   PlusFlag: boolean = false;
-  AddOnSectionFlag:boolean=true;
-  MstDynamicData:any={};
+  AddOnSectionFlag: boolean = true;
+  MstDynamicData: any = {};
   //activeCustomer:{}={};
   //activeBorrowerSeq:string=undefined;
 
@@ -136,7 +136,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   fieldDependencies = {
   }
-  async doAPIForCustomerList(event) {
+  async doAPIForCustomerList(event, deletedCustomerId: number = 0) {
     let inputMap = new Map();
     //create promise
 
@@ -198,7 +198,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               let customer = {};
               this.CustomerDetailsMap.set(eachBorrower.BorrowerSeq, eachBorrower);
               customer['CustomerId'] = eachBorrower.BorrowerSeq;
-              customer['CD_CUSTOMER_NAME'] = eachBorrower.RegisteredName ? eachBorrower.RegisteredName :eachBorrower.FullName;
+              customer['CD_CUSTOMER_NAME'] = eachBorrower.RegisteredName ? eachBorrower.RegisteredName : eachBorrower.FullName;
               customer['editing'] = false;
               customer['loanOwnerFlag'] = false;
               if (eachBorrower.LoanOwnership != undefined && eachBorrower.LoanOwnership != 0) {
@@ -209,10 +209,10 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 && eachBorrower.CustomerType != undefined && eachBorrower.CustomerType != '' && eachBorrower.Relationship == undefined || eachBorrower.ReferrerRelation == undefined
                 ? eachBorrower.CustomerType : 'OP';
 
-                if(customer['CD_CUSTOMER_TYPE'] == 'B'){
-                  this.services.rloCommonData.globalApplicationDtls.PrimaryBorrowerSeq= eachBorrower.BorrowerSeq;
-                  
-                }
+              if (customer['CD_CUSTOMER_TYPE'] == 'B') {
+                this.services.rloCommonData.globalApplicationDtls.PrimaryBorrowerSeq = eachBorrower.BorrowerSeq;
+
+              }
               if (customer['CD_CUSTOMER_TYPE'] == 'B' && this.isFirstAPICall) { // First Borrower
                 this.passArrayToCustomer.emit({
                   'actionName': 'gridUpdated',
@@ -222,10 +222,18 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
                 this.isFirstAPICall = false;
                 customer["editing"] = true;
               } else if (borrowerSeq != undefined && borrowerSeq == customer['CustomerId']) {
-                this.passArrayToCustomer.emit({
-                  'actionName': 'gridUpdated',
-                  'CustomerArray': eachBorrower
-                });
+                let object = {};
+                let actionName = deletedCustomerId == 0 ? "gridUpdated" : "customerDeleted";
+                if (deletedCustomerId == 0) {
+                  object["actionName"] = actionName;
+                  object["CustomerArray"] = eachBorrower;
+                }
+                else {
+                  object["actionName"] = actionName;
+                  object["CustomerArray"] = eachBorrower;
+                  object["customerId"] = deletedCustomerId;
+                }
+                this.passArrayToCustomer.emit(object);
                 customer["editing"] = true;
               }
 
@@ -233,6 +241,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
             });
           }
+
+          //customer deleted
+          if (deletedCustomerId)
+            this.services.rloCommonData.deleteStoredCustomerInDDE(deletedCustomerId);//deletedCustomerId
+
           this.apiSuccessCallback(customerDataArr);
           this.EnabledPlusIcon();
           // return customerDataArr;
@@ -260,9 +273,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         // }
       }
     });
-   if(!this.customerTypeMap.has('A') && this.parentFormCode=='QDE'){
-     this.AddOnSectionFlag=false;
-   }
+    if (!this.customerTypeMap.has('A') && this.parentFormCode == 'QDE') {
+      this.AddOnSectionFlag = false;
+    }
   }
 
   categoriseCustomers(customerType: String, customer: {}) {
@@ -316,7 +329,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
 
   EnabledPlusIcon() {
-    if (this.parentFormCode == 'DDE' && this.services.rloCommonData.globalApplicationDtls.CamType!='LE') {
+    if (this.parentFormCode == 'DDE' && this.services.rloCommonData.globalApplicationDtls.CamType != 'LE') {
       this.PlusFlag = true;
     }
   }
@@ -348,18 +361,18 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
     });
   }
 
-  setApplicantLabelsAndTags(){
-    this.MstDynamicData={};
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && !this.isLoanCategory){
-      this.MstDynamicData['PrimaryLabel']='Corporate';
-      this.MstDynamicData['SecondaryLabel']='Member';
-      this.MstDynamicData['PrimaryTag']='C';
-      this.MstDynamicData['SecondaryTag']='M';
-    }else if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='I' && !this.isLoanCategory){
-      this.MstDynamicData['PrimaryLabel']='Primary';
-      this.MstDynamicData['SecondaryLabel']='Add On';
-      this.MstDynamicData['PrimaryTag']='P';
-      this.MstDynamicData['SecondaryTag']='A';
+  setApplicantLabelsAndTags() {
+    this.MstDynamicData = {};
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && !this.isLoanCategory) {
+      this.MstDynamicData['PrimaryLabel'] = 'Corporate';
+      this.MstDynamicData['SecondaryLabel'] = 'Member';
+      this.MstDynamicData['PrimaryTag'] = 'C';
+      this.MstDynamicData['SecondaryTag'] = 'M';
+    } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'I' && !this.isLoanCategory) {
+      this.MstDynamicData['PrimaryLabel'] = 'Primary';
+      this.MstDynamicData['SecondaryLabel'] = 'Add On';
+      this.MstDynamicData['PrimaryTag'] = 'P';
+      this.MstDynamicData['SecondaryTag'] = 'A';
     }
     this.EnabledPlusIcon();
   }
@@ -373,8 +386,9 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         var res = httpResponse.body;
         this.services.alert.showAlert(1, 'rlo.success.delete.customer', 5000);
         this.isFirstAPICall = true;
-        this.services.rloCommonData.removeCustomerFromMap(selectedCustomer.CustomerId)
-        this.doAPIForCustomerList({});
+        this.services.rloCommonData.removeCustomerFromMap(selectedCustomer.CustomerId);
+
+        this.doAPIForCustomerList({}, selectedCustomer.CustomerId);
       },
       async (httpError) => {
         var err = httpError['error']
