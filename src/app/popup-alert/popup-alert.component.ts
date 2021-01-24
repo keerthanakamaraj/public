@@ -33,6 +33,7 @@ import { CustomerSearchFieldsComponent } from '../customer-search-fields/custome
 import { DecisionAlertComponent } from '../DecisionAlert/DecisionAlert.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 import { CustomerAvaliableCardsComponent } from '../customer-avaliable-cards/customer-avaliable-cards.component';
+import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
 
 @Component({
   selector: 'app-popup-alert',
@@ -275,6 +276,9 @@ export class PopupAlertComponent implements OnInit {
       case 'CustomerCards':
         return new AddSpecificComponent(CustomerAvaliableCardsComponent);
         break;
+      case 'BusinessDetails':
+        return new AddSpecificComponent(BusinessDtlsFormComponent);
+        break;
     }
   }
   // ngOnDestroy() {
@@ -285,7 +289,7 @@ export class PopupAlertComponent implements OnInit {
     let errorMsgEle = document.getElementsByClassName("injected-component");
     let errorMsgClass;
 
-    switch (sectionName) { 
+    switch (sectionName) {
       case "AddressDetails":
         errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
         errorMsgClass = errorMsgEle[0].getElementsByClassName("ng-select-disabled")[0];

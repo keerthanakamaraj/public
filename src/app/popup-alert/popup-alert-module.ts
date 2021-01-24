@@ -31,8 +31,7 @@ import { CustomerSearchFieldsModule } from '../customer-search-fields/customer-s
 import { DecisionAlertModule } from '../DecisionAlert/DecisionAlert.module';
 import { InterfaceResultsModule } from '../interface-results/interface-results.module';
 import { CustomerAvaliableCardsModule } from '../customer-avaliable-cards/customer-avaliable-cards.module';
-
-
+import { BusinessDtlsFormModule } from '../BusinessDtlsForm/BusinessDtlsForm.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -63,6 +62,7 @@ import { CustomerAvaliableCardsModule } from '../customer-avaliable-cards/custom
         DecisionAlertModule,
         InterfaceResultsModule,
         CustomerAvaliableCardsModule,
+        BusinessDtlsFormModule,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,

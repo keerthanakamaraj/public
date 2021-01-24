@@ -131,91 +131,174 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   workingJsonObj = {
     "UWApplication": {
-      "UWDisbursal": {
-        "DisbursalSeq": ""
-      },
       "UWCreditCard": {
-        "CreditCardSeq": ""
+        "ApprovedCashLimit": "",
+        "CreditCustomerType": {
+          "CreditCustomerType": "CARD_CUSTOMER_TYPE",
+          "id": "C",
+          "text": "Corporate"
+        },
+        "CreditCardSeq": 3968,
+        "ApprovedLimit": "",
+        "MaxCashLimit": "",
+        "RequestedCardLimit": 70000,
+        "ApplicationId": 7293,
+        "FrontPageCategory": ""
       },
       "UWCustomerDetails": [
         {
-          "ExistingCustomer": "N",
-          "UWIncomeSummary": {
-            "NetIncomeMonthly": 32958,
-            "DBR": 0,
-            "IncomeSummarySeq": 261,
-            "TotalIncome": 395500,
-            "TotalLiabiity": 0,
-            "BorrowerSeq": 3573,
-            "TotalObligation": 0
-          },
-          "DOB": "02-07-1997",
-          "FullName": "TEJ PATIL",
-          "BorrowerSeq": 3573,
-          "ApplicationId": 2822,
+          "CIF": "00179",
+          "StaffID": "",
+          "BorrowerSeq": 8144,
+          "CustomerId": 16764767,
           "CustomerType": "B",
+          "LoanOwnership": 100,
+          "CustGender": {},
+          "RegisteredName": "SHEKHAR ",
+          "ExistingCustomer": "Y",
+          "DOB": "05-06-1975",
+          "FullName": "",
+          "ApplicationId": 7293,
+          "DateOfIncorporation": "2020-08-22 00:00:00.0",
+          "TypeOfIncorporation": "JV",
+          "UWAccountDetails": [
+            {
+              "CurrencyCode": "01",
+              "OriginalBalance": 452154,
+              "AccountStatus": "active",
+              "AvailableBalance": 541256,
+              "AccountId": "45478",
+              "TotalAmountLocalCurrency": 45854,
+              "BorrowerSeq": 8144,
+              "InterfaceId": "CBS"
+            },
+            {
+              "CurrencyCode": "05",
+              "OriginalBalance": 4521548,
+              "AccountStatus": "closed",
+              "AvailableBalance": 5412,
+              "AccountId": "45748",
+              "TotalAmountLocalCurrency": 45785,
+              "BorrowerSeq": 8144,
+              "InterfaceId": "CBS"
+            },
+            {
+              "CurrencyCode": "03",
+              "OriginalBalance": 5478452,
+              "AccountStatus": "Active",
+              "AvailableBalance": 452165,
+              "AccountId": "545785",
+              "TotalAmountLocalCurrency": 458745,
+              "BorrowerSeq": 8144,
+              "InterfaceId": "CBS"
+            }
+          ],
           "UWAddress": [
             {
               "State": "Maharashtra",
-              "AddressSeq": 1466,
-              "Address1": "BHAYANDER",
-              "BorrowerSeq": 3573,
+              "Address2": "L.J. Road",
+              "Address3": "T.H",
+              "AddressSeq": 5112,
+              "Address1": "Nisarg Appartment",
+              "BorrowerSeq": 8144,
               "City": "Mumbai",
-              "AddressType": "OF",
-              "Pincode": 400060
-            },
-            {
-              "State": "Maharashtra",
-              "AddressSeq": 1467,
-              "Address1": "GOREGOAN",
-              "BorrowerSeq": 3573,
-              "City": "Mumbai",
-              "AddressType": "RS",
-              "OccupationType": "OW",
-              "Pincode": 400001
-            },
-            {
-              "State": "MAHARASHTRA",
-              "AddressSeq": 1468,
-              "Address1": "VIRAR",
-              "BorrowerSeq": 3573,
-              "City": "MUMBAI",
-              "AddressType": "RS",
-              "OccupationType": "RN",
-              "Pincode": 400002
+              "AddressType": "ML",
+              "OccupationType": "",
+              "Pincode": "400016"
             }
-          ]
+          ],
+          "PEPFlag": ""
+        },
+        {
+          "CIF": "00179",
+          "StaffID": "",
+          "BorrowerSeq": 8426,
+          "CustomerId": 5034,
+          "CustomerType": "A",
+          "LoanOwnership": "",
+          "CustGender": {},
+          "RegisteredName": "",
+          "ExistingCustomer": "Y",
+          "DOB": "06-08-1972",
+          "FullName": "SARITA SHARAD MORE",
+          "ApplicationId": 7293,
+          "DateOfIncorporation": "",
+          "TypeOfIncorporation": "",
+          "PEPFlag": ""
         }
       ],
       "UWApplicationInfo": {
-        "DateOfReceipt": "03-07-1996 00:00:00",
-        "ApplicationInfoId": 2843,
-        "ApplicationId": 2822
+        "PhysicalFormNo": "",
+        "DateOfReceipt": "01-01-2021 00:00:00",
+        "ApplicationInfoId": 7293,
+        "ApplicationId": 7293
       },
-      "Branch": "103",
+      "UWInterfaceResult": [
+        {
+          "Status": "Success",
+          "InterfaceResltId": 896,
+          "BorrowerSeq": 8144,
+          "ApplicationId": 7293,
+          "InterfaceId": "Customer360View"
+        },
+        {
+          "Status": "Success",
+          "InterfaceResltId": 897,
+          "BorrowerSeq": 8144,
+          "ApplicationId": 7293,
+          "InterfaceId": "CUSTOMER_360"
+        },
+        {
+          "Status": "Success",
+          "InterfaceResltId": 928,
+          "BorrowerSeq": 8144,
+          "ApplicationId": 7293,
+          "InterfaceId": "Experian"
+        }
+      ],
+      "Branch": {
+        "id": "101",
+        "text": "Juhu"
+      },
       "UWLoan": {
-        "RepaymentFrequency": "A",
-        "AmortizationAmount": 33806.67,
-        "ProductCategory": "ML",
-        "LoanDetailsSeq": 862,
-        "ApplicationId": 2822,
-        "MargineMoney": 0
+        "TotalFeeAdjWithDisb": "",
+        "OutstandingLoanBalance": "",
+        "TotalLoanAmount": "",
+        "NetInterestRate": "",
+        "RepaymentStartDate": "",
+        "EMIAmount": "",
+        "MargineMoney": "",
+        "DisbursalDate": "",
+        "TotalInterestAmount": "",
+        "RepaymentFrequency": "",
+        "AmortizationAmount": "",
+        "LoanAccountNumber": "",
+        "Tenure": "",
+        "TenurePeriod": "",
+        "LoanDisbursementDate": "",
+        "TotalInstallmentAmount": "",
+        "TotalFeeCollectedUpfront": "",
+        "ProductCategory": "CC",
+        "LoanDetailsSeq": 2207,
+        "ApplicationId": 7293,
+        "TotalDisbAmount": ""
       },
-      "DSAId": "USERS1",
-      "SourcingChannel": "DSA",
-      "UWQuestionnaire": {
-        "DeviationLevel": "L1",
-        "QuestionnaireCategory": "go_no_go",
-        "QuestionnaireSeq": 369,
-        "ApplicationId": 2822
+      "UWBusinessDtls": {
+        "NetProfit": "6333",
+        "NatureOfOrg": "Services",
+        "Industry": "AM",
+        "PaidUpCap": "5000",
+        "TurnoverLocalCurr": "6000",
+        "GSTNumber": "855566",
+        "Turnover": "6000",
+        "NetProfitLocalCurr": "6333",
+        "BorrowerSeq": "5431",
+        "ApplicationId": "4301",
+        "Constitution": "Partnership"
       },
-      "ApplicationId": 2822,
-      "UWFeeCharges": {
-        "ChargeSeq": ""
-      },
-      "UWRMVisit": {
-        "VisitSeq": ""
-      }
+      "DSAId": "",
+      "SourcingChannel": "BRANCH",
+      "ApplicationId": 7293
     }
   }
 
@@ -335,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 6973; //6633
+    // this.applicationId = 7613; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -348,8 +431,22 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.services.http.fetchApi(`/UWApplication/${appId}`, 'GET', new Map(), '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
-        //const res = this.workingJsonObj //testing
+        // const res = this.workingJsonObj //testing
         console.warn(res);
+
+        //changes for canara Member card
+        if (this.services.rloCommonData.globalApplicationDtls.TypeOfLoanCode == 'CC') {
+          if (res.UWApplication.UWBusinessDtls != undefined) {
+            let obj = res.UWApplication.UWBusinessDtls;
+
+            let customerArray = res.UWApplication.UWCustomerDetails;
+            customerArray.forEach(element => {
+              if (element.CustomerType == "B") {
+                element["UWBusinessDtls"] = obj;
+              }
+            });
+          }
+        }
 
         if (res != null) {
           this.isDataAvaliableFlag = 1;
@@ -502,13 +599,23 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
       if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
         if (singleCustomer.CustomerType == "A") {
+          if (this.allSectionsCardData[0].cardList.length == 3)
+            this.allSectionsCardData[0].cardList.splice(1, 1);
+
           let newList = { className: "FinancialSummary" };
           this.allSectionsCardData[0].cardList.splice(1, 0, newList);
         }
-        else {
+        else if (singleCustomer.CustomerType == "B") {
           if (this.allSectionsCardData[0].cardList.length == 3)
             this.allSectionsCardData[0].cardList.splice(1, 1);
+
+          let newList = { className: "BusinessDetails" };
+          this.allSectionsCardData[0].cardList.splice(1, 0, newList);
         }
+        // else {
+        //   if (this.allSectionsCardData[0].cardList.length == 3)
+        //     this.allSectionsCardData[0].cardList.splice(1, 1);
+        // }
       }
 
       this.allSectionsCardData[0].cardList.forEach(element => {
@@ -550,6 +657,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "FinancialSummary":
           case "FinancialDetails":
           case "CollateralDetails":
+          case "BusinessDetails":
             data = singleCustomer[element.className].getCardData();
             data.applicationId = this.applicationId;
             data.borrowerSeq = this.borrowerSeq;

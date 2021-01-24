@@ -47,6 +47,8 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
   @Input() ApplicationId: string = undefined;
   @Input() activeBorrowerSeq: string = undefined;
 
+  @Input('readOnly') readOnly: boolean = false;
+
   BusinessSeq: number = undefined;
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -140,6 +142,14 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
       this.onFormLoad();
       this.checkForHTabOverFlow();
     });
+
+    if (this.readOnly) {
+      this.setReadOnly(this.readOnly);
+      this.PaidUpCapital.setReadOnly(true);
+      this.FYTurnover.setReadOnly(true);
+      this.FYNetProfit.setReadOnly(true);
+
+    }
   }
   clearError() {
     super.clearBasicFieldsError();

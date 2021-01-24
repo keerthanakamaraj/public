@@ -1052,6 +1052,99 @@ export class InterfaceResults implements IDeserializable {
     }
 }
 
+export class BusinessDetails implements IDeserializable {
+    public GSTNumber: string = "NA";
+    public PaidUpCap: string = "NA";
+    public TurnoverLocalCurr: string = "NA";
+    public NetProfitLocalCurr: string = "NA";
+    public NatureOfOrg: string = "NA";
+    public Constitution: string = "NA";
+    public Industry: string = "NA";
+    public common: Common;
+
+    deserialize(input: any): this {
+        return Object.assign(this, input);
+    }
+
+    getCardData() {
+        let fieldList: ICardListData[] = [
+            {
+                title: "GST Number",
+                subTitle: this.GSTNumber,
+                type: "basic",
+                modalSectionName: ""
+            },
+            {
+                title: "Paidup Capital",
+                subTitle: this.PaidUpCap,
+                type: "basic",
+                modalSectionName: "",
+                formatToCurrency: true
+            },
+            {
+                title: "Turnover",
+                subTitle: this.TurnoverLocalCurr,
+                type: "basic",
+                modalSectionName: "",
+                formatToCurrency: true
+            },
+            {
+                title: "Net Profit",
+                subTitle: this.NetProfitLocalCurr,
+                type: "basic",
+                modalSectionName: "",
+                formatToCurrency: true
+            },
+            {
+                title: "Nature Of Organization",
+                subTitle: this.NatureOfOrg,
+                type: "basic",
+                modalSectionName: ""
+            },
+            {
+                title: "Constitution",
+                subTitle: this.Constitution,
+                type: "basic",
+                modalSectionName: ""
+            },
+            {
+                title: "Industry",
+                subTitle: this.getIndustry(this.Industry),
+                type: "basic",
+                modalSectionName: ""
+            }
+
+        ];
+        const returnObj: IGeneralCardData = {
+            name: "Business Details",
+            modalSectionName: "BusinessDetails",
+            data: fieldList,
+            canShowModal: true
+        };
+        return returnObj;
+    }
+
+    getIndustry(industry) {
+        switch (industry) {
+            case "AM":
+                return "Auto Mobile";
+                break;
+
+            case "CH":
+                return "Chemical";
+                break;
+
+            case "IT":
+                return "IT";
+                break;
+
+            default:
+                return "NA";
+                break;
+        }
+    }
+}
+
 
 export class CustomerDetails implements IDeserializable {
     public BorrowerSeq: number;
@@ -1064,6 +1157,7 @@ export class CustomerDetails implements IDeserializable {
     public PersonalInterview: PersonalInterview;
     public RmVisitDetails: RmVisitDetails;
     public AccountDetails: AccountDetails;//Relationship details table
+    public BusinessDetails: BusinessDetails;
 
     public FullName: string = "NA";
     public ExistingCustomer: string = "NA";
@@ -1133,7 +1227,7 @@ export class CustomerDetails implements IDeserializable {
 
         this.CollateralDetails = new CollateralDetails().deserialize(input.UWCollateralDetails);
         this.FinancialDetails = new FinancialDetails().deserialize(input.UWIncomeDetails);
-
+        this.BusinessDetails = new BusinessDetails().deserialize(input.UWBusinessDtls);
         return this;
     }
 
@@ -1245,6 +1339,7 @@ export class ApplicationDetails implements IDeserializable {
     public EducationDetails: EducationDetails;
     public GoNoGoDetails: GoNoGoDetails;
     public PropertyDetails: PropertyDetails;
+
     //blank data
     public ReferalDetails: ReferalDetails;
     public Notes: Notes;
