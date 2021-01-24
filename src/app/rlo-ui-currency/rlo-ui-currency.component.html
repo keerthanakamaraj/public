@@ -13,7 +13,8 @@
     </div>
 
     <app-amount #amountTextbox fieldID="amountTextbox" [formCode]="formCode" [placeholder]="placeholder" [readOnly]="inputReadOnly"
-              (blur)="amountFieldBlur()"></app-amount>
+      [maxLength]="maxLength"
+      (blur)="amountFieldBlur()"></app-amount>
               
     <!-- <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" [maxlength]="maxLength"
         [ngClass]="{'error' : error, 'input-readonly':readOnly}" [(ngModel)]="value" (focus)="onFocus()"

@@ -379,12 +379,17 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
   // }
   setApproveCashLimit() {
+
+    // Do not calculate value if card limit is not available
+    if(!this.ApprovedLimit.getFieldValue() || this.ApprovedLimit.getFieldValue().trim() == '') {
+      return;
+    }
+
     // Validate if Approved Limit is greater than product Credit Limit
     if (+this.ApprovedLimit.getFieldValue() > +this.header.Product_max_credit) {
       this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
       return;
     }
-
 
     let MaxApprovedCashLimit: any;
     let MaxCashLimit: any;
@@ -396,13 +401,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     if (this.ApprovedLimit.getFieldValue() != undefined) {
       MaxApprovedCashLimit = ((this.ApprovedLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);
+
+      if (MaxApprovedCashLimit < +MinCardLimit) {
+        this.ApprovedCashLimit.setComponentSpecificValue(MinCardLimit, null);
+      } else if (MaxApprovedCashLimit > +MaxCashLimit) {
+        this.ApprovedCashLimit.setComponentSpecificValue(MaxCashLimit, null);
+      } else {
+        this.ApprovedCashLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
+      }
     }
-    if (MaxApprovedCashLimit > MinCardLimit) {
-      this.ApprovedCashLimit.setComponentSpecificValue(MinCardLimit, null);
-    }
-    else {
-      this.ApprovedCashLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
-    }
+
   }
   fetchCreditCardDetails() {
     let inputMap = new Map();
@@ -462,7 +470,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
             this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
 
-            this.setApproveCashLimit();
+            //this.setApproveCashLimit();
           });
 
           this.revalidate(false).then((errors) => {
@@ -505,7 +513,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           this.MaximumCardLimit.setComponentSpecificValue(this.header.Product_max_credit, null);
           this.MaxCashLimit.setComponentSpecificValue(this.header.Product_max_cash_limit, null);
           this.adjustFieldsBasedOnCamType();
-          this.setApproveCashLimit();
+          //this.setApproveCashLimit();
         },
         async (httpError) => {
           var err = httpError['error']
