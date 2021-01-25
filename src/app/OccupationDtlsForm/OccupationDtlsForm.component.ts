@@ -185,6 +185,8 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       this.OCC_DTLS_GRID.isGridReadOnly = true;
     }
     this.setDependencies();
+
+    this.OCC_DTLS_GRID.hideLastColumnIcons();
   }
   setInputs(param: any) {
     let params = this.services.http.mapToJson(param);

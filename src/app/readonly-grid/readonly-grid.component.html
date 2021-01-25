@@ -1,79 +1,37 @@
-
-<div #gridContainer class="clearfix table-responsive table-grid">
+<div #gridContainer class="clearfix table-responsive table-grid" [ngClass]="hideEditDelIcons ? 'hide-edit-del-icons' : ''">
 
   <!-- <div>{{gridContainer.offsetWidth}}</div>
   <div>{{gridWidth}}</div> -->
 
-<ag-grid-angular *ngIf="gridDataPolicy==1" #agGrid 
-style="width: auto; padding-top: 5px;" 
-class="ag-theme-balham"
-
-  domLayout="autoHeight"
-  [columnDefs]="columnDefs" 
-  [rowHeight]=40 
-  [headerHeight]=40
-  [multiSortKey]="multiSortKey" 
-  [rowDeselection]="true"
-  [paginationPageSize]="gridConsts.paginationPageSize" 
-  [suppressDragLeaveHidesColumns]="true"
-  [overlayLoadingTemplate]="overlayLoadingTemplate"
-  [overlayNoRowsTemplate]="overlayNoRowsTemplate"
-
- 
-  [rowModelType]="rowModelType"
-  [cacheBlockSize]="cacheBlockSize" 
-  [cacheOverflowSize]="cacheOverflowSize"
-  [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-  [infiniteInitialRowCount]="infiniteInitialRowCount" 
-  [maxBlocksInCache]="maxBlocksInCache"
-  [getRowNodeId]="getRowNodeId" 
-  [components]="components" 
-  [pagination]="gridConsts.paginationReq"
-  [suppressPaginationPanel]="true"
-  [frameworkComponents]="frameworkComponents"
-
-  (rowDoubleClicked)="defaultRowDoubleClickHandler($event)"
-  (rowClicked)="defaultRowClickHandler($event)"
-  (paginationChanged)="onPaginationChanged()" 
-  (gridReady)="onGridLoad($event)" 
-  (gridSizeChanged) ="onGridSizeChanged($event)"
->
-</ag-grid-angular>
+  <ag-grid-angular *ngIf="gridDataPolicy==1" #agGrid style="width: auto; padding-top: 5px;" class="ag-theme-balham"
+    domLayout="autoHeight" [columnDefs]="columnDefs" [rowHeight]=40 [headerHeight]=40 [multiSortKey]="multiSortKey"
+    [rowDeselection]="true" [paginationPageSize]="gridConsts.paginationPageSize" [suppressDragLeaveHidesColumns]="true"
+    [overlayLoadingTemplate]="overlayLoadingTemplate" [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+    [rowModelType]="rowModelType" [cacheBlockSize]="cacheBlockSize" [cacheOverflowSize]="cacheOverflowSize"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+    [infiniteInitialRowCount]="infiniteInitialRowCount" [maxBlocksInCache]="maxBlocksInCache"
+    [getRowNodeId]="getRowNodeId" [components]="components" [pagination]="gridConsts.paginationReq"
+    [suppressPaginationPanel]="true" [frameworkComponents]="frameworkComponents"
+    (rowDoubleClicked)="defaultRowDoubleClickHandler($event)" (rowClicked)="defaultRowClickHandler($event)"
+    (paginationChanged)="onPaginationChanged()" (gridReady)="onGridLoad($event)"
+    (gridSizeChanged)="onGridSizeChanged($event)">
+  </ag-grid-angular>
 
 
-<!-- 
+  <!-- 
   [enableColResize]="true" 
 
   [enableSorting]="true"
 [enableFilter]="true" -->
-<ag-grid-angular *ngIf="gridDataPolicy==2" #agGrid 
-style="width: auto; padding-top: 5px;" 
-class="ag-theme-balham"
-
-  domLayout="autoHeight"
-  [columnDefs]="columnDefs" 
-  [rowHeight]=40
-  [headerHeight]=40
-  [multiSortKey]="multiSortKey" 
-  [rowDeselection]="true"
-  [paginationPageSize]="gridConsts.paginationPageSize" 
-  [suppressDragLeaveHidesColumns]="true"
-  [overlayLoadingTemplate]="overlayLoadingTemplate"
-  [overlayNoRowsTemplate]="overlayNoRowsTemplate"
-  [pagination]="gridConsts.paginationReq"
-  [suppressPaginationPanel]="true"
-  [frameworkComponents]="frameworkComponents"
-
-  [rowData]="rowData"
-  [animateRows]="true"
-
-  (rowDoubleClicked)="defaultRowDoubleClickHandler($event)"
-  (rowClicked)="defaultRowClickHandler($event)"
-  (paginationChanged)="onPaginationChanged()" 
-  (gridReady)="onGridLoad($event)" 
-  (gridSizeChanged) ="onGridSizeChanged($event)"
->
-</ag-grid-angular>
+  <ag-grid-angular *ngIf="gridDataPolicy==2" #agGrid style="width: auto; padding-top: 5px;" class="ag-theme-balham"
+    domLayout="autoHeight" [columnDefs]="columnDefs" [rowHeight]=40 [headerHeight]=40 [multiSortKey]="multiSortKey"
+    [rowDeselection]="true" [paginationPageSize]="gridConsts.paginationPageSize" [suppressDragLeaveHidesColumns]="true"
+    [overlayLoadingTemplate]="overlayLoadingTemplate" [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+    [pagination]="gridConsts.paginationReq" [suppressPaginationPanel]="true" [frameworkComponents]="frameworkComponents"
+    [rowData]="rowData" [animateRows]="true" (rowDoubleClicked)="defaultRowDoubleClickHandler($event)"
+    (rowClicked)="defaultRowClickHandler($event)" (paginationChanged)="onPaginationChanged()"
+    (gridReady)="onGridLoad($event)" (gridSizeChanged)="onGridSizeChanged($event)">
+  </ag-grid-angular>
 
 </div>
 

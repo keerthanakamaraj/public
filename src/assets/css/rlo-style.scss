@@ -1942,7 +1942,7 @@ rlo-ui-card-field {
       margin-bottom: 15px;
     }
   }
-  
+
   .icon-arrow-back {
     cursor: pointer;
   }
@@ -3699,7 +3699,7 @@ rlo-ui-card-field {
       color: #6f6f6f;
     }
   }
-  .btn-CamType{
+  .btn-CamType {
     background-color: #d8d3d3;
     // color: #fff;
     font-weight: 600;
@@ -5247,5 +5247,13 @@ rlo-ui-card-field {
       }
     }
   }
- 
+}
+
+//hide the ag-grid total row edit and del icons 
+.hide-edit-del-icons {
+  .ag-row-last :nth-last-child(-n + 2) {
+    app-grid-button-col {
+      display: none;
+    }
+  }
 }

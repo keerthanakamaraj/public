@@ -26,6 +26,7 @@ export class ReadonlyGridComponent {
   };
 
   @Input('formCode') formCode: string;
+  @Input('hideEditDelIcons') hideEditDelIcons?: boolean = false;
 
   rowModelType: string = "infinite";
   cacheOverflowSize: number = 2;

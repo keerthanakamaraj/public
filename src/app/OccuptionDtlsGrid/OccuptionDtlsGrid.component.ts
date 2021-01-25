@@ -422,9 +422,9 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
         this.recordHide();
 
 
-        setTimeout(() => {
-          this.hideLastColCells();
-        }, 800);
+        // setTimeout(() => {
+        //   this.hideLastColCells();
+        // }, 800);
       },
       async (httpError) => {
         var err = httpError['error']
@@ -511,29 +511,33 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
   }
 
   //make edit and del icons hidden
-  hideLastColCells() {
-    let occupationGrid = document.getElementById("OccupationGridData");
-    let occupationGridTableRow = occupationGrid.getElementsByClassName('ag-center-cols-container')[0].children
-    let lastRow = occupationGridTableRow[occupationGridTableRow.length - 1].children;
+  // hideLastColCells() {
+  //   let occupationGrid = document.getElementById("OccupationGridData");
+  //   let occupationGridTableRow = occupationGrid.getElementsByClassName('ag-center-cols-container')[0].children
+  //   let lastRow = occupationGridTableRow[occupationGridTableRow.length - 1].children;
 
-    console.error("occupationGrid", occupationGrid, occupationGridTableRow);
-    console.error("last", lastRow);
+  //   console.error("occupationGrid", occupationGrid, occupationGridTableRow);
+  //   console.error("last", lastRow);
 
-    let headerDetails = this.services.rloCommonData.globalApplicationDtls;
-    console.log(headerDetails);
+  //   let headerDetails = this.services.rloCommonData.globalApplicationDtls;
+  //   console.log(headerDetails);
 
-    if (headerDetails.TypeOfLoanCode == "CC") {
-      if (headerDetails.CustomerType == "I") {
-        if (this.isGridReadOnly) {
-          lastRow[lastRow.length - 1].classList.add("d-none");
-        } else {
-          lastRow[lastRow.length - 1].classList.add("d-none");
-          lastRow[lastRow.length - 2].classList.add("d-none");
-        }
-      } else if (headerDetails.CustomerType == "C") {
+  //   if (headerDetails.TypeOfLoanCode == "CC") {
+  //     if (headerDetails.CustomerType == "I") {
+  //       if (this.isGridReadOnly) {
+  //         lastRow[lastRow.length - 1].classList.add("d-none");
+  //       } else {
+  //         lastRow[lastRow.length - 1].classList.add("d-none");
+  //         lastRow[lastRow.length - 2].classList.add("d-none");
+  //       }
+  //     } else if (headerDetails.CustomerType == "C") {
 
-      }
-    }
+  //     }
+  //   }
+  // }
 
+  //fn called from occupation to hide last col. edit del icons - i.e for "Total's" row  
+  hideLastColumnIcons() {
+    this.readonlyGrid.hideEditDelIcons = true;
   }
 }
