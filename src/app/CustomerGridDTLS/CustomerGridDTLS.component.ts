@@ -8,6 +8,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.component';
 import { each } from '@amcharts/amcharts4/.internal/core/utils/Iterator';
+import { IGlobalApllicationDtls } from '../rlo-services/rloCommonData.service';
 
 const customCss: string = '';
 
@@ -138,6 +139,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
   }
   async doAPIForCustomerList(event, deletedCustomerId: number = 0) {
     let inputMap = new Map();
+    this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true;
     //create promise
 
     let borrowerSeq = undefined;
@@ -182,6 +184,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
 
             BorrowerDetails.forEach(eachBorrower => {
               let isValid = false;
+             
               if (eachBorrower.BorrowerSeq == borrowerSeq) {
                 eachBorrower.isValid = true;
               }
@@ -238,7 +241,20 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               }
 
               customerDataArr.push(customer);
+              
+             
 
+            });
+            this.CustomerDetailsMap.forEach(element => {
+              if(element.CustomerType !== 'B'){
+                if(element.ApprovedCardLimit = undefined || element.ApprovedCardLimit == "" ){
+                  this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = false
+                 return;
+                // console.log("AddedMember" , parentData.isAddedNewMember);
+                }
+              
+              }
+              
             });
           }
 

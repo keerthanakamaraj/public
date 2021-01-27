@@ -27,6 +27,7 @@ import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.compo
 import { ICustomSearchObject } from '../Interface/masterInterface';
 import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { IGlobalApllicationDtls } from '../rlo-services/rloCommonData.service';
 
 const customCss = '';
 
@@ -41,6 +42,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.value = new CustomerDtlsModel();
     this.componentCode = 'CustomerDtls';
   }
+  // @Input() parentData: IGlobalApllicationDtls = undefined;
   @ViewChild('CD_CUST_TYPE', { static: false }) CD_CUST_TYPE: RLOUIRadioComponent;
 
   // @ViewChild('CD_EXISTING_CUST', { static: false }) CD_EXISTING_CUST: RLOUIRadioComponent;
@@ -490,6 +492,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
 
   async CD_SAVE_BTN_click(event) {
+   
 
     const inputMap = new Map();
     //    this.customerDetailMap = any;
@@ -743,6 +746,13 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
             this.CD_SAVE_BTN.setDisabled(false);
             let fullName = this.CD_REGISTERED_NAME.getFieldValue() != undefined ? this.CD_REGISTERED_NAME.getFieldValue() : this.CD_FULL_NAME.getFieldValue();
+            if(this.CD_CARD_CUST_TYPE.getFieldValue() !== 'B'){
+             // this.parentData.isAddedNewMember = false;
+              // let parentData: IGlobalApllicationDtls = {
+              //    isAddedNewMember : false
+              // }
+              // console.log("AddedMember" , parentData.isAddedNewMember);
+            }
             this.CD_FULL_NAME_change(fullName, this.CD_CUST_TYPE.getFieldValue());
             this.services.rloCommonData.childToParentSubject.next({
               action: 'updateCustGrid',

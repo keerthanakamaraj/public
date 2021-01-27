@@ -15,6 +15,8 @@ import { ReadOnlyComponent } from '../rlo-ui-readonlyfield/rlo-ui-readonlyfield.
 import { CustomerDtlsIntrface } from './CreditCardInputGridInterface';
 import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.component';
 import {CreditCardDetailsComponent} from '../CreditCardDetails/CreditCardDetails.component';
+import { number } from '@amcharts/amcharts4/core';
+import { IGlobalApllicationDtls } from '../rlo-services/rloCommonData.service';
 
 const customCss: string = '';
 @Component({
@@ -37,7 +39,8 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   @ViewChild('TotalRequestedCardLimit', { static: false }) TotalRequestedCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalProposedCardLimit', { static: false }) TotalProposedCardLimit: RloUiCurrencyComponent;
   @ViewChild('TotalProposedCashLimit', { static: false }) TotalProposedCashLimit: RloUiCurrencyComponent;
- 
+  @Input() parentData: IGlobalApllicationDtls = undefined;
+
   @Input() MainComponent: CreditCardDetailsComponent;
   //@Input() MainComponent.AvailableLimit.getFieldValue() :any;
   showAdd: boolean = false;
@@ -45,6 +48,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   isExpanded: boolean = false;
   showGrid = false;
   popupFlag:boolean=false;
+  AppCardLimit :number = 0
   constructor(services: ServiceStock, cdRef: ChangeDetectorRef) {
     super(services, cdRef);
     this.value = new CreditCardInputGridModel();
@@ -52,6 +56,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     this.initRowCount = 0;
     this.uniqueColumns = [];
     this.primaryColumns = [];
+   
   }
   ngOnInit() {
     if (this.gridType == 1) { this.initRows(); }
@@ -134,7 +139,9 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
           customerObj.BorrowerSeq = element.BorrowerSeq;
           customerObj.RequestedCreditLimit = element.RequestedCreditLimit;
           customerObj.RequestedCardLimit = element.RequestedCreditLimit;
-          customerObj.ProposedCashLimit = element.ProposedCashLimit;
+          // customerObj.ProposedCashLimit = element.ProposedCashLimit;
+          customerObj.ProposedCardLimit = element.ApprovedCardLimit;
+          customerObj.ProposedCashLimit = element.ApprovedCashLimit;
           this.CustomerDtlsMap.set(customerObj.BorrowerSeq, customerObj);
 
           rowData['SrNo'] = index + 1;
@@ -145,8 +152,8 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
           rowData['ExistingCardLimit'] = element.ExistingCardLimit;
           rowData['ExistingCashLimit'] = element.ExistingCashLimit;
           rowData['RequestedCardLimit'] = element.RequestedCreditLimit;
-          rowData['ProposedCardLimit'] = element.RequestedCreditLimit;
-          rowData['ProposedCashLimit'] = element.RequestedCashLimit;
+          rowData['ProposedCardLimit'] = element.ApprovedCardLimit;
+          rowData['ProposedCashLimit'] = element.ApprovedCashLimit;
           let rowCounter = this.addRow(rowData);
           //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
       });
@@ -175,7 +182,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
       tempProposedCashLimit = tempMinCashLimit;
     }
     this.ProposedCashLimit.toArray()[element.rowNo].setComponentSpecificValue(tempProposedCashLimit.toFixed(2));
-    this.updateSelectedObj(element, tempProposedCashLimit.toFixed(2));
+    this.updateSelectedObj(element,tempProposedCashLimit.toFixed(2), tempProposedCardLimit.toFixed(2));
     this.updateTotal(['ProposedCardLimit', 'ProposedCashLimit']);
   }
   updateTotal(listOfColumns) {
@@ -280,12 +287,14 @@ fetchAllApplicantsAPICall(){
     );
 }
 }
-  updateSelectedObj(EditedElement, affectedElementValue) {
+  updateSelectedObj( EditedElement,affectedElementValue, affetctedCardValue) {
     let tempSrNo = this.SrNo.toArray()[EditedElement.rowNo].getFieldValue();
     this.CustomerDtlsMap.forEach(element => {
       if (element.SrNo == tempSrNo) {
-        element.RequestedCreditLimit = EditedElement.value;
+        // element.RequestedCreditLimit = EditedElement.value;
         element.ProposedCashLimit = affectedElementValue;
+        element.ProposedCardLimit = affetctedCardValue;
+        
       }
     });
   }
@@ -298,6 +307,16 @@ fetchAllApplicantsAPICall(){
       if(element.isAmountEmpty()){
         element.setError('MANDATORY');
         isValid=false;
+        let parentData: IGlobalApllicationDtls = {
+          isAddedNewMember : false
+       }
+        // this.parentData.isAddedNewMember = false;
+      }
+      else{
+        let parentData: IGlobalApllicationDtls = {
+          isAddedNewMember : true
+       }
+        // this.parentData.isAddedNewMember = true;
       }
       
     });

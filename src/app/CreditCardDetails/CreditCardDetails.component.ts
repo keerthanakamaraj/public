@@ -493,6 +493,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     );
   }
 
+
   fetchHeaderDetails() {
     let inputMap = new Map();
     inputMap.clear();
@@ -591,7 +592,6 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       this.isApproveLimitValid = false;
     }
   }
-
   async CCD_Save_click(event) {
     let inputMap = new Map();
     let decisionsParamArray = [];
@@ -618,7 +618,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         let isGridValid: boolean = await this.CreditCardInputGrid.validateAmountColumn();
         if (!isGridValid) {
           this.services.alert.showAlert(2, 'rlo.error.credit-card-grid.empty-column', -1);
+          this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = false;
           return;
+        }else{
+          this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true
         }
         if ((undefined == this.SubCamType || '' == this.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType && !this.CreditCardInputGrid.popupFlag) {
           if ((parseFloat(this.AvailableLimit.getFieldValue()) < parseFloat(this.CreditCardInputGrid.TotalProposedCardLimit.getFieldValue())) && this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
@@ -793,11 +796,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   }
   generateMemberUpdateRequest() {
     let MemberList = [];
+    
     this.CreditCardInputGrid.CustomerDtlsMap.forEach(element => {
       let tempMemberObject = {};
       tempMemberObject['BorrowerSeq'] = element.BorrowerSeq;
       tempMemberObject['RequestedCreditLimit'] = element.RequestedCreditLimit;
-      tempMemberObject['ProposedCashLimit'] = element.ProposedCashLimit
+      tempMemberObject['ApprovedCardLimit'] = element.ProposedCardLimit
+      tempMemberObject['ApprovedCashLimit'] = element.ProposedCashLimit
+      // tempMemberObject['ProposedCashLimit'] = element.ProposedCashLimit
+    
+      
       MemberList.push(tempMemberObject);
     });
     return MemberList;
