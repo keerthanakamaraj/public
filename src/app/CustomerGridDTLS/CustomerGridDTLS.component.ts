@@ -173,6 +173,7 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           this.CustomerDetailsMap.clear();
+          this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true;
           var customerDataArr = [];
           let BorrowerDetail = res['BorrowerDetails'];
           var BorrowerDetails = BorrowerDetail.filter(function (BorrowerDetail) {

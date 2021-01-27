@@ -864,6 +864,9 @@ export class RloCommonData {
         //  commonObj.errorMessage = "";
           commonObj.isSectionValid = false;
         }
+      }else{
+          commonObj.isSectionValid = false;
+          commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
       }
     } else {
       if (applicationData.has("CreditCardDetails")) {
@@ -875,6 +878,9 @@ export class RloCommonData {
           commonObj.isSectionValid = false;
           commonObj.errorMessage = "For Memebr Card Approve Card Limit Cannot be Blank";
         }
+      }else{
+        commonObj.isSectionValid = false;
+        commonObj.errorMessage = 'Please fill all the mandatory fields of credit card details';
       }
     }
 

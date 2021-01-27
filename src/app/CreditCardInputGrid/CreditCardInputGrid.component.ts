@@ -307,16 +307,6 @@ fetchAllApplicantsAPICall(){
       if(element.isAmountEmpty()){
         element.setError('MANDATORY');
         isValid=false;
-        let parentData: IGlobalApllicationDtls = {
-          isAddedNewMember : false
-       }
-        // this.parentData.isAddedNewMember = false;
-      }
-      else{
-        let parentData: IGlobalApllicationDtls = {
-          isAddedNewMember : true
-       }
-        // this.parentData.isAddedNewMember = true;
       }
       
     });
