@@ -852,26 +852,28 @@ export class RloCommonData {
 
   async validateLoanOrCreditCardSection(applicationData: Map<any, any>, isCategoryTypeLoan: boolean) {
     let commonObj: IComponentSectionValidationData = {
-      isSectionValid: false,
+      isSectionValid: true,
       errorMessage: ''
     }
 
     if (isCategoryTypeLoan) {
-      commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
       if (applicationData.has("LoanDetails")) {
         let loanDetails = applicationData.get("LoanDetails");
-        if (loanDetails[0].isValid) {
-          commonObj.errorMessage = "";
-          commonObj.isSectionValid = true;
+        if (!loanDetails[0].isValid) {
+          commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
+        //  commonObj.errorMessage = "";
+          commonObj.isSectionValid = false;
         }
       }
     } else {
-      commonObj.errorMessage = 'Please fill all the mandatory fields of credit card details';
       if (applicationData.has("CreditCardDetails")) {
         let creditCardDetails = applicationData.get("CreditCardDetails");
-        if (creditCardDetails[0].isValid) {
-          commonObj.errorMessage = "";
-          commonObj.isSectionValid = true;
+        if (!creditCardDetails[0].isValid) {
+          commonObj.errorMessage = 'Please fill all the mandatory fields of credit card details';
+          commonObj.isSectionValid = false;
+        } else if(!this.globalApplicationDtls.isAddedNewMember){
+          commonObj.isSectionValid = false;
+          commonObj.errorMessage = "For Memebr Card Approve Card Limit Cannot be Blank";
         }
       }
     }

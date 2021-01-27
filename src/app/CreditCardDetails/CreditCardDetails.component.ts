@@ -630,6 +630,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           }
         }
       }
+      this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true;
       this.doSaveCreditCardAPICall();
     }
     else {

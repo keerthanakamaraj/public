@@ -1612,10 +1612,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     const requestParams = new Map();
     // this.CreditCard.checkAvailableLimit();
     
-    if(this.services.rloCommonData.globalApplicationDtls.isAddedNewMember == false){
-      this.services.alert.showAlert(2, 'rlo.error.approve.amount.empty', -1);
-      return;
-    }
+    // if(this.services.rloCommonData.globalApplicationDtls.isAddedNewMember == false){
+    //   this.services.alert.showAlert(2, 'rlo.error.approve.amount.empty', -1);
+    //   return;
+    // }
   
     this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
       console.log("Deep ===", data);
