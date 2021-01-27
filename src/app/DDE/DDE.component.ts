@@ -2272,13 +2272,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   validateAddressForCustomers(BorrowerSeq: number) {
-    if (!this.services.rloCommonData.customerListForAddress.has(BorrowerSeq)) {
-      console.error("****************");
-      console.warn("NEW CUSTOMER");
-      console.error("****************");
-      this.services.rloCommonData.customerListForAddress.set(BorrowerSeq, BorrowerSeq);
-      this.additionAddressDetailsApiCall(BorrowerSeq);
-    }
+    if (BorrowerSeq != undefined)
+      if (!this.services.rloCommonData.customerListForAddress.has(BorrowerSeq)) {
+        console.error("****************");
+        console.warn("NEW CUSTOMER");
+        console.error("****************");
+        this.services.rloCommonData.customerListForAddress.set(BorrowerSeq, BorrowerSeq);
+        this.additionAddressDetailsApiCall(BorrowerSeq);
+      }
   }
 
   additionAddressDetailsApiCall(BorrowerSeq: number) {
