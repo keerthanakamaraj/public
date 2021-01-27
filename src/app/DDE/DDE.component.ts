@@ -40,7 +40,7 @@ import { PersonalInterviewComponent } from '../PersonalInterview/personal-interv
 import { LoanDetailsFormComponent } from '../LoanDetailsForm/LoanDetailsForm.component';
 import { LoanDetailsGridComponent } from '../LoanDetailsGrid/LoanDetailsGrid.component';
 import { Subscription, forkJoin } from 'rxjs';
-import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData, RloCommonData } from '../rlo-services/rloCommonData.service';
+import { IComponentLvlData, IComponentSectionValidationData, IFormValidationData, RloCommonData, IGlobalApllicationDtls } from '../rlo-services/rloCommonData.service';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { ApplicationDtlsComponent } from '../ApplicationDtls/ApplicationDtls.component';
 import { PolicyCheckResultComponent } from '../policy-check-result/policy-check-result.component';
@@ -56,6 +56,7 @@ import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
 import * as _ from 'lodash';
+import { CreditCardInputGridComponent } from '../CreditCardInputGrid/CreditCardInputGrid.component';
 
 
 const customCss: string = '';
@@ -104,7 +105,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   @ViewChild('scorecard', { static: false }) scoreCardComponent: ScoreCardComponent;
   @ViewChild('HideCurrentStage', { static: false }) HideCurrentStage: HiddenComponent;
   @ViewChild('Application_Dtls', { static: false }) Application_Dtls: ApplicationDtlsComponent;
+  @ViewChild('CreditCardInputGrid', { static: false }) CreditCardInputGrid: CreditCardInputGridComponent;
   @Output() familyblur: EventEmitter<any> = new EventEmitter<any>();
+  @Input() parentData: IGlobalApllicationDtls = {};
   ApplicationId: string = undefined;
   ActiveBorrowerSeq: number = undefined;
   ActiveCustomerDtls: {} = undefined;
@@ -1607,7 +1610,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   DDE_SUBMIT_click(event) {
     const requestParams = new Map();
-
+    // this.CreditCard.checkAvailableLimit();
+    
+    if(this.services.rloCommonData.globalApplicationDtls.isAddedNewMember == false){
+      this.services.alert.showAlert(2, 'rlo.error.approve.amount.empty', -1);
+      return;
+    }
+  
     this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
       console.log("Deep ===", data);
       if (data.isAppValid) {

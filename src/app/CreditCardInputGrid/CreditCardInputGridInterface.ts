@@ -11,4 +11,6 @@ export interface CustomerDtlsIntrface{
   RequestedCardLimit?:any;  //populated from customer section but noneditable
   RequestedCreditLimit?:any; //populated from customer section but editable
   ProposedCashLimit?:any;
+  ProposedCardLimit?:any;
+ 
 }

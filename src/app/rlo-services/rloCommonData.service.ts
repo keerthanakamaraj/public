@@ -71,6 +71,7 @@ export interface IGlobalApllicationDtls {
   CBSProductCode?: any;
   ApplicationPurposeName?: any;
   CIF?: any;
+  isAddedNewMember?:boolean ;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -806,6 +807,7 @@ export class RloCommonData {
         resolve(dataObject);
         return promise;
       }
+      
       this.isFormValid().then((customerData) => {
         dataObject.errorsList = customerData.errorsList;
         this.validateApplicationSections(isCategoryTypeLoan).then((applicationData) => {
