@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
 import { RlouiService } from './rloui.service';
 import { Router } from '@angular/router';
 import { promise } from 'protractor';
-import { string } from '@amcharts/amcharts4/core';
+import { string, array } from '@amcharts/amcharts4/core';
 import { ProvidehttpService } from '../providehttp.service';
 import { HttpResponse } from '@angular/common/http';
 import { resolve } from 'dns';
@@ -70,6 +70,7 @@ export interface IGlobalApllicationDtls {
   PrimaryBorrowerSeq?: any;
   CBSProductCode?: any;
   ApplicationPurposeName?: any;
+  CIF?: any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -108,6 +109,10 @@ export class RloCommonData {
 
   deletedCustomerSubject = new Subject<any>();//snd deleted customer
 
+  allCustomersList = [];//store list of added customers when borrowerdetails api is called
+  customerListForAddress = new Map();//need to change this
+  initialBorrowerDetailsCallDone: boolean = false;
+
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);
@@ -134,7 +139,7 @@ export class RloCommonData {
 
 
   //event fired when customer is deleted
-  deleteStoredCustomerInDDE(BorrowerSeq:number) {
+  deleteStoredCustomerInDDE(BorrowerSeq: number) {
     this.deletedCustomerSubject.next(BorrowerSeq);
   }
 
@@ -1289,5 +1294,12 @@ export class RloCommonData {
     return promise;
   }
 
+  addCustomersToMapForAddress(allCustomerData) {
+    console.warn("allCustomerDataallCustomerDataallCustomerDataallCustomerData", allCustomerData);
 
+    allCustomerData.forEach(element => {
+      this.customerListForAddress.set(element.BorrowerSeq, element.BorrowerSeq);
+    });
+
+  }
 }

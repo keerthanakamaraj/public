@@ -267,6 +267,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
   }
 
+
   //ON FIRST TIME LOAD get all customer details and set menu acc.
   // initGetAllCustomerDetails(customerData: any, customerType: string = '') {
   //     this.CustomerDetailsArray = customerData.data;
@@ -342,6 +343,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       // }
 
       //this.addCustomersToMap(data)
+      console.warn("allCustomerDataallCustomerDataallCustomerDataallCustomerData", this.services.rloCommonData.customerListForAddress);
+      this.validateAddressForCustomers(data.BorrowerSeq);
 
       this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected).then((sectionResponseObj) => {
         console.log("$$$$$$$$$$", sectionResponseObj);
@@ -561,6 +564,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.getDeletedCustomerSubscription.unsubscribe();
     this.childToParentSubjectSubscription.unsubscribe();
     this.services.rloui.closeAllConfirmationModal();
+    this.services.rloCommonData.initialBorrowerDetailsCallDone = false;
     //is disabled when navigating to DDE from operations
     if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
       this.services.rloCommonData.makeDdeDisabled.ddeDisabled = false;
@@ -2090,7 +2094,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   //   if (this.formMenuObject.isCustomerTabSelected) {
   //     selectedSection = "customerSection";
-  //     mapKey = componentLvlData.BorrowerSeq;
+  //     mapKey = componentLvlData.BorrowerSeq; 
   //   } else {
   //     selectedSection = "applicationSection";
   //     mapKey = componentLvlData.sectionName;
@@ -2256,6 +2260,30 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       this.progressStatusObject.completedSection += 1;
     });
     this.updateProgressBar();
+  }
+
+  validateAddressForCustomers(BorrowerSeq: number) {
+    if (!this.services.rloCommonData.customerListForAddress.has(BorrowerSeq)) {
+      console.error("****************");
+      console.warn("NEW CUSTOMER");
+      console.error("****************");
+      this.services.rloCommonData.customerListForAddress.set(BorrowerSeq, BorrowerSeq);
+      this.additionAddressDetailsApiCall(BorrowerSeq);
+    }
+  }
+
+  additionAddressDetailsApiCall(BorrowerSeq: number) {
+    let inputMap = new Map();
+    inputMap.clear();
+    inputMap.set('Body.interfaceId', "Customer360View");
+    inputMap.set('Body.proposalid', this.ApplicationId);
+    inputMap.set('Body.BorrowerSeq', BorrowerSeq.toString());
+    inputMap.set('Body.inputdata.CifID', this.services.rloCommonData.globalApplicationDtls.CIF);
+
+    this.services.http.fetchApi('/cbsCustomer360View/member', 'POST', inputMap, '/rlo-de').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+      }
+    );
   }
 
 }

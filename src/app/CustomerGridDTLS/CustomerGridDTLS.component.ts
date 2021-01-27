@@ -178,6 +178,13 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           });
           console.log("BorrowerDetails", BorrowerDetails);
           console.log("BorrowerDetails", BorrowerDetails);
+
+          if (!this.services.rloCommonData.initialBorrowerDetailsCallDone) {
+            this.services.rloCommonData.customerListForAddress.clear();
+            this.services.rloCommonData.addCustomersToMapForAddress(BorrowerDetails);
+            this.services.rloCommonData.initialBorrowerDetailsCallDone = true
+          }
+
           if (BorrowerDetails) {
 
             BorrowerDetails.forEach(eachBorrower => {

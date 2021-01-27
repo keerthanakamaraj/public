@@ -134,7 +134,7 @@
             </div>
             <!-- <app-text-box #CD_INCORPORATE_TYPE fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
               (blur)="genericOnBlur('CD_INCORPORATE_TYPE', $event)"></app-text-box> -->
-              <app-combo-box #CD_INCORPORATE_TYPE category="2" fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
+            <app-combo-box #CD_INCORPORATE_TYPE category="2" fieldID="CD_INCORPORATE_TYPE" [formCode]="formCode"
               placeholder="Select" domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters"
               domainObjectCode="MSTGENERALPARAM" (blur)="genericOnBlur('CD_INCORPORATE_TYPE', $event)"></app-combo-box>
           </div>
@@ -148,7 +148,7 @@
               (blur)="genericOnBlur('CD_INCORPORATE_DATE', $event)"></app-date>
           </div>
           <!-- for corporate end -->
-         
+
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div style="min-height: 0px;height: 0px;" class="col-12 col-sm-12 col-md-12"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_FIRST_NAME.isHidden()">
@@ -262,7 +262,7 @@
             <app-text-box #CD_EMAIL fieldID="CD_EMAIL" [formCode]="formCode" (blur)="genericOnBlur('CD_EMAIL', $event)">
             </app-text-box>
           </div>
-          <div class="col-12  col-sm-12 col-md-12 res-pr-hide"[hidden]="isCorporateBorrower">
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="isCorporateBorrower">
             <app-label #NATIONALITY_DTLS_LBL parentCompCode="CustomerDtls" fieldID="NATIONALITY_DTLS_LBL"
               [formCode]="formCode" fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px"
               fontWeight="400" customClass="sub-section-header"></app-label>
@@ -388,7 +388,7 @@
               fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"
               customClass="sub-section-header" [hidden]="CD_PMRY_EMBSR_NAME.isHidden()|| isLoanCategory"></app-label>
           </div>
-          <div class="col-12  col-sm-3 col-md-3 res-pr-hide"  [hidden]="CD_CUST_SEGMENT.isHidden()">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="CD_CUST_SEGMENT.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': CD_CUST_SEGMENT.mandatory}">
                 {{ 'CustomerDtls.CD_CUST_SEGMENT' | translate}}
@@ -417,8 +417,7 @@
             </div>
 
             <app-rlo-ui-currency #RequestedAmountLimit fieldID="RequestedAmountLimit" [currencyReadOnly]="true"
-              [componentFieldId]="'RequestedAmountLimit'"
-              (onBlurEvent)="customGenericOnBlur($event)"
+              [componentFieldId]="'RequestedAmountLimit'" (onBlurEvent)="customGenericOnBlur($event)"
               [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
 
             <!-- <app-amount #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
@@ -498,13 +497,13 @@
 
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="EmbLine4.isHidden()|| isLoanCategory">
             <div class="clr-brown fieldLegend">
-              <label class="clr-brown" *ngIf="!isCorporateBorrower"[ngClass]="{'mandatory': EmbLine4.mandatory}">
+              <label class="clr-brown" *ngIf="!isCorporateBorrower" [ngClass]="{'mandatory': EmbLine4.mandatory}">
                 {{ 'CustomerDtls.EmbLine4' | translate}}
               </label>
               <label class="clr-brown" *ngIf="isCorporateBorrower" [ngClass]="{'mandatory': EmbLine4.mandatory}">
                 {{ 'CustomerDtls.CorporateLine4' | translate}}
               </label>
-              
+
             </div>
             <app-text-box #EmbLine4 fieldID="EmbLine4" [formCode]="formCode" (blur)="genericOnBlur('EmbLine4', $event)">
             </app-text-box>

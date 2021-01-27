@@ -541,7 +541,8 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       ReqCardLimit: header.ReqCardLimit,
       PrimaryUsage: header.ApplicationPurpose,
       CBSProductCode: header.CBS_Product_Code,
-      ApplicationPurposeName: header.ApplicationPurposeName
+      ApplicationPurposeName: header.ApplicationPurposeName,
+      CIF:header.CIF
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
