@@ -632,11 +632,10 @@ export class RloCommonData {
     const applicantType = customerData.CustomerType;
 
     console.log("shweta :: check stage in services",this.globalApplicationDtls.ActiveStage);
-    if (!sectionData.has('AddressDetails')) { //added for canara
-     if (this.globalApplicationDtls.ActiveStage=='DDE'){
-        commonObj.isSectionValid = false;
-      }
-    } else {
+    // if (!sectionData.has('AddressDetails')) { //added for canara
+    //     commonObj.isSectionValid = false;
+    // } else {
+      if (sectionData.has('AddressDetails')){
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: true };
       for (const eachAddress of addressList) {
