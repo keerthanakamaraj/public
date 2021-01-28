@@ -420,6 +420,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
+  
 
 
     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
@@ -1261,6 +1262,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     this.isLoanCategory = event.isLoanCategory;
+    this.services.rloCommonData.globalApplicationDtls.ActiveStage =this.componentCode;
     this.CUSTOMER_GRID.setApplicantLabelsAndTags();
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);

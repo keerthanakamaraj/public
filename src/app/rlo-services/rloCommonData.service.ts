@@ -72,6 +72,7 @@ export interface IGlobalApllicationDtls {
   ApplicationPurposeName?: any;
   CIF?: any;
   isAddedNewMember?:boolean ;
+  ActiveStage?:string;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -630,8 +631,11 @@ export class RloCommonData {
     const LoanOwnership = customerData.LoanOwnership;
     const applicantType = customerData.CustomerType;
 
+    console.log("shweta :: check stage in services",this.globalApplicationDtls.ActiveStage);
     if (!sectionData.has('AddressDetails')) { //added for canara
-      commonObj.isSectionValid = false;
+     if (this.globalApplicationDtls.ActiveStage=='DDE'){
+        commonObj.isSectionValid = false;
+      }
     } else {
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: true };
