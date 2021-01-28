@@ -974,13 +974,14 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //   this.CustSubSegment.setHidden(true);
     //   this.CustSubSegment.mandatory = false;
     // } else {
-    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && customer.CustomerType == 'B' && this.parentFormCode == 'DDE') {
-      this.CD_CUST_SEGMENT.setReadOnly(false);
-      this.CustSubSegment.setReadOnly(false);
+    if (customer.CustomerType == 'B' && this.parentFormCode == 'DDE') {
+      let  readonlySegmentFlag= this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'?true:false;
+      this.CD_CUST_SEGMENT.setReadOnly(!readonlySegmentFlag);
+      this.CustSubSegment.setReadOnly(!readonlySegmentFlag);
       this.CD_CUST_SEGMENT.setHidden(false);
       this.CustSubSegment.setHidden(false);
-      this.CustSubSegment.mandatory = true;
-      this.CD_CUST_SEGMENT.mandatory = true;
+      this.CustSubSegment.mandatory = readonlySegmentFlag;
+      this.CD_CUST_SEGMENT.mandatory = readonlySegmentFlag;
 
     }
     else {

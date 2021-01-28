@@ -473,7 +473,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             //this.setApproveCashLimit();
           });
 
-          this.revalidate(false).then((errors) => {
+          //this.revalidate(false).then((errors) => {
+            let noOfError: number = await this.revalidate(false);
+            if(noOfError<=0){
             let array = [];
             array.push({ isValid: true, sectionData: this.getFieldValue() });
             let obj = {
@@ -482,7 +484,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
               "sectionName": "CreditCardDetails"
             }
             this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          });
+         // });
+          }
         }
       },
       async (httpError) => {
