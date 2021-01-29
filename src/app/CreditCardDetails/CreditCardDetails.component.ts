@@ -436,10 +436,10 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         var res = httpResponse.body;
         if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
           var CreditArray = res['CreditCardDetails'];
-          CreditArray.forEach(async CreditElement => {
+         // CreditArray.forEach(CreditElement => {
             // this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']['id']);
             // this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']['id']);
-
+            let CreditElement = CreditArray[0];
             this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
             this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
             this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
@@ -471,11 +471,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
 
             //this.setApproveCashLimit();
-          });
+         // });
 
-          //this.revalidate(false).then((errors) => {
-            let noOfError: number = await this.revalidate(false);
-            if(noOfError<=0){
+          this.revalidate(false).then((errors) => {
+          //  let noOfError: number = await this.revalidate(false);
+            if (errors == 0) { 
             let array = [];
             array.push({ isValid: true, sectionData: this.getFieldValue() });
             let obj = {
@@ -484,8 +484,9 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
               "sectionName": "CreditCardDetails"
             }
             this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-         // });
           }
+         });
+          
         }
       },
       async (httpError) => {
@@ -598,7 +599,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   async CCD_Save_click(event) {
     let inputMap = new Map();
     let decisionsParamArray = [];
-    var noOfError: number = await this.revalidate();
+    let noOfError: number = await this.revalidate();
 
     console.log("shweta", noOfError);
     //var noOfError: number = 0;
