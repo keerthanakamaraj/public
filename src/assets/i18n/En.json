@@ -1866,7 +1866,7 @@
     "EmbLineFlag": "Embossing Line 4 Applicable",
     "CustSubSegment": "Customer Sub Segment",
     "CardDispatchMode": "Pickup Instruction",
-    "RequestedAmountLimit": "Requested Amount Limit",
+    "RequestedAmountLimit": "Requested Card Limit",
     "CD_CARD_CUST_TYPE": "Applicant Type",
     "CD_REGISTERED_NAME": "Registered Name",
     "CD_INCORPORATE_DATE": "Date of Incorporation",
