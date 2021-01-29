@@ -790,9 +790,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_TITLE.setValue(tempVar['title']);
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
-    this.CD_NAME_ON_CARD_blur();
-    // this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
-
+    this.CD_NAME_ON_CARD.setValue((tempVar['custName']).slice(0, 19));
+    
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
 
@@ -931,18 +930,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.isStaff({});
 
   }
-
-  async CD_NAME_ON_CARD_blur(){
-
-      let name = this.CD_NAME_ON_CARD.getFieldValue();
-      this.CD_NAME_ON_CARD.setValue(name.slice(0, 19)); 
-  }
-
-  async EmbLine4_blur(){
-    let tempName= this.CD_REGISTERED_NAME.getFieldValue();
-    this.EmbLine4.setValue(tempName.slice(0, 19))
-  }
-
   // async CD_DOB_blur(event) {
   //   if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
   //     this.CD_DOB.setError('rlo.error.DOB.invalid');
@@ -962,7 +949,6 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
       let date = moment(this.BAD_DATE_OF_RCPT.getFieldValue(), 'DD-MM-YYYY');
       let day = currentDate.diff(date, 'days');
-      console.log("rt ----- day is:", day);
       if (day > 30) {
         let temp = false;
       }
