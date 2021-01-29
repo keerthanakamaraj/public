@@ -1011,7 +1011,7 @@
                 <div style="width:100%; background:null;height:1px;"></div>
               </div>
             </rlo-ui-accordion-group>
-            <rlo-ui-accordion-group #ACC_REFERRER id="ACC_REFERRER" [hidden]="isReferrer"
+            <rlo-ui-accordion-group #ACC_REFERRER id="ACC_REFERRER" [hidden]="!isReferrer"
               title="{{ 'Initiation.RD_HEAD_LBL' | translate}}">
               <div #RD_GROUP id="RD_GROUP">
                 <div class="form-group">

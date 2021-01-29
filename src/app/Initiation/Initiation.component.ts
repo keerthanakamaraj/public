@@ -184,7 +184,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   eligeData = [];
   isLoanCategory: boolean;
   isCustomerCorporate: any = 'I';
-  isReferrer: boolean = false;
+  isReferrer: boolean = true;
   borrower: any;
   borrowericif: any;
   icif: any;
@@ -636,9 +636,35 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     );
   }
 
+  // IsCustomerChangeAllowed(data){
+  
+  // }
   IsInitiationAllowedForBranch(data) {
     let tempVar: any = data;
-    if (this.UserBranch !== tempVar['Branch']) {
+    if (this.Handler.editId) {
+      this.Handler.customers.forEach(cust => {
+        if(cust => cust.tempId === this.Handler.editId){
+          if(cust.CUST_TYPE_LBL == 'Corporate' && data.CustomerType == 'I'){
+            this.services.alert.showAlert(2, '', -1, 'You Cannot select Individual record for Corporate');
+            return;
+          }else if(cust.CUST_TYPE_LBL == 'Primary' && data.CustomerType == 'C'){
+            this.services.alert.showAlert(2, '', -1, 'You Cannot select Corporate record for Individual');
+            return;
+          }
+          else if (this.UserBranch !== tempVar['Branch']) {
+            this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
+            return;
+          }
+          else {
+            // this.ApplicationStatus(data);
+            this.DOBIsValid(data)
+          }
+      
+      
+        }
+      });
+    }
+    else if(this.UserBranch !== tempVar['Branch']) {
       this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
       return;
     }
@@ -732,12 +758,21 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     console.log('searched data =================', data);
 
     if (data.CustomerType == 'C') {
-      this.isReferrer = true;
+      this.isReferrer = false;
       if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
         // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
-        this.services.alert.showAlert(2, '', 1000, 'User Cannot Add Corporate Record For Addon Customer');
+        this.services.alert.showAlert(2, '', -1, 'User Cannot Add Corporate Record For Addon Customer');
         return;
       }
+    }
+    else{
+      if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
+        this.isReferrer = false;
+      }
+     else{
+      this.isReferrer = true;
+     }
+
     }
     let tempVar: any = data;
     if(tempVar)

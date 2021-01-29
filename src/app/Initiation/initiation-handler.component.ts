@@ -17,7 +17,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   customers = [];
   formName: string = "Initiation";
   private counter = 0;
-  private editId: string;
+  public editId: string;
 
   customerFormFields = ["CD_CUST_TYPE", "CD_EXISTING_CUST", "CD_CIF", "CD_CUSTOMER_ID", "CD_TITLE", "CD_FIRST_NAME",
     "CD_MIDDLE_NAME", "CD_THIRD_NAME", "CD_LAST_NAME", "CD_FULL_NAME", "CD_GENDER", "CD_DOB", "CD_TAX_ID",
@@ -319,6 +319,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
   // Edit Customer
   onEditCustomer(arg0: { 'id': any; }) {
     this.HideFieldBasedOnCorporate();
+    this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(true);
     // this.editId = undefined;
     this.editId = arg0.id;
     let customer = this.customers.find(cust => cust.tempId === arg0.id);
@@ -439,12 +440,14 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         let index = this.customers.findIndex(cust => cust.tempId === this.editId);
         this.customers[index] = customer;
         console.log("updating customers", this.customers);
+        this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(false);
 
       } else {
 
         this.customers.push(customer);
         this.tempId = undefined;
         console.log("this.customers", this.customers);
+        this.MainComponent.CD_CARD_CUST_TYPE.setReadOnly(false);
       }
 
       this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
@@ -535,8 +538,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     if (this.MainComponent.BAD_PROD_CAT.getFieldValue() !== 'CC') {
       customer.customerType = this.getValueLabelFromDropdown(this.MainComponent.CD_CUST_TYPE);
       customer.CUST_TYPE_LBL = this.MainComponent.CD_CUST_TYPE.getFieldInfo();
+      // customer.customerType.label = 
     } else { // Credit Card Customer
       customer.customerType = this.getValueLabelFromDropdown(this.MainComponent.CD_CARD_CUST_TYPE);
+      // customer.customerType = this.MainComponent.CD_CARD_CUST_TYPE.getFieldValue();
       customer.CUST_TYPE_LBL = this.MainComponent.CD_CARD_CUST_TYPE.getFieldInfo();
     }
 
