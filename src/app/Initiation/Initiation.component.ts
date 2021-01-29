@@ -29,6 +29,7 @@ import { RloUiCurrencyComponent } from '../rlo-ui-currency/rlo-ui-currency.compo
 import { ICustomSearchObject } from '../Interface/masterInterface';
 import { RloUiCustomerSearchComponent } from '../rlo-ui-customer-search/rlo-ui-customer-search.component';
 import { truncateWithEllipsis } from '@amcharts/amcharts4/.internal/core/utils/Utils';
+import { DropDown } from '../DropDownOptions';
 
 const customCss: string = '';
 
@@ -448,7 +449,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   //method added for Canara Bank functionality
   setCustomerTypeOptions() {
-    console.log("init:: 1", this.EmbLineFlag.isHidden());
+    //console.log("init:: 1", this.EmbLineFlag.isHidden());
+    this.CD_CARD_CUST_TYPE.dropDownOptions=new DropDown();
     if (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C') {
       this.hideCardCustType.setValue('CORP_CUSTOMER_TYPE');
     } else if (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I') {
