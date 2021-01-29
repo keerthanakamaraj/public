@@ -974,22 +974,23 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     //   this.CustSubSegment.setHidden(true);
     //   this.CustSubSegment.mandatory = false;
     // } else {
-    if (customer.CustomerType == 'B' && this.parentFormCode == 'DDE') {
-      let  readonlySegmentFlag= this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'?true:false;
-      this.CD_CUST_SEGMENT.setReadOnly(!readonlySegmentFlag);
-      this.CustSubSegment.setReadOnly(!readonlySegmentFlag);
-      this.CD_CUST_SEGMENT.setHidden(false);
-      this.CustSubSegment.setHidden(false);
-      this.CustSubSegment.mandatory = readonlySegmentFlag;
-      this.CD_CUST_SEGMENT.mandatory = readonlySegmentFlag;
+      this.showHideCustSegment(customer.CustomerType);
+    // if (customer.CustomerType == 'B' && this.parentFormCode == 'DDE') {
+    //   let  readonlySegmentFlag= this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'?true:false;
+    //   this.CD_CUST_SEGMENT.setReadOnly(!readonlySegmentFlag);
+    //   this.CustSubSegment.setReadOnly(!readonlySegmentFlag);
+    //   this.CD_CUST_SEGMENT.setHidden(false);
+    //   this.CustSubSegment.setHidden(false);
+    //   this.CustSubSegment.mandatory = readonlySegmentFlag;
+    //   this.CD_CUST_SEGMENT.mandatory = readonlySegmentFlag;
 
-    }
-    else {
-      this.CD_CUST_SEGMENT.setHidden(true);
-      this.CustSubSegment.setHidden(true);
-      this.CustSubSegment.mandatory = false;
-      this.CD_CUST_SEGMENT.mandatory = false;
-    }
+    // }
+    // else {
+    //   this.CD_CUST_SEGMENT.setHidden(true);
+    //   this.CustSubSegment.setHidden(true);
+    //   this.CustSubSegment.mandatory = false;
+    //   this.CD_CUST_SEGMENT.mandatory = false;
+    // }
 
     console.log("all fields: ", this);
 
@@ -1169,6 +1170,26 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_LOAN_OWN.setReadOnly(this.disableLoanOwnership(event.customerType));
     this.dispalyAddonField(event.customerType);
     this.ManageCardTypeBasedFields(event.customerType) // callled for canara
+    this.showHideCustSegment(event.CustomerType);
+  }
+
+  showHideCustSegment(applicantType){
+    if (applicantType == 'B' && this.parentFormCode == 'DDE') {
+      let  readonlySegmentFlag= this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'?true:false;
+      this.CD_CUST_SEGMENT.setReadOnly(!readonlySegmentFlag);
+      this.CustSubSegment.setReadOnly(!readonlySegmentFlag);
+      this.CD_CUST_SEGMENT.setHidden(false);
+      this.CustSubSegment.setHidden(false);
+      this.CustSubSegment.mandatory = readonlySegmentFlag;
+      this.CD_CUST_SEGMENT.mandatory = readonlySegmentFlag;
+
+    }
+    else {
+      this.CD_CUST_SEGMENT.setHidden(true);
+      this.CustSubSegment.setHidden(true);
+      this.CustSubSegment.mandatory = false;
+      this.CD_CUST_SEGMENT.mandatory = false;
+    }
   }
   ManageCardTypeBasedFields(applicantType) {
     let appCustomerType = this.services.rloCommonData.globalApplicationDtls.CustomerType;
