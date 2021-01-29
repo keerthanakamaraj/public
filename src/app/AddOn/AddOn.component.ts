@@ -617,6 +617,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       // inputMap.set('Body.BorrowerDetails.LastName', this.ADD_CUSTOMER_ID.getFieldValue());
       inputMap.set('Body.BorrowerDetails.Email', this.ADD_EMAIL_ID.getFieldValue());
       inputMap.set('Body.BorrowerDetails.MobileNo', this.ADD_MOBILE.getFieldValue());
+      inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.ADD_MOBILE.countryCode);
+
       inputMap.set('Body.BorrowerDetails.DOB', this.ADD_DOB.getFieldValue());
       inputMap.set('Body.BorrowerDetails.RegisteredName', this.ADD_REGISTERED_NAME.getFieldValue());
       inputMap.set('Body.BorrowerDetails.TypeOfIncorporation', this.ADD_TYPE_OF_INCORPORATION.getFieldValue());
@@ -645,6 +647,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
       inputMap.set('Body.BorrowerDetails.LoanOwnership', '100');
       inputMap.set('Body.ApplicationDetails.CAMType', 'MEMC');
+
+      console.log(inputMap)
 
       this.services.http.fetchApi('/v1/proposal/initiate/member-card', 'POST', inputMap, '/initiation').subscribe(
         async (httpResponse: HttpResponse<any>) => {

@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 7613; //6633
+    // this.applicationId = 8035; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -611,11 +611,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
           let newList = { className: "BusinessDetails" };
           this.allSectionsCardData[0].cardList.splice(1, 0, newList);
+
+          // let addressDetails = singleCustomer.AddressDetails;
+          // if (addressDetails.addressesList.length) {
+          //   addressDetails.addressesList.forEach(element => {
+          //     if (element.AddressType == "PR") {
+
+          //     }
+          //   });
+          // }
         }
-        // else {
-        //   if (this.allSectionsCardData[0].cardList.length == 3)
-        //     this.allSectionsCardData[0].cardList.splice(1, 1);
-        // }
       }
 
       this.allSectionsCardData[0].cardList.forEach(element => {
@@ -648,6 +653,21 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
           case "AddressDetails":
             this.addressDetailsCardDetails = singleCustomer[element.className].getCardData();
+
+            if (this.addressDetailsCardDetails.data.length)
+              if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+                if (singleCustomer.CustomerType == "B") {
+                  this.addressDetailsCardDetails.data.forEach(element => {
+                    if (element.type == "Mailing Address") {
+                      element.type = "Registered Address";
+                    }
+                    if (element.type == "Permanent Address") {
+                      element.type = "Communication Address";
+                    }
+                  });
+                }
+              }
+
             this.addressDetailsCardDetails.applicationId = this.applicationId;
             this.addressDetailsCardDetails.borrowerSeq = this.borrowerSeq;
             this.addressDetailsCardDetails.componentCode = this.componentCode;

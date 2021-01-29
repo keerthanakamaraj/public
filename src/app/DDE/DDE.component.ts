@@ -197,7 +197,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     [
       { id: "LiabilityDetails", name: "Liability Details", completed: false, iconClass: "icon-Liability-Details", isActive: false, isOptional: true },
       { id: "AssetDetails", name: "Asset Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
-      { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: false },
+      { id: "IncomeSummary", name: "Income Summary", completed: false, iconClass: "icon-Income-Summary", isActive: false, isOptional: true },
       // { id: "CollateralDetails", name: "Collateral Details", completed: false, iconClass: "icon-Collateral-Details", isActive: false, isOptional: true }
     ],
     [
@@ -378,12 +378,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         this.updateProgressBar();
       } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
         customersList.forEach(element => {
-          if (element == "CustomerDetails" || element == "AddressDetails" || element == "IncomeSummary") {
+          if (element == "CustomerDetails" || element == "AddressDetails") {
             removeCount += 1;
           }
         });
         this.progressStatusObject.completedSection -= removeCount;
-        this.progressStatusObject.manditorySection -= 3;
+        this.progressStatusObject.manditorySection -= 2;
         this.updateProgressBar();
       }
     });
@@ -1951,7 +1951,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
             this.progressStatusObject.manditorySection += 2;
           } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
-            this.progressStatusObject.manditorySection += 3;
+            this.progressStatusObject.manditorySection += 2;
           }
         }
 

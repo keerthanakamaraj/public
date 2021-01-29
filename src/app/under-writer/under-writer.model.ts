@@ -1070,7 +1070,7 @@ export class BusinessDetails implements IDeserializable {
         let fieldList: ICardListData[] = [
             {
                 title: "GST Number",
-                subTitle: this.GSTNumber,
+                subTitle: this.GSTNumber.length ? this.GSTNumber : "NA",
                 type: "basic",
                 modalSectionName: ""
             },

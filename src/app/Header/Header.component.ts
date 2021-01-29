@@ -186,7 +186,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
-    // inputMap.set('PathParam.ApplicationId', 7613);
+    // inputMap.set('PathParam.ApplicationId', 8035);
     console.log('inputmaap', inputMap);
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
@@ -542,7 +542,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
       PrimaryUsage: header.ApplicationPurpose,
       CBSProductCode: header.CBS_Product_Code,
       ApplicationPurposeName: header.ApplicationPurposeName,
-      CIF:header.CIF
+      CIF: header.CIF
     }
     this.services.rloCommonData.globalApplicationDtls = StoreObject;
     console.log("shweta updated global interface", this.services.rloCommonData.globalApplicationDtls);
