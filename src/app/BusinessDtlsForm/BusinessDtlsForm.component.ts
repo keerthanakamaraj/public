@@ -49,6 +49,7 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
 
   @Input('readOnly') readOnly: boolean = false;
 
+  clearFlag:boolean=false;
   BusinessSeq: number = undefined;
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -87,8 +88,10 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
     this.hidConstitution.setValue('CONSTITUTION');
     this.hidIndustry.setValue('INDUSTRY');
     this.hidAppId.setValue('RLO');
-    if (this.activeBorrowerSeq != undefined) {
+    if (this.activeBorrowerSeq != undefined && !this.clearFlag) {
       this.FetchBusinessDtls();
+    }else{
+      this.clearFlag=false;
     }
     await this.Handler.onFormLoad({
     });
@@ -369,6 +372,12 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
     this.OrgNature.setValue(BusinessDtls.OrganizationNature);
     this.Constitution.setValue(BusinessDtls.Constitution);
     this.Industry.setValue(BusinessDtls.Industry);
+  }
+
+  BD_CLEAR_BTN_click(event){
+    this.clearFlag=true;
+this.onReset();
+console.log("debug comment: business details seq",this.BusinessSeq);
   }
 
   fieldDependencies = {
