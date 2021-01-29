@@ -755,7 +755,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_TITLE.setValue(tempVar['title']);
     this.CD_CUSTOMER_ID.setValue(tempVar['icif']);
     this.CD_EMAIL_ID.setValue(tempVar['emailid']);
-    this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
+    this.CD_NAME_ON_CARD_blur();
+    // this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
 
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CustomerType']);
     this.BAD_SRC_CHANNEL.setValue('BRANCH');
@@ -765,7 +766,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.CD_TYPE_OF_INCORPORATION.setValue(tempVar['typeOfIncorporation']);
     this.CD_DATE_OF_INCORPORATION.setValue(tempVar['dateOfIncorporation']);
     // this.CD_PAN_NUMBER.setValue(tempVar['taxId']);
-    this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
+    // this.CD_NAME_ON_CARD.setValue(tempVar['custName']);
     this.BAD_BRANCH.setValue(tempVar['ApplicationBranch'])
     // this.BAD_CUSTOMER_TYPE.setValue(tempVar['CBSProductCode'])
     this.appRefNum = tempVar['AppRefNum'];
@@ -895,6 +896,18 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     this.Handler.isStaff({});
 
   }
+
+  async CD_NAME_ON_CARD_blur(){
+
+      let name = this.CD_NAME_ON_CARD.getFieldValue();
+      this.CD_NAME_ON_CARD.setValue(name.slice(0, 19)); 
+  }
+
+  async EmbLine4_blur(){
+    let tempName= this.CD_REGISTERED_NAME.getFieldValue();
+    this.EmbLine4.setValue(tempName.slice(0, 19))
+  }
+
   // async CD_DOB_blur(event) {
   //   if (!this.isPastDate(this.CD_DOB.getFieldValue())) {
   //     this.CD_DOB.setError('rlo.error.DOB.invalid');
@@ -909,10 +922,21 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   async BAD_DATE_OF_RCPT_blur(event) {
     let inputMap = new Map();
 
-    if (!(this.isTodaysDate(this.BAD_DATE_OF_RCPT.getFieldValue()) || this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue()))) {
+      const moment = require('moment');
+      let currentDate = moment();
+      currentDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      let date = moment(this.BAD_DATE_OF_RCPT.getFieldValue(), 'DD-MM-YYYY');
+      let day = currentDate.diff(date, 'days');
+      console.log("rt ----- day is:", day);
+      if (day > 30) {
+        let temp = false;
+      }
+
+    if ((day>30 || !this.isPastDate(this.BAD_DATE_OF_RCPT.getFieldValue())) && !(this.isTodaysDate(this.BAD_DATE_OF_RCPT.getFieldValue())))  {
       this.BAD_DATE_OF_RCPT.setError('rlo.error.DateOfRecipt.invalid');
       return 1;
     }
+
   }
 
 
@@ -1436,6 +1460,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       return true;
     }
   }
+
 
   isMinValid(selectedDate) {
     const moment = require('moment');
