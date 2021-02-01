@@ -871,9 +871,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_DOB.setValue(undefined);
       this.MainComponent.CD_FULL_NAME.setValue(undefined);
       this.MainComponent.CD_GENDER.setValue(undefined);
-      this.MainComponent.CD_FIRST_NAME.mandatory = false;
-      this.MainComponent.CD_LAST_NAME.mandatory = false;
-      this.MainComponent.CD_GENDER.mandatory = false;
+      // this.MainComponent.CD_FIRST_NAME.mandatory = false;
+      // this.MainComponent.CD_LAST_NAME.mandatory = false;
+      // this.MainComponent.CD_GENDER.mandatory = false;
       // this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
       // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
       this.MainComponent.CD_STAFF_ID.setHidden(true);
@@ -899,9 +899,9 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_REGISTERED_NAME.setValue(undefined);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setValue(undefined);
       this.MainComponent.CD_DATE_OF_INCORPORATION.setValue(undefined);
-      this.MainComponent.CD_FIRST_NAME.mandatory = true;
-      this.MainComponent.CD_LAST_NAME.mandatory = true;
-      this.MainComponent.CD_GENDER.mandatory = true;
+      // this.MainComponent.CD_FIRST_NAME.mandatory = true;
+      // this.MainComponent.CD_LAST_NAME.mandatory = true;
+      // this.MainComponent.CD_GENDER.mandatory = true;
       // this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
       // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.setHidden(false);
