@@ -1014,10 +1014,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   //     }
   async BAD_REQ_CARD_LIMIT_blur(event) {
     let inputMap = new Map();
-    if (parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) > parseFloat(this.MaxCredLimit.getFieldValue()) || parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) < parseFloat(this.MinCredLimit.getFieldValue())) {
-      this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit');
+    if (parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) > parseFloat(this.MaxCredLimit.getFieldValue())) {
+      this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit.max');
       return 1;
-
+    } else if (parseFloat(this.BAD_REQ_CARD_LIMIT.getFieldValue()) < parseFloat(this.MinCredLimit.getFieldValue())){
+      this.BAD_REQ_CARD_LIMIT.setError('rlo.error.amount.limit.min');
+      return 1;
     }
   }
   async CD_FIRST_NAME_blur(event) {
