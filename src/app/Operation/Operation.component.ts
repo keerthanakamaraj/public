@@ -25,6 +25,7 @@ import { string } from '@amcharts/amcharts4/core';
 import { RLOUIRadioComponent } from '../rlo-ui-radio/rlo-ui-radio.component';
 import { UtilityService } from '../services/utility.service';
 import { threadId } from 'worker_threads';
+import { OperationFormHandlerComponent } from './opertion-handler.component';
 const customCss: string = '';
 
 @Component({
@@ -59,6 +60,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
   @ViewChild('hideDirection', { static: false }) hideDirection: HiddenComponent;
   @ViewChild('OPERATION_CLOSE', { static: false }) OPERATION_CLOSE: ButtonComponent;
   @ViewChild('HideDecision', { static: false }) HideDecision: HiddenComponent;
+  @ViewChild('Handler', { static: false }) Handler: OperationFormHandlerComponent;
 
   @Input() isLoanCategory: any = undefined;
   @Input() ProductCode: any = undefined;
@@ -231,7 +233,8 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     await this.CUST_GRID.gridDataLoad({
       'passCustGrid': this.ApplicationId,
     });
-
+    await this.Handler.onFormLoad({
+    });
     if (!this.services.rloCommonData.makeDdeDisabled.previousPageOperation) {
       if (this.userId === undefined || this.userId === '') {
         this.claimTask(this.taskId);
