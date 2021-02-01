@@ -137,6 +137,7 @@ export class MyTrayGridComponent implements AfterViewInit {
     {
       field: "MT_SUB_PRODUCT",
       width: 12,
+      hide: true,
       sortable: true,
       resizable: true,
       cellStyle: { 'text-align': 'left' },
@@ -153,7 +154,6 @@ export class MyTrayGridComponent implements AfterViewInit {
       field: "MT_SCHEME",
       width: 11,
       sortable: true,
-      hide: true,
       resizable: true,
       cellStyle: { 'text-align': 'left' },
       filter: "agTextColumnFilter",
@@ -384,7 +384,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
             case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
-            case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
+            case "MT_SCHEME": obj[i].columnName = "SMD.SCHEME_NAME"; break;
             case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
 
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
@@ -411,7 +411,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
             case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
-            case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
+            case "MT_SCHEME": obj[i].columnName = "SMD.SCHEME_NAME"; break;
             case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
             case "MT_STAGE": obj[i].columnName = "T.NAME"; break;
@@ -497,7 +497,7 @@ export class MyTrayGridComponent implements AfterViewInit {
             case "MT_CUSTOMER": obj[i].columnName = "IND.FULL_NAME"; break;
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
             case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
-            case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
+            case "MT_SCHEME": obj[i].columnName = "SMD.SCHEME_NAME"; break;
             case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;
             case "MT_STAGE": obj[i].columnName = "T.NAME"; break;
@@ -523,7 +523,7 @@ export class MyTrayGridComponent implements AfterViewInit {
 
             case "MT_PRODUCT": obj[i].columnName = "PRODUCT"; break;
             case "MT_SUB_PRODUCT": obj[i].columnName = "S.SUBPRODUCT_NAME"; break;
-            case "MT_SCHEME": obj[i].columnName = "SCHEME"; break;
+            case "MT_SCHEME": obj[i].columnName = "SMD.SCHEME_NAME"; break;
             case "MT_LOAN_AMOUNT": obj[i].columnName = "L.LOAN_AMT"; break;
 
             case "MT_CAM_TYPE": obj[i].columnName = "EXISTING_CUST"; break;

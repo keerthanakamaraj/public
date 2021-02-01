@@ -2003,7 +2003,7 @@
     "CD_DATE_OF_INCORPORATION": "Date Of Incorporation/Birth"
   },
   "MyTrayGrid": {
-    "MT_SCHEME": "Scheme",
+    "MT_SCHEME": "Product",
     "MT_PRODUCT": "Product",
     "MT_INITIATED_ON": "Initiated On",
     "MT_LOAN_AMOUNT": "Requested Credit Amount",
