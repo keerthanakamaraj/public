@@ -218,7 +218,7 @@ export class AddressDetails implements IDeserializable {
     }
 
     getFullAddress(data) {
-        let array = ['Address1', 'City', 'State', 'Pincode'];
+        let array = ['Address1', 'Address2', 'Address3', 'Pincode', 'City', 'State'];
         let address = "";
         for (let i = 0; i < array.length; i++) {
             const element = array[i];
