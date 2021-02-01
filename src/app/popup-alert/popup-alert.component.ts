@@ -291,9 +291,11 @@ export class PopupAlertComponent implements OnInit {
 
     switch (sectionName) {
       case "AddressDetails":
-        errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
-        errorMsgClass = errorMsgEle[0].getElementsByClassName("ng-select-disabled")[0];
-        errorMsgClass.classList.remove("error");
+        setTimeout(() => {
+          errorMsgEle[0].getElementsByClassName("errorMessagespan")[0].innerHTML = "";
+          errorMsgClass = errorMsgEle[0].getElementsByClassName("ng-select-disabled")[0];
+          errorMsgClass.classList.remove("error");
+        }, 1000);  
         break;
 
       case "AssetDetails":

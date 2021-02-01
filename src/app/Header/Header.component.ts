@@ -186,7 +186,7 @@ export class HeaderComponent extends FormComponent implements OnInit, AfterViewI
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('PathParam.ApplicationId', this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId'));
-    // inputMap.set('PathParam.ApplicationId', 8035);
+    // inputMap.set('PathParam.ApplicationId', 7894);
     console.log('inputmaap', inputMap);
     this.services.http.fetchApi('/proposal/{ApplicationId}/header', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {

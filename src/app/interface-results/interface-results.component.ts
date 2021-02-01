@@ -90,13 +90,21 @@ export class InterfaceResultsComponent implements OnInit {
         let staticCustData = CustomerList.find(eachRecord => eachRecord.BorrowerSeq == eachResult.BorrowerSeq);
         if (staticCustData != undefined) {
           CustomerDtls.CustomerId = eachResult.BorrowerSeq;
-          if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
-            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'C':'M';
-            CustomerDtls.FullName = ('B'==staticCustData.CustomerType)?staticCustData.RegisteredName:staticCustData.FullName;
-          }else if(!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType=='I'){
-            CustomerDtls.CustomerType=('B'==staticCustData.CustomerType)?'P':'A';
+          if (!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+            CustomerDtls.CustomerType = ('B' == staticCustData.CustomerType) ? 'C' : 'M';
+            //CustomerDtls.FullName = ('B'==staticCustData.CustomerType)?staticCustData.RegisteredName:staticCustData.FullName;
+            if ('B' == staticCustData.CustomerType) {
+              CustomerDtls.FullName = staticCustData.RegisteredName;
+              if (staticCustData.FullName.length) {
+                CustomerDtls.FullName = staticCustData.FullName;
+              }
+            } else {
+              CustomerDtls.FullName = staticCustData.FullName;
+            }
+          } else if (!this.isLoanCategory && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'I') {
+            CustomerDtls.CustomerType = ('B' == staticCustData.CustomerType) ? 'P' : 'A';
             CustomerDtls.FullName = staticCustData.FullName;
-          }else{
+          } else {
             CustomerDtls.CustomerType = staticCustData.CustomerType;
             CustomerDtls.FullName = staticCustData.FullName;
           }

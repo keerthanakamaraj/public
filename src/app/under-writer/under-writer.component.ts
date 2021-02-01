@@ -55,7 +55,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // { className: "CollateralDetails" },
 
         { className: "FamilyDetails" },
-        { className: "PersonalInterview" },
+        // { className: "PersonalInterview" },
         { className: "RmVisitDetails" }
       ]
     },
@@ -69,7 +69,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
         // { className: "GoldDetails" },
         // { className: "EducationDetails" },
         { className: "PropertyDetails" },
-        { className: "GoNoGoDetails" },
+        // { className: "GoNoGoDetails" },
         { className: "ApplicationDetails" },
 
         { className: "ReferalDetails" },
@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 8035; //6633
+    // this.applicationId = 7894; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
