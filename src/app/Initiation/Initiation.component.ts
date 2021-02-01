@@ -1606,10 +1606,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
 
       ],
-      outDep: [
-        { paramKey: "MstProductDetails.MaxCredLimit", depFieldID: "MaxCredLimit" },
-        { paramKey: "MstProductDetails.MinCredLimit", depFieldID: "MinCredLimit" }
-      ]
+    
     },
 
     BAD_SUB_PROD: {
@@ -1628,9 +1625,11 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         { paramKey: "BAD_SUB_PROD", depFieldID: "BAD_SUB_PROD", paramType: "QueryParam" },
       ],
       outDep: [
-
-        // { paramKey: "NewSchemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
-        // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
+   
+          { paramKey: "NewSchemeDetails.MaxLoanVal", depFieldID: "MaxCredLimit" },
+          { paramKey: "NewSchemeDetails.MinLoanVal", depFieldID: "MinCredLimit" }
+          // { paramKey: "NewScemeDetails.DefaultRate", depFieldID: "LD_INTEREST_RATE" },
+          // { paramKey: "NewSchemeDetails.AllowCoBorrower", depFieldID: "allowCoBorrower" }
       ]
     },
     BAD_PROMOTION: {
