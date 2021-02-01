@@ -469,7 +469,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             //  this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
             this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
             this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
-         // });
+       if(!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty())
+       {
+         this.setApproveCashLimit();
+       }    
+       // });
 
           this.revalidate(false).then((errors) => {
           //  let noOfError: number = await this.revalidate(false);

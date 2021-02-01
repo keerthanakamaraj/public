@@ -78,7 +78,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   gridData: any;
   hidForm: boolean = true;
   cardInfo: any;
-
+  selectedScheme:any={};
   //store selected user data in this obj -> when data from card modal is selected populate this data
   selectedCustomerDetails: any = undefined;
 
@@ -647,6 +647,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
       inputMap.set('Body.BorrowerDetails.LoanOwnership', '100');
       inputMap.set('Body.ApplicationDetails.CAMType', 'MEMC');
+      inputMap.set('Body.ApplicationDetails.ApprovedLimit', this.tempVar.CurrentCardLimit);
 
       console.log(inputMap)
 
@@ -778,5 +779,58 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
     }
 
   }
+//   setApproveCashLimit(SchemeDtls) {
+//     this.doAPIForSchemeDtls()
+//     // Do not calculate value if card limit is not available
+//     let MaxApprovedCashLimit: any;
+//     let MaxCashLimit: any;
+//     MaxCashLimit = SchemeDtls.Product_max_cash_limit;
+//     let MaxCardLimit: any;
+//     MaxCardLimit = SchemeDtls.MaxLoanVal;
+//     let MinCardLimit: any;
+//     MinCardLimit = SchemeDtls.MinLoanVal;
 
+//     if (this.ApprovedLimit.getFieldValue() != undefined) {
+//       MaxApprovedCashLimit = ((this.ApprovedLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);
+
+//       if (MaxApprovedCashLimit < +MinCardLimit) {
+//         this.ApprovedCashLimit.setComponentSpecificValue(MinCardLimit, null);
+//       } else if (MaxApprovedCashLimit > +MaxCashLimit) {
+//         this.ApprovedCashLimit.setComponentSpecificValue(MaxCashLimit, null);
+//       } else {
+//         this.ApprovedCashLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
+//       }
+//     }
+
+//   }
+
+//   doAPIForSchemeDtls(){
+//     http://10.11.10.42:20052/olive/publisher/rlo-masters/NewSchemeDetails
+//     let inputMap = new Map();
+//     if (this.tempVar.Scheme !=undefined) {
+//       let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+//       criteriaJson.FilterCriteria.push({
+//         "columnName": "SchemeCd",
+//         "columnType": "String",
+//         "conditions": {
+//           "searchType": "equals",
+//           "searchText": this.tempVar.Scheme
+//         }
+//       });
+//       inputMap.set('QueryParam.criteriaDetails', criteriaJson);
+//       this.services.http.fetchApi('/MstSchemeDetails', 'GET', inputMap, "/masters").subscribe(
+//         async (httpResponse: HttpResponse<any>) => {
+//           var res = httpResponse.body;
+//           if(res){
+//             let schemeArray=res['MstSchemeDetails'];
+//             if(schemeArray.length>0){
+//                 //this.selectedScheme=schemeArray[0];
+//                 this.setApproveCashLimit(selectedScheme);
+//             }
+//           }
+
+
+//         });
+//   }
+// }
 }
