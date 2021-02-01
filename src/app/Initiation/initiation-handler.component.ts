@@ -267,10 +267,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     // this.MainComponent.CD_CBS_CUST_ID.setHidden(true);
     if (this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() === 'I') {
       console.log('Individual :- ', this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue());
-      this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
+      // this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
       this.MainComponent.CD_REGISTERED_NAME.setHidden(true);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(true);
-      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
+      // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(true);
       // this.MainComponent.CD_PAN_NUMBER.mandatory = false;
       // this.MainComponent.CD_PAN_NUMBER.setHidden(true);
@@ -290,10 +290,10 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_DEBIT_SCORE.setHidden(false);
     } else if (this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue() === 'C') {
       console.log('Corporate :- ', this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue());
-      this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
+      // this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
       this.MainComponent.CD_REGISTERED_NAME.setHidden(false);
       this.MainComponent.CD_TYPE_OF_INCORPORATION.setHidden(false);
-      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
+      // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
       this.MainComponent.CD_DATE_OF_INCORPORATION.setHidden(false);
       // this.MainComponent.CD_PAN_NUMBER.mandatory = true;
       // this.MainComponent.CD_PAN_NUMBER.setHidden(false);
@@ -874,8 +874,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_FIRST_NAME.mandatory = false;
       this.MainComponent.CD_LAST_NAME.mandatory = false;
       this.MainComponent.CD_GENDER.mandatory = false;
-      this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
-      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
+      // this.MainComponent.CD_REGISTERED_NAME.mandatory = true;
+      // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = true;
       this.MainComponent.CD_STAFF_ID.setHidden(true);
       this.MainComponent.CD_NAME_ON_CARD.setHidden(true);
       this.MainComponent.CD_NAME_ON_CARD.mandatory = false;
@@ -902,8 +902,8 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.CD_FIRST_NAME.mandatory = true;
       this.MainComponent.CD_LAST_NAME.mandatory = true;
       this.MainComponent.CD_GENDER.mandatory = true;
-      this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
-      this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
+      // this.MainComponent.CD_REGISTERED_NAME.mandatory = false;
+      // this.MainComponent.CD_DATE_OF_INCORPORATION.mandatory = false;
       this.MainComponent.CD_NAME_ON_CARD.setHidden(false);
       this.MainComponent.CD_NAME_ON_CARD.mandatory = true;
       this.MainComponent.EmbLineFlag.setHidden(true);
