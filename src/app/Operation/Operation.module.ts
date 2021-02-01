@@ -11,6 +11,7 @@ import { HeaderModule } from '../Header/Header.module';
 import { ApplicationDtlsModule } from '../ApplicationDtls/ApplicationDtls.module';
 import { CustGridModule } from '../CustGrid/CustGrid.module';
 import { CreditCardDetailsModule } from '../CreditCardDetails/CreditCardDetails.module';
+import { OperationHandlerModule } from './operation-handler.module';
 @NgModule({
 imports: [
 CommonModule,
@@ -29,6 +30,7 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
+OperationHandlerModule
 ],
 declarations: [
 OperationComponent,
