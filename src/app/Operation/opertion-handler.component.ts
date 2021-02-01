@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { OperationComponent } from './operation.component';
+import { OperationComponent } from './Operation.component';
 import { FieldComponent } from '../field/field.component';
 import { RLOUIHandlerComponent } from '../rlouihandler/rlouihandler.component';
 

@@ -23,6 +23,7 @@ HeaderModule,
 ApplicationDtlsModule,
 CustGridModule,
 CreditCardDetailsModule,
+OperationHandlerModule,
 TranslateModule.forChild({
 loader: {
 provide: TranslateLoader,
@@ -30,7 +31,6 @@ useFactory: HttpLoaderFactory,
 deps: [HttpClient]
 }
 }),
-OperationHandlerModule
 ],
 declarations: [
 OperationComponent,
