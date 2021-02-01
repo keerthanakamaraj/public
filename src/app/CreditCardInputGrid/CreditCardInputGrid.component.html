@@ -91,7 +91,7 @@
         </td>
         <td [hidden]="isColumnHidden('ExistingCardLimit')" [ngStyle]="{display: isExpanded ? '' : 'none'}">
           <app-rlo-ui-currency #ExistingCardLimit fieldID="ExistingCardLimit_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['ExistingCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+            [hidden]="isCellReadOnly[rowNo]['ExistingCardLimit']" [formCode]="formCode" 
             [DecimalLength]="20" [currencyReadOnly]="true" [inputReadOnly]="true"
             (onBlurEvent)="genericOnBlur('ExistingCardLimit', $event, rowNo)"></app-rlo-ui-currency>
           <div *ngIf="isCellReadOnly[rowNo]['ExistingCardLimit']">
@@ -113,7 +113,7 @@
         </td>
         <!-- <td [hidden]="isColumnHidden('RequestedCardLimit')" [ngStyle]="{display: isExpanded ? 'none' : ''}">
             <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit_{{rowNo}}"
-              [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+              [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" 
               [DecimalLength]="20" [currencyReadOnly]="true" [inputReadOnly]="false"
               (onBlurEvent)="genericOnBlur('RequestedCardLimit',$event,rowNo)"></app-rlo-ui-currency>
             <div *ngIf="isCellReadOnly[rowNo]['RequestedCardLimit']">
@@ -124,7 +124,7 @@
           </td> -->
           <td [hidden]="isColumnHidden('RequestedCardLimit')" [ngStyle]="{display: isExpanded ? 'none' : ''}">
             <app-rlo-ui-currency #RequestedCardLimit fieldID="RequestedCardLimit_{{rowNo}}"
-              [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
+              [hidden]="isCellReadOnly[rowNo]['RequestedCardLimit']" [formCode]="formCode" 
               [DecimalLength]="20" [currencyReadOnly]="true" [inputReadOnly]="true"
               (onBlurEvent)="genericOnBlur('RequestedCardLimit',$event,rowNo)"></app-rlo-ui-currency>
             <div *ngIf="isCellReadOnly[rowNo]['RequestedCardLimit']">
@@ -135,8 +135,8 @@
           </td>
         <td [hidden]="isColumnHidden('ProposedCardLimit')">
           <app-rlo-ui-currency #ProposedCardLimit fieldID="ProposedCardLimit_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['ProposedCardLimit']" [formCode]="formCode" placeholder="Placeholder"
-            [DecimalLength]="20" [mandatory]="true" [currencyReadOnly]="true" [inputReadOnly]="false"
+            [hidden]="isCellReadOnly[rowNo]['ProposedCardLimit']" [formCode]="formCode" placeholder="Max 7 chars"
+            [DecimalLength]="20" [currencyReadOnly]="true" [inputReadOnly]="false" maxLength=7 regex='^[1-9]\d*(\.\d+)?$'
             (onBlurEvent)="genericOnBlur('ProposedCardLimit',$event,rowNo)"></app-rlo-ui-currency>
           <div *ngIf="isCellReadOnly[rowNo]['ProposedCardLimit']">
             <p class="label-text" [title]="this['ProposedCardLimit'].toArray()[rowNo].getFieldInfo()">
@@ -146,7 +146,7 @@
         </td>
         <td [hidden]="isColumnHidden('ProposedCashLimit')">
           <app-rlo-ui-currency #ProposedCashLimit fieldID="ProposedCashLimit_{{rowNo}}"
-            [hidden]="isCellReadOnly[rowNo]['ProposedCashLimit']" [formCode]="formCode" placeholder="Placeholder"
+            [hidden]="isCellReadOnly[rowNo]['ProposedCashLimit']" [formCode]="formCode" 
             [DecimalLength]="20" [currencyReadOnly]="true" [inputReadOnly]="true"
             (blur)="genericOnBlur('ProposedCashLimit', $event, rowNo)"></app-rlo-ui-currency>
           <div *ngIf="isCellReadOnly[rowNo]['ProposedCashLimit']">

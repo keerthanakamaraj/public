@@ -461,16 +461,14 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             //custom
             this.RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);//for LE
             // this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);  // commented as Approved card Limit is not comimg from AddOn- Initiated  json for now
-            let tempApprovedCardLimit = (undefined != CreditElement['ApprovedLimit'] && '' != CreditElement['ApprovedLimit']) ? CreditElement['ApprovedLimit'] : CreditElement['CurrentCardLimit'];
-            this.ApprovedLimit.setComponentSpecificValue(tempApprovedCardLimit, null);
+           // let tempApprovedCardLimit = (undefined != CreditElement['ApprovedLimit'] && '' != CreditElement['ApprovedLimit']) ? CreditElement['ApprovedLimit'] : CreditElement['CurrentCardLimit'];
+            this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
             this.MaxCashLimit.setComponentSpecificValue(CreditElement['MaxCashLimit'], null);
             this.ApprovedCashLimit.setComponentSpecificValue(CreditElement['ApprovedCashLimit'], null);
             this.AvailableLimit.setComponentSpecificValue(CreditElement['AvailableLimit'], null);
             //  this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
             this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
             this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
-
-            //this.setApproveCashLimit();
          // });
 
           this.revalidate(false).then((errors) => {

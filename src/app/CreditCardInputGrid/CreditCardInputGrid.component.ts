@@ -43,6 +43,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   @Input() MainComponent: CreditCardDetailsComponent;
   //@Input() MainComponent.AvailableLimit.getFieldValue() :any;
+  firstLoadFlag:boolean=false;
   showAdd: boolean = false;
   CustomerDtlsMap: Map<string, CustomerDtlsIntrface> = new Map();
   isExpanded: boolean = false;
@@ -86,6 +87,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   async gridLoad() {
   //  this.loadRecords();
+  this.firstLoadFlag=true;
   this.fetchAllApplicantsAPICall();
     this.showHideAddRowIcon(0);
   }
@@ -170,6 +172,14 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     //   this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()
     //   return 1;
     // }
+     if(this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()){
+      if(!this.firstLoadFlag){
+      this.ProposedCardLimit.toArray()[element.rowNo].setError('Value can not be Empty.');
+      return 1;
+    }else{
+        this.firstLoadFlag=false;
+    }
+    }
     let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
     let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
     let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
@@ -274,7 +284,7 @@ fetchAllApplicantsAPICall(){
     this.services.http.fetchApi('/BorrowerDetails', 'GET', inputMap, "/initiation").subscribe(
       async (httpResponse: HttpResponse<any>) => {
         var res = httpResponse.body;
-        let memberList = res['BorrowerDetails'].filter(function (element) { return element.CustomerType !== 'B' });
+        let memberList = res['BorrowerDetails'].filter(function (element) { return element.CustomerType !== 'B' && element.CustomerType !== 'R'});
         this.loadRecords(memberList);
       },
       async (httpError) => {
