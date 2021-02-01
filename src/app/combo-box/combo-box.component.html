@@ -44,8 +44,8 @@
 
     <ng-select #select [placeholder]="placeholder" [ngClass]="{'error' : error, 'input-readonly':readOnly,
     'valueRight': valueAlign=='right', 'valueCenter': valueAlign=='center'}" [items]="dropDownOptions.Options" [id]="fieldID"
-        bindValue="id" bindLabel="text" (open)="open()" [loading]="dropDownOptions.loading" [typeahead]="searchText$" [(ngModel)]="value"
-        (focus)="onFocus()" (blur)="comboBlur()" (scrollToEnd)="scroll()" class="{{customClass}}" [name]="fieldID" (change)="onChange($event)"
+        bindValue="id" bindLabel="text" [(ngModel)]="value"
+        (focus)="onFocus()" (blur)="comboBlur()" (scrollToEnd)="scroll()" class="{{customClass}}" [name]="fieldID" (change)="onChange($event.target.value)"
         [disabled]="readOnly"></ng-select>
   </div>
   <!--<span *ngIf="error">{{error}}</span>-->
