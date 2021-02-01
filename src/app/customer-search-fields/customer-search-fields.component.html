@@ -68,10 +68,11 @@
             <label title="{{field['fieldName']}}"
                 [ngClass]="{ 'mandatory': isMandatory(field['attributeName']) }">{{field['fieldName']}}
             </label>
-            <input type="text" class="form-control" autocomplete="off"
+            <input type="text" class="form-control" autocomplete="off" 
                 maxlength="{{field['maxLength'] ? field['maxLength'] : null}}" id="{{field['attributeName']}}"
                 name="{{field['attributeName']}}" [(ngModel)]="searchParameters[field['attributeName']]"
                 attr.name="{{field['attributeName']}}"
+                placeholder="{{field['placeholder']}}"
                 (blur)="validateField(searchParameters[field['attributeName']], field['attributeName'])" />
         </div>
     </div>

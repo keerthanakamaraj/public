@@ -186,6 +186,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
           data['fieldData'].forEach(element => {
             if (element.attributeName != "middleName") {
               if (element.attributeName == "customerId") {
+                element['placeholder'] = "Min 10/Max 10 chars";
                 if (this.customerSearchType == "Internal") {
                   element.fieldName = "Customer Id"
                 }
@@ -254,6 +255,9 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     console.log(this.fieldData);
 
     if (!_.isEmpty(this.searchParameters)) {
+      if (!this.searchParameters.customerId.length) {
+        return;
+      }
       this.SearchFormGrid.customSearchObj.mobileNumber = this.searchParameters.mobileNumber;
       this.SearchFormGrid.customSearchObj.taxId = this.searchParameters.taxId;
       this.SearchFormGrid.customSearchObj.firstName = this.searchParameters.firstName;
