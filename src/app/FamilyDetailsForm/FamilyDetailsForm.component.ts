@@ -310,7 +310,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.DOB', this.FD_DOB.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.FD_MOBILE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Relationship', this.FD_RELATIONSHIP.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenID', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.FD_EMAIL.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
@@ -386,7 +386,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Gender', this.FD_GENDER.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.FD_MOBILE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DOB', this.FD_DOB.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.Nationality', this.FD_NATIONAL_ID.getFieldValue());
+                inputMap.set('Body.BorrowerDetails.CitizenID', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.FD_EMAIL.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
@@ -476,7 +476,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 this.FD_MOBILE.setValue(res['BorrowerDetails']['MobileNo']);
                 this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']['id']);
                 // this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
-                this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['Nationality']);
+                this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
                 this.FD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.hiddenFamilySeq.setValue(res['BorrowerDetails']['BorrowerSeq']);
