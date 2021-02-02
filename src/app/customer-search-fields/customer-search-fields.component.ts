@@ -255,7 +255,11 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     console.log(this.fieldData);
 
     if (!_.isEmpty(this.searchParameters)) {
-      if (!this.searchParameters.customerId.length) {
+      if (this.searchParameters.customerId.length < 10) {
+        if (this.searchParameters.customerId == "")
+          return
+
+        this.services.alert.showAlert(2, '', 3000, 'Minimum 10 characters are required');
         return;
       }
       this.SearchFormGrid.customSearchObj.mobileNumber = this.searchParameters.mobileNumber;
