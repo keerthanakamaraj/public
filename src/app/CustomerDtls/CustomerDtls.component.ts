@@ -967,33 +967,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   LoadCustomerDetailsonFormLoad(customerDtlsObj) {
     const customer = customerDtlsObj;
     // this.dispalyAddonField(customer.CustomerType);
-    console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
-    // if ('QDE' == this.parentFormCode) {
-    //   this.CD_CUST_SEGMENT.setHidden(true);
-    //   this.CD_CUST_SEGMENT.mandatory = false;
-    //   this.CustSubSegment.setHidden(true);
-    //   this.CustSubSegment.mandatory = false;
-    // } else {
-      this.showHideCustSegment(customer.CustomerType);
-    // if (customer.CustomerType == 'B' && this.parentFormCode == 'DDE') {
-    //   let  readonlySegmentFlag= this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'?true:false;
-    //   this.CD_CUST_SEGMENT.setReadOnly(!readonlySegmentFlag);
-    //   this.CustSubSegment.setReadOnly(!readonlySegmentFlag);
-    //   this.CD_CUST_SEGMENT.setHidden(false);
-    //   this.CustSubSegment.setHidden(false);
-    //   this.CustSubSegment.mandatory = readonlySegmentFlag;
-    //   this.CD_CUST_SEGMENT.mandatory = readonlySegmentFlag;
-
-    // }
-    // else {
-    //   this.CD_CUST_SEGMENT.setHidden(true);
-    //   this.CustSubSegment.setHidden(true);
-    //   this.CustSubSegment.mandatory = false;
-    //   this.CD_CUST_SEGMENT.mandatory = false;
-    // }
-
-    console.log("all fields: ", this);
-
+    //console.log("*****LoadCustomerDetailsonFormLoad", customerDtlsObj);
+    this.showHideCustSegment(customer.CustomerType);
 
     // const customer = customerDtlsObj;
     this.dispalyAddonField(customer.CustomerType);

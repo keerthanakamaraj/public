@@ -97,10 +97,12 @@ export class AddressHandlerComponent extends RLOUIHandlerComponent implements On
     tempObj['State'] = this.MainComponent.AD_STATE.getFieldValue();
     tempObj['Landmark'] = this.MainComponent.AD_LANDMARK.getFieldValue();
     tempObj['LandlineNumber'] = this.MainComponent.AD_LANDLINE_NUMBER.getFieldValue();
+    tempObj['LandlineCountryCode']=this.MainComponent.AD_LANDLINE_NUMBER.countryCode;
     tempObj['UDF3'] = this.MainComponent.CORR_ADD_CHECKBOX.getFieldValue();
     // tempObj['LoanOwnership'] = this.customers[i].loanOwnership;
     tempObj['EmailId2'] = this.MainComponent.AD_EMAIL_ID2.getFieldValue();
     tempObj['AltMobileNo'] = this.MainComponent.AD_ALTERNATE_MOB_NO.getFieldValue();
+    tempObj['MobileCountryCode']=this.MainComponent.AD_ALTERNATE_MOB_NO.countryCode;
     tempObj['BorrowerSeq'] = this.MainComponent.activeBorrowerSeq;
     tempObj['CorrespondenceEmailAddress'] = this.MainComponent.EmailCheck;
     tempObj['IsSameAddress'] = this.MainComponent.SAME_ADDRESS.getFieldValue();

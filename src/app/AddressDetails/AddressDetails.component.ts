@@ -19,6 +19,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { AddressDetailsGridComponent } from '../AddressDetailsGrid/AddressDetailsGrid.component';
 import { AddressHandlerComponent } from '../AddressDetails/address-handler.component';
 import { RloUiAccordionComponent } from 'src/app/rlo-ui-accordion/rlo-ui-accordion.component';
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 
 const customCss = '';
 
@@ -52,9 +53,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('AD_LANDMARK', { static: false }) AD_LANDMARK: TextBoxComponent;
   @ViewChild('AD_RES_DUR', { static: false }) AD_RES_DUR: TextBoxComponent;
   @ViewChild('AD_RES_DUR_UNIT', { static: false }) AD_RES_DUR_UNIT: ComboBoxComponent;
-  @ViewChild('AD_LAND_COUNTRY_CODE', { static: false }) AD_LAND_COUNTRY_CODE: ComboBoxComponent;
-  @ViewChild('AD_LANDLINE_NUMBER', { static: false }) AD_LANDLINE_NUMBER: TextBoxComponent;
-  @ViewChild('AD_ALTERNATE_MOB_NO', { static: false }) AD_ALTERNATE_MOB_NO: TextBoxComponent;
+  //@ViewChild('AD_LAND_COUNTRY_CODE', { static: false }) AD_LAND_COUNTRY_CODE: ComboBoxComponent;
+  @ViewChild('AD_LANDLINE_NUMBER', { static: false }) AD_LANDLINE_NUMBER: RloUiMobileComponent;
+  @ViewChild('AD_ALTERNATE_MOB_NO', { static: false }) AD_ALTERNATE_MOB_NO: RloUiMobileComponent;
   @ViewChild('AD_EMAIL_ID2', { static: false }) AD_EMAIL_ID2: TextBoxComponent;
   @ViewChild('AD_PREF_TIME', { static: false }) AD_PREF_TIME: ComboBoxComponent;
   @ViewChild('AD_CORR_EMAIL', { static: false }) AD_CORR_EMAIL: ComboBoxComponent;
@@ -670,13 +671,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
         // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
-        this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
+        this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'],res['AddressDetails']['MobileCountryCode']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        //    this.AD_MAILING_ADDRESS.setValue(res['AddressDetails']['MailingAddress']['id'],undefined,true);
-
-        // this.AD_COUNTRY_CODE.setValue(res['AddressDetails']['MobileCountryCode']);
-        // this.AD_LAND_COUNTRY_CODE.setValue(res['AddressDetails']['LandlineCountryCode']);
-        this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
+        this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'],res['AddressDetails']['LandlineCountryCode']);
         const CorrsAdd = res['AddressDetails']['UDF3'];
         const IsSameAdd = res['AddressDetails']['IsSameAddress']
         if (CorrsAdd == 'true') {
