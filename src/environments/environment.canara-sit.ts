@@ -16,6 +16,7 @@ export const environment = {
   // redirectURL: 'http://localhost:1841/#/home/LANDING',
   redirectURL: window.location.hash.replace('#/', '') === '' ? window.location.href + '#/home/LANDING' : window.location.href,
   arxAuthURL: 'http://tcldemoapp41.intellectdesign.com:20023/ARXAL/AALIndex.jsp',
+  arxLogoutURL: 'http://tcldemoapp41.intellectdesign.com:20023/ARXAuth/AALLogout.jsp',
 
   serviceMap: {
     'default': '/olive/publisher/rlo-initiation',

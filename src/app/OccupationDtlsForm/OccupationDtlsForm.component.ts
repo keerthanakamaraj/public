@@ -343,7 +343,7 @@ export class OccupationDtlsFormComponent extends FormComponent implements OnInit
       //if(this.OD_COMP_NAME.getFieldValue() !== undefined){
       if (occupationGridData) {
         for (let i = 0; i < occupationGridData.length; i++) {
-          if (occupationGridData[i].OCCUPATION_ID !== this.HidOccupationSeq.getFieldValue()) {
+          if (occupationGridData[i].OCCUPATIONSEQ !== this.HidOccupationSeq.getFieldValue()) {
             if (this.OD_COMP_NAME.getFieldValue() !== undefined && this.OD_COMP_NAME.getFieldValue() != '' && occupationGridData[i].OD_COMPANY_NAME === this.OD_COMP_NAME.getFieldValue()) {
 
               this.services.alert.showAlert(2, 'rlo.error.occupation.company.exist', -1);

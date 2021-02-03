@@ -20,6 +20,8 @@ export const environment = {
   // realm: 'dabank', // QA
   clientId: 'rloclient',
   redirectURL: 'http://localhost:1841/#/home/LANDING', // Demo 2
+  arxAuthURL: 'http://tcldevapp173.intellectdesign.com:10751/ARXAL/AALIndex.jsp',
+  arxLogoutURL: 'http://tcldevapp173.intellectdesign.com:10751/ARXAuth/AALLogout.jsp',
   //redirectURL: 'http://10.12.20.45:20804/rlo/#/home/LANDING', // Demo 2
   // redirectURL: window.location.hash.replace('#/', '') === '' ? window.location.href + '#/home/LANDING' : window.location.href,
 

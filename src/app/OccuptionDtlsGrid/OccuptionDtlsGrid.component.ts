@@ -316,7 +316,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
       var obj = gridReqMap.get("FilterCriteria");
       for (var i = 0; i < obj.length; i++) {
         switch (obj[i].columnName) {
-          case "OCCUPATION_ID": obj[i].columnName = "OccupationSeq"; break;
+          case "OCCUPATIONSEQ": obj[i].columnName = "OccupationSeq"; break;
           case "OD_OCCUPATION": obj[i].columnName = "Occupation"; break;
           // case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
           case "OD_COMPANY_NAME": obj[i].columnName = "CompanyName"; break;
@@ -330,7 +330,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
       var obj = gridReqMap.get("OrderCriteria");
       for (var i = 0; i < obj.length; i++) {
         switch (obj[i].columnName) {
-          case "OCCUPATION_ID": obj[i].columnName = "OccupationSeq"; break;
+          case "OCCUPATIONSEQ": obj[i].columnName = "OccupationSeq"; break;
           case "OD_OCCUPATION": obj[i].columnName = "Occupation"; break;
           // case "OD_INDUSTRY":obj[i].columnName =  "Industry";break;
           case "OD_COMPANY_NAME": obj[i].columnName = "CompanyName"; break;
@@ -365,7 +365,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
 
           for (var i = 0; i < occupationDetails.length; i++) {
             var tempObj = {};
-            tempObj['OCCUPATION_ID'] = occupationDetails[i].OccupationSeq;
+            tempObj['OCCUPATIONSEQ'] = occupationDetails[i].OccupationSeq;
             // tempObj['OD_OCCUPATION'] = occupationDetails[i].Occupation.text;
 
             tempObj['OD_INCOME_SOURCE'] = occupationDetails[i].IncomeSource.text;
@@ -445,7 +445,8 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
     let inputMap = new Map();
     // const selectedData0 = this.readonlyGrid.getSelectedData();
     this.occDtlsEdit.emit({
-      'OccupationSeq': event['OCCUPATION_ID'],
+      // 'OccupationSeq': event['OCCUPATION_ID'],
+      'OccupationSeq': event['OCCUPATIONSEQ']
     });
     // if (selectedData0) {
 
@@ -456,7 +457,7 @@ export class OccuptionDtlsGridComponent implements AfterViewInit {
       if (response.id == 1) {
         let inputMap = new Map();
         inputMap.clear();
-        inputMap.set('PathParam.OccupationSeq', event.OCCUPATION_ID);
+        inputMap.set('PathParam.OccupationSeq', event.OCCUPATIONSEQ);
         this.services.http.fetchApi('/OccupationDetails/{OccupationSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;

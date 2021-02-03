@@ -16,7 +16,7 @@ export const environment = {
   // redirectURL: 'http://localhost:1841/#/home/LANDING',
   redirectURL: window.location.hash.replace('#/', '') === '' ? window.location.href + '#/home/LANDING' : window.location.href,
   arxAuthURL: 'http://tcldevapp77.intellectdesign.com:20047/ARXAL/AALIndex.jsp',
-
+  arxLogoutURL: 'http://tcldevapp77.intellectdesign.com:20047/ARXAuth/AALLogout.jsp',
   // Canara IUT
   serviceMap: {
     'default': '/olive/publisher/rlo-initiation',

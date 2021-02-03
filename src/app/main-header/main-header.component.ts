@@ -4,6 +4,7 @@ import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 import { ServiceStock } from '../service-stock.service';
 import { ProvidehttpService } from '../providehttp.service';
 import { KeycloakService } from 'keycloak-angular';
+import { environment } from 'src/environments/environment';
 
 declare let $: any;
 declare let document: any;
@@ -122,11 +123,21 @@ export class MainHeaderComponent implements OnInit {
     this.services.dataStore.formGenericData = "";
     this.router.navigate(['/login/elogin']);*/
 
-    let keycloakInstance = this.keycloakService.getKeycloakInstance();
-    keycloakInstance.clearToken();
-    keycloakInstance.logout();
+    // let keycloakInstance = this.keycloakService.getKeycloakInstance();
+    // keycloakInstance.clearToken();
+    // keycloakInstance.logout();
 
-    this.navigateToHome();
+    if(environment.enableKeycloak){ // Keycloak
+      let keycloakInstance = this.keycloakService.getKeycloakInstance();
+      keycloakInstance.clearToken();
+      keycloakInstance.logout();
+
+      this.navigateToHome();
+    } else { // ARX
+      // Redirect to ARX logout page
+      // TODO: update for local logout page
+      document.location.href = environment.arxLogoutURL;
+    }
   }
 
   // redirect(id) {
