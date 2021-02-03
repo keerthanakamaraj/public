@@ -652,7 +652,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
             return;
           }
           else if (this.UserBranch !== tempVar['Branch']) {
-            this.services.alert.showAlert(2, '', -1, 'Diffrent Branch user Cannot apply  Credit card for other Branch Customer');
+            this.services.alert.showAlert(2, '', -1, 'User Branch and Customer Branch Cannot be Different');
             return;
           }
           else {
