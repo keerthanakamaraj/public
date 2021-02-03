@@ -71,8 +71,8 @@ export interface IGlobalApllicationDtls {
   CBSProductCode?: any;
   ApplicationPurposeName?: any;
   CIF?: any;
-  isAddedNewMember?:boolean ;
-  ActiveStage?:string;
+  isAddedNewMember?: boolean;
+  ActiveStage?: string;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -631,11 +631,11 @@ export class RloCommonData {
     const LoanOwnership = customerData.LoanOwnership;
     const applicantType = customerData.CustomerType;
 
-    console.log("shweta :: check stage in services",this.globalApplicationDtls.ActiveStage);
+    console.log("shweta :: check stage in services", this.globalApplicationDtls.ActiveStage);
     // if (!sectionData.has('AddressDetails')) { //added for canara
     //     commonObj.isSectionValid = false;
     // } else {
-      if (sectionData.has('AddressDetails')){
+    if (sectionData.has('AddressDetails')) {
       const addressList = sectionData.get('AddressDetails');
       const addrValidationObj = { isMailing: false, isPermenet: true };
       for (const eachAddress of addressList) {
@@ -810,7 +810,7 @@ export class RloCommonData {
         resolve(dataObject);
         return promise;
       }
-      
+
       this.isFormValid().then((customerData) => {
         dataObject.errorsList = customerData.errorsList;
         this.validateApplicationSections(isCategoryTypeLoan).then((applicationData) => {
@@ -864,12 +864,12 @@ export class RloCommonData {
         let loanDetails = applicationData.get("LoanDetails");
         if (!loanDetails[0].isValid) {
           commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
-        //  commonObj.errorMessage = "";
+          //  commonObj.errorMessage = "";
           commonObj.isSectionValid = false;
         }
-      }else{
-          commonObj.isSectionValid = false;
-          commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
+      } else {
+        commonObj.isSectionValid = false;
+        commonObj.errorMessage = 'Please fill all the mandatory fields of loan details';
       }
     } else {
       if (applicationData.has("CreditCardDetails")) {
@@ -877,11 +877,11 @@ export class RloCommonData {
         if (!creditCardDetails[0].isValid) {
           commonObj.errorMessage = 'Please fill all the mandatory fields of credit card details';
           commonObj.isSectionValid = false;
-        } else if(!this.globalApplicationDtls.isAddedNewMember){
+        } else if (!this.globalApplicationDtls.isAddedNewMember) {
           commonObj.isSectionValid = false;
           commonObj.errorMessage = "For Memebr Card Approve Card Limit Cannot be Blank";
         }
-      }else{
+      } else {
         commonObj.isSectionValid = false;
         commonObj.errorMessage = 'Please fill all the mandatory fields of credit card details';
       }
@@ -1253,11 +1253,12 @@ export class RloCommonData {
     return promise;
   }
 
-  getMemberCardDetail() {
+  getMemberCardDetail(cifId?: string) {
     let inputMap = new Map();
     inputMap.clear();
+    console.error("getMemberCardDetail() DEEP | selcted cifId", cifId);
 
-    let testData = "4585";
+    let testData = "4566789";
     inputMap.set('Body.inputdata.CifID', testData);
     inputMap.set('Body.interfaceId', 'CUSTOMER_360');
     inputMap.set('Body.prposalid', '3322');

@@ -421,7 +421,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
                 tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
                 tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
                 tempObj['CmsDetails'] = loopVar7[i].CMS;
-               
+
 
                 loopDataVar7.push(tempObj);
               }
@@ -581,7 +581,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
 
         if (selectedData0['CmsDetails'] == 'Y' && showCardModal) {
           console.error("DEEP | Open Seperate 360 modal");
-          this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
+          this.services.rloCommonData.getMemberCardDetail(selectedData0['ICIF']).then((response: any) => {
             console.log(response);
             if (response != null) {
               let cardDetails = response.outputdata.AccountList;
@@ -607,7 +607,8 @@ export class SearchCustomerGridComponent implements AfterViewInit {
         if (this.clickedShowCustomerDetails && selectedData0['CmsDetails'] == 'Y') {
           console.warn("DEEP | SHOW SEPERATE CUSTOMER CARD UI");
           this.clickedShowCustomerDetails = false;
-          this.selectedCustomer.emit({ showCustomerCard: true });
+          tempVar['showCustomerCard'] = true;
+          this.selectedCustomer.emit(tempVar);
         } else {
           this.clickedShowCustomerDetails = false;
           this.selectedCustomer.emit(tempVar);

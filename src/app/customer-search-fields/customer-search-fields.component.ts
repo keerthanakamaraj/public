@@ -484,7 +484,7 @@ export class CustomerSearchFieldsComponent extends FormCommonComponent implement
     if (object.keys(data).includes('showCustomerCard')) {
       this.showCustomerCardSection = true;
 
-      this.services.rloCommonData.getMemberCardDetail().then((response: any) => {
+      this.services.rloCommonData.getMemberCardDetail(data.icif).then((response: any) => {
         console.log(response);
         if (response != null) {
           let cardDetails = response.outputdata.AccountList;
