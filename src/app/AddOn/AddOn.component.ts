@@ -79,6 +79,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
   hidForm: boolean = true;
   cardInfo: any;
   selectedScheme:any={};
+  approvedLimit : any;
   //store selected user data in this obj -> when data from card modal is selected populate this data
   selectedCustomerDetails: any = undefined;
 
@@ -106,7 +107,8 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         'maskedCardNumber': data.PrimaryCardNumber,
         'availableLimit': data.AvailableLimit
       }
-
+      this.approvedLimit = data;
+      console.log("selected new data", this.approvedLimit)
       this.hidForm = false;
       let customerObj = this.selectedCustomerDetails;
 
@@ -647,7 +649,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.BorrowerDetails.CustomerType', 'B');
       inputMap.set('Body.BorrowerDetails.LoanOwnership', '100');
       inputMap.set('Body.ApplicationDetails.CAMType', 'MEMC');
-      inputMap.set('Body.ApplicationDetails.ApprovedLimit', this.tempVar.CurrentCardLimit);
+      inputMap.set('Body.ApplicationDetails.ApprovedLimit', this.approvedLimit.PrimaryCardLimit);
 
       console.log(inputMap)
 
