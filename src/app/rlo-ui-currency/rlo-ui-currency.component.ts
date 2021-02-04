@@ -192,7 +192,7 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
   }
   async validateValue(value, event = undefined): Promise<number> {
     var totalErrors: number = 0;
-      totalErrors += this.onNumberInput(value, event);
+     // totalErrors += this.onNumberInput(value, event);
 
     if(totalErrors == 0){ // Validate Regular Expression if Min Max are valid
       totalErrors += this.validateRegEx(value, event);
@@ -221,30 +221,30 @@ export class RloUiCurrencyComponent extends FieldComponent implements OnInit {
     return totalErrors;
   }
 
-  onNumberInput(value: number, event?): number {
-    var totalErrors: number = 0;
-    value = +value.toLocaleString().length;
-    if (this.minLength && value < this.minLength) {
-      this.setError("Amount length should be greater than "+ this.minLength + " digits");
-      totalErrors++;
-    } else if (this.maxLength && value > this.maxLength) {
-      this.setError("Value should be less than " + this.maxLength + " digits");
-      totalErrors++;
-    } else if ((this.DecimalLength && this.countDecimals(value) >= this.DecimalLength)) {
-      if (event) {
-        event.target.value = value.toFixed(this.DecimalLength);
-        this.value = value.toFixed(this.DecimalLength);
-      } else {
-        this.setError("Maximum " + this.DecimalLength + " decimal are allowed");
-        totalErrors++;
-      }
-    }
-    else {
-      this.clearError();
-    }
+  // onNumberInput(value: number, event?): number {
+  //   var totalErrors: number = 0;
+  //   value = +value.toLocaleString().length;
+  //   if (this.minLength && value < this.minLength) {
+  //     this.setError("Amount length should be greater than "+ this.minLength + " digits");
+  //     totalErrors++;
+  //   } else if (this.maxLength && value > this.maxLength) {
+  //     this.setError("Value should be less than " + this.maxLength + " digits");
+  //     totalErrors++;
+  //   } else if ((this.DecimalLength && this.countDecimals(value) >= this.DecimalLength)) {
+  //     if (event) {
+  //       event.target.value = value.toFixed(this.DecimalLength);
+  //       this.value = value.toFixed(this.DecimalLength);
+  //     } else {
+  //       this.setError("Maximum " + this.DecimalLength + " decimal are allowed");
+  //       totalErrors++;
+  //     }
+  //   }
+  //   else {
+  //     this.clearError();
+  //   }
 
-    return totalErrors;
-  }
+  //   return totalErrors;
+  // }
  // checkNumberFieldLength();
   countDecimals(value) {
     if (Math.floor(value) === value) return 0;
