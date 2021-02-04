@@ -716,14 +716,14 @@ export class CardDetails implements IDeserializable {
             },
             {
                 title: "Approved Card Limit",
-                subTitle: this.ApprovedCashLimit,//need to change
+                subTitle: this.ApprovedLimit,//need to change
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true
             },
             {
                 title: "Approved Cash Limit",
-                subTitle: this.ApprovedLimit,
+                subTitle: this.ApprovedCashLimit,
                 type: "basic",
                 modalSectionName: "",
                 formatToCurrency: true

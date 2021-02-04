@@ -417,6 +417,10 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           this.AD_CITY.onReset();
           this.AD_STATE.onReset();
           this.AD_COUNTRY.onReset();
+          setTimeout(() => {
+            this.AD_PINCODE.onReset();
+          }, 5000);
+         
           return 1;
 
         } else {
