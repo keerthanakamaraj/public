@@ -418,7 +418,7 @@
 
             <app-rlo-ui-currency #RequestedAmountLimit fieldID="RequestedAmountLimit" [currencyReadOnly]="true"
               [componentFieldId]="'RequestedAmountLimit'" (onBlurEvent)="customGenericOnBlur($event)"
-              [inputReadOnly]="false" [formCode]="formCode"></app-rlo-ui-currency>
+              [inputReadOnly]="readOnly" [formCode]="formCode"></app-rlo-ui-currency>
 
             <!-- <app-amount #ApprovedLimit fieldID="ApprovedLimit" [formCode]="formCode"
               (blur)="genericOnBlur('ApprovedLimit', $event);approveLimitBlur($event)"></app-amount> -->
