@@ -168,33 +168,39 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   ProposedCardLimit_blur(element, $event, rowNo) {
-    //console.log("Shweta :: on blur", this.MainComponent.AvailableLimit.getFieldValue());
-    // if(this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()){
-    //   this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()
-    //   return 1;
-    // }
+    
+    this.ProposedCardLimit.toArray()[element.rowNo].clearError();
      if(this.ProposedCardLimit.toArray()[element.rowNo].isAmountEmpty()){
       if(!this.firstLoadFlag){
-      this.ProposedCardLimit.toArray()[element.rowNo].setError('Value can not be Empty.');
+      this.ProposedCardLimit.toArray()[element.rowNo].setError('MANDATORY');
       return 1;
     }
     // else{
     //     this.firstLoadFlag=false;
     // }
+    }else if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='I'){
+      if(parseFloat(this.MainComponent.ApprovedLimit.getFieldValue())<parseFloat(element.value)){
+        this.ProposedCardLimit.toArray()[element.rowNo].setError('rlo.error.credit-card-grid.greater-value');
+        return 1;
+      }   
     }
-    let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
-    let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
-    let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
-    let tempProposedCardLimit: number = parseFloat(this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue());
+    // let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
+    // let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
+    // let tempExistingCardLimit: number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCreditLimit);
+    
+    //let tempProposedCardLimit: any = this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue();
 
    
-    let tempProposedCashLimit: number = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit);
+    // let tempProposedCashLimit: number = ((tempProposedCardLimit * tempExistingCashLimit) / tempExistingCardLimit);
 
-    if (tempProposedCashLimit > tempMinCashLimit) {
-      tempProposedCashLimit = tempMinCashLimit;
-    }
+    // if (tempProposedCashLimit > tempMinCashLimit) {
+    //   tempProposedCashLimit = tempMinCashLimit;
+    // }
+
+    let tempProposedCardLimit: any = this.ProposedCardLimit.toArray()[element.rowNo].getFieldValue();
+    let tempProposedCashLimit: number = parseFloat(this.MainComponent.setApproveCashLimit(tempProposedCardLimit));
     this.ProposedCashLimit.toArray()[element.rowNo].setComponentSpecificValue(tempProposedCashLimit.toFixed(2));
-    this.updateSelectedObj(element,tempProposedCashLimit.toFixed(2), tempProposedCardLimit.toFixed(2));
+    this.updateSelectedObj(element,tempProposedCashLimit.toFixed(2), parseFloat(tempProposedCardLimit).toFixed(2));
     this.updateTotal(['ProposedCardLimit', 'ProposedCashLimit']);
   }
   updateTotal(listOfColumns) {
@@ -319,8 +325,12 @@ fetchAllApplicantsAPICall(){
       if(element.isAmountEmpty()){
         element.setError('MANDATORY');
         isValid=false;
+      }else if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='I'){
+        if(parseFloat(this.MainComponent.ApprovedLimit.getFieldValue())<parseFloat(element.getFieldValue())){
+          element.setError('rlo.error.credit-card-grid.greater-value');
+          isValid=false;
+        }   
       }
-      
     });
     return isValid;
   }

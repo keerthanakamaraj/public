@@ -378,39 +378,36 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   //     }
 
   // }
-  setApproveCashLimit() {
+  setApproveCashLimit(approvedLimit) {
 
     // Do not calculate value if card limit is not available
-    if(!this.ApprovedLimit.getFieldValue() || this.ApprovedLimit.getFieldValue().trim() == '') {
+    if(!approvedLimit || approvedLimit.trim() == '') {
       return;
     }
 
     // Validate if Approved Limit is greater than product Credit Limit
-    if (+this.ApprovedLimit.getFieldValue() > +this.header.Product_max_credit) {
+    if (+approvedLimit > +this.header.Product_max_credit) {
       this.services.alert.showAlert(2, 'rlo.error.approvedlimit.gt.product', 5000);
       return;
     }
 
-    let MaxApprovedCashLimit: any;
-    let MaxCashLimit: any;
-    MaxCashLimit = this.header.Product_max_cash_limit;
-    let MaxCardLimit: any;
-    MaxCardLimit = this.header.Product_max_credit;
-    let MinCardLimit: any;
-    MinCardLimit = this.header.Product_min_cash_limit;
+    let MaxApprovedCashLimit: number=0;
+    let MaxCashLimit: any = this.header.Product_max_cash_limit;
+    let MaxCardLimit: any = this.header.Product_max_credit;
+    let MinCardLimit: any = this.header.Product_min_cash_limit;
 
-    if (this.ApprovedLimit.getFieldValue() != undefined) {
-      MaxApprovedCashLimit = ((this.ApprovedLimit.getFieldValue() * MaxCashLimit) / MaxCardLimit);
+    if (approvedLimit != undefined) {
+      MaxApprovedCashLimit = ((approvedLimit * MaxCashLimit) / MaxCardLimit);
 
       if (MaxApprovedCashLimit < +MinCardLimit) {
-        this.ApprovedCashLimit.setComponentSpecificValue(MinCardLimit, null);
-      } else if (MaxApprovedCashLimit > +MaxCashLimit) {
-        this.ApprovedCashLimit.setComponentSpecificValue(MaxCashLimit, null);
+      return MinCardLimit;
+      } else if (MaxApprovedCashLimit > +MaxCashLimit) { 
+        return MaxCashLimit;
       } else {
-        this.ApprovedCashLimit.setComponentSpecificValue(MaxApprovedCashLimit, null);
+        return MaxApprovedCashLimit;
       }
     }
-
+    return 0;
   }
   fetchCreditCardDetails() {
     let inputMap = new Map();
@@ -471,7 +468,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
             this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
        if(!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty())
        {
-         this.setApproveCashLimit();
+        this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
        }    
        // });
 
@@ -647,10 +644,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
   doSaveCreditCardAPICall() {
     if (this.CreditCardInputGrid.CustomerDtlsMap.size != 0) {
+      if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
       if (parseFloat(this.CreditCardInputGrid.TotalProposedCardLimit.getFieldValue()) > parseFloat(this.ApprovedLimit.getFieldValue())) {
         this.services.alert.showAlert(2, 'rlo.error.totCardLimit', -1);
         return;
       }
+    }
       this.doUpdateMemberAPICall();
 
     }
@@ -950,7 +949,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     this.genericOnBlur(event.field, event.textFieldValue);
     // if (event.field == "ApprovedCashLimit") {
     if (event.field == "ApprovedLimit") {
-      this.setApproveCashLimit();
+      this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
     }
   }
 
