@@ -1118,7 +1118,8 @@
     "OD_CLEAR_BTN": "Clear",
     "OD_PENSION_FREQ": "Pension Frequency",
     "OD_PENSION_AMT": "Pension Amount",
-    "OD_ANNUAL_NET_INCOME": "Annual Net Income"
+    "OD_ANNUAL_NET_INCOME": "Annual Net Income",
+    "OD_INCOME_DTLS": "Income Details"
   },
   "EntRelAssGrid": {
     "select": "Select",
