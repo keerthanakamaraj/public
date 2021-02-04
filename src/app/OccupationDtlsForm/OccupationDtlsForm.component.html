@@ -188,6 +188,7 @@
               fontFamily="sans-serif" fontColor="#555" fontStyle="normal" fontSize="12px" fontWeight="400"
               customClass="sub-section-header"></app-label>
           </div>
+          <!-- <div class="col-12 col-sm-12 col-md-12"></div> -->
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="OD_INC_DOC_TYPE.isHidden()">
             <div class="clr-brown fieldLegend">
               <label class="clr-brown" [ngClass]="{'mandatory': OD_INC_DOC_TYPE.mandatory}">
@@ -284,7 +285,7 @@
             <app-text-box #OD_RES_PRT_NO fieldID="OD_RES_PRT_NO" [formCode]="formCode" placeholder="(Optional)"
               (blur)="genericOnBlur('OD_RES_PRT_NO', $event)"></app-text-box>
           </div> -->
-
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide"></div>
           <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
             <app-button #OD_CLEAR_BTN fieldName="{{ 'OccupationDtlsForm.OD_CLEAR_BTN' | translate}}"
