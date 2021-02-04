@@ -87,7 +87,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
 
   async gridLoad() {
   //  this.loadRecords();
-  this.firstLoadFlag=true;
   this.fetchAllApplicantsAPICall();
     this.showHideAddRowIcon(0);
   }
@@ -126,6 +125,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     console.log("Shweta:: for credit card cust dtls ", memberList);
   
     if (memberList.length > 0) {
+      this.firstLoadFlag=true;
       this.showGrid = true;
       this.CustomerDtlsMap.clear();
       this.onReset();
@@ -163,6 +163,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
       let paramsList = this.isExpanded ? ['ExistingCardLimit', 'ExistingCashLimit', 'ProposedCardLimit',
         'ProposedCashLimit'] : ['RequestedCardLimit', 'ProposedCardLimit', 'ProposedCashLimit']
       this.updateTotal(paramsList);
+      this.firstLoadFlag=false;
     }
   }
 
@@ -176,9 +177,10 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
       if(!this.firstLoadFlag){
       this.ProposedCardLimit.toArray()[element.rowNo].setError('Value can not be Empty.');
       return 1;
-    }else{
-        this.firstLoadFlag=false;
     }
+    // else{
+    //     this.firstLoadFlag=false;
+    // }
     }
     let tempExistingCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MaxCashLimit);
     let tempMinCashLimit:number = parseFloat(this.services.rloCommonData.globalApplicationDtls.MinCashLimit);
