@@ -758,22 +758,13 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     console.log('searched data =================', data);
 
     if (data.CustomerType == 'C') {
-      this.isReferrer = false;
       if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
         // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
         this.services.alert.showAlert(2, '', -1, 'User Cannot Add Corporate Record For Addon Customer');
         return;
       }
     }
-    else{
-      if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
-        this.isReferrer = false;
-      }
-     else{
-      this.isReferrer = true;
-     }
-
-    }
+   
     let tempVar: any = data;
     if(tempVar)
 

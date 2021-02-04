@@ -421,7 +421,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       console.log("this.customers before adding", this.customers);
 
       for (let i = 0; i < this.customers.length; i++) {
-
+       
         if (this.customers[i].tempId !== this.editId) {
           if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
@@ -452,6 +452,15 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
 
       this.MainComponent.CUST_DTLS_GRID.setValue(Object.assign([], this.customers));
       this.updateCustomerTags();
+      this.MainComponent.isReferrer = false;
+      this.customers.forEach(element => {
+        if(element.CUST_TYPE_LBL == 'Primary'){
+          this.MainComponent.isReferrer = true;
+          return;
+        }
+      });
+      
+
       if (this.editId) {
         this.MainComponent.services.alert.showAlert(1, 'rlo.success.update.customer', 1000);
       } else {

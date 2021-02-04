@@ -38,7 +38,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     @ViewChild('FD_MOBILE', { static: false }) FD_MOBILE: TextBoxComponent;
     @ViewChild('FD_RELATIONSHIP', { static: false }) FD_RELATIONSHIP: ComboBoxComponent;
     @ViewChild('FD_ISD_Code', { static: false }) FD_ISD_Code: ComboBoxComponent;
-    @ViewChild('FD_NATIONAL_ID', { static: false }) FD_NATIONAL_ID: TextBoxComponent;
+    // @ViewChild('FD_NATIONAL_ID', { static: false }) FD_NATIONAL_ID: TextBoxComponent;
     @ViewChild('FD_TAX_ID', { static: false }) FD_TAX_ID: TextBoxComponent;
     @ViewChild('FD_Save', { static: false }) FD_Save: ButtonComponent;
     @ViewChild('FD_clear', { static: false }) FD_clear: ButtonComponent;
@@ -79,7 +79,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
             this.revalidateBasicField('FD_DOB'),
             this.revalidateBasicField('FD_MOBILE'),
             this.revalidateBasicField('FD_RELATIONSHIP'),
-            this.revalidateBasicField('FD_NATIONAL_ID'),
+            // this.revalidateBasicField('FD_NATIONAL_ID'),
             this.revalidateBasicField('FD_TAX_ID'),
             this.revalidateBasicField('FD_EMAIL'),
         ]).then((errorCounts) => {
@@ -310,7 +310,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.DOB', this.FD_DOB.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.FD_MOBILE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Relationship', this.FD_RELATIONSHIP.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CitizenID', this.FD_NATIONAL_ID.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.CitizenID', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.FD_EMAIL.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
@@ -334,9 +334,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
                                 this.FD_EMAIL.setError(err['ErrorDescription']);
                             }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
-                                this.FD_NATIONAL_ID.setError(err['ErrorDescription']);
-                            }
+                           
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Relationship') {
                                 this.FD_RELATIONSHIP.setError(err['ErrorDescription']);
                             }
@@ -386,7 +384,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 inputMap.set('Body.BorrowerDetails.Gender', this.FD_GENDER.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.MobileNo', this.FD_MOBILE.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.DOB', this.FD_DOB.getFieldValue());
-                inputMap.set('Body.BorrowerDetails.CitizenID', this.FD_NATIONAL_ID.getFieldValue());
+                // inputMap.set('Body.BorrowerDetails.CitizenID', this.FD_NATIONAL_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.TaxID', this.FD_TAX_ID.getFieldValue());
                 inputMap.set('Body.BorrowerDetails.Email', this.FD_EMAIL.getFieldValue());
                 // inputMap.set('Body.BorrowerDetails.ISDCountryCode', this.FD_ISD_Code.getFieldValue());
@@ -409,9 +407,6 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.Email') {
                                 this.FD_EMAIL.setError(err['ErrorDescription']);
-                            }
-                            else if (err['ErrorElementPath'] == 'BorrowerDetails.Nationality') {
-                                this.FD_NATIONAL_ID.setError(err['ErrorDescription']);
                             }
                             else if (err['ErrorElementPath'] == 'BorrowerDetails.DOB') {
                                 this.FD_DOB.setError(err['ErrorDescription']);
@@ -476,7 +471,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
                 this.FD_MOBILE.setValue(res['BorrowerDetails']['MobileNo']);
                 this.FD_RELATIONSHIP.setValue(res['BorrowerDetails']['Relationship']['id']);
                 // this.FD_ISD_Code.setValue(res['BorrowerDetails']['ISDCountryCode']);
-                this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
+                // this.FD_NATIONAL_ID.setValue(res['BorrowerDetails']['CitizenID']);
                 this.FD_TAX_ID.setValue(res['BorrowerDetails']['TaxID']);
                 this.FD_EMAIL.setValue(res['BorrowerDetails']['Email']);
                 this.hiddenFamilySeq.setValue(res['BorrowerDetails']['BorrowerSeq']);
