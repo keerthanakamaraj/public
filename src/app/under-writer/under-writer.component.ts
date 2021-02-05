@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 7894; //6633
+    // this.applicationId = 8656; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -631,7 +631,12 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             this.customerCardDataWithFields.borrowerSeq = this.borrowerSeq;
             this.customerCardDataWithFields.componentCode = this.componentCode;
 
-            this.customerCardDataWithFields.accountDetails = singleCustomer['AccountDetails'].getTableData();
+            if (singleCustomer.CustomerType == "B") {
+              this.customerCardDataWithFields.accountDetails = singleCustomer['AccountDetails'].getTableData();
+            }
+            else {
+              this.customerCardDataWithFields.accountDetails = [];
+            }
 
             if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
               const moment = require('moment');
