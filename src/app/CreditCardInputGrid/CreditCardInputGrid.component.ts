@@ -253,7 +253,11 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
     inputMap.set('Body.prposalid', applicationId);
     let BorrowerDtls:any=this.services.rloCommonData.getCustomerList().filter(function (element) { return element.CustomerType == 'B' });
     inputMap.set('Body.inputdata.CifID', BorrowerDtls[0].CIF);
-
+    var str = String(this.MainComponent.MaskedCardNumber.value);
+    console.log("new mask", str);
+    var newMaskedNumber = str.slice(12); 
+    inputMap.set('Body.inputdata.MaskCardNumber', newMaskedNumber);
+    
     // inputMap.set('QueryParam.criteriaDetails', criteriaJson)
     this.services.http.fetchApi('/memberSearchCall', 'POST', inputMap, '/rlo-de').subscribe(
         async (httpResponse: HttpResponse<any>) => {
