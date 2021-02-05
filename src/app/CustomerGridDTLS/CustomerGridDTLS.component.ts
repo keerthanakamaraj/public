@@ -185,14 +185,15 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
           if (!this.services.rloCommonData.initialBorrowerDetailsCallDone) {
             this.services.rloCommonData.customerListForAddress.clear();
             this.services.rloCommonData.addCustomersToMapForAddress(BorrowerDetails);
-            this.services.rloCommonData.initialBorrowerDetailsCallDone = true
+            this.services.rloCommonData.initialBorrowerDetailsCallDone = true;
+            console.log("customerListForAddress", this.services.rloCommonData.customerListForAddress);
           }
 
           if (BorrowerDetails) {
 
             BorrowerDetails.forEach(eachBorrower => {
               let isValid = false;
-             
+
               if (eachBorrower.BorrowerSeq == borrowerSeq) {
                 eachBorrower.isValid = true;
               }
@@ -249,20 +250,20 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               }
 
               customerDataArr.push(customer);
-              
-             
+
+
 
             });
             this.CustomerDetailsMap.forEach(element => {
-              if(element.CustomerType !== 'B'){
-                if(element.ApprovedCardLimit = undefined || element.ApprovedCardLimit == "" ){
+              if (element.CustomerType !== 'B') {
+                if (element.ApprovedCardLimit = undefined || element.ApprovedCardLimit == "") {
                   this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = false
-                 return;
-                // console.log("AddedMember" , parentData.isAddedNewMember);
+                  return;
+                  // console.log("AddedMember" , parentData.isAddedNewMember);
                 }
-              
+
               }
-              
+
             });
           }
 

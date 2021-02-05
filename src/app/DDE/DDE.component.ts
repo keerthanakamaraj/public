@@ -319,6 +319,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   constructor(services: ServiceStock, private componentFactoryResolver: ComponentFactoryResolver, private locationRoute: Location) {
     super(services);
+    this.services.rloCommonData.initialBorrowerDetailsCallDone = false;//flag set false to do address validation in CustomerGridDTLS > customerListForAddress
     this.value = new DDEModel();
     this.componentCode = 'DDE';
     this.initHTabGroup('FieldId_10', ['BORROWER_TAB', 'VISIT_REF', 'COLATTERAL', 'GO_NO_GO', 'COMMENTS_TAB',], 'GO_NO_GO', 1);
@@ -420,7 +421,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
     this.ApplicationId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-  
+
 
 
     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
@@ -559,6 +560,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   ngOnDestroy() {
+    this.services.rloCommonData.initialBorrowerDetailsCallDone = false;
+    this.services.rloCommonData.customerListForAddress.clear();
+
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('DDE_customCss');
@@ -568,7 +572,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.getDeletedCustomerSubscription.unsubscribe();
     this.childToParentSubjectSubscription.unsubscribe();
     this.services.rloui.closeAllConfirmationModal();
-    this.services.rloCommonData.initialBorrowerDetailsCallDone = false;
+
     //is disabled when navigating to DDE from operations
     if (this.services.rloCommonData.makeDdeDisabled.ddeDisabled) {
       this.services.rloCommonData.makeDdeDisabled.ddeDisabled = false;
@@ -1262,7 +1266,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   async brodcastProdCategory(event) {
     this.isLoanCategory = event.isLoanCategory;
-    this.services.rloCommonData.globalApplicationDtls.ActiveStage =this.componentCode;
+    this.services.rloCommonData.globalApplicationDtls.ActiveStage = this.componentCode;
     this.CUSTOMER_GRID.setApplicantLabelsAndTags();
     if (this.formMenuObject.selectedMenuId == 'CustomerDetails') {
       this.currentCompInstance.loanCategoryChanged(event.isLoanCategory);
@@ -1613,12 +1617,12 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   DDE_SUBMIT_click(event) {
     const requestParams = new Map();
     // this.CreditCard.checkAvailableLimit();
-    
+
     // if(this.services.rloCommonData.globalApplicationDtls.isAddedNewMember == false){
     //   this.services.alert.showAlert(2, 'rlo.error.approve.amount.empty', -1);
     //   return;
     // }
-  
+
     this.services.rloCommonData.isDdeFormValid(this.isLoanCategory).then((data: IFormValidationData) => {
       console.log("Deep ===", data);
       if (data.isAppValid) {
@@ -2280,6 +2284,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         console.warn("NEW CUSTOMER");
         console.error("****************");
         this.services.rloCommonData.customerListForAddress.set(BorrowerSeq, BorrowerSeq);
+        console.log("customerListForAddress", this.services.rloCommonData.customerListForAddress);
         this.additionAddressDetailsApiCall(BorrowerSeq);
       }
   }
