@@ -235,7 +235,7 @@
     "rlo.error.credit-card-grid.empty-column": "Please fill the mandatory data in member cards grid properly.",
     "rlo.delete.comfirmation": "Are you sure you want to delete",
     "rlo.error.approve.amount.empty" : "For Memebr Card Approve Card Limit Cannot be Blank",
-    "rlo.error.credit-card-grid.greater-value" : "Value should not be more than Approved Card Limit of primay applicant",
+    "rlo.error.credit-card-grid.greater-value" : "Value should be less than Primary Card limit",
 
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",

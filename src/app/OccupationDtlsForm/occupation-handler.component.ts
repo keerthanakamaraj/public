@@ -188,7 +188,7 @@ export class OccupationHandlerComponent extends RLOUIHandlerComponent implements
   setAnnualNetIncome(){
 let NetIncome:number = this.MainComponent.OD_LOC_CURR_EQ.getFieldValue();
 let IncomeFreq:string =this.MainComponent.OD_INCOME_FREQ.getFieldValue();
-let AnnualIncome:number=0;
+let AnnualIncome:number;
 if(NetIncome!=undefined && NetIncome>0 && IncomeFreq != undefined){
   switch(IncomeFreq){
     case 'D': AnnualIncome= NetIncome*7*4*12;break;
@@ -196,7 +196,8 @@ if(NetIncome!=undefined && NetIncome>0 && IncomeFreq != undefined){
     case 'M': AnnualIncome= NetIncome*12;break;
     case 'Y': AnnualIncome= NetIncome;break;
     }
+    this.MainComponent.OD_ANNUAL_NET_INCOME.setComponentSpecificValue(AnnualIncome.toFixed(2));
 }
-this.MainComponent.OD_ANNUAL_NET_INCOME.setComponentSpecificValue(AnnualIncome.toFixed(2));
+
   }
 }
