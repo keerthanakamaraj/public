@@ -118,8 +118,7 @@
                               {{ 'Initiation.BAD_CARD_NUMBER' | translate}}</label>
                           </div>
                           <app-text-box #BAD_CARD_NUMBER fieldID="BAD_CARD_NUMBER" [formCode]="formCode"
-                            (blur)="genericOnBlur('BAD_CARD_NUMBER', $event)"
-                            (change)="BAD_CARD_NUMBER_change('BAD_CARD_NUMBER', $event)"></app-text-box>
+                            (blur)="genericOnBlur('BAD_CARD_NUMBER', $event)"></app-text-box>
                         </div>
                         <!-- Start adding hidden input field for mask card number -->
                         <div class="col-12  col-sm-3 col-md-3 res-pr-hide"
