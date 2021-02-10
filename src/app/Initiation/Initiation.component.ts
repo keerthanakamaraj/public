@@ -1595,6 +1595,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
         { paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType: "PathParam" },
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
+        { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
 
       ],
     
