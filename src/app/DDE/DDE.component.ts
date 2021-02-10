@@ -55,6 +55,7 @@ import { VehicleDetailsComponent } from '../VehicleDetails/VehicleDetails.compon
 import { GoldDetailsComponent } from '../GoldDetails/GoldDetails.component';
 import { InterfaceResultsComponent } from '../interface-results/interface-results.component';
 import { BusinessDtlsFormComponent } from '../BusinessDtlsForm/BusinessDtlsForm.component';
+import { FDDetailsComponent } from '../FDDetails/FDDetails.component';
 import * as _ from 'lodash';
 import { CreditCardInputGridComponent } from '../CreditCardInputGrid/CreditCardInputGrid.component';
 
@@ -214,6 +215,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
       // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       // { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
+         { id: "FDDetails", name: "FD Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
       //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
@@ -1127,6 +1129,9 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       case 'BusinessDetails':
         return new AddSpecificComponent(BusinessDtlsFormComponent);
         break;
+      case 'FDDetails':
+        return new AddSpecificComponent(FDDetailsComponent);
+        break;  
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
         break;
@@ -1379,7 +1384,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-
+        if (section.id == "FDDetails" && section.isOptional) {
+          // Hide FD Details for Loans Other than Secured Card
+          if (this.services.rloCommonData.globalApplicationDtls.CardType == "SC") {
+            section.isOptional = false;
+            this.progressStatusObject.manditorySection += 1;
+          } else {
+            element.splice(i, 1);
+            i--;
+          }
+        }
         // if ((section.id == "VehicalLoanDetails" || section.id == "GoldLoanDetails" || section.id == "EducationLoanDetails") && section.isOptional) {
         //   if (!this.isLoanCategory) {
         //     element.splice(i, 1);

@@ -581,6 +581,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   selectedTabCardData(sectionType: string = "customer", borrowerSeq: number = 0) {
     let data: IGeneralCardData;
+    var lienAmount = 0;
 
     if (sectionType == "customer") {
       this.cCardDataWithFields = [];
@@ -596,7 +597,16 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       let singleCustomer = this.customerMasterJsonData.CustomerDetails[customerIndex];
       console.error(singleCustomer);
       console.warn(this.allSectionsCardData[0]);
-
+      //LienAmt validation
+      if (singleCustomer.hasOwnProperty('UWAsset')) {
+        if (singleCustomer.UWAsset.length) {
+          singleCustomer.UWAsset.forEach(element => {
+            if (element.hasOwnProperty('LienAmt')) {
+              lienAmount += Number(element.LienAmt);
+            }
+          });
+        }
+      }
       if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
         if (singleCustomer.CustomerType == "A") {
           if (this.allSectionsCardData[0].cardList.length == 3)
@@ -680,6 +690,18 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
             break;
 
           case "FinancialSummary":
+            // lienAmount
+            if (lienAmount > 0) {
+              data = singleCustomer[element.className].getCardData();
+              console.log(data, lienAmount);
+              data.data[6].subTitle = this.services.formatAmount(lienAmount, null, null, false)
+            }
+
+            data.applicationId = this.applicationId;
+            data.borrowerSeq = this.borrowerSeq;
+            data.componentCode = this.componentCode;
+            this.cCardDataWithFields.push(data);
+            break;
           case "FinancialDetails":
           case "CollateralDetails":
           case "BusinessDetails":

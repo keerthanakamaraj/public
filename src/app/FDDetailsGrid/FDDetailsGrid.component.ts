@@ -9,8 +9,8 @@ import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 const customCss: string = '';
 @Component({
-    selector: 'app-AssetDetailsGrid',
-    templateUrl: './AssetDetailsGrid.component.html',
+    selector: 'app-FDDetailsGrid',
+    templateUrl: './FDDetailsGrid.component.html',
     animations: [
         trigger('slideInOut', [
             state('false', style({ opacity: '0', overflow: 'hidden', height: '0px' })),
@@ -20,108 +20,54 @@ const customCss: string = '';
         ])
     ],
 })
-export class AssetDetailsGridComponent implements AfterViewInit {
-    loopDataVar4 = [];
-    assetRecord: boolean = false;
+export class FDDetailsGridComponent implements AfterViewInit {
     constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef) { }
     @ViewChild('readonlyGrid', { static: true }) readonlyGrid: ReadonlyGridComponent;
-
-    @Output() modifyAssetDetails: EventEmitter<any> = new EventEmitter<any>();
+    @Output() modifyFDDetails: EventEmitter<any> = new EventEmitter<any>();
     @Input('formCode') formCode: string;
     @Input('displayTitle') displayTitle: boolean = true;
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
 
-    componentCode: string = 'AssetDetailsGrid';
+    componentCode: string = 'FDDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
+    loopDataVar4 = [];
+    fdRecord: boolean = false;
+
     gridConsts: any = {
-        paginationPageSize: 5,
-        gridCode: "AssetDetailsGrid",
+        paginationPageSize: 10,
+        gridCode: "FDDetailsGrid",
         paginationReq: false
     };
     columnDefs: any[] = [{
-        field: "AT_Asset_Type",
-        width: 22,
-        sortable: false,
-        resizable: true,
+        field: "FDNumber",
+        width: 20,
         cellStyle: { 'text-align': 'left' },
-        // filter: "agTextColumnFilter",
-        // filterParams: {
-        //     suppressAndOrCondition: true,
-        //     applyButton: true,
-        //     clearButton: true,
-        //     filterOptions: ["contains"],
-        //     caseSensitive: true,
-        // },
+        filter: false,
     },
     {
-        field: "AT_Asset_Status",
-        width: 22,
-        sortable: false,
-        resizable: true,
-        cellStyle: { 'text-align': 'left' },
-        // filter: "agTextColumnFilter",
-        // filterParams: {
-        //     suppressAndOrCondition: true,
-        //     applyButton: true,
-        //     clearButton: true,
-        //     filterOptions: ["contains"],
-        //     caseSensitive: true,
-        // },
-    },
-    {
-        field: "AT_Asset_Value",
-        width: 22,
-        sortable: false,
-        resizable: true,
-        hide: true,
+        field: "FDAmount",
+        width: 20,
         cellStyle: { 'text-align': 'right' },
         valueFormatter: this.formatAmount.bind(this),
-
-        // filter: "agTextColumnFilter",
-        // filterParams: {
-        //     suppressAndOrCondition: true,
-        //     applyButton: true,
-        //     clearButton: true,
-        //     filterOptions: ["contains"],
-        //     caseSensitive: true,
-        // },
+        filter: false,
     },
     {
-        field: "AT_Local_Curr_Value",
-        width: 22,
-        sortable: false,
-        resizable: true,
+        field: "LienAmount",
+        width: 20,
         cellStyle: { 'text-align': 'right' },
         valueFormatter: this.formatAmount.bind(this),
-
-        // filter: "agTextColumnFilter",
-        // filterParams: {
-        //     suppressAndOrCondition: true,
-        //     applyButton: true,
-        //     clearButton: true,
-        //     filterOptions: ["contains"],
-        //     caseSensitive: true,
-        // },
+        filter: false,
     },
     {
-        field: "AT_INCLUDE_IN_DBR",
-        width: 22,
-        sortable: false,
-        resizable: true,
+        field: "DateofMaturity",
+        width: 20,
         cellStyle: { 'text-align': 'left' },
-        // filter: "agTextColumnFilter",
-        // filterParams: {
-        //     suppressAndOrCondition: true,
-        //     applyButton: true,
-        //     clearButton: true,
-        //     filterOptions: ["contains"],
-        //     caseSensitive: true,
-        // },
+        filter: false,
     },
     {
-        width: 6,
+        width: 10,
         field: " ",
         sortable: false,
         filter: false,
@@ -129,16 +75,16 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         cellRenderer: 'buttonRenderer',
         cellStyle: { 'text-align': 'left' },
         cellRendererParams: {
-            gridCode: 'AssetDetailsGrid',
-            columnId: 'AT_EDIT',
+            gridCode: 'FDDetailsGrid',
+            columnId: 'EDIT',
             Type: '1',
             CustomClass: 'btn-edit',
             IconClass: 'fas fa-edit fa-lg',
-            onClick: this.AT_EDIT_click.bind(this),
+            onClick: this.FD_EDIT_click.bind(this),
         },
     },
     {
-        width: 6,
+        width: 10,
         field: " ",
         sortable: false,
         filter: false,
@@ -146,14 +92,14 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         cellRenderer: 'buttonRenderer',
         cellStyle: { 'text-align': 'left' },
         cellRendererParams: {
-            gridCode: 'AssetDetailsGrid',
-            columnId: 'AT_DELETE',
+            gridCode: 'FDDetailsGrid',
+            columnId: 'DELETE',
             Type: '1',
             CustomClass: 'btn-delete',
             IconClass: 'fa fa-trash fa-lg',
-            onClick: this.AT_DELETE_click.bind(this),
+            onClick: this.FD_DELETE_click.bind(this),
         },
-    }
+    },
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
     ngAfterViewInit() {
@@ -188,13 +134,13 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         var styleElement = document.createElement('style');
         styleElement.type = 'text/css';
         styleElement.innerHTML = customCss;
-        styleElement.id = 'AssetDetailsGrid_customCss';
+        styleElement.id = 'FDDetailsGrid_customCss';
         document.getElementsByTagName('head')[0].appendChild(styleElement);
     }
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
-        var styleElement = document.getElementById('AssetDetailsGrid_customCss');
+        var styleElement = document.getElementById('FDDetailsGrid_customCss');
         styleElement.parentNode.removeChild(styleElement);
     }
     gridDataLoad(formInputs) {
@@ -213,15 +159,15 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
 
-        let AssetId: any = event.passBorrowerToAsset;
+        let FDId: any = event.passBorrowerToFD;
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
-        if (AssetId) {
+        if (FDId) {
             criteriaJson.FilterCriteria.push({
                 "columnName": "BorrowerSeq",
                 "columnType": "String",
                 "conditions": {
                     "searchType": "equals",
-                    "searchText": AssetId
+                    "searchText": FDId
                 }
             });
             inputMap.set('QueryParam.criteriaDetails.FilterCriteria', criteriaJson.FilterCriteria);
@@ -232,14 +178,11 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             var obj = gridReqMap.get("FilterCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    // case "AT_Asset_Subtype": obj[i].columnName = "AssetSubtype"; break;
-                    case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
-                    case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
-                    case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
-                    case "AT_Local_Curr_Value": obj[i].columnName = "EquivalentAmt"; break;
-                    case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
-                    // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
-                    case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
+                    case "FDNumber": obj[i].columnName = "FDNumber"; break;
+                    case "FDAmount": obj[i].columnName = "AssetValue"; break;
+                    case "FD_ID": obj[i].columnName = "AssetSeq"; break;
+                    case "LienAmount": obj[i].columnName = "LienAmount"; break;
+                    case "DateofMaturity": obj[i].columnName = "DateofMaturity"; break;
                     default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
                 }
             }
@@ -248,14 +191,11 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             var obj = gridReqMap.get("OrderCriteria");
             for (var i = 0; i < obj.length; i++) {
                 switch (obj[i].columnName) {
-                    // case "AT_Asset_Subtype": obj[i].columnName = "AssetSubtype"; break;
-                    case "AT_Asset_Type": obj[i].columnName = "AssetType"; break;
-                    case "AT_Asset_Status": obj[i].columnName = "AssetStatus"; break;
-                    case "AT_Asset_Value": obj[i].columnName = "AssetValue"; break;
-                    case "AT_Local_Curr_Value": obj[i].columnName = "EquivalentAmt"; break;
-                    case "ASSET_ID": obj[i].columnName = "AssetSeq"; break;
-                    // case "AT_Asset_Location": obj[i].columnName = "AssetLocation"; break;
-                    case "AT_INCLUDE_IN_DBR": obj[i].columnName = "IncludeInDBR"; break;
+                    case "FDNumber": obj[i].columnName = "FDNumber"; break;
+                    case "FDAmount": obj[i].columnName = "AssetValue"; break;
+                    case "FD_ID": obj[i].columnName = "AssetSeq"; break;
+                    case "LienAmount": obj[i].columnName = "LienAmount"; break;
+                    case "DateofMaturity": obj[i].columnName = "DateofMaturity"; break;
                     default: console.error("Column ID '" + obj[i].columnName + "' not mapped with any key");
                 }
             }
@@ -267,30 +207,33 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 this.loopDataVar4 = [];
                 var loopVar4 = [];
                 if (res !== null) {
-                    this.assetRecord = true
+                    this.fdRecord = true
                     loopVar4 = res['AssetDetails'];
                 }
                 else {
-                    this.assetRecord = false
+                    this.fdRecord = false
                 }
                 // var loopVar4 = res['AssetDetails'];
                 if (loopVar4) {
+                    var totalValue = { 'FDNumber': 'Total Lien Amount', 'LienAmount': Number('0') };
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        if(loopVar4[i].FDNumber == undefined){
-                        tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype.text;
-                        tempObj['Asset_Subtype_ID'] = loopVar4[i].AssetSubtype.id;
-                        tempObj['AT_Asset_Type'] = loopVar4[i].AssetType.text;
-                        tempObj['Asset_Type_ID'] = loopVar4[i].AssetType.id;
-                        tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus.text;
-                        tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
-                        tempObj['AT_Local_Curr_Value'] = loopVar4[i].EquivalentAmt;
-                        tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
-                        // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
-                        tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR.text;
-                        this.loopDataVar4.push(tempObj);
+                        if (loopVar4[i].FDNumber != undefined) {
+                            tempObj['FDNumber'] = loopVar4[i].FDNumber;
+                            tempObj['LienAmount'] = loopVar4[i].LienAmt;
+                            tempObj['DateofMaturity'] = loopVar4[i].DateOfMaturity;
+                            tempObj['FDAmount'] = loopVar4[i].AssetValue;
+                            tempObj['FD_ID'] = loopVar4[i].AssetSeq;
+                            this.loopDataVar4.push(tempObj);
+
+                            totalValue['FDNumber'] = 'Total';
+                            totalValue['FD_ID'] = totalValue['FD_ID'] + loopVar4[i].AssetSeq;
+                            totalValue['LienAmount'] += Number(loopVar4[i].LienAmt);
+
                         }
                     }
+                    this.loopDataVar4.push(totalValue);
+                    console.log("new object", totalValue);
                 }
 
                 let obj = {
@@ -301,6 +244,9 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
+                setTimeout(() => {
+                    this.hideLastColCells();
+                }, 500);
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -311,36 +257,33 @@ export class AssetDetailsGridComponent implements AfterViewInit {
         );
 
     }
-    async AT_EDIT_click(event) {
+    async FD_EDIT_click(event) {
         let inputMap = new Map();
         const selectedData0 = this.readonlyGrid.getSelectedData();
-        this.modifyAssetDetails.emit({
-            'AssetKey': event['ASSET_ID'],
+        this.modifyFDDetails.emit({
+            'AssetKey': event['FD_ID'],
         });
 
     }
-    async AT_DELETE_click(event) {
+    async FD_DELETE_click(event) {
         let inputMap = new Map();
         inputMap.clear();
-        inputMap.set('PathParam.AssetSeq', event.ASSET_ID);
-
-        await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
-            if (response.id == 1) {
-                this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-                    async (httpResponse: HttpResponse<any>) => {
-                        var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
-                        this.readonlyGrid.refreshGrid();
-                    },
-                    async (httpError) => {
-                        var err = httpError['error']
-                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
-                        }
-                        this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
+        inputMap.set('PathParam.AssetSeq', event.FD_ID);
+        if (confirm("Are you sure you want to delete?")) {
+            this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                async (httpResponse: HttpResponse<any>) => {
+                    var res = httpResponse.body;
+                    this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
+                    this.readonlyGrid.refreshGrid();
+                },
+                async (httpError) => {
+                    var err = httpError['error']
+                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                     }
-                );
-            }
-        });
+                    this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
+                }
+            );
+        }
     }
 
     getAssetDetails() {
@@ -354,5 +297,14 @@ export class AssetDetailsGridComponent implements AfterViewInit {
             return '-';
         }
     }
+    //make edit and del icons hidden
+    hideLastColCells() {
+        let tableRow = document.getElementsByClassName('ag-center-cols-container')[0].children;
+        let lastRow = tableRow[tableRow.length - 1].children
 
+        console.error(tableRow);
+        console.error("last", lastRow);
+        lastRow[lastRow.length - 1].classList.add("d-none");
+        lastRow[lastRow.length - 2].classList.add("d-none");
+    }
 }

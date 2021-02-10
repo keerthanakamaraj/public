@@ -200,6 +200,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   UserBranch: string = 'Juhu';
   refferalValid: boolean = false;
   FilterOptions = [];
+  unique: boolean = true;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -604,6 +605,29 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
     else {
       this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
     }
+
+  }
+  BAD_PHYSICAL_FRM_NO_blur(){
+    let PhysicalFormNo = new Map();
+
+    PhysicalFormNo.set('QueryParam.form_number', this.BAD_PHYSICAL_FRM_NO.getFieldValue());
+    this.services.http.fetchApi('/FetchPhysicalNumber', 'GET', PhysicalFormNo, '/initiation').subscribe(
+      async (httpResponse: HttpResponse<any>) => {
+        var res = httpResponse.body;
+        if(res !== null){
+          this.unique = false;
+          this.services.alert.showAlert(2, '', -1, 'This Physical Form Number already exist please enter unique Physical Form No');
+          return;
+        }
+        else{
+          this.unique = true;
+
+        }
+        console.log("Physical Form No",res);
+        // let applicationStatus = res.Outputdata['status'];
+     
+      }
+    );
 
   }
 
@@ -1133,6 +1157,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   }
 
   async SUBMIT_MAIN_BTN_click(event) {
+    if(!this.unique){
+      this.services.alert.showAlert(2, '', -1, 'This Physical Form Number already exist please enter unique Physical Form No');
+      return;
+    }
     // this.SUBMIT_MAIN_BTN.setDisabled(true);
     let inputMap = new Map();
 
@@ -1152,6 +1180,10 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       let countLoanOwnership = this.Handler.aggregateLoanOwnerShip();
       if (this.BAD_PROD_CAT.getFieldValue() !== 'CC' && countLoanOwnership < 100) {
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
+        return;
+      }
+      if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
+        this.services.alert.showAlert(2, '', -1, 'Cusstomer Type not match with Card Type');
         return;
       }
       inputMap.clear();
@@ -1595,9 +1627,12 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
         { paramKey: "ProductCd", depFieldID: "BAD_PRODUCT", paramType: "PathParam" },
         { paramKey: "BAD_PROD_CAT", depFieldID: "BAD_PROD_CAT", paramType: "QueryParam" },
-
+        { paramKey: "BAD_CARD_TYPE", depFieldID: "BAD_CARD_TYPE", paramType: "QueryParam" },
       ],
-    
+      outDep: [
+        { paramKey: "MstProductDetails.MaxCredLimit", depFieldID: "MaxCredLimit" },
+        { paramKey: "MstProductDetails.MinCredLimit", depFieldID: "MinCredLimit" }
+      ]
     },
 
     BAD_SUB_PROD: {

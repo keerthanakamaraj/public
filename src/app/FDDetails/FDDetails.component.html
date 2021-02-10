@@ -1,0 +1,152 @@
+<form class="MakeRelative">
+  <div class="ShowLoading " *ngIf="loadSpinner">
+    <div class="lds-roller MakeItMiddle">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="clearfix content">
+    <div class="row" [ngStyle]="{'display' : displayTitle ? 'block': 'none'}">
+      <!-- <div class="col-sm-5 col-md-5">
+        <h4 class="FormTitle">
+          {{ 'FDDetails.FormTitle' | translate }}
+        </h4>
+      </div> -->
+      <div class="col-sm-7 col-md-7 text-right xt-center" *ngIf="!formOnLoadError"></div>
+    </div>
+    <div class="alert alert-danger" *ngIf="formOnLoadError">{{formOnLoadErrorMsg}}</div>
+    <div *ngIf="!formOnLoadError">
+      <div class="clearfix bi-reponsive" [ngClass]="{'display-border' : displayBorder}">
+        <div class="form-group pb10">
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FDNumber.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': FDNumber.mandatory}">
+                {{ 'FDDetails.FDNumber' | translate}}
+              </label>
+            </div>
+
+            <app-combo-box #FDNumber category="4" fieldID="FDNumber" [formCode]="formCode" placeholder="Select"
+              [emittedOptions]="FilterOptions" (blur)="genericOnBlur('FDNumber', $event)"></app-combo-box>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FDAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.FDAmount' | translate}}
+              </label>
+            </div>
+            <app-rlo-ui-currency #FDAmount fieldID="FDAmount" [currencyReadOnly]="true" [componentFieldId]="'FDAmount'"
+              (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly" [formCode]="formCode">
+            </app-rlo-ui-currency>
+            <!-- <app-text-box #FDAmount fieldID="FDAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('FDAmount', $event)"></app-text-box> -->
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FDAmountLCE.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.FDAmountLCE' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #FDAmountLCE fieldID="FDAmountLCE" [formCode]="formCode"
+              (blur)="genericOnBlur('FDAmountLCE', $event)"></app-text-box> -->
+            <app-rlo-ui-currency #FDAmountLCE fieldID="FDAmountLCE" [currencyReadOnly]="true"
+              [componentFieldId]="FDAmountLCE" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="LienAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown" [ngClass]="{'mandatory': LienAmount.mandatory}">
+                {{ 'FDDetails.LienAmount' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #LienAmount fieldID="LienAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('LienAmount', $event)"></app-text-box> -->
+            <app-rlo-ui-currency #LienAmount fieldID="LienAmount" [currencyReadOnly]="true"
+              [componentFieldId]="LienAmount" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaturityAmount.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.MaturityAmount' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #MaturityAmount fieldID="MaturityAmount" [formCode]="formCode"
+              (blur)="genericOnBlur('MaturityAmount', $event)"></app-text-box> -->
+            <app-rlo-ui-currency #MaturityAmount fieldID="MaturityAmount" [currencyReadOnly]="true"
+              [componentFieldId]="MaturityAmount" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="DateofMaturity.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.DateofMaturity' | translate}}
+              </label>
+            </div>
+            <app-date #DateofMaturity fieldID="DateofMaturity" [formCode]="formCode"
+              (blur)="genericOnBlur('DateofMaturity', $event)"></app-date>
+          </div>
+
+          <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FDAmountLCE.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.FDAmountLCE' | translate}}
+              </label>
+            </div>
+            <app-text-box #FDAmountLCE fieldID="FDAmountLCE" [formCode]="formCode"
+              (blur)="genericOnBlur('FDAmountLCE', $event)"></app-text-box>
+          </div> -->
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="AutoRenewal.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.AutoRenewal' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #AutoRenewal fieldID="AutoRenewal" [formCode]="formCode"
+              (blur)="genericOnBlur('AutoRenewal', $event)"></app-text-box> -->
+            <rlo-ui-radio #AutoRenewal category="2" placeholder="Select" fieldID="AutoRenewal" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('AutoRenewal', $event)"></rlo-ui-radio>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="IncludeInDBR.isHidden()">
+            <div class="clr-brown fieldLegend">
+              <label class="clr-brown">
+                {{ 'FDDetails.IncludeInDBR' | translate}}
+              </label>
+            </div>
+            <!-- <app-text-box #IncludeInDBR fieldID="IncludeInDBR" [formCode]="formCode"
+              (blur)="genericOnBlur('IncludeInDBR', $event)"></app-text-box> -->
+            <rlo-ui-radio #IncludeInDBR category="2" placeholder="Select" fieldID="IncludeInDBR" [formCode]="formCode"
+              domainObjectUrl="/MSTGENERALPARAM/{VALUE1}" doServerUrl="/masters" domainObjectCode="MSTGENERALPARAM"
+              (blur)="genericOnBlur('IncludeInDBR', $event)"></rlo-ui-radio>
+          </div>
+          <div class="col-12  col-sm-9 col-md-9 res-pr-hide"></div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide" *ngIf="!readOnly">
+            <app-button #FdClear fieldName="{{ 'FDDetails.FdClear' | translate}}" fieldID="clear" [formCode]="formCode"
+              imagePath="./assets/icons/refresh-form.svg" [type]="2" customClass="icon-button"
+              (buttonClick)="clear_click($event)"></app-button>
+            <app-button #FdClear fieldName="{{ 'FDDetails.FdClear' | translate}}" fieldID="AT_SAVE"
+              [formCode]="formCode" imagePath="./assets/icons/plus.svg" [type]="2" customClass="icon-button"
+              (buttonClick)="AT_SAVE_click($event)"></app-button>
+          </div>
+          <div class="col-12  col-sm-12 col-md-12 res-pr-hide" [hidden]="FD_GRID.isHidden()">
+            <app-FDDetailsGrid #FD_GRID fieldID="FD_GRID" [formCode]="formCode"
+              (modifyFDDetails)="FDDetailsGridmodifyFDDetails($event)"></app-FDDetailsGrid>
+          </div>
+          <div class="col-12  col-sm-3 col-md-3 res-pr-hide">
+            <app-FD-handler #Handler [MainComponent]="this"></app-FD-handler>
+          </div>
+        </div>
+        <app-hidden #hidAppId fieldID="hidAppId"></app-hidden>
+        <app-hidden #hidAutoRenewal fieldID="hidAutoRenewal"></app-hidden>
+        <app-hidden #hideIncludeInDBR fieldID="hideIncludeInDBR"></app-hidden>
+        <app-hidden #FD_ID fieldID="FD_ID"></app-hidden>
+      </div>
+    </div>
+  </div>
+</form>

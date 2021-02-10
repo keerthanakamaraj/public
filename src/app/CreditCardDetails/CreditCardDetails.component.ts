@@ -91,7 +91,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   @Input() ApplicationId: string = undefined;
   @Input() readOnly: boolean = false;
   @Input() enableApproveLimit: boolean = false;//set to to only when opened in UW
-
+  @Input() LienAmount;
   header: any;
   isApproveLimitValid: boolean = true;
   custMinAge = 18;
@@ -100,7 +100,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   clearFieldsFlag: boolean = false;
   CreditCardSeq: string = undefined;
   SubCamType: string = undefined;
-
+  CardType : any;
   // isShow: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -378,6 +378,21 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   //     }
 
   // }
+   setApprovedCardLimit(){
+        let MaxCardLimit: any;
+        MaxCardLimit = this.header.Product_max_credit;
+    
+        // this.LienAmount
+        let LienAmt
+        LienAmt = this.services.rloui.getConfig('LIEN_AMT_LIMIT');
+        let NewApprovedCardLimit : any;
+        
+        if (this.ApprovedLimit.getFieldValue() != undefined) {
+            NewApprovedCardLimit = (this.LienAmount(LienAmt * MaxCardLimit));
+        }
+            this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit, null);
+
+    }
   setApproveCashLimit(approvedLimit) {
 
     // Do not calculate value if card limit is not available
@@ -469,7 +484,16 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
        if(!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty())
        {
         this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
-       }    
+       }  
+        // for (let index = 0; index < this.CardType.length; index++) {
+        //                     const element = this.CardType[index];
+        //                     if(element.ExistingCardType.id = 'SP'){
+        //                         this.setApprovedCardLimit();
+        //                     } 
+        //                     else{
+        //                         this.ApprovedLimit.setComponentSpecificValue(tempApprovedCardLimit, null);
+        //                     }
+        //           }  
        // });
 
           this.revalidate(false).then((errors) => {
