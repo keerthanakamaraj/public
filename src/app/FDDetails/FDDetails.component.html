@@ -30,7 +30,9 @@
                 {{ 'FDDetails.FDNumber' | translate}}
               </label>
             </div>
-
+            <!-- <app-combo-box #FDNumber category="4" fieldID="FDNumber" placeholder="Select" [emittedOptions]="FilterOptions"
+           (change)="FDNumber_Change()">
+          </app-combo-box> -->
             <app-combo-box #FDNumber category="4" fieldID="FDNumber" [formCode]="formCode" placeholder="Select"
               [emittedOptions]="FilterOptions" (blur)="genericOnBlur('FDNumber', $event)"></app-combo-box>
           </div>
@@ -66,8 +68,11 @@
             </div>
             <!-- <app-text-box #LienAmount fieldID="LienAmount" [formCode]="formCode"
               (blur)="genericOnBlur('LienAmount', $event)"></app-text-box> -->
-            <app-rlo-ui-currency #LienAmount fieldID="LienAmount" [currencyReadOnly]="true"
+            <!-- <app-rlo-ui-currency #LienAmount fieldID="LienAmount" [currencyReadOnly]="true"
               [componentFieldId]="LienAmount" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
+              [formCode]="formCode"></app-rlo-ui-currency> -->
+              <app-rlo-ui-currency #LienAmount fieldID="LienAmount" [currencyReadOnly]="true"
+              [componentFieldId]="'LienAmount'" (onBlurEvent)="customGenericOnBlur($event)" [inputReadOnly]="readOnly"
               [formCode]="formCode"></app-rlo-ui-currency>
           </div>
           <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="MaturityAmount.isHidden()">

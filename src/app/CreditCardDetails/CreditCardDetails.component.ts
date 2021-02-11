@@ -390,16 +390,22 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
     if (this.ApprovedLimit.getFieldValue() != undefined) {
       NewApprovedCardLimit = ((LienAmount/LienAmt)*100);
-      if (NewApprovedCardLimit < +MaxCardLimit) {
+      if (NewApprovedCardLimit < MaxCardLimit) {
         // return MaxCardLimit;
-        this.ApprovedLimit.setComponentSpecificValue(MaxCardLimit, null);
+        this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit, null);
       }
       else {
-        this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit, null);
+        this.ApprovedLimit.setComponentSpecificValue(MaxCardLimit, null);
         // return NewApprovedCardLimit;
       }
     }
   }
+  // ApprovedLimit_blur(){
+  //   if(this.ApprovedLimit.getFieldValue() > this.services.rloCommonData.LienAmt){
+  //     this.services.alert.showAlert(2, 'rlo.error.approvedlimit.lien.product', 5000);
+  //     return;
+  //   }
+  // }
   setApproveCashLimit(approvedLimit) {
 
     // Do not calculate value if card limit is not available

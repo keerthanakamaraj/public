@@ -1941,9 +1941,16 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   AssetDetails_SetTag(event) {
-    // console.log('update Asset Tags --- ', event);
+    console.log('update Asset Tags --- ', event);
     this.services.rloCommonData.getAssetTags(event).then(data => {
-      this.setTags(data);
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        if(data[index] != data.length ){
+        if(element.label != undefined){
+          this.setTags(data);
+        } 
+      }  
+      } 
     });
   }
 

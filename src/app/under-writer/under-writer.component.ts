@@ -694,7 +694,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           case "FinancialSummary":
             // lienAmount
             data = singleCustomer[element.className].getCardData();
-            if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
+            if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC' && singleCustomer.CustomerType == "B") {
               if (lienAmount > 0) {
                 console.log(data, lienAmount);
                 data.data[6].subTitle = this.services.formatAmount(lienAmount, null, null, false)

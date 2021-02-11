@@ -54,7 +54,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
     // activeBorrowerSeq : any;
     tempAccountlist: any;
     FilterOptions = [];
-    selectData : any;
+    selectData: any;
     async revalidate(): Promise<number> {
         var totalErrors = 0;
         super.beforeRevalidate();
@@ -62,7 +62,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             this.revalidateBasicField('FDNumber'),
             // this.revalidateBasicField('FDAmount'),
             // this.revalidateBasicField('FDAmountLCE'),
-            // this.revalidateBasicField('LienAmount'),
+            this.revalidateBasicField('LienAmount'),
             this.revalidateBasicField('IncludeInDBR'),
             // this.revalidateBasicField('DateofMaturity'),
             // this.revalidateBasicField('MaturityAmount'),
@@ -96,7 +96,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
         setTimeout(() => {
             this.callAccountDetails();
         }, 500);
-        
+
         await this.FD_GRID.gridDataLoad({
             'passBorrowerToFD': this.activeBorrowerSeq,
         });
@@ -201,10 +201,10 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                 var res = httpResponse.body;
                 console.log("account details", res);
                 this.tempAccountlist = res.AccountList;
-                if(res != null){
+                if (res != null) {
                     this.setFilterbyOptions();
                 }
-                
+
             });
     }
     setFilterbyOptions() {
@@ -220,33 +220,41 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             this.FilterOptions.push({ id: undefined, text: "" });
             this.tempAccountlist.forEach(element => {
                 this.FilterOptions.push({ id: element.FDNumber, text: element.FDNumber });
-            
+
             });
         }
         this.FDNumber.setStaticListOptions(this.FilterOptions);
-        console.log(" fd options list", this.FilterOptions);     
+        console.log(" fd options list", this.FilterOptions);
     }
-    async FDNumber_blur(){
+    async FDNumber_blur() {
         this.selectData = this.FDNumber.getFieldValue();
-        if(this.FDNumber.getFieldValue != null){
+        if (this.FDNumber.getFieldValue() != null) {
             this.onSelectFDNumber();
         }
+        else if (this.FDNumber.value == null) {
+            this.FDAmount.resetFieldAndDropDown();
+            this.FDAmountLCE.resetFieldAndDropDown();
+            this.MaturityAmount.resetFieldAndDropDown();
+            this.DateofMaturity.onReset();
+            this.AutoRenewal.onReset()
+        }
     }
-    onSelectFDNumber(){
-                for (let index = 0; index < this.tempAccountlist.length; index++) {
-                    const element = this.tempAccountlist[index];
-                    for (let index = 0; index < this.FDNumber.emittedOptions.length; index++) {
-                        const fdno = this.FDNumber.emittedOptions[index];
-                        if(element.FDNumber == fdno.text){
-                            this.FDAmount.setComponentSpecificValue(element.FDAmount);
-                            this.FDAmountLCE.setComponentSpecificValue(element.FDAmountLocalCurrency);
-                            this.MaturityAmount.setComponentSpecificValue(element.MaturityAmount);
-                            this.DateofMaturity.setValue(element.DateofMaturity);
-                            this.AutoRenewal.setValue(element.AutoRenewal)
-                        }
-                    }
-                   
+    onSelectFDNumber() {
+        for (let index = 0; index < this.tempAccountlist.length; index++) {
+            const element = this.tempAccountlist[index];
+            for (let index = 0; index < this.FDNumber.emittedOptions.length; index++) {
+                const fdno = this.FDNumber.emittedOptions[index];
+                if (element.FDNumber == fdno.text) {
+                    this.FDAmount.setComponentSpecificValue(element.FDAmount);
+                    this.FDAmountLCE.setComponentSpecificValue(element.FDAmountLocalCurrency);
+                    this.MaturityAmount.setComponentSpecificValue(element.MaturityAmount);
+                    this.DateofMaturity.setValue(element.DateofMaturity);
+                    this.AutoRenewal.setValue(element.AutoRenewal)
                 }
+
+            }
+
+        }
     }
     async clear_click(event) {
         let inputMap = new Map();
@@ -263,22 +271,22 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             if (this.FDNumber.getFieldValue() !== undefined) {
                 if (assetGridData) {
                     for (let i = 0; i < assetGridData.length; i++) {
-                        if (assetGridData[i].FDNumber === this.FDNumber.getFieldValue() && assetGridData[i].LienAmount === this.LienAmount.getFieldValue() ) {
+                        if (assetGridData[i].FDNumber === this.FDNumber.getFieldValue() && assetGridData[i].LienAmount === this.LienAmount.getFieldValue()) {
                             this.services.alert.showAlert(2, 'rlo.error.exits.fd', -1);
                             return;
                         }
                     }
                 }
-                if(this.FDAmount.getFieldValue() != undefined && this.LienAmount.getFieldValue() != undefined && this.FDAmount.getFieldValue() != null && this.LienAmount.getFieldValue() != null){
+                if (this.FDAmount.getFieldValue() != undefined && this.LienAmount.getFieldValue() != undefined && this.FDAmount.getFieldValue() != null && this.LienAmount.getFieldValue() != null) {
                     console.log("lien amt", Number(this.LienAmount.getFieldValue()))
-                    if(Number(this.LienAmount.getFieldValue()) > Number(this.FDAmount.getFieldValue())){
+                    if (Number(this.LienAmount.getFieldValue()) > Number(this.FDAmount.getFieldValue())) {
                         this.services.alert.showAlert(2, 'rlo.error.greter.fd', -1);
                         return;
                     }
                 }
-                if(this.LienAmount.getFieldValue() == undefined || this.LienAmount.getFieldValue() == null ){
-                        this.services.alert.showAlert(2, 'rlo.error.fill', -1);
-                        return;
+                if (this.LienAmount.getFieldValue() == undefined || this.LienAmount.getFieldValue() == null) {
+                    this.services.alert.showAlert(2, 'rlo.error.fill', -1);
+                    return;
                 }
             }
             if (this.FD_ID.getFieldValue() != undefined) {
@@ -371,16 +379,16 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                         // this.AT_SAVE.setDisabled(false);
                         this.revalidate().then((errors) => {
                             if (!errors) {
-                              let array = [];
-                              array.push({ isValid: true, sectionData: this.getFieldValue() });
-                              let obj = {
-                                "name": "FDDetails",
-                                "data": array,
-                                "sectionName": "FDDetails"
-                              }
-                              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                                let array = [];
+                                array.push({ isValid: true, sectionData: this.getFieldValue() });
+                                let obj = {
+                                    "name": "FDDetails",
+                                    "data": array,
+                                    "sectionName": "FDDetails"
+                                }
+                                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                             }
-                          });
+                        });
                     }
                 );
             }
@@ -396,7 +404,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
         inputMap.set('PathParam.AssetSeq', event.AssetKey);
         this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'GET', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
-                var res = httpResponse.body; 
+                var res = httpResponse.body;
                 this.IncludeInDBR.setValue(res['AssetDetails']['IncludeInDBR']['id']);
                 this.FD_ID.setValue(res['AssetDetails']['AssetSeq']);
                 this.FDNumber.setValue(res['AssetDetails']['FDNumber']);
@@ -413,16 +421,16 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                 this.FDAmount.selectedCode(res['AssetDetails']['Currency'], false);
                 this.revalidate().then((errors) => {
                     if (!errors) {
-                      let array = [];
-                      array.push({ isValid: true, sectionData: this.getFieldValue() });
-                      let obj = {
-                        "name": "FDDetails",
-                        "data": array,
-                        "sectionName": "FDDetails"
-                      }
-                      this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                        let array = [];
+                        array.push({ isValid: true, sectionData: this.getFieldValue() });
+                        let obj = {
+                            "name": "FDDetails",
+                            "data": array,
+                            "sectionName": "FDDetails"
+                        }
+                        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                     }
-                  });
+                });
             },
             async (httpError) => {
                 var err = httpError['error']
@@ -455,8 +463,9 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             ]
         }
     }
- //custom 
- customGenericOnBlur(event: any) {
-    console.log("Deep | customGenericOnBlur", event);
-}
+    //custom 
+    customGenericOnBlur(event: any) {
+        console.log("Deep | customGenericOnBlur", event);
+        this.genericOnBlur(event.field, event.textFieldValue);
+    }
 }
