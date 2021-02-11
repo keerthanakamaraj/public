@@ -73,6 +73,7 @@ export interface IGlobalApllicationDtls {
   CIF?: any;
   isAddedNewMember?: boolean;
   ActiveStage?: string;
+
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -114,7 +115,8 @@ export class RloCommonData {
   allCustomersList = [];//store list of added customers when borrowerdetails api is called
   customerListForAddress = new Map();//need to change this
   initialBorrowerDetailsCallDone: boolean = false;
-
+ 
+  LienAmt: number = 0; // FD details lien amt for credit card calculation
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
     console.log(this.masterDataMap);

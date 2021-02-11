@@ -334,7 +334,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                 inputMap.clear();
                 inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.IncludeInDBR.getFieldValue());
-                inputMap.set('Body.AssetDetails.FDNumber', this.FDNumber.additionalInfo);
+                inputMap.set('Body.AssetDetails.FDNumber', this.FDNumber.getFieldValue());
                 inputMap.set('Body.AssetDetails.DateOfMaturity', this.DateofMaturity.getFieldValue());
                 //custom
                 inputMap.set('Body.AssetDetails.AssetValue', this.FDAmount.getTextBoxValue());

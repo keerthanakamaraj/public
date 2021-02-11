@@ -206,7 +206,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 var res = httpResponse.body;
                 this.loopDataVar4 = [];
                 var loopVar4 = [];
-                if (res.FDNumber !== null) {
+                if (res != null) {
                     this.fdRecord = true
                     loopVar4 = res['AssetDetails'];
                 }
@@ -218,7 +218,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
                     var totalValue = { 'FDNumber': 'Total Lien Amount', 'LienAmount': Number('0') };
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        if (loopVar4[i].FDNumber == null) {
+                        if (loopVar4[i].FDNumber !== null && loopVar4[i].FDNumber !== undefined && loopVar4[i].FDNumber !== '') {
                             tempObj['FDNumber'] = loopVar4[i].FDNumber;
                             tempObj['LienAmount'] = loopVar4[i].LienAmt;
                             tempObj['DateofMaturity'] = loopVar4[i].DateOfMaturity;
@@ -229,10 +229,10 @@ export class FDDetailsGridComponent implements AfterViewInit {
                             totalValue['FDNumber'] = 'Total';
                             totalValue['FD_ID'] = totalValue['FD_ID'] + loopVar4[i].AssetSeq;
                             totalValue['LienAmount'] += Number(loopVar4[i].LienAmt);
-
                         }
                     }
                     this.loopDataVar4.push(totalValue);
+                    this.services.rloCommonData.LienAmt = totalValue.LienAmount;
                     console.log("new object", totalValue);
                 }
 

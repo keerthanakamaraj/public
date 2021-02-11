@@ -418,7 +418,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
     this.instanceId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'instanceId');
     this.userId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'userId');
 
-    // this.applicationId = 8656; //6633
+    // this.applicationId = 8776; //6633
 
     if (this.userId === undefined || this.userId == '') {
       this.claimTask(this.taskId);
@@ -598,13 +598,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
       console.error(singleCustomer);
       console.warn(this.allSectionsCardData[0]);
       //LienAmt validation
-      if (singleCustomer.hasOwnProperty('UWAsset')) {
-        if (singleCustomer.UWAsset.length) {
-          singleCustomer.UWAsset.forEach(element => {
-            if (element.hasOwnProperty('LienAmt')) {
-              lienAmount += Number(element.LienAmt);
-            }
-          });
+      if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
+        if (singleCustomer.hasOwnProperty('UWAsset')) {
+          if (singleCustomer.UWAsset.length) {
+            singleCustomer.UWAsset.forEach(element => {
+              if (element.hasOwnProperty('LienAMT')) {
+                lienAmount += Number(element.LienAMT);
+              }
+            });
+          }
         }
       }
       if (this.customerMasterJsonData.productCategory == 'CC' && this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
@@ -691,10 +693,15 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
           case "FinancialSummary":
             // lienAmount
-            if (lienAmount > 0) {
-              data = singleCustomer[element.className].getCardData();
-              console.log(data, lienAmount);
-              data.data[6].subTitle = this.services.formatAmount(lienAmount, null, null, false)
+            data = singleCustomer[element.className].getCardData();
+            if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
+              if (lienAmount > 0) {
+                console.log(data, lienAmount);
+                data.data[6].subTitle = this.services.formatAmount(lienAmount, null, null, false)
+              }
+            }
+            else{
+              data.data.pop();
             }
 
             data.applicationId = this.applicationId;

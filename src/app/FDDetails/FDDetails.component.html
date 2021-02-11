@@ -88,8 +88,10 @@
                 {{ 'FDDetails.DateofMaturity' | translate}}
               </label>
             </div>
-            <app-date #DateofMaturity fieldID="DateofMaturity" [formCode]="formCode"
-              (blur)="genericOnBlur('DateofMaturity', $event)"></app-date>
+            <app-text-box #DateofMaturity fieldID="DateofMaturity" [formCode]="formCode"
+              (blur)="genericOnBlur('DateofMaturity', $event)"></app-text-box>
+            <!-- <app-date #DateofMaturity fieldID="DateofMaturity" [formCode]="formCode"
+              (blur)="genericOnBlur('DateofMaturity', $event)"></app-date> -->
           </div>
 
           <!-- <div class="col-12  col-sm-3 col-md-3 res-pr-hide" [hidden]="FDAmountLCE.isHidden()">

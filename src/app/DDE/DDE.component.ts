@@ -564,7 +564,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   ngOnDestroy() {
     this.services.rloCommonData.initialBorrowerDetailsCallDone = false;
     this.services.rloCommonData.customerListForAddress.clear();
-
+    this.services.rloCommonData.LienAmt = 0; // resetting lien amt captured at Fd details
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     var styleElement = document.getElementById('DDE_customCss');

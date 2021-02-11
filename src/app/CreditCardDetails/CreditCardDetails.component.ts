@@ -91,7 +91,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   @Input() ApplicationId: string = undefined;
   @Input() readOnly: boolean = false;
   @Input() enableApproveLimit: boolean = false;//set to to only when opened in UW
-  @Input() LienAmount;
+  // @Input() LienAmount;
   header: any;
   isApproveLimitValid: boolean = true;
   custMinAge = 18;
@@ -100,7 +100,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   clearFieldsFlag: boolean = false;
   CreditCardSeq: string = undefined;
   SubCamType: string = undefined;
-  CardType : any;
+  CardType: any;
   // isShow: boolean = this.services.rloCommonData.globalApplicationDtls.isCamType;
   async revalidate(showErrors: boolean = true): Promise<number> {
     var totalErrors = 0;
@@ -378,25 +378,32 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   //     }
 
   // }
-   setApprovedCardLimit(){
-        let MaxCardLimit: any;
-        MaxCardLimit = this.header.Product_max_credit;
-    
-        // this.LienAmount
-        let LienAmt
-        LienAmt = this.services.rloui.getConfig('LIEN_AMT_LIMIT');
-        let NewApprovedCardLimit : any;
-        
-        if (this.ApprovedLimit.getFieldValue() != undefined) {
-            NewApprovedCardLimit = (this.LienAmount(LienAmt * MaxCardLimit));
-        }
-            this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit, null);
+  setApprovedCardLimit() {
+    let MaxCardLimit: any;
+    MaxCardLimit = Number(this.header.Product_max_credit);
 
+    let LienAmount : any;
+    LienAmount = this.services.rloCommonData.LienAmt;
+    let LienAmt
+    LienAmt = Number(this.services.rloui.getConfig('LIEN_AMT_LIMIT'));
+    let NewApprovedCardLimit: any;
+
+    if (this.ApprovedLimit.getFieldValue() != undefined) {
+      NewApprovedCardLimit = ((LienAmount/LienAmt)*100);
+      if (NewApprovedCardLimit < +MaxCardLimit) {
+        // return MaxCardLimit;
+        this.ApprovedLimit.setComponentSpecificValue(MaxCardLimit, null);
+      }
+      else {
+        this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit, null);
+        // return NewApprovedCardLimit;
+      }
     }
+  }
   setApproveCashLimit(approvedLimit) {
 
     // Do not calculate value if card limit is not available
-    if(!approvedLimit || approvedLimit.trim() == '') {
+    if (!approvedLimit || approvedLimit.trim() == '') {
       return;
     }
 
@@ -406,7 +413,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       return;
     }
 
-    let MaxApprovedCashLimit: number=0;
+    let MaxApprovedCashLimit: number = 0;
     let MaxCashLimit: any = this.header.Product_max_cash_limit;
     let MaxCardLimit: any = this.header.Product_max_credit;
     let MinCardLimit: any = this.header.Product_min_cash_limit;
@@ -415,8 +422,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       MaxApprovedCashLimit = ((approvedLimit * MaxCashLimit) / MaxCardLimit);
 
       if (MaxApprovedCashLimit < +MinCardLimit) {
-      return MinCardLimit;
-      } else if (MaxApprovedCashLimit > +MaxCashLimit) { 
+        return MinCardLimit;
+      } else if (MaxApprovedCashLimit > +MaxCashLimit) {
         return MaxCashLimit;
       } else {
         return MaxApprovedCashLimit;
@@ -448,68 +455,67 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         var res = httpResponse.body;
         if (res != null && res != undefined && res['CreditCardDetails'] != undefined) {
           var CreditArray = res['CreditCardDetails'];
-         // CreditArray.forEach(CreditElement => {
-            // this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']['id']);
-            // this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']['id']);
-            let CreditElement = CreditArray[0];
-            this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
-            this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
-            this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
-            // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
-            this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
-            //     this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
-            this.CreditCardSeq = CreditElement['CreditCardDetailSeq'];
-            this.CustomerType.setValue(CreditElement['CustomerType']['text']);
-            //this.MaxCashLimit.setValue(CreditElement['MaxCashLimit']);
-            // this.ApprovedCashLimit.setValue(CreditElement['ApprovedCashLimit']);
-            this.NomineeRequired.setValue(CreditElement['NomineeRequired']['id']);
-            this.NomineeName.setValue(CreditElement['NomineeDetails']['NomineeName']);
-            this.NomineeRelationship.setValue(CreditElement['NomineeDetails']['NomineeRelationship']['id']);
-            this.NomineeDOB.setValue(CreditElement['NomineeDetails']['NomineeDOB']);
-            this.GuardianName.setValue(CreditElement['NomineeDetails']['GuardianName']);
-            this.GuadianRelationship.setValue(CreditElement['NomineeDetails']['GuadianRelationship']['id']);
-            this.hidNomineeSeq.setValue(CreditElement['NomineeDetails']['NomineeSeq']);
+          // CreditArray.forEach(CreditElement => {
+          // this.FrontPageCategory.setValue(CreditElement['FrontPageCategory']['id']);
+          // this.SettlementAccountType.setValue(CreditElement['SettlementAccountType']['id']);
+          let CreditElement = CreditArray[0];
+          this.SettlementAccountNo.setValue(CreditElement['SettlementAccountNo']);
+          this.PaymentOption.setValue(CreditElement['PaymentOption']['id']);
+          this.StmtDispatchMode.setValue(CreditElement['StmtDispatchMode']['id']);
+          // this.ExistingCreditCard.setValue(CreditElement['ExistingCreditCard']['id']);
+          this.CardDispatchMode.setValue(CreditElement['CardDispatchMode']);
+          //     this.hidCreditSeq.setValue(CreditElement['CreditCardDetailSeq'])
+          this.CreditCardSeq = CreditElement['CreditCardDetailSeq'];
+          this.CustomerType.setValue(CreditElement['CustomerType']['text']);
+          //this.MaxCashLimit.setValue(CreditElement['MaxCashLimit']);
+          // this.ApprovedCashLimit.setValue(CreditElement['ApprovedCashLimit']);
+          this.NomineeRequired.setValue(CreditElement['NomineeRequired']['id']);
+          this.NomineeName.setValue(CreditElement['NomineeDetails']['NomineeName']);
+          this.NomineeRelationship.setValue(CreditElement['NomineeDetails']['NomineeRelationship']['id']);
+          this.NomineeDOB.setValue(CreditElement['NomineeDetails']['NomineeDOB']);
+          this.GuardianName.setValue(CreditElement['NomineeDetails']['GuardianName']);
+          this.GuadianRelationship.setValue(CreditElement['NomineeDetails']['GuadianRelationship']['id']);
+          this.hidNomineeSeq.setValue(CreditElement['NomineeDetails']['NomineeSeq']);
 
-            //custom
-            this.RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);//for LE
-            // this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);  // commented as Approved card Limit is not comimg from AddOn- Initiated  json for now
-           // let tempApprovedCardLimit = (undefined != CreditElement['ApprovedLimit'] && '' != CreditElement['ApprovedLimit']) ? CreditElement['ApprovedLimit'] : CreditElement['CurrentCardLimit'];
-            this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
-            this.MaxCashLimit.setComponentSpecificValue(CreditElement['MaxCashLimit'], null);
-            this.ApprovedCashLimit.setComponentSpecificValue(CreditElement['ApprovedCashLimit'], null);
-            this.AvailableLimit.setComponentSpecificValue(CreditElement['AvailableLimit'], null);
-            //  this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
-            this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
-            this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
-       if(!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty())
-       {
-        this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
-       }  
-        // for (let index = 0; index < this.CardType.length; index++) {
-        //                     const element = this.CardType[index];
-        //                     if(element.ExistingCardType.id = 'SP'){
-        //                         this.setApprovedCardLimit();
-        //                     } 
-        //                     else{
-        //                         this.ApprovedLimit.setComponentSpecificValue(tempApprovedCardLimit, null);
-        //                     }
-        //           }  
-       // });
+          //custom
+          this.RequestedCardLimit.setComponentSpecificValue(CreditElement['RequestedCardLimit'], null);//for LE
+          // this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);  // commented as Approved card Limit is not comimg from AddOn- Initiated  json for now
+          // let tempApprovedCardLimit = (undefined != CreditElement['ApprovedLimit'] && '' != CreditElement['ApprovedLimit']) ? CreditElement['ApprovedLimit'] : CreditElement['CurrentCardLimit'];
+          this.ApprovedLimit.setComponentSpecificValue(CreditElement['ApprovedLimit'], null);
+          this.MaxCashLimit.setComponentSpecificValue(CreditElement['MaxCashLimit'], null);
+          this.ApprovedCashLimit.setComponentSpecificValue(CreditElement['ApprovedCashLimit'], null);
+          this.AvailableLimit.setComponentSpecificValue(CreditElement['AvailableLimit'], null);
+          //  this.CurrentCorporateCardLimit.setComponentSpecificValue(CreditElement['CurrentCorporateCardLimit'], null);
+          this.CurrentCardLimit.setComponentSpecificValue(CreditElement['CurrentCardLimit'], null);
+          this.MaskedCardNumber.setValue(CreditElement['MaskedCardNumber']);
+          if (!this.ApprovedLimit.isAmountEmpty() && this.ApprovedCashLimit.isAmountEmpty()) {
+            this.ApprovedCashLimit.setComponentSpecificValue(this.setApproveCashLimit(this.ApprovedLimit.getFieldValue()), null);
+          }
+
+
+          if (this.services.rloCommonData.globalApplicationDtls.CardType = 'SC') {
+            this.setApprovedCardLimit();
+          }
+          else {
+            this.ApprovedLimit.setComponentSpecificValue(this.ApprovedLimit, null);
+          }
+
+
 
           this.revalidate(false).then((errors) => {
-          //  let noOfError: number = await this.revalidate(false);
-            if (errors == 0) { 
-            let array = [];
-            array.push({ isValid: true, sectionData: this.getFieldValue() });
-            let obj = {
-              "name": "CreditCardDetails",
-              "data": array,
-              "sectionName": "CreditCardDetails"
+            //  let noOfError: number = await this.revalidate(false);
+            if (errors == 0) {
+              let array = [];
+              array.push({ isValid: true, sectionData: this.getFieldValue() });
+              let obj = {
+                "name": "CreditCardDetails",
+                "data": array,
+                "sectionName": "CreditCardDetails"
+              }
+              this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             }
-            this.services.rloCommonData.globalComponentLvlDataHandler(obj);
-          }
-         });
-          
+          });
+
         }
       },
       async (httpError) => {
@@ -647,7 +653,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           this.services.alert.showAlert(2, 'rlo.error.credit-card-grid.empty-column', -1);
           this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = false;
           return;
-        }else{
+        } else {
           this.services.rloCommonData.globalApplicationDtls.isAddedNewMember = true
         }
         if ((undefined == this.SubCamType || '' == this.SubCamType) && 'MEMC' == this.services.rloCommonData.globalApplicationDtls.CamType && !this.CreditCardInputGrid.popupFlag) {
@@ -668,12 +674,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
 
   doSaveCreditCardAPICall() {
     if (this.CreditCardInputGrid.CustomerDtlsMap.size != 0) {
-      if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'){
-      if (parseFloat(this.CreditCardInputGrid.TotalProposedCardLimit.getFieldValue()) > parseFloat(this.ApprovedLimit.getFieldValue())) {
-        this.services.alert.showAlert(2, 'rlo.error.totCardLimit', -1);
-        return;
+      if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C') {
+        if (parseFloat(this.CreditCardInputGrid.TotalProposedCardLimit.getFieldValue()) > parseFloat(this.ApprovedLimit.getFieldValue())) {
+          this.services.alert.showAlert(2, 'rlo.error.totCardLimit', -1);
+          return;
+        }
       }
-    }
       this.doUpdateMemberAPICall();
 
     }
@@ -826,7 +832,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
   }
   generateMemberUpdateRequest() {
     let MemberList = [];
-    
+
     this.CreditCardInputGrid.CustomerDtlsMap.forEach(element => {
       let tempMemberObject = {};
       tempMemberObject['BorrowerSeq'] = element.BorrowerSeq;
@@ -834,8 +840,8 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
       tempMemberObject['ApprovedCardLimit'] = element.ProposedCardLimit
       tempMemberObject['ApprovedCashLimit'] = element.ProposedCashLimit
       // tempMemberObject['ProposedCashLimit'] = element.ProposedCashLimit
-    
-      
+
+
       MemberList.push(tempMemberObject);
     });
     return MemberList;

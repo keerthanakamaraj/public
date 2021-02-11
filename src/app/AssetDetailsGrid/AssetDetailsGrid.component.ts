@@ -277,7 +277,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        if(loopVar4[i].FDNumber != null){
+                        if(loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == ''){
                         tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype.text;
                         tempObj['Asset_Subtype_ID'] = loopVar4[i].AssetSubtype.id;
                         tempObj['AT_Asset_Type'] = loopVar4[i].AssetType.text;

@@ -479,7 +479,7 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
       inputMap.set('Body.ApplicationDetails.DSACode', this.tempVar.DSACode);
       inputMap.set('Body.ApplicationDetails.ApplicationInfo.CreatedOn', this.tempVar.CreatedOn);
       inputMap.set('Body.LoanDetails.Product', this.tempVar.Product);
-      inputMap.set('Body.LoanDetails.ProductCategory', this.tempVar.ProductCategory);
+      inputMap.set('Body.LoanDetails.ProductCategory','CC');
       inputMap.set('Body.LoanDetails.SubProduct', this.tempVar.SubProduct);
       inputMap.set('Body.LoanDetails.Scheme', this.tempVar.Scheme);
       inputMap.set('Body.LoanDetails.TypeOfLoan', this.tempVar.TypeOfLoan);

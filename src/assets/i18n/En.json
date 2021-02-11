@@ -236,6 +236,11 @@
     "rlo.delete.comfirmation": "Are you sure you want to delete",
     "rlo.error.approve.amount.empty" : "For Memebr Card Approve Card Limit Cannot be Blank",
     "rlo.error.credit-card-grid.greater-value" : "Value should be less than Primary Card limit",
+    "rlo.success.update.fd": "FD Details Updated Successfully",
+    "rlo.error.update.fd": "Failed to update FD Details",
+    "rlo.success.save.fd": "The FD Details have been saved successfully.",
+    "rlo.error.save.fd": "The FD Details could not be saved. Please try again.",
+    "rlo.error.greter.fd": " Lien Amount should be less than FD Amount",
 
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",
