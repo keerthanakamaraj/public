@@ -2673,5 +2673,29 @@
   "PopupAlertComponent": {
     "RealignmentSection": "Realignment Section",
     "LimitEnhacement": "Limit Enhacement"
-  }
+  },
+  "FDDetails" : {
+    "FormTitle" : "FDDetails",
+    "FDNumber" : "FD Number",
+    "FDAmount" : "FD Amount",
+    "DateofMaturity" : "Date of Maturity",
+    "FDAmountLCE" : "FD Amount(Local Currency Equivalent)",
+    "AutoRenewal" : "Auto Renewal",
+    "MaturityAmount" : "Maturity Amount",
+    "IncludeInDBR" : "Include in DBR",
+    "LienAmount" : "Lien Amount"
+    },
+    "FDDetailsGrid" : {
+      "FDNumber" : "FD Number",
+      "toolbar_FDDetailsGrid" : "null",
+      "EDIT_ButtonName" : "EDIT",
+      "DELETE" : "DELETE",
+      "DateofMaturity" : "Date of Maturity ",
+      "GridTitle" : "FDDetailsGrid",
+      "DELETE_ButtonName" : "DELETE",
+      "EDIT" : "EDIT",
+      "LienAmount" : "Lien Amount",
+      "FieldId_5" : "Edit",
+      "FDAmount" : "FD Amount"
+      }
 }

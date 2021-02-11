@@ -206,7 +206,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 var res = httpResponse.body;
                 this.loopDataVar4 = [];
                 var loopVar4 = [];
-                if (res !== null) {
+                if (res.FDNumber !== null) {
                     this.fdRecord = true
                     loopVar4 = res['AssetDetails'];
                 }
@@ -218,7 +218,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
                     var totalValue = { 'FDNumber': 'Total Lien Amount', 'LienAmount': Number('0') };
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        if (loopVar4[i].FDNumber != undefined) {
+                        if (loopVar4[i].FDNumber == null) {
                             tempObj['FDNumber'] = loopVar4[i].FDNumber;
                             tempObj['LienAmount'] = loopVar4[i].LienAmt;
                             tempObj['DateofMaturity'] = loopVar4[i].DateOfMaturity;
@@ -269,21 +269,25 @@ export class FDDetailsGridComponent implements AfterViewInit {
         let inputMap = new Map();
         inputMap.clear();
         inputMap.set('PathParam.AssetSeq', event.FD_ID);
-        if (confirm("Are you sure you want to delete?")) {
-            this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
-                async (httpResponse: HttpResponse<any>) => {
-                    var res = httpResponse.body;
-                    this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
-                    this.readonlyGrid.refreshGrid();
-                },
-                async (httpError) => {
-                    var err = httpError['error']
-                    if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+        // if (confirm("Are you sure you want to delete?")) {
+        await this.services.rloCommonData.deleteConfirmationAlert('rlo.delete.comfirmation').then((response: any) => {
+            if (response.id == 1) {
+                this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
+                    async (httpResponse: HttpResponse<any>) => {
+                        var res = httpResponse.body;
+                        this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
+                        this.readonlyGrid.refreshGrid();
+                    },
+                    async (httpError) => {
+                        var err = httpError['error']
+                        if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
+                        }
+                        this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
                     }
-                    this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
-                }
-            );
-        }
+                );
+            }
+        });
+        // }
     }
 
     getAssetDetails() {

@@ -562,8 +562,15 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     });
   }
+  onCustomerTypeSelected(){
+    if(this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' || this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() != 'I'){
+      this.services.alert.showAlert(2, '', -1, 'Secured Cards product will be available only to those applicants whose Customer Type is Individual');
+    }
+  }
+
   BAD_CARD_TYPE_change() {
     this.Handler.CardNumberEnable();
+      this.onCustomerTypeSelected(); 
   }
 
 
@@ -1182,8 +1189,8 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         this.services.alert.showAlert(2, 'rlo.error.loanownership.invalid', -1);
         return;
       }
-      if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
-        this.services.alert.showAlert(2, '', -1, 'Cusstomer Type not match with Card Type');
+      if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
+        this.services.alert.showAlert(2, '', -1, 'Customer Type not match with Card Type');
         return;
       }
       inputMap.clear();
