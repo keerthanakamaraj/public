@@ -73,6 +73,7 @@ export interface IGlobalApllicationDtls {
   CIF?: any;
   isAddedNewMember?: boolean;
   ActiveStage?: string;
+  ApprovedCardLimit?:any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
