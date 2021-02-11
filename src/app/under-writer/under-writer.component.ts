@@ -359,7 +359,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
   //@Output
   broadcastProdCategory(event) {
-    console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+   
     let globlaObj = this.services.rloCommonData.globalApplicationDtls;
 
     this.isLoanCategory = event.isLoanCategory;

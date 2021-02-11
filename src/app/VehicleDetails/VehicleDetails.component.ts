@@ -238,7 +238,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
               //   "data": array,
               //   "sectionName": "EducationDetails"
               // }
-              // console.log("shweta ::: in application section", array);
+             
               // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             }
           }
@@ -366,7 +366,7 @@ export class VehicleDetailsComponent extends FormComponent implements OnInit, Af
     // this.FundsAvailableGrid.loadRecords();
   }
   async Currency_blur(event) {
-    console.log("shweta : hidden exchange rate : ", this.hidExchangeRate.getFieldValue());
+   
     this.VehicaleCostDetails.hidExchangeRate = this.hidExchangeRate.getFieldValue();
     this.VehicaleCostDetails.Amount.toArray().forEach((element, index) => {
       let tempObj = { "columnId": "Amount", "rowNo": index, "value": element.value };

@@ -315,7 +315,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
 
 
     async Visit_Report_Grid_modifyVisitReport(event) {
-        console.log("shweta :: visit report dtls for edit", event.VisitReportId);
+       
         let inputMap = new Map();
         this.showSpinner();
         inputMap.clear();
@@ -412,7 +412,7 @@ export class VisitReportFormComponent extends FormComponent implements OnInit, A
         if (OldRecords != undefined) {
             for (let eachRecord of OldRecords) {
                 if (eachRecord.Id != this.HidVisitReportSeqId.getFieldValue() && eachRecord.PlaceofVisit.id == this.VRF_PlaceOfVisit.getFieldValue() && eachRecord.NameOfPerson.replace(/\s/g, "").toUpperCase() == this.VRF_NameofPersonMet.getFieldValue().replace(/\s/g, "").toUpperCase() && eachRecord.DateOfVisit == this.VRF_DateOfVisit.getFieldValue()) {
-                    // console.log("shweta : old rec ", eachRecord.NameOfPerson, "new record", this.VRF_NameofPersonMet.getFieldValue());
+                 
                     duplicateFound = true;
                     break;
                 }

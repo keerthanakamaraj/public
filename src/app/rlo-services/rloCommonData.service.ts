@@ -250,7 +250,7 @@ export class RloCommonData {
 
         case 'GoNoGoDetails':
           mapValue = componentData.data;
-          console.log(" shweta :: in service switch gng case", mapValue);
+         
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'Notes':
@@ -259,12 +259,12 @@ export class RloCommonData {
           break;
         case 'LoanDetails':
           mapValue = componentData.data;
-          console.log(" shweta :: in service switch Loan dtls case", mapValue);
+         
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'CreditCardDetails':
           mapValue = componentData.data;
-          console.log(" shweta :: in service switch ccd case", mapValue);
+         
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'ReferrerDetails':
@@ -328,9 +328,7 @@ export class RloCommonData {
         functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
       }
     }
-    console.log("shweta :: in update services temp map", tempStoreMap);
-    console.log("shweta :: masterDataMap", this.masterDataMap);
-
+   
     return functionalResponseObj;
   }
 
@@ -374,7 +372,7 @@ export class RloCommonData {
   async UpdateOccupationTags(event) {
     const tags = [];
     const maxAddress = 2;
-    console.log("shweta :: occ tags ", event.data);
+    
     event.data.forEach(occupation => {
       if (this.globalApplicationDtls.CustomerType == 'C') {
         tags.push({ text: occupation.EmployeeID + ', ' + occupation.Designation });
@@ -599,7 +597,7 @@ export class RloCommonData {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails')) {
         const occupationList = customerSectionData.get('OccupationDetails');
-        console.log("shweta :: occ list", occupationList);
+       
         for (const eachOccupation of occupationList) {
 
           if (eachOccupation.NetIncome != undefined && parseFloat(eachOccupation.NetIncome) > 0) {
@@ -632,7 +630,7 @@ export class RloCommonData {
     const LoanOwnership = customerData.LoanOwnership;
     const applicantType = customerData.CustomerType;
 
-    console.log("shweta :: check stage in services", this.globalApplicationDtls.ActiveStage);
+    
     // if (!sectionData.has('AddressDetails')) { //added for canara
     //     commonObj.isSectionValid = false;
     // } else {
@@ -807,7 +805,7 @@ export class RloCommonData {
       if (100 != totalLoanOwnership && !this.globalApplicationDtls.isLoanCategory) {
         dataObject.isAppValid = false;
         dataObject.errorsList.push("Total Loan ownership should be 100%");
-        console.log("shweta :: error list", dataObject.errorsList);
+       
         resolve(dataObject);
         return promise;
       }
@@ -924,14 +922,14 @@ export class RloCommonData {
     if (this.masterDataMap.has("customerMap")) {
       if (this.masterDataMap.get("customerMap").has(deletedCustomer)) {
         this.masterDataMap.get("customerMap").delete(deletedCustomer);
-        // console.log("shweta :: customer deleted from map", this.masterDataMap);
+       
       }
     }
   }
 
   calculateLoanOwnership(activeBorSeq?: string) {
     let totalLoanOwnership: number = 0;
-    console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    
     if (this.masterDataMap.has("customerMap")) {
       const customerMap = this.masterDataMap.get("customerMap");
       customerMap.forEach(entry => {
@@ -943,7 +941,7 @@ export class RloCommonData {
         }
       });
     }
-    //console.log("shweta :: totalLoanOwnership : ", totalLoanOwnership);
+    
     return totalLoanOwnership;
   }
 

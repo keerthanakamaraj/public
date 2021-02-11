@@ -428,7 +428,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.PEPrizes.setValue(PastEducation['Scholarships']);
   }
   generateCostAndFundsList(tempCostAndFundsList) {
-    console.log("shweta :: cost and funds list", tempCostAndFundsList);
     if (this.CostOfCourseGrid.doSubscribeFlag || this.CostOfCourseGrid.doSubscribeFlag) {
       return;
     }
@@ -791,7 +790,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   }
 
   async LCurrency_blur(event) {
-    console.log("shweta : hidden exchange rate : ", this.hidExchangeRate.getFieldValue());
+    
     this.CostOfCourseGrid.hidExchangeRate = this.hidExchangeRate.getFieldValue();
     this.FundsAvailableGrid.hidExchangeRate = this.hidExchangeRate.getFieldValue();
     this.CostOfCourseGrid.Amount.toArray().forEach((element, index) => {

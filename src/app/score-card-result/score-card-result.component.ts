@@ -65,7 +65,7 @@ export class ScoreCardResultComponent implements OnInit {
     else {
       let tempCustomerList = this.services.rloCommonData.getCustomerList();
 
-    //  console.log("shweta :: in score section", tempCustomerList);
+    
 
       this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
       tempCustomerList.forEach(element => {
@@ -77,11 +77,11 @@ export class ScoreCardResultComponent implements OnInit {
       });
     }
 
-  //  console.log("shweta :: score options list", this.FilterOptions);
+  
   }
 
   SCR_Filter_Change() {
-    //console.log("shweta :: selected option", this.SCR_Filter.getFieldValue());
+    
     this.activeScoreCardResultList = this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
   }
 
@@ -124,7 +124,7 @@ export class ScoreCardResultComponent implements OnInit {
 
   parseScoreCardResultJson(tempScoreCardResultList) {
     let newScoreCardResultList = [];
-    console.log("shweta :: policy Resp:", tempScoreCardResultList);
+    
     tempScoreCardResultList.forEach(eachScore => {
       let newMapKey = undefined;
       if (eachScore.BorrowerSeq) {
@@ -169,7 +169,7 @@ export class ScoreCardResultComponent implements OnInit {
     this.mergeBorAndAppRecords();
     this.removeEmptyOptions();
     this.activeScoreCardResultList = this.MstScoreResultMap.get(this.SCR_Filter.getFieldValue());
-    console.log("shweta :: score result master map", this.MstScoreResultMap);
+    
 
     if (tempScoreCardResultList.length) {
       //store data in map
@@ -198,7 +198,7 @@ export class ScoreCardResultComponent implements OnInit {
   }
   removeEmptyOptions() {
     this.FilterOptions.forEach(element => {
-      console.log('shweta :: reducer method', element.id);
+      
       if (!this.MstScoreResultMap.has(element.id)) {
         const index = this.FilterOptions.indexOf(element);
         if (index > -1) {

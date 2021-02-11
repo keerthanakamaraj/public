@@ -31,7 +31,7 @@ export class PersonalInterviewComponent implements OnInit {
   }
 
   loadQuestionnaireDtls() {
-    console.log("Shweta :: borrowerSeq is : ", this.activeBorrowerSeq);
+    
     let inputMap = new Map();
     inputMap.clear();
     inputMap.set('QueryParam.QuestionnaireCategory', 'per_int');
@@ -70,7 +70,7 @@ export class PersonalInterviewComponent implements OnInit {
 
 
   parseGetQuestionnairResp(questionnairDtlsResp) {
-    //console.log("shweta:: new json", questionnairDtlsResp);
+    
     this.QuestionnairMap.clear();
 
     for (let eachElement of questionnairDtlsResp) {
@@ -129,7 +129,6 @@ export class PersonalInterviewComponent implements OnInit {
 
   onDecisionChange(questionSeq, selectedAnswerSeq) {
 
-    console.log("shweta :: onBlur id: ", questionSeq, " event ", selectedAnswerSeq);
     let questionParam = this.QuestionnairMap.get(questionSeq);
     if (questionParam.SelectedDecision == undefined) {
       questionParam.SelectedDecision = {};
@@ -170,13 +169,10 @@ export class PersonalInterviewComponent implements OnInit {
         decisionsParamArray.push(decision);
       });
 
-      console.log('shweta:: req json decisionsParamArray : ', decisionsParamArray);
-
       let inputMap = new Map();
       inputMap.clear();
       inputMap.set('Body.QuestionnaireDetails', decisionsParamArray);
 
-      console.log("shweta :: input map", inputMap);
       this.services.http.fetchApi('/saveQuestionnaireDetails', 'POST', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
         this.services.alert.showAlert(1, 'rlo.success.save.personal-interview', 5000);
         
