@@ -1610,10 +1610,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   async RequestedAmountLimit_blur(fieldId, event) {
-    if (!this.RequestedAmountLimit.isAmountEmpty()) {
-      let amountToCompare = this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit != undefined ?
-        this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit
-        : this.services.rloCommonData.globalApplicationDtls.ReqCardLimit;
+      let amountToCompare:any;
+      amountToCompare=this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC'?
+      this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit:
+      this.services.rloCommonData.globalApplicationDtls.ReqCardLimit;
+      
+      if (!this.RequestedAmountLimit.isAmountEmpty() && amountToCompare!=undefined) {
       if (parseFloat(amountToCompare) < parseFloat(this.RequestedAmountLimit.getFieldValue())) {
         this.RequestedAmountLimit.setError(this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC' ? 'rlo.error.member.addon.req-amt-lmt' : 'rlo.error.addon.req-amt-lmt');
         return 1;
