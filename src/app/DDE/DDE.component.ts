@@ -215,7 +215,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       // { id: "GoldLoanDetails", name: "Gold Loan Details", completed: false, iconClass: "icon-Vehicle-Loan-Details", isActive: false, isOptional: true },
       // { id: "EducationLoanDetails", name: "Education Loan Details", completed: false, iconClass: "icon-Education-Loan-Details", isActive: false, isOptional: true },
       // { id: "LoanDetails", name: "Loan Details", completed: false, iconClass: "icon-Loan-Details", isActive: false, isOptional: true },
-         { id: "FDDetails", name: "FD Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: true },
+      { id: "FDDetails", name: "FD Details", completed: false, iconClass: "icon-Asset-Details", isActive: false, isOptional: false },
       { id: "CreditCardDetails", name: "Credit Card Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: false },
       //{ id: "BusinessDetails", name: "Business Details", completed: false, iconClass: "icon-Credit-Card-Details", isActive: false, isOptional: true },
     ],
@@ -1131,7 +1131,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         break;
       case 'FDDetails':
         return new AddSpecificComponent(FDDetailsComponent);
-        break;  
+        break;
       default:
         return new AddSpecificComponent(CustomerDtlsComponent);
         break;
@@ -1384,7 +1384,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             i--;
           }
         }
-        if (section.id == "FDDetails" && section.isOptional) {
+        if (section.id == "FDDetails") {
           // Hide FD Details for Loans Other than Secured Card
           if (this.services.rloCommonData.globalApplicationDtls.CardType == "SC") {
             section.isOptional = false;
