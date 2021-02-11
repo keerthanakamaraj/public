@@ -4,7 +4,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { ServiceStock } from '../service-stock.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ReadonlyGridComponent } from '../readonly-grid/readonly-grid.component';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { ICustomSearchObject } from '../Interface/masterInterface';
 import { CustomerSearchGridBtnComponent } from '../customer-search-grid-btn/customer-search-grid-btn.component';
 import { cos } from '@amcharts/amcharts4/.internal/core/utils/Math';
 import { Router } from '@angular/router';
+import { ProvidehttpService } from '../providehttp.service';
 const customCss: string = '';
 @Component({
   selector: 'app-SearchCustomerGrid',
@@ -246,7 +247,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
     "ErrMsg": ""
   }
 
-  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal, public router: Router) { }
+  constructor(private services: ServiceStock, private cdRef: ChangeDetectorRef, public activeModal: NgbActiveModal, public router: Router, public http: ProvidehttpService) { }
 
   ngAfterViewInit() {
     this.services.translate.onLangChange
@@ -431,8 +432,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
           } else {
             this.hideGridData();
           }
-          // hide spinner
-          this.hideSpinner();
+          
         });
     }
     else {
@@ -506,7 +506,7 @@ export class SearchCustomerGridComponent implements AfterViewInit {
             this.hideGridData();
           }
           // hide spinner
-          this.hideSpinner();
+          // this.hideSpinner();
         });
     }
   }
@@ -673,6 +673,108 @@ export class SearchCustomerGridComponent implements AfterViewInit {
   getMultipleCifId(customerList: any, params) {
     let multipleIcif = [];
     console.log('DEEP | customerList', customerList);
+
+    var lastCustomerLength = 0;
+    if (customerList.length > 7) {
+      lastCustomerLength = 6;
+    } else {
+      lastCustomerLength = customerList.length;
+    }
+
+    var apiCalls = [];
+    var responseStatus = [];
+
+    for (let i = 0; i < lastCustomerLength; i++) {
+      const element = customerList[i];
+      let inputMap = new Map();
+      inputMap.clear();
+      inputMap.set('Body.inputdata.CifID', element.ExistingCIF);
+      inputMap.set('Body.interfaceId', 'CUSTOMER_360');
+      inputMap.set('Body.prposalid', '3322');
+
+      apiCalls[i] = this.http.fetchApi('/api/invokeInterface', 'POST', inputMap, '/los-integrator');
+    }
+    console.log(apiCalls);
+    forkJoin(apiCalls).subscribe(response => {
+      console.log("DEEP | forkjoin data", response);
+      response.map((data: any) => {
+        if (data.body.status == "S") {
+          responseStatus.push("S");
+        }
+        else {
+          responseStatus.push("F");
+        }
+      });
+
+      customerList.map((element, index) => {
+        if (responseStatus[index] == "S") {
+          element.CMS = "Y";
+        }
+      });
+
+      var loopVar7 = customerList;
+      console.log("loopVar7", loopVar7);
+      var loopDataVar7 = [];
+      if (loopVar7) {
+        for (var i = 0; i < loopVar7.length; i++) {
+          var tempObj = {};
+          tempObj['TaxID'] = loopVar7[i].TaxId;
+          tempObj['Customer'] = loopVar7[i].CustomerType == "I" ? loopVar7[i].FullName : loopVar7[i].RegisteredName;
+          tempObj['AccNo'] = loopVar7[i].AccountNumber;
+          //tempObj['AccVintage'] = loopVar7[i].AccountVintage;
+          tempObj['AccType'] = loopVar7[i].AccountType;
+          tempObj['Status'] = loopVar7[i].ApplicationStatus;
+          tempObj['Mobile'] = loopVar7[i].MobileNumber;
+          tempObj['Cif'] = loopVar7[i].ExistingCIF;
+          tempObj['Dob'] = loopVar7[i].DateOfBirth;
+          tempObj['FirstName'] = loopVar7[i].FirstName;
+          tempObj['MiddleName'] = loopVar7[i].MiddleName;
+          tempObj['LastName'] = loopVar7[i].LastName;
+          tempObj['Title'] = loopVar7[i].Title;
+          tempObj['Gender'] = loopVar7[i].Gender;
+          tempObj['EmailID'] = loopVar7[i].EmailID;
+          tempObj['NameOnCard'] = loopVar7[i].NameOnCard;
+          tempObj['ICIF'] = loopVar7[i].ICIF;
+          tempObj['AppRefNum'] = loopVar7[i].AppRefNum;
+          tempObj['CBSProductCode'] = loopVar7[i].CBSProductCode;
+          tempObj['StaffID'] = loopVar7[i].StaffID;
+          tempObj['CustomerType'] = loopVar7[i].CustomerType;
+          tempObj['Branch'] = loopVar7[i].Branch;
+          // tempObj['CreditCard'] = loopVar7[i].CreditCard;
+          tempObj['CmsDetails'] = loopVar7[i].CMS;
+          tempObj['NoOfCard'] = loopVar7[i].NoOfCard;
+
+          tempObj['custType'] = loopVar7[i].CustType;
+          tempObj['registeredName'] = loopVar7[i].RegisteredName;
+          tempObj['dateOfIncorporation'] = loopVar7[i].DateOfIncorporation;
+          tempObj['typeOfIncorporation'] = loopVar7[i].TypeOfIncorporation;
+          tempObj['Product'] = loopVar7[i].Product;
+          tempObj['ProductCategory'] = loopVar7[i].ProductCategory;
+          tempObj['SubProduct'] = loopVar7[i].SubProduct;
+          tempObj['Scheme'] = loopVar7[i].Scheme;
+          tempObj['TypeOfLoan'] = loopVar7[i].TypeOfLoan;
+          tempObj['TypeOfLoanName'] = loopVar7[i].TypeOfLoanName;
+          tempObj['ApplicationPurpose'] = loopVar7[i].ApplicationPurpose;
+          tempObj['SourcingChannel'] = loopVar7[i].SourcingChannel;
+          tempObj['DSACode'] = loopVar7[i].DSACode;
+          tempObj['CreatedOn'] = loopVar7[i].CreatedOn;
+          tempObj['ApplicationBranch'] = loopVar7[i].ApplicationBranch;
+          tempObj['ExistingCardType'] = loopVar7[i].ExistingCardType;
+
+          tempObj['staffId'] = loopVar7[i].StaffID;//StaffID: "9870"
+          tempObj['custName'] = loopVar7[i].FullName;
+          loopDataVar7.push(tempObj);
+        }
+      }
+      this.documentCount = loopDataVar7.length;
+      this.readonlyGrid.apiSuccessCallback(params, loopDataVar7);
+
+      // hide spinner
+      this.hideSpinner();
+    });
+
+
+    return;
     customerList.forEach(element => {
       if (element.ICIF != undefined && element.ICIF.length)
         multipleIcif.push(element.ICIF);

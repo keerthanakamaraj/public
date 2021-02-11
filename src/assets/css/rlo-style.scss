@@ -1150,6 +1150,10 @@ a.back {
   margin: 0 !important;
 }
 
+.mt-1 {
+  margin-top: 16px;
+}
+
 .d-inline-block {
   display: inline-block;
 }
@@ -5249,7 +5253,7 @@ rlo-ui-card-field {
   }
 }
 
-//hide the ag-grid total row edit and del icons 
+//hide the ag-grid total row edit and del icons
 .hide-edit-del-icons {
   .ag-row-last :nth-last-child(-n + 2) {
     app-grid-button-col {
