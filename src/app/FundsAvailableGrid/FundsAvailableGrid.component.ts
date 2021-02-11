@@ -78,7 +78,7 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
   }
 
   showHideAddRowIcon(rowlimit) {
-    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
+    
     if (this.value.rowData.length <= rowlimit) {
       this.showAdd = true;
     } else {
@@ -112,9 +112,9 @@ export class FundsAvailableGridComponent extends GridComponent implements OnInit
       rowData['Amount'] = element.Amount;
       rowData['LocalCurEq'] =element.CurrencyEquivalentAmt;
       let rowCounter = this.addRow(rowData);
-      //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
+      
     });
-    // console.log("shweta :: complete record fetched", this.value.rowData);
+  
     //this.updateTotal();
   }
 

@@ -490,7 +490,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
     });
   }
   populateAmortizationReturnedData(updatedData) {
-    console.log("shweta :: in loandtls amort returned data", updatedData);
+   
 
 
     this.isAmortizationVisited = true;
@@ -659,7 +659,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
 
           let array = [];
           array.push({ isValid: true, sectionData: this.getFieldValue() });
-          console.log("shweta inside loan array", array);
+          
           let obj = {
             "name": "LoanDetails",
             "data": array,
@@ -772,12 +772,12 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
       this.TotalInterestAmount.setValue('-NA-');
       this.TotalInstallmentAmt.setValue('-NA-');
     }
-    console.log("shweta ::calculated tot interest", this.TotalInterestAmount.getFieldValue(), " :: tot installment ::", this.TotalInstallmentAmt.getFieldValue());
+    
   }
 
 
   RepaymentFrequency_blur(fieldId, event) {
-    console.log("shweta :: in frequency blur ", event, " : ", this.RepaymentFrequency);
+  
     if (this.RepaymentFrequency.getFieldValue() != this.RepaymentFrequency.getOldValue()) {
       this.isAmortizationVisited = false;
       this.RepaymentFrequency.updateOldValue();
@@ -789,7 +789,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
   Tenure_blur(fieldId, event) {
-    // console.log("shweta :: in frequency blur ",event," : ",this.RepaymentFrequency);
+  
     if (this.Tenure.getFieldValue() != this.Tenure.getOldValue()) {
       this.isAmortizationVisited = false;
       this.Tenure.updateOldValue();
@@ -797,7 +797,7 @@ export class LoanDetailsFormComponent extends FormComponent implements OnInit, A
   }
 
   TenurePeriod_blur(fieldId, event) {
-    // console.log("shweta :: in frequency blur ",event," : ",this.RepaymentFrequency);
+  
     if (this.TenurePeriod.getFieldValue() != this.TenurePeriod.getOldValue()) {
       this.isAmortizationVisited = false;
       this.TenurePeriod.updateOldValue();

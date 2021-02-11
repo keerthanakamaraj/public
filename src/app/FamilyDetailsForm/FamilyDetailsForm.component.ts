@@ -111,7 +111,6 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
-        //console.log("shweta :: family", this.ActiveCustomerDtls);
         await this.Handler.onFormLoad({
         });
 

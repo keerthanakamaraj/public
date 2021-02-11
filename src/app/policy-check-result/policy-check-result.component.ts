@@ -57,7 +57,7 @@ export class PolicyCheckResultComponent implements OnInit {
     }
     else {
       let tempCustomerList = this.services.rloCommonData.getCustomerList();
-      console.log("shweta :: in score section", tempCustomerList);
+     
 
       this.FilterOptions.push({ id: 'A_' + this.ApplicationId, text: 'Application' });
       tempCustomerList.forEach(element => {
@@ -68,7 +68,7 @@ export class PolicyCheckResultComponent implements OnInit {
         this.FilterOptions.push({ id: 'C_' + element.BorrowerSeq, text: element.CustomerType + '-' + element.FullName });
       });
     }
-    console.log("shweta :: score options list", this.FilterOptions);
+  
   }
 
   loadPolicyResult() {
@@ -110,7 +110,7 @@ export class PolicyCheckResultComponent implements OnInit {
     let newPolicyResultList = [];
     this.activePolicyResultList = [];
 
-    console.log("shweta :: policy Resp:", tempPolicyResultList);
+    
     tempPolicyResultList.forEach(eachPolicy => {
       if (this.parentFormCode == eachPolicy.Stage) {
         let newMapKey = undefined;
@@ -135,7 +135,7 @@ export class PolicyCheckResultComponent implements OnInit {
     this.removeEmptyOptions();
 
     this.activePolicyResultList = this.MstPolicyResultMap.get(this.PCR_Filter.getFieldValue());
-    console.log("shweta :: mstPolicy list", this.MstPolicyResultMap);
+    
     console.warn(this.activePolicyResultList);
 
     if (this.activePolicyResultList.length) {
@@ -168,7 +168,7 @@ export class PolicyCheckResultComponent implements OnInit {
   }
   removeEmptyOptions() {
     this.FilterOptions.forEach(element => {
-      console.log('shweta :: reducer method', element.id);
+      
       if (!this.MstPolicyResultMap.has(element.id)) {
         const index = this.FilterOptions.indexOf(element);
         if (index > -1) {
@@ -199,7 +199,7 @@ export class PolicyCheckResultComponent implements OnInit {
   retriggerPolicyResult() {
 
     // let inputMap = this.generateRetriggerRequestJson();
-    // console.log("shweta :: input map",inputMap);
+    
     //  let inputMap = this.generatepolicyCheckReq(res);
     this.PCR_RETRIGGER_BTN.setDisabled(true);
     this.MstPolicyResultMap.clear();
@@ -249,7 +249,7 @@ export class PolicyCheckResultComponent implements OnInit {
   }
 
   PCR_Filter_Change() {
-    // console.log("shweta :: selected option", this.PCR_Filter.getFieldValue());
+    
     this.activePolicyResultList = this.MstPolicyResultMap.get(this.PCR_Filter.getFieldValue());
   }
 

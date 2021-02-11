@@ -148,7 +148,6 @@ export class ApplicationDtlsComponent extends FormComponent implements OnInit, A
               "data": array,
               "sectionName": "ApplicationDetails"
             }
-            console.log("shweta ::: in application section", array);
             this.services.rloCommonData.globalComponentLvlDataHandler(obj);
           }
         },

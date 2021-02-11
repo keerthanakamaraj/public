@@ -405,7 +405,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     const inputMap = new Map();
     inputMap.set('PathParam.PinCd', event.value);
     // inputMap.set('QueryParam.CountryCode',this.services.rloui.getConfig('country.code.default'));
-    //  console.log('shweta :: def country',this.services.rloui.getConfig('country.code.default'));
     inputMap.set('QueryParam.CountryCode', this.services.rloui.getConfig('country.code.default'));
     this.services.http.fetchApi('/MasterPincodeDtls/{PinCd}', 'GET', inputMap, '/masters').subscribe(
       async (httpResponse: HttpResponse<any>) => {

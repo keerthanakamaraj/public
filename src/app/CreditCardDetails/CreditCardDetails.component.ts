@@ -599,8 +599,6 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     let inputMap = new Map();
     let decisionsParamArray = [];
     let noOfError: number = await this.revalidate();
-
-    console.log("shweta", noOfError);
     //var noOfError: number = 0;
 
     console.log(this.ApprovedLimit.getFieldValue());

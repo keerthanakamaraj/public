@@ -277,7 +277,7 @@ export class PastEducationDtlsGridComponent implements AfterViewInit {
       let selectedRecord = this.PastEducationList.find(obj => {
         return obj.PastEdSeq == event['PastEdSeq']
       })
-      console.log("shweta :: passig to modify", selectedRecord);
+    
       this.modifyPastEducation.emit({
         'PastEducation': selectedRecord
       });

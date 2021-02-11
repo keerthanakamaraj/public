@@ -7,7 +7,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { ServiceStock } from '../service-stock.service';
 import { NgSelectComponent } from '@ng-select/ng-select';//import { dependentValues, DependentValuesService } from '../DependentValues.service';
 //import { FormService } from '../FormService';
-// shweta::  create input param to  data binding options. set flags to no API call
+
 @Component({
   selector: 'rlo-ui-radio',
   templateUrl: './rlo-ui-radio.component.html',
@@ -50,7 +50,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
   ngAfterViewInit() {
     if (this.emittedOptions.length > 0) {
-      console.log("shweta :: onetimeoption : ", this.emittedOptions, this.defaultValue);
+      
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
       if (this.defaultValue != undefined) {
@@ -69,13 +69,13 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
 
   }
   // emitOptions(event){
-  //   console.log("shweta :: emitted method : ",event.emittedOptions);
+  
   //   this.dropDownOptions.Options=event.emittedOptions;
   //   this.isOptionsLoaded=true;
   // }
   async ngOnInit() {
     if (this.emittedOptions && this.emittedOptions.length > 0) {
-      //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      
       this.dropDownOptions.Options = this.emittedOptions;
       this.isOptionsLoaded = true;
     }
@@ -305,7 +305,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
     this.isDisabled = flag;
   }
   compareKeys(val1, val2) {
-  //console.log("shweta :: reverse options ",(b.id > a.id));
+  
   let a=val1.id;
   let b=val2.id;
  let compare = a.localeCompare(b);
@@ -317,7 +317,7 @@ export class RLOUIRadioComponent extends FieldComponent implements OnInit {
      console.log(a," is after",b);
      return val1;
   }
-  //console.log("shweta compare : compare>0 ",(compare>0)," :: compare<0 :",(compare<0));
+  
   //return compare>0?val1:val2;
 }
 }

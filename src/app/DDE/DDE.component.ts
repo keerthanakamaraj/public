@@ -915,7 +915,6 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   // brodcastApplicationId() {
-  //     console.log("shweta :: in qde ApplicationId is ", this.ApplicationId);
   //     this.CUSTOMER_GRID.ApplicationId = this.ApplicationId;
   // }
 
@@ -958,13 +957,11 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     if (componentId == 'CustomerDetails') {
 
       if (this.ActiveCustomerDtls != undefined) {
-        //   console.log("shweta :: DDE passArray or section/tab switch called",this.ActiveCustomerDtls);
         setTimeout(() => {
           componentInstance.LoadCustomerDetailsonFormLoad(this.ActiveCustomerDtls);
         }, 500);
       } else if (this.CustomerType !== 'B' && this.ActiveCustomerDtls == undefined) {
         // method will be called for new customer form after section switch
-        // console.log("shweta :: DDE section switch on new cust",this.CustomerType);
         let data = { 'customerType': this.CustomerType };
         setTimeout(() => {
           componentInstance.setNewCustomerFrom(data);

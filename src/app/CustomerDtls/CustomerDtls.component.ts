@@ -521,7 +521,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
       let CustomerDetailsArray = [];
       CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
-      //  console.log("Shweta :: return from service", CustomerDetailsArray);
       for (let i = 0; i < CustomerDetailsArray.length; i++) {
         if (CustomerDetailsArray[i].BorrowerSeq !== this.HidCustomerId.getFieldValue()) {
           if (CustomerDetailsArray[i].FullName == this.CD_FULL_NAME.getFieldValue() && CustomerDetailsArray[i].DOB == this.CD_DOB.getFieldValue()) {
@@ -1292,7 +1291,6 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     if (this.CD_LOAN_OWN.getFieldValue() != undefined || this.CD_LOAN_OWN.getFieldValue() != 0) {
       totLoanOwnership += parseFloat(this.CD_LOAN_OWN.getFieldValue())
     }
-    console.log("shweta :: in cust_frorm ::totLoanOwnership", totLoanOwnership);
     if (totLoanOwnership > 100) {
       this.CD_LOAN_OWN.setError('rlo.error.loanownership.onblur');
       return 1;

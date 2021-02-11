@@ -333,7 +333,6 @@ export class BusinessDtlsFormComponent extends FormComponent implements OnInit, 
           if (res) {
             let BusinessDtls = res['BusinessDtls'];
             if (BusinessDtls) {
-              console.log("shweta :: Education loan fetched : ", BusinessDtls);
               this.parseGetBusinessResp(BusinessDtls[0]);
               this.revalidate(false).then((errors) => {
                 let array = [];
