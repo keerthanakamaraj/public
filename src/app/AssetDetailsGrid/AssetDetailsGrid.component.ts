@@ -32,6 +32,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
 
+    filterData : any;
     componentCode: string = 'AssetDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -292,13 +293,23 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                         }
                     }
                 }
-
-                let obj = {
-                    "name": "AssetDetails",
-                    "data": loopVar4,
-                    "BorrowerSeq": event.passBorrowerToAsset
+                if (loopVar4) {
+                    for (var i = 0; i < loopVar4.length; i++) {
+                        var tempObj = {};
+                        if(loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == ''){
+                            let obj
+                            this.filterData = loopVar4[i] 
+                            obj = {
+                                "name": "AssetDetails",
+                                "data": this.filterData,
+                                "BorrowerSeq": event.passBorrowerToAsset
+                            }
+                            
+                        }
+                    }
+                    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                 }
-                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+             
 
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
             },
