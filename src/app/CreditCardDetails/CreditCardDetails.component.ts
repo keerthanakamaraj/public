@@ -382,17 +382,17 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     let MaxCardLimit: any;
     MaxCardLimit = Number(this.header.Product_max_credit);
 
-    let LienAmount : any;
+    let LienAmount: any;
     LienAmount = this.services.rloCommonData.LienAmt;
     let LienAmt
     LienAmt = Number(this.services.rloui.getConfig('LIEN_AMT_LIMIT'));
     let NewApprovedCardLimit: any;
 
     if (this.ApprovedLimit.getFieldValue() != undefined) {
-      NewApprovedCardLimit = ((LienAmount/LienAmt)*100);
+      NewApprovedCardLimit = ((LienAmount / LienAmt) * 100);
       if (NewApprovedCardLimit < MaxCardLimit) {
         // return MaxCardLimit;
-        this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit, null);
+        this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit.toFixed(2), null);
       }
       else {
         this.ApprovedLimit.setComponentSpecificValue(MaxCardLimit, null);
@@ -499,12 +499,12 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
           }
 
 
-          if (this.services.rloCommonData.globalApplicationDtls.CardType = 'SC') {
+          if (this.services.rloCommonData.globalApplicationDtls.CardType == 'SC') {
             this.setApprovedCardLimit();
           }
-          else {
-            this.ApprovedLimit.setComponentSpecificValue(this.ApprovedLimit, null);
-          }
+          // else {
+          //   this.ApprovedLimit.setComponentSpecificValue(this.ApprovedLimit, null);
+          // }
 
 
 
