@@ -458,7 +458,7 @@ export class RloCommonData {
     if (this.masterDataMap.has('customerMap')) {
       const customerMap = this.masterDataMap.get('customerMap');
       customerMap.forEach(entry => {
-        if (entry.has('CustomerDetails')) {
+        if ( (entry instanceof Map) && entry.has('CustomerDetails')) {
           CustomerList.push(entry.get('CustomerDetails'));
         }
       });

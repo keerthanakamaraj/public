@@ -273,7 +273,8 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             if (this.FDNumber.getFieldValue() !== undefined) {
                 if (assetGridData) {
                     for (let i = 0; i < assetGridData.length; i++) {
-                        if (assetGridData[i].FDNumber === this.FDNumber.getFieldValue() && assetGridData[i].LienAmount === this.LienAmount.getFieldValue()) {
+                        // if (assetGridData[i].FDNumber === this.FDNumber.getFieldValue() && assetGridData[i].LienAmount === this.LienAmount.getFieldValue()) {
+                        if (assetGridData[i].FDNumber == this.FDNumber.getFieldValue() ) {
                             this.services.alert.showAlert(2, 'rlo.error.exits.fd', -1);
                             return;
                         }
