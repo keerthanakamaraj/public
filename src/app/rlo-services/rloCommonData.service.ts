@@ -879,7 +879,7 @@ export class RloCommonData {
           commonObj.isSectionValid = false;
         } else if (!this.globalApplicationDtls.isAddedNewMember) {
           commonObj.isSectionValid = false;
-          commonObj.errorMessage = "For Memebr Card Approve Card Limit Cannot be Blank";
+          commonObj.errorMessage = "For Member Card Approve Card Limit Cannot be Blank";
         }
       } else {
         commonObj.isSectionValid = false;

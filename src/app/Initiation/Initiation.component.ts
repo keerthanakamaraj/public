@@ -792,25 +792,9 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
 
   
 onNewCustomerCall(){
-  console.log("jfhfhgd customer data", this.Handler.customers.length)
+ // console.log("jfhfhgd customer data", this.Handler.customers.length)
   let  customer = this.Handler.customers;
-  if(this.Handler.customers.length  != 0){
-  for (let index = 0; index < customer.length; index++) {
-    const element = customer[index];
-    if(element.customerType.value != 'B' ){
-        this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
-        this.BAD_PRODUCT.onReset();
-        this.BAD_SUB_PROD.onReset();
-        this.BAD_SCHEME.onReset();
-        this.BAD_PHYSICAL_FRM_NO.onReset();
-        this.BAD_DATE_OF_RCPT.onReset();
-        this.BAD_DSA_ID.onReset();
-        this.BAD_PRIME_USAGE.onReset();
-    }
-    
-  }
-}
-else{
+  if(this.Handler.customers.length <= 0){
   this.BAD_CARD_TYPE.onReset();
   this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
   this.BAD_PRODUCT.onReset();
@@ -819,7 +803,7 @@ else{
   this.BAD_PHYSICAL_FRM_NO.onReset();
   this.BAD_DATE_OF_RCPT.onReset();
   this.BAD_DSA_ID.onReset();
-  this.BAD_PRIME_USAGE.onReset();  
+  this.BAD_PRIME_USAGE.onReset();
 }
   }
 
