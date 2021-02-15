@@ -392,7 +392,7 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
         || this.ApprovedLimit.getFieldValue() == 0 
         || this.ApprovedLimit.getFieldValue() == '') {
       // NewApprovedCardLimit = ((LienAmount/LienAmt)*100);
-      NewApprovedCardLimit = ( LienAmount * LienAmt ).toFixed(2);
+      NewApprovedCardLimit = ( LienAmount * LienAmt );
       if (NewApprovedCardLimit < MaxCardLimit) {
         // return MaxCardLimit;
         this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit.toFixed(2), null);
