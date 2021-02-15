@@ -115,7 +115,7 @@ export class RloCommonData {
   allCustomersList = [];//store list of added customers when borrowerdetails api is called
   customerListForAddress = new Map();//need to change this
   initialBorrowerDetailsCallDone: boolean = false;
- 
+
   LienAmt: number = 0; // FD details lien amt for credit card calculation
   constructor(public rloutil: RloUtilService, public rloui: RlouiService, public router: Router, public http: ProvidehttpService) {
     this.resetMapData();
@@ -525,14 +525,12 @@ export class RloCommonData {
         forkJoin(
           this.validateCustomerDetailSection(entry[1]),
           this.validateAddressDetailSection(entry[1]),
-          this.validateOccupationDetailsSection(entry[1]),
-          this.validateIncomeSummary(entry[1])
+          this.validateOccupationDetailsSection(entry[1])
         ).subscribe((data) => {
           console.error(data);
           isCustomerValid = data[0].isSectionValid;
           isAddressValid = data[1].isSectionValid;
           isOccupationValid = data[2].isSectionValid;
-          isIncomeSummaryValid = data[3].isSectionValid;
 
           let errorCounter = 1;
           for (let i = 0; i < data.length; i++) {
@@ -543,7 +541,7 @@ export class RloCommonData {
             }
           }
 
-          if (!(isCustomerValid && isAddressValid && isOccupationValid && isIncomeSummaryValid)) {
+          if (!(isCustomerValid && isAddressValid && isOccupationValid)) {
             let msg = "<p>The following details for " + custFullName + " need to be filled in order to submit: " + "</p>" + errorMessage + "<br>";
             dataObject.errorsList.push(msg);
             dataObject.isAppValid = false;
