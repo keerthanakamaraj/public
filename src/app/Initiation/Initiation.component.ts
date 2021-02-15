@@ -55,7 +55,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   @ViewChild('BAD_CARD_NUMBER', { static: false }) BAD_CARD_NUMBER: TextBoxComponent;
   @ViewChild('BAD_CUSTOMER_TYPE', { static: false }) BAD_CUSTOMER_TYPE: RLOUIRadioComponent;
   @ViewChild('BAD_REQ_CARD_LIMIT', { static: false }) BAD_REQ_CARD_LIMIT: RloUiCurrencyComponent;
-  @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
+ // @ViewChild('BAD_CAM_TYPE', { static: false }) BAD_CAM_TYPE: ComboBoxComponent;
 
   @ViewChild('BAD_DSA_ID', { static: false }) BAD_DSA_ID: TextBoxComponent;
   @ViewChild('BAD_BRANCH', { static: false }) BAD_BRANCH: ComboBoxComponent;
@@ -798,7 +798,6 @@ onNewCustomerCall(){
   for (let index = 0; index < customer.length; index++) {
     const element = customer[index];
     if(element.customerType.value != 'B' ){
-      this.BAD_CAM_TYPE.onReset();
         this.BAD_REQ_CARD_LIMIT.resetFieldAndDropDown();
         this.BAD_PRODUCT.onReset();
         this.BAD_SUB_PROD.onReset();
