@@ -234,7 +234,7 @@
     "rlo.error.address.delete-restrict": "This address can not be deleted.",
     "rlo.error.credit-card-grid.empty-column": "Please fill the mandatory data in member cards grid properly.",
     "rlo.delete.comfirmation": "Are you sure you want to delete",
-    "rlo.error.approve.amount.empty" : "For Memebr Card Approve Card Limit Cannot be Blank",
+    "rlo.error.approve.amount.empty" : "For Member Card Approve Card Limit Cannot be Blank",
     "rlo.error.credit-card-grid.greater-value" : "Value should be less than Primary Card limit",
     "rlo.success.update.fd": "FD Details Updated Successfully",
     "rlo.error.update.fd": "Failed to update FD Details",

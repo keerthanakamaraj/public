@@ -246,7 +246,9 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                 const fdno = this.FDNumber.emittedOptions[index];
                 if (element.FDNumber == fdno.text) {
                     this.FDAmount.setComponentSpecificValue(element.FDAmount);
-                    this.FDAmountLCE.setComponentSpecificValue(element.FDAmountLocalCurrency);
+                    // this.FDAmountLCE.setComponentSpecificValue(element.FDAmountLocalCurrency);
+                    // TO Be Fixed .. Local Curreny Amount is not right
+                    this.FDAmountLCE.setComponentSpecificValue(element.FDAmount);
                     this.MaturityAmount.setComponentSpecificValue(element.MaturityAmount);
                     this.DateofMaturity.setValue(element.DateofMaturity);
                     this.AutoRenewal.setValue(element.AutoRenewal)

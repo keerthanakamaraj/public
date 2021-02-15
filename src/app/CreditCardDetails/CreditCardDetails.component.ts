@@ -388,8 +388,11 @@ export class CreditCardDetailsComponent extends FormComponent implements OnInit,
     LienAmt = Number(this.services.rloui.getConfig('LIEN_AMT_LIMIT'));
     let NewApprovedCardLimit: any;
 
-    if (this.ApprovedLimit.getFieldValue() != undefined) {
-      NewApprovedCardLimit = ((LienAmount / LienAmt) * 100);
+    if (this.ApprovedLimit.getFieldValue() == undefined 
+        || this.ApprovedLimit.getFieldValue() == 0 
+        || this.ApprovedLimit.getFieldValue() == '') {
+      // NewApprovedCardLimit = ((LienAmount/LienAmt)*100);
+      NewApprovedCardLimit = ( LienAmount * LienAmt ).toFixed(2);
       if (NewApprovedCardLimit < MaxCardLimit) {
         // return MaxCardLimit;
         this.ApprovedLimit.setComponentSpecificValue(NewApprovedCardLimit.toFixed(2), null);
