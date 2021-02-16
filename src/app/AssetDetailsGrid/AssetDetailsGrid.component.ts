@@ -267,15 +267,29 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 var res = httpResponse.body;
                 this.loopDataVar4 = [];
                 var loopVar4 = [];
+                this.filterData = [];
+                let obj;
+
                 if (res !== null) {
-                    this.assetRecord = true
                     loopVar4 = res['AssetDetails'];
+                    let recordFlag = -1;
+                    for (let i = 0; i < loopVar4.length; i++) {
+                        const element = loopVar4[i];
+                        if (typeof element.FDNumber != 'number') {
+                            recordFlag = i;
+                        }
+                    }
+                    if (recordFlag == -1) {
+                        this.assetRecord = false;
+                    } else {
+                        this.assetRecord = true;
+                    }
                 }
                 else {
-                    this.assetRecord = false
+                    this.assetRecord = false;
                 }
-                // var loopVar4 = res['AssetDetails'];
-                if (loopVar4) {
+
+                if (this.assetRecord) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
                         if (loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == '') {
@@ -291,12 +305,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                             tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR.text;
                             this.loopDataVar4.push(tempObj);
                         }
-                    }
-                }
-                if (loopVar4) {
-                    let obj;
-                    for (var i = 0; i < loopVar4.length; i++) {
-                        var tempObj = {};
+
                         if (loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == '') {
                             this.filterData.push(loopVar4[i])
                             obj = {
@@ -304,12 +313,18 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                                 "data": this.filterData,
                                 "BorrowerSeq": event.passBorrowerToAsset
                             }
-
                         }
                     }
-                    this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                 }
-
+                else {
+                    console.log("No Asset data");
+                    obj = {
+                        "name": "AssetDetails",
+                        "data": this.filterData,
+                        "BorrowerSeq": event.passBorrowerToAsset
+                    }
+                }
+                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
             },

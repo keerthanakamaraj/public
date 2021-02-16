@@ -242,6 +242,8 @@
     "rlo.success.save.fd": "The FD Details have been saved successfully.",
     "rlo.error.save.fd": "The FD Details could not be saved. Please try again.",
     "rlo.error.greter.fd": " Lien Amount should be less than FD Amount",
+    "rlo.success.delete.fd": "The FD Detail deleted successfully.",
+    "rlo.error.delete.fd": "The FD Details could not be deleted. Please try again.",
     "rlo.error.approvedlimit.lien.product" : "Approved Card Limit value cannot be increased",
 
     "999": "Unspecified error",

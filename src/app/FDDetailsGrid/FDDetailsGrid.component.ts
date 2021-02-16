@@ -102,6 +102,8 @@ export class FDDetailsGridComponent implements AfterViewInit {
     },
     ];
     private unsubscribe$: Subject<any> = new Subject<any>();
+    assetRecord: boolean = false;
+
     ngAfterViewInit() {
         this.services.translate.onLangChange
             .pipe(takeUntil(this.unsubscribe$))
@@ -207,15 +209,36 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 var res = httpResponse.body;
                 this.loopDataVar4 = [];
                 var loopVar4 = [];
-                if (res != null) {
-                    this.fdRecord = true
+
+                if (res !== null) {
                     loopVar4 = res['AssetDetails'];
+                    let recordFlag = -1;
+                    for (let i = 0; i < loopVar4.length; i++) {
+                        const element = loopVar4[i];
+                        if (typeof element.FDNumber == 'number') {
+                            recordFlag = i;
+                        }
+                    }
+                    if (recordFlag == -1) {
+                        this.fdRecord = false;
+                    } else {
+                        this.fdRecord = true;
+                    }
                 }
                 else {
-                    this.fdRecord = false
+                    this.fdRecord = false;
                 }
+
+                // if (res != null) {
+                //     this.fdRecord = true
+                //     loopVar4 = res['AssetDetails'];
+                // }
+                // else {
+                //     this.fdRecord = false
+                // }
                 // var loopVar4 = res['AssetDetails'];
-                if (loopVar4) {
+                let obj;
+                if (this.fdRecord) {
                     var totalValue = { 'FDNumber': 'Total Lien Amount', 'LienAmount': Number('0') };
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
@@ -235,13 +258,21 @@ export class FDDetailsGridComponent implements AfterViewInit {
                     this.loopDataVar4.push(totalValue);
                     this.services.rloCommonData.LienAmt = totalValue.LienAmount;
                     console.log("new object", totalValue);
+
+                    obj = {
+                        "name": "FDDetails",
+                        "data": loopVar4,
+                        "BorrowerSeq": event.passBorrowerToFD
+                    }
+                }
+                else {
+                    obj = {
+                        "name": "FDDetails",
+                        "data": [],
+                        "BorrowerSeq": event.passBorrowerToFD
+                    }
                 }
 
-                let obj = {
-                    "name": "FDDetails",
-                    "data": loopVar4,
-                    "BorrowerSeq": event.passBorrowerToFD
-                }
                 this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
@@ -276,14 +307,14 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 this.services.http.fetchApi('/AssetDetails/{AssetSeq}', 'DELETE', inputMap, '/rlo-de').subscribe(
                     async (httpResponse: HttpResponse<any>) => {
                         var res = httpResponse.body;
-                        this.services.alert.showAlert(1, 'rlo.success.delete.asset', 5000);
+                        this.services.alert.showAlert(1, 'rlo.success.delete.fd', 5000);
                         this.readonlyGrid.refreshGrid();
                     },
                     async (httpError) => {
                         var err = httpError['error']
                         if (err != null && err['ErrorElementPath'] != undefined && err['ErrorDescription'] != undefined) {
                         }
-                        this.services.alert.showAlert(2, 'rlo.error.delete.assets', -1);
+                        this.services.alert.showAlert(2, 'rlo.error.delete.fd', -1);
                     }
                 );
             }

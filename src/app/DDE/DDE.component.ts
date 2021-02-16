@@ -1962,13 +1962,18 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   AssetDetails_SetTag(event) {
     console.log('update Asset Tags --- ', event);
     this.services.rloCommonData.getAssetTags(event).then(data => {
-      for (let index = 0; index < data.length; index++) {
-        const element = data[index];
-        if (data[index] != data.length) {
-          if (element.label != undefined) {
-            this.setTags(data);
+      if (data.length) {
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          if (data[index] != data.length) {
+            if (element.label != undefined) {
+              this.setTags(data);
+            }
           }
         }
+      }
+      else {
+        this.setTags([]);
       }
     });
   }
@@ -1976,11 +1981,15 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   FDDetails_SetTag(event) {
     console.log('update FD Tags --- ', event);
     this.services.rloCommonData.getFdDetailsTags(event).then(data => {
-      for (let index = 0; index < data.length; index++) {
-        const element = data[index];
-        if (data[index] != data.length) {
-          this.setTags(data);
+      if (data.length) {
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          if (data[index] != data.length) {
+            this.setTags(data);
+          }
         }
+      } else {
+        this.setTags([]);
       }
     });
   }
