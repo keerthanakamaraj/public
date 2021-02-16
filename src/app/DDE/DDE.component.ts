@@ -1018,21 +1018,22 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
   }
 
-  updateRoleBasedScore(action: string) {
+  updateRoleBasedScore(action: string, firstArrayIndex: number, SecondArrayIndex: number) {
+    console.error("DEEP | updateRoleBasedScore", action, this.CustomerType);
     if (this.formMenuObject.isCustomerTabSelected) {
       if (this.CustomerType == "B") {
-        this.calculateScore(action);
+        this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
       }
       else if (this.CustomerType == "CB" && this.formMenuObject.validCoBorrowerId == this.formMenuObject.activeBorrowerSeq) {
         console.error("@@@@@@@@@@@@@@@@ CB with LO");
-        this.calculateScore(action);
+        this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
       } else if (this.CustomerType == "A") {
         console.error("@@@@@@@@@@@@@@@@ Addon");
-        this.calculateScore(action);
+        this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
       }
     }
     else {
-      this.calculateScore(action);
+      this.calculateScore(action, firstArrayIndex, SecondArrayIndex);
     }
 
     let CustomerList = [];
@@ -1426,8 +1427,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     }
   }
 
-  calculateScore(action: string) {
-    let isSectionOptional = this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional;
+  calculateScore(action: string, firstArrayIndex: number, SecondArrayIndex: number) {
+    let isSectionOptional = this.formsMenuList[firstArrayIndex][SecondArrayIndex].isOptional;
     console.log(this.progressStatusObject);
     if (!isSectionOptional) {
       if (action == "add") {
@@ -1441,15 +1442,33 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
 
   //after adding and removing section from map
-  updateMenu(action: string, menuList: any, selectedSection: string, mapKey: string) {
+  updateMenu(action: string, menuList: any, selectedSection: string, mapKey: string, addedOrRemovedComponent: string) {
+    console.error("DEEP | updateMenu", action, menuList, selectedSection, mapKey, addedOrRemovedComponent);
     let state = action == "add" ? true : false;
     this.completedMenuSectionList[selectedSection].set(mapKey, menuList);
-    this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
 
+    let isSectionOptional = false;
+    let firstArrayIndex = 0;
+    let SecondArrayIndex = 0;
+
+    for (let j = 0; j < this.formsMenuList.length; j++) {
+      const menuSectionList = this.formsMenuList[j];
+      let firstArrayIndex = j;
+      for (let i = 0; i < menuSectionList.length; i++) {
+        const element = menuSectionList[i];
+        if (element.id == addedOrRemovedComponent) {
+          let SecondArrayIndex = i;
+          element.completed = state;
+          isSectionOptional = element.isOptional;
+        }
+      }
+    }
+
+    // this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].completed = state;//change status
     console.log("deep ===", this.formMenuObject);
 
-    if (!this.formsMenuList[this.formMenuObject.firstArr][this.formMenuObject.secondArr].isOptional) {
-      this.updateRoleBasedScore(action);
+    if (!isSectionOptional) {
+      this.updateRoleBasedScore(action, firstArrayIndex, SecondArrayIndex);
     }
   }
 
@@ -1945,12 +1964,24 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     this.services.rloCommonData.getAssetTags(event).then(data => {
       for (let index = 0; index < data.length; index++) {
         const element = data[index];
-        if(data[index] != data.length ){
-        if(element.label != undefined){
+        if (data[index] != data.length) {
+          if (element.label != undefined) {
+            this.setTags(data);
+          }
+        }
+      }
+    });
+  }
+
+  FDDetails_SetTag(event) {
+    console.log('update FD Tags --- ', event);
+    this.services.rloCommonData.getFdDetailsTags(event).then(data => {
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        if (data[index] != data.length) {
           this.setTags(data);
-        } 
-      }  
-      } 
+        }
+      }
     });
   }
 
@@ -1981,14 +2012,14 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
         }
 
         data.push(componentLvlData.name);
-        this.updateMenu('add', data, selectedSection, mapKey);
+        this.updateMenu('add', data, selectedSection, mapKey, componentLvlData.name);
       }
       else {
         let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
         if (!dataList.includes(componentLvlData.name)) {
           console.error("SECTION COMPLETED | CALCULATE SCORE");
           dataList.push(componentLvlData.name);
-          this.updateMenu('add', dataList, selectedSection, mapKey);
+          this.updateMenu('add', dataList, selectedSection, mapKey, componentLvlData.name);
         }
       }
     } else {
@@ -2000,7 +2031,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (sectionAlreadyCompleted) {
         console.error("SECTION REMOVED | CALCULATE SCORE");
         dataList.splice(dataList.indexOf(mapKey), 1);
-        this.updateMenu('remove', dataList, selectedSection, mapKey);
+        this.updateMenu('remove', dataList, selectedSection, mapKey, componentLvlData.name);
       }
       else {
         console.error("SECTION NOT FOUND");

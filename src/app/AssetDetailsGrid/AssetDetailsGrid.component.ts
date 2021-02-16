@@ -32,7 +32,7 @@ export class AssetDetailsGridComponent implements AfterViewInit {
     @Input('displayToolbar') displayToolbar: boolean = true;
     @Input('fieldID') fieldID: string;
 
-    filterData : any;
+    filterData: any = [];
     componentCode: string = 'AssetDetailsGrid';
     openedFilterForm: string = '';
     hidden: boolean = false;
@@ -278,38 +278,38 @@ export class AssetDetailsGridComponent implements AfterViewInit {
                 if (loopVar4) {
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        if(loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == ''){
-                        tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype.text;
-                        tempObj['Asset_Subtype_ID'] = loopVar4[i].AssetSubtype.id;
-                        tempObj['AT_Asset_Type'] = loopVar4[i].AssetType.text;
-                        tempObj['Asset_Type_ID'] = loopVar4[i].AssetType.id;
-                        tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus.text;
-                        tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
-                        tempObj['AT_Local_Curr_Value'] = loopVar4[i].EquivalentAmt;
-                        tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
-                        // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
-                        tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR.text;
-                        this.loopDataVar4.push(tempObj);
+                        if (loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == '') {
+                            tempObj['AT_Asset_Subtype'] = loopVar4[i].AssetSubtype.text;
+                            tempObj['Asset_Subtype_ID'] = loopVar4[i].AssetSubtype.id;
+                            tempObj['AT_Asset_Type'] = loopVar4[i].AssetType.text;
+                            tempObj['Asset_Type_ID'] = loopVar4[i].AssetType.id;
+                            tempObj['AT_Asset_Status'] = loopVar4[i].AssetStatus.text;
+                            tempObj['AT_Asset_Value'] = loopVar4[i].AssetValue;
+                            tempObj['AT_Local_Curr_Value'] = loopVar4[i].EquivalentAmt;
+                            tempObj['ASSET_ID'] = loopVar4[i].AssetSeq;
+                            // tempObj['AT_Asset_Location'] = loopVar4[i].AssetLocation;
+                            tempObj['AT_INCLUDE_IN_DBR'] = loopVar4[i].IncludeInDBR.text;
+                            this.loopDataVar4.push(tempObj);
                         }
                     }
                 }
                 if (loopVar4) {
+                    let obj;
                     for (var i = 0; i < loopVar4.length; i++) {
                         var tempObj = {};
-                        if(loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == ''){
-                            let obj
-                            this.filterData = loopVar4[i] 
+                        if (loopVar4[i].FDNumber == null || loopVar4[i].FDNumber == undefined || loopVar4[i].FDNumber == '') {
+                            this.filterData.push(loopVar4[i])
                             obj = {
                                 "name": "AssetDetails",
                                 "data": this.filterData,
                                 "BorrowerSeq": event.passBorrowerToAsset
                             }
-                            
+
                         }
                     }
                     this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                 }
-             
+
 
                 this.readonlyGrid.apiSuccessCallback(params, this.loopDataVar4);
             },

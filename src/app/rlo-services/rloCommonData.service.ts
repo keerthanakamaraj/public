@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { RloUtilService } from './rloutil.service';
 import { CustomerDtlsComponent } from '../CustomerDtls/CustomerDtls.component';
 import { forkJoin } from 'rxjs';
@@ -99,7 +99,7 @@ export class RloCommonData {
 
   /////////////////////////////////////////////////////////
   masterDataMap = new Map();//contains customer and address data maps used in QDE and DDE
-  componentLvlDataSubject = new Subject<IComponentLvlData>();
+  componentLvlDataSubject = new Subject();
   currentRoute: string = "";
   globalApplicationDtls: IGlobalApllicationDtls = {};
 
@@ -293,6 +293,10 @@ export class RloCommonData {
           console.log(" DEEP | InterfaceResults", mapValue);
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
+        case 'FDDetails':
+          mapValue = componentData.data;
+          functionalResponseObj = this.tabularOrNonTabularSectionValidation().then(data => { return data });
+          break
       }
 
       tempStoreMap.get(mapName).set(mapKey, mapValue);
@@ -413,6 +417,18 @@ export class RloCommonData {
 
       const formattedAmount = this.rloui.formatAmount(asset.EquivalentAmt);
       tags.push({ label: asset.AssetType.text, text: formattedAmount });
+    });
+    return this.trimTagsIfRequired(tags, 3);
+  }
+
+  async getFdDetailsTags(event) {
+    const tags = [];
+    event.data.forEach(fdDetail => {
+      console.log('FD ', fdDetail);
+      if (typeof fdDetail.FDNumber == 'number') {
+        const formattedAmount = this.rloui.formatAmount(fdDetail.EquivalentAmt);
+        tags.push({ label: '', text: formattedAmount });
+      }
     });
     return this.trimTagsIfRequired(tags, 3);
   }

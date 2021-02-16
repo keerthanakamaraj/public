@@ -156,6 +156,7 @@ export class FDDetailsGridComponent implements AfterViewInit {
         return this.hidden;
     }
     async gridDataAPI(params, gridReqMap: Map<string, any>, event) {
+        console.log("Event", event);
         let inputMap = new Map();
         inputMap.clear();
 
@@ -237,9 +238,9 @@ export class FDDetailsGridComponent implements AfterViewInit {
                 }
 
                 let obj = {
-                    "name": "AssetDetails",
+                    "name": "FDDetails",
                     "data": loopVar4,
-                    "BorrowerSeq": event.passBorrowerToAsset
+                    "BorrowerSeq": event.passBorrowerToFD
                 }
                 this.services.rloCommonData.globalComponentLvlDataHandler(obj);
 

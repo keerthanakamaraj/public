@@ -382,14 +382,14 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                         // this.AT_SAVE.setDisabled(false);
                         this.revalidate().then((errors) => {
                             if (!errors) {
-                                let array = [];
-                                array.push({ isValid: true, sectionData: this.getFieldValue() });
-                                let obj = {
-                                    "name": "FDDetails",
-                                    "data": array,
-                                    "sectionName": "FDDetails"
-                                }
-                                this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                                // let array = [];
+                                // array.push({ isValid: true, sectionData: this.getFieldValue() });
+                                // let obj = {
+                                //     "name": "FDDetails",
+                                //     "data": array,
+                                //     "sectionName": "FDDetails"
+                                // }
+                                // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                             }
                         });
                     }
@@ -424,14 +424,14 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
                 this.FDAmount.selectedCode(res['AssetDetails']['Currency'], false);
                 this.revalidate().then((errors) => {
                     if (!errors) {
-                        let array = [];
-                        array.push({ isValid: true, sectionData: this.getFieldValue() });
-                        let obj = {
-                            "name": "FDDetails",
-                            "data": array,
-                            "sectionName": "FDDetails"
-                        }
-                        this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+                        // let array = [];
+                        // array.push({ isValid: true, sectionData: this.getFieldValue() });
+                        // let obj = {
+                        //     "name": "FDDetails",
+                        //     "data": array,
+                        //     "sectionName": "FDDetails"
+                        // }
+                        // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
                     }
                 });
             },
