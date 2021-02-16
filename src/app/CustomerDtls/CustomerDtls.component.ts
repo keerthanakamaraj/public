@@ -1048,7 +1048,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_CIF.setValue(customer.CIF);
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
-    this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
+    if(customer.RequestedCreditLimit == ''){
+    this.RequestedAmountLimit.resetFieldAndDropDown();
+    }
+    else{
+      this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
+    }
     this.CardDispatchMode.setValue(customer.PickUpInstruction);
 
 
