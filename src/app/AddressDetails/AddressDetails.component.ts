@@ -81,19 +81,19 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   @ViewChild('hideCorrEmail', { static: false }) hideCorrEmail: HiddenComponent;
   @ViewChild('hideOccp_type', { static: false }) hideOccp_type: HiddenComponent;
   @ViewChild('hideCorrsAddress', { static: false }) hideCorrsAddress: HiddenComponent;
- // @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
+  // @ViewChild('AD_COUNTRY_CODE', { static: false }) AD_COUNTRY_CODE: ComboBoxComponent;
   @ViewChild('ADD_ACCORD', { static: false }) ADD_ACCORD: RloUiAccordionComponent;
   @ViewChild('hidPrefferTime', { static: false }) hidPrefferTime: HiddenComponent;
   @ViewChild('hidCountryCode', { static: false }) hidCountryCode: HiddenComponent;
   @Output() addonblur: EventEmitter<any> = new EventEmitter<any>();
   @Output() updateStageValidation: EventEmitter<any> = new EventEmitter<any>();
   @Input() readOnly: boolean = false;
-  @Input() activeApplicantType=undefined; // canara changes
-  isCorporate:boolean=undefined;
+  @Input() activeApplicantType = undefined; // canara changes
+  isCorporate: boolean = undefined;
   AD_Address_Type = [];
   AD_OCCUP_TYPE = [];
   EmailCheck: string;
-  IsCorporateApplicant:boolean=undefined;
+  IsCorporateApplicant: boolean = undefined;
 
   // tslint:disable-next-line:member-ordering
   fieldDependencies = {
@@ -244,22 +244,22 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.hideOccType.setValue('OCCUPANCY_TYPE');
     this.hideCorrEmail.setValue('CORR_EMAIL');
     this.hidPrefferTime.setValue('PREF_TIME_CONTACT');
-    this.AddressGrid.activeApplicantType=this.activeApplicantType;
-    if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+    this.AddressGrid.activeApplicantType = this.activeApplicantType;
+    if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
       this.hidAddType.setValue('CORP_PRIM_ADDRESS_TYPE');  //changed for canara
-      this.IsCorporateApplicant=true;
-      }else{
-        this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
-        this.IsCorporateApplicant=false;
-      }
-   
+      this.IsCorporateApplicant = true;
+    } else {
+      this.hidAddType.setValue('ADDRESS_TYPE');  //changed for canara
+      this.IsCorporateApplicant = false;
+    }
+
     // this.hidCountryCode.setValue('ISD_COUNTRY_CODE');
     // this.hidLandISDCode.setValue('ISD_COUNTRY_CODE');
-    this.isCorporate=this.services.rloCommonData.globalApplicationDtls.CustomerType=='C'?true:false;
+    this.isCorporate = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' ? true : false;
     this.AD_EMAIL1_CHECKBOX.setValue(true);
     this.CORR_ADD_CHECKBOX.setHidden(true);
-   // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
-   //  this.AD_STATE.setHidden(true);
+    // this.AD_MAILING_ADDRESS.setValue('N',undefined,true);
+    //  this.AD_STATE.setHidden(true);
     const inputMap = new Map();
 
     await this.Handler.onFormLoad({
@@ -420,7 +420,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
           setTimeout(() => {
             this.AD_PINCODE.onReset();
           }, 5000);
-         
+
           return 1;
 
         } else {
@@ -478,11 +478,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     const inputMap = new Map();
     const addGridData: any = this.AddressGrid.getAddressGridData();
     const noOfError: number = await this.revalidate();
-    if(this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false){
+    if (this.AD_EMAIL1_CHECKBOX.getFieldValue() == false && this.AD_EMAIL2_CHECKBOX.getFieldValue() == false) {
       this.AD_EMAIL1_CHECKBOX.setValue(true);
-      this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue()+ ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue(); 
+      this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
     }
-    else{
+    else {
       this.EmailCheck = this.AD_EMAIL1_CHECKBOX.getFieldValue() + ',' + this.AD_EMAIL2_CHECKBOX.getFieldValue();
     }
 
@@ -502,12 +502,12 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'ML' && addGridData[i].AddressTypeId === 'ML') {
-              if(this.services.rloCommonData.globalApplicationDtls.CustomerType=='C' && this.activeApplicantType=='B'){
+              if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
                 this.services.alert.showAlert(2, 'rlo.error.canara-registered-address.exist', -1);
-              }else{
+              } else {
                 this.services.alert.showAlert(2, 'rlo.error.canara-mailing-address.exist', -1);
               }
-             
+
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'PR' && addGridData[i].AddressTypeId === 'PR') {
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
@@ -657,7 +657,7 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     this.services.http.fetchApi('/AddressDetails/{AddressDetailsSeq}', 'GET', inputMap, '/rlo-de').subscribe(
       async (httpResponse: HttpResponse<any>) => {
         const res = httpResponse.body;
-        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']); 
+        this.AD_ADD_TYPE.setValue(res['AddressDetails']['AddressType']);
         this.AD_RES_DUR.setValue(res['AddressDetails']['ResidenceDuration']);
         this.AD_RES_DUR_UNIT.setValue(res['AddressDetails']['Period']['id']);
         this.AD_OCCUPANCY_STATUS.setValue(res['AddressDetails']['ResidenceType']['id']);
@@ -675,9 +675,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
         // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
-        this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'],res['AddressDetails']['MobileCountryCode']);
+        this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'],res['AddressDetails']['LandlineCountryCode']);
+        this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
         const CorrsAdd = res['AddressDetails']['UDF3'];
         const IsSameAdd = res['AddressDetails']['IsSameAddress']
         if (CorrsAdd == 'true') {
@@ -719,7 +719,9 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
       }
     );
   }
-
+  onCountrycodeChanged() {
+    //console.log('country code changed ', this.CD_COUNTRY_CODE);
+  }
   // AddressGrid_addressGridLoaded(event) {
   //   // console.log("Address grid Loaded");
   //   this.updateStageValidation.emit(event);
