@@ -442,36 +442,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
   //   }
   // }
 
-  requestParameterForAddressDetails() {
-    const inputMap = new Map();
-    inputMap.clear();
-    inputMap.set('PathParam.AddressDetailsSeq', this.AD_HIDE_ID.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressType', this.AD_ADD_TYPE.getFieldValue());
-    inputMap.set('Body.AddressDetails.ResidenceType', this.AD_OCCUPANCY_STATUS.getFieldValue());
-    inputMap.set('Body.AddressDetails.OccupancyType', this.AD_OCCUPANCY_TYPE.getFieldValue());
-    inputMap.set('Body.AddressDetails.PreferredTime', this.AD_PREF_TIME.getFieldValue());
-    inputMap.set('Body.AddressDetails.ResidenceDuration', this.AD_RES_DUR.getFieldValue());
-    inputMap.set('Body.AddressDetails.Period', this.AD_RES_DUR_UNIT.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine1', this.AD_ADDRESS_LINE1.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine2', this.AD_ADDRESS_LINE2.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine3', this.AD_ADDRESS_LINE3.getFieldValue());
-    inputMap.set('Body.AddressDetails.AddressLine4', this.AD_ADDRESS_LINE4.getFieldValue());
-    inputMap.set('Body.AddressDetails.PinCode', this.AD_PINCODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.Region', this.AD_REGION.getFieldValue().toUpperCase());
-    inputMap.set('Body.AddressDetails.City', this.AD_CITY.getFieldValue().toUpperCase());
-    inputMap.set('Body.AddressDetails.Country', this.AD_COUNTRY.getFieldInfo().toUpperCase());
-    inputMap.set('Body.AddressDetails.State', this.AD_STATE.getFieldValue().toUpperCase());
-    inputMap.set('Body.AddressDetails.Landmark', this.AD_LANDMARK.getFieldValue());
-    inputMap.set('Body.AddressDetails.LandlineNumber', this.AD_LANDLINE_NUMBER.getFieldValue());
-    inputMap.set('Body.AddressDetails.UDF3', this.CORR_ADD_CHECKBOX.getFieldValue());
-    inputMap.set('Body.AddressDetails.EmailId2', this.AD_EMAIL_ID2.getFieldValue());
-    inputMap.set('Body.AddressDetails.AltMobileNo', this.AD_ALTERNATE_MOB_NO.getFieldValue());
-    // inputMap.set('Body.AddressDetails.MobileCountryCode', this.AD_COUNTRY_CODE.getFieldValue());
-    // inputMap.set('Body.AddressDetails.LandlineCountryCode', this.AD_LAND_COUNTRY_CODE.getFieldValue());
-    inputMap.set('Body.AddressDetails.BorrowerSeq', this.activeBorrowerSeq);
-    inputMap.set('Body.AddressDetails.CorrespondenceEmailAddress', this.EmailCheck);
-    return inputMap;
-  }
   async AD_SAVE_ADDRESS_click(event) {
     let serviceName;
     let method;
@@ -675,9 +645,19 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         this.AD_LANDMARK.setValue(res['AddressDetails']['Landmark']);
         // this.AD_EMAIL_ID1.setValue(res['AddressDetails']['EmailId1']);
         this.AD_EMAIL_ID2.setValue(res['AddressDetails']['EmailId2']);
-        this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
+        // this.AD_ALTERNATE_MOB_NO.setValue(res['AddressDetails']['AltMobileNo']);
+        if (res['AddressDetails']['MobileCountryCode'] != undefined && res['AddressDetails']['MobileCountryCode'] != '') {
+          this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'], res['AddressDetails']['MobileCountryCode']);
+        } else {
+          this.AD_ALTERNATE_MOB_NO.setComponentSpecificValue(res['AddressDetails']['AltMobileNo'], this.services.rloui.getConfig('mob.default.country.code'));
+        }
         this.AD_HIDE_ID.setValue(res['AddressDetails']['AddressDetailsSeq']);
-        this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
+        if (res['AddressDetails']['LandlineCountryCode'] != undefined && res['AddressDetails']['LandlineCountryCode'] != '') {
+          this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'], res['AddressDetails']['LandlineCountryCode']);
+        } else {
+          this.AD_LANDLINE_NUMBER.setComponentSpecificValue(res['AddressDetails']['LandlineNumber'], this.services.rloui.getConfig('mob.default.country.code'));
+        }
+        //  this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
         const CorrsAdd = res['AddressDetails']['UDF3'];
         const IsSameAdd = res['AddressDetails']['IsSameAddress']
         if (CorrsAdd == 'true') {
