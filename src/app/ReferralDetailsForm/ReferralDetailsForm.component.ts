@@ -17,6 +17,7 @@ import { LabelComponent } from '../label/label.component';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ReferralDetailsGridComponent } from '../ReferralDetailsGrid/ReferralDetailsGrid.component';
 import { ReferralDetailsFormHandlerComponent } from '../ReferralDetailsForm/referrer-handler.component';
+import { RloUiMobileComponent } from '../rlo-ui-mobile/rlo-ui-mobile.component';
 
 
 const customCss: string = '';
@@ -29,7 +30,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
   @ViewChild('RD_REF_NAME', { static: false }) RD_REF_NAME: TextBoxComponent;
   @ViewChild('RD_REFERRER_RELATION', { static: false }) RD_REFERRER_RELATION: ComboBoxComponent;
   @ViewChild('RD_ISD_CODE', { static: false }) RD_ISD_CODE: ComboBoxComponent;
-  @ViewChild('RD_REF_NO', { static: false }) RD_REF_NO: TextBoxComponent;
+  @ViewChild('RD_REF_NO', { static: false }) RD_REF_NO: RloUiMobileComponent;
   @ViewChild('RD_REFRRER_EMAILID', { static: false }) RD_REFRRER_EMAILID: TextBoxComponent;
   @ViewChild('RD_ADDRESSLINE1', { static: false }) RD_ADDRESSLINE1: TextBoxComponent;
   @ViewChild('RD_ADDRESSLINE2', { static: false }) RD_ADDRESSLINE2: TextBoxComponent;
@@ -276,7 +277,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         inputMap.set('Body.ReferrerDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
         inputMap.set('Body.ReferrerDetails.CIFNo', this.RD_CIF.getFieldValue());
         inputMap.set('Body.ReferrerDetails.ReferrerRelation', this.RD_REFERRER_RELATION.getFieldValue());
-        // inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_ISD_CODE.getFieldValue());
+        inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_REF_NO.countryCode);
         inputMap.set('Body.ReferrerDetails.ReferrerMobileNumber', this.RD_REF_NO.getFieldValue());
         inputMap.set('Body.ReferrerDetails.ReferrerEmailID', this.RD_REFRRER_EMAILID.getFieldValue());
         inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine1', this.RD_ADDRESSLINE1.getFieldValue());
@@ -374,7 +375,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         inputMap.set('Body.ReferrerDetails.ReferrerName', this.RD_REF_NAME.getFieldValue());
         inputMap.set('Body.ReferrerDetails.CIFNo', this.RD_CIF.getFieldValue());
         inputMap.set('Body.ReferrerDetails.ReferrerRelation', this.RD_REFERRER_RELATION.getFieldValue());
-        // inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_ISD_CODE.getFieldValue());
+        inputMap.set('Body.ReferrerDetails.CountryCode', this.RD_REF_NO.countryCode);
         inputMap.set('Body.ReferrerDetails.ReferrerMobileNumber', this.RD_REF_NO.getFieldValue());
         inputMap.set('Body.ReferrerDetails.ReferrerEmailID', this.RD_REFRRER_EMAILID.getFieldValue());
         inputMap.set('Body.ReferrerDetails.AddressDetails.AddressLine1', this.RD_ADDRESSLINE1.getFieldValue());
@@ -489,7 +490,12 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         this.RD_REF_NAME.setValue(res['ReferrerDetails']['ReferrerName']);
         this.RD_REFERRER_RELATION.setValue(res['ReferrerDetails']['ReferrerRelation']['id']);
         this.RD_CIF.setValue(res['ReferrerDetails']['CIFNo']);
-        this.RD_REF_NO.setValue(res['ReferrerDetails']['ReferrerMobileNumber']);
+        //this.RD_REF_NO.setValue(res['ReferrerDetails']['ReferrerMobileNumber']);
+        if(res['ReferrerDetails']['CountryCode']!=undefined &&res['ReferrerDetails']['CountryCode']!=''){
+          this.RD_REF_NO.setComponentSpecificValue(res['ReferrerDetails']['ReferrerMobileNumber'],res['ReferrerDetails']['CountryCode']);
+        }else{
+          this.RD_REF_NO.setComponentSpecificValue(res['ReferrerDetails']['ReferrerMobileNumber'], this.services.rloui.getConfig('mob.default.country.code'));
+        }
         this.RD_REFRRER_EMAILID.setValue(res['ReferrerDetails']['ReferrerEmailID']);
         if (('AddressDetails' in res['ReferrerDetails'])) {
           this.RD_ADDRESSLINE1.setValue(res['ReferrerDetails']['AddressDetails']['AddressLine1']);
@@ -500,6 +506,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
           this.RD_REGION.setValue(res['ReferrerDetails']['AddressDetails']['Region']);
           this.RD_CITY.setValue(res['ReferrerDetails']['AddressDetails']['City']);
           this.RD_STATE.setValue(res['ReferrerDetails']['AddressDetails']['State']);
+          
           // this.RD_LANDMARK.setValue(res['ReferrerDetails']['AddressDetails']['Landmark']);
           // this.RD_COUNTRY_CODE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineCountryCode']);
           // this.RD_PHONE1.setValue(res['ReferrerDetails']['AddressDetails']['LandlineNumber']);
