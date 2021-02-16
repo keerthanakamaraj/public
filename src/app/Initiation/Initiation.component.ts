@@ -2063,18 +2063,18 @@ onNewCustomerCall(){
             this.BAD_MASK_CARD_NUMBER.setValue(res['outputdata']['PrepaidRefNumberSearch']['CardNum']);
             this.BAD_MASK_CARD_NUMBER.setHidden(true);
             this.BAD_PRODUCT.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProductFranchise']);
-            this.BAD_PRODUCT.setReadOnly(true);
+           
             this.BAD_SUB_PROD.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProdcutClass']);
-            this.BAD_SUB_PROD.setReadOnly(true);
+           
             this.BAD_SCHEME.setValue(res['outputdata']['PrepaidRefNumberSearch']['ProductCode']);
-            this.BAD_SCHEME.setReadOnly(true);
+           
           } else if (res.status === 'F') {
             this.BAD_PRODUCT.onReset();
             this.BAD_SUB_PROD.onReset();
             this.BAD_SCHEME.onReset();
-            this.BAD_PRODUCT.setReadOnly(false);
-            this.BAD_SUB_PROD.setReadOnly(false);
-            this.BAD_SCHEME.setReadOnly(false);
+            // this.BAD_PRODUCT.setReadOnly(false);
+            // this.BAD_SUB_PROD.setReadOnly(false);
+            // this.BAD_SCHEME.setReadOnly(false);
             this.services.alert.showAlert(2, 'rlo.error.ReferenceNumber.invalid', -1);
           }
         }

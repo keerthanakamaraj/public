@@ -849,6 +849,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
     else {
       this.MainComponent.BAD_CARD_NUMBER.setHidden(true);
       this.MainComponent.BAD_CARD_NUMBER.mandatory = false;
+      this.MainComponent.BAD_CARD_NUMBER.onReset();
 
       this.MainComponent.BAD_PRODUCT.onReset();
       this.MainComponent.BAD_SUB_PROD.onReset();
@@ -856,6 +857,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
       this.MainComponent.BAD_PRODUCT.setReadOnly(false);
       this.MainComponent.BAD_SUB_PROD.setReadOnly(false);
       this.MainComponent.BAD_SCHEME.setReadOnly(false);
+      
     }
   }
   HideFieldBasedOnCorporate(customerType?: string, Borrower?: string) {
