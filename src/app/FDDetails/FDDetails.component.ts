@@ -52,6 +52,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
 
     @Input() activeBorrowerSeq: string = undefined;
     // activeBorrowerSeq : any;
+    primaryBorrowerSeq : any;
     tempAccountlist: any;
     FilterOptions = [];
     selectData: any;
@@ -96,12 +97,13 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
         setTimeout(() => {
             this.callAccountDetails();
         }, 500);
-
+        this.getPrimaryApplicantSeq();
         await this.FD_GRID.gridDataLoad({
-            'passBorrowerToFD': this.activeBorrowerSeq,
+            'passBorrowerToFD': this.primaryBorrowerSeq,
         });
-        console.log("activeBorrowerSeq", this.activeBorrowerSeq);
 
+        console.log("activeBorrowerSeq", this.activeBorrowerSeq);
+       
         this.setDependencies();
     }
     setInputs(param: any) {
@@ -176,11 +178,21 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
         this.MaturityAmount.resetFieldAndDropDown();
         this.LienAmount.resetFieldAndDropDown();
     }
-
+    getPrimaryApplicantSeq(){
+    let customerList = this.services.rloCommonData.getCustomerList();
+    console.log("customer list", customerList);
+    for (let index = 0; index < customerList.length; index++) {
+        const element = customerList[index];
+        if(element.CustomerType == "B"){
+            this.primaryBorrowerSeq = element.BorrowerSeq;
+        }
+    }
+    console.log("customer list", this.primaryBorrowerSeq);
+    }
     callAccountDetails() {
         let inputMap = new Map();
         inputMap.clear();
-        let activeBorrowerSeq: any = this.activeBorrowerSeq;
+        let activeBorrowerSeq: any = this.primaryBorrowerSeq;
         // let activeBorrowerSeq = 8004;
         let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
         if (activeBorrowerSeq) {
@@ -295,7 +307,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             if (this.FD_ID.getFieldValue() != undefined) {
                 inputMap.clear();
                 inputMap.set('PathParam.AssetSeq', this.FD_ID.getFieldValue());
-                inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
+                inputMap.set('Body.AssetDetails.BorrowerSeq', this.primaryBorrowerSeq);
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.IncludeInDBR.getFieldValue());
                 inputMap.set('Body.AssetDetails.FDNumber', this.FDNumber.getFieldValue());
                 inputMap.set('Body.AssetDetails.DateOfMaturity', this.DateofMaturity.getFieldValue());
@@ -343,7 +355,7 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
             }
             else {
                 inputMap.clear();
-                inputMap.set('Body.AssetDetails.BorrowerSeq', this.activeBorrowerSeq);
+                inputMap.set('Body.AssetDetails.BorrowerSeq', this.primaryBorrowerSeq);
                 inputMap.set('Body.AssetDetails.IncludeInDBR', this.IncludeInDBR.getFieldValue());
                 inputMap.set('Body.AssetDetails.FDNumber', this.FDNumber.getFieldValue());
                 inputMap.set('Body.AssetDetails.DateOfMaturity', this.DateofMaturity.getFieldValue());
