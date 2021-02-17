@@ -492,7 +492,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
 
   async CD_SAVE_BTN_click(event) {
-   
+
 
     const inputMap = new Map();
     //    this.customerDetailMap = any;
@@ -746,8 +746,8 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
             this.services.alert.showAlert(1, 'rlo.success.save.customer', 5000);
             this.CD_SAVE_BTN.setDisabled(false);
             let fullName = this.CD_REGISTERED_NAME.getFieldValue() != undefined ? this.CD_REGISTERED_NAME.getFieldValue() : this.CD_FULL_NAME.getFieldValue();
-            if(this.CD_CARD_CUST_TYPE.getFieldValue() !== 'B'){
-             // this.parentData.isAddedNewMember = false;
+            if (this.CD_CARD_CUST_TYPE.getFieldValue() !== 'B') {
+              // this.parentData.isAddedNewMember = false;
               // let parentData: IGlobalApllicationDtls = {
               //    isAddedNewMember : false
               // }
@@ -976,12 +976,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CD_REGISTERED_NAME.setValue(customer.RegisteredName);
     this.CD_INCORPORATE_DATE.setValue(customer.DateOfIncorporation);
-    if(customer.TypeOfIncorporation == ''){
+    if (customer.TypeOfIncorporation == '') {
       this.CD_INCORPORATE_TYPE.onReset();
-      }
-      else{
-        this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
-      }
+    }
+    else {
+      this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
+    }
 
     this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
@@ -1052,10 +1052,10 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.CD_CIF.setValue(customer.CIF);
 
     this.CustSubSegment.setValue(customer.CustSubSegment.id);
-    if(customer.RequestedCreditLimit == ''){
-    this.RequestedAmountLimit.resetFieldAndDropDown();
+    if (customer.RequestedCreditLimit == '') {
+      this.RequestedAmountLimit.resetFieldAndDropDown();
     }
-    else{
+    else {
       this.RequestedAmountLimit.setComponentSpecificValue(customer.RequestedCreditLimit);
     }
     this.CardDispatchMode.setValue(customer.PickUpInstruction);
@@ -1082,8 +1082,11 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
           "data": array,
           "BorrowerSeq": this.HidCustomerId.getFieldValue()
         };
-
+        console.warn("DEEP | CustomerDtls", obj);
         this.services.rloCommonData.globalComponentLvlDataHandler(obj);
+      }
+      else {
+        console.error("DEEP | CustomerDtls ERROR");
       }
     });
     // this.passfullName.emit({
@@ -1157,9 +1160,9 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
     this.showHideCustSegment(event.CustomerType);
   }
 
-  showHideCustSegment(applicantType){
+  showHideCustSegment(applicantType) {
     if (applicantType == 'B' && this.parentFormCode == 'DDE') {
-      let  readonlySegmentFlag= this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C'?true:false;
+      let readonlySegmentFlag = this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' ? true : false;
       this.CD_CUST_SEGMENT.setReadOnly(!readonlySegmentFlag);
       this.CustSubSegment.setReadOnly(!readonlySegmentFlag);
       this.CD_CUST_SEGMENT.setHidden(false);
@@ -1563,7 +1566,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
           console.error("applicationCustomerType", applicationCustomerType);
 
           if (response.CustomerType == 'C') {
-            if(this.CD_CARD_CUST_TYPE.getFieldValue() == 'A'){
+            if (this.CD_CARD_CUST_TYPE.getFieldValue() == 'A') {
               // this.services.alert.showAlert(2, 'User Cannot add Corporate for Addon Customer', -1)
               this.services.alert.showAlert(2, '', 4000, 'User Cannot Add Corporate Record For Addon Customer');
               return;
@@ -1621,18 +1624,18 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
   }
 
   async RequestedAmountLimit_blur(fieldId, event) {
-    let amountToCompare:any;
-    amountToCompare=this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC'?
-    this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit:
-    this.services.rloCommonData.globalApplicationDtls.ReqCardLimit;
-    
-    if (!this.RequestedAmountLimit.isAmountEmpty() && amountToCompare!=undefined) {
-    if (parseFloat(amountToCompare) < parseFloat(this.RequestedAmountLimit.getFieldValue())) {
-      this.RequestedAmountLimit.setError(this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC' ? 'rlo.error.member.addon.req-amt-lmt' : 'rlo.error.addon.req-amt-lmt');
-      return 1;
+    let amountToCompare: any;
+    amountToCompare = this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC' ?
+      this.services.rloCommonData.globalApplicationDtls.ApprovedCardLimit :
+      this.services.rloCommonData.globalApplicationDtls.ReqCardLimit;
+
+    if (!this.RequestedAmountLimit.isAmountEmpty() && amountToCompare != undefined) {
+      if (parseFloat(amountToCompare) < parseFloat(this.RequestedAmountLimit.getFieldValue())) {
+        this.RequestedAmountLimit.setError(this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC' ? 'rlo.error.member.addon.req-amt-lmt' : 'rlo.error.addon.req-amt-lmt');
+        return 1;
+      }
     }
   }
-}
   customGenericOnBlur(event: any) {
     // this.genericOnBlur('RequestedAmountLimit', event.textFieldValue);
     this.genericOnBlur(event.field, event.textFieldValue);
