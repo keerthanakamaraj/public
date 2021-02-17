@@ -71,6 +71,7 @@
     "rlo.success.withdraw": "The application has been successfully withdrawn.",
     "rlo.success.reject": "The application has been successfully rejected.",
     "rlo.success.refer": "The application has been successfully referred.",
+    "rlo.success.sendback" : "The application has been successfully sendback.",
     "rlo.error.code.address": "Please select the country code.",
     "rlo.error.landline.address": "Please enter a landline number.",
     "rlo.error.mobile.address": "Please enter a mobile number.",

@@ -700,7 +700,7 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
                 data.data[6].subTitle = this.services.formatAmount(lienAmount, null, null, false)
               }
             }
-            else{
+            else {
               data.data.pop();
             }
 
@@ -1342,10 +1342,30 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
           this.services.http.fetchApi('/acceptUW', 'POST', inputMap, '/rlo-de').subscribe(
             async (httpResponse: HttpResponse<any>) => {
               const res = httpResponse.body;
-              if (res != null) {
-                this.services.router.navigate(['home', 'LANDING']);
-                // this.submitQDE(requestParams);
-              }
+              var mainMessage = this.services.rloui.getAlertMessage('rlo.success.sendback');
+              var button1 = this.services.rloui.getAlertMessage('', 'OK');
+
+              Promise.all([mainMessage, button1]).then(values => {
+                console.log(values);
+                let modalObj = {
+                  title: "Alert",
+                  mainMessage: values[0],
+                  modalSize: "modal-width-sm",
+                  buttons: [
+                    { id: 1, text: values[1], type: "success", class: "btn-primary" },
+                  ]
+                }
+
+                console.log("deep ===", modalObj);
+                this.services.rloui.confirmationModal(modalObj).then((response) => {
+                  console.log(response);
+                  if (response != null) {
+                    if (response.id === 1) {
+                      this.services.router.navigate(['home', 'LANDING']);
+                    }
+                  }
+                });
+              });
             },
           );
         }
