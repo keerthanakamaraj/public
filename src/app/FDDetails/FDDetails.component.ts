@@ -92,12 +92,12 @@ export class FDDetailsComponent extends FormComponent implements OnInit, AfterVi
         this.hidAutoRenewal.setValue('Y_N');
         // this.hidFDNumber.setValue('ASSET_STATUS');
         this.hideIncludeInDBR.setValue('Y_N');
+        this.getPrimaryApplicantSeq();
         await this.Handler.onFormLoad({
         });
         setTimeout(() => {
             this.callAccountDetails();
         }, 500);
-        this.getPrimaryApplicantSeq();
         await this.FD_GRID.gridDataLoad({
             'passBorrowerToFD': this.primaryBorrowerSeq,
         });
