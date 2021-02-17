@@ -74,7 +74,6 @@ export interface IGlobalApllicationDtls {
   isAddedNewMember?: boolean;
   ActiveStage?: string;
   ApprovedCardLimit?:any;
-
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -344,6 +343,13 @@ export class RloCommonData {
   //updateTags
   async updateAddressTags(event) {
     const tags = [];
+    let activeApplicantType=undefined;
+    if(event.data!=undefined){
+      let activeApplicant= await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
+      if(activeApplicant!=undefined){
+        activeApplicantType=activeApplicant['CustomerType'];
+      }
+    }
     event.data.forEach(address => {
       let tagText = '';
       // if (address.MailingAddress.id === 'Y') {
@@ -354,7 +360,7 @@ export class RloCommonData {
       //   }
       // }
       if (address.AddressType === 'ML') {
-        if (this.globalApplicationDtls.CustomerType == 'C') {
+        if (this.globalApplicationDtls.CustomerType == 'C' && activeApplicantType=='B') {
           tagText = 'Registered; ';
         } else {
           tagText = 'Mailing; ';
