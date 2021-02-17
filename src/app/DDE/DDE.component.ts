@@ -1849,25 +1849,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
             modalSize: "modal-width-sm",
             buttons: [
               { id: 1, text: values[1], type: "success", class: "btn-primary" },
-              //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
             ]
           }
 
-          console.log("deep ===", modalObj);
           this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
-            }
+            this.services.router.navigate(['home', 'LANDING']);
           });
         });
-        // this.QDE_SUBMIT.setDisabled(true);
-        // this.QDE_WITHDRAW.setDisabled(true);
-        // this.services.alert.showAlert(1, alertMsg, 5000);
-        // // this.QDE_SUBMIT.setDisabled(false)
-        // this.services.router.navigate(['home', 'LANDING']);
       },
       async (httpError) => {
         const err = httpError['error'];

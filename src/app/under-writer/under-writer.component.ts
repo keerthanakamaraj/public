@@ -1155,19 +1155,9 @@ export class UnderWriterComponent extends FormComponent implements OnInit {
 
           console.log("deep ===", modalObj);
           this.services.rloui.confirmationModal(modalObj).then((response) => {
-            console.log(response);
-            if (response != null) {
-              if (response.id === 1) {
-                this.services.router.navigate(['home', 'LANDING']);
-              }
-            }
+            this.services.router.navigate(['home', 'LANDING']);
           });
         });
-        // this.QDE_SUBMIT.setDisabled(true);
-        // this.QDE_WITHDRAW.setDisabled(true);
-        // this.services.alert.showAlert(1, alertMsg, 5000);
-        // // this.QDE_SUBMIT.setDisabled(false)
-        // this.services.router.navigate(['home', 'LANDING']);
       },
       async (httpError) => {
         const err = httpError['error'];

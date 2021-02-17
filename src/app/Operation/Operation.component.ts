@@ -778,18 +778,19 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
     inputMap.set('Body.prposalid', this.ApplicationId);
     inputMap.set('Body.CreatedBy', this.userId);
     inputMap.set('Body.UpdatedBy', this.userId);
-    if(this.services.rloCommonData.globalApplicationDtls.CamType == 'NAPP'){
-    if('C'==this.services.rloCommonData.globalApplicationDtls.CustomerType){
-    inputMap.set('Body.interfaceId','CORP_CARD_BOOKING');}
-    else if('I'==this.services.rloCommonData.globalApplicationDtls.CustomerType){
-      inputMap.set('Body.interfaceId','CARD_BOOKING');
+    if (this.services.rloCommonData.globalApplicationDtls.CamType == 'NAPP') {
+      if ('C' == this.services.rloCommonData.globalApplicationDtls.CustomerType) {
+        inputMap.set('Body.interfaceId', 'CORP_CARD_BOOKING');
+      }
+      else if ('I' == this.services.rloCommonData.globalApplicationDtls.CustomerType) {
+        inputMap.set('Body.interfaceId', 'CARD_BOOKING');
+      }
     }
-  }
-    if(this.services.rloCommonData.globalApplicationDtls.CamType == 'LE'){
-      inputMap.set('Body.interfaceId','LIMIT_ENHANCEMENT');
+    if (this.services.rloCommonData.globalApplicationDtls.CamType == 'LE') {
+      inputMap.set('Body.interfaceId', 'LIMIT_ENHANCEMENT');
     }
-    else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC'){
-      inputMap.set('Body.interfaceId','CORP_ADDON');
+    else if (this.services.rloCommonData.globalApplicationDtls.CamType == 'MEMC') {
+      inputMap.set('Body.interfaceId', 'CORP_ADDON');
     }
     inputMap.set('Body.inputdata.downPayment.paymentToBank', '0');
     inputMap.set('Body.inputdata.downPayment.paymentToOthers', '0');
@@ -822,19 +823,13 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
               mainMessage: values[0],
               modalSize: "modal-width-sm",
               buttons: [
-                { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                { id: 1, text: values[1], type: "success", class: "btn-primary" }
               ]
             }
 
             console.log("deep ===", modalObj);
             this.services.rloui.confirmationModal(modalObj).then((response) => {
-              console.log(response);
-              if (response != null) {
-                if (response.id === 1) {
-                  this.services.router.navigate(['home', 'LANDING']);
-                }
-              }
+              this.services.router.navigate(['home', 'LANDING']);
             });
           });
         }
@@ -858,6 +853,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
       }
     );
   }
+
   async OPERATION_WITHDRAW_click(event) {
     const inputMap = new Map();
     inputMap.clear();
@@ -914,12 +910,7 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
                       ]
                     }
                     this.services.rloui.confirmationModal(modalObj).then((response) => {
-                      console.log(response);
-                      if (response != null) {
-                        if (response.id === 1) {
-                          this.services.router.navigate(['home', 'LANDING']);
-                        }
-                      }
+                      this.services.router.navigate(['home', 'LANDING']);
                     });
                   });
                 }
@@ -999,23 +990,14 @@ export class OperationComponent extends FormComponent implements OnInit, AfterVi
                       mainMessage: values[0],
                       modalSize: "modal-width-sm",
                       buttons: [
-                        { id: 1, text: values[1], type: "success", class: "btn-primary" },
-                        //   { id: 2, text: values[2], type: "failure", class: "btn-warning-outline" }
+                        { id: 1, text: values[1], type: "success", class: "btn-primary" }
                       ]
                     }
                     this.services.rloui.confirmationModal(modalObj).then((response) => {
-                      console.log(response);
-                      if (response != null) {
-                        if (response.id === 1) {
-                          this.services.router.navigate(['home', 'LANDING']);
-                        }
-                      }
+                      this.services.router.navigate(['home', 'LANDING']);
                     });
                   });
                 }
-                // if (response.id === 1) {
-                //   this.services.router.navigate(['home', 'LANDING']);
-                // }
               }
             });
           });
