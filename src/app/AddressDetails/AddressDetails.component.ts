@@ -369,7 +369,6 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
     const inputMap = new Map();
     // this.addonblur.emit({});
     //  await this.Handler.onAddTypeChange(); // removed for canara 
-
     this.onCanaraAddressTypeChange(); // called for the canara 
 
   }
@@ -659,17 +658,18 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
         }
         //  this.AD_LANDLINE_NUMBER.setValue(res['AddressDetails']['LandlineNumber']);
         const CorrsAdd = res['AddressDetails']['UDF3'];
-        const IsSameAdd = res['AddressDetails']['IsSameAddress']
         if (CorrsAdd == 'true') {
           this.CORR_ADD_CHECKBOX.setValue(true);
         } else {
           this.CORR_ADD_CHECKBOX.setValue(false);
         }
-        if (IsSameAdd == 'true') {
-          this.SAME_ADDRESS.setValue(true);
-        } else {
+
+       // const IsSameAdd = res['AddressDetails']['IsSameAddress'] //code commented for the canara. flag would be always false on Edit
+        // if (IsSameAdd == 'true') {
+        //   this.SAME_ADDRESS.setValue(true);
+        // } else {
           this.SAME_ADDRESS.setValue(false);
-        }
+       // }
         const array = res['AddressDetails']['CorrespondenceEmailAddress'].split(',');
         if (array[0] === 'true') {
           this.AD_EMAIL1_CHECKBOX.setValue(true);
