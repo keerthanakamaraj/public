@@ -474,7 +474,7 @@ export class RloCommonData {
     if (this.masterDataMap.has('customerMap')) {
       const customerMap = this.masterDataMap.get('customerMap');
       customerMap.forEach(entry => {
-        if ((entry instanceof Map) && entry.has('CustomerDetails')) {
+        if ( (entry instanceof Map) && entry.has('CustomerDetails')) {
           CustomerList.push(entry.get('CustomerDetails'));
         }
       });
@@ -691,8 +691,6 @@ export class RloCommonData {
           commonObj.isSectionValid = false;
         }
       }
-    } else {
-      commonObj.isSectionValid = false;
     }
     // commented for canara
     /*if (!commonObj.isSectionValid) {
