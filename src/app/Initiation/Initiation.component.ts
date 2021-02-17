@@ -804,6 +804,9 @@ onNewCustomerCall(){
   this.BAD_DATE_OF_RCPT.onReset();
   this.BAD_DSA_ID.onReset();
   this.BAD_PRIME_USAGE.onReset();
+  this.RD_REFERRER_NAME.onReset();
+  this.RD_REFERRER_NO.onReset();
+  this.REF_CIF.onReset();
 }
   }
 

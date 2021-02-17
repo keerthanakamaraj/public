@@ -976,8 +976,12 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
 
     this.CD_REGISTERED_NAME.setValue(customer.RegisteredName);
     this.CD_INCORPORATE_DATE.setValue(customer.DateOfIncorporation);
-    this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
-
+    if(customer.TypeOfIncorporation == ''){
+      this.CD_INCORPORATE_TYPE.onReset();
+      }
+      else{
+        this.CD_INCORPORATE_TYPE.setValue(customer.TypeOfIncorporation);
+      }
 
     this.CD_TITLE.setValue(customer.Title.id);
     this.CD_FIRST_NAME.setValue(customer.FirstName);
