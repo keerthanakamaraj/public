@@ -1409,6 +1409,11 @@ a.back {
         opacity: 0;
         transition: opacity 0.33s ease-in; //testing
 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 193px;
+
         // visibility: visible;
         // opacity: 1;
         span {
@@ -1491,7 +1496,8 @@ a.back {
   }
 
   .main-container:hover {
-    width: 22rem;
+    // width: 22rem;
+    width: 275px;
     z-index: 9;
   }
 
@@ -5249,7 +5255,7 @@ rlo-ui-card-field {
   }
 }
 
-//hide the ag-grid total row edit and del icons 
+//hide the ag-grid total row edit and del icons
 .hide-edit-del-icons {
   .ag-row-last :nth-last-child(-n + 2) {
     app-grid-button-col {
