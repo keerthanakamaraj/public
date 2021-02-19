@@ -62,10 +62,14 @@
             <!-- <img src="assets/images/icons/error-404.svg" alt="Error 404" title="Error 404"> -->
             <img src="assets/images/icons/reject.svg" alt="Reject" title="Rlose">
             <p style="color: black" class="sentral">Page not found</p>
-            <p style="color: black"><span> <a routerLink="/home/alpha" *ngIf="http.loggedIn">Click here to goto
-                  home</a></span></p>
-            <p style="color: black"><span><a routerLink="/login/elogin" *ngIf="!http.loggedIn">Click here to goto
-                  Login</a></span></p>
+            <!-- <p style="color: black"><span> <a routerLink="/home/alpha" *ngIf="http.loggedIn">Click here to goto
+                  home</a></span></p> -->
+            <!-- <p style="color: black" ><span><a routerLink="/login/elogin" *ngIf="!http.loggedIn">Click here to goto
+                  Login</a></span></p> -->
+
+            <p>
+              <span style="color: #337ab7;cursor: pointer;" (click)="goToLogin()">Click here to goto Login</span>
+            </p>
           </div>
 
         </div>
