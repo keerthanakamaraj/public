@@ -2666,6 +2666,7 @@
   },
   "CreditCardInputGrid": {
     "MemberName": "Member Name",
+    "AddOnName":"Add On Name",
     "CardNumber": "Card Number",
     "CardStatus": "Card Status",
     "LatestLimitDate": "Latest Limit Date",
