@@ -562,24 +562,30 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     });
   }
-  onCustomerTypeSelected(){
-    if(this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' || this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() != 'I'){
-      this.services.alert.showAlert(2, '', -1, 'Secured Cards product will be available only to those applicants whose Customer Type is Individual');
-    }
-  }
+  // onCustomerTypeSelected(){
+  //   if(this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' || this.BAD_CARD_TYPE.getFieldValue() == 'SC' && this.BAD_CUSTOMER_TYPE.getFieldValue() != 'I'){
+  //     this.services.alert.showAlert(2, '', -1, 'Secured Cards product will be available only to those applicants whose Customer Type is Individual');
+  //   }
+  // }
 
-  onTypeSelection(){
-    if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
-      this.services.alert.showAlert(2, '', -1, 'Customer Type not match with Card Type');
-      return;
-    }
-  }
+  // onTypeSelection(){
+  //   if ((this.BAD_CUSTOMER_TYPE.getFieldValue() === 'C' && this.BAD_CARD_TYPE.getFieldValue() !== 'CORP') || (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICNP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'ICP') && (this.BAD_CUSTOMER_TYPE.getFieldValue() === 'I' && this.BAD_CARD_TYPE.getFieldValue() !== 'SC')) {
+  //     this.services.alert.showAlert(2, '', -1, 'Customer Type not match with Card Type');
+      
+  //     return;
+  //   }
+  // }
   BAD_CARD_TYPE_change() {
     this.Handler.CardNumberEnable();
-      this.onCustomerTypeSelected(); 
-      this.onTypeSelection()
   }
-
+ async BAD_CARD_TYPE_blur(){
+  if ((this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.BAD_CARD_TYPE.getFieldValue() != 'CORP') ||
+     (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I' && this.BAD_CARD_TYPE.getFieldValue() == 'CORP')) {
+      this.services.alert.showAlert(2, '', -1, 'rlo.error.initiation.invalid-card-type');
+      this.BAD_CARD_TYPE.setError('rlo.error.invalid-card-type');
+      return 1;
+    }
+}
 
   async SEARCH_CUST_BTN_click(event) {
     this.searchbutton = 'Y';

@@ -138,7 +138,8 @@
     "rlo.error.formdetails.invalid": "All the form errors have been highlighted. Please correct them",
     "rlo.error.ProductCategory.invalid": "Please Select a Product Category",
     "rlo.error.Scheme.invalid": "Please select a Scheme",
-    "rlo.error.Borrower.exist": "Only one Primary Applicant can be added. Please select Applicant Type as Add on",
+    "rlo.error.primary-applicant.exist": "Only one Primary Applicant can be added. Please select Applicant Type as Add on",
+    "rlo.error.corporate-applicant.exist": "Only one Corporate Applicant can be added. Please select Applicant Type as Member",
     "rlo.error.fillone.rdetailsform": "Please fill at least one field to save the Referrer Details.",
     "rlo.error.address.exist": "The same Address Details have already been added. Please add other details.",
     "rlo.error.occupation.company.exist": "The same Company Name has already been added. Please add other details.",
@@ -251,6 +252,8 @@
     "rlo.error.approvedlimit.lien.product" : "Approved Card Limit value cannot be increased",
     "rlo.success.trigger.interface":"Interface triggered successfully.",
     "rlo.error.trigger.interface":"Unable to trigger interface.",
+    "rlo.error.initiation.invalid-card-type" : "Customer Type not match with Card Type",
+    "rlo.error.invalid-card-type": "Invalid Card Type",
 
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",

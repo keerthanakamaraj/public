@@ -425,7 +425,7 @@ export class InitiationHandlerComponent extends RLOUIHandlerComponent implements
         if (this.customers[i].tempId !== this.editId) {
           if (customer.customerType.value == 'B') {
             if (this.customers[i].customerType.value == 'B' && this.customers[i].tempId !== this.editId) {
-              this.MainComponent.services.alert.showAlert(2, 'rlo.error.Borrower.exist', -1);
+              this.MainComponent.services.alert.showAlert(2, this.MainComponent.BAD_CUSTOMER_TYPE.getFieldValue()=='C'?'rlo.error.corporate-applicant.exist':'rlo.error.primary-applicant.exist', -1);
               return;
             }
           }
