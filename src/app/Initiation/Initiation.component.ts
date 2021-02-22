@@ -201,6 +201,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
   refferalValid: boolean = false;
   FilterOptions = [];
   unique: boolean = true;
+  custSearchButton: string;
   async revalidateCustomers(): Promise<number> {
     var totalErrors = 0;
     super.beforeRevalidate();
@@ -272,7 +273,17 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
         });
       }
 
-    } else if (this.BAD_PROD_CAT.getFieldValue() != 'CC') {
+    } 
+    else if(this.custSearchButton == 'Y'){
+      await Promise.all([
+        this.revalidateBasicField('CD_CIF'),
+      ]).then((errorCounts) => {
+        errorCounts.forEach((errorCount) => {
+          totalErrors += errorCount;
+        });
+      });
+    }
+     else if (this.BAD_PROD_CAT.getFieldValue() != 'CC') {
       await Promise.all([
         this.revalidateBasicField('SRC_MOBILE_NO'),
         this.revalidateBasicField('SRC_TAX_ID'),
@@ -606,6 +617,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
           // this.CBSProductCode(response);
           if (typeof response != "boolean")
             this.IsInitiationAllowedForBranch(response);
+            this.searchbutton = 'N';
           //  this.NoOfCardAllowed(response);
           // this.IsInitiationAllowedForBranch(response);
           this.toggleColumn();
@@ -623,7 +635,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       });
     }
     else {
-      this.services.alert.showAlert(2, '', -1, 'Please correct form errors');
+      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
 
   }
@@ -914,7 +926,8 @@ onNewCustomerCall(){
     //   this.BAD_BRANCH.onReset();
     // }
     // this.CBSProductCode(data);
-    this.searchbutton = 'N';
+   
+  
     if (tempVar != '' || tempVar != undefined)
       //this.CD_EXISTING_CUST.setValue('Y');
 
@@ -1915,49 +1928,57 @@ onNewCustomerCall(){
 
   }
 
-  searchForCustomer(type: any) {
+  async searchForCustomer(type: any) {
+    this.custSearchButton = 'Y';
     let obj: ICustomSearchObject = {};
 
-    console.log("searchForCustomer()", type);
-    if (type.inputBtn == "CD_CUSTOMER_ID") {
-      obj.searchType = "Internal";
-    } else {
-      obj.searchType = "External";
-    }
-
-    obj.cifId = this.CD_CIF.getFieldValue();
-    obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
-    obj.staffId = this.CD_STAFF_ID.getFieldValue();
-
-    console.log(obj);
-    if ((obj.cifId != "" && obj.cifId != undefined)) {
-
-      // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
-
-      this.services.rloui.openCustomerSearch(obj).then((response: any) => {
-        if (response != null) {
-          console.log(response);
-          if (typeof response != "boolean") {
-            // this.ApplicationStatus(response);
-            //this.CBSProductCode(response);
-            //  this.IsInitiationAllowedForBranch(response);
-            // this.setValuesOfCustomer(response);
-            // if (typeof response != "boolean")
-            this.IsInitiationAllowedForBranch(response);
-            // this.revalidateCustomers();
+    const errorCount = await this.revalidate();
+    if(errorCount == 0){
+      console.log("searchForCustomer()", type);
+      if (type.inputBtn == "CD_CUSTOMER_ID") {
+        obj.searchType = "Internal";
+      } else {
+        obj.searchType = "External";
+      }
+  
+      obj.cifId = this.CD_CIF.getFieldValue();
+      obj.customerId = this.CD_CUSTOMER_ID.getFieldValue();
+      obj.staffId = this.CD_STAFF_ID.getFieldValue();
+  
+      console.log(obj);
+      if ((obj.cifId != "" && obj.cifId != undefined)) {
+  
+        // if ((obj.cifId != "" && obj.cifId != undefined) || (obj.customerId != "" && obj.customerId != undefined) || (obj.staffId != "" && obj.staffId != undefined)) {
+  
+        this.services.rloui.openCustomerSearch(obj).then((response: any) => {
+          if (response != null) {
+            console.log(response);
+            if (typeof response != "boolean") {
+              // this.ApplicationStatus(response);
+              //this.CBSProductCode(response);
+              //  this.IsInitiationAllowedForBranch(response);
+              // this.setValuesOfCustomer(response);
+              // if (typeof response != "boolean")
+              this.IsInitiationAllowedForBranch(response);
+              this.custSearchButton = 'N';
+              // this.revalidateCustomers();
+            }
+            else {
+              if (response)
+                this.CD_RESET_click();
+            }
           }
           else {
-            if (response)
-              this.CD_RESET_click();
+            console.warn("DEEP | No customer selected");
           }
-        }
-        else {
-          console.warn("DEEP | No customer selected");
-        }
-      });
-    } else {
-      this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
+        });
+      } else {
+        this.customerSearchGenericOnBlur(type.inputBtn, this.CD_CIF.getFieldValue())
+      }
+    }else{
+      this.services.alert.showAlert(2, '', -1, 'Please enter valid CBS Customer ID');
     }
+   
   }
 
   validateCustomerId() {

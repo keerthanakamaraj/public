@@ -583,6 +583,9 @@ export class FormComponent {
 
     var value = this[fieldId].componentName == 'RLOUIRadioComponent' ?
       this[fieldId].getFieldValue() : formModelObject[fieldId];
+
+      var value = this[fieldId].componentName == 'RLOUICustomerSearchComp' ?
+      this[fieldId].getFieldValue() : formModelObject[fieldId];
     // var mand = this[fieldId].isMandatory();
     // console.log(" debug :: revalidation",fieldId," : ",mand, " : ",value);
     if (value != undefined && value.toString() != "") {

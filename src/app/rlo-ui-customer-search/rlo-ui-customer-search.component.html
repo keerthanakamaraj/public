@@ -2,6 +2,7 @@
     <div class="input-container">
         <div class="input-text-group">
             <input [attr.id]="fieldID" type="text" [placeholder]="placeholder" (change)="onChange($event)"
+               (input)="validateValue($event.target.value, $event)"
                 [maxlength]="maxLength" [ngClass]="{'error' : error, 'input-readonly':readOnly}" [(ngModel)]="value"
                 (focus)="onFocus()" (blur)="onBlur()" [name]="fieldID" class="form-control {{customClass}}"
                 [disabled]="readOnly" [ngStyle]="{'text-align' : valueAlign}" />
