@@ -211,7 +211,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
       //this.revalidateBasicField('CD_EXISTING_CUST'),
       //this.revalidateBasicField('CD_STAFF'),
 
-      this.revalidateBasicField('CD_CIF'),
+      // this.revalidateBasicField('CD_CIF'),
       //this.revalidateBasicField('CD_STAFF_ID'),
       //this.revalidateBasicField('CD_CUSTOMER_ID'),
 

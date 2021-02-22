@@ -165,7 +165,7 @@ export class CustomerDtlsComponent extends FormComponent implements OnInit, Afte
         // this.revalidateBasicField('CD_CUST_TYPE'),
         // this.revalidateBasicField('CD_EXISTING_CUST', false, showErrors),
         // this.revalidateBasicField('CD_STAFF', false, showErrors),
-        this.revalidateBasicField('CD_CIF', false, showErrors),
+        // this.revalidateBasicField('CD_CIF', false, showErrors),
         this.revalidateBasicField('CD_STAFF_ID', false, showErrors),
         // this.revalidateBasicField('CD_CUST_ID', false, showErrors),
         this.revalidateBasicField('CD_TITLE', false, showErrors),
