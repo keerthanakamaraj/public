@@ -29,6 +29,7 @@
     "rlo.error.emailcheckbox.address": "You have to select at least one checkbox.",
     "rlo.error.current.address": "Current Address has already been added.",
     "rlo.error.permanent.address": "Permanent Address has already been added.",
+    "rlo.error.communication.address": "Communication Address has already been added.",
     "rlo.error.canara-mailing-address.exist": "Mailing Address has already been added.",
     "rlo.error.canara-registered-address.exist": "Registered Address has already been added.",
     "rlo.error.email.address": "You have to add an alternate email ID.",

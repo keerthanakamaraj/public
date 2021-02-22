@@ -479,7 +479,11 @@ export class AddressDetailsComponent extends FormComponent implements OnInit, Af
 
               return;
             } else if (this.AD_ADD_TYPE.getFieldValue() == 'PR' && addGridData[i].AddressTypeId === 'PR') {
+              if (this.services.rloCommonData.globalApplicationDtls.CustomerType == 'C' && this.activeApplicantType == 'B') {
+                this.services.alert.showAlert(2, 'rlo.error.communication.address', -1);
+              }else{
               this.services.alert.showAlert(2, 'rlo.error.permanent.address', -1);
+              }
               return;
             }
             if (this.AD_ADD_TYPE.getFieldValue() === 'OF' && addGridData[i].AD_Address_Type.id === 'OF') {
