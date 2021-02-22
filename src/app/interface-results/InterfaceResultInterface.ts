@@ -13,4 +13,5 @@ export interface IInterfaceResultData {
   InterfaceId?: any,
   TriggerDate?: any,
   TriggerStage?: any,
+  isTriggered?: boolean
 }

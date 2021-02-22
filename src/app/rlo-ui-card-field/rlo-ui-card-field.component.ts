@@ -19,6 +19,7 @@ import { IModalData } from '../popup-alert/popup-interface';
 export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
   @Input() type: string;
   @Output() onIconClick = new EventEmitter<any>();
+  @Output() onInterfaceRefresh = new EventEmitter<any>();
   subTitle: string = "";
 
   @Input('cardFieldMetaData') cardFieldMetaData: ICardListData;
@@ -43,6 +44,7 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
     if (this.cardFieldMetaData.subTitle != "NA" && this.cardFieldMetaData.formatToCurrency) {
       this.cardFieldMetaData.subTitle = this.services.formatAmount(this.cardFieldMetaData.subTitle, null, null, false)
     }
+    console.log(this.cardFieldMetaData);
   }
 
   onClickButton(event) {
@@ -100,8 +102,16 @@ export class RloUiCardFieldComponent extends FieldComponent implements OnInit {
     this.services.rloui.openComponentModal(obj);
   }
 
-  getInterfaceData() {
+  getInterfaceData(type: "CIBIL" | "Experian") {
     let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-    this.services.rloCommonData.getInterfaceModalData(appId);
+    this.services.rloCommonData.getInterfaceModalData(appId, type);
+  }
+
+  interfaceRefeshed(cardFieldMetaData) {
+    let obj = {
+      'interfaceId': cardFieldMetaData.interfaceId,
+      'type': cardFieldMetaData.title
+    }
+    this.onInterfaceRefresh.emit(obj);
   }
 }

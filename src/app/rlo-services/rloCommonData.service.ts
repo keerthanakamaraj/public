@@ -73,7 +73,7 @@ export interface IGlobalApllicationDtls {
   CIF?: any;
   isAddedNewMember?: boolean;
   ActiveStage?: string;
-  ApprovedCardLimit?:any;
+  ApprovedCardLimit?: any;
   // #PR-38 - dev
   //MaxCredit?: any;
   //
@@ -343,11 +343,11 @@ export class RloCommonData {
   //updateTags
   async updateAddressTags(event) {
     const tags = [];
-    let activeApplicantType=undefined;
-    if(event.data!=undefined){
-      let activeApplicant= await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
-      if(activeApplicant!=undefined){
-        activeApplicantType=activeApplicant['CustomerType'];
+    let activeApplicantType = undefined;
+    if (event.data != undefined) {
+      let activeApplicant = await this.getCustomerDetails(parseInt(event.data[0].BorrowerSeq));
+      if (activeApplicant != undefined) {
+        activeApplicantType = activeApplicant['CustomerType'];
       }
     }
     event.data.forEach(address => {
@@ -360,7 +360,7 @@ export class RloCommonData {
       //   }
       // }
       if (address.AddressType === 'ML') {
-        if (this.globalApplicationDtls.CustomerType == 'C' && activeApplicantType=='B') {
+        if (this.globalApplicationDtls.CustomerType == 'C' && activeApplicantType == 'B') {
           tagText = 'Registered; ';
         } else {
           tagText = 'Mailing; ';
@@ -481,7 +481,7 @@ export class RloCommonData {
     if (this.masterDataMap.has('customerMap')) {
       const customerMap = this.masterDataMap.get('customerMap');
       customerMap.forEach(entry => {
-        if ( (entry instanceof Map) && entry.has('CustomerDetails')) {
+        if ((entry instanceof Map) && entry.has('CustomerDetails')) {
           CustomerList.push(entry.get('CustomerDetails'));
         }
       });
@@ -1192,9 +1192,33 @@ export class RloCommonData {
     this.viewMode = data
   }
 
-  getInterfaceResposes(inputMap) {
+  getInterfaceResposes(applicationId, interfaceType: "CIBIL" | "Experian") {
+
+    let inputMap = new Map();
+    inputMap.clear();
+
+    let criteriaJson: any = { "Offset": 1, "Count": 10, FilterCriteria: [] };
+    if (applicationId) {
+      criteriaJson.FilterCriteria.push({
+        "columnName": "ProposalId",
+        "columnType": "String",
+        "conditions": {
+          "searchType": "equals",
+          "searchText": applicationId
+        }
+      });
+
+    }
+    inputMap.set('QueryParam.criteriaDetails', criteriaJson)
+
+    let url = '';
     const promise = new Promise((resolve, reject) => {
-      this.http.fetchApi('/CIBILResponse', 'GET', inputMap, "/rlo-de").subscribe(
+      if (interfaceType == 'CIBIL') {
+        url = '/CIBILResponse';
+      } else {
+        url = '/ExperianConsumer';
+      }
+      this.http.fetchApi(url, 'GET', inputMap, "/rlo-de").subscribe(
         async (httpResponse: HttpResponse<any>) => {
           var res = httpResponse.body;
           console.log("Deep | Service - getInterfaceResposes()", res);
@@ -1208,16 +1232,19 @@ export class RloCommonData {
     return promise;
   }
 
-  getInterfaceModalData(appId: any) {
+  getInterfaceModalData(appId: any, interfaceType: "CIBIL" | "Experian") {
     console.log(appId);
-    let inputMap = new Map();
-    inputMap.set('Body.proposalId', appId);
 
-    this.getInterfaceResposes(inputMap).then((response: any) => {
-      let responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
+    this.getInterfaceResposes(appId, interfaceType).then((response: any) => {
+      let responseData;
+      if (interfaceType == "CIBIL") {
+        responseData = response.CIBILResponse.filter((data) => data.ProposalId == Number(appId));
+      } else if (interfaceType == "Experian") {
+        responseData = response.ExperianConsumer.filter((data) => data.ProposalId == Number(appId));
+      }
       //let rawHtml = window.atob(this.testCibilResponse);//testing
       console.log("DEEP | Interface modal response", responseData);
-      let rawHtml = window.atob(responseData[0].BureauResponseXml);
+      let rawHtml = responseData[0].BureauResponse;
 
       if (rawHtml.length) {
         const modalObj: IModalData = {

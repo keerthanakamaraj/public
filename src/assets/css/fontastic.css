@@ -219,3 +219,7 @@
 .icon-arrow-back:before {
     content: "\e929";
 }
+
+.icon-refresh:before {
+    content: "\e92b";
+}

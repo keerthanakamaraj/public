@@ -127,7 +127,7 @@
                         <div *ngFor="let dataList of interfaceType.data">
                             <rlo-ui-card-field [parentCardName]="'Interface Results'" [componentCode]="''"
                                 [applicationId]="cardMetaData.applicationId" [borrowerSeq]="''"
-                                [cardFieldMetaData]="dataList"></rlo-ui-card-field>
+                                [cardFieldMetaData]="dataList" (onInterfaceRefresh)="onInterfaceRefresh($event)"></rlo-ui-card-field>
                         </div>
                     </div>
                     <div class="no-interface-data"

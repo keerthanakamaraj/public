@@ -117,6 +117,7 @@ export class InterfaceResultsComponent implements OnInit {
       interfaceRsltData.ResponseDate = eachResult.ResponseDate;
       interfaceRsltData.TriggerDate = eachResult.TriggerDate;
       interfaceRsltData.TriggerStage = eachResult.TriggerStage;
+      interfaceRsltData.isTriggered = false;
       if (CustomerDtls.InterfaceResultDataMap == undefined) {
         CustomerDtls.InterfaceResultDataMap = new Map<string, IInterfaceResultData>();
       }
@@ -128,11 +129,37 @@ export class InterfaceResultsComponent implements OnInit {
     console.log("shweta :: Interface result", this.MstInterfaceResultMap);
   }
 
-  getInterfaceData() {
+  getInterfaceData(interfaceType:  "CIBIL" | "Experian") {
     if (!this.readOnly) {
       let appId = this.services.dataStore.getRouteParam(this.services.routing.currModal, 'appId');
-      this.services.rloCommonData.getInterfaceModalData(appId);
+      this.services.rloCommonData.getInterfaceModalData(appId, interfaceType);
     }
   }
 
+
+  triggerInterface(interfaceSection, interfaceType: 'cibil' | 'experian') {
+    console.log(interfaceSection);
+    if (!interfaceSection.isTriggered) {
+      interfaceSection.isTriggered = true;
+      const inputMap = new Map();
+      inputMap.set('Body.PrposalId', this.ApplicationId);
+      inputMap.set('Body.InterfaceId', interfaceSection.InterfaceId);
+
+      let url = '';
+      if (interfaceType == 'cibil') {
+        url = '/CibilApi';
+      } else {
+        url = '/experianConsumer';
+      }
+
+      this.services.http.fetchApi(url, 'POST', inputMap, '/rlo-de').subscribe(
+        async (httpResponse: HttpResponse<any>) => {
+          this.services.alert.showAlert(1, 'rlo.success.trigger.interface', 3000);
+        },
+        async (httpError) => {
+          this.services.alert.showAlert(2, 'rlo.error.trigger.interface', 3000);
+        }
+      );
+    }
+  }
 }

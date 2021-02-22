@@ -4,6 +4,7 @@ import { IAccountDetails, ICardMetaData, IGeneralCardData, IInterfaceDataIndicat
 import { CardModule } from './card.module';
 import { IModalData } from '../popup-alert/popup-interface';
 import { ServiceStock } from '../service-stock.service';
+import { HttpResponse } from '@angular/common/http';
 
 class ICardConfig {
   class: string;
@@ -107,6 +108,7 @@ export class CardComponent implements OnInit {
   addressMap = new Map();//store address in list
   currentAddressIndex: number = 0;
   interfaceDataAvaliable = true;//enable or disable interface card expand icon
+  applicationId: any;
 
   constructor(private changeDetector: ChangeDetectorRef, private services: ServiceStock) {
     this.cardConfig.set("customer", this.customerConfig);
@@ -133,6 +135,7 @@ export class CardComponent implements OnInit {
           element.AvailableBalance = this.services.formatAmount(element.AvailableBalance, null, null, false)
         });
       } else if (this.cardMetaData.name == "Interface Results") {
+        this.applicationId = this.cardMetaData.applicationId;
         this.generateInterfaceJson(this.cardMetaData.customerList, this.cardMetaData.interfaceDataList);
         //this.getInterfaceData(this.testJson);
       } else if (this.cardMetaData.name == "Address Details") {
@@ -169,6 +172,7 @@ export class CardComponent implements OnInit {
   }
 
   showNxt() {
+    console.log(this.selectedCustomerData);
     if (this.selectedCustomerData.index < (this.customerList.length - 1) && this.interfaceCount != 0) {
       this.selectedCustomerData.index += 1;
       this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index];
@@ -178,6 +182,7 @@ export class CardComponent implements OnInit {
   }
 
   showPrev() {
+    console.log(this.selectedCustomerData);
     if (this.selectedCustomerData.index != 0 && this.interfaceCount < this.customerList.length - 1) {
       this.selectedCustomerData.index -= 1;
       this.selectedCustomerData.name = this.customerList[this.selectedCustomerData.index];
@@ -203,6 +208,7 @@ export class CardComponent implements OnInit {
   generateInterfaceJson(customerList: any, interfaceDataList: any) {
     let dataLength = [];
     let count = 0;
+    console.log(customerList, interfaceDataList)
 
     customerList.forEach(customer => {
       let interfaceInnerSections = [];
@@ -231,7 +237,8 @@ export class CardComponent implements OnInit {
             if (element.Status == "S" || element.Status == "Success") {
               obj.subTitle = 'completed';
             }
-
+            obj.interfaceId = element.InterfaceResltId;
+            obj.isTriggered = false;
             interfaceInnerSections.push(obj);
           }
         });
@@ -310,5 +317,35 @@ export class CardComponent implements OnInit {
     this.selectedAddress = addressFieldList;
     this.addressTypeOfSelectedAddrress = address[1].subTitle == "NA" ? "" : address[1].subTitle;
     console.log(this.selectedAddress);
+  }
+
+  onInterfaceRefresh(obj) {
+    console.error(this.interfaceResultsData[this.selectedCustomerData.index].data);
+    console.log(this.interfaceResultsData, this.selectedCustomerData.index);
+    this.interfaceResultsData[this.selectedCustomerData.index].data[0].data.map((data) => {
+      if (data.interfaceId == obj.interfaceId && !data.isTriggered) {
+        data.isTriggered = true;
+
+        const inputMap = new Map();
+        inputMap.set('Body.PrposalId', this.applicationId);
+        inputMap.set('Body.InterfaceId', obj.interfaceId);
+
+        let url = '';
+        if (obj.type == 'cibil') {
+          url = '/CibilApi';
+        } else {
+          url = '/experianConsumer';
+        }
+
+        this.services.http.fetchApi(url, 'POST', inputMap, '/rlo-de').subscribe(
+          async (httpResponse: HttpResponse<any>) => {
+            this.services.alert.showAlert(1, 'rlo.success.trigger.interface', 3000);
+          },
+          async (httpError) => {
+            this.services.alert.showAlert(2, 'rlo.error.trigger.interface', 3000);
+          }
+        );
+      }
+    });
   }
 }

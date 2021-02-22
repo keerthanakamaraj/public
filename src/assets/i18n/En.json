@@ -249,6 +249,8 @@
     "rlo.success.delete.fd": "The FD Detail deleted successfully.",
     "rlo.error.delete.fd": "The FD Details could not be deleted. Please try again.",
     "rlo.error.approvedlimit.lien.product" : "Approved Card Limit value cannot be increased",
+    "rlo.success.trigger.interface":"Interface triggered successfully.",
+    "rlo.error.trigger.interface":"Unable to trigger interface.",
 
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",

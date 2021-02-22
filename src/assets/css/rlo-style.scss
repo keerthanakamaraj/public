@@ -1653,7 +1653,7 @@ rlo-ui-card-field {
     .interface-status-container {
       position: absolute;
       // top: 11px;
-      right: 24px;
+      right: 45px;
     }
   }
 
@@ -2147,6 +2147,20 @@ rlo-ui-card-field {
         color: #0079b8;
         font-size: 14px;
         margin-left: 9px;
+      }
+    }
+
+    .trigger-interface {
+      margin-left: 5px;
+      font-size: 18px;
+      top: -3px;
+      position: relative;
+      cursor: pointer;
+      color: #0079b8;
+
+      &.disabled {
+        cursor: inherit;
+        color: #b7b7b7;
       }
     }
   }
@@ -4841,7 +4855,20 @@ rlo-ui-card-field {
         font-size: 14px;
         margin-left: 9px;
         cursor: pointer;
+        padding-top: 2px;
       }
+    }
+  }
+
+  .trigger-interface {
+    font-size: 19px;
+    margin-left: 5px;
+    color: #0079b8;
+    cursor: pointer;
+
+    &.disabled {
+      color: #b7b7b7;
+      cursor: inherit;
     }
   }
 }
