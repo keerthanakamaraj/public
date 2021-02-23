@@ -254,6 +254,7 @@
     "rlo.error.trigger.interface":"Unable to trigger interface.",
     "rlo.error.initiation.invalid-card-type" : "Customer Type not match with Card Type",
     "rlo.error.invalid-card-type": "Invalid Card Type",
+    "rlo.error.cmsdetails.invalid" : "CMS Details not present for selected record",
 
     "999": "Unspecified error",
     "MANDATORY": "Value can not be Empty.",

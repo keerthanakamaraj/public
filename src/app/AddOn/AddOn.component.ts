@@ -256,6 +256,11 @@ export class AddOnComponent extends FormComponent implements OnInit, AfterViewIn
         return;
       }
     }
+    if (this.tempVar.CmsDetails == 'N') {
+      this.services.alert.showAlert(2, 'rlo.error.cmsdetails.invalid', 4000);
+      this.hidForm = true;
+      return;
+    }
     this.hidForm = true;
 
     //add data to temp list

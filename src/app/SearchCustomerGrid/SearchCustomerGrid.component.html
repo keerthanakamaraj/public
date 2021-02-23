@@ -1,5 +1,5 @@
 <div class="MakeRelative">
-    <div class="records-count" *ngIf="!loadSpinner">{{documentCount}} records found</div>
+    <div class="records-count" *ngIf="showRecordCount">{{documentCount}} records found</div>
     <div class="ShowLoading mt-1" *ngIf="loadSpinner">
         <div class="loader"></div>
     </div>
