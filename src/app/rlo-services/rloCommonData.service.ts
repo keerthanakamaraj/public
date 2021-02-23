@@ -251,7 +251,7 @@ export class RloCommonData {
 
         case 'GoNoGoDetails':
           mapValue = componentData.data;
-         
+
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'Notes':
@@ -260,12 +260,12 @@ export class RloCommonData {
           break;
         case 'LoanDetails':
           mapValue = componentData.data;
-         
+
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'CreditCardDetails':
           mapValue = componentData.data;
-         
+
           functionalResponseObj = this.tabularOrNonTabularSectionValidation(mapValue[0].isValid).then(data => { return data });
           break;
         case 'ReferrerDetails':
@@ -333,7 +333,7 @@ export class RloCommonData {
         functionalResponseObj = this.tabularOrNonTabularSectionValidation(false).then(data => { return data });
       }
     }
-   
+
     return functionalResponseObj;
   }
 
@@ -384,7 +384,7 @@ export class RloCommonData {
   async UpdateOccupationTags(event) {
     const tags = [];
     const maxAddress = 2;
-    
+
     event.data.forEach(occupation => {
       if (this.globalApplicationDtls.CustomerType == 'C') {
         tags.push({ text: occupation.EmployeeID + ', ' + occupation.Designation });
@@ -619,7 +619,7 @@ export class RloCommonData {
       commonObj.isSectionValid = false;
       if (customerSectionData.has('OccupationDetails')) {
         const occupationList = customerSectionData.get('OccupationDetails');
-       
+
         for (const eachOccupation of occupationList) {
 
           if (eachOccupation.NetIncome != undefined && parseFloat(eachOccupation.NetIncome) > 0) {
@@ -652,7 +652,7 @@ export class RloCommonData {
     const LoanOwnership = customerData.LoanOwnership;
     const applicantType = customerData.CustomerType;
 
-    
+
     // if (!sectionData.has('AddressDetails')) { //added for canara
     //     commonObj.isSectionValid = false;
     // } else {
@@ -752,6 +752,7 @@ export class RloCommonData {
     }
     var dataToValidate: Map<any, any>;
     dataToValidate = this.masterDataMap.get("applicationMap");
+    console.warn("dataToValidate", dataToValidate);
 
     if (dataToValidate.size) {
 
@@ -827,7 +828,7 @@ export class RloCommonData {
       if (100 != totalLoanOwnership && !this.globalApplicationDtls.isLoanCategory) {
         dataObject.isAppValid = false;
         dataObject.errorsList.push("Total Loan ownership should be 100%");
-       
+
         resolve(dataObject);
         return promise;
       }
@@ -944,14 +945,14 @@ export class RloCommonData {
     if (this.masterDataMap.has("customerMap")) {
       if (this.masterDataMap.get("customerMap").has(deletedCustomer)) {
         this.masterDataMap.get("customerMap").delete(deletedCustomer);
-       
+
       }
     }
   }
 
   calculateLoanOwnership(activeBorSeq?: string) {
     let totalLoanOwnership: number = 0;
-    
+
     if (this.masterDataMap.has("customerMap")) {
       const customerMap = this.masterDataMap.get("customerMap");
       customerMap.forEach(entry => {
@@ -963,7 +964,7 @@ export class RloCommonData {
         }
       });
     }
-    
+
     return totalLoanOwnership;
   }
 

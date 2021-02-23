@@ -350,7 +350,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
       //this.addCustomersToMap(data)
       console.warn("allCustomerDataallCustomerDataallCustomerDataallCustomerData", this.services.rloCommonData.customerListForAddress);
-      this.validateAddressForCustomers(data.BorrowerSeq);
+
 
       this.services.rloCommonData.updateMasterDataMap(data, this.formMenuObject.isCustomerTabSelected).then((sectionResponseObj) => {
         console.log("$$$$$$$$$$", sectionResponseObj);
@@ -358,8 +358,10 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
 
         //this.validationSection(data);
 
-        this.addRemoveCompletedSection(sectionResponseObj, data);
-        //this.addRemoveCompletedSection2(sectionResponseObj, data);
+        this.addRemoveCompletedSection(sectionResponseObj, data).then(response => {
+          this.validateAddressForCustomers(data.BorrowerSeq);
+        });
+
       });
       this.updateSectionWiseTags(data);
     });
@@ -1501,6 +1503,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     //Canara specific
     console.log("Header Data", this.services.rloCommonData.globalApplicationDtls);
 
+    let initialAllCustomerList = this.services.rloCommonData.customerListForAddress;
+
     let headerData = this.services.rloCommonData.globalApplicationDtls;
     switch (headerData.CustomerType) {
       case "C":
@@ -1515,6 +1519,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           this.initiallyCustomersAdded = true;
 
           this.progressStatusObject.manditorySection += 1;
+          this.progressStatusObject.manditorySection += initialAllCustomerList.size * 2;
+
         } else if (customerData.CustomerType == "A") {//Member
           // this.progressStatusObject.manditorySection += 2;
           // this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
@@ -1534,6 +1540,8 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           this.initiallyCustomersAdded = true;
 
           this.progressStatusObject.manditorySection += 1;
+          this.progressStatusObject.manditorySection += initialAllCustomerList.size * 2;
+
         } else if (customerData.CustomerType == "A") {//Member
           // this.progressStatusObject.manditorySection += 2;
           // this.formMenuObject.validCoBorrowerId = customerData.BorrowerSeq;
@@ -1544,6 +1552,13 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       default:
         break;
     }
+
+    // initialAllCustomerList.forEach(element => {
+    //   console.log(element);
+    //   this.progressStatusObject.manditorySection += 2;
+    // });
+    // this.completedMenuSectionList['customerSection'].set(mapKey, ['CustomerDetails']);
+
 
     // if (customerData.hasOwnProperty('isValid')) {
     //   //this.CustomerType = customerData.CustomerType;
@@ -1979,7 +1994,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     });
   }
 
-  addRemoveCompletedSection(sectionResponseObj: IComponentSectionValidationData, componentLvlData) {
+  async addRemoveCompletedSection(sectionResponseObj: IComponentSectionValidationData, componentLvlData) {
     console.log(this.formMenuObject.isCustomerTabSelected, this.formMenuObject, componentLvlData);
     let data = [];
     let selectedSection, mapKey;
@@ -1997,16 +2012,21 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
       if (this.completedMenuSectionList[selectedSection].get(mapKey) === undefined) {
         console.error("SECTION COMPLETED & NEW CUSTOMER ADDED | CALCULATE SCORE");
 
-        if (selectedSection == "customerSection") {
-          if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
-            this.progressStatusObject.manditorySection += 2;
-          } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
-            this.progressStatusObject.manditorySection += 2;
+        let initialAllCustomerList = this.services.rloCommonData.customerListForAddress;
+        if (!initialAllCustomerList.has(mapKey)) {
+
+          if (selectedSection == "customerSection") {
+            if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "C") {
+              this.progressStatusObject.manditorySection += 2;
+            } else if (this.services.rloCommonData.globalApplicationDtls.CustomerType == "I") {
+              this.progressStatusObject.manditorySection += 2;
+            }
           }
         }
 
         data.push(componentLvlData.name);
         this.updateMenu('add', data, selectedSection, mapKey, componentLvlData.name);
+        return true;
       }
       else {
         let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
@@ -2015,17 +2035,19 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
           dataList.push(componentLvlData.name);
           this.updateMenu('add', dataList, selectedSection, mapKey, componentLvlData.name);
         }
+        return true;
       }
     } else {
       let dataList = this.completedMenuSectionList[selectedSection].get(mapKey);
       if (dataList == undefined) {
-        return;
+        return true;
       }
       let sectionAlreadyCompleted = dataList.includes(componentLvlData.name);
       if (sectionAlreadyCompleted) {
         console.error("SECTION REMOVED | CALCULATE SCORE");
         dataList.splice(dataList.indexOf(mapKey), 1);
         this.updateMenu('remove', dataList, selectedSection, mapKey, componentLvlData.name);
+        return true;
       }
       else {
         console.error("SECTION NOT FOUND");
@@ -2037,6 +2059,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
     console.warn(this.formMenuObject);
     console.warn(this.allCustomerTypeList);
     console.warn(this.formsMenuList);
+    return true;
   }
 
   updateMenuSection(menuId: any, firstArrayEle: number, secondArrayEle: number) {
@@ -2324,6 +2347,7 @@ export class DDEComponent extends FormComponent implements OnInit, AfterViewInit
   }
 
   validateAddressForCustomers(BorrowerSeq: number) {
+    console.log("validateAddressForCustomers");
     if (BorrowerSeq != undefined)
       if (!this.services.rloCommonData.customerListForAddress.has(BorrowerSeq)) {
         console.error("****************");

@@ -197,6 +197,11 @@ export class CustomerGridDTLSComponent extends FormComponent implements OnInit, 
               if (eachBorrower.BorrowerSeq == borrowerSeq) {
                 //eachBorrower.isValid = true;
               }
+
+              if(eachBorrower.CustomerType == 'A'){
+                eachBorrower.isValid = true;
+              }
+              
               let array = [];
               array.push(eachBorrower);
               let obj = {

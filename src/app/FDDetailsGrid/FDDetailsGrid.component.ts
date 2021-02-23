@@ -262,14 +262,14 @@ export class FDDetailsGridComponent implements AfterViewInit {
                     obj = {
                         "name": "FDDetails",
                         "data": loopVar4,
-                        "BorrowerSeq": event.passBorrowerToFD
+                        "sectionName": 'FDDetails'
                     }
                 }
                 else {
                     obj = {
                         "name": "FDDetails",
                         "data": [],
-                        "BorrowerSeq": event.passBorrowerToFD
+                        "sectionName": 'FDDetails'
                     }
                 }
 
