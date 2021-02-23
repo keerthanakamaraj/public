@@ -592,7 +592,7 @@ export class InitiationComponent extends FormComponent implements OnInit, AfterV
  async BAD_CARD_TYPE_blur(){
   if ((this.BAD_CUSTOMER_TYPE.getFieldValue() == 'C' && this.BAD_CARD_TYPE.getFieldValue() != 'CORP') ||
      (this.BAD_CUSTOMER_TYPE.getFieldValue() == 'I' && this.BAD_CARD_TYPE.getFieldValue() == 'CORP')) {
-      this.services.alert.showAlert(2, '', -1, 'rlo.error.initiation.invalid-card-type');
+     // this.services.alert.showAlert(2, 'rlo.error.initiation.invalid-card-type', -1);
       this.BAD_CARD_TYPE.setError('rlo.error.invalid-card-type');
       return 1;
     }
