@@ -542,7 +542,7 @@ export class GridComponent implements OnInit {
     for (let colId in this.value.rowData[rowNo]) {
       this.value.rowData[rowNo][colId] = rowData[colId];
       //if currency component then use currency method
-     console.log("shweta :: in set row data  ",this[colId].toArray()[rowNo].componentName);
+     
      if('RloUiCurrencyComponent'==this[colId].toArray()[rowNo].componentName){
       this[colId].toArray()[rowNo].setComponentSpecificValue(rowData[colId], rowDesc[colId + '_desc'])
      }
@@ -551,7 +551,7 @@ export class GridComponent implements OnInit {
     if (this.gridType == 2) { this.setRowReadOnly(rowNo, true); }
   }
   showHideDeleteIcon(rowlimit) {
-    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
+    
     if (this.value.rowData.length <= rowlimit) {
       this.showDelete = false;
     } else {

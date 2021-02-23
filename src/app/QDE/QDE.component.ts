@@ -133,7 +133,7 @@ export class QDEComponent extends FormComponent implements OnInit, AfterViewInit
       console.log(this.services.rloCommonData.masterDataMap);
       this.updateTags(event);
       // if (event.name == 'CustomerDetails') {
-      //   console.log("shweta :: cust array in QDE ",event.data);
+     
       //   this.CUSTOMER_DETAILS.CustomerDetailsArray = event.data;
       // }
     });

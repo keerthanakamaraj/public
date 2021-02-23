@@ -264,12 +264,12 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
   async PartyTypeReceivable_change(fieldID, value) {
 
     let filterKey = this.PartyTypeReceivable.getFieldValue();
-    //  console.log("shweta :: slected filterkey", filterKey);
+    
     this.PartyName.onReset();
     this.setFilterbyOptions(filterKey);
     this.Handler.displayPartyNameBasedOnPartyType();
     const party = this.hidePartyType.getFieldValue();
-    console.log("shweta :: Party", party);
+    
   }
   async Currency_blur(event) {
     let inputMap = new Map();
@@ -468,7 +468,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         }
         if (res['ChargeDetails']['PartyType'] == 'B') {
           let filterKey = res['ChargeDetails']['PartyType'];
-          //  console.log("shweta :: slected filterkey", filterKey);
+          
           this.PartyName.onReset();
           this.setFilterbyOptions(filterKey);
           this.PartyName.setValue(res['ChargeDetails']['PartyName']);
@@ -535,7 +535,7 @@ export class FeesChargesDetailsComponent extends FormComponent implements OnInit
         this.FilterOptions.push({ id: element.BorrowerSeq, text: element.FullName });
       }
     });
-    // console.log("shweta :: score options list", this.FilterOptions);
+    
     this.PartyName.setStaticListOptions(this.FilterOptions);
   }
   adjustChargeCollectOptions(chargeType, newValue?: string) {

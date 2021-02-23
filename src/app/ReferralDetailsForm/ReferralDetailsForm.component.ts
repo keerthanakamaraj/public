@@ -130,7 +130,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
         'ApplicationId': this.ApplicationId,
       });
     }
-    //	console.log("shweta :: referrer", this.CustomerDetailsArray);
+   
     await this.Handler.onFormLoad({});
 
     //UW
@@ -252,7 +252,7 @@ export class ReferralDetailsFormComponent extends FormComponent implements OnIni
     if (noOfError == 0) {
       let CustomerDetailsArray = [];
       CustomerDetailsArray = this.services.rloCommonData.getCustomerList();
-      // console.log("Shweta :: return from service", CustomerDetailsArray);
+     
       for (let i = 0; i < CustomerDetailsArray.length; i++) {
         if (CustomerDetailsArray[i].FullName.replace(/\s/g, "").toUpperCase() == this.RD_REF_NAME.getFieldValue().replace(/\s/g, "").toUpperCase() && CustomerDetailsArray[i].MobileNo == this.RD_REF_NO.getFieldValue()) {
           this.services.alert.showAlert(2, 'rlo.error.exist.breferrer', -1);

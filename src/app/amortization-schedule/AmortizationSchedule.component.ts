@@ -201,13 +201,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   //   var yTm = moment.duration(30, "years").asMonths();
   //   var wTm = moment.duration(30, "weeks").asMonths();
   //   var dTm = moment.duration(30, "days").asMonths();
-  //   console.log("shweta :: wTw",wTw);
-  //   console.log("shweta :: mTw",mTw);
-  //   console.log("shweta :: dTw",dTw);
-  //   console.log("shweta :: yTw",yTw);
-  //   console.log("shweta :: yTm",yTm);
-  //   console.log("shweta :: wTm",wTm);
-  //   console.log("shweta :: dTm",dTm);
+ 
   // }
   parseParentDataObj() {
     // this.LoanAmountRequested.setValue(this.parentData.LoanAmountRequested);
@@ -233,9 +227,9 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     // this.NoOfInstallments.setValue(this.parentData.NoOfInstallments);
     // this.RequiredEMIAmt.setValue(this.parentData.RequiredEMIAmt);
     //this.tenurePeriod=this.parentData.TenurePeriod;
-    //console.log("shweta :: ",this.tenurePeriod);
+    
     this.ScheduleInstallments();
-    console.log("shweta :: in amortization", this);
+    
   }
   ScheduleInstallments() {
     if (this.parentData.InstallmentFreqIndicatorCd != undefined) {
@@ -341,7 +335,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
         this.repaymentFormData.installmentFreqIndicator = this.ScheduleType.getFieldInfo();
         this.repaymentFormData.FreqIndctrDesc = this.parentData.InstallmentFreqIndicator ? this.parentData.InstallmentFreqIndicator : this.parentData.TenurePeriod;
       }
-      console.log("shweta :: new repayment Interface ::", JSON.stringify(this.repaymentFormData));
+      
       this.AmortizationGrid.gridDataLoad({
         'requestParams': this.repaymentFormData
       });
@@ -356,7 +350,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
     this.repaymentFormData.loanAmount = this.services.formatAmount(this.repaymentFormData.loanAmount, null, null, false);
     this.repaymentFormData.maturityDate = requestedParams.maturityDate;
     this.repaymentFormData.loanCalculationDate = this.getTimeStamp();
-    // console.log("shweta ::: installment amount", parseFloat(this.RequiredEMIAmt.getFieldValue()) > 0, this.RequiredEMIAmt.getFieldValue());
+    
     // console.log("installment Amt from grid", requestedParams.installmentAmt);
     //let instAmt = this.RequiredEMIAmt.getFieldValue();
     let instAmt = undefined;
@@ -425,7 +419,7 @@ export class AmortizationScheduleComponent extends FormComponent implements OnIn
   getTimeStamp() {
     const moment = require('moment');
     let currentDate = moment().format('DD-MMM-YYYY');
-    // console.log("shweta :: current date test ",currentDate);
+    
     return currentDate;
   }
 

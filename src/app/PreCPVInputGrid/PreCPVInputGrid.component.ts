@@ -150,7 +150,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
   VerificationType_blur(selectedCode, $event, rowNo) {
     this.Details.toArray()[selectedCode.rowNo].onReset();
     let customerId = this.CustomerName.toArray()[selectedCode.rowNo].getFieldValue();
-    console.log("shweta :: selected cust ", this.MstDataMap.get(customerId).verificationList);
+    
     let tempVeification = this.MstDataMap.get(customerId).verificationList.find(element => element.verificationCode == selectedCode.value);
     if (tempVeification == undefined) {
       this.VerificationType.toArray()[selectedCode.rowNo].setError('rlo.error.vrfndtls-not-found');
@@ -176,7 +176,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
           async (httpResponse: HttpResponse<any>) => {
             var res = httpResponse.body;
             let defaultData = res['CPVResp'];
-            console.log("shweta :: verification data", defaultData);
+            
             // this.parseDefaultData(defaultData);
             this.parseVerificationResp(defaultData);
           },
@@ -247,7 +247,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
         element.setStaticListOptions(this.customerDropDownList);
       });
       this.loadRecords();
-      console.log("shweta :: mstDataMap", this.MstDataMap);
+      
     }
   }
 
@@ -353,7 +353,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
       // this.checkDuplicates(rowNo);
       inputMap = this.generateInitiateReqJSON(inputMap, rowNo);
 
-      console.log("shweta :: intiation req json", inputMap)
+      
       inputMap.set('PathParam.proposal-id', this.ApplicationId);
       this.services.http.fetchApi('/v1/proposal/{proposal-id}/verification/CPV/initiate', 'POST', inputMap, '/los-verification').subscribe(
         async (httpResponse: HttpResponse<any>) => {
@@ -385,7 +385,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
     let duplicateList = this.MstDataMap.get(customerSeq).verificationList.filter(eachVrfn =>
       eachVrfn.verificationCode == vrfnCode && eachVrfn.AgencyCode != undefined
     );
-    console.log('shweta ::: checking duplicates', duplicateList != undefined ? duplicateList.length : undefined);
+    
     return duplicateList != undefined && duplicateList.length != 0 ? duplicateList.length : undefined;
   }
   getAddressSequence(rowNo){
@@ -431,7 +431,7 @@ export class PreCPVInputGridComponent extends GridComponent implements OnInit {
   }
 
   City_blur(City, event, rowNo) {
-    console.log("Shweta : City", City);
+   
   }
 
   fieldDependencies = {

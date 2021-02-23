@@ -70,20 +70,19 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
   }
 
   getTotProjCompletionPercent() {
-    console.log("shweta :: ProjectCompletion % ", this.ProjectCompletion);
+    
     let totPercent: number = 0;
     this.ProjectCompletion.forEach((element: any) => {
-      console.log("shweta :: inside for loop", element.getFieldValue());
+     
       totPercent += parseFloat(element.getFieldValue());
     });
     return totPercent;
   }
 
   getTotAmtToBeDisbursed() {
-    console.log("shweta :: DisbursementAmount", this.DisbursementAmount);
+    
     let totAmount: number = 0;
     this.DisbursementAmount.forEach((element: any) => {
-      console.log("shweta :: inside amt for loop", element.getFieldValue());
       totAmount += parseFloat(element.getFieldValue());
     });
     return totAmount;
@@ -103,10 +102,9 @@ export class DisbursInputGridComponent extends GridComponent implements OnInit {
   parseDisbursalJson(DisbursalResp) {
     DisbursalResp.forEach(element => {
       let rowData = { 'DisbursementAmount': element.DisbursalAmt, 'ProjectCompletion': 50, 'DisbursalSeq': element.DisbursalSeq };
-      let rowCounter = this.addRow(rowData);
-      console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
+      let rowCounter = this.addRow(rowData);  
     });
-    console.log("shweta :: complete record fetched", this.value.rowData);
+   
   }
 
 }

@@ -293,7 +293,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           if (res) {
             let EducationDtls = res['EducationLoan'];
             if (EducationDtls) {
-              console.log("shweta :: Education loan fetched : ", EducationDtls);
               this.parseFetchEducationResp(EducationDtls);
               // let array = [];
               // array.push({ isValid: true, sectionData: this.getFieldValue() });
@@ -302,7 +301,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
               //   "data": array,
               //   "sectionName": "EducationDetails"
               // }
-              // console.log("shweta ::: in application section", array);
               // this.services.rloCommonData.globalComponentLvlDataHandler(obj);
             }
           } else {
@@ -337,7 +335,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
           let res = httpResponse.body;
           let LoanDtls = res['LoanDtls'];
           if (LoanDtls) {
-            console.log("shweta :: only loan fetched : ", LoanDtls);
             this.parseLoanDtls(LoanDtls[0]);
             this.CostOfCourseGrid.loadRecords();
             this.FundsAvailableGrid.loadRecords();
@@ -361,7 +358,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.LTotLoanPeriod.setValue(LoanDtls.TotalLoanPeriod);
   }
   parseFetchEducationResp(EducationDtls) {
-    console.log("shweta :: edu resp", EducationDtls, " : ", EducationDtls[0]['costAndFundsGridDtls']);
     this.ParseEducationSummDtls(EducationDtls[0]);
     this.parsePersuingCourseDtls(EducationDtls[0]['pursuingCourseDtls']);
     this.tempCostFundsList = EducationDtls[0]['costAndFundsGridDtls'];
@@ -423,7 +419,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   }
   loadPastEducation(event) {
     let PastEducation = event.PastEducation;
-    //console.log("shweta :: in ed past record",event.PastEducation);
     this.PastEdSeq = PastEducation['PastEdSeq'];
     this.PEExamPassed.setValue(PastEducation['ExamPassed']);
     this.PEInstitution.setValue(PastEducation['Institution']);
@@ -433,7 +428,6 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
     this.PEPrizes.setValue(PastEducation['Scholarships']);
   }
   generateCostAndFundsList(tempCostAndFundsList) {
-    console.log("shweta :: cost and funds list", tempCostAndFundsList);
     if (this.CostOfCourseGrid.doSubscribeFlag || this.CostOfCourseGrid.doSubscribeFlag) {
       return;
     }
@@ -796,7 +790,7 @@ export class EducationLoanDetailsComponent extends FormComponent implements OnIn
   }
 
   async LCurrency_blur(event) {
-    console.log("shweta : hidden exchange rate : ", this.hidExchangeRate.getFieldValue());
+    
     this.CostOfCourseGrid.hidExchangeRate = this.hidExchangeRate.getFieldValue();
     this.FundsAvailableGrid.hidExchangeRate = this.hidExchangeRate.getFieldValue();
     this.CostOfCourseGrid.Amount.toArray().forEach((element, index) => {

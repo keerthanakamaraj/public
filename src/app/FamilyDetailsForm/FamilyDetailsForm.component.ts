@@ -111,7 +111,6 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
         await this.FAMILY_GRID.gridDataLoad({
             'passFamilyGrid': this.activeBorrowerSeq,
         });
-        //console.log("shweta :: family", this.ActiveCustomerDtls);
         await this.Handler.onFormLoad({
         });
 
@@ -277,7 +276,7 @@ export class FamilyDetailsFormComponent extends FormComponent implements OnInit,
     async Save_click(event) {
         let ActiveCustomerDtls = {};
         ActiveCustomerDtls = this.services.rloCommonData.getCustomerDetails(this.activeBorrowerSeq);
-        // console.log("shweta :: in family :: cust dtls service ",ActiveCustomerDtls);
+        
         let inputMap = new Map();
         var noOfError: number = await this.revalidate();
         // console.log("juhi ::", this.Cust_FullName);

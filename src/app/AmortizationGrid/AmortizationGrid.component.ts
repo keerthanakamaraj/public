@@ -234,8 +234,6 @@ export class AmortizationGridComponent implements AfterViewInit {
     //  inputMap.set('QueryParam.productcode',requestParams.productCode);//optional
     //  inputMap.set('QueryParam.subproductcode', requestParams.subProductCode);//optional
 
-    console.log("shweta :: new repayment input map req ::",inputMap);
-
     this.services.http.fetchApi('/RepaymentSchedule', 'GET', inputMap, '/rlo-de').subscribe((httpResponse: HttpResponse<any>) => {
       RepaymentList = httpResponse.body.Record;
       if (RepaymentList) {

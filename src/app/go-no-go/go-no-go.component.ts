@@ -69,7 +69,7 @@ export class GoNoGoComponent implements OnInit {
 
 
   parseGetQuestionnairResp(questionnairDtlsResp) {
-    //console.log("shweta:: new json", questionnairDtlsResp);
+    
     this.QuestionnairMap.clear();
 
     for (let eachElement of questionnairDtlsResp) {
@@ -111,7 +111,7 @@ export class GoNoGoComponent implements OnInit {
 
       this.QuestionnairMap.set(eachElement.QuestionSeq, questionParam);
     }
-    //console.log("shweta :: gng Interface map", this.QuestionnairMap);
+    
   }
 
   createSaveApiRequestBody(element, questionairemap, key) {

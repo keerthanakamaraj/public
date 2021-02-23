@@ -475,8 +475,6 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
   setFilterbyOptions() {
     let tempCustomerList = this.services.rloCommonData.getCustomerList();
     this.FilterOptions = [];
-
-    console.log("shweta :: in disburse section", tempCustomerList);
     //UW
     if (this.readOnly) {
       this.FilterOptions = this.services.rloui.customerListDropDownArray;
@@ -488,7 +486,7 @@ export class DisbursementDetailsComponent extends FormComponent implements OnIni
       });
     }
     this.DisbursalTo.setStaticListOptions(this.FilterOptions);
-    console.log("shweta :: disburse options list", this.FilterOptions);
+    
   }
 
   async Currency_blur(event) {

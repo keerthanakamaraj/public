@@ -219,7 +219,7 @@ export class PreCPVComponent extends FormComponent implements OnInit, AfterViewI
   // }
 
   broadcastProdCategory(event) {
-    //console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+   
     // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
     this.isLoanCategory = event.isLoanCategory;
   }

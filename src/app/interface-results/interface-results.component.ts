@@ -132,7 +132,7 @@ export class InterfaceResultsComponent implements OnInit {
       this.MstInterfaceResultMap.set(eachResult.BorrowerSeq, CustomerDtls);
     });
 
-    console.log("shweta :: Interface result", this.MstInterfaceResultMap);
+    
   }
 
   getInterfaceData(interfaceType: "CIBIL" | "Experian") {

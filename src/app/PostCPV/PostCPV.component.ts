@@ -160,7 +160,7 @@ export class PostCPVComponent extends FormComponent implements OnInit, AfterView
     this.services.rloui.goBack();
   }
   broadcastProdCategory(event) {
-    //  console.log("shweta :: application global params", this.services.rloCommonData.globalApplicationDtls);
+    
     // let globlaObj = this.services.rloCommonData.globalApplicationDtls;
     this.isLoanCategory = event.isLoanCategory;
   }

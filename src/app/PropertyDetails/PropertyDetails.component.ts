@@ -868,7 +868,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
   async ExpDateOfCompletion_blur(event) {
     let inputMap = new Map();
-    console.log("shweta :: ", this.ExpDateOfCompletion.getFieldValue());
+   
     if (this.ExpDateOfCompletion.getFieldValue()) {
       if (this.isPastDate(this.ExpDateOfCompletion.getFieldValue())) {
         this.ExpDateOfCompletion.setError('rlo.error.ExpDateOfCompletion.invalid');
@@ -985,7 +985,7 @@ export class PropertyDetailsComponent extends FormComponent implements OnInit, A
 
 
   async PerOfProjectCompletion_blur(event) {
-    // console.log("shweta :: property :: project completion %",this.PerOfProjectCompletion.getFieldValue());
+  
     this.ExpDateOfCompletion.mandatory = (
       this.PerOfProjectCompletion.getFieldValue() == undefined
       || this.PerOfProjectCompletion.getFieldValue() == ''

@@ -97,7 +97,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   showHideAddRowIcon(rowlimit) {
-    console.log("shweta testing row deleted", this.value.rowData.length, " dsdf ", this.value.rowData, "this is ", this);
     // if (this.value.rowData.length <= rowlimit) {
     //   this.showAdd = true;
     // } else {
@@ -122,9 +121,6 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
   }
 
   loadRecords(memberList) {
-    
-    console.log("Shweta:: for credit card cust dtls ", memberList);
-  
     if (memberList.length > 0) {
       this.firstLoadFlag=true;
       this.showGrid = true;
@@ -158,9 +154,7 @@ export class CreditCardInputGridComponent extends GridComponent implements OnIni
           rowData['ProposedCardLimit'] = element.ApprovedCardLimit;
           rowData['ProposedCashLimit'] = element.ApprovedCashLimit;
           let rowCounter = this.addRow(rowData);
-          //  console.log("shweta :: 1 row added", rowCounter, " :: ", rowData);
       });
-      // console.log("shweta :: complete record fetched", this.value.rowData);
       let paramsList = this.isExpanded ? ['ExistingCardLimit', 'ExistingCashLimit', 'ProposedCardLimit',
         'ProposedCashLimit'] : ['RequestedCardLimit', 'ProposedCardLimit', 'ProposedCashLimit']
       this.updateTotal(paramsList);

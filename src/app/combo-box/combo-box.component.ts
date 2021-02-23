@@ -61,7 +61,7 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(async () => {
       if (this.emittedOptions.length > 0) {
-        //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
+      
         this.dropDownOptions.Options = this.emittedOptions;
         // this.isOptionsLoaded = true;
         if (this.defaultValue != undefined) {
@@ -80,7 +80,6 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
   async ngOnInit() {
     this.error = false
     if (this.emittedOptions && this.emittedOptions.length > 0) {
-      //  console.log("shweta :: onetimeoption : ", this.emittedOptions);
       this.dropDownOptions.Options = this.emittedOptions;
       // this.isOptionsLoaded = true;
     }
@@ -215,7 +214,6 @@ export class ComboBoxComponent extends FieldComponent implements OnInit {
       this.dropDownOptions.selectedOption['text'] = event['text'];
       this.additionalInfo = event['text'];
     } else if (this.category == '4') {
-      console.log("shweta :: in combobox selected event", event);
       this.setValue(event);
     }
     else {
